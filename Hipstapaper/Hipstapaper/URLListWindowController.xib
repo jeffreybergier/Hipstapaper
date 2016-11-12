@@ -183,6 +183,7 @@
             </connections>
             <point key="canvasLocation" x="241" y="139"/>
         </window>
+        <customObject id="9Fl-6D-Gk0" customClass="URLItemsCloudKitSyncer" customModule="Hipstapaper" customModuleProvider="target"/>
         <arrayController objectClassName="URLItem" id="ktC-Ip-bwW">
             <connections>
                 <binding destination="-2" name="contentArray" keyPath="self.listItems" id="MHP-Bg-peo"/>
