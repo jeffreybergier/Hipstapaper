@@ -28,7 +28,7 @@
                             <rect key="frame" x="1" y="0.0" width="682" height="269"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="txY-Dk-tqV" id="r7e-Gy-slL">
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" columnSelection="YES" autosaveColumns="NO" headerView="txY-Dk-tqV" id="r7e-Gy-slL">
                                     <rect key="frame" x="0.0" y="0.0" width="729" height="246"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
@@ -184,7 +184,7 @@
             <point key="canvasLocation" x="241" y="139"/>
         </window>
         <customObject id="9Fl-6D-Gk0" customClass="URLItemsCloudKitSyncer" customModule="Hipstapaper" customModuleProvider="target"/>
-        <arrayController objectClassName="URLItem" automaticallyRearrangesObjects="YES" id="ktC-Ip-bwW">
+        <arrayController objectClassName="URLItem" id="ktC-Ip-bwW">
             <declaredKeys>
                 <string>urlString</string>
             </declaredKeys>

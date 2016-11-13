@@ -15,6 +15,7 @@
 		50E21BC61DD6E466005151C7 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50E21BC51DD6E466005151C7 /* CloudKit.framework */; };
 		50E21BC81DD6E721005151C7 /* URLItemsCloudKitSyncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E21BC71DD6E721005151C7 /* URLItemsCloudKitSyncer.swift */; };
 		50E21BCA1DD79B6A005151C7 /* URLItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E21BC91DD79B6A005151C7 /* URLItem.swift */; };
+		50E21BCC1DD8F2E3005151C7 /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E21BCB1DD8F2E3005151C7 /* FrameworkExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		50E21BC51DD6E466005151C7 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		50E21BC71DD6E721005151C7 /* URLItemsCloudKitSyncer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemsCloudKitSyncer.swift; sourceTree = "<group>"; };
 		50E21BC91DD79B6A005151C7 /* URLItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItem.swift; sourceTree = "<group>"; };
+		50E21BCB1DD8F2E3005151C7 /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 			isa = PBXGroup;
 			children = (
 				506A3F071DD6C10C00A5656E /* AppDelegate.swift */,
+				50E21BCB1DD8F2E3005151C7 /* FrameworkExtensions.swift */,
 				50E21BC91DD79B6A005151C7 /* URLItem.swift */,
 				50E21BC71DD6E721005151C7 /* URLItemsCloudKitSyncer.swift */,
 				506A3F141DD6C2AE00A5656E /* URLListWindowController.swift */,
@@ -169,6 +172,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				50E21BC81DD6E721005151C7 /* URLItemsCloudKitSyncer.swift in Sources */,
+				50E21BCC1DD8F2E3005151C7 /* FrameworkExtensions.swift in Sources */,
 				506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */,
 				50E21BCA1DD79B6A005151C7 /* URLItem.swift in Sources */,
 				506A3F161DD6C2AE00A5656E /* URLListWindowController.swift in Sources */,

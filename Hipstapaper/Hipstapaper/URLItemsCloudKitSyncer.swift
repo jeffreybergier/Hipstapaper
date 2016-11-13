@@ -10,28 +10,33 @@ import CloudKit
 
 class URLItemsCloudKitSyncer: NSObject {
     
-    var listItems: [URLItem] = [
-            URLItem(urlString: "http://www.apple.com"),
-            URLItem(urlString: "http://www.microsoft.com"),
-            URLItem(urlString: "http://www.google.com")
-        ] {
+    var listItems: [URLItem] = [] {
         didSet {
-            print("array changed")
+            let deleted = Set(self.listItems).deletedItems(from: Set(oldValue))
+            let added = Set(self.listItems).addedItems(to: Set(oldValue))
+            
+            if let deleted = deleted {
+                print("Deleted:\n\(deleted)")
+            }
+            if let added = added {
+                print("Added:\n\(added)")
+                added.forEach({ $0.changeDelegate = self })
+            }
         }
     }
     
     override init() {
         super.init()
         
-        let privateDB = CKContainer.default().privateCloudDatabase
-        let predicate = NSPredicate(value: true)
-    
-        
-        let initialQuery = CKQuery(recordType: "URLItem", predicate: predicate)
-        privateDB.perform(initialQuery, inZoneWith: .none) { record, error in
-            print(record)
-            print(error)
-        }
+//        let privateDB = CKContainer.default().privateCloudDatabase
+//        let predicate = NSPredicate(value: true)
+//    
+//        
+//        let initialQuery = CKQuery(recordType: "URLItem", predicate: predicate)
+//        privateDB.perform(initialQuery, inZoneWith: .none) { record, error in
+//            print(record)
+//            print(error)
+//        }
         
 //        let record = CKRecord(recordType: "URLItem")
 //        record["urlString"] = "mysweetwebsite.com" as! CKRecordValue
@@ -41,4 +46,10 @@ class URLItemsCloudKitSyncer: NSObject {
 //        }
     }
     
+}
+
+extension URLItemsCloudKitSyncer: URLItemChangeDelegate {
+    func itemDidChange(_ item: URLItem) {
+        print("Changed:\n\(item)")
+    }
 }

@@ -8,6 +8,10 @@
 
 import CloudKit
 
+protocol URLItemChangeDelegate: class {
+    func itemDidChange(_: URLItem)
+}
+
 @objc(URLItem)
 class URLItem: NSObject {
     
@@ -23,6 +27,7 @@ class URLItem: NSObject {
         }
         set {
             self.record["urlString"] = newValue as CKRecordValue
+            self.changeDelegate?.itemDidChange(self)
         }
     }
     
@@ -30,6 +35,8 @@ class URLItem: NSObject {
     var modifiedDate: Date {
         return (self.record.modificationDate ?? self.record.creationDate) ?? self.offlineCreationDate
     }
+    
+    weak var changeDelegate: URLItemChangeDelegate?
     
     override init() {
         self.record = CKRecord(recordType: "URLItem")
@@ -48,5 +55,28 @@ class URLItem: NSObject {
         } else {
             fatalError("Not a URLItem Record")
         }
+    }
+}
+
+extension URLItem /*Hashable*/ {
+    override var hashValue: Int {
+        return self.id.hashValue
+    }
+}
+
+extension URLItem /*Equatable*/ {}
+func ==(lhs: URLItem, rhs: URLItem) -> Bool {
+    return lhs.hashValue == rhs.hashValue
+}
+
+extension URLItem /*ContentsDiffer*/ {
+    func contentsDiffer(from otherItem: URLItem) -> Bool {
+        return self.urlString != otherItem.urlString
+    }
+}
+
+extension URLItem /*CustomStringConvertible*/ {
+    override var description: String {
+        return super.description + " \(self.urlString)"
     }
 }
