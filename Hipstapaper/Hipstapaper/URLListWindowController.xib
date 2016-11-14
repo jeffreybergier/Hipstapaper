@@ -29,7 +29,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" columnSelection="YES" autosaveColumns="NO" headerView="txY-Dk-tqV" id="r7e-Gy-slL">
-                                    <rect key="frame" x="0.0" y="0.0" width="729" height="246"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="759" height="246"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -72,7 +72,7 @@
                                                 <binding destination="ktC-Ip-bwW" name="value" keyPath="arrangedObjects.urlString" id="AQB-t8-8jF"/>
                                             </connections>
                                         </tableColumn>
-                                        <tableColumn identifier="" editable="NO" width="120" minWidth="10" maxWidth="3.4028234663852886e+38" id="CoX-o5-ZtS">
+                                        <tableColumn identifier="" editable="NO" width="150" minWidth="10" maxWidth="3.4028234663852886e+38" id="CoX-o5-ZtS">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Date">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -108,7 +108,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <tableHeaderView key="headerView" id="txY-Dk-tqV">
-                            <rect key="frame" x="0.0" y="0.0" width="729" height="23"/>
+                            <rect key="frame" x="0.0" y="0.0" width="759" height="23"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </tableHeaderView>
                     </scrollView>
@@ -183,7 +183,11 @@
             </connections>
             <point key="canvasLocation" x="241" y="139"/>
         </window>
-        <customObject id="9Fl-6D-Gk0" customClass="URLItemsCloudKitSyncer" customModule="Hipstapaper" customModuleProvider="target"/>
+        <customObject id="9Fl-6D-Gk0" customClass="URLItemsCloudKitSyncer" customModule="Hipstapaper" customModuleProvider="target">
+            <connections>
+                <outlet property="arrayController" destination="ktC-Ip-bwW" id="2sX-vO-obA"/>
+            </connections>
+        </customObject>
         <arrayController objectClassName="URLItem" id="ktC-Ip-bwW">
             <declaredKeys>
                 <string>urlString</string>

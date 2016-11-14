@@ -7,13 +7,16 @@
 //
 
 import CloudKit
+import AppKit
 
 class URLItemsCloudKitSyncer: NSObject {
     
+    @IBOutlet private weak var arrayController: NSArrayController?
+    
     var listItems: [URLItem] = [] {
         didSet {
-            let deleted = Set(self.listItems).deletedItems(from: Set(oldValue))
-            let added = Set(self.listItems).addedItems(to: Set(oldValue))
+            let deleted = self.listItems.deletedItems(from: oldValue)
+            let added = self.listItems.addedItems(to: oldValue)
             
             if let deleted = deleted {
                 print("Deleted:\n\(deleted)")
@@ -28,15 +31,19 @@ class URLItemsCloudKitSyncer: NSObject {
     override init() {
         super.init()
         
-//        let privateDB = CKContainer.default().privateCloudDatabase
-//        let predicate = NSPredicate(value: true)
-//    
-//        
-//        let initialQuery = CKQuery(recordType: "URLItem", predicate: predicate)
-//        privateDB.perform(initialQuery, inZoneWith: .none) { record, error in
-//            print(record)
-//            print(error)
-//        }
+        let privateDB = CKContainer.default().privateCloudDatabase
+        let predicate = NSPredicate(value: true)
+        
+        let initialQuery = CKQuery(recordType: "URLItem", predicate: predicate)
+        privateDB.perform(initialQuery, inZoneWith: .none) { records, error in
+            DispatchQueue.main.async {
+                if let items = records?.map({ URLItem(record: $0) }) {
+                    self.listItems += items
+                    self.programmaticallyUpdatedListItems()
+                }
+                if let error = error { print("Downloading Records Failed: \(error)") }
+            }
+        }
         
 //        let record = CKRecord(recordType: "URLItem")
 //        record["urlString"] = "mysweetwebsite.com" as! CKRecordValue
@@ -44,6 +51,10 @@ class URLItemsCloudKitSyncer: NSObject {
 //            print(record)
 //            print(error)
 //        }
+    }
+    
+    func programmaticallyUpdatedListItems() {
+        self.arrayController?.content = self.listItems // forces the array controller to redisplay
     }
     
 }
