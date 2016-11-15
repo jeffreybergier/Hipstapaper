@@ -15,7 +15,7 @@ protocol URLItemChangeDelegate: class {
 @objc(URLItem)
 class URLItem: NSObject {
     
-    private let record: CKRecord
+    let record: CKRecord
     
     var id: String {
         return self.record.recordID.recordName

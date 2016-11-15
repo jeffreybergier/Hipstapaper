@@ -17,7 +17,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" unifiedTitleAndToolbar="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="684" height="270"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" wantsLayer="YES" id="se5-gp-TjO">
                 <rect key="frame" x="0.0" y="0.0" width="684" height="270"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -154,6 +154,22 @@
                             </connections>
                         </button>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="A235667A-9F32-451B-8E16-0E12B25232E7" label="" paletteLabel="Refresh" image="NSRefreshTemplate" id="Fbt-W9-6t3">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="32" height="32"/>
+                        <size key="maxSize" width="48" height="32"/>
+                        <button key="view" verticalHuggingPriority="750" id="MNW-YR-1Fp">
+                            <rect key="frame" x="0.0" y="14" width="48" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSRefreshTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cJG-jh-OaC">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="refreshButtonClickedWithSender:" target="9Fl-6D-Gk0" id="vcq-I6-f7J"/>
+                            </connections>
+                        </button>
+                    </toolbarItem>
                     <toolbarItem implicitItemIdentifier="2EEEAD72-322F-4256-B86B-AED173FA20EE" label="" paletteLabel="Search" id="ahr-nU-30g">
                         <nil key="toolTip"/>
                         <size key="minSize" width="96" height="22"/>
@@ -174,6 +190,7 @@
                 <defaultToolbarItems>
                     <toolbarItem reference="vPm-rc-bkT"/>
                     <toolbarItem reference="LeX-Xe-JAw"/>
+                    <toolbarItem reference="Fbt-W9-6t3"/>
                     <toolbarItem reference="CGM-9L-ZBk"/>
                     <toolbarItem reference="ahr-nU-30g"/>
                 </defaultToolbarItems>
@@ -198,6 +215,7 @@
         </arrayController>
     </objects>
     <resources>
+        <image name="NSRefreshTemplate" width="11" height="15"/>
         <image name="NSRemoveTemplate" width="11" height="11"/>
     </resources>
 </document>
