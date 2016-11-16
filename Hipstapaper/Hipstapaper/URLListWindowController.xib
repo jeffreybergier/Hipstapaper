@@ -87,7 +87,11 @@
                                             <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="key"/>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <connections>
-                                                <binding destination="ktC-Ip-bwW" name="value" keyPath="arrangedObjects.modifiedDate" id="VLo-sO-bpd"/>
+                                                <binding destination="ktC-Ip-bwW" name="value" keyPath="arrangedObjects.modificationDate" id="cx2-Hv-gmD">
+                                                    <dictionary key="options">
+                                                        <bool key="NSConditionallySetsEditable" value="YES"/>
+                                                    </dictionary>
+                                                </binding>
                                             </connections>
                                         </tableColumn>
                                     </tableColumns>
@@ -205,7 +209,7 @@
                 <outlet property="arrayController" destination="ktC-Ip-bwW" id="2sX-vO-obA"/>
             </connections>
         </customObject>
-        <arrayController objectClassName="URLItem" id="ktC-Ip-bwW">
+        <arrayController objectClassName="URLBindingItem" id="ktC-Ip-bwW">
             <declaredKeys>
                 <string>urlString</string>
             </declaredKeys>

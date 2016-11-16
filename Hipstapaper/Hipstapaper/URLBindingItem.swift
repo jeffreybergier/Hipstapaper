@@ -9,11 +9,11 @@
 import CloudKit
 
 protocol URLItemChangeDelegate: class {
-    func itemDidChange(_: URLItem)
+    func itemDidChange(_: URLBindingItem)
 }
 
-@objc(URLItem)
-class URLItem: NSObject {
+@objc(URLBindingItem)
+class URLBindingItem: NSObject {
     
     let record: CKRecord
     
@@ -31,9 +31,8 @@ class URLItem: NSObject {
         }
     }
     
-    private let offlineCreationDate = Date() // needed until records are saved to the server
-    var modifiedDate: Date {
-        return (self.record.modificationDate ?? self.record.creationDate) ?? self.offlineCreationDate
+    var modificationDate: Date? {
+        return self.record.modificationDate ?? self.record.creationDate
     }
     
     weak var changeDelegate: URLItemChangeDelegate?
@@ -58,24 +57,24 @@ class URLItem: NSObject {
     }
 }
 
-extension URLItem /*Hashable*/ {
+extension URLBindingItem /*Hashable*/ {
     override var hashValue: Int {
         return self.id.hashValue
     }
 }
 
-extension URLItem /*Equatable*/ {}
-func ==(lhs: URLItem, rhs: URLItem) -> Bool {
+extension URLBindingItem /*Equatable*/ {}
+func ==(lhs: URLBindingItem, rhs: URLBindingItem) -> Bool {
     return lhs.hashValue == rhs.hashValue
 }
 
-extension URLItem /*ContentsDiffer*/ {
-    func contentsDiffer(from otherItem: URLItem) -> Bool {
+extension URLBindingItem /*ContentsDiffer*/ {
+    func contentsDiffer(from otherItem: URLBindingItem) -> Bool {
         return self.urlString != otherItem.urlString
     }
 }
 
-extension URLItem /*CustomStringConvertible*/ {
+extension URLBindingItem /*CustomStringConvertible*/ {
     override var description: String {
         return super.description + " \(self.urlString)"
     }
