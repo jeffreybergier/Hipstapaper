@@ -169,9 +169,6 @@
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
-                            <connections>
-                                <action selector="refreshButtonClickedWithSender:" target="9Fl-6D-Gk0" id="vcq-I6-f7J"/>
-                            </connections>
                         </button>
                     </toolbarItem>
                     <toolbarItem implicitItemIdentifier="2EEEAD72-322F-4256-B86B-AED173FA20EE" label="" paletteLabel="Search" id="ahr-nU-30g">
@@ -204,7 +201,7 @@
             </connections>
             <point key="canvasLocation" x="241" y="139"/>
         </window>
-        <customObject id="9Fl-6D-Gk0" customClass="URLItemsCloudKitSyncer" customModule="Hipstapaper" customModuleProvider="target">
+        <customObject id="9Fl-6D-Gk0" customClass="URLListBindingObserver" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
                 <outlet property="arrayController" destination="ktC-Ip-bwW" id="2sX-vO-obA"/>
             </connections>

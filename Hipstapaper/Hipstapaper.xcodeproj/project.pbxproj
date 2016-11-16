@@ -13,9 +13,10 @@
 		506A3F161DD6C2AE00A5656E /* URLListWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506A3F141DD6C2AE00A5656E /* URLListWindowController.swift */; };
 		506A3F171DD6C2AE00A5656E /* URLListWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F151DD6C2AE00A5656E /* URLListWindowController.xib */; };
 		50E21BC61DD6E466005151C7 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50E21BC51DD6E466005151C7 /* CloudKit.framework */; };
-		50E21BC81DD6E721005151C7 /* URLItemsCloudKitSyncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E21BC71DD6E721005151C7 /* URLItemsCloudKitSyncer.swift */; };
+		50E21BC81DD6E721005151C7 /* URLListBindingObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E21BC71DD6E721005151C7 /* URLListBindingObserver.swift */; };
 		50E21BCC1DD8F2E3005151C7 /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E21BCB1DD8F2E3005151C7 /* FrameworkExtensions.swift */; };
 		50E21BCD1DDC281E005151C7 /* URLBindingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E21BC91DD79B6A005151C7 /* URLBindingItem.swift */; };
+		50E21BCF1DDC2C6F005151C7 /* CloudKitComms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E21BCE1DDC2C6F005151C7 /* CloudKitComms.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,9 +29,10 @@
 		506A3F151DD6C2AE00A5656E /* URLListWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLListWindowController.xib; sourceTree = "<group>"; };
 		506D98121DD6CFFB002E4F54 /* Hipstapaper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper.entitlements; sourceTree = "<group>"; };
 		50E21BC51DD6E466005151C7 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
-		50E21BC71DD6E721005151C7 /* URLItemsCloudKitSyncer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemsCloudKitSyncer.swift; sourceTree = "<group>"; };
+		50E21BC71DD6E721005151C7 /* URLListBindingObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLListBindingObserver.swift; sourceTree = "<group>"; };
 		50E21BC91DD79B6A005151C7 /* URLBindingItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLBindingItem.swift; sourceTree = "<group>"; };
 		50E21BCB1DD8F2E3005151C7 /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
+		50E21BCE1DDC2C6F005151C7 /* CloudKitComms.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitComms.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,8 +69,9 @@
 			children = (
 				506A3F071DD6C10C00A5656E /* AppDelegate.swift */,
 				50E21BCB1DD8F2E3005151C7 /* FrameworkExtensions.swift */,
+				50E21BCE1DDC2C6F005151C7 /* CloudKitComms.swift */,
 				50E21BC91DD79B6A005151C7 /* URLBindingItem.swift */,
-				50E21BC71DD6E721005151C7 /* URLItemsCloudKitSyncer.swift */,
+				50E21BC71DD6E721005151C7 /* URLListBindingObserver.swift */,
 				506A3F141DD6C2AE00A5656E /* URLListWindowController.swift */,
 				506A3F151DD6C2AE00A5656E /* URLListWindowController.xib */,
 				506A3F091DD6C10D00A5656E /* Assets.xcassets */,
@@ -171,8 +174,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50E21BC81DD6E721005151C7 /* URLItemsCloudKitSyncer.swift in Sources */,
+				50E21BC81DD6E721005151C7 /* URLListBindingObserver.swift in Sources */,
 				50E21BCD1DDC281E005151C7 /* URLBindingItem.swift in Sources */,
+				50E21BCF1DDC2C6F005151C7 /* CloudKitComms.swift in Sources */,
 				50E21BCC1DD8F2E3005151C7 /* FrameworkExtensions.swift in Sources */,
 				506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */,
 				506A3F161DD6C2AE00A5656E /* URLListWindowController.swift in Sources */,
