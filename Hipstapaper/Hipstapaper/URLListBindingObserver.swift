@@ -10,9 +10,9 @@ import AppKit
 import CloudKit
 
 protocol RecordChangeDelegate: class {
-    func bindingsObserver(_: URLListBindingObserver, didAdd: [CKRecord])
-    func bindingsObserver(_: URLListBindingObserver, didChange: [CKRecord])
-    func bindingsObserver(_: URLListBindingObserver, didDelete: [CKRecord])
+    func bindingsObserver(_: URLListBindingObserver, didAdd records: [URLBindingItem])
+    func bindingsObserver(_: URLListBindingObserver, didChange records: [URLBindingItem])
+    func bindingsObserver(_: URLListBindingObserver, didDelete records: [URLBindingItem])
 }
 
 class URLListBindingObserver: NSObject {
@@ -41,12 +41,12 @@ class URLListBindingObserver: NSObject {
             added?.forEach({ $0.changeDelegate = self })
             
             // make sure we add new items to cloudkit
-            if let added = added?.map({ $0.record }) {
+            if let added = added {
                 self.delegate?.bindingsObserver(self, didAdd: added)
             }
             
             // delete them from cloudkit
-            if let deleted = deleted?.map({ $0.record }) {
+            if let deleted = deleted {
                 self.delegate?.bindingsObserver(self, didDelete: deleted)
             }
             
@@ -57,6 +57,7 @@ class URLListBindingObserver: NSObject {
     
     func replaceList(list: [URLBindingItem]) {
         DispatchQueue.main.async {
+            list.forEach({ $0.changeDelegate = self })
             self._listItems = list
             self.arrayController?.content = self.listItems // forces the array controller to redisplay
         }
@@ -65,6 +66,6 @@ class URLListBindingObserver: NSObject {
 
 extension URLListBindingObserver: URLItemChangeDelegate {
     func itemDidChange(_ item: URLBindingItem) {
-        self.delegate?.bindingsObserver(self, didChange: [item.record])
+        self.delegate?.bindingsObserver(self, didChange: [item])
     }
 }

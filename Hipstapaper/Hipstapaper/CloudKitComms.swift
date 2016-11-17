@@ -8,48 +8,54 @@
 
 import CloudKit
 
-typealias CloudKitLoad = (([CKRecord]) throws -> Void) -> Void
-typealias CloudKitUpdate = ((Void) throws -> Void) -> Void
+enum Result<T> {
+    case success(T), error(Error)
+}
+
+typealias CloudKitReload = (Result<[CKRecord]>) -> Void
+typealias CloudKitUpdate = (Result<Void>) -> Void
 
 class CloudKitComms {
-    private func refreshData(completionHandler: @escaping CloudKitLoad) {
-        let privateDB = CKContainer.default().privateCloudDatabase
+    
+    private let privateDB = CKContainer.default().privateCloudDatabase
+    private let recordType: String
+    
+    init(recordType: String) {
+        self.recordType = recordType
+    }
+    
+    func reloadData(completionHandler: @escaping CloudKitReload) {
         let predicate = NSPredicate(value: true)
-        let initialQuery = CKQuery(recordType: "URLItem", predicate: predicate)
+        let initialQuery = CKQuery(recordType: self.recordType, predicate: predicate)
         
-        privateDB.perform(initialQuery, inZoneWith: .none) { records, error in
-            if let items = records {
-                NSLog("Refreshed: Downloaded: \(items.count)")
-                completionHandler({ _ in return items })
-            } else if let error = error {
-                NSLog("Refresh: Error: \(error)")
-                completionHandler({ _ in throw error })
+        self.privateDB.perform(initialQuery, inZoneWith: .none) { records, error in
+            NSLog("Reloaded: \(records?.count ?? 0) Error: \(error)")
+            if let error = error {
+                completionHandler(.error(error))
             } else {
-                fatalError()
+                completionHandler(.success(records ?? []))
             }
         }
     }
     
     func writeToCloudKit(item: CKRecord, completionHandler: @escaping CloudKitUpdate) {
-        let privateDB = CKContainer.default().privateCloudDatabase
-        privateDB.save(item) { record, error in
-            NSLog("Saved: \(item): Error: \(error)")
+        self.privateDB.save(item) { record, error in
+            NSLog("\nSaved: \(item)\nError: \(error)")
             if let error = error {
-                completionHandler({ throw error })
+                completionHandler(.error(error))
             } else {
-                completionHandler({})
+                completionHandler(.success(()))
             }
         }
     }
     
     func deleteFromCloudKit(item: CKRecord, completionHandler: @escaping CloudKitUpdate) {
-        let privateDB = CKContainer.default().privateCloudDatabase
-        privateDB.delete(withRecordID: item.recordID)  { (recordID, error) in
-            NSLog("Deleted: \(item): Error: \(error)")
+        self.privateDB.delete(withRecordID: item.recordID)  { (recordID, error) in
+            NSLog("\nDeleted: \(item)\nError: \(error)")
             if let error = error {
-                completionHandler({ throw error })
+                completionHandler(.error(error))
             } else {
-                completionHandler({})
+                completionHandler(.success(()))
             }
         }
     }
