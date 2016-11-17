@@ -11,7 +11,7 @@ import AppKit
 
 class URLItemWebViewWindowController: NSWindowController {
     
-    var item: URLBindingItem?
+    private(set) var item: URLBindingItem?
         
     private let webView: WKWebView = {
         let config = WKWebViewConfiguration()
@@ -20,8 +20,9 @@ class URLItemWebViewWindowController: NSWindowController {
         return webView
     }()
     
-    convenience init() {
+    convenience init(urlItem: URLBindingItem) {
         self.init(windowNibName: "URLItemWebViewWindowController")
+        self.item = urlItem
     }
 
     override func windowDidLoad() {

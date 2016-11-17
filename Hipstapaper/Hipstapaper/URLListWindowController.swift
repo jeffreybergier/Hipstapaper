@@ -15,7 +15,7 @@ class URLListWindowController: NSWindowController {
     @IBOutlet private weak var uiBindingObserver: URLListBindingObserver?
     @IBOutlet private weak var tableView: NSTableView?
     
-    private var openWindows = [URLBindingItem : URLItemWebViewWindowController]()
+    fileprivate var openItemWindows = [URLBindingItem : URLItemWebViewWindowController]()
     
     convenience init() {
         self.init(windowNibName: "URLListWindowController")
@@ -35,16 +35,14 @@ class URLListWindowController: NSWindowController {
     @IBAction func tableViewDoubleClicked(_ sender: NSObject?) {
         guard let selectedItems = self.uiBindingObserver?.selectedItems else { return }
         for item in selectedItems {
-            let wvWC: URLItemWebViewWindowController
-            if let oldWC = self.openWindows[item] {
-                wvWC = oldWC
+            if let oldWC = self.openItemWindows[item] {
+                oldWC.showWindow(self)
             } else {
-                let newWC = URLItemWebViewWindowController()
-                self.openWindows[item] = newWC
-                wvWC = newWC
+                let newWC = URLItemWebViewWindowController(urlItem: item)
+                self.openItemWindows[item] = newWC
+                NotificationCenter.default.addObserver(self, selector: #selector(self.itemWindowWillClose(_:)), name: .NSWindowWillClose, object: newWC.window!)
+                newWC.showWindow(self)
             }
-            wvWC.item = item
-            wvWC.showWindow(self)
         }
     }
     
@@ -71,5 +69,18 @@ extension URLListWindowController: RecordChangeDelegate {
     }
     func bindingsObserver(_: URLListBindingObserver, didDelete records: [URLBindingItem]) {
         records.forEach({ self.cloudKitComms.deleteFromCloudKit(item: $0.record, completionHandler: {_ in}) })
+    }
+}
+
+extension URLListWindowController /*NSWindowDelegate*/ {
+    @objc fileprivate func itemWindowWillClose(_ notification: NSNotification) {
+        guard
+            let window = notification.object as? NSWindow,
+            let itemWindowController = window.windowController as? URLItemWebViewWindowController,
+            let item = itemWindowController.item
+        else { return }
+        
+        self.openItemWindows.removeValue(forKey: item)
+        NotificationCenter.default.removeObserver(self, name: .NSWindowWillClose, object: window)
     }
 }
