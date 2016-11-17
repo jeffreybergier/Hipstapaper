@@ -17,6 +17,8 @@
 		50E21BCC1DD8F2E3005151C7 /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E21BCB1DD8F2E3005151C7 /* FrameworkExtensions.swift */; };
 		50E21BCD1DDC281E005151C7 /* URLBindingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E21BC91DD79B6A005151C7 /* URLBindingItem.swift */; };
 		50E21BCF1DDC2C6F005151C7 /* CloudKitComms.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E21BCE1DDC2C6F005151C7 /* CloudKitComms.swift */; };
+		50E21BD21DDD79FE005151C7 /* URLItemWebViewWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E21BD01DDD79FE005151C7 /* URLItemWebViewWindowController.swift */; };
+		50E21BD31DDD79FE005151C7 /* URLItemWebViewWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E21BD11DDD79FE005151C7 /* URLItemWebViewWindowController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +35,8 @@
 		50E21BC91DD79B6A005151C7 /* URLBindingItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLBindingItem.swift; sourceTree = "<group>"; };
 		50E21BCB1DD8F2E3005151C7 /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		50E21BCE1DDC2C6F005151C7 /* CloudKitComms.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitComms.swift; sourceTree = "<group>"; };
+		50E21BD01DDD79FE005151C7 /* URLItemWebViewWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemWebViewWindowController.swift; sourceTree = "<group>"; };
+		50E21BD11DDD79FE005151C7 /* URLItemWebViewWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLItemWebViewWindowController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +78,8 @@
 				50E21BC71DD6E721005151C7 /* URLListBindingObserver.swift */,
 				506A3F141DD6C2AE00A5656E /* URLListWindowController.swift */,
 				506A3F151DD6C2AE00A5656E /* URLListWindowController.xib */,
+				50E21BD01DDD79FE005151C7 /* URLItemWebViewWindowController.swift */,
+				50E21BD11DDD79FE005151C7 /* URLItemWebViewWindowController.xib */,
 				506A3F091DD6C10D00A5656E /* Assets.xcassets */,
 				506A3F0B1DD6C10D00A5656E /* MainMenu.xib */,
 				506A3F0E1DD6C10D00A5656E /* Info.plist */,
@@ -163,6 +169,7 @@
 			files = (
 				506A3F171DD6C2AE00A5656E /* URLListWindowController.xib in Resources */,
 				506A3F0A1DD6C10D00A5656E /* Assets.xcassets in Resources */,
+				50E21BD31DDD79FE005151C7 /* URLItemWebViewWindowController.xib in Resources */,
 				506A3F0D1DD6C10D00A5656E /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -174,6 +181,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50E21BD21DDD79FE005151C7 /* URLItemWebViewWindowController.swift in Sources */,
 				50E21BC81DD6E721005151C7 /* URLListBindingObserver.swift in Sources */,
 				50E21BCD1DDC281E005151C7 /* URLBindingItem.swift in Sources */,
 				50E21BCF1DDC2C6F005151C7 /* CloudKitComms.swift in Sources */,

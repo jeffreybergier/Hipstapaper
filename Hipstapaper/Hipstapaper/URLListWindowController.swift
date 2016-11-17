@@ -14,6 +14,12 @@ class URLListWindowController: NSWindowController {
     fileprivate let cloudKitComms = CloudKitComms(recordType: "URLItem")
     @IBOutlet private weak var uiBindingObserver: URLListBindingObserver?
     @IBOutlet private weak var tableView: NSTableView?
+    
+    private var openWindows = [URLBindingItem : URLItemWebViewWindowController]()
+    
+    convenience init() {
+        self.init(windowNibName: "URLListWindowController")
+    }
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -21,10 +27,27 @@ class URLListWindowController: NSWindowController {
         self.uiBindingObserver?.delegate = self
     }
     
-    @IBAction private func refreshButonClicked(sender: NSObject?) { // IB can send anything and swift won't check unless I do.
+    @IBAction private func refreshButonClicked(_ sender: NSObject?) { // IB can send anything and swift won't check unless I do.
         self.tableView?.deselectAll(self)
         self.reloadData()
     }
+    
+    @IBAction func tableViewDoubleClicked(_ sender: NSObject?) {
+        guard let selectedItems = self.uiBindingObserver?.selectedItems else { return }
+        for item in selectedItems {
+            let wvWC: URLItemWebViewWindowController
+            if let oldWC = self.openWindows[item] {
+                wvWC = oldWC
+            } else {
+                let newWC = URLItemWebViewWindowController()
+                self.openWindows[item] = newWC
+                wvWC = newWC
+            }
+            wvWC.item = item
+            wvWC.showWindow(self)
+        }
+    }
+    
     
     private func reloadData() {
         self.cloudKitComms.reloadData() { result in

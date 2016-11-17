@@ -17,6 +17,12 @@ protocol RecordChangeDelegate: class {
 
 class URLListBindingObserver: NSObject {
     
+    // Grab the selected items from the array controller
+    var selectedItems: [URLBindingItem]? {
+        let mappedItems = self.arrayController?.selectedObjects?.filter({ $0 is URLBindingItem }).map({ $0 as! URLBindingItem }) ?? []
+        if mappedItems.isEmpty == false { return mappedItems } else { return .none }
+    }
+    
     // delegate so the WindowController can response to the user changing the URL objects
     weak var delegate: RecordChangeDelegate?
     

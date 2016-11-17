@@ -14,7 +14,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let rootWindowController: URLListWindowController
     
     override init() {
-        let windowController = URLListWindowController(windowNibName: "URLListWindowController")
+        let windowController = URLListWindowController()
         self.rootWindowController = windowController
         super.init()
     }

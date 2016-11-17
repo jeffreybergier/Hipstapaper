@@ -17,17 +17,16 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="Hipstapaper" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" unifiedTitleAndToolbar="YES"/>
-            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="759" height="270"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <rect key="contentRect" x="196" y="240" width="760" height="270"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
             <view key="contentView" wantsLayer="YES" id="se5-gp-TjO">
-                <rect key="frame" x="0.0" y="0.0" width="759" height="270"/>
+                <rect key="frame" x="0.0" y="0.0" width="760" height="270"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6i2-ff-ffH">
-                        <rect key="frame" x="0.0" y="0.0" width="759" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="760" height="270"/>
                         <clipView key="contentView" drawsBackground="NO" id="ZUI-ZG-lW0">
-                            <rect key="frame" x="1" y="0.0" width="757" height="269"/>
+                            <rect key="frame" x="1" y="0.0" width="758" height="269"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" autosaveColumns="NO" headerView="txY-Dk-tqV" id="r7e-Gy-slL">
@@ -99,6 +98,7 @@
                                         </tableColumn>
                                     </tableColumns>
                                     <connections>
+                                        <action trigger="doubleAction" selector="tableViewDoubleClicked:" target="-2" id="V4J-hH-Wss"/>
                                         <binding destination="ktC-Ip-bwW" name="content" keyPath="arrangedObjects" id="k0b-J4-3Xm"/>
                                         <binding destination="ktC-Ip-bwW" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="k0b-J4-3Xm" id="kUc-bf-ugE"/>
                                         <binding destination="ktC-Ip-bwW" name="sortDescriptors" keyPath="sortDescriptors" previousBinding="kUc-bf-ugE" id="rOE-BT-I3N"/>
@@ -108,7 +108,7 @@
                             <nil key="backgroundColor"/>
                         </clipView>
                         <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="8Ef-ba-YCK">
-                            <rect key="frame" x="1" y="253" width="757" height="16"/>
+                            <rect key="frame" x="1" y="253" width="758" height="16"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="U3o-RT-E6R">
@@ -174,7 +174,7 @@
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
                             <connections>
-                                <action selector="refreshButonClickedWithSender:" target="-2" id="Nk9-3F-hFu"/>
+                                <action selector="refreshButonClicked:" target="-2" id="s00-Z3-mfj"/>
                             </connections>
                         </button>
                     </toolbarItem>
