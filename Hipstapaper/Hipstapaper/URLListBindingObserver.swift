@@ -17,19 +17,26 @@ protocol RecordChangeDelegate: class {
 
 class URLListBindingObserver: NSObject {
     
-    @IBOutlet private weak var arrayController: NSArrayController?
-    
+    // delegate so the WindowController can response to the user changing the URL objects
     weak var delegate: RecordChangeDelegate?
+    
+    // access to the array controller so we can poke at it occasionally
+    @IBOutlet private weak var arrayController: NSArrayController? {
+        didSet {
+            // set the default sort order on application launch
+            self.arrayController?.sortDescriptors = [NSSortDescriptor(key: #keyPath(URLBindingItem.modificationDate), ascending: false)]
+        }
+    }
     
     // set this property when downloading items that are already saved in cloudkit
     private var _listItems: [URLBindingItem] = []
     
     // set this property when you want the new things set to be saved back into cloudkit
-    var listItems: [URLBindingItem] {
+    @objc private var listItems: [URLBindingItem] {
         get {
             return self._listItems
         }
-        set {
+        set {            
             // grab the old value
             let oldValue = self._listItems
             
@@ -55,6 +62,8 @@ class URLListBindingObserver: NSObject {
         }
     }
     
+    // replace the filter list from the outside without going through the normal bindings trigger
+    // this is needed when we fetch items from cloudkit manually, we don't want them resynced
     func replaceList(list: [URLBindingItem]) {
         DispatchQueue.main.async {
             list.forEach({ $0.changeDelegate = self })

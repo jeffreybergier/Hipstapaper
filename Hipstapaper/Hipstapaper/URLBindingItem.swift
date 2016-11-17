@@ -31,8 +31,9 @@ class URLBindingItem: NSObject {
         }
     }
     
-    var modificationDate: Date? {
-        return self.record.modificationDate ?? self.record.creationDate
+    private let offlineModificationDate = Date()
+    var modificationDate: Date {
+        return (self.record.modificationDate ?? self.record.creationDate) ?? self.offlineModificationDate
     }
     
     weak var changeDelegate: URLItemChangeDelegate?

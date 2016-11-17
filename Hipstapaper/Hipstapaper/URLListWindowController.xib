@@ -8,6 +8,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="URLListWindowController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
+                <outlet property="tableView" destination="r7e-Gy-slL" id="Cv4-fm-ppK"/>
                 <outlet property="uiBindingObserver" destination="9Fl-6D-Gk0" id="xnU-SQ-hzV"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
             </connections>
@@ -29,7 +30,7 @@
                             <rect key="frame" x="1" y="0.0" width="757" height="269"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" columnSelection="YES" autosaveColumns="NO" headerView="txY-Dk-tqV" id="r7e-Gy-slL">
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" autosaveColumns="NO" headerView="txY-Dk-tqV" id="r7e-Gy-slL">
                                     <rect key="frame" x="0.0" y="0.0" width="759" height="246"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
@@ -47,6 +48,7 @@
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
+                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="id"/>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <connections>
                                                 <binding destination="ktC-Ip-bwW" name="value" keyPath="arrangedObjects.id" id="hUN-cR-riU">
@@ -67,7 +69,7 @@
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
-                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="key"/>
+                                            <sortDescriptor key="sortDescriptorPrototype" selector="localizedCaseInsensitiveCompare:" sortKey="urlString"/>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <connections>
                                                 <binding destination="ktC-Ip-bwW" name="value" keyPath="arrangedObjects.urlString" id="AQB-t8-8jF"/>
@@ -85,7 +87,7 @@
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
-                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="key"/>
+                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="modificationDate"/>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <connections>
                                                 <binding destination="ktC-Ip-bwW" name="value" keyPath="arrangedObjects.modificationDate" id="cx2-Hv-gmD">
@@ -99,6 +101,7 @@
                                     <connections>
                                         <binding destination="ktC-Ip-bwW" name="content" keyPath="arrangedObjects" id="k0b-J4-3Xm"/>
                                         <binding destination="ktC-Ip-bwW" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="k0b-J4-3Xm" id="kUc-bf-ugE"/>
+                                        <binding destination="ktC-Ip-bwW" name="sortDescriptors" keyPath="sortDescriptors" previousBinding="kUc-bf-ugE" id="rOE-BT-I3N"/>
                                     </connections>
                                 </tableView>
                             </subviews>
@@ -210,12 +213,9 @@
                 <outlet property="arrayController" destination="ktC-Ip-bwW" id="2sX-vO-obA"/>
             </connections>
         </customObject>
-        <arrayController objectClassName="URLBindingItem" id="ktC-Ip-bwW">
-            <declaredKeys>
-                <string>urlString</string>
-            </declaredKeys>
+        <arrayController objectClassName="URLBindingItem" editable="NO" avoidsEmptySelection="NO" automaticallyRearrangesObjects="YES" id="ktC-Ip-bwW">
             <connections>
-                <binding destination="9Fl-6D-Gk0" name="contentArray" keyPath="self.listItems" id="27y-yP-mIc"/>
+                <binding destination="9Fl-6D-Gk0" name="contentArray" keyPath="self.listItems" id="bze-Cf-Njm"/>
             </connections>
         </arrayController>
     </objects>

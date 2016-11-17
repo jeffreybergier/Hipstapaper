@@ -13,6 +13,7 @@ class URLListWindowController: NSWindowController {
     
     fileprivate let cloudKitComms = CloudKitComms(recordType: "URLItem")
     @IBOutlet private weak var uiBindingObserver: URLListBindingObserver?
+    @IBOutlet private weak var tableView: NSTableView?
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -21,6 +22,7 @@ class URLListWindowController: NSWindowController {
     }
     
     @IBAction private func refreshButonClicked(sender: NSObject?) { // IB can send anything and swift won't check unless I do.
+        self.tableView?.deselectAll(self)
         self.reloadData()
     }
     
