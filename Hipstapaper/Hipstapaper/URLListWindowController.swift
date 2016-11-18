@@ -16,9 +16,13 @@ class URLListWindowController: NSWindowController {
     @IBOutlet private weak var tableView: NSTableView?
     
     fileprivate var openItemWindows = [URLBindingItem : URLItemWebViewWindowController]()
+    var isPresentingChildWindows: Bool {
+        return !self.openItemWindows.isEmpty
+    }
     
     convenience init() {
         self.init(windowNibName: "URLListWindowController")
+        self.window!.isExcludedFromWindowsMenu = true
     }
 
     override func windowDidLoad() {
@@ -80,7 +84,7 @@ extension URLListWindowController /*NSWindowDelegate*/ {
             let item = itemWindowController.item
         else { return }
         
-        self.openItemWindows.removeValue(forKey: item)
         NotificationCenter.default.removeObserver(self, name: .NSWindowWillClose, object: window)
+        self.openItemWindows[item] = .none
     }
 }
