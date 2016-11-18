@@ -26,7 +26,8 @@ class URLBindingItem: NSObject {
             return (self.record["urlString"] as? String) ?? "www.url.com"
         }
         set {
-            self.record["urlString"] = newValue as CKRecordValue
+            let correctedString = String(urlStringFromRawString: newValue)
+            self.record["urlString"] = correctedString as CKRecordValue
             self.changeDelegate?.itemDidChange(self)
         }
     }

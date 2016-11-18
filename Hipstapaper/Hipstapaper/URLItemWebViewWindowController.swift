@@ -34,7 +34,7 @@ class URLItemWebViewWindowController: NSWindowController {
         self.window?.contentView?.topAnchor.constraint(equalTo: self.webView.topAnchor, constant: 0).isActive = true
         self.window?.contentView?.bottomAnchor.constraint(equalTo: self.webView.bottomAnchor, constant: 0).isActive = true
         
-        if let item = self.item, let url = URL(string: item.urlString) {
+        if let item = self.item, let url = URL(string: String(urlStringFromRawString: item.urlString)) {
             self.window?.title = item.urlString
             self.webView.load(URLRequest(url: url))
         }
