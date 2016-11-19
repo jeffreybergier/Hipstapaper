@@ -6,7 +6,7 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
-import Foundation
+import AppKit
 
 extension Array where Element: Hashable {
     func deletedItems(from oldArray: Array<Element>) -> Array<Element>? {
@@ -34,3 +34,5 @@ extension String {
         self = components?.url?.absoluteString ?? rawString
     }
 }
+
+extension NSWindow: Titleable { } // makes NSWindow work with Title Prefixer
