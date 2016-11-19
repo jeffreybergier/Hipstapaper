@@ -35,4 +35,4 @@ extension String {
     }
 }
 
-extension NSWindow: Titleable { } // makes NSWindow work with Title Prefixer
+extension NSWindow: KVOCapable { } // makes NSWindow work with Title Prefixer
