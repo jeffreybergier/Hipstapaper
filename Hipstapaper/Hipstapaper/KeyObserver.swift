@@ -114,7 +114,7 @@ fileprivate class WeakObjectHolder<T: Equatable> {
 
 extension WeakObjectHolder: Equatable {}
 private func ==<T>(lhs: WeakObjectHolder<T>, rhs: WeakObjectHolder<T>) -> Bool {
-    return lhs.object === rhs.object
+    return lhs.object === rhs.object && lhs.keyPath == rhs.keyPath
 }
 extension WeakObjectHolder: Hashable {
     var hashValue: Int {
