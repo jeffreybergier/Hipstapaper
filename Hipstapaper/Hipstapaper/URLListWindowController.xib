@@ -17,20 +17,21 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window identifier="HipstapaperMainWindow" title="Hipstapaper" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" frameAutosaveName="HipstapaperMainWindow" animationBehavior="default" tabbingMode="disallowed" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" unifiedTitleAndToolbar="YES"/>
-            <rect key="contentRect" x="196" y="240" width="760" height="270"/>
+            <rect key="contentRect" x="196" y="240" width="760" height="300"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
+            <value key="minSize" type="size" width="500" height="300"/>
             <view key="contentView" wantsLayer="YES" id="se5-gp-TjO">
-                <rect key="frame" x="0.0" y="0.0" width="760" height="270"/>
+                <rect key="frame" x="0.0" y="0.0" width="760" height="300"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6i2-ff-ffH">
-                        <rect key="frame" x="0.0" y="0.0" width="760" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="760" height="300"/>
                         <clipView key="contentView" drawsBackground="NO" id="ZUI-ZG-lW0">
-                            <rect key="frame" x="1" y="0.0" width="758" height="269"/>
+                            <rect key="frame" x="1" y="0.0" width="758" height="299"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" autosaveColumns="NO" headerView="txY-Dk-tqV" id="r7e-Gy-slL">
-                                    <rect key="frame" x="0.0" y="0.0" width="759" height="246"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="759" height="276"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -108,7 +109,7 @@
                             <nil key="backgroundColor"/>
                         </clipView>
                         <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="8Ef-ba-YCK">
-                            <rect key="frame" x="1" y="253" width="758" height="16"/>
+                            <rect key="frame" x="1" y="283" width="758" height="16"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="U3o-RT-E6R">
@@ -128,61 +129,61 @@
                     <constraint firstAttribute="bottom" secondItem="6i2-ff-ffH" secondAttribute="bottom" id="wVk-xE-tZP"/>
                 </constraints>
             </view>
-            <toolbar key="toolbar" implicitIdentifier="E5ACF944-6915-499D-9336-E1F356DC60D3" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="piK-WP-f34">
+            <toolbar key="toolbar" implicitIdentifier="E5ACF944-6915-499D-9336-E1F356DC60D3" displayMode="iconAndLabel" sizeMode="regular" id="piK-WP-f34">
                 <allowedToolbarItems>
-                    <toolbarItem implicitItemIdentifier="2CEA0208-FD88-487D-8A8D-0CAA7FEE6219" label="" paletteLabel="Add" id="vPm-rc-bkT">
+                    <toolbarItem implicitItemIdentifier="D5B80BD4-9AB4-4C31-AFA1-2585CF0D28F3" label="" paletteLabel="Add" image="NSAddTemplate" id="0eC-uP-8xV">
                         <nil key="toolTip"/>
-                        <size key="minSize" width="82" height="32"/>
-                        <size key="maxSize" width="82" height="32"/>
-                        <button key="view" verticalHuggingPriority="750" id="ibj-It-dGY">
-                            <rect key="frame" x="0.0" y="14" width="82" height="32"/>
+                        <size key="minSize" width="35" height="28"/>
+                        <size key="maxSize" width="37" height="35"/>
+                        <button key="view" verticalHuggingPriority="750" id="dE8-vA-GEN">
+                            <rect key="frame" x="0.0" y="14" width="37" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4ij-ay-EAe">
+                            <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSAddTemplate" imagePosition="only" alignment="center" borderStyle="border" inset="2" id="lbk-On-LG9">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
-                            <connections>
-                                <action selector="add:" target="ktC-Ip-bwW" id="G69-lE-880"/>
-                            </connections>
                         </button>
+                        <connections>
+                            <action selector="add:" target="ktC-Ip-bwW" id="ab0-WG-2FO"/>
+                        </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="EF961AEE-E24C-407A-9448-EBA74A2DDD5E" label="" paletteLabel="Delete" image="NSRemoveTemplate" id="LeX-Xe-JAw">
+                    <toolbarItem implicitItemIdentifier="F3DF358B-F5CC-4A3C-ADEC-2F91DAF89FAD" label="" paletteLabel="Delete" image="NSRemoveTemplate" id="cXu-eN-eTd">
                         <nil key="toolTip"/>
-                        <size key="minSize" width="32" height="32"/>
-                        <size key="maxSize" width="48" height="32"/>
-                        <button key="view" verticalHuggingPriority="750" id="Spn-cs-v3e">
-                            <rect key="frame" x="0.0" y="14" width="48" height="32"/>
+                        <size key="minSize" width="35" height="28"/>
+                        <size key="maxSize" width="37" height="35"/>
+                        <button key="view" verticalHuggingPriority="750" id="Qaa-KO-QZA">
+                            <rect key="frame" x="2" y="14" width="37" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSRemoveTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hdv-uv-Fv6">
+                            <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSRemoveTemplate" imagePosition="only" alignment="center" borderStyle="border" inset="2" id="fVb-fy-TlH">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
-                            <connections>
-                                <action selector="remove:" target="ktC-Ip-bwW" id="3pS-jR-KVI"/>
-                            </connections>
                         </button>
+                        <connections>
+                            <action selector="remove:" target="ktC-Ip-bwW" id="V9w-LX-VoB"/>
+                        </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="A235667A-9F32-451B-8E16-0E12B25232E7" label="" paletteLabel="Refresh" image="NSRefreshTemplate" id="Fbt-W9-6t3">
+                    <toolbarItem implicitItemIdentifier="3A844BEA-FF52-467C-A311-021BFF41274B" label="" paletteLabel="Reload" image="NSRefreshTemplate" id="FYa-3J-lbv">
                         <nil key="toolTip"/>
-                        <size key="minSize" width="32" height="32"/>
-                        <size key="maxSize" width="48" height="32"/>
-                        <button key="view" verticalHuggingPriority="750" id="MNW-YR-1Fp">
-                            <rect key="frame" x="0.0" y="14" width="48" height="32"/>
+                        <size key="minSize" width="35" height="28"/>
+                        <size key="maxSize" width="37" height="35"/>
+                        <button key="view" verticalHuggingPriority="750" id="xG3-r5-7D6">
+                            <rect key="frame" x="3" y="14" width="37" height="28"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSRefreshTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cJG-jh-OaC">
+                            <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSRefreshTemplate" imagePosition="only" alignment="center" borderStyle="border" inset="2" id="NLN-km-COz">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
-                            <connections>
-                                <action selector="refreshButonClicked:" target="-2" id="s00-Z3-mfj"/>
-                            </connections>
                         </button>
+                        <connections>
+                            <action selector="refreshButonClicked:" target="-2" id="z7w-Ch-HId"/>
+                        </connections>
                     </toolbarItem>
                     <toolbarItem implicitItemIdentifier="2EEEAD72-322F-4256-B86B-AED173FA20EE" label="" paletteLabel="Search" id="ahr-nU-30g">
                         <nil key="toolTip"/>
                         <size key="minSize" width="96" height="22"/>
-                        <size key="maxSize" width="96" height="22"/>
-                        <searchField key="view" wantsLayer="YES" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" textCompletion="NO" id="zip-z2-k5l">
+                        <size key="maxSize" width="250" height="22"/>
+                        <searchField key="view" wantsLayer="YES" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" preferredMaxLayoutWidth="250" textCompletion="NO" id="zip-z2-k5l">
                             <rect key="frame" x="0.0" y="14" width="96" height="22"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="wMc-zY-p7l">
@@ -196,9 +197,9 @@
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="CGM-9L-ZBk"/>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
-                    <toolbarItem reference="vPm-rc-bkT"/>
-                    <toolbarItem reference="LeX-Xe-JAw"/>
-                    <toolbarItem reference="Fbt-W9-6t3"/>
+                    <toolbarItem reference="0eC-uP-8xV"/>
+                    <toolbarItem reference="cXu-eN-eTd"/>
+                    <toolbarItem reference="FYa-3J-lbv"/>
                     <toolbarItem reference="CGM-9L-ZBk"/>
                     <toolbarItem reference="ahr-nU-30g"/>
                 </defaultToolbarItems>
@@ -220,6 +221,7 @@
         </arrayController>
     </objects>
     <resources>
+        <image name="NSAddTemplate" width="11" height="11"/>
         <image name="NSRefreshTemplate" width="11" height="15"/>
         <image name="NSRemoveTemplate" width="11" height="11"/>
     </resources>
