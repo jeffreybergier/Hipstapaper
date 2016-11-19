@@ -21,9 +21,99 @@
                 <rect key="frame" x="0.0" y="0.0" width="500" height="600"/>
                 <autoresizingMask key="autoresizingMask"/>
             </view>
+            <toolbar key="toolbar" implicitIdentifier="4EADE065-A884-465C-BDEF-082735161FF8" displayMode="iconOnly" sizeMode="regular" id="eax-al-TJF">
+                <allowedToolbarItems>
+                    <toolbarItem implicitItemIdentifier="B9A3C957-00EC-49D4-827C-D6AB31C8F8CA" label="" paletteLabel="Back/Forward" id="IH3-Yc-pbN">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="61" height="25"/>
+                        <size key="maxSize" width="61" height="28"/>
+                        <segmentedControl key="view" verticalHuggingPriority="750" misplaced="YES" id="GKi-25-hEZ">
+                            <rect key="frame" x="11" y="14" width="59" height="25"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <segmentedCell key="cell" borderStyle="border" alignment="left" style="separated" trackingMode="momentary" id="cSV-jn-fNb">
+                                <font key="font" metaFont="system"/>
+                                <segments>
+                                    <segment image="NSLeftFacingTriangleTemplate" width="26"/>
+                                    <segment image="NSRightFacingTriangleTemplate" width="26" tag="1"/>
+                                </segments>
+                            </segmentedCell>
+                        </segmentedControl>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="456552CB-9361-404D-A6B0-1E7B85D5139E" label="" paletteLabel="Reload/Stop" id="dO4-1j-Eq2">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="61" height="25"/>
+                        <size key="maxSize" width="61" height="28"/>
+                        <segmentedControl key="view" verticalHuggingPriority="750" id="7Xb-h8-SBZ">
+                            <rect key="frame" x="7" y="14" width="59" height="28"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <segmentedCell key="cell" borderStyle="border" alignment="left" style="separated" trackingMode="momentary" id="ZhL-xO-1F5">
+                                <font key="font" metaFont="system"/>
+                                <segments>
+                                    <segment image="NSRefreshTemplate" width="26"/>
+                                    <segment image="NSStopProgressTemplate" width="26" tag="1"/>
+                                </segments>
+                            </segmentedCell>
+                        </segmentedControl>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="3DFF10E2-2E5B-4DC0-8984-B43C5C8FB83F" label="" paletteLabel="Reload" image="NSRefreshTemplate" id="URA-hI-pdt">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="35" height="28"/>
+                        <size key="maxSize" width="37" height="35"/>
+                        <button key="view" verticalHuggingPriority="750" id="sVA-d3-TPB">
+                            <rect key="frame" x="3" y="14" width="37" height="28"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSRefreshTemplate" imagePosition="only" alignment="center" borderStyle="border" inset="2" id="YJq-Bk-tJ0">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="F483C24E-6EFC-4EF6-89C7-FE6B93AADF37" label="" paletteLabel="Share" image="NSShareTemplate" id="SpS-UR-rbq">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="35" height="28"/>
+                        <size key="maxSize" width="37" height="35"/>
+                        <button key="view" verticalHuggingPriority="750" id="1Tm-9F-ReY">
+                            <rect key="frame" x="1" y="14" width="37" height="28"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSShareTemplate" imagePosition="only" alignment="center" borderStyle="border" inset="2" id="87u-Lz-atv">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="309FDE1B-51D3-4C79-8CF7-3A327B60A455" label="" paletteLabel="Stop" image="NSStopProgressTemplate" id="eHI-U3-XT8">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="35" height="28"/>
+                        <size key="maxSize" width="37" height="35"/>
+                        <button key="view" verticalHuggingPriority="750" id="vYu-wt-Ptk">
+                            <rect key="frame" x="0.0" y="14" width="37" height="28"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSStopProgressTemplate" imagePosition="only" alignment="center" borderStyle="border" inset="2" id="FVn-CY-b14">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="um1-Uc-pPy"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="p1x-UJ-lwU"/>
+                </allowedToolbarItems>
+                <defaultToolbarItems>
+                    <toolbarItem reference="IH3-Yc-pbN"/>
+                    <toolbarItem reference="dO4-1j-Eq2"/>
+                    <toolbarItem reference="p1x-UJ-lwU"/>
+                    <toolbarItem reference="SpS-UR-rbq"/>
+                </defaultToolbarItems>
+            </toolbar>
             <connections>
                 <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
             </connections>
         </window>
     </objects>
+    <resources>
+        <image name="NSLeftFacingTriangleTemplate" width="9" height="12"/>
+        <image name="NSRefreshTemplate" width="11" height="15"/>
+        <image name="NSRightFacingTriangleTemplate" width="9" height="12"/>
+        <image name="NSShareTemplate" width="11" height="16"/>
+        <image name="NSStopProgressTemplate" width="11" height="11"/>
+    </resources>
 </document>
