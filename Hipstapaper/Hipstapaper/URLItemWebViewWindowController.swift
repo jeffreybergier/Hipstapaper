@@ -13,8 +13,8 @@ class URLItemWebViewWindowController: NSWindowController {
     
     private(set) var item: URLBindingItem?
     private let titlePrefixer = TitlePrefixer(titlePrefix: "Hipstapaper: ")
-    private let webViewNavigationDelegate = WebViewNavigationDelegate()
-    private let webViewUIDelegate = WebViewUIDelegate()
+//    private let webViewNavigationDelegate = WebViewNavigationDelegate()
+//    private let webViewUIDelegate = WebViewUIDelegate()
     
     private let webView: WKWebView = {
         let config = WKWebViewConfiguration()
@@ -42,9 +42,9 @@ class URLItemWebViewWindowController: NSWindowController {
         self.window?.contentView?.topAnchor.constraint(equalTo: self.webView.topAnchor, constant: 0).isActive = true
         self.window?.contentView?.bottomAnchor.constraint(equalTo: self.webView.bottomAnchor, constant: 0).isActive = true
         
-        // configure webview delegates
-        self.webView.navigationDelegate = self.webViewNavigationDelegate
-        self.webView.uiDelegate = self.webViewUIDelegate
+//        // configure webview delegates
+//        self.webView.navigationDelegate = self.webViewNavigationDelegate
+//        self.webView.uiDelegate = self.webViewUIDelegate
         
         // Get the URL loading
         // could probably use a bail out here if this unwrapping fails
