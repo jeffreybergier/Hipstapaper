@@ -6,6 +6,7 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
+import WebKit
 import AppKit
 
 extension Array where Element: Hashable {
@@ -35,4 +36,5 @@ extension String {
     }
 }
 
-extension NSWindow: KVOCapable { } // makes NSWindow work with Title Prefixer
+extension NSWindow: KVOCapable { } // makes NSWindow work with KVOObserver
+extension WKWebView: KVOCapable {} // makes WKWebView work with KVOObserver

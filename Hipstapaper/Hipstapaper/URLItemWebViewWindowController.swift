@@ -12,7 +12,7 @@ import AppKit
 class URLItemWebViewWindowController: NSWindowController {
     
     private(set) var item: URLBindingItem?
-    private let titlePrefixer = KeyObserver(keyPath: #keyPath(NSWindow.title))
+    private let webViewTitleObserver = KeyValueObserver<String>()
 //    private let webViewNavigationDelegate = WebViewNavigationDelegate()
 //    private let webViewUIDelegate = WebViewUIDelegate()
     
@@ -31,11 +31,16 @@ class URLItemWebViewWindowController: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
         
-        // start prefixing the title on the window
-        self.titlePrefixer.set(target: self.window) { newValue -> String? in
+        // configure KVO to prefix the window title
+        self.webViewTitleObserver.add(target: self.window, forKeyPath: #keyPath(NSWindow.title)) { newValue -> String? in
             return "Hipstapaper: \(newValue)"
         }
-                
+        // configure KVO to listen for title changes on the webview
+        self.webViewTitleObserver.add(target: self.webView, forKeyPath: #keyPath(WKWebView.title)) { [weak self] newValue -> String? in
+            self?.window?.title = newValue
+            return .none
+        }
+    
         // OMG kill me autolayout
         // why is WKWebView not in Interface Builder?!?!
         self.window?.contentView?.addSubview(self.webView)
