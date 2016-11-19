@@ -11,17 +11,25 @@ import AppKit
 
 class URLItemWebViewWindowController: NSWindowController {
     
+    // MARK: Model Item
+    
     private(set) var item: URLBindingItem?
+    
+    // MARK: KVO Helper Objects
     private let webViewTitleObserver = KeyValueObserver<String>()
+    
+    // MARK: WebView Objects
 //    private let webViewNavigationDelegate = WebViewNavigationDelegate()
 //    private let webViewUIDelegate = WebViewUIDelegate()
     
-    private let webView: WKWebView = {
+    @objc private let webView: WKWebView = {
         let config = WKWebViewConfiguration()
         let webView = WKWebView(frame: CGRect.zero, configuration: config)
         webView.translatesAutoresizingMaskIntoConstraints = false
         return webView
     }()
+    
+    // MARK: Initialization
     
     convenience init(urlItem: URLBindingItem) {
         self.init(windowNibName: "URLItemWebViewWindowController")
@@ -40,7 +48,7 @@ class URLItemWebViewWindowController: NSWindowController {
             self?.window?.title = newValue
             return .none
         }
-    
+        
         // OMG kill me autolayout
         // why is WKWebView not in Interface Builder?!?!
         self.window?.contentView?.addSubview(self.webView)
@@ -57,8 +65,7 @@ class URLItemWebViewWindowController: NSWindowController {
         // could probably use a bail out here if this unwrapping fails
         if let item = self.item, let url = URL(string: String(urlStringFromRawString: item.urlString)) {
             self.window?.title = item.urlString
-            self.webView.load(URLRequest(url: url))
+            let _ = self.webView.load(URLRequest(url: url))
         }
-        
     }
 }
