@@ -25,14 +25,42 @@ class URLItemWebViewWindowController: NSWindowController {
     
     private(set) var item: URLBindingItem?
     
-    // MARK: WebView Objects
+    // MARK: Control Outlets
     
-//    private let webViewNavigationDelegate = WebViewNavigationDelegate()
-//    private let webViewUIDelegate = WebViewUIDelegate()
+    @IBOutlet private weak var javascriptCheckbox: NSButton? {
+        didSet {
+            let value = NSNumber(value: self.webView.configuration.preferences.javaScriptEnabled)
+            self.javascriptCheckbox?.state = value.intValue
+        }
+    }
+    
+    // MARK: NSView Outlets
+    
+    @IBOutlet private weak var webViewParentView: NSView? {
+        didSet {
+            // WKWebView is not in IB so I have to add it manually
+            self.webViewParentView?.addSubview(self.webView)
+            self.webViewParentView?.leadingAnchor.constraint(equalTo: self.webView.leadingAnchor, constant: 0).isActive = true
+            self.webViewParentView?.trailingAnchor.constraint(equalTo: self.webView.trailingAnchor, constant: 0).isActive = true
+            self.webViewParentView?.topAnchor.constraint(equalTo: self.webView.topAnchor, constant: 0).isActive = true
+            self.webViewParentView?.bottomAnchor.constraint(equalTo: self.webView.bottomAnchor, constant: 0).isActive = true
+        }
+    }
+    
+    @IBOutlet private weak var bottomToolbarView: NSView? {
+        didSet {
+            self.bottomToolbarView?.layer?.backgroundColor = NSColor(hue: 0, saturation: 0, brightness: 0.9, alpha: 1.0).cgColor
+        }
+    }
     
     @objc private let webView: WKWebView = {
+        let preferences = WKPreferences()
+        preferences.javaScriptCanOpenWindowsAutomatically = false
+        preferences.plugInsEnabled = false
+        preferences.javaScriptEnabled = false
         let config = WKWebViewConfiguration()
-        let webView = WKWebView(frame: CGRect.zero, configuration: config)
+        config.preferences = preferences
+        let webView = WKWebView(frame: .zero, configuration: config)
         webView.translatesAutoresizingMaskIntoConstraints = false
         return webView
     }()
@@ -47,23 +75,19 @@ class URLItemWebViewWindowController: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
         
-        // OMG kill me autolayout
-        // why is WKWebView not in Interface Builder?!?!
-        self.window?.contentView?.addSubview(self.webView)
-        self.window?.contentView?.leadingAnchor.constraint(equalTo: self.webView.leadingAnchor, constant: 0).isActive = true
-        self.window?.contentView?.trailingAnchor.constraint(equalTo: self.webView.trailingAnchor, constant: 0).isActive = true
-        self.window?.contentView?.topAnchor.constraint(equalTo: self.webView.topAnchor, constant: 0).isActive = true
-        self.window?.contentView?.bottomAnchor.constraint(equalTo: self.webView.bottomAnchor, constant: 0).isActive = true
-        
-//        // configure webview delegates
-//        self.webView.navigationDelegate = self.webViewNavigationDelegate
-//        self.webView.uiDelegate = self.webViewUIDelegate
-        
-        // Get the URL loading
-        // could probably use a bail out here if this unwrapping fails
+        // Get the URL loading - could probably use a bail out here if this unwrapping fails
         if let item = self.item, let url = URL(string: String(urlStringFromRawString: item.urlString)) {
             self.window?.title = "Hipstapaper: " + item.urlString
-            let _ = self.webView.load(URLRequest(url: url))
+            self.webView.load(URLRequest(url: url))
         }
+    }
+    
+    // MARK: Actions from Bottom Toolbar
+    
+    @IBAction private func javascriptCheckboxToggled(_ sender: NSObject?) {
+        guard let sender = sender as? NSButton else { return }
+        let newValue = NSNumber(value: sender.state).boolValue
+        self.webView.configuration.preferences.javaScriptEnabled = newValue
+        self.webView.reload()
     }
 }
