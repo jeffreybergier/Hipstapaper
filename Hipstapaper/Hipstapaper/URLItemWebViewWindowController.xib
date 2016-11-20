@@ -178,6 +178,11 @@
                 </defaultToolbarItems>
             </toolbar>
             <connections>
+                <binding destination="-2" name="title" keyPath="self.webView.title" id="ROL-J1-Qzp">
+                    <dictionary key="options">
+                        <string key="NSValueTransformerName">WebViewTitleTransformer</string>
+                    </dictionary>
+                </binding>
                 <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
             </connections>
         </window>

@@ -11,6 +11,14 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
+    // Create and register a value transformer for URLWebWindow title Bindings
+    private let titleValueTransformer: WebViewTitleTransformer = {
+        let transformer = WebViewTitleTransformer()
+        let name = NSValueTransformerName("WebViewTitleTransformer")
+        ValueTransformer.setValueTransformer(transformer, forName: name)
+        return transformer
+    }()
+    
     // this allows me to deallocate the window when all windows are closed
     // when its closed, the notification below fires and set this property to nil
     fileprivate var _rootWC: URLListWindowController?

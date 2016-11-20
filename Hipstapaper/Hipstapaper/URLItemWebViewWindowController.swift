@@ -9,16 +9,24 @@
 import WebKit
 import AppKit
 
+class WebViewTitleTransformer: ValueTransformer {
+    override func transformedValue(_ value: Any?) -> Any? {
+        if let value = value as? String {
+            return "Hipstapaper: " + value
+        } else {
+            return super.transformedValue(value)
+        }
+    }
+}
+
 class URLItemWebViewWindowController: NSWindowController {
     
     // MARK: Model Item
     
     private(set) var item: URLBindingItem?
     
-    // MARK: KVO Helper Objects
-    private let webViewTitleObserver = KeyValueObserver<String>()
-    
     // MARK: WebView Objects
+    
 //    private let webViewNavigationDelegate = WebViewNavigationDelegate()
 //    private let webViewUIDelegate = WebViewUIDelegate()
     
@@ -39,16 +47,6 @@ class URLItemWebViewWindowController: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
         
-        // configure KVO to prefix the window title
-        self.webViewTitleObserver.add(target: self.window, forKeyPath: #keyPath(NSWindow.title)) { newValue -> String? in
-            return "Hipstapaper: \(newValue)"
-        }
-        // configure KVO to listen for title changes on the webview
-        self.webViewTitleObserver.add(target: self.webView, forKeyPath: #keyPath(WKWebView.title)) { [weak self] newValue -> String? in
-            self?.window?.title = newValue
-            return .none
-        }
-        
         // OMG kill me autolayout
         // why is WKWebView not in Interface Builder?!?!
         self.window?.contentView?.addSubview(self.webView)
@@ -64,7 +62,7 @@ class URLItemWebViewWindowController: NSWindowController {
         // Get the URL loading
         // could probably use a bail out here if this unwrapping fails
         if let item = self.item, let url = URL(string: String(urlStringFromRawString: item.urlString)) {
-            self.window?.title = item.urlString
+            self.window?.title = "Hipstapaper: " + item.urlString
             let _ = self.webView.load(URLRequest(url: url))
         }
     }

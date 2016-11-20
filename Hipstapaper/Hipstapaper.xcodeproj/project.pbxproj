@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		505511C81DE0081F001F04F4 /* KeyObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505511C71DE0081F001F04F4 /* KeyObserver.swift */; };
 		506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506A3F071DD6C10C00A5656E /* AppDelegate.swift */; };
 		506A3F0A1DD6C10D00A5656E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F091DD6C10D00A5656E /* Assets.xcassets */; };
 		506A3F0D1DD6C10D00A5656E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F0B1DD6C10D00A5656E /* MainMenu.xib */; };
@@ -194,7 +193,6 @@
 				50E21BCF1DDC2C6F005151C7 /* CloudKitComms.swift in Sources */,
 				50E21BCC1DD8F2E3005151C7 /* FrameworkExtensions.swift in Sources */,
 				506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */,
-				505511C81DE0081F001F04F4 /* KeyObserver.swift in Sources */,
 				506A3F161DD6C2AE00A5656E /* URLListWindowController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
