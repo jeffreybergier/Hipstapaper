@@ -586,13 +586,34 @@
                                     <action selector="runToolbarCustomizationPalette:" target="-1" id="pQI-g3-MTW"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="hB3-LF-h0Y"/>
-                            <menuItem title="Show Sidebar" keyEquivalent="s" id="kIP-vf-haE">
-                                <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                            <menuItem isSeparatorItem="YES" id="JEB-OM-INa"/>
+                            <menuItem title="Back" keyEquivalent="[" id="dKJ-y3-tBk">
                                 <connections>
-                                    <action selector="toggleSourceList:" target="-1" id="iwa-gc-5KM"/>
+                                    <action selector="goBack:" target="-1" id="Qd6-Xi-B2p"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Forward" keyEquivalent="]" id="Qv0-SL-P8q">
+                                <connections>
+                                    <action selector="goForward:" target="-1" id="e1y-N6-agK"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Reload" keyEquivalent="r" id="kjd-Zs-04G">
+                                <connections>
+                                    <action selector="reload:" target="-1" id="MSt-Ge-qJD"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Stop" keyEquivalent="." id="3fV-em-swG">
+                                <connections>
+                                    <action selector="stopLoading:" target="-1" id="I13-dl-Lao"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="ENZ-ck-udf"/>
+                            <menuItem title="Enable Javascript" keyEquivalent="J" id="11X-SX-Bw8">
+                                <connections>
+                                    <action selector="javascriptMenuToggled:" target="-1" id="910-BU-scU"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="hB3-LF-h0Y"/>
                             <menuItem title="Enter Full Screen" keyEquivalent="f" id="4J7-dP-txa">
                                 <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                 <connections>

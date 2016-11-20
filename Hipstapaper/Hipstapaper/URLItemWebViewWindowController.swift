@@ -27,10 +27,18 @@ class URLItemWebViewWindowController: NSWindowController {
     
     // MARK: Control Outlets
     
+    private var javascriptEnabled: Bool = false {
+        didSet {
+            let newValueNumber = NSNumber(value: self.javascriptEnabled)
+            self.javascriptCheckbox?.state = newValueNumber.intValue
+            self.webView.configuration.preferences.javaScriptEnabled = self.javascriptEnabled
+            self.webView.reload()
+        }
+    }
+    
     @IBOutlet private weak var javascriptCheckbox: NSButton? {
         didSet {
-            let value = NSNumber(value: self.webView.configuration.preferences.javaScriptEnabled)
-            self.javascriptCheckbox?.state = value.intValue
+            self.javascriptEnabled = self.webView.configuration.preferences.javaScriptEnabled
         }
     }
     
@@ -87,7 +95,25 @@ class URLItemWebViewWindowController: NSWindowController {
     @IBAction private func javascriptCheckboxToggled(_ sender: NSObject?) {
         guard let sender = sender as? NSButton else { return }
         let newValue = NSNumber(value: sender.state).boolValue
-        self.webView.configuration.preferences.javaScriptEnabled = newValue
-        self.webView.reload()
+        self.javascriptEnabled = newValue
     }
+    
+    // MARK: Handle Menu Items
+    
+    @IBAction func javascriptMenuToggled(_ sender: NSObject?) {
+        guard let sender = sender as? NSMenuItem else { return }
+        print(sender.title)
+        print(sender.state)
+        let newValue = NSNumber(value: sender.state).boolValue
+        self.javascriptEnabled = !newValue
+    }
+    
+    override func validateMenuItem(_ sender: NSObject?) -> Bool {
+        guard let sender = sender as? NSMenuItem, sender.title == "Enable Javascript" else { fatalError() }
+        let value = NSNumber(value: self.webView.configuration.preferences.javaScriptEnabled)
+        sender.state = value.intValue
+        return true
+    }
+    
+    
 }

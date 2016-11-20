@@ -9,7 +9,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="URLItemWebViewWindowController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
                 <outlet property="bottomToolbarView" destination="f02-f1-Qbx" id="bZv-bl-GPV"/>
-                <outlet property="javascriptCheckbox" destination="84K-pi-zIe" id="tej-Xg-zZL"/>
+                <outlet property="javascriptCheckbox" destination="84K-pi-zIe" id="iUY-t0-Ato"/>
                 <outlet property="webViewParentView" destination="yJk-nd-Q33" id="QFp-9c-rce"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
             </connections>
@@ -35,8 +35,6 @@
                                 <buttonCell key="cell" type="check" title="Javascript" bezelStyle="regularSquare" imagePosition="left" inset="2" id="6rK-E8-TO1">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
-                                    <string key="keyEquivalent">j</string>
-                                    <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="javascriptCheckboxToggled:" target="-2" id="ohS-UZ-OTA"/>
