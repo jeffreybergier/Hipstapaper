@@ -11,6 +11,8 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
+    let realmStorer = URLRealmItemStorer()
+    
     // Create and register a value transformer for URLWebWindow title Bindings
     private let titleValueTransformer: WebViewTitleTransformer = {
         let transformer = WebViewTitleTransformer()
