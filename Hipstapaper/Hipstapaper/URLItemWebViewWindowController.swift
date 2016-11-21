@@ -23,7 +23,7 @@ class URLItemWebViewWindowController: NSWindowController {
     
     // MARK: Model Item
     
-    private(set) var item: URLBindingItem?
+    private(set) var item: URLItem.Value?
     
     // MARK: Control Outlets
     
@@ -75,7 +75,7 @@ class URLItemWebViewWindowController: NSWindowController {
     
     // MARK: Initialization
     
-    convenience init(urlItem: URLBindingItem) {
+    convenience init(urlItem: URLItem.Value) {
         self.init(windowNibName: "URLItemWebViewWindowController")
         self.item = urlItem
     }

@@ -9,7 +9,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="URLListWindowController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
                 <outlet property="tableView" destination="r7e-Gy-slL" id="Cv4-fm-ppK"/>
-                <outlet property="uiBindingObserver" destination="9Fl-6D-Gk0" id="xnU-SQ-hzV"/>
+                <outlet property="uiBindingManager" destination="9Fl-6D-Gk0" id="5X4-g5-7cI"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -18,7 +18,7 @@
         <window identifier="HipstapaperMainWindow" title="Hipstapaper" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" frameAutosaveName="HipstapaperMainWindow" animationBehavior="default" tabbingMode="disallowed" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" unifiedTitleAndToolbar="YES"/>
             <rect key="contentRect" x="196" y="240" width="760" height="300"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <value key="minSize" type="size" width="500" height="300"/>
             <view key="contentView" wantsLayer="YES" id="se5-gp-TjO">
                 <rect key="frame" x="0.0" y="0.0" width="760" height="300"/>
@@ -51,7 +51,7 @@
                                             <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="id"/>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <connections>
-                                                <binding destination="ktC-Ip-bwW" name="value" keyPath="arrangedObjects.id" id="hUN-cR-riU">
+                                                <binding destination="ktC-Ip-bwW" name="value" keyPath="arrangedObjects.realmID" id="7yz-A2-h3A">
                                                     <dictionary key="options">
                                                         <bool key="NSConditionallySetsEditable" value="YES"/>
                                                     </dictionary>
@@ -209,12 +209,12 @@
             </connections>
             <point key="canvasLocation" x="278.5" y="139"/>
         </window>
-        <customObject id="9Fl-6D-Gk0" customClass="URLListBindingObserver" customModule="Hipstapaper" customModuleProvider="target">
+        <customObject id="9Fl-6D-Gk0" customClass="UIBindingManager" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
                 <outlet property="arrayController" destination="ktC-Ip-bwW" id="2sX-vO-obA"/>
             </connections>
         </customObject>
-        <arrayController objectClassName="URLBindingItem" editable="NO" avoidsEmptySelection="NO" automaticallyRearrangesObjects="YES" id="ktC-Ip-bwW">
+        <arrayController objectClassName="URLItemBindingObject" editable="NO" avoidsEmptySelection="NO" automaticallyRearrangesObjects="YES" id="ktC-Ip-bwW">
             <connections>
                 <binding destination="9Fl-6D-Gk0" name="contentArray" keyPath="self.listItems" id="bze-Cf-Njm"/>
             </connections>
