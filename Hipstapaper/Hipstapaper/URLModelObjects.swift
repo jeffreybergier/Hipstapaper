@@ -10,6 +10,19 @@ import RealmSwift
 import CloudKit
 import Foundation
 
+protocol URLItemType {
+    var realmID: String { get set }
+    var cloudKitID: String? { get set }
+    var urlString: String { get set }
+    var archived: Bool { get set }
+    var tags: [TagItemType] { get set }
+    var modificationDate: Date { get set }
+}
+
+protocol TagItemType {
+    var name: String { get set }
+}
+
 enum URLItem {
 //    enum RealmObject {}
 //    enum CloudKitObject {}
@@ -22,16 +35,56 @@ enum TagItem {
 //    enum Value {}
 }
 
+extension TagItem {
+    @objc(TagItemRealmObject)
+    class RealmObject: Object {
+        
+        dynamic var name: String = "Unknown"
+        
+        convenience init(name: String) {
+            self.init()
+            self.name = name
+        }
+    }
+}
+
+extension TagItem {
+    struct Value: TagItemType {
+        var name: String
+    }
+}
+
+extension String: TagItemType {
+    var name: String {
+        get {
+            return self
+        }
+        set {
+            self = newValue
+        }
+    }
+}
+
 extension URLItem {
     
     @objc(URLItemRealmObject)
-    class RealmObject: Object {
+    class RealmObject: Object, URLItemType {
         
-        dynamic var id = UUID().uuidString
+        dynamic var realmID = UUID().uuidString
+        dynamic var cloudKitID: String?
         dynamic var urlString = "http://www.url.com"
         dynamic var archived = false
         dynamic var modificationDate = Date()
-        //var tags = List<TagItem.RealmObject>()
+        var tagList = List<TagItem.RealmObject>()
+        var tags: [TagItemType] {
+            get {
+                return Array(self.tagList.map({ TagItem.Value(name: $0.name) }))
+            }
+            set {
+                let newObjects = List(newValue.map({ TagItem.RealmObject(name: $0.name) }))
+                self.tagList = newObjects
+            }
+        }
         
         // for some reason this is not inherited from the parent object
         static var defaultPropertyValues: NSDictionary? {
@@ -39,7 +92,7 @@ extension URLItem {
         }
         
         override static func primaryKey() -> String {
-            return "id"
+            return "realmID"
         }
         
         convenience init(urlString: String) {
@@ -49,25 +102,10 @@ extension URLItem {
     }
 }
 
-//extension TagItem {
-//    
-//    @objc(TagItemRealmObject)
-//    class RealmObject: Object {
-//        
-//        dynamic var name: String = ""
-//        
-//        convenience init(name: String) {
-//            self.init()
-//            self.name = name
-//        }
-//    }
-//}
-
-
 extension URLItem {
     
     @objc(URLItemBindingObject)
-    class BindingObject: NSObject {
+    class BindingObject: NSObject, URLItemType {
         
         var realmID: String
         var cloudKitID: String?
@@ -89,9 +127,50 @@ extension URLItem {
         }
         
         var modificationDate: Date {
-            let realm = try! Realm()
-            let realmObject = realm.object(ofType: URLItem.RealmObject.self, forPrimaryKey: self.realmID)!
-            return realmObject.modificationDate
+            get {
+                let realm = try! Realm()
+                let realmObject = realm.object(ofType: URLItem.RealmObject.self, forPrimaryKey: self.realmID)!
+                return realmObject.modificationDate
+            }
+            set {
+                let realm = try! Realm()
+                let realmObject = realm.object(ofType: URLItem.RealmObject.self, forPrimaryKey: self.realmID)!
+                realm.beginWrite()
+                realmObject.modificationDate = newValue
+                try! realm.commitWrite()
+            }
+        }
+        
+        var archived: Bool {
+            get {
+                let realm = try! Realm()
+                let realmObject = realm.object(ofType: URLItem.RealmObject.self, forPrimaryKey: self.realmID)!
+                return realmObject.archived
+            }
+            set {
+                let realm = try! Realm()
+                let realmObject = realm.object(ofType: URLItem.RealmObject.self, forPrimaryKey: self.realmID)!
+                realm.beginWrite()
+                realmObject.archived = newValue
+                realmObject.modificationDate = Date()
+                try! realm.commitWrite()
+            }
+        }
+        
+        var tags: [TagItemType] {
+            get {
+                let realm = try! Realm()
+                let realmObject = realm.object(ofType: URLItem.RealmObject.self, forPrimaryKey: self.realmID)!
+                return realmObject.tags
+            }
+            set {
+                let realm = try! Realm()
+                let realmObject = realm.object(ofType: URLItem.RealmObject.self, forPrimaryKey: self.realmID)!
+                realm.beginWrite()
+                realmObject.tags = newValue
+                realmObject.modificationDate = Date()
+                try! realm.commitWrite()
+            }
         }
         
         override init() {
@@ -100,7 +179,7 @@ extension URLItem {
             realm.beginWrite()
             realm.add(realmObject)
             try! realm.commitWrite()
-            self.realmID = realmObject.id
+            self.realmID = realmObject.realmID
             super.init()
         }
 
@@ -112,10 +191,22 @@ extension URLItem {
 }
 
 extension URLItem {
-    struct Value {
+    struct Value: URLItemType {
         var realmID: String
+        var cloudKitID: String?
         var urlString: String
+        var archived: Bool
+        var tags: [TagItemType]
         var modificationDate: Date
+        
+        init(realmID: String, cloudKitID: String? = .none, urlString: String, archived: Bool = false, tags: [TagItemType] = [], modificationDate: Date) {
+            self.realmID = realmID
+            self.cloudKitID = cloudKitID
+            self.urlString = urlString
+            self.archived = archived
+            self.tags = tags
+            self.modificationDate = modificationDate
+        }
     }
 }
 

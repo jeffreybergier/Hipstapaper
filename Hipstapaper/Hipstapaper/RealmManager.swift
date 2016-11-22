@@ -15,15 +15,26 @@ class URLRealmItemStorer: NSObject {
     
     override init() {
         let realm = try! Realm()
-        let results = realm.objects(URLItem.RealmObject.self)
-        let ids = Set(results.map({ $0.id }))
-        self.realmItemIDs = ids
+        self.realmItemIDs = URLRealmItemStorer.allRealmObjectIDs(from: realm)
         super.init()
         self.notificationToken = realm.addNotificationBlock() { (_, realm) in
-            let results = realm.objects(URLItem.RealmObject.self)
-            let ids = Set(results.map({ $0.id }))
-            self.realmItemIDs = ids
+            let realm = try! Realm()
+            self.realmItemIDs = URLRealmItemStorer.allRealmObjectIDs(from: realm)
         }
+    }
+    
+    private class func allRealmObjects(from realm: Realm) -> Results<URLItem.RealmObject> {
+        return realm.objects(URLItem.RealmObject.self)
+    }
+    
+    private class func realmObjectIDs(from results: Results<URLItem.RealmObject>) -> Set<String> {
+        return Set(results.map({ $0.realmID }))
+    }
+    
+    private class func allRealmObjectIDs(from realm: Realm) -> Set<String> {
+        let results = self.allRealmObjects(from: realm)
+        let ids = self.realmObjectIDs(from: results)
+        return ids
     }
 }
 
