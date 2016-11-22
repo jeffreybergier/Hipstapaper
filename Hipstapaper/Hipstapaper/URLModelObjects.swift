@@ -71,7 +71,7 @@ extension URLItem {
     class RealmObject: Object, URLItemType {
         
         dynamic var realmID = UUID().uuidString
-        dynamic var cloudKitID: String?
+        dynamic var cloudKitID: String? = "NaN" // default value for now. NIL is not working 😫
         dynamic var urlString = "http://www.url.com"
         dynamic var archived = false
         dynamic var modificationDate = Date()
@@ -112,74 +112,50 @@ extension URLItem {
         
         var urlString: String {
             get {
-                let realm = try! Realm()
-                let realmObject = realm.object(ofType: URLItem.RealmObject.self, forPrimaryKey: self.realmID)!
-                return realmObject.urlString
+                return URLRealmItemStorer.realmObject(with: self.realmID).urlString
             }
             set {
-                let realm = try! Realm()
-                let realmObject = realm.object(ofType: URLItem.RealmObject.self, forPrimaryKey: self.realmID)!
-                realm.beginWrite()
-                realmObject.urlString = newValue
-                realmObject.modificationDate = Date()
-                try! realm.commitWrite()
+                URLRealmItemStorer.updateRealmObject(with: self.realmID) { object in
+                    object.urlString = newValue
+                }
             }
         }
         
         var modificationDate: Date {
             get {
-                let realm = try! Realm()
-                let realmObject = realm.object(ofType: URLItem.RealmObject.self, forPrimaryKey: self.realmID)!
-                return realmObject.modificationDate
+                return URLRealmItemStorer.realmObject(with: self.realmID).modificationDate
             }
             set {
-                let realm = try! Realm()
-                let realmObject = realm.object(ofType: URLItem.RealmObject.self, forPrimaryKey: self.realmID)!
-                realm.beginWrite()
-                realmObject.modificationDate = newValue
-                try! realm.commitWrite()
+                URLRealmItemStorer.updateRealmObject(with: self.realmID) { object in
+                    object.modificationDate = Date() // not actually needed because this is done by the class method
+                }
             }
         }
         
         var archived: Bool {
             get {
-                let realm = try! Realm()
-                let realmObject = realm.object(ofType: URLItem.RealmObject.self, forPrimaryKey: self.realmID)!
-                return realmObject.archived
+                return URLRealmItemStorer.realmObject(with: self.realmID).archived
             }
             set {
-                let realm = try! Realm()
-                let realmObject = realm.object(ofType: URLItem.RealmObject.self, forPrimaryKey: self.realmID)!
-                realm.beginWrite()
-                realmObject.archived = newValue
-                realmObject.modificationDate = Date()
-                try! realm.commitWrite()
+                URLRealmItemStorer.updateRealmObject(with: self.realmID) { object in
+                    object.archived = newValue
+                }
             }
         }
         
         var tags: [TagItemType] {
             get {
-                let realm = try! Realm()
-                let realmObject = realm.object(ofType: URLItem.RealmObject.self, forPrimaryKey: self.realmID)!
-                return realmObject.tags
+                return URLRealmItemStorer.realmObject(with: self.realmID).tags
             }
             set {
-                let realm = try! Realm()
-                let realmObject = realm.object(ofType: URLItem.RealmObject.self, forPrimaryKey: self.realmID)!
-                realm.beginWrite()
-                realmObject.tags = newValue
-                realmObject.modificationDate = Date()
-                try! realm.commitWrite()
+                URLRealmItemStorer.updateRealmObject(with: self.realmID) { object in
+                    object.tags = newValue
+                }
             }
         }
         
         override init() {
-            let realm = try! Realm()
-            let realmObject = URLItem.RealmObject()
-            realm.beginWrite()
-            realm.add(realmObject)
-            try! realm.commitWrite()
-            self.realmID = realmObject.realmID
+            self.realmID = URLRealmItemStorer.idForNewRealmObject()
             super.init()
         }
 

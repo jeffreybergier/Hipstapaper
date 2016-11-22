@@ -36,5 +36,32 @@ class URLRealmItemStorer: NSObject {
         let ids = self.realmObjectIDs(from: results)
         return ids
     }
+    
+    private class func realmAndRealmObject(with id: String) -> (object: URLItem.RealmObject, realm: Realm) {
+        let realm = try! Realm()
+        let realmObject = realm.object(ofType: URLItem.RealmObject.self, forPrimaryKey: id)!
+        return (realmObject, realm)
+    }
+    
+    class func realmObject(with id: String) -> URLItem.RealmObject {
+        return self.realmAndRealmObject(with: id).object
+    }
+    
+    class func updateRealmObject(with id: String, updates: (URLItem.RealmObject) -> Void) {
+        let (object, realm) = self.realmAndRealmObject(with: id)
+        realm.beginWrite()
+        updates(object)
+        object.modificationDate = Date()
+        try! realm.commitWrite()
+    }
+    
+    class func idForNewRealmObject() -> String {
+        let realm = try! Realm()
+        let realmObject = URLItem.RealmObject()
+        realm.beginWrite()
+        realm.add(realmObject)
+        try! realm.commitWrite()
+        return realmObject.realmID
+    }
 }
 
