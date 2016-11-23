@@ -27,7 +27,7 @@ class UIBindingManager: NSObject {
             // delete them from realm
             if let deleted = deleted {
                 let realm = try! Realm()
-                let items = deleted.map({ realm.object(ofType: URLItem.RealmObject.self, forPrimaryKey: $0.realmID)! })
+                let items = deleted.map({ realm.object(ofType: URLItemRealmObject.self, forPrimaryKey: $0.realmID)! })
                 realm.beginWrite()
                 items.forEach({ realm.delete($0) })
                 try! realm.commitWrite()

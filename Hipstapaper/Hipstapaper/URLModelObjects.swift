@@ -35,16 +35,14 @@ enum TagItem {
 //    enum Value {}
 }
 
-extension TagItem {
-    @objc(TagItemRealmObject)
-    class RealmObject: Object {
-        
-        dynamic var name: String = "Unknown"
-        
-        convenience init(name: String) {
-            self.init()
-            self.name = name
-        }
+//extension TagItem { }
+class TagItemRealmObject: Object {
+    
+    dynamic var name: String = "Unknown"
+    
+    convenience init(name: String) {
+        self.init()
+        self.name = name
     }
 }
 
@@ -65,40 +63,33 @@ extension String: TagItemType {
     }
 }
 
-extension URLItem {
+//extension URLItem {}
+
+class URLItemRealmObject: Object {
     
-    @objc(URLItemRealmObject)
-    class RealmObject: Object, URLItemType {
-        
-        dynamic var realmID = UUID().uuidString
-        dynamic var cloudKitID: String? = "NaN" // default value for now. NIL is not working 😫
-        dynamic var urlString = "http://www.url.com"
-        dynamic var archived = false
-        dynamic var modificationDate = Date()
-        var tagList = List<TagItem.RealmObject>()
-        var tags: [TagItemType] {
-            get {
-                return Array(self.tagList.map({ TagItem.Value(name: $0.name) }))
-            }
-            set {
-                let newObjects = List(newValue.map({ TagItem.RealmObject(name: $0.name) }))
-                self.tagList = newObjects
-            }
+    dynamic var realmID = UUID().uuidString
+    dynamic var cloudKitID: String? = nil
+    dynamic var urlString = "http://www.url.com"
+    dynamic var archived = false
+    dynamic var modificationDate = Date()
+    var tagList = List<TagItemRealmObject>()
+    var tags: [TagItemType] {
+        get {
+            return Array(self.tagList.map({ TagItem.Value(name: $0.name) }))
         }
-        
-        // for some reason this is not inherited from the parent object
-        static var defaultPropertyValues: NSDictionary? {
-            return .none
+        set {
+            let newObjects = List(newValue.map({ TagItemRealmObject(name: $0.name) }))
+            self.tagList = newObjects
         }
-        
-        override static func primaryKey() -> String {
-            return "realmID"
-        }
-        
-        convenience init(urlString: String) {
-            self.init()
-            self.urlString = urlString
-        }
+    }
+    
+    override static func primaryKey() -> String {
+        return "realmID"
+    }
+    
+    convenience init(urlString: String) {
+        self.init()
+        self.urlString = urlString
     }
 }
 

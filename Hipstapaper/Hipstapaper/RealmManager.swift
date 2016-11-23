@@ -23,11 +23,11 @@ class URLRealmItemStorer: NSObject {
         }
     }
     
-    private class func allRealmObjects(from realm: Realm) -> Results<URLItem.RealmObject> {
-        return realm.objects(URLItem.RealmObject.self)
+    private class func allRealmObjects(from realm: Realm) -> Results<URLItemRealmObject> {
+        return realm.objects(URLItemRealmObject.self)
     }
     
-    private class func realmObjectIDs(from results: Results<URLItem.RealmObject>) -> Set<String> {
+    private class func realmObjectIDs(from results: Results<URLItemRealmObject>) -> Set<String> {
         return Set(results.map({ $0.realmID }))
     }
     
@@ -37,17 +37,17 @@ class URLRealmItemStorer: NSObject {
         return ids
     }
     
-    private class func realmAndRealmObject(with id: String) -> (object: URLItem.RealmObject, realm: Realm) {
+    private class func realmAndRealmObject(with id: String) -> (object: URLItemRealmObject, realm: Realm) {
         let realm = try! Realm()
-        let realmObject = realm.object(ofType: URLItem.RealmObject.self, forPrimaryKey: id)!
+        let realmObject = realm.object(ofType: URLItemRealmObject.self, forPrimaryKey: id)!
         return (realmObject, realm)
     }
     
-    class func realmObject(with id: String) -> URLItem.RealmObject {
+    class func realmObject(with id: String) -> URLItemRealmObject {
         return self.realmAndRealmObject(with: id).object
     }
     
-    class func updateRealmObject(with id: String, updates: (URLItem.RealmObject) -> Void) {
+    class func updateRealmObject(with id: String, updates: (URLItemRealmObject) -> Void) {
         let (object, realm) = self.realmAndRealmObject(with: id)
         realm.beginWrite()
         updates(object)
@@ -57,7 +57,7 @@ class URLRealmItemStorer: NSObject {
     
     class func idForNewRealmObject() -> String {
         let realm = try! Realm()
-        let realmObject = URLItem.RealmObject()
+        let realmObject = URLItemRealmObject()
         realm.beginWrite()
         realm.add(realmObject)
         try! realm.commitWrite()
