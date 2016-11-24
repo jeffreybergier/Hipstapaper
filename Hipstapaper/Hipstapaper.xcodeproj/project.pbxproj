@@ -10,6 +10,8 @@
 		501D06B11DE380C1004BB84B /* URLModelObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501D06B01DE380C1004BB84B /* URLModelObjects.swift */; };
 		501D06B31DE383C5004BB84B /* UIBindingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501D06B21DE383C5004BB84B /* UIBindingManager.swift */; };
 		50598A1D1DE27D22001A3683 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50598A1C1DE27D22001A3683 /* RealmManager.swift */; };
+		505B30181DE6258F00B74AE6 /* CloudKitSyncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30171DE6258F00B74AE6 /* CloudKitSyncer.swift */; };
+		505B301A1DE635AB00B74AE6 /* CloudKitRealmComparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30191DE635AB00B74AE6 /* CloudKitRealmComparator.swift */; };
 		506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506A3F071DD6C10C00A5656E /* AppDelegate.swift */; };
 		506A3F0A1DD6C10D00A5656E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F091DD6C10D00A5656E /* Assets.xcassets */; };
 		506A3F0D1DD6C10D00A5656E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F0B1DD6C10D00A5656E /* MainMenu.xib */; };
@@ -32,6 +34,8 @@
 		50350EC61DDFEB4100FA2D57 /* WebViewUIDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewUIDelegate.swift; sourceTree = "<group>"; };
 		505511C71DE0081F001F04F4 /* KeyObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyObserver.swift; sourceTree = "<group>"; };
 		50598A1C1DE27D22001A3683 /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
+		505B30171DE6258F00B74AE6 /* CloudKitSyncer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitSyncer.swift; sourceTree = "<group>"; };
+		505B30191DE635AB00B74AE6 /* CloudKitRealmComparator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitRealmComparator.swift; sourceTree = "<group>"; };
 		506A3F041DD6C10C00A5656E /* Hipstapaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hipstapaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		506A3F071DD6C10C00A5656E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		506A3F091DD6C10D00A5656E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -86,6 +90,8 @@
 				50E21BCB1DD8F2E3005151C7 /* FrameworkExtensions.swift */,
 				501D06B01DE380C1004BB84B /* URLModelObjects.swift */,
 				50598A1C1DE27D22001A3683 /* RealmManager.swift */,
+				505B30171DE6258F00B74AE6 /* CloudKitSyncer.swift */,
+				505B30191DE635AB00B74AE6 /* CloudKitRealmComparator.swift */,
 				501D06B21DE383C5004BB84B /* UIBindingManager.swift */,
 				50E21BCE1DDC2C6F005151C7 /* CloudKitComms.swift */,
 				506A3F141DD6C2AE00A5656E /* URLListWindowController.swift */,
@@ -261,6 +267,8 @@
 				50598A1D1DE27D22001A3683 /* RealmManager.swift in Sources */,
 				501D06B11DE380C1004BB84B /* URLModelObjects.swift in Sources */,
 				501D06B31DE383C5004BB84B /* UIBindingManager.swift in Sources */,
+				505B301A1DE635AB00B74AE6 /* CloudKitRealmComparator.swift in Sources */,
+				505B30181DE6258F00B74AE6 /* CloudKitSyncer.swift in Sources */,
 				50E21BCF1DDC2C6F005151C7 /* CloudKitComms.swift in Sources */,
 				50E21BCC1DD8F2E3005151C7 /* FrameworkExtensions.swift in Sources */,
 				506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */,

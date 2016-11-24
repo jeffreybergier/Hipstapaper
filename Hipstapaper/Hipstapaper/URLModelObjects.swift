@@ -36,7 +36,7 @@ enum TagItem {
 }
 
 //extension TagItem { }
-class TagItemRealmObject: Object {
+class TagItemRealmObject: Object, TagItemType {
     
     dynamic var name: String = "Unknown"
     
@@ -103,10 +103,10 @@ extension URLItem {
         
         var urlString: String {
             get {
-                return URLRealmItemStorer.realmObject(with: self.realmID).urlString
+                return URLRealmItemStorer.realmObject(withID: self.realmID).urlString
             }
             set {
-                URLRealmItemStorer.updateRealmObject(with: self.realmID) { object in
+                URLRealmItemStorer.updateRealmObject(withID: self.realmID) { object in
                     object.urlString = newValue
                 }
             }
@@ -114,10 +114,10 @@ extension URLItem {
         
         var modificationDate: Date {
             get {
-                return URLRealmItemStorer.realmObject(with: self.realmID).modificationDate
+                return URLRealmItemStorer.realmObject(withID: self.realmID).modificationDate
             }
             set {
-                URLRealmItemStorer.updateRealmObject(with: self.realmID) { object in
+                URLRealmItemStorer.updateRealmObject(withID: self.realmID) { object in
                     object.modificationDate = Date() // not actually needed because this is done by the class method
                 }
             }
@@ -125,10 +125,10 @@ extension URLItem {
         
         var archived: Bool {
             get {
-                return URLRealmItemStorer.realmObject(with: self.realmID).archived
+                return URLRealmItemStorer.realmObject(withID: self.realmID).archived
             }
             set {
-                URLRealmItemStorer.updateRealmObject(with: self.realmID) { object in
+                URLRealmItemStorer.updateRealmObject(withID: self.realmID) { object in
                     object.archived = newValue
                 }
             }
@@ -136,10 +136,10 @@ extension URLItem {
         
         var tags: [TagItemType] {
             get {
-                return URLRealmItemStorer.realmObject(with: self.realmID).tags
+                return URLRealmItemStorer.realmObject(withID: self.realmID).tags
             }
             set {
-                URLRealmItemStorer.updateRealmObject(with: self.realmID) { object in
+                URLRealmItemStorer.updateRealmObject(withID: self.realmID) { object in
                     object.tags = newValue
                 }
             }
@@ -193,7 +193,7 @@ extension URLItem {
         
         let record: CKRecord
         
-        var id: String {
+        var cloudKitID: String {
             return self.record.recordID.recordName
         }
         
@@ -207,14 +207,51 @@ extension URLItem {
             }
         }
         
+        var archived: Bool {
+            get {
+                return (self.record["archived"] as? Bool) ?? false
+            }
+            set {
+                self.record["archived"] = newValue as CKRecordValue
+            }
+        }
+        
+        var tags: Set<String> {
+            get {
+                return Set((self.record["tags"] as? [String]) ?? [])
+            }
+            set {
+                self.record["tags"] = Array(newValue) as CKRecordValue
+            }
+        }
+        
         private let offlineModificationDate = Date()
+        private var autoModificationDate: Date {
+            get {
+                return (self.record.modificationDate ?? self.record.creationDate) ?? self.offlineModificationDate
+            }
+        }
         var modificationDate: Date {
-            return (self.record.modificationDate ?? self.record.creationDate) ?? self.offlineModificationDate
+            get {
+                return (self.record["manualDate"] as? Date) ?? self.autoModificationDate
+            }
+            set {
+                self.record["manualDate"] = newValue as CKRecordValue
+            }
         }
         
         init(record: CKRecord) {
             precondition(record.recordType == "URLItem", "Not a URLItem Record")
             self.record = record
+        }
+        
+        init(realmValue: URLItemType) {
+            let newRecord = CKRecord(recordType: "URLItem")
+            self.record = newRecord
+            self.urlString = realmValue.urlString
+            self.modificationDate = realmValue.modificationDate
+            self.tags = Set(realmValue.tags.map({ $0.name }))
+            self.archived = realmValue.archived
         }
     }
 }

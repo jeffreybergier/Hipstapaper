@@ -8,10 +8,6 @@
 
 import CloudKit
 
-enum Result<T> {
-    case success(T), error(Error)
-}
-
 typealias CloudKitReload = (Result<[CKRecord]>) -> Void
 typealias CloudKitUpdate = (Result<Void>) -> Void
 

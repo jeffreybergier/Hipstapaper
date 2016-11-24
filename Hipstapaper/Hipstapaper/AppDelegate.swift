@@ -38,6 +38,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         NotificationCenter.default.addObserver(self, selector: #selector(self.itemWindowWillClose(_:)), name: .NSWindowWillClose, object: .none)
         self.rootWindowController.showWindow(self)
+        self.realmStorer.sync()
     }
     
     // opens the main window if the dock icon is clicked and there are no windows open

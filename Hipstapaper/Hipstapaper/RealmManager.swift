@@ -23,6 +23,41 @@ class URLRealmItemStorer: NSObject {
         }
     }
     
+    func sync() {
+        let syncer = CloudKitSyncer()
+        syncer.allCloudKitURLItems() { result in
+            switch result {
+            case .error(let error):
+                NSLog("Error While Syncing from CloudKit: \(error)")
+            case .success(let cloudObjects):
+                let realm = try! Realm()
+                let realmObjects = type(of: self).allRealmObjects(from: realm)
+                let comparison = CloudKitRealmComparator(realm: realmObjects, cloud: cloudObjects)
+                let realmItemsToAddToCloud = comparison.addToCloud.map({ object -> URLItem.Value in
+                    let item = type(of: self).realmObject(withID: object)
+                    return URLItem.Value(realmID: item.realmID, cloudKitID: item.cloudKitID, urlString: item.urlString, archived: item.archived, tags: Array(item.tagList), modificationDate: item.modificationDate)
+                })
+                self.addNewItemsToCloudKit(items: realmItemsToAddToCloud)
+            }
+        }
+    }
+    
+    private func addNewItemsToCloudKit(items: [URLItemType]) {
+        let adder = CloudKitSyncer()
+        adder.saveNew(items: items) { dictionary in
+            for (realmID, cloudKitResult) in dictionary {
+                switch cloudKitResult {
+                case .success(let cloudKitID):
+                    type(of: self).updateRealmObject(withID: realmID) { object in
+                        object.cloudKitID = cloudKitID
+                    }
+                case .error(let error):
+                    NSLog("Error saving realmID: \(realmID) to CloudKit: \(error)")
+                }
+            }
+        }
+    }
+    
     private class func allRealmObjects(from realm: Realm) -> Results<URLItemRealmObject> {
         return realm.objects(URLItemRealmObject.self)
     }
@@ -43,11 +78,11 @@ class URLRealmItemStorer: NSObject {
         return (realmObject, realm)
     }
     
-    class func realmObject(with id: String) -> URLItemRealmObject {
+    class func realmObject(withID id: String) -> URLItemRealmObject {
         return self.realmAndRealmObject(with: id).object
     }
     
-    class func updateRealmObject(with id: String, updates: (URLItemRealmObject) -> Void) {
+    class func updateRealmObject(withID id: String, updates: (URLItemRealmObject) -> Void) {
         let (object, realm) = self.realmAndRealmObject(with: id)
         realm.beginWrite()
         updates(object)
