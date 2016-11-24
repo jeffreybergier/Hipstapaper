@@ -204,6 +204,7 @@ extension URLItem {
             set {
                 let correctedString = String(urlStringFromRawString: newValue)
                 self.record["urlString"] = correctedString as CKRecordValue
+                self.modificationDate = Date()
             }
         }
         
@@ -213,6 +214,7 @@ extension URLItem {
             }
             set {
                 self.record["archived"] = newValue as CKRecordValue
+                self.modificationDate = Date()
             }
         }
         
@@ -222,6 +224,7 @@ extension URLItem {
             }
             set {
                 self.record["tags"] = Array(newValue) as CKRecordValue
+                self.modificationDate = Date()
             }
         }
         

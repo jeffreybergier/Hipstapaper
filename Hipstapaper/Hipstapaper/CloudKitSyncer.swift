@@ -51,18 +51,17 @@ class CloudKitSyncer {
     
     private var realmToCloudIDsResultsToReturn: [String : Result<String>] = [:]
     
-    func saveNew(items: [URLItemType], completionHandler: @escaping ([String : Result<String>]) -> Void) {
+    func save(records: [(String, CKRecord)], completionHandler: @escaping ([String : Result<String>]) -> Void) {
         guard self.operationsInProgress == 0 else { completionHandler([:]); return; }
         
-        self.operationsInProgress = items.count
-        for item in items {
-            let cloudKitObject = URLItem.CloudKitObject(realmValue: item)
-            self.privateDB.save(cloudKitObject.record) { (newRecord, error) in
+        self.operationsInProgress = records.count
+        for (realmID, record) in records {
+            self.privateDB.save(record) { (updatedRecord, error) in
                 self.operationsInProgress -= 1
-                if let newRecord = newRecord {
-                    self.realmToCloudIDsResultsToReturn[item.realmID] = .success(newRecord.recordID.recordName)
+                if let updatedRecord = updatedRecord {
+                    self.realmToCloudIDsResultsToReturn[realmID] = .success(updatedRecord.recordID.recordName)
                 } else {
-                    self.realmToCloudIDsResultsToReturn[item.realmID] = .error(error!)
+                    self.realmToCloudIDsResultsToReturn[realmID] = .error(error!)
                 }
                 if self.operationsInProgress == 0 {
                     completionHandler(self.realmToCloudIDsResultsToReturn)

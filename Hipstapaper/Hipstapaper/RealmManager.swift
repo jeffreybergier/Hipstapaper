@@ -33,24 +33,60 @@ class URLRealmItemStorer: NSObject {
                 let realm = try! Realm()
                 let realmObjects = type(of: self).allRealmObjects(from: realm)
                 let comparison = CloudKitRealmComparator(realm: realmObjects, cloud: cloudObjects)
-                let realmItemsToAddToCloud = comparison.addToCloud.map({ object -> URLItem.Value in
-                    let item = type(of: self).realmObject(withID: object)
+                
+                let realmItemsToAddToCloud = comparison.addToCloud?.map() { realmID -> URLItem.Value in
+                    let item = type(of: self).realmObject(withID: realmID)
                     return URLItem.Value(realmID: item.realmID, cloudKitID: item.cloudKitID, urlString: item.urlString, archived: item.archived, tags: Array(item.tagList), modificationDate: item.modificationDate)
-                })
-                self.addNewItemsToCloudKit(items: realmItemsToAddToCloud)
+                }
+                if let realmItemsToAddToCloud = realmItemsToAddToCloud {
+                    NSLog("Syncing: New Realm Items to Create in CloudKit: \(realmItemsToAddToCloud.count)")
+                    self.addNewItemsToCloudKit(items: realmItemsToAddToCloud)
+                }
+                
+                let realmItemsToUpdateInCloud = comparison.updateInCloud?.map() { (realmID, cloudKitObject) -> (URLItem.Value, URLItem.CloudKitObject) in
+                    let item = type(of: self).realmObject(withID: realmID)
+                    let value = URLItem.Value(realmID: item.realmID, cloudKitID: item.cloudKitID, urlString: item.urlString, archived: item.archived, tags: Array(item.tagList), modificationDate: item.modificationDate)
+                    return (value, cloudKitObject)
+                }
+                
+                if let realmItemsToUpdateInCloud = realmItemsToUpdateInCloud {
+                    NSLog("Syncing: Items Changed Locally to Upload: \(realmItemsToUpdateInCloud.count)")
+                    self.updateItemsInCloudKit(items: realmItemsToUpdateInCloud)
+                }
             }
         }
     }
     
     private func addNewItemsToCloudKit(items: [URLItemType]) {
         let adder = CloudKitSyncer()
-        adder.saveNew(items: items) { dictionary in
+        let newRecords = items.map({ ($0.realmID, URLItem.CloudKitObject(realmValue: $0).record) })
+        adder.save(records: newRecords) { dictionary in
             for (realmID, cloudKitResult) in dictionary {
                 switch cloudKitResult {
                 case .success(let cloudKitID):
                     type(of: self).updateRealmObject(withID: realmID) { object in
                         object.cloudKitID = cloudKitID
                     }
+                case .error(let error):
+                    NSLog("Error saving realmID: \(realmID) to CloudKit: \(error)")
+                }
+            }
+        }
+    }
+    
+    private func updateItemsInCloudKit(items: [(URLItem.Value, URLItem.CloudKitObject)]) {
+        for (realm, cloud) in items {
+            cloud.archived = realm.archived
+            cloud.urlString = realm.urlString
+            cloud.tags = Set(realm.tags.map({ $0.name }))
+        }
+        let records = items.map({ ($0.0.realmID, $0.1.record) })
+        let updater = CloudKitSyncer()
+        updater.save(records: records) { dictionary in
+            for (realmID, cloudKitResult) in dictionary {
+                switch cloudKitResult {
+                case .success:
+                    break
                 case .error(let error):
                     NSLog("Error saving realmID: \(realmID) to CloudKit: \(error)")
                 }
