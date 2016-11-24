@@ -53,6 +53,11 @@ class URLRealmItemStorer: NSObject {
                     NSLog("Syncing: Items Changed Locally to Upload: \(realmItemsToUpdateInCloud.count)")
                     self.updateItemsInCloudKit(items: realmItemsToUpdateInCloud)
                 }
+                
+                if let cloudItemsToUpdateInRealm = comparison.addOrUpdateInRealm {
+                    NSLog("Syncing: Items Changed in Cloud to Sync Locally: \(cloudItemsToUpdateInRealm.count)")
+                    self.updateItemsInRealm(items: cloudItemsToUpdateInRealm)
+                }
             }
         }
     }
@@ -94,6 +99,28 @@ class URLRealmItemStorer: NSObject {
         }
     }
     
+    private func updateItemsInRealm(items: [(realmID: String?, cloudKitObject: URLItem.CloudKitObject)]) {
+        let realm = try! Realm()
+        realm.beginWrite()
+        for (realmID, cloudKitObject) in items {
+            let realmObject: URLItemRealmObject
+            if let realmID = realmID {
+                realmObject = type(of: self).realmObject(withID: realmID, from: realm)
+            } else {
+                realmObject = URLItemRealmObject()
+                realm.add(realmObject)
+            }
+            realmObject.cloudKitID = cloudKitObject.cloudKitID
+            realmObject.urlString = cloudKitObject.urlString
+            realmObject.archived = cloudKitObject.archived
+            let newOrExistingTags = cloudKitObject.tags.map() { tagName -> TagItemRealmObject in
+                return realm.object(ofType: TagItemRealmObject.self, forPrimaryKey: tagName) ?? TagItemRealmObject(name: tagName)
+            }
+            realmObject.tagList = List<TagItemRealmObject>(newOrExistingTags)
+        }
+        try! realm.commitWrite()
+    }
+    
     private class func allRealmObjects(from realm: Realm) -> Results<URLItemRealmObject> {
         return realm.objects(URLItemRealmObject.self)
     }
@@ -108,18 +135,30 @@ class URLRealmItemStorer: NSObject {
         return ids
     }
     
-    private class func realmAndRealmObject(with id: String) -> (object: URLItemRealmObject, realm: Realm) {
+    private class func realmAndRealmObject(withID id: String) -> (object: URLItemRealmObject, realm: Realm) {
         let realm = try! Realm()
-        let realmObject = realm.object(ofType: URLItemRealmObject.self, forPrimaryKey: id)!
+        let realmObject = self.realmObject(withID: id, from: realm)
         return (realmObject, realm)
     }
     
+    private class func realmObject(withID id: String, from realm: Realm) -> URLItemRealmObject {
+        return realm.object(ofType: URLItemRealmObject.self, forPrimaryKey: id)!
+    }
+    
     class func realmObject(withID id: String) -> URLItemRealmObject {
-        return self.realmAndRealmObject(with: id).object
+        return self.realmAndRealmObject(withID: id).object
+    }
+    
+    class func updateRealmObjects(withIDs ids: [String], updates: ([URLItemRealmObject]) -> Void) {
+        let realm = try! Realm()
+        realm.beginWrite()
+        let objects = ids.map({ self.realmObject(withID: $0, from: realm) })
+        updates(objects)
+        try! realm.commitWrite()
     }
     
     class func updateRealmObject(withID id: String, updates: (URLItemRealmObject) -> Void) {
-        let (object, realm) = self.realmAndRealmObject(with: id)
+        let (object, realm) = self.realmAndRealmObject(withID: id)
         realm.beginWrite()
         updates(object)
         object.modificationDate = Date()

@@ -44,6 +44,10 @@ class TagItemRealmObject: Object, TagItemType {
         self.init()
         self.name = name
     }
+    
+    override static func primaryKey() -> String {
+        return "name"
+    }
 }
 
 extension TagItem {

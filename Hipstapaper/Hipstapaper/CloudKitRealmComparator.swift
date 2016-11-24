@@ -13,15 +13,13 @@ typealias CloudKitID = String
 
 struct CloudKitRealmComparator {
     var addToCloud: [String]?
-    var addToRealm: [URLItem.CloudKitObject]?
     var updateInCloud: [(realmID: String, cloudKitObject: URLItem.CloudKitObject)]?
-    var updateInRealm: [(realmID: String, cloudKitObject: URLItem.CloudKitObject)]?
+    var addOrUpdateInRealm: [(realmID: String?, cloudKitObject: URLItem.CloudKitObject)]?
     
     init(realm: Results<URLItemRealmObject>, cloud: [URLItem.CloudKitObject]) {
         var addToCloud: [String] = []
-        var addToRealm: [URLItem.CloudKitObject] = []
         var updateInCloud: [(realmID: String, cloudKitObject: URLItem.CloudKitObject)] = []
-        var updateInRealm: [(realmID: String, cloudKitObject: URLItem.CloudKitObject)] = []
+        var addOrUpdateInRealm: [(realmID: String?, cloudKitObject: URLItem.CloudKitObject)] = []
         
         for realmObject in realm {
             for cloudObject in cloud {
@@ -33,7 +31,7 @@ struct CloudKitRealmComparator {
                         if realmModificationDate > cloudModificationDate {
                             updateInCloud.append((realmObject.realmID, cloudObject))
                         } else {
-                            updateInRealm.append((realmObject.realmID, cloudObject))
+                            addOrUpdateInRealm.append((realmObject.realmID, cloudObject))
                         }
                     }
                 }
@@ -51,16 +49,15 @@ struct CloudKitRealmComparator {
                 }
             }
             if matchingRealmObjects == 0 {
-                addToRealm += [cloudObject]
+                addOrUpdateInRealm.append((.none, cloudKitObject: cloudObject))
             }
         }
         
         
         
         self.addToCloud = addToCloud.isEmpty == false ? addToCloud : .none
-        self.addToRealm = addToRealm.isEmpty == false ? addToRealm : .none
         self.updateInCloud = updateInCloud.isEmpty == false ? updateInCloud : .none
-        self.updateInRealm = updateInRealm.isEmpty == false ? updateInRealm : .none
+        self.addOrUpdateInRealm = addOrUpdateInRealm.isEmpty == false ? addOrUpdateInRealm : .none
     }
     
     private static func match(lhs: URLItemRealmObject, rhs: URLItem.CloudKitObject) -> Bool {
