@@ -64,7 +64,7 @@ class URLRealmItemStorer: NSObject {
     
     private func addNewItemsToCloudKit(items: [URLItemType]) {
         let adder = CloudKitSyncer()
-        let newRecords = items.map({ ($0.realmID, URLItem.CloudKitObject(realmValue: $0).record) })
+        let newRecords = items.map({ ($0.realmID, URLItem.CloudKitObject(urlItem: $0).record) })
         adder.save(records: newRecords) { dictionary in
             for (realmID, cloudKitResult) in dictionary {
                 switch cloudKitResult {
