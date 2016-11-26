@@ -10,7 +10,6 @@
 		50598A1D1DE27D22001A3683 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50598A1C1DE27D22001A3683 /* RealmManager.swift */; };
 		505B30181DE6258F00B74AE6 /* CloudKitSyncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30171DE6258F00B74AE6 /* CloudKitSyncer.swift */; };
 		505B301A1DE635AB00B74AE6 /* CloudKitRealmComparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30191DE635AB00B74AE6 /* CloudKitRealmComparator.swift */; };
-		505B30231DE8BF8600B74AE6 /* URLItemBindingObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30221DE8BF8600B74AE6 /* URLItemBindingObject.swift */; };
 		505B302E1DE8C0A000B74AE6 /* TagItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30291DE8C0A000B74AE6 /* TagItem.swift */; };
 		505B302F1DE8C0A000B74AE6 /* TagItemRealmObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B302A1DE8C0A000B74AE6 /* TagItemRealmObject.swift */; };
 		505B30301DE8C0A000B74AE6 /* URLItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B302B1DE8C0A000B74AE6 /* URLItem.swift */; };
@@ -43,7 +42,6 @@
 		50598A1C1DE27D22001A3683 /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		505B30171DE6258F00B74AE6 /* CloudKitSyncer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitSyncer.swift; sourceTree = "<group>"; };
 		505B30191DE635AB00B74AE6 /* CloudKitRealmComparator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitRealmComparator.swift; sourceTree = "<group>"; };
-		505B30221DE8BF8600B74AE6 /* URLItemBindingObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemBindingObject.swift; sourceTree = "<group>"; };
 		505B30291DE8C0A000B74AE6 /* TagItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagItem.swift; sourceTree = "<group>"; };
 		505B302A1DE8C0A000B74AE6 /* TagItemRealmObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagItemRealmObject.swift; sourceTree = "<group>"; };
 		505B302B1DE8C0A000B74AE6 /* URLItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItem.swift; sourceTree = "<group>"; };
@@ -136,7 +134,6 @@
 				505B301B1DE8BC5500B74AE6 /* HipstaPersistence */,
 				506A3F071DD6C10C00A5656E /* AppDelegate.swift */,
 				50E21BCB1DD8F2E3005151C7 /* FrameworkExtensions.swift */,
-				505B30221DE8BF8600B74AE6 /* URLItemBindingObject.swift */,
 				50598A1C1DE27D22001A3683 /* RealmManager.swift */,
 				505B30171DE6258F00B74AE6 /* CloudKitSyncer.swift */,
 				505B30191DE635AB00B74AE6 /* CloudKitRealmComparator.swift */,
@@ -316,7 +313,6 @@
 				505B302F1DE8C0A000B74AE6 /* TagItemRealmObject.swift in Sources */,
 				505B301A1DE635AB00B74AE6 /* CloudKitRealmComparator.swift in Sources */,
 				505B30181DE6258F00B74AE6 /* CloudKitSyncer.swift in Sources */,
-				505B30231DE8BF8600B74AE6 /* URLItemBindingObject.swift in Sources */,
 				505B303C1DEA095000B74AE6 /* UIBindingManager.swift in Sources */,
 				50E21BCF1DDC2C6F005151C7 /* CloudKitComms.swift in Sources */,
 				505B30301DE8C0A000B74AE6 /* URLItem.swift in Sources */,

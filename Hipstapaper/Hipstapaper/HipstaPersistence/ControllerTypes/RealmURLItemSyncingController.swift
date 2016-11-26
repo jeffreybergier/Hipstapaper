@@ -10,21 +10,24 @@ import RealmSwift
 
 class RealmURLItemSyncingController: SyncingPersistenceType {
     
-    var ids: Set<String>
+    var ids: Set<String> = []
     var isSyncing = false
-    
-    init() {
+
+    func sync(completionHandler: SyncingPersistenceType.UUIDResults) {
         let realm = try! Realm()
         let ids = RealmURLItemSyncingController.allRealmObjectIDs(from: realm)
         self.ids = ids
-    }
-
-    func sync(completionHandler: (([Result<String>]) -> Void)?) {
-        
+        completionHandler?([])
     }
     
-    func create(item: URLItemType, completionHandler: SyncingPersistenceType.UUIDResult) {
-        
+    func createItem() -> URLItemType {
+        let newObject = URLItemRealmObject()
+        let realm = try! Realm()
+        realm.beginWrite()
+        realm.add(newObject)
+        try! realm.commitWrite()
+        let value = URLItem.Value(realmObject: newObject)
+        return value
     }
     
     func read(itemWithID id: String) -> URLItemType {
@@ -34,16 +37,24 @@ class RealmURLItemSyncingController: SyncingPersistenceType {
         return value
     }
     
-    func read(itemWithID id: String, completionHandler: SyncingPersistenceType.ItemResult) {
-        
+    func update(item: URLItemType) {
+        let realm = try! Realm()
+        let realmObject = type(of: self).realmObject(withID: item.realmID, from: realm)
+        realm.beginWrite()
+        realmObject.cloudKitID = item.cloudKitID
+        realmObject.urlString = item.urlString
+        realmObject.archived = item.archived
+        //realmObject.tags = item.tags
+        realmObject.modificationDate = item.modificationDate
+        try! realm.commitWrite()
     }
     
-    func update(item: URLItemType, completionHandler: SyncingPersistenceType.UUIDResult) {
-        
-    }
-    
-    func delete(item: URLItemType, completionHandler: SyncingPersistenceType.SuccessResult) {
-        
+    func delete(item: URLItemType) {
+        let realm = try! Realm()
+        let realmObject = type(of: self).realmObject(withID: item.realmID, from: realm)
+        realm.beginWrite()
+        realm.delete(realmObject)
+        try! realm.commitWrite()
     }
 
     
