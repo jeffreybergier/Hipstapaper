@@ -63,6 +63,11 @@ extension URLItem {
             }
         }
         
+        init() {
+            let newRecord = CKRecord(recordType: "URLItem")
+            self.record = newRecord
+        }
+        
         init(record: CKRecord) {
             precondition(record.recordType == "URLItem", "Not a URLItem Record")
             self.record = record
@@ -89,5 +94,16 @@ extension URLItem.Value {
             tags: Array(cloudKitObject.tags),
             modificationDate: cloudKitObject.modificationDate
         )
+    }
+}
+
+extension URLItem.CloudKitObject: Equatable {}
+func ==(lhs: URLItem.CloudKitObject, rhs: URLItem.CloudKitObject) -> Bool {
+    return lhs.cloudKitID == rhs.cloudKitID
+}
+
+extension URLItem.CloudKitObject: Hashable {
+    var hashValue: Int {
+        return self.cloudKitID.hashValue
     }
 }

@@ -11,9 +11,7 @@ import AppKit
 
 class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
     
-    private var dataSource: SyncingPersistenceType {
-        return (NSApplication.shared().delegate as! AppDelegate).dataSource
-    }
+    private weak var dataSource: SyncingPersistenceType! = (NSApplication.shared().delegate as! AppDelegate).dataSource
     
     // access to the array controller so we can poke at it occasionally
     @IBOutlet private weak var arrayController: NSArrayController? {

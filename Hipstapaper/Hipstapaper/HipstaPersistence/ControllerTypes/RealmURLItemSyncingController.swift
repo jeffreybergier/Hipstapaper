@@ -8,10 +8,10 @@
 
 import RealmSwift
 
-class RealmURLItemSyncingController: SyncingPersistenceType {
+class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObject for KVO compliance
     
-    var ids: Set<String> = []
-    var isSyncing = false
+    private(set) var ids: Set<String> = []
+    private(set) var isSyncing = false
 
     func sync(completionHandler: SyncingPersistenceType.SuccessResult) {
         let realm = try! Realm()

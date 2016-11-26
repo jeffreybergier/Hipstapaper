@@ -131,6 +131,15 @@
             </view>
             <toolbar key="toolbar" implicitIdentifier="E5ACF944-6915-499D-9336-E1F356DC60D3" displayMode="iconAndLabel" sizeMode="regular" id="piK-WP-f34">
                 <allowedToolbarItems>
+                    <toolbarItem implicitItemIdentifier="93F63EE0-B2AE-4C25-A38B-FEF1C45DE97D" label="" paletteLabel="Syncing Indicator" tag="-1" id="Wss-u7-jY7">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="16" height="16"/>
+                        <size key="maxSize" width="16" height="16"/>
+                        <progressIndicator key="view" wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" id="PTX-C1-Md2">
+                            <rect key="frame" x="42" y="14" width="16" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        </progressIndicator>
+                    </toolbarItem>
                     <toolbarItem implicitItemIdentifier="D5B80BD4-9AB4-4C31-AFA1-2585CF0D28F3" label="" paletteLabel="Add" image="NSAddTemplate" id="0eC-uP-8xV">
                         <nil key="toolTip"/>
                         <size key="minSize" width="35" height="28"/>
@@ -200,6 +209,7 @@
                     <toolbarItem reference="0eC-uP-8xV"/>
                     <toolbarItem reference="cXu-eN-eTd"/>
                     <toolbarItem reference="FYa-3J-lbv"/>
+                    <toolbarItem reference="Wss-u7-jY7"/>
                     <toolbarItem reference="CGM-9L-ZBk"/>
                     <toolbarItem reference="ahr-nU-30g"/>
                 </defaultToolbarItems>

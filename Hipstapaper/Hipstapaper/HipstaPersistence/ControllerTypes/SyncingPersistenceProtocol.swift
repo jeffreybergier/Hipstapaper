@@ -6,7 +6,7 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
-protocol SyncingPersistenceType {
+protocol SyncingPersistenceType: class {
     
     var ids: Set<String> { get }
     
