@@ -11,7 +11,7 @@ protocol SyncingPersistenceType {
     var ids: Set<String> { get }
     
     var isSyncing: Bool { get }
-    func sync(completionHandler: UUIDResults)
+    func sync(completionHandler: SuccessResult)
     func createItem() -> URLItemType
     func read(itemWithID id: String) -> URLItemType
     func update(item: URLItemType)

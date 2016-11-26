@@ -13,11 +13,11 @@ class RealmURLItemSyncingController: SyncingPersistenceType {
     var ids: Set<String> = []
     var isSyncing = false
 
-    func sync(completionHandler: SyncingPersistenceType.UUIDResults) {
+    func sync(completionHandler: SyncingPersistenceType.SuccessResult) {
         let realm = try! Realm()
         let ids = RealmURLItemSyncingController.allRealmObjectIDs(from: realm)
         self.ids = ids
-        completionHandler?([])
+        completionHandler?(.success())
     }
     
     func createItem() -> URLItemType {

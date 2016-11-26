@@ -78,3 +78,16 @@ extension URLItem {
         }
     }
 }
+
+extension URLItem.Value {
+    init(cloudKitObject: URLItem.CloudKitObject) {
+        self.init(
+            realmID: UUID().uuidString, // fix this
+            cloudKitID: cloudKitObject.cloudKitID,
+            urlString: cloudKitObject.urlString,
+            archived: cloudKitObject.archived,
+            tags: Array(cloudKitObject.tags),
+            modificationDate: cloudKitObject.modificationDate
+        )
+    }
+}

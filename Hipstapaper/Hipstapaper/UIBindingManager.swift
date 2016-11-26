@@ -57,14 +57,16 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
     
     func reloadData() {
         self.dataSource.sync() { results in
-            let ids = self.dataSource.ids
-            let bindingObjects = ids.map() { id -> URLItem.BindingObject in
-                let urlValue = self.dataSource.read(itemWithID: id)
-                let bindingObject = URLItem.BindingObject(value: urlValue)
-                return bindingObject
+            DispatchQueue.main.async {
+                let ids = self.dataSource.ids
+                let bindingObjects = ids.map() { id -> URLItem.BindingObject in
+                    let urlValue = self.dataSource.read(itemWithID: id)
+                    let bindingObject = URLItem.BindingObject(value: urlValue)
+                    return bindingObject
+                }
+                self._listItems = bindingObjects
+                self.arrayController?.content = self.listItems
             }
-            self._listItems = bindingObjects
-            self.arrayController?.content = self.listItems
         }
     }
     
