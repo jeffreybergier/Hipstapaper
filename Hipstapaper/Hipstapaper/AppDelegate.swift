@@ -11,7 +11,7 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
-    let realmStorer = URLRealmItemStorer()
+    let dataSource: SyncingPersistenceType = RealmURLItemSyncingController()
     
     // Create and register a value transformer for URLWebWindow title Bindings
     private let titleValueTransformer: WebViewTitleTransformer = {
@@ -38,7 +38,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         NotificationCenter.default.addObserver(self, selector: #selector(self.itemWindowWillClose(_:)), name: .NSWindowWillClose, object: .none)
         self.rootWindowController.showWindow(self)
-        self.realmStorer.sync()
     }
     
     // opens the main window if the dock icon is clicked and there are no windows open

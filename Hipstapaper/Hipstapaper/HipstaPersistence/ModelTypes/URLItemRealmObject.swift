@@ -9,12 +9,15 @@
 import RealmSwift
 
 class URLItemRealmObject: Object {
+    
     dynamic var realmID = UUID().uuidString
     dynamic var cloudKitID: String? = nil
     dynamic var urlString = "http://www.url.com"
     dynamic var archived = false
     dynamic var modificationDate = Date()
+    
     var tagList = List<TagItemRealmObject>()
+    
     var tags: [TagItemType] {
         get {
             return Array(self.tagList.map({ TagItem.Value(name: $0.name) }))
@@ -32,6 +35,19 @@ class URLItemRealmObject: Object {
     convenience init(urlString: String) {
         self.init()
         self.urlString = urlString
+    }
+}
+
+extension URLItem.Value {
+    init(realmObject: URLItemRealmObject) {
+        self.init(
+            realmID: realmObject.realmID,
+            cloudKitID: realmObject.cloudKitID,
+            urlString: realmObject.urlString,
+            archived: realmObject.archived,
+            tags: realmObject.tags,
+            modificationDate: realmObject.modificationDate
+        )
     }
 }
 

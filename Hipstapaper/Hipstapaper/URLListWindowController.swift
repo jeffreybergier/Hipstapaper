@@ -66,8 +66,9 @@ class URLListWindowController: NSWindowController {
     
     // MARK: Open Windows based on User Input
     
-    private func openItemWindows(for selectedItems: [URLItem.Value]) {
+    private func openItemWindows(for selectedItems: [URLItemType]) {
         for item in selectedItems {
+            let item = item as! URLItem.Value
             self.existingOrNewItemWindowController(for: item).showWindow(self)
         }
     }

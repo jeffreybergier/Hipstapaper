@@ -18,7 +18,7 @@
         <window identifier="HipstapaperMainWindow" title="Hipstapaper" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" frameAutosaveName="HipstapaperMainWindow" animationBehavior="default" tabbingMode="disallowed" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" unifiedTitleAndToolbar="YES"/>
             <rect key="contentRect" x="196" y="240" width="760" height="300"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
             <value key="minSize" type="size" width="500" height="300"/>
             <view key="contentView" wantsLayer="YES" id="se5-gp-TjO">
                 <rect key="frame" x="0.0" y="0.0" width="760" height="300"/>
@@ -100,9 +100,9 @@
                                     </tableColumns>
                                     <connections>
                                         <action trigger="doubleAction" selector="tableViewDoubleClicked:" target="-2" id="V4J-hH-Wss"/>
-                                        <binding destination="ktC-Ip-bwW" name="content" keyPath="arrangedObjects" id="k0b-J4-3Xm"/>
-                                        <binding destination="ktC-Ip-bwW" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="k0b-J4-3Xm" id="kUc-bf-ugE"/>
-                                        <binding destination="ktC-Ip-bwW" name="sortDescriptors" keyPath="sortDescriptors" previousBinding="kUc-bf-ugE" id="rOE-BT-I3N"/>
+                                        <binding destination="ktC-Ip-bwW" name="content" keyPath="arrangedObjects" id="OZM-mn-XbO"/>
+                                        <binding destination="ktC-Ip-bwW" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="OZM-mn-XbO" id="C7C-DC-rwC"/>
+                                        <binding destination="ktC-Ip-bwW" name="sortDescriptors" keyPath="sortDescriptors" previousBinding="C7C-DC-rwC" id="D9U-AQ-Pxx"/>
                                     </connections>
                                 </tableView>
                             </subviews>
@@ -216,7 +216,7 @@
         </customObject>
         <arrayController objectClassName="URLItemBindingObject" editable="NO" avoidsEmptySelection="NO" automaticallyRearrangesObjects="YES" id="ktC-Ip-bwW">
             <connections>
-                <binding destination="9Fl-6D-Gk0" name="contentArray" keyPath="self.listItems" id="bze-Cf-Njm"/>
+                <binding destination="9Fl-6D-Gk0" name="contentArray" keyPath="self.listItems" id="reP-15-Bma"/>
             </connections>
         </arrayController>
     </objects>

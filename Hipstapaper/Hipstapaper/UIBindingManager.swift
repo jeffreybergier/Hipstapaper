@@ -11,32 +11,11 @@ import AppKit
 
 class UIBindingManager: NSObject {
     
-    private var _listItems: [URLItem.BindingObject] = []
-    
-    var listItems: [URLItem.BindingObject] {
-        get {
-            return self._listItems
-        }
-        set {
-            // grab the old value. Its easier to understand when using this variable name
-            let oldValue = self._listItems
-            
-            // find the deleted and added items
-            let deleted = newValue.deletedItems(from: oldValue)
-            
-            // delete them from realm
-            if let deleted = deleted {
-                let realm = try! Realm()
-                let items = deleted.map({ realm.object(ofType: URLItemRealmObject.self, forPrimaryKey: $0.realmID)! })
-                realm.beginWrite()
-                items.forEach({ realm.delete($0) })
-                try! realm.commitWrite()
-            }
-            
-            // set the IVAR
-            self._listItems = newValue
-        }
+    private var dataSource: SyncingPersistenceType {
+        return (NSApplication.shared().delegate as! AppDelegate).dataSource
     }
+    
+    @objc private var listItems: [URLItem.BindingObject] = []
     
     // access to the array controller so we can poke at it occasionally
     @IBOutlet private weak var arrayController: NSArrayController? {
@@ -47,7 +26,7 @@ class UIBindingManager: NSObject {
     }
     
     // Grab the selected items from the array controller
-    var selectedItems: [URLItem.Value]? {
+    var selectedItems: [URLItemType]? {
         let selectedItems = self.arrayController?.selectedObjects?.filter({ $0 is URLItem.BindingObject }).map({ $0 as! URLItem.BindingObject }) ?? []
         let mappedItems = selectedItems.map({ URLItem.Value(realmID: $0.realmID, urlString: $0.urlString, modificationDate: $0.modificationDate) })
         if mappedItems.isEmpty == false { return mappedItems } else { return .none }
@@ -59,10 +38,81 @@ class UIBindingManager: NSObject {
     }
     
     func reloadData() {
-        let ids = (NSApplication.shared().delegate as! AppDelegate).realmStorer.realmItemIDs
-        let bindingItems = ids.map({ URLItem.BindingObject(realmID: $0) })
-        self._listItems = bindingItems
+        let ids = self.dataSource.ids
+        let bindingObjects = ids.map() { id -> URLItem.BindingObject in
+            let urlValue = self.dataSource.read(itemWithID: id)
+            let bindingObject = URLItem.BindingObject(value: urlValue)
+            return bindingObject
+        }
+        self.listItems = bindingObjects
         self.arrayController?.content = self.listItems
     }
     
+}
+
+extension URLItem {
+    
+    @objc(URLItemBindingObject)
+    fileprivate class BindingObject: NSObject, URLItemType {
+        
+        private var value: URLItemType
+        
+        var realmID: String {
+            get {
+                return self.value.realmID
+            }
+            set {
+                fatalError("Cannot change the ID from the tableview")
+            }
+        }
+        var cloudKitID: String? {
+            get {
+                return self.value.cloudKitID
+            }
+            set {
+                fatalError("Cannot change the ID from the tableview")
+            }
+        }
+        var urlString: String {
+            get {
+                return self.value.urlString
+            }
+            set {
+                self.value.urlString = newValue
+            }
+        }
+        var archived: Bool {
+            get {
+                return self.value.archived
+            }
+            set {
+                self.value.archived = newValue
+            }
+        }
+        var tags: [TagItemType] {
+            get {
+                return self.value.tags
+            }
+            set {
+                self.value.tags = newValue
+            }
+        }
+        var modificationDate: Date {
+            get {
+                return self.value.modificationDate
+            }
+            set {
+                self.modificationDate = newValue
+            }
+        }
+        
+        override init() {
+            fatalError()
+        }
+        
+        init(value: URLItemType) {
+            self.value = value
+            super.init()
+        }
+    }
 }

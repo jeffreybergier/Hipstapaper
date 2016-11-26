@@ -8,10 +8,6 @@
 
 import CloudKit
 
-enum Result<T> {
-    case success(T), error(Error)
-}
-
 class CloudKitSyncer {
     
     private let privateDB = CKContainer.default().privateCloudDatabase
