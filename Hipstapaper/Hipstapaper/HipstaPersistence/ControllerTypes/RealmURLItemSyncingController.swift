@@ -20,7 +20,7 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
         completionHandler?(.success())
     }
     
-    func createItem() -> URLItemType {
+    func createItem() -> URLItemType? {
         let newObject = URLItemRealmObject()
         let realm = try! Realm()
         realm.beginWrite()
@@ -30,7 +30,7 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
         return value
     }
     
-    func read(itemWithID id: String) -> URLItemType {
+    func read(itemWithID id: String) -> URLItemType? {
         let realm = try! Realm()
         let realmObject = type(of: self).realmObject(withID: id, from: realm)
         let value = URLItem.Value(realmObject: realmObject)

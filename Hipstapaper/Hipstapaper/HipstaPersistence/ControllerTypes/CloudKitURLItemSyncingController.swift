@@ -66,7 +66,7 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
         self.checkSyncQueue(.none)
     }
     
-    func createItem() -> URLItemType {
+    func createItem() -> URLItemType? {
         let newObject = URLItem.CloudKitObject()
         let id = newObject.cloudKitID
         self.objectMap[id] = newObject
@@ -81,14 +81,16 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
         return newValue
     }
     
-    func read(itemWithID id: String) -> URLItemType {
-        let existingObject = self.objectMap[id]!
-        let value = URLItem.Value(cloudKitObject: existingObject)
-        return value
+    func read(itemWithID id: String) -> URLItemType? {
+        if let existingObject = self.objectMap[id] {
+            let value = URLItem.Value(cloudKitObject: existingObject)
+            return value
+        }
+        return .none
     }
     
     func update(item: URLItemType) {
-        let existingObject = self.objectMap[item.cloudKitID]!
+        guard let existingObject = self.objectMap[item.cloudKitID] else { return }
         existingObject.urlString = item.urlString
         existingObject.archived = item.archived
         existingObject.tags = item.tags
@@ -103,7 +105,7 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
     
     func delete(item: URLItemType) {
         let id = item.cloudKitID
-        let existingObject = self.objectMap[id]!
+        guard let existingObject = self.objectMap[id] else { return }
         let recordID = existingObject.record.recordID
         self.ids.remove(id)
         self.objectMap[id] = .none

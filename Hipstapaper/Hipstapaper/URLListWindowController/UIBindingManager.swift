@@ -57,11 +57,11 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
         self.dataSource.sync() { results in
             DispatchQueue.main.async {
                 let ids = self.dataSource.ids
-                let bindingObjects = ids.map() { id -> URLItem.BindingObject in
+                let bindingObjects = ids.map() { id -> URLItem.BindingObject? in
                     let urlValue = self.dataSource.read(itemWithID: id)
                     let bindingObject = URLItem.BindingObject(value: urlValue)
                     return bindingObject
-                }
+                }.filter({ $0 != .none }).map({ $0! })
                 self._listItems = bindingObjects
                 self.arrayController?.content = self.listItems
             }
@@ -147,13 +147,21 @@ extension URLItem {
         }
         
         override init() {
-            let newItem = BindingObject.dataSource.createItem()
-            self.value = newItem
+            if let newItem = BindingObject.dataSource.createItem() {
+                self.value = newItem
+            } else {
+                let fakeValue = URLItem.Value(realmID: "–", cloudKitID: "–", urlString: "–", modificationDate: Date())
+                self.value = fakeValue
+            }
             super.init()
         }
         
-        init(value: URLItemType) {
-            self.value = value
+        init?(value: URLItemType?) {
+            if let value = value {
+                self.value = value
+            } else {
+                return nil
+            }
             super.init()
         }
     }

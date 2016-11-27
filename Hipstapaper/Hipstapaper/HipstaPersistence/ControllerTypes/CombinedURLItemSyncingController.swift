@@ -24,15 +24,16 @@ class CombinedURLItemSyncingController: SyncingPersistenceType {
         self.cloudKitController.sync(completionHandler: .none)
     }
     
-    func createItem() -> URLItemType {
-        let cloudItem = self.cloudKitController.createItem()
-        var realmItem = self.realmController.createItem()
-        realmItem.cloudKitID = cloudItem.cloudKitID
+    func createItem() -> URLItemType? {
+        guard var realmItem = self.realmController.createItem() else { return .none }
+        if let cloudItem = self.cloudKitController.createItem() {
+            realmItem.cloudKitID = cloudItem.cloudKitID
+        }
         self.realmController.update(item: realmItem)
         return realmItem
     }
     
-    func read(itemWithID id: String) -> URLItemType {
+    func read(itemWithID id: String) -> URLItemType? {
         return self.realmController.read(itemWithID: id)
     }
     

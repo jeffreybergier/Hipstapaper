@@ -12,8 +12,8 @@ protocol SyncingPersistenceType: class {
     
     var isSyncing: Bool { get }
     func sync(completionHandler: SuccessResult)
-    func createItem() -> URLItemType
-    func read(itemWithID id: String) -> URLItemType
+    func createItem() -> URLItemType?
+    func read(itemWithID id: String) -> URLItemType?
     func update(item: URLItemType)
     func delete(item: URLItemType)
 
