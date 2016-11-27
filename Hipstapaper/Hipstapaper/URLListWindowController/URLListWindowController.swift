@@ -11,10 +11,41 @@ import AppKit
 
 class URLListWindowController: NSWindowController {
     
+    enum SyncController {
+        case realmOnly, cloudKitOnly, combined
+        
+        var windowTitle: String {
+            switch self {
+            case .realmOnly:
+                return "Realm"
+            case .cloudKitOnly:
+                return "CloudKit"
+            case .combined:
+                return "Hipstapaper"
+            }
+        }
+    }
+    
     // MARK: Data Source
+    
+    private var syncController: SyncController = .combined
+    private(set) lazy var dataSource: SyncingPersistenceType = {
+        switch self.syncController {
+        case .combined:
+            return CombinedURLItemSyncingController()
+        case .realmOnly:
+            return RealmURLItemSyncingController()
+        case .cloudKitOnly:
+            return CloudKitURLItemSyncingController()
+        }
+    }()
+    
+    // MARK: Outlets
     
     @IBOutlet private weak var uiBindingManager: UIBindingManager?
     @IBOutlet private weak var tableView: NSTableView?
+    @IBOutlet private weak var debugWindowToolbarImageView: NSImageView?
+    
     
     // MARK: Manage Child Windows of this Window
     fileprivate var openItemWindows: [URLItem.Value : URLItemWebViewWindowController] = [:]
@@ -24,14 +55,24 @@ class URLListWindowController: NSWindowController {
     
     //MARK: Initialization
     
-    convenience init() {
+    convenience init(syncController: SyncController = .combined) {
         self.init(windowNibName: "URLListWindowController")
-        self.window?.isExcludedFromWindowsMenu = true
+        self.syncController = syncController
     }
 
     override func windowDidLoad() {
         super.windowDidLoad()
+        self.uiBindingManager?.dataSource = self.dataSource
+        self.window?.title = self.syncController.windowTitle
         self.window?.titleVisibility = .hidden
+        switch self.syncController {
+        case .cloudKitOnly, .realmOnly:
+            self.window?.isExcludedFromWindowsMenu = false
+            self.debugWindowToolbarImageView?.isHidden = false
+        case .combined:
+            self.window?.isExcludedFromWindowsMenu = true
+            self.debugWindowToolbarImageView?.isHidden = true
+        }
     }
     
     // MARK: Handle Toolbar Buttons

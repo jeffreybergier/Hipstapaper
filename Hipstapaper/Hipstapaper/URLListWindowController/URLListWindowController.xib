@@ -8,6 +8,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="URLListWindowController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
+                <outlet property="debugWindowToolbarImageView" destination="1M3-OF-J9T" id="Q2D-RG-VQG"/>
                 <outlet property="tableView" destination="r7e-Gy-slL" id="Cv4-fm-ppK"/>
                 <outlet property="uiBindingManager" destination="9Fl-6D-Gk0" id="5X4-g5-7cI"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
@@ -17,21 +18,21 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window identifier="HipstapaperMainWindow" title="Hipstapaper" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" frameAutosaveName="HipstapaperMainWindow" animationBehavior="default" tabbingMode="disallowed" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" unifiedTitleAndToolbar="YES"/>
-            <rect key="contentRect" x="196" y="240" width="760" height="300"/>
+            <rect key="contentRect" x="196" y="240" width="770" height="300"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
             <value key="minSize" type="size" width="500" height="300"/>
             <view key="contentView" wantsLayer="YES" id="se5-gp-TjO">
-                <rect key="frame" x="0.0" y="0.0" width="760" height="300"/>
+                <rect key="frame" x="0.0" y="0.0" width="770" height="300"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6i2-ff-ffH">
-                        <rect key="frame" x="0.0" y="0.0" width="760" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="770" height="300"/>
                         <clipView key="contentView" drawsBackground="NO" id="ZUI-ZG-lW0">
-                            <rect key="frame" x="1" y="0.0" width="758" height="299"/>
+                            <rect key="frame" x="1" y="0.0" width="768" height="299"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" autosaveColumns="NO" headerView="txY-Dk-tqV" id="r7e-Gy-slL">
-                                    <rect key="frame" x="0.0" y="0.0" width="759" height="276"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="768" height="276"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -108,7 +109,7 @@
                             </subviews>
                             <nil key="backgroundColor"/>
                         </clipView>
-                        <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="8Ef-ba-YCK">
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="8Ef-ba-YCK">
                             <rect key="frame" x="1" y="283" width="758" height="16"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
@@ -117,7 +118,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <tableHeaderView key="headerView" id="txY-Dk-tqV">
-                            <rect key="frame" x="0.0" y="0.0" width="759" height="23"/>
+                            <rect key="frame" x="0.0" y="0.0" width="768" height="23"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </tableHeaderView>
                     </scrollView>
@@ -131,15 +132,6 @@
             </view>
             <toolbar key="toolbar" implicitIdentifier="E5ACF944-6915-499D-9336-E1F356DC60D3" displayMode="iconAndLabel" sizeMode="regular" id="piK-WP-f34">
                 <allowedToolbarItems>
-                    <toolbarItem implicitItemIdentifier="93F63EE0-B2AE-4C25-A38B-FEF1C45DE97D" label="" paletteLabel="Syncing Indicator" tag="-1" id="Wss-u7-jY7">
-                        <nil key="toolTip"/>
-                        <size key="minSize" width="16" height="16"/>
-                        <size key="maxSize" width="16" height="16"/>
-                        <progressIndicator key="view" wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" id="PTX-C1-Md2">
-                            <rect key="frame" x="42" y="14" width="16" height="16"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        </progressIndicator>
-                    </toolbarItem>
                     <toolbarItem implicitItemIdentifier="D5B80BD4-9AB4-4C31-AFA1-2585CF0D28F3" label="" paletteLabel="Add" image="NSAddTemplate" id="0eC-uP-8xV">
                         <nil key="toolTip"/>
                         <size key="minSize" width="35" height="28"/>
@@ -202,6 +194,25 @@
                             </searchFieldCell>
                         </searchField>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="74D768E0-0ABD-4C3B-9F0D-78520C01AC5F" label="" paletteLabel="Syncing" tag="-1" id="kbl-yd-zFD">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="16" height="16"/>
+                        <size key="maxSize" width="16" height="16"/>
+                        <progressIndicator key="view" wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" id="2Jr-FM-I1q">
+                            <rect key="frame" x="17" y="14" width="16" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        </progressIndicator>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="52BC1D89-4C12-49F0-A34D-C2ED4E6BEF6F" label="" paletteLabel="Debug Window" image="NSCaution" id="vGt-SB-sOZ">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="22" height="22"/>
+                        <size key="maxSize" width="48" height="48"/>
+                        <imageView key="view" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="1M3-OF-J9T">
+                            <rect key="frame" x="33" y="14" width="22" height="22"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSCaution" id="mzS-iE-Swp"/>
+                        </imageView>
+                    </toolbarItem>
                     <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="Mk6-kY-X0M"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="CGM-9L-ZBk"/>
                 </allowedToolbarItems>
@@ -209,8 +220,9 @@
                     <toolbarItem reference="0eC-uP-8xV"/>
                     <toolbarItem reference="cXu-eN-eTd"/>
                     <toolbarItem reference="FYa-3J-lbv"/>
-                    <toolbarItem reference="Wss-u7-jY7"/>
+                    <toolbarItem reference="kbl-yd-zFD"/>
                     <toolbarItem reference="CGM-9L-ZBk"/>
+                    <toolbarItem reference="vGt-SB-sOZ"/>
                     <toolbarItem reference="ahr-nU-30g"/>
                 </defaultToolbarItems>
             </toolbar>
@@ -222,6 +234,7 @@
         <customObject id="9Fl-6D-Gk0" customClass="UIBindingManager" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
                 <outlet property="arrayController" destination="ktC-Ip-bwW" id="2sX-vO-obA"/>
+                <outlet property="syncingToolbarActivityIndicator" destination="2Jr-FM-I1q" id="OpM-UA-cMk"/>
             </connections>
         </customObject>
         <arrayController objectClassName="URLItemBindingObject" editable="NO" avoidsEmptySelection="NO" automaticallyRearrangesObjects="YES" id="ktC-Ip-bwW">
@@ -232,6 +245,7 @@
     </objects>
     <resources>
         <image name="NSAddTemplate" width="11" height="11"/>
+        <image name="NSCaution" width="32" height="32"/>
         <image name="NSRefreshTemplate" width="11" height="15"/>
         <image name="NSRemoveTemplate" width="11" height="11"/>
     </resources>

@@ -11,7 +11,11 @@ import AppKit
 
 class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
     
-    private weak var dataSource: SyncingPersistenceType! = (NSApplication.shared().delegate as! AppDelegate).dataSource
+    weak var dataSource: SyncingPersistenceType! {
+        didSet {
+            self.reloadData()
+        }
+    }
     
     // access to the array controller so we can poke at it occasionally
     @IBOutlet private weak var arrayController: NSArrayController? {
@@ -20,6 +24,14 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
             self.arrayController?.sortDescriptors = [NSSortDescriptor(key: #keyPath(URLItem.BindingObject.modificationDate), ascending: false)]
         }
     }
+    
+    @IBOutlet private weak var syncingToolbarActivityIndicator: NSProgressIndicator? {
+        didSet {
+            self.syncingToolbarActivityIndicator?.stopAnimation(self)
+            self.syncingToolbarActivityIndicator?.isDisplayedWhenStopped = false
+        }
+    }
+    
     
     private var _listItems: [URLItem.BindingObject] = [] {
         didSet {
@@ -33,9 +45,14 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
         }
         set {
             let oldValue = self._listItems
+            let new = newValue.filter({ $0.value == nil })
+            new.forEach() { newItem in
+                newItem.value = self.dataSource.createItem()
+            }
             let deleted = newValue.deletedItems(from: oldValue)
             deleted?.forEach() { deletedItem in
-                self.dataSource.delete(item: deletedItem.value)
+                guard let item = deletedItem.value else { return }
+                self.dataSource.delete(item: item)
             }
             self._listItems = newValue
         }
@@ -48,22 +65,19 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
         if mappedItems.isEmpty == false { return mappedItems } else { return .none }
     }
     
-    override init() {
-        super.init()
-        self.reloadData()
-    }
-    
     func reloadData() {
+        self.syncingToolbarActivityIndicator?.startAnimation(self)
         self.dataSource.sync() { results in
             DispatchQueue.main.async {
                 let ids = self.dataSource.ids
-                let bindingObjects = ids.map() { id -> URLItem.BindingObject? in
+                let bindingObjects = ids.map() { id -> URLItem.BindingObject in
                     let urlValue = self.dataSource.read(itemWithID: id)
                     let bindingObject = URLItem.BindingObject(value: urlValue)
                     return bindingObject
-                }.filter({ $0 != .none }).map({ $0! })
+                }
                 self._listItems = bindingObjects
                 self.arrayController?.content = self.listItems
+                self.syncingToolbarActivityIndicator?.stopAnimation(self)
             }
         }
     }
@@ -83,12 +97,12 @@ extension URLItem {
     @objc(URLItemBindingObject)
     fileprivate class BindingObject: NSObject, URLItemType {
         
-        private(set) fileprivate var value: URLItemType
+        fileprivate(set) var value: URLItemType?
         weak var delegate: URLItemBindingChangeDelegate?
         
         var realmID: String {
             get {
-                return self.value.realmID
+                return self.value?.realmID ?? "–"
             }
             set {
                 fatalError("Cannot change the ID from the tableview")
@@ -96,7 +110,7 @@ extension URLItem {
         }
         var cloudKitID: String {
             get {
-                return self.value.cloudKitID
+                return self.value?.cloudKitID ?? "–"
             }
             set {
                 fatalError("Cannot change the ID from the tableview")
@@ -104,64 +118,59 @@ extension URLItem {
         }
         var urlString: String {
             get {
-                return self.value.urlString
+                return self.value?.urlString ?? "–"
             }
             set {
-                self.value.urlString = newValue
-                self.value.modificationDate = Date()
-                self.delegate?.didChange(self.value)
+                guard var value = self.value else { return }
+                value.urlString = newValue
+                value.modificationDate = Date()
+                self.value = value
+                self.delegate?.didChange(value)
             }
         }
         var archived: Bool {
             get {
-                return self.value.archived
+                return self.value?.archived ?? false
             }
             set {
-                self.value.archived = newValue
-                self.value.modificationDate = Date()
-                self.delegate?.didChange(self.value)
+                guard var value = self.value else { return }
+                value.archived = newValue
+                value.modificationDate = Date()
+                self.value = value
+                self.delegate?.didChange(value)
             }
         }
         var tags: [TagItemType] {
             get {
-                return self.value.tags
+                return self.value?.tags ?? []
             }
             set {
-                self.value.tags = newValue
-                self.value.modificationDate = Date()
-                self.delegate?.didChange(self.value)
+                guard var value = self.value else { return }
+                value.tags = newValue
+                value.modificationDate = Date()
+                self.value = value
+                self.delegate?.didChange(value)
             }
         }
         var modificationDate: Date {
             get {
-                return self.value.modificationDate
+                return self.value?.modificationDate ?? Date()
             }
             set {
-                self.value.modificationDate = newValue
-                self.delegate?.didChange(self.value)
+                guard var value = self.value else { return }
+                value.modificationDate = newValue
+                self.value = value
+                self.delegate?.didChange(value)
             }
-        }
-        
-        private static var dataSource: SyncingPersistenceType {
-            return (NSApplication.shared().delegate as! AppDelegate).dataSource
         }
         
         override init() {
-            if let newItem = BindingObject.dataSource.createItem() {
-                self.value = newItem
-            } else {
-                let fakeValue = URLItem.Value(realmID: "–", cloudKitID: "–", urlString: "–", modificationDate: Date())
-                self.value = fakeValue
-            }
+            self.value = .none
             super.init()
         }
         
-        init?(value: URLItemType?) {
-            if let value = value {
-                self.value = value
-            } else {
-                return nil
-            }
+        init(value: URLItemType?) {
+            self.value = value
             super.init()
         }
     }

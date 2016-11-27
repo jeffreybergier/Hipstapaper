@@ -11,10 +11,6 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
-    let dataSource: SyncingPersistenceType = CombinedURLItemSyncingController()
-//    let dataSource: SyncingPersistenceType = RealmURLItemSyncingController()
-//    let dataSource: SyncingPersistenceType = CloudKitURLItemSyncingController()
-    
     // this allows me to deallocate the window when all windows are closed
     // when its closed, the notification below fires and set this property to nil
     fileprivate var _rootWC: URLListWindowController?
@@ -22,16 +18,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let rootWC = self._rootWC {
             return rootWC
         } else {
-            let windowController = URLListWindowController()
+            let windowController = URLListWindowController(syncController: .combined)
             self._rootWC = windowController
             return windowController
         }
     }
+    
+    private let debugWindows: [NSWindowController] = [
+        URLListWindowController(syncController: .realmOnly),
+        URLListWindowController(syncController: .cloudKitOnly)
+    ]
 
     // open the main window when the app launches
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         NotificationCenter.default.addObserver(self, selector: #selector(self.itemWindowWillClose(_:)), name: .NSWindowWillClose, object: .none)
         self.rootWindowController.showWindow(self)
+        for window in self.debugWindows {
+            window.showWindow(self)
+        }
     }
     
     // opens the main window if the dock icon is clicked and there are no windows open
