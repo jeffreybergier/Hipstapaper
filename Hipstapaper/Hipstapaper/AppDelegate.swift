@@ -11,7 +11,8 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
-    let dataSource: SyncingPersistenceType = RealmURLItemSyncingController()
+    let dataSource: SyncingPersistenceType = CombinedURLItemSyncingController()
+//    let dataSource: SyncingPersistenceType = RealmURLItemSyncingController()
 //    let dataSource: SyncingPersistenceType = CloudKitURLItemSyncingController()
     
     

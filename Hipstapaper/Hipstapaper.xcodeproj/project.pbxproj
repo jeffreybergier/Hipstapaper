@@ -21,6 +21,7 @@
 		505B30461DEA692C00B74AE6 /* URLListWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 505B30431DEA692C00B74AE6 /* URLListWindowController.xib */; };
 		505B304B1DEA698300B74AE6 /* URLItemWebViewWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30491DEA698300B74AE6 /* URLItemWebViewWindowController.swift */; };
 		505B304C1DEA698300B74AE6 /* URLItemWebViewWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 505B304A1DEA698300B74AE6 /* URLItemWebViewWindowController.xib */; };
+		505B304E1DEA6A0100B74AE6 /* CombinedURLItemSyncingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B304D1DEA6A0100B74AE6 /* CombinedURLItemSyncingController.swift */; };
 		506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506A3F071DD6C10C00A5656E /* AppDelegate.swift */; };
 		506A3F0A1DD6C10D00A5656E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F091DD6C10D00A5656E /* Assets.xcassets */; };
 		506A3F0D1DD6C10D00A5656E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F0B1DD6C10D00A5656E /* MainMenu.xib */; };
@@ -49,6 +50,7 @@
 		505B30431DEA692C00B74AE6 /* URLListWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLListWindowController.xib; sourceTree = "<group>"; };
 		505B30491DEA698300B74AE6 /* URLItemWebViewWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemWebViewWindowController.swift; sourceTree = "<group>"; };
 		505B304A1DEA698300B74AE6 /* URLItemWebViewWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLItemWebViewWindowController.xib; sourceTree = "<group>"; };
+		505B304D1DEA6A0100B74AE6 /* CombinedURLItemSyncingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CombinedURLItemSyncingController.swift; sourceTree = "<group>"; };
 		506A3F041DD6C10C00A5656E /* Hipstapaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hipstapaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		506A3F071DD6C10C00A5656E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		506A3F091DD6C10D00A5656E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 				505B30341DE8C18300B74AE6 /* SyncingPersistenceProtocol.swift */,
 				505B30381DE8C2BB00B74AE6 /* RealmURLItemSyncingController.swift */,
 				505B303D1DEA207B00B74AE6 /* CloudKitURLItemSyncingController.swift */,
+				505B304D1DEA6A0100B74AE6 /* CombinedURLItemSyncingController.swift */,
 			);
 			path = ControllerTypes;
 			sourceTree = "<group>";
@@ -315,6 +318,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				505B304E1DEA6A0100B74AE6 /* CombinedURLItemSyncingController.swift in Sources */,
 				505B304B1DEA698300B74AE6 /* URLItemWebViewWindowController.swift in Sources */,
 				505B302F1DE8C0A000B74AE6 /* TagItemRealmObject.swift in Sources */,
 				505B30301DE8C0A000B74AE6 /* URLItem.swift in Sources */,
