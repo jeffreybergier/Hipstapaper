@@ -68,7 +68,7 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
     
     func createItem() -> URLItemType {
         let newObject = URLItem.CloudKitObject()
-        let id = newObject.record.recordID.recordName
+        let id = newObject.cloudKitID
         self.objectMap[id] = newObject
         self.ids.insert(id)
         self.networkOperationsInProgress += 1

@@ -21,10 +21,15 @@ class CombinedURLItemSyncingController: SyncingPersistenceType {
     
     func sync(completionHandler: SyncingPersistenceType.SuccessResult) {
         self.realmController.sync(completionHandler: completionHandler)
+        self.cloudKitController.sync(completionHandler: .none)
     }
     
     func createItem() -> URLItemType {
-        return self.realmController.createItem()
+        let cloudItem = self.cloudKitController.createItem()
+        var realmItem = self.realmController.createItem()
+        realmItem.cloudKitID = cloudItem.cloudKitID
+        self.realmController.update(item: realmItem)
+        return realmItem
     }
     
     func read(itemWithID id: String) -> URLItemType {
@@ -32,10 +37,12 @@ class CombinedURLItemSyncingController: SyncingPersistenceType {
     }
     
     func update(item: URLItemType) {
+        self.cloudKitController.update(item: item)
         self.realmController.update(item: item)
     }
     
     func delete(item: URLItemType) {
+        self.cloudKitController.delete(item: item)
         self.realmController.delete(item: item)
     }
 }
