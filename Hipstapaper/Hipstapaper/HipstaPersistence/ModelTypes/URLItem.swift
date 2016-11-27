@@ -11,7 +11,7 @@ import Foundation
 
 protocol URLItemType {
     var realmID: String { get set }
-    var cloudKitID: String? { get set }
+    var cloudKitID: String { get set }
     var urlString: String { get set }
     var archived: Bool { get set }
     var tags: [TagItemType] { get set }
@@ -21,14 +21,14 @@ protocol URLItemType {
 enum URLItem {
     struct Value: URLItemType {
         var realmID: String
-        var cloudKitID: String?
+        var cloudKitID: String
         var urlString: String
         var archived: Bool
         var tags: [TagItemType]
         var modificationDate: Date
         
         init(realmID: String,
-             cloudKitID: String? = .none,
+             cloudKitID: String,
              urlString: String,
              archived: Bool = false,
              tags: [TagItemType] = [],

@@ -9,12 +9,33 @@
 import CloudKit
 
 extension URLItem {
-    class CloudKitObject {
+    class CloudKitObject: URLItemType {
         
         let record: CKRecord
         
+        var realmID: String {
+            get {
+                fatalError("tried to get or set realm ID from cloudkit object")
+            }
+            set {
+                fatalError("tried to get or set realm ID from cloudkit object")
+            }
+        }
+        
         var cloudKitID: String {
-            return self.record.recordID.recordName
+            get {
+                if let id = self.record["cloudKitID"] as? String {
+                    return id
+                } else {
+                    let newID = UUID().uuidString
+                    self.record["cloudKitID"] = newID as CKRecordValue
+                    return newID
+                }
+            }
+            set {
+                self.record["cloudKitID"] = newValue as CKRecordValue
+                self.modificationDate = Date()
+            }
         }
         
         var urlString: String {
@@ -38,25 +59,26 @@ extension URLItem {
             }
         }
         
-        var tags: Set<String> {
+        var tags: [TagItemType] {
             get {
-                return Set((self.record["tags"] as? [String]) ?? [])
+                return (self.record["tags"] as? [String]) ?? []
             }
             set {
-                self.record["tags"] = Array(newValue) as CKRecordValue
+                let newSet = Set(newValue.map({ $0.name }))
+                self.record["tags"] = Array(newSet) as CKRecordValue
                 self.modificationDate = Date()
             }
         }
         
-        private let offlineModificationDate = Date()
-        private var autoModificationDate: Date {
-            get {
-                return (self.record.modificationDate ?? self.record.creationDate) ?? self.offlineModificationDate
-            }
-        }
         var modificationDate: Date {
             get {
-                return (self.record["manualDate"] as? Date) ?? self.autoModificationDate
+                if let date = self.record["manualDate"] as? Date {
+                    return date
+                } else {
+                    let newDate = Date()
+                    self.record["manualDate"] = newDate as CKRecordValue
+                    return newDate
+                }
             }
             set {
                 self.record["manualDate"] = newValue as CKRecordValue
@@ -66,6 +88,8 @@ extension URLItem {
         init() {
             let newRecord = CKRecord(recordType: "URLItem")
             self.record = newRecord
+            self.cloudKitID = UUID().uuidString
+            self.modificationDate = Date()
         }
         
         init(record: CKRecord) {
@@ -78,7 +102,7 @@ extension URLItem {
             self.record = newRecord
             self.urlString = urlItem.urlString
             self.modificationDate = urlItem.modificationDate
-            self.tags = Set(urlItem.tags.map({ $0.name }))
+            self.tags = urlItem.tags
             self.archived = urlItem.archived
         }
     }

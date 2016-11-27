@@ -8,10 +8,10 @@
 
 import RealmSwift
 
-class URLItemRealmObject: Object {
+class URLItemRealmObject: Object, URLItemType {
     
     dynamic var realmID = UUID().uuidString
-    dynamic var cloudKitID: String? = nil
+    dynamic var cloudKitID = UUID().uuidString
     dynamic var urlString = "http://www.url.com"
     dynamic var archived = false
     dynamic var modificationDate = Date()

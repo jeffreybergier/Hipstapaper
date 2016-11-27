@@ -7,9 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		50598A1D1DE27D22001A3683 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50598A1C1DE27D22001A3683 /* RealmManager.swift */; };
 		505B30181DE6258F00B74AE6 /* CloudKitSyncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30171DE6258F00B74AE6 /* CloudKitSyncer.swift */; };
-		505B301A1DE635AB00B74AE6 /* CloudKitRealmComparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30191DE635AB00B74AE6 /* CloudKitRealmComparator.swift */; };
 		505B302E1DE8C0A000B74AE6 /* TagItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30291DE8C0A000B74AE6 /* TagItem.swift */; };
 		505B302F1DE8C0A000B74AE6 /* TagItemRealmObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B302A1DE8C0A000B74AE6 /* TagItemRealmObject.swift */; };
 		505B30301DE8C0A000B74AE6 /* URLItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B302B1DE8C0A000B74AE6 /* URLItem.swift */; };
@@ -309,9 +307,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				50E21BD21DDD79FE005151C7 /* URLItemWebViewWindowController.swift in Sources */,
-				50598A1D1DE27D22001A3683 /* RealmManager.swift in Sources */,
 				505B302F1DE8C0A000B74AE6 /* TagItemRealmObject.swift in Sources */,
-				505B301A1DE635AB00B74AE6 /* CloudKitRealmComparator.swift in Sources */,
 				505B30181DE6258F00B74AE6 /* CloudKitSyncer.swift in Sources */,
 				505B303C1DEA095000B74AE6 /* UIBindingManager.swift in Sources */,
 				505B30301DE8C0A000B74AE6 /* URLItem.swift in Sources */,

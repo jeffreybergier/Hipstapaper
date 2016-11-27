@@ -44,7 +44,7 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
     // Grab the selected items from the array controller
     var selectedItems: [URLItemType]? {
         let selectedItems = self.arrayController?.selectedObjects?.filter({ $0 is URLItem.BindingObject }).map({ $0 as! URLItem.BindingObject }) ?? []
-        let mappedItems = selectedItems.map({ URLItem.Value(realmID: $0.realmID, urlString: $0.urlString, modificationDate: $0.modificationDate) })
+        let mappedItems = selectedItems.map({ URLItem.Value(realmID: $0.realmID, cloudKitID: $0.cloudKitID, urlString: $0.urlString, modificationDate: $0.modificationDate) })
         if mappedItems.isEmpty == false { return mappedItems } else { return .none }
     }
     
@@ -94,7 +94,7 @@ extension URLItem {
                 fatalError("Cannot change the ID from the tableview")
             }
         }
-        var cloudKitID: String? {
+        var cloudKitID: String {
             get {
                 return self.value.cloudKitID
             }

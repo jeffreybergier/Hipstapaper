@@ -52,9 +52,10 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
                     var ids = [String]()
                     var cloudObjects: [String : URLItem.CloudKitObject] = [:]
                     for record in records {
-                        let id = record.recordID.recordName
+                        let object = URLItem.CloudKitObject(record: record)
+                        let id = object.cloudKitID
                         ids.append(id)
-                        cloudObjects[id] = URLItem.CloudKitObject(record: record)
+                        cloudObjects[id] = object
                     }
                     self.objectMap = cloudObjects
                     self.ids = Set(ids)
@@ -87,10 +88,10 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
     }
     
     func update(item: URLItemType) {
-        let existingObject = self.objectMap[item.cloudKitID!]!
+        let existingObject = self.objectMap[item.cloudKitID]!
         existingObject.urlString = item.urlString
         existingObject.archived = item.archived
-        existingObject.tags = Set(item.tags.map({ $0.name }))
+        existingObject.tags = item.tags
         existingObject.modificationDate = item.modificationDate
         self.networkOperationsInProgress += 1
         self.networkQueue.append({
@@ -101,7 +102,7 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
     }
     
     func delete(item: URLItemType) {
-        let id = item.cloudKitID!
+        let id = item.cloudKitID
         let existingObject = self.objectMap[id]!
         let recordID = existingObject.record.recordID
         self.ids.remove(id)
