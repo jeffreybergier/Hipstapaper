@@ -11,8 +11,8 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
-//    let dataSource: SyncingPersistenceType = RealmURLItemSyncingController()
-    let dataSource: SyncingPersistenceType = CloudKitURLItemSyncingController()
+    let dataSource: SyncingPersistenceType = RealmURLItemSyncingController()
+//    let dataSource: SyncingPersistenceType = CloudKitURLItemSyncingController()
     
     
     // Create and register a value transformer for URLWebWindow title Bindings

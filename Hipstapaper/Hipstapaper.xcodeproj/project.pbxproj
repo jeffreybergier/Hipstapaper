@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		505B30181DE6258F00B74AE6 /* CloudKitSyncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30171DE6258F00B74AE6 /* CloudKitSyncer.swift */; };
 		505B302E1DE8C0A000B74AE6 /* TagItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30291DE8C0A000B74AE6 /* TagItem.swift */; };
 		505B302F1DE8C0A000B74AE6 /* TagItemRealmObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B302A1DE8C0A000B74AE6 /* TagItemRealmObject.swift */; };
 		505B30301DE8C0A000B74AE6 /* URLItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B302B1DE8C0A000B74AE6 /* URLItem.swift */; };
@@ -15,31 +14,27 @@
 		505B30321DE8C0A000B74AE6 /* URLItemRealmObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B302D1DE8C0A000B74AE6 /* URLItemRealmObject.swift */; };
 		505B30351DE8C18300B74AE6 /* SyncingPersistenceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30341DE8C18300B74AE6 /* SyncingPersistenceProtocol.swift */; };
 		505B30371DE8C26900B74AE6 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30361DE8C26900B74AE6 /* Result.swift */; };
-		505B303C1DEA095000B74AE6 /* UIBindingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501D06B21DE383C5004BB84B /* UIBindingManager.swift */; };
 		505B303E1DEA207B00B74AE6 /* CloudKitURLItemSyncingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B303D1DEA207B00B74AE6 /* CloudKitURLItemSyncingController.swift */; };
 		505B303F1DEA3FA500B74AE6 /* RealmURLItemSyncingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30381DE8C2BB00B74AE6 /* RealmURLItemSyncingController.swift */; };
+		505B30441DEA692C00B74AE6 /* UIBindingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30411DEA692C00B74AE6 /* UIBindingManager.swift */; };
+		505B30451DEA692C00B74AE6 /* URLListWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30421DEA692C00B74AE6 /* URLListWindowController.swift */; };
+		505B30461DEA692C00B74AE6 /* URLListWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 505B30431DEA692C00B74AE6 /* URLListWindowController.xib */; };
+		505B304B1DEA698300B74AE6 /* URLItemWebViewWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30491DEA698300B74AE6 /* URLItemWebViewWindowController.swift */; };
+		505B304C1DEA698300B74AE6 /* URLItemWebViewWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 505B304A1DEA698300B74AE6 /* URLItemWebViewWindowController.xib */; };
 		506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506A3F071DD6C10C00A5656E /* AppDelegate.swift */; };
 		506A3F0A1DD6C10D00A5656E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F091DD6C10D00A5656E /* Assets.xcassets */; };
 		506A3F0D1DD6C10D00A5656E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F0B1DD6C10D00A5656E /* MainMenu.xib */; };
-		506A3F161DD6C2AE00A5656E /* URLListWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506A3F141DD6C2AE00A5656E /* URLListWindowController.swift */; };
-		506A3F171DD6C2AE00A5656E /* URLListWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F151DD6C2AE00A5656E /* URLListWindowController.xib */; };
 		50E21BC61DD6E466005151C7 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50E21BC51DD6E466005151C7 /* CloudKit.framework */; };
 		50E21BCC1DD8F2E3005151C7 /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E21BCB1DD8F2E3005151C7 /* FrameworkExtensions.swift */; };
-		50E21BD21DDD79FE005151C7 /* URLItemWebViewWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E21BD01DDD79FE005151C7 /* URLItemWebViewWindowController.swift */; };
-		50E21BD31DDD79FE005151C7 /* URLItemWebViewWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E21BD11DDD79FE005151C7 /* URLItemWebViewWindowController.xib */; };
 		DAB25659F91D7515151AD8BD /* Pods_Hipstapaper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F98F8505CED194BB3FEF9B9 /* Pods_Hipstapaper.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2F98F8505CED194BB3FEF9B9 /* Pods_Hipstapaper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hipstapaper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CFF4040CB62E2BFDAB7BDE1 /* Pods-Hipstapaper.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper/Pods-Hipstapaper.debug.xcconfig"; sourceTree = "<group>"; };
-		501D06B21DE383C5004BB84B /* UIBindingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIBindingManager.swift; sourceTree = "<group>"; };
 		50350EC41DDFE23400FA2D57 /* WebViewNavigationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewNavigationDelegate.swift; sourceTree = "<group>"; };
 		50350EC61DDFEB4100FA2D57 /* WebViewUIDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewUIDelegate.swift; sourceTree = "<group>"; };
 		505511C71DE0081F001F04F4 /* KeyObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyObserver.swift; sourceTree = "<group>"; };
-		50598A1C1DE27D22001A3683 /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
-		505B30171DE6258F00B74AE6 /* CloudKitSyncer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitSyncer.swift; sourceTree = "<group>"; };
-		505B30191DE635AB00B74AE6 /* CloudKitRealmComparator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitRealmComparator.swift; sourceTree = "<group>"; };
 		505B30291DE8C0A000B74AE6 /* TagItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagItem.swift; sourceTree = "<group>"; };
 		505B302A1DE8C0A000B74AE6 /* TagItemRealmObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagItemRealmObject.swift; sourceTree = "<group>"; };
 		505B302B1DE8C0A000B74AE6 /* URLItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItem.swift; sourceTree = "<group>"; };
@@ -49,18 +44,19 @@
 		505B30361DE8C26900B74AE6 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		505B30381DE8C2BB00B74AE6 /* RealmURLItemSyncingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmURLItemSyncingController.swift; sourceTree = "<group>"; };
 		505B303D1DEA207B00B74AE6 /* CloudKitURLItemSyncingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitURLItemSyncingController.swift; sourceTree = "<group>"; };
+		505B30411DEA692C00B74AE6 /* UIBindingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIBindingManager.swift; sourceTree = "<group>"; };
+		505B30421DEA692C00B74AE6 /* URLListWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLListWindowController.swift; sourceTree = "<group>"; };
+		505B30431DEA692C00B74AE6 /* URLListWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLListWindowController.xib; sourceTree = "<group>"; };
+		505B30491DEA698300B74AE6 /* URLItemWebViewWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemWebViewWindowController.swift; sourceTree = "<group>"; };
+		505B304A1DEA698300B74AE6 /* URLItemWebViewWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLItemWebViewWindowController.xib; sourceTree = "<group>"; };
 		506A3F041DD6C10C00A5656E /* Hipstapaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hipstapaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		506A3F071DD6C10C00A5656E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		506A3F091DD6C10D00A5656E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		506A3F0C1DD6C10D00A5656E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		506A3F0E1DD6C10D00A5656E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		506A3F141DD6C2AE00A5656E /* URLListWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLListWindowController.swift; sourceTree = "<group>"; };
-		506A3F151DD6C2AE00A5656E /* URLListWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLListWindowController.xib; sourceTree = "<group>"; };
 		506D98121DD6CFFB002E4F54 /* Hipstapaper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper.entitlements; sourceTree = "<group>"; };
 		50E21BC51DD6E466005151C7 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		50E21BCB1DD8F2E3005151C7 /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
-		50E21BD01DDD79FE005151C7 /* URLItemWebViewWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemWebViewWindowController.swift; sourceTree = "<group>"; };
-		50E21BD11DDD79FE005151C7 /* URLItemWebViewWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLItemWebViewWindowController.xib; sourceTree = "<group>"; };
 		5F8D0F69D4E5AC4E0FCB4AC5 /* Pods-Hipstapaper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper/Pods-Hipstapaper.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -109,6 +105,25 @@
 			path = ControllerTypes;
 			sourceTree = "<group>";
 		};
+		505B30401DEA689A00B74AE6 /* URLListWindowController */ = {
+			isa = PBXGroup;
+			children = (
+				505B30411DEA692C00B74AE6 /* UIBindingManager.swift */,
+				505B30421DEA692C00B74AE6 /* URLListWindowController.swift */,
+				505B30431DEA692C00B74AE6 /* URLListWindowController.xib */,
+			);
+			path = URLListWindowController;
+			sourceTree = "<group>";
+		};
+		505B30481DEA695D00B74AE6 /* URLItemWebViewWindowController */ = {
+			isa = PBXGroup;
+			children = (
+				505B30491DEA698300B74AE6 /* URLItemWebViewWindowController.swift */,
+				505B304A1DEA698300B74AE6 /* URLItemWebViewWindowController.xib */,
+			);
+			path = URLItemWebViewWindowController;
+			sourceTree = "<group>";
+		};
 		506A3EFB1DD6C10C00A5656E = {
 			isa = PBXGroup;
 			children = (
@@ -133,14 +148,8 @@
 				505B301B1DE8BC5500B74AE6 /* HipstaPersistence */,
 				506A3F071DD6C10C00A5656E /* AppDelegate.swift */,
 				50E21BCB1DD8F2E3005151C7 /* FrameworkExtensions.swift */,
-				50598A1C1DE27D22001A3683 /* RealmManager.swift */,
-				505B30171DE6258F00B74AE6 /* CloudKitSyncer.swift */,
-				505B30191DE635AB00B74AE6 /* CloudKitRealmComparator.swift */,
-				501D06B21DE383C5004BB84B /* UIBindingManager.swift */,
-				506A3F141DD6C2AE00A5656E /* URLListWindowController.swift */,
-				506A3F151DD6C2AE00A5656E /* URLListWindowController.xib */,
-				50E21BD01DDD79FE005151C7 /* URLItemWebViewWindowController.swift */,
-				50E21BD11DDD79FE005151C7 /* URLItemWebViewWindowController.xib */,
+				505B30401DEA689A00B74AE6 /* URLListWindowController */,
+				505B30481DEA695D00B74AE6 /* URLItemWebViewWindowController */,
 				505511C71DE0081F001F04F4 /* KeyObserver.swift */,
 				50350EC41DDFE23400FA2D57 /* WebViewNavigationDelegate.swift */,
 				50350EC61DDFEB4100FA2D57 /* WebViewUIDelegate.swift */,
@@ -244,10 +253,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				506A3F171DD6C2AE00A5656E /* URLListWindowController.xib in Resources */,
 				506A3F0A1DD6C10D00A5656E /* Assets.xcassets in Resources */,
-				50E21BD31DDD79FE005151C7 /* URLItemWebViewWindowController.xib in Resources */,
 				506A3F0D1DD6C10D00A5656E /* MainMenu.xib in Resources */,
+				505B304C1DEA698300B74AE6 /* URLItemWebViewWindowController.xib in Resources */,
+				505B30461DEA692C00B74AE6 /* URLListWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,21 +315,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50E21BD21DDD79FE005151C7 /* URLItemWebViewWindowController.swift in Sources */,
+				505B304B1DEA698300B74AE6 /* URLItemWebViewWindowController.swift in Sources */,
 				505B302F1DE8C0A000B74AE6 /* TagItemRealmObject.swift in Sources */,
-				505B30181DE6258F00B74AE6 /* CloudKitSyncer.swift in Sources */,
-				505B303C1DEA095000B74AE6 /* UIBindingManager.swift in Sources */,
 				505B30301DE8C0A000B74AE6 /* URLItem.swift in Sources */,
 				505B303E1DEA207B00B74AE6 /* CloudKitURLItemSyncingController.swift in Sources */,
 				505B302E1DE8C0A000B74AE6 /* TagItem.swift in Sources */,
+				505B30451DEA692C00B74AE6 /* URLListWindowController.swift in Sources */,
 				505B303F1DEA3FA500B74AE6 /* RealmURLItemSyncingController.swift in Sources */,
 				505B30351DE8C18300B74AE6 /* SyncingPersistenceProtocol.swift in Sources */,
+				505B30441DEA692C00B74AE6 /* UIBindingManager.swift in Sources */,
 				50E21BCC1DD8F2E3005151C7 /* FrameworkExtensions.swift in Sources */,
 				505B30321DE8C0A000B74AE6 /* URLItemRealmObject.swift in Sources */,
 				506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */,
 				505B30371DE8C26900B74AE6 /* Result.swift in Sources */,
 				505B30311DE8C0A000B74AE6 /* URLItemCloudKitObject.swift in Sources */,
-				506A3F161DD6C2AE00A5656E /* URLListWindowController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
