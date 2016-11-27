@@ -21,40 +21,58 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
     }
     
     func createItem() -> URLItemType? {
-        let newObject = URLItemRealmObject()
-        let realm = try! Realm()
-        realm.beginWrite()
-        realm.add(newObject)
-        try! realm.commitWrite()
-        let value = URLItem.Value(realmObject: newObject)
-        return value
+        do {
+            let newObject = URLItemRealmObject()
+            let realm = try Realm()
+            realm.beginWrite()
+            realm.add(newObject)
+            try realm.commitWrite()
+            let value = URLItem.Value(realmObject: newObject)
+            return value
+        } catch {
+            NSLog("createURLItemError: \(error)")
+            return .none
+        }
     }
     
     func read(itemWithID id: String) -> URLItemType? {
-        let realm = try! Realm()
-        let realmObject = type(of: self).realmObject(withID: id, from: realm)
-        let value = URLItem.Value(realmObject: realmObject)
-        return value
+        do {
+            let realm = try Realm()
+            guard let realmObject = type(of: self).realmObject(withID: id, from: realm) else { return .none }
+            let value = URLItem.Value(realmObject: realmObject)
+            return value
+        } catch {
+            NSLog("readURLItemWithID: \(id), Error: \(error)")
+            return .none
+        }
     }
     
     func update(item: URLItemType) {
-        let realm = try! Realm()
-        let realmObject = type(of: self).realmObject(withID: item.realmID, from: realm)
-        realm.beginWrite()
-        realmObject.cloudKitID = item.cloudKitID
-        realmObject.urlString = item.urlString
-        realmObject.archived = item.archived
-        //realmObject.tags = item.tags
-        realmObject.modificationDate = item.modificationDate
-        try! realm.commitWrite()
+        do {
+            let realm = try Realm()
+            guard let realmObject = type(of: self).realmObject(withID: item.realmID, from: realm) else { return }
+            realm.beginWrite()
+            realmObject.cloudKitID = item.cloudKitID
+            realmObject.urlString = item.urlString
+            realmObject.archived = item.archived
+            realmObject.tagList = type(of: self).loadTagListMatching(tagItemArray: item.tags, from: realm)
+            realmObject.modificationDate = item.modificationDate
+            try realm.commitWrite()
+        } catch {
+            NSLog("updateURLItemError: \(error)")
+        }
     }
     
     func delete(item: URLItemType) {
-        let realm = try! Realm()
-        let realmObject = type(of: self).realmObject(withID: item.realmID, from: realm)
-        realm.beginWrite()
-        realm.delete(realmObject)
-        try! realm.commitWrite()
+        do {
+            let realm = try Realm()
+            guard let realmObject = type(of: self).realmObject(withID: item.realmID, from: realm) else { return }
+            realm.beginWrite()
+            realm.delete(realmObject)
+            try realm.commitWrite()
+        } catch {
+            NSLog("readURLItemWithID: \(item.realmID), Error: \(error)")
+        }
     }
 
     
@@ -76,7 +94,42 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
     
     // MARK: Load individual items
     
-    private class func realmObject(withID id: String, from realm: Realm) -> URLItemRealmObject {
-        return realm.object(ofType: URLItemRealmObject.self, forPrimaryKey: id)!
+    private class func realmObject(withID id: String, from realm: Realm) -> URLItemRealmObject? {
+        return realm.object(ofType: URLItemRealmObject.self, forPrimaryKey: id)
+    }
+    
+    // MARK: Load and Set Tag List
+    
+    private class func loadTagListMatching(tagItemArray: [TagItemType], from realm: Realm) -> List<TagItemRealmObject> {
+        let stringSet = Set(tagItemArray.map({ $0.name }))
+        let realmObjects = stringSet.map() { nameString -> TagItemRealmObject? in
+            if let existingObject = realm.object(ofType: TagItemRealmObject.self, forPrimaryKey: nameString) {
+                return existingObject
+            } else {
+                return self.newTagObject(withName: nameString, from: realm)
+            }
+        }.filter({ $0 != nil }).map({ $0! })
+        let list = List(realmObjects)
+        return list
+    }
+    
+    private class func newTagObject(withName name: String, from realm: Realm) -> TagItemRealmObject? {
+        do {
+            let newObject = TagItemRealmObject(name: name)
+            realm.beginWrite()
+            realm.add(newObject)
+            try realm.commitWrite()
+            return newObject
+        } catch {
+            NSLog("createTagItemError: \(error)")
+            return .none
+        }
     }
 }
+
+
+
+
+
+
+
