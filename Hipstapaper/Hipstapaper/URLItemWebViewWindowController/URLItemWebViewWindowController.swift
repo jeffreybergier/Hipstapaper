@@ -21,6 +21,13 @@ class WebViewTitleTransformer: ValueTransformer {
 
 class URLItemWebViewWindowController: NSWindowController {
     
+    // Create and register a value transformer for URLWebWindow title Bindings
+    private static let titleValueTransformer: Void = {
+        let transformer = WebViewTitleTransformer()
+        let name = NSValueTransformerName("WebViewTitleTransformer")
+        ValueTransformer.setValueTransformer(transformer, forName: name)
+    }()
+    
     // MARK: Model Item
     
     private(set) var item: URLItem.Value?
@@ -76,6 +83,7 @@ class URLItemWebViewWindowController: NSWindowController {
     // MARK: Initialization
     
     convenience init(urlItem: URLItem.Value) {
+        URLItemWebViewWindowController.titleValueTransformer // activate the value transformer once
         self.init(windowNibName: "URLItemWebViewWindowController")
         self.item = urlItem
     }
