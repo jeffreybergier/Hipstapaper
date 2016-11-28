@@ -66,19 +66,22 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
         self.checkSyncQueue(.none)
     }
     
-    func createItem() -> URLItemType? {
-        let newObject = URLItem.CloudKitObject()
-        let id = newObject.cloudKitID
-        self.objectMap[id] = newObject
-        self.ids.insert(id)
-        self.networkOperationsInProgress += 1
-        self.networkQueue.append({
-            self.privateDB.save(newObject.record, completionHandler: { _ in
-                self.networkOperationsInProgress -= 1
-            })
-        })
-        let newValue = URLItem.Value(cloudKitObject: newObject)
-        return newValue
+    func createItem(result: @escaping SyncingPersistenceType.URLItemResult) {
+        DispatchQueue.global(qos: .userInteractive).async {
+            let emptyObject = URLItem.CloudKitObject()
+            self.privateDB.save(emptyObject.record) { (record, error) in
+                if let record = record {
+                    let newObject = URLItem.CloudKitObject(record: record)
+                    let newValue = URLItem.Value(cloudKitObject: newObject)
+                    let id = newObject.cloudKitID
+                    self.objectMap[id] = newObject
+                    self.ids.insert(id)
+                    result(.success(newValue))
+                } else {
+                    result(.error(error!))
+                }
+            }
+        }
     }
     
     func read(itemWithID id: String) -> URLItemType? {

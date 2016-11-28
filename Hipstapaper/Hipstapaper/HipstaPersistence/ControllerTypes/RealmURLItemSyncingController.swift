@@ -20,18 +20,20 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
         completionHandler?(.success())
     }
     
-    func createItem() -> URLItemType? {
-        do {
-            let newObject = URLItemRealmObject()
-            let realm = try Realm()
-            realm.beginWrite()
-            realm.add(newObject)
-            try realm.commitWrite()
-            let value = URLItem.Value(realmObject: newObject)
-            return value
-        } catch {
-            NSLog("createURLItemError: \(error)")
-            return .none
+    func createItem(result: @escaping SyncingPersistenceType.URLItemResult) {
+        DispatchQueue.global(qos: .userInteractive).async {
+            do {
+                let newObject = URLItemRealmObject()
+                let realm = try Realm()
+                realm.beginWrite()
+                realm.add(newObject)
+                try realm.commitWrite()
+                let value = URLItem.Value(realmObject: newObject)
+                result(.success(value))
+            } catch {
+                NSLog("createURLItemError: \(error)")
+                result(.error(error))
+            }
         }
     }
     

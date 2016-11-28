@@ -12,7 +12,7 @@ protocol SyncingPersistenceType: class {
     
     var isSyncing: Bool { get }
     func sync(completionHandler: SuccessResult)
-    func createItem() -> URLItemType?
+    func createItem(result: @escaping URLItemResult)
     func read(itemWithID id: String) -> URLItemType?
     func update(item: URLItemType)
     func delete(item: URLItemType)
@@ -21,9 +21,7 @@ protocol SyncingPersistenceType: class {
 //    func read(itemWithID id: String, completionHandler: ItemResult)
 //    func update(item: URLItemType, completionHandler: UUIDResult)
 //    func delete(item: URLItemType, completionHandler: SuccessResult)
-    
-    typealias UUIDResults = (([Result<String>]) -> Void)?
-    typealias UUIDResult = ((Result<String>) -> Void)?
-    typealias ItemResult = ((Result<URLItemType>) -> Void)?
+
+    typealias URLItemResult = ((Result<URLItemType>) -> Void)
     typealias SuccessResult = ((Result<Void>) -> Void)?
 }

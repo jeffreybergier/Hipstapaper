@@ -8,8 +8,8 @@
 
 class CombinedURLItemSyncingController: SyncingPersistenceType {
     
-    private let realmController: SyncingPersistenceType = RealmURLItemSyncingController()
-    private let cloudKitController: SyncingPersistenceType = CloudKitURLItemSyncingController()
+    private let realmController /*: SyncingPersistenceType */ = RealmURLItemSyncingController()
+    private let cloudKitController /*: SyncingPersistenceType */ = CloudKitURLItemSyncingController()
     
     var ids: Set<String> {
         return self.realmController.ids
@@ -24,13 +24,23 @@ class CombinedURLItemSyncingController: SyncingPersistenceType {
         self.cloudKitController.sync(completionHandler: .none)
     }
     
-    func createItem() -> URLItemType? {
-        guard var realmItem = self.realmController.createItem() else { return .none }
-        if let cloudItem = self.cloudKitController.createItem() {
-            realmItem.cloudKitID = cloudItem.cloudKitID
+    func createItem(result: @escaping SyncingPersistenceType.URLItemResult) {
+        self.realmController.createItem() { realmResult in
+            // passs this back immediately because realm is fast
+            result(realmResult)
+            
+            // then add it to cloudkit to keep thing sin sync
+            if case .success(var realmValue) = realmResult {
+                self.cloudKitController.createItem() { cloudResult in
+                    // if it comes back from cloudkit successfully
+                    // update the realm object to have the correct cloudkit id
+                    if case .success(let cloudValue) = cloudResult {
+                        realmValue.cloudKitID = cloudValue.cloudKitID
+                        self.realmController.update(item: realmValue)
+                    }
+                }
+            }
         }
-        self.realmController.update(item: realmItem)
-        return realmItem
     }
     
     func read(itemWithID id: String) -> URLItemType? {

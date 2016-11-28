@@ -46,8 +46,14 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
         set {
             let oldValue = self._listItems
             let new = newValue.filter({ $0.value == nil })
-            new.forEach() { newItem in
-                newItem.value = self.dataSource.createItem()
+            new.forEach() { newBindingObject in
+                self.dataSource.createItem() { result in
+                    if case .success(let urlItem) = result {
+                        DispatchQueue.main.async {
+                            newBindingObject.value = urlItem
+                        }
+                    }
+                }
             }
             let deleted = newValue.deletedItems(from: oldValue)
             deleted?.forEach() { deletedItem in
@@ -97,7 +103,24 @@ extension URLItem {
     @objc(URLItemBindingObject)
     fileprivate class BindingObject: NSObject, URLItemType {
         
-        fileprivate(set) var value: URLItemType?
+        fileprivate(set) var value: URLItemType? {
+            willSet {
+                self.willChangeValue(forKey: #keyPath(BindingObject.realmID))
+                self.willChangeValue(forKey: #keyPath(BindingObject.cloudKitID))
+                self.willChangeValue(forKey: #keyPath(BindingObject.urlString))
+                self.willChangeValue(forKey: #keyPath(BindingObject.archived))
+//                self.willChangeValue(forKey: #keyPath(BindingObject.tags))
+                self.willChangeValue(forKey: #keyPath(BindingObject.modificationDate))
+            }
+            didSet {
+                self.didChangeValue(forKey: #keyPath(BindingObject.realmID))
+                self.didChangeValue(forKey: #keyPath(BindingObject.cloudKitID))
+                self.didChangeValue(forKey: #keyPath(BindingObject.urlString))
+                self.didChangeValue(forKey: #keyPath(BindingObject.archived))
+//                self.didChangeValue(forKey: #keyPath(BindingObject.tags))
+                self.didChangeValue(forKey: #keyPath(BindingObject.modificationDate))
+            }
+        }
         weak var delegate: URLItemBindingChangeDelegate?
         
         var realmID: String {
