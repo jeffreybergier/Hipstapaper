@@ -12,28 +12,35 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
     
     private(set) var ids: Set<String> = []
 
-    func sync(result: @escaping SyncingPersistenceType.SuccessResult) {
+    func sync(quickSyncResult: @escaping SyncingPersistenceType.SuccessResult,
+              fullSyncResult: @escaping SyncingPersistenceType.SuccessResult)
+    {
         DispatchQueue.global(qos: .userInteractive).async {
             do {
                 let realm = try Realm()
                 let ids = RealmURLItemSyncingController.allRealmObjectIDs(from: realm)
                 self.ids = ids
-                result(.success())
+                quickSyncResult(.success())
+                fullSyncResult(.success())
             } catch {
                 NSLog("realmSyncError: \(error)")
                 self.ids = []
-                result(.error(error))
+                quickSyncResult(.error(error))
+                fullSyncResult(.error(error))
             }
         }
     }
     
-    func createItem(result: @escaping SyncingPersistenceType.URLItemResult) {
+    func createItem(withID id: String?, result: @escaping SyncingPersistenceType.URLItemResult) {
         DispatchQueue.global(qos: .userInteractive).async {
             do {
                 let newObject = URLItemRealmObject()
                 let realm = try Realm()
                 realm.beginWrite()
                 realm.add(newObject)
+                if let id = id {
+                    newObject.realmID = id
+                }
                 try realm.commitWrite()
                 let value = URLItem.Value(realmObject: newObject)
                 result(.success(value))

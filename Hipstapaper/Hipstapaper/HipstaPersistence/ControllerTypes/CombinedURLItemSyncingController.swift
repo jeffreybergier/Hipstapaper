@@ -15,28 +15,22 @@ class CombinedURLItemSyncingController: SyncingPersistenceType {
         return self.realmController.ids
     }
     
-    func sync(result: @escaping SyncingPersistenceType.SuccessResult) {
-        self.realmController.sync() { realmResult in
-            result(realmResult)
-            self.cloudKitController.sync(result: { _ in })
-        }
+    func sync(quickSyncResult: @escaping SyncingPersistenceType.SuccessResult,
+              fullSyncResult: @escaping SyncingPersistenceType.SuccessResult)
+    {
+        self.realmController.sync(quickSyncResult: quickSyncResult, fullSyncResult: { realmResult in // perform the update and return quickly
+            self.cloudKitController.sync(quickSyncResult: { _ in }, fullSyncResult: fullSyncResult) // sync cloudkit and ignore result
+        })
     }
     
-    func createItem(result: @escaping SyncingPersistenceType.URLItemResult) {
-        self.realmController.createItem() { realmResult in
-            // passs this back immediately because realm is fast
+    func createItem(withID id: String?, result: @escaping SyncingPersistenceType.URLItemResult) {
+        self.realmController.createItem(withID: id) { realmResult in
+            // pass this back immediately because realm is fast
             result(realmResult)
             
-            // then add it to cloudkit to keep thing sin sync
+            // if successful then add it to cloudkit to keep things in sync
             if case .success(var realmValue) = realmResult {
-                self.cloudKitController.createItem() { cloudResult in
-                    // if it comes back from cloudkit successfully
-                    // update the realm object to have the correct cloudkit id
-                    if case .success(let cloudValue) = cloudResult {
-                        realmValue.cloudKitID = cloudValue.cloudKitID
-                        self.realmController.update(item: realmValue, result: { _ in })
-                    }
-                }
+                self.cloudKitController.createItem(withID: realmValue.cloudKitID, result: { _ in })
             }
         }
     }

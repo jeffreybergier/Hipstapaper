@@ -17,6 +17,18 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
         }
     }
     
+    private var spinnerOperationsInProgress = 0 {
+        didSet {
+            DispatchQueue.main.async {
+                if self.spinnerOperationsInProgress > 0 {
+                    self.syncingToolbarActivityIndicator?.startAnimation(self)
+                } else {
+                    self.syncingToolbarActivityIndicator?.stopAnimation(self)
+                }
+            }
+        }
+    }
+    
     // access to the array controller so we can poke at it occasionally
     @IBOutlet private weak var arrayController: NSArrayController? {
         didSet {
@@ -47,18 +59,21 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
             let oldValue = self._listItems
             let new = newValue.filter({ $0.value == nil })
             new.forEach() { newBindingObject in
-                self.dataSource.createItem() { result in
+                self.spinnerOperationsInProgress += 1 // update the spinner
+                self.dataSource.createItem(withID: .none) { result in
                     if case .success(let urlItem) = result {
                         DispatchQueue.main.async {
                             newBindingObject.value = urlItem
                         }
+                        self.spinnerOperationsInProgress -= 1 // update the spinner
                     }
                 }
             }
             let deleted = newValue.deletedItems(from: oldValue)
             deleted?.forEach() { deletedItem in
+                self.spinnerOperationsInProgress += 1 // update the spinner
                 guard let item = deletedItem.value else { return }
-                self.dataSource.delete(item: item, result: { _ in })
+                self.dataSource.delete(item: item, result: { _ in self.spinnerOperationsInProgress -= 1 })
             }
             self._listItems = newValue
         }
@@ -72,8 +87,16 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
     }
     
     func reloadData() {
-        self.syncingToolbarActivityIndicator?.startAnimation(self)
-        self.dataSource.sync() { results in
+        self.spinnerOperationsInProgress += 1 // update the spinner
+        self.dataSource.sync(quickSyncResult: { quickResult in
+            self.processReloadedData(quickResult) // process the data
+        }, fullSyncResult: { _ in
+            self.spinnerOperationsInProgress -= 1 // update the spinner
+        })
+    }
+    
+    private func processReloadedData(_ result: Result<Void>) {
+        DispatchQueue.global(qos: .userInitiated).async {
             let ids = self.dataSource.ids
             let bindingObjects = ids.map() { id -> URLItem.BindingObject in
                 let bindingObject = URLItem.BindingObject(value: nil)
@@ -89,12 +112,12 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
             DispatchQueue.main.async {
                 self._listItems = bindingObjects
                 self.arrayController?.content = self.listItems
-                self.syncingToolbarActivityIndicator?.stopAnimation(self)
             }
         }
     }
     
     fileprivate func didChange(item: URLItemType, withinObject object: URLItem.BindingObject) {
+        self.spinnerOperationsInProgress += 1 // update the spinner
         self.dataSource.update(item: item) { result in
             DispatchQueue.main.async {
                 if case .success(let updatedValue) = result {
@@ -103,6 +126,7 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
                     object.value = .none
                 }
             }
+            self.spinnerOperationsInProgress -= 1 // update the spinner
         }
     }
     

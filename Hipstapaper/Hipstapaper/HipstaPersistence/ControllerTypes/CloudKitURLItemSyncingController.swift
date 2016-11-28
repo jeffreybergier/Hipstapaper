@@ -16,7 +16,9 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
     private(set) var ids: Set<String> = []
     private var objectMap: [String : URLItem.CloudKitObject] = [:]
         
-    func sync(result: @escaping SyncingPersistenceType.SuccessResult) {
+    func sync(quickSyncResult: @escaping SyncingPersistenceType.SuccessResult,
+              fullSyncResult: @escaping SyncingPersistenceType.SuccessResult)
+    {
         DispatchQueue.global(qos: .userInteractive).async {
             let predicate = NSPredicate(value: true)
             let initialQuery = CKQuery(recordType: self.recordType, predicate: predicate)
@@ -32,26 +34,31 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
                     }
                     self.objectMap = cloudObjects
                     self.ids = Set(ids)
-                    result(.success())
+                    quickSyncResult(.success())
+                    fullSyncResult(.success())
                 } else {
                     self.ids = []
                     self.objectMap = [:]
-                    result(.error(error!))
+                    quickSyncResult(.error(error!))
+                    fullSyncResult(.error(error!))
                 }
             }
         }
     }
     
-    func createItem(result: @escaping SyncingPersistenceType.URLItemResult) {
+    func createItem(withID inputID: String?, result: @escaping SyncingPersistenceType.URLItemResult) {
         DispatchQueue.global(qos: .userInteractive).async {
             let emptyObject = URLItem.CloudKitObject()
             self.privateDB.save(emptyObject.record) { (record, error) in
                 if let record = record {
                     let newObject = URLItem.CloudKitObject(record: record)
-                    let newValue = URLItem.Value(cloudKitObject: newObject)
+                    if let inputID = inputID {
+                        newObject.cloudKitID = inputID
+                    }
                     let id = newObject.cloudKitID
                     self.objectMap[id] = newObject
                     self.ids.insert(id)
+                    let newValue = URLItem.Value(cloudKitObject: newObject)
                     result(.success(newValue))
                 } else {
                     result(.error(error!))
