@@ -12,26 +12,24 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
     
     private(set) var ids: Set<String> = []
 
-    func sync(quickSyncResult: @escaping SyncingPersistenceType.SuccessResult,
-              fullSyncResult: @escaping SyncingPersistenceType.SuccessResult)
-    {
+    func sync(quickResult: @escaping SuccessResult, fullResult: @escaping SuccessResult) {
         DispatchQueue.global(qos: .userInteractive).async {
             do {
                 let realm = try Realm()
                 let ids = RealmURLItemSyncingController.allRealmObjectIDs(from: realm)
                 self.ids = ids
-                quickSyncResult(.success())
-                fullSyncResult(.success())
+                quickResult(.success())
+                fullResult(.success())
             } catch {
                 NSLog("realmSyncError: \(error)")
                 self.ids = []
-                quickSyncResult(.error(error))
-                fullSyncResult(.error(error))
+                quickResult(.error(error))
+                fullResult(.error(error))
             }
         }
     }
     
-    func createItem(withID id: String?, result: @escaping SyncingPersistenceType.URLItemResult) {
+    func createItem(withID id: String?, quickResult: @escaping URLItemResult, fullResult: @escaping URLItemResult) {
         DispatchQueue.global(qos: .userInteractive).async {
             do {
                 let newObject = URLItemRealmObject()
@@ -43,35 +41,39 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
                 }
                 try realm.commitWrite()
                 let value = URLItem.Value(realmObject: newObject)
-                result(.success(value))
+                quickResult(.success(value))
+                fullResult(.success(value))
             } catch {
                 NSLog("createURLItemError: \(error)")
-                result(.error(error))
+                quickResult(.error(error))
+                fullResult(.error(error))
             }
         }
     }
     
-    func readItem(withID id: String, result: @escaping SyncingPersistenceType.URLItemResult) {
+    func readItem(withID id: String, quickResult: @escaping URLItemResult, fullResult: @escaping URLItemResult) {
         DispatchQueue.global(qos: .userInteractive).async {
             do {
                 let realm = try Realm()
                 guard let realmObject = type(of: self).realmObject(withID: id, from: realm)
-                    else { result(.error(NSError())); return; }
+                    else { quickResult(.error(NSError())); fullResult(.error(NSError())); return; }
                 let value = URLItem.Value(realmObject: realmObject)
-                result(.success(value))
+                quickResult(.success(value))
+                fullResult(.success(value))
             } catch {
                 NSLog("readURLItemWithID: \(id), Error: \(error)")
-                result(.error(error))
+                quickResult(.error(error))
+                fullResult(.error(error))
             }
         }
     }
     
-    func update(item: URLItemType, result: @escaping SyncingPersistenceType.URLItemResult) {
+    func update(item: URLItemType, quickResult: @escaping URLItemResult, fullResult: @escaping URLItemResult) {
         DispatchQueue.global(qos: .userInteractive).async {
             do {
                 let realm = try Realm()
                 guard let realmObject = type(of: self).realmObject(withID: item.realmID, from: realm)
-                    else { result(.error(NSError())); return; }
+                    else { quickResult(.error(NSError())); fullResult(.error(NSError())); return; }
                 realm.beginWrite()
                 realmObject.cloudKitID = item.cloudKitID
                 realmObject.urlString = item.urlString
@@ -80,27 +82,31 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
                 realmObject.modificationDate = item.modificationDate
                 try realm.commitWrite()
                 let updatedValue = URLItem.Value(realmObject: realmObject)
-                result(.success(updatedValue))
+                quickResult(.success(updatedValue))
+                fullResult(.success(updatedValue))
             } catch {
                 NSLog("updateURLItemError: \(error)")
-                result(.error(error))
+                quickResult(.error(error))
+                fullResult(.error(error))
             }
         }
     }
     
-    func delete(item: URLItemType, result: @escaping SyncingPersistenceType.SuccessResult) {
+    func delete(item: URLItemType, quickResult: @escaping SuccessResult, fullResult: @escaping SuccessResult) {
         DispatchQueue.global(qos: .userInteractive).async {
             do {
                 let realm = try Realm()
                 guard let realmObject = type(of: self).realmObject(withID: item.realmID, from: realm)
-                    else { result(.error(NSError())); return; }
+                    else { quickResult(.error(NSError())); fullResult(.error(NSError())); return; }
                 realm.beginWrite()
                 realm.delete(realmObject)
                 try realm.commitWrite()
-                result(.success(()))
+                quickResult(.success(()))
+                fullResult(.success(()))
             } catch {
                 NSLog("readURLItemWithID: \(item.realmID), Error: \(error)")
-                result(.error(error))
+                quickResult(.error(error))
+                fullResult(.error(error))
             }
         }
     }

@@ -15,41 +15,37 @@ class CombinedURLItemSyncingController: SyncingPersistenceType {
         return self.realmController.ids
     }
     
-    func sync(quickSyncResult: @escaping SyncingPersistenceType.SuccessResult,
-              fullSyncResult: @escaping SyncingPersistenceType.SuccessResult)
-    {
-        self.realmController.sync(quickSyncResult: quickSyncResult, fullSyncResult: { realmResult in // perform the update and return quickly
-            self.cloudKitController.sync(quickSyncResult: { _ in }, fullSyncResult: fullSyncResult) // sync cloudkit and ignore result
-        })
+    func sync(quickResult: @escaping SuccessResult, fullResult: @escaping SuccessResult) {
+        self.realmController.sync(quickResult: quickResult) { realmResult in
+            self.cloudKitController.sync(quickResult: { _ in }, fullResult: fullResult)
+        }
     }
     
-    func createItem(withID id: String?, result: @escaping SyncingPersistenceType.URLItemResult) {
-        self.realmController.createItem(withID: id) { realmResult in
-            // pass this back immediately because realm is fast
-            result(realmResult)
-            
-            // if successful then add it to cloudkit to keep things in sync
+    func createItem(withID id: String?, quickResult: @escaping URLItemResult, fullResult: @escaping URLItemResult) {
+        self.realmController.createItem(withID: nil, quickResult: quickResult) { realmResult in
             if case .success(var realmValue) = realmResult {
-                self.cloudKitController.createItem(withID: realmValue.cloudKitID, result: { _ in })
+                self.cloudKitController.createItem(withID: realmValue.cloudKitID, quickResult: { _ in }, fullResult: fullResult)
             }
         }
     }
     
-    func readItem(withID id: String, result: @escaping SyncingPersistenceType.URLItemResult) {
-        self.realmController.readItem(withID: id, result: result) // perform the update and return quickly
+    func readItem(withID id: String, quickResult: @escaping URLItemResult, fullResult: @escaping URLItemResult) {
+        self.realmController.readItem(withID: id, quickResult: quickResult, fullResult: fullResult)
     }
     
-    func update(item: URLItemType, result: @escaping SyncingPersistenceType.URLItemResult) {
-        self.realmController.update(item: item) { realmResult in
-            result(realmResult) // perform the update and return quickly
-            self.cloudKitController.update(item: item, result: { _ in }) // update cloudkit and ignore result
+    func update(item: URLItemType, quickResult: @escaping URLItemResult, fullResult: @escaping URLItemResult) {
+        self.realmController.update(item: item, quickResult: quickResult) { realmResult in
+            if case .success(let updatedItem) = realmResult {
+                self.cloudKitController.update(item: updatedItem, quickResult: { _ in }, fullResult: fullResult)
+            }
         }
     }
     
-    func delete(item: URLItemType, result: @escaping SyncingPersistenceType.SuccessResult) {
-        self.realmController.delete(item: item) { realmResult in
-            result(realmResult) // perform the update and return quickly
-            self.cloudKitController.delete(item: item, result: { _ in }) // update cloudkit and ignore result
+    func delete(item: URLItemType, quickResult: @escaping SuccessResult, fullResult: @escaping SuccessResult) {
+        self.realmController.delete(item: item, quickResult: quickResult) { realmResult in
+            if case .success = realmResult {
+                self.cloudKitController.delete(item: item, quickResult: { _ in }, fullResult: fullResult)
+            }
         }
     }
 }

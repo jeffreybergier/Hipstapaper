@@ -60,20 +60,22 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
             let new = newValue.filter({ $0.value == nil })
             new.forEach() { newBindingObject in
                 self.spinnerOperationsInProgress += 1 // update the spinner
-                self.dataSource.createItem(withID: .none) { result in
+                self.dataSource.createItem(withID: .none,
+                quickResult: { result in
                     if case .success(let urlItem) = result {
                         DispatchQueue.main.async {
                             newBindingObject.value = urlItem
                         }
-                        self.spinnerOperationsInProgress -= 1 // update the spinner
                     }
-                }
+                }, fullResult: { _ in
+                    self.spinnerOperationsInProgress -= 1 // update the spinner
+                })
             }
             let deleted = newValue.deletedItems(from: oldValue)
             deleted?.forEach() { deletedItem in
                 self.spinnerOperationsInProgress += 1 // update the spinner
                 guard let item = deletedItem.value else { return }
-                self.dataSource.delete(item: item, result: { _ in self.spinnerOperationsInProgress -= 1 })
+                self.dataSource.delete(item: item, quickResult: { _ in }, fullResult: { _ in self.spinnerOperationsInProgress -= 1 })
             }
             self._listItems = newValue
         }
@@ -88,9 +90,9 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
     
     func reloadData() {
         self.spinnerOperationsInProgress += 1 // update the spinner
-        self.dataSource.sync(quickSyncResult: { quickResult in
+        self.dataSource.sync(quickResult: { quickResult in
             self.processReloadedData(quickResult) // process the data
-        }, fullSyncResult: { _ in
+        }, fullResult: { _ in
             self.spinnerOperationsInProgress -= 1 // update the spinner
         })
     }
@@ -100,13 +102,17 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
             let ids = self.dataSource.ids
             let bindingObjects = ids.map() { id -> URLItem.BindingObject in
                 let bindingObject = URLItem.BindingObject(value: nil)
-                self.dataSource.readItem(withID: id) { result in
+                self.spinnerOperationsInProgress += 1 // update the spinner
+                self.dataSource.readItem(withID: id, quickResult: { result in
                     if case .success(let urlItem) = result {
                         DispatchQueue.main.async {
                             bindingObject.value = urlItem
                         }
                     }
-                }
+
+                }, fullResult: { _ in
+                    self.spinnerOperationsInProgress -= 1 // update the spinner
+                })
                 return bindingObject
             }
             DispatchQueue.main.async {
@@ -118,7 +124,7 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
     
     fileprivate func didChange(item: URLItemType, withinObject object: URLItem.BindingObject) {
         self.spinnerOperationsInProgress += 1 // update the spinner
-        self.dataSource.update(item: item) { result in
+        self.dataSource.update(item: item, quickResult: { result in
             DispatchQueue.main.async {
                 if case .success(let updatedValue) = result {
                     object.value = updatedValue
@@ -126,8 +132,9 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
                     object.value = .none
                 }
             }
+        }, fullResult: { _ in
             self.spinnerOperationsInProgress -= 1 // update the spinner
-        }
+        })
     }
     
 }

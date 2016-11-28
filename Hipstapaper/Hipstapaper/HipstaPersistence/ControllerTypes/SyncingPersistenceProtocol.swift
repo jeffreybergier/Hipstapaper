@@ -6,15 +6,15 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
+typealias URLItemResult = ((Result<URLItemType>) -> Void)
+typealias SuccessResult = ((Result<Void>) -> Void)
+
 protocol SyncingPersistenceType: class {
     
     var ids: Set<String> { get }    
-    func sync(quickSyncResult: @escaping SuccessResult, fullSyncResult: @escaping SuccessResult)
-    func createItem(withID: String?, result: @escaping URLItemResult)
-    func readItem(withID id: String, result: @escaping URLItemResult)
-    func update(item: URLItemType, result: @escaping URLItemResult)
-    func delete(item: URLItemType, result: @escaping SuccessResult)
-    
-    typealias URLItemResult = ((Result<URLItemType>) -> Void)
-    typealias SuccessResult = ((Result<Void>) -> Void)
+    func sync(quickResult: @escaping SuccessResult, fullResult: @escaping SuccessResult)
+    func createItem(withID: String?, quickResult: @escaping URLItemResult, fullResult: @escaping URLItemResult)
+    func readItem(withID id: String, quickResult: @escaping URLItemResult, fullResult: @escaping URLItemResult)
+    func update(item: URLItemType, quickResult: @escaping URLItemResult, fullResult: @escaping URLItemResult)
+    func delete(item: URLItemType, quickResult: @escaping SuccessResult, fullResult: @escaping SuccessResult)
 }

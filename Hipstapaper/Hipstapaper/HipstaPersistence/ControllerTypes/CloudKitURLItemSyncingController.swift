@@ -16,9 +16,7 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
     private(set) var ids: Set<String> = []
     private var objectMap: [String : URLItem.CloudKitObject] = [:]
         
-    func sync(quickSyncResult: @escaping SyncingPersistenceType.SuccessResult,
-              fullSyncResult: @escaping SyncingPersistenceType.SuccessResult)
-    {
+    func sync(quickResult: @escaping SuccessResult, fullResult: @escaping SuccessResult) {
         DispatchQueue.global(qos: .userInteractive).async {
             let predicate = NSPredicate(value: true)
             let initialQuery = CKQuery(recordType: self.recordType, predicate: predicate)
@@ -34,19 +32,19 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
                     }
                     self.objectMap = cloudObjects
                     self.ids = Set(ids)
-                    quickSyncResult(.success())
-                    fullSyncResult(.success())
+                    quickResult(.success())
+                    fullResult(.success())
                 } else {
                     self.ids = []
                     self.objectMap = [:]
-                    quickSyncResult(.error(error!))
-                    fullSyncResult(.error(error!))
+                    quickResult(.error(error!))
+                    fullResult(.error(error!))
                 }
             }
         }
     }
     
-    func createItem(withID inputID: String?, result: @escaping SyncingPersistenceType.URLItemResult) {
+    func createItem(withID inputID: String?, quickResult: @escaping URLItemResult, fullResult: @escaping URLItemResult) {
         DispatchQueue.global(qos: .userInteractive).async {
             let emptyObject = URLItem.CloudKitObject()
             self.privateDB.save(emptyObject.record) { (record, error) in
@@ -59,29 +57,33 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
                     self.objectMap[id] = newObject
                     self.ids.insert(id)
                     let newValue = URLItem.Value(cloudKitObject: newObject)
-                    result(.success(newValue))
+                    quickResult(.success(newValue))
+                    fullResult(.success(newValue))
                 } else {
-                    result(.error(error!))
+                    quickResult(.error(error!))
+                    fullResult(.error(error!))
                 }
             }
         }
     }
     
-    func readItem(withID id: String, result: @escaping SyncingPersistenceType.URLItemResult) {
+    func readItem(withID id: String, quickResult: @escaping URLItemResult, fullResult: @escaping URLItemResult) {
         DispatchQueue.global(qos: .userInteractive).async {
             if let existingObject = self.objectMap[id] {
                 let value = URLItem.Value(cloudKitObject: existingObject)
-                result(.success(value))
+                quickResult(.success(value))
+                fullResult(.success(value))
             } else {
-                result(.error(NSError()))
+                quickResult(.error(NSError()))
+                fullResult(.error(NSError()))
             }
         }
     }
     
-    func update(item: URLItemType, result: @escaping SyncingPersistenceType.URLItemResult) {
+    func update(item: URLItemType, quickResult: @escaping URLItemResult, fullResult: @escaping URLItemResult) {
         DispatchQueue.global(qos: .userInteractive).async {
             guard let existingObject = self.objectMap[item.cloudKitID]
-                else { result(.error(NSError())); return; }
+                else { quickResult(.error(NSError())); fullResult(.error(NSError())); return; }
             existingObject.urlString = item.urlString
             existingObject.archived = item.archived
             existingObject.tags = item.tags
@@ -93,27 +95,31 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
                     self.objectMap[id] = updatedObject
                     self.ids.insert(id)
                     let updatedValue = URLItem.Value(cloudKitObject: updatedObject)
-                    result(.success(updatedValue))
+                    quickResult(.success(updatedValue))
+                    fullResult(.success(updatedValue))
                 } else {
-                    result(.error(error!))
+                    quickResult(.error(error!))
+                    fullResult(.error(error!))
                 }
             }
         }
     }
     
-    func delete(item: URLItemType, result: @escaping SyncingPersistenceType.SuccessResult) {
+    func delete(item: URLItemType, quickResult: @escaping SuccessResult, fullResult: @escaping SuccessResult) {
         DispatchQueue.global(qos: .userInteractive).async {
             let id = item.cloudKitID
             guard let existingObject = self.objectMap[id]
-                else { result(.error(NSError())); return; }
+                else { quickResult(.error(NSError())); fullResult(.error(NSError())); return; }
             let recordID = existingObject.record.recordID
             self.ids.remove(id)
             self.objectMap[id] = .none
             self.privateDB.delete(withRecordID: recordID) { (recordID, error) in
                 if let _ = recordID {
-                    result(.success(()))
+                    quickResult(.success())
+                    fullResult(.success())
                 } else {
-                    result(.error(error!))
+                    quickResult(.error(error!))
+                    fullResult(.error(error!))
                 }
             }
         }
