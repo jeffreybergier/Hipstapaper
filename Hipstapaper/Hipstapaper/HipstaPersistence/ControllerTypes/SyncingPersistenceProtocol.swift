@@ -11,12 +11,12 @@ protocol SyncingPersistenceType: class {
     var ids: Set<String> { get }
     
     var isSyncing: Bool { get }
-    func sync(completionHandler: SuccessResult)
+    func sync(completionHandler: @escaping SuccessResult)
     func createItem(result: @escaping URLItemResult)
     func readItem(withID id: String, result: @escaping URLItemResult)
-    func update(item: URLItemType)
+    func update(item: URLItemType, result: @escaping URLItemResult)
     func delete(item: URLItemType)
 
     typealias URLItemResult = ((Result<URLItemType>) -> Void)
-    typealias SuccessResult = ((Result<Void>) -> Void)?
+    typealias SuccessResult = ((Result<Void>) -> Void)
 }

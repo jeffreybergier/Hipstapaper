@@ -19,9 +19,9 @@ class CombinedURLItemSyncingController: SyncingPersistenceType {
         return self.cloudKitController.isSyncing
     }
     
-    func sync(completionHandler: SyncingPersistenceType.SuccessResult) {
+    func sync(completionHandler: @escaping SyncingPersistenceType.SuccessResult) {
         self.realmController.sync(completionHandler: completionHandler)
-        self.cloudKitController.sync(completionHandler: .none)
+        self.cloudKitController.sync(completionHandler: {_ in})
     }
     
     func createItem(result: @escaping SyncingPersistenceType.URLItemResult) {
@@ -36,7 +36,7 @@ class CombinedURLItemSyncingController: SyncingPersistenceType {
                     // update the realm object to have the correct cloudkit id
                     if case .success(let cloudValue) = cloudResult {
                         realmValue.cloudKitID = cloudValue.cloudKitID
-                        self.realmController.update(item: realmValue)
+                        self.realmController.update(item: realmValue, result: { _ in })
                     }
                 }
             }
@@ -47,9 +47,9 @@ class CombinedURLItemSyncingController: SyncingPersistenceType {
         self.realmController.readItem(withID: id, result: result)
     }
     
-    func update(item: URLItemType) {
-        self.cloudKitController.update(item: item)
-        self.realmController.update(item: item)
+    func update(item: URLItemType, result: @escaping SyncingPersistenceType.URLItemResult) {
+        self.realmController.update(item: item, result: result) // perform the update and return quickly
+        self.cloudKitController.update(item: item, result: { _ in }) // update cloudkit and ignore result
     }
     
     func delete(item: URLItemType) {

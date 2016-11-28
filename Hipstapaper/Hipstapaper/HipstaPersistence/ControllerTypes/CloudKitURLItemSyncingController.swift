@@ -35,7 +35,7 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
         Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.checkSyncQueue(_:)), userInfo: .none, repeats: true)
     }
     
-    func sync(completionHandler: SyncingPersistenceType.SuccessResult) {
+    func sync(completionHandler: @escaping SyncingPersistenceType.SuccessResult) {
         guard self.syncOperation == nil else { return }
         self.syncOperation = {
             self.networkOperationsInProgress += 1
@@ -46,7 +46,7 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
                 if let error = error {
                     self.ids = []
                     self.objectMap = [:]
-                    completionHandler?(.error(error))
+                    completionHandler(.error(error))
                 } else {
                     let records = records ?? []
                     var ids = [String]()
@@ -59,7 +59,7 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
                     }
                     self.objectMap = cloudObjects
                     self.ids = Set(ids)
-                    completionHandler?(.success())
+                    completionHandler(.success())
                 }
             }
         }
@@ -95,18 +95,27 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
         }
     }
     
-    func update(item: URLItemType) {
-        guard let existingObject = self.objectMap[item.cloudKitID] else { return }
-        existingObject.urlString = item.urlString
-        existingObject.archived = item.archived
-        existingObject.tags = item.tags
-        existingObject.modificationDate = item.modificationDate
-        self.networkOperationsInProgress += 1
-        self.networkQueue.append({
-            self.privateDB.save(existingObject.record, completionHandler: { _ in
-                self.networkOperationsInProgress -= 1
-            })
-        })
+    func update(item: URLItemType, result: @escaping SyncingPersistenceType.URLItemResult) {
+        DispatchQueue.global(qos: .userInteractive).async {
+            guard let existingObject = self.objectMap[item.cloudKitID]
+                else { result(.error(NSError())); return; }
+            existingObject.urlString = item.urlString
+            existingObject.archived = item.archived
+            existingObject.tags = item.tags
+            existingObject.modificationDate = item.modificationDate
+            self.privateDB.save(existingObject.record) { (record, error) in
+                if let record = record {
+                    let updatedObject = URLItem.CloudKitObject(record: record)
+                    let id = updatedObject.cloudKitID
+                    self.objectMap[id] = updatedObject
+                    self.ids.insert(id)
+                    let updatedValue = URLItem.Value(cloudKitObject: updatedObject)
+                    result(.success(updatedValue))
+                } else {
+                    result(.error(error!))
+                }
+            }
+        }
     }
     
     func delete(item: URLItemType) {

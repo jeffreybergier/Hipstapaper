@@ -94,14 +94,22 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
         }
     }
     
-    func didChange(_ value: URLItemType) {
-        self.dataSource.update(item: value)
+    fileprivate func didChange(item: URLItemType, withinObject object: URLItem.BindingObject) {
+        self.dataSource.update(item: item) { result in
+            DispatchQueue.main.async {
+                if case .success(let updatedValue) = result {
+                    object.value = updatedValue
+                } else {
+                    object.value = .none
+                }
+            }
+        }
     }
     
 }
 
 private protocol URLItemBindingChangeDelegate: class {
-    func didChange(_: URLItemType)
+    func didChange(item: URLItemType, withinObject object: URLItem.BindingObject)
 }
 
 extension URLItem {
@@ -154,7 +162,7 @@ extension URLItem {
                 value.urlString = newValue
                 value.modificationDate = Date()
                 self.value = value
-                self.delegate?.didChange(value)
+                self.delegate?.didChange(item: value, withinObject: self)
             }
         }
         var archived: Bool {
@@ -166,7 +174,7 @@ extension URLItem {
                 value.archived = newValue
                 value.modificationDate = Date()
                 self.value = value
-                self.delegate?.didChange(value)
+                self.delegate?.didChange(item: value, withinObject: self)
             }
         }
         var tags: [TagItemType] {
@@ -178,7 +186,7 @@ extension URLItem {
                 value.tags = newValue
                 value.modificationDate = Date()
                 self.value = value
-                self.delegate?.didChange(value)
+                self.delegate?.didChange(item: value, withinObject: self)
             }
         }
         var modificationDate: Date {
@@ -189,7 +197,7 @@ extension URLItem {
                 guard var value = self.value else { return }
                 value.modificationDate = newValue
                 self.value = value
-                self.delegate?.didChange(value)
+                self.delegate?.didChange(item: value, withinObject: self)
             }
         }
         
