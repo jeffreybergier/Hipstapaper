@@ -48,12 +48,16 @@ class CombinedURLItemSyncingController: SyncingPersistenceType {
     }
     
     func update(item: URLItemType, result: @escaping SyncingPersistenceType.URLItemResult) {
-        self.realmController.update(item: item, result: result) // perform the update and return quickly
-        self.cloudKitController.update(item: item, result: { _ in }) // update cloudkit and ignore result
+        self.realmController.update(item: item) { realmResult in
+            result(realmResult) // perform the update and return quickly
+            self.cloudKitController.update(item: item, result: { _ in }) // update cloudkit and ignore result
+        }
     }
     
-    func delete(item: URLItemType) {
-        self.cloudKitController.delete(item: item)
-        self.realmController.delete(item: item)
+    func delete(item: URLItemType, result: @escaping SyncingPersistenceType.SuccessResult) {
+        self.realmController.delete(item: item) { realmResult in
+            result(realmResult) // perform the update and return quickly
+            self.cloudKitController.delete(item: item, result: { _ in }) // update cloudkit and ignore result
+        }
     }
 }

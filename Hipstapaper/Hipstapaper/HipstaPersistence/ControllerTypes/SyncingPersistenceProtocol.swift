@@ -15,8 +15,8 @@ protocol SyncingPersistenceType: class {
     func createItem(result: @escaping URLItemResult)
     func readItem(withID id: String, result: @escaping URLItemResult)
     func update(item: URLItemType, result: @escaping URLItemResult)
-    func delete(item: URLItemType)
-
+    func delete(item: URLItemType, result: @escaping SuccessResult)
+    
     typealias URLItemResult = ((Result<URLItemType>) -> Void)
     typealias SuccessResult = ((Result<Void>) -> Void)
 }

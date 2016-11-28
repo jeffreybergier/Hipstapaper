@@ -58,7 +58,7 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
             let deleted = newValue.deletedItems(from: oldValue)
             deleted?.forEach() { deletedItem in
                 guard let item = deletedItem.value else { return }
-                self.dataSource.delete(item: item)
+                self.dataSource.delete(item: item, result: { _ in })
             }
             self._listItems = newValue
         }

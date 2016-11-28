@@ -74,18 +74,22 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
         }
     }
     
-    func delete(item: URLItemType) {
-        do {
-            let realm = try Realm()
-            guard let realmObject = type(of: self).realmObject(withID: item.realmID, from: realm) else { return }
-            realm.beginWrite()
-            realm.delete(realmObject)
-            try realm.commitWrite()
-        } catch {
-            NSLog("readURLItemWithID: \(item.realmID), Error: \(error)")
+    func delete(item: URLItemType, result: @escaping SyncingPersistenceType.SuccessResult) {
+        DispatchQueue.global(qos: .userInteractive).async {
+            do {
+                let realm = try Realm()
+                guard let realmObject = type(of: self).realmObject(withID: item.realmID, from: realm)
+                    else { result(.error(NSError())); return; }
+                realm.beginWrite()
+                realm.delete(realmObject)
+                try realm.commitWrite()
+                result(.success(()))
+            } catch {
+                NSLog("readURLItemWithID: \(item.realmID), Error: \(error)")
+                result(.error(error))
+            }
         }
     }
-
     
     // MARK: Load All URLItem Objects from Disk
     

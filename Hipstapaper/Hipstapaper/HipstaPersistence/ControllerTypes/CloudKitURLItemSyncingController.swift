@@ -118,18 +118,22 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
         }
     }
     
-    func delete(item: URLItemType) {
-        let id = item.cloudKitID
-        guard let existingObject = self.objectMap[id] else { return }
-        let recordID = existingObject.record.recordID
-        self.ids.remove(id)
-        self.objectMap[id] = .none
-        self.networkOperationsInProgress += 1
-        self.networkQueue.append({
-            self.privateDB.delete(withRecordID: recordID, completionHandler: { _ in
-                self.networkOperationsInProgress -= 1
-            })
-        })
+    func delete(item: URLItemType, result: @escaping SyncingPersistenceType.SuccessResult) {
+        DispatchQueue.global(qos: .userInteractive).async {
+            let id = item.cloudKitID
+            guard let existingObject = self.objectMap[id]
+                else { result(.error(NSError())); return; }
+            let recordID = existingObject.record.recordID
+            self.ids.remove(id)
+            self.objectMap[id] = .none
+            self.privateDB.delete(withRecordID: recordID) { (recordID, error) in
+                if let _ = recordID {
+                    result(.success(()))
+                } else {
+                    result(.error(error!))
+                }
+            }
+        }
     }
     
     @objc private func checkSyncQueue(_ timer: Timer?) {
