@@ -84,12 +84,15 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
         }
     }
     
-    func read(itemWithID id: String) -> URLItemType? {
-        if let existingObject = self.objectMap[id] {
-            let value = URLItem.Value(cloudKitObject: existingObject)
-            return value
+    func readItem(withID id: String, result: @escaping SyncingPersistenceType.URLItemResult) {
+        DispatchQueue.global(qos: .userInteractive).async {
+            if let existingObject = self.objectMap[id] {
+                let value = URLItem.Value(cloudKitObject: existingObject)
+                result(.success(value))
+            } else {
+                result(.error(NSError()))
+            }
         }
-        return .none
     }
     
     func update(item: URLItemType) {

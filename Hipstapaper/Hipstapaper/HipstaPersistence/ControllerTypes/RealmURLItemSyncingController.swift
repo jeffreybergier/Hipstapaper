@@ -37,15 +37,27 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
         }
     }
     
-    func read(itemWithID id: String) -> URLItemType? {
-        do {
-            let realm = try Realm()
-            guard let realmObject = type(of: self).realmObject(withID: id, from: realm) else { return .none }
-            let value = URLItem.Value(realmObject: realmObject)
-            return value
-        } catch {
-            NSLog("readURLItemWithID: \(id), Error: \(error)")
-            return .none
+    func readItem(withID id: String, result: @escaping SyncingPersistenceType.URLItemResult) {
+        DispatchQueue.global(qos: .userInteractive).async {
+            do {
+                let realm = try Realm()
+                let realmObject: URLItemRealmObject
+                if let existing = type(of: self).realmObject(withID: id, from: realm) {
+                    realmObject = existing // get a value if it exists
+                } else {
+                    let newObject = URLItemRealmObject() // if not, create it and set its id
+                    realm.beginWrite()
+                    realm.add(newObject)
+                    newObject.realmID = id
+                    try realm.commitWrite()
+                    realmObject = newObject
+                }
+                let value = URLItem.Value(realmObject: realmObject)
+                result(.success(value))
+            } catch {
+                NSLog("readURLItemWithID: \(id), Error: \(error)")
+                result(.error(error))
+            }
         }
     }
     

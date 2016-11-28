@@ -43,8 +43,8 @@ class CombinedURLItemSyncingController: SyncingPersistenceType {
         }
     }
     
-    func read(itemWithID id: String) -> URLItemType? {
-        return self.realmController.read(itemWithID: id)
+    func readItem(withID id: String, result: @escaping SyncingPersistenceType.URLItemResult) {
+        self.realmController.readItem(withID: id, result: result)
     }
     
     func update(item: URLItemType) {

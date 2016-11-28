@@ -74,13 +74,19 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
     func reloadData() {
         self.syncingToolbarActivityIndicator?.startAnimation(self)
         self.dataSource.sync() { results in
-            DispatchQueue.main.async {
-                let ids = self.dataSource.ids
-                let bindingObjects = ids.map() { id -> URLItem.BindingObject in
-                    let urlValue = self.dataSource.read(itemWithID: id)
-                    let bindingObject = URLItem.BindingObject(value: urlValue)
-                    return bindingObject
+            let ids = self.dataSource.ids
+            let bindingObjects = ids.map() { id -> URLItem.BindingObject in
+                let bindingObject = URLItem.BindingObject(value: nil)
+                self.dataSource.readItem(withID: id) { result in
+                    if case .success(let urlItem) = result {
+                        DispatchQueue.main.async {
+                            bindingObject.value = urlItem
+                        }
+                    }
                 }
+                return bindingObject
+            }
+            DispatchQueue.main.async {
                 self._listItems = bindingObjects
                 self.arrayController?.content = self.listItems
                 self.syncingToolbarActivityIndicator?.stopAnimation(self)
