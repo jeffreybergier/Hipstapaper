@@ -8,20 +8,18 @@
 
 class CombinedURLItemSyncingController: SyncingPersistenceType {
     
-    private let realmController /*: SyncingPersistenceType */ = RealmURLItemSyncingController()
-    private let cloudKitController /*: SyncingPersistenceType */ = CloudKitURLItemSyncingController()
+    private let realmController: SyncingPersistenceType = RealmURLItemSyncingController()
+    private let cloudKitController: SyncingPersistenceType = CloudKitURLItemSyncingController()
     
     var ids: Set<String> {
         return self.realmController.ids
     }
     
-    var isSyncing: Bool {
-        return self.cloudKitController.isSyncing
-    }
-    
-    func sync(completionHandler: @escaping SyncingPersistenceType.SuccessResult) {
-        self.realmController.sync(completionHandler: completionHandler)
-        self.cloudKitController.sync(completionHandler: {_ in})
+    func sync(result: @escaping SyncingPersistenceType.SuccessResult) {
+        self.realmController.sync() { realmResult in
+            result(realmResult)
+            self.cloudKitController.sync(result: { _ in })
+        }
     }
     
     func createItem(result: @escaping SyncingPersistenceType.URLItemResult) {
@@ -44,7 +42,7 @@ class CombinedURLItemSyncingController: SyncingPersistenceType {
     }
     
     func readItem(withID id: String, result: @escaping SyncingPersistenceType.URLItemResult) {
-        self.realmController.readItem(withID: id, result: result)
+        self.realmController.readItem(withID: id, result: result) // perform the update and return quickly
     }
     
     func update(item: URLItemType, result: @escaping SyncingPersistenceType.URLItemResult) {

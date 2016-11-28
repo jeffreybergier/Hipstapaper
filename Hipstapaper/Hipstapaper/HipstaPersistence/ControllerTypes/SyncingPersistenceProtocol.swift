@@ -8,10 +8,8 @@
 
 protocol SyncingPersistenceType: class {
     
-    var ids: Set<String> { get }
-    
-    var isSyncing: Bool { get }
-    func sync(completionHandler: @escaping SuccessResult)
+    var ids: Set<String> { get }    
+    func sync(result: @escaping SuccessResult)
     func createItem(result: @escaping URLItemResult)
     func readItem(withID id: String, result: @escaping URLItemResult)
     func update(item: URLItemType, result: @escaping URLItemResult)

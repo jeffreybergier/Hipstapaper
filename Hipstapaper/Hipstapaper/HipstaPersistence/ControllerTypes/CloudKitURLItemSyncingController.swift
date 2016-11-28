@@ -15,40 +15,13 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
     
     private(set) var ids: Set<String> = []
     private var objectMap: [String : URLItem.CloudKitObject] = [:]
-    
-    private(set) var isSyncing: Bool = false
-    private var networkOperationsInProgress = 0 {
-        didSet {
-            print("\(self.networkOperationsInProgress) ops in progress")
-            if self.networkOperationsInProgress > 0 {
-                self.isSyncing = true
-            } else {
-                self.isSyncing = false
-            }
-        }
-    }
-    
-    private var syncOperation: (() -> Void)?
-    private var networkQueue = [() -> Void]()
-    
-    init() {
-        Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.checkSyncQueue(_:)), userInfo: .none, repeats: true)
-    }
-    
-    func sync(completionHandler: @escaping SyncingPersistenceType.SuccessResult) {
-        guard self.syncOperation == nil else { return }
-        self.syncOperation = {
-            self.networkOperationsInProgress += 1
+        
+    func sync(result: @escaping SyncingPersistenceType.SuccessResult) {
+        DispatchQueue.global(qos: .userInteractive).async {
             let predicate = NSPredicate(value: true)
             let initialQuery = CKQuery(recordType: self.recordType, predicate: predicate)
             self.privateDB.perform(initialQuery, inZoneWith: .none) { records, error in
-                self.networkOperationsInProgress -= 1
-                if let error = error {
-                    self.ids = []
-                    self.objectMap = [:]
-                    completionHandler(.error(error))
-                } else {
-                    let records = records ?? []
+                if let records = records {
                     var ids = [String]()
                     var cloudObjects: [String : URLItem.CloudKitObject] = [:]
                     for record in records {
@@ -59,11 +32,14 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
                     }
                     self.objectMap = cloudObjects
                     self.ids = Set(ids)
-                    completionHandler(.success())
+                    result(.success())
+                } else {
+                    self.ids = []
+                    self.objectMap = [:]
+                    result(.error(error!))
                 }
             }
         }
-        self.checkSyncQueue(.none)
     }
     
     func createItem(result: @escaping SyncingPersistenceType.URLItemResult) {
@@ -135,17 +111,4 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
             }
         }
     }
-    
-    @objc private func checkSyncQueue(_ timer: Timer?) {
-        if self.networkQueue.isEmpty == false {
-            let operation = self.networkQueue.removeFirst()
-            operation()
-            self.checkSyncQueue(timer)
-        }
-        if let syncOperation = self.syncOperation, self.networkQueue.isEmpty == true && self.isSyncing == false {
-            syncOperation()
-            self.syncOperation = .none
-        }
-    }
-    
 }

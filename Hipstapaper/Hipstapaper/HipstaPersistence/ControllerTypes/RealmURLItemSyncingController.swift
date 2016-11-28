@@ -11,13 +11,20 @@ import RealmSwift
 class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObject for KVO compliance
     
     private(set) var ids: Set<String> = []
-    private(set) var isSyncing = false
 
-    func sync(completionHandler: @escaping SyncingPersistenceType.SuccessResult) {
-        let realm = try! Realm()
-        let ids = RealmURLItemSyncingController.allRealmObjectIDs(from: realm)
-        self.ids = ids
-        completionHandler(.success())
+    func sync(result: @escaping SyncingPersistenceType.SuccessResult) {
+        DispatchQueue.global(qos: .userInteractive).async {
+            do {
+                let realm = try Realm()
+                let ids = RealmURLItemSyncingController.allRealmObjectIDs(from: realm)
+                self.ids = ids
+                result(.success())
+            } catch {
+                NSLog("realmSyncError: \(error)")
+                self.ids = []
+                result(.error(error))
+            }
+        }
     }
     
     func createItem(result: @escaping SyncingPersistenceType.URLItemResult) {
