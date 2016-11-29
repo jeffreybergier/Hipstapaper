@@ -25,6 +25,7 @@
 		506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506A3F071DD6C10C00A5656E /* AppDelegate.swift */; };
 		506A3F0A1DD6C10D00A5656E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F091DD6C10D00A5656E /* Assets.xcassets */; };
 		506A3F0D1DD6C10D00A5656E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F0B1DD6C10D00A5656E /* MainMenu.xib */; };
+		5075FCE41DED1614008E409C /* RealmCloudKitSyncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5075FCE31DED1614008E409C /* RealmCloudKitSyncer.swift */; };
 		50E21BC61DD6E466005151C7 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50E21BC51DD6E466005151C7 /* CloudKit.framework */; };
 		50E21BCC1DD8F2E3005151C7 /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E21BCB1DD8F2E3005151C7 /* FrameworkExtensions.swift */; };
 		DAB25659F91D7515151AD8BD /* Pods_Hipstapaper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F98F8505CED194BB3FEF9B9 /* Pods_Hipstapaper.framework */; };
@@ -57,6 +58,7 @@
 		506A3F0C1DD6C10D00A5656E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		506A3F0E1DD6C10D00A5656E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		506D98121DD6CFFB002E4F54 /* Hipstapaper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper.entitlements; sourceTree = "<group>"; };
+		5075FCE31DED1614008E409C /* RealmCloudKitSyncer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmCloudKitSyncer.swift; sourceTree = "<group>"; };
 		50E21BC51DD6E466005151C7 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		50E21BCB1DD8F2E3005151C7 /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		5F8D0F69D4E5AC4E0FCB4AC5 /* Pods-Hipstapaper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper/Pods-Hipstapaper.release.xcconfig"; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 				505B30381DE8C2BB00B74AE6 /* RealmURLItemSyncingController.swift */,
 				505B303D1DEA207B00B74AE6 /* CloudKitURLItemSyncingController.swift */,
 				505B304D1DEA6A0100B74AE6 /* CombinedURLItemSyncingController.swift */,
+				5075FCE31DED1614008E409C /* RealmCloudKitSyncer.swift */,
 			);
 			path = ControllerTypes;
 			sourceTree = "<group>";
@@ -326,6 +329,7 @@
 				505B302E1DE8C0A000B74AE6 /* TagItem.swift in Sources */,
 				505B30451DEA692C00B74AE6 /* URLListWindowController.swift in Sources */,
 				505B303F1DEA3FA500B74AE6 /* RealmURLItemSyncingController.swift in Sources */,
+				5075FCE41DED1614008E409C /* RealmCloudKitSyncer.swift in Sources */,
 				505B30351DE8C18300B74AE6 /* SyncingPersistenceProtocol.swift in Sources */,
 				505B30441DEA692C00B74AE6 /* UIBindingManager.swift in Sources */,
 				50E21BCC1DD8F2E3005151C7 /* FrameworkExtensions.swift in Sources */,

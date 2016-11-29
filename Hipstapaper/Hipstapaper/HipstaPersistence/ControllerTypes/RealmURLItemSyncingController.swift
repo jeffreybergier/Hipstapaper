@@ -33,12 +33,12 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
         DispatchQueue.global(qos: .userInteractive).async {
             do {
                 let newObject = URLItemRealmObject()
-                let realm = try Realm()
-                realm.beginWrite()
-                realm.add(newObject)
                 if let id = id {
                     newObject.realmID = id
                 }
+                let realm = try Realm()
+                realm.beginWrite()
+                realm.add(newObject)
                 try realm.commitWrite()
                 let value = URLItem.Value(realmObject: newObject)
                 quickResult(.success(value))
