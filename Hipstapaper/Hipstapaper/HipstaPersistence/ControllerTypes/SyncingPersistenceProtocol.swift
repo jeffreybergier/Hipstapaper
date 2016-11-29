@@ -6,7 +6,6 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
-typealias URLItemResults = (([Result<URLItemType>]) -> Void)
 typealias URLItemResult = ((Result<URLItemType>) -> Void)
 typealias SuccessResult = ((Result<Void>) -> Void)
 

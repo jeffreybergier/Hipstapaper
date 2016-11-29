@@ -6,6 +6,8 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
+typealias URLItemResults = (([Result<URLItemType>]) -> Void)
+
 class RealmCloudKitSyncer {
     
     private let realmController: SyncingPersistenceType
@@ -48,18 +50,23 @@ class RealmCloudKitSyncer {
     }
     
     private func step2ProcessChanges(realmResults: [Result<URLItemType>], cloudResults: [Result<URLItemType>], finalCompletionHandler: @escaping SuccessResult) {
-        let (addToCloud, addToRealm, updateInCloud, updateInRealm) = self.compare(cloudItems: cloudResults.mapSuccess(), realmItems: realmResults.mapSuccess())
+        let (addToCloud, addToRealm, updateInCloud, updateInRealm) = self.diff(cloudItems: cloudResults.mapSuccess(), realmItems: realmResults.mapSuccess())
+        
+        var allResults = realmResults + cloudResults
         
         var finishedProcesses = 0 {
             didSet {
                 if finishedProcesses == 4 {
+                    let errors = allResults.mapError()
+                    print("errors: \(errors)")
                     finalCompletionHandler(.success())
                 }
             }
         }
         
         if addToRealm.isEmpty == false {
-            self.step3AddNewItemsToRealm(items: addToRealm) { addToRealmResults in
+            self.step3AddNewItemsToRealm(items: addToRealm) { results in
+                allResults += results
                 finishedProcesses += 1
             }
         } else {
@@ -67,7 +74,8 @@ class RealmCloudKitSyncer {
         }
         
         if addToCloud.isEmpty == false {
-            self.step4AddNewItemsToCloudKit(items: addToCloud) { addToCloudResults in
+            self.step4AddNewItemsToCloudKit(items: addToCloud) { results in
+                allResults += results
                 finishedProcesses += 1
             }
         } else {
@@ -75,7 +83,8 @@ class RealmCloudKitSyncer {
         }
         
         if updateInRealm.isEmpty == false {
-            self.step5UpdateInRealm(items: updateInRealm) { updateInRealmResults in
+            self.step5UpdateInRealm(items: updateInRealm) { results in
+                allResults += results
                 finishedProcesses += 1
             }
         } else {
@@ -83,7 +92,8 @@ class RealmCloudKitSyncer {
         }
         
         if updateInCloud.isEmpty == false {
-            self.step6UpdateInCloudKit(items: updateInCloud) { updateInCloudResults in
+            self.step6UpdateInCloudKit(items: updateInCloud) { results in
+                allResults += results
                 finishedProcesses += 1
             }
         } else {
@@ -92,11 +102,11 @@ class RealmCloudKitSyncer {
     }
     
     private func step3AddNewItemsToRealm(items addToRealm: [URLItemType], realmResults: @escaping URLItemResults) {
-        self.addAndUpdate(items: addToRealm, property: .realm, to: self.realmController, resultsHandler: realmResults)
+        self.add(items: addToRealm, toStorage: .realm(self.realmController), resultsHandler: realmResults)
     }
     
     private func step4AddNewItemsToCloudKit(items addToCloud: [URLItemType], cloudResults: @escaping URLItemResults) {
-        self.addAndUpdate(items: addToCloud, property: .cloud, to: self.cloudKitController, resultsHandler: cloudResults)
+        self.add(items: addToCloud, toStorage: .cloud(self.cloudKitController), resultsHandler: cloudResults)
     }
     
     private func step5UpdateInRealm(items: [URLItemType], resultsHandler: @escaping URLItemResults) {
@@ -122,7 +132,11 @@ class RealmCloudKitSyncer {
         }
     }
     
-    private func addAndUpdate(items: [URLItemType], property: Property, to storage: SyncingPersistenceType, resultsHandler: @escaping URLItemResults) {
+    private enum Location {
+        case cloud(SyncingPersistenceType), realm(SyncingPersistenceType)
+    }
+    
+    private func add(items: [URLItemType], toStorage location: Location, resultsHandler: @escaping URLItemResults) {
         var results = [Result<URLItemType>]() {
             didSet {
                 if results.count == items.count {
@@ -132,11 +146,14 @@ class RealmCloudKitSyncer {
         }
         for unsavedItem in items {
             let id: String
-            switch property {
-            case .cloud:
+            let storage: SyncingPersistenceType
+            switch location {
+            case .cloud(let cloudController):
                 id = unsavedItem.cloudKitID
-            case .realm:
+                storage = cloudController
+            case .realm(let realmController):
                 id = unsavedItem.realmID
+                storage = realmController
             }
             storage.createItem(withID: id, quickResult: { _ in }) { createResult in
                 if case .success = createResult {
@@ -151,7 +168,7 @@ class RealmCloudKitSyncer {
 
     }
     
-    private func compare(cloudItems: [URLItemType], realmItems: [URLItemType])
+    private func diff(cloudItems: [URLItemType], realmItems: [URLItemType])
         -> (addToCloud: [URLItemType], addToRealm: [URLItemType], updateInCloud: [URLItemType], updateInRealm: [URLItemType])
     {
         var addToCloud = [URLItemType]()
@@ -165,11 +182,13 @@ class RealmCloudKitSyncer {
                 addToCloud.append(realmItem)
             } else {
                 matchingCloudItems.forEach() { cloudItem in
-                    switch realmItem.compareTo(other: cloudItem) {
+                    switch realmItem.compare(with: cloudItem) {
                     case .newer:
                         updateInCloud.append(realmItem)
                     case .older:
-                        updateInRealm.append(cloudItem)
+                        var mCloudItem = cloudItem
+                        mCloudItem.realmID = realmItem.realmID
+                        updateInRealm.append(mCloudItem)
                     case .same, .notApplicable:
                         break
                     }
@@ -185,18 +204,14 @@ class RealmCloudKitSyncer {
         }
         return (addToCloud: addToCloud, addToRealm: addToRealm, updateInCloud: updateInCloud, updateInRealm: updateInRealm)
     }
-    
-    private enum Property {
-        case cloud, realm
-    }
 }
 
-enum URLItemComparison {
+private enum URLItemComparison {
     case newer, older, same, notApplicable
 }
 
-extension URLItemType {
-    func compareTo(other: URLItemType) -> URLItemComparison {
+private extension URLItemType {
+    func compare(with other: URLItemType) -> URLItemComparison {
         guard self.cloudKitID == other.cloudKitID else { return .notApplicable }
         if self.urlString != other.urlString || self.archived != other.archived || self.tags.map({$0.name}) != other.tags.map({$0.name}) {
             if self.modificationDate >= other.modificationDate {
@@ -210,11 +225,20 @@ extension URLItemType {
     }
 }
 
-extension Sequence where Iterator.Element == Result<URLItemType> {
+private extension Sequence where Iterator.Element == Result<URLItemType> {
     func mapSuccess() -> [URLItemType] {
         let items = self.map() { result -> URLItemType? in
             if case .success(let item) = result {
                 return item
+            }
+            return .none
+        }.filter({ $0 != nil }).map({ $0! })
+        return items
+    }
+    func mapError() -> [Error] {
+        let items = self.map() { result -> Error? in
+            if case .error(let error) = result {
+                return error
             }
             return .none
         }.filter({ $0 != nil }).map({ $0! })
