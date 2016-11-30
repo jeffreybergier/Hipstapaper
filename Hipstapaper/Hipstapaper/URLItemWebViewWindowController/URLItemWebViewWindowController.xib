@@ -18,17 +18,18 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window identifier="HipstapaperWebWindow" title="Hipstapaper: Browser" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="documentWindow" tabbingIdentifier="HipstapaperWebWindow" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES" fullSizeContentView="YES"/>
-            <rect key="contentRect" x="196" y="240" width="500" height="600"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
+            <rect key="contentRect" x="268" y="189" width="800" height="1080"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <value key="minSize" type="size" width="500" height="600"/>
             <view key="contentView" wantsLayer="YES" id="se5-gp-TjO">
-                <rect key="frame" x="0.0" y="0.0" width="500" height="600"/>
+                <rect key="frame" x="0.0" y="0.0" width="800" height="1080"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="yJk-nd-Q33">
-                        <rect key="frame" x="0.0" y="40" width="500" height="560"/>
+                        <rect key="frame" x="0.0" y="40" width="800" height="1040"/>
                     </customView>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="f02-f1-Qbx">
-                        <rect key="frame" x="0.0" y="0.0" width="500" height="40"/>
+                        <rect key="frame" x="0.0" y="0.0" width="800" height="40"/>
                         <subviews>
                             <button toolTip="Uncheck to increase performance and reduce ads" translatesAutoresizingMaskIntoConstraints="NO" id="84K-pi-zIe">
                                 <rect key="frame" x="18" y="11" width="85" height="18"/>
