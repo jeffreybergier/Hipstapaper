@@ -19,12 +19,12 @@ class CombinedURLItemSyncingController: SyncingPersistenceType {
         self.realmController.sync(quickResult: quickResult) { realmResult in
             if case .success = realmResult {
                 self.cloudKitController.sync(quickResult: { _ in }) { cloudResult in
-                    fullResult(cloudResult)
                     if case .success = cloudResult {
                         // now the cloud sync and the realm sync were both successful, time to sync
                         let syncer = RealmCloudKitSyncer(realmController: self.realmController, cloudKitController: self.cloudKitController)
                         syncer.sync() { syncResult in
                             print("Sync Complete: Result: \(syncResult)")
+                            fullResult(syncResult)
                         }
                     }
                 }

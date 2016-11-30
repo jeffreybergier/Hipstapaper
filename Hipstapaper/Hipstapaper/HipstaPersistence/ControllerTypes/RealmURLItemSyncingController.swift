@@ -11,9 +11,11 @@ import RealmSwift
 class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObject for KVO compliance
     
     private(set) var ids: Set<String> = []
+    
+    private let serialQueue = DispatchQueue(label: "RealmURLItemSyncingController", qos: .userInitiated)
 
     func sync(quickResult: @escaping SuccessResult, fullResult: @escaping SuccessResult) {
-        DispatchQueue.global(qos: .userInteractive).async {
+        self.serialQueue.async {
             do {
                 let realm = try Realm()
                 let ids = RealmURLItemSyncingController.allRealmObjectIDs(from: realm)
@@ -30,7 +32,7 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
     }
     
     func createItem(withID id: String?, quickResult: @escaping URLItemResult, fullResult: @escaping URLItemResult) {
-        DispatchQueue.global(qos: .userInteractive).async {
+        self.serialQueue.async {
             do {
                 let newObject = URLItemRealmObject()
                 if let id = id {
@@ -52,7 +54,7 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
     }
     
     func readItem(withID id: String, quickResult: @escaping URLItemResult, fullResult: @escaping URLItemResult) {
-        DispatchQueue.global(qos: .userInteractive).async {
+        self.serialQueue.async {
             do {
                 let realm = try Realm()
                 guard let realmObject = type(of: self).realmObject(withID: id, from: realm)
@@ -69,7 +71,7 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
     }
     
     func update(item: URLItemType, quickResult: @escaping URLItemResult, fullResult: @escaping URLItemResult) {
-        DispatchQueue.global(qos: .userInteractive).async {
+        self.serialQueue.async {
             do {
                 let realm = try Realm()
                 guard let realmObject = type(of: self).realmObject(withID: item.realmID, from: realm)
@@ -93,7 +95,7 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
     }
     
     func delete(item: URLItemType, quickResult: @escaping SuccessResult, fullResult: @escaping SuccessResult) {
-        DispatchQueue.global(qos: .userInteractive).async {
+        self.serialQueue.async {
             do {
                 let realm = try Realm()
                 guard let realmObject = type(of: self).realmObject(withID: item.realmID, from: realm)
