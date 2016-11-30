@@ -63,7 +63,7 @@ class RealmCloudKitSyncer {
     
     private func step2ProcessChanges(realmResults: [Result<URLItemType>], cloudResults: [Result<URLItemType>], finalCompletionHandler: SuccessResult?) {
         self.serialQueue.async {
-            let (addToCloud, addToRealm, updateInCloud, updateInRealm) = self.diff(cloudItems: cloudResults.mapSuccess(), realmItems: realmResults.mapSuccess())
+            let (addToCloud, addToRealm, updateInCloud, updateInRealm) = type(of: self).diff(cloudItems: cloudResults.mapSuccess(), realmItems: realmResults.mapSuccess())
             
             var allResults = realmResults + cloudResults
             
@@ -195,13 +195,12 @@ class RealmCloudKitSyncer {
 
     }
     
-    private func diff(cloudItems: [URLItemType], realmItems: [URLItemType])
-        -> (addToCloud: [URLItemType], addToRealm: [URLItemType], updateInCloud: [URLItemType], updateInRealm: [URLItemType])
-    {
+    private class func diff(cloudItems: [URLItemType], realmItems: [URLItemType])
+        -> (addToCloud: [URLItemType], addToRealm: [URLItemType], updateInCloud: [URLItemType], updateInRealm: [URLItemType]) {
         var addToCloud = [URLItemType]()
         var addToRealm = [URLItemType]()
         var updateInCloud = [URLItemType]()
-        var updateInRealm = [URLItemType]() // need to add info here so I know the original realm object
+        var updateInRealm = [URLItemType]()
         
         for realmItem in realmItems {
             let matchingCloudItems = cloudItems.filter({ realmItem.cloudKitID == $0.cloudKitID })
@@ -213,6 +212,9 @@ class RealmCloudKitSyncer {
                     case .newer:
                         updateInCloud.append(realmItem)
                     case .older:
+                        // the cloud item has no notion of the realm object
+                        // so the realmID in the clouditem is fake
+                        // so we need to set the realmID of the cloud item to its matching realmObject
                         var mCloudItem = cloudItem
                         mCloudItem.realmID = realmItem.realmID
                         updateInRealm.append(mCloudItem)
