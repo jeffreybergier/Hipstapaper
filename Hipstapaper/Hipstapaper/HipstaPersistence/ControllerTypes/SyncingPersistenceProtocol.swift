@@ -12,9 +12,9 @@ typealias SuccessResult = ((Result<Void>) -> Void)
 protocol SyncingPersistenceType: class {
     
     var ids: Set<String> { get }    
-    func sync(quickResult: @escaping SuccessResult, fullResult: @escaping SuccessResult)
-    func createItem(withID: String?, quickResult: @escaping URLItemResult, fullResult: @escaping URLItemResult)
-    func readItem(withID id: String, quickResult: @escaping URLItemResult, fullResult: @escaping URLItemResult)
-    func update(item: URLItemType, quickResult: @escaping URLItemResult, fullResult: @escaping URLItemResult)
-    func delete(item: URLItemType, quickResult: @escaping SuccessResult, fullResult: @escaping SuccessResult)
+    func sync(quickResult: SuccessResult?, fullResult: SuccessResult?)
+    func createItem(withID: String?, quickResult: URLItemResult?, fullResult: URLItemResult?)
+    func readItem(withID id: String, quickResult: URLItemResult?, fullResult: URLItemResult?)
+    func update(item: URLItemType, quickResult: URLItemResult?, fullResult: URLItemResult?)
+    func delete(item: URLItemType, quickResult: SuccessResult?, fullResult: SuccessResult?)
 }

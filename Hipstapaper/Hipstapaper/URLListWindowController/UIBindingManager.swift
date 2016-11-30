@@ -77,7 +77,7 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
             deleted?.forEach() { deletedItem in
                 self.spinnerOperationsInProgress += 1 // update the spinner
                 guard let item = deletedItem.value else { return }
-                self.dataSource.delete(item: item, quickResult: { _ in }, fullResult: { _ in
+                self.dataSource.delete(item: item, quickResult: .none, fullResult: { _ in
                     DispatchQueue.main.async {
                         self.spinnerOperationsInProgress -= 1
                     }
@@ -169,7 +169,7 @@ extension URLItem {
                 self.willChangeValue(forKey: #keyPath(BindingObject.cloudKitID))
                 self.willChangeValue(forKey: #keyPath(BindingObject.urlString))
                 self.willChangeValue(forKey: #keyPath(BindingObject.archived))
-//                self.willChangeValue(forKey: #keyPath(BindingObject.tags))
+                self.willChangeValue(forKey: "tags")
                 self.willChangeValue(forKey: #keyPath(BindingObject.modificationDate))
             }
             didSet {
@@ -177,7 +177,7 @@ extension URLItem {
                 self.didChangeValue(forKey: #keyPath(BindingObject.cloudKitID))
                 self.didChangeValue(forKey: #keyPath(BindingObject.urlString))
                 self.didChangeValue(forKey: #keyPath(BindingObject.archived))
-//                self.didChangeValue(forKey: #keyPath(BindingObject.tags))
+                self.didChangeValue(forKey: "tags")
                 self.didChangeValue(forKey: #keyPath(BindingObject.modificationDate))
             }
         }

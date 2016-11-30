@@ -24,22 +24,22 @@ class RealmCloudKitSyncer {
         self.cloudKitController = cloudKitController
     }
     
-    func sync(syncResult: @escaping SuccessResult) {
+    func sync(syncResult: SuccessResult?) {
         self.step1ReadAllItems(finalCompletionHandler: syncResult)
     }
     
-    private func step1ReadAllItems(finalCompletionHandler: @escaping SuccessResult) {
+    private func step1ReadAllItems(finalCompletionHandler: SuccessResult?) {
         self.serialQueue.async {
             let realmIDs = self.realmController.ids
             let cloudIDs = self.cloudKitController.ids
             
-            guard realmIDs.isEmpty == false || cloudIDs.isEmpty == false else { finalCompletionHandler(.success()); return; }
+            guard realmIDs.isEmpty == false || cloudIDs.isEmpty == false else { finalCompletionHandler?(.success()); return; }
             
             var realmResults = [Result<URLItemType>]()
             var cloudResults = [Result<URLItemType>]()
             
             for cloudID in cloudIDs {
-                self.cloudKitController.readItem(withID: cloudID, quickResult: { _ in }) { cloudResult in
+                self.cloudKitController.readItem(withID: cloudID, quickResult: .none) { cloudResult in
                     self.serialQueue.async {
                         cloudResults.append(cloudResult)
                         if realmResults.count == realmIDs.count && cloudResults.count == cloudIDs.count {
@@ -49,7 +49,7 @@ class RealmCloudKitSyncer {
                 }
             }
             for realmID in realmIDs {
-                self.realmController.readItem(withID: realmID, quickResult: { _ in }) { realmResult in
+                self.realmController.readItem(withID: realmID, quickResult: .none) { realmResult in
                     self.serialQueue.async {
                         realmResults.append(realmResult)
                         if realmResults.count == realmIDs.count && cloudResults.count == cloudIDs.count {
@@ -61,7 +61,7 @@ class RealmCloudKitSyncer {
         }
     }
     
-    private func step2ProcessChanges(realmResults: [Result<URLItemType>], cloudResults: [Result<URLItemType>], finalCompletionHandler: @escaping SuccessResult) {
+    private func step2ProcessChanges(realmResults: [Result<URLItemType>], cloudResults: [Result<URLItemType>], finalCompletionHandler: SuccessResult?) {
         self.serialQueue.async {
             let (addToCloud, addToRealm, updateInCloud, updateInRealm) = self.diff(cloudItems: cloudResults.mapSuccess(), realmItems: realmResults.mapSuccess())
             
@@ -73,10 +73,10 @@ class RealmCloudKitSyncer {
                         let errors = allResults.mapError()
                         if errors.isEmpty == true {
                             NSLog("Sync Succeeded: No Errors.")
-                            finalCompletionHandler(.success())
+                            finalCompletionHandler?(.success())
                         } else {
                             NSLog("Sync Errors: \(errors.count)\n\(errors)")
-                            finalCompletionHandler(.error(errors))
+                            finalCompletionHandler?(.error(errors))
                         }
                     }
                 }
@@ -153,7 +153,7 @@ class RealmCloudKitSyncer {
             }
         }
         for item in items {
-            storage.update(item: item, quickResult: { _ in }) { updateResult in
+            storage.update(item: item, quickResult: .none) { updateResult in
                 results.append(updateResult)
             }
         }
@@ -182,9 +182,9 @@ class RealmCloudKitSyncer {
                 id = unsavedItem.realmID
                 storage = realmController
             }
-            storage.createItem(withID: id, quickResult: { _ in }) { createResult in
+            storage.createItem(withID: id, quickResult: .none) { createResult in
                 if case .success = createResult {
-                    storage.update(item: unsavedItem, quickResult: { _ in }) { updateResult in
+                    storage.update(item: unsavedItem, quickResult: .none) { updateResult in
                         results.append(updateResult)
                     }
                 } else {

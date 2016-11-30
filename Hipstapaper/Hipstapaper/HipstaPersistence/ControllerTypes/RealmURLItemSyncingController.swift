@@ -14,24 +14,24 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
     
     private let serialQueue = DispatchQueue(label: "RealmURLItemSyncingController", qos: .userInitiated)
 
-    func sync(quickResult: @escaping SuccessResult, fullResult: @escaping SuccessResult) {
+    func sync(quickResult: SuccessResult?, fullResult: SuccessResult?) {
         self.serialQueue.async {
             do {
                 let realm = try Realm()
                 let ids = RealmURLItemSyncingController.allRealmObjectIDs(from: realm)
                 self.ids = ids
-                quickResult(.success())
-                fullResult(.success())
+                quickResult?(.success())
+                fullResult?(.success())
             } catch {
                 NSLog("realmSyncError: \(error)")
                 self.ids = []
-                quickResult(.error([error]))
-                fullResult(.error([error]))
+                quickResult?(.error([error]))
+                fullResult?(.error([error]))
             }
         }
     }
     
-    func createItem(withID id: String?, quickResult: @escaping URLItemResult, fullResult: @escaping URLItemResult) {
+    func createItem(withID id: String?, quickResult: URLItemResult?, fullResult: URLItemResult?) {
         self.serialQueue.async {
             do {
                 let newObject = URLItemRealmObject()
@@ -43,39 +43,39 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
                 realm.add(newObject)
                 try realm.commitWrite()
                 let value = URLItem.Value(realmObject: newObject)
-                quickResult(.success(value))
-                fullResult(.success(value))
+                quickResult?(.success(value))
+                fullResult?(.success(value))
             } catch {
                 NSLog("createURLItemError: \(error)")
-                quickResult(.error([error]))
-                fullResult(.error([error]))
+                quickResult?(.error([error]))
+                fullResult?(.error([error]))
             }
         }
     }
     
-    func readItem(withID id: String, quickResult: @escaping URLItemResult, fullResult: @escaping URLItemResult) {
+    func readItem(withID id: String, quickResult: URLItemResult?, fullResult: URLItemResult?) {
         self.serialQueue.async {
             do {
                 let realm = try Realm()
                 guard let realmObject = type(of: self).realmObject(withID: id, from: realm)
-                    else { quickResult(.error([NSError()])); fullResult(.error([NSError()])); return; }
+                    else { quickResult?(.error([NSError()])); fullResult?(.error([NSError()])); return; }
                 let value = URLItem.Value(realmObject: realmObject)
-                quickResult(.success(value))
-                fullResult(.success(value))
+                quickResult?(.success(value))
+                fullResult?(.success(value))
             } catch {
                 NSLog("readURLItemWithID: \(id), Error: \(error)")
-                quickResult(.error([error]))
-                fullResult(.error([error]))
+                quickResult?(.error([error]))
+                fullResult?(.error([error]))
             }
         }
     }
     
-    func update(item: URLItemType, quickResult: @escaping URLItemResult, fullResult: @escaping URLItemResult) {
+    func update(item: URLItemType, quickResult: URLItemResult?, fullResult: URLItemResult?) {
         self.serialQueue.async {
             do {
                 let realm = try Realm()
                 guard let realmObject = type(of: self).realmObject(withID: item.realmID, from: realm)
-                    else { quickResult(.error([NSError()])); fullResult(.error([NSError()])); return; }
+                    else { quickResult?(.error([NSError()])); fullResult?(.error([NSError()])); return; }
                 realm.beginWrite()
                 realmObject.cloudKitID = item.cloudKitID
                 realmObject.urlString = item.urlString
@@ -84,31 +84,31 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
                 realmObject.modificationDate = item.modificationDate
                 try realm.commitWrite()
                 let updatedValue = URLItem.Value(realmObject: realmObject)
-                quickResult(.success(updatedValue))
-                fullResult(.success(updatedValue))
+                quickResult?(.success(updatedValue))
+                fullResult?(.success(updatedValue))
             } catch {
                 NSLog("updateURLItemError: \(error)")
-                quickResult(.error([error]))
-                fullResult(.error([error]))
+                quickResult?(.error([error]))
+                fullResult?(.error([error]))
             }
         }
     }
     
-    func delete(item: URLItemType, quickResult: @escaping SuccessResult, fullResult: @escaping SuccessResult) {
+    func delete(item: URLItemType, quickResult: SuccessResult?, fullResult: SuccessResult?) {
         self.serialQueue.async {
             do {
                 let realm = try Realm()
                 guard let realmObject = type(of: self).realmObject(withID: item.realmID, from: realm)
-                    else { quickResult(.error([NSError()])); fullResult(.error([NSError()])); return; }
+                    else { quickResult?(.error([NSError()])); fullResult?(.error([NSError()])); return; }
                 realm.beginWrite()
                 realm.delete(realmObject)
                 try realm.commitWrite()
-                quickResult(.success(()))
-                fullResult(.success(()))
+                quickResult?(.success(()))
+                fullResult?(.success(()))
             } catch {
                 NSLog("readURLItemWithID: \(item.realmID), Error: \(error)")
-                quickResult(.error([error]))
-                fullResult(.error([error]))
+                quickResult?(.error([error]))
+                fullResult?(.error([error]))
             }
         }
     }
