@@ -25,8 +25,8 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
             } catch {
                 NSLog("realmSyncError: \(error)")
                 self.ids = []
-                quickResult(.error(error))
-                fullResult(.error(error))
+                quickResult(.error([error]))
+                fullResult(.error([error]))
             }
         }
     }
@@ -47,8 +47,8 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
                 fullResult(.success(value))
             } catch {
                 NSLog("createURLItemError: \(error)")
-                quickResult(.error(error))
-                fullResult(.error(error))
+                quickResult(.error([error]))
+                fullResult(.error([error]))
             }
         }
     }
@@ -58,14 +58,14 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
             do {
                 let realm = try Realm()
                 guard let realmObject = type(of: self).realmObject(withID: id, from: realm)
-                    else { quickResult(.error(NSError())); fullResult(.error(NSError())); return; }
+                    else { quickResult(.error([NSError()])); fullResult(.error([NSError()])); return; }
                 let value = URLItem.Value(realmObject: realmObject)
                 quickResult(.success(value))
                 fullResult(.success(value))
             } catch {
                 NSLog("readURLItemWithID: \(id), Error: \(error)")
-                quickResult(.error(error))
-                fullResult(.error(error))
+                quickResult(.error([error]))
+                fullResult(.error([error]))
             }
         }
     }
@@ -75,7 +75,7 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
             do {
                 let realm = try Realm()
                 guard let realmObject = type(of: self).realmObject(withID: item.realmID, from: realm)
-                    else { quickResult(.error(NSError())); fullResult(.error(NSError())); return; }
+                    else { quickResult(.error([NSError()])); fullResult(.error([NSError()])); return; }
                 realm.beginWrite()
                 realmObject.cloudKitID = item.cloudKitID
                 realmObject.urlString = item.urlString
@@ -88,8 +88,8 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
                 fullResult(.success(updatedValue))
             } catch {
                 NSLog("updateURLItemError: \(error)")
-                quickResult(.error(error))
-                fullResult(.error(error))
+                quickResult(.error([error]))
+                fullResult(.error([error]))
             }
         }
     }
@@ -99,7 +99,7 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
             do {
                 let realm = try Realm()
                 guard let realmObject = type(of: self).realmObject(withID: item.realmID, from: realm)
-                    else { quickResult(.error(NSError())); fullResult(.error(NSError())); return; }
+                    else { quickResult(.error([NSError()])); fullResult(.error([NSError()])); return; }
                 realm.beginWrite()
                 realm.delete(realmObject)
                 try realm.commitWrite()
@@ -107,8 +107,8 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
                 fullResult(.success(()))
             } catch {
                 NSLog("readURLItemWithID: \(item.realmID), Error: \(error)")
-                quickResult(.error(error))
-                fullResult(.error(error))
+                quickResult(.error([error]))
+                fullResult(.error([error]))
             }
         }
     }

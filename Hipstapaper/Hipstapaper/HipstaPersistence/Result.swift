@@ -7,5 +7,5 @@
 //
 
 enum Result<T> {
-    case success(T), error(Error)
+    case success(T), error([Error])
 }

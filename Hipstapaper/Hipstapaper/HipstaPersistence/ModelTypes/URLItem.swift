@@ -54,3 +54,43 @@ extension URLItem.Value: Hashable {
         return self.realmID.hashValue
     }
 }
+
+enum URLItemTypeComparison {
+    case newer, older, same, notApplicable
+}
+
+extension URLItemType {
+    func compare(with other: URLItemType) -> URLItemTypeComparison {
+        guard self.cloudKitID == other.cloudKitID else { return .notApplicable }
+        if self.urlString != other.urlString || self.archived != other.archived || self.tags.map({$0.name}) != other.tags.map({$0.name}) {
+            if self.modificationDate >= other.modificationDate {
+                return .newer
+            } else {
+                return .older
+            }
+        } else {
+            return .same
+        }
+    }
+}
+
+extension Sequence where Iterator.Element == Result<URLItemType> {
+    func mapSuccess() -> [URLItemType] {
+        let items = self.map() { result -> URLItemType? in
+            if case .success(let item) = result {
+                return item
+            }
+            return .none
+            }.filter({ $0 != nil }).map({ $0! })
+        return items
+    }
+    func mapError() -> [Error] {
+        let items = self.map() { result -> [Error]? in
+            if case .error(let error) = result {
+                return error
+            }
+            return .none
+            }.filter({ $0 != nil }).map({ $0! }).flatMap({ $0 })
+        return items
+    }
+}

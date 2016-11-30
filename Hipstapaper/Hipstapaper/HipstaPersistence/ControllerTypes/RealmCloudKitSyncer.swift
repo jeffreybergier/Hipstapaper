@@ -6,7 +6,7 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
-import Dispatch
+import Foundation
 
 typealias URLItemResults = (([Result<URLItemType>]) -> Void)
 
@@ -71,8 +71,13 @@ class RealmCloudKitSyncer {
                 didSet {
                     if finishedProcesses == 4 {
                         let errors = allResults.mapError()
-                        print("errors: \(errors)")
-                        finalCompletionHandler(.success())
+                        if errors.isEmpty == true {
+                            NSLog("Sync Succeeded: No Errors.")
+                            finalCompletionHandler(.success())
+                        } else {
+                            NSLog("Sync Errors: \(errors.count)\n\(errors)")
+                            finalCompletionHandler(.error(errors))
+                        }
                     }
                 }
             }
@@ -225,45 +230,5 @@ class RealmCloudKitSyncer {
             }
         }
         return (addToCloud: addToCloud, addToRealm: addToRealm, updateInCloud: updateInCloud, updateInRealm: updateInRealm)
-    }
-}
-
-private enum URLItemComparison {
-    case newer, older, same, notApplicable
-}
-
-private extension URLItemType {
-    func compare(with other: URLItemType) -> URLItemComparison {
-        guard self.cloudKitID == other.cloudKitID else { return .notApplicable }
-        if self.urlString != other.urlString || self.archived != other.archived || self.tags.map({$0.name}) != other.tags.map({$0.name}) {
-            if self.modificationDate >= other.modificationDate {
-                return .newer
-            } else {
-                return .older
-            }
-        } else {
-            return .same
-        }
-    }
-}
-
-private extension Sequence where Iterator.Element == Result<URLItemType> {
-    func mapSuccess() -> [URLItemType] {
-        let items = self.map() { result -> URLItemType? in
-            if case .success(let item) = result {
-                return item
-            }
-            return .none
-        }.filter({ $0 != nil }).map({ $0! })
-        return items
-    }
-    func mapError() -> [Error] {
-        let items = self.map() { result -> Error? in
-            if case .error(let error) = result {
-                return error
-            }
-            return .none
-        }.filter({ $0 != nil }).map({ $0! })
-        return items
     }
 }

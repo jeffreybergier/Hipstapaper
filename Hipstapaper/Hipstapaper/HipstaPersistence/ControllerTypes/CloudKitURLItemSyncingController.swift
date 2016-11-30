@@ -40,8 +40,8 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
                     } else {
                         self.ids = []
                         self.objectMap = [:]
-                        quickResult(.error(error!))
-                        fullResult(.error(error!))
+                        quickResult(.error([error!]))
+                        fullResult(.error([error!]))
                     }
                 }
             }
@@ -65,8 +65,8 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
                         quickResult(.success(newValue))
                         fullResult(.success(newValue))
                     } else {
-                        quickResult(.error(error!))
-                        fullResult(.error(error!))
+                        quickResult(.error([error!]))
+                        fullResult(.error([error!]))
                     }
                 }
             }
@@ -80,8 +80,8 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
                 quickResult(.success(value))
                 fullResult(.success(value))
             } else {
-                quickResult(.error(NSError()))
-                fullResult(.error(NSError()))
+                quickResult(.error([NSError()]))
+                fullResult(.error([NSError()]))
             }
         }
     }
@@ -89,7 +89,7 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
     func update(item: URLItemType, quickResult: @escaping URLItemResult, fullResult: @escaping URLItemResult) {
         self.serialQueue.async {
             guard let existingObject = self.objectMap[item.cloudKitID]
-                else { quickResult(.error(NSError())); fullResult(.error(NSError())); return; }
+                else { quickResult(.error([NSError()])); fullResult(.error([NSError()])); return; }
             existingObject.urlString = item.urlString
             existingObject.archived = item.archived
             existingObject.tags = item.tags
@@ -105,8 +105,8 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
                         quickResult(.success(updatedValue))
                         fullResult(.success(updatedValue))
                     } else {
-                        quickResult(.error(error!))
-                        fullResult(.error(error!))
+                        quickResult(.error([error!]))
+                        fullResult(.error([error!]))
                     }
                 }
             }
@@ -117,7 +117,7 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
         self.serialQueue.async {
             let id = item.cloudKitID
             guard let existingObject = self.objectMap[id]
-                else { quickResult(.error(NSError())); fullResult(.error(NSError())); return; }
+                else { quickResult(.error([NSError()])); fullResult(.error([NSError()])); return; }
             let recordID = existingObject.record.recordID
             self.ids.remove(id)
             self.objectMap[id] = .none
@@ -127,8 +127,8 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
                         quickResult(.success())
                         fullResult(.success())
                     } else {
-                        quickResult(.error(error!))
-                        fullResult(.error(error!))
+                        quickResult(.error([error!]))
+                        fullResult(.error([error!]))
                     }
                 }
             }
