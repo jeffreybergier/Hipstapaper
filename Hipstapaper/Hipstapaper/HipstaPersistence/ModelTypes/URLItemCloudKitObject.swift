@@ -43,8 +43,7 @@ extension URLItem {
                 return (self.record["urlString"] as? String) ?? "http://www.url.com"
             }
             set {
-                let correctedString = String(urlStringFromRawString: newValue)
-                self.record["urlString"] = correctedString as CKRecordValue
+                self.record["urlString"] = newValue as CKRecordValue
                 self.modificationDate = Date()
             }
         }

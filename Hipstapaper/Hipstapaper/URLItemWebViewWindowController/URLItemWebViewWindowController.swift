@@ -95,6 +95,8 @@ class URLItemWebViewWindowController: NSWindowController {
         if let item = self.item, let url = URL(string: String(urlStringFromRawString: item.urlString)) {
             self.window?.title = "Hipstapaper: " + item.urlString
             self.webView.load(URLRequest(url: url))
+        } else {
+            self.webView.load(URLRequest(url: URL(string: "https://github.com/404")!))
         }
     }
     
