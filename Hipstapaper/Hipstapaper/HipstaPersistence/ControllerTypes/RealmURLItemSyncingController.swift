@@ -8,30 +8,28 @@
 
 import RealmSwift
 
-class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObject for KVO compliance
+class RealmURLItemSyncingController: SingleSourcePersistenceType {
     
     private(set) var ids: Set<String> = []
     
     private let serialQueue = DispatchQueue(label: "RealmURLItemSyncingController", qos: .userInitiated)
 
-    func sync(quickResult: SuccessResult?, fullResult: SuccessResult?) {
+    func reloadData(result: SuccessResult?) {
         self.serialQueue.async {
             do {
                 let realm = try Realm()
                 let ids = RealmURLItemSyncingController.allRealmObjectIDs(from: realm)
                 self.ids = ids
-                quickResult?(.success())
-                fullResult?(.success())
+                result?(.success())
             } catch {
                 NSLog("realmSyncError: \(error)")
                 self.ids = []
-                quickResult?(.error([error]))
-                fullResult?(.error([error]))
+                result?(.error([error]))
             }
         }
     }
     
-    func createItem(withID id: String?, quickResult: URLItemResult?, fullResult: URLItemResult?) {
+    func createItem(withID id: String?, result: URLItemResult?) {
         self.serialQueue.async {
             do {
                 let newObject = URLItemRealmObject()
@@ -43,39 +41,35 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
                 realm.add(newObject)
                 try realm.commitWrite()
                 let value = URLItem.Value(realmObject: newObject)
-                quickResult?(.success(value))
-                fullResult?(.success(value))
+                result?(.success(value))
             } catch {
                 NSLog("createURLItemError: \(error)")
-                quickResult?(.error([error]))
-                fullResult?(.error([error]))
+                result?(.error([error]))
             }
         }
     }
     
-    func readItem(withID id: String, quickResult: URLItemResult?, fullResult: URLItemResult?) {
+    func readItem(withID id: String, result: URLItemResult?) {
         self.serialQueue.async {
             do {
                 let realm = try Realm()
                 guard let realmObject = type(of: self).realmObject(withID: id, from: realm)
-                    else { quickResult?(.error([NSError()])); fullResult?(.error([NSError()])); return; }
+                    else { result?(.error([NSError()])); return; }
                 let value = URLItem.Value(realmObject: realmObject)
-                quickResult?(.success(value))
-                fullResult?(.success(value))
+                result?(.success(value))
             } catch {
                 NSLog("readURLItemWithID: \(id), Error: \(error)")
-                quickResult?(.error([error]))
-                fullResult?(.error([error]))
+                result?(.error([error]))
             }
         }
     }
     
-    func update(item: URLItemType, quickResult: URLItemResult?, fullResult: URLItemResult?) {
+    func update(item: URLItemType, result: URLItemResult?) {
         self.serialQueue.async {
             do {
                 let realm = try Realm()
                 guard let realmObject = type(of: self).realmObject(withID: item.realmID, from: realm)
-                    else { quickResult?(.error([NSError()])); fullResult?(.error([NSError()])); return; }
+                    else { result?(.error([NSError()])); return; }
                 realm.beginWrite()
                 realmObject.cloudKitID = item.cloudKitID
                 realmObject.urlString = item.urlString
@@ -84,31 +78,27 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
                 realmObject.modificationDate = item.modificationDate
                 try realm.commitWrite()
                 let updatedValue = URLItem.Value(realmObject: realmObject)
-                quickResult?(.success(updatedValue))
-                fullResult?(.success(updatedValue))
+                result?(.success(updatedValue))
             } catch {
                 NSLog("updateURLItemError: \(error)")
-                quickResult?(.error([error]))
-                fullResult?(.error([error]))
+                result?(.error([error]))
             }
         }
     }
     
-    func delete(item: URLItemType, quickResult: SuccessResult?, fullResult: SuccessResult?) {
+    func delete(item: URLItemType, result: SuccessResult?) {
         self.serialQueue.async {
             do {
                 let realm = try Realm()
                 guard let realmObject = type(of: self).realmObject(withID: item.realmID, from: realm)
-                    else { quickResult?(.error([NSError()])); fullResult?(.error([NSError()])); return; }
+                    else { result?(.error([NSError()])); return; }
                 realm.beginWrite()
                 realm.delete(realmObject)
                 try realm.commitWrite()
-                quickResult?(.success(()))
-                fullResult?(.success(()))
+                result?(.success(()))
             } catch {
                 NSLog("readURLItemWithID: \(item.realmID), Error: \(error)")
-                quickResult?(.error([error]))
-                fullResult?(.error([error]))
+                result?(.error([error]))
             }
         }
     }
@@ -160,6 +150,39 @@ class RealmURLItemSyncingController: NSObject, SyncingPersistenceType { //NSObje
         } catch {
             NSLog("createTagItemError: \(error)")
             return .none
+        }
+    }
+}
+
+extension RealmURLItemSyncingController: DoubleSourcePersistenceType {
+    func sync(quickResult: SuccessResult?, fullResult: SuccessResult?) {
+        self.reloadData() { result in
+            quickResult?(result)
+            fullResult?(result)
+        }
+    }
+    func createItem(withID id: String?, quickResult: URLItemResult?, fullResult: URLItemResult?) {
+        self.createItem(withID: id) { result in
+            quickResult?(result)
+            fullResult?(result)
+        }
+    }
+    func readItem(withID id: String, quickResult: URLItemResult?, fullResult: URLItemResult?) {
+        self.readItem(withID: id) { result in
+            quickResult?(result)
+            fullResult?(result)
+        }
+    }
+    func update(item: URLItemType, quickResult: URLItemResult?, fullResult: URLItemResult?) {
+        self.update(item: item) { result in
+            quickResult?(result)
+            fullResult?(result)
+        }
+    }
+    func delete(item: URLItemType, quickResult: SuccessResult?, fullResult: SuccessResult?) {
+        self.delete(item: item) { result in
+            quickResult?(result)
+            fullResult?(result)
         }
     }
 }

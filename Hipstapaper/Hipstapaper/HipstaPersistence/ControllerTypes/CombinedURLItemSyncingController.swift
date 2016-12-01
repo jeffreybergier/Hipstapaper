@@ -6,25 +6,27 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
-class CombinedURLItemSyncingController: SyncingPersistenceType {
+class CombinedURLItemSyncingController: DoubleSourcePersistenceType {
     
-    private let realmController: SyncingPersistenceType = RealmURLItemSyncingController()
-    private let cloudKitController: SyncingPersistenceType = CloudKitURLItemSyncingController()
+    private let realmController: SingleSourcePersistenceType = RealmURLItemSyncingController()
+    private let cloudKitController: SingleSourcePersistenceType = CloudKitURLItemSyncingController()
     
     var ids: Set<String> {
         return self.realmController.ids
     }
     
     func sync(quickResult: SuccessResult?, fullResult: SuccessResult?) {
-        // put the quick result handler in the realmController
-        self.realmController.sync(quickResult: quickResult) { realmResult in
+        self.realmController.reloadData() { realmResult in
+            // always call the quick result with the results of realm
+            quickResult?(realmResult)
+            
             switch realmResult {
             case .error:
-                // if realm errors, call fullResult with the realmError
+                // if realm errors, also call fullResult with the realmError
                 fullResult?(realmResult)
             case .success:
                 // if realm is successful, continue to cloud controller
-                self.cloudKitController.sync(quickResult: .none) { cloudResult in
+                self.cloudKitController.reloadData() { cloudResult in
                     switch cloudResult {
                     case .error:
                         // if cloud errors, call fullResult with the cloudError
@@ -41,54 +43,66 @@ class CombinedURLItemSyncingController: SyncingPersistenceType {
     }
     
     func createItem(withID id: String?, quickResult: URLItemResult?, fullResult: URLItemResult?) {
-        self.realmController.createItem(withID: nil, quickResult: quickResult) { realmResult in
+        self.realmController.createItem(withID: id) { realmResult in
+            // always call the quick result with the results of realm
+            quickResult?(realmResult)
+            
             switch realmResult {
             case .error:
                 // if realm errors, call fullResult with the realmError
                 fullResult?(realmResult)
             case .success(let realmValue):
                 // if realm is successful, continue to cloud controller
-                self.cloudKitController.createItem(withID: realmValue.cloudKitID, quickResult: .none, fullResult: fullResult)
+                self.cloudKitController.createItem(withID: realmValue.cloudKitID, result: fullResult)
             }
         }
     }
     
     func readItem(withID id: String, quickResult: URLItemResult?, fullResult: URLItemResult?) {
-        self.realmController.readItem(withID: id, quickResult: quickResult) { realmResult in
+        self.realmController.readItem(withID: id) { realmResult in
+            // always call the quick result with the results of realm
+            quickResult?(realmResult)
+            
             switch realmResult {
             case .success:
                 // if realm succeeds, just finish
                 fullResult?(realmResult)
             case .error:
                 // if realm errors, try getting the value from the cloud
-                self.cloudKitController.readItem(withID: id, quickResult: .none, fullResult: fullResult)
+                self.cloudKitController.readItem(withID: id, result: fullResult)
             }
             
         }
     }
     
     func update(item: URLItemType, quickResult: URLItemResult?, fullResult: URLItemResult?) {
-        self.realmController.update(item: item, quickResult: quickResult) { realmResult in
+        self.realmController.update(item: item) { realmResult in
+            // always call the quick result with the results of realm
+            quickResult?(realmResult)
+            
             switch realmResult {
             case .error:
                 // if realm errors, call fullResult with the realmError
                 fullResult?(realmResult)
             case .success(let updatedItem):
                 // if realm is successful, continue to cloud controller
-                self.cloudKitController.update(item: updatedItem, quickResult: .none, fullResult: fullResult)
+                self.cloudKitController.update(item: updatedItem, result: fullResult)
             }
         }
     }
     
     func delete(item: URLItemType, quickResult: SuccessResult?, fullResult: SuccessResult?) {
-        self.realmController.delete(item: item, quickResult: quickResult) { realmResult in
+        self.realmController.delete(item: item) { realmResult in
+            // always call the quick result with the results of realm
+            quickResult?(realmResult)
+            
             switch realmResult {
             case .error:
                 // if realm errors, call fullResult with the realmError
                 fullResult?(realmResult)
             case .success:
                 // if realm is successful, continue to cloud controller
-                self.cloudKitController.delete(item: item, quickResult: .none, fullResult: fullResult)
+                self.cloudKitController.delete(item: item, result: fullResult)
             }
         }
     }

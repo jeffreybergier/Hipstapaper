@@ -8,7 +8,7 @@
 
 import CloudKit
 
-class CloudKitURLItemSyncingController: SyncingPersistenceType {
+class CloudKitURLItemSyncingController: SingleSourcePersistenceType {
     
     private let privateDB = CKContainer.default().privateCloudDatabase
     private let recordType = "URLItem"
@@ -18,7 +18,7 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
     private(set) var ids: Set<String> = []
     private var objectMap: [String : URLItem.CloudKitObject] = [:]
         
-    func sync(quickResult: SuccessResult?, fullResult: SuccessResult?) {
+    func reloadData(result: SuccessResult?) {
         self.serialQueue.async {
             let predicate = NSPredicate(value: true)
             let initialQuery = CKQuery(recordType: self.recordType, predicate: predicate)
@@ -35,20 +35,18 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
                         }
                         self.objectMap = cloudObjects
                         self.ids = Set(ids)
-                        quickResult?(.success())
-                        fullResult?(.success())
+                        result?(.success())
                     } else {
                         self.ids = []
                         self.objectMap = [:]
-                        quickResult?(.error([error!]))
-                        fullResult?(.error([error!]))
+                        result?(.error([error!]))
                     }
                 }
             }
         }
     }
     
-    func createItem(withID inputID: String?, quickResult: URLItemResult?, fullResult: URLItemResult?) {
+    func createItem(withID inputID: String?, result: URLItemResult?) {
         self.serialQueue.async {
             let emptyObject = URLItem.CloudKitObject()
             self.privateDB.save(emptyObject.record) { (record, error) in
@@ -62,34 +60,30 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
                         self.objectMap[id] = newObject
                         self.ids.insert(id)
                         let newValue = URLItem.Value(cloudKitObject: newObject)
-                        quickResult?(.success(newValue))
-                        fullResult?(.success(newValue))
+                        result?(.success(newValue))
                     } else {
-                        quickResult?(.error([error!]))
-                        fullResult?(.error([error!]))
+                        result?(.error([error!]))
                     }
                 }
             }
         }
     }
     
-    func readItem(withID id: String, quickResult: URLItemResult?, fullResult: URLItemResult?) {
+    func readItem(withID id: String, result: URLItemResult?) {
         self.serialQueue.async {
             if let existingObject = self.objectMap[id] {
                 let value = URLItem.Value(cloudKitObject: existingObject)
-                quickResult?(.success(value))
-                fullResult?(.success(value))
+                result?(.success(value))
             } else {
-                quickResult?(.error([NSError()]))
-                fullResult?(.error([NSError()]))
+                result?(.error([NSError()]))
             }
         }
     }
     
-    func update(item: URLItemType, quickResult: URLItemResult?, fullResult: URLItemResult?) {
+    func update(item: URLItemType, result: URLItemResult?) {
         self.serialQueue.async {
             guard let existingObject = self.objectMap[item.cloudKitID]
-                else { quickResult?(.error([NSError()])); fullResult?(.error([NSError()])); return; }
+                else { result?(.error([NSError()])); return; }
             existingObject.urlString = item.urlString
             existingObject.archived = item.archived
             existingObject.tags = item.tags
@@ -102,36 +96,65 @@ class CloudKitURLItemSyncingController: SyncingPersistenceType {
                         self.objectMap[id] = updatedObject
                         self.ids.insert(id)
                         let updatedValue = URLItem.Value(cloudKitObject: updatedObject)
-                        quickResult?(.success(updatedValue))
-                        fullResult?(.success(updatedValue))
+                        result?(.success(updatedValue))
                     } else {
-                        quickResult?(.error([error!]))
-                        fullResult?(.error([error!]))
+                        result?(.error([error!]))
                     }
                 }
             }
         }
     }
     
-    func delete(item: URLItemType, quickResult: SuccessResult?, fullResult: SuccessResult?) {
+    func delete(item: URLItemType, result: SuccessResult?) {
         self.serialQueue.async {
             let id = item.cloudKitID
             guard let existingObject = self.objectMap[id]
-                else { quickResult?(.error([NSError()])); fullResult?(.error([NSError()])); return; }
+                else { result?(.error([NSError()])); return; }
             let recordID = existingObject.record.recordID
             self.ids.remove(id)
             self.objectMap[id] = .none
             self.privateDB.delete(withRecordID: recordID) { (recordID, error) in
                 self.serialQueue.async {
                     if let _ = recordID {
-                        quickResult?(.success())
-                        fullResult?(.success())
+                        result?(.success())
                     } else {
-                        quickResult?(.error([error!]))
-                        fullResult?(.error([error!]))
+                        result?(.error([error!]))
                     }
                 }
             }
+        }
+    }
+}
+
+extension CloudKitURLItemSyncingController: DoubleSourcePersistenceType {
+    func sync(quickResult: SuccessResult?, fullResult: SuccessResult?) {
+        self.reloadData() { result in
+            quickResult?(result)
+            fullResult?(result)
+        }
+    }
+    func createItem(withID id: String?, quickResult: URLItemResult?, fullResult: URLItemResult?) {
+        self.createItem(withID: id) { result in
+            quickResult?(result)
+            fullResult?(result)
+        }
+    }
+    func readItem(withID id: String, quickResult: URLItemResult?, fullResult: URLItemResult?) {
+        self.readItem(withID: id) { result in
+            quickResult?(result)
+            fullResult?(result)
+        }
+    }
+    func update(item: URLItemType, quickResult: URLItemResult?, fullResult: URLItemResult?) {
+        self.update(item: item) { result in
+            quickResult?(result)
+            fullResult?(result)
+        }
+    }
+    func delete(item: URLItemType, quickResult: SuccessResult?, fullResult: SuccessResult?) {
+        self.delete(item: item) { result in
+            quickResult?(result)
+            fullResult?(result)
         }
     }
 }

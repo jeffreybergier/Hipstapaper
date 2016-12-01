@@ -12,14 +12,14 @@ typealias URLItemResults = (([Result<URLItemType>]) -> Void)
 
 class RealmCloudKitSyncer {
     
-    private let realmController: SyncingPersistenceType
-    private let cloudKitController: SyncingPersistenceType
+    private let realmController: SingleSourcePersistenceType
+    private let cloudKitController: SingleSourcePersistenceType
     
     // serial queue needed for all the local arrays I populate from all sorts of different callbacks
     // http://stackoverflow.com/questions/33512477/adding-to-array-in-parallel
     private let serialQueue = DispatchQueue(label: "RealmCloudKitSyncer", qos: .userInitiated)
     
-    init(realmController: SyncingPersistenceType, cloudKitController: SyncingPersistenceType) {
+    init(realmController: SingleSourcePersistenceType, cloudKitController: SingleSourcePersistenceType) {
         self.realmController = realmController
         self.cloudKitController = cloudKitController
     }
@@ -39,7 +39,7 @@ class RealmCloudKitSyncer {
             var cloudResults = [Result<URLItemType>]()
             
             for cloudID in cloudIDs {
-                self.cloudKitController.readItem(withID: cloudID, quickResult: .none) { cloudResult in
+                self.cloudKitController.readItem(withID: cloudID) { cloudResult in
                     self.serialQueue.async {
                         cloudResults.append(cloudResult)
                         if realmResults.count == realmIDs.count && cloudResults.count == cloudIDs.count {
@@ -49,7 +49,7 @@ class RealmCloudKitSyncer {
                 }
             }
             for realmID in realmIDs {
-                self.realmController.readItem(withID: realmID, quickResult: .none) { realmResult in
+                self.realmController.readItem(withID: realmID) { realmResult in
                     self.serialQueue.async {
                         realmResults.append(realmResult)
                         if realmResults.count == realmIDs.count && cloudResults.count == cloudIDs.count {
@@ -144,7 +144,7 @@ class RealmCloudKitSyncer {
         self.update(items: items, in: self.cloudKitController, resultsHandler: resultsHandler)
     }
     
-    private func update(items: [URLItemType], in storage: SyncingPersistenceType, resultsHandler: @escaping URLItemResults) {
+    private func update(items: [URLItemType], in storage: SingleSourcePersistenceType, resultsHandler: @escaping URLItemResults) {
         var results = [Result<URLItemType>]() {
             didSet {
                 if results.count == items.count {
@@ -153,14 +153,14 @@ class RealmCloudKitSyncer {
             }
         }
         for item in items {
-            storage.update(item: item, quickResult: .none) { updateResult in
+            storage.update(item: item) { updateResult in
                 results.append(updateResult)
             }
         }
     }
     
     private enum Location {
-        case cloud(SyncingPersistenceType), realm(SyncingPersistenceType)
+        case cloud(SingleSourcePersistenceType), realm(SingleSourcePersistenceType)
     }
     
     private func add(items: [URLItemType], toStorage location: Location, resultsHandler: @escaping URLItemResults) {
@@ -173,7 +173,7 @@ class RealmCloudKitSyncer {
         }
         for unsavedItem in items {
             let id: String
-            let storage: SyncingPersistenceType
+            let storage: SingleSourcePersistenceType
             switch location {
             case .cloud(let cloudController):
                 id = unsavedItem.cloudKitID
@@ -182,9 +182,9 @@ class RealmCloudKitSyncer {
                 id = unsavedItem.realmID
                 storage = realmController
             }
-            storage.createItem(withID: id, quickResult: .none) { createResult in
+            storage.createItem(withID: id) { createResult in
                 if case .success = createResult {
-                    storage.update(item: unsavedItem, quickResult: .none) { updateResult in
+                    storage.update(item: unsavedItem) { updateResult in
                         results.append(updateResult)
                     }
                 } else {

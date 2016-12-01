@@ -11,7 +11,7 @@ import AppKit
 
 class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
     
-    weak var dataSource: SyncingPersistenceType! {
+    weak var dataSource: DoubleSourcePersistenceType! {
         didSet {
             self.reloadData()
         }

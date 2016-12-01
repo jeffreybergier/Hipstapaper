@@ -29,7 +29,7 @@ class URLListWindowController: NSWindowController {
     // MARK: Data Source
     
     private var syncController: SyncController = .combined
-    private(set) lazy var dataSource: SyncingPersistenceType = {
+    private(set) lazy var dataSource: DoubleSourcePersistenceType = {
         switch self.syncController {
         case .combined:
             return CombinedURLItemSyncingController()
