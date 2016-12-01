@@ -1,7 +1,13 @@
 project 'Hipstapaper.xcodeproj'
 
-target 'Hipstapaper' do
+target 'HipstapaperPersistence_macOS' do
   platform :osx, '10.12'
+  use_frameworks!
+  pod 'RealmSwift'
+end
+
+target 'HipstapaperPersistence_iOS' do
+  platform :ios, '10.0'
   use_frameworks!
   pod 'RealmSwift'
 end
