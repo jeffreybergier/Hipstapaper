@@ -62,14 +62,17 @@ enum URLItemTypeComparison {
 extension URLItemType {
     func compare(with other: URLItemType) -> URLItemTypeComparison {
         guard self.cloudKitID == other.cloudKitID else { return .notApplicable }
-        if self.urlString != other.urlString || self.archived != other.archived || self.tags.map({$0.name}) != other.tags.map({$0.name}) {
-            if self.modificationDate >= other.modificationDate {
-                return .newer
-            } else {
-                return .older
-            }
+        
+        guard
+            self.urlString != other.urlString ||
+            self.archived != other.archived ||
+            Set(self.tags.map({$0.name})) != Set(other.tags.map({$0.name}))
+        else { return .same }
+        
+        if self.modificationDate >= other.modificationDate {
+            return .newer
         } else {
-            return .same
+            return .older
         }
     }
 }
