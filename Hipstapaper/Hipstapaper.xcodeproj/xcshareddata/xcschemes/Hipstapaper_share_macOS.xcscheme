@@ -43,13 +43,23 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "502C7FAA1DF0E88F004E70AB"
+               BuildableName = "HipstapaperPersistence_macOSTests.xctest"
+               BlueprintName = "HipstapaperPersistence_macOSTests"
+               ReferencedContainer = "container:Hipstapaper.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "502C7F491DF0E4D5004E70AB"
-            BuildableName = "Hipstapaper_share_macOS.appex"
-            BlueprintName = "Hipstapaper_share_macOS"
+            BlueprintIdentifier = "506A3F031DD6C10C00A5656E"
+            BuildableName = "Hipstapaper.app"
+            BlueprintName = "Hipstapaper"
             ReferencedContainer = "container:Hipstapaper.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -67,8 +77,12 @@
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES"
       launchAutomaticallySubstyle = "2">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.finder"
+         RemotePath = "/Finder">
+      </RemoteRunnable>
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "506A3F031DD6C10C00A5656E"
@@ -76,7 +90,7 @@
             BlueprintName = "Hipstapaper"
             ReferencedContainer = "container:Hipstapaper.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>

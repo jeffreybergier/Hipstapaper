@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "506A3F031DD6C10C00A5656E"
-               BuildableName = "Hipstapaper.app"
-               BlueprintName = "Hipstapaper"
+               BlueprintIdentifier = "502C7FA21DF0E88F004E70AB"
+               BuildableName = "HipstapaperPersistence_macOS.framework"
+               BlueprintName = "HipstapaperPersistence_macOS"
                ReferencedContainer = "container:Hipstapaper.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,26 +28,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "502C7FAA1DF0E88F004E70AB"
-               BuildableName = "HipstapaperPersistence_macOSTests.xctest"
-               BlueprintName = "HipstapaperPersistence_macOSTests"
-               ReferencedContainer = "container:Hipstapaper.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "506A3F031DD6C10C00A5656E"
-            BuildableName = "Hipstapaper.app"
-            BlueprintName = "Hipstapaper"
-            ReferencedContainer = "container:Hipstapaper.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -61,23 +42,15 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "506A3F031DD6C10C00A5656E"
-            BuildableName = "Hipstapaper.app"
-            BlueprintName = "Hipstapaper"
+            BlueprintIdentifier = "502C7FA21DF0E88F004E70AB"
+            BuildableName = "HipstapaperPersistence_macOS.framework"
+            BlueprintName = "HipstapaperPersistence_macOS"
             ReferencedContainer = "container:Hipstapaper.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "REALM_DISABLE_ANALYTICS"
-            value = "YES"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -87,16 +60,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "506A3F031DD6C10C00A5656E"
-            BuildableName = "Hipstapaper.app"
-            BlueprintName = "Hipstapaper"
+            BlueprintIdentifier = "502C7FA21DF0E88F004E70AB"
+            BuildableName = "HipstapaperPersistence_macOS.framework"
+            BlueprintName = "HipstapaperPersistence_macOS"
             ReferencedContainer = "container:Hipstapaper.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
