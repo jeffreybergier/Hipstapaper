@@ -8,18 +8,18 @@
 
 import Foundation
 
-protocol TagItemType {
+public protocol TagItemType {
     var name: String { get set }
 }
 
-enum TagItem {
+public enum TagItem {
     struct Value: TagItemType {
         var name: String
     }
 }
 
 extension String: TagItemType {
-    var name: String {
+    public var name: String {
         get {
             return self
         }

@@ -9,7 +9,7 @@
 import RealmSwift
 import Foundation
 
-protocol URLItemType {
+public protocol URLItemType {
     var realmID: String { get set }
     var cloudKitID: String { get set }
     var urlString: String { get set }
@@ -18,16 +18,16 @@ protocol URLItemType {
     var modificationDate: Date { get set }
 }
 
-enum URLItem {
-    struct Value: URLItemType {
-        var realmID: String
-        var cloudKitID: String
-        var urlString: String
-        var archived: Bool
-        var tags: [TagItemType]
-        var modificationDate: Date
+public enum URLItem {
+    public struct Value: URLItemType {
+        public var realmID: String
+        public var cloudKitID: String
+        public var urlString: String
+        public var archived: Bool
+        public var tags: [TagItemType]
+        public var modificationDate: Date
         
-        init(realmID: String,
+        public init(realmID: String,
              cloudKitID: String,
              urlString: String,
              archived: Bool = false,
@@ -45,12 +45,12 @@ enum URLItem {
 }
 
 extension URLItem.Value: Equatable {}
-func ==(lhs: URLItem.Value, rhs: URLItem.Value) -> Bool {
+public func ==(lhs: URLItem.Value, rhs: URLItem.Value) -> Bool {
     return lhs.realmID == rhs.realmID
 }
 
 extension URLItem.Value: Hashable {
-    var hashValue: Int {
+    public var hashValue: Int {
         return self.realmID.hashValue
     }
 }

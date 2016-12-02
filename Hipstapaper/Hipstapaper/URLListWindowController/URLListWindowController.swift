@@ -6,6 +6,7 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
+import HipstapaperPersistence_macOS
 import CloudKit
 import AppKit
 

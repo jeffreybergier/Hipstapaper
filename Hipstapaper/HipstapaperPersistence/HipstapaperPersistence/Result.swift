@@ -6,6 +6,6 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
-enum Result<T> {
+public enum Result<T> {
     case success(T), error([Error])
 }

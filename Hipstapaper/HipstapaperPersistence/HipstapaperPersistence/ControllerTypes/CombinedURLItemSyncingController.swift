@@ -6,16 +6,18 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
-class CombinedURLItemSyncingController: DoubleSourcePersistenceType {
+open class CombinedURLItemSyncingController: DoubleSourcePersistenceType {
     
     private let realmController: SingleSourcePersistenceType = RealmURLItemSyncingController()
     private let cloudKitController: SingleSourcePersistenceType = CloudKitURLItemSyncingController()
     
-    var ids: Set<String> {
+    public var ids: Set<String> {
         return self.realmController.ids
     }
     
-    func sync(quickResult: SuccessResult?, fullResult: SuccessResult?) {
+    public init() {}
+    
+    public func sync(quickResult: SuccessResult?, fullResult: SuccessResult?) {
         self.realmController.reloadData() { realmResult in
             // always call the quick result with the results of realm
             quickResult?(realmResult)
@@ -42,7 +44,7 @@ class CombinedURLItemSyncingController: DoubleSourcePersistenceType {
         }
     }
     
-    func createItem(withID id: String?, quickResult: URLItemResult?, fullResult: URLItemResult?) {
+    public func createItem(withID id: String?, quickResult: URLItemResult?, fullResult: URLItemResult?) {
         self.realmController.createItem(withID: id) { realmResult in
             // always call the quick result with the results of realm
             quickResult?(realmResult)
@@ -58,7 +60,7 @@ class CombinedURLItemSyncingController: DoubleSourcePersistenceType {
         }
     }
     
-    func readItem(withID id: String, quickResult: URLItemResult?, fullResult: URLItemResult?) {
+    public func readItem(withID id: String, quickResult: URLItemResult?, fullResult: URLItemResult?) {
         self.realmController.readItem(withID: id) { realmResult in
             // always call the quick result with the results of realm
             quickResult?(realmResult)
@@ -75,7 +77,7 @@ class CombinedURLItemSyncingController: DoubleSourcePersistenceType {
         }
     }
     
-    func update(item: URLItemType, quickResult: URLItemResult?, fullResult: URLItemResult?) {
+    public func update(item: URLItemType, quickResult: URLItemResult?, fullResult: URLItemResult?) {
         self.realmController.update(item: item) { realmResult in
             // always call the quick result with the results of realm
             quickResult?(realmResult)
@@ -91,7 +93,7 @@ class CombinedURLItemSyncingController: DoubleSourcePersistenceType {
         }
     }
     
-    func delete(item: URLItemType, quickResult: SuccessResult?, fullResult: SuccessResult?) {
+    public func delete(item: URLItemType, quickResult: SuccessResult?, fullResult: SuccessResult?) {
         self.realmController.delete(item: item) { realmResult in
             // always call the quick result with the results of realm
             quickResult?(realmResult)

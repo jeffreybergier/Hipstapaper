@@ -6,7 +6,7 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
-import RealmSwift
+import HipstapaperPersistence_macOS
 import AppKit
 
 class UIBindingManager: NSObject, URLItemBindingChangeDelegate {

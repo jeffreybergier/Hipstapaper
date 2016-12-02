@@ -8,13 +8,15 @@
 
 import RealmSwift
 
-class RealmURLItemSyncingController: SingleSourcePersistenceType {
+open class RealmURLItemSyncingController: SingleSourcePersistenceType {
     
-    private(set) var ids: Set<String> = []
+    public private(set) var ids: Set<String> = []
     
     private let serialQueue = DispatchQueue(label: "RealmURLItemSyncingController", qos: .userInitiated)
+    
+    public init() {}
 
-    func reloadData(result: SuccessResult?) {
+    public func reloadData(result: SuccessResult?) {
         self.serialQueue.async {
             do {
                 let realm = try Realm()
@@ -29,7 +31,7 @@ class RealmURLItemSyncingController: SingleSourcePersistenceType {
         }
     }
     
-    func createItem(withID id: String?, result: URLItemResult?) {
+    public func createItem(withID id: String?, result: URLItemResult?) {
         self.serialQueue.async {
             do {
                 let newObject = URLItemRealmObject()
@@ -49,7 +51,7 @@ class RealmURLItemSyncingController: SingleSourcePersistenceType {
         }
     }
     
-    func readItem(withID id: String, result: URLItemResult?) {
+    public func readItem(withID id: String, result: URLItemResult?) {
         self.serialQueue.async {
             do {
                 let realm = try Realm()
@@ -64,7 +66,7 @@ class RealmURLItemSyncingController: SingleSourcePersistenceType {
         }
     }
     
-    func update(item: URLItemType, result: URLItemResult?) {
+    public func update(item: URLItemType, result: URLItemResult?) {
         self.serialQueue.async {
             do {
                 let realm = try Realm()
@@ -86,7 +88,7 @@ class RealmURLItemSyncingController: SingleSourcePersistenceType {
         }
     }
     
-    func delete(item: URLItemType, result: SuccessResult?) {
+    public func delete(item: URLItemType, result: SuccessResult?) {
         self.serialQueue.async {
             do {
                 let realm = try Realm()
@@ -155,31 +157,31 @@ class RealmURLItemSyncingController: SingleSourcePersistenceType {
 }
 
 extension RealmURLItemSyncingController: DoubleSourcePersistenceType {
-    func sync(quickResult: SuccessResult?, fullResult: SuccessResult?) {
+    public func sync(quickResult: SuccessResult?, fullResult: SuccessResult?) {
         self.reloadData() { result in
             quickResult?(result)
             fullResult?(result)
         }
     }
-    func createItem(withID id: String?, quickResult: URLItemResult?, fullResult: URLItemResult?) {
+    public func createItem(withID id: String?, quickResult: URLItemResult?, fullResult: URLItemResult?) {
         self.createItem(withID: id) { result in
             quickResult?(result)
             fullResult?(result)
         }
     }
-    func readItem(withID id: String, quickResult: URLItemResult?, fullResult: URLItemResult?) {
+    public func readItem(withID id: String, quickResult: URLItemResult?, fullResult: URLItemResult?) {
         self.readItem(withID: id) { result in
             quickResult?(result)
             fullResult?(result)
         }
     }
-    func update(item: URLItemType, quickResult: URLItemResult?, fullResult: URLItemResult?) {
+    public func update(item: URLItemType, quickResult: URLItemResult?, fullResult: URLItemResult?) {
         self.update(item: item) { result in
             quickResult?(result)
             fullResult?(result)
         }
     }
-    func delete(item: URLItemType, quickResult: SuccessResult?, fullResult: SuccessResult?) {
+    public func delete(item: URLItemType, quickResult: SuccessResult?, fullResult: SuccessResult?) {
         self.delete(item: item) { result in
             quickResult?(result)
             fullResult?(result)

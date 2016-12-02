@@ -6,15 +6,15 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
-typealias URLItemResult = ((Result<URLItemType>) -> Void)
-typealias SuccessResult = ((Result<Void>) -> Void)
+public typealias URLItemResult = ((Result<URLItemType>) -> Void)
+public typealias SuccessResult = ((Result<Void>) -> Void)
 
 // This protocol is intended for use systems that use a local database (quick)
 // and a cloud based persistence layer (full)
 // It allows me to return the available results quickly
 // But also keep the UI showing that network activity is happening
 
-protocol DoubleSourcePersistenceType: class {
+public protocol DoubleSourcePersistenceType: class {
     var ids: Set<String> { get }    
     func sync(quickResult: SuccessResult?, fullResult: SuccessResult?)
     func createItem(withID id: String?, quickResult: URLItemResult?, fullResult: URLItemResult?)
@@ -24,7 +24,7 @@ protocol DoubleSourcePersistenceType: class {
 }
 
 // This protocol is intended for systems that use either a local database or a cloud storage system
-protocol SingleSourcePersistenceType {
+public protocol SingleSourcePersistenceType {
     var ids: Set<String> { get }
     func reloadData(result: SuccessResult?)
     func createItem(withID: String?, result: URLItemResult?)
