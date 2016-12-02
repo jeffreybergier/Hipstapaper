@@ -10,7 +10,7 @@ import CloudKit
 
 open class CloudKitURLItemSyncingController: SingleSourcePersistenceType {
     
-    private let privateDB = CKContainer.default().privateCloudDatabase
+    private let privateDB = CKContainer(identifier: "iCloud.com.saturdayapps.Hipstapaper").privateCloudDatabase
     private let recordType = "URLItem"
     
     private let serialQueue = DispatchQueue(label: "CloudKitURLItemSyncingController", qos: .userInitiated)

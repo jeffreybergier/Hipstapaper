@@ -6,6 +6,7 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
+import HipstapaperPersistence_macOS
 import Cocoa
 
 class ShareViewController: NSViewController {
@@ -16,6 +17,17 @@ class ShareViewController: NSViewController {
 
     override func loadView() {
         super.loadView()
+        
+        let cloudKit: SingleSourcePersistenceType = CloudKitURLItemSyncingController()
+        cloudKit.reloadData() { result in
+            print(result)
+            print(cloudKit.ids)
+        }
+        let realm: SingleSourcePersistenceType = RealmURLItemSyncingController()
+        realm.reloadData() { result in
+            print(result)
+            print(realm.ids)
+        }
     
         // Insert code here to customize the view
         let item = self.extensionContext!.inputItems[0] as! NSExtensionItem
