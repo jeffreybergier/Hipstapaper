@@ -8,9 +8,15 @@
 
 import Foundation
 
-typealias URLItemResults = (([Result<URLItemType>]) -> Void)
+typealias SyncSuccess = ((Result<SyncChanges>) -> Void)
+
+enum SyncChanges {
+    case changes, noChanges
+}
 
 class RealmCloudKitSyncer {
+    
+    private typealias URLItemResults = (([Result<URLItemType>]) -> Void)
     
     private let realmController: SingleSourcePersistenceType
     private let cloudKitController: SingleSourcePersistenceType
@@ -24,16 +30,18 @@ class RealmCloudKitSyncer {
         self.cloudKitController = cloudKitController
     }
     
-    func sync(syncResult: SuccessResult?) {
+    func sync(syncResult: SyncSuccess?) {
         self.step1ReadAllItems(finalCompletionHandler: syncResult)
     }
     
-    private func step1ReadAllItems(finalCompletionHandler: SuccessResult?) {
+    private func step1ReadAllItems(finalCompletionHandler: SyncSuccess?) {
         self.serialQueue.async {
             let realmIDs = self.realmController.ids
             let cloudIDs = self.cloudKitController.ids
             
-            guard realmIDs.isEmpty == false || cloudIDs.isEmpty == false else { finalCompletionHandler?(.success()); return; }
+            guard realmIDs.isEmpty == false || cloudIDs.isEmpty == false else {
+                self.step7CallBack(allResults: [], syncChanges: .noChanges, finalCompletionHandler: finalCompletionHandler); return;
+            }
             
             var realmResults = [Result<URLItemType>]()
             var cloudResults = [Result<URLItemType>]()
@@ -61,7 +69,7 @@ class RealmCloudKitSyncer {
         }
     }
     
-    private func step2ProcessChanges(realmResults: [Result<URLItemType>], cloudResults: [Result<URLItemType>], finalCompletionHandler: SuccessResult?) {
+    private func step2ProcessChanges(realmResults: [Result<URLItemType>], cloudResults: [Result<URLItemType>], finalCompletionHandler: SyncSuccess?) {
         self.serialQueue.async {
             let (addToCloud, addToRealm, updateInCloud, updateInRealm) = type(of: self).diff(cloudItems: cloudResults.mapSuccess(), realmItems: realmResults.mapSuccess())
             
@@ -70,14 +78,13 @@ class RealmCloudKitSyncer {
             var finishedProcesses = 0 {
                 didSet {
                     if finishedProcesses == 4 {
-                        let errors = allResults.mapError()
-                        if errors.isEmpty == true {
-                            NSLog("Sync Succeeded: No Errors.")
-                            finalCompletionHandler?(.success())
+                        let changes: SyncChanges
+                        if addToRealm.isEmpty == true && updateInRealm.isEmpty == true {
+                            changes = .noChanges
                         } else {
-                            NSLog("Sync Errors: \(errors.count)\n\(errors)")
-                            finalCompletionHandler?(.error(errors))
+                            changes = .changes
                         }
+                        self.step7CallBack(allResults: [], syncChanges: changes, finalCompletionHandler: finalCompletionHandler);
                     }
                 }
             }
@@ -142,6 +149,17 @@ class RealmCloudKitSyncer {
     
     private func step6UpdateInCloudKit(items: [URLItemType], resultsHandler: @escaping URLItemResults) {
         self.update(items: items, in: self.cloudKitController, resultsHandler: resultsHandler)
+    }
+    
+    private func step7CallBack(allResults: [Result<URLItemType>], syncChanges: SyncChanges, finalCompletionHandler: SyncSuccess?) {
+        let errors = allResults.mapError()
+        if errors.isEmpty == true {
+            NSLog("Sync Succeeded: No Errors.")
+            finalCompletionHandler?(.success(syncChanges))
+        } else {
+            NSLog("Sync Errors: \(errors.count)\n\(errors)")
+            finalCompletionHandler?(.error(errors))
+        }
     }
     
     private func update(items: [URLItemType], in storage: SingleSourcePersistenceType, resultsHandler: @escaping URLItemResults) {

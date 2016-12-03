@@ -17,11 +17,14 @@ open class CombinedURLItemSyncingController: DoubleSourcePersistenceType {
     
     public init() {}
     
+    // ugh this is pretty bad pyramid of doom
+    // it basically just calls back the completion handlers on error
+    // if there is success it keeps going forward with the syncing process
     public func sync(quickResult: SuccessResult?, fullResult: SuccessResult?) {
         self.realmController.reloadData() { realmResult in
             // always call the quick result with the results of realm
             quickResult?(realmResult)
-            
+
             switch realmResult {
             case .error:
                 // if realm errors, also call fullResult with the realmError
@@ -37,7 +40,23 @@ open class CombinedURLItemSyncingController: DoubleSourcePersistenceType {
                         // now the cloud sync and the realm sync were both successful, time to sync
                         let syncer = RealmCloudKitSyncer(realmController: self.realmController, cloudKitController: self.cloudKitController)
                         // call to sync with the full completion handler
-                        syncer.sync(syncResult: fullResult)
+                        syncer.sync() { syncResult in
+                            switch syncResult {
+                            case .error:
+                                // if there is an error syncing, call back
+                                fullResult?(.success())
+                            case .success(let changes):
+                                // if we are successful, we need to know if there are changes
+                                switch changes {
+                                case .noChanges:
+                                    // if there are no changes, call back
+                                    fullResult?(.success())
+                                case .changes:
+                                    // if there are changes, recurse
+                                    self.sync(quickResult: .none, fullResult: fullResult)
+                                }
+                            }
+                        }
                     }
                 }
             }
