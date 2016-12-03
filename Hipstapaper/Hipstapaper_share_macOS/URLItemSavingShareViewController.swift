@@ -7,12 +7,12 @@
 //
 
 import HipstapaperPersistence_macOS
-import Cocoa
+import AppKit
 
-class ShareViewController: NSViewController {
+class URLItemSavingShareViewController: NSViewController {
 
     override var nibName: String? {
-        return "ShareViewController"
+        return "URLItemSavingShareViewController"
     }
 
     override func loadView() {
@@ -20,13 +20,17 @@ class ShareViewController: NSViewController {
         
         let cloudKit: SingleSourcePersistenceType = CloudKitURLItemSyncingController()
         cloudKit.reloadData() { result in
+            print("-- Cloud Results --")
             print(result)
             print(cloudKit.ids)
+            print("-- End Cloud Results --")
         }
         let realm: SingleSourcePersistenceType = RealmURLItemSyncingController()
         realm.reloadData() { result in
+            print("-- Realm Results --")
             print(result)
             print(realm.ids)
+            print("-- End Realm Results --")
         }
     
         // Insert code here to customize the view

@@ -10,11 +10,26 @@ import RealmSwift
 
 open class RealmURLItemSyncingController: SingleSourcePersistenceType {
     
+    // Void Singleton to configure the default realm for the app once
+    // this enables realm to use the app group for storage
+    // also opens up the possibility to setting an encryption key
+    private static let configureRealmDirectory: Void = {
+        let directory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "V6ESYGU6CV.hipstapaper.appgroup")!
+        let realmPath = directory.appendingPathComponent("db.realm")
+        var config = Realm.Configuration.defaultConfiguration
+        config.deleteRealmIfMigrationNeeded = true // this can be true because the cloud is the source of truth
+        config.fileURL = realmPath
+        Realm.Configuration.defaultConfiguration = config
+    }()
+    
     public private(set) var ids: Set<String> = []
     
     private let serialQueue = DispatchQueue(label: "RealmURLItemSyncingController", qos: .userInitiated)
     
-    public init() {}
+    public init() {
+        // call the singleton to configure it
+        RealmURLItemSyncingController.configureRealmDirectory
+    }
 
     public func reloadData(result: SuccessResult?) {
         self.serialQueue.async {
