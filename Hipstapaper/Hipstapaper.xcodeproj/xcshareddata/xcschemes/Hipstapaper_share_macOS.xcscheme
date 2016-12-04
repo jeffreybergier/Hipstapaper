@@ -78,9 +78,9 @@
       allowLocationSimulation = "YES"
       launchAutomaticallySubstyle = "2">
       <RemoteRunnable
-         runnableDebuggingMode = "2"
-         BundleIdentifier = "com.apple.finder"
-         RemotePath = "/Finder">
+         runnableDebuggingMode = "0"
+         BundleIdentifier = "com.apple.Safari"
+         RemotePath = "/Applications/Safari.app">
       </RemoteRunnable>
       <MacroExpansion>
          <BuildableReference
@@ -91,6 +91,13 @@
             ReferencedContainer = "container:Hipstapaper.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "REALM_DISABLE_ANALYTICS"
+            value = "YES"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>

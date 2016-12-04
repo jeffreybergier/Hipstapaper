@@ -29,7 +29,14 @@ extension Sequence where Iterator.Element == NSExtensionItem {
 //            }
             
             for item in items {
-                item.loadItem(forTypeIdentifier: "public.url") { secureCoding, error in
+                //https://developer.apple.com/library/content/documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html
+                //public.url (kUTTypeURL) public.data 'url'   Uniform Resource Locator.
+                    // this one finds File and Web Page URLs
+                //public.file-url (kUTTypeFileURL)    public.url  'furl'  File URL.
+                    // this one finds only File URLs and not web pages
+                //public.url-name -   'urln'  URL name.
+                    // not sure what this one does, it didn't find either
+                item.loadItem(forTypeIdentifier: kUTTypeURL as String) { secureCoding, error in
                     serialQueue.async {
                         if let url = secureCoding as? URL {
                             allResults.append(.success(url))
