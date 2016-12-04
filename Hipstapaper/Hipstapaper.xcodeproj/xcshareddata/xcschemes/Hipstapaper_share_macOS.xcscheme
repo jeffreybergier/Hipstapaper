@@ -16,7 +16,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "502C7F491DF0E4D5004E70AB"
-               BuildableName = "Hipstapaper_share_macOS.appex"
+               BuildableName = "Hipstapaper.appex"
                BlueprintName = "Hipstapaper_share_macOS"
                ReferencedContainer = "container:Hipstapaper.xcodeproj">
             </BuildableReference>
@@ -30,7 +30,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "506A3F031DD6C10C00A5656E"
-               BuildableName = "Hipstapaper_app_macOS.app"
+               BuildableName = "Hipstapaper.app"
                BlueprintName = "Hipstapaper_app_macOS"
                ReferencedContainer = "container:Hipstapaper.xcodeproj">
             </BuildableReference>
@@ -58,7 +58,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "506A3F031DD6C10C00A5656E"
-            BuildableName = "Hipstapaper_app_macOS.app"
+            BuildableName = "Hipstapaper.app"
             BlueprintName = "Hipstapaper_app_macOS"
             ReferencedContainer = "container:Hipstapaper.xcodeproj">
          </BuildableReference>
@@ -86,7 +86,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "506A3F031DD6C10C00A5656E"
-            BuildableName = "Hipstapaper_app_macOS.app"
+            BuildableName = "Hipstapaper.app"
             BlueprintName = "Hipstapaper_app_macOS"
             ReferencedContainer = "container:Hipstapaper.xcodeproj">
          </BuildableReference>
@@ -113,7 +113,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "506A3F031DD6C10C00A5656E"
-            BuildableName = "Hipstapaper_app_macOS.app"
+            BuildableName = "Hipstapaper.app"
             BlueprintName = "Hipstapaper_app_macOS"
             ReferencedContainer = "container:Hipstapaper.xcodeproj">
          </BuildableReference>

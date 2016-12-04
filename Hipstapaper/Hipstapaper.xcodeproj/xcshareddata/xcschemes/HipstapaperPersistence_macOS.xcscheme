@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "502C7FA21DF0E88F004E70AB"
-               BuildableName = "HipstapaperPersistence_macOS.framework"
+               BuildableName = "HipstapaperPersistence.framework"
                BlueprintName = "HipstapaperPersistence_macOS"
                ReferencedContainer = "container:Hipstapaper.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "502C7FA21DF0E88F004E70AB"
-            BuildableName = "HipstapaperPersistence_macOS.framework"
+            BuildableName = "HipstapaperPersistence.framework"
             BlueprintName = "HipstapaperPersistence_macOS"
             ReferencedContainer = "container:Hipstapaper.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "502C7FA21DF0E88F004E70AB"
-            BuildableName = "HipstapaperPersistence_macOS.framework"
+            BuildableName = "HipstapaperPersistence.framework"
             BlueprintName = "HipstapaperPersistence_macOS"
             ReferencedContainer = "container:Hipstapaper.xcodeproj">
          </BuildableReference>
