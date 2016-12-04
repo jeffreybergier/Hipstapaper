@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1DB17CF713545E200ED09DA9 /* Pods_Hipstapaper_app_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9026CCE0C26A2DD034D84E /* Pods_Hipstapaper_app_iOS.framework */; };
 		4CEF3CF863927F5D6173E9B7 /* Pods_Hipstapaper_app_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BC88B7F133803FC8AACBB07 /* Pods_Hipstapaper_app_macOS.framework */; };
 		5005E11E1DF4CB8300BA38E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5005E11D1DF4CB8300BA38E6 /* AppDelegate.swift */; };
 		5005E1231DF4CB8300BA38E6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5005E1211DF4CB8300BA38E6 /* Main.storyboard */; };
@@ -73,6 +74,7 @@
 		C3BE2756473B808FDAED0839 /* Pods_HipstapaperPersistence_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF65F2B8DD4D1E2F32417A9F /* Pods_HipstapaperPersistence_macOS.framework */; };
 		D26DE149AA8ABBEDE1FAD0A3 /* Pods_Hipstapaper_share_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 179E714DE9C05E98B3AC140E /* Pods_Hipstapaper_share_macOS.framework */; };
 		E8FDF02D062FC91AF0BFEC86 /* Pods_HipstapaperPersistence_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDDCA5C50A9019B96067E833 /* Pods_HipstapaperPersistence_iOS.framework */; };
+		ED064DA1BC8AC3A7F39B638D /* Pods_Hipstapaper_share_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF63C5FB7E05F24B0A7395D8 /* Pods_Hipstapaper_share_iOS.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -154,7 +156,7 @@
 		17B44D04279DB07867DFFD93 /* Pods-Hipstapaper_share_macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_share_macOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_share_macOS/Pods-Hipstapaper_share_macOS.debug.xcconfig"; sourceTree = "<group>"; };
 		3099370897CD9A21A2699853 /* Pods-Hipstapaper_app_macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_app_macOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_app_macOS/Pods-Hipstapaper_app_macOS.release.xcconfig"; sourceTree = "<group>"; };
 		49293AC46DB56ED6C2B8231F /* Pods-HipstapaperPersistence_macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HipstapaperPersistence_macOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HipstapaperPersistence_macOS/Pods-HipstapaperPersistence_macOS.debug.xcconfig"; sourceTree = "<group>"; };
-		5005E11B1DF4CB8300BA38E6 /* Hipstapaper_app_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hipstapaper_app_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5005E11B1DF4CB8300BA38E6 /* Hipstapaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hipstapaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5005E11D1DF4CB8300BA38E6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5005E1221DF4CB8300BA38E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5005E1241DF4CB8300BA38E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -210,12 +212,18 @@
 		50E21BC51DD6E466005151C7 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		50E21BCB1DD8F2E3005151C7 /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		537EEB979DAC54B129BE2059 /* Pods-HipstapaperPersistence_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HipstapaperPersistence_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-HipstapaperPersistence_iOS/Pods-HipstapaperPersistence_iOS.release.xcconfig"; sourceTree = "<group>"; };
+		82C36A5B4623A32DAA5F87C8 /* Pods-Hipstapaper_app_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_app_iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_app_iOS/Pods-Hipstapaper_app_iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		83553BD220FB0C30463E2150 /* Pods-Hipstapaper_share_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_share_iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_share_iOS/Pods-Hipstapaper_share_iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		8BC88B7F133803FC8AACBB07 /* Pods_Hipstapaper_app_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hipstapaper_app_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8BF34071BF4325F010D5162E /* Pods-Hipstapaper_app_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_app_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_app_iOS/Pods-Hipstapaper_app_iOS.release.xcconfig"; sourceTree = "<group>"; };
 		9AA75B71D67D4E0710F3ADA2 /* Pods-Hipstapaper_share_macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_share_macOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_share_macOS/Pods-Hipstapaper_share_macOS.release.xcconfig"; sourceTree = "<group>"; };
+		AF63C5FB7E05F24B0A7395D8 /* Pods_Hipstapaper_share_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hipstapaper_share_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF65F2B8DD4D1E2F32417A9F /* Pods_HipstapaperPersistence_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HipstapaperPersistence_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B242BA0267E083DEB735F222 /* Pods-Hipstapaper_app_macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_app_macOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_app_macOS/Pods-Hipstapaper_app_macOS.debug.xcconfig"; sourceTree = "<group>"; };
 		B9DA3AF769F895B931E0B6EC /* Pods-HipstapaperPersistence_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HipstapaperPersistence_iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HipstapaperPersistence_iOS/Pods-HipstapaperPersistence_iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		E4B4430454A4B3A40A117F6A /* Pods-Hipstapaper_share_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_share_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_share_iOS/Pods-Hipstapaper_share_iOS.release.xcconfig"; sourceTree = "<group>"; };
 		E62FDA3CE0A7F00B301BF760 /* Pods-HipstapaperPersistence_macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HipstapaperPersistence_macOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-HipstapaperPersistence_macOS/Pods-HipstapaperPersistence_macOS.release.xcconfig"; sourceTree = "<group>"; };
+		EF9026CCE0C26A2DD034D84E /* Pods_Hipstapaper_app_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hipstapaper_app_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDDCA5C50A9019B96067E833 /* Pods_HipstapaperPersistence_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HipstapaperPersistence_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -224,6 +232,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DB17CF713545E200ED09DA9 /* Pods_Hipstapaper_app_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,6 +240,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED064DA1BC8AC3A7F39B638D /* Pods_Hipstapaper_share_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -438,7 +448,7 @@
 				502C7F631DF0E6B0004E70AB /* HipstapaperPersistence.framework */,
 				502C7FA31DF0E88F004E70AB /* HipstapaperPersistence.framework */,
 				502C7FAB1DF0E88F004E70AB /* HipstapaperPersistence_macOSTests.xctest */,
-				5005E11B1DF4CB8300BA38E6 /* Hipstapaper_app_iOS.app */,
+				5005E11B1DF4CB8300BA38E6 /* Hipstapaper.app */,
 				5005E13F1DF4CC2600BA38E6 /* Hipstapaper_share_iOS.appex */,
 			);
 			name = Products;
@@ -470,6 +480,8 @@
 				AF65F2B8DD4D1E2F32417A9F /* Pods_HipstapaperPersistence_macOS.framework */,
 				8BC88B7F133803FC8AACBB07 /* Pods_Hipstapaper_app_macOS.framework */,
 				179E714DE9C05E98B3AC140E /* Pods_Hipstapaper_share_macOS.framework */,
+				EF9026CCE0C26A2DD034D84E /* Pods_Hipstapaper_app_iOS.framework */,
+				AF63C5FB7E05F24B0A7395D8 /* Pods_Hipstapaper_share_iOS.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -485,6 +497,10 @@
 				3099370897CD9A21A2699853 /* Pods-Hipstapaper_app_macOS.release.xcconfig */,
 				17B44D04279DB07867DFFD93 /* Pods-Hipstapaper_share_macOS.debug.xcconfig */,
 				9AA75B71D67D4E0710F3ADA2 /* Pods-Hipstapaper_share_macOS.release.xcconfig */,
+				82C36A5B4623A32DAA5F87C8 /* Pods-Hipstapaper_app_iOS.debug.xcconfig */,
+				8BF34071BF4325F010D5162E /* Pods-Hipstapaper_app_iOS.release.xcconfig */,
+				83553BD220FB0C30463E2150 /* Pods-Hipstapaper_share_iOS.debug.xcconfig */,
+				E4B4430454A4B3A40A117F6A /* Pods-Hipstapaper_share_iOS.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -515,10 +531,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5005E1391DF4CB8300BA38E6 /* Build configuration list for PBXNativeTarget "Hipstapaper_app_iOS" */;
 			buildPhases = (
+				B9F4096FB3F34ECBBA968207 /* 📦 Check Pods Manifest.lock */,
 				5005E1171DF4CB8300BA38E6 /* Sources */,
 				5005E1181DF4CB8300BA38E6 /* Frameworks */,
 				5005E1191DF4CB8300BA38E6 /* Resources */,
 				5005E14D1DF4CC2600BA38E6 /* Embed App Extensions */,
+				2AC98E9235CC476F9FFA2C9C /* 📦 Embed Pods Frameworks */,
+				4C82A19D7CA68CBD4831F2CB /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -527,16 +546,19 @@
 			);
 			name = Hipstapaper_app_iOS;
 			productName = Hipstapaper_app_iOS;
-			productReference = 5005E11B1DF4CB8300BA38E6 /* Hipstapaper_app_iOS.app */;
+			productReference = 5005E11B1DF4CB8300BA38E6 /* Hipstapaper.app */;
 			productType = "com.apple.product-type.application";
 		};
 		5005E13E1DF4CC2600BA38E6 /* Hipstapaper_share_iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5005E14A1DF4CC2600BA38E6 /* Build configuration list for PBXNativeTarget "Hipstapaper_share_iOS" */;
 			buildPhases = (
+				F2C8B7E45D5F50BC93BE2E94 /* 📦 Check Pods Manifest.lock */,
 				5005E13B1DF4CC2600BA38E6 /* Sources */,
 				5005E13C1DF4CC2600BA38E6 /* Frameworks */,
 				5005E13D1DF4CC2600BA38E6 /* Resources */,
+				D7BAA2211FD77E0D4B7DD946 /* 📦 Embed Pods Frameworks */,
+				B6EE98792C7162BC5D41936C /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -826,6 +848,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HipstapaperPersistence_iOS/Pods-HipstapaperPersistence_iOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		2AC98E9235CC476F9FFA2C9C /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Hipstapaper_app_iOS/Pods-Hipstapaper_app_iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		32EC6FA22297D0B202B6C0D4 /* 📦 Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -869,6 +906,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Hipstapaper_share_macOS/Pods-Hipstapaper_share_macOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4C82A19D7CA68CBD4831F2CB /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Hipstapaper_app_iOS/Pods-Hipstapaper_app_iOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5643018C0CC9838DC2E08F96 /* 📦 Copy Pods Resources */ = {
@@ -959,6 +1011,66 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HipstapaperPersistence_macOS/Pods-HipstapaperPersistence_macOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B6EE98792C7162BC5D41936C /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Hipstapaper_share_iOS/Pods-Hipstapaper_share_iOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B9F4096FB3F34ECBBA968207 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D7BAA2211FD77E0D4B7DD946 /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Hipstapaper_share_iOS/Pods-Hipstapaper_share_iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F2C8B7E45D5F50BC93BE2E94 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1132,6 +1244,7 @@
 /* Begin XCBuildConfiguration section */
 		5005E1351DF4CB8300BA38E6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 82C36A5B4623A32DAA5F87C8 /* Pods-Hipstapaper_app_iOS.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1141,7 +1254,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.Hipstapaper-app-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Hipstapaper;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 3.0;
 			};
@@ -1149,6 +1262,7 @@
 		};
 		5005E1361DF4CB8300BA38E6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8BF34071BF4325F010D5162E /* Pods-Hipstapaper_app_iOS.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1158,7 +1272,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.Hipstapaper-app-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Hipstapaper;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 3.0;
 				VALIDATE_PRODUCT = YES;
@@ -1167,6 +1281,7 @@
 		};
 		5005E14B1DF4CC2600BA38E6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 83553BD220FB0C30463E2150 /* Pods-Hipstapaper_share_iOS.debug.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
@@ -1183,6 +1298,7 @@
 		};
 		5005E14C1DF4CC2600BA38E6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E4B4430454A4B3A40A117F6A /* Pods-Hipstapaper_share_iOS.release.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
@@ -1510,6 +1626,7 @@
 				5005E1361DF4CB8300BA38E6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5005E14A1DF4CC2600BA38E6 /* Build configuration list for PBXNativeTarget "Hipstapaper_share_iOS" */ = {
 			isa = XCConfigurationList;
@@ -1518,6 +1635,7 @@
 				5005E14C1DF4CC2600BA38E6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		502C7F5B1DF0E4D5004E70AB /* Build configuration list for PBXNativeTarget "Hipstapaper_share_macOS" */ = {
 			isa = XCConfigurationList;

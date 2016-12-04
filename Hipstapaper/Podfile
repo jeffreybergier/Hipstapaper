@@ -12,6 +12,19 @@ target 'Hipstapaper_share_macOS' do
   pod 'RealmSwift'
 end
 
+target 'Hipstapaper_app_iOS' do
+  platform :ios, '10.0'
+  use_frameworks!
+  pod 'RealmSwift'
+  pod 'IGListKit', :git => 'https://github.com/Instagram/IGListKit.git', :branch => 'master'
+end
+
+target 'Hipstapaper_share_iOS' do
+  platform :ios, '10.0'
+  use_frameworks!
+  pod 'RealmSwift'
+end
+
 target 'HipstapaperPersistence_macOS' do
   platform :osx, '10.12'
   use_frameworks!
