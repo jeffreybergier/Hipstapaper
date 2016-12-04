@@ -75,13 +75,8 @@ open class CombinedURLItemSyncingController: DoubleSourcePersistenceType {
             case .success(let realmValue):
                 // if realm is successful, continue to cloud controller
                 self.cloudKitController.createItem(withID: realmValue.cloudKitID) { cloudCreateResult in
-                    switch cloudCreateResult {
-                    case .success(var cloudValue):
-                        cloudValue.realmID = realmValue.realmID
-                        fullResult?(.success(cloudValue))
-                    case .error:
-                        fullResult?(cloudCreateResult)
-                    }
+                    let updatedResult = type(of: self).update(cloudItemResult: cloudCreateResult, withRealmItemID: realmValue.realmID)
+                    fullResult?(updatedResult)
                 }
             }
         }
@@ -98,7 +93,10 @@ open class CombinedURLItemSyncingController: DoubleSourcePersistenceType {
                 fullResult?(realmResult)
             case .error:
                 // if realm errors, try getting the value from the cloud
-                self.cloudKitController.readItem(withID: id, result: fullResult)
+                self.cloudKitController.readItem(withID: id) { cloudReadResult in
+                    let updatedResult = type(of: self).update(cloudItemResult: cloudReadResult, withRealmItemID: id)
+                    fullResult?(updatedResult)
+                }
             }
             
         }
@@ -115,7 +113,10 @@ open class CombinedURLItemSyncingController: DoubleSourcePersistenceType {
                 fullResult?(realmResult)
             case .success(let updatedItem):
                 // if realm is successful, continue to cloud controller
-                self.cloudKitController.update(item: updatedItem, result: fullResult)
+                self.cloudKitController.update(item: updatedItem) { cloudUpdateResult in
+                    let updatedResult = type(of: self).update(cloudItemResult: cloudUpdateResult, withRealmItemID: item.realmID)
+                    fullResult?(updatedResult)
+                }
             }
         }
     }
@@ -133,6 +134,17 @@ open class CombinedURLItemSyncingController: DoubleSourcePersistenceType {
                 // if realm is successful, continue to cloud controller
                 self.cloudKitController.delete(item: item, result: fullResult)
             }
+        }
+    }
+    
+    private class func update(cloudItemResult: Result<URLItemType>, withRealmItemID realmID: String) -> Result<URLItemType> {
+        // since cloud results don't have a real realm ID, we need to add the realm realm ID before returning it to the app
+        switch cloudItemResult {
+        case .success(var cloudItem):
+            cloudItem.realmID = realmID
+            return .success(cloudItem)
+        case .error:
+            return cloudItemResult
         }
     }
 }
