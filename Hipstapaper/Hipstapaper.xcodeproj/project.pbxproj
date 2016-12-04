@@ -10,7 +10,20 @@
 	<string>46</string>
 	<key>objects</key>
 	<dict>
-		<key>0AE8241F3DF05685B83F4573</key>
+		<key>179E714DE9C05E98B3AC140E</key>
+		<dict>
+			<key>explicitFileType</key>
+			<string>wrapper.framework</string>
+			<key>includeInIndex</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>path</key>
+			<string>Pods_Hipstapaper_share_macOS.framework</string>
+			<key>sourceTree</key>
+			<string>BUILT_PRODUCTS_DIR</string>
+		</dict>
+		<key>17B44D04279DB07867DFFD93</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -19,28 +32,13 @@
 			<key>lastKnownFileType</key>
 			<string>text.xcconfig</string>
 			<key>name</key>
-			<string>Pods-Hipstapaper_app_macOS.release.xcconfig</string>
+			<string>Pods-Hipstapaper_share_macOS.debug.xcconfig</string>
 			<key>path</key>
-			<string>Pods/Target Support Files/Pods-Hipstapaper_app_macOS/Pods-Hipstapaper_app_macOS.release.xcconfig</string>
+			<string>Pods/Target Support Files/Pods-Hipstapaper_share_macOS/Pods-Hipstapaper_share_macOS.debug.xcconfig</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>179EFCFD467F8BAA027EAB28</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.xcconfig</string>
-			<key>name</key>
-			<string>Pods-Hipstapaper_share_macOS.release.xcconfig</string>
-			<key>path</key>
-			<string>Pods/Target Support Files/Pods-Hipstapaper_share_macOS/Pods-Hipstapaper_share_macOS.release.xcconfig</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>1E566CE0E5B67CCB6F6B5D73</key>
+		<key>235E4AD2A516445F1650F99D</key>
 		<dict>
 			<key>buildActionMask</key>
 			<string>2147483647</string>
@@ -59,12 +57,12 @@
 			<key>shellPath</key>
 			<string>/bin/sh</string>
 			<key>shellScript</key>
-			<string>"${SRCROOT}/Pods/Target Support Files/Pods-HipstapaperPersistence_macOS/Pods-HipstapaperPersistence_macOS-resources.sh"
+			<string>"${SRCROOT}/Pods/Target Support Files/Pods-HipstapaperPersistence_iOS/Pods-HipstapaperPersistence_iOS-resources.sh"
 </string>
 			<key>showEnvVarsInLog</key>
 			<string>0</string>
 		</dict>
-		<key>31655F24C3823C6528972EC4</key>
+		<key>3099370897CD9A21A2699853</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -73,33 +71,13 @@
 			<key>lastKnownFileType</key>
 			<string>text.xcconfig</string>
 			<key>name</key>
-			<string>Pods-HipstapaperPersistence_iOS.release.xcconfig</string>
+			<string>Pods-Hipstapaper_app_macOS.release.xcconfig</string>
 			<key>path</key>
-			<string>Pods/Target Support Files/Pods-HipstapaperPersistence_iOS/Pods-HipstapaperPersistence_iOS.release.xcconfig</string>
+			<string>Pods/Target Support Files/Pods-Hipstapaper_app_macOS/Pods-Hipstapaper_app_macOS.release.xcconfig</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>32A403AD22F685E36B219D2C</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>wrapper.framework</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>Pods_HipstapaperPersistence_iOS.framework</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>43566E19078305C1EBFB9126</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9F1AD1738D2C59B210D11A1E</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>4A6442CA02594721F3D9DAAB</key>
+		<key>32EC6FA22297D0B202B6C0D4</key>
 		<dict>
 			<key>buildActionMask</key>
 			<string>2147483647</string>
@@ -129,6 +107,82 @@ fi
 			<key>showEnvVarsInLog</key>
 			<string>0</string>
 		</dict>
+		<key>415428495E1DF5E49B14B9F5</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array/>
+			<key>inputPaths</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXShellScriptBuildPhase</string>
+			<key>name</key>
+			<string>&#128230; Check Pods Manifest.lock</string>
+			<key>outputPaths</key>
+			<array/>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+			<key>shellPath</key>
+			<string>/bin/sh</string>
+			<key>shellScript</key>
+			<string>diff "${PODS_ROOT}/../Podfile.lock" "${PODS_ROOT}/Manifest.lock" &gt; /dev/null
+if [[ $? != 0 ]] ; then
+    cat &lt;&lt; EOM
+error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.
+EOM
+    exit 1
+fi
+</string>
+			<key>showEnvVarsInLog</key>
+			<string>0</string>
+		</dict>
+		<key>48F35DB14A715A93D644ECB5</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array/>
+			<key>inputPaths</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXShellScriptBuildPhase</string>
+			<key>name</key>
+			<string>&#128230; Embed Pods Frameworks</string>
+			<key>outputPaths</key>
+			<array/>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+			<key>shellPath</key>
+			<string>/bin/sh</string>
+			<key>shellScript</key>
+			<string>"${SRCROOT}/Pods/Target Support Files/Pods-Hipstapaper_share_macOS/Pods-Hipstapaper_share_macOS-frameworks.sh"
+</string>
+			<key>showEnvVarsInLog</key>
+			<string>0</string>
+		</dict>
+		<key>49293AC46DB56ED6C2B8231F</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>name</key>
+			<string>Pods-HipstapaperPersistence_macOS.debug.xcconfig</string>
+			<key>path</key>
+			<string>Pods/Target Support Files/Pods-HipstapaperPersistence_macOS/Pods-HipstapaperPersistence_macOS.debug.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>4CEF3CF863927F5D6173E9B7</key>
+		<dict>
+			<key>fileRef</key>
+			<string>8BC88B7F133803FC8AACBB07</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
 		<key>502C7F461DF0E4D5004E70AB</key>
 		<dict>
 			<key>buildActionMask</key>
@@ -150,7 +204,7 @@ fi
 			<key>files</key>
 			<array>
 				<string>502C7F5D1DF0E510004E70AB</string>
-				<string>DA50E806C1C1A3E56793B567</string>
+				<string>D26DE149AA8ABBEDE1FAD0A3</string>
 			</array>
 			<key>isa</key>
 			<string>PBXFrameworksBuildPhase</string>
@@ -177,12 +231,12 @@ fi
 			<string>502C7F5B1DF0E4D5004E70AB</string>
 			<key>buildPhases</key>
 			<array>
-				<string>4A6442CA02594721F3D9DAAB</string>
+				<string>7E602B8361234C73759E2015</string>
 				<string>502C7F461DF0E4D5004E70AB</string>
 				<string>502C7F471DF0E4D5004E70AB</string>
 				<string>502C7F481DF0E4D5004E70AB</string>
-				<string>A14655C9F9ED2F6678CD6DAE</string>
-				<string>83C277F6DAD822A66A8C2F4B</string>
+				<string>48F35DB14A715A93D644ECB5</string>
+				<string>A6856C9FB2E7CEF6F0D8FF60</string>
 			</array>
 			<key>buildRules</key>
 			<array/>
@@ -208,7 +262,7 @@ fi
 			<key>isa</key>
 			<string>PBXFileReference</string>
 			<key>path</key>
-			<string>Hipstapaper.appex</string>
+			<string>Hipstapaper_share_macOS.appex</string>
 			<key>sourceTree</key>
 			<string>BUILT_PRODUCTS_DIR</string>
 		</dict>
@@ -373,7 +427,7 @@ fi
 		<key>502C7F591DF0E4D5004E70AB</key>
 		<dict>
 			<key>baseConfigurationReference</key>
-			<string>8BB4E26EAFD9E3D2AD75D2C4</string>
+			<string>17B44D04279DB07867DFFD93</string>
 			<key>buildSettings</key>
 			<dict>
 				<key>CODE_SIGN_ENTITLEMENTS</key>
@@ -391,7 +445,7 @@ fi
 				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
 				<string>com.saturdayapps.Hipstapaper.Hipstapaper-share-macOS</string>
 				<key>PRODUCT_NAME</key>
-				<string>Hipstapaper</string>
+				<string>$(TARGET_NAME)</string>
 				<key>SKIP_INSTALL</key>
 				<string>YES</string>
 				<key>SWIFT_VERSION</key>
@@ -405,7 +459,7 @@ fi
 		<key>502C7F5A1DF0E4D5004E70AB</key>
 		<dict>
 			<key>baseConfigurationReference</key>
-			<string>179EFCFD467F8BAA027EAB28</string>
+			<string>9AA75B71D67D4E0710F3ADA2</string>
 			<key>buildSettings</key>
 			<dict>
 				<key>CODE_SIGN_ENTITLEMENTS</key>
@@ -423,7 +477,7 @@ fi
 				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
 				<string>com.saturdayapps.Hipstapaper.Hipstapaper-share-macOS</string>
 				<key>PRODUCT_NAME</key>
-				<string>Hipstapaper</string>
+				<string>$(TARGET_NAME)</string>
 				<key>SKIP_INSTALL</key>
 				<string>YES</string>
 				<key>SWIFT_VERSION</key>
@@ -503,7 +557,7 @@ fi
 			<string>2147483647</string>
 			<key>files</key>
 			<array>
-				<string>E6AA675A3962F8D71DC869B5</string>
+				<string>E8FDF02D062FC91AF0BFEC86</string>
 			</array>
 			<key>isa</key>
 			<string>PBXFrameworksBuildPhase</string>
@@ -540,12 +594,12 @@ fi
 			<string>502C7F741DF0E6B0004E70AB</string>
 			<key>buildPhases</key>
 			<array>
-				<string>E86D475E56ED8BE5DA639E19</string>
+				<string>32EC6FA22297D0B202B6C0D4</string>
 				<string>502C7F5E1DF0E6B0004E70AB</string>
 				<string>502C7F5F1DF0E6B0004E70AB</string>
 				<string>502C7F601DF0E6B0004E70AB</string>
 				<string>502C7F611DF0E6B0004E70AB</string>
-				<string>DA8BA02EA7F9DE12C65648EF</string>
+				<string>235E4AD2A516445F1650F99D</string>
 			</array>
 			<key>buildRules</key>
 			<array/>
@@ -679,9 +733,11 @@ fi
 		<key>502C7F751DF0E6B0004E70AB</key>
 		<dict>
 			<key>baseConfigurationReference</key>
-			<string>F7DBA12E68108220C1C5F3F5</string>
+			<string>B9DA3AF769F895B931E0B6EC</string>
 			<key>buildSettings</key>
 			<dict>
+				<key>APPLICATION_EXTENSION_API_ONLY</key>
+				<string>YES</string>
 				<key>CLANG_ENABLE_MODULES</key>
 				<string>YES</string>
 				<key>CODE_SIGN_IDENTITY</key>
@@ -735,9 +791,11 @@ fi
 		<key>502C7F761DF0E6B0004E70AB</key>
 		<dict>
 			<key>baseConfigurationReference</key>
-			<string>31655F24C3823C6528972EC4</string>
+			<string>537EEB979DAC54B129BE2059</string>
 			<key>buildSettings</key>
 			<dict>
+				<key>APPLICATION_EXTENSION_API_ONLY</key>
+				<string>YES</string>
 				<key>CLANG_ENABLE_MODULES</key>
 				<string>YES</string>
 				<key>CODE_SIGN_IDENTITY</key>
@@ -1086,7 +1144,7 @@ fi
 			<string>2147483647</string>
 			<key>files</key>
 			<array>
-				<string>43566E19078305C1EBFB9126</string>
+				<string>C3BE2756473B808FDAED0839</string>
 			</array>
 			<key>isa</key>
 			<string>PBXFrameworksBuildPhase</string>
@@ -1123,12 +1181,12 @@ fi
 			<string>502C7FBA1DF0E88F004E70AB</string>
 			<key>buildPhases</key>
 			<array>
-				<string>6E7CF009638B9DF4272758CB</string>
+				<string>415428495E1DF5E49B14B9F5</string>
 				<string>502C7F9E1DF0E88F004E70AB</string>
 				<string>502C7F9F1DF0E88F004E70AB</string>
 				<string>502C7FA01DF0E88F004E70AB</string>
 				<string>502C7FA11DF0E88F004E70AB</string>
-				<string>1E566CE0E5B67CCB6F6B5D73</string>
+				<string>AEF5ED81EA9F3F064BAD8B52</string>
 			</array>
 			<key>buildRules</key>
 			<array/>
@@ -1452,9 +1510,11 @@ fi
 		<key>502C7FBB1DF0E88F004E70AB</key>
 		<dict>
 			<key>baseConfigurationReference</key>
-			<string>53FCFA0210EE2591A373DDA0</string>
+			<string>49293AC46DB56ED6C2B8231F</string>
 			<key>buildSettings</key>
 			<dict>
+				<key>APPLICATION_EXTENSION_API_ONLY</key>
+				<string>YES</string>
 				<key>CODE_SIGN_IDENTITY</key>
 				<string>Mac Developer</string>
 				<key>COMBINE_HIDPI_IMAGES</key>
@@ -1500,9 +1560,11 @@ fi
 		<key>502C7FBC1DF0E88F004E70AB</key>
 		<dict>
 			<key>baseConfigurationReference</key>
-			<string>DE514C3A0C6B25C0C92B6EC6</string>
+			<string>E62FDA3CE0A7F00B301BF760</string>
 			<key>buildSettings</key>
 			<dict>
+				<key>APPLICATION_EXTENSION_API_ONLY</key>
+				<string>YES</string>
 				<key>CODE_SIGN_IDENTITY</key>
 				<string>Mac Developer</string>
 				<key>COMBINE_HIDPI_IMAGES</key>
@@ -1988,7 +2050,7 @@ fi
 				<string>502C7FB11DF0E88F004E70AB</string>
 				<string>506A3F051DD6C10C00A5656E</string>
 				<string>50E21BC41DD6E465005151C7</string>
-				<string>B1CED41A3D7C250AAA365A44</string>
+				<string>811FE6FFCB721642EF62C119</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
@@ -2172,7 +2234,7 @@ fi
 			<array>
 				<string>50E21BC61DD6E466005151C7</string>
 				<string>502C7FB81DF0E88F004E70AB</string>
-				<string>BCDAB52A6E003FEA9829BF52</string>
+				<string>4CEF3CF863927F5D6173E9B7</string>
 			</array>
 			<key>isa</key>
 			<string>PBXFrameworksBuildPhase</string>
@@ -2201,14 +2263,14 @@ fi
 			<string>506A3F111DD6C10D00A5656E</string>
 			<key>buildPhases</key>
 			<array>
-				<string>EC928B5CCEA13682D2360E10</string>
+				<string>A9E2DFAFC5B89409EBB92679</string>
 				<string>506A3F001DD6C10C00A5656E</string>
 				<string>506A3F011DD6C10C00A5656E</string>
 				<string>506A3F021DD6C10C00A5656E</string>
 				<string>502C7F5C1DF0E4D5004E70AB</string>
 				<string>502C7FBD1DF0E88F004E70AB</string>
-				<string>CAFF02C1ED1D6CB0DFE7CC2D</string>
-				<string>CE7B4AA26E48B13C5A8B2783</string>
+				<string>7AD85B9D2B4CD5129447C3E1</string>
+				<string>5643018C0CC9838DC2E08F96</string>
 			</array>
 			<key>buildRules</key>
 			<array/>
@@ -2551,7 +2613,7 @@ fi
 		<key>506A3F121DD6C10D00A5656E</key>
 		<dict>
 			<key>baseConfigurationReference</key>
-			<string>FF59BFAFF9C8556B77BF9145</string>
+			<string>B242BA0267E083DEB735F222</string>
 			<key>buildSettings</key>
 			<dict>
 				<key>ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES</key>
@@ -2585,7 +2647,7 @@ fi
 		<key>506A3F131DD6C10D00A5656E</key>
 		<dict>
 			<key>baseConfigurationReference</key>
-			<string>0AE8241F3DF05685B83F4573</string>
+			<string>3099370897CD9A21A2699853</string>
 			<key>buildSettings</key>
 			<dict>
 				<key>ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES</key>
@@ -2632,10 +2694,10 @@ fi
 			<key>children</key>
 			<array>
 				<string>50E21BC51DD6E466005151C7</string>
-				<string>32A403AD22F685E36B219D2C</string>
-				<string>9F1AD1738D2C59B210D11A1E</string>
-				<string>B635262805BE906ACA330C89</string>
-				<string>E155A38C2290CFF3D7AC2D83</string>
+				<string>FDDCA5C50A9019B96067E833</string>
+				<string>AF65F2B8DD4D1E2F32417A9F</string>
+				<string>8BC88B7F133803FC8AACBB07</string>
+				<string>179E714DE9C05E98B3AC140E</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
@@ -2684,7 +2746,7 @@ fi
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
-		<key>53FCFA0210EE2591A373DDA0</key>
+		<key>537EEB979DAC54B129BE2059</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -2693,183 +2755,13 @@ fi
 			<key>lastKnownFileType</key>
 			<string>text.xcconfig</string>
 			<key>name</key>
-			<string>Pods-HipstapaperPersistence_macOS.debug.xcconfig</string>
+			<string>Pods-HipstapaperPersistence_iOS.release.xcconfig</string>
 			<key>path</key>
-			<string>Pods/Target Support Files/Pods-HipstapaperPersistence_macOS/Pods-HipstapaperPersistence_macOS.debug.xcconfig</string>
+			<string>Pods/Target Support Files/Pods-HipstapaperPersistence_iOS/Pods-HipstapaperPersistence_iOS.release.xcconfig</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>6E7CF009638B9DF4272758CB</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>inputPaths</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXShellScriptBuildPhase</string>
-			<key>name</key>
-			<string>&#128230; Check Pods Manifest.lock</string>
-			<key>outputPaths</key>
-			<array/>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-			<key>shellPath</key>
-			<string>/bin/sh</string>
-			<key>shellScript</key>
-			<string>diff "${PODS_ROOT}/../Podfile.lock" "${PODS_ROOT}/Manifest.lock" &gt; /dev/null
-if [[ $? != 0 ]] ; then
-    cat &lt;&lt; EOM
-error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.
-EOM
-    exit 1
-fi
-</string>
-			<key>showEnvVarsInLog</key>
-			<string>0</string>
-		</dict>
-		<key>83C277F6DAD822A66A8C2F4B</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>inputPaths</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXShellScriptBuildPhase</string>
-			<key>name</key>
-			<string>&#128230; Copy Pods Resources</string>
-			<key>outputPaths</key>
-			<array/>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-			<key>shellPath</key>
-			<string>/bin/sh</string>
-			<key>shellScript</key>
-			<string>"${SRCROOT}/Pods/Target Support Files/Pods-Hipstapaper_share_macOS/Pods-Hipstapaper_share_macOS-resources.sh"
-</string>
-			<key>showEnvVarsInLog</key>
-			<string>0</string>
-		</dict>
-		<key>8BB4E26EAFD9E3D2AD75D2C4</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.xcconfig</string>
-			<key>name</key>
-			<string>Pods-Hipstapaper_share_macOS.debug.xcconfig</string>
-			<key>path</key>
-			<string>Pods/Target Support Files/Pods-Hipstapaper_share_macOS/Pods-Hipstapaper_share_macOS.debug.xcconfig</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9F1AD1738D2C59B210D11A1E</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>wrapper.framework</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>Pods_HipstapaperPersistence_macOS.framework</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>A14655C9F9ED2F6678CD6DAE</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>inputPaths</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXShellScriptBuildPhase</string>
-			<key>name</key>
-			<string>&#128230; Embed Pods Frameworks</string>
-			<key>outputPaths</key>
-			<array/>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-			<key>shellPath</key>
-			<string>/bin/sh</string>
-			<key>shellScript</key>
-			<string>"${SRCROOT}/Pods/Target Support Files/Pods-Hipstapaper_share_macOS/Pods-Hipstapaper_share_macOS-frameworks.sh"
-</string>
-			<key>showEnvVarsInLog</key>
-			<string>0</string>
-		</dict>
-		<key>B1CED41A3D7C250AAA365A44</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>F7DBA12E68108220C1C5F3F5</string>
-				<string>31655F24C3823C6528972EC4</string>
-				<string>53FCFA0210EE2591A373DDA0</string>
-				<string>DE514C3A0C6B25C0C92B6EC6</string>
-				<string>FF59BFAFF9C8556B77BF9145</string>
-				<string>0AE8241F3DF05685B83F4573</string>
-				<string>8BB4E26EAFD9E3D2AD75D2C4</string>
-				<string>179EFCFD467F8BAA027EAB28</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Pods</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>B635262805BE906ACA330C89</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>wrapper.framework</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>Pods_Hipstapaper_app_macOS.framework</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>BCDAB52A6E003FEA9829BF52</key>
-		<dict>
-			<key>fileRef</key>
-			<string>B635262805BE906ACA330C89</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>CAFF02C1ED1D6CB0DFE7CC2D</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>inputPaths</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXShellScriptBuildPhase</string>
-			<key>name</key>
-			<string>&#128230; Embed Pods Frameworks</string>
-			<key>outputPaths</key>
-			<array/>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-			<key>shellPath</key>
-			<string>/bin/sh</string>
-			<key>shellScript</key>
-			<string>"${SRCROOT}/Pods/Target Support Files/Pods-Hipstapaper_app_macOS/Pods-Hipstapaper_app_macOS-frameworks.sh"
-</string>
-			<key>showEnvVarsInLog</key>
-			<string>0</string>
-		</dict>
-		<key>CE7B4AA26E48B13C5A8B2783</key>
+		<key>5643018C0CC9838DC2E08F96</key>
 		<dict>
 			<key>buildActionMask</key>
 			<string>2147483647</string>
@@ -2893,14 +2785,109 @@ fi
 			<key>showEnvVarsInLog</key>
 			<string>0</string>
 		</dict>
-		<key>DA50E806C1C1A3E56793B567</key>
+		<key>7AD85B9D2B4CD5129447C3E1</key>
 		<dict>
-			<key>fileRef</key>
-			<string>E155A38C2290CFF3D7AC2D83</string>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array/>
+			<key>inputPaths</key>
+			<array/>
 			<key>isa</key>
-			<string>PBXBuildFile</string>
+			<string>PBXShellScriptBuildPhase</string>
+			<key>name</key>
+			<string>&#128230; Embed Pods Frameworks</string>
+			<key>outputPaths</key>
+			<array/>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+			<key>shellPath</key>
+			<string>/bin/sh</string>
+			<key>shellScript</key>
+			<string>"${SRCROOT}/Pods/Target Support Files/Pods-Hipstapaper_app_macOS/Pods-Hipstapaper_app_macOS-frameworks.sh"
+</string>
+			<key>showEnvVarsInLog</key>
+			<string>0</string>
 		</dict>
-		<key>DA8BA02EA7F9DE12C65648EF</key>
+		<key>7E602B8361234C73759E2015</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array/>
+			<key>inputPaths</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXShellScriptBuildPhase</string>
+			<key>name</key>
+			<string>&#128230; Check Pods Manifest.lock</string>
+			<key>outputPaths</key>
+			<array/>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+			<key>shellPath</key>
+			<string>/bin/sh</string>
+			<key>shellScript</key>
+			<string>diff "${PODS_ROOT}/../Podfile.lock" "${PODS_ROOT}/Manifest.lock" &gt; /dev/null
+if [[ $? != 0 ]] ; then
+    cat &lt;&lt; EOM
+error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.
+EOM
+    exit 1
+fi
+</string>
+			<key>showEnvVarsInLog</key>
+			<string>0</string>
+		</dict>
+		<key>811FE6FFCB721642EF62C119</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>B9DA3AF769F895B931E0B6EC</string>
+				<string>537EEB979DAC54B129BE2059</string>
+				<string>49293AC46DB56ED6C2B8231F</string>
+				<string>E62FDA3CE0A7F00B301BF760</string>
+				<string>B242BA0267E083DEB735F222</string>
+				<string>3099370897CD9A21A2699853</string>
+				<string>17B44D04279DB07867DFFD93</string>
+				<string>9AA75B71D67D4E0710F3ADA2</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Pods</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>8BC88B7F133803FC8AACBB07</key>
+		<dict>
+			<key>explicitFileType</key>
+			<string>wrapper.framework</string>
+			<key>includeInIndex</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>path</key>
+			<string>Pods_Hipstapaper_app_macOS.framework</string>
+			<key>sourceTree</key>
+			<string>BUILT_PRODUCTS_DIR</string>
+		</dict>
+		<key>9AA75B71D67D4E0710F3ADA2</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>name</key>
+			<string>Pods-Hipstapaper_share_macOS.release.xcconfig</string>
+			<key>path</key>
+			<string>Pods/Target Support Files/Pods-Hipstapaper_share_macOS/Pods-Hipstapaper_share_macOS.release.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>A6856C9FB2E7CEF6F0D8FF60</key>
 		<dict>
 			<key>buildActionMask</key>
 			<string>2147483647</string>
@@ -2919,27 +2906,66 @@ fi
 			<key>shellPath</key>
 			<string>/bin/sh</string>
 			<key>shellScript</key>
-			<string>"${SRCROOT}/Pods/Target Support Files/Pods-HipstapaperPersistence_iOS/Pods-HipstapaperPersistence_iOS-resources.sh"
+			<string>"${SRCROOT}/Pods/Target Support Files/Pods-Hipstapaper_share_macOS/Pods-Hipstapaper_share_macOS-resources.sh"
 </string>
 			<key>showEnvVarsInLog</key>
 			<string>0</string>
 		</dict>
-		<key>DE514C3A0C6B25C0C92B6EC6</key>
+		<key>A9E2DFAFC5B89409EBB92679</key>
 		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array/>
+			<key>inputPaths</key>
+			<array/>
 			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.xcconfig</string>
+			<string>PBXShellScriptBuildPhase</string>
 			<key>name</key>
-			<string>Pods-HipstapaperPersistence_macOS.release.xcconfig</string>
-			<key>path</key>
-			<string>Pods/Target Support Files/Pods-HipstapaperPersistence_macOS/Pods-HipstapaperPersistence_macOS.release.xcconfig</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
+			<string>&#128230; Check Pods Manifest.lock</string>
+			<key>outputPaths</key>
+			<array/>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+			<key>shellPath</key>
+			<string>/bin/sh</string>
+			<key>shellScript</key>
+			<string>diff "${PODS_ROOT}/../Podfile.lock" "${PODS_ROOT}/Manifest.lock" &gt; /dev/null
+if [[ $? != 0 ]] ; then
+    cat &lt;&lt; EOM
+error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.
+EOM
+    exit 1
+fi
+</string>
+			<key>showEnvVarsInLog</key>
+			<string>0</string>
 		</dict>
-		<key>E155A38C2290CFF3D7AC2D83</key>
+		<key>AEF5ED81EA9F3F064BAD8B52</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array/>
+			<key>inputPaths</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXShellScriptBuildPhase</string>
+			<key>name</key>
+			<string>&#128230; Copy Pods Resources</string>
+			<key>outputPaths</key>
+			<array/>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+			<key>shellPath</key>
+			<string>/bin/sh</string>
+			<key>shellScript</key>
+			<string>"${SRCROOT}/Pods/Target Support Files/Pods-HipstapaperPersistence_macOS/Pods-HipstapaperPersistence_macOS-resources.sh"
+</string>
+			<key>showEnvVarsInLog</key>
+			<string>0</string>
+		</dict>
+		<key>AF65F2B8DD4D1E2F32417A9F</key>
 		<dict>
 			<key>explicitFileType</key>
 			<string>wrapper.framework</string>
@@ -2948,78 +2974,26 @@ fi
 			<key>isa</key>
 			<string>PBXFileReference</string>
 			<key>path</key>
-			<string>Pods_Hipstapaper_share_macOS.framework</string>
+			<string>Pods_HipstapaperPersistence_macOS.framework</string>
 			<key>sourceTree</key>
 			<string>BUILT_PRODUCTS_DIR</string>
 		</dict>
-		<key>E6AA675A3962F8D71DC869B5</key>
+		<key>B242BA0267E083DEB735F222</key>
 		<dict>
-			<key>fileRef</key>
-			<string>32A403AD22F685E36B219D2C</string>
+			<key>includeInIndex</key>
+			<string>1</string>
 			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>E86D475E56ED8BE5DA639E19</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>inputPaths</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXShellScriptBuildPhase</string>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
 			<key>name</key>
-			<string>&#128230; Check Pods Manifest.lock</string>
-			<key>outputPaths</key>
-			<array/>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-			<key>shellPath</key>
-			<string>/bin/sh</string>
-			<key>shellScript</key>
-			<string>diff "${PODS_ROOT}/../Podfile.lock" "${PODS_ROOT}/Manifest.lock" &gt; /dev/null
-if [[ $? != 0 ]] ; then
-    cat &lt;&lt; EOM
-error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.
-EOM
-    exit 1
-fi
-</string>
-			<key>showEnvVarsInLog</key>
-			<string>0</string>
+			<string>Pods-Hipstapaper_app_macOS.debug.xcconfig</string>
+			<key>path</key>
+			<string>Pods/Target Support Files/Pods-Hipstapaper_app_macOS/Pods-Hipstapaper_app_macOS.debug.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
 		</dict>
-		<key>EC928B5CCEA13682D2360E10</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>inputPaths</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXShellScriptBuildPhase</string>
-			<key>name</key>
-			<string>&#128230; Check Pods Manifest.lock</string>
-			<key>outputPaths</key>
-			<array/>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-			<key>shellPath</key>
-			<string>/bin/sh</string>
-			<key>shellScript</key>
-			<string>diff "${PODS_ROOT}/../Podfile.lock" "${PODS_ROOT}/Manifest.lock" &gt; /dev/null
-if [[ $? != 0 ]] ; then
-    cat &lt;&lt; EOM
-error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.
-EOM
-    exit 1
-fi
-</string>
-			<key>showEnvVarsInLog</key>
-			<string>0</string>
-		</dict>
-		<key>F7DBA12E68108220C1C5F3F5</key>
+		<key>B9DA3AF769F895B931E0B6EC</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -3034,7 +3008,21 @@ fi
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>FF59BFAFF9C8556B77BF9145</key>
+		<key>C3BE2756473B808FDAED0839</key>
+		<dict>
+			<key>fileRef</key>
+			<string>AF65F2B8DD4D1E2F32417A9F</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>D26DE149AA8ABBEDE1FAD0A3</key>
+		<dict>
+			<key>fileRef</key>
+			<string>179E714DE9C05E98B3AC140E</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>E62FDA3CE0A7F00B301BF760</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -3043,11 +3031,31 @@ fi
 			<key>lastKnownFileType</key>
 			<string>text.xcconfig</string>
 			<key>name</key>
-			<string>Pods-Hipstapaper_app_macOS.debug.xcconfig</string>
+			<string>Pods-HipstapaperPersistence_macOS.release.xcconfig</string>
 			<key>path</key>
-			<string>Pods/Target Support Files/Pods-Hipstapaper_app_macOS/Pods-Hipstapaper_app_macOS.debug.xcconfig</string>
+			<string>Pods/Target Support Files/Pods-HipstapaperPersistence_macOS/Pods-HipstapaperPersistence_macOS.release.xcconfig</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
+		</dict>
+		<key>E8FDF02D062FC91AF0BFEC86</key>
+		<dict>
+			<key>fileRef</key>
+			<string>FDDCA5C50A9019B96067E833</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>FDDCA5C50A9019B96067E833</key>
+		<dict>
+			<key>explicitFileType</key>
+			<string>wrapper.framework</string>
+			<key>includeInIndex</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>path</key>
+			<string>Pods_HipstapaperPersistence_iOS.framework</string>
+			<key>sourceTree</key>
+			<string>BUILT_PRODUCTS_DIR</string>
 		</dict>
 	</dict>
 	<key>rootObject</key>
