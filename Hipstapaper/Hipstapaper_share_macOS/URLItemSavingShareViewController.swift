@@ -6,7 +6,7 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
-import HipstapaperPersistence_macOS
+import HipstapaperPersistence
 import AppKit
 
 class URLItemSavingShareViewController: NSViewController {

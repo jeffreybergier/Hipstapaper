@@ -11,7 +11,7 @@
 		502C7F4E1DF0E4D5004E70AB /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 502C7F4D1DF0E4D5004E70AB /* icon.icns */; };
 		502C7F511DF0E4D5004E70AB /* URLItemSavingShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F501DF0E4D5004E70AB /* URLItemSavingShareViewController.swift */; };
 		502C7F541DF0E4D5004E70AB /* URLItemSavingShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502C7F521DF0E4D5004E70AB /* URLItemSavingShareViewController.xib */; };
-		502C7F581DF0E4D5004E70AB /* Hipstapaper_share_macOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 502C7F4A1DF0E4D5004E70AB /* Hipstapaper_share_macOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		502C7F581DF0E4D5004E70AB /* Hipstapaper.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 502C7F4A1DF0E4D5004E70AB /* Hipstapaper.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		502C7F5D1DF0E510004E70AB /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50E21BC51DD6E466005151C7 /* CloudKit.framework */; };
 		502C7F731DF0E6B0004E70AB /* HipstapaperPersistence.h in Headers */ = {isa = PBXBuildFile; fileRef = 502C7F651DF0E6B0004E70AB /* HipstapaperPersistence.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		502C7F7E1DF0E797004E70AB /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F7D1DF0E797004E70AB /* Result.swift */; };
@@ -25,11 +25,11 @@
 		502C7F981DF0E7AE004E70AB /* URLItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F911DF0E7AE004E70AB /* URLItem.swift */; };
 		502C7F9A1DF0E7AE004E70AB /* URLItemCloudKitObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F921DF0E7AE004E70AB /* URLItemCloudKitObject.swift */; };
 		502C7F9C1DF0E7AE004E70AB /* URLItemRealmObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F931DF0E7AE004E70AB /* URLItemRealmObject.swift */; };
-		502C7FAC1DF0E88F004E70AB /* HipstapaperPersistence_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 502C7FA31DF0E88F004E70AB /* HipstapaperPersistence_macOS.framework */; };
+		502C7FAC1DF0E88F004E70AB /* HipstapaperPersistence.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 502C7FA31DF0E88F004E70AB /* HipstapaperPersistence.framework */; };
 		502C7FB31DF0E88F004E70AB /* HipstapaperPersistence_macOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7FB21DF0E88F004E70AB /* HipstapaperPersistence_macOSTests.swift */; };
 		502C7FB51DF0E88F004E70AB /* HipstapaperPersistence_macOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 502C7FA51DF0E88F004E70AB /* HipstapaperPersistence_macOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		502C7FB81DF0E88F004E70AB /* HipstapaperPersistence_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 502C7FA31DF0E88F004E70AB /* HipstapaperPersistence_macOS.framework */; };
-		502C7FB91DF0E88F004E70AB /* HipstapaperPersistence_macOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 502C7FA31DF0E88F004E70AB /* HipstapaperPersistence_macOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		502C7FB81DF0E88F004E70AB /* HipstapaperPersistence.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 502C7FA31DF0E88F004E70AB /* HipstapaperPersistence.framework */; };
+		502C7FB91DF0E88F004E70AB /* HipstapaperPersistence.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 502C7FA31DF0E88F004E70AB /* HipstapaperPersistence.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		502C7FC11DF0E8A6004E70AB /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F7D1DF0E797004E70AB /* Result.swift */; };
 		502C7FC21DF0E8A6004E70AB /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F7D1DF0E797004E70AB /* Result.swift */; };
 		502C7FC31DF0E8AA004E70AB /* CloudKitURLItemSyncingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F801DF0E7A6004E70AB /* CloudKitURLItemSyncingController.swift */; };
@@ -106,7 +106,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				502C7F581DF0E4D5004E70AB /* Hipstapaper_share_macOS.appex in Embed App Extensions */,
+				502C7F581DF0E4D5004E70AB /* Hipstapaper.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -117,7 +117,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				502C7FB91DF0E88F004E70AB /* HipstapaperPersistence_macOS.framework in Embed Frameworks */,
+				502C7FB91DF0E88F004E70AB /* HipstapaperPersistence.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -129,13 +129,13 @@
 		2C73E202E28AD81D53ADB7B6 /* Pods_Hipstapaper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hipstapaper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		36387A630332076FE986306A /* Pods_HipstapaperPersistence_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HipstapaperPersistence_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E4955860B596F0ADE529953 /* Pods-HipstapaperPersistence_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HipstapaperPersistence_iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HipstapaperPersistence_iOS/Pods-HipstapaperPersistence_iOS.debug.xcconfig"; sourceTree = "<group>"; };
-		502C7F4A1DF0E4D5004E70AB /* Hipstapaper_share_macOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Hipstapaper_share_macOS.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		502C7F4A1DF0E4D5004E70AB /* Hipstapaper.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Hipstapaper.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		502C7F4D1DF0E4D5004E70AB /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		502C7F4F1DF0E4D5004E70AB /* Hipstapaper_share_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper_share_macOS.entitlements; sourceTree = "<group>"; };
 		502C7F501DF0E4D5004E70AB /* URLItemSavingShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLItemSavingShareViewController.swift; sourceTree = "<group>"; };
 		502C7F531DF0E4D5004E70AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/URLItemSavingShareViewController.xib; sourceTree = "<group>"; };
 		502C7F551DF0E4D5004E70AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		502C7F631DF0E6B0004E70AB /* HipstapaperPersistence_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HipstapaperPersistence_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		502C7F631DF0E6B0004E70AB /* HipstapaperPersistence.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HipstapaperPersistence.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		502C7F651DF0E6B0004E70AB /* HipstapaperPersistence.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HipstapaperPersistence.h; sourceTree = "<group>"; };
 		502C7F661DF0E6B0004E70AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		502C7F701DF0E6B0004E70AB /* HipstapaperPersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HipstapaperPersistenceTests.swift; sourceTree = "<group>"; };
@@ -151,7 +151,7 @@
 		502C7F911DF0E7AE004E70AB /* URLItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItem.swift; sourceTree = "<group>"; };
 		502C7F921DF0E7AE004E70AB /* URLItemCloudKitObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemCloudKitObject.swift; sourceTree = "<group>"; };
 		502C7F931DF0E7AE004E70AB /* URLItemRealmObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemRealmObject.swift; sourceTree = "<group>"; };
-		502C7FA31DF0E88F004E70AB /* HipstapaperPersistence_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HipstapaperPersistence_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		502C7FA31DF0E88F004E70AB /* HipstapaperPersistence.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HipstapaperPersistence.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		502C7FA51DF0E88F004E70AB /* HipstapaperPersistence_macOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HipstapaperPersistence_macOS.h; sourceTree = "<group>"; };
 		502C7FA61DF0E88F004E70AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		502C7FAB1DF0E88F004E70AB /* HipstapaperPersistence_macOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HipstapaperPersistence_macOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -214,7 +214,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				502C7FAC1DF0E88F004E70AB /* HipstapaperPersistence_macOS.framework in Frameworks */,
+				502C7FAC1DF0E88F004E70AB /* HipstapaperPersistence.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,7 +223,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				50E21BC61DD6E466005151C7 /* CloudKit.framework in Frameworks */,
-				502C7FB81DF0E88F004E70AB /* HipstapaperPersistence_macOS.framework in Frameworks */,
+				502C7FB81DF0E88F004E70AB /* HipstapaperPersistence.framework in Frameworks */,
 				9C63381353459A637474E3FC /* Pods_Hipstapaper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -345,7 +345,7 @@
 		506A3EFB1DD6C10C00A5656E = {
 			isa = PBXGroup;
 			children = (
-				506A3F061DD6C10C00A5656E /* Hipstapaper */,
+				506A3F061DD6C10C00A5656E /* Hipstapaper_app_macOS */,
 				502C7F4B1DF0E4D5004E70AB /* Hipstapaper_share_macOS */,
 				502C7F641DF0E6B0004E70AB /* HipstapaperPersistence */,
 				502C7F6F1DF0E6B0004E70AB /* HipstapaperPersistenceTests */,
@@ -361,15 +361,15 @@
 			isa = PBXGroup;
 			children = (
 				506A3F041DD6C10C00A5656E /* Hipstapaper.app */,
-				502C7F4A1DF0E4D5004E70AB /* Hipstapaper_share_macOS.appex */,
-				502C7F631DF0E6B0004E70AB /* HipstapaperPersistence_iOS.framework */,
-				502C7FA31DF0E88F004E70AB /* HipstapaperPersistence_macOS.framework */,
+				502C7F4A1DF0E4D5004E70AB /* Hipstapaper.appex */,
+				502C7F631DF0E6B0004E70AB /* HipstapaperPersistence.framework */,
+				502C7FA31DF0E88F004E70AB /* HipstapaperPersistence.framework */,
 				502C7FAB1DF0E88F004E70AB /* HipstapaperPersistence_macOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		506A3F061DD6C10C00A5656E /* Hipstapaper */ = {
+		506A3F061DD6C10C00A5656E /* Hipstapaper_app_macOS */ = {
 			isa = PBXGroup;
 			children = (
 				506A3F071DD6C10C00A5656E /* AppDelegate.swift */,
@@ -384,7 +384,7 @@
 				506A3F0E1DD6C10D00A5656E /* Info.plist */,
 				506D98121DD6CFFB002E4F54 /* Hipstapaper.entitlements */,
 			);
-			path = Hipstapaper;
+			path = Hipstapaper_app_macOS;
 			sourceTree = "<group>";
 		};
 		50E21BC41DD6E465005151C7 /* Frameworks */ = {
@@ -453,7 +453,7 @@
 			);
 			name = Hipstapaper_share_macOS;
 			productName = Hipstapaper_share_macOS;
-			productReference = 502C7F4A1DF0E4D5004E70AB /* Hipstapaper_share_macOS.appex */;
+			productReference = 502C7F4A1DF0E4D5004E70AB /* Hipstapaper.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		502C7F621DF0E6B0004E70AB /* HipstapaperPersistence_iOS */ = {
@@ -473,7 +473,7 @@
 			);
 			name = HipstapaperPersistence_iOS;
 			productName = HipstapaperPersistence;
-			productReference = 502C7F631DF0E6B0004E70AB /* HipstapaperPersistence_iOS.framework */;
+			productReference = 502C7F631DF0E6B0004E70AB /* HipstapaperPersistence.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		502C7FA21DF0E88F004E70AB /* HipstapaperPersistence_macOS */ = {
@@ -493,7 +493,7 @@
 			);
 			name = HipstapaperPersistence_macOS;
 			productName = HipstapaperPersistence_macOS;
-			productReference = 502C7FA31DF0E88F004E70AB /* HipstapaperPersistence_macOS.framework */;
+			productReference = 502C7FA31DF0E88F004E70AB /* HipstapaperPersistence.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		502C7FAA1DF0E88F004E70AB /* HipstapaperPersistence_macOSTests */ = {
@@ -515,9 +515,9 @@
 			productReference = 502C7FAB1DF0E88F004E70AB /* HipstapaperPersistence_macOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		506A3F031DD6C10C00A5656E /* Hipstapaper */ = {
+		506A3F031DD6C10C00A5656E /* Hipstapaper_app_macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 506A3F111DD6C10D00A5656E /* Build configuration list for PBXNativeTarget "Hipstapaper" */;
+			buildConfigurationList = 506A3F111DD6C10D00A5656E /* Build configuration list for PBXNativeTarget "Hipstapaper_app_macOS" */;
 			buildPhases = (
 				6C28C42347F0FB704E1E153D /* 📦 Check Pods Manifest.lock */,
 				506A3F001DD6C10C00A5656E /* Sources */,
@@ -534,7 +534,7 @@
 				502C7F571DF0E4D5004E70AB /* PBXTargetDependency */,
 				502C7FB71DF0E88F004E70AB /* PBXTargetDependency */,
 			);
-			name = Hipstapaper;
+			name = Hipstapaper_app_macOS;
 			productName = Hipstapaper;
 			productReference = 506A3F041DD6C10C00A5656E /* Hipstapaper.app */;
 			productType = "com.apple.product-type.application";
@@ -616,7 +616,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				506A3F031DD6C10C00A5656E /* Hipstapaper */,
+				506A3F031DD6C10C00A5656E /* Hipstapaper_app_macOS */,
 				502C7F491DF0E4D5004E70AB /* Hipstapaper_share_macOS */,
 				502C7F621DF0E6B0004E70AB /* HipstapaperPersistence_iOS */,
 				502C7FA21DF0E88F004E70AB /* HipstapaperPersistence_macOS */,
@@ -914,7 +914,7 @@
 		};
 		502C7FB01DF0E88F004E70AB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 506A3F031DD6C10C00A5656E /* Hipstapaper */;
+			target = 506A3F031DD6C10C00A5656E /* Hipstapaper_app_macOS */;
 			targetProxy = 502C7FAF1DF0E88F004E70AB /* PBXContainerItemProxy */;
 		};
 		502C7FB71DF0E88F004E70AB /* PBXTargetDependency */ = {
@@ -955,7 +955,7 @@
 				INFOPLIST_FILE = Hipstapaper_share_macOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.Hipstapaper.Hipstapaper-share-macOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Hipstapaper;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 			};
@@ -972,7 +972,7 @@
 				INFOPLIST_FILE = Hipstapaper_share_macOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.Hipstapaper.Hipstapaper-share-macOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Hipstapaper;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 			};
@@ -996,7 +996,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.HipstapaperPersistence;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = HipstapaperPersistence;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1025,7 +1025,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.HipstapaperPersistence;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = HipstapaperPersistence;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
@@ -1053,7 +1053,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.HipstapaperPersistence-macOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = HipstapaperPersistence;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1078,7 +1078,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.HipstapaperPersistence-macOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = HipstapaperPersistence;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1212,14 +1212,14 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Hipstapaper/Hipstapaper.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Hipstapaper_app_macOS/Hipstapaper.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
-				INFOPLIST_FILE = Hipstapaper/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Hipstapaper_app_macOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Hipstapaper;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -1230,14 +1230,14 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Hipstapaper/Hipstapaper.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Hipstapaper_app_macOS/Hipstapaper.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
-				INFOPLIST_FILE = Hipstapaper/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Hipstapaper_app_macOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Hipstapaper;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -1290,7 +1290,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		506A3F111DD6C10D00A5656E /* Build configuration list for PBXNativeTarget "Hipstapaper" */ = {
+		506A3F111DD6C10D00A5656E /* Build configuration list for PBXNativeTarget "Hipstapaper_app_macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				506A3F121DD6C10D00A5656E /* Debug */,
