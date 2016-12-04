@@ -74,7 +74,15 @@ open class CombinedURLItemSyncingController: DoubleSourcePersistenceType {
                 fullResult?(realmResult)
             case .success(let realmValue):
                 // if realm is successful, continue to cloud controller
-                self.cloudKitController.createItem(withID: realmValue.cloudKitID, result: fullResult)
+                self.cloudKitController.createItem(withID: realmValue.cloudKitID) { cloudCreateResult in
+                    switch cloudCreateResult {
+                    case .success(var cloudValue):
+                        cloudValue.realmID = realmValue.realmID
+                        fullResult?(.success(cloudValue))
+                    case .error:
+                        fullResult?(cloudCreateResult)
+                    }
+                }
             }
         }
     }

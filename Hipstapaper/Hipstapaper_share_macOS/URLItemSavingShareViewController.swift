@@ -11,35 +11,66 @@ import AppKit
 
 class URLItemSavingShareViewController: NSViewController {
 
+    @IBOutlet private weak var messageLabel: NSTextField?
+    @IBOutlet private weak var dismissButton: NSButton?
+    
     override var nibName: String? {
         return "URLItemSavingShareViewController"
     }
-
-    override func loadView() {
-        super.loadView()
-        
-        let cloudKit: SingleSourcePersistenceType = CloudKitURLItemSyncingController()
-        cloudKit.reloadData() { result in
-            print("-- Cloud Results --")
-            print(result)
-            print(cloudKit.ids)
-            print("-- End Cloud Results --")
-        }
-        let realm: SingleSourcePersistenceType = RealmURLItemSyncingController()
-        realm.reloadData() { result in
-            print("-- Realm Results --")
-            print(result)
-            print(realm.ids)
-            print("-- End Realm Results --")
-        }
     
-        // Insert code here to customize the view
-        let item = self.extensionContext!.inputItems[0] as! NSExtensionItem
-        if let attachments = item.attachments {
-            NSLog("Attachments = %@", attachments as NSArray)
-        } else {
-            NSLog("No Attachments")
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.extensionContext?.jsb_inputItems.mapURLs() { results in
+            DispatchQueue.main.async {
+                switch results {
+                case .success(let urls):
+                    if let url = urls.first {
+                        self.found(url: url)
+                    } else {
+                        self.foundNoItems()
+                    }
+                case .error(let errors):
+                    NSLog("Error Getting URLs: \(errors)")
+                    self.foundNoItems()
+                }
+            }
         }
+    }
+    
+    private func foundNoItems() {
+        self.messageLabel?.stringValue = "No Web Site Found to Save"
+    }
+    
+    private func found(url: URL) {
+        self.dismissButton?.isHidden = true
+        self.messageLabel?.stringValue = "Saving web site..."
+        let persistence: DoubleSourcePersistenceType = CombinedURLItemSyncingController()
+        persistence.createItem(withID: .none, quickResult: .none) { createResult in
+            switch createResult {
+            case .success(var newItem):
+                newItem.urlString  = url.absoluteString
+                persistence.update(item: newItem, quickResult: .none) { updateResult in
+                    DispatchQueue.main.async {
+                        switch updateResult {
+                        case .success:
+                            self.extensionContext!.completeRequest(returningItems: [])
+                        case .error(let error):
+                            self.dismissButton?.isHidden = false
+                            self.messageLabel?.stringValue = "Error Saving URL :("
+                            NSLog("Error Updating URL: \(error)")
+                        }
+                    }
+                }
+            case .error(let error):
+                DispatchQueue.main.async {
+                    self.dismissButton?.isHidden = false
+                    self.messageLabel?.stringValue = "Error Saving URL :("
+                    NSLog("Error Creating URL: \(error)")
+                }
+            }
+        }
+        
     }
 
     @IBAction func send(_ sender: AnyObject?) {
