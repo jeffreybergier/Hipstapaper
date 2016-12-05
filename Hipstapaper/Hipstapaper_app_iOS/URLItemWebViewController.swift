@@ -12,8 +12,6 @@ class URLItemWebViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print("URLItemWebViewController Loaded")
     }
     
 }

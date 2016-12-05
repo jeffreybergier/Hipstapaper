@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -44,19 +45,35 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="G9O-eF-HKe">
-                                    <size key="itemSize" width="304" height="73"/>
+                                    <size key="itemSize" width="339" height="37"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="pFS-KS-UYI">
-                                        <rect key="frame" x="35.5" y="0.0" width="304" height="73"/>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="URLItemCell" id="pFS-KS-UYI" customClass="URLItemCollectionViewCell" customModule="Hipstapaper" customModuleProvider="target">
+                                        <rect key="frame" x="18" y="0.0" width="339" height="37"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="304" height="73"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="339" height="37"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nUj-wH-AEc">
+                                                    <rect key="frame" x="8" y="8" width="323" height="20.5"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
                                         </view>
+                                        <constraints>
+                                            <constraint firstItem="nUj-wH-AEc" firstAttribute="leading" secondItem="pFS-KS-UYI" secondAttribute="leadingMargin" id="SrJ-Kx-Lri"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="nUj-wH-AEc" secondAttribute="trailing" id="TZt-SQ-9bZ"/>
+                                            <constraint firstItem="nUj-wH-AEc" firstAttribute="top" secondItem="pFS-KS-UYI" secondAttribute="topMargin" id="eVL-FZ-PAw"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="label" destination="nUj-wH-AEc" id="m9h-Ks-iDU"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -69,7 +86,16 @@
                             <constraint firstItem="gbO-PL-g6b" firstAttribute="centerX" secondItem="MJZ-fy-pyv" secondAttribute="centerX" id="hhM-vX-Ew4"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Hipstapaper" id="h32-8I-Hgd"/>
+                    <navigationItem key="navigationItem" title="Hipstapaper" id="h32-8I-Hgd">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="G6U-lS-Yff">
+                            <connections>
+                                <action selector="reloadButtonTapped:" destination="gpy-vb-Uwk" id="qeL-3H-VmF"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="collectionView" destination="gbO-PL-g6b" id="5q6-aT-Xj8"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vik-3F-yy9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

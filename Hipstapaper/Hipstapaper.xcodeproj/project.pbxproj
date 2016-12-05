@@ -63,6 +63,7 @@
 		502C7FD51DF0E8B0004E70AB /* URLItemCloudKitObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F921DF0E7AE004E70AB /* URLItemCloudKitObject.swift */; };
 		502C7FD61DF0E8B0004E70AB /* URLItemRealmObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F931DF0E7AE004E70AB /* URLItemRealmObject.swift */; };
 		5049EA351DF39A1F002FCECF /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5049EA341DF39A1F002FCECF /* FrameworkExtensions.swift */; };
+		504AC3FC1DF504A600776B85 /* URLItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504AC3FB1DF504A600776B85 /* URLItemCollectionViewCell.swift */; };
 		505B30441DEA692C00B74AE6 /* UIBindingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30411DEA692C00B74AE6 /* UIBindingManager.swift */; };
 		505B30451DEA692C00B74AE6 /* URLListWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30421DEA692C00B74AE6 /* URLListWindowController.swift */; };
 		505B30461DEA692C00B74AE6 /* URLListWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 505B30431DEA692C00B74AE6 /* URLListWindowController.xib */; };
@@ -226,6 +227,7 @@
 		50350EC41DDFE23400FA2D57 /* WebViewNavigationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewNavigationDelegate.swift; sourceTree = "<group>"; };
 		50350EC61DDFEB4100FA2D57 /* WebViewUIDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewUIDelegate.swift; sourceTree = "<group>"; };
 		5049EA341DF39A1F002FCECF /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
+		504AC3FB1DF504A600776B85 /* URLItemCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		505511C71DE0081F001F04F4 /* KeyObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyObserver.swift; sourceTree = "<group>"; };
 		505B30411DEA692C00B74AE6 /* UIBindingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIBindingManager.swift; sourceTree = "<group>"; };
 		505B30421DEA692C00B74AE6 /* URLListWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLListWindowController.swift; sourceTree = "<group>"; };
@@ -331,6 +333,7 @@
 			children = (
 				5005E11D1DF4CB8300BA38E6 /* AppDelegate.swift */,
 				501EC2531DF4E4E8003577DA /* URLItemListViewController.swift */,
+				504AC3FB1DF504A600776B85 /* URLItemCollectionViewCell.swift */,
 				501EC2551DF4E4F4003577DA /* URLItemWebViewController.swift */,
 				5005E1211DF4CB8300BA38E6 /* Main.storyboard */,
 				5005E1241DF4CB8300BA38E6 /* Assets.xcassets */,
@@ -1154,6 +1157,7 @@
 				5005E11E1DF4CB8300BA38E6 /* AppDelegate.swift in Sources */,
 				501EC2541DF4E4E8003577DA /* URLItemListViewController.swift in Sources */,
 				501EC2561DF4E4F4003577DA /* URLItemWebViewController.swift in Sources */,
+				504AC3FC1DF504A600776B85 /* URLItemCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
