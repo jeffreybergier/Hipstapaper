@@ -23,19 +23,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return windowController
         }
     }
-    
+    #if DEBUG
     private let debugWindows: [NSWindowController] = [
         URLListWindowController(syncController: .realmOnly),
         URLListWindowController(syncController: .cloudKitOnly)
     ]
+    #endif
+
 
     // open the main window when the app launches
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         NotificationCenter.default.addObserver(self, selector: #selector(self.itemWindowWillClose(_:)), name: .NSWindowWillClose, object: .none)
         self.rootWindowController.showWindow(self)
+        
+        #if DEBUG
         for window in self.debugWindows {
             window.showWindow(self)
         }
+        #endif
     }
     
     // opens the main window if the dock icon is clicked and there are no windows open
