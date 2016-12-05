@@ -10,11 +10,19 @@ import RealmSwift
 
 open class RealmURLItemSyncingController: SingleSourcePersistenceType {
     
+    #if os(OSX)
+    private static let appGroupIdentifier = "V6ESYGU6CV.hipstapaper.appgroup"
+    #else
+    private static let appGroupIdentifier = "group.com.saturdayapps.Hipstapaper"
+    #endif
+    
     // Void Singleton to configure the default realm for the app once
     // this enables realm to use the app group for storage
     // also opens up the possibility to setting an encryption key
     private static let configureRealmDirectory: Void = {
-        let directory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "V6ESYGU6CV.hipstapaper.appgroup")!
+        let directory = FileManager.default.containerURL(
+            forSecurityApplicationGroupIdentifier: RealmURLItemSyncingController.appGroupIdentifier
+            )!
         let realmPath = directory.appendingPathComponent("db.realm")
         var config = Realm.Configuration.defaultConfiguration
         config.deleteRealmIfMigrationNeeded = true // this can be true because the cloud is the source of truth

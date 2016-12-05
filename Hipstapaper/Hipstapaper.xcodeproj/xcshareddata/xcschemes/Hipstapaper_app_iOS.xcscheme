@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "5005E11A1DF4CB8300BA38E6"
-               BuildableName = "Hipstapaper_app_iOS.app"
+               BuildableName = "Hipstapaper.app"
                BlueprintName = "Hipstapaper_app_iOS"
                ReferencedContainer = "container:Hipstapaper.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5005E11A1DF4CB8300BA38E6"
-            BuildableName = "Hipstapaper_app_iOS.app"
+            BuildableName = "Hipstapaper.app"
             BlueprintName = "Hipstapaper_app_iOS"
             ReferencedContainer = "container:Hipstapaper.xcodeproj">
          </BuildableReference>
@@ -66,7 +66,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5005E11A1DF4CB8300BA38E6"
-            BuildableName = "Hipstapaper_app_iOS.app"
+            BuildableName = "Hipstapaper.app"
             BlueprintName = "Hipstapaper_app_iOS"
             ReferencedContainer = "container:Hipstapaper.xcodeproj">
          </BuildableReference>
@@ -85,7 +85,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "5005E11A1DF4CB8300BA38E6"
-            BuildableName = "Hipstapaper_app_iOS.app"
+            BuildableName = "Hipstapaper.app"
             BlueprintName = "Hipstapaper_app_iOS"
             ReferencedContainer = "container:Hipstapaper.xcodeproj">
          </BuildableReference>
