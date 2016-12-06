@@ -55,18 +55,22 @@ class URLItemListViewController: UIViewController, IGListAdapterDataSource, IGLi
     
     private func quickReload() {
         self.dataSource.sync(quickResult: { quick in
-            DispatchQueue.main.async {
-                self.sortedIDs = Array(self.dataSource.ids)
-                self.adapter.reloadData(completion: .none)
+            self.sort(ids: self.dataSource.ids) { sortedIDs in
+                DispatchQueue.main.async {
+                    self.sortedIDs = sortedIDs
+                    self.adapter.reloadData(completion: .none)
+                }
             }
         }, fullResult: .none)
     }
     
     private func fullReload() {
         self.dataSource.sync(quickResult: .none, fullResult: { full in
-            DispatchQueue.main.async {
-                self.sortedIDs = Array(self.dataSource.ids)
-                self.adapter.reloadData(completion: .none)
+            self.sort(ids: self.dataSource.ids) { sortedIDs in
+                DispatchQueue.main.async {
+                    self.sortedIDs = sortedIDs
+                    self.adapter.reloadData(completion: .none)
+                }
             }
         })
     }
@@ -76,6 +80,25 @@ class URLItemListViewController: UIViewController, IGListAdapterDataSource, IGLi
         coordinator.animate(alongsideTransition: .none, completion: { context in
             self.adapter.reloadData(completion: .none)
         })
+    }
+    
+    private func sort(ids: Set<String>, completionHandler: (([String]) -> Void)?) {
+        var results = [Result<URLItemType>]() {
+            didSet {
+                if results.count == ids.count {
+                    let unsortedItems = results.mapSuccess()
+                    let sortedItems = unsortedItems.sorted(by: { $0.0.modificationDate >= $0.1.modificationDate })
+                    let sortedIDs = sortedItems.map({ $0.realmID })
+                    completionHandler?(sortedIDs)
+                }
+            }
+        }
+        
+        for id in ids {
+            self.dataSource.readItem(withID: id, quickResult: { quick in
+                results.append(quick)
+            }, fullResult: .none)
+        }
     }
     
     //MARK: - IGListAdapterDataSource

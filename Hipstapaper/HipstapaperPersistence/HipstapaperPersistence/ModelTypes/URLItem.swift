@@ -78,7 +78,7 @@ extension URLItemType {
 }
 
 extension Sequence where Iterator.Element == Result<URLItemType> {
-    func mapSuccess() -> [URLItemType] {
+    public func mapSuccess() -> [URLItemType] {
         let items = self.map() { result -> URLItemType? in
             if case .success(let item) = result {
                 return item
@@ -87,7 +87,7 @@ extension Sequence where Iterator.Element == Result<URLItemType> {
             }.filter({ $0 != nil }).map({ $0! })
         return items
     }
-    func mapError() -> [Error] {
+    public func mapError() -> [Error] {
         let items = self.map() { result -> [Error]? in
             if case .error(let error) = result {
                 return error
