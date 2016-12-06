@@ -16,6 +16,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        if self.window == .none {
+            self.window = UIWindow(frame: UIScreen.main.bounds)
+        }
+        
+        let listVC = URLItemListViewController()
+        let navVC = UINavigationController(rootViewController: listVC)
+        
+        self.window!.rootViewController = navVC
+        self.window?.backgroundColor = .white
+        self.window?.makeKeyAndVisible()
+        
         return true
     }
 

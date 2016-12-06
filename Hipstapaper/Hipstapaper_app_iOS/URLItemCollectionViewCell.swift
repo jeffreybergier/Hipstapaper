@@ -2,22 +2,37 @@
 //  URLItemCollectionViewCell.swift
 //  Hipstapaper
 //
-//  Created by Jeffrey Bergier on 12/4/16.
+//  Created by Jeffrey Bergier on 12/5/16.
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
-import HipstapaperPersistence
 import UIKit
+import HipstapaperPersistence
 
 class URLItemCollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet private weak var label: UILabel?
+    static let nibName = "URLItemCollectionViewCell"
+    
+    private let dateFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.dateStyle = .medium
+        df.timeStyle = .short
+        return df
+    }()
+    
+    @IBOutlet private weak var urlLabel: UILabel?
+    @IBOutlet private weak var dateLabel: UILabel?
+    @IBOutlet private weak var idLabel: UILabel?
     
     var id: String?
-    var urlItem: URLItemType? {
+    var item: URLItemType? {
         didSet {
-            if let id = self.id, let item = self.urlItem, item.realmID == id || item.cloudKitID == id {
-                self.label?.text = item.urlString
+            if let item = self.item, let id = self.id, id == item.realmID || id == item.cloudKitID {
+                self.urlLabel?.text = item.urlString
+                self.dateLabel?.text = self.dateFormatter.string(from: item.modificationDate)
+                self.idLabel?.text = item.cloudKitID
+            } else {
+                self.prepareForReuse()
             }
         }
     }
@@ -25,6 +40,9 @@ class URLItemCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.id = .none
-        self.urlItem = .none
+        self.urlLabel?.text = .none
+        self.dateLabel?.text = .none
+        self.idLabel?.text = .none
     }
+
 }
