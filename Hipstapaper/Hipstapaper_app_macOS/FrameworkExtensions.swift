@@ -22,15 +22,3 @@ extension Array where Element: Hashable {
         return added.isEmpty == false ? Array(added) : .none
     }
 }
-
-extension String {
-    init(urlStringFromRawString rawString: String) {
-        var components = URLComponents(string: rawString)
-        if components?.host == nil {
-            // if the host is nil, then it probably couldn't parse the URL
-            // adding http:// to it and then generating new components sometimes helps this.
-            components = URLComponents(string: "http://" + rawString)
-        }
-        self = components?.url?.absoluteString ?? rawString
-    }
-}
