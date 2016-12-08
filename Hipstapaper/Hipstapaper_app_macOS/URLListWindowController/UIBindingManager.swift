@@ -97,10 +97,26 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
     func reloadData() {
         DispatchQueue.main.async {
             self.spinnerOperationsInProgress += 1 // update the spinner
-            self.dataSource.sync(quickResult: { _ in
-                self.processReloadedData() // process the data
-            }, fullResult: { _ in
-                self.processReloadedData() // process the data
+            self.dataSource.sync(sortedBy: .urlString, ascending: true, quickResult: { quickResult in
+                let sortedIDs: [String]
+                switch quickResult {
+                case .success(let ids):
+                    sortedIDs = ids
+                case .error(let errors):
+                    NSLog("Errors While Syncing: \(errors)")
+                    sortedIDs = []
+                }
+                self.process(sortedIDs: sortedIDs) // process the data
+            }, fullResult: { fullResult in
+                let sortedIDs: [String]
+                switch fullResult {
+                case .success(let ids):
+                    sortedIDs = ids
+                case .error(let errors):
+                    NSLog("Errors While Syncing: \(errors)")
+                    sortedIDs = []
+                }
+                self.process(sortedIDs: sortedIDs) // process the data
                 DispatchQueue.main.async {
                     self.spinnerOperationsInProgress -= 1 // update the spinner
                 }
@@ -108,9 +124,8 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
         }
     }
     
-    private func processReloadedData() {
+    private func process(sortedIDs ids: [String]) {
         DispatchQueue.global(qos: .userInitiated).async {
-            let ids = self.dataSource.ids
             let bindingObjects = ids.map() { id -> URLItem.BindingObject in
                 let bindingObject = URLItem.BindingObject(value: nil)
                 self.spinnerOperationsInProgress += 1 // update the spinner

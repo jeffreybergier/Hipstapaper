@@ -10,21 +10,21 @@ import CloudKit
 
 open class CloudKitURLItemSyncingController: SingleSourcePersistenceType {
     
-    private let privateDB = CKContainer(identifier: "iCloud.com.saturdayapps.Hipstapaper").privateCloudDatabase
     private let recordType = "URLItem"
-    
+    private let privateDB = CKContainer(identifier: "iCloud.com.saturdayapps.Hipstapaper").privateCloudDatabase
     private let serialQueue = DispatchQueue(label: "CloudKitURLItemSyncingController", qos: .userInitiated)
     
-    public private(set) var ids: Set<String> = []
     private var objectMap: [String : URLItem.CloudKitObject] = [:]
     
     public init() {}
-        
-    public func reloadData(result: SuccessResult?) {
+    
+    public func reloadData(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?) {
         self.serialQueue.async {
             let predicate = NSPredicate(value: true)
-            let initialQuery = CKQuery(recordType: self.recordType, predicate: predicate)
-            self.privateDB.perform(initialQuery, inZoneWith: .none) { records, error in
+            let sortDescriptor = NSSortDescriptor(key: sortedBy.cloudPropertyName, ascending: ascending)
+            let query = CKQuery(recordType: self.recordType, predicate: predicate)
+            query.sortDescriptors = [sortDescriptor]
+            self.privateDB.perform(query, inZoneWith: .none) { records, error in
                 self.serialQueue.async {
                     if let records = records {
                         var ids = [String]()
@@ -36,15 +36,14 @@ open class CloudKitURLItemSyncingController: SingleSourcePersistenceType {
                             cloudObjects[id] = object
                         }
                         self.objectMap = cloudObjects
-                        self.ids = Set(ids)
-                        result?(.success())
+                        result?(.success(ids))
                     } else {
-                        self.ids = []
                         self.objectMap = [:]
                         result?(.error([error!]))
                     }
                 }
             }
+
         }
     }
     
@@ -60,7 +59,6 @@ open class CloudKitURLItemSyncingController: SingleSourcePersistenceType {
                         }
                         let id = newObject.cloudKitID
                         self.objectMap[id] = newObject
-                        self.ids.insert(id)
                         let newValue = URLItem.Value(cloudKitObject: newObject)
                         result?(.success(newValue))
                     } else {
@@ -96,7 +94,6 @@ open class CloudKitURLItemSyncingController: SingleSourcePersistenceType {
                         let updatedObject = URLItem.CloudKitObject(record: record)
                         let id = updatedObject.cloudKitID
                         self.objectMap[id] = updatedObject
-                        self.ids.insert(id)
                         let updatedValue = URLItem.Value(cloudKitObject: updatedObject)
                         result?(.success(updatedValue))
                     } else {
@@ -113,7 +110,6 @@ open class CloudKitURLItemSyncingController: SingleSourcePersistenceType {
             guard let existingObject = self.objectMap[id]
                 else { result?(.error([NSError()])); return; }
             let recordID = existingObject.record.recordID
-            self.ids.remove(id)
             self.objectMap[id] = .none
             self.privateDB.delete(withRecordID: recordID) { (recordID, error) in
                 self.serialQueue.async {
@@ -129,8 +125,8 @@ open class CloudKitURLItemSyncingController: SingleSourcePersistenceType {
 }
 
 extension CloudKitURLItemSyncingController: DoubleSourcePersistenceType {
-    public func sync(quickResult: SuccessResult?, fullResult: SuccessResult?) {
-        self.reloadData() { result in
+    public func sync(sortedBy: URLItem.Sort, ascending: Bool, quickResult: URLItemIDsResult?, fullResult: URLItemIDsResult?) {
+        self.reloadData(sortedBy: sortedBy, ascending: ascending) { result in
             quickResult?(result)
             fullResult?(result)
         }

@@ -20,14 +20,18 @@ class RealmCloudKitSyncer {
     
     private let realmController: SingleSourcePersistenceType
     private let cloudKitController: SingleSourcePersistenceType
+    private let originalSortedRealmIDs: [String]
+    private let originalSortedCloudIDs: [String]
     
     // serial queue needed for all the local arrays I populate from all sorts of different callbacks
     // http://stackoverflow.com/questions/33512477/adding-to-array-in-parallel
     private let serialQueue = DispatchQueue(label: "RealmCloudKitSyncer", qos: .userInitiated)
     
-    init(realmController: SingleSourcePersistenceType, cloudKitController: SingleSourcePersistenceType) {
+    init(realmController: SingleSourcePersistenceType, cloudKitController: SingleSourcePersistenceType, sortedRealmIDs: [String], sortedCloudIDs: [String]) {
         self.realmController = realmController
         self.cloudKitController = cloudKitController
+        self.originalSortedRealmIDs = sortedRealmIDs
+        self.originalSortedCloudIDs = sortedCloudIDs
     }
     
     func sync(syncResult: SyncSuccess?) {
@@ -36,8 +40,8 @@ class RealmCloudKitSyncer {
     
     private func step1ReadAllItems(finalCompletionHandler: SyncSuccess?) {
         self.serialQueue.async {
-            let realmIDs = self.realmController.ids
-            let cloudIDs = self.cloudKitController.ids
+            let realmIDs = self.originalSortedRealmIDs
+            let cloudIDs = self.originalSortedCloudIDs
             
             guard realmIDs.isEmpty == false || cloudIDs.isEmpty == false else {
                 self.step7CallBack(allResults: [], syncChanges: .noChanges, finalCompletionHandler: finalCompletionHandler); return;

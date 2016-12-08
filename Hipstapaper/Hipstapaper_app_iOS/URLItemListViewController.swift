@@ -42,36 +42,45 @@ class URLItemListViewController: UIViewController, IGListAdapterDataSource, IGLi
         self.adapter.dataSource = self
        
         // load the data from realm/cloudkit
-        self.quickReload()
+        self.quickReload(sortedBy: .modificationDate, ascending: false)
     }
     
     @objc private func reloadButtonTapped(_ sender: NSObject?) {
-        self.fullReload()
+        self.fullReload(sortedBy: .modificationDate, ascending: false)
     }
     
     @objc private func addButtonTapped(_ sender: NSObject?) {
-        self.fullReload()
+        
     }
     
-    private func quickReload() {
-        self.dataSource.sync(quickResult: { quick in
-            self.sort(ids: self.dataSource.ids) { sortedIDs in
-                DispatchQueue.main.async {
+    private func quickReload(sortedBy: URLItem.Sort, ascending: Bool) {
+        self.dataSource.sync(sortedBy: sortedBy, ascending: ascending, quickResult: { quick in
+            DispatchQueue.main.async {
+                switch quick {
+                case .success(let sortedIDs):
                     self.sortedIDs = sortedIDs
-                    self.adapter.reloadData(completion: .none)
+                case .error(let errors):
+                    self.sortedIDs = []
+                    NSLog("Errors During Quick Update: \(errors)")
                 }
+                self.adapter.reloadData(completion: .none)
             }
         }, fullResult: .none)
     }
     
-    private func fullReload() {
-        self.dataSource.sync(quickResult: .none, fullResult: { full in
-            self.sort(ids: self.dataSource.ids) { sortedIDs in
-                DispatchQueue.main.async {
+    private func fullReload(sortedBy: URLItem.Sort, ascending: Bool) {
+        self.dataSource.sync(sortedBy: .modificationDate, ascending: false, quickResult: .none, fullResult: { full in
+            DispatchQueue.main.async {
+                switch full {
+                case .success(let sortedIDs):
                     self.sortedIDs = sortedIDs
-                    self.adapter.reloadData(completion: .none)
+                case .error(let errors):
+                    self.sortedIDs = []
+                    NSLog("Errors During Quick Update: \(errors)")
                 }
+                self.adapter.reloadData(completion: .none)
             }
+
         })
     }
     
@@ -80,25 +89,6 @@ class URLItemListViewController: UIViewController, IGListAdapterDataSource, IGLi
         coordinator.animate(alongsideTransition: .none, completion: { context in
             self.adapter.reloadData(completion: .none)
         })
-    }
-    
-    private func sort(ids: Set<String>, completionHandler: (([String]) -> Void)?) {
-        var results = [Result<URLItemType>]() {
-            didSet {
-                if results.count == ids.count {
-                    let unsortedItems = results.mapSuccess()
-                    let sortedItems = unsortedItems.sorted(by: { $0.0.modificationDate >= $0.1.modificationDate })
-                    let sortedIDs = sortedItems.map({ $0.realmID })
-                    completionHandler?(sortedIDs)
-                }
-            }
-        }
-        
-        for id in ids {
-            self.dataSource.readItem(withID: id, quickResult: { quick in
-                results.append(quick)
-            }, fullResult: .none)
-        }
     }
     
     //MARK: - IGListAdapterDataSource

@@ -42,6 +42,10 @@ public enum URLItem {
             self.modificationDate = modificationDate
         }
     }
+    
+    public enum Sort {
+        case modificationDate, archived, urlString //, tags --- tags currently unsupported
+    }
 }
 
 extension URLItem.Value: Equatable {}

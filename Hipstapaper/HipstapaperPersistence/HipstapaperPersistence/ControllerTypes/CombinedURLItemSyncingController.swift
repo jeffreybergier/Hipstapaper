@@ -11,49 +11,46 @@ open class CombinedURLItemSyncingController: DoubleSourcePersistenceType {
     private let realmController: SingleSourcePersistenceType = RealmURLItemSyncingController()
     private let cloudKitController: SingleSourcePersistenceType = CloudKitURLItemSyncingController()
     
-    public var ids: Set<String> {
-        return self.realmController.ids
-    }
-    
     public init() {}
     
     // ugh this is pretty bad pyramid of doom
     // it basically just calls back the completion handlers on error
     // if there is success it keeps going forward with the syncing process
-    public func sync(quickResult: SuccessResult?, fullResult: SuccessResult?) {
-        self.realmController.reloadData() { realmResult in
+    public func sync(sortedBy: URLItem.Sort, ascending: Bool, quickResult: URLItemIDsResult?, fullResult: URLItemIDsResult?) {
+        self.realmController.reloadData(sortedBy: sortedBy, ascending: ascending) { realmResult in
             // always call the quick result with the results of realm
             quickResult?(realmResult)
-
+            
             switch realmResult {
             case .error:
                 // if realm errors, also call fullResult with the realmError
                 fullResult?(realmResult)
-            case .success:
+            case .success(let sortedRealmIDs):
                 // if realm is successful, continue to cloud controller
-                self.cloudKitController.reloadData() { cloudResult in
+                self.cloudKitController.reloadData(sortedBy: sortedBy, ascending: ascending) { cloudResult in
                     switch cloudResult {
                     case .error:
                         // if cloud errors, call fullResult with the cloudError
                         fullResult?(cloudResult)
-                    case .success:
+                    case .success(let sortedCloudIDs):
                         // now the cloud sync and the realm sync were both successful, time to sync
-                        let syncer = RealmCloudKitSyncer(realmController: self.realmController, cloudKitController: self.cloudKitController)
+                        let syncer = RealmCloudKitSyncer(realmController: self.realmController, cloudKitController: self.cloudKitController, sortedRealmIDs: sortedRealmIDs, sortedCloudIDs: sortedCloudIDs)
+
                         // call to sync with the full completion handler
                         syncer.sync() { syncResult in
                             switch syncResult {
-                            case .error:
+                            case .error(let errors):
                                 // if there is an error syncing, call back
-                                fullResult?(.success())
+                                fullResult?(.error(errors))
                             case .success(let changes):
                                 // if we are successful, we need to know if there are changes
                                 switch changes {
                                 case .noChanges:
                                     // if there are no changes, call back
-                                    fullResult?(.success())
+                                    fullResult?(realmResult)
                                 case .changes:
                                     // if there are changes, recurse
-                                    self.sync(quickResult: .none, fullResult: fullResult)
+                                    self.sync(sortedBy: sortedBy, ascending: ascending, quickResult: .none, fullResult: fullResult)
                                 }
                             }
                         }

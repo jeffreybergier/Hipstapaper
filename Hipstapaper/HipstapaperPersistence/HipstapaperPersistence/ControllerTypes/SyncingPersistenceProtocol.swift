@@ -6,6 +6,7 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
+public typealias URLItemIDsResult = ((Result<[String]>) -> Void)
 public typealias URLItemResult = ((Result<URLItemType>) -> Void)
 public typealias SuccessResult = ((Result<Void>) -> Void)
 
@@ -15,8 +16,7 @@ public typealias SuccessResult = ((Result<Void>) -> Void)
 // But also keep the UI showing that network activity is happening
 
 public protocol DoubleSourcePersistenceType: class {
-    var ids: Set<String> { get }    
-    func sync(quickResult: SuccessResult?, fullResult: SuccessResult?)
+    func sync(sortedBy: URLItem.Sort, ascending: Bool, quickResult: URLItemIDsResult?, fullResult: URLItemIDsResult?)
     func createItem(withID id: String?, quickResult: URLItemResult?, fullResult: URLItemResult?)
     func readItem(withID id: String, quickResult: URLItemResult?, fullResult: URLItemResult?)
     func update(item: URLItemType, quickResult: URLItemResult?, fullResult: URLItemResult?)
@@ -25,8 +25,7 @@ public protocol DoubleSourcePersistenceType: class {
 
 // This protocol is intended for systems that use either a local database or a cloud storage system
 public protocol SingleSourcePersistenceType {
-    var ids: Set<String> { get }
-    func reloadData(result: SuccessResult?)
+    func reloadData(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?)
     func createItem(withID: String?, result: URLItemResult?)
     func readItem(withID id: String, result: URLItemResult?)
     func update(item: URLItemType, result: URLItemResult?)

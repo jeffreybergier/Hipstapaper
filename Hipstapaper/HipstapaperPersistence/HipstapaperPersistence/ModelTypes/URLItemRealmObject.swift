@@ -50,3 +50,17 @@ extension URLItem.Value {
     }
 }
 
+extension URLItem.Sort {
+    var realmPropertyName: String {
+        switch self {
+        case .urlString:
+            return "urlString"
+        case .modificationDate:
+            return "modificationDate"
+        case .archived:
+            return "archived"
+//        case .tags:
+//            return "tagList"
+        }
+    }
+}

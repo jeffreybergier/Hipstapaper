@@ -38,14 +38,13 @@ open class RealmURLItemSyncingController: SingleSourcePersistenceType {
         // call the singleton to configure it
         RealmURLItemSyncingController.configureRealmDirectory
     }
-
-    public func reloadData(result: SuccessResult?) {
+    
+    public func reloadData(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?) {
         self.serialQueue.async {
             do {
                 let realm = try Realm()
-                let ids = RealmURLItemSyncingController.allRealmObjectIDs(from: realm)
-                self.ids = ids
-                result?(.success())
+                let ids = RealmURLItemSyncingController.allRealmObjectIDs(from: realm, sortedBy: sortedBy, ascending: ascending)
+                result?(.success(ids))
             } catch {
                 NSLog("realmSyncError: \(error)")
                 self.ids = []
@@ -130,18 +129,18 @@ open class RealmURLItemSyncingController: SingleSourcePersistenceType {
     
     // MARK: Load All URLItem Objects from Disk
     
-    private class func allRealmObjects(from realm: Realm) -> Results<URLItemRealmObject> {
-        return realm.objects(URLItemRealmObject.self)
+    private class func allRealmObjects(from realm: Realm, sortedBy: URLItem.Sort = .modificationDate, ascending: Bool = true) -> Results<URLItemRealmObject> {
+        return realm.objects(URLItemRealmObject.self).sorted(byProperty: sortedBy.realmPropertyName, ascending: ascending)
     }
     
     private class func realmObjectIDs(from results: Results<URLItemRealmObject>) -> Set<String> {
         return Set(results.map({ $0.realmID }))
     }
     
-    private class func allRealmObjectIDs(from realm: Realm) -> Set<String> {
-        let results = self.allRealmObjects(from: realm)
-        let ids = self.realmObjectIDs(from: results)
-        return ids
+    private class func allRealmObjectIDs(from realm: Realm, sortedBy: URLItem.Sort, ascending: Bool) -> Array<String> {
+        let results = self.allRealmObjects(from: realm, sortedBy: sortedBy, ascending: ascending)
+        let ids = results.map({ $0.realmID })
+        return Array(ids)
     }
     
     // MARK: Load individual items
@@ -180,8 +179,8 @@ open class RealmURLItemSyncingController: SingleSourcePersistenceType {
 }
 
 extension RealmURLItemSyncingController: DoubleSourcePersistenceType {
-    public func sync(quickResult: SuccessResult?, fullResult: SuccessResult?) {
-        self.reloadData() { result in
+    public func sync(sortedBy: URLItem.Sort, ascending: Bool, quickResult: URLItemIDsResult?, fullResult: URLItemIDsResult?) {
+        self.reloadData(sortedBy: sortedBy, ascending: ascending) { result in
             quickResult?(result)
             fullResult?(result)
         }

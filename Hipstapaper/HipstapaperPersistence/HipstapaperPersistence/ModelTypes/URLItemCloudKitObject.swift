@@ -130,3 +130,18 @@ extension URLItem.CloudKitObject: Hashable {
         return self.cloudKitID.hashValue
     }
 }
+
+extension URLItem.Sort {
+    var cloudPropertyName: String {
+        switch self {
+        case .urlString:
+            return "urlString"
+        case .modificationDate:
+            return "manualDate"
+        case .archived:
+            return "archived"
+//        case .tags:
+//            return "tags"
+        }
+    }
+}
