@@ -11,8 +11,6 @@
 		5005E11E1DF4CB8300BA38E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5005E11D1DF4CB8300BA38E6 /* AppDelegate.swift */; };
 		5005E1251DF4CB8300BA38E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5005E1241DF4CB8300BA38E6 /* Assets.xcassets */; };
 		5005E1281DF4CB8300BA38E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5005E1261DF4CB8300BA38E6 /* LaunchScreen.storyboard */; };
-		5005E1421DF4CC2600BA38E6 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5005E1411DF4CC2600BA38E6 /* ShareViewController.swift */; };
-		5005E1451DF4CC2600BA38E6 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5005E1431DF4CC2600BA38E6 /* MainInterface.storyboard */; };
 		5005E1491DF4CC2600BA38E6 /* Hipstapaper_share_iOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 5005E13F1DF4CC2600BA38E6 /* Hipstapaper_share_iOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		501EC2541DF4E4E8003577DA /* URLItemListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501EC2531DF4E4E8003577DA /* URLItemListViewController.swift */; };
 		501EC2561DF4E4F4003577DA /* URLItemWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501EC2551DF4E4F4003577DA /* URLItemWebViewController.swift */; };
@@ -61,6 +59,9 @@
 		502C7FD51DF0E8B0004E70AB /* URLItemCloudKitObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F921DF0E7AE004E70AB /* URLItemCloudKitObject.swift */; };
 		502C7FD61DF0E8B0004E70AB /* URLItemRealmObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F931DF0E7AE004E70AB /* URLItemRealmObject.swift */; };
 		5049EA351DF39A1F002FCECF /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5049EA341DF39A1F002FCECF /* FrameworkExtensions.swift */; };
+		504A3A3A1DF924D300EA46A9 /* URLItemSavingShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504A3A381DF924D300EA46A9 /* URLItemSavingShareViewController.swift */; };
+		504A3A3B1DF924D300EA46A9 /* URLItemSavingShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504A3A391DF924D300EA46A9 /* URLItemSavingShareViewController.xib */; };
+		504A3A3D1DF9312700EA46A9 /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504A3A3C1DF9312700EA46A9 /* FrameworkExtensions.swift */; };
 		504E1EE21DF5F44900DBD0C7 /* HipstapaperPersistence.framework in Copy Persistence Framework */ = {isa = PBXBuildFile; fileRef = 502C7FA31DF0E88F004E70AB /* HipstapaperPersistence.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		505B30441DEA692C00B74AE6 /* UIBindingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30411DEA692C00B74AE6 /* UIBindingManager.swift */; };
 		505B30451DEA692C00B74AE6 /* URLListWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30421DEA692C00B74AE6 /* URLListWindowController.swift */; };
@@ -201,8 +202,6 @@
 		5005E1271DF4CB8300BA38E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5005E1291DF4CB8300BA38E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5005E13F1DF4CC2600BA38E6 /* Hipstapaper_share_iOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Hipstapaper_share_iOS.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		5005E1411DF4CC2600BA38E6 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
-		5005E1441DF4CC2600BA38E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		5005E1461DF4CC2600BA38E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		501EC2531DF4E4E8003577DA /* URLItemListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemListViewController.swift; sourceTree = "<group>"; };
 		501EC2551DF4E4F4003577DA /* URLItemWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemWebViewController.swift; sourceTree = "<group>"; };
@@ -238,6 +237,9 @@
 		50350EC41DDFE23400FA2D57 /* WebViewNavigationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewNavigationDelegate.swift; sourceTree = "<group>"; };
 		50350EC61DDFEB4100FA2D57 /* WebViewUIDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewUIDelegate.swift; sourceTree = "<group>"; };
 		5049EA341DF39A1F002FCECF /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
+		504A3A381DF924D300EA46A9 /* URLItemSavingShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemSavingShareViewController.swift; sourceTree = "<group>"; };
+		504A3A391DF924D300EA46A9 /* URLItemSavingShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLItemSavingShareViewController.xib; sourceTree = "<group>"; };
+		504A3A3C1DF9312700EA46A9 /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		505511C71DE0081F001F04F4 /* KeyObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyObserver.swift; sourceTree = "<group>"; };
 		505B30411DEA692C00B74AE6 /* UIBindingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIBindingManager.swift; sourceTree = "<group>"; };
 		505B30421DEA692C00B74AE6 /* URLListWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLListWindowController.swift; sourceTree = "<group>"; };
@@ -362,8 +364,9 @@
 		5005E1401DF4CC2600BA38E6 /* Hipstapaper_share_iOS */ = {
 			isa = PBXGroup;
 			children = (
-				5005E1411DF4CC2600BA38E6 /* ShareViewController.swift */,
-				5005E1431DF4CC2600BA38E6 /* MainInterface.storyboard */,
+				504A3A3C1DF9312700EA46A9 /* FrameworkExtensions.swift */,
+				504A3A381DF924D300EA46A9 /* URLItemSavingShareViewController.swift */,
+				504A3A391DF924D300EA46A9 /* URLItemSavingShareViewController.xib */,
 				5005E1461DF4CC2600BA38E6 /* Info.plist */,
 				501EC2591DF4E71D003577DA /* Hipstapaper_share_iOS.entitlements */,
 			);
@@ -769,6 +772,7 @@
 					5005E13E1DF4CC2600BA38E6 = {
 						CreatedOnToolsVersion = 8.2;
 						DevelopmentTeam = V6ESYGU6CV;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -876,7 +880,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5005E1451DF4CC2600BA38E6 /* MainInterface.storyboard in Resources */,
+				504A3A3B1DF924D300EA46A9 /* URLItemSavingShareViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1182,7 +1186,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5005E1421DF4CC2600BA38E6 /* ShareViewController.swift in Sources */,
+				504A3A3D1DF9312700EA46A9 /* FrameworkExtensions.swift in Sources */,
+				504A3A3A1DF924D300EA46A9 /* URLItemSavingShareViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1306,14 +1311,6 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
-		5005E1431DF4CC2600BA38E6 /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5005E1441DF4CC2600BA38E6 /* Base */,
-			);
-			name = MainInterface.storyboard;
-			sourceTree = "<group>";
-		};
 		502C7F521DF0E4D5004E70AB /* URLItemSavingShareViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1376,6 +1373,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C780A993E970E2D08BBA0980 /* Pods-Hipstapaper_share_iOS.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Hipstapaper_share_iOS/Hipstapaper_share_iOS.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
@@ -1386,6 +1384,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -1394,6 +1393,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CDFAB0CA208155E7C6EFD04F /* Pods-Hipstapaper_share_iOS.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Hipstapaper_share_iOS/Hipstapaper_share_iOS.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = V6ESYGU6CV;

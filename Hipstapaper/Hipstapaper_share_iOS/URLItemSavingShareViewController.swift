@@ -1,50 +1,61 @@
 //
-//  ShareViewController.swift
-//  Hipstapaper_share_macOS
+//  URLItemSavingShareViewController.swift
+//  Hipstapaper
 //
-//  Created by Jeffrey Bergier on 12/1/16.
+//  Created by Jeffrey Bergier on 12/7/16.
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
 import HipstapaperPersistence
-import AppKit
+import UIKit
 
-class URLItemSavingShareViewController: NSViewController {
+@objc(URLItemSavingShareViewController)
+class URLItemSavingShareViewController: UIViewController {
     
     private enum UIState {
         case saving, saved, saveError, noItemsError
     }
-
-    @IBOutlet private weak var messageLabel: NSTextField?
-    @IBOutlet private weak var dismissButton: NSButton?
     
-    override var nibName: String? {
-        return "URLItemSavingShareViewController"
-    }
+    @IBOutlet private weak var containerViewVerticalSpaceConstraint: NSLayoutConstraint?
+    @IBOutlet private weak var containerView: UIView?
+    @IBOutlet private weak var messageLabel: UILabel?
+    @IBOutlet private weak var dismissButton: UIButton?
+    @IBOutlet private weak var stackView: UIStackView?
     
     private var uiState = UIState.saving {
         didSet {
             DispatchQueue.main.async {
                 switch self.uiState {
                 case .saving:
+                    self.containerViewVerticalSpaceConstraint?.constant = 312
                     self.dismissButton?.isHidden = true
-                    self.messageLabel?.stringValue = "Saving..."
+                    self.messageLabel?.text = "Saving..."
                 case .saved:
+                    self.containerViewVerticalSpaceConstraint?.constant = 0
                     self.dismissButton?.isHidden = true
-                    self.messageLabel?.stringValue = "Saved!"
+                    self.messageLabel?.text = "Saved!"
                 case .saveError:
+                    self.containerViewVerticalSpaceConstraint?.constant = 312
                     self.dismissButton?.isHidden = false
-                    self.messageLabel?.stringValue = "An error ocurred"
+                    self.messageLabel?.text = "An error ocurred"
                 case .noItemsError:
+                    self.containerViewVerticalSpaceConstraint?.constant = 312
                     self.dismissButton?.isHidden = false
-                    self.messageLabel?.stringValue = "No Web Site Found to Save"
+                    self.messageLabel?.text = "No Web Site Found to Save"
                 }
             }
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.containerView?.layer.cornerRadius = 5
+        self.containerView?.layer.borderColor = UIColor.lightGray.cgColor
+        self.containerView?.layer.borderWidth = 1
+        
+        self.containerViewVerticalSpaceConstraint?.constant = self.view.frame.height
+        self.uiState = .saved
         self.go()
     }
     
@@ -84,7 +95,7 @@ class URLItemSavingShareViewController: NSViewController {
             }
         }
     }
-    
+
     private func createItem(with url: URL, in realm: SingleSourcePersistenceType, completionHandler: URLItemResult?) {
         let realm: SingleSourcePersistenceType = RealmURLItemSyncingController()
         realm.createItem(withID: .none) { realmCreateResult in
@@ -131,10 +142,10 @@ class URLItemSavingShareViewController: NSViewController {
             }
         }
     }
-
+    
     @IBAction private func cancel(_ sender: AnyObject?) {
         let cancelError = NSError(domain: NSCocoaErrorDomain, code: NSUserCancelledError, userInfo: nil)
         self.extensionContext!.cancelRequest(withError: cancelError)
     }
-
+    
 }
