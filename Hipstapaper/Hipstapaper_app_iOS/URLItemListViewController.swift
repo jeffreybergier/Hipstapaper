@@ -26,6 +26,7 @@ class URLItemListViewController: UIViewController {
         
         // configure UIBindingManager
         self.uiBindingManager?.dataSource = self.dataSource
+        self.uiBindingManager?.delegate = self
         
         // configure bar button items
         let reloadBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.reloadButtonTapped(_:)))
@@ -44,4 +45,11 @@ class URLItemListViewController: UIViewController {
         
     }
     
+}
+
+extension URLItemListViewController: UIBindingDelegate {
+    func didSelect(item: URLItemType, within: UITableView, bindingManager: UIBindingManager) {
+        let newVC = URLItemWebViewController(urlItem: item)
+        self.navigationController?.pushViewController(newVC, animated: true)
+    }
 }

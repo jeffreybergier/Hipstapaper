@@ -9,15 +9,36 @@
 import HipstapaperPersistence
 import UIKit
 
+protocol UIBindingDelegate: class {
+    func didSelect(item: URLItemType, within: UITableView, bindingManager: UIBindingManager)
+}
+
 class UIBindingManager: NSObject {
+    
+    // Delegate
+    
+    weak var delegate: UIBindingDelegate?
     
     // Table View Property
     
     @IBOutlet private weak var tableView: UITableView?
     
     // Data Source Temp State
-    
     fileprivate var sortedIDs = [String]()
+    
+    private func updateTableView(withNewSortedIDs newSortedIDs: [String]) {
+        DispatchQueue.main.async {
+            let oldSortedIDs = self.sortedIDs
+            DispatchQueue.global(qos: .userInteractive).async {
+                if oldSortedIDs != newSortedIDs {
+                    DispatchQueue.main.async {
+                        self.sortedIDs = newSortedIDs
+                        self.tableView?.reloadData()
+                    }
+                }
+            }
+        }
+    }
     
     // UILoading State
     
@@ -49,10 +70,8 @@ class UIBindingManager: NSObject {
     }
     
     internal func reloadData() {
-        DispatchQueue.main.async {
-            self.spinnerOperationsInProgress += 1 // update the spinner
-        }
-        self.dataSource?.sync(sortedBy: .urlString, ascending: true, quickResult: { quickResult in
+        self.spinnerOperationsInProgress += 1 // update the spinner
+        self.dataSource?.sync(sortedBy: .modificationDate, ascending: false, quickResult: { quickResult in
             let sortedIDs: [String]
             switch quickResult {
             case .success(let ids):
@@ -61,10 +80,7 @@ class UIBindingManager: NSObject {
                 NSLog("Errors While Syncing: \(errors)")
                 sortedIDs = []
             }
-            DispatchQueue.main.async {
-                self.sortedIDs = sortedIDs
-                self.tableView?.reloadData()
-            }
+            self.updateTableView(withNewSortedIDs: sortedIDs)
         }, fullResult: { fullResult in
             let sortedIDs: [String]
             switch fullResult {
@@ -74,13 +90,8 @@ class UIBindingManager: NSObject {
                 NSLog("Errors While Syncing: \(errors)")
                 sortedIDs = []
             }
-            DispatchQueue.main.async {
-                if self.sortedIDs != sortedIDs {
-                    self.sortedIDs = sortedIDs
-                    self.tableView?.reloadData()
-                }
-                self.spinnerOperationsInProgress -= 1 // update the spinner
-            }
+            self.updateTableView(withNewSortedIDs: sortedIDs)
+            self.spinnerOperationsInProgress -= 1 // update the spinner
         })
     }
 }
@@ -119,7 +130,9 @@ extension UIBindingManager: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("didSelectRowAt: \(indexPath)")
+        let cell = tableView.cellForRow(at: indexPath) as? URLItemTableViewCell
+        guard let item = cell?.item else { return }
+        self.delegate?.didSelect(item: item, within: tableView, bindingManager: self)
     }
     
 }
