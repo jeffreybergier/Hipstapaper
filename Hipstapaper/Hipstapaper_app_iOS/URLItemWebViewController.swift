@@ -12,13 +12,13 @@ import UIKit
 
 class URLItemWebViewController: UIViewController {
     
-    private var javascriptEnabled: Bool = false {
-        didSet {
-            self.javascriptCheckbox?.isOn = self.javascriptEnabled
-            self.webView.configuration.preferences.javaScriptEnabled = self.javascriptEnabled
-            self.webView.reload()
-        }
-    }
+    // Delegate
+    
+    private weak var delegate: ViewControllerPresenterDelegate?
+    
+    // Model
+    
+    private(set) var item: URLItemType?
     
     // MARK: IBOutlets
     
@@ -56,34 +56,44 @@ class URLItemWebViewController: UIViewController {
         return webView
     }()
     
+    // Internal State for UI
+    
+    private var javascriptEnabled: Bool = false {
+        didSet {
+            self.javascriptCheckbox?.isOn = self.javascriptEnabled
+            self.webView.configuration.preferences.javaScriptEnabled = self.javascriptEnabled
+            self.webView.reload()
+        }
+    }
+    
+    // KVO Helpers
+    
     private lazy var webViewTitleObserver: KeyValueObserver<String> = KeyValueObserver<String>(target: self.webView)
     private lazy var vcTitleObserver: KeyValueObserver<String> = KeyValueObserver<String>(target: self)
     
-    // Model
-    
-    private(set) var item: URLItemType?
-    
     // Lifecycle
     
-    convenience init(urlItem: URLItemType) {
+    convenience init(urlItem: URLItemType, delegate: ViewControllerPresenterDelegate) {
         self.init()
         self.item = urlItem
+        self.delegate = delegate
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = "Loading…"
         self.takeControlOfNavigationController(true)
+        
+        self.vcTitleObserver.add(keyPath: #keyPath(UIViewController.title)) { newValue -> String? in
+            return "♓️ " + newValue
+        }
         
         self.webViewTitleObserver.add(keyPath: #keyPath(WKWebView.title)) { newValue -> String? in
             self.title = newValue
             return .none
         }
         
-        self.vcTitleObserver.add(keyPath: #keyPath(UIViewController.title)) { newValue -> String? in
-            return "♓️ " + newValue
-        }
-    
         // Get the URL loading - could probably use a bail out here if this unwrapping fails
         if let item = self.item, let url = URL(string: String(urlStringFromRawString: item.urlString)) {
             self.webView.load(URLRequest(url: url))
@@ -96,6 +106,9 @@ class URLItemWebViewController: UIViewController {
     private func takeControlOfNavigationController(_ take: Bool) {
         self.navigationController?.hidesBarsWhenVerticallyCompact = take
         self.navigationController?.hidesBarsOnSwipe = take
+        if take == false {
+            self.navigationController?.setNavigationBarHidden(false, animated: true)
+        }
     }
     
     // MARK: Actions from Bottom Toolbar
@@ -105,9 +118,16 @@ class URLItemWebViewController: UIViewController {
         self.javascriptEnabled = sender.isOn
     }
     
+    // Handle Going Away
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.takeControlOfNavigationController(false)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.delegate?.presented(viewController: self, didDisappearAnimated: animated)
     }
 
 }

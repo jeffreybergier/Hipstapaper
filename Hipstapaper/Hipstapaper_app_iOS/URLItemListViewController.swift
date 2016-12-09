@@ -11,7 +11,7 @@ import UIKit
 
 class URLItemListViewController: UIViewController {
     
-    @IBOutlet private var uiBindingManager: UIBindingManager? // strong reference needed because XIB doesn't hold onto the object
+    @IBOutlet fileprivate var uiBindingManager: UIBindingManager? // strong reference needed because XIB doesn't hold onto the object
     
     private let dataSource: DoubleSourcePersistenceType = CombinedURLItemSyncingController()
     private var sortedIDs = [String]()
@@ -45,16 +45,17 @@ class URLItemListViewController: UIViewController {
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.uiBindingManager?.tableView
-    }
-    
 }
 
 extension URLItemListViewController: UIBindingDelegate {
     func didSelect(item: URLItemType, within: UITableView, bindingManager: UIBindingManager) {
-        let newVC = URLItemWebViewController(urlItem: item)
+        let newVC = URLItemWebViewController(urlItem: item, delegate: self)
         self.navigationController?.pushViewController(newVC, animated: true)
+    }
+}
+
+extension URLItemListViewController: ViewControllerPresenterDelegate {
+    func presented(viewController: UIViewController, didDisappearAnimated: Bool) {
+        self.uiBindingManager?.simulateTableViewControllerAppearing()
     }
 }

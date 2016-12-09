@@ -69,7 +69,15 @@ class UIBindingManager: NSObject {
         return .none
     }
     
-    internal func reloadData() {
+    func simulateTableViewControllerAppearing() {
+        let selectedRows = self.tableView?.indexPathsForSelectedRows ?? []
+        for row in selectedRows {
+            self.tableView?.deselectRow(at: row, animated: true)
+        }
+        self.tableView?.flashScrollIndicators()
+    }
+    
+    func reloadData() {
         self.spinnerOperationsInProgress += 1 // update the spinner
         self.dataSource?.sync(sortedBy: .modificationDate, ascending: false, quickResult: { quickResult in
             let sortedIDs: [String]

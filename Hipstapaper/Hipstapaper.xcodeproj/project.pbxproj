@@ -81,6 +81,7 @@
 		50A63FB61DFA401E0074FE2F /* UIBindingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A63FB51DFA401E0074FE2F /* UIBindingManager.swift */; };
 		50D47B751DFB1F6800E4FD2C /* KeyObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D47B741DFB1F6800E4FD2C /* KeyObserver.swift */; };
 		50D47B761DFB1F6800E4FD2C /* KeyObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D47B741DFB1F6800E4FD2C /* KeyObserver.swift */; };
+		50D47B781DFB220F00E4FD2C /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D47B771DFB220F00E4FD2C /* FrameworkExtensions.swift */; };
 		50E21BC61DD6E466005151C7 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50E21BC51DD6E466005151C7 /* CloudKit.framework */; };
 		50E21BCC1DD8F2E3005151C7 /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E21BCB1DD8F2E3005151C7 /* FrameworkExtensions.swift */; };
 		50FA3BFC1DF4F3B100551325 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50FA3BFB1DF4F3B100551325 /* CloudKit.framework */; };
@@ -264,6 +265,7 @@
 		50A63FB21DF9D9D40074FE2F /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		50A63FB51DFA401E0074FE2F /* UIBindingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIBindingManager.swift; sourceTree = "<group>"; };
 		50D47B741DFB1F6800E4FD2C /* KeyObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyObserver.swift; sourceTree = "<group>"; };
+		50D47B771DFB220F00E4FD2C /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		50E21BC51DD6E466005151C7 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		50E21BCB1DD8F2E3005151C7 /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		50FA3BFA1DF4F3A400551325 /* Hipstapaper_app_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper_app_iOS.entitlements; sourceTree = "<group>"; };
@@ -357,6 +359,7 @@
 			isa = PBXGroup;
 			children = (
 				5005E11D1DF4CB8300BA38E6 /* AppDelegate.swift */,
+				50D47B771DFB220F00E4FD2C /* FrameworkExtensions.swift */,
 				501EC2531DF4E4E8003577DA /* URLItemListViewController.swift */,
 				506153341DF674AD00FC5EA5 /* URLItemListViewController.xib */,
 				50A63FB51DFA401E0074FE2F /* UIBindingManager.swift */,
@@ -1188,6 +1191,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50D47B781DFB220F00E4FD2C /* FrameworkExtensions.swift in Sources */,
 				504FC0FC1DFA444A0014C787 /* URLItemTableViewCell.swift in Sources */,
 				50A63FB01DF9D2BD0074FE2F /* URLItemWebViewController.swift in Sources */,
 				5005E11E1DF4CB8300BA38E6 /* AppDelegate.swift in Sources */,
