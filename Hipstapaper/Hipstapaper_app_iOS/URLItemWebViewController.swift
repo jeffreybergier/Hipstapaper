@@ -70,8 +70,7 @@ class URLItemWebViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.hidesBarsWhenVerticallyCompact = true
-        self.navigationController?.hidesBarsOnSwipe = true
+        self.takeControlOfNavigationController(true)
         
         // Get the URL loading - could probably use a bail out here if this unwrapping fails
         if let item = self.item, let url = URL(string: String(urlStringFromRawString: item.urlString)) {
@@ -82,11 +81,21 @@ class URLItemWebViewController: UIViewController {
 
     }
     
+    private func takeControlOfNavigationController(_ take: Bool) {
+        self.navigationController?.hidesBarsWhenVerticallyCompact = take
+        self.navigationController?.hidesBarsOnSwipe = take
+    }
+    
     // MARK: Actions from Bottom Toolbar
     
     @IBAction private func javascriptCheckboxToggled(_ sender: NSObject?) {
         guard let sender = sender as? UISwitch else { return }
         self.javascriptEnabled = sender.isOn
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.takeControlOfNavigationController(false)
     }
 
 }
