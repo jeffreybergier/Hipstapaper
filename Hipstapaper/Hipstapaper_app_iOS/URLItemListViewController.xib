@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="URLItemListViewController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
-                <outlet property="collectionView" destination="nv9-1u-DK9" id="cbY-bw-20i"/>
+                <outlet property="uiBindingManager" destination="VBW-Wk-tos" id="eXV-nQ-Ten"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -20,24 +20,27 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="nv9-1u-DK9" customClass="IGListCollectionView">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wsW-tC-jnv">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="2de-Ta-vK5">
-                        <size key="itemSize" width="50" height="50"/>
-                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    </collectionViewFlowLayout>
-                </collectionView>
+                    <connections>
+                        <outlet property="dataSource" destination="VBW-Wk-tos" id="gbc-Sv-dy9"/>
+                        <outlet property="delegate" destination="VBW-Wk-tos" id="eMi-Ro-7uY"/>
+                    </connections>
+                </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="nv9-1u-DK9" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="VTk-YM-VI2"/>
-                <constraint firstItem="nv9-1u-DK9" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="c0y-e9-Oes"/>
-                <constraint firstItem="nv9-1u-DK9" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" id="goL-PL-c18"/>
-                <constraint firstItem="nv9-1u-DK9" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="uGb-r2-uI7"/>
+                <constraint firstItem="wsW-tC-jnv" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="Czy-bz-jZg"/>
+                <constraint firstItem="wsW-tC-jnv" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="LQR-Mg-jPx"/>
+                <constraint firstItem="wsW-tC-jnv" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" id="PDG-gk-cyD"/>
+                <constraint firstItem="wsW-tC-jnv" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="fhh-E0-Yzw"/>
             </constraints>
         </view>
+        <customObject id="VBW-Wk-tos" customClass="UIBindingManager" customModule="Hipstapaper" customModuleProvider="target">
+            <connections>
+                <outlet property="tableView" destination="wsW-tC-jnv" id="inW-hY-qf6"/>
+            </connections>
+        </customObject>
     </objects>
 </document>

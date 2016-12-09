@@ -1,18 +1,18 @@
 //
-//  URLItemCollectionViewCell.swift
+//  URLItemTableViewCell.swift
 //  Hipstapaper
 //
-//  Created by Jeffrey Bergier on 12/5/16.
+//  Created by Jeffrey Bergier on 12/8/16.
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
-import UIKit
 import HipstapaperPersistence
+import UIKit
 
-class URLItemCollectionViewCell: UICollectionViewCell {
+class URLItemTableViewCell: UITableViewCell {
     
-    static let nibName = "URLItemCollectionViewCell"
-    
+    static let nibName = "URLItemTableViewCell"
+
     private let dateFormatter: DateFormatter = {
         let df = DateFormatter()
         df.dateStyle = .medium
@@ -44,5 +44,5 @@ class URLItemCollectionViewCell: UICollectionViewCell {
         self.dateLabel?.text = .none
         self.idLabel?.text = .none
     }
-
+    
 }
