@@ -22,7 +22,7 @@ class URLItemListViewController: UIViewController {
         super.viewDidLoad()
         
         // configure title
-        self.title = "Hipstapaper"
+        self.title = "♓️ Hipstapaper"
         
         // configure UIBindingManager
         self.uiBindingManager?.dataSource = self.dataSource
@@ -43,6 +43,11 @@ class URLItemListViewController: UIViewController {
     
     @objc private func addButtonTapped(_ sender: NSObject?) {
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.uiBindingManager?.tableView
     }
     
 }

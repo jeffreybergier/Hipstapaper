@@ -56,6 +56,9 @@ class URLItemWebViewController: UIViewController {
         return webView
     }()
     
+    private lazy var webViewTitleObserver: KeyValueObserver<String> = KeyValueObserver<String>(target: self.webView)
+    private lazy var vcTitleObserver: KeyValueObserver<String> = KeyValueObserver<String>(target: self)
+    
     // Model
     
     private(set) var item: URLItemType?
@@ -72,6 +75,15 @@ class URLItemWebViewController: UIViewController {
         
         self.takeControlOfNavigationController(true)
         
+        self.webViewTitleObserver.add(keyPath: #keyPath(WKWebView.title)) { newValue -> String? in
+            self.title = newValue
+            return .none
+        }
+        
+        self.vcTitleObserver.add(keyPath: #keyPath(UIViewController.title)) { newValue -> String? in
+            return "♓️ " + newValue
+        }
+    
         // Get the URL loading - could probably use a bail out here if this unwrapping fails
         if let item = self.item, let url = URL(string: String(urlStringFromRawString: item.urlString)) {
             self.webView.load(URLRequest(url: url))
@@ -99,3 +111,6 @@ class URLItemWebViewController: UIViewController {
     }
 
 }
+
+extension WKWebView: KVOCapable {}
+extension UIViewController: KVOCapable {}
