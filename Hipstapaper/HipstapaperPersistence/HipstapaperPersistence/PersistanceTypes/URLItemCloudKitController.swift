@@ -150,17 +150,8 @@ extension URLItemCloudKitController: URLItemCRUDSinglePersistanceType {
 }
 
 extension URLItemCloudKitController: URLItemCRUDDoublePersistanceType {
-    public func sync(sortedBy: URLItem.Sort, ascending: Bool, quickResult: URLItemIDsResult?, fullResult: URLItemIDsResult?) {
-        self.allItems(sortedBy: sortedBy, ascending: ascending) { result in
-            quickResult?(result)
-            fullResult?(result)
-        }
-    }
-    public func allItems(sortedBy: URLItem.Sort, ascending: Bool, quickResult: URLItemIDsResult?, fullResult: URLItemIDsResult?) {
-        self.allItems(sortedBy: sortedBy, ascending: ascending) { result in
-            quickResult?(result)
-            fullResult?(result)
-        }
+    public func sync(result: SuccessResult?) {
+        result?(.error([NSError()]))
     }
     public func create(item: URLItemType?, quickResult: URLItemResult?, fullResult: URLItemResult?) {
         self.create(item: item) { result in

@@ -61,7 +61,7 @@ class UIBindingManager: NSObject {
     
     weak internal var dataSource: URLItemCRUDDoublePersistanceType? {
         didSet {
-            self.reloadData()
+            self.initialLoad()
         }
     }
     
@@ -77,21 +77,11 @@ class UIBindingManager: NSObject {
         self.tableView?.flashScrollIndicators()
     }
     
-    func reloadData() {
+    func initialLoad() {
         self.spinnerOperationsInProgress += 1 // update the spinner
-        self.dataSource?.sync(sortedBy: .modificationDate, ascending: false, quickResult: { quickResult in
+        self.dataSource?.allItems(sortedBy: .modificationDate, ascending: false) { result in
             let sortedIDs: [String]
-            switch quickResult {
-            case .success(let ids):
-                sortedIDs = ids
-            case .error(let errors):
-                NSLog("Errors While Syncing: \(errors)")
-                sortedIDs = []
-            }
-            self.updateTableView(withNewSortedIDs: sortedIDs)
-        }, fullResult: { fullResult in
-            let sortedIDs: [String]
-            switch fullResult {
+            switch result {
             case .success(let ids):
                 sortedIDs = ids
             case .error(let errors):
@@ -100,7 +90,17 @@ class UIBindingManager: NSObject {
             }
             self.updateTableView(withNewSortedIDs: sortedIDs)
             self.spinnerOperationsInProgress -= 1 // update the spinner
-        })
+        }
+    }
+    
+    func reloadData() {
+        self.spinnerOperationsInProgress += 1 // update the spinner
+        self.dataSource?.sync() { _ in
+            self.initialLoad()
+            DispatchQueue.main.async {
+                self.spinnerOperationsInProgress -= 1 // update the spinner
+            }
+        }
     }
 }
 

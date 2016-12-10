@@ -13,7 +13,7 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
     
     weak var dataSource: URLItemCRUDDoublePersistanceType! {
         didSet {
-            self.reloadData()
+            self.initialLoad()
         }
     }
     
@@ -98,22 +98,12 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
         if mappedItems.isEmpty == false { return mappedItems } else { return .none }
     }
     
-    func reloadData() {
+    func initialLoad() {
         DispatchQueue.main.async {
             self.spinnerOperationsInProgress += 1 // update the spinner
-            self.dataSource.sync(sortedBy: .urlString, ascending: true, quickResult: { quickResult in
+            self.dataSource.allItems(sortedBy: .modificationDate, ascending: false) { result in
                 let sortedIDs: [String]
-                switch quickResult {
-                case .success(let ids):
-                    sortedIDs = ids
-                case .error(let errors):
-                    NSLog("Errors While Syncing: \(errors)")
-                    sortedIDs = []
-                }
-                self.process(sortedIDs: sortedIDs) // process the data
-            }, fullResult: { fullResult in
-                let sortedIDs: [String]
-                switch fullResult {
+                switch result {
                 case .success(let ids):
                     sortedIDs = ids
                 case .error(let errors):
@@ -124,7 +114,19 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
                 DispatchQueue.main.async {
                     self.spinnerOperationsInProgress -= 1 // update the spinner
                 }
-            })
+            }
+        }
+    }
+    
+    func reloadData() {
+        DispatchQueue.main.async {
+            self.spinnerOperationsInProgress += 1 // update the spinner
+            self.dataSource.sync() { _ in
+                self.initialLoad()
+                DispatchQueue.main.async {
+                    self.spinnerOperationsInProgress -= 1 // update the spinner
+                }
+            }
         }
     }
     

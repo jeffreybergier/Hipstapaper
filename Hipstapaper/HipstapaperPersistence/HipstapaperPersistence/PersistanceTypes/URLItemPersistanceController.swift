@@ -6,6 +6,8 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
+import Foundation
+
 open class URLItemPersistanceController {
     
     fileprivate let realmController: URLItemCRUDSinglePersistanceType = URLItemRealmController()
@@ -17,30 +19,26 @@ open class URLItemPersistanceController {
 
 extension URLItemPersistanceController: URLItemCRUDDoublePersistanceType {
 
-
-    public func sync(sortedBy: URLItem.Sort, ascending: Bool, quickResult: URLItemIDsResult?, fullResult: URLItemIDsResult?) {
-        self.sync(attemptNumber: 0, sortedBy: sortedBy, ascending: ascending, quickResult: quickResult, fullResult: fullResult)
+    public func sync(result: SuccessResult?) {
+        self.sync(attemptNumber: 0, result: result)
     }
     
     // ugh this is pretty bad pyramid of doom
     // it basically just calls back the completion handlers on error
     // if there is success it keeps going forward with the syncing process
-    private func sync(attemptNumber: Int, sortedBy: URLItem.Sort, ascending: Bool, quickResult: URLItemIDsResult?, fullResult: URLItemIDsResult?) {
-        self.realmController.allItems(sortedBy: sortedBy, ascending: ascending) { realmResult in
-            // always call the quick result with the results of realm
-            quickResult?(realmResult)
-            
+    private func sync(attemptNumber: Int, result: SuccessResult?) {
+        self.realmController.allItems(sortedBy: .modificationDate, ascending: false) { realmResult in
             switch realmResult {
-            case .error:
+            case .error(let errors):
                 // if realm errors, also call fullResult with the realmError
-                fullResult?(realmResult)
+                result?(.error(errors))
             case .success(let sortedRealmIDs):
                 // if realm is successful, continue to cloud controller
-                self.cloudKitController.allItems(sortedBy: sortedBy, ascending: ascending) { cloudResult in
+                self.cloudKitController.allItems(sortedBy: .modificationDate, ascending: false) { cloudResult in
                     switch cloudResult {
-                    case .error:
+                    case .error(let errors):
                         // if cloud errors, call fullResult with the cloudError
-                        fullResult?(cloudResult)
+                        result?(.error(errors))
                     case .success(let sortedCloudIDs):
                         // now the cloud sync and the realm sync were both successful, time to sync
                         let syncer = RealmCloudKitSyncer(realmController: self.realmController, cloudKitController: self.cloudKitController, sortedRealmIDs: sortedRealmIDs, sortedCloudIDs: sortedCloudIDs)
@@ -50,19 +48,19 @@ extension URLItemPersistanceController: URLItemCRUDDoublePersistanceType {
                             switch syncResult {
                             case .error(let errors):
                                 // if there is an error syncing, call back
-                                fullResult?(.error(errors))
+                                result?(.error(errors))
                             case .success(let changes):
                                 // if we are successful, we need to know if there are changes
                                 switch changes {
                                 case .noChanges:
                                     // if there are no changes, call back
-                                    fullResult?(realmResult)
+                                    result?(.success())
                                 case .changes:
                                     // if there are changes, recurse
                                     if attemptNumber >= 3 {
-                                        fullResult?(realmResult)
+                                        result?(.error([NSError()]))
                                     } else {
-                                        self.sync(attemptNumber: attemptNumber + 1, sortedBy: sortedBy, ascending: ascending, quickResult: .none, fullResult: fullResult)
+                                        self.sync(attemptNumber: attemptNumber + 1, result: result)
                                     }
                                 }
                             }
@@ -73,8 +71,8 @@ extension URLItemPersistanceController: URLItemCRUDDoublePersistanceType {
         }
     }
     
-    public func allItems(sortedBy: URLItem.Sort, ascending: Bool, quickResult: URLItemIDsResult?, fullResult: URLItemIDsResult?) {
-        self.sync(sortedBy: sortedBy, ascending: ascending, quickResult: quickResult, fullResult: fullResult)
+    public func allItems(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?) {
+        self.realmController.allItems(sortedBy: sortedBy, ascending: ascending, result: result)
     }
 
     public func create(item: URLItemType?, quickResult: URLItemResult?, fullResult: URLItemResult?) {
