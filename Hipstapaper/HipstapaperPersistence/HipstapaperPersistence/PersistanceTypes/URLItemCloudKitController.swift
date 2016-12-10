@@ -22,7 +22,7 @@ open class URLItemCloudKitController {
 
 extension URLItemCloudKitController: URLItemCRUDSinglePersistanceType {
 
-    public func reloadData(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?) {
+    public func allItems(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?) {
         self.serialQueue.async {
             let predicate = NSPredicate(value: true)
             let sortDescriptor = NSSortDescriptor(key: sortedBy.cloudPropertyName, ascending: ascending)
@@ -131,19 +131,19 @@ extension URLItemCloudKitController: URLItemCRUDSinglePersistanceType {
 
 extension URLItemCloudKitController: URLItemCRUDDoublePersistanceType {
     public func sync(sortedBy: URLItem.Sort, ascending: Bool, quickResult: URLItemIDsResult?, fullResult: URLItemIDsResult?) {
-        self.reloadData(sortedBy: sortedBy, ascending: ascending) { result in
+        self.allItems(sortedBy: sortedBy, ascending: ascending) { result in
+            quickResult?(result)
+            fullResult?(result)
+        }
+    }
+    public func allItems(sortedBy: URLItem.Sort, ascending: Bool, quickResult: URLItemIDsResult?, fullResult: URLItemIDsResult?) {
+        self.allItems(sortedBy: sortedBy, ascending: ascending) { result in
             quickResult?(result)
             fullResult?(result)
         }
     }
     public func create(item: URLItemType?, quickResult: URLItemResult?, fullResult: URLItemResult?) {
         self.create(item: item) { result in
-            quickResult?(result)
-            fullResult?(result)
-        }
-    }
-    public func readItem(withID id: String, quickResult: URLItemResult?, fullResult: URLItemResult?) {
-        self.readItem(withID: id) { result in
             quickResult?(result)
             fullResult?(result)
         }

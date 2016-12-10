@@ -115,7 +115,7 @@ extension UIBindingManager: UITableViewDataSource {
         let castedCell = cell as? URLItemTableViewCell
         let itemID = self.sortedIDs[indexPath.row]
         castedCell?.id = itemID
-        self.dataSource?.readItem(withID: itemID, quickResult: { result in
+        self.dataSource?.readItem(withID: itemID) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .error(let errors):
@@ -126,7 +126,7 @@ extension UIBindingManager: UITableViewDataSource {
                     castedCell?.item = item
                 }
             }
-        }, fullResult: .none)
+        }
         return cell
     }
 }

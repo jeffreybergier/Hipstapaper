@@ -133,18 +133,14 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
             let bindingObjects = ids.map() { id -> URLItem.BindingObject in
                 let bindingObject = URLItem.BindingObject(value: nil)
                 self.spinnerOperationsInProgress += 1 // update the spinner
-                self.dataSource.readItem(withID: id, quickResult: { result in
+                self.dataSource.readItem(withID: id) { result in
                     if case .success(let urlItem) = result {
                         DispatchQueue.main.async {
                             bindingObject.value = urlItem
+                            self.spinnerOperationsInProgress -= 1 // update the spinner
                         }
                     }
-
-                }, fullResult: { _ in
-                    DispatchQueue.main.async {
-                        self.spinnerOperationsInProgress -= 1 // update the spinner
-                    }
-                })
+                }
                 return bindingObject
             }
             DispatchQueue.main.async {
