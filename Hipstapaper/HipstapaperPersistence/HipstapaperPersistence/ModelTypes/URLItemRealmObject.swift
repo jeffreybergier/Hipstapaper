@@ -35,6 +35,16 @@ class URLItemRealmObject: Object, URLItemType {
         self.init()
         self.urlString = urlString
     }
+    
+    convenience init(urlItem: URLItemType, realm: Realm) {
+        self.init()
+        self.realmID = urlItem.realmID
+        self.cloudKitID = urlItem.cloudKitID
+        self.urlString = urlItem.urlString
+        self.archived = urlItem.archived
+        self.modificationDate = urlItem.modificationDate
+        self.tagList = RealmURLItemSyncingController.loadTagListMatching(tagItemArray: urlItem.tags, from: realm)
+    }
 }
 
 extension URLItem.Value {

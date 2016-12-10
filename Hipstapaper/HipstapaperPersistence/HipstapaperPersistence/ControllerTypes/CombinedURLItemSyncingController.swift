@@ -79,6 +79,25 @@ open class CombinedURLItemSyncingController: DoubleSourcePersistenceType {
         }
     }
     
+    public func create(item: URLItemType?, quickResult: URLItemResult?, fullResult: URLItemResult?) {
+        // always call the quick result with the results of realm
+        self.realmController.create(item: item) { realmResult in
+            // always call the quick result with the results of realm
+            quickResult?(realmResult)
+            switch realmResult {
+            case .error:
+                // if realm errors, call fullResult with the realmError
+                fullResult?(realmResult)
+            case .success(let realmValue):
+                // if realm is successful, continue to cloud controller
+                self.cloudKitController.create(item: realmValue) { cloudCreateResult in
+                    let updatedResult = type(of: self).update(cloudItemResult: cloudCreateResult, withRealmItemID: realmValue.realmID)
+                    fullResult?(updatedResult)
+                }
+            }
+        }
+    }
+    
     public func readItem(withID id: String, quickResult: URLItemResult?, fullResult: URLItemResult?) {
         self.realmController.readItem(withID: id) { realmResult in
             // always call the quick result with the results of realm

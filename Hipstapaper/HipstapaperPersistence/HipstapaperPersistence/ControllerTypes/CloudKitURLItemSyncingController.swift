@@ -48,19 +48,32 @@ open class CloudKitURLItemSyncingController: SingleSourcePersistenceType {
     }
     
     public func createItem(withID inputID: String?, result: URLItemResult?) {
+        self.create(item: .none, withID: inputID, result: result)
+    }
+    
+    public func create(item: URLItemType?, result: URLItemResult?) {
+        self.create(item: item, withID: .none, result: result)
+    }
+    
+    private func create(item: URLItemType?, withID id: String?, result: URLItemResult?) {
         self.serialQueue.async {
-            let emptyObject = URLItem.CloudKitObject()
-            self.privateDB.save(emptyObject.record) { (record, error) in
+            let newObject: URLItem.CloudKitObject
+            if let item = item {
+                newObject = URLItem.CloudKitObject(urlItem: item)
+            } else {
+                newObject = URLItem.CloudKitObject()
+                if let overridingID = id {
+                    newObject.cloudKitID = overridingID
+                }
+            }
+            self.privateDB.save(newObject.record) { (record, error) in
                 self.serialQueue.async {
                     if let record = record {
-                        let newObject = URLItem.CloudKitObject(record: record)
-                        if let inputID = inputID {
-                            newObject.cloudKitID = inputID
-                        }
+                        let returnObject = URLItem.CloudKitObject(record: record)
                         let id = newObject.cloudKitID
-                        self.objectMap[id] = newObject
-                        let newValue = URLItem.Value(cloudKitObject: newObject)
-                        result?(.success(newValue))
+                        self.objectMap[id] = returnObject
+                        let returnValue = URLItem.Value(cloudKitObject: newObject)
+                        result?(.success(returnValue))
                     } else {
                         result?(.error([error!]))
                     }
@@ -133,6 +146,12 @@ extension CloudKitURLItemSyncingController: DoubleSourcePersistenceType {
     }
     public func createItem(withID id: String?, quickResult: URLItemResult?, fullResult: URLItemResult?) {
         self.createItem(withID: id) { result in
+            quickResult?(result)
+            fullResult?(result)
+        }
+    }
+    public func create(item: URLItemType?, quickResult: URLItemResult?, fullResult: URLItemResult?) {
+        self.create(item: item) { result in
             quickResult?(result)
             fullResult?(result)
         }

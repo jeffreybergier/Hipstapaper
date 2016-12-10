@@ -54,13 +54,26 @@ open class RealmURLItemSyncingController: SingleSourcePersistenceType {
     }
     
     public func createItem(withID id: String?, result: URLItemResult?) {
+        self.create(item: .none, withID: id, result: result)
+    }
+    
+    public func create(item: URLItemType?, result: URLItemResult?) {
+        self.create(item: item, withID: .none, result: result)
+    }
+    
+    private func create(item: URLItemType?, withID id: String?, result: URLItemResult?) {
         self.serialQueue.async {
             do {
-                let newObject = URLItemRealmObject()
-                if let id = id {
-                    newObject.realmID = id
-                }
                 let realm = try Realm()
+                let newObject: URLItemRealmObject
+                if let item = item {
+                    newObject = URLItemRealmObject(urlItem: item, realm: realm)
+                } else {
+                    newObject = URLItemRealmObject()
+                    if let overridingID = id {
+                        newObject.realmID = overridingID
+                    }
+                }
                 realm.beginWrite()
                 realm.add(newObject)
                 try realm.commitWrite()
@@ -151,7 +164,7 @@ open class RealmURLItemSyncingController: SingleSourcePersistenceType {
     
     // MARK: Load and Set Tag List
     
-    private class func loadTagListMatching(tagItemArray: [TagItemType], from realm: Realm) -> List<TagItemRealmObject> {
+    internal class func loadTagListMatching(tagItemArray: [TagItemType], from realm: Realm) -> List<TagItemRealmObject> {
         let stringSet = Set(tagItemArray.map({ $0.name }))
         let realmObjects = stringSet.map() { nameString -> TagItemRealmObject? in
             if let existingObject = realm.object(ofType: TagItemRealmObject.self, forPrimaryKey: nameString) {
@@ -187,6 +200,12 @@ extension RealmURLItemSyncingController: DoubleSourcePersistenceType {
     }
     public func createItem(withID id: String?, quickResult: URLItemResult?, fullResult: URLItemResult?) {
         self.createItem(withID: id) { result in
+            quickResult?(result)
+            fullResult?(result)
+        }
+    }
+    public func create(item: URLItemType?, quickResult: URLItemResult?, fullResult: URLItemResult?) {
+        self.create(item: item) { result in
             quickResult?(result)
             fullResult?(result)
         }

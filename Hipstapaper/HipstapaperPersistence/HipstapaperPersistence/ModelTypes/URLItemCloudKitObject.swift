@@ -96,13 +96,14 @@ extension URLItem {
             self.record = record
         }
         
-        init(urlItem: URLItemType) {
+        init(urlItem item: URLItemType) {
             let newRecord = CKRecord(recordType: "URLItem")
             self.record = newRecord
-            self.urlString = urlItem.urlString
-            self.modificationDate = urlItem.modificationDate
-            self.tags = urlItem.tags
-            self.archived = urlItem.archived
+            self.cloudKitID = item.cloudKitID
+            self.urlString = item.urlString
+            self.modificationDate = item.modificationDate
+            self.tags = item.tags
+            self.archived = item.archived
         }
     }
 }

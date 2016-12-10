@@ -18,6 +18,7 @@ public typealias SuccessResult = ((Result<Void>) -> Void)
 public protocol DoubleSourcePersistenceType: class {
     func sync(sortedBy: URLItem.Sort, ascending: Bool, quickResult: URLItemIDsResult?, fullResult: URLItemIDsResult?)
     func createItem(withID id: String?, quickResult: URLItemResult?, fullResult: URLItemResult?)
+    func create(item: URLItemType?, quickResult: URLItemResult?, fullResult: URLItemResult?)
     func readItem(withID id: String, quickResult: URLItemResult?, fullResult: URLItemResult?)
     func update(item: URLItemType, quickResult: URLItemResult?, fullResult: URLItemResult?)
     func delete(item: URLItemType, quickResult: SuccessResult?, fullResult: SuccessResult?)
@@ -27,6 +28,7 @@ public protocol DoubleSourcePersistenceType: class {
 public protocol SingleSourcePersistenceType {
     func reloadData(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?)
     func createItem(withID: String?, result: URLItemResult?)
+    func create(item: URLItemType?, result: URLItemResult?)
     func readItem(withID id: String, result: URLItemResult?)
     func update(item: URLItemType, result: URLItemResult?)
     func delete(item: URLItemType, result: SuccessResult?)
