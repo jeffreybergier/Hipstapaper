@@ -38,13 +38,34 @@ open class URLItemRealmController {
     }
 }
 
+extension URLItemRealmController: URLItemQuerySinglePersistanceType {
+    public func tagItems(result: TagListResult?) {
+        
+    }
+    public func unarchivedItems(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?) {
+        self.serialQueue.async {
+            do {
+                let realm = try Realm()
+                let ids = type(of: self).unarchivedRealmObjectIDs(from: realm, sortedBy: sortedBy, ascending: ascending)
+                result?(.success(ids))
+            } catch {
+                NSLog("realmSyncError: \(error)")
+                result?(.error([error]))
+            }
+        }
+    }
+    public func allItems(for tag: TagItemType, result: URLItemIDsResult?) {
+        
+    }
+}
+
 extension URLItemRealmController: URLItemCRUDSinglePersistanceType {
 
     public func allItems(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?) {
         self.serialQueue.async {
             do {
                 let realm = try Realm()
-                let ids = URLItemRealmController.allRealmObjectIDs(from: realm, sortedBy: sortedBy, ascending: ascending)
+                let ids = type(of: self).allRealmObjectIDs(from: realm, sortedBy: sortedBy, ascending: ascending)
                 result?(.success(ids))
             } catch {
                 NSLog("realmSyncError: \(error)")
@@ -127,26 +148,27 @@ extension URLItemRealmController: URLItemCRUDSinglePersistanceType {
             }
         }
     }
-    
+}
+
+extension URLItemRealmController {
+
     // MARK: Load All URLItem Objects from Disk
     
-    private class func allRealmObjects(from realm: Realm, sortedBy: URLItem.Sort = .modificationDate, ascending: Bool = true) -> Results<URLItemRealmObject> {
-        return realm.objects(URLItemRealmObject.self).sorted(byProperty: sortedBy.realmPropertyName, ascending: ascending)
+    fileprivate class func allRealmObjectIDs(from realm: Realm, sortedBy: URLItem.Sort, ascending: Bool) -> Array<String> {
+        let results = realm.objects(URLItemRealmObject.self).sorted(byProperty: sortedBy.realmPropertyName, ascending: ascending)
+        let ids = results.map({ $0.realmID })
+        return Array(ids)
     }
     
-    private class func realmObjectIDs(from results: Results<URLItemRealmObject>) -> Set<String> {
-        return Set(results.map({ $0.realmID }))
-    }
-    
-    private class func allRealmObjectIDs(from realm: Realm, sortedBy: URLItem.Sort, ascending: Bool) -> Array<String> {
-        let results = self.allRealmObjects(from: realm, sortedBy: sortedBy, ascending: ascending)
+    fileprivate class func unarchivedRealmObjectIDs(from realm: Realm, sortedBy: URLItem.Sort, ascending: Bool) -> Array<String> {
+        let results = realm.objects(URLItemRealmObject.self).filter("archived = NO").sorted(byProperty: sortedBy.realmPropertyName, ascending: ascending)
         let ids = results.map({ $0.realmID })
         return Array(ids)
     }
     
     // MARK: Load individual items
     
-    private class func realmObject(withID id: String, from realm: Realm) -> URLItemRealmObject? {
+    fileprivate class func realmObject(withID id: String, from realm: Realm) -> URLItemRealmObject? {
         return realm.object(ofType: URLItemRealmObject.self, forPrimaryKey: id)
     }
     
@@ -165,7 +187,7 @@ extension URLItemRealmController: URLItemCRUDSinglePersistanceType {
         return list
     }
     
-    private class func newTagObject(withName name: String, from realm: Realm) -> TagItemRealmObject? {
+    fileprivate class func newTagObject(withName name: String, from realm: Realm) -> TagItemRealmObject? {
         do {
             let newObject = TagItemRealmObject(name: name)
             realm.beginWrite()

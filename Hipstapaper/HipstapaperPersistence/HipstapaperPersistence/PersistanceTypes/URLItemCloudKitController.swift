@@ -20,11 +20,24 @@ open class URLItemCloudKitController {
     
 }
 
-extension URLItemCloudKitController: URLItemCRUDSinglePersistanceType {
+extension URLItemCloudKitController: URLItemQuerySinglePersistanceType {
+    
+    public func tagItems(result: TagListResult?) {
+        
+    }
+    public func unarchivedItems(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?) {
+        let predicate = NSPredicate(format: "archived = NO")
+        self.allItems(matchingPredicate: predicate, sortedBy: sortedBy, ascending: ascending, result: result)
+    }
+    public func allItems(for tag: TagItemType, result: URLItemIDsResult?) {
+        
+    }
+    
+}
 
-    public func allItems(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?) {
+extension URLItemCloudKitController {
+    fileprivate func allItems(matchingPredicate predicate: NSPredicate, sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?) {
         self.serialQueue.async {
-            let predicate = NSPredicate(value: true)
             let sortDescriptor = NSSortDescriptor(key: sortedBy.cloudPropertyName, ascending: ascending)
             let query = CKQuery(recordType: self.recordType, predicate: predicate)
             query.sortDescriptors = [sortDescriptor]
@@ -47,8 +60,15 @@ extension URLItemCloudKitController: URLItemCRUDSinglePersistanceType {
                     }
                 }
             }
-
         }
+    }
+}
+
+extension URLItemCloudKitController: URLItemCRUDSinglePersistanceType {
+
+    public func allItems(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?) {
+        let predicate = NSPredicate(value: true)
+        self.allItems(matchingPredicate: predicate, sortedBy: sortedBy, ascending: ascending, result: result)
     }
     
     public func create(item: URLItemType?, result: URLItemResult?) {

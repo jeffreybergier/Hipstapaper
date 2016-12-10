@@ -34,8 +34,9 @@ public protocol URLItemCRUDSinglePersistanceType {
     func delete(item: URLItemType, result: SuccessResult?)
 }
 
-public protocol URLItemQuerySinglePersistanceType: URLItemCRUDSinglePersistanceType {
+public protocol URLItemQuerySinglePersistanceType {
     func tagItems(result: TagListResult?)
     func unarchivedItems(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?)
+    func allItems(for tag: TagItemType, result: URLItemIDsResult?)
 }
 
