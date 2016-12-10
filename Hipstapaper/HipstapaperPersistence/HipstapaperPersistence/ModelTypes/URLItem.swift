@@ -41,6 +41,15 @@ public enum URLItem {
             self.tags = tags
             self.modificationDate = modificationDate
         }
+        
+        public init() {
+            self.realmID = UUID().uuidString
+            self.cloudKitID = UUID().uuidString
+            self.urlString = "http://www.url.com"
+            self.archived = false
+            self.tags = []
+            self.modificationDate = Date()
+        }
     }
     
     public enum Sort {

@@ -140,11 +140,11 @@ class RealmCloudKitSyncer {
     }
     
     private func step3AddNewItemsToRealm(items addToRealm: [URLItemType], realmResults: @escaping URLItemResults) {
-        self.add(items: addToRealm, toStorage: .realm(self.realmController), resultsHandler: realmResults)
+        self.add(items: addToRealm, toStorage: self.realmController, resultsHandler: realmResults)
     }
     
     private func step4AddNewItemsToCloudKit(items addToCloud: [URLItemType], cloudResults: @escaping URLItemResults) {
-        self.add(items: addToCloud, toStorage: .cloud(self.cloudKitController), resultsHandler: cloudResults)
+        self.add(items: addToCloud, toStorage: self.cloudKitController, resultsHandler: cloudResults)
     }
     
     private func step5UpdateInRealm(items: [URLItemType], resultsHandler: @escaping URLItemResults) {
@@ -181,11 +181,7 @@ class RealmCloudKitSyncer {
         }
     }
     
-    private enum Location {
-        case cloud(URLItemCRUDSinglePersistanceType), realm(URLItemCRUDSinglePersistanceType)
-    }
-    
-    private func add(items: [URLItemType], toStorage location: Location, resultsHandler: @escaping URLItemResults) {
+    private func add(items: [URLItemType], toStorage storage: URLItemCRUDSinglePersistanceType, resultsHandler: @escaping URLItemResults) {
         var results = [Result<URLItemType>]() {
             didSet {
                 if results.count == items.count {
@@ -194,24 +190,8 @@ class RealmCloudKitSyncer {
             }
         }
         for unsavedItem in items {
-            let id: String
-            let storage: URLItemCRUDSinglePersistanceType
-            switch location {
-            case .cloud(let cloudController):
-                id = unsavedItem.cloudKitID
-                storage = cloudController
-            case .realm(let realmController):
-                id = unsavedItem.realmID
-                storage = realmController
-            }
-            storage.createItem(withID: id) { createResult in
-                if case .success = createResult {
-                    storage.update(item: unsavedItem) { updateResult in
-                        results.append(updateResult)
-                    }
-                } else {
-                    results.append(createResult)
-                }
+            storage.create(item: unsavedItem) { createResult in
+                results.append(createResult)
             }
         }
 

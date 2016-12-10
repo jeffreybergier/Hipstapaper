@@ -60,11 +60,15 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
             let new = newValue.filter({ $0.value == nil })
             new.forEach() { newBindingObject in
                 self.spinnerOperationsInProgress += 1 // update the spinner
-                self.dataSource.createItem(withID: .none,
-                quickResult: { result in
-                    if case .success(let urlItem) = result {
-                        DispatchQueue.main.async {
-                            newBindingObject.value = urlItem
+                let itemToCreate = newBindingObject.value ?? URLItem.Value()
+                self.dataSource.create(item: itemToCreate, quickResult: { createResult in
+                    DispatchQueue.main.async {
+                        switch createResult {
+                        case .success(let createdItem):
+                            newBindingObject.value = createdItem
+                        case .error(let errors):
+                            newBindingObject.value = itemToCreate
+                            NSLog("Error Creating Item: \(itemToCreate) Error: \(errors)")
                         }
                     }
                 }, fullResult: { _ in

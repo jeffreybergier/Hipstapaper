@@ -49,7 +49,6 @@
 		504A3A3A1DF924D300EA46A9 /* URLItemSavingShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504A3A381DF924D300EA46A9 /* URLItemSavingShareViewController.swift */; };
 		504A3A3B1DF924D300EA46A9 /* URLItemSavingShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504A3A391DF924D300EA46A9 /* URLItemSavingShareViewController.xib */; };
 		504A3A3D1DF9312700EA46A9 /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504A3A3C1DF9312700EA46A9 /* FrameworkExtensions.swift */; };
-		504E1EE21DF5F44900DBD0C7 /* HipstapaperPersistence.framework in Copy Persistence Framework */ = {isa = PBXBuildFile; fileRef = 502C7FA31DF0E88F004E70AB /* HipstapaperPersistence.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		504FC0FC1DFA444A0014C787 /* URLItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504FC0FA1DFA444A0014C787 /* URLItemTableViewCell.swift */; };
 		504FC0FD1DFA444A0014C787 /* URLItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504FC0FB1DFA444A0014C787 /* URLItemTableViewCell.xib */; };
 		505B30441DEA692C00B74AE6 /* UIBindingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30411DEA692C00B74AE6 /* UIBindingManager.swift */; };
@@ -61,7 +60,6 @@
 		506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506A3F071DD6C10C00A5656E /* AppDelegate.swift */; };
 		506A3F0A1DD6C10D00A5656E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F091DD6C10D00A5656E /* Assets.xcassets */; };
 		506A3F0D1DD6C10D00A5656E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F0B1DD6C10D00A5656E /* MainMenu.xib */; };
-		5083834A1DF4EF3B00A433A5 /* HipstapaperPersistence.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 502C7FA31DF0E88F004E70AB /* HipstapaperPersistence.framework */; };
 		50A63FB01DF9D2BD0074FE2F /* URLItemWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A63FAE1DF9D2BD0074FE2F /* URLItemWebViewController.swift */; };
 		50A63FB11DF9D2BD0074FE2F /* URLItemWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50A63FAF1DF9D2BD0074FE2F /* URLItemWebViewController.xib */; };
 		50A63FB31DF9D9D40074FE2F /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A63FB21DF9D9D40074FE2F /* FrameworkExtensions.swift */; };
@@ -78,6 +76,8 @@
 		50D47B9F1DFC85B100E4FD2C /* URLItemPersistanceProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D47B981DFC85B100E4FD2C /* URLItemPersistanceProtocols.swift */; };
 		50D47BA01DFC85B100E4FD2C /* URLItemRealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D47B991DFC85B100E4FD2C /* URLItemRealmController.swift */; };
 		50D47BA11DFC85B100E4FD2C /* URLItemRealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D47B991DFC85B100E4FD2C /* URLItemRealmController.swift */; };
+		50D47BA61DFC910500E4FD2C /* HipstapaperPersistence.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 502C7FA31DF0E88F004E70AB /* HipstapaperPersistence.framework */; };
+		50D47BA91DFC919C00E4FD2C /* HipstapaperPersistence.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 502C7FA31DF0E88F004E70AB /* HipstapaperPersistence.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		50E21BC61DD6E466005151C7 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50E21BC51DD6E466005151C7 /* CloudKit.framework */; };
 		50E21BCC1DD8F2E3005151C7 /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E21BCB1DD8F2E3005151C7 /* FrameworkExtensions.swift */; };
 		50FA3BFC1DF4F3B100551325 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50FA3BFB1DF4F3B100551325 /* CloudKit.framework */; };
@@ -171,15 +171,14 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		504E1EE11DF5F40C00DBD0C7 /* Copy Persistence Framework */ = {
+		50D47BA71DFC918C00E4FD2C /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				504E1EE21DF5F44900DBD0C7 /* HipstapaperPersistence.framework in Copy Persistence Framework */,
+				50D47BA91DFC919C00E4FD2C /* HipstapaperPersistence.framework in CopyFiles */,
 			);
-			name = "Copy Persistence Framework";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		50FA3C021DF4F4E000551325 /* Embed Frameworks */ = {
@@ -308,7 +307,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5083834A1DF4EF3B00A433A5 /* HipstapaperPersistence.framework in Frameworks */,
+				50D47BA61DFC910500E4FD2C /* HipstapaperPersistence.framework in Frameworks */,
 				502C7F5D1DF0E510004E70AB /* CloudKit.framework in Frameworks */,
 				AECE6126E63C0870C90CF5B7 /* Pods_Hipstapaper_share_macOS.framework in Frameworks */,
 			);
@@ -660,9 +659,9 @@
 				502C7F461DF0E4D5004E70AB /* Sources */,
 				502C7F471DF0E4D5004E70AB /* Frameworks */,
 				502C7F481DF0E4D5004E70AB /* Resources */,
-				504E1EE11DF5F40C00DBD0C7 /* Copy Persistence Framework */,
 				F52041C746E8399DA2905119 /* 📦 Embed Pods Frameworks */,
 				17A5FDA723852BDDCFF23126 /* 📦 Copy Pods Resources */,
+				50D47BA71DFC918C00E4FD2C /* CopyFiles */,
 			);
 			buildRules = (
 			);

@@ -53,15 +53,7 @@ extension URLItemRealmController: URLItemCRUDSinglePersistanceType {
         }
     }
     
-    public func createItem(withID id: String?, result: URLItemResult?) {
-        self.create(item: .none, withID: id, result: result)
-    }
-    
     public func create(item: URLItemType?, result: URLItemResult?) {
-        self.create(item: item, withID: .none, result: result)
-    }
-    
-    private func create(item: URLItemType?, withID id: String?, result: URLItemResult?) {
         self.serialQueue.async {
             do {
                 let realm = try Realm()
@@ -70,9 +62,6 @@ extension URLItemRealmController: URLItemCRUDSinglePersistanceType {
                     newObject = URLItemRealmObject(urlItem: item, realm: realm)
                 } else {
                     newObject = URLItemRealmObject()
-                    if let overridingID = id {
-                        newObject.realmID = overridingID
-                    }
                 }
                 realm.beginWrite()
                 realm.add(newObject)
@@ -83,8 +72,7 @@ extension URLItemRealmController: URLItemCRUDSinglePersistanceType {
                 NSLog("createURLItemError: \(error)")
                 result?(.error([error]))
             }
-        }
-    }
+        }    }
     
     public func readItem(withID id: String, result: URLItemResult?) {
         self.serialQueue.async {
@@ -194,12 +182,6 @@ extension URLItemRealmController: URLItemCRUDSinglePersistanceType {
 extension URLItemRealmController: URLItemCRUDDoublePersistanceType {
     public func sync(sortedBy: URLItem.Sort, ascending: Bool, quickResult: URLItemIDsResult?, fullResult: URLItemIDsResult?) {
         self.reloadData(sortedBy: sortedBy, ascending: ascending) { result in
-            quickResult?(result)
-            fullResult?(result)
-        }
-    }
-    public func createItem(withID id: String?, quickResult: URLItemResult?, fullResult: URLItemResult?) {
-        self.createItem(withID: id) { result in
             quickResult?(result)
             fullResult?(result)
         }

@@ -51,24 +51,13 @@ extension URLItemCloudKitController: URLItemCRUDSinglePersistanceType {
         }
     }
     
-    public func createItem(withID inputID: String?, result: URLItemResult?) {
-        self.create(item: .none, withID: inputID, result: result)
-    }
-    
     public func create(item: URLItemType?, result: URLItemResult?) {
-        self.create(item: item, withID: .none, result: result)
-    }
-    
-    private func create(item: URLItemType?, withID id: String?, result: URLItemResult?) {
         self.serialQueue.async {
             let newObject: URLItem.CloudKitObject
             if let item = item {
                 newObject = URLItem.CloudKitObject(urlItem: item)
             } else {
                 newObject = URLItem.CloudKitObject()
-                if let overridingID = id {
-                    newObject.cloudKitID = overridingID
-                }
             }
             self.privateDB.save(newObject.record) { (record, error) in
                 self.serialQueue.async {
@@ -83,8 +72,7 @@ extension URLItemCloudKitController: URLItemCRUDSinglePersistanceType {
                     }
                 }
             }
-        }
-    }
+        }    }
     
     public func readItem(withID id: String, result: URLItemResult?) {
         self.serialQueue.async {
@@ -144,12 +132,6 @@ extension URLItemCloudKitController: URLItemCRUDSinglePersistanceType {
 extension URLItemCloudKitController: URLItemCRUDDoublePersistanceType {
     public func sync(sortedBy: URLItem.Sort, ascending: Bool, quickResult: URLItemIDsResult?, fullResult: URLItemIDsResult?) {
         self.reloadData(sortedBy: sortedBy, ascending: ascending) { result in
-            quickResult?(result)
-            fullResult?(result)
-        }
-    }
-    public func createItem(withID id: String?, quickResult: URLItemResult?, fullResult: URLItemResult?) {
-        self.createItem(withID: id) { result in
             quickResult?(result)
             fullResult?(result)
         }
