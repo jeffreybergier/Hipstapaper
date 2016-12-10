@@ -17,10 +17,15 @@ open class URLItemPersistanceController {
 
 extension URLItemPersistanceController: URLItemCRUDDoublePersistanceType {
 
+
+    public func sync(sortedBy: URLItem.Sort, ascending: Bool, quickResult: URLItemIDsResult?, fullResult: URLItemIDsResult?) {
+        self.sync(attemptNumber: 0, sortedBy: sortedBy, ascending: ascending, quickResult: quickResult, fullResult: fullResult)
+    }
+    
     // ugh this is pretty bad pyramid of doom
     // it basically just calls back the completion handlers on error
     // if there is success it keeps going forward with the syncing process
-    public func sync(sortedBy: URLItem.Sort, ascending: Bool, quickResult: URLItemIDsResult?, fullResult: URLItemIDsResult?) {
+    private func sync(attemptNumber: Int, sortedBy: URLItem.Sort, ascending: Bool, quickResult: URLItemIDsResult?, fullResult: URLItemIDsResult?) {
         self.realmController.allItems(sortedBy: sortedBy, ascending: ascending) { realmResult in
             // always call the quick result with the results of realm
             quickResult?(realmResult)
@@ -39,7 +44,7 @@ extension URLItemPersistanceController: URLItemCRUDDoublePersistanceType {
                     case .success(let sortedCloudIDs):
                         // now the cloud sync and the realm sync were both successful, time to sync
                         let syncer = RealmCloudKitSyncer(realmController: self.realmController, cloudKitController: self.cloudKitController, sortedRealmIDs: sortedRealmIDs, sortedCloudIDs: sortedCloudIDs)
-
+                        
                         // call to sync with the full completion handler
                         syncer.sync() { syncResult in
                             switch syncResult {
@@ -54,7 +59,11 @@ extension URLItemPersistanceController: URLItemCRUDDoublePersistanceType {
                                     fullResult?(realmResult)
                                 case .changes:
                                     // if there are changes, recurse
-                                    self.sync(sortedBy: sortedBy, ascending: ascending, quickResult: .none, fullResult: fullResult)
+                                    if attemptNumber >= 3 {
+                                        fullResult?(realmResult)
+                                    } else {
+                                        self.sync(attemptNumber: attemptNumber + 1, sortedBy: sortedBy, ascending: ascending, quickResult: .none, fullResult: fullResult)
+                                    }
                                 }
                             }
                         }
