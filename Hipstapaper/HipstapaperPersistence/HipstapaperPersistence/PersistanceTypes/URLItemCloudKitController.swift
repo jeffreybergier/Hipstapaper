@@ -23,14 +23,14 @@ open class URLItemCloudKitController {
 extension URLItemCloudKitController: URLItemQuerySinglePersistanceType {
     
     public func tagItems(result: TagListResult?) {
-        
+        result?(.error([NSError()]))
     }
     public func unarchivedItems(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?) {
         let predicate = NSPredicate(format: "archived = NO")
         self.allItems(matchingPredicate: predicate, sortedBy: sortedBy, ascending: ascending, result: result)
     }
     public func allItems(for tag: TagItemType, result: URLItemIDsResult?) {
-        
+        result?(.error([NSError()]))
     }
     
 }

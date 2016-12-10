@@ -20,7 +20,7 @@ class URLItemRealmObject: Object, URLItemType {
     
     var tags: [TagItemType] {
         get {
-            return Array(self.tagList.map({ TagItem.Value(name: $0.name) }))
+            return Array(self.tagList.map({ TagItem.Value(name: $0.name, itemCount: $0.items.count) }))
         }
         set {
             fatalError("Cannot set tag list directly on a realm object without going through the controller")

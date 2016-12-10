@@ -40,7 +40,17 @@ open class URLItemRealmController {
 
 extension URLItemRealmController: URLItemQuerySinglePersistanceType {
     public func tagItems(result: TagListResult?) {
-        
+        self.serialQueue.async {
+            do {
+                let realm = try Realm()
+                let realmItems = type(of: self).allTagItems(from: realm)
+                let items = realmItems.map({ TagItem.Value(name: $0.name, itemCount: $0.items.count) })
+                result?(.success(Array(items)))
+            } catch {
+                NSLog("realmSyncError: \(error)")
+                result?(.error([error]))
+            }
+        }
     }
     public func unarchivedItems(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?) {
         self.serialQueue.async {
@@ -55,7 +65,7 @@ extension URLItemRealmController: URLItemQuerySinglePersistanceType {
         }
     }
     public func allItems(for tag: TagItemType, result: URLItemIDsResult?) {
-        
+        result?(.error([NSError()]))
     }
 }
 
@@ -164,6 +174,11 @@ extension URLItemRealmController {
         let results = realm.objects(URLItemRealmObject.self).filter("archived = NO").sorted(byProperty: sortedBy.realmPropertyName, ascending: ascending)
         let ids = results.map({ $0.realmID })
         return Array(ids)
+    }
+    
+    fileprivate class func allTagItems(from realm: Realm) -> Results<TagItemRealmObject> {
+        let results = realm.objects(TagItemRealmObject.self).filter("items.count > 0").sorted(byProperty: "name", ascending: false)
+        return results
     }
     
     // MARK: Load individual items
