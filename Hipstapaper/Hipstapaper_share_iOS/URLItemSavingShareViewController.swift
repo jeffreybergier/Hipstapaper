@@ -74,7 +74,7 @@ class URLItemSavingShareViewController: UIViewController {
                 // if there are URLs, we need to just grab the first one
                 guard let url = urls.first else { self.uiState = .noItemsError; return; }
                 // create the item in the realm
-                self.createItem(with: url, in: RealmURLItemSyncingController()) { realmResult in
+                self.createItem(with: url, in: URLItemRealmController()) { realmResult in
                     switch realmResult {
                     case .error:
                         // if there is an error change error state
@@ -87,7 +87,7 @@ class URLItemSavingShareViewController: UIViewController {
                             self.extensionContext!.completeRequest(returningItems: []) { _ in
                                 // in the completion handler, we can perform background work
                                 // so now its time to save it to the cloud
-                                self.createAnotherItem(withRealmItem: realmItem, in: CloudKitURLItemSyncingController(), completionHandler: .none)
+                                self.createAnotherItem(withRealmItem: realmItem, in: URLItemCloudKitController(), completionHandler: .none)
                             }
                         }
                     }
@@ -96,8 +96,8 @@ class URLItemSavingShareViewController: UIViewController {
         }
     }
 
-    private func createItem(with url: URL, in realm: SingleSourcePersistenceType, completionHandler: URLItemResult?) {
-        let realm: SingleSourcePersistenceType = RealmURLItemSyncingController()
+    private func createItem(with url: URL, in realm: URLItemCRUDSinglePersistanceType, completionHandler: URLItemResult?) {
+        let realm: URLItemCRUDSinglePersistanceType = URLItemRealmController()
         realm.createItem(withID: .none) { realmCreateResult in
             switch realmCreateResult {
             case .error(let errors):
@@ -118,7 +118,7 @@ class URLItemSavingShareViewController: UIViewController {
         }
     }
     
-    private func createAnotherItem(withRealmItem realmItem: URLItemType, in cloud: SingleSourcePersistenceType, completionHandler: URLItemResult?) {
+    private func createAnotherItem(withRealmItem realmItem: URLItemType, in cloud: URLItemCRUDSinglePersistanceType, completionHandler: URLItemResult?) {
         cloud.createItem(withID: realmItem.cloudKitID) { cloudCreateResult in
             switch cloudCreateResult {
             case .error(let errors):

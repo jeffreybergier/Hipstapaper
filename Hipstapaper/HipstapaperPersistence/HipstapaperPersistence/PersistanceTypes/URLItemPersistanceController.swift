@@ -6,13 +6,17 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
-open class CombinedURLItemSyncingController: DoubleSourcePersistenceType {
+open class URLItemPersistanceController {
     
-    private let realmController: SingleSourcePersistenceType = RealmURLItemSyncingController()
-    private let cloudKitController: SingleSourcePersistenceType = CloudKitURLItemSyncingController()
+    fileprivate let realmController: URLItemCRUDSinglePersistanceType = URLItemRealmController()
+    fileprivate let cloudKitController: URLItemCRUDSinglePersistanceType = URLItemCloudKitController()
     
     public init() {}
     
+}
+
+extension URLItemPersistanceController: URLItemCRUDDoublePersistanceType {
+
     // ugh this is pretty bad pyramid of doom
     // it basically just calls back the completion handlers on error
     // if there is success it keeps going forward with the syncing process

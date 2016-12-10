@@ -59,7 +59,7 @@ class UIBindingManager: NSObject {
     
     // External Interface
     
-    weak internal var dataSource: DoubleSourcePersistenceType? {
+    weak internal var dataSource: URLItemCRUDDoublePersistanceType? {
         didSet {
             self.reloadData()
         }

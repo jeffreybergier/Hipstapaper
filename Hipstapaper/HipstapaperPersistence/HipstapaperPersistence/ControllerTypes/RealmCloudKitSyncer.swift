@@ -18,8 +18,8 @@ class RealmCloudKitSyncer {
     
     private typealias URLItemResults = (([Result<URLItemType>]) -> Void)
     
-    private let realmController: SingleSourcePersistenceType
-    private let cloudKitController: SingleSourcePersistenceType
+    private let realmController: URLItemCRUDSinglePersistanceType
+    private let cloudKitController: URLItemCRUDSinglePersistanceType
     private let originalSortedRealmIDs: [String]
     private let originalSortedCloudIDs: [String]
     
@@ -27,7 +27,7 @@ class RealmCloudKitSyncer {
     // http://stackoverflow.com/questions/33512477/adding-to-array-in-parallel
     private let serialQueue = DispatchQueue(label: "RealmCloudKitSyncer", qos: .userInitiated)
     
-    init(realmController: SingleSourcePersistenceType, cloudKitController: SingleSourcePersistenceType, sortedRealmIDs: [String], sortedCloudIDs: [String]) {
+    init(realmController: URLItemCRUDSinglePersistanceType, cloudKitController: URLItemCRUDSinglePersistanceType, sortedRealmIDs: [String], sortedCloudIDs: [String]) {
         self.realmController = realmController
         self.cloudKitController = cloudKitController
         self.originalSortedRealmIDs = sortedRealmIDs
@@ -166,7 +166,7 @@ class RealmCloudKitSyncer {
         }
     }
     
-    private func update(items: [URLItemType], in storage: SingleSourcePersistenceType, resultsHandler: @escaping URLItemResults) {
+    private func update(items: [URLItemType], in storage: URLItemCRUDSinglePersistanceType, resultsHandler: @escaping URLItemResults) {
         var results = [Result<URLItemType>]() {
             didSet {
                 if results.count == items.count {
@@ -182,7 +182,7 @@ class RealmCloudKitSyncer {
     }
     
     private enum Location {
-        case cloud(SingleSourcePersistenceType), realm(SingleSourcePersistenceType)
+        case cloud(URLItemCRUDSinglePersistanceType), realm(URLItemCRUDSinglePersistanceType)
     }
     
     private func add(items: [URLItemType], toStorage location: Location, resultsHandler: @escaping URLItemResults) {
@@ -195,7 +195,7 @@ class RealmCloudKitSyncer {
         }
         for unsavedItem in items {
             let id: String
-            let storage: SingleSourcePersistenceType
+            let storage: URLItemCRUDSinglePersistanceType
             switch location {
             case .cloud(let cloudController):
                 id = unsavedItem.cloudKitID

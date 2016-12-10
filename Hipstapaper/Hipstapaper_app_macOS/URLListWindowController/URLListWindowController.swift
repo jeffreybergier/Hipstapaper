@@ -29,14 +29,14 @@ class URLListWindowController: NSWindowController {
     // MARK: Data Source
     
     private var syncController: SyncController = .combined
-    private(set) lazy var dataSource: DoubleSourcePersistenceType = {
+    private(set) lazy var dataSource: URLItemCRUDDoublePersistanceType = {
         switch self.syncController {
         case .combined:
-            return CombinedURLItemSyncingController()
+            return URLItemPersistanceController()
         case .realmOnly:
-            return RealmURLItemSyncingController()
+            return URLItemRealmController()
         case .cloudKitOnly:
-            return CloudKitURLItemSyncingController()
+            return URLItemCloudKitController()
         }
     }()
     

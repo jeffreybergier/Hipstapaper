@@ -15,7 +15,7 @@ public typealias SuccessResult = ((Result<Void>) -> Void)
 // It allows me to return the available results quickly
 // But also keep the UI showing that network activity is happening
 
-public protocol DoubleSourcePersistenceType: class {
+public protocol URLItemCRUDDoublePersistanceType: class {
     func sync(sortedBy: URLItem.Sort, ascending: Bool, quickResult: URLItemIDsResult?, fullResult: URLItemIDsResult?)
     func createItem(withID id: String?, quickResult: URLItemResult?, fullResult: URLItemResult?)
     func create(item: URLItemType?, quickResult: URLItemResult?, fullResult: URLItemResult?)
@@ -25,7 +25,7 @@ public protocol DoubleSourcePersistenceType: class {
 }
 
 // This protocol is intended for systems that use either a local database or a cloud storage system
-public protocol SingleSourcePersistenceType {
+public protocol URLItemCRUDSinglePersistanceType {
     func reloadData(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?)
     func createItem(withID: String?, result: URLItemResult?)
     func create(item: URLItemType?, result: URLItemResult?)

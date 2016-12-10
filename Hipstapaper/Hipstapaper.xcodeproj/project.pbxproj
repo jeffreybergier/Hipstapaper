@@ -20,11 +20,7 @@
 		502C7F5D1DF0E510004E70AB /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50E21BC51DD6E466005151C7 /* CloudKit.framework */; };
 		502C7F731DF0E6B0004E70AB /* HipstapaperPersistence.h in Headers */ = {isa = PBXBuildFile; fileRef = 502C7F651DF0E6B0004E70AB /* HipstapaperPersistence.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		502C7F7E1DF0E797004E70AB /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F7D1DF0E797004E70AB /* Result.swift */; };
-		502C7F851DF0E7A6004E70AB /* CloudKitURLItemSyncingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F801DF0E7A6004E70AB /* CloudKitURLItemSyncingController.swift */; };
-		502C7F871DF0E7A6004E70AB /* CombinedURLItemSyncingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F811DF0E7A6004E70AB /* CombinedURLItemSyncingController.swift */; };
 		502C7F891DF0E7A6004E70AB /* RealmCloudKitSyncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F821DF0E7A6004E70AB /* RealmCloudKitSyncer.swift */; };
-		502C7F8B1DF0E7A6004E70AB /* RealmURLItemSyncingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F831DF0E7A6004E70AB /* RealmURLItemSyncingController.swift */; };
-		502C7F8D1DF0E7A6004E70AB /* SyncingPersistenceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F841DF0E7A6004E70AB /* SyncingPersistenceProtocol.swift */; };
 		502C7F941DF0E7AE004E70AB /* TagItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F8F1DF0E7AE004E70AB /* TagItem.swift */; };
 		502C7F961DF0E7AE004E70AB /* TagItemRealmObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F901DF0E7AE004E70AB /* TagItemRealmObject.swift */; };
 		502C7F981DF0E7AE004E70AB /* URLItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F911DF0E7AE004E70AB /* URLItem.swift */; };
@@ -37,16 +33,8 @@
 		502C7FB91DF0E88F004E70AB /* HipstapaperPersistence.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 502C7FA31DF0E88F004E70AB /* HipstapaperPersistence.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		502C7FC11DF0E8A6004E70AB /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F7D1DF0E797004E70AB /* Result.swift */; };
 		502C7FC21DF0E8A6004E70AB /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F7D1DF0E797004E70AB /* Result.swift */; };
-		502C7FC31DF0E8AA004E70AB /* CloudKitURLItemSyncingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F801DF0E7A6004E70AB /* CloudKitURLItemSyncingController.swift */; };
-		502C7FC41DF0E8AA004E70AB /* CombinedURLItemSyncingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F811DF0E7A6004E70AB /* CombinedURLItemSyncingController.swift */; };
 		502C7FC51DF0E8AA004E70AB /* RealmCloudKitSyncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F821DF0E7A6004E70AB /* RealmCloudKitSyncer.swift */; };
-		502C7FC61DF0E8AA004E70AB /* RealmURLItemSyncingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F831DF0E7A6004E70AB /* RealmURLItemSyncingController.swift */; };
-		502C7FC71DF0E8AA004E70AB /* SyncingPersistenceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F841DF0E7A6004E70AB /* SyncingPersistenceProtocol.swift */; };
-		502C7FC81DF0E8AB004E70AB /* CloudKitURLItemSyncingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F801DF0E7A6004E70AB /* CloudKitURLItemSyncingController.swift */; };
-		502C7FC91DF0E8AB004E70AB /* CombinedURLItemSyncingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F811DF0E7A6004E70AB /* CombinedURLItemSyncingController.swift */; };
 		502C7FCA1DF0E8AB004E70AB /* RealmCloudKitSyncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F821DF0E7A6004E70AB /* RealmCloudKitSyncer.swift */; };
-		502C7FCB1DF0E8AB004E70AB /* RealmURLItemSyncingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F831DF0E7A6004E70AB /* RealmURLItemSyncingController.swift */; };
-		502C7FCC1DF0E8AB004E70AB /* SyncingPersistenceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F841DF0E7A6004E70AB /* SyncingPersistenceProtocol.swift */; };
 		502C7FCD1DF0E8AF004E70AB /* TagItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F8F1DF0E7AE004E70AB /* TagItem.swift */; };
 		502C7FCE1DF0E8AF004E70AB /* TagItemRealmObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F901DF0E7AE004E70AB /* TagItemRealmObject.swift */; };
 		502C7FCF1DF0E8AF004E70AB /* URLItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C7F911DF0E7AE004E70AB /* URLItem.swift */; };
@@ -79,9 +67,17 @@
 		50A63FB31DF9D9D40074FE2F /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A63FB21DF9D9D40074FE2F /* FrameworkExtensions.swift */; };
 		50A63FB41DF9D9D40074FE2F /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A63FB21DF9D9D40074FE2F /* FrameworkExtensions.swift */; };
 		50A63FB61DFA401E0074FE2F /* UIBindingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A63FB51DFA401E0074FE2F /* UIBindingManager.swift */; };
-		50D47B751DFB1F6800E4FD2C /* KeyObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D47B741DFB1F6800E4FD2C /* KeyObserver.swift */; };
-		50D47B761DFB1F6800E4FD2C /* KeyObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D47B741DFB1F6800E4FD2C /* KeyObserver.swift */; };
 		50D47B781DFB220F00E4FD2C /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D47B771DFB220F00E4FD2C /* FrameworkExtensions.swift */; };
+		50D47B941DFC85A200E4FD2C /* KeyObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D47B931DFC85A200E4FD2C /* KeyObserver.swift */; };
+		50D47B951DFC85A200E4FD2C /* KeyObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D47B931DFC85A200E4FD2C /* KeyObserver.swift */; };
+		50D47B9A1DFC85B100E4FD2C /* URLItemCloudKitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D47B961DFC85B100E4FD2C /* URLItemCloudKitController.swift */; };
+		50D47B9B1DFC85B100E4FD2C /* URLItemCloudKitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D47B961DFC85B100E4FD2C /* URLItemCloudKitController.swift */; };
+		50D47B9C1DFC85B100E4FD2C /* URLItemPersistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D47B971DFC85B100E4FD2C /* URLItemPersistanceController.swift */; };
+		50D47B9D1DFC85B100E4FD2C /* URLItemPersistanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D47B971DFC85B100E4FD2C /* URLItemPersistanceController.swift */; };
+		50D47B9E1DFC85B100E4FD2C /* URLItemPersistanceProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D47B981DFC85B100E4FD2C /* URLItemPersistanceProtocols.swift */; };
+		50D47B9F1DFC85B100E4FD2C /* URLItemPersistanceProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D47B981DFC85B100E4FD2C /* URLItemPersistanceProtocols.swift */; };
+		50D47BA01DFC85B100E4FD2C /* URLItemRealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D47B991DFC85B100E4FD2C /* URLItemRealmController.swift */; };
+		50D47BA11DFC85B100E4FD2C /* URLItemRealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D47B991DFC85B100E4FD2C /* URLItemRealmController.swift */; };
 		50E21BC61DD6E466005151C7 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50E21BC51DD6E466005151C7 /* CloudKit.framework */; };
 		50E21BCC1DD8F2E3005151C7 /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E21BCB1DD8F2E3005151C7 /* FrameworkExtensions.swift */; };
 		50FA3BFC1DF4F3B100551325 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50FA3BFB1DF4F3B100551325 /* CloudKit.framework */; };
@@ -224,11 +220,7 @@
 		502C7F701DF0E6B0004E70AB /* HipstapaperPersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HipstapaperPersistenceTests.swift; sourceTree = "<group>"; };
 		502C7F721DF0E6B0004E70AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		502C7F7D1DF0E797004E70AB /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
-		502C7F801DF0E7A6004E70AB /* CloudKitURLItemSyncingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitURLItemSyncingController.swift; sourceTree = "<group>"; };
-		502C7F811DF0E7A6004E70AB /* CombinedURLItemSyncingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CombinedURLItemSyncingController.swift; sourceTree = "<group>"; };
 		502C7F821DF0E7A6004E70AB /* RealmCloudKitSyncer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmCloudKitSyncer.swift; sourceTree = "<group>"; };
-		502C7F831DF0E7A6004E70AB /* RealmURLItemSyncingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmURLItemSyncingController.swift; sourceTree = "<group>"; };
-		502C7F841DF0E7A6004E70AB /* SyncingPersistenceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncingPersistenceProtocol.swift; sourceTree = "<group>"; };
 		502C7F8F1DF0E7AE004E70AB /* TagItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagItem.swift; sourceTree = "<group>"; };
 		502C7F901DF0E7AE004E70AB /* TagItemRealmObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagItemRealmObject.swift; sourceTree = "<group>"; };
 		502C7F911DF0E7AE004E70AB /* URLItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItem.swift; sourceTree = "<group>"; };
@@ -264,8 +256,12 @@
 		50A63FAF1DF9D2BD0074FE2F /* URLItemWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLItemWebViewController.xib; sourceTree = "<group>"; };
 		50A63FB21DF9D9D40074FE2F /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		50A63FB51DFA401E0074FE2F /* UIBindingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIBindingManager.swift; sourceTree = "<group>"; };
-		50D47B741DFB1F6800E4FD2C /* KeyObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyObserver.swift; sourceTree = "<group>"; };
 		50D47B771DFB220F00E4FD2C /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
+		50D47B931DFC85A200E4FD2C /* KeyObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyObserver.swift; sourceTree = "<group>"; };
+		50D47B961DFC85B100E4FD2C /* URLItemCloudKitController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemCloudKitController.swift; sourceTree = "<group>"; };
+		50D47B971DFC85B100E4FD2C /* URLItemPersistanceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemPersistanceController.swift; sourceTree = "<group>"; };
+		50D47B981DFC85B100E4FD2C /* URLItemPersistanceProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemPersistanceProtocols.swift; sourceTree = "<group>"; };
+		50D47B991DFC85B100E4FD2C /* URLItemRealmController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemRealmController.swift; sourceTree = "<group>"; };
 		50E21BC51DD6E466005151C7 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		50E21BCB1DD8F2E3005151C7 /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		50FA3BFA1DF4F3A400551325 /* Hipstapaper_app_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper_app_iOS.entitlements; sourceTree = "<group>"; };
@@ -432,7 +428,7 @@
 			children = (
 				502C7F7D1DF0E797004E70AB /* Result.swift */,
 				50A63FB21DF9D9D40074FE2F /* FrameworkExtensions.swift */,
-				50D47B741DFB1F6800E4FD2C /* KeyObserver.swift */,
+				50D47B921DFC855600E4FD2C /* PersistanceTypes */,
 				502C7F7B1DF0E6F7004E70AB /* ControllerTypes */,
 				502C7F7C1DF0E700004E70AB /* ModelTypes */,
 			);
@@ -442,11 +438,8 @@
 		502C7F7B1DF0E6F7004E70AB /* ControllerTypes */ = {
 			isa = PBXGroup;
 			children = (
-				502C7F841DF0E7A6004E70AB /* SyncingPersistenceProtocol.swift */,
 				502C7F821DF0E7A6004E70AB /* RealmCloudKitSyncer.swift */,
-				502C7F801DF0E7A6004E70AB /* CloudKitURLItemSyncingController.swift */,
-				502C7F831DF0E7A6004E70AB /* RealmURLItemSyncingController.swift */,
-				502C7F811DF0E7A6004E70AB /* CombinedURLItemSyncingController.swift */,
+				50D47B931DFC85A200E4FD2C /* KeyObserver.swift */,
 			);
 			path = ControllerTypes;
 			sourceTree = "<group>";
@@ -546,6 +539,17 @@
 				506D98121DD6CFFB002E4F54 /* Hipstapaper_app_macOS.entitlements */,
 			);
 			path = Hipstapaper_app_macOS;
+			sourceTree = "<group>";
+		};
+		50D47B921DFC855600E4FD2C /* PersistanceTypes */ = {
+			isa = PBXGroup;
+			children = (
+				50D47B981DFC85B100E4FD2C /* URLItemPersistanceProtocols.swift */,
+				50D47B961DFC85B100E4FD2C /* URLItemCloudKitController.swift */,
+				50D47B991DFC85B100E4FD2C /* URLItemRealmController.swift */,
+				50D47B971DFC85B100E4FD2C /* URLItemPersistanceController.swift */,
+			);
+			path = PersistanceTypes;
 			sourceTree = "<group>";
 		};
 		50E21BC41DD6E465005151C7 /* Frameworks */ = {
@@ -1222,18 +1226,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				502C7F8D1DF0E7A6004E70AB /* SyncingPersistenceProtocol.swift in Sources */,
+				50D47B9E1DFC85B100E4FD2C /* URLItemPersistanceProtocols.swift in Sources */,
 				502C7F981DF0E7AE004E70AB /* URLItem.swift in Sources */,
 				502C7F9A1DF0E7AE004E70AB /* URLItemCloudKitObject.swift in Sources */,
 				502C7F941DF0E7AE004E70AB /* TagItem.swift in Sources */,
+				50D47B9A1DFC85B100E4FD2C /* URLItemCloudKitController.swift in Sources */,
+				50D47B9C1DFC85B100E4FD2C /* URLItemPersistanceController.swift in Sources */,
 				502C7F891DF0E7A6004E70AB /* RealmCloudKitSyncer.swift in Sources */,
-				50D47B751DFB1F6800E4FD2C /* KeyObserver.swift in Sources */,
-				502C7F8B1DF0E7A6004E70AB /* RealmURLItemSyncingController.swift in Sources */,
+				50D47BA01DFC85B100E4FD2C /* URLItemRealmController.swift in Sources */,
 				50A63FB31DF9D9D40074FE2F /* FrameworkExtensions.swift in Sources */,
-				502C7F871DF0E7A6004E70AB /* CombinedURLItemSyncingController.swift in Sources */,
 				502C7F7E1DF0E797004E70AB /* Result.swift in Sources */,
 				502C7F961DF0E7AE004E70AB /* TagItemRealmObject.swift in Sources */,
-				502C7F851DF0E7A6004E70AB /* CloudKitURLItemSyncingController.swift in Sources */,
+				50D47B941DFC85A200E4FD2C /* KeyObserver.swift in Sources */,
 				502C7F9C1DF0E7AE004E70AB /* URLItemRealmObject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1242,18 +1246,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				502C7FC71DF0E8AA004E70AB /* SyncingPersistenceProtocol.swift in Sources */,
+				50D47B9F1DFC85B100E4FD2C /* URLItemPersistanceProtocols.swift in Sources */,
 				502C7FCF1DF0E8AF004E70AB /* URLItem.swift in Sources */,
 				502C7FD01DF0E8AF004E70AB /* URLItemCloudKitObject.swift in Sources */,
 				502C7FCD1DF0E8AF004E70AB /* TagItem.swift in Sources */,
+				50D47B9B1DFC85B100E4FD2C /* URLItemCloudKitController.swift in Sources */,
+				50D47B9D1DFC85B100E4FD2C /* URLItemPersistanceController.swift in Sources */,
 				502C7FC51DF0E8AA004E70AB /* RealmCloudKitSyncer.swift in Sources */,
-				50D47B761DFB1F6800E4FD2C /* KeyObserver.swift in Sources */,
-				502C7FC61DF0E8AA004E70AB /* RealmURLItemSyncingController.swift in Sources */,
+				50D47BA11DFC85B100E4FD2C /* URLItemRealmController.swift in Sources */,
 				50A63FB41DF9D9D40074FE2F /* FrameworkExtensions.swift in Sources */,
-				502C7FC41DF0E8AA004E70AB /* CombinedURLItemSyncingController.swift in Sources */,
 				502C7FC11DF0E8A6004E70AB /* Result.swift in Sources */,
 				502C7FCE1DF0E8AF004E70AB /* TagItemRealmObject.swift in Sources */,
-				502C7FC31DF0E8AA004E70AB /* CloudKitURLItemSyncingController.swift in Sources */,
+				50D47B951DFC85A200E4FD2C /* KeyObserver.swift in Sources */,
 				502C7FD11DF0E8AF004E70AB /* URLItemRealmObject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1262,17 +1266,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				502C7FC81DF0E8AB004E70AB /* CloudKitURLItemSyncingController.swift in Sources */,
 				502C7FC21DF0E8A6004E70AB /* Result.swift in Sources */,
 				502C7FB31DF0E88F004E70AB /* HipstapaperPersistence_macOSTests.swift in Sources */,
 				502C7FD21DF0E8B0004E70AB /* TagItem.swift in Sources */,
 				502C7FCA1DF0E8AB004E70AB /* RealmCloudKitSyncer.swift in Sources */,
 				502C7FD61DF0E8B0004E70AB /* URLItemRealmObject.swift in Sources */,
-				502C7FCB1DF0E8AB004E70AB /* RealmURLItemSyncingController.swift in Sources */,
 				502C7FD41DF0E8B0004E70AB /* URLItem.swift in Sources */,
-				502C7FC91DF0E8AB004E70AB /* CombinedURLItemSyncingController.swift in Sources */,
 				502C7FD51DF0E8B0004E70AB /* URLItemCloudKitObject.swift in Sources */,
-				502C7FCC1DF0E8AB004E70AB /* SyncingPersistenceProtocol.swift in Sources */,
 				502C7FD31DF0E8B0004E70AB /* TagItemRealmObject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

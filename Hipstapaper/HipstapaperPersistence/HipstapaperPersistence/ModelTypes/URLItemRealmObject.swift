@@ -43,7 +43,7 @@ class URLItemRealmObject: Object, URLItemType {
         self.urlString = urlItem.urlString
         self.archived = urlItem.archived
         self.modificationDate = urlItem.modificationDate
-        self.tagList = RealmURLItemSyncingController.loadTagListMatching(tagItemArray: urlItem.tags, from: realm)
+        self.tagList = URLItemRealmController.loadTagListMatching(tagItemArray: urlItem.tags, from: realm)
     }
 }
 

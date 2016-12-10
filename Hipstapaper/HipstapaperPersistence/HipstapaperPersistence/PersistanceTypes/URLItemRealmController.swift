@@ -8,7 +8,7 @@
 
 import RealmSwift
 
-open class RealmURLItemSyncingController: SingleSourcePersistenceType {
+open class URLItemRealmController {
     
     #if os(OSX)
     private static let appGroupIdentifier = "V6ESYGU6CV.hipstapaper.appgroup"
@@ -21,7 +21,7 @@ open class RealmURLItemSyncingController: SingleSourcePersistenceType {
     // also opens up the possibility to setting an encryption key
     private static let configureRealmDirectory: Void = {
         let directory = FileManager.default.containerURL(
-            forSecurityApplicationGroupIdentifier: RealmURLItemSyncingController.appGroupIdentifier
+            forSecurityApplicationGroupIdentifier: URLItemRealmController.appGroupIdentifier
             )!
         let realmPath = directory.appendingPathComponent("db.realm")
         var config = Realm.Configuration.defaultConfiguration
@@ -30,24 +30,24 @@ open class RealmURLItemSyncingController: SingleSourcePersistenceType {
         Realm.Configuration.defaultConfiguration = config
     }()
     
-    public private(set) var ids: Set<String> = []
-    
-    private let serialQueue = DispatchQueue(label: "RealmURLItemSyncingController", qos: .userInitiated)
+    fileprivate let serialQueue = DispatchQueue(label: "RealmURLItemSyncingController", qos: .userInitiated)
     
     public init() {
         // call the singleton to configure it
-        RealmURLItemSyncingController.configureRealmDirectory
+        URLItemRealmController.configureRealmDirectory
     }
-    
+}
+
+extension URLItemRealmController: URLItemCRUDSinglePersistanceType {
+
     public func reloadData(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?) {
         self.serialQueue.async {
             do {
                 let realm = try Realm()
-                let ids = RealmURLItemSyncingController.allRealmObjectIDs(from: realm, sortedBy: sortedBy, ascending: ascending)
+                let ids = URLItemRealmController.allRealmObjectIDs(from: realm, sortedBy: sortedBy, ascending: ascending)
                 result?(.success(ids))
             } catch {
                 NSLog("realmSyncError: \(error)")
-                self.ids = []
                 result?(.error([error]))
             }
         }
@@ -191,7 +191,7 @@ open class RealmURLItemSyncingController: SingleSourcePersistenceType {
     }
 }
 
-extension RealmURLItemSyncingController: DoubleSourcePersistenceType {
+extension URLItemRealmController: URLItemCRUDDoublePersistanceType {
     public func sync(sortedBy: URLItem.Sort, ascending: Bool, quickResult: URLItemIDsResult?, fullResult: URLItemIDsResult?) {
         self.reloadData(sortedBy: sortedBy, ascending: ascending) { result in
             quickResult?(result)

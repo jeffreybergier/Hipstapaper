@@ -8,16 +8,20 @@
 
 import CloudKit
 
-open class CloudKitURLItemSyncingController: SingleSourcePersistenceType {
+open class URLItemCloudKitController {
     
-    private let recordType = "URLItem"
-    private let privateDB = CKContainer(identifier: "iCloud.com.saturdayapps.Hipstapaper").privateCloudDatabase
-    private let serialQueue = DispatchQueue(label: "CloudKitURLItemSyncingController", qos: .userInitiated)
+    fileprivate let recordType = "URLItem"
+    fileprivate let privateDB = CKContainer(identifier: "iCloud.com.saturdayapps.Hipstapaper").privateCloudDatabase
+    fileprivate let serialQueue = DispatchQueue(label: "CloudKitURLItemSyncingController", qos: .userInitiated)
     
-    private var objectMap: [String : URLItem.CloudKitObject] = [:]
+    fileprivate var objectMap: [String : URLItem.CloudKitObject] = [:]
     
     public init() {}
     
+}
+
+extension URLItemCloudKitController: URLItemCRUDSinglePersistanceType {
+
     public func reloadData(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?) {
         self.serialQueue.async {
             let predicate = NSPredicate(value: true)
@@ -137,7 +141,7 @@ open class CloudKitURLItemSyncingController: SingleSourcePersistenceType {
     }
 }
 
-extension CloudKitURLItemSyncingController: DoubleSourcePersistenceType {
+extension URLItemCloudKitController: URLItemCRUDDoublePersistanceType {
     public func sync(sortedBy: URLItem.Sort, ascending: Bool, quickResult: URLItemIDsResult?, fullResult: URLItemIDsResult?) {
         self.reloadData(sortedBy: sortedBy, ascending: ascending) { result in
             quickResult?(result)

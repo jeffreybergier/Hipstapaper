@@ -13,7 +13,7 @@ class URLItemListViewController: UIViewController {
     
     @IBOutlet fileprivate var uiBindingManager: UIBindingManager? // strong reference needed because XIB doesn't hold onto the object
     
-    private let dataSource: DoubleSourcePersistenceType = CombinedURLItemSyncingController()
+    private let dataSource: URLItemCRUDDoublePersistanceType = URLItemPersistanceController()
     private var sortedIDs = [String]()
     
     // MARK: - Lifecycle
