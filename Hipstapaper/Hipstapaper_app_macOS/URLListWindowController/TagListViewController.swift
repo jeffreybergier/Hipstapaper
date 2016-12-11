@@ -15,12 +15,8 @@ class TagListViewController: NSViewController {
     
     @IBOutlet private weak var bindingManager: TagListBindingManager? {
         didSet {
-            self.bindingManager!.dataSource = self.dataSource
+            self.bindingManager?.dataSource = self.dataSource
         }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
     }
     
     func windowSyncFinished(result: Result<Void>, sender: NSObject?) {

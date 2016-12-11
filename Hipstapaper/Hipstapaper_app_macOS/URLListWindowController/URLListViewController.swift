@@ -11,7 +11,11 @@ import AppKit
 
 class URLListViewController: NSViewController {
     
-    @IBOutlet private weak var bindingManager: URLListBindingManager?
+    @IBOutlet private weak var bindingManager: URLListBindingManager? {
+        didSet {
+            self.bindingManager?.dataSource = self.dataSource
+        }
+    }
     @IBOutlet private weak var tableView: NSTableView?
     
     // MARK: Data Source
@@ -25,11 +29,6 @@ class URLListViewController: NSViewController {
     }
     
     // MARK: Lifecycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.bindingManager?.dataSource = self.dataSource
-    }
     
     // MARK: Handle Table View Actions
     

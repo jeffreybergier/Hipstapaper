@@ -57,12 +57,6 @@ class URLListWindowController: NSWindowController {
     // MARK: Outlets
 
     @IBOutlet private weak var debugWindowToolbarImageView: NSImageView?
-    @IBOutlet private weak var spinner: NSProgressIndicator? {
-        didSet {
-            self.spinner?.stopAnimation(self)
-            self.spinner?.isDisplayedWhenStopped = false
-        }
-    }
     @IBOutlet private weak var urlListViewController: URLListViewController? {
         didSet {
             self.urlListViewController?.dataSource = self.dataSource
@@ -71,6 +65,12 @@ class URLListWindowController: NSWindowController {
     @IBOutlet private weak var tagListViewController: TagListViewController? {
         didSet {
             self.tagListViewController?.dataSource = self.dataSource
+        }
+    }
+    @IBOutlet private weak var spinner: NSProgressIndicator? {
+        didSet {
+            self.spinner?.stopAnimation(self)
+            self.spinner?.isDisplayedWhenStopped = false
         }
     }
     
@@ -83,8 +83,10 @@ class URLListWindowController: NSWindowController {
 
     override func windowDidLoad() {
         super.windowDidLoad()
+        
         self.window?.title = self.syncController.windowTitle
         self.window?.titleVisibility = .hidden
+        
         switch self.syncController {
         case .cloudKitOnly, .realmOnly:
             self.window?.isExcludedFromWindowsMenu = false

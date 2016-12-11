@@ -11,6 +11,14 @@ import AppKit
 
 extension NSTreeController: KVOCapable {}
 
+enum TagUIKind {
+    case notSelectable, allItems, unarchivedItems, tag(name: String)
+}
+
+protocol TagItemSelectable: class {
+    func didSelect(tag: TagUIKind, sender: AnyObject?)
+}
+
 class TagListBindingManager: NSObject {
     
     weak var dataSource: URLItemQuerySinglePersistanceType? {
@@ -19,11 +27,14 @@ class TagListBindingManager: NSObject {
         }
     }
     
+    weak var delegate: TagItemSelectable?
+    
     @IBOutlet private weak var sourceList: NSOutlineView?
     @IBOutlet private weak var treeController: NSTreeController? {
         didSet {
-            self.treeController?.content = self.content
-            self.selectionKVO = KeyValueObserver(target: self.treeController!)
+            guard let treeController = self.treeController else { return }
+            treeController.content = self.content
+            self.selectionKVO = KeyValueObserver(target: treeController)
         }
     }
     
@@ -32,6 +43,7 @@ class TagListBindingManager: NSObject {
             self.selectionKVO?.add(keyPath: #keyPath(NSTreeController.selectedNodes)) { nodes -> NSNull? in
                 guard let selected = self.treeController?.selectedNodes.first?.representedObject as? TreeBindingObject else { return .none }
                 print("\(selected.title)")
+                self.delegate?.didSelect(tag: selected.kind, sender: self)
                 return .none
             }
         }
@@ -42,13 +54,13 @@ class TagListBindingManager: NSObject {
     }
     
     fileprivate let mainItems: TreeBindingObject = {
-        let unread = TreeBindingObject(title: "Unread Items")
-        let all = TreeBindingObject(title: "All Items")
-        let root = TreeBindingObject(title: "Reading List", children: [unread, all])
+        let unread = TreeBindingObject(title: "Unread Items", kind: .unarchivedItems)
+        let all = TreeBindingObject(title: "All Items", kind: .allItems)
+        let root = TreeBindingObject(title: "Reading List", children: [unread, all], kind: .notSelectable)
         return root
     }()
     
-    fileprivate let tagItems = TreeBindingObject(title: "Tags")
+    fileprivate let tagItems = TreeBindingObject(title: "Tags", kind: .notSelectable)
     
     func reloadData() {
         self.dataSource?.tagItems() { tagResult in
@@ -63,7 +75,7 @@ class TagListBindingManager: NSObject {
     }
     
     private func updateTagList(newTags: [TagItemType]) {
-        let treeItems = newTags.map({ TreeBindingObject(title: $0.name) })
+        let treeItems = newTags.map({ TreeBindingObject(title: $0.name, kind: .tag(name: $0.name)) })
         DispatchQueue.main.async {
             self.tagItems.children = treeItems
             self.treeController?.content = self.content
@@ -96,15 +108,18 @@ extension TagListBindingManager: NSOutlineViewDelegate {
 
 @objc(TreeBindingObject)
 private class TreeBindingObject: NSObject {
+    
     var title = "untitled"
     var children: [TreeBindingObject] = []
+    var kind = TagUIKind.notSelectable
     
     override init() {
         super.init()
     }
     
-    init(title: String, children: [TreeBindingObject] = []) {
+    init(title: String, children: [TreeBindingObject] = [], kind: TagUIKind = .notSelectable) {
         self.title = title
         self.children = children
+        self.kind = kind
     }
 }

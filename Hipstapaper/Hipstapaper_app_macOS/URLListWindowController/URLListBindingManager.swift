@@ -13,7 +13,7 @@ class URLListBindingManager: NSObject, URLItemBindingChangeDelegate {
     
     @IBOutlet private weak var parentWindowController: URLListWindowController?
     
-    weak var dataSource: URLItemCRUDDoublePersistanceType! {
+    weak var dataSource: URLItemCRUDDoublePersistanceType? {
         didSet {
             self.reloadData()
         }
@@ -43,7 +43,7 @@ class URLListBindingManager: NSObject, URLItemBindingChangeDelegate {
             new.forEach() { newBindingObject in
                 self.parentWindowController?.operationsInProgress += 1 // update the spinner
                 let itemToCreate = newBindingObject.value ?? URLItem.Value()
-                self.dataSource.create(item: itemToCreate, quickResult: { createResult in
+                self.dataSource?.create(item: itemToCreate, quickResult: { createResult in
                     DispatchQueue.main.async {
                         switch createResult {
                         case .success(let createdItem):
@@ -63,7 +63,7 @@ class URLListBindingManager: NSObject, URLItemBindingChangeDelegate {
             deleted?.forEach() { deletedItem in
                 self.parentWindowController?.operationsInProgress += 1 // update the spinner
                 guard let item = deletedItem.value else { return }
-                self.dataSource.delete(item: item, quickResult: .none, fullResult: { _ in
+                self.dataSource?.delete(item: item, quickResult: .none, fullResult: { _ in
                     DispatchQueue.main.async {
                         self.parentWindowController?.operationsInProgress -= 1
                     }
@@ -83,7 +83,7 @@ class URLListBindingManager: NSObject, URLItemBindingChangeDelegate {
     func reloadData() {
         DispatchQueue.main.async {
             self.parentWindowController?.operationsInProgress += 1 // update the spinner
-            self.dataSource.allItems(sortedBy: .modificationDate, ascending: false) { result in
+            self.dataSource?.allItems(sortedBy: .modificationDate, ascending: false) { result in
                 let sortedIDs: [String]
                 switch result {
                 case .success(let ids):
@@ -105,7 +105,7 @@ class URLListBindingManager: NSObject, URLItemBindingChangeDelegate {
             let bindingObjects = ids.map() { id -> URLItem.BindingObject in
                 let bindingObject = URLItem.BindingObject(value: nil)
                 self.parentWindowController?.operationsInProgress += 1 // update the spinner
-                self.dataSource.readItem(withID: id) { result in
+                self.dataSource?.readItem(withID: id) { result in
                     if case .success(let urlItem) = result {
                         DispatchQueue.main.async {
                             bindingObject.value = urlItem
@@ -124,7 +124,7 @@ class URLListBindingManager: NSObject, URLItemBindingChangeDelegate {
     
     fileprivate func didChange(item: URLItemType, withinObject object: URLItem.BindingObject) {
         self.parentWindowController?.operationsInProgress += 1 // update the spinner
-        self.dataSource.update(item: item, quickResult: { result in
+        self.dataSource?.update(item: item, quickResult: { result in
             DispatchQueue.main.async {
                 if case .success(let updatedValue) = result {
                     object.value = updatedValue
