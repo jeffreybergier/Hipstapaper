@@ -23,14 +23,21 @@ open class URLItemCloudKitController: URLItemSinglePersistanceType {
 extension URLItemCloudKitController: URLItemQueryPersistanceType {
     
     public func tagItems(result: TagListResult?) {
-        result?(.error([NSError(domain: "", code: 0, userInfo: nil)]))
+        var tags = Set<String>()
+        for (_, value) in self.objectMap {
+            let newTags = value.tags
+            newTags.forEach({ tags.insert($0 as! String) })
+        }
+        let sortedTags = Array(tags).sorted(by: { $0.0.name <= $0.1.name })
+        result?(.success(sortedTags))
     }
     public func unarchivedItems(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?) {
         let predicate = NSPredicate(format: "archived = NO")
         self.allItems(matchingPredicate: predicate, sortedBy: sortedBy, ascending: ascending, result: result)
     }
     public func allItems(for tag: TagItemType, sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?) {
-        result?(.error([NSError()]))
+        let matchingItemIDs = self.objectMap.filter({ $0.value.tags.filter({ $0.name == tag.name }).first != nil }).map({ $0.value.cloudKitID })
+        result?(.success(matchingItemIDs))
     }
     
 }
@@ -151,7 +158,14 @@ extension URLItemCloudKitController: URLItemCRUDSinglePersistanceType {
 
 extension URLItemCloudKitController: URLItemDoublePersistanceType {
     public func sync(result: SuccessResult?) {
-        result?(.error([NSError()]))
+        self.allItems(sortedBy: .modificationDate, ascending: false) { innerResult in
+            switch innerResult {
+            case .success:
+                result?(.success())
+            case .error(let errors):
+                result?(.error(errors))
+            }
+        }
     }
     public func create(item: URLItemType?, quickResult: URLItemResult?, fullResult: URLItemResult?) {
         self.create(item: item) { result in

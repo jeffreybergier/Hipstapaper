@@ -25,7 +25,6 @@ class TagListBindingManager: NSObject {
         didSet {
             guard let treeController = self.treeController else { return }
             treeController.content = self.content
-            self.sourceList?.expandItem(.none, expandChildren: true)
             self.treeController?.setSelectionIndexPath(IndexPath(item: 0, section: 0))
             self.selectionKVO = KeyValueObserver(target: treeController)
         }
@@ -43,7 +42,11 @@ class TagListBindingManager: NSObject {
     }
     
     private var content: [TreeBindingObject] {
-        return [self.mainItems, self.tagItems]
+        if self.tagItems.children.isEmpty == false {
+            return [self.mainItems, self.tagItems]
+        } else {
+            return [self.mainItems]
+        }
     }
     
     fileprivate let mainItems: TreeBindingObject = {
@@ -72,6 +75,7 @@ class TagListBindingManager: NSObject {
         DispatchQueue.main.async {
             self.tagItems.children = treeItems
             self.treeController?.content = self.content
+            self.sourceList?.expandItem(.none, expandChildren: true)
         }
     }
 }

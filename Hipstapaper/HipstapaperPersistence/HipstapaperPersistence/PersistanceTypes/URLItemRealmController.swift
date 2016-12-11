@@ -241,7 +241,7 @@ extension URLItemRealmController {
 
 extension URLItemRealmController: URLItemDoublePersistanceType {
     public func sync(result: SuccessResult?) {
-        result?(.error([NSError()]))
+        result?(.success())
     }
     public func create(item: URLItemType?, quickResult: URLItemResult?, fullResult: URLItemResult?) {
         self.create(item: item) { result in
