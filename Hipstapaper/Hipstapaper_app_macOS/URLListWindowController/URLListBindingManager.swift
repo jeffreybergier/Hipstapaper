@@ -9,23 +9,13 @@
 import HipstapaperPersistence
 import AppKit
 
-class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
+class URLListBindingManager: NSObject, URLItemBindingChangeDelegate {
+    
+    @IBOutlet private weak var parentWindowController: URLListWindowController?
     
     weak var dataSource: URLItemCRUDDoublePersistanceType! {
         didSet {
-            self.initialLoad()
-        }
-    }
-    
-    private var spinnerOperationsInProgress = 0 {
-        didSet {
-            DispatchQueue.main.async {
-                if self.spinnerOperationsInProgress > 0 {
-                    self.syncingToolbarActivityIndicator?.startAnimation(self)
-                } else {
-                    self.syncingToolbarActivityIndicator?.stopAnimation(self)
-                }
-            }
+            self.reloadData()
         }
     }
     
@@ -35,15 +25,7 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
             // set the default sort order on application launch
             self.arrayController?.sortDescriptors = [NSSortDescriptor(key: #keyPath(URLItem.BindingObject.modificationDate), ascending: false)]
         }
-    }
-    
-    @IBOutlet private weak var syncingToolbarActivityIndicator: NSProgressIndicator? {
-        didSet {
-            self.syncingToolbarActivityIndicator?.stopAnimation(self)
-            self.syncingToolbarActivityIndicator?.isDisplayedWhenStopped = false
-        }
-    }
-    
+    }    
     
     private var _listItems: [URLItem.BindingObject] = [] {
         didSet {
@@ -59,7 +41,7 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
             let oldValue = self._listItems
             let new = newValue.filter({ $0.value == nil })
             new.forEach() { newBindingObject in
-                self.spinnerOperationsInProgress += 1 // update the spinner
+                self.parentWindowController?.operationsInProgress += 1 // update the spinner
                 let itemToCreate = newBindingObject.value ?? URLItem.Value()
                 self.dataSource.create(item: itemToCreate, quickResult: { createResult in
                     DispatchQueue.main.async {
@@ -73,17 +55,17 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
                     }
                 }, fullResult: { _ in
                     DispatchQueue.main.async {
-                        self.spinnerOperationsInProgress -= 1 // update the spinner
+                        self.parentWindowController?.operationsInProgress -= 1 // update the spinner
                     }
                 })
             }
             let deleted = newValue.deletedItems(from: oldValue)
             deleted?.forEach() { deletedItem in
-                self.spinnerOperationsInProgress += 1 // update the spinner
+                self.parentWindowController?.operationsInProgress += 1 // update the spinner
                 guard let item = deletedItem.value else { return }
                 self.dataSource.delete(item: item, quickResult: .none, fullResult: { _ in
                     DispatchQueue.main.async {
-                        self.spinnerOperationsInProgress -= 1
+                        self.parentWindowController?.operationsInProgress -= 1
                     }
                 })
             }
@@ -98,9 +80,9 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
         if mappedItems.isEmpty == false { return mappedItems } else { return .none }
     }
     
-    func initialLoad() {
+    func reloadData() {
         DispatchQueue.main.async {
-            self.spinnerOperationsInProgress += 1 // update the spinner
+            self.parentWindowController?.operationsInProgress += 1 // update the spinner
             self.dataSource.allItems(sortedBy: .modificationDate, ascending: false) { result in
                 let sortedIDs: [String]
                 switch result {
@@ -112,19 +94,7 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
                 }
                 self.process(sortedIDs: sortedIDs) // process the data
                 DispatchQueue.main.async {
-                    self.spinnerOperationsInProgress -= 1 // update the spinner
-                }
-            }
-        }
-    }
-    
-    func reloadData() {
-        DispatchQueue.main.async {
-            self.spinnerOperationsInProgress += 1 // update the spinner
-            self.dataSource.sync() { _ in
-                self.initialLoad()
-                DispatchQueue.main.async {
-                    self.spinnerOperationsInProgress -= 1 // update the spinner
+                    self.parentWindowController?.operationsInProgress -= 1 // update the spinner
                 }
             }
         }
@@ -134,12 +104,12 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
         DispatchQueue.global(qos: .userInitiated).async {
             let bindingObjects = ids.map() { id -> URLItem.BindingObject in
                 let bindingObject = URLItem.BindingObject(value: nil)
-                self.spinnerOperationsInProgress += 1 // update the spinner
+                self.parentWindowController?.operationsInProgress += 1 // update the spinner
                 self.dataSource.readItem(withID: id) { result in
                     if case .success(let urlItem) = result {
                         DispatchQueue.main.async {
                             bindingObject.value = urlItem
-                            self.spinnerOperationsInProgress -= 1 // update the spinner
+                            self.parentWindowController?.operationsInProgress -= 1 // update the spinner
                         }
                     }
                 }
@@ -153,7 +123,7 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
     }
     
     fileprivate func didChange(item: URLItemType, withinObject object: URLItem.BindingObject) {
-        self.spinnerOperationsInProgress += 1 // update the spinner
+        self.parentWindowController?.operationsInProgress += 1 // update the spinner
         self.dataSource.update(item: item, quickResult: { result in
             DispatchQueue.main.async {
                 if case .success(let updatedValue) = result {
@@ -164,7 +134,7 @@ class UIBindingManager: NSObject, URLItemBindingChangeDelegate {
             }
         }, fullResult: { _ in
             DispatchQueue.main.async {
-                self.spinnerOperationsInProgress -= 1 // update the spinner
+                self.parentWindowController?.operationsInProgress -= 1 // update the spinner
             }
         })
     }

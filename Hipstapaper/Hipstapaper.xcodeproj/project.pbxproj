@@ -51,7 +51,7 @@
 		504A3A3D1DF9312700EA46A9 /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504A3A3C1DF9312700EA46A9 /* FrameworkExtensions.swift */; };
 		504FC0FC1DFA444A0014C787 /* URLItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504FC0FA1DFA444A0014C787 /* URLItemTableViewCell.swift */; };
 		504FC0FD1DFA444A0014C787 /* URLItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504FC0FB1DFA444A0014C787 /* URLItemTableViewCell.xib */; };
-		505B30441DEA692C00B74AE6 /* UIBindingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30411DEA692C00B74AE6 /* UIBindingManager.swift */; };
+		505B30441DEA692C00B74AE6 /* URLListBindingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30411DEA692C00B74AE6 /* URLListBindingManager.swift */; };
 		505B30451DEA692C00B74AE6 /* URLListWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30421DEA692C00B74AE6 /* URLListWindowController.swift */; };
 		505B30461DEA692C00B74AE6 /* URLListWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 505B30431DEA692C00B74AE6 /* URLListWindowController.xib */; };
 		505B304B1DEA698300B74AE6 /* URLItemWebViewWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30491DEA698300B74AE6 /* URLItemWebViewWindowController.swift */; };
@@ -78,6 +78,8 @@
 		50D47BA11DFC85B100E4FD2C /* URLItemRealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D47B991DFC85B100E4FD2C /* URLItemRealmController.swift */; };
 		50D47BA61DFC910500E4FD2C /* HipstapaperPersistence.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 502C7FA31DF0E88F004E70AB /* HipstapaperPersistence.framework */; };
 		50D47BA91DFC919C00E4FD2C /* HipstapaperPersistence.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 502C7FA31DF0E88F004E70AB /* HipstapaperPersistence.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		50D47BAB1DFCC47100E4FD2C /* URLListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D47BAA1DFCC47100E4FD2C /* URLListViewController.swift */; };
+		50D47BAD1DFCCA1100E4FD2C /* TagListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D47BAC1DFCCA1100E4FD2C /* TagListViewController.swift */; };
 		50E21BC61DD6E466005151C7 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50E21BC51DD6E466005151C7 /* CloudKit.framework */; };
 		50E21BCC1DD8F2E3005151C7 /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E21BCB1DD8F2E3005151C7 /* FrameworkExtensions.swift */; };
 		50FA3BFC1DF4F3B100551325 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50FA3BFB1DF4F3B100551325 /* CloudKit.framework */; };
@@ -239,7 +241,7 @@
 		504A3A3C1DF9312700EA46A9 /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		504FC0FA1DFA444A0014C787 /* URLItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemTableViewCell.swift; sourceTree = "<group>"; };
 		504FC0FB1DFA444A0014C787 /* URLItemTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLItemTableViewCell.xib; sourceTree = "<group>"; };
-		505B30411DEA692C00B74AE6 /* UIBindingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIBindingManager.swift; sourceTree = "<group>"; };
+		505B30411DEA692C00B74AE6 /* URLListBindingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLListBindingManager.swift; sourceTree = "<group>"; };
 		505B30421DEA692C00B74AE6 /* URLListWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLListWindowController.swift; sourceTree = "<group>"; };
 		505B30431DEA692C00B74AE6 /* URLListWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLListWindowController.xib; sourceTree = "<group>"; };
 		505B30491DEA698300B74AE6 /* URLItemWebViewWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemWebViewWindowController.swift; sourceTree = "<group>"; };
@@ -261,6 +263,8 @@
 		50D47B971DFC85B100E4FD2C /* URLItemPersistanceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemPersistanceController.swift; sourceTree = "<group>"; };
 		50D47B981DFC85B100E4FD2C /* URLItemPersistanceProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemPersistanceProtocols.swift; sourceTree = "<group>"; };
 		50D47B991DFC85B100E4FD2C /* URLItemRealmController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemRealmController.swift; sourceTree = "<group>"; };
+		50D47BAA1DFCC47100E4FD2C /* URLListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLListViewController.swift; sourceTree = "<group>"; };
+		50D47BAC1DFCCA1100E4FD2C /* TagListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagListViewController.swift; sourceTree = "<group>"; };
 		50E21BC51DD6E466005151C7 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		50E21BCB1DD8F2E3005151C7 /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		50FA3BFA1DF4F3A400551325 /* Hipstapaper_app_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper_app_iOS.entitlements; sourceTree = "<group>"; };
@@ -476,7 +480,9 @@
 		505B30401DEA689A00B74AE6 /* URLListWindowController */ = {
 			isa = PBXGroup;
 			children = (
-				505B30411DEA692C00B74AE6 /* UIBindingManager.swift */,
+				50D47BAA1DFCC47100E4FD2C /* URLListViewController.swift */,
+				505B30411DEA692C00B74AE6 /* URLListBindingManager.swift */,
+				50D47BAC1DFCCA1100E4FD2C /* TagListViewController.swift */,
 				505B30421DEA692C00B74AE6 /* URLListWindowController.swift */,
 				505B30431DEA692C00B74AE6 /* URLListWindowController.xib */,
 			);
@@ -1282,8 +1288,10 @@
 			files = (
 				505B304B1DEA698300B74AE6 /* URLItemWebViewWindowController.swift in Sources */,
 				505B30451DEA692C00B74AE6 /* URLListWindowController.swift in Sources */,
-				505B30441DEA692C00B74AE6 /* UIBindingManager.swift in Sources */,
+				505B30441DEA692C00B74AE6 /* URLListBindingManager.swift in Sources */,
 				50E21BCC1DD8F2E3005151C7 /* FrameworkExtensions.swift in Sources */,
+				50D47BAB1DFCC47100E4FD2C /* URLListViewController.swift in Sources */,
+				50D47BAD1DFCCA1100E4FD2C /* TagListViewController.swift in Sources */,
 				506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
