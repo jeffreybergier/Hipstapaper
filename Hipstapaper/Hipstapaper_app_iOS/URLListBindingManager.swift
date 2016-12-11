@@ -9,78 +9,31 @@
 import HipstapaperPersistence
 import UIKit
 
-protocol UIBindingDelegate: class {
-    func didSelect(item: URLItemType, within: UITableView, bindingManager: UIBindingManager)
+protocol URLListBindingManagerDelegate: class {
+    func didSelect(item: URLItemType, within: UITableView, bindingManager: URLListBindingManager)
 }
 
-class UIBindingManager: NSObject {
+class URLListBindingManager: NSObject {
     
-    // Delegate
+    // MARK: Selection Delegate
     
-    weak var delegate: UIBindingDelegate?
+    fileprivate weak var delegate: URLListBindingManagerDelegate?
     
-    // Table View Property
+    // MARK: Data Source
     
-    @IBOutlet private weak var tableView: UITableView?
+    private let dataSelection: TagItem.Selection
     
-    // Data Source Temp State
-    fileprivate var sortedIDs = [String]()
+    fileprivate weak var dataSource: URLItemDoublePersistanceType?
     
-    private func updateTableView(withNewSortedIDs newSortedIDs: [String]) {
-        DispatchQueue.main.async {
-            let oldSortedIDs = self.sortedIDs
-            DispatchQueue.global(qos: .userInteractive).async {
-                if oldSortedIDs != newSortedIDs {
-                    DispatchQueue.main.async {
-                        self.sortedIDs = newSortedIDs
-                        self.tableView?.reloadData()
-                    }
-                }
-            }
-        }
-    }
+    private weak var tableView: UITableView?
     
-    // UILoading State
+    // MARK: Keep Track of Operations in Progress
     
-    private var spinnerOperationsInProgress = 0 {
-        didSet {
-            print("\(self.spinnerOperationsInProgress): Ops in Progress")
-        }
-    }
+    private var spinnerOperationsInProgress = 0
     
-    // One Time Config
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        let nib = UINib(nibName: URLItemTableViewCell.nibName, bundle: Bundle(for: URLItemTableViewCell.self))
-        self.tableView?.register(nib, forCellReuseIdentifier: URLItemTableViewCell.nibName)
-    }
-    
-    // External Interface
-    
-    var dataSelection: TagItem.Selection = .unarchivedItems
-    
-    weak internal var dataSource: URLItemDoublePersistanceType? {
-        didSet {
-            self.initialLoad()
-        }
-    }
-    
-    var selectedItems: [URLItemType]? {
-        return .none
-    }
-    
-    func simulateTableViewControllerAppearing() {
-        let selectedRows = self.tableView?.indexPathsForSelectedRows ?? []
-        for row in selectedRows {
-            self.tableView?.deselectRow(at: row, animated: true)
-        }
-        self.tableView?.flashScrollIndicators()
-    }
+    // MARK: External Properties that Need to be Set
     
     func initialLoad() {
-        
         DispatchQueue.main.async {
             self.spinnerOperationsInProgress += 1 // update the spinner
             
@@ -111,9 +64,42 @@ class UIBindingManager: NSObject {
             }
         }
     }
+    
+    init(selection: TagItem.Selection, tableView: UITableView?, dataSource: URLItemDoublePersistanceType?, delegate: URLListBindingManagerDelegate?) {
+        let nib = UINib(nibName: URLItemTableViewCell.nibName, bundle: Bundle(for: URLItemTableViewCell.self))
+        tableView?.register(nib, forCellReuseIdentifier: URLItemTableViewCell.nibName)
+        
+        self.dataSource = dataSource
+        self.dataSelection = selection
+        self.tableView = tableView
+        self.delegate = delegate
+        
+        super.init()
+        
+        tableView?.delegate = self
+        tableView?.dataSource = self
+    }
+    
+    // MARK: Table View Data and Updating
+    
+    fileprivate var sortedIDs = [String]()
+    
+    private func updateTableView(withNewSortedIDs newSortedIDs: [String]) {
+        DispatchQueue.main.async {
+            let oldSortedIDs = self.sortedIDs
+            DispatchQueue.global(qos: .userInteractive).async {
+                if oldSortedIDs != newSortedIDs {
+                    DispatchQueue.main.async {
+                        self.sortedIDs = newSortedIDs
+                        self.tableView?.reloadData()
+                    }
+                }
+            }
+        }
+    }
 }
 
-extension UIBindingManager: UITableViewDataSource {
+extension URLListBindingManager: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.sortedIDs.count
@@ -140,7 +126,7 @@ extension UIBindingManager: UITableViewDataSource {
     }
 }
 
-extension UIBindingManager: UITableViewDelegate {
+extension URLListBindingManager: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80

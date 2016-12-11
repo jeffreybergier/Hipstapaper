@@ -9,12 +9,12 @@
 import HipstapaperPersistence
 import UIKit
 
-class URLItemListViewController: UIViewController {
+class URLItemListViewController: UITableViewController {
     
-    @IBOutlet fileprivate var uiBindingManager: UIBindingManager? // strong reference needed because XIB doesn't hold onto the object
+    private lazy var uiBindingManager: URLListBindingManager = URLListBindingManager(selection: self.dataSelection, tableView: self.tableView, dataSource: self.dataSource, delegate: self)
     
     private var dataSelection: TagItem.Selection = .unarchivedItems
-    private var dataSource: URLItemDoublePersistanceType?
+    private weak var dataSource: URLItemDoublePersistanceType?
     
     private var sortedIDs = [String]()
     
@@ -41,15 +41,13 @@ class URLItemListViewController: UIViewController {
             fatalError()
         }
         
-        // configure UIBindingManager
-        self.uiBindingManager?.dataSource = self.dataSource
-        self.uiBindingManager?.delegate = self
-        self.uiBindingManager?.dataSelection = self.dataSelection
+        // tell the UI to reload
+        self.uiBindingManager.initialLoad()
     }
 }
 
-extension URLItemListViewController: UIBindingDelegate {
-    func didSelect(item: URLItemType, within: UITableView, bindingManager: UIBindingManager) {
+extension URLItemListViewController: URLListBindingManagerDelegate {
+    func didSelect(item: URLItemType, within: UITableView, bindingManager: URLListBindingManager) {
         let newVC = URLItemWebViewController(urlItem: item, delegate: self)
         self.navigationController?.pushViewController(newVC, animated: true)
     }
@@ -57,6 +55,6 @@ extension URLItemListViewController: UIBindingDelegate {
 
 extension URLItemListViewController: ViewControllerPresenterDelegate {
     func presented(viewController: UIViewController, didDisappearAnimated: Bool) {
-        self.uiBindingManager?.simulateTableViewControllerAppearing()
+        
     }
 }

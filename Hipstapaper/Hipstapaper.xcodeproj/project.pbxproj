@@ -58,7 +58,6 @@
 		505B30461DEA692C00B74AE6 /* URLListWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 505B30431DEA692C00B74AE6 /* URLListWindowController.xib */; };
 		505B304B1DEA698300B74AE6 /* URLItemWebViewWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30491DEA698300B74AE6 /* URLItemWebViewWindowController.swift */; };
 		505B304C1DEA698300B74AE6 /* URLItemWebViewWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 505B304A1DEA698300B74AE6 /* URLItemWebViewWindowController.xib */; };
-		506153361DF674AD00FC5EA5 /* URLItemListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 506153341DF674AD00FC5EA5 /* URLItemListViewController.xib */; };
 		506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506A3F071DD6C10C00A5656E /* AppDelegate.swift */; };
 		506A3F0A1DD6C10D00A5656E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F091DD6C10D00A5656E /* Assets.xcassets */; };
 		506A3F0D1DD6C10D00A5656E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F0B1DD6C10D00A5656E /* MainMenu.xib */; };
@@ -66,7 +65,7 @@
 		50A63FB11DF9D2BD0074FE2F /* URLItemWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50A63FAF1DF9D2BD0074FE2F /* URLItemWebViewController.xib */; };
 		50A63FB31DF9D9D40074FE2F /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A63FB21DF9D9D40074FE2F /* FrameworkExtensions.swift */; };
 		50A63FB41DF9D9D40074FE2F /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A63FB21DF9D9D40074FE2F /* FrameworkExtensions.swift */; };
-		50A63FB61DFA401E0074FE2F /* UIBindingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A63FB51DFA401E0074FE2F /* UIBindingManager.swift */; };
+		50A63FB61DFA401E0074FE2F /* URLListBindingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A63FB51DFA401E0074FE2F /* URLListBindingManager.swift */; };
 		50D47B781DFB220F00E4FD2C /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D47B771DFB220F00E4FD2C /* FrameworkExtensions.swift */; };
 		50D47B941DFC85A200E4FD2C /* KeyObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D47B931DFC85A200E4FD2C /* KeyObserver.swift */; };
 		50D47B951DFC85A200E4FD2C /* KeyObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D47B931DFC85A200E4FD2C /* KeyObserver.swift */; };
@@ -250,7 +249,6 @@
 		505B30431DEA692C00B74AE6 /* URLListWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLListWindowController.xib; sourceTree = "<group>"; };
 		505B30491DEA698300B74AE6 /* URLItemWebViewWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemWebViewWindowController.swift; sourceTree = "<group>"; };
 		505B304A1DEA698300B74AE6 /* URLItemWebViewWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLItemWebViewWindowController.xib; sourceTree = "<group>"; };
-		506153341DF674AD00FC5EA5 /* URLItemListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLItemListViewController.xib; sourceTree = "<group>"; };
 		506A3F041DD6C10C00A5656E /* Hipstapaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hipstapaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		506A3F071DD6C10C00A5656E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		506A3F091DD6C10D00A5656E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -260,7 +258,7 @@
 		50A63FAE1DF9D2BD0074FE2F /* URLItemWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemWebViewController.swift; sourceTree = "<group>"; };
 		50A63FAF1DF9D2BD0074FE2F /* URLItemWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLItemWebViewController.xib; sourceTree = "<group>"; };
 		50A63FB21DF9D9D40074FE2F /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
-		50A63FB51DFA401E0074FE2F /* UIBindingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIBindingManager.swift; sourceTree = "<group>"; };
+		50A63FB51DFA401E0074FE2F /* URLListBindingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLListBindingManager.swift; sourceTree = "<group>"; };
 		50D47B771DFB220F00E4FD2C /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		50D47B931DFC85A200E4FD2C /* KeyObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyObserver.swift; sourceTree = "<group>"; };
 		50D47B961DFC85B100E4FD2C /* URLItemCloudKitController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemCloudKitController.swift; sourceTree = "<group>"; };
@@ -365,8 +363,7 @@
 				50D47B771DFB220F00E4FD2C /* FrameworkExtensions.swift */,
 				504A3A3E1DFE050700EA46A9 /* TagItemListViewController.swift */,
 				501EC2531DF4E4E8003577DA /* URLItemListViewController.swift */,
-				506153341DF674AD00FC5EA5 /* URLItemListViewController.xib */,
-				50A63FB51DFA401E0074FE2F /* UIBindingManager.swift */,
+				50A63FB51DFA401E0074FE2F /* URLListBindingManager.swift */,
 				504FC0FA1DFA444A0014C787 /* URLItemTableViewCell.swift */,
 				504FC0FB1DFA444A0014C787 /* URLItemTableViewCell.xib */,
 				50A63FAE1DF9D2BD0074FE2F /* URLItemWebViewController.swift */,
@@ -903,7 +900,6 @@
 				5005E1281DF4CB8300BA38E6 /* LaunchScreen.storyboard in Resources */,
 				5005E1251DF4CB8300BA38E6 /* Assets.xcassets in Resources */,
 				50A63FB11DF9D2BD0074FE2F /* URLItemWebViewController.xib in Resources */,
-				506153361DF674AD00FC5EA5 /* URLItemListViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1210,7 +1206,7 @@
 				504FC0FC1DFA444A0014C787 /* URLItemTableViewCell.swift in Sources */,
 				50A63FB01DF9D2BD0074FE2F /* URLItemWebViewController.swift in Sources */,
 				5005E11E1DF4CB8300BA38E6 /* AppDelegate.swift in Sources */,
-				50A63FB61DFA401E0074FE2F /* UIBindingManager.swift in Sources */,
+				50A63FB61DFA401E0074FE2F /* URLListBindingManager.swift in Sources */,
 				504A3A3F1DFE050700EA46A9 /* TagItemListViewController.swift in Sources */,
 				501EC2541DF4E4E8003577DA /* URLItemListViewController.swift in Sources */,
 			);
