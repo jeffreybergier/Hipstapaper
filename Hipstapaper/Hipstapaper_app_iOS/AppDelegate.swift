@@ -6,13 +6,17 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
+import HipstapaperPersistence
 import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    
+//    private let dataSource: URLItemDoublePersistanceType = URLItemPersistanceController()
+    private let dataSource: URLItemDoublePersistanceType = URLItemRealmController()
+//    private let dataSource: URLItemDoublePersistanceType = URLItemCloudKitController()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -22,6 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         let listVC = TagItemListViewController(style: .grouped)
+        listVC.dataSource = self.dataSource
         let navVC = UINavigationController(rootViewController: listVC)
         
         self.window!.rootViewController = navVC

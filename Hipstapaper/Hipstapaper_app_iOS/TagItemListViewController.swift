@@ -17,7 +17,7 @@ class TagItemListViewController: UITableViewController {
     
     // MARK: Data Source
     
-    private let dataSource: URLItemDoublePersistanceType? = URLItemPersistanceController()
+    var dataSource: URLItemDoublePersistanceType?
     
     fileprivate let mainItems: TreeBindingObject = {
         let unread = TreeBindingObject(title: "Unread Items", kind: .unarchivedItems)
@@ -28,17 +28,29 @@ class TagItemListViewController: UITableViewController {
     
     fileprivate let tagItems = TreeBindingObject(title: "Tags", kind: .notSelectable)
     
+    // MARK: NavBar Items
+    
+    private lazy var reloadBar: UIBarButtonItem = {
+        let item = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.reloadButtonTapped(_:)))
+        item.style = .done // I thought this made bar button items thicker, but it appears to make it thinne
+        return item
+    }()
+    private let loadingBar: UIBarButtonItem = {
+        let view = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        view.startAnimating()
+        let barButtonItem = UIBarButtonItem(customView: view)
+        return barButtonItem
+    }()
+    
     // MARK: Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "♓️ Hipstapaper"
+        self.title = "Hipstapaper"
         
         // configure bar button items
-        let reloadBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.reloadButtonTapped(_:)))
-        reloadBarButtonItem.style = .done // I thought this made bar button items thicker, but it appears to make it thinner
-        self.navigationItem.leftBarButtonItem = reloadBarButtonItem
+        self.navigationItem.leftBarButtonItem = self.reloadBar
     }
     
     // MARK: Handle User Input
@@ -49,19 +61,21 @@ class TagItemListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let section = Section(rawValue: indexPath.section) else { return }
+        let selection: TagItem.Selection
         switch section {
         case .mainItems:
-            let selection = self.mainItems.children[indexPath.row].kind
-            print("selected \(selection)")
+            selection = self.mainItems.children[indexPath.row].kind
         case .tagItems:
-            let selection = self.tagItems.children[indexPath.row].kind
-            print("selected \(selection)")
+            selection = self.tagItems.children[indexPath.row].kind
         }
+        let newVC = URLItemListViewController(selection: selection, dataSource: self.dataSource)
+        self.navigationController?.pushViewController(newVC, animated: true)
     }
     
     // MARK: Handle Loading Data
     
     private func reloadData() {
+        self.navigationItem.leftBarButtonItem = self.loadingBar
         self.dataSource?.sync() { result in
             DispatchQueue.main.async {
                 switch result {
@@ -69,6 +83,7 @@ class TagItemListViewController: UITableViewController {
                     NSLog("Error Syncing Data: \(errors)")
                     self.tagItems.children = []
                     self.tableView.reloadData()
+                    self.navigationItem.leftBarButtonItem = self.reloadBar
                 case .success:
                     self.dataSource?.tagItems() { tagResult in
                         DispatchQueue.main.async {
@@ -76,12 +91,12 @@ class TagItemListViewController: UITableViewController {
                             case .error(let errors):
                                 NSLog("Error Loading Tags: \(errors)")
                                 self.tagItems.children = []
-                                self.tableView.reloadData()
                             case .success(let tags):
                                 let items = tags.map({ TreeBindingObject(title: $0.name, kind: .tag(name: $0.name)) })
                                 self.tagItems.children = items
-                                self.tableView.reloadData()
                             }
+                            self.tableView.reloadData()
+                            self.navigationItem.leftBarButtonItem = self.reloadBar
                         }
                     }
                 }

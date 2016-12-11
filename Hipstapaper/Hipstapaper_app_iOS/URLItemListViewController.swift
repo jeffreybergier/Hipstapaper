@@ -13,38 +13,39 @@ class URLItemListViewController: UIViewController {
     
     @IBOutlet fileprivate var uiBindingManager: UIBindingManager? // strong reference needed because XIB doesn't hold onto the object
     
-    private let dataSource: URLItemCRUDDoublePersistanceType = URLItemPersistanceController()
+    private var dataSelection: TagItem.Selection = .unarchivedItems
+    private var dataSource: URLItemDoublePersistanceType?
+    
     private var sortedIDs = [String]()
     
     // MARK: - Lifecycle
+    
+    convenience init(selection: TagItem.Selection, dataSource: URLItemDoublePersistanceType?) {
+        self.init()
+        self.dataSelection = selection
+        self.dataSource = dataSource
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // configure title
-        self.title = "♓️ Hipstapaper"
+        switch self.dataSelection {
+        case .allItems:
+            self.title = "All Items"
+        case .unarchivedItems:
+            self.title = "Unread Items"
+        case .tag(let tagName):
+            self.title = tagName
+        case .notSelectable:
+            fatalError()
+        }
         
         // configure UIBindingManager
         self.uiBindingManager?.dataSource = self.dataSource
         self.uiBindingManager?.delegate = self
-        
-        // configure bar button items
-        let reloadBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.reloadButtonTapped(_:)))
-        reloadBarButtonItem.style = .done // I thought this made bar button items thicker, but it appears to make it thinner
-        let addBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addButtonTapped(_:)))
-        addBarButtonItem.style = .plain // I thought this made bar buttom items thinner, but it appears to make it thicker
-        self.navigationItem.leftBarButtonItem = reloadBarButtonItem
-        self.navigationItem.rightBarButtonItem = addBarButtonItem
+        self.uiBindingManager?.dataSelection = self.dataSelection
     }
-    
-    @objc private func reloadButtonTapped(_ sender: NSObject?) {
-        self.uiBindingManager?.reloadData()
-    }
-    
-    @objc private func addButtonTapped(_ sender: NSObject?) {
-        
-    }
-    
 }
 
 extension URLItemListViewController: UIBindingDelegate {

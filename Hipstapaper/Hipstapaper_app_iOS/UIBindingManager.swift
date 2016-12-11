@@ -59,7 +59,9 @@ class UIBindingManager: NSObject {
     
     // External Interface
     
-    weak internal var dataSource: URLItemCRUDDoublePersistanceType? {
+    var dataSelection: TagItem.Selection = .unarchivedItems
+    
+    weak internal var dataSource: URLItemDoublePersistanceType? {
         didSet {
             self.initialLoad()
         }
@@ -78,27 +80,34 @@ class UIBindingManager: NSObject {
     }
     
     func initialLoad() {
-        self.spinnerOperationsInProgress += 1 // update the spinner
-        self.dataSource?.allItems(sortedBy: .modificationDate, ascending: false) { result in
-            let sortedIDs: [String]
-            switch result {
-            case .success(let ids):
-                sortedIDs = ids
-            case .error(let errors):
-                NSLog("Errors While Syncing: \(errors)")
-                sortedIDs = []
+        
+        DispatchQueue.main.async {
+            self.spinnerOperationsInProgress += 1 // update the spinner
+            
+            let completionHandler: URLItemIDsResult = { result in
+                let sortedIDs: [String]
+                switch result {
+                case .success(let ids):
+                    sortedIDs = ids
+                case .error(let errors):
+                    NSLog("Errors While Loading: \(errors)")
+                    sortedIDs = []
+                }
+                DispatchQueue.main.async {
+                    self.updateTableView(withNewSortedIDs: sortedIDs)
+                    self.spinnerOperationsInProgress -= 1 // update the spinner
+                }
             }
-            self.updateTableView(withNewSortedIDs: sortedIDs)
-            self.spinnerOperationsInProgress -= 1 // update the spinner
-        }
-    }
-    
-    func reloadData() {
-        self.spinnerOperationsInProgress += 1 // update the spinner
-        self.dataSource?.sync() { _ in
-            self.initialLoad()
-            DispatchQueue.main.async {
-                self.spinnerOperationsInProgress -= 1 // update the spinner
+            
+            switch self.dataSelection {
+            case .allItems:
+                self.dataSource?.allItems(sortedBy: .modificationDate, ascending: false, result: completionHandler)
+            case .unarchivedItems:
+                self.dataSource?.unarchivedItems(sortedBy: .modificationDate, ascending: false, result: completionHandler)
+            case .tag(let tagName):
+                self.dataSource?.allItems(for: tagName, sortedBy: .modificationDate, ascending: false, result: completionHandler)
+            case .notSelectable:
+                fatalError()
             }
         }
     }
