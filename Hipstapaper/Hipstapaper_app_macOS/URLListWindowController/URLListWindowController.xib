@@ -114,7 +114,7 @@
                                                     </tableColumns>
                                                     <connections>
                                                         <binding destination="fjr-0r-9fq" name="content" keyPath="arrangedObjects" id="Unc-aw-r4O"/>
-                                                        <binding destination="fjr-0r-9fq" name="sortDescriptors" keyPath="sortDescriptors" previousBinding="Unc-aw-r4O" id="SBE-5u-fpj"/>
+                                                        <binding destination="fjr-0r-9fq" name="selectionIndexPaths" keyPath="selectionIndexPaths" previousBinding="Unc-aw-r4O" id="gzs-iB-wXH"/>
                                                         <outlet property="delegate" destination="m4c-0f-DfP" id="74C-ZV-v19"/>
                                                     </connections>
                                                 </outlineView>

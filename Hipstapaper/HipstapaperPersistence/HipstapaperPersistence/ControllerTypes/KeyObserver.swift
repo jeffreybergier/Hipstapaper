@@ -54,9 +54,13 @@ open class KeyValueObserver<T: Equatable>: NSObject {
             // check to see if the observing object wants to update the value
             if let updatedValue = keyPathHandler(newValue) {
                 self.keyPathPrevValues[keyPath] = updatedValue // if they do, save it as the previous value to stop infinite loop
-                self.target?.setValue(updatedValue, forKey: keyPath) // then set the value
+                if NSNull().isEqual(updatedValue) == false { // if the value is NSNull, don't save it because it can never change
+                    self.target?.setValue(updatedValue, forKey: keyPath) // then set the value
+                }
             } else {
-                self.keyPathPrevValues[keyPath] = newValue // if not, just make sure to store the previous value just in case KVO gets called again
+                if NSNull().isEqual(newValue) == false {
+                    self.keyPathPrevValues[keyPath] = newValue // if not, just make sure to store the previous value just in case KVO gets called again
+                }
             }
         }
     }

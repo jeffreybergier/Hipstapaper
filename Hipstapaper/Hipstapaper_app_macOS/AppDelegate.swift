@@ -28,7 +28,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         #if DEBUG
         for window in self.debugWindows {
-            window.showWindow(self)
+            //window.showWindow(self)
         }
         #endif
     }

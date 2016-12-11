@@ -9,6 +9,8 @@
 import HipstapaperPersistence
 import AppKit
 
+extension NSTreeController: KVOCapable {}
+
 class TagListBindingManager: NSObject {
     
     weak var dataSource: URLItemQuerySinglePersistanceType? {
@@ -21,6 +23,17 @@ class TagListBindingManager: NSObject {
     @IBOutlet private weak var treeController: NSTreeController? {
         didSet {
             self.treeController?.content = self.content
+            self.selectionKVO = KeyValueObserver(target: self.treeController!)
+        }
+    }
+    
+    private var selectionKVO: KeyValueObserver<NSNull>? {
+        didSet {
+            self.selectionKVO?.add(keyPath: #keyPath(NSTreeController.selectedNodes)) { nodes -> NSNull? in
+                guard let selected = self.treeController?.selectedNodes.first?.representedObject as? TreeBindingObject else { return .none }
+                print("\(selected.title)")
+                return .none
+            }
         }
     }
     
