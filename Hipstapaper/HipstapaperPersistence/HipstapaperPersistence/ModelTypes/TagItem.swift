@@ -14,9 +14,13 @@ public protocol TagItemType {
 }
 
 public enum TagItem {
-    struct Value: TagItemType {
-        var name: String
-        var itemCount: Int
+    public struct Value: TagItemType {
+        public var name: String
+        public var itemCount: Int
+    }
+    
+    public enum Selection {
+        case notSelectable, allItems, unarchivedItems, tag(name: String)
     }
 }
 

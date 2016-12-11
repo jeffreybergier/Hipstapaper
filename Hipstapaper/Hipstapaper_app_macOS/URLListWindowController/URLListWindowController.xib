@@ -370,6 +370,7 @@
         </customObject>
         <customObject id="m4c-0f-DfP" customClass="TagListBindingManager" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
+                <outlet property="parentWindow" destination="F0z-JX-Cv5" id="QBn-nV-SEz"/>
                 <outlet property="sourceList" destination="Tq6-q3-fh4" id="cBv-yT-gHh"/>
                 <outlet property="treeController" destination="fjr-0r-9fq" id="UjI-hA-XiP"/>
             </connections>

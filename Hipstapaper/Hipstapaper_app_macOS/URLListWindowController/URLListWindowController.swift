@@ -107,4 +107,11 @@ class URLListWindowController: NSWindowController {
             self.operationsInProgress -= 1
         }
     }
+    
+    // MARK: Tag Selection Responder
+    
+    @objc func didChangeTag(selection: TagSelectionContainer?) {
+        let selector = #selector(URLListWindowController.didChangeTag(selection:))
+        self.urlListViewController?.try(toPerform: selector, with: selection)
+    }
 }

@@ -11,14 +11,6 @@ import AppKit
 
 extension NSTreeController: KVOCapable {}
 
-enum TagUIKind {
-    case notSelectable, allItems, unarchivedItems, tag(name: String)
-}
-
-protocol TagItemSelectable: class {
-    func didSelect(tag: TagUIKind, sender: AnyObject?)
-}
-
 class TagListBindingManager: NSObject {
     
     weak var dataSource: URLItemQuerySinglePersistanceType? {
@@ -27,8 +19,7 @@ class TagListBindingManager: NSObject {
         }
     }
     
-    weak var delegate: TagItemSelectable?
-    
+    @IBOutlet private weak var parentWindow: NSWindow?
     @IBOutlet private weak var sourceList: NSOutlineView?
     @IBOutlet private weak var treeController: NSTreeController? {
         didSet {
@@ -42,8 +33,8 @@ class TagListBindingManager: NSObject {
         didSet {
             self.selectionKVO?.add(keyPath: #keyPath(NSTreeController.selectedNodes)) { nodes -> NSNull? in
                 guard let selected = self.treeController?.selectedNodes.first?.representedObject as? TreeBindingObject else { return .none }
-                print("\(selected.title)")
-                self.delegate?.didSelect(tag: selected.kind, sender: self)
+                let selector = #selector(URLListWindowController.didChangeTag(selection:))
+                let _ = self.parentWindow?.firstResponder.try(toPerform: selector, with: TagSelectionContainer(selection: selected.kind, sender: self.sourceList))
                 return .none
             }
         }
@@ -111,15 +102,27 @@ private class TreeBindingObject: NSObject {
     
     var title = "untitled"
     var children: [TreeBindingObject] = []
-    var kind = TagUIKind.notSelectable
+    var kind = TagItem.Selection.notSelectable
     
     override init() {
         super.init()
     }
     
-    init(title: String, children: [TreeBindingObject] = [], kind: TagUIKind = .notSelectable) {
+    init(title: String, children: [TreeBindingObject] = [], kind: TagItem.Selection = .notSelectable) {
         self.title = title
         self.children = children
         self.kind = kind
     }
 }
+
+class TagSelectionContainer: NSObject {
+    let selection: TagItem.Selection
+    let sender: AnyObject?
+    
+    init(selection: TagItem.Selection, sender: AnyObject?) {
+        self.selection = selection
+        self.sender = sender
+        super.init()
+    }
+}
+

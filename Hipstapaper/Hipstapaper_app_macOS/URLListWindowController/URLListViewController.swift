@@ -77,6 +77,12 @@ class URLListViewController: NSViewController {
             return newWC
         }
     }
+    
+    // MARK: Tag Selection Responder
+    
+    @objc func didChangeTag(selection: TagSelectionContainer?) {
+        print("View Controller Received Selection: \(selection!.selection)")
+    }
 }
 
 extension URLListViewController /*NSWindowDelegate*/ {
