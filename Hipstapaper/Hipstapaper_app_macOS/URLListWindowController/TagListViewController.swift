@@ -11,7 +11,7 @@ import AppKit
 
 class TagListViewController: NSViewController {
     
-    weak var dataSource: URLItemQuerySinglePersistanceType?
+    weak var dataSource: URLItemDoublePersistanceType?
     
     @IBOutlet private weak var bindingManager: TagListBindingManager? {
         didSet {

@@ -11,6 +11,8 @@ import AppKit
 
 class URLListBindingManager: NSObject, URLItemBindingChangeDelegate {
     
+    var dataSelection: TagItem.Selection = .unarchivedItems  
+    
     @IBOutlet private weak var parentWindowController: URLListWindowController?
     
     weak var dataSource: URLItemCRUDDoublePersistanceType? {

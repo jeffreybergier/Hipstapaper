@@ -13,7 +13,7 @@ extension NSTreeController: KVOCapable {}
 
 class TagListBindingManager: NSObject {
     
-    weak var dataSource: URLItemQuerySinglePersistanceType? {
+    weak var dataSource: URLItemDoublePersistanceType? {
         didSet {
             self.reloadData()
         }

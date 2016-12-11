@@ -10,14 +10,14 @@ import Foundation
 
 open class URLItemPersistanceController {
     
-    fileprivate let realmController: URLItemCRUDSinglePersistanceType & URLItemQuerySinglePersistanceType = URLItemRealmController()
-    fileprivate let cloudKitController: URLItemCRUDSinglePersistanceType & URLItemQuerySinglePersistanceType = URLItemCloudKitController()
+    fileprivate let realmController: URLItemSinglePersistanceType = URLItemRealmController()
+    fileprivate let cloudKitController: URLItemSinglePersistanceType = URLItemCloudKitController()
     
     public init() {}
     
 }
 
-extension URLItemPersistanceController: URLItemQuerySinglePersistanceType {
+extension URLItemPersistanceController: URLItemDoublePersistanceType {
     public func tagItems(result: TagListResult?) {
         self.realmController.tagItems(result: result)
     }

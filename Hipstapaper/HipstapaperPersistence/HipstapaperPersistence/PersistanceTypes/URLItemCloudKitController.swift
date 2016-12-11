@@ -8,7 +8,7 @@
 
 import CloudKit
 
-open class URLItemCloudKitController {
+open class URLItemCloudKitController: URLItemSinglePersistanceType {
     
     fileprivate let recordType = "URLItem"
     fileprivate let privateDB = CKContainer(identifier: "iCloud.com.saturdayapps.Hipstapaper").privateCloudDatabase
@@ -20,7 +20,7 @@ open class URLItemCloudKitController {
     
 }
 
-extension URLItemCloudKitController: URLItemQuerySinglePersistanceType {
+extension URLItemCloudKitController: URLItemQueryPersistanceType {
     
     public func tagItems(result: TagListResult?) {
         result?(.error([NSError(domain: "", code: 0, userInfo: nil)]))
@@ -149,7 +149,7 @@ extension URLItemCloudKitController: URLItemCRUDSinglePersistanceType {
     }
 }
 
-extension URLItemCloudKitController: URLItemCRUDDoublePersistanceType {
+extension URLItemCloudKitController: URLItemDoublePersistanceType {
     public func sync(result: SuccessResult?) {
         result?(.error([NSError()]))
     }

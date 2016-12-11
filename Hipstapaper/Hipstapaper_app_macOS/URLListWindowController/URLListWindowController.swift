@@ -43,7 +43,7 @@ class URLListWindowController: NSWindowController {
     // MARK: Data Source
     
     private var syncController: SyncController = .combined
-    private(set) lazy var dataSource: URLItemCRUDDoublePersistanceType & URLItemQuerySinglePersistanceType = {
+    private(set) lazy var dataSource: URLItemDoublePersistanceType = {
         switch self.syncController {
         case .combined:
             return URLItemPersistanceController()

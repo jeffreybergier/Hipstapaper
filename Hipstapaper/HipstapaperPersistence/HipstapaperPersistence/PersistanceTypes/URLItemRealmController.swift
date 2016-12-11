@@ -8,7 +8,7 @@
 
 import RealmSwift
 
-open class URLItemRealmController {
+open class URLItemRealmController: URLItemSinglePersistanceType {
     
     #if os(OSX)
     private static let appGroupIdentifier = "V6ESYGU6CV.hipstapaper.appgroup"
@@ -38,7 +38,7 @@ open class URLItemRealmController {
     }
 }
 
-extension URLItemRealmController: URLItemQuerySinglePersistanceType {
+extension URLItemRealmController: URLItemQueryPersistanceType {
     public func tagItems(result: TagListResult?) {
         self.serialQueue.async {
             do {
@@ -223,7 +223,7 @@ extension URLItemRealmController {
     }
 }
 
-extension URLItemRealmController: URLItemCRUDDoublePersistanceType {
+extension URLItemRealmController: URLItemDoublePersistanceType {
     public func sync(result: SuccessResult?) {
         result?(.error([NSError()]))
     }
