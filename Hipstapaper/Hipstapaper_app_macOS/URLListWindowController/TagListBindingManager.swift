@@ -6,10 +6,17 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
+import HipstapaperPersistence
 import AppKit
 
 class TagListBindingManager: NSObject {
-        
+    
+    weak var dataSource: URLItemQuerySinglePersistanceType? {
+        didSet {
+            self.reloadData()
+        }
+    }
+    
     @IBOutlet private weak var sourceList: NSOutlineView?
     @IBOutlet private weak var treeController: NSTreeController? {
         didSet {
@@ -30,6 +37,25 @@ class TagListBindingManager: NSObject {
     
     fileprivate let tagItems = TreeBindingObject(title: "Tags")
     
+    func reloadData() {
+        self.dataSource?.tagItems() { tagResult in
+            switch tagResult {
+            case .error(let errors):
+                NSLog("Error Loading Tags: \(errors)")
+                self.updateTagList(newTags: [])
+            case .success(let tags):
+                self.updateTagList(newTags: tags)
+            }
+        }
+    }
+    
+    private func updateTagList(newTags: [TagItemType]) {
+        let treeItems = newTags.map({ TreeBindingObject(title: $0.name) })
+        DispatchQueue.main.async {
+            self.tagItems.children = treeItems
+            self.treeController?.content = self.content
+        }
+    }
 }
 
 extension TagListBindingManager: NSOutlineViewDelegate {

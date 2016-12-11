@@ -26,7 +26,7 @@ public protocol URLItemCRUDDoublePersistanceType: class {
 }
 
 // This protocol is intended for systems that use either a local database or a cloud storage system
-public protocol URLItemCRUDSinglePersistanceType {
+public protocol URLItemCRUDSinglePersistanceType: class {
     func allItems(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?)
     func create(item: URLItemType?, result: URLItemResult?)
     func readItem(withID id: String, result: URLItemResult?)
@@ -34,7 +34,7 @@ public protocol URLItemCRUDSinglePersistanceType {
     func delete(item: URLItemType, result: SuccessResult?)
 }
 
-public protocol URLItemQuerySinglePersistanceType {
+public protocol URLItemQuerySinglePersistanceType: class {
     func tagItems(result: TagListResult?)
     func unarchivedItems(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?)
     func allItems(for tag: TagItemType, result: URLItemIDsResult?)

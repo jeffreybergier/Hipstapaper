@@ -23,7 +23,7 @@ open class URLItemCloudKitController {
 extension URLItemCloudKitController: URLItemQuerySinglePersistanceType {
     
     public func tagItems(result: TagListResult?) {
-        result?(.error([NSError()]))
+        result?(.error([NSError(domain: "", code: 0, userInfo: nil)]))
     }
     public func unarchivedItems(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?) {
         let predicate = NSPredicate(format: "archived = NO")

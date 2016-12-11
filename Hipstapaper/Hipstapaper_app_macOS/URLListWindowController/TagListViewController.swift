@@ -11,12 +11,19 @@ import AppKit
 
 class TagListViewController: NSViewController {
     
-    @IBOutlet private weak var bindingManager: TagListBindingManager?
+    weak var dataSource: URLItemQuerySinglePersistanceType?
+    
+    @IBOutlet private weak var bindingManager: TagListBindingManager? {
+        didSet {
+            self.bindingManager!.dataSource = self.dataSource
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     func windowSyncFinished(result: Result<Void>, sender: NSObject?) {
+        self.bindingManager?.reloadData()
     }
 }

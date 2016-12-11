@@ -96,6 +96,7 @@ extension URLItemRealmController: URLItemCRUDSinglePersistanceType {
                 }
                 realm.beginWrite()
                 realm.add(newObject)
+                newObject.tagList = type(of: self).loadTagListMatching(tagItemArray: ["FakeTag1", "FakeTag2", "FakeTag3"], from: realm)
                 try realm.commitWrite()
                 let value = URLItem.Value(realmObject: newObject)
                 result?(.success(value))
@@ -177,7 +178,8 @@ extension URLItemRealmController {
     }
     
     fileprivate class func allTagItems(from realm: Realm) -> Results<TagItemRealmObject> {
-        let results = realm.objects(TagItemRealmObject.self).filter("items.count > 0").sorted(byProperty: "name", ascending: false)
+//        let results = realm.objects(TagItemRealmObject.self).filter("items.count > 0").sorted(byProperty: "name", ascending: true)
+        let results = realm.objects(TagItemRealmObject.self).sorted(byProperty: "name", ascending: true)
         return results
     }
     
@@ -205,9 +207,14 @@ extension URLItemRealmController {
     fileprivate class func newTagObject(withName name: String, from realm: Realm) -> TagItemRealmObject? {
         do {
             let newObject = TagItemRealmObject(name: name)
-            realm.beginWrite()
+            let wasAlreadyWriting = realm.isInWriteTransaction
+            if wasAlreadyWriting == false {
+                realm.beginWrite()
+            }
             realm.add(newObject)
-            try realm.commitWrite()
+            if wasAlreadyWriting == false {
+                try realm.commitWrite()
+            }
             return newObject
         } catch {
             NSLog("createTagItemError: \(error)")

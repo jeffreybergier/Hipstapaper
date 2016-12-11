@@ -10,11 +10,23 @@ import Foundation
 
 open class URLItemPersistanceController {
     
-    fileprivate let realmController: URLItemCRUDSinglePersistanceType = URLItemRealmController()
-    fileprivate let cloudKitController: URLItemCRUDSinglePersistanceType = URLItemCloudKitController()
+    fileprivate let realmController: URLItemCRUDSinglePersistanceType & URLItemQuerySinglePersistanceType = URLItemRealmController()
+    fileprivate let cloudKitController: URLItemCRUDSinglePersistanceType & URLItemQuerySinglePersistanceType = URLItemCloudKitController()
     
     public init() {}
     
+}
+
+extension URLItemPersistanceController: URLItemQuerySinglePersistanceType {
+    public func tagItems(result: TagListResult?) {
+        self.realmController.tagItems(result: result)
+    }
+    public func unarchivedItems(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?) {
+        self.realmController.unarchivedItems(sortedBy: sortedBy, ascending: ascending, result: result)
+    }
+    public func allItems(for tag: TagItemType, result: URLItemIDsResult?) {
+        self.realmController.allItems(for: tag, result: result)
+    }
 }
 
 extension URLItemPersistanceController: URLItemCRUDDoublePersistanceType {

@@ -43,7 +43,7 @@ class URLListWindowController: NSWindowController {
     // MARK: Data Source
     
     private var syncController: SyncController = .combined
-    private(set) lazy var dataSource: URLItemCRUDDoublePersistanceType = {
+    private(set) lazy var dataSource: URLItemCRUDDoublePersistanceType & URLItemQuerySinglePersistanceType = {
         switch self.syncController {
         case .combined:
             return URLItemPersistanceController()
@@ -66,6 +66,11 @@ class URLListWindowController: NSWindowController {
     @IBOutlet private weak var urlListViewController: URLListViewController? {
         didSet {
             self.urlListViewController?.dataSource = self.dataSource
+        }
+    }
+    @IBOutlet private weak var tagListViewController: TagListViewController? {
+        didSet {
+            self.tagListViewController?.dataSource = self.dataSource
         }
     }
     
@@ -96,6 +101,7 @@ class URLListWindowController: NSWindowController {
         self.operationsInProgress += 1
         self.dataSource.sync() { syncResult in
             self.urlListViewController?.windowSyncFinished(result: syncResult, sender: sender)
+            self.tagListViewController?.windowSyncFinished(result: syncResult, sender: sender)
             self.operationsInProgress -= 1
         }
     }
