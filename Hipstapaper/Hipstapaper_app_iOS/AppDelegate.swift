@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window = UIWindow(frame: UIScreen.main.bounds)
         }
         
-        let listVC = URLItemListViewController()
+        let listVC = TagItemListViewController(style: .grouped)
         let navVC = UINavigationController(rootViewController: listVC)
         
         self.window!.rootViewController = navVC

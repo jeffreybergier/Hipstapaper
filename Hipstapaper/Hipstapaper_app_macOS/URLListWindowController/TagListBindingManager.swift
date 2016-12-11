@@ -103,24 +103,6 @@ extension TagListBindingManager: NSOutlineViewDelegate {
     }
 }
 
-@objc(TreeBindingObject)
-private class TreeBindingObject: NSObject {
-    
-    var title = "untitled"
-    var children: [TreeBindingObject] = []
-    var kind = TagItem.Selection.notSelectable
-    
-    override init() {
-        super.init()
-    }
-    
-    init(title: String, children: [TreeBindingObject] = [], kind: TagItem.Selection = .notSelectable) {
-        self.title = title
-        self.children = children
-        self.kind = kind
-    }
-}
-
 class TagSelectionContainer: NSObject {
     let selection: TagItem.Selection
     let sender: AnyObject?

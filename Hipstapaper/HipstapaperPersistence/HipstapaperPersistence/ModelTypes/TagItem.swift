@@ -35,3 +35,21 @@ extension String: TagItemType {
         }
     }
 }
+
+@objc(TreeBindingObject)
+public class TreeBindingObject: NSObject {
+    
+    public var title = "untitled"
+    public var children: [TreeBindingObject] = []
+    public var kind = TagItem.Selection.notSelectable
+    
+    public override init() {
+        super.init()
+    }
+    
+    public init(title: String, children: [TreeBindingObject] = [], kind: TagItem.Selection = .notSelectable) {
+        self.title = title
+        self.children = children
+        self.kind = kind
+    }
+}
