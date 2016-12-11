@@ -15,7 +15,7 @@ class URLListBindingManager: NSObject, URLItemBindingChangeDelegate {
     
     @IBOutlet private weak var parentWindowController: URLListWindowController?
     
-    weak var dataSource: URLItemCRUDDoublePersistanceType? {
+    weak var dataSource: URLItemDoublePersistanceType? {
         didSet {
             self.reloadData()
         }
@@ -83,9 +83,62 @@ class URLListBindingManager: NSObject, URLItemBindingChangeDelegate {
     }
     
     func reloadData() {
+        switch self.dataSelection {
+        case .allItems:
+            self.reloadAllItems()
+        case .unarchivedItems:
+            self.reloadUnarchivedItems()
+        case .tag(let tagName):
+            self.reloadItemsForTag(named: tagName)
+        case .notSelectable:
+            fatalError()
+        }
+    }
+    
+    private func reloadAllItems() {
         DispatchQueue.main.async {
             self.parentWindowController?.operationsInProgress += 1 // update the spinner
             self.dataSource?.allItems(sortedBy: .modificationDate, ascending: false) { result in
+                let sortedIDs: [String]
+                switch result {
+                case .success(let ids):
+                    sortedIDs = ids
+                case .error(let errors):
+                    NSLog("Errors While Syncing: \(errors)")
+                    sortedIDs = []
+                }
+                self.process(sortedIDs: sortedIDs) // process the data
+                DispatchQueue.main.async {
+                    self.parentWindowController?.operationsInProgress -= 1 // update the spinner
+                }
+            }
+        }
+    }
+    
+    private func reloadUnarchivedItems() {
+        DispatchQueue.main.async {
+            self.parentWindowController?.operationsInProgress += 1 // update the spinner
+            self.dataSource?.unarchivedItems(sortedBy: .modificationDate, ascending: false) { result in
+                let sortedIDs: [String]
+                switch result {
+                case .success(let ids):
+                    sortedIDs = ids
+                case .error(let errors):
+                    NSLog("Errors While Syncing: \(errors)")
+                    sortedIDs = []
+                }
+                self.process(sortedIDs: sortedIDs) // process the data
+                DispatchQueue.main.async {
+                    self.parentWindowController?.operationsInProgress -= 1 // update the spinner
+                }
+            }
+        }
+    }
+    
+    private func reloadItemsForTag(named name: String) {
+        DispatchQueue.main.async {
+            self.parentWindowController?.operationsInProgress += 1 // update the spinner
+            self.dataSource?.allItems(for: name) { result in
                 let sortedIDs: [String]
                 switch result {
                 case .success(let ids):

@@ -20,7 +20,7 @@ class URLListViewController: NSViewController {
     
     // MARK: Data Source
     
-    weak var dataSource: URLItemCRUDDoublePersistanceType?
+    weak var dataSource: URLItemDoublePersistanceType?
     
     // MARK: Manage Child Windows of this Window
     fileprivate var openItemWindows: [URLItem.Value : URLItemWebViewWindowController] = [:]
@@ -81,7 +81,14 @@ class URLListViewController: NSViewController {
     // MARK: Tag Selection Responder
     
     @objc func didChangeTag(selection: TagSelectionContainer?) {
-        print("View Controller Received Selection: \(selection!.selection)")
+        guard let selection = selection?.selection else { return }
+        switch selection {
+        case .allItems, .tag, .unarchivedItems:
+            self.bindingManager?.dataSelection = selection
+            self.bindingManager?.reloadData()
+        case .notSelectable:
+            break // do nothing
+        }
     }
 }
 

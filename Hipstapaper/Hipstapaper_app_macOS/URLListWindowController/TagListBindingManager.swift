@@ -25,6 +25,8 @@ class TagListBindingManager: NSObject {
         didSet {
             guard let treeController = self.treeController else { return }
             treeController.content = self.content
+            self.sourceList?.expandItem(.none, expandChildren: true)
+            self.treeController?.setSelectionIndexPath(IndexPath(item: 0, section: 0))
             self.selectionKVO = KeyValueObserver(target: treeController)
         }
     }
