@@ -83,22 +83,10 @@ class URLListBindingManager: NSObject, URLItemBindingChangeDelegate {
     }
     
     func reloadData() {
-        switch self.dataSelection {
-        case .allItems:
-            self.reloadAllItems()
-        case .unarchivedItems:
-            self.reloadUnarchivedItems()
-        case .tag(let tagName):
-            self.reloadItemsForTag(named: tagName)
-        case .notSelectable:
-            fatalError()
-        }
-    }
-    
-    private func reloadAllItems() {
         DispatchQueue.main.async {
             self.parentWindowController?.operationsInProgress += 1 // update the spinner
-            self.dataSource?.allItems(sortedBy: .modificationDate, ascending: false) { result in
+            
+            let completionHandler: URLItemIDsResult = { result in
                 let sortedIDs: [String]
                 switch result {
                 case .success(let ids):
@@ -112,68 +100,37 @@ class URLListBindingManager: NSObject, URLItemBindingChangeDelegate {
                     self.parentWindowController?.operationsInProgress -= 1 // update the spinner
                 }
             }
-        }
-    }
-    
-    private func reloadUnarchivedItems() {
-        DispatchQueue.main.async {
-            self.parentWindowController?.operationsInProgress += 1 // update the spinner
-            self.dataSource?.unarchivedItems(sortedBy: .modificationDate, ascending: false) { result in
-                let sortedIDs: [String]
-                switch result {
-                case .success(let ids):
-                    sortedIDs = ids
-                case .error(let errors):
-                    NSLog("Errors While Syncing: \(errors)")
-                    sortedIDs = []
-                }
-                self.process(sortedIDs: sortedIDs) // process the data
-                DispatchQueue.main.async {
-                    self.parentWindowController?.operationsInProgress -= 1 // update the spinner
-                }
-            }
-        }
-    }
-    
-    private func reloadItemsForTag(named name: String) {
-        DispatchQueue.main.async {
-            self.parentWindowController?.operationsInProgress += 1 // update the spinner
-            self.dataSource?.allItems(for: name) { result in
-                let sortedIDs: [String]
-                switch result {
-                case .success(let ids):
-                    sortedIDs = ids
-                case .error(let errors):
-                    NSLog("Errors While Syncing: \(errors)")
-                    sortedIDs = []
-                }
-                self.process(sortedIDs: sortedIDs) // process the data
-                DispatchQueue.main.async {
-                    self.parentWindowController?.operationsInProgress -= 1 // update the spinner
-                }
+            
+            switch self.dataSelection {
+            case .allItems:
+                self.dataSource?.allItems(sortedBy: .modificationDate, ascending: false, result: completionHandler)
+            case .unarchivedItems:
+                self.dataSource?.unarchivedItems(sortedBy: .modificationDate, ascending: false, result: completionHandler)
+            case .tag(let tagName):
+                self.dataSource?.allItems(for: tagName, sortedBy: .modificationDate, ascending: false, result: completionHandler)
+            case .notSelectable:
+                fatalError()
             }
         }
     }
     
     private func process(sortedIDs ids: [String]) {
-        DispatchQueue.global(qos: .userInitiated).async {
-            let bindingObjects = ids.map() { id -> URLItem.BindingObject in
-                let bindingObject = URLItem.BindingObject(value: nil)
-                self.parentWindowController?.operationsInProgress += 1 // update the spinner
-                self.dataSource?.readItem(withID: id) { result in
-                    if case .success(let urlItem) = result {
-                        DispatchQueue.main.async {
-                            bindingObject.value = urlItem
-                            self.parentWindowController?.operationsInProgress -= 1 // update the spinner
-                        }
+        let bindingObjects = ids.map() { id -> URLItem.BindingObject in
+            let bindingObject = URLItem.BindingObject(value: nil)
+            self.parentWindowController?.operationsInProgress += 1 // update the spinner
+            self.dataSource?.readItem(withID: id) { result in
+                if case .success(let urlItem) = result {
+                    DispatchQueue.main.async {
+                        bindingObject.value = urlItem
+                        self.parentWindowController?.operationsInProgress -= 1 // update the spinner
                     }
                 }
-                return bindingObject
             }
-            DispatchQueue.main.async {
-                self._listItems = bindingObjects
-                self.arrayController?.content = self.listItems
-            }
+            return bindingObject
+        }
+        DispatchQueue.main.async {
+            self._listItems = bindingObjects
+            self.arrayController?.content = self.listItems
         }
     }
     

@@ -64,8 +64,17 @@ extension URLItemRealmController: URLItemQueryPersistanceType {
             }
         }
     }
-    public func allItems(for tag: TagItemType, result: URLItemIDsResult?) {
-        result?(.error([NSError()]))
+    public func allItems(for tag: TagItemType, sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?) {
+        self.serialQueue.async {
+            do {
+                let realm = try Realm()
+                let urlItemIDs = type(of: self).urlItemsIDs(for: tag, from: realm, sortedBy: sortedBy, ascending: ascending)
+                result?(.success(urlItemIDs))
+            } catch {
+                NSLog("realmSyncError: \(error)")
+                result?(.error([error]))
+            }
+        }
     }
 }
 
@@ -175,6 +184,13 @@ extension URLItemRealmController {
         let results = realm.objects(URLItemRealmObject.self).filter("archived = NO").sorted(byProperty: sortedBy.realmPropertyName, ascending: ascending)
         let ids = results.map({ $0.realmID })
         return Array(ids)
+    }
+    
+    fileprivate class func urlItemsIDs(for tag: TagItemType, from realm: Realm, sortedBy: URLItem.Sort, ascending: Bool) -> Array<String> {
+        guard let tag = realm.object(ofType: TagItemRealmObject.self, forPrimaryKey: tag.name) else { return [] }
+        let urlItems = tag.items.sorted(byProperty: sortedBy.realmPropertyName, ascending: ascending)
+        let urlItemIDs = urlItems.map({ $0.realmID })
+        return Array(urlItemIDs)
     }
     
     fileprivate class func allTagItems(from realm: Realm) -> Results<TagItemRealmObject> {

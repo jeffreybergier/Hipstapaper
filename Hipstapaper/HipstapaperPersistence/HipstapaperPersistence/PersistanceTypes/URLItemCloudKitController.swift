@@ -29,7 +29,7 @@ extension URLItemCloudKitController: URLItemQueryPersistanceType {
         let predicate = NSPredicate(format: "archived = NO")
         self.allItems(matchingPredicate: predicate, sortedBy: sortedBy, ascending: ascending, result: result)
     }
-    public func allItems(for tag: TagItemType, result: URLItemIDsResult?) {
+    public func allItems(for tag: TagItemType, sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?) {
         result?(.error([NSError()]))
     }
     

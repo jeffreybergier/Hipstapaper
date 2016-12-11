@@ -37,7 +37,7 @@ public protocol URLItemCRUDSinglePersistanceType: class {
 public protocol URLItemQueryPersistanceType: class {
     func tagItems(result: TagListResult?)
     func unarchivedItems(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?)
-    func allItems(for tag: TagItemType, result: URLItemIDsResult?)
+    func allItems(for tag: TagItemType, sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?)
 }
 
 public protocol URLItemDoublePersistanceType: URLItemCRUDDoublePersistanceType, URLItemQueryPersistanceType { }

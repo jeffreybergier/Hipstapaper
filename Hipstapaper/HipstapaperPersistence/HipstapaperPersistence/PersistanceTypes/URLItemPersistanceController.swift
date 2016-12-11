@@ -24,8 +24,8 @@ extension URLItemPersistanceController: URLItemDoublePersistanceType {
     public func unarchivedItems(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?) {
         self.realmController.unarchivedItems(sortedBy: sortedBy, ascending: ascending, result: result)
     }
-    public func allItems(for tag: TagItemType, result: URLItemIDsResult?) {
-        self.realmController.allItems(for: tag, result: result)
+    public func allItems(for tag: TagItemType, sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?) {
+        self.realmController.allItems(for: tag, sortedBy: sortedBy, ascending: ascending, result: result)
     }
 }
 
