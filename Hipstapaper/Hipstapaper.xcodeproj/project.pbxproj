@@ -51,6 +51,7 @@
 		504A3A3B1DF924D300EA46A9 /* URLItemSavingShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504A3A391DF924D300EA46A9 /* URLItemSavingShareViewController.xib */; };
 		504A3A3D1DF9312700EA46A9 /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504A3A3C1DF9312700EA46A9 /* FrameworkExtensions.swift */; };
 		504A3A3F1DFE050700EA46A9 /* TagItemListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504A3A3E1DFE050700EA46A9 /* TagItemListViewController.swift */; };
+		504A3A411DFE270200EA46A9 /* UserFlowNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504A3A401DFE270200EA46A9 /* UserFlowNavigationController.swift */; };
 		504FC0FC1DFA444A0014C787 /* URLItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504FC0FA1DFA444A0014C787 /* URLItemTableViewCell.swift */; };
 		504FC0FD1DFA444A0014C787 /* URLItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504FC0FB1DFA444A0014C787 /* URLItemTableViewCell.xib */; };
 		505B30441DEA692C00B74AE6 /* URLListBindingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30411DEA692C00B74AE6 /* URLListBindingManager.swift */; };
@@ -242,6 +243,7 @@
 		504A3A391DF924D300EA46A9 /* URLItemSavingShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLItemSavingShareViewController.xib; sourceTree = "<group>"; };
 		504A3A3C1DF9312700EA46A9 /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		504A3A3E1DFE050700EA46A9 /* TagItemListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagItemListViewController.swift; sourceTree = "<group>"; };
+		504A3A401DFE270200EA46A9 /* UserFlowNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserFlowNavigationController.swift; sourceTree = "<group>"; };
 		504FC0FA1DFA444A0014C787 /* URLItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemTableViewCell.swift; sourceTree = "<group>"; };
 		504FC0FB1DFA444A0014C787 /* URLItemTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLItemTableViewCell.xib; sourceTree = "<group>"; };
 		505B30411DEA692C00B74AE6 /* URLListBindingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLListBindingManager.swift; sourceTree = "<group>"; };
@@ -361,6 +363,7 @@
 			children = (
 				5005E11D1DF4CB8300BA38E6 /* AppDelegate.swift */,
 				50D47B771DFB220F00E4FD2C /* FrameworkExtensions.swift */,
+				504A3A401DFE270200EA46A9 /* UserFlowNavigationController.swift */,
 				504A3A3E1DFE050700EA46A9 /* TagItemListViewController.swift */,
 				501EC2531DF4E4E8003577DA /* URLItemListViewController.swift */,
 				50A63FB51DFA401E0074FE2F /* URLListBindingManager.swift */,
@@ -1202,6 +1205,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				504A3A411DFE270200EA46A9 /* UserFlowNavigationController.swift in Sources */,
 				50D47B781DFB220F00E4FD2C /* FrameworkExtensions.swift in Sources */,
 				504FC0FC1DFA444A0014C787 /* URLItemTableViewCell.swift in Sources */,
 				50A63FB01DF9D2BD0074FE2F /* URLItemWebViewController.swift in Sources */,

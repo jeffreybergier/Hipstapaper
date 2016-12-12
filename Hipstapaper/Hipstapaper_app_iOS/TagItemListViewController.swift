@@ -32,12 +32,13 @@ class TagItemListViewController: UITableViewController {
     
     private lazy var reloadBar: UIBarButtonItem = {
         let item = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.reloadButtonTapped(_:)))
-        item.style = .done // I thought this made bar button items thicker, but it appears to make it thinne
+        //item.style = .done // I thought this made bar button items thicker, but it appears to make it thinne
         return item
     }()
     private let loadingBar: UIBarButtonItem = {
         let view = UIActivityIndicatorView(activityIndicatorStyle: .gray)
-        view.startAnimating()
+        view.stopAnimating()
+        view.hidesWhenStopped = true
         let barButtonItem = UIBarButtonItem(customView: view)
         return barButtonItem
     }()
@@ -51,6 +52,7 @@ class TagItemListViewController: UITableViewController {
         
         // configure bar button items
         self.navigationItem.leftBarButtonItem = self.reloadBar
+        self.setToolbarItems([self.reloadBar, self.loadingBar], animated: false)
     }
     
     // MARK: Handle User Input
@@ -74,8 +76,18 @@ class TagItemListViewController: UITableViewController {
     
     // MARK: Handle Loading Data
     
+    private func showLoadingSpinner() {
+        (self.loadingBar.customView as! UIActivityIndicatorView).startAnimating()
+        self.reloadBar.isEnabled = false
+    }
+    
+    private func showReloadButton() {
+        (self.loadingBar.customView as! UIActivityIndicatorView).stopAnimating()
+        self.reloadBar.isEnabled = true
+    }
+    
     private func reloadData() {
-        self.navigationItem.leftBarButtonItem = self.loadingBar
+        self.showLoadingSpinner()
         self.dataSource?.sync() { result in
             DispatchQueue.main.async {
                 switch result {
@@ -83,7 +95,7 @@ class TagItemListViewController: UITableViewController {
                     NSLog("Error Syncing Data: \(errors)")
                     self.tagItems.children = []
                     self.tableView.reloadData()
-                    self.navigationItem.leftBarButtonItem = self.reloadBar
+                    self.showReloadButton()
                 case .success:
                     self.dataSource?.tagItems() { tagResult in
                         DispatchQueue.main.async {
@@ -96,7 +108,7 @@ class TagItemListViewController: UITableViewController {
                                 self.tagItems.children = items
                             }
                             self.tableView.reloadData()
-                            self.navigationItem.leftBarButtonItem = self.reloadBar
+                            self.showReloadButton()
                         }
                     }
                 }
