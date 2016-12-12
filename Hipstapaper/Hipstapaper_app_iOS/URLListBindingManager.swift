@@ -11,6 +11,7 @@ import UIKit
 
 protocol URLListBindingManagerDelegate: class {
     func didSelect(item: URLItemType, within: UITableView, bindingManager: URLListBindingManager)
+    func didUpdate(operationsInProgress: Bool, bindingManager: URLListBindingManager)
 }
 
 class URLListBindingManager: NSObject {
@@ -29,13 +30,23 @@ class URLListBindingManager: NSObject {
     
     // MARK: Keep Track of Operations in Progress
     
-    private var spinnerOperationsInProgress = 0
+    private var operationsInProgress = 0 {
+        didSet {
+            if oldValue != self.operationsInProgress {
+                if self.operationsInProgress > 0 {
+                    self.delegate?.didUpdate(operationsInProgress: true, bindingManager: self)
+                } else {
+                    self.delegate?.didUpdate(operationsInProgress: false, bindingManager: self)
+                }
+            }
+        }
+    }
     
     // MARK: External Properties that Need to be Set
     
-    func initialLoad() {
+    func reloadData() {
         DispatchQueue.main.async {
-            self.spinnerOperationsInProgress += 1 // update the spinner
+            self.operationsInProgress += 1 // update the spinner
             
             let completionHandler: URLItemIDsResult = { result in
                 let sortedIDs: [String]
@@ -48,7 +59,7 @@ class URLListBindingManager: NSObject {
                 }
                 DispatchQueue.main.async {
                     self.updateTableView(withNewSortedIDs: sortedIDs)
-                    self.spinnerOperationsInProgress -= 1 // update the spinner
+                    self.operationsInProgress -= 1 // update the spinner
                 }
             }
             

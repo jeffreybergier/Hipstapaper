@@ -30,15 +30,10 @@ class TagItemListViewController: UITableViewController {
     
     // MARK: NavBar Items
     
-    private lazy var reloadBar: UIBarButtonItem = {
-        let item = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.reloadButtonTapped(_:)))
-        //item.style = .done // I thought this made bar button items thicker, but it appears to make it thinne
-        return item
-    }()
+    private lazy var reloadBar: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.reloadButtonTapped(_:)))
     private let loadingBar: UIBarButtonItem = {
         let view = UIActivityIndicatorView(activityIndicatorStyle: .gray)
-        view.stopAnimating()
-        view.hidesWhenStopped = true
+        view.startAnimating()
         let barButtonItem = UIBarButtonItem(customView: view)
         return barButtonItem
     }()
@@ -51,8 +46,7 @@ class TagItemListViewController: UITableViewController {
         self.title = "Hipstapaper"
         
         // configure bar button items
-        self.navigationItem.leftBarButtonItem = self.reloadBar
-        self.setToolbarItems([self.reloadBar, self.loadingBar], animated: false)
+        self.setToolbarItems([self.reloadBar], animated: true)
     }
     
     // MARK: Handle User Input
@@ -76,18 +70,24 @@ class TagItemListViewController: UITableViewController {
     
     // MARK: Handle Loading Data
     
-    private func showLoadingSpinner() {
-        (self.loadingBar.customView as! UIActivityIndicatorView).startAnimating()
-        self.reloadBar.isEnabled = false
-    }
-    
-    private func showReloadButton() {
-        (self.loadingBar.customView as! UIActivityIndicatorView).stopAnimating()
-        self.reloadBar.isEnabled = true
+    private var networkOperationsInProgress = 0 {
+        didSet {
+            DispatchQueue.main.async {
+                if oldValue != self.networkOperationsInProgress {
+                    if self.networkOperationsInProgress > 0 {
+                        self.reloadBar.isEnabled = false
+                        self.setToolbarItems([self.loadingBar], animated: true)
+                    } else {
+                        self.reloadBar.isEnabled = true
+                        self.setToolbarItems([self.reloadBar], animated: true)
+                    }
+                }
+            }
+        }
     }
     
     private func reloadData() {
-        self.showLoadingSpinner()
+        self.networkOperationsInProgress += 1
         self.dataSource?.sync() { result in
             DispatchQueue.main.async {
                 switch result {
@@ -95,7 +95,7 @@ class TagItemListViewController: UITableViewController {
                     NSLog("Error Syncing Data: \(errors)")
                     self.tagItems.children = []
                     self.tableView.reloadData()
-                    self.showReloadButton()
+                    self.networkOperationsInProgress -= 1
                 case .success:
                     self.dataSource?.tagItems() { tagResult in
                         DispatchQueue.main.async {
@@ -108,7 +108,7 @@ class TagItemListViewController: UITableViewController {
                                 self.tagItems.children = items
                             }
                             self.tableView.reloadData()
-                            self.showReloadButton()
+                            self.networkOperationsInProgress -= 1
                         }
                     }
                 }
