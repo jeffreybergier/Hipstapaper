@@ -5,14 +5,12 @@
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11761"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="URLItemWebViewController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
-                <outlet property="bottomToolbarView" destination="PnO-8T-3EZ" id="gjo-vo-WZX"/>
-                <outlet property="javascriptCheckbox" destination="jOI-Va-cGg" id="mj3-D2-rHg"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="webViewParentView" destination="DON-TU-24l" id="4UG-3y-BG9"/>
             </connections>
@@ -26,45 +24,13 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PnO-8T-3EZ">
-                    <rect key="frame" x="0.0" y="620" width="375" height="47"/>
-                    <subviews>
-                        <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="YPh-FG-6Zb">
-                            <rect key="frame" x="219.5" y="8" width="135.5" height="31"/>
-                            <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Javascript" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sh6-lX-aGS">
-                                    <rect key="frame" x="0.0" y="0.0" width="78.5" height="31"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <nil key="textColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="jOI-Va-cGg">
-                                    <rect key="frame" x="86.5" y="0.0" width="51" height="31"/>
-                                    <connections>
-                                        <action selector="javascriptCheckboxToggled:" destination="-1" eventType="valueChanged" id="oIF-5h-cNm"/>
-                                    </connections>
-                                </switch>
-                            </subviews>
-                        </stackView>
-                    </subviews>
-                    <color key="backgroundColor" white="0.95990343888600671" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstItem="YPh-FG-6Zb" firstAttribute="top" secondItem="PnO-8T-3EZ" secondAttribute="top" constant="8" id="7lh-gm-60d"/>
-                        <constraint firstItem="YPh-FG-6Zb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="PnO-8T-3EZ" secondAttribute="leading" constant="20" symbolic="YES" id="Nag-a8-ZBw"/>
-                        <constraint firstAttribute="bottom" secondItem="YPh-FG-6Zb" secondAttribute="bottom" constant="8" id="TrJ-Zv-FiN"/>
-                        <constraint firstAttribute="trailing" secondItem="YPh-FG-6Zb" secondAttribute="trailing" constant="20" symbolic="YES" id="wWd-gt-UIV"/>
-                    </constraints>
-                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="PnO-8T-3EZ" secondAttribute="bottom" id="13o-JL-uvq"/>
                 <constraint firstItem="DON-TU-24l" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="23h-Hn-l7g"/>
                 <constraint firstItem="DON-TU-24l" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="3f7-YH-DXz"/>
-                <constraint firstAttribute="trailing" secondItem="PnO-8T-3EZ" secondAttribute="trailing" id="4ar-7E-BwA"/>
                 <constraint firstItem="DON-TU-24l" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="dl7-nH-K6U"/>
                 <constraint firstItem="DON-TU-24l" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" id="i40-Gu-8yq"/>
-                <constraint firstItem="PnO-8T-3EZ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="sRw-Cr-Ox3"/>
             </constraints>
             <point key="canvasLocation" x="33.5" y="53.5"/>
         </view>

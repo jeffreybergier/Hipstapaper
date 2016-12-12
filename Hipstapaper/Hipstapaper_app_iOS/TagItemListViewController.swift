@@ -64,7 +64,7 @@ class TagItemListViewController: UITableViewController {
         case .tagItems:
             selection = self.tagItems.children[indexPath.row].kind
         }
-        let newVC = URLItemListViewController(selection: selection, dataSource: self.dataSource)
+        let newVC = URLItemListViewController(selection: selection, dataSource: self.dataSource, delegate: self)
         self.navigationController?.pushViewController(newVC, animated: true)
     }
     
@@ -162,4 +162,14 @@ class TagItemListViewController: UITableViewController {
         }
     }
 
+}
+
+extension TagItemListViewController: ViewControllerPresenterDelegate {
+    func presented(viewController: UIViewController, didDisappearAnimated: Bool) {
+        if let selectedRows = self.tableView.indexPathsForSelectedRows {
+            selectedRows.forEach() { indexPath in
+                self.tableView.deselectRow(at: indexPath, animated: true)
+            }
+        }
+    }
 }

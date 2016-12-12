@@ -22,12 +22,6 @@ class URLItemWebViewController: UIViewController {
     
     // MARK: IBOutlets
     
-    @IBOutlet private weak var javascriptCheckbox: UISwitch? {
-        didSet {
-            self.javascriptEnabled = self.webView.configuration.preferences.javaScriptEnabled
-        }
-    }
-    
     @IBOutlet private weak var webViewParentView: UIView? {
         didSet {
             // WKWebView is not in IB so I have to add it manually
@@ -60,7 +54,7 @@ class URLItemWebViewController: UIViewController {
     
     private var javascriptEnabled: Bool = false {
         didSet {
-            self.javascriptCheckbox?.isOn = self.javascriptEnabled
+//            self.javascriptCheckbox?.isOn = self.javascriptEnabled
             self.webView.configuration.preferences.javaScriptEnabled = self.javascriptEnabled
             self.webView.reload()
         }
@@ -70,6 +64,13 @@ class URLItemWebViewController: UIViewController {
     
     private lazy var webViewTitleObserver: KeyValueObserver<String> = KeyValueObserver<String>(target: self.webView)
     private lazy var vcTitleObserver: KeyValueObserver<String> = KeyValueObserver<String>(target: self)
+    
+    // MARK: Toolbar Items
+    
+    private lazy var archiveBar: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(self.archiveButtonTapped(_:)))
+    private lazy var tagBar: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: #selector(self.tagButtonTapped(_:)))
+    private lazy var jsBar: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(self.jsButtonTapped(_:)))
+    private let flexibleSpaceBar = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: .none, action: .none)
     
     // Lifecycle
     
@@ -94,6 +95,9 @@ class URLItemWebViewController: UIViewController {
             return .none
         }
         
+        // configure toolbar
+        self.setToolbarItems([self.archiveBar, self.tagBar, self.flexibleSpaceBar, self.jsBar], animated: false)
+        
         // Get the URL loading - could probably use a bail out here if this unwrapping fails
         if let item = self.item, let url = URL(string: String(urlStringFromRawString: item.urlString)) {
             self.webView.load(URLRequest(url: url))
@@ -116,6 +120,18 @@ class URLItemWebViewController: UIViewController {
     @IBAction private func javascriptCheckboxToggled(_ sender: NSObject?) {
         guard let sender = sender as? UISwitch else { return }
         self.javascriptEnabled = sender.isOn
+    }
+    
+    @objc private func archiveButtonTapped(_ sender: NSObject?) {
+        
+    }
+    
+    @objc private func tagButtonTapped(_ sender: NSObject?) {
+        
+    }
+    
+    @objc private func jsButtonTapped(_ sender: NSObject?) {
+        self.javascriptEnabled = !self.javascriptEnabled
     }
     
     // Handle Going Away

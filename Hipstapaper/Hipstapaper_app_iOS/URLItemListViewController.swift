@@ -22,6 +22,8 @@ class URLItemListViewController: UITableViewController {
     private var dataSelection: TagItem.Selection = .unarchivedItems
     private weak var dataSource: URLItemDoublePersistanceType?
     
+    private var delegate: ViewControllerPresenterDelegate?
+    
     private var sortedIDs = [String]()
     
     // MARK: NavBar Items
@@ -65,11 +67,13 @@ class URLItemListViewController: UITableViewController {
     }()
     
     // MARK: - Lifecycle
+
     
-    convenience init(selection: TagItem.Selection, dataSource: URLItemDoublePersistanceType?) {
+    convenience init(selection: TagItem.Selection, dataSource: URLItemDoublePersistanceType?, delegate: ViewControllerPresenterDelegate?) {
         self.init()
         self.dataSelection = selection
         self.dataSource = dataSource
+        self.delegate = delegate
     }
     
     override func viewDidLoad() {
@@ -133,6 +137,10 @@ extension URLItemListViewController: URLListBindingManagerDelegate {
 
 extension URLItemListViewController: ViewControllerPresenterDelegate {
     func presented(viewController: UIViewController, didDisappearAnimated: Bool) {
-        
+        if let selectedRows = self.tableView.indexPathsForSelectedRows {
+            selectedRows.forEach() { indexPath in
+                self.tableView.deselectRow(at: indexPath, animated: true)
+            }
+        }
     }
 }
