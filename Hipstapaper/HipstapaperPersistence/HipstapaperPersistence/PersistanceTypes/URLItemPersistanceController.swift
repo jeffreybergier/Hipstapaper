@@ -10,6 +10,8 @@ import Foundation
 
 open class URLItemPersistanceController {
     
+    public fileprivate(set) var isSyncing = false
+    
     fileprivate let realmController: URLItemSinglePersistanceType = URLItemRealmController()
     fileprivate let cloudKitController: URLItemSinglePersistanceType = URLItemCloudKitController()
     
@@ -30,19 +32,27 @@ extension URLItemPersistanceController: URLItemDoublePersistanceType {
 }
 
 extension URLItemPersistanceController: URLItemCRUDDoublePersistanceType {
+    
 
     public func sync(result: SuccessResult?) {
-        self.sync(attemptNumber: 0, result: result)
+        if self.isSyncing == true {
+            // return an error. we're already syncing
+            result?(.error([NSError()]))
+        } else {
+            self.sync(attemptNumber: 0, result: result)
+        }
     }
     
     // ugh this is pretty bad pyramid of doom
     // it basically just calls back the completion handlers on error
     // if there is success it keeps going forward with the syncing process
     private func sync(attemptNumber: Int, result: SuccessResult?) {
+        self.isSyncing = true
         self.realmController.allItems(sortedBy: .modificationDate, ascending: false) { realmResult in
             switch realmResult {
             case .error(let errors):
                 // if realm errors, also call fullResult with the realmError
+                self.isSyncing = false
                 result?(.error(errors))
             case .success(let sortedRealmIDs):
                 // if realm is successful, continue to cloud controller
@@ -50,6 +60,7 @@ extension URLItemPersistanceController: URLItemCRUDDoublePersistanceType {
                     switch cloudResult {
                     case .error(let errors):
                         // if cloud errors, call fullResult with the cloudError
+                        self.isSyncing = false
                         result?(.error(errors))
                     case .success(let sortedCloudIDs):
                         // now the cloud sync and the realm sync were both successful, time to sync
@@ -60,16 +71,19 @@ extension URLItemPersistanceController: URLItemCRUDDoublePersistanceType {
                             switch syncResult {
                             case .error(let errors):
                                 // if there is an error syncing, call back
+                                self.isSyncing = false
                                 result?(.error(errors))
                             case .success(let changes):
                                 // if we are successful, we need to know if there are changes
                                 switch changes {
                                 case .noChanges:
                                     // if there are no changes, call back
+                                    self.isSyncing = false
                                     result?(.success())
                                 case .changes:
                                     // if there are changes, recurse
                                     if attemptNumber >= 3 {
+                                        self.isSyncing = false
                                         result?(.error([NSError()]))
                                     } else {
                                         self.sync(attemptNumber: attemptNumber + 1, result: result)

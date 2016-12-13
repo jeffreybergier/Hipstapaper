@@ -240,6 +240,9 @@ extension URLItemRealmController {
 }
 
 extension URLItemRealmController: URLItemDoublePersistanceType {
+    
+    public var isSyncing: Bool { return false }
+    
     public func sync(result: SuccessResult?) {
         result?(.success())
     }

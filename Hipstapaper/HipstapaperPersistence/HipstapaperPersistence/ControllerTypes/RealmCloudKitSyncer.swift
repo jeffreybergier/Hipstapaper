@@ -157,12 +157,22 @@ class RealmCloudKitSyncer {
     
     private func step7CallBack(allResults: [Result<URLItemType>], syncChanges: SyncChanges, finalCompletionHandler: SyncSuccess?) {
         let errors = allResults.mapError()
-        if errors.isEmpty == true {
-            NSLog("Sync Succeeded: No Errors.")
-            finalCompletionHandler?(.success(syncChanges))
-        } else {
-            NSLog("Sync Errors: \(errors.count)\n\(errors)")
-            finalCompletionHandler?(.error(errors))
+        
+        // wait 10 seconds to call back because cloudkit takes a second to update
+        // at least I've noticed it has
+        // and its easy to duplicate items if syncing happens twice really quickly
+        DispatchQueue.main.async {
+            Timer.scheduledTimer(withTimeInterval: 10, repeats: false) { _ in
+                self.serialQueue.async {
+                    if errors.isEmpty == true {
+                        NSLog("Sync Succeeded: No Errors.")
+                        finalCompletionHandler?(.success(syncChanges))
+                    } else {
+                        NSLog("Sync Errors: \(errors.count)\n\(errors)")
+                        finalCompletionHandler?(.error(errors))
+                    }
+                }
+            }
         }
     }
     

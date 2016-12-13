@@ -17,6 +17,7 @@ public typealias SuccessResult = ((Result<Void>) -> Void)
 // But also keep the UI showing that network activity is happening
 
 public protocol URLItemCRUDDoublePersistanceType: class {
+    var isSyncing: Bool { get }
     func sync(result: SuccessResult?)
     func allItems(sortedBy: URLItem.Sort, ascending: Bool, result: URLItemIDsResult?)
     func create(item: URLItemType?, quickResult: URLItemResult?, fullResult: URLItemResult?)

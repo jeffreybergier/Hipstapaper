@@ -157,6 +157,9 @@ extension URLItemCloudKitController: URLItemCRUDSinglePersistanceType {
 }
 
 extension URLItemCloudKitController: URLItemDoublePersistanceType {
+    
+    public var isSyncing: Bool { return false }
+    
     public func sync(result: SuccessResult?) {
         self.allItems(sortedBy: .modificationDate, ascending: false) { innerResult in
             switch innerResult {
