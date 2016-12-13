@@ -84,7 +84,7 @@ class URLItemListViewController: UITableViewController {
         case .allItems:
             self.title = "All Items"
         case .unarchivedItems:
-            self.title = "Unread Items"
+            self.title = "Hipstapaper"
         case .tag(let tagName):
             self.title = tagName
         case .notSelectable:
@@ -97,8 +97,8 @@ class URLItemListViewController: UITableViewController {
         // configure the toolbar
         self.uiState = .notLoadingNotEditing
         
-        // tell the UI to reload
-        self.uiBindingManager.reloadData()
+        // tell the UI to quick load
+        self.uiBindingManager.initialLoad()
     }
     
     // MARK: Handle User Input

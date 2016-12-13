@@ -44,7 +44,7 @@ class URLListBindingManager: NSObject {
     
     // MARK: External Properties that Need to be Set
     
-    func reloadData() {
+    func initialLoad() {
         DispatchQueue.main.async {
             self.operationsInProgress += 1 // update the spinner
             
@@ -72,6 +72,23 @@ class URLListBindingManager: NSObject {
                 self.dataSource?.allItems(for: tagName, sortedBy: .modificationDate, ascending: false, result: completionHandler)
             case .notSelectable:
                 fatalError()
+            }
+        }
+    }
+    
+    func reloadData() {
+        self.operationsInProgress += 1
+        self.dataSource?.sync() { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .error(let errors):
+                    NSLog("Error Syncing Data: \(errors)")
+                    self.updateTableView(withNewSortedIDs: [])
+                    self.operationsInProgress -= 1
+                case .success:
+                    self.operationsInProgress -= 1
+                    self.initialLoad()
+                }
             }
         }
     }

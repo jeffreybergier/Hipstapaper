@@ -23,8 +23,13 @@ class UserFlowNavigationController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.tagVC.dataSource = self.dataSource
+        let unarchivedVC = URLItemListViewController(selection: TagItem.Selection.unarchivedItems, dataSource: self.dataSource, delegate: self.tagVC)
+        
         self.pushViewController(self.tagVC, animated: false)
+        self.pushViewController(unarchivedVC, animated: true)
+        
         self.setToolbarHidden(false, animated: false)
     }
 }

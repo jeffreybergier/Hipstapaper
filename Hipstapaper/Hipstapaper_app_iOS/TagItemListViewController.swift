@@ -43,7 +43,7 @@ class TagItemListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Hipstapaper"
+        self.title = "Tags"
         
         // configure bar button items
         self.setToolbarItems([self.reloadBar], animated: true)
@@ -120,20 +120,8 @@ class TagItemListViewController: UITableViewController {
                     self.tableView.reloadData()
                     self.networkOperationsInProgress -= 1
                 case .success:
-                    self.dataSource?.tagItems() { tagResult in
-                        DispatchQueue.main.async {
-                            switch tagResult {
-                            case .error(let errors):
-                                NSLog("Error Loading Tags: \(errors)")
-                                self.tagItems.children = []
-                            case .success(let tags):
-                                let items = tags.map({ TreeBindingObject(title: $0.name, kind: .tag(name: $0.name)) })
-                                self.tagItems.children = items
-                            }
-                            self.tableView.reloadData()
-                            self.networkOperationsInProgress -= 1
-                        }
-                    }
+                    self.networkOperationsInProgress -= 1
+                    self.initialLoad()
                 }
             }
         }
