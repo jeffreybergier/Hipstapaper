@@ -47,6 +47,9 @@ class TagItemListViewController: UITableViewController {
         
         // configure bar button items
         self.setToolbarItems([self.reloadBar], animated: true)
+        
+        // load the tags without sync
+        self.initialLoad()
     }
     
     // MARK: Handle User Input
@@ -81,6 +84,26 @@ class TagItemListViewController: UITableViewController {
                         self.reloadBar.isEnabled = true
                         self.setToolbarItems([self.reloadBar], animated: true)
                     }
+                }
+            }
+        }
+    }
+    
+    private func initialLoad() {
+        self.networkOperationsInProgress += 1
+        self.dataSource?.tagItems() { tagResult in
+            DispatchQueue.main.async {
+                switch tagResult {
+                case .error(let errors):
+                    NSLog("Error Quick Loading Tags: \(errors)")
+                    self.tagItems.children = []
+                    self.tableView.reloadData()
+                    self.networkOperationsInProgress -= 1
+                case .success(let tags):
+                    let items = tags.map({ TreeBindingObject(title: $0.name, kind: .tag(name: $0.name)) })
+                    self.tagItems.children = items
+                    self.tableView.reloadData()
+                    self.networkOperationsInProgress -= 1
                 }
             }
         }
