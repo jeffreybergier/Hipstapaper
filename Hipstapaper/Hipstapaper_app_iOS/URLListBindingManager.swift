@@ -44,7 +44,7 @@ class URLListBindingManager: NSObject {
     
     // MARK: External Properties that Need to be Set
     
-    func initialLoad() {
+    func quickLoad() {
         DispatchQueue.main.async {
             self.operationsInProgress += 1 // update the spinner
             
@@ -76,19 +76,12 @@ class URLListBindingManager: NSObject {
         }
     }
     
-    func reloadData() {
+    func sync() {
         self.operationsInProgress += 1
         self.dataSource?.sync() { result in
             DispatchQueue.main.async {
-                switch result {
-                case .error(let errors):
-                    NSLog("Error Syncing Data: \(errors)")
-                    self.updateTableView(withNewSortedIDs: [])
-                    self.operationsInProgress -= 1
-                case .success:
-                    self.operationsInProgress -= 1
-                    self.initialLoad()
-                }
+                self.operationsInProgress -= 1
+                self.quickLoad()
             }
         }
     }

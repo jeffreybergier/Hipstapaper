@@ -49,13 +49,13 @@ class TagItemListViewController: UITableViewController {
         self.setToolbarItems([self.reloadBar], animated: true)
         
         // load the tags without sync
-        self.initialLoad()
+        self.quickLoad()
     }
     
     // MARK: Handle User Input
     
     @objc private func reloadButtonTapped(_ sender: NSObject?) {
-        self.reloadData()
+        self.sync()
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -89,7 +89,7 @@ class TagItemListViewController: UITableViewController {
         }
     }
     
-    private func initialLoad() {
+    private func quickLoad() {
         self.networkOperationsInProgress += 1
         self.dataSource?.tagItems() { tagResult in
             DispatchQueue.main.async {
@@ -109,20 +109,12 @@ class TagItemListViewController: UITableViewController {
         }
     }
     
-    private func reloadData() {
+    private func sync() {
         self.networkOperationsInProgress += 1
         self.dataSource?.sync() { result in
             DispatchQueue.main.async {
-                switch result {
-                case .error(let errors):
-                    NSLog("Error Syncing Data: \(errors)")
-                    self.tagItems.children = []
-                    self.tableView.reloadData()
-                    self.networkOperationsInProgress -= 1
-                case .success:
-                    self.networkOperationsInProgress -= 1
-                    self.initialLoad()
-                }
+                self.networkOperationsInProgress -= 1
+                self.quickLoad()
             }
         }
     }

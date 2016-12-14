@@ -98,14 +98,14 @@ class URLItemListViewController: UITableViewController {
         self.uiState = .notLoadingNotEditing
         
         // tell the UI to quick load
-        self.uiBindingManager.initialLoad()
+        self.uiBindingManager.quickLoad()
     }
     
     // MARK: Handle User Input
     
     @objc fileprivate func reloadButtonTapped(_ sender: NSObject?) {
         self.uiState = .loadingNotEditing
-        self.uiBindingManager.reloadData()
+        self.uiBindingManager.sync()
     }
     
     @objc fileprivate func editButtonTapped(_ sender: NSObject?) {
