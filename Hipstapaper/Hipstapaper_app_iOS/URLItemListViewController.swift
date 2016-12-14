@@ -9,7 +9,7 @@
 import HipstapaperPersistence
 import UIKit
 
-class URLItemListViewController: UITableViewController {
+class URLItemListViewController: UIViewController {
     
     fileprivate enum UIState {
         case notLoadingNotEditing
@@ -18,6 +18,8 @@ class URLItemListViewController: UITableViewController {
     }
     
     fileprivate lazy var uiBindingManager: URLListBindingManager = URLListBindingManager(selection: self.dataSelection, tableView: self.tableView, dataSource: self.dataSource, delegate: self)
+    
+    @IBOutlet fileprivate weak var tableView: UITableView!
     
     private var dataSelection: TagItem.Selection = .unarchivedItems
     private weak var dataSource: URLItemDoublePersistanceType?
@@ -101,6 +103,25 @@ class URLItemListViewController: UITableViewController {
         self.uiBindingManager.quickLoad()
     }
     
+    fileprivate var viewDidAppearOnce = false
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if self.viewDidAppearOnce == false {
+            self.simulateUITableViewController()
+            self.viewDidAppearOnce = true
+        }
+    }
+    
+    fileprivate func simulateUITableViewController() {
+        self.tableView?.flashScrollIndicators()
+        if let selectedRows = self.tableView?.indexPathsForSelectedRows {
+            selectedRows.forEach() { indexPath in
+                self.tableView?.deselectRow(at: indexPath, animated: true)
+            }
+        }
+    }
+    
     // MARK: Handle User Input
     
     @objc fileprivate func reloadButtonTapped(_ sender: NSObject?) {
@@ -114,6 +135,19 @@ class URLItemListViewController: UITableViewController {
     
     @objc fileprivate func doneButtonTapped(_ sender: NSObject?) {
         self.uiState = .notLoadingNotEditing
+    }
+    
+    // MARK: Handle View Going Away
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        // by the time this method is called, the navigation controller has been removed
+        // i only want this to fire when that happens because i only want it to fire when going back
+        // not when going forward
+        if self.navigationController == .none {
+            self.delegate?.presented(viewController: self, didDisappearAnimated: animated)
+        }
     }
 }
 
@@ -137,10 +171,6 @@ extension URLItemListViewController: URLListBindingManagerDelegate {
 
 extension URLItemListViewController: ViewControllerPresenterDelegate {
     func presented(viewController: UIViewController, didDisappearAnimated: Bool) {
-        if let selectedRows = self.tableView.indexPathsForSelectedRows {
-            selectedRows.forEach() { indexPath in
-                self.tableView.deselectRow(at: indexPath, animated: true)
-            }
-        }
+        self.simulateUITableViewController()
     }
 }

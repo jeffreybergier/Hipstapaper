@@ -143,7 +143,13 @@ class URLItemWebViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        self.delegate?.presented(viewController: self, didDisappearAnimated: animated)
+        
+        // by the time this method is called, the navigation controller has been removed
+        // i only want this to fire when that happens because i only want it to fire when going back
+        // not when going forward
+        if self.navigationController == .none {
+            self.delegate?.presented(viewController: self, didDisappearAnimated: animated)
+        }
     }
 
 }

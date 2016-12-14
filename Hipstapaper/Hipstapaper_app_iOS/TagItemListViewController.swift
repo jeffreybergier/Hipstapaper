@@ -9,11 +9,13 @@
 import HipstapaperPersistence
 import UIKit
 
-class TagItemListViewController: UITableViewController {
+class TagItemListViewController: UIViewController {
     
-    private enum Section: Int {
+    fileprivate enum Section: Int {
         case mainItems, tagItems
     }
+    
+    @IBOutlet fileprivate weak var tableView: UITableView?
     
     // MARK: Data Source
     
@@ -43,6 +45,9 @@ class TagItemListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tableView?.delegate = self
+        self.tableView?.dataSource = self
+        
         self.title = "Tags"
         
         // configure bar button items
@@ -52,13 +57,34 @@ class TagItemListViewController: UITableViewController {
         self.quickLoad()
     }
     
+    // MARK: View Loading
+    
+    fileprivate var viewDidAppearOnce = false
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if self.viewDidAppearOnce == false {
+            self.simulateUITableViewController()
+            self.viewDidAppearOnce = true
+        }
+    }
+    
+    fileprivate func simulateUITableViewController() {
+        self.tableView?.flashScrollIndicators()
+        if let selectedRows = self.tableView?.indexPathsForSelectedRows {
+            selectedRows.forEach() { indexPath in
+                self.tableView?.deselectRow(at: indexPath, animated: true)
+            }
+        }
+    }
+    
     // MARK: Handle User Input
     
     @objc private func reloadButtonTapped(_ sender: NSObject?) {
         self.sync()
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let section = Section(rawValue: indexPath.section) else { return }
         let selection: TagItem.Selection
         switch section {
@@ -97,12 +123,12 @@ class TagItemListViewController: UITableViewController {
                 case .error(let errors):
                     NSLog("Error Quick Loading Tags: \(errors)")
                     self.tagItems.children = []
-                    self.tableView.reloadData()
+                    self.tableView?.reloadData()
                     self.networkOperationsInProgress -= 1
                 case .success(let tags):
                     let items = tags.map({ TreeBindingObject(title: $0.name, kind: .tag(name: $0.name)) })
                     self.tagItems.children = items
-                    self.tableView.reloadData()
+                    self.tableView?.reloadData()
                     self.networkOperationsInProgress -= 1
                 }
             }
@@ -118,10 +144,30 @@ class TagItemListViewController: UITableViewController {
             }
         }
     }
+
+}
+
+extension TagItemListViewController: UITableViewDelegate {
     
-    // MARK: Table View Data
+    // MARK: UITableViewDelegate
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let section = Section(rawValue: section) else { return .none }
+        switch section {
+        case .mainItems:
+            return "Reading List"
+        case .tagItems:
+            return "Tags"
+        }
+    }
+}
+
+
+extension TagItemListViewController: UITableViewDataSource {
+    
+    // MARK: UITableViewDataSource
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
         if self.tagItems.children.isEmpty == true {
             return 1
         } else {
@@ -129,7 +175,7 @@ class TagItemListViewController: UITableViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let section = Section(rawValue: section) else { return 0 }
         switch section {
         case .mainItems:
@@ -139,7 +185,7 @@ class TagItemListViewController: UITableViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let section = Section(rawValue: indexPath.section) else { fatalError() }
         let identifier = "Basic"
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier) ?? UITableViewCell(style: .default, reuseIdentifier: identifier)
@@ -154,25 +200,10 @@ class TagItemListViewController: UITableViewController {
         cell.accessoryType = .disclosureIndicator
         return cell
     }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let section = Section(rawValue: section) else { return .none }
-        switch section {
-        case .mainItems:
-            return "Reading List"
-        case .tagItems:
-            return "Tags"
-        }
-    }
-
 }
 
 extension TagItemListViewController: ViewControllerPresenterDelegate {
     func presented(viewController: UIViewController, didDisappearAnimated: Bool) {
-        if let selectedRows = self.tableView.indexPathsForSelectedRows {
-            selectedRows.forEach() { indexPath in
-                self.tableView.deselectRow(at: indexPath, animated: true)
-            }
-        }
+        self.simulateUITableViewController()
     }
 }

@@ -19,7 +19,7 @@ class UserFlowNavigationController: UINavigationController {
     
     // MARK: Permanent View Controllers
     
-    private let tagVC = TagItemListViewController(style: .grouped)
+    private let tagVC = TagItemListViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
