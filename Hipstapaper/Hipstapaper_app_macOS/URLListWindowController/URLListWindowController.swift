@@ -56,6 +56,7 @@ class URLListWindowController: NSWindowController {
     
     // MARK: Outlets
 
+    @IBOutlet private weak var splitViewLeftView: NSView?
     @IBOutlet private weak var debugWindowToolbarImageView: NSImageView?
     @IBOutlet private weak var urlListViewController: URLListViewController? {
         didSet {
@@ -106,6 +107,11 @@ class URLListWindowController: NSWindowController {
             self.tagListViewController?.windowSyncFinished(result: syncResult, sender: sender)
             self.operationsInProgress -= 1
         }
+    }
+    
+    @IBAction func toggleSplitView(_ sender: NSObject?) {
+        let oldValue = self.splitViewLeftView?.isHidden ?? false
+        self.splitViewLeftView?.isHidden = !oldValue
     }
     
     // MARK: Tag Selection Responder
