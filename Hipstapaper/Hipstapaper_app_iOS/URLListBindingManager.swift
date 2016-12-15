@@ -97,6 +97,7 @@ class URLListBindingManager: NSObject {
         
         super.init()
         
+        tableView?.allowsMultipleSelectionDuringEditing = true
         tableView?.delegate = self
         tableView?.dataSource = self
     }
@@ -156,7 +157,14 @@ extension URLListBindingManager: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as? URLItemTableViewCell
         guard let item = cell?.item else { return }
-        self.delegate?.didSelect(item: item, within: tableView, bindingManager: self)
+        if tableView.isEditing {
+
+        } else {
+            self.delegate?.didSelect(item: item, within: tableView, bindingManager: self)
+        }
     }
     
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        //
+    }
 }
