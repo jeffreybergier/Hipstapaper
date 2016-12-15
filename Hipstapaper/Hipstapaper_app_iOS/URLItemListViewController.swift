@@ -6,6 +6,7 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
+import SafariServices
 import HipstapaperPersistence
 import UIKit
 
@@ -155,8 +156,12 @@ class URLItemListViewController: UIViewController {
 extension URLItemListViewController: URLListBindingManagerDelegate {
     
     func didSelect(item: URLItemType, within: UITableView, bindingManager: URLListBindingManager) {
-        let newVC = URLItemWebViewController(urlItem: item, delegate: self)
-        self.navigationController?.pushViewController(newVC, animated: true)
+        guard let url = URL(string: item.urlString) else { return }
+        let sfVC = PresenterDelegateSafariViewController(url: url, entersReaderIfAvailable: true, presenterDelegate: self)
+        self.present(sfVC, animated: true, completion: .none)
+        //self.navigationController?.pushViewController(sfVC, animated: true)
+//        let newVC = URLItemWebViewController(urlItem: item, delegate: self)
+//        self.navigationController?.pushViewController(newVC, animated: true)
     }
     
     func didUpdate(operationsInProgress: Bool, bindingManager: URLListBindingManager) {
