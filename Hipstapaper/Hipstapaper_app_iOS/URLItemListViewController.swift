@@ -15,7 +15,8 @@ class URLItemListViewController: UIViewController {
     fileprivate enum UIState {
         case notLoadingNotEditing
         case loadingNotEditing
-        case notLoadingEditing
+        case notLoadingEditingNoneSelected
+        case notLoadingEditingSomeSelected
     }
     
     fileprivate lazy var uiBindingManager: URLListBindingManager = URLListBindingManager(selection: self.dataSelection, tableView: self.tableView, dataSource: self.dataSource, delegate: self)
@@ -47,20 +48,39 @@ class URLItemListViewController: UIViewController {
                     self.reloadBar.isEnabled = true
                     self.setToolbarItems([self.loadingBar, self.flexibleSpaceBar, self.editBar], animated: true)
                     self.tableView.setEditing(false, animated: true)
-                case .notLoadingEditing:
+                case .notLoadingEditingNoneSelected:
+                    self.tagBar.isEnabled = false
+                    self.archiveBar.isEnabled = false
                     self.editBar.isEnabled = false
                     self.doneBar.isEnabled = true
                     self.reloadBar.isEnabled = false
-                    self.setToolbarItems([self.reloadBar, self.flexibleSpaceBar, self.doneBar], animated: true)
+                    self.setToolbarItems([self.reloadBar, self.flexibleSpaceBar, self.tagBar, self.spaceBar, self.archiveBar, self.flexibleSpaceBar, self.doneBar], animated: true)
+                    self.tableView.setEditing(false, animated: true)
+                    self.tableView.setEditing(true, animated: true)
+                case .notLoadingEditingSomeSelected:
+                    self.tagBar.isEnabled = true
+                    self.archiveBar.isEnabled = true
+                    self.editBar.isEnabled = false
+                    self.doneBar.isEnabled = true
+                    self.reloadBar.isEnabled = false
+                    self.setToolbarItems([self.reloadBar, self.flexibleSpaceBar, self.tagBar, self.spaceBar, self.archiveBar, self.flexibleSpaceBar, self.doneBar], animated: true)
+                    self.tableView.setEditing(false, animated: true)
                     self.tableView.setEditing(true, animated: true)
                 }
             }
         }
     }
     
+    private lazy var archiveBar: UIBarButtonItem = UIBarButtonItem(title: "Archive", style: .done, target: self, action: #selector(self.archiveButtonTapped(_:)))
+    private lazy var tagBar: UIBarButtonItem = UIBarButtonItem(title: "Tag", style: .done, target: self, action: #selector(self.tagButtonTapped(_:)))
     private lazy var reloadBar: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.reloadButtonTapped(_:)))
     private lazy var doneBar: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.doneButtonTapped(_:)))
     private lazy var editBar: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(self.editButtonTapped(_:)))
+    private let spaceBar: UIBarButtonItem = {
+        let bar = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: .none, action: .none)
+        bar.width = 20
+        return bar
+    }()
     private let flexibleSpaceBar = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: .none, action: .none)
     private let loadingBar: UIBarButtonItem = {
         let view = UIActivityIndicatorView(activityIndicatorStyle: .gray)
@@ -125,13 +145,21 @@ class URLItemListViewController: UIViewController {
     
     // MARK: Handle User Input
     
+    @objc fileprivate func tagButtonTapped(_ sender: NSObject?) {
+        
+    }
+    
+    @objc fileprivate func archiveButtonTapped(_ sender: NSObject?) {
+        
+    }
+    
     @objc fileprivate func reloadButtonTapped(_ sender: NSObject?) {
         self.uiState = .loadingNotEditing
         self.uiBindingManager.sync()
     }
     
     @objc fileprivate func editButtonTapped(_ sender: NSObject?) {
-        self.uiState = .notLoadingEditing
+        self.uiState = .notLoadingEditingNoneSelected
     }
     
     @objc fileprivate func doneButtonTapped(_ sender: NSObject?) {
@@ -155,7 +183,23 @@ class URLItemListViewController: UIViewController {
 
 extension URLItemListViewController: URLListBindingManagerDelegate {
     
-    func didSelect(item: URLItemType, within: UITableView, bindingManager: URLListBindingManager) {
+    func didChooseToTag(item: URLItemType, within: UITableView, bindingManager: URLListBindingManager) {
+        
+    }
+    
+    func didChooseToArchive(item: URLItemType, within: UITableView, bindingManager: URLListBindingManager) {
+        
+    }
+    
+    func didChangeSelection(items: [URLItemType], within: UITableView, bindingManager: URLListBindingManager) {
+        if items.isEmpty {
+            self.uiState = .notLoadingEditingNoneSelected
+        } else {
+            self.uiState = .notLoadingEditingSomeSelected
+        }
+    }
+    
+    func didChoose(item: URLItemType, within: UITableView, bindingManager: URLListBindingManager) {
         guard let url = URL(string: item.urlString) else { return }
         let sfVC = PresenterDelegateSafariViewController(url: url, entersReaderIfAvailable: true, presenterDelegate: self)
         self.present(sfVC, animated: true, completion: .none)

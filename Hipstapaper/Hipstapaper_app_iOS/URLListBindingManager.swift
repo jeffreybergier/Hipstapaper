@@ -10,7 +10,10 @@ import HipstapaperPersistence
 import UIKit
 
 protocol URLListBindingManagerDelegate: class {
-    func didSelect(item: URLItemType, within: UITableView, bindingManager: URLListBindingManager)
+    func didChooseToTag(item: URLItemType, within: UITableView, bindingManager: URLListBindingManager)
+    func didChooseToArchive(item: URLItemType, within: UITableView, bindingManager: URLListBindingManager)
+    func didChangeSelection(items: [URLItemType], within: UITableView, bindingManager: URLListBindingManager)
+    func didChoose(item: URLItemType, within: UITableView, bindingManager: URLListBindingManager)
     func didUpdate(operationsInProgress: Bool, bindingManager: URLListBindingManager)
 }
 
@@ -30,7 +33,7 @@ class URLListBindingManager: NSObject {
     
     // MARK: Keep Track of Operations in Progress
     
-    private var operationsInProgress = 0 {
+    fileprivate var operationsInProgress = 0 {
         didSet {
             if oldValue != self.operationsInProgress {
                 if self.operationsInProgress > 0 {
@@ -80,8 +83,10 @@ class URLListBindingManager: NSObject {
         self.operationsInProgress += 1
         self.dataSource?.sync() { result in
             DispatchQueue.main.async {
+                //DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 10, execute: {
                 self.operationsInProgress -= 1
                 self.quickLoad()
+                //})
             }
         }
     }
@@ -155,16 +160,44 @@ extension URLListBindingManager: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath) as? URLItemTableViewCell
-        guard let item = cell?.item else { return }
+        guard let item = tableView.urlItem(at: indexPath) else { return }
         if tableView.isEditing {
-
+            self.delegate?.didChangeSelection(items: tableView.selectedURLItems, within: tableView, bindingManager: self)
         } else {
-            self.delegate?.didSelect(item: item, within: tableView, bindingManager: self)
+            self.delegate?.didChoose(item: item, within: tableView, bindingManager: self)
         }
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        //
+        self.delegate?.didChangeSelection(items: tableView.selectedURLItems, within: tableView, bindingManager: self)
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        guard self.operationsInProgress == 0 else { return [] } // stops editing while syncing
+        let archiveAction = UITableViewRowAction(style: .normal, title: "Archive") { rowAction, indexPath in
+            guard let item = tableView.urlItem(at: indexPath) else { return }
+            self.delegate?.didChooseToArchive(item: item, within: tableView, bindingManager: self)
+        }
+        archiveAction.backgroundColor = tableView.tintColor
+        let tagAction = UITableViewRowAction(style: .normal, title: "Tag") { rowAction, indexPath in
+            guard let item = tableView.urlItem(at: indexPath) else { return }
+            self.delegate?.didChooseToTag(item: item, within: tableView, bindingManager: self)
+        }
+        return [archiveAction, tagAction]
     }
 }
+
+extension UITableView {
+    var selectedURLItems: [URLItemType] {
+        let selectedIndexPaths = self.indexPathsForSelectedRows ?? []
+        let items = selectedIndexPaths.map({ (self.cellForRow(at: $0) as? URLItemTableViewCell)?.item }).flatMap({ $0 })
+        return items
+    }
+    
+    func urlItem(at indexPath: IndexPath) -> URLItemType? {
+        let cell = self.cellForRow(at: indexPath) as? URLItemTableViewCell
+        return cell?.item
+    }
+}
+
+
