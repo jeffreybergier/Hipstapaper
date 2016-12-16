@@ -6,6 +6,7 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
+import RealmSwift
 import UIKit
 
 @UIApplicationMain
@@ -19,9 +20,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if self.window == .none {
             self.window = UIWindow(frame: UIScreen.main.bounds)
         }
+        
+        RealmConfig.configure() {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 30) {
+                let realm = try! Realm()
+                let results = realm.objects(URLItem.self)
+                print(results)
+            }
+        }
     
         
-        //self.window!.rootViewController = navVC
+        self.window!.rootViewController = UIViewController()
         self.window?.backgroundColor = .white
         self.window?.makeKeyAndVisible()
         

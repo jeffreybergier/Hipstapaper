@@ -6,6 +6,7 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
+import RealmSwift
 import Cocoa
 
 @NSApplicationMain
@@ -31,6 +32,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 //            window.showWindow(self)
 //        }
 //        #endif
+        RealmConfig.configure() {
+            let realm = try! Realm()
+            try! realm.write {
+                for i in 0..<10 {
+                    let newItem = URLItem()
+                    newItem.urlString = "http://www.\(i).com"
+                    realm.add(newItem)
+                }
+                print("Done")
+            }
+//            let results = realm.objects(URLItem.self)
+//            print(results)
+        }
+
     }
     
     // opens the main window if the dock icon is clicked and there are no windows open
