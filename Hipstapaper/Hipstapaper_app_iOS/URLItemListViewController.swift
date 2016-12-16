@@ -24,7 +24,7 @@ class URLItemListViewController: UIViewController {
     @IBOutlet fileprivate weak var tableView: UITableView?
     
     private var dataSelection: TagItem.Selection = .unarchivedItems
-    private weak var dataSource: URLItemDoublePersistanceType?
+    fileprivate weak var dataSource: URLItemDoublePersistanceType?
     
     private var delegate: ViewControllerPresenterDelegate?
     
@@ -155,6 +155,7 @@ class URLItemListViewController: UIViewController {
     
     @objc fileprivate func archiveButtonTapped(_ sender: NSObject?) {
         guard let items = self.tableView?.selectedURLItems, items.isEmpty == false else { return }
+        self.archive(items: items)
     }
     
     @objc fileprivate func reloadButtonTapped(_ sender: NSObject?) {
@@ -168,6 +169,16 @@ class URLItemListViewController: UIViewController {
     
     @objc fileprivate func doneButtonTapped(_ sender: NSObject?) {
         self.uiState = .notLoadingNotEditing
+    }
+    
+    // MARK: Handle Archiving
+    
+    fileprivate func archive(items: [URLItemType]) {
+        for item in items {
+            var item = item
+            item.archived = true
+            self.dataSource?.update(item: item, quickResult: .none, fullResult: .none)
+        }
     }
     
     // MARK: Handle View Going Away
@@ -187,12 +198,12 @@ class URLItemListViewController: UIViewController {
 
 extension URLItemListViewController: URLListBindingManagerDelegate {
     
-    func didChooseToTag(item: URLItemType, within: UITableView, bindingManager: URLListBindingManager) {
+    func didChooseToTag(item: URLItemType, at indexPath: IndexPath, within: UITableView, bindingManager: URLListBindingManager) {
         
     }
     
-    func didChooseToArchive(item: URLItemType, within: UITableView, bindingManager: URLListBindingManager) {
-        
+    func didChooseToArchive(item: URLItemType, at indexPath: IndexPath, within: UITableView, bindingManager: URLListBindingManager) {
+        self.archive(items: [item])
     }
     
     func didChangeSelection(items: [URLItemType], within: UITableView, bindingManager: URLListBindingManager) {

@@ -10,8 +10,8 @@ import HipstapaperPersistence
 import UIKit
 
 protocol URLListBindingManagerDelegate: class {
-    func didChooseToTag(item: URLItemType, within: UITableView, bindingManager: URLListBindingManager)
-    func didChooseToArchive(item: URLItemType, within: UITableView, bindingManager: URLListBindingManager)
+    func didChooseToTag(item: URLItemType, at: IndexPath, within: UITableView, bindingManager: URLListBindingManager)
+    func didChooseToArchive(item: URLItemType, at: IndexPath, within: UITableView, bindingManager: URLListBindingManager)
     func didChangeSelection(items: [URLItemType], within: UITableView, bindingManager: URLListBindingManager)
     func didChoose(item: URLItemType, within: UITableView, bindingManager: URLListBindingManager)
     func didUpdate(operationsInProgress: Bool, bindingManager: URLListBindingManager)
@@ -176,12 +176,12 @@ extension URLListBindingManager: UITableViewDelegate {
         guard self.operationsInProgress == 0 else { return [] } // stops editing while syncing
         let archiveAction = UITableViewRowAction(style: .normal, title: "Archive") { rowAction, indexPath in
             guard let item = tableView.urlItem(at: indexPath) else { return }
-            self.delegate?.didChooseToArchive(item: item, within: tableView, bindingManager: self)
+            self.delegate?.didChooseToArchive(item: item, at: indexPath, within: tableView, bindingManager: self)
         }
         archiveAction.backgroundColor = tableView.tintColor
         let tagAction = UITableViewRowAction(style: .normal, title: "Tag") { rowAction, indexPath in
             guard let item = tableView.urlItem(at: indexPath) else { return }
-            self.delegate?.didChooseToTag(item: item, within: tableView, bindingManager: self)
+            self.delegate?.didChooseToTag(item: item, at: indexPath, within: tableView, bindingManager: self)
         }
         return [archiveAction, tagAction]
     }
