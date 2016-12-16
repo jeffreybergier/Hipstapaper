@@ -95,7 +95,7 @@ class RealmCloudKitSyncer {
                             // at least I've noticed it has
                             // and its easy to duplicate items if syncing happens twice really quickly
                             DispatchQueue.main.async {
-                                Timer.scheduledTimer(withTimeInterval: 10, repeats: false) { _ in
+                                Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
                                     self.serialQueue.async {
                                         self.step7CallBack(allResults: [], syncChanges: changes, finalCompletionHandler: finalCompletionHandler);
                                     }

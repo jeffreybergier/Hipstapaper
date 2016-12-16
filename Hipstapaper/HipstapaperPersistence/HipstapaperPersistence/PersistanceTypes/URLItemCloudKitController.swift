@@ -87,7 +87,7 @@ extension URLItemCloudKitController: URLItemCRUDSinglePersistanceType {
                 newObject = URLItem.CloudKitObject()
             }
             self.privateDB.save(newObject.record) { (record, error) in
-                self.serialQueue.async {
+                self.serialQueue.asyncAfter(deadline: DispatchTime.now() + 2) { // add 2 second delay because cloudkit really just takes a second to do stuff in the cloud
                     if let record = record {
                         let returnObject = URLItem.CloudKitObject(record: record)
                         let id = newObject.cloudKitID
@@ -121,7 +121,7 @@ extension URLItemCloudKitController: URLItemCRUDSinglePersistanceType {
             existingObject.tags = item.tags
             existingObject.modificationDate = item.modificationDate
             self.privateDB.save(existingObject.record) { (record, error) in
-                self.serialQueue.async {
+                self.serialQueue.asyncAfter(deadline: DispatchTime.now() + 2) { // add 2 second delay because cloudkit really just takes a second to do stuff in the cloud
                     if let record = record {
                         let updatedObject = URLItem.CloudKitObject(record: record)
                         let id = updatedObject.cloudKitID

@@ -150,14 +150,12 @@ class URLItemListViewController: UIViewController {
         guard let items = self.tableView?.selectedURLItems else { return }
         items.forEach({ (_, indexPath) in self.tableView?.deselectRow(at: indexPath, animated: true) })
         self.uiBindingManager.archive(newValueOrToggle: false, items: items)
-        self.uiState = .notLoadingEditingNoneSelected
     }
     
     @objc fileprivate func archiveButtonTapped(_ sender: NSObject?) {
         guard let items = self.tableView?.selectedURLItems else { return }
         items.forEach({ (_, indexPath) in self.tableView?.deselectRow(at: indexPath, animated: true) })
         self.uiBindingManager.archive(newValueOrToggle: true, items: items)
-        self.uiState = .notLoadingEditingNoneSelected
     }
     
     @objc fileprivate func reloadButtonTapped(_ sender: NSObject?) {
@@ -199,8 +197,6 @@ extension URLItemListViewController: URLListBindingManagerDelegate {
     
     func didChooseToToggleArchive(for item: URLItemType, at indexPath: IndexPath, within: UITableView, bindingManager: URLListBindingManager) {
         self.uiBindingManager.archive(newValueOrToggle: .none, items: [(item, indexPath)])
-        self.tableView?.setEditing(false, animated: true)
-        self.uiState = .notLoadingNotEditing
     }
     
     func didChangeSelection(items: [URLItemType], within: UITableView, bindingManager: URLListBindingManager) {

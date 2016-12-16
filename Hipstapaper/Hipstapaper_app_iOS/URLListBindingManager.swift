@@ -128,6 +128,9 @@ class URLListBindingManager: NSObject {
     // MARK: Handle Specific Data Modification Actions
     
     func archive(newValueOrToggle: Bool?, items tuple: [(item: URLItemType, indexPath: IndexPath)]) {
+        
+        self.tableView?.isUserInteractionEnabled = false
+        
         let updatedTuple = tuple.map() { oldTuple -> (item: URLItemType, indexPath: IndexPath) in
             var item = oldTuple.item
             item.archived = newValueOrToggle ?? !item.archived
@@ -135,20 +138,29 @@ class URLListBindingManager: NSObject {
             return (item, oldTuple.indexPath)
         }
         
-        for tuple in updatedTuple {
-            self.dataSource?.update(item: tuple.item, quickResult: .none, fullResult: .none)
+        var updates = [Result<URLItemType>]() {
+            didSet {
+                if updates.count == updatedTuple.count {
+                    self.tableView?.setEditing(false, animated: true)
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) { // allow the table to finish animating
+                        self.tableView?.isUserInteractionEnabled = true
+                        self.quickLoad()
+                    }
+                }
+            }
         }
         
-        // only remove the item from the table view if we are in the unarchived screen AND the item is now archived
-        if case .unarchivedItems = self.dataSelection {
-            let archivedTuple = updatedTuple.filter({ $0.item.archived == true })
-            let indexPaths = archivedTuple.map({ $0.indexPath })
-            self.tableView?.beginUpdates()
-            self.tableView?.deleteRows(at: indexPaths, with: .left)
-            for indexPath in indexPaths.sorted().reversed() {
-                self.sortedIDs.remove(at: indexPath.row)
-            }
-            self.tableView?.endUpdates()
+        for tuple in updatedTuple {
+            self.operationsInProgress += 1
+            self.dataSource?.update(item: tuple.item, quickResult: { updateResult in
+                DispatchQueue.main.async {
+                    updates.append(updateResult)
+                }
+            }, fullResult: { updateResult in
+                DispatchQueue.main.async {
+                    self.operationsInProgress -= 1
+                }
+            })
         }
     }
 }
