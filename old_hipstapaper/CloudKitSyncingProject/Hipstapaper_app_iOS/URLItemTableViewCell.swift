@@ -6,7 +6,7 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
-//import HipstapaperPersistence
+import HipstapaperPersistence
 import UIKit
 
 class URLItemTableViewCell: UITableViewCell {
@@ -25,17 +25,17 @@ class URLItemTableViewCell: UITableViewCell {
     @IBOutlet private weak var idLabel: UILabel?
     
     var id: String?
-//    var item: URLItemType? {
-//        didSet {
-//            if let item = self.item, let id = self.id, id == item.realmID || id == item.cloudKitID {
-//                self.urlLabel?.text = item.urlString
-//                self.dateLabel?.text = self.dateFormatter.string(from: item.modificationDate)
-//                self.idLabel?.text = item.cloudKitID
-//            } else {
-//                self.prepareForReuse()
-//            }
-//        }
-//    }
+    var item: URLItemType? {
+        didSet {
+            if let item = self.item, let id = self.id, id == item.realmID || id == item.cloudKitID {
+                self.urlLabel?.text = item.urlString
+                self.dateLabel?.text = self.dateFormatter.string(from: item.modificationDate)
+                self.idLabel?.text = item.cloudKitID
+            } else {
+                self.prepareForReuse()
+            }
+        }
+    }
     
     override func prepareForReuse() {
         super.prepareForReuse()

@@ -10,18 +10,18 @@ import SafariServices
 
 class PresenterDelegateSafariViewController: SFSafariViewController {
     
-    //weak var presenterDelegate: ViewControllerPresenterDelegate?
+    weak var presenterDelegate: ViewControllerPresenterDelegate?
     
-//    convenience init(url: URL, entersReaderIfAvailable: Bool, presenterDelegate: ViewControllerPresenterDelegate) {
-//        self.init(url: url, entersReaderIfAvailable: entersReaderIfAvailable)
-//        self.delegate = self
-//        self.presenterDelegate = presenterDelegate
-//    }
+    convenience init(url: URL, entersReaderIfAvailable: Bool, presenterDelegate: ViewControllerPresenterDelegate) {
+        self.init(url: url, entersReaderIfAvailable: entersReaderIfAvailable)
+        self.delegate = self
+        self.presenterDelegate = presenterDelegate
+    }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        //self.presenterDelegate?.presented(viewController: self, didDisappearAnimated: animated)
+        self.presenterDelegate?.presented(viewController: self, didDisappearAnimated: animated)
     }
     
 }

@@ -6,6 +6,7 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
+import HipstapaperPersistence
 import UIKit
 
 @UIApplicationMain
@@ -20,8 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window = UIWindow(frame: UIScreen.main.bounds)
         }
     
+        let navVC = UserFlowNavigationController()
         
-        //self.window!.rootViewController = navVC
+        self.window!.rootViewController = navVC
         self.window?.backgroundColor = .white
         self.window?.makeKeyAndVisible()
         

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11760" systemVersion="16B2657" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11760"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="URLItemWebViewWindowController" customModule="Hipstapaper" customModuleProvider="target">
+            <connections>
+                <outlet property="bottomToolbarView" destination="f02-f1-Qbx" id="bZv-bl-GPV"/>
+                <outlet property="javascriptCheckbox" destination="84K-pi-zIe" id="iUY-t0-Ato"/>
+                <outlet property="webViewParentView" destination="yJk-nd-Q33" id="QFp-9c-rce"/>
+                <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window identifier="HipstapaperWebWindow" title="Hipstapaper: Browser" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="documentWindow" tabbingIdentifier="HipstapaperWebWindow" id="F0z-JX-Cv5">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES" fullSizeContentView="YES"/>
+            <rect key="contentRect" x="268" y="189" width="800" height="1080"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <value key="minSize" type="size" width="500" height="600"/>
+            <view key="contentView" wantsLayer="YES" id="se5-gp-TjO">
+                <rect key="frame" x="0.0" y="0.0" width="800" height="1080"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="yJk-nd-Q33">
+                        <rect key="frame" x="0.0" y="40" width="800" height="1040"/>
+                    </customView>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="f02-f1-Qbx">
+                        <rect key="frame" x="0.0" y="0.0" width="800" height="40"/>
+                        <subviews>
+                            <button toolTip="Uncheck to increase performance and reduce ads" translatesAutoresizingMaskIntoConstraints="NO" id="84K-pi-zIe">
+                                <rect key="frame" x="18" y="11" width="85" height="18"/>
+                                <buttonCell key="cell" type="check" title="Javascript" bezelStyle="regularSquare" imagePosition="left" inset="2" id="6rK-E8-TO1">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="javascriptCheckboxToggled:" target="-2" id="ohS-UZ-OTA"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="84K-pi-zIe" firstAttribute="leading" secondItem="f02-f1-Qbx" secondAttribute="leading" constant="20" symbolic="YES" id="1z3-Ku-l3r"/>
+                            <constraint firstItem="84K-pi-zIe" firstAttribute="centerY" secondItem="f02-f1-Qbx" secondAttribute="centerY" id="Ed7-O4-1p3"/>
+                            <constraint firstAttribute="height" constant="40" id="Tkg-xt-8I8"/>
+                        </constraints>
+                    </customView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="f02-f1-Qbx" firstAttribute="top" secondItem="yJk-nd-Q33" secondAttribute="bottom" id="CTi-Og-ZaL"/>
+                    <constraint firstItem="yJk-nd-Q33" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" id="GLT-Zg-Q1V"/>
+                    <constraint firstAttribute="trailing" secondItem="f02-f1-Qbx" secondAttribute="trailing" id="Ok8-Ty-WVd"/>
+                    <constraint firstItem="yJk-nd-Q33" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" id="WPA-He-SQB"/>
+                    <constraint firstItem="f02-f1-Qbx" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" id="WRI-EP-3MX"/>
+                    <constraint firstAttribute="bottom" secondItem="f02-f1-Qbx" secondAttribute="bottom" id="ZcF-MW-ACN"/>
+                    <constraint firstAttribute="trailing" secondItem="yJk-nd-Q33" secondAttribute="trailing" id="xgr-FD-ePi"/>
+                </constraints>
+            </view>
+            <toolbar key="toolbar" implicitIdentifier="4EADE065-A884-465C-BDEF-082735161FF8" displayMode="iconOnly" sizeMode="regular" id="eax-al-TJF">
+                <allowedToolbarItems>
+                    <toolbarItem implicitItemIdentifier="3DFF10E2-2E5B-4DC0-8984-B43C5C8FB83F" label="" paletteLabel="Back" image="NSLeftFacingTriangleTemplate" id="URA-hI-pdt">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="35" height="28"/>
+                        <size key="maxSize" width="37" height="35"/>
+                        <button key="view" verticalHuggingPriority="750" id="sVA-d3-TPB">
+                            <rect key="frame" x="0.0" y="14" width="37" height="28"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSLeftFacingTriangleTemplate" imagePosition="only" alignment="center" borderStyle="border" inset="2" id="YJq-Bk-tJ0">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <binding destination="-2" name="target" keyPath="self.webView" id="PWd-li-Jyw">
+                                    <dictionary key="options">
+                                        <string key="NSSelectorName">goBack:</string>
+                                    </dictionary>
+                                </binding>
+                                <binding destination="-2" name="enabled" keyPath="self.webView.canGoBack" id="Kcc-nk-XXB">
+                                    <dictionary key="options">
+                                        <integer key="NSNoSelectionPlaceholder" value="0"/>
+                                        <integer key="NSNotApplicablePlaceholder" value="0"/>
+                                        <integer key="NSNullPlaceholder" value="0"/>
+                                    </dictionary>
+                                </binding>
+                            </connections>
+                        </button>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="88DAB4A7-49A8-496C-B65A-327DBC1090EC" label="" paletteLabel="Forward" image="NSRightFacingTriangleTemplate" id="ND5-3p-15F">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="35" height="28"/>
+                        <size key="maxSize" width="37" height="35"/>
+                        <button key="view" verticalHuggingPriority="750" id="qm7-Ro-V3g">
+                            <rect key="frame" x="7" y="14" width="37" height="28"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSRightFacingTriangleTemplate" imagePosition="only" alignment="center" borderStyle="border" inset="2" id="i84-id-hGc">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <binding destination="-2" name="target" keyPath="self.webView" id="a4w-78-L8L">
+                                    <dictionary key="options">
+                                        <string key="NSSelectorName">goForward:</string>
+                                    </dictionary>
+                                </binding>
+                                <binding destination="-2" name="enabled" keyPath="self.webView.canGoForward" id="SPb-s6-508">
+                                    <dictionary key="options">
+                                        <integer key="NSNoSelectionPlaceholder" value="0"/>
+                                        <integer key="NSNotApplicablePlaceholder" value="0"/>
+                                        <integer key="NSNullPlaceholder" value="0"/>
+                                    </dictionary>
+                                </binding>
+                            </connections>
+                        </button>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="407B2BD4-B1D0-43E5-AE88-C1642221CF4A" label="" paletteLabel="Reload" image="NSRefreshTemplate" id="7Kg-8U-AUs">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="35" height="28"/>
+                        <size key="maxSize" width="37" height="35"/>
+                        <button key="view" verticalHuggingPriority="750" id="0Je-xR-vG6">
+                            <rect key="frame" x="3" y="14" width="37" height="28"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSRefreshTemplate" imagePosition="only" alignment="center" borderStyle="border" inset="2" id="dGk-uW-aiD">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <binding destination="-2" name="target" keyPath="self.webView" id="RYQ-dG-jZ2">
+                                    <dictionary key="options">
+                                        <string key="NSSelectorName">reload:</string>
+                                    </dictionary>
+                                </binding>
+                                <binding destination="-2" name="enabled" keyPath="self.webView.loading" id="DEw-6d-9mH">
+                                    <dictionary key="options">
+                                        <integer key="NSNoSelectionPlaceholder" value="0"/>
+                                        <integer key="NSNotApplicablePlaceholder" value="0"/>
+                                        <integer key="NSNullPlaceholder" value="0"/>
+                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                    </dictionary>
+                                </binding>
+                            </connections>
+                        </button>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="309FDE1B-51D3-4C79-8CF7-3A327B60A455" label="" paletteLabel="Stop" image="NSStopProgressTemplate" id="eHI-U3-XT8">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="35" height="28"/>
+                        <size key="maxSize" width="37" height="35"/>
+                        <button key="view" verticalHuggingPriority="750" id="vYu-wt-Ptk">
+                            <rect key="frame" x="0.0" y="14" width="37" height="28"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSStopProgressTemplate" imagePosition="only" alignment="center" borderStyle="border" inset="2" id="FVn-CY-b14">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <binding destination="-2" name="target" keyPath="self.webView" id="H8T-pg-zWV">
+                                    <dictionary key="options">
+                                        <string key="NSSelectorName">stopLoading:</string>
+                                    </dictionary>
+                                </binding>
+                                <binding destination="-2" name="enabled" keyPath="self.webView.loading" id="rKQ-59-bew">
+                                    <dictionary key="options">
+                                        <integer key="NSNoSelectionPlaceholder" value="1"/>
+                                        <integer key="NSNotApplicablePlaceholder" value="1"/>
+                                        <integer key="NSNullPlaceholder" value="1"/>
+                                    </dictionary>
+                                </binding>
+                            </connections>
+                        </button>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="AAAC6FE4-59D4-445D-A93F-386F66626D20" label="" paletteLabel="Share" image="NSShareTemplate" id="SpS-UR-rbq">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="35" height="28"/>
+                        <size key="maxSize" width="37" height="35"/>
+                        <button key="view" verticalHuggingPriority="750" id="1Tm-9F-ReY">
+                            <rect key="frame" x="1" y="14" width="37" height="28"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="roundTextured" bezelStyle="texturedRounded" image="NSShareTemplate" imagePosition="only" alignment="center" borderStyle="border" inset="2" id="87u-Lz-atv">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="EDCBCB7C-677C-40E8-89FB-2AF7C2C6DD1E" label="" paletteLabel="Loading Indicator" tag="-1" id="2hh-WY-vpe">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="16" height="16"/>
+                        <size key="maxSize" width="16" height="16"/>
+                        <progressIndicator key="view" wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" id="s8Z-Ie-ohG">
+                            <rect key="frame" x="41" y="14" width="16" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <connections>
+                                <binding destination="-2" name="animate" keyPath="self.webView.loading" id="GH3-xR-73V">
+                                    <dictionary key="options">
+                                        <integer key="NSNoSelectionPlaceholder" value="1"/>
+                                        <integer key="NSNotApplicablePlaceholder" value="1"/>
+                                        <integer key="NSNullPlaceholder" value="1"/>
+                                    </dictionary>
+                                </binding>
+                            </connections>
+                        </progressIndicator>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="NSToolbarPrintItem" id="jbu-98-MWv"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="um1-Uc-pPy"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="p1x-UJ-lwU"/>
+                </allowedToolbarItems>
+                <defaultToolbarItems>
+                    <toolbarItem reference="URA-hI-pdt"/>
+                    <toolbarItem reference="ND5-3p-15F"/>
+                    <toolbarItem reference="7Kg-8U-AUs"/>
+                    <toolbarItem reference="eHI-U3-XT8"/>
+                    <toolbarItem reference="2hh-WY-vpe"/>
+                    <toolbarItem reference="p1x-UJ-lwU"/>
+                    <toolbarItem reference="SpS-UR-rbq"/>
+                </defaultToolbarItems>
+            </toolbar>
+            <connections>
+                <binding destination="-2" name="title" keyPath="self.webView.title" id="ROL-J1-Qzp">
+                    <dictionary key="options">
+                        <string key="NSValueTransformerName">WebViewTitleTransformer</string>
+                    </dictionary>
+                </binding>
+                <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
+            </connections>
+        </window>
+    </objects>
+    <resources>
+        <image name="NSLeftFacingTriangleTemplate" width="9" height="12"/>
+        <image name="NSRefreshTemplate" width="11" height="15"/>
+        <image name="NSRightFacingTriangleTemplate" width="9" height="12"/>
+        <image name="NSShareTemplate" width="11" height="16"/>
+        <image name="NSStopProgressTemplate" width="11" height="11"/>
+    </resources>
+</document>

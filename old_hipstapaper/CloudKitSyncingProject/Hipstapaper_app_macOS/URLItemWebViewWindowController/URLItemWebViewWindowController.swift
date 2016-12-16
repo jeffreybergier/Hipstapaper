@@ -6,7 +6,7 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
-//import HipstapaperPersistence
+import HipstapaperPersistence
 import WebKit
 import AppKit
 
@@ -31,7 +31,7 @@ class URLItemWebViewWindowController: NSWindowController {
     
     // MARK: Model Item
     
-    //private(set) var item: URLItem.Value?
+    private(set) var item: URLItem.Value?
     
     // MARK: Control Outlets
     
@@ -83,22 +83,22 @@ class URLItemWebViewWindowController: NSWindowController {
     
     // MARK: Initialization
     
-//    convenience init(urlItem: URLItem.Value) {
-//        URLItemWebViewWindowController.titleValueTransformer // activate the value transformer once
-//        self.init(windowNibName: "URLItemWebViewWindowController")
-//        self.item = urlItem
-//    }
+    convenience init(urlItem: URLItem.Value) {
+        URLItemWebViewWindowController.titleValueTransformer // activate the value transformer once
+        self.init(windowNibName: "URLItemWebViewWindowController")
+        self.item = urlItem
+    }
 
     override func windowDidLoad() {
         super.windowDidLoad()
         
         // Get the URL loading - could probably use a bail out here if this unwrapping fails
-//        if let item = self.item, let url = URL(string: String(urlStringFromRawString: item.urlString)) {
-//            self.window?.title = "Hipstapaper: " + item.urlString
-//            self.webView.load(URLRequest(url: url))
-//        } else {
-//            self.webView.load(URLRequest(url: URL(string: "https://github.com/404")!))
-//        }
+        if let item = self.item, let url = URL(string: String(urlStringFromRawString: item.urlString)) {
+            self.window?.title = "Hipstapaper: " + item.urlString
+            self.webView.load(URLRequest(url: url))
+        } else {
+            self.webView.load(URLRequest(url: URL(string: "https://github.com/404")!))
+        }
     }
     
     // MARK: Actions from Bottom Toolbar
