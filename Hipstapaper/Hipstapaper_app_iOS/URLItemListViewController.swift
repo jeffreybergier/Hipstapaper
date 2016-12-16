@@ -21,7 +21,7 @@ class URLItemListViewController: UIViewController {
     
     fileprivate lazy var uiBindingManager: URLListBindingManager = URLListBindingManager(selection: self.dataSelection, tableView: self.tableView, dataSource: self.dataSource, delegate: self)
     
-    @IBOutlet fileprivate weak var tableView: UITableView!
+    @IBOutlet fileprivate weak var tableView: UITableView?
     
     private var dataSelection: TagItem.Selection = .unarchivedItems
     private weak var dataSource: URLItemDoublePersistanceType?
@@ -41,13 +41,13 @@ class URLItemListViewController: UIViewController {
                     self.editBar.isEnabled = true
                     self.doneBar.isEnabled = true
                     self.setToolbarItems([self.reloadBar, self.flexibleSpaceBar, self.editBar], animated: true)
-                    self.tableView.setEditing(false, animated: true)
+                    self.tableView?.setEditing(false, animated: true)
                 case .loadingNotEditing:
                     self.editBar.isEnabled = false
                     self.doneBar.isEnabled = false
                     self.reloadBar.isEnabled = true
                     self.setToolbarItems([self.loadingBar, self.flexibleSpaceBar, self.editBar], animated: true)
-                    self.tableView.setEditing(false, animated: true)
+                    self.tableView?.setEditing(false, animated: true)
                 case .notLoadingEditingNoneSelected:
                     self.tagBar.isEnabled = false
                     self.archiveBar.isEnabled = false
@@ -55,8 +55,10 @@ class URLItemListViewController: UIViewController {
                     self.doneBar.isEnabled = true
                     self.reloadBar.isEnabled = false
                     self.setToolbarItems([self.reloadBar, self.flexibleSpaceBar, self.tagBar, self.spaceBar, self.archiveBar, self.flexibleSpaceBar, self.doneBar], animated: true)
-                    self.tableView.setEditing(false, animated: true)
-                    self.tableView.setEditing(true, animated: true)
+                    if self.tableView?.isEditing == true {
+                        self.tableView?.setEditing(false, animated: true) // doing this forces any slidden rows to close
+                    }
+                    self.tableView?.setEditing(true, animated: true)
                 case .notLoadingEditingSomeSelected:
                     self.tagBar.isEnabled = true
                     self.archiveBar.isEnabled = true
@@ -64,8 +66,10 @@ class URLItemListViewController: UIViewController {
                     self.doneBar.isEnabled = true
                     self.reloadBar.isEnabled = false
                     self.setToolbarItems([self.reloadBar, self.flexibleSpaceBar, self.tagBar, self.spaceBar, self.archiveBar, self.flexibleSpaceBar, self.doneBar], animated: true)
-                    self.tableView.setEditing(false, animated: true)
-                    self.tableView.setEditing(true, animated: true)
+                    if self.tableView?.isEditing == true {
+                        self.tableView?.setEditing(false, animated: true) // doing this forces any slidden rows to close
+                    }
+                    self.tableView?.setEditing(true, animated: true)
                 }
             }
         }
@@ -115,7 +119,7 @@ class URLItemListViewController: UIViewController {
         }
         
         // configure the tableview
-        self.tableView.allowsMultipleSelection = true
+        self.tableView?.allowsMultipleSelection = true
         
         // configure the toolbar
         self.uiState = .notLoadingNotEditing
@@ -150,7 +154,7 @@ class URLItemListViewController: UIViewController {
     }
     
     @objc fileprivate func archiveButtonTapped(_ sender: NSObject?) {
-        
+        guard let items = self.tableView?.selectedURLItems, items.isEmpty == false else { return }
     }
     
     @objc fileprivate func reloadButtonTapped(_ sender: NSObject?) {
@@ -203,9 +207,6 @@ extension URLItemListViewController: URLListBindingManagerDelegate {
         guard let url = URL(string: item.urlString) else { return }
         let sfVC = PresenterDelegateSafariViewController(url: url, entersReaderIfAvailable: true, presenterDelegate: self)
         self.present(sfVC, animated: true, completion: .none)
-        //self.navigationController?.pushViewController(sfVC, animated: true)
-//        let newVC = URLItemWebViewController(urlItem: item, delegate: self)
-//        self.navigationController?.pushViewController(newVC, animated: true)
     }
     
     func didUpdate(operationsInProgress: Bool, bindingManager: URLListBindingManager) {
