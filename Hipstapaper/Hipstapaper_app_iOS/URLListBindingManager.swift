@@ -131,6 +131,7 @@ class URLListBindingManager: NSObject {
         let updatedTuple = tuple.map() { oldTuple -> (item: URLItemType, indexPath: IndexPath) in
             var item = oldTuple.item
             item.archived = newValueOrToggle ?? !item.archived
+            item.modificationDate = Date()
             return (item, oldTuple.indexPath)
         }
         
