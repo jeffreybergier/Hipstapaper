@@ -41,42 +41,35 @@ class URLItemListViewController: UIViewController {
                     self.editBar.isEnabled = true
                     self.doneBar.isEnabled = true
                     self.setToolbarItems([self.reloadBar, self.flexibleSpaceBar, self.editBar], animated: true)
-                    self.tableView?.setEditing(false, animated: true)
                 case .loadingNotEditing:
                     self.editBar.isEnabled = false
                     self.doneBar.isEnabled = false
                     self.reloadBar.isEnabled = true
                     self.setToolbarItems([self.loadingBar, self.flexibleSpaceBar, self.editBar], animated: true)
-                    self.tableView?.setEditing(false, animated: true)
                 case .notLoadingEditingNoneSelected:
                     self.tagBar.isEnabled = false
                     self.archiveBar.isEnabled = false
+                    self.unarchiveBar.isEnabled = false
                     self.editBar.isEnabled = false
                     self.doneBar.isEnabled = true
                     self.reloadBar.isEnabled = false
-                    self.setToolbarItems([self.reloadBar, self.flexibleSpaceBar, self.tagBar, self.spaceBar, self.archiveBar, self.flexibleSpaceBar, self.doneBar], animated: true)
-                    if self.tableView?.isEditing == true {
-                        self.tableView?.setEditing(false, animated: true) // doing this forces any slidden rows to close
-                    }
-                    self.tableView?.setEditing(true, animated: true)
+                    self.setToolbarItems([self.tagBar, self.flexibleSpaceBar, self.unarchiveBar, self.flexibleSpaceBar, self.archiveBar, self.flexibleSpaceBar, self.doneBar], animated: true)
                 case .notLoadingEditingSomeSelected:
                     self.tagBar.isEnabled = true
                     self.archiveBar.isEnabled = true
+                    self.unarchiveBar.isEnabled = true
                     self.editBar.isEnabled = false
                     self.doneBar.isEnabled = true
                     self.reloadBar.isEnabled = false
-                    self.setToolbarItems([self.reloadBar, self.flexibleSpaceBar, self.tagBar, self.spaceBar, self.archiveBar, self.flexibleSpaceBar, self.doneBar], animated: true)
-                    if self.tableView?.isEditing == true {
-                        self.tableView?.setEditing(false, animated: true) // doing this forces any slidden rows to close
-                    }
-                    self.tableView?.setEditing(true, animated: true)
+                    self.setToolbarItems([self.tagBar, self.flexibleSpaceBar, self.unarchiveBar, self.flexibleSpaceBar, self.archiveBar, self.flexibleSpaceBar, self.doneBar], animated: true)
                 }
             }
         }
     }
     
-    private lazy var archiveBar: UIBarButtonItem = UIBarButtonItem(title: "Archive", style: .done, target: self, action: #selector(self.archiveButtonTapped(_:)))
-    private lazy var tagBar: UIBarButtonItem = UIBarButtonItem(title: "Tag", style: .done, target: self, action: #selector(self.tagButtonTapped(_:)))
+    private lazy var unarchiveBar: UIBarButtonItem = UIBarButtonItem(title: "Unarchive", style: .plain, target: self, action: #selector(self.unarchiveButtonTapped(_:)))
+    private lazy var archiveBar: UIBarButtonItem = UIBarButtonItem(title: "Archive", style: .plain, target: self, action: #selector(self.archiveButtonTapped(_:)))
+    private lazy var tagBar: UIBarButtonItem = UIBarButtonItem(title: "Tag", style: .plain, target: self, action: #selector(self.tagButtonTapped(_:)))
     private lazy var reloadBar: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.reloadButtonTapped(_:)))
     private lazy var doneBar: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.doneButtonTapped(_:)))
     private lazy var editBar: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(self.editButtonTapped(_:)))
@@ -153,32 +146,34 @@ class URLItemListViewController: UIViewController {
         
     }
     
+    @objc fileprivate func unarchiveButtonTapped(_ sender: NSObject?) {
+        guard let items = self.tableView?.selectedURLItems else { return }
+        items.forEach({ (_, indexPath) in self.tableView?.deselectRow(at: indexPath, animated: true) })
+        self.uiBindingManager.archive(newValueOrToggle: false, items: items)
+        self.uiState = .notLoadingEditingNoneSelected
+    }
+    
     @objc fileprivate func archiveButtonTapped(_ sender: NSObject?) {
-        guard let items = self.tableView?.selectedURLItems, items.isEmpty == false else { return }
-        self.archive(items: items)
+        guard let items = self.tableView?.selectedURLItems else { return }
+        items.forEach({ (_, indexPath) in self.tableView?.deselectRow(at: indexPath, animated: true) })
+        self.uiBindingManager.archive(newValueOrToggle: true, items: items)
+        self.uiState = .notLoadingEditingNoneSelected
     }
     
     @objc fileprivate func reloadButtonTapped(_ sender: NSObject?) {
+        self.tableView?.setEditing(false, animated: true)
         self.uiState = .loadingNotEditing
         self.uiBindingManager.sync()
     }
     
     @objc fileprivate func editButtonTapped(_ sender: NSObject?) {
+        self.tableView?.setEditing(true, animated: true)
         self.uiState = .notLoadingEditingNoneSelected
     }
     
     @objc fileprivate func doneButtonTapped(_ sender: NSObject?) {
+        self.tableView?.setEditing(false, animated: true)
         self.uiState = .notLoadingNotEditing
-    }
-    
-    // MARK: Handle Archiving
-    
-    fileprivate func archive(items: [URLItemType]) {
-        for item in items {
-            var item = item
-            item.archived = true
-            self.dataSource?.update(item: item, quickResult: .none, fullResult: .none)
-        }
     }
     
     // MARK: Handle View Going Away
@@ -202,8 +197,10 @@ extension URLItemListViewController: URLListBindingManagerDelegate {
         
     }
     
-    func didChooseToArchive(item: URLItemType, at indexPath: IndexPath, within: UITableView, bindingManager: URLListBindingManager) {
-        self.archive(items: [item])
+    func didChooseToToggleArchive(for item: URLItemType, at indexPath: IndexPath, within: UITableView, bindingManager: URLListBindingManager) {
+        self.uiBindingManager.archive(newValueOrToggle: .none, items: [(item, indexPath)])
+        self.tableView?.setEditing(false, animated: true)
+        self.uiState = .notLoadingNotEditing
     }
     
     func didChangeSelection(items: [URLItemType], within: UITableView, bindingManager: URLListBindingManager) {

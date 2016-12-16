@@ -11,7 +11,7 @@ import UIKit
 
 protocol URLListBindingManagerDelegate: class {
     func didChooseToTag(item: URLItemType, at: IndexPath, within: UITableView, bindingManager: URLListBindingManager)
-    func didChooseToArchive(item: URLItemType, at: IndexPath, within: UITableView, bindingManager: URLListBindingManager)
+    func didChooseToToggleArchive(for: URLItemType, at: IndexPath, within: UITableView, bindingManager: URLListBindingManager)
     func didChangeSelection(items: [URLItemType], within: UITableView, bindingManager: URLListBindingManager)
     func didChoose(item: URLItemType, within: UITableView, bindingManager: URLListBindingManager)
     func didUpdate(operationsInProgress: Bool, bindingManager: URLListBindingManager)
@@ -124,6 +124,32 @@ class URLListBindingManager: NSObject {
             }
         }
     }
+    
+    // MARK: Handle Specific Data Modification Actions
+    
+    func archive(newValueOrToggle: Bool?, items tuple: [(item: URLItemType, indexPath: IndexPath)]) {
+        let updatedTuple = tuple.map() { oldTuple -> (item: URLItemType, indexPath: IndexPath) in
+            var item = oldTuple.item
+            item.archived = newValueOrToggle ?? !item.archived
+            return (item, oldTuple.indexPath)
+        }
+        
+        for tuple in updatedTuple {
+            self.dataSource?.update(item: tuple.item, quickResult: .none, fullResult: .none)
+        }
+        
+        // only remove the item from the table view if we are in the unarchived screen AND the item is now archived
+        if case .unarchivedItems = self.dataSelection {
+            let archivedTuple = updatedTuple.filter({ $0.item.archived == true })
+            let indexPaths = archivedTuple.map({ $0.indexPath })
+            self.tableView?.beginUpdates()
+            self.tableView?.deleteRows(at: indexPaths, with: .left)
+            for indexPath in indexPaths.sorted().reversed() {
+                self.sortedIDs.remove(at: indexPath.row)
+            }
+            self.tableView?.endUpdates()
+        }
+    }
 }
 
 extension URLListBindingManager: UITableViewDataSource {
@@ -162,36 +188,42 @@ extension URLListBindingManager: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let item = tableView.urlItem(at: indexPath) else { return }
         if tableView.isEditing {
-            self.delegate?.didChangeSelection(items: tableView.selectedURLItems, within: tableView, bindingManager: self)
+            self.delegate?.didChangeSelection(items: tableView.selectedURLItems.map({ $0.item }), within: tableView, bindingManager: self)
         } else {
             self.delegate?.didChoose(item: item, within: tableView, bindingManager: self)
         }
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        self.delegate?.didChangeSelection(items: tableView.selectedURLItems, within: tableView, bindingManager: self)
+        self.delegate?.didChangeSelection(items: tableView.selectedURLItems.map({ $0.item }), within: tableView, bindingManager: self)
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         guard self.operationsInProgress == 0 else { return [] } // stops editing while syncing
-        let archiveAction = UITableViewRowAction(style: .normal, title: "Archive") { rowAction, indexPath in
-            guard let item = tableView.urlItem(at: indexPath) else { return }
-            self.delegate?.didChooseToArchive(item: item, at: indexPath, within: tableView, bindingManager: self)
+        guard let item = tableView.urlItem(at: indexPath) else { return [] }
+        
+        let title = item.archived ? "Unarchive" : "Archive"
+        let archiveToggleAction = UITableViewRowAction(style: .normal, title: title) { rowAction, indexPath in
+            self.delegate?.didChooseToToggleArchive(for: item, at: indexPath, within: tableView, bindingManager: self)
         }
-        archiveAction.backgroundColor = tableView.tintColor
+        archiveToggleAction.backgroundColor = tableView.tintColor
+        
         let tagAction = UITableViewRowAction(style: .normal, title: "Tag") { rowAction, indexPath in
-            guard let item = tableView.urlItem(at: indexPath) else { return }
             self.delegate?.didChooseToTag(item: item, at: indexPath, within: tableView, bindingManager: self)
         }
-        return [archiveAction, tagAction]
+        return [archiveToggleAction, tagAction]
     }
 }
 
 extension UITableView {
-    var selectedURLItems: [URLItemType] {
+    var selectedURLItems: [(item: URLItemType, indexPath: IndexPath)] {
         let selectedIndexPaths = self.indexPathsForSelectedRows ?? []
-        let items = selectedIndexPaths.map({ (self.cellForRow(at: $0) as? URLItemTableViewCell)?.item }).flatMap({ $0 })
-        return items
+        var tupleArray = [(item: URLItemType, indexPath: IndexPath)]()
+        for indexPath in selectedIndexPaths {
+            guard let cell = self.cellForRow(at: indexPath) as? URLItemTableViewCell, let item = cell.item else { continue }
+            tupleArray.append((item, indexPath))
+        }
+        return tupleArray
     }
     
     func urlItem(at indexPath: IndexPath) -> URLItemType? {
