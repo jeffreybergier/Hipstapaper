@@ -24,8 +24,8 @@
 		50432EFA1E048DF400D9C3D5 /* TempPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50432EF71E048DF400D9C3D5 /* TempPassword.swift */; };
 		50432EFB1E048DF400D9C3D5 /* TempPassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50432EF71E048DF400D9C3D5 /* TempPassword.swift */; };
 		504A3A3B1DF924D300EA46A9 /* URLItemSavingShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504A3A391DF924D300EA46A9 /* URLItemSavingShareViewController.xib */; };
-		504FC0FC1DFA444A0014C787 /* URLItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504FC0FA1DFA444A0014C787 /* URLItemTableViewCell.swift */; };
-		504FC0FD1DFA444A0014C787 /* URLItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504FC0FB1DFA444A0014C787 /* URLItemTableViewCell.xib */; };
+		504FC0FC1DFA444A0014C787 /* URLTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504FC0FA1DFA444A0014C787 /* URLTableViewCell.swift */; };
+		504FC0FD1DFA444A0014C787 /* URLTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504FC0FB1DFA444A0014C787 /* URLTableViewCell.xib */; };
 		505B304B1DEA698300B74AE6 /* URLItemWebViewWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30491DEA698300B74AE6 /* URLItemWebViewWindowController.swift */; };
 		505B304C1DEA698300B74AE6 /* URLItemWebViewWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 505B304A1DEA698300B74AE6 /* URLItemWebViewWindowController.xib */; };
 		506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506A3F071DD6C10C00A5656E /* AppDelegate.swift */; };
@@ -133,8 +133,8 @@
 		50432EF21E048BF800D9C3D5 /* Realm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Realm.swift; sourceTree = "<group>"; };
 		50432EF71E048DF400D9C3D5 /* TempPassword.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TempPassword.swift; sourceTree = "<group>"; };
 		504A3A391DF924D300EA46A9 /* URLItemSavingShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLItemSavingShareViewController.xib; sourceTree = "<group>"; };
-		504FC0FA1DFA444A0014C787 /* URLItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemTableViewCell.swift; sourceTree = "<group>"; };
-		504FC0FB1DFA444A0014C787 /* URLItemTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLItemTableViewCell.xib; sourceTree = "<group>"; };
+		504FC0FA1DFA444A0014C787 /* URLTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLTableViewCell.swift; sourceTree = "<group>"; };
+		504FC0FB1DFA444A0014C787 /* URLTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLTableViewCell.xib; sourceTree = "<group>"; };
 		505B30491DEA698300B74AE6 /* URLItemWebViewWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemWebViewWindowController.swift; sourceTree = "<group>"; };
 		505B304A1DEA698300B74AE6 /* URLItemWebViewWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLItemWebViewWindowController.xib; sourceTree = "<group>"; };
 		506A3F041DD6C10C00A5656E /* Hipstapaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hipstapaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -214,8 +214,8 @@
 				5083AA111E04F4FC00BCAC93 /* TagListViewController.xib */,
 				5083AA141E05020E00BCAC93 /* URLListViewController.swift */,
 				5083AA151E05020E00BCAC93 /* URLListViewController.xib */,
-				504FC0FA1DFA444A0014C787 /* URLItemTableViewCell.swift */,
-				504FC0FB1DFA444A0014C787 /* URLItemTableViewCell.xib */,
+				504FC0FA1DFA444A0014C787 /* URLTableViewCell.swift */,
+				504FC0FB1DFA444A0014C787 /* URLTableViewCell.xib */,
 				5074A2A51E0224CC004FE1E7 /* PresenterDelegateSafariViewController.swift */,
 				5005E1241DF4CB8300BA38E6 /* Assets.xcassets */,
 				5005E1261DF4CB8300BA38E6 /* LaunchScreen.storyboard */,
@@ -528,7 +528,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				504FC0FD1DFA444A0014C787 /* URLItemTableViewCell.xib in Resources */,
+				504FC0FD1DFA444A0014C787 /* URLTableViewCell.xib in Resources */,
 				5083AA171E05020E00BCAC93 /* URLListViewController.xib in Resources */,
 				5083AA131E04F4FC00BCAC93 /* TagListViewController.xib in Resources */,
 				5005E1281DF4CB8300BA38E6 /* LaunchScreen.storyboard in Resources */,
@@ -754,7 +754,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5074A2A61E0224CC004FE1E7 /* PresenterDelegateSafariViewController.swift in Sources */,
-				504FC0FC1DFA444A0014C787 /* URLItemTableViewCell.swift in Sources */,
+				504FC0FC1DFA444A0014C787 /* URLTableViewCell.swift in Sources */,
 				5005E11E1DF4CB8300BA38E6 /* AppDelegate.swift in Sources */,
 				5083AA121E04F4FC00BCAC93 /* TagListViewController.swift in Sources */,
 				5083AA161E05020E00BCAC93 /* URLListViewController.swift in Sources */,

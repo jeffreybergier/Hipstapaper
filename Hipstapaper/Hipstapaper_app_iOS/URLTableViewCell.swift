@@ -6,12 +6,24 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
-//import HipstapaperPersistence
 import UIKit
 
-class URLItemTableViewCell: UITableViewCell {
+extension UITableView {
+    var selectedURLItems: [URLItem]? {
+        let indexPaths = self.indexPathsForSelectedRows ?? []
+        let cells = indexPaths.map({ (self.cellForRow(at: $0) as? URLTableViewCell)?.item }).flatMap({$0})
+        if cells.isEmpty { return .none } else { return cells }
+    }
     
-    static let nibName = "URLItemTableViewCell"
+    func urlItemFor(row indexPath: IndexPath) -> URLItem? {
+        let cell = self.cellForRow(at: indexPath) as? URLTableViewCell
+        return cell?.item
+    }
+}
+
+class URLTableViewCell: UITableViewCell {
+    
+    static let nibName = "URLTableViewCell"
 
     private let dateFormatter: DateFormatter = {
         let df = DateFormatter()
