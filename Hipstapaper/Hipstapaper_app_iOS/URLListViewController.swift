@@ -92,7 +92,7 @@ class URLListViewController: UIViewController {
             self?.tableView?.beginUpdates()
             self?.tableView?.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }), with: .right)
             self?.tableView?.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .left)
-            self?.tableView?.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .left)
+            self?.tableView?.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
             self?.tableView?.endUpdates()
         case .error(let error):
             fatalError("\(error)")
@@ -143,11 +143,22 @@ extension URLListViewController /* Handle BarButtonItems */ {
     }
     
     @objc fileprivate func archiveBBITapped(_ sender: NSObject?) {
-        
+        guard let items = self.tableView?.selectedURLItems else { return }
+        self.archive(true, items: items)
     }
     
     @objc fileprivate func unarchiveBBITapped(_ sender: NSObject?) {
-        
+        guard let items = self.tableView?.selectedURLItems else { return }
+        self.archive(false, items: items)
+    }
+    
+    private func archive(_ archive: Bool, items: [URLItem]) {
+        let realm = try! Realm()
+        realm.beginWrite()
+        items.forEach() { item in
+            item.archived = archive
+        }
+        try! realm.commitWrite()
     }
     
     @objc fileprivate func tagBBITapped(_ sender: NSObject?) {
