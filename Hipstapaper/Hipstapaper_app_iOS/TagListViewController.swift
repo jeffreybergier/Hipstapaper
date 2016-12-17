@@ -17,12 +17,7 @@ class TagListViewController: UIViewController {
     
     fileprivate var tags: Results<TagItem>?
     
-    @IBOutlet private weak var tableView: UITableView? {
-        didSet {
-            self.tableView?.delegate = self
-            self.tableView?.dataSource = self
-        }
-    }
+    @IBOutlet private weak var tableView: UITableView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,15 +40,15 @@ class TagListViewController: UIViewController {
                 fatalError("\(error)")
             }
         }
-        
-        Timer.scheduledTimer(withTimeInterval: 20, repeats: true) { timer in
-            let realm = try! Realm()
-            try! realm.write {
-                let newTag = TagItem()
-                newTag.name = UUID().uuidString
-                realm.add(newTag)
-            }
-        }
+//        
+//        Timer.scheduledTimer(withTimeInterval: 20, repeats: true) { timer in
+//            let realm = try! Realm()
+//            try! realm.write {
+//                let newTag = TagItem()
+//                newTag.name = UUID().uuidString
+//                realm.add(newTag)
+//            }
+//        }
     }
     
     private var notificationToken: NotificationToken?
