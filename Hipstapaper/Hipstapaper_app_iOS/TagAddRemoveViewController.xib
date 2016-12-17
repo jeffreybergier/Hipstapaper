@@ -5,7 +5,6 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,25 +19,21 @@
             <rect key="frame" x="0.0" y="0.0" width="300" height="220"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8HA-OL-bvf">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="8HA-OL-bvf">
                     <rect key="frame" x="0.0" y="0.0" width="300" height="220"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="elB-1y-g7n"/>
+                        <outlet property="delegate" destination="-1" id="i5M-1y-Ena"/>
+                    </connections>
                 </tableView>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ksx-Ds-DTi">
-                    <rect key="frame" x="75" y="55" width="150" height="110"/>
-                    <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="ksx-Ds-DTi" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="0.5" id="50H-vX-fGG"/>
-                <constraint firstItem="ksx-Ds-DTi" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.5" id="8BV-oc-dDT"/>
                 <constraint firstItem="8HA-OL-bvf" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="BfH-d8-hZK"/>
-                <constraint firstItem="ksx-Ds-DTi" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="DpS-tx-dKi"/>
                 <constraint firstItem="8HA-OL-bvf" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="Wfa-Xl-fYI"/>
                 <constraint firstItem="8HA-OL-bvf" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" id="bDJ-qg-Pqv"/>
                 <constraint firstItem="8HA-OL-bvf" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="gPj-Wv-rCD"/>
-                <constraint firstItem="ksx-Ds-DTi" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="x39-fu-ck7"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="8" y="-140"/>

@@ -31,32 +31,24 @@ class TagItem: Object {
     
     let items = LinkingObjects(fromType: URLItem.self, property: "tags")
     
-    override static func primaryKey() -> String {
-        return "name"
-    }
 }
 
 struct RealmConfig {
-    #if os(OSX)
-    private static let appGroupIdentifier = "V6ESYGU6CV.hipstapaper.appgroup"
-    #else
-    private static let appGroupIdentifier = "group.com.saturdayapps.Hipstapaper"
-    #endif
+//    #if os(OSX)
+//    private static let appGroupIdentifier = "V6ESYGU6CV.hipstapaper.appgroup"
+//    #else
+//    private static let appGroupIdentifier = "group.com.saturdayapps.Hipstapaper"
+//    #endif
+//    let directory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: RealmConfig.appGroupIdentifier)!
+//    let realmPath = directory.appendingPathComponent("db.realm")
+//    var config = Realm.Configuration.defaultConfiguration
+//    config.fileURL = realmPath
     
-    // Void Singleton to configure the default realm for the app once
-    // this enables realm to use the app group for storage
     static func configure(completionHandler: @escaping (() -> Void)) {
         SyncUser.logIn(with: SyncCredentials.usernamePassword(username: realmUsername, password: realmPassword, register: false), server: realmAuthServer) { user, error in
             DispatchQueue.main.async {
                 guard let user = user else { fatalError("\(error!)") }
-                let directory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: RealmConfig.appGroupIdentifier)!
-                let realmPath = directory.appendingPathComponent("db.realm")
-                var config = Realm.Configuration(
-                    syncConfiguration: SyncConfiguration(user: user, realmURL: URL(string: realmDataServer.absoluteString)!)
-                )
-                //var config = Realm.Configuration.
-                //config.fileURL = realmPath
-                config.objectTypes = [URLItem.self, TagItem.self]
+                let config = Realm.Configuration(syncConfiguration: SyncConfiguration(user: user, realmURL: URL(string: realmDataServer.absoluteString)!))
                 Realm.Configuration.defaultConfiguration = config
                 completionHandler()
             }

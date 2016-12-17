@@ -76,11 +76,14 @@ class URLListViewController: UIViewController {
         self.urlItems = urlItems
         self.notificationToken = urlItems?.addNotificationBlock(self.tableUpdateClosure)
         
-//        Timer.scheduledTimer(withTimeInterval: 20, repeats: true) { timer in
+//        var count = 1
+//        Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { timer in
 //            let realm = try! Realm()
 //            try! realm.write {
 //                let newURL = URLItem()
+//                newURL.urlString = "http://www.\(count).com"
 //                realm.add(newURL)
+//                count += 1
 //            }
 //        }
     }
@@ -165,7 +168,7 @@ extension URLListViewController /* Handle BarButtonItems */ {
     @objc fileprivate func tagBBITapped(_ sender: NSObject?) {
         guard let bbi = sender as? UIBBI else { return }
         guard let items = self.tableView?.selectedURLItems else { return }
-        let tagVC = TagAddRemoveViewController.viewController(popoverSource: bbi, items: items)
+        let tagVC = TagAddRemoveViewController.viewController(popoverSource: bbi, selectedItems: items)
         self.present(tagVC, animated: true, completion: .none)
     }
     

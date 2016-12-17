@@ -27,8 +27,8 @@ class TagListViewController: UIViewController {
         let realm = try! Realm()
         self.tags = realm.objects(TagItem.self).sorted(byProperty: "name")
         self.notificationToken = self.tags?.addNotificationBlock(self.tableUpdateClosure)
-//        
-//        Timer.scheduledTimer(withTimeInterval: 20, repeats: true) { timer in
+        
+//        Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { timer in
 //            let realm = try! Realm()
 //            try! realm.write {
 //                let newTag = TagItem()
