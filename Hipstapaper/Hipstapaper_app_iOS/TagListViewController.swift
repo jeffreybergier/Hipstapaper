@@ -94,12 +94,24 @@ extension TagListViewController: UITableViewDelegate {
             realm.delete(tagItem)
         }
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let section = Section(rawValue: indexPath.section) else { return }
+        let selection: URLListViewController.Selection
+        switch section {
+        case .readingList:
+            selection = indexPath.row == 0 ? .unarchivedItems : .allItems
+        case .tags:
+            guard let tagItem = self.tags?[indexPath.row] else { fatalError() }
+            selection = .tag(tagItem)
+        }
+        let newVC = URLListViewController(selection: selection)
+        self.navigationController?.pushViewController(newVC, animated: true)
+    }
 }
 
 extension TagListViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-//        let numberOfTags = self.tags?.count ?? 0
-//        return numberOfTags > 0 ? 2 : 1
         return 2
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
