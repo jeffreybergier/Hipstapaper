@@ -42,14 +42,13 @@ class URLTableViewCell: UITableViewCell {
                 self.urlLabel?.text = item.urlString
                 self.dateLabel?.text = self.dateFormatter.string(from: item.modificationDate)
                 self.idLabel?.text = item.uuid
-            } else {
-                self.prepareForReuse()
             }
         }
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
+        self.item = .none
         self.urlLabel?.text = .none
         self.dateLabel?.text = .none
         self.idLabel?.text = .none

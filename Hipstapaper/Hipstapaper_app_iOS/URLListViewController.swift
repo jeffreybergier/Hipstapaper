@@ -49,6 +49,7 @@ class URLListViewController: UIViewController {
         
         // put us into non-edit mode
         self.doneBBITapped(.none)
+        self.updateBBIEnableState(itemsSelectedInTableView: false)
 
         // configure data source
         // also set title in same switch
@@ -162,7 +163,10 @@ extension URLListViewController /* Handle BarButtonItems */ {
     }
     
     @objc fileprivate func tagBBITapped(_ sender: NSObject?) {
-        
+        guard let bbi = sender as? UIBBI else { return }
+        guard let items = self.tableView?.selectedURLItems else { return }
+        let tagVC = TagAddRemoveViewController.viewController(popoverSource: bbi, items: items)
+        self.present(tagVC, animated: true, completion: .none)
     }
     
     fileprivate func updateBBIEnableState(itemsSelectedInTableView selected: Bool) {
