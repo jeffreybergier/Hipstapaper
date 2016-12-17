@@ -66,7 +66,7 @@ class URLListViewController: UIViewController {
             let creationDate = #keyPath(URLItem.creationDate)
             urlItems = realm.objects(URLItem.self).sorted(byProperty: creationDate, ascending: false)
         case .tag(let tagItem):
-            self.title = "Tag: \(tagItem.name)"
+            self.title = "Tag: \(tagItem.normalizedName())"
             urlItems = .none
             let urlItems2 = tagItem.items
         }

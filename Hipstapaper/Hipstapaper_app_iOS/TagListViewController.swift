@@ -131,7 +131,7 @@ extension TagListViewController: UITableViewDataSource {
             cell.textLabel?.text = indexPath.row == 0 ? "Unread Item" : "All Item"
         case .tags:
             guard let tagItem = self.tags?[indexPath.row] else { return cell }
-            cell.textLabel?.text = tagItem.name
+            cell.textLabel?.text = tagItem.normalizedName()
             cell.detailTextLabel?.text = "\(tagItem.items.count)"
         }
         cell.accessoryType = .disclosureIndicator

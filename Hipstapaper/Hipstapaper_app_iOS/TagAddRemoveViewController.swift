@@ -35,8 +35,6 @@ class TagAddRemoveViewController: UIViewController {
     fileprivate var selectedItems = [URLItem]()
     fileprivate var tags: Results<TagItem>?
     
-    fileprivate var closuresToExecuteOnSave = [() -> Void]()
-    
     convenience init(selectedItems: [URLItem]) {
         self.init()
         self.selectedItems = selectedItems
@@ -49,8 +47,8 @@ class TagAddRemoveViewController: UIViewController {
         self.title = "Apply Tags"
         
         // configure dismiss buttons
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.doneBBITapped(_:)))
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.cancelBBITapped(_:)))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addBBITapped(_:)))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.doneBBITapped(_:)))
         
         // get all the tags from realm
         let realm = try! Realm()
@@ -74,15 +72,29 @@ class TagAddRemoveViewController: UIViewController {
     }
     
     @objc private func doneBBITapped(_ sender: NSObject?) {
-        let realm = try! Realm()
-        realm.beginWrite()
-        self.closuresToExecuteOnSave.forEach({ $0() })
-        try! realm.commitWrite()
         self.dismiss(animated: true, completion: .none)
     }
     
-    @objc private func cancelBBITapped(_ sender: NSObject?) {
-        self.dismiss(animated: true, completion: .none)
+    @objc private func addBBITapped(_ sender: NSObject?) {
+        let alertVC = UIAlertController(title: "New Tag", message: .none, preferredStyle: .alert)
+        alertVC.addTextField(configurationHandler: { $0.placeholder = "tag name" })
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: .none)
+        let addAction = UIAlertAction(title: "Add", style: .default) { action in
+            let newName = alertVC.textFields?.map({ $0.text }).flatMap({ $0 }).first ?? ""
+            guard let normalizedNewName = TagItem.normalize(nameString: newName) else { return }
+            let existingTagFound = !(self.tags?.filter("\(#keyPath(TagItem.name)) = '\(normalizedNewName)'").isEmpty ?? true)
+            if existingTagFound == false {
+                let realm = try! Realm()
+                realm.beginWrite()
+                let newTag = TagItem()
+                let _ = newTag.setNormalizedName(normalizedNewName)
+                realm.add(newTag)
+                try! realm.commitWrite()
+            }
+        }
+        alertVC.addAction(cancelAction)
+        alertVC.addAction(addAction)
+        self.present(alertVC, animated: true, completion: .none)
     }
     
     private var notificationToken: NotificationToken?
@@ -96,21 +108,22 @@ extension TagAddRemoveViewController: TagApplicationChangeDelegate {
     func didChangeTagApplication(_ newValue: Bool, sender: UITableViewCell) {
         guard let indexPath = self.tableView?.indexPath(for: sender), let tagItem = self.tags?[indexPath.row] else { return }
         let urlItems = self.selectedItems
-        self.closuresToExecuteOnSave.append() {
-            for urlItem in urlItems {
-                if newValue == true {
-                    guard urlItem.tags.index(of: tagItem) == nil else { continue }
-                    urlItem.tags.append(tagItem)
-                    let name = tagItem.name
-                    tagItem.name = name // hack to trigger Realm change notification
-                } else {
-                    guard let index = urlItem.tags.index(of: tagItem) else { continue }
-                    urlItem.tags.remove(objectAtIndex: index)
-                    let name = tagItem.name
-                    tagItem.name = name // hack to trigger Realm change notification
-                }
+        let realm = try! Realm()
+        realm.beginWrite()
+        for urlItem in urlItems {
+            if newValue == true {
+                guard urlItem.tags.index(of: tagItem) == nil else { continue }
+                urlItem.tags.append(tagItem)
+                let name = tagItem.normalizedName()
+                let _ = tagItem.setNormalizedName(name) // hack to trigger Realm change notification
+            } else {
+                guard let index = urlItem.tags.index(of: tagItem) else { continue }
+                urlItem.tags.remove(objectAtIndex: index)
+                let name = tagItem.normalizedName()
+                let _ = tagItem.setNormalizedName(name) // hack to trigger Realm change notification
             }
         }
+        try! realm.commitWrite()
     }
 }
 
@@ -137,7 +150,7 @@ extension TagAddRemoveViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TagAddRemoveTableViewCell.nibName, for: indexPath)
         if let cell = cell as? TagAddRemoveTableViewCell, let tagItem = self.tags?[indexPath.row] {
-            cell.tagNameLabel?.text = tagItem.name
+            cell.tagNameLabel?.text = tagItem.normalizedName()
             cell.tagSwitch?.isOn = self.atLeastOneSelectedItemReferences(tag: tagItem)
             cell.delegate = self
         }
@@ -147,7 +160,7 @@ extension TagAddRemoveViewController: UITableViewDataSource {
 
 extension TagAddRemoveViewController: UIPopoverPresentationControllerDelegate {
     func popoverPresentationControllerShouldDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) -> Bool {
-        return false
+        return true
     }
 }
 

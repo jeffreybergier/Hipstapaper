@@ -27,7 +27,26 @@ class URLItem: Object {
 
 class TagItem: Object {
     
-    dynamic var name = "Untitled"
+    class func normalize(nameString: String) -> String? {
+        let lowerCase = nameString.lowercased()
+        let characterSet = CharacterSet.alphanumerics.inverted
+        let trimmed = lowerCase.components(separatedBy: characterSet).joined(separator: "")
+        if trimmed == "" { return .none } else { return trimmed }
+    }
+    
+    static let name = ""
+    
+    private dynamic var name = "untitled"
+    
+    func setNormalizedName(_ newName: String) -> String {
+        let adjusted = type(of: self).normalize(nameString: newName) ?? "untitled"
+        self.name = adjusted
+        return adjusted
+    }
+    
+    func normalizedName() -> String {
+        return self.name
+    }
     
     let items = LinkingObjects(fromType: URLItem.self, property: "tags")
     
