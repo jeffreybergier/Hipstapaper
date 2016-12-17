@@ -23,7 +23,7 @@ class TagAddRemoveTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        self.tagNameLabel?.text
+        self.tagNameLabel?.text = ""
         self.tagSwitch?.isOn = false
     }
     

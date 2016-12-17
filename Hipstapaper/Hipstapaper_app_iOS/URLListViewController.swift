@@ -18,15 +18,24 @@ class URLListViewController: UIViewController {
         case unarchivedItems, allItems, tag(TagItem)
     }
     
+    fileprivate enum Data {
+        case results(Results<URLItem>), links(LinkingObjects<URLItem>)
+    }
+    fileprivate enum Notification {
+        
+    }
+    
     private var selection: Selection?
     
-    fileprivate var urlItems: Results<URLItem>?
+    fileprivate var data: Data?
     
     @IBOutlet fileprivate weak var tableView: UITableView? {
         didSet {
             let nib = UINib(nibName: URLTableViewCell.nibName, bundle: Bundle(for: URLTableViewCell.self))
             self.tableView?.register(nib, forCellReuseIdentifier: URLTableViewCell.nibName)
             self.tableView?.allowsMultipleSelectionDuringEditing = true
+            self.tableView?.rowHeight = 75
+            self.tableView?.estimatedRowHeight = 75
         }
     }
     
@@ -54,27 +63,31 @@ class URLListViewController: UIViewController {
         // configure data source
         // also set title in same switch
         let realm = try! Realm()
-        let urlItems: Results<URLItem>?
+        let data: Data
         switch self.selection! {
         case .unarchivedItems:
             self.title = "Hipstapaper"
             let archived = #keyPath(URLItem.archived)
             let creationDate = #keyPath(URLItem.creationDate)
-            urlItems = realm.objects(URLItem.self).filter("\(archived) = NO").sorted(byProperty: creationDate, ascending: false)
+            let results = realm.objects(URLItem.self).filter("\(archived) = NO").sorted(byProperty: creationDate, ascending: false)
+            self.notificationToken = results.addNotificationBlock(self.tableResultsUpdateClosure)
+            data = .results(results)
         case .allItems:
             self.title = "All Items"
             let creationDate = #keyPath(URLItem.creationDate)
-            urlItems = realm.objects(URLItem.self).sorted(byProperty: creationDate, ascending: false)
+            let results = realm.objects(URLItem.self).sorted(byProperty: creationDate, ascending: false)
+            self.notificationToken = results.addNotificationBlock(self.tableResultsUpdateClosure)
+            data = .results(results)
         case .tag(let tagItem):
             self.title = "Tag: \(tagItem.normalizedName())"
-            urlItems = .none
-            let urlItems2 = tagItem.items
+            let links = tagItem.items
+            self.notificationToken = links.addNotificationBlock(self.tableLinksUpdateClosure)
+            data = .links(links)
         }
         
         // set data source
+        self.data = data
         
-        self.urlItems = urlItems
-        self.notificationToken = urlItems?.addNotificationBlock(self.tableUpdateClosure)
         
 //        var count = 1
 //        Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { timer in
@@ -88,7 +101,7 @@ class URLListViewController: UIViewController {
 //        }
     }
     
-    private lazy var tableUpdateClosure: ((RealmCollectionChange<Results<URLItem>>) -> Void) = { [weak self] changes in
+    private lazy var tableResultsUpdateClosure: ((RealmCollectionChange<Results<URLItem>>) -> Void) = { [weak self] changes in
         switch changes {
         case .initial:
             self?.tableView?.reloadData()
@@ -101,7 +114,21 @@ class URLListViewController: UIViewController {
         case .error(let error):
             fatalError("\(error)")
         }
-
+    }
+    
+    private lazy var tableLinksUpdateClosure: ((RealmCollectionChange<LinkingObjects<URLItem>>) -> Void) = { [weak self] changes in
+        switch changes {
+        case .initial:
+            self?.tableView?.reloadData()
+        case .update(_, let deletions, let insertions, let modifications):
+            self?.tableView?.beginUpdates()
+            self?.tableView?.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }), with: .right)
+            self?.tableView?.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .left)
+            self?.tableView?.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
+            self?.tableView?.endUpdates()
+        case .error(let error):
+            fatalError("\(error)")
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -224,12 +251,25 @@ extension URLListViewController: UITableViewDelegate {
 
 extension URLListViewController: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.urlItems?.count ?? 0
+        guard let data = self.data else { return 0 }
+        switch data {
+        case .links(let data):
+            return data.count
+        case .results(let data):
+            return data.count
+        }
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: URLTableViewCell.nibName, for: indexPath)
-        if let cell = cell as? URLTableViewCell, let item = self.urlItems?[indexPath.row] {
+        if let cell = cell as? URLTableViewCell, let data = self.data {
+            let item: URLItem
+            switch data {
+            case .results(let data):
+                item = data[indexPath.row]
+            case .links(let data):
+                item = data[indexPath.row]
+            }
             cell.item = item
         }
         return cell

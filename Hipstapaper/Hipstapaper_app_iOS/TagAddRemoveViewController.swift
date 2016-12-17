@@ -129,7 +129,11 @@ extension TagAddRemoveViewController: TagApplicationChangeDelegate {
 
 extension TagAddRemoveViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "\(self.selectedItems.count) Item(s) Selected"
+        if self.tableView(tableView, numberOfRowsInSection: section) == 0 {
+            return "No Tags Available"
+        } else {
+            return "\(self.selectedItems.count) Item(s) Selected"
+        }
     }
 }
 
@@ -155,6 +159,19 @@ extension TagAddRemoveViewController: UITableViewDataSource {
             cell.delegate = self
         }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        guard let tagItem = self.tags?[indexPath.row] else { return }
+        switch editingStyle {
+        case .delete:
+            let realm = try! Realm()
+            realm.beginWrite()
+            realm.delete(tagItem)
+            try! realm.commitWrite()
+        case .insert, .none:
+            break
+        }
     }
 }
 
