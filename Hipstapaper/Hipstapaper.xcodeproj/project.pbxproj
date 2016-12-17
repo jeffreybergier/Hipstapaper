@@ -36,6 +36,10 @@
 		5083AA131E04F4FC00BCAC93 /* TagListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5083AA111E04F4FC00BCAC93 /* TagListViewController.xib */; };
 		5083AA161E05020E00BCAC93 /* URLListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083AA141E05020E00BCAC93 /* URLListViewController.swift */; };
 		5083AA171E05020E00BCAC93 /* URLListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5083AA151E05020E00BCAC93 /* URLListViewController.xib */; };
+		5083AA1E1E05958500BCAC93 /* KeyObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083AA1D1E05958500BCAC93 /* KeyObserver.swift */; };
+		5083AA1F1E05958500BCAC93 /* KeyObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083AA1D1E05958500BCAC93 /* KeyObserver.swift */; };
+		5083AA201E05958500BCAC93 /* KeyObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083AA1D1E05958500BCAC93 /* KeyObserver.swift */; };
+		5083AA211E05958500BCAC93 /* KeyObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083AA1D1E05958500BCAC93 /* KeyObserver.swift */; };
 		76BF1DEC0D5E6FEE5AA3BAFE /* Pods_Hipstapaper_share_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22260FEF1FD95C16E8308AC9 /* Pods_Hipstapaper_share_macOS.framework */; };
 		77671FDC0A770BC6940181CE /* Pods_Hipstapaper_share_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A938A054D654CCD89975F064 /* Pods_Hipstapaper_share_iOS.framework */; };
 		A9B89C400714BAED4E08F69B /* Pods_Hipstapaper_app_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AFFD7A4ED50DE481C3ECEB6 /* Pods_Hipstapaper_app_macOS.framework */; };
@@ -148,6 +152,7 @@
 		5083AA111E04F4FC00BCAC93 /* TagListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagListViewController.xib; sourceTree = "<group>"; };
 		5083AA141E05020E00BCAC93 /* URLListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLListViewController.swift; sourceTree = "<group>"; };
 		5083AA151E05020E00BCAC93 /* URLListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLListViewController.xib; sourceTree = "<group>"; };
+		5083AA1D1E05958500BCAC93 /* KeyObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyObserver.swift; sourceTree = "<group>"; };
 		50FA3BFA1DF4F3A400551325 /* Hipstapaper_app_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper_app_iOS.entitlements; sourceTree = "<group>"; };
 		54E98735884A33AE3ED21B35 /* Pods_Hipstapaper_app_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hipstapaper_app_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AFFD7A4ED50DE481C3ECEB6 /* Pods_Hipstapaper_app_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hipstapaper_app_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -259,6 +264,7 @@
 			children = (
 				50432EF21E048BF800D9C3D5 /* Realm.swift */,
 				50432EF71E048DF400D9C3D5 /* TempPassword.swift */,
+				5083AA1D1E05958500BCAC93 /* KeyObserver.swift */,
 			);
 			path = Hipstapaper_realm;
 			sourceTree = "<group>";
@@ -758,6 +764,7 @@
 				5005E11E1DF4CB8300BA38E6 /* AppDelegate.swift in Sources */,
 				5083AA121E04F4FC00BCAC93 /* TagListViewController.swift in Sources */,
 				5083AA161E05020E00BCAC93 /* URLListViewController.swift in Sources */,
+				5083AA201E05958500BCAC93 /* KeyObserver.swift in Sources */,
 				50432EFA1E048DF400D9C3D5 /* TempPassword.swift in Sources */,
 				50432EF51E048BF800D9C3D5 /* Realm.swift in Sources */,
 			);
@@ -768,6 +775,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				50432EFB1E048DF400D9C3D5 /* TempPassword.swift in Sources */,
+				5083AA211E05958500BCAC93 /* KeyObserver.swift in Sources */,
 				50432EF61E048BF800D9C3D5 /* Realm.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -777,6 +785,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				50432EF91E048DF400D9C3D5 /* TempPassword.swift in Sources */,
+				5083AA1F1E05958500BCAC93 /* KeyObserver.swift in Sources */,
 				50432EF41E048BF800D9C3D5 /* Realm.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -789,6 +798,7 @@
 				506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */,
 				50432EF81E048DF400D9C3D5 /* TempPassword.swift in Sources */,
 				50432EF31E048BF800D9C3D5 /* Realm.swift in Sources */,
+				5083AA1E1E05958500BCAC93 /* KeyObserver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

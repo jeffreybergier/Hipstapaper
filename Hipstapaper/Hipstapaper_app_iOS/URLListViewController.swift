@@ -10,6 +10,8 @@ import RealmSwift
 import SafariServices
 import UIKit
 
+extension UITableView: KVOCapable {}
+
 class URLListViewController: UIViewController {
     
     enum Selection {
@@ -20,13 +22,22 @@ class URLListViewController: UIViewController {
     
     fileprivate var urlItems: Results<URLItem>?
     
-    @IBOutlet private weak var tableView: UITableView? {
+    @IBOutlet fileprivate weak var tableView: UITableView? {
         didSet {
             let nib = UINib(nibName: URLTableViewCell.nibName, bundle: Bundle(for: URLTableViewCell.self))
             self.tableView?.register(nib, forCellReuseIdentifier: URLTableViewCell.nibName)
             self.tableView?.allowsMultipleSelectionDuringEditing = true
         }
     }
+    
+    fileprivate typealias UIBBI = UIBarButtonItem
+    fileprivate lazy var editBBI: UIBBI = UIBBI(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: #selector(self.editBBITapped(_:)))
+    fileprivate lazy var doneBBI: UIBBI = UIBBI(barButtonSystemItem: UIBarButtonSystemItem.done, target: self, action: #selector(self.doneBBITapped(_:)))
+    fileprivate lazy var archiveBBI: UIBBI = UIBBI(title: "📦", style: .plain, target: self, action: #selector(self.archiveBBITapped(_:)))
+    fileprivate lazy var unarchiveBBI: UIBBI = UIBBI(title: "🎁", style: .plain, target: self, action: #selector(self.unarchiveBBITapped(_:)))
+    fileprivate lazy var tagBBI: UIBBI = UIBBI(title: "🏷", style: .plain, target: self, action: #selector(self.tagBBITapped(_:)))
+    fileprivate lazy var flexibleSpaceBBI: UIBBI = UIBBI(barButtonSystemItem: .flexibleSpace, target: .none, action: .none)
+    
     
     convenience init(selection: Selection) {
         self.init()
@@ -35,7 +46,12 @@ class URLListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // put us into non-edit mode
+        self.doneBBITapped(.none)
 
+        // configure data source
+        // also set title in same switch
         let realm = try! Realm()
         let urlItems: Results<URLItem>?
         switch self.selection! {
@@ -53,6 +69,8 @@ class URLListViewController: UIViewController {
             urlItems = .none
             let urlItems2 = tagItem.items
         }
+        
+        // set data source
         
         self.urlItems = urlItems
         self.notificationToken = urlItems?.addNotificationBlock(self.tableUpdateClosure)
@@ -82,6 +100,16 @@ class URLListViewController: UIViewController {
 
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setToolbarHidden(false, animated: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.setToolbarHidden(true, animated: true)
+    }
+    
     private var notificationToken: NotificationToken?
     
     deinit {
@@ -89,16 +117,68 @@ class URLListViewController: UIViewController {
     }
 }
 
+extension URLListViewController /* Handle BarButtonItems */ {
+    @objc fileprivate func editBBITapped(_ sender: NSObject?) {
+        self.tableView?.setEditing(true, animated: true)
+        let items = [
+            self.flexibleSpaceBBI,
+            self.tagBBI,
+            self.flexibleSpaceBBI,
+            self.unarchiveBBI,
+            self.flexibleSpaceBBI,
+            self.archiveBBI,
+            self.flexibleSpaceBBI,
+            self.doneBBI
+        ]
+        self.setToolbarItems(items, animated: true)
+    }
+    
+    @objc fileprivate func doneBBITapped(_ sender: NSObject?) {
+        self.tableView?.setEditing(false, animated: true)
+        let items = [
+            self.flexibleSpaceBBI,
+            self.editBBI
+        ]
+        self.setToolbarItems(items, animated: true)
+    }
+    
+    @objc fileprivate func archiveBBITapped(_ sender: NSObject?) {
+        
+    }
+    
+    @objc fileprivate func unarchiveBBITapped(_ sender: NSObject?) {
+        
+    }
+    
+    @objc fileprivate func tagBBITapped(_ sender: NSObject?) {
+        
+    }
+    
+    fileprivate func updateBBIEnableState(itemsSelectedInTableView selected: Bool) {
+        self.archiveBBI.isEnabled = selected
+        self.unarchiveBBI.isEnabled = selected
+        self.tagBBI.isEnabled = selected
+    }
+}
+
 extension URLListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard
-            let selectedItem = tableView.selectedURLItems?.first,
-            let url = URL(string: selectedItem.urlString)
-        else { return }
-        
-        let sfVC = SFSafariViewController(url: url, entersReaderIfAvailable: false)
-        self.present(sfVC, animated: true, completion: .none)
+        let selectedItems = tableView.selectedURLItems ?? []
+        if tableView.isEditing {
+            let anythingSelected = selectedItems.isEmpty ? false : true
+            self.updateBBIEnableState(itemsSelectedInTableView: anythingSelected)
+        } else {
+            guard let selectedItem = selectedItems.first, let url = URL(string: selectedItem.urlString) else { return }
+            let sfVC = SFSafariViewController(url: url, entersReaderIfAvailable: false)
+            self.present(sfVC, animated: true, completion: .none)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        let selectedItems = tableView.selectedURLItems ?? []
+        let anythingSelected = selectedItems.isEmpty ? false : true
+        self.updateBBIEnableState(itemsSelectedInTableView: anythingSelected)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
