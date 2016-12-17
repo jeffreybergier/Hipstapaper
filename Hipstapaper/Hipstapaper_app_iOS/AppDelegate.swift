@@ -22,14 +22,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         RealmConfig.configure() {
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 30) {
-                let realm = try! Realm()
-                let results = realm.objects(URLItem.self)
-                print(results)
-            }
+            let navVC = UINavigationController(rootViewController: TagListViewController())
+            self.window!.rootViewController = navVC
         }
     
-        
         self.window!.rootViewController = UIViewController()
         self.window?.backgroundColor = .white
         self.window?.makeKeyAndVisible()
