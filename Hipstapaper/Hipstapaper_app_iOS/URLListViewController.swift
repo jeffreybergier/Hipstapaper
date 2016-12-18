@@ -156,6 +156,7 @@ extension URLListViewController /* Handle BarButtonItems */ {
             self.flexibleSpaceBBI,
             self.doneBBI
         ]
+        self.updateBBIEnableState(itemsSelectedInTableView: false)
         self.setToolbarItems(items, animated: true)
     }
     
@@ -165,6 +166,7 @@ extension URLListViewController /* Handle BarButtonItems */ {
             self.flexibleSpaceBBI,
             self.editBBI
         ]
+        self.updateBBIEnableState(itemsSelectedInTableView: false)
         self.setToolbarItems(items, animated: true)
     }
     
