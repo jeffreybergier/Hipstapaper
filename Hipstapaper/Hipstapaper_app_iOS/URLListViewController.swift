@@ -10,11 +10,9 @@ import RealmSwift
 import SafariServices
 import UIKit
 
-extension UITableView: KVOCapable {}
-
 class URLListViewController: UIViewController {
     
-    private var selection: Selection?
+    private var selection: URLItem.Selection?
     
     fileprivate var data: Data?
     
@@ -43,7 +41,7 @@ class URLListViewController: UIViewController {
     fileprivate lazy var flexibleSpaceBBI: UIBBI = UIBBI(barButtonSystemItem: .flexibleSpace, target: .none, action: .none)
     
     
-    convenience init(selection: Selection) {
+    convenience init(selection: URLItem.Selection) {
         self.init()
         self.selection = selection
     }
@@ -261,10 +259,6 @@ extension URLListViewController: UITableViewDataSource {
 }
 
 extension URLListViewController {
-    
-    enum Selection {
-        case unarchivedItems, allItems, tag(TagItem)
-    }
     
     fileprivate enum Data {
         

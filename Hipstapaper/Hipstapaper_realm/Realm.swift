@@ -11,6 +11,10 @@ import Foundation
 
 class URLItem: Object {
     
+    enum Selection {
+        case unarchivedItems, allItems, tag(TagItem)
+    }
+    
     dynamic private(set) var uuid = UUID().uuidString
     
     static let iTitle: NSObject? = nil // for keypath selection

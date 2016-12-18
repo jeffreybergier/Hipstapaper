@@ -96,7 +96,7 @@ extension TagListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let section = Section(rawValue: indexPath.section) else { return }
-        let selection: URLListViewController.Selection
+        let selection: URLItem.Selection
         switch section {
         case .readingList:
             selection = indexPath.row == 0 ? .unarchivedItems : .allItems
