@@ -129,6 +129,12 @@ class TagItem: Object {
 }
 
 struct RealmConfig {
+    
+    static var tags: Results<TagItem> {
+        let realm = try! Realm()
+        let tags = realm.objects(TagItem.self).sorted(byProperty: #keyPath(TagItem.normalizedName))
+        return tags
+    }
 //    #if os(OSX)
 //    private static let appGroupIdentifier = "V6ESYGU6CV.hipstapaper.appgroup"
 //    #else

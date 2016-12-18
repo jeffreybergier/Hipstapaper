@@ -17,26 +17,27 @@ public protocol KVOCapable: class {
 
 open class KeyValueObserver<T: Equatable>: NSObject {
     
-    public typealias NewValueOrNilCallback = ((T) -> T?)
-    
     private weak var target: KVOCapable?
-    private var keyPathHandlers = [String : NewValueOrNilCallback]()
-    private var keyPathPrevValues = [String : T]()
+    private var callback: ((T) -> T?)?
+    private let keyPath: String
+    
+    private var previousValue: T?
     private var kKVOContext = UUID().hashValue
     
-    public init(target: KVOCapable) {
+    public init(target: KVOCapable, keyPath: String) {
+        self.keyPath = keyPath
         self.target = target
         super.init()
     }
     
-    public func add(keyPath: String, kvoHandler: @escaping NewValueOrNilCallback) {
+    public func startObserving(_ callback: @escaping ((T) -> T?)) {
+        self.callback = callback
         self.startObserving(keyPath: keyPath)
-        self.keyPathHandlers[keyPath] = kvoHandler
     }
     
-    public func remove(keyPath: String) {
-        self.endObserving(keyPath: keyPath)
-        self.keyPathHandlers[keyPath] = nil
+    public func endObserving() {
+        self.callback = .none
+        self.endObserving(keyPath: self.keyPath)
     }
     
     override open func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -48,18 +49,18 @@ open class KeyValueObserver<T: Equatable>: NSObject {
         if
             let keyPath = keyPath, // make sure we have a valid key path
             let newValue = change?[.newKey] as? T, // make sure we have a valid new value and its the right type
-            let keyPathHandler = self.keyPathHandlers[keyPath], // make sure we have a completion handler for this keypath
-            self.keyPathPrevValues[keyPath] != newValue // make sure the previous value is not the same as the new value
+            let callback = self.callback, // make sure we have a completion handler for this keypath
+            self.previousValue != newValue // make sure the previous value is not the same as the new value
         {
             // check to see if the observing object wants to update the value
-            if let updatedValue = keyPathHandler(newValue) {
-                self.keyPathPrevValues[keyPath] = updatedValue // if they do, save it as the previous value to stop infinite loop
+            if let updatedValue = callback(newValue) {
+                self.previousValue = updatedValue // if they do, save it as the previous value to stop infinite loop
                 if NSNull().isEqual(updatedValue) == false { // if the value is NSNull, don't save it because it can never change
                     self.target?.setValue(updatedValue, forKey: keyPath) // then set the value
                 }
             } else {
                 if NSNull().isEqual(newValue) == false {
-                    self.keyPathPrevValues[keyPath] = newValue // if not, just make sure to store the previous value just in case KVO gets called again
+                    self.previousValue = newValue // if not, just make sure to store the previous value just in case KVO gets called again
                 }
             }
         }
@@ -74,8 +75,6 @@ open class KeyValueObserver<T: Equatable>: NSObject {
     }
     
     deinit {
-        for (keyPath, _) in self.keyPathHandlers {
-            self.endObserving(keyPath: keyPath)
-        }
+        self.endObserving(keyPath: self.keyPath)
     }
 }

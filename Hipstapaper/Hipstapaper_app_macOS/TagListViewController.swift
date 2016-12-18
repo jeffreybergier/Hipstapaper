@@ -6,27 +6,46 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
+import RealmSwift
 import AppKit
+
+extension NSTreeController: KVOCapable {}
 
 class TagListViewController: NSViewController {
     
     @IBOutlet private weak var outlineView: NSOutlineView?
     @IBOutlet private weak var treeController: NSTreeController?
+    private lazy var selectionObserver: KeyValueObserver<NSNull> = KeyValueObserver<NSNull>(target: self.treeController!, keyPath: #keyPath(NSTreeController.selectionIndexPath))
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let child1 = TreeBindingObject(title: "child1", kind: .selectable(.unarchivedItems))
-        let child2 = TreeBindingObject(title: "child2", kind: .selectable(.unarchivedItems))
-        let initialThing = TreeBindingObject(title: "Parent1", children: [child1, child2])
-        let child3 = TreeBindingObject(title: "child3", kind: .selectable(.unarchivedItems))
-        let child4 = TreeBindingObject(title: "child4", kind: .selectable(.unarchivedItems))
-        let secondThing = TreeBindingObject(title: "Parent2", children: [child3, child4], kind: .notSelectable(.tags))
-        self.treeController?.content = [initialThing, secondThing]
+        let tags = RealmConfig.tags
+        let content = TreeBindingObject.treeObjects(from: tags)
+        
+        self.treeController?.content = content
         self.treeController?.setSelectionIndexPath(.none)
         self.outlineView?.expandItem(.none, expandChildren: true)
+        
+        self.selectionObserver.startObserving() { [weak self] _ -> NSNull? in
+            guard let selectedObject = self?.treeController?.selectedObjects.first as? TreeBindingObject else { return nil }
+            if case .selectable(let selection) = selectedObject.kind {
+                switch selection {
+                case .unarchivedItems:
+                    print("open unarchived items")
+                case .allItems:
+                    print("open all items")
+                case .tag(let tagItem):
+                    print("open items for tag: \(tagItem.name)")
+                }
+            }
+            return nil
+        }
     }
     
+    deinit {
+        self.selectionObserver.endObserving()
+    }
 }
 
 extension TagListViewController: NSOutlineViewDelegate {
@@ -61,6 +80,18 @@ extension TagListViewController: NSOutlineViewDelegate {
 
 @objc(TreeBindingObject)
 private class TreeBindingObject: NSObject {
+    
+    class func treeObjects(from results: Results<TagItem>) -> [TreeBindingObject] {
+        let tagChildren = Array(results.map({ TreeBindingObject(title: $0.name, kind: .selectable(.tag($0))) }))
+        
+        let unarchivedChild = TreeBindingObject(title: "Unread Items", kind: .selectable(.unarchivedItems))
+        let allChild = TreeBindingObject(title: "All Items", kind: .selectable(.allItems))
+        
+        let mainTree = TreeBindingObject(title: "Reading List", children: [unarchivedChild, allChild], kind: .notSelectable(.main))
+        let tagTree = TreeBindingObject(title: "Tags", children: tagChildren, kind: .notSelectable(.tags))
+        
+        return [mainTree, tagTree]
+    }
     
     var title = "untitled"
     var children: [TreeBindingObject] = []
