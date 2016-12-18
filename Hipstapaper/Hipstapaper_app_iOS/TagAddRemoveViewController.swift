@@ -89,6 +89,7 @@ class TagAddRemoveViewController: UIViewController {
                 let newTag = TagItem()
                 let _ = newTag.setNormalizedName(normalizedNewName)
                 realm.add(newTag)
+                self.changeTagApplication(true, on: newTag, withEditingRealm: realm)
                 try! realm.commitWrite()
             }
         }
@@ -105,24 +106,31 @@ class TagAddRemoveViewController: UIViewController {
 }
 
 extension TagAddRemoveViewController: TagApplicationChangeDelegate {
-    func didChangeTagApplication(_ newValue: Bool, sender: UITableViewCell) {
-        guard let indexPath = self.tableView?.indexPath(for: sender), let tagItem = self.tags?[indexPath.row] else { return }
+    
+    fileprivate func changeTagApplication(_ newValue: Bool, on tagItem: TagItem, withEditingRealm realm: Realm) {
         let urlItems = self.selectedItems
-        let realm = try! Realm()
-        realm.beginWrite()
         for urlItem in urlItems {
             if newValue == true {
                 guard urlItem.tags.index(of: tagItem) == nil else { continue }
                 urlItem.tags.append(tagItem)
+                urlItem.modificationDate = Date()
                 let name = tagItem.normalizedName()
                 let _ = tagItem.setNormalizedName(name) // hack to trigger Realm change notification
             } else {
                 guard let index = urlItem.tags.index(of: tagItem) else { continue }
                 urlItem.tags.remove(objectAtIndex: index)
+                urlItem.modificationDate = Date()
                 let name = tagItem.normalizedName()
                 let _ = tagItem.setNormalizedName(name) // hack to trigger Realm change notification
             }
         }
+    }
+    
+    func didChangeTagApplication(_ newValue: Bool, sender: UITableViewCell) {
+        guard let indexPath = self.tableView?.indexPath(for: sender), let tagItem = self.tags?[indexPath.row] else { return }
+        let realm = try! Realm()
+        realm.beginWrite()
+        self.changeTagApplication(newValue, on: tagItem, withEditingRealm: realm)
         try! realm.commitWrite()
     }
 }
