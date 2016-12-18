@@ -15,6 +15,10 @@
 		50088A4D1E062A2500D6AAED /* URLItemSavingShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50088A4C1E062A2500D6AAED /* URLItemSavingShareViewController.swift */; };
 		50088A4F1E06595A00D6AAED /* AppExtensionParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50088A4E1E06595A00D6AAED /* AppExtensionParsing.swift */; };
 		50088A501E06595A00D6AAED /* AppExtensionParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50088A4E1E06595A00D6AAED /* AppExtensionParsing.swift */; };
+		50088A6A1E07093000D6AAED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50088A691E07093000D6AAED /* Main.storyboard */; };
+		50088A6C1E07151200D6AAED /* TagListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50088A6B1E07151200D6AAED /* TagListViewController.swift */; };
+		50088A6E1E07152400D6AAED /* URLListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50088A6D1E07152400D6AAED /* URLListViewController.swift */; };
+		50088A701E07153200D6AAED /* HipstapaperWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50088A6F1E07153200D6AAED /* HipstapaperWindowController.swift */; };
 		502C7F4E1DF0E4D5004E70AB /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 502C7F4D1DF0E4D5004E70AB /* icon.icns */; };
 		502C7F541DF0E4D5004E70AB /* URLItemSavingShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502C7F521DF0E4D5004E70AB /* URLItemSavingShareViewController.xib */; };
 		502C7F581DF0E4D5004E70AB /* Hipstapaper_share_macOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 502C7F4A1DF0E4D5004E70AB /* Hipstapaper_share_macOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -137,6 +141,10 @@
 		5005E1461DF4CC2600BA38E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50088A4C1E062A2500D6AAED /* URLItemSavingShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemSavingShareViewController.swift; sourceTree = "<group>"; };
 		50088A4E1E06595A00D6AAED /* AppExtensionParsing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppExtensionParsing.swift; sourceTree = "<group>"; };
+		50088A691E07093000D6AAED /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		50088A6B1E07151200D6AAED /* TagListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagListViewController.swift; sourceTree = "<group>"; };
+		50088A6D1E07152400D6AAED /* URLListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLListViewController.swift; sourceTree = "<group>"; };
+		50088A6F1E07153200D6AAED /* HipstapaperWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HipstapaperWindowController.swift; sourceTree = "<group>"; };
 		501EC2591DF4E71D003577DA /* Hipstapaper_share_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper_share_iOS.entitlements; sourceTree = "<group>"; };
 		502C7F4A1DF0E4D5004E70AB /* Hipstapaper_share_macOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Hipstapaper_share_macOS.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		502C7F4D1DF0E4D5004E70AB /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
@@ -326,6 +334,10 @@
 			isa = PBXGroup;
 			children = (
 				506A3F071DD6C10C00A5656E /* AppDelegate.swift */,
+				50088A6B1E07151200D6AAED /* TagListViewController.swift */,
+				50088A6D1E07152400D6AAED /* URLListViewController.swift */,
+				50088A6F1E07153200D6AAED /* HipstapaperWindowController.swift */,
+				50088A691E07093000D6AAED /* Main.storyboard */,
 				505B30481DEA695D00B74AE6 /* URLItemWebViewWindowController */,
 				506A3F091DD6C10D00A5656E /* Assets.xcassets */,
 				506A3F0B1DD6C10D00A5656E /* MainMenu.xib */,
@@ -587,6 +599,7 @@
 				506A3F0A1DD6C10D00A5656E /* Assets.xcassets in Resources */,
 				506A3F0D1DD6C10D00A5656E /* MainMenu.xib in Resources */,
 				505B304C1DEA698300B74AE6 /* URLItemWebViewWindowController.xib in Resources */,
+				50088A6A1E07093000D6AAED /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -823,6 +836,9 @@
 				505B304B1DEA698300B74AE6 /* URLItemWebViewWindowController.swift in Sources */,
 				506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */,
 				50432EF81E048DF400D9C3D5 /* TempPassword.swift in Sources */,
+				50088A701E07153200D6AAED /* HipstapaperWindowController.swift in Sources */,
+				50088A6C1E07151200D6AAED /* TagListViewController.swift in Sources */,
+				50088A6E1E07152400D6AAED /* URLListViewController.swift in Sources */,
 				50432EF31E048BF800D9C3D5 /* Realm.swift in Sources */,
 				5083AA1E1E05958500BCAC93 /* KeyObserver.swift in Sources */,
 			);
