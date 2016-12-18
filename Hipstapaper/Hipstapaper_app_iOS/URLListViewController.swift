@@ -29,8 +29,8 @@ class URLListViewController: UIViewController {
             let nib = UINib(nibName: URLTableViewCell.nibName, bundle: Bundle(for: URLTableViewCell.self))
             self.tableView?.register(nib, forCellReuseIdentifier: URLTableViewCell.nibName)
             self.tableView?.allowsMultipleSelectionDuringEditing = true
-            self.tableView?.rowHeight = 75
-            self.tableView?.estimatedRowHeight = 75
+            self.tableView?.rowHeight = URLTableViewCell.cellHeight
+            self.tableView?.estimatedRowHeight = URLTableViewCell.cellHeight
         }
     }
     
@@ -74,7 +74,7 @@ class URLListViewController: UIViewController {
             self.notificationToken = results.addNotificationBlock(self.tableResultsUpdateClosure)
             data = .results(results)
         case .tag(let tagItem):
-            self.title = "Tag: \(tagItem.normalizedName())"
+            self.title = "🏷 \(tagItem.name)"
             let links = tagItem.items
             self.notificationToken = links.addNotificationBlock(self.tableLinksUpdateClosure)
             data = .links(links)
@@ -225,7 +225,7 @@ extension URLListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 75
+        return URLTableViewCell.cellHeight
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {

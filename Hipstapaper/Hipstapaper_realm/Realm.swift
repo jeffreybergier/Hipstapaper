@@ -12,12 +12,33 @@ import Foundation
 class URLItem: Object {
     
     dynamic var uuid = UUID().uuidString
+    dynamic var title = "Unknown Page"
     dynamic var urlString = "http://www.url.com"
     dynamic var archived = false
     dynamic var modificationDate = Date()
     dynamic var creationDate = Date()
+    private dynamic var imageData: Data?
+    
+    static let imageDate: UIImage? = nil
+    
+    var image: UIImage? {
+        get {
+            guard let data = self.imageData else { return .none }
+            let image = UIImage(data: data)
+            return image
+        }
+        set {
+            guard let image = newValue else { self.imageData = .none; return }
+            let data = UIImagePNGRepresentation(image)
+            self.imageData = data
+        }
+    }
     
     var tags = List<TagItem>()
+    
+    override class func ignoredProperties() -> [String] {
+        return ["image"]
+    }
     
     override static func primaryKey() -> String {
         return "uuid"
@@ -34,21 +55,25 @@ class TagItem: Object {
         if trimmed == "" { return .none } else { return trimmed }
     }
     
-    static let name = ""
+    static let normalizedName = ""
     
-    private dynamic var name = "untitled"
+    private dynamic var normalizedName = "untitled"
     
-    func setNormalizedName(_ newName: String) -> String {
-        let adjusted = type(of: self).normalize(nameString: newName) ?? "untitled"
-        self.name = adjusted
-        return adjusted
-    }
-    
-    func normalizedName() -> String {
-        return self.name
+    var name: String {
+        get {
+            return self.normalizedName
+        }
+        set {
+            let adjusted = type(of: self).normalize(nameString: newValue) ?? "untitled"
+            self.normalizedName = adjusted
+        }
     }
     
     let items = LinkingObjects(fromType: URLItem.self, property: "tags")
+    
+    override class func ignoredProperties() -> [String] {
+        return ["name"]
+    }
     
 }
 

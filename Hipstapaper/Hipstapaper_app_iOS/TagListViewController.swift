@@ -25,7 +25,7 @@ class TagListViewController: UIViewController {
         self.title = "Tags"
 
         let realm = try! Realm()
-        self.tags = realm.objects(TagItem.self).sorted(byProperty: "name")
+        self.tags = realm.objects(TagItem.self).sorted(byProperty: #keyPath(TagItem.normalizedName))
         self.notificationToken = self.tags?.addNotificationBlock(self.tableUpdateClosure)
         
         self.tableView(self.tableView!, didSelectRowAt: IndexPath(row: 0, section: 0))
@@ -133,7 +133,7 @@ extension TagListViewController: UITableViewDataSource {
             cell.textLabel?.text = indexPath.row == 0 ? "Unread Item" : "All Item"
         case .tags:
             guard let tagItem = self.tags?[indexPath.row] else { return cell }
-            cell.textLabel?.text = tagItem.normalizedName()
+            cell.textLabel?.text = tagItem.name
             cell.detailTextLabel?.text = "\(tagItem.items.count)"
         }
         cell.accessoryType = .disclosureIndicator

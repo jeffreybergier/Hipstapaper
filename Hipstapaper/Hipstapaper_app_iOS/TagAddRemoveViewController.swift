@@ -52,7 +52,7 @@ class TagAddRemoveViewController: UIViewController {
         
         // get all the tags from realm
         let realm = try! Realm()
-        self.tags = realm.objects(TagItem.self).sorted(byProperty: "name")
+        self.tags = realm.objects(TagItem.self).sorted(byProperty: #keyPath(TagItem.normalizedName))
         self.notificationToken = self.tags?.addNotificationBlock(self.tableUpdateClosure)
     }
     
@@ -82,12 +82,12 @@ class TagAddRemoveViewController: UIViewController {
         let addAction = UIAlertAction(title: "Add", style: .default) { action in
             let newName = alertVC.textFields?.map({ $0.text }).flatMap({ $0 }).first ?? ""
             guard let normalizedNewName = TagItem.normalize(nameString: newName) else { return }
-            let existingTagFound = !(self.tags?.filter("\(#keyPath(TagItem.name)) = '\(normalizedNewName)'").isEmpty ?? true)
+            let existingTagFound = !(self.tags?.filter("\(#keyPath(TagItem.normalizedName)) = '\(normalizedNewName)'").isEmpty ?? true)
             if existingTagFound == false {
                 let realm = try! Realm()
                 realm.beginWrite()
                 let newTag = TagItem()
-                let _ = newTag.setNormalizedName(normalizedNewName)
+                let _ = newTag.name = normalizedNewName
                 realm.add(newTag)
                 self.changeTagApplication(true, on: newTag, withEditingRealm: realm)
                 try! realm.commitWrite()
@@ -114,14 +114,14 @@ extension TagAddRemoveViewController: TagApplicationChangeDelegate {
                 guard urlItem.tags.index(of: tagItem) == nil else { continue }
                 urlItem.tags.append(tagItem)
                 urlItem.modificationDate = Date()
-                let name = tagItem.normalizedName()
-                let _ = tagItem.setNormalizedName(name) // hack to trigger Realm change notification
+                let name = tagItem.name
+                tagItem.name = name // hack to trigger Realm change notification
             } else {
                 guard let index = urlItem.tags.index(of: tagItem) else { continue }
                 urlItem.tags.remove(objectAtIndex: index)
                 urlItem.modificationDate = Date()
-                let name = tagItem.normalizedName()
-                let _ = tagItem.setNormalizedName(name) // hack to trigger Realm change notification
+                let name = tagItem.name
+                tagItem.name = name // hack to trigger Realm change notification
             }
         }
     }
@@ -162,7 +162,7 @@ extension TagAddRemoveViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TagAddRemoveTableViewCell.nibName, for: indexPath)
         if let cell = cell as? TagAddRemoveTableViewCell, let tagItem = self.tags?[indexPath.row] {
-            cell.tagNameLabel?.text = tagItem.normalizedName()
+            cell.tagNameLabel?.text = tagItem.name
             cell.tagSwitch?.isOn = self.atLeastOneSelectedItemReferences(tag: tagItem)
             cell.delegate = self
         }

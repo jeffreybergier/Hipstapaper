@@ -10,7 +10,12 @@ import UIKit
 
 class URLTableViewCell: UITableViewCell {
     
+    static let cellHeight: CGFloat = 65
     static let nibName = "URLTableViewCell"
+    
+    @IBOutlet private weak var titleLabel: UILabel?
+    @IBOutlet private weak var dateLabel: UILabel?
+    @IBOutlet private weak var urlImageView: UIImageView?
 
     private let dateFormatter: DateFormatter = {
         let df = DateFormatter()
@@ -19,21 +24,17 @@ class URLTableViewCell: UITableViewCell {
         return df
     }()
     
-    @IBOutlet private weak var urlLabel: UILabel?
-    @IBOutlet private weak var dateLabel: UILabel?
-    @IBOutlet private weak var idLabel: UILabel?
-    
     func configure(with item: URLItem) {
-        self.urlLabel?.text = item.urlString
-        self.dateLabel?.text = self.dateFormatter.string(from: item.modificationDate)
-        self.idLabel?.text = item.uuid
+        self.titleLabel?.text = item.title
+        self.urlImageView?.image = item.image
+        self.dateLabel?.text = self.dateFormatter.string(from: item.creationDate)
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        self.urlLabel?.text = .none
+        self.titleLabel?.text = .none
+        self.urlImageView?.image = .none
         self.dateLabel?.text = .none
-        self.idLabel?.text = .none
     }
     
 }
