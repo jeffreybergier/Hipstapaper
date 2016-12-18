@@ -6,26 +6,104 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
+import RealmSwift
 import MobileCoreServices
 import UIKit
 
 @objc(URLItemSavingShareViewController)
 class URLItemSavingShareViewController: UIViewController {
     
-    @IBOutlet private var messageLabel: UILabel?
-    @IBOutlet private var dismissButton: UIButton?
-    @IBOutlet private var stackView: UIStackView?
-    @IBOutlet private var containerView: UIView?
+    private enum UIState {
+        case start, loggingIn, saving, saved, error
+    }
+    
+    private var uiState = UIState.start {
+        didSet {
+            DispatchQueue.main.async {
+                UIView.animate(withDuration: 0.5, delay: 0.0, options: [.curveEaseInOut], animations: {
+                    switch self.uiState {
+                    case .start:
+                        self.modalView?.alpha = 0.0
+                        self.containerViewVerticalSpaceConstraint?.constant = UIScreen.main.bounds.height
+                        self.messageLabel?.text = "Logging In"
+                    case .loggingIn:
+                        self.modalView?.alpha = 0.5
+                        self.containerViewVerticalSpaceConstraint?.constant = 250
+                        self.messageLabel?.text = "Logging In"
+                    case .saving:
+                        self.modalView?.alpha = 0.5
+                        self.containerViewVerticalSpaceConstraint?.constant = 250
+                        self.messageLabel?.text = "Saving"
+                    case .error:
+                        self.modalView?.alpha = 0.0
+                        self.containerViewVerticalSpaceConstraint?.constant = 250
+                        self.messageLabel?.text = "Error"
+                    case .saved:
+                        self.modalView?.alpha = 0.0
+                        self.containerViewVerticalSpaceConstraint?.constant = -50
+                        self.messageLabel?.text = "Saved"
+                    }
+                }, completion: .none)
+            }
+        }
+    }
+    
     @IBOutlet private var containerViewVerticalSpaceConstraint: NSLayoutConstraint?
+    @IBOutlet private var messageLabel: UILabel?
+    @IBOutlet private var modalView: UIView?
+    @IBOutlet private var containerView: UIView? {
+        didSet {
+            self.containerView?.layer.shadowColor = UIColor.black.cgColor
+            self.containerView?.layer.shadowOffset = CGSize(width: 2, height: 3)
+            self.containerView?.layer.shadowOpacity = 0.4
+            self.containerView?.layer.cornerRadius = 5
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.uiState = .start
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
-        let extensionItem = self.extensionContext?.inputItems.first as? NSExtensionItem
-        if let extensionItem = extensionItem {
+        self.uiState = .loggingIn
+        
+        RealmConfig.configure() {
+            self.uiState = .saving
+            
+            guard let extensionItem = self.extensionContext?.inputItems.first as? NSExtensionItem else {
+                DispatchQueue.main.async {
+                    self.uiState = .error
+                    self.extensionContext?.cancelRequest(withError: NSError())
+                }
+                return
+            }
+            
             InterimURLObject.interimURL(from: extensionItem) { interimURL in
-                let interimURL = interimURL!
-                print(interimURL)
+                guard let interimURL = interimURL else {
+                    DispatchQueue.main.async {
+                        self.uiState = .error
+                        self.extensionContext?.cancelRequest(withError: NSError())
+                    }
+                    return
+                }
+                
+                DispatchQueue.global(qos: .userInitiated).async {
+                    let realm = try! Realm()
+                    realm.beginWrite()
+                    let newURLItem = URLItem()
+                    newURLItem.urlString = interimURL.urlString ?? newURLItem.urlString
+                    realm.add(newURLItem)
+                    try! realm.commitWrite()
+                    
+                    DispatchQueue.main.async {
+                        self.uiState = .saved
+                        self.extensionContext?.completeRequest(returningItems: .none, completionHandler: { _ in })
+                    }
+                    
+                }
             }
         }
     }
@@ -44,7 +122,6 @@ extension URLItemSavingShareViewController {
         var title: String?
         
         fileprivate static func interimURL(from item: NSExtensionItem, handler: @escaping (InterimURLObject?) -> Void) {
-            
             // since this is all async, we need to make sure we return only when the object is full
             // hitcount goes from 0 to 2, because there are 3 properties of this object
             var hitCount = 0
@@ -87,6 +164,5 @@ extension URLItemSavingShareViewController {
             }
         }
     }
-    
 }
 
