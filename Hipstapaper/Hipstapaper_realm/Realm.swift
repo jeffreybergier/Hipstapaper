@@ -54,6 +54,20 @@ class URLItem: Object {
     
     static let imageDate: NSObject? = nil // for keypath selection
     private dynamic var imageData: Data?
+    #if os(OSX)
+    var image: NSImage? {
+        get {
+            guard let data = self.imageData else { return .none }
+            let image = NSImage(data: data)
+            return image
+        }
+        set {
+            guard let image = newValue else { self.imageData = .none; return }
+            let data = image.tiffRepresentation
+            self.imageData = data
+        }
+    }
+    #else
     var image: UIImage? {
         get {
             guard let data = self.imageData else { return .none }
@@ -66,6 +80,7 @@ class URLItem: Object {
             self.imageData = data
         }
     }
+    #endif
     
     var tags = List<TagItem>()
 

@@ -43,22 +43,10 @@
 		5083AA1F1E05958500BCAC93 /* KeyObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083AA1D1E05958500BCAC93 /* KeyObserver.swift */; };
 		5083AA201E05958500BCAC93 /* KeyObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083AA1D1E05958500BCAC93 /* KeyObserver.swift */; };
 		5083AA211E05958500BCAC93 /* KeyObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083AA1D1E05958500BCAC93 /* KeyObserver.swift */; };
-		5083AA241E059B8900BCAC93 /* TagAddRemoveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083AA221E059B8900BCAC93 /* TagAddRemoveViewController.swift */; };
-		5083AA251E059B8900BCAC93 /* TagAddRemoveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083AA221E059B8900BCAC93 /* TagAddRemoveViewController.swift */; };
 		5083AA261E059B8900BCAC93 /* TagAddRemoveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083AA221E059B8900BCAC93 /* TagAddRemoveViewController.swift */; };
-		5083AA271E059B8900BCAC93 /* TagAddRemoveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083AA221E059B8900BCAC93 /* TagAddRemoveViewController.swift */; };
-		5083AA281E059B8900BCAC93 /* TagAddRemoveViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5083AA231E059B8900BCAC93 /* TagAddRemoveViewController.xib */; };
-		5083AA291E059B8900BCAC93 /* TagAddRemoveViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5083AA231E059B8900BCAC93 /* TagAddRemoveViewController.xib */; };
 		5083AA2A1E059B8900BCAC93 /* TagAddRemoveViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5083AA231E059B8900BCAC93 /* TagAddRemoveViewController.xib */; };
-		5083AA2B1E059B8900BCAC93 /* TagAddRemoveViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5083AA231E059B8900BCAC93 /* TagAddRemoveViewController.xib */; };
-		5083AA2E1E05BE3800BCAC93 /* TagAddRemoveTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083AA2C1E05BE3800BCAC93 /* TagAddRemoveTableViewCell.swift */; };
-		5083AA2F1E05BE3800BCAC93 /* TagAddRemoveTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083AA2C1E05BE3800BCAC93 /* TagAddRemoveTableViewCell.swift */; };
 		5083AA301E05BE3800BCAC93 /* TagAddRemoveTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083AA2C1E05BE3800BCAC93 /* TagAddRemoveTableViewCell.swift */; };
-		5083AA311E05BE3800BCAC93 /* TagAddRemoveTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083AA2C1E05BE3800BCAC93 /* TagAddRemoveTableViewCell.swift */; };
-		5083AA321E05BE3800BCAC93 /* TagAddRemoveTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5083AA2D1E05BE3800BCAC93 /* TagAddRemoveTableViewCell.xib */; };
-		5083AA331E05BE3800BCAC93 /* TagAddRemoveTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5083AA2D1E05BE3800BCAC93 /* TagAddRemoveTableViewCell.xib */; };
 		5083AA341E05BE3800BCAC93 /* TagAddRemoveTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5083AA2D1E05BE3800BCAC93 /* TagAddRemoveTableViewCell.xib */; };
-		5083AA351E05BE3800BCAC93 /* TagAddRemoveTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5083AA2D1E05BE3800BCAC93 /* TagAddRemoveTableViewCell.xib */; };
 		76BF1DEC0D5E6FEE5AA3BAFE /* Pods_Hipstapaper_share_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22260FEF1FD95C16E8308AC9 /* Pods_Hipstapaper_share_macOS.framework */; };
 		77671FDC0A770BC6940181CE /* Pods_Hipstapaper_share_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A938A054D654CCD89975F064 /* Pods_Hipstapaper_share_iOS.framework */; };
 		A9B89C400714BAED4E08F69B /* Pods_Hipstapaper_app_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AFFD7A4ED50DE481C3ECEB6 /* Pods_Hipstapaper_app_macOS.framework */; };
@@ -579,8 +567,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5083AA2B1E059B8900BCAC93 /* TagAddRemoveViewController.xib in Resources */,
-				5083AA351E05BE3800BCAC93 /* TagAddRemoveTableViewCell.xib in Resources */,
 				504A3A3B1DF924D300EA46A9 /* URLItemSavingShareViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -589,10 +575,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5083AA331E05BE3800BCAC93 /* TagAddRemoveTableViewCell.xib in Resources */,
 				502C7F541DF0E4D5004E70AB /* URLItemSavingShareViewController.xib in Resources */,
 				502C7F4E1DF0E4D5004E70AB /* icon.icns in Resources */,
-				5083AA291E059B8900BCAC93 /* TagAddRemoveViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -600,8 +584,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5083AA281E059B8900BCAC93 /* TagAddRemoveViewController.xib in Resources */,
-				5083AA321E05BE3800BCAC93 /* TagAddRemoveTableViewCell.xib in Resources */,
 				506A3F0A1DD6C10D00A5656E /* Assets.xcassets in Resources */,
 				506A3F0D1DD6C10D00A5656E /* MainMenu.xib in Resources */,
 				505B304C1DEA698300B74AE6 /* URLItemWebViewWindowController.xib in Resources */,
@@ -815,9 +797,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5083AA311E05BE3800BCAC93 /* TagAddRemoveTableViewCell.swift in Sources */,
 				50088A4D1E062A2500D6AAED /* URLItemSavingShareViewController.swift in Sources */,
-				5083AA271E059B8900BCAC93 /* TagAddRemoveViewController.swift in Sources */,
 				50432EFB1E048DF400D9C3D5 /* TempPassword.swift in Sources */,
 				5083AA211E05958500BCAC93 /* KeyObserver.swift in Sources */,
 				50432EF61E048BF800D9C3D5 /* Realm.swift in Sources */,
@@ -830,8 +810,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				50088A4F1E06595A00D6AAED /* AppExtensionParsing.swift in Sources */,
-				5083AA2F1E05BE3800BCAC93 /* TagAddRemoveTableViewCell.swift in Sources */,
-				5083AA251E059B8900BCAC93 /* TagAddRemoveViewController.swift in Sources */,
 				50432EF91E048DF400D9C3D5 /* TempPassword.swift in Sources */,
 				5083AA1F1E05958500BCAC93 /* KeyObserver.swift in Sources */,
 				50432EF41E048BF800D9C3D5 /* Realm.swift in Sources */,
@@ -842,9 +820,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5083AA241E059B8900BCAC93 /* TagAddRemoveViewController.swift in Sources */,
 				505B304B1DEA698300B74AE6 /* URLItemWebViewWindowController.swift in Sources */,
-				5083AA2E1E05BE3800BCAC93 /* TagAddRemoveTableViewCell.swift in Sources */,
 				506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */,
 				50432EF81E048DF400D9C3D5 /* TempPassword.swift in Sources */,
 				50432EF31E048BF800D9C3D5 /* Realm.swift in Sources */,

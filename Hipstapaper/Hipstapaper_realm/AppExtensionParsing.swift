@@ -5,15 +5,22 @@
 //  Created by Jeffrey Bergier on 12/17/16.
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
-
+#if os(OSX)
+import AppKit
+#else
 import UIKit
 import MobileCoreServices
+#endif
 import Foundation
 
 struct InterimURLObject {
     
-    var urlString: String?
+    #if os(OSX)
+    var image: NSImage?
+    #else
     var image: UIImage?
+    #endif
+    var urlString: String?
     var title: String?
     
     static func interimURL(from item: NSExtensionItem, handler: @escaping (InterimURLObject?) -> Void) {
@@ -52,9 +59,17 @@ struct InterimURLObject {
         }
         
         // load a preview image for the object
-        let desiredImageSize = NSValue(cgSize: CGSize(width: 1024, height: 768))
+        #if os(OSX)
+            let desiredImageSize = NSValue(size: NSSize(width: 1024, height: 1024))
+        #else
+            let desiredImageSize = NSValue(cgSize: CGSize(width: 1024, height: 768))
+        #endif
         attachment.loadPreviewImage(options: [NSItemProviderPreferredImageSizeKey : desiredImageSize]) { secureCoding, error in
-            let image = secureCoding as? UIImage
+            #if os(OSX)
+                let image = secureCoding as? NSImage
+            #else
+                let image = secureCoding as? UIImage
+            #endif
             interimURL.image = image
         }
     }
