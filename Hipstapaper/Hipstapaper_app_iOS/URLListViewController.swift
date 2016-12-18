@@ -62,7 +62,7 @@ class URLListViewController: UIViewController {
         switch self.selection! {
         case .unarchivedItems:
             self.title = "Hipstapaper"
-            let archived = #keyPath(URLItem.archived)
+            let archived = #keyPath(URLItem.iArchived)
             let creationDate = #keyPath(URLItem.creationDate)
             let results = realm.objects(URLItem.self).filter("\(archived) = NO").sorted(byProperty: creationDate, ascending: false)
             self.notificationToken = results.addNotificationBlock(self.tableResultsUpdateClosure)
@@ -185,7 +185,6 @@ extension URLListViewController /* Handle BarButtonItems */ {
         realm.beginWrite()
         items.forEach() { item in
             item.archived = archive
-            item.modificationDate = Date()
         }
         try! realm.commitWrite()
     }
@@ -236,7 +235,6 @@ extension URLListViewController: UITableViewDelegate {
             let realm = try! Realm()
             realm.beginWrite()
             item.archived = !item.archived
-            item.modificationDate = Date()
             try! realm.commitWrite()
         }
         archiveToggleAction.backgroundColor = tableView.tintColor

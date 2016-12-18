@@ -11,16 +11,49 @@ import Foundation
 
 class URLItem: Object {
     
-    dynamic var uuid = UUID().uuidString
-    dynamic var title = "Unknown Page"
-    dynamic var urlString = "http://www.url.com"
-    dynamic var archived = false
+    dynamic private(set) var uuid = UUID().uuidString
+    
+    static let iTitle: NSObject? = nil // for keypath selection
+    dynamic private var iTitle = "Unknown Page"
+    var title: String {
+        get {
+            return self.iTitle
+        }
+        set {
+            self.iTitle = newValue
+            self.modificationDate = Date()
+        }
+    }
+    
+    static let iURLString: NSObject? = nil // for keypath selection
+    dynamic private var iURLString = "http://www.url.com"
+    var urlString: String {
+        get {
+            return self.iURLString
+        }
+        set {
+            self.iURLString = newValue
+            self.modificationDate = Date()
+        }
+    }
+    
+    static let iArchived: NSObject? = nil // for keypath selection
+    dynamic private var iArchived = false
+    var archived: Bool {
+        get {
+            return self.iArchived
+        }
+        set {
+            self.iArchived = newValue
+            self.modificationDate = Date()
+        }
+    }
+    
     dynamic var modificationDate = Date()
-    dynamic var creationDate = Date()
+    dynamic private(set) var creationDate = Date()
+    
+    static let imageDate: NSObject? = nil // for keypath selection
     private dynamic var imageData: Data?
-    
-    static let imageDate: UIImage? = nil
-    
     var image: UIImage? {
         get {
             guard let data = self.imageData else { return .none }
@@ -35,9 +68,9 @@ class URLItem: Object {
     }
     
     var tags = List<TagItem>()
-    
+
     override class func ignoredProperties() -> [String] {
-        return ["image"]
+        return ["image", "title", "archived", "urlString"]
     }
     
     override static func primaryKey() -> String {
@@ -55,8 +88,7 @@ class TagItem: Object {
         if trimmed == "" { return .none } else { return trimmed }
     }
     
-    static let normalizedName = ""
-    
+    static let normalizedName: NSObject? = nil // for keyPath selection
     private dynamic var normalizedName = "untitled"
     
     var name: String {
