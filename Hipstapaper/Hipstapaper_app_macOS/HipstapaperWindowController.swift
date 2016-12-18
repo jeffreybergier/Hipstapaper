@@ -12,7 +12,6 @@ class HipstapaperWindowController: NSWindowController {
     
     override func windowDidLoad() {
         super.windowDidLoad()
-        print("HipstapaperWindowController Loaded")
         self.window?.titleVisibility = .hidden
     }
     
