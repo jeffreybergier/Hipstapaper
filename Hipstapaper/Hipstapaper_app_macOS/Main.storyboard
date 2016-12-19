@@ -343,7 +343,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="50" viewBased="YES" id="bh5-li-PZ0">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" autosaveColumns="NO" rowHeight="50" viewBased="YES" id="bh5-li-PZ0">
                                             <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -441,6 +441,7 @@
                                                 </tableColumn>
                                             </tableColumns>
                                             <connections>
+                                                <action trigger="doubleAction" selector="tableViewDoubleClicked:" target="NX4-AI-9bE" id="lW3-TF-5hz"/>
                                                 <binding destination="UBD-gU-Ng9" name="content" keyPath="arrangedObjects" id="VZa-Fy-aMc"/>
                                                 <binding destination="UBD-gU-Ng9" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="VZa-Fy-aMc" id="ePs-A0-3FC"/>
                                             </connections>

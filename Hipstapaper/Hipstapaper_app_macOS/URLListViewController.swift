@@ -9,19 +9,60 @@
 import RealmSwift
 import AppKit
 
+extension NSArrayController {
+    var selectedURLItems: [URLItem]? {
+        let selectedItems = self.selectedObjects.map({ $0 as? URLItem }).flatMap({ $0 })
+        if selectedItems.isEmpty { return .none } else { return selectedItems }
+    }
+}
+
 class URLListViewController: NSViewController {
     
     @IBOutlet weak var arrayController: NSArrayController?
-    var bindingContent = [URLItem]() {
-        didSet {
-            print(self.bindingContent.count)
-        }
-    }
+    
+    var bindingContent = [URLItem]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("URLListViewController Loaded")
     }
+    
+    // MARK: Handle Double click on TableView
+    
+    @IBAction func tableViewDoubleClicked(_ sender: NSObject?) {
+        guard let selectedItems = self.arrayController?.selectedURLItems else { return }
+        print(selectedItems)
+    }
+    
+    // MARK: Handle Menu Bar Items
+    
+    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        guard menuItem.title == "Open Selected" else { fatalError() }
+        if let selectedItems = self.arrayController?.selectedURLItems, selectedItems.isEmpty == false {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    @objc private func open(_ sender: NSObject?) {
+        guard let selectedItems = self.arrayController?.selectedURLItems else { return }
+        print(selectedItems)
+    }
+    
+    // MARK: Handle Key Input 
+    
+//    override func keyUp(with event: NSEvent) {
+//        let chars = event.charactersIgnoringModifiers
+//        let aChar = chars?.characters[0]
+//        if (aChar == 13 || aChar == 3) {
+//            guard let selectedItems = self.arrayController?.selectedURLItems else { return }
+//            print(selectedItems)
+//        }
+////        NSString *chars = event.charactersIgnoringModifiers;
+////        unichar aChar = [chars characterAtIndex: 0];
+////        if (aChar == 13 || aChar == 3)
+//    }
     
 }
 
