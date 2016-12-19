@@ -470,11 +470,7 @@
                     </connections>
                 </viewController>
                 <customObject id="hDH-qM-ye6" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <arrayController objectClassName="URLItem" id="UBD-gU-Ng9">
-                    <connections>
-                        <binding destination="NX4-AI-9bE" name="contentArrayForMultipleSelection" keyPath="self.bindingContent" id="sdw-tN-u7N"/>
-                    </connections>
-                </arrayController>
+                <arrayController objectClassName="URLItem" id="UBD-gU-Ng9"/>
             </objects>
             <point key="canvasLocation" x="587" y="308"/>
         </scene>

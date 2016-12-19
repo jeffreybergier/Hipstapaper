@@ -20,8 +20,6 @@ class URLListViewController: NSViewController {
     
     @IBOutlet weak var arrayController: NSArrayController?
     
-    var bindingContent = [URLItem]()
-    
     fileprivate var openWindowsControllers = [URLItem : NSWindowController]()
     
     override func viewDidLoad() {
@@ -94,23 +92,20 @@ extension URLListViewController: URLItemSelectionReceivable {
             let archived = #keyPath(URLItem.iArchived)
             let creationDate = #keyPath(URLItem.creationDate)
             let results = realm.objects(URLItem.self).filter("\(archived) = NO").sorted(byProperty: creationDate, ascending: false)
-            self.bindingContent = Array(results)
-            self.arrayController?.content = self.bindingContent
+            self.arrayController?.content = Array(results)
 //            self.notificationToken = results.addNotificationBlock(self.tableResultsUpdateClosure)
 //            data = .results(results)
         case .allItems:
             self.title = "All Items"
             let creationDate = #keyPath(URLItem.creationDate)
             let results = realm.objects(URLItem.self).sorted(byProperty: creationDate, ascending: false)
-            self.bindingContent = Array(results)
-            self.arrayController?.content = self.bindingContent
+            self.arrayController?.content = Array(results)
 //            self.notificationToken = results.addNotificationBlock(self.tableResultsUpdateClosure)
 //            data = .results(results)
         case .tag(let tagItem):
             self.title = "🏷 \(tagItem.name)"
             let links = tagItem.items
-            self.bindingContent = Array(links)
-            self.arrayController?.content = self.bindingContent
+            self.arrayController?.content = Array(links)
 //            self.notificationToken = links.addNotificationBlock(self.tableLinksUpdateClosure)
 //            data = .links(links)
         }
