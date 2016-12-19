@@ -11,7 +11,13 @@ import AppKit
 
 extension NSTreeController: KVOCapable {}
 
+protocol URLItemSelectionReceivable: class {
+    func didSelect(_: URLItem.Selection, from: NSOutlineView?)
+}
+
 class TagListViewController: NSViewController {
+    
+    weak var selectionDelegate: URLItemSelectionReceivable?
     
     @IBOutlet private weak var outlineView: NSOutlineView?
     @IBOutlet private weak var treeController: NSTreeController?
@@ -30,14 +36,7 @@ class TagListViewController: NSViewController {
         self.selectionObserver.startObserving() { [weak self] _ -> NSNull? in
             guard let selectedObject = self?.treeController?.selectedObjects.first as? TreeBindingObject else { return nil }
             if case .selectable(let selection) = selectedObject.kind {
-                switch selection {
-                case .unarchivedItems:
-                    print("open unarchived items")
-                case .allItems:
-                    print("open all items")
-                case .tag(let tagItem):
-                    print("open items for tag: \(tagItem.name)")
-                }
+                self?.selectionDelegate?.didSelect(selection, from: self?.outlineView)
             }
             return nil
         }
