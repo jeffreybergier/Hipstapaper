@@ -50,19 +50,25 @@ class URLListViewController: NSViewController {
         self.openOrBringFrontWindowControllers(for: selectedItems)
     }
     
-    // MARK: Handle Key Input 
+    // MARK: Handle Key Input
     
-//    override func keyUp(with event: NSEvent) {
-//        let chars = event.charactersIgnoringModifiers
-//        let aChar = chars?.characters[0]
-//        if (aChar == 13 || aChar == 3) {
-//            guard let selectedItems = self.arrayController?.selectedURLItems else { return }
-//            print(selectedItems)
-//        }
-////        NSString *chars = event.charactersIgnoringModifiers;
-////        unichar aChar = [chars characterAtIndex: 0];
-////        if (aChar == 13 || aChar == 3)
-//    }
+    override func keyDown(with event: NSEvent) {
+        let code = event.keyCode
+        if let _ = self.arrayController?.selectedURLItems, code.isReturnKeyCode {
+            // do nothing
+        } else {
+            super.keyDown(with: event)
+        }
+    }
+
+    override func keyUp(with event: NSEvent) {
+        let code = event.keyCode
+        if let selectedItems = self.arrayController?.selectedURLItems, code.isReturnKeyCode {
+            self.openOrBringFrontWindowControllers(for: selectedItems)
+        } else {
+            super.keyUp(with: event)
+        }
+    }
     
     // MARK: Handle Opening / Bringing to Front Windows
     
@@ -77,6 +83,12 @@ class URLListViewController: NSViewController {
                 newWC.showWindow(self)
             }
         }
+    }
+}
+
+fileprivate extension UInt16 {
+    fileprivate var isReturnKeyCode: Bool {
+        return self == 36 || self == 76
     }
 }
 
