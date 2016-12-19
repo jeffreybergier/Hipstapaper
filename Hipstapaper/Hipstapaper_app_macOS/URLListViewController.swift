@@ -22,6 +22,8 @@ class URLListViewController: NSViewController {
     
     var bindingContent = [URLItem]()
     
+    fileprivate var openWindowsControllers = [URLItem : NSWindowController]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("URLListViewController Loaded")
@@ -31,7 +33,7 @@ class URLListViewController: NSViewController {
     
     @IBAction func tableViewDoubleClicked(_ sender: NSObject?) {
         guard let selectedItems = self.arrayController?.selectedURLItems else { return }
-        print(selectedItems)
+        self.openOrBringFrontWindowControllers(for: selectedItems)
     }
     
     // MARK: Handle Menu Bar Items
@@ -47,7 +49,7 @@ class URLListViewController: NSViewController {
     
     @objc private func open(_ sender: NSObject?) {
         guard let selectedItems = self.arrayController?.selectedURLItems else { return }
-        print(selectedItems)
+        self.openOrBringFrontWindowControllers(for: selectedItems)
     }
     
     // MARK: Handle Key Input 
@@ -64,6 +66,20 @@ class URLListViewController: NSViewController {
 ////        if (aChar == 13 || aChar == 3)
 //    }
     
+    // MARK: Handle Opening / Bringing to Front Windows
+    
+    private func openOrBringFrontWindowControllers(for items: [URLItem]) {
+        items.forEach() { item in
+            if let existingWC = self.openWindowsControllers[item] {
+                existingWC.showWindow(self)
+            } else {
+                let newWC = URLItemWebViewWindowController(item: item)
+                NotificationCenter.default.addObserver(self, selector: #selector(self.itemWindowWillClose(_:)), name: .NSWindowWillClose, object: newWC.window!)
+                self.openWindowsControllers[item] = newWC
+                newWC.showWindow(self)
+            }
+        }
+    }
 }
 
 extension URLListViewController: URLItemSelectionReceivable {
@@ -98,5 +114,21 @@ extension URLListViewController: URLItemSelectionReceivable {
 //            self.notificationToken = links.addNotificationBlock(self.tableLinksUpdateClosure)
 //            data = .links(links)
         }
+    }
+}
+
+extension URLListViewController /*NSWindowDelegate*/ {
+    
+    // MARK: Handle Child Window Closing to Remove from OpenItemWindows Property and from Memory
+    
+    @objc fileprivate func itemWindowWillClose(_ notification: NSNotification) {
+        guard
+            let window = notification.object as? NSWindow,
+            let itemWindowController = window.windowController as? URLItemWebViewWindowController,
+            let item = itemWindowController.item
+        else { return }
+        
+        NotificationCenter.default.removeObserver(self, name: .NSWindowWillClose, object: window)
+        self.openWindowsControllers[item] = .none
     }
 }
