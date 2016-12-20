@@ -19,12 +19,57 @@ extension NSArrayController {
 class URLListViewController: NSViewController {
     
     @IBOutlet weak var arrayController: NSArrayController?
+    fileprivate var selection: URLItem.Selection?
     
     fileprivate var openWindowsControllers = [URLItem : NSWindowController]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("URLListViewController Loaded")
+    }
+    
+    // MARK: Reload Data
+    
+    fileprivate func hardReloadData() {
+        // clear out all previous update tokens and tableview
+        self.notificationToken?.stop()
+        self.notificationToken = .none
+        self.arrayController?.content = []
+        
+        guard let selection = self.selection else { return }
+        
+        // now ask realm for new data and give it our closure to get updates
+        let realm = try! Realm()
+        switch selection {
+        case .unarchivedItems:
+            self.title = "Hipstapaper"
+            let archived = #keyPath(URLItem.iArchived)
+            let creationDate = #keyPath(URLItem.creationDate)
+            let results = realm.objects(URLItem.self).filter("\(archived) = NO").sorted(byProperty: creationDate, ascending: false)
+            self.notificationToken = results.addNotificationBlock(self.realmResultsChangeClosure)
+        case .allItems:
+            self.title = "All Items"
+            let creationDate = #keyPath(URLItem.creationDate)
+            let results = realm.objects(URLItem.self).sorted(byProperty: creationDate, ascending: false)
+            self.arrayController?.content = Array(results)
+            self.notificationToken = results.addNotificationBlock(self.realmResultsChangeClosure)
+        case .tag(let tagItem):
+            self.title = "🏷 \(tagItem.name)"
+            let creationDate = #keyPath(URLItem.creationDate)
+            let sortedLinkedURLItems = tagItem.items.sorted(byProperty: creationDate, ascending: false)
+            self.notificationToken = sortedLinkedURLItems.addNotificationBlock(self.realmResultsChangeClosure)
+        }
+    }
+    
+    private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<URLItem>>) -> Void) = { [weak self] changes in
+        switch changes {
+        case .initial(let results):
+            self?.arrayController?.content = Array(results)
+        case .update(let results, _, _, _):
+            self?.arrayController?.content = Array(results)
+        case .error(let error):
+            fatalError("\(error)")
+        }
     }
     
     // MARK: Handle Double click on TableView
@@ -87,6 +132,14 @@ class URLListViewController: NSViewController {
             }
         }
     }
+    
+    // MARK: Handle Going Away
+    
+    private var notificationToken: NotificationToken?
+    
+    deinit {
+        self.notificationToken?.stop()
+    }
 }
 
 fileprivate extension UInt16 {
@@ -97,33 +150,8 @@ fileprivate extension UInt16 {
 
 extension URLListViewController: URLItemSelectionReceivable {
     func didSelect(_ selection: URLItem.Selection, from: NSOutlineView?) {
-        // configure data source
-        // also set title in same switch
-        let realm = try! Realm()
-//        let data: Data
-        switch selection {
-        case .unarchivedItems:
-            self.title = "Hipstapaper"
-            let archived = #keyPath(URLItem.iArchived)
-            let creationDate = #keyPath(URLItem.creationDate)
-            let results = realm.objects(URLItem.self).filter("\(archived) = NO").sorted(byProperty: creationDate, ascending: false)
-            self.arrayController?.content = Array(results)
-//            self.notificationToken = results.addNotificationBlock(self.tableResultsUpdateClosure)
-//            data = .results(results)
-        case .allItems:
-            self.title = "All Items"
-            let creationDate = #keyPath(URLItem.creationDate)
-            let results = realm.objects(URLItem.self).sorted(byProperty: creationDate, ascending: false)
-            self.arrayController?.content = Array(results)
-//            self.notificationToken = results.addNotificationBlock(self.tableResultsUpdateClosure)
-//            data = .results(results)
-        case .tag(let tagItem):
-            self.title = "🏷 \(tagItem.name)"
-            let links = tagItem.items
-            self.arrayController?.content = Array(links)
-//            self.notificationToken = links.addNotificationBlock(self.tableLinksUpdateClosure)
-//            data = .links(links)
-        }
+        self.selection = selection
+        self.hardReloadData()
     }
 }
 
