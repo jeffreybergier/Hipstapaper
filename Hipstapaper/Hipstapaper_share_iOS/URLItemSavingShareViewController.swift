@@ -26,16 +26,16 @@ class URLItemSavingShareViewController: UIViewController {
                         self.containerViewVerticalSpaceConstraint?.constant = UIScreen.main.bounds.height
                         self.messageLabel?.text = "Logging In"
                     case .loggingIn:
-                        self.modalView?.alpha = 0.5
-                        self.containerViewVerticalSpaceConstraint?.constant = 250
+                        self.modalView?.alpha = 0.3
+                        self.containerViewVerticalSpaceConstraint?.constant = UIScreen.main.bounds.height / 2.5
                         self.messageLabel?.text = "Logging In"
                     case .saving:
-                        self.modalView?.alpha = 0.5
-                        self.containerViewVerticalSpaceConstraint?.constant = 250
+                        self.modalView?.alpha = 0.3
+                        self.containerViewVerticalSpaceConstraint?.constant = UIScreen.main.bounds.height / 2.5
                         self.messageLabel?.text = "Saving"
                     case .error:
                         self.modalView?.alpha = 0.0
-                        self.containerViewVerticalSpaceConstraint?.constant = 250
+                        self.containerViewVerticalSpaceConstraint?.constant = UIScreen.main.bounds.height / 2.5
                         self.messageLabel?.text = "Error"
                     case .saved:
                         self.modalView?.alpha = 0.0

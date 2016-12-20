@@ -30,14 +30,6 @@ class TagListViewController: UIViewController {
         if let tableView = self.tableView {
             self.tableView(tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
         }
-//        Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { timer in
-//            let realm = try! Realm()
-//            try! realm.write {
-//                let newTag = TagItem()
-//                newTag.name = UUID().uuidString
-//                realm.add(newTag)
-//            }
-//        }
     }
     
     private lazy var tableUpdateClosure: ((RealmCollectionChange<Results<TagItem>>) -> Void) = { [weak self] changes in

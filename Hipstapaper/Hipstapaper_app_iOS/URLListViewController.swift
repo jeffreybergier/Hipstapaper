@@ -12,13 +12,16 @@ import UIKit
 
 class URLListViewController: UIViewController {
     
-    private var selection: URLItem.Selection?
-    
-    fileprivate var data: Data?
+    private var selection: URLItem.Selection = .unarchivedItems
+    fileprivate var data: Results<URLItem>?
     
     fileprivate var selectedURLItems: [URLItem]? {
-        let indexPaths = self.tableView?.indexPathsForSelectedRows ?? []
-        let items = self.data?.items(at: indexPaths)
+        guard
+            let data = self.data,
+            let indexPaths = self.tableView?.indexPathsForSelectedRows,
+            indexPaths.isEmpty == false
+        else { return .none}
+        let items = indexPaths.map({ data[$0.row] })
         return items
     }
     
@@ -56,60 +59,30 @@ class URLListViewController: UIViewController {
         // configure data source
         // also set title in same switch
         let realm = try! Realm()
-        let data: Data
-        switch self.selection! {
+        switch self.selection {
         case .unarchivedItems:
             self.title = "Hipstapaper"
             let archived = #keyPath(URLItem.iArchived)
             let creationDate = #keyPath(URLItem.creationDate)
             let results = realm.objects(URLItem.self).filter("\(archived) = NO").sorted(byProperty: creationDate, ascending: false)
-            self.notificationToken = results.addNotificationBlock(self.tableResultsUpdateClosure)
-            data = .results(results)
+            self.data = results
+            self.notificationToken = results.addNotificationBlock(self.realmResultsChangeClosure)
         case .allItems:
             self.title = "All Items"
             let creationDate = #keyPath(URLItem.creationDate)
             let results = realm.objects(URLItem.self).sorted(byProperty: creationDate, ascending: false)
-            self.notificationToken = results.addNotificationBlock(self.tableResultsUpdateClosure)
-            data = .results(results)
+            self.data = results
+            self.notificationToken = results.addNotificationBlock(self.realmResultsChangeClosure)
         case .tag(let tagItem):
             self.title = "🏷 \(tagItem.name)"
-            let links = tagItem.items
-            self.notificationToken = links.addNotificationBlock(self.tableLinksUpdateClosure)
-            data = .links(links)
-        }
-        
-        // set data source
-        self.data = data
-        
-        
-//        var count = 1
-//        Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { timer in
-//            let realm = try! Realm()
-//            try! realm.write {
-//                let newURL = URLItem()
-//                newURL.urlString = "http://www.\(count).com"
-//                realm.add(newURL)
-//                count += 1
-//            }
-//        }
-    }
-    
-    private lazy var tableResultsUpdateClosure: ((RealmCollectionChange<Results<URLItem>>) -> Void) = { [weak self] changes in
-        switch changes {
-        case .initial:
-            self?.tableView?.reloadData()
-        case .update(_, let deletions, let insertions, let modifications):
-            self?.tableView?.beginUpdates()
-            self?.tableView?.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }), with: .right)
-            self?.tableView?.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .left)
-            self?.tableView?.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
-            self?.tableView?.endUpdates()
-        case .error(let error):
-            fatalError("\(error)")
+            let creationDate = #keyPath(URLItem.creationDate)
+            let sortedLinkedURLItems = tagItem.items.sorted(byProperty: creationDate, ascending: false)
+            self.data = sortedLinkedURLItems
+            self.notificationToken = sortedLinkedURLItems.addNotificationBlock(self.realmResultsChangeClosure)
         }
     }
     
-    private lazy var tableLinksUpdateClosure: ((RealmCollectionChange<LinkingObjects<URLItem>>) -> Void) = { [weak self] changes in
+    private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<URLItem>>) -> Void) = { [weak self] changes in
         switch changes {
         case .initial:
             self?.tableView?.reloadData()
@@ -226,7 +199,7 @@ extension URLListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        guard let item = self.data?.item(at: indexPath) else { return .none }
+        guard let item = self.data?[indexPath.row] else { return .none }
         let archiveActionTitle = item.archived ? "📤Unarchive" : "📥Archive"
         //let archiveActionTitle = item.archived ? "🎁" : "📦"
         let archiveToggleAction = UITableViewRowAction(style: .normal, title: archiveActionTitle) { action, indexPath in
@@ -251,13 +224,14 @@ extension URLListViewController: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: URLTableViewCell.nibName, for: indexPath)
-        if let cell = cell as? URLTableViewCell, let item = self.data?.item(at: indexPath) {
+        if let cell = cell as? URLTableViewCell, let item = self.data?[indexPath.row] {
             cell.configure(with: item)
         }
         return cell
     }
 }
 
+/*
 extension URLListViewController {
     
     fileprivate enum Data {
@@ -288,3 +262,4 @@ extension URLListViewController {
         }
     }
 }
+ */
