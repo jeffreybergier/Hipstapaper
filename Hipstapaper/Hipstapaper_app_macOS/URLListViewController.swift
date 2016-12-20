@@ -78,7 +78,10 @@ class URLListViewController: NSViewController {
                 existingWC.showWindow(self)
             } else {
                 let newWC = URLItemWebViewWindowController(item: item)
-                NotificationCenter.default.addObserver(self, selector: #selector(self.itemWindowWillClose(_:)), name: .NSWindowWillClose, object: newWC.window!)
+                NotificationCenter.default.addObserver(self,
+                                                       selector: #selector(self.itemWindowWillClose(_:)),
+                                                       name: .NSWindowWillClose,
+                                                       object: newWC.window!)
                 self.openWindowsControllers[item] = newWC
                 newWC.showWindow(self)
             }

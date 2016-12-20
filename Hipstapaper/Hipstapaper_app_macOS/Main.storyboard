@@ -368,7 +368,7 @@
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HV7-bY-T1O">
-                                                                    <rect key="frame" x="4" y="5" width="147" height="40"/>
+                                                                    <rect key="frame" x="4" y="5" width="141" height="40"/>
                                                                     <subviews>
                                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="u34-DE-qlV">
                                                                             <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
@@ -382,12 +382,12 @@
                                                                             </connections>
                                                                         </imageView>
                                                                         <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="3" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3qf-5n-NVf">
-                                                                            <rect key="frame" x="48" y="2.5" width="99" height="35"/>
+                                                                            <rect key="frame" x="48" y="3" width="93" height="34"/>
                                                                             <subviews>
                                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wjQ-FQ-4GZ">
-                                                                                    <rect key="frame" x="-2" y="17" width="103" height="18"/>
+                                                                                    <rect key="frame" x="-2" y="17" width="97" height="17"/>
                                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="eaJ-Zn-Jpk">
-                                                                                        <font key="font" metaFont="system" size="14"/>
+                                                                                        <font key="font" metaFont="system"/>
                                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                                     </textFieldCell>
@@ -399,7 +399,7 @@
                                                                                     <rect key="frame" x="-2" y="0.0" width="84" height="14"/>
                                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="zyv-HC-TQr">
                                                                                         <dateFormatter key="formatter" dateStyle="short" timeStyle="short" doesRelativeDateFormatting="YES" id="5gr-bI-mpx"/>
-                                                                                        <font key="font" metaFont="system" size="11"/>
+                                                                                        <font key="font" metaFont="smallSystem"/>
                                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                                     </textFieldCell>
@@ -470,7 +470,7 @@
                     </connections>
                 </viewController>
                 <customObject id="hDH-qM-ye6" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <arrayController objectClassName="URLItem" id="UBD-gU-Ng9"/>
+                <arrayController editable="NO" avoidsEmptySelection="NO" id="UBD-gU-Ng9"/>
             </objects>
             <point key="canvasLocation" x="587" y="308"/>
         </scene>
