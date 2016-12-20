@@ -19,7 +19,7 @@ class URLItemSavingShareViewController: UIViewController {
     private var uiState = UIState.start {
         didSet {
             DispatchQueue.main.async {
-                UIView.animate(withDuration: 0.5, delay: 0.0, options: [.curveEaseInOut], animations: {
+                UIView.animate(withDuration: 0.3, delay: 0.0, options: [.curveEaseInOut], animations: {
                     switch self.uiState {
                     case .start:
                         self.modalView?.alpha = 0.0
@@ -42,6 +42,7 @@ class URLItemSavingShareViewController: UIViewController {
                         self.containerViewVerticalSpaceConstraint?.constant = -50
                         self.messageLabel?.text = "Saved"
                     }
+                    self.view.layoutIfNeeded()
                 }, completion: .none)
             }
         }
@@ -61,7 +62,8 @@ class URLItemSavingShareViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.uiState = .start
+        self.containerViewVerticalSpaceConstraint?.constant = UIScreen.main.bounds.height
+        self.view.layoutIfNeeded()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -73,8 +75,8 @@ class URLItemSavingShareViewController: UIViewController {
             self.uiState = .saving
             
             guard let extensionItem = self.extensionContext?.inputItems.first as? NSExtensionItem else {
-                DispatchQueue.main.async {
-                    self.uiState = .error
+                self.uiState = .error
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
                     self.extensionContext?.cancelRequest(withError: NSError())
                 }
                 return
@@ -82,8 +84,8 @@ class URLItemSavingShareViewController: UIViewController {
             
             InterimURLObject.interimURL(from: extensionItem) { interimURL in
                 guard let interimURL = interimURL else {
-                    DispatchQueue.main.async {
-                        self.uiState = .error
+                    self.uiState = .error
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
                         self.extensionContext?.cancelRequest(withError: NSError())
                     }
                     return
@@ -94,13 +96,12 @@ class URLItemSavingShareViewController: UIViewController {
                     realm.beginWrite()
                     let newURLItem = URLItem()
                     newURLItem.urlString = interimURL.urlString ?? newURLItem.urlString
-                    newURLItem.title = interimURL.title ?? newURLItem.title
+                    newURLItem.title = (interimURL.title ?? interimURL.urlString) ?? newURLItem.title
                     newURLItem.image = interimURL.image
                     realm.add(newURLItem)
                     try! realm.commitWrite()
-                    
-                    DispatchQueue.main.async {
-                        self.uiState = .saved
+                    self.uiState = .saved
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.7) {
                         self.extensionContext?.completeRequest(returningItems: .none, completionHandler: { _ in })
                     }
                     

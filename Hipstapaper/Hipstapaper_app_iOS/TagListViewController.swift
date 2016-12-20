@@ -130,7 +130,7 @@ extension TagListViewController: UITableViewDataSource {
         
         switch section {
         case .readingList:
-            cell.textLabel?.text = indexPath.row == 0 ? "Unread Item" : "All Item"
+            cell.textLabel?.text = indexPath.row == 0 ? "Unread Items" : "All Items"
         case .tags:
             guard let tagItem = self.tags?[indexPath.row] else { return cell }
             cell.textLabel?.text = tagItem.name
