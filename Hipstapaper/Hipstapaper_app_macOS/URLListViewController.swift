@@ -23,11 +23,6 @@ class URLListViewController: NSViewController {
     
     fileprivate var openWindowsControllers = [URLItem : NSWindowController]()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        print("URLListViewController Loaded")
-    }
-    
     // MARK: Reload Data
     
     fileprivate func hardReloadData() {

@@ -52,7 +52,7 @@ class TagAddRemoveViewController: UIViewController {
         
         // get all the tags from realm
         let realm = try! Realm()
-        self.tags = realm.objects(TagItem.self).sorted(byProperty: #keyPath(TagItem.normalizedName))
+        self.tags = realm.objects(TagItem.self).sorted(byProperty: #keyPath(TagItem.name))
         self.notificationToken = self.tags?.addNotificationBlock(self.tableUpdateClosure)
     }
     
@@ -82,7 +82,7 @@ class TagAddRemoveViewController: UIViewController {
         let addAction = UIAlertAction(title: "Add", style: .default) { action in
             let newName = alertVC.textFields?.map({ $0.text }).flatMap({ $0 }).first ?? ""
             guard let normalizedNewName = TagItem.normalize(nameString: newName) else { return }
-            let existingTagFound = !(self.tags?.filter("\(#keyPath(TagItem.normalizedName)) = '\(normalizedNewName)'").isEmpty ?? true)
+            let existingTagFound = !(self.tags?.filter("\(#keyPath(TagItem.name)) = '\(normalizedNewName)'").isEmpty ?? true)
             if existingTagFound == false {
                 let realm = try! Realm()
                 realm.beginWrite()

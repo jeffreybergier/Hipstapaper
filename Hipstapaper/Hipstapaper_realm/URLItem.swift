@@ -10,57 +10,15 @@ import RealmSwift
 
 final public class URLItem: Object {
     
-    // MARK: Private Realm Properties
+    // MARK: All the Properties
     
-    dynamic private var iTitle = "Unknown Page"
-    dynamic private var iURLString = "http://www.url.com"
-    dynamic private var iArchived = false
-    public dynamic var imageData: Data? // public because Cocoa and iOS need separate extensions to convert into their imeage formats
-    
-    // MARK: Realm Properties Access by outside world directly
-    
+    public private(set) dynamic var uuid = UUID().uuidString
+    public dynamic var urlString = "http://www.url.com"
+    public dynamic var archived = false
+    public dynamic var extras: URLItemExtras?
     public var tags = List<TagItem>()
-    dynamic public private(set) var uuid = UUID().uuidString
-    dynamic public var modificationDate = Date()
-    dynamic public private(set) var creationDate = Date()
-    
-    // MARK: Computed Properties used by outside world
-    
-    public var title: String {
-        get {
-            return self.iTitle
-        }
-        set {
-            self.iTitle = newValue
-            self.modificationDate = Date()
-        }
-    }
-    
-    public var urlString: String {
-        get {
-            return self.iURLString
-        }
-        set {
-            self.iURLString = newValue
-            self.modificationDate = Date()
-        }
-    }
-    
-    public var archived: Bool {
-        get {
-            return self.iArchived
-        }
-        set {
-            self.iArchived = newValue
-            self.modificationDate = Date()
-        }
-    }
-    
-    // MARK: Special Notations for Realm engine
-    
-    override public class func ignoredProperties() -> [String] {
-        return ["image", "title", "archived", "urlString"]
-    }
+    public private(set) dynamic var creationDate = Date()
+    public dynamic var modificationDate = Date()
     
     override public static func primaryKey() -> String {
         return "uuid"
@@ -69,6 +27,7 @@ final public class URLItem: Object {
 }
 
 extension URLItem {
+    
     public enum Selection {
         case unarchived, all, tag(TagItem)
     }
@@ -85,17 +44,17 @@ extension URLItem {
         var keyPath: String {
             switch self {
             case .creationDate:
-                return "creationDate"
+                return #keyPath(URLItem.creationDate)
             case .modificationDate:
-                return "modificationDate"
+                return #keyPath(URLItem.modificationDate)
             case .pageTitle:
-                return "iTitle"
+                return #keyPath(URLItem.extras.pageTitle)
             case .urlString:
-                return "iURLString"
+                return #keyPath(URLItem.urlString)
             case .tagCount:
-                return "tags.count"
+                return "tags.count" //#keyPath(URLItem.tags.count)
             case .archived:
-                return "iArchived"
+                return #keyPath(URLItem.archived)
             }
         }
         

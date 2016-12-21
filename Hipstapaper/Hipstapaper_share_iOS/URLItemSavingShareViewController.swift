@@ -82,8 +82,8 @@ class URLItemSavingShareViewController: UIViewController {
                 return
             }
             
-            InterimURLObject.interimURL(from: extensionItem) { interimURL in
-                guard let interimURL = interimURL else {
+            URLItemExtras.extras(from: extensionItem) { tuple in
+                guard let tuple = tuple else {
                     self.uiState = .error
                     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
                         self.extensionContext?.cancelRequest(withError: NSError())
@@ -95,9 +95,8 @@ class URLItemSavingShareViewController: UIViewController {
                     let realm = try! Realm()
                     realm.beginWrite()
                     let newURLItem = URLItem()
-                    newURLItem.urlString = interimURL.urlString ?? newURLItem.urlString
-                    newURLItem.title = (interimURL.title ?? interimURL.urlString) ?? newURLItem.title
-                    newURLItem.image = interimURL.image
+                    newURLItem.urlString = tuple.1
+                    newURLItem.extras = tuple.0
                     realm.add(newURLItem)
                     try! realm.commitWrite()
                     self.uiState = .saved

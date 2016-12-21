@@ -6,39 +6,46 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 #if os(OSX)
-import AppKit
+    import AppKit
 #else
-import UIKit
-import MobileCoreServices
+    import UIKit
+    import MobileCoreServices
 #endif
 import Foundation
 
-struct InterimURLObject {
+extension URLItemExtras {
     
-    #if os(OSX)
-    var image: NSImage?
-    #else
-    var image: UIImage?
-    #endif
-    var urlString: String?
-    var title: String?
-    
-    static func interimURL(from item: NSExtensionItem, handler: @escaping (InterimURLObject?) -> Void) {
+    static func extras(from item: NSExtensionItem, handler: @escaping ((URLItemExtras?, String)?) -> Void) {
+        // get the title
+        var pageTitle: String? = item.attributedContentText?.string
+        
+        // prepar for async operations
+        #if os(OSX)
+            var image: NSImage?
+        #else
+            var image: UIImage?
+        #endif
+        var urlString: String?
+        
         // since this is all async, we need to make sure we return only when the object is full
         // hitcount goes from 0 to 2, because there are 3 properties of this object
-        var hitCount = 0
-        var interimURL = InterimURLObject() {
+        var hitCount = 0 {
             didSet {
-                if hitCount >= 2 {
-                    handler(interimURL)
-                    return
+                if hitCount == 2 {
+                    guard let urlString = urlString else { handler(nil); return; }
+                    #if os(OSX)
+                        let extras = URLItemExtras(title: pageTitle, image: image)
+                    #else
+                        let extras = URLItemExtras(title: pageTitle, image: image)
+                    #endif
+                    if extras.pageTitle != nil || extras.imageData != nil {
+                        handler((extras, urlString))
+                    } else {
+                        handler((nil, urlString))
+                    }
                 }
-                hitCount += 1
             }
         }
-        
-        // set the title on the object
-        interimURL.title = item.attributedContentText?.string
         
         // make sure we have an attachment
         // if not, return nil
@@ -55,7 +62,8 @@ struct InterimURLObject {
             //      not sure what this one does, it didn't find either
             
             let url = secureCoding as? URL
-            interimURL.urlString = url?.absoluteString
+            urlString = url?.absoluteString
+            hitCount += 1
         }
         
         // load a preview image for the object
@@ -66,11 +74,12 @@ struct InterimURLObject {
         #endif
         attachment.loadPreviewImage(options: [NSItemProviderPreferredImageSizeKey : desiredImageSize]) { secureCoding, error in
             #if os(OSX)
-                let image = secureCoding as? NSImage
+                let discoveredImage = secureCoding as? NSImage
             #else
-                let image = secureCoding as? UIImage
+                let discoveredImage = secureCoding as? UIImage
             #endif
-            interimURL.image = image
+            image = discoveredImage
+            hitCount += 1
         }
     }
 }

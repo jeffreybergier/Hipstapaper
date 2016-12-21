@@ -9,41 +9,11 @@
 import RealmSwift
 import Foundation
 
-final public class TagItem: Object {
-    
-    class func normalize(nameString: String) -> String? {
-        let lowerCase = nameString.lowercased()
-        let characterSet = CharacterSet.alphanumerics.inverted
-        let trimmed = lowerCase.components(separatedBy: characterSet).joined(separator: "")
-        if trimmed == "" { return .none } else { return trimmed }
-    }
-    
-    static let normalizedName: NSObject? = nil // for keyPath selection
-    private dynamic var normalizedName = "untitled"
-    
-    var name: String {
-        get {
-            return self.normalizedName
-        }
-        set {
-            let adjusted = type(of: self).normalize(nameString: newValue) ?? "untitled"
-            self.normalizedName = adjusted
-        }
-    }
-    
-    let items = LinkingObjects(fromType: URLItem.self, property: "tags")
-    
-    override public class func ignoredProperties() -> [String] {
-        return ["name"]
-    }
-    
-}
-
 struct RealmConfig {
     
     static var tags: Results<TagItem> {
         let realm = try! Realm()
-        let tags = realm.objects(TagItem.self).sorted(byProperty: #keyPath(TagItem.normalizedName))
+        let tags = realm.objects(TagItem.self).sorted(byProperty: #keyPath(TagItem.name))
         return tags
     }
     
@@ -79,7 +49,8 @@ struct RealmConfig {
         SyncUser.logIn(with: SyncCredentials.usernamePassword(username: realmUsername, password: realmPassword, register: false), server: realmAuthServer) { user, error in
             DispatchQueue.main.async {
                 guard let user = user else { fatalError("\(error!)") }
-                let config = Realm.Configuration(syncConfiguration: SyncConfiguration(user: user, realmURL: URL(string: realmDataServer.absoluteString)!))
+                var config = Realm.Configuration(syncConfiguration: SyncConfiguration(user: user, realmURL: URL(string: realmDataServer.absoluteString)!))
+                config.deleteRealmIfMigrationNeeded = true
                 Realm.Configuration.defaultConfiguration = config
                 completionHandler()
             }

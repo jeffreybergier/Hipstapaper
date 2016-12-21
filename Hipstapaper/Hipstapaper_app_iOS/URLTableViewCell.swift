@@ -25,8 +25,8 @@ class URLTableViewCell: UITableViewCell {
     }()
     
     func configure(with item: URLItem) {
-        self.titleLabel?.text = item.title
-        self.urlImageView?.image = item.image
+        self.titleLabel?.text = item.extras?.pageTitle
+        self.urlImageView?.image = item.extras?.image
         self.dateLabel?.text = self.dateFormatter.string(from: item.creationDate)
     }
 

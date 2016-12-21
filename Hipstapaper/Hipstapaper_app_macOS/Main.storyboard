@@ -378,7 +378,7 @@
                                                                             </constraints>
                                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="PTl-l5-vdN"/>
                                                                             <connections>
-                                                                                <binding destination="qKj-7y-fuk" name="value" keyPath="objectValue.image" id="y2B-0K-gQ3"/>
+                                                                                <binding destination="qKj-7y-fuk" name="value" keyPath="objectValue.extras.image" id="5GI-GS-XZV"/>
                                                                             </connections>
                                                                         </imageView>
                                                                         <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="3" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3qf-5n-NVf">
@@ -392,7 +392,7 @@
                                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                                     </textFieldCell>
                                                                                     <connections>
-                                                                                        <binding destination="qKj-7y-fuk" name="value" keyPath="objectValue.title" id="8B7-wY-Z6R"/>
+                                                                                        <binding destination="qKj-7y-fuk" name="value" keyPath="objectValue.extras.pageTitle" id="K6F-vi-Dmf"/>
                                                                                     </connections>
                                                                                 </textField>
                                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d21-PK-LLC">
