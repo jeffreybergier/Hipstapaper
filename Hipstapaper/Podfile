@@ -6,6 +6,12 @@ target 'Hipstapaper_app_macOS' do
   pod 'RealmSwift'
 end
 
+target 'Hipstapaper_app_macOS_tests' do
+  platform :osx, '10.12'
+  use_frameworks!
+  pod 'RealmSwift'
+end
+
 target 'Hipstapaper_share_macOS' do
   platform :osx, '10.12'
   use_frameworks!
