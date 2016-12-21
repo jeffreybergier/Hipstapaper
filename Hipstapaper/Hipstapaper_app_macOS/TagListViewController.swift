@@ -83,8 +83,8 @@ private class TreeBindingObject: NSObject {
     class func treeObjects(from results: Results<TagItem>) -> [TreeBindingObject] {
         let tagChildren = Array(results.map({ TreeBindingObject(title: $0.name, kind: .selectable(.tag($0))) }))
         
-        let unarchivedChild = TreeBindingObject(title: "Unread Items", kind: .selectable(.unarchivedItems))
-        let allChild = TreeBindingObject(title: "All Items", kind: .selectable(.allItems))
+        let unarchivedChild = TreeBindingObject(title: "Unread Items", kind: .selectable(.unarchived))
+        let allChild = TreeBindingObject(title: "All Items", kind: .selectable(.all))
         
         let mainTree = TreeBindingObject(title: "Reading List", children: [unarchivedChild, allChild], kind: .notSelectable(.main))
         let tagTree = TreeBindingObject(title: "Tags", children: tagChildren, kind: .notSelectable(.tags))

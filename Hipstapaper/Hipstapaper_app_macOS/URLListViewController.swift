@@ -39,26 +39,17 @@ class URLListViewController: NSViewController {
         guard let selection = self.selection else { return }
         
         // now ask realm for new data and give it our closure to get updates
-        let realm = try! Realm()
         switch selection {
-        case .unarchivedItems:
+        case .unarchived:
             self.title = "Hipstapaper"
-            let archived = #keyPath(URLItem.iArchived)
-            let creationDate = #keyPath(URLItem.creationDate)
-            let results = realm.objects(URLItem.self).filter("\(archived) = NO").sorted(byProperty: creationDate, ascending: false)
-            self.notificationToken = results.addNotificationBlock(self.realmResultsChangeClosure)
-        case .allItems:
+        case .all:
             self.title = "All Items"
-            let creationDate = #keyPath(URLItem.creationDate)
-            let results = realm.objects(URLItem.self).sorted(byProperty: creationDate, ascending: false)
-            self.arrayController?.content = Array(results)
-            self.notificationToken = results.addNotificationBlock(self.realmResultsChangeClosure)
         case .tag(let tagItem):
             self.title = "🏷 \(tagItem.name)"
-            let creationDate = #keyPath(URLItem.creationDate)
-            let sortedLinkedURLItems = tagItem.items.sorted(byProperty: creationDate, ascending: false)
-            self.notificationToken = sortedLinkedURLItems.addNotificationBlock(self.realmResultsChangeClosure)
         }
+        
+        let items = RealmConfig.urlItems(for: selection, sortOrder: URLItem.SortOrder.creationDate(newestFirst: false))
+        self.notificationToken = items.addNotificationBlock(self.realmResultsChangeClosure)
     }
     
     private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<URLItem>>) -> Void) = { [weak self] changes in

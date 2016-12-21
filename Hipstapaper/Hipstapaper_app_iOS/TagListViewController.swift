@@ -91,7 +91,7 @@ extension TagListViewController: UITableViewDelegate {
         let selection: URLItem.Selection
         switch section {
         case .readingList:
-            selection = indexPath.row == 0 ? .unarchivedItems : .allItems
+            selection = indexPath.row == 0 ? .unarchived : .all
         case .tags:
             guard let tagItem = self.tags?[indexPath.row] else { fatalError() }
             selection = .tag(tagItem)

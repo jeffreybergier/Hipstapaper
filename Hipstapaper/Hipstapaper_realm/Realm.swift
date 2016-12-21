@@ -9,96 +9,7 @@
 import RealmSwift
 import Foundation
 
-class URLItem: Object {
-    
-    enum Selection {
-        case unarchivedItems, allItems, tag(TagItem)
-    }
-    
-    dynamic private(set) var uuid = UUID().uuidString
-    
-    static let iTitle: NSObject? = nil // for keypath selection
-    dynamic private var iTitle = "Unknown Page"
-    var title: String {
-        get {
-            return self.iTitle
-        }
-        set {
-            self.iTitle = newValue
-            self.modificationDate = Date()
-        }
-    }
-    
-    static let iURLString: NSObject? = nil // for keypath selection
-    dynamic private var iURLString = "http://www.url.com"
-    var urlString: String {
-        get {
-            return self.iURLString
-        }
-        set {
-            self.iURLString = newValue
-            self.modificationDate = Date()
-        }
-    }
-    
-    static let iArchived: NSObject? = nil // for keypath selection
-    dynamic private var iArchived = false
-    var archived: Bool {
-        get {
-            return self.iArchived
-        }
-        set {
-            self.iArchived = newValue
-            self.modificationDate = Date()
-        }
-    }
-    
-    dynamic var modificationDate = Date()
-    dynamic private(set) var creationDate = Date()
-    
-    static let imageDate: NSObject? = nil // for keypath selection
-    private dynamic var imageData: Data?
-    #if os(OSX)
-    var image: NSImage? {
-        get {
-            guard let data = self.imageData else { return .none }
-            let image = NSImage(data: data)
-            return image
-        }
-        set {
-            guard let image = newValue else { self.imageData = .none; return }
-            let data = image.tiffRepresentation
-            self.imageData = data
-        }
-    }
-    #else
-    var image: UIImage? {
-        get {
-            guard let data = self.imageData else { return .none }
-            let image = UIImage(data: data)
-            return image
-        }
-        set {
-            guard let image = newValue else { self.imageData = .none; return }
-            let data = UIImagePNGRepresentation(image)
-            self.imageData = data
-        }
-    }
-    #endif
-    
-    var tags = List<TagItem>()
-
-    override class func ignoredProperties() -> [String] {
-        return ["image", "title", "archived", "urlString"]
-    }
-    
-    override static func primaryKey() -> String {
-        return "uuid"
-    }
-    
-}
-
-class TagItem: Object {
+final public class TagItem: Object {
     
     class func normalize(nameString: String) -> String? {
         let lowerCase = nameString.lowercased()
@@ -122,7 +33,7 @@ class TagItem: Object {
     
     let items = LinkingObjects(fromType: URLItem.self, property: "tags")
     
-    override class func ignoredProperties() -> [String] {
+    override public class func ignoredProperties() -> [String] {
         return ["name"]
     }
     
@@ -135,6 +46,25 @@ struct RealmConfig {
         let tags = realm.objects(TagItem.self).sorted(byProperty: #keyPath(TagItem.normalizedName))
         return tags
     }
+    
+    static func urlItems(for selection: URLItem.Selection, sortOrder: URLItem.SortOrder) -> Results<URLItem> {
+        let realm = try! Realm()
+        let results: Results<URLItem>
+        switch selection {
+        case .unarchived:
+            let archived = URLItem.SortOrder.archived(archivedFirst: true).keyPath
+            results = sortOrder.sort(results: realm.objects(URLItem.self).filter("\(archived) = NO"))
+        case .all:
+            fatalError("finish testing sortorder")
+            let testSortorder = URLItem.SortOrder.pageTitle(aFirst: true)
+            results = testSortorder.sort(results: realm.objects(URLItem.self))
+        case .tag(let tagItem):
+            results = sortOrder.sort(results: tagItem.items)
+        }
+        return results
+    }
+    
+    
 //    #if os(OSX)
 //    private static let appGroupIdentifier = "V6ESYGU6CV.hipstapaper.appgroup"
 //    #else

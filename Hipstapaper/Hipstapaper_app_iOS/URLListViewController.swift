@@ -12,7 +12,7 @@ import UIKit
 
 class URLListViewController: UIViewController {
     
-    private var selection: URLItem.Selection = .unarchivedItems
+    private var selection: URLItem.Selection = .unarchived
     fileprivate var data: Results<URLItem>?
     
     fileprivate var selectedURLItems: [URLItem]? {
@@ -56,30 +56,20 @@ class URLListViewController: UIViewController {
         self.doneBBITapped(.none)
         self.updateBBIEnableState(itemsSelectedInTableView: false)
 
-        // configure data source
-        // also set title in same switch
-        let realm = try! Realm()
+        // set title
         switch self.selection {
-        case .unarchivedItems:
+        case .unarchived:
             self.title = "Hipstapaper"
-            let archived = #keyPath(URLItem.iArchived)
-            let creationDate = #keyPath(URLItem.creationDate)
-            let results = realm.objects(URLItem.self).filter("\(archived) = NO").sorted(byProperty: creationDate, ascending: false)
-            self.data = results
-            self.notificationToken = results.addNotificationBlock(self.realmResultsChangeClosure)
-        case .allItems:
+        case .all:
             self.title = "All Items"
-            let creationDate = #keyPath(URLItem.creationDate)
-            let results = realm.objects(URLItem.self).sorted(byProperty: creationDate, ascending: false)
-            self.data = results
-            self.notificationToken = results.addNotificationBlock(self.realmResultsChangeClosure)
         case .tag(let tagItem):
             self.title = "🏷 \(tagItem.name)"
-            let creationDate = #keyPath(URLItem.creationDate)
-            let sortedLinkedURLItems = tagItem.items.sorted(byProperty: creationDate, ascending: false)
-            self.data = sortedLinkedURLItems
-            self.notificationToken = sortedLinkedURLItems.addNotificationBlock(self.realmResultsChangeClosure)
         }
+        
+        // configure data source
+        let items = RealmConfig.urlItems(for: selection, sortOrder: URLItem.SortOrder.creationDate(newestFirst: false))
+        self.data = items
+        self.notificationToken = items.addNotificationBlock(self.realmResultsChangeClosure)
     }
     
     private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<URLItem>>) -> Void) = { [weak self] changes in
