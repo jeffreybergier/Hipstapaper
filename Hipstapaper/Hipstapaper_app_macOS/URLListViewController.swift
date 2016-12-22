@@ -43,7 +43,7 @@ class URLListViewController: NSViewController {
             self.title = "🏷 \(tagItem.name)"
         }
         
-        let items = RealmConfig.urlItems(for: selection, sortOrder: URLItem.SortOrder.creationDate(newestFirst: false))
+        let items = RealmConfig.urlItems(for: selection, sortOrder: URLItem.SortOrder.creationDate(newestFirst: true))
         self.notificationToken = items.addNotificationBlock(self.realmResultsChangeClosure)
     }
     

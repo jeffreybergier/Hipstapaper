@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3C25DBB11849E386BCE0BF82 /* Pods_Hipstapaper_app_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ADB5710C87750DA7C7B27B0 /* Pods_Hipstapaper_app_iOS.framework */; };
+		0914C41F4920ED538737F1AB /* Pods_Hipstapaper_share_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4085D0AC693E475829195329 /* Pods_Hipstapaper_share_iOS.framework */; };
 		5005E11E1DF4CB8300BA38E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5005E11D1DF4CB8300BA38E6 /* AppDelegate.swift */; };
 		5005E1251DF4CB8300BA38E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5005E1241DF4CB8300BA38E6 /* Assets.xcassets */; };
 		5005E1281DF4CB8300BA38E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5005E1261DF4CB8300BA38E6 /* LaunchScreen.storyboard */; };
@@ -69,10 +69,10 @@
 		50A1519A1E0A15EC00529048 /* URLItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A151981E0A15E700529048 /* URLItem.swift */; };
 		50A1519B1E0A15EC00529048 /* URLItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A151981E0A15E700529048 /* URLItem.swift */; };
 		50A1519C1E0A15ED00529048 /* URLItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A151981E0A15E700529048 /* URLItem.swift */; };
-		7B925E1374439673AE6DE605 /* Pods_Hipstapaper_app_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDEE288ACED43638DCCA7E5 /* Pods_Hipstapaper_app_macOS.framework */; };
-		D7C45B95C7970435FAA4D16F /* Pods_Hipstapaper_app_macOS_tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2341904E1E8ADC7BBCD7DCA5 /* Pods_Hipstapaper_app_macOS_tests.framework */; };
-		DB2C86B960F3C4DA28D927B6 /* Pods_Hipstapaper_share_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA11184CC9FB51BA4AEC8F6A /* Pods_Hipstapaper_share_macOS.framework */; };
-		ED92425E14BAA06CE5EF9CF9 /* Pods_Hipstapaper_share_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 221274166E2AE1FDA3454DDD /* Pods_Hipstapaper_share_iOS.framework */; };
+		5E9C66014BDD4E02FF7F81C6 /* Pods_Hipstapaper_app_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3D2DD77CB9D5A347E5437DC /* Pods_Hipstapaper_app_macOS.framework */; };
+		788A5B0BAB0BD900154003C7 /* Pods_Hipstapaper_share_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CB6943C88B413376B7CA9A2 /* Pods_Hipstapaper_share_macOS.framework */; };
+		9D102F8F95FB34D89CD333CB /* Pods_Hipstapaper_app_macOS_tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A5E0FB29CA3E37282CDAD7E /* Pods_Hipstapaper_app_macOS_tests.framework */; };
+		C990EFB408703A127EA0D6FE /* Pods_Hipstapaper_app_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC7EC0494E552F3F13C3ABC7 /* Pods_Hipstapaper_app_iOS.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -154,14 +154,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0F9906E02471867C24DD6B59 /* Pods-Hipstapaper_app_macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_app_macOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_app_macOS/Pods-Hipstapaper_app_macOS.release.xcconfig"; sourceTree = "<group>"; };
-		17D579F1FCCB8F8F23C54C0A /* Pods-Hipstapaper_share_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_share_iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_share_iOS/Pods-Hipstapaper_share_iOS.debug.xcconfig"; sourceTree = "<group>"; };
-		1BDEE288ACED43638DCCA7E5 /* Pods_Hipstapaper_app_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hipstapaper_app_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		221274166E2AE1FDA3454DDD /* Pods_Hipstapaper_share_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hipstapaper_share_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2341904E1E8ADC7BBCD7DCA5 /* Pods_Hipstapaper_app_macOS_tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hipstapaper_app_macOS_tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		312F87770E8073F962B415BF /* Pods-Hipstapaper_app_macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_app_macOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_app_macOS/Pods-Hipstapaper_app_macOS.debug.xcconfig"; sourceTree = "<group>"; };
-		31CC11868525AD8BA16C43D8 /* Pods-Hipstapaper_share_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_share_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_share_iOS/Pods-Hipstapaper_share_iOS.release.xcconfig"; sourceTree = "<group>"; };
-		4ADB5710C87750DA7C7B27B0 /* Pods_Hipstapaper_app_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hipstapaper_app_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		131885BD692AB1C7D6BE976C /* Pods-Hipstapaper_share_macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_share_macOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_share_macOS/Pods-Hipstapaper_share_macOS.release.xcconfig"; sourceTree = "<group>"; };
+		1A5E0FB29CA3E37282CDAD7E /* Pods_Hipstapaper_app_macOS_tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hipstapaper_app_macOS_tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4085D0AC693E475829195329 /* Pods_Hipstapaper_share_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hipstapaper_share_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4AF826E7F84AD8AFE4E01FD3 /* Pods-Hipstapaper_share_macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_share_macOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_share_macOS/Pods-Hipstapaper_share_macOS.debug.xcconfig"; sourceTree = "<group>"; };
 		5005E11B1DF4CB8300BA38E6 /* Hipstapaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hipstapaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5005E11D1DF4CB8300BA38E6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5005E1241DF4CB8300BA38E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -191,6 +187,7 @@
 		504A3A391DF924D300EA46A9 /* URLItemSavingShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLItemSavingShareViewController.xib; sourceTree = "<group>"; };
 		504FC0FA1DFA444A0014C787 /* URLTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLTableViewCell.swift; sourceTree = "<group>"; };
 		504FC0FB1DFA444A0014C787 /* URLTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLTableViewCell.xib; sourceTree = "<group>"; };
+		5056F7C466AAFEC30C373DBA /* Pods-Hipstapaper_app_macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_app_macOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_app_macOS/Pods-Hipstapaper_app_macOS.release.xcconfig"; sourceTree = "<group>"; };
 		505B30491DEA698300B74AE6 /* URLItemWebViewWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemWebViewWindowController.swift; sourceTree = "<group>"; };
 		505B304A1DEA698300B74AE6 /* URLItemWebViewWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLItemWebViewWindowController.xib; sourceTree = "<group>"; };
 		505B79BE1E0B924C007BB364 /* URLItemSavingShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemSavingShareViewController.swift; sourceTree = "<group>"; };
@@ -213,13 +210,16 @@
 		50A151781E077D8000529048 /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		50A151981E0A15E700529048 /* URLItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItem.swift; sourceTree = "<group>"; };
 		50FA3BFA1DF4F3A400551325 /* Hipstapaper_app_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper_app_iOS.entitlements; sourceTree = "<group>"; };
-		5F5607C3D1AADF714AEE2FF5 /* Pods-Hipstapaper_app_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_app_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_app_iOS/Pods-Hipstapaper_app_iOS.release.xcconfig"; sourceTree = "<group>"; };
-		772E470017AD0F1E333190B8 /* Pods-Hipstapaper_app_macOS_tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_app_macOS_tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_app_macOS_tests/Pods-Hipstapaper_app_macOS_tests.debug.xcconfig"; sourceTree = "<group>"; };
-		96BCB77C312C3D133C1BED30 /* Pods-Hipstapaper_share_macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_share_macOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_share_macOS/Pods-Hipstapaper_share_macOS.release.xcconfig"; sourceTree = "<group>"; };
-		A98FBC488BA4562A405387EA /* Pods-Hipstapaper_app_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_app_iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_app_iOS/Pods-Hipstapaper_app_iOS.debug.xcconfig"; sourceTree = "<group>"; };
-		AACBF173F219E24789BD434F /* Pods-Hipstapaper_app_macOS_tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_app_macOS_tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_app_macOS_tests/Pods-Hipstapaper_app_macOS_tests.release.xcconfig"; sourceTree = "<group>"; };
-		B482876BD6356C817942A97C /* Pods-Hipstapaper_share_macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_share_macOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_share_macOS/Pods-Hipstapaper_share_macOS.debug.xcconfig"; sourceTree = "<group>"; };
-		CA11184CC9FB51BA4AEC8F6A /* Pods_Hipstapaper_share_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hipstapaper_share_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5CB6943C88B413376B7CA9A2 /* Pods_Hipstapaper_share_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hipstapaper_share_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		814151236C89B4999E280264 /* Pods-Hipstapaper_app_macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_app_macOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_app_macOS/Pods-Hipstapaper_app_macOS.debug.xcconfig"; sourceTree = "<group>"; };
+		AC7EC0494E552F3F13C3ABC7 /* Pods_Hipstapaper_app_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hipstapaper_app_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B09453E8C403CE02801893DA /* Pods-Hipstapaper_app_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_app_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_app_iOS/Pods-Hipstapaper_app_iOS.release.xcconfig"; sourceTree = "<group>"; };
+		B3D2DD77CB9D5A347E5437DC /* Pods_Hipstapaper_app_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hipstapaper_app_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B5FF83A8269DB97FBE6DA94E /* Pods-Hipstapaper_app_macOS_tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_app_macOS_tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_app_macOS_tests/Pods-Hipstapaper_app_macOS_tests.release.xcconfig"; sourceTree = "<group>"; };
+		CA9C8B0B33A17F8046D7F2E3 /* Pods-Hipstapaper_share_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_share_iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_share_iOS/Pods-Hipstapaper_share_iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		D0C3DC113055931F4E942CC6 /* Pods-Hipstapaper_app_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_app_iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_app_iOS/Pods-Hipstapaper_app_iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		D34402E13AF12811433DB0BA /* Pods-Hipstapaper_share_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_share_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_share_iOS/Pods-Hipstapaper_share_iOS.release.xcconfig"; sourceTree = "<group>"; };
+		F1531B563EFDD9945E57D468 /* Pods-Hipstapaper_app_macOS_tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_app_macOS_tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_app_macOS_tests/Pods-Hipstapaper_app_macOS_tests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,7 +227,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3C25DBB11849E386BCE0BF82 /* Pods_Hipstapaper_app_iOS.framework in Frameworks */,
+				C990EFB408703A127EA0D6FE /* Pods_Hipstapaper_app_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,7 +235,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ED92425E14BAA06CE5EF9CF9 /* Pods_Hipstapaper_share_iOS.framework in Frameworks */,
+				0914C41F4920ED538737F1AB /* Pods_Hipstapaper_share_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,7 +243,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB2C86B960F3C4DA28D927B6 /* Pods_Hipstapaper_share_macOS.framework in Frameworks */,
+				788A5B0BAB0BD900154003C7 /* Pods_Hipstapaper_share_macOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,7 +251,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7C45B95C7970435FAA4D16F /* Pods_Hipstapaper_app_macOS_tests.framework in Frameworks */,
+				9D102F8F95FB34D89CD333CB /* Pods_Hipstapaper_app_macOS_tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,7 +259,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7B925E1374439673AE6DE605 /* Pods_Hipstapaper_app_macOS.framework in Frameworks */,
+				5E9C66014BDD4E02FF7F81C6 /* Pods_Hipstapaper_app_macOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,23 +298,6 @@
 				501EC2591DF4E71D003577DA /* Hipstapaper_share_iOS.entitlements */,
 			);
 			path = Hipstapaper_share_iOS;
-			sourceTree = "<group>";
-		};
-		501A7FBED9E704E2C256A0C2 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				A98FBC488BA4562A405387EA /* Pods-Hipstapaper_app_iOS.debug.xcconfig */,
-				5F5607C3D1AADF714AEE2FF5 /* Pods-Hipstapaper_app_iOS.release.xcconfig */,
-				312F87770E8073F962B415BF /* Pods-Hipstapaper_app_macOS.debug.xcconfig */,
-				0F9906E02471867C24DD6B59 /* Pods-Hipstapaper_app_macOS.release.xcconfig */,
-				772E470017AD0F1E333190B8 /* Pods-Hipstapaper_app_macOS_tests.debug.xcconfig */,
-				AACBF173F219E24789BD434F /* Pods-Hipstapaper_app_macOS_tests.release.xcconfig */,
-				17D579F1FCCB8F8F23C54C0A /* Pods-Hipstapaper_share_iOS.debug.xcconfig */,
-				31CC11868525AD8BA16C43D8 /* Pods-Hipstapaper_share_iOS.release.xcconfig */,
-				B482876BD6356C817942A97C /* Pods-Hipstapaper_share_macOS.debug.xcconfig */,
-				96BCB77C312C3D133C1BED30 /* Pods-Hipstapaper_share_macOS.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		502C7F4B1DF0E4D5004E70AB /* Hipstapaper_share_macOS */ = {
@@ -380,8 +363,8 @@
 				50432EF11E048BCB00D9C3D5 /* Hipstapaper_realm */,
 				50420FF61E0B1EBE00B237DA /* Hipstapaper_app_macOS_tests */,
 				506A3F051DD6C10C00A5656E /* Products */,
-				501A7FBED9E704E2C256A0C2 /* Pods */,
-				7630397FAC76AD504205E3ED /* Frameworks */,
+				B579FF16CFA36EB53FDB23CC /* Pods */,
+				B0D8C9ED50F58BBA234372F0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -414,16 +397,33 @@
 			path = Hipstapaper_app_macOS;
 			sourceTree = "<group>";
 		};
-		7630397FAC76AD504205E3ED /* Frameworks */ = {
+		B0D8C9ED50F58BBA234372F0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4ADB5710C87750DA7C7B27B0 /* Pods_Hipstapaper_app_iOS.framework */,
-				1BDEE288ACED43638DCCA7E5 /* Pods_Hipstapaper_app_macOS.framework */,
-				2341904E1E8ADC7BBCD7DCA5 /* Pods_Hipstapaper_app_macOS_tests.framework */,
-				221274166E2AE1FDA3454DDD /* Pods_Hipstapaper_share_iOS.framework */,
-				CA11184CC9FB51BA4AEC8F6A /* Pods_Hipstapaper_share_macOS.framework */,
+				AC7EC0494E552F3F13C3ABC7 /* Pods_Hipstapaper_app_iOS.framework */,
+				B3D2DD77CB9D5A347E5437DC /* Pods_Hipstapaper_app_macOS.framework */,
+				1A5E0FB29CA3E37282CDAD7E /* Pods_Hipstapaper_app_macOS_tests.framework */,
+				4085D0AC693E475829195329 /* Pods_Hipstapaper_share_iOS.framework */,
+				5CB6943C88B413376B7CA9A2 /* Pods_Hipstapaper_share_macOS.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B579FF16CFA36EB53FDB23CC /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D0C3DC113055931F4E942CC6 /* Pods-Hipstapaper_app_iOS.debug.xcconfig */,
+				B09453E8C403CE02801893DA /* Pods-Hipstapaper_app_iOS.release.xcconfig */,
+				814151236C89B4999E280264 /* Pods-Hipstapaper_app_macOS.debug.xcconfig */,
+				5056F7C466AAFEC30C373DBA /* Pods-Hipstapaper_app_macOS.release.xcconfig */,
+				F1531B563EFDD9945E57D468 /* Pods-Hipstapaper_app_macOS_tests.debug.xcconfig */,
+				B5FF83A8269DB97FBE6DA94E /* Pods-Hipstapaper_app_macOS_tests.release.xcconfig */,
+				CA9C8B0B33A17F8046D7F2E3 /* Pods-Hipstapaper_share_iOS.debug.xcconfig */,
+				D34402E13AF12811433DB0BA /* Pods-Hipstapaper_share_iOS.release.xcconfig */,
+				4AF826E7F84AD8AFE4E01FD3 /* Pods-Hipstapaper_share_macOS.debug.xcconfig */,
+				131885BD692AB1C7D6BE976C /* Pods-Hipstapaper_share_macOS.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1031,7 +1031,7 @@
 /* Begin XCBuildConfiguration section */
 		5005E1351DF4CB8300BA38E6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A98FBC488BA4562A405387EA /* Pods-Hipstapaper_app_iOS.debug.xcconfig */;
+			baseConfigurationReference = D0C3DC113055931F4E942CC6 /* Pods-Hipstapaper_app_iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Hipstapaper_app_iOS/Hipstapaper_app_iOS.entitlements;
@@ -1050,7 +1050,7 @@
 		};
 		5005E1361DF4CB8300BA38E6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5F5607C3D1AADF714AEE2FF5 /* Pods-Hipstapaper_app_iOS.release.xcconfig */;
+			baseConfigurationReference = B09453E8C403CE02801893DA /* Pods-Hipstapaper_app_iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Hipstapaper_app_iOS/Hipstapaper_app_iOS.entitlements;
@@ -1070,7 +1070,7 @@
 		};
 		5005E14B1DF4CC2600BA38E6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 17D579F1FCCB8F8F23C54C0A /* Pods-Hipstapaper_share_iOS.debug.xcconfig */;
+			baseConfigurationReference = CA9C8B0B33A17F8046D7F2E3 /* Pods-Hipstapaper_share_iOS.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Hipstapaper_share_iOS/Hipstapaper_share_iOS.entitlements;
@@ -1090,7 +1090,7 @@
 		};
 		5005E14C1DF4CC2600BA38E6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 31CC11868525AD8BA16C43D8 /* Pods-Hipstapaper_share_iOS.release.xcconfig */;
+			baseConfigurationReference = D34402E13AF12811433DB0BA /* Pods-Hipstapaper_share_iOS.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Hipstapaper_share_iOS/Hipstapaper_share_iOS.entitlements;
@@ -1110,7 +1110,7 @@
 		};
 		502C7F591DF0E4D5004E70AB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B482876BD6356C817942A97C /* Pods-Hipstapaper_share_macOS.debug.xcconfig */;
+			baseConfigurationReference = 4AF826E7F84AD8AFE4E01FD3 /* Pods-Hipstapaper_share_macOS.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Hipstapaper_share_macOS/Hipstapaper_share_macOS.entitlements;
@@ -1129,7 +1129,7 @@
 		};
 		502C7F5A1DF0E4D5004E70AB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 96BCB77C312C3D133C1BED30 /* Pods-Hipstapaper_share_macOS.release.xcconfig */;
+			baseConfigurationReference = 131885BD692AB1C7D6BE976C /* Pods-Hipstapaper_share_macOS.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Hipstapaper_share_macOS/Hipstapaper_share_macOS.entitlements;
@@ -1147,7 +1147,7 @@
 		};
 		50420FFD1E0B1EBE00B237DA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 772E470017AD0F1E333190B8 /* Pods-Hipstapaper_app_macOS_tests.debug.xcconfig */;
+			baseConfigurationReference = F1531B563EFDD9945E57D468 /* Pods-Hipstapaper_app_macOS_tests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "Mac Developer";
@@ -1165,7 +1165,7 @@
 		};
 		50420FFE1E0B1EBE00B237DA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AACBF173F219E24789BD434F /* Pods-Hipstapaper_app_macOS_tests.release.xcconfig */;
+			baseConfigurationReference = B5FF83A8269DB97FBE6DA94E /* Pods-Hipstapaper_app_macOS_tests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "Mac Developer";
@@ -1271,7 +1271,7 @@
 		};
 		506A3F121DD6C10D00A5656E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 312F87770E8073F962B415BF /* Pods-Hipstapaper_app_macOS.debug.xcconfig */;
+			baseConfigurationReference = 814151236C89B4999E280264 /* Pods-Hipstapaper_app_macOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Hipstapaper_app_macOS/Hipstapaper_app_macOS.entitlements;
@@ -1289,7 +1289,7 @@
 		};
 		506A3F131DD6C10D00A5656E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0F9906E02471867C24DD6B59 /* Pods-Hipstapaper_app_macOS.release.xcconfig */;
+			baseConfigurationReference = 5056F7C466AAFEC30C373DBA /* Pods-Hipstapaper_app_macOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Hipstapaper_app_macOS/Hipstapaper_app_macOS.entitlements;

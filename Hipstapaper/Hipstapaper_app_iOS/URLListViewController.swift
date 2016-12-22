@@ -67,7 +67,7 @@ class URLListViewController: UIViewController {
         }
         
         // configure data source
-        let items = RealmConfig.urlItems(for: selection, sortOrder: URLItem.SortOrder.creationDate(newestFirst: false))
+        let items = RealmConfig.urlItems(for: selection, sortOrder: URLItem.SortOrder.creationDate(newestFirst: true))
         self.data = items
         self.notificationToken = items.addNotificationBlock(self.realmResultsChangeClosure)
     }
