@@ -36,9 +36,9 @@ extension URLItem {
         
         case creationDate(newestFirst: Bool)
         case modificationDate(newestFirst: Bool)
-        case pageTitle(aFirst: Bool)
+//        case pageTitle(aFirst: Bool) // sorting on key paths not possible yet
+//        case tagCount(mostFirst: Bool) // sorting on key paths not possible yet
         case urlString(aFirst: Bool)
-        case tagCount(mostFirst: Bool)
         case archived(archivedFirst: Bool)
         
         var keyPath: String {
@@ -47,12 +47,12 @@ extension URLItem {
                 return #keyPath(URLItem.creationDate)
             case .modificationDate:
                 return #keyPath(URLItem.modificationDate)
-            case .pageTitle:
-                return #keyPath(URLItem.extras.pageTitle)
+//            case .pageTitle:
+//                return #keyPath(URLItem.extras.pageTitle)
             case .urlString:
                 return #keyPath(URLItem.urlString)
-            case .tagCount:
-                return "tags.count" //#keyPath(URLItem.tags.count)
+//            case .tagCount:
+//                return "tags.count" //#keyPath(URLItem.tags.count)
             case .archived:
                 return #keyPath(URLItem.archived)
             }
@@ -64,14 +64,14 @@ extension URLItem {
                 return !newestFirst
             case .modificationDate(let newestFirst):
                 return !newestFirst
-            case .pageTitle(let aFirst):
-                return !aFirst
+//            case .pageTitle(let aFirst):
+//                return !aFirst
             case .urlString(let aFirst):
                 return aFirst
-            case .tagCount(let mostFirst):
-                return !mostFirst
+//            case .tagCount(let mostFirst):
+//                return !mostFirst
             case .archived(let archivedFirst):
-                return archivedFirst
+                return !archivedFirst
             }
         }
         

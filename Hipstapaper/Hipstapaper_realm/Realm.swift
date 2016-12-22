@@ -25,9 +25,7 @@ struct RealmConfig {
             let archived = URLItem.SortOrder.archived(archivedFirst: true).keyPath
             results = sortOrder.sort(results: realm.objects(URLItem.self).filter("\(archived) = NO"))
         case .all:
-            fatalError("finish testing sortorder")
-            let testSortorder = URLItem.SortOrder.pageTitle(aFirst: true)
-            results = testSortorder.sort(results: realm.objects(URLItem.self))
+            results = sortOrder.sort(results: realm.objects(URLItem.self))
         case .tag(let tagItem):
             results = sortOrder.sort(results: tagItem.items)
         }
