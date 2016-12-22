@@ -67,7 +67,7 @@ extension URLItem {
             case .pageTitle(let aFirst):
                 return !aFirst
             case .urlString(let aFirst):
-                return !aFirst
+                return aFirst
             case .tagCount(let mostFirst):
                 return !mostFirst
             case .archived(let archivedFirst):
