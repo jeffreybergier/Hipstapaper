@@ -9,6 +9,8 @@
 import RealmSwift
 import AppKit
 
+extension NSArrayController: KVOCapable {}
+
 extension NSArrayController {
     var selectedURLItems: [URLItem]? {
         let selectedItems = self.selectedObjects.map({ $0 as? URLItem }).flatMap({ $0 })
@@ -19,9 +21,25 @@ extension NSArrayController {
 class URLListViewController: NSViewController {
     
     @IBOutlet weak var arrayController: NSArrayController?
-    fileprivate var selection: URLItem.Selection?
+    fileprivate var querySelection: URLItem.Selection?
+    private lazy var selectionObserver: KeyValueObserver<NSNull> = KeyValueObserver<NSNull>(target: self.arrayController!, keyPath: #keyPath(NSArrayController.selectionIndexes))
     
     fileprivate var openWindowsControllers = [URLItem : NSWindowController]()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // Start monitoring table selection
+        // primarily to enable / disable toolbar buttons
+        self.selectionObserver.startObserving() { [weak self] _ -> NSNull? in
+            if let selectedItems = self?.arrayController?.selectedURLItems {
+                // enable buttons
+            } else {
+                // disable buttons
+            }
+            return nil
+        }
+    }
     
     // MARK: Reload Data
     
@@ -31,7 +49,7 @@ class URLListViewController: NSViewController {
         self.notificationToken = .none
         self.arrayController?.content = []
         
-        guard let selection = self.selection else { return }
+        guard let selection = self.querySelection else { return }
         
         // now ask realm for new data and give it our closure to get updates
         switch selection {
@@ -101,6 +119,20 @@ class URLListViewController: NSViewController {
         }
     }
     
+    // MARK: Handle Toolbar First Responder Methods
+    
+    @objc func archiveSelected(_ sender: NSObject?) {
+    
+    }
+    
+    @objc func unarchiveSelected(_ sender: NSObject?) {
+    
+    }
+    
+    override func validateToolbarItem(_ item: NSToolbarItem) -> Bool {
+        return false
+    }
+    
     // MARK: Handle Opening / Bringing to Front Windows
     
     private func openOrBringFrontWindowControllers(for items: [URLItem]) {
@@ -136,7 +168,7 @@ fileprivate extension UInt16 {
 
 extension URLListViewController: URLItemSelectionReceivable {
     func didSelect(_ selection: URLItem.Selection, from: NSOutlineView?) {
-        self.selection = selection
+        self.querySelection = selection
         self.hardReloadData()
     }
 }
