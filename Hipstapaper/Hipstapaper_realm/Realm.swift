@@ -53,18 +53,18 @@ struct RealmConfig {
         }
     }
     
-    static func state(of tagItem: TagItem, with items: [URLItem]) -> NSCellStateValue {
+    static func state(of tagItem: TagItem, with items: [URLItem]) -> CheckboxState {
         let matches = items.map({ $0.tags.index(of: tagItem) }).flatMap({ $0 })
         if matches.count == items.count {
             // this means all items have this tag
-            return NSCellStateValue.NSOnState
+            return .on
         } else {
             if matches.isEmpty {
                 // this means that none of the items have this tag
-                return NSCellStateValue.NSOffState
+                return .off
             } else {
                 // this means we're mixed. Some items have the tag and some don't
-                return NSCellStateValue.NSMixedState
+                return .mixed
             }
         }
     }

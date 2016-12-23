@@ -8,24 +8,22 @@
 
 import Foundation
 
-#if os(iOS)
-    enum NSCellStateValue: Int {
-        case NSMixedState = -1
-        case NSOffState = 0
-        case NSOnState = 1
-        
-        var boolValue: Bool {
-            switch self {
-            case .NSOnState, .NSMixedState:
-                return true
-            case .NSOffState:
-                return false
-            }
+enum CheckboxState: Int {
+    case mixed = -1
+    case off = 0
+    case on = 1
+    
+    var boolValue: Bool {
+        switch self {
+        case .on, .mixed:
+            return true
+        case .off:
+            return false
         }
     }
-    
+}
 
-#endif
+
 
 public extension String {
     public init(urlStringFromRawString rawString: String) {
