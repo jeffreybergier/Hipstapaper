@@ -8,6 +8,25 @@
 
 import Foundation
 
+#if os(iOS)
+    enum NSCellStateValue: Int {
+        case NSMixedState = -1
+        case NSOffState = 0
+        case NSOnState = 1
+        
+        var boolValue: Bool {
+            switch self {
+            case .NSOnState, .NSMixedState:
+                return true
+            case .NSOffState:
+                return false
+            }
+        }
+    }
+    
+
+#endif
+
 public extension String {
     public init(urlStringFromRawString rawString: String) {
         var components = URLComponents(string: rawString)

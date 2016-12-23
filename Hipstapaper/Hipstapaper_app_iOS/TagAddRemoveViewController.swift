@@ -81,17 +81,8 @@ class TagAddRemoveViewController: UIViewController {
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: .none)
         let addAction = UIAlertAction(title: "Add", style: .default) { action in
             let newName = alertVC.textFields?.map({ $0.text }).flatMap({ $0 }).first ?? ""
-            guard let normalizedNewName = TagItem.normalize(nameString: newName) else { return }
-            let existingTagFound = !(self.tags?.filter("\(#keyPath(TagItem.name)) = '\(normalizedNewName)'").isEmpty ?? true)
-            if existingTagFound == false {
-                let realm = try! Realm()
-                realm.beginWrite()
-                let newTag = TagItem()
-                let _ = newTag.name = normalizedNewName
-                realm.add(newTag)
-                self.changeTagApplication(true, on: newTag, withEditingRealm: realm)
-                try! realm.commitWrite()
-            }
+            let tag = RealmConfig.newOrExistingTag(proposedName: newName)
+            RealmConfig.apply(tag: tag, to: self.selectedItems)
         }
         alertVC.addAction(cancelAction)
         alertVC.addAction(addAction)
@@ -107,31 +98,14 @@ class TagAddRemoveViewController: UIViewController {
 
 extension TagAddRemoveViewController: TagApplicationChangeDelegate {
     
-    fileprivate func changeTagApplication(_ newValue: Bool, on tagItem: TagItem, withEditingRealm realm: Realm) {
-        let urlItems = self.selectedItems
-        for urlItem in urlItems {
-            if newValue == true {
-                guard urlItem.tags.index(of: tagItem) == nil else { continue }
-                urlItem.tags.append(tagItem)
-                urlItem.modificationDate = Date()
-                let name = tagItem.name
-                tagItem.name = name // hack to trigger Realm change notification
-            } else {
-                guard let index = urlItem.tags.index(of: tagItem) else { continue }
-                urlItem.tags.remove(objectAtIndex: index)
-                urlItem.modificationDate = Date()
-                let name = tagItem.name
-                tagItem.name = name // hack to trigger Realm change notification
-            }
-        }
-    }
-    
     func didChangeTagApplication(_ newValue: Bool, sender: UITableViewCell) {
         guard let indexPath = self.tableView?.indexPath(for: sender), let tagItem = self.tags?[indexPath.row] else { return }
-        let realm = try! Realm()
-        realm.beginWrite()
-        self.changeTagApplication(newValue, on: tagItem, withEditingRealm: realm)
-        try! realm.commitWrite()
+        switch newValue {
+        case true:
+            RealmConfig.apply(tag: tagItem, to: self.selectedItems)
+        case false:
+            RealmConfig.remove(tag: tagItem, from: self.selectedItems)
+        }
     }
 }
 
@@ -151,32 +125,22 @@ extension TagAddRemoveViewController: UITableViewDataSource {
         return self.tags?.count ?? 0
     }
     
-    private func atLeastOneSelectedItemReferences(tag tagItem: TagItem) -> Bool {
-        for urlItem in self.selectedItems {
-            guard let _ = urlItem.tags.index(of: tagItem) else { continue }
-            return true
-        }
-        return false
-    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TagAddRemoveTableViewCell.nibName, for: indexPath)
         if let cell = cell as? TagAddRemoveTableViewCell, let tagItem = self.tags?[indexPath.row] {
             cell.tagNameLabel?.text = tagItem.name
-            cell.tagSwitch?.isOn = self.atLeastOneSelectedItemReferences(tag: tagItem)
+            let state = RealmConfig.state(of: tagItem, with: self.selectedItems)
+            cell.tagSwitch?.isOn = state.boolValue
             cell.delegate = self
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        guard let tagItem = self.tags?[indexPath.row] else { return }
         switch editingStyle {
         case .delete:
-            let realm = try! Realm()
-            realm.beginWrite()
-            realm.delete(tagItem)
-            try! realm.commitWrite()
+            guard let tagItem = self.tags?[indexPath.row] else { return }
+            RealmConfig.delete(items: [tagItem])
         case .insert, .none:
             break
         }

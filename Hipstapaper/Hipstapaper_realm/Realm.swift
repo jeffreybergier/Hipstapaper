@@ -37,6 +37,71 @@ struct RealmConfig {
         return !filtered.isEmpty
     }
     
+    static func newOrExistingTag(proposedName: String) -> TagItem {
+        let normalizedName = TagItem.normalize(nameString: proposedName)
+        let realm = try! Realm()
+        let existingItem = realm.objects(TagItem.self).filter({ TagItem.normalize(nameString: $0.name) == normalizedName }).first
+        if let existingItem = existingItem {
+            return existingItem
+        } else {
+            realm.beginWrite()
+            let newItem = TagItem()
+            newItem.name = proposedName
+            realm.add(newItem)
+            try! realm.commitWrite()
+            return newItem
+        }
+    }
+    
+    static func state(of tagItem: TagItem, with items: [URLItem]) -> NSCellStateValue {
+        let matches = items.map({ $0.tags.index(of: tagItem) }).flatMap({ $0 })
+        if matches.count == items.count {
+            // this means all items have this tag
+            return NSCellStateValue.NSOnState
+        } else {
+            if matches.isEmpty {
+                // this means that none of the items have this tag
+                return NSCellStateValue.NSOffState
+            } else {
+                // this means we're mixed. Some items have the tag and some don't
+                return NSCellStateValue.NSMixedState
+            }
+        }
+    }
+    
+    static func apply(tag tagItem: TagItem, to items: [URLItem]) {
+        let realm = try! Realm()
+        realm.beginWrite()
+        for urlItem in items {
+            guard urlItem.tags.index(of: tagItem) == nil else { continue }
+            urlItem.tags.append(tagItem)
+            let tagItemName = tagItem.name
+            tagItem.name = tagItemName // hack to trigger change notification on the TagItem so tables reload in the UI
+        }
+        try! realm.commitWrite()
+    }
+    
+    static func remove(tag tagItem: TagItem, from items: [URLItem]) {
+        let realm = try! Realm()
+        realm.beginWrite()
+        for urlItem in items {
+            guard let index = urlItem.tags.index(of: tagItem) else { continue }
+            urlItem.tags.remove(objectAtIndex: index)
+            let tagItemName = tagItem.name
+            tagItem.name = tagItemName // hack to trigger change notification on the TagItem so tables reload in the UI
+        }
+        try! realm.commitWrite()
+    }
+    
+    static func delete(items: [TagItem]) {
+        let realm = try! Realm()
+        realm.beginWrite()
+        for item in items {
+            realm.delete(item)
+        }
+        try! realm.commitWrite()
+    }
+    
     static func updateArchived(to archived: Bool, on items: [URLItem]) {
         let realm = try! Realm()
         realm.beginWrite()
