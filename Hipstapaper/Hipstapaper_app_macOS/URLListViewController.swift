@@ -26,26 +26,9 @@ fileprivate extension NSToolbarItem {
 
 class URLListViewController: NSViewController {
     
-    @IBOutlet weak var arrayController: NSArrayController?
+    @IBOutlet private weak var arrayController: NSArrayController?
     fileprivate var querySelection: URLItem.Selection?
-    private lazy var selectionObserver: KeyValueObserver<NSNull> = KeyValueObserver<NSNull>(target: self.arrayController!, keyPath: #keyPath(NSArrayController.selectionIndexes))
-    
     fileprivate var openWindowsControllers = [URLItem : NSWindowController]()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // Start monitoring table selection
-        // primarily to enable / disable toolbar buttons
-        self.selectionObserver.startObserving() { [weak self] _ -> NSNull? in
-            if let selectedItems = self?.arrayController?.selectedURLItems {
-                // enable buttons
-            } else {
-                // disable buttons
-            }
-            return nil
-        }
-    }
     
     // MARK: Reload Data
     
@@ -128,11 +111,13 @@ class URLListViewController: NSViewController {
     // MARK: Handle Toolbar First Responder Methods
     
     @objc private func archiveSelected(_ sender: NSObject?) {
-    
+        guard let selectedItems = self.arrayController?.selectedURLItems else { return }
+        RealmConfig.updateArchived(to: true, on: selectedItems)
     }
     
     @objc private func unarchiveSelected(_ sender: NSObject?) {
-    
+        guard let selectedItems = self.arrayController?.selectedURLItems else { return }
+        RealmConfig.updateArchived(to: false, on: selectedItems)
     }
     
     @objc private func tagSelected(_ sender: NSObject?) {
@@ -148,9 +133,9 @@ class URLListViewController: NSViewController {
         guard let selectedItems = self.arrayController?.selectedURLItems else { return false }
         switch kind {
         case .unarchive:
-            return !selectedItems.isEmpty
+            return RealmConfig.atLeastOneItem(in: selectedItems, canBeArchived: false)
         case .archive:
-            return !selectedItems.isEmpty
+            return RealmConfig.atLeastOneItem(in: selectedItems, canBeArchived: true)
         case .tag:
             return !selectedItems.isEmpty
         case .share:

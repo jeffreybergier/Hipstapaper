@@ -32,6 +32,20 @@ struct RealmConfig {
         return results
     }
     
+    static func atLeastOneItem(in items: [URLItem], canBeArchived: Bool) -> Bool {
+        let filtered = items.filter({ $0.archived != canBeArchived })
+        return !filtered.isEmpty
+    }
+    
+    static func updateArchived(to archived: Bool, on items: [URLItem]) {
+        let realm = try! Realm()
+        realm.beginWrite()
+        for item in items {
+            item.archived = archived
+        }
+        try! realm.commitWrite()
+    }
+    
     
 //    #if os(OSX)
 //    private static let appGroupIdentifier = "V6ESYGU6CV.hipstapaper.appgroup"
