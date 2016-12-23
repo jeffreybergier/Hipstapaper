@@ -11,10 +11,16 @@ import AppKit
 
 extension NSArrayController: KVOCapable {}
 
-extension NSArrayController {
-    var selectedURLItems: [URLItem]? {
+fileprivate extension NSArrayController {
+    fileprivate var selectedURLItems: [URLItem]? {
         let selectedItems = self.selectedObjects.map({ $0 as? URLItem }).flatMap({ $0 })
         if selectedItems.isEmpty { return .none } else { return selectedItems }
+    }
+}
+
+fileprivate extension NSToolbarItem {
+    fileprivate enum Kind: Int {
+        case unarchive = 1, archive, tag, share
     }
 }
 
@@ -121,16 +127,35 @@ class URLListViewController: NSViewController {
     
     // MARK: Handle Toolbar First Responder Methods
     
-    @objc func archiveSelected(_ sender: NSObject?) {
+    @objc private func archiveSelected(_ sender: NSObject?) {
     
     }
     
-    @objc func unarchiveSelected(_ sender: NSObject?) {
+    @objc private func unarchiveSelected(_ sender: NSObject?) {
     
     }
     
-    override func validateToolbarItem(_ item: NSToolbarItem) -> Bool {
-        return false
+    @objc private func tagSelected(_ sender: NSObject?) {
+        
+    }
+    
+    @objc private func shareSelected(_ sender: NSObject?) {
+        
+    }
+    
+    override func validateToolbarItem(_ item: NSObject?) -> Bool {
+        guard let item = item as? NSToolbarItem, let kind = NSToolbarItem.Kind(rawValue: item.tag) else { return false }
+        guard let selectedItems = self.arrayController?.selectedURLItems else { return false }
+        switch kind {
+        case .unarchive:
+            return !selectedItems.isEmpty
+        case .archive:
+            return !selectedItems.isEmpty
+        case .tag:
+            return !selectedItems.isEmpty
+        case .share:
+            return !selectedItems.isEmpty
+        }
     }
     
     // MARK: Handle Opening / Bringing to Front Windows
