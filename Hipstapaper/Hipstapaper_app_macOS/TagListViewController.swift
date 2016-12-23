@@ -54,6 +54,7 @@ class TagListViewController: NSViewController {
         case .initial(let results):
             let content = TreeBindingObject.treeObjects(from: results)
             self?.treeController?.content = content
+            self?.treeController?.setSelectionIndexPaths([IndexPath(item: 0, section: 0)])
             self?.outlineView?.expandItem(.none, expandChildren: true)
         case .update(let results, _, _, _):
             let content = TreeBindingObject.treeObjects(from: results)

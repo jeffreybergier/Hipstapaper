@@ -39,6 +39,8 @@
 		50432EFE1E0AFF9400D9C3D5 /* URLItemExtras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50432EFC1E0AFF9400D9C3D5 /* URLItemExtras.swift */; };
 		50432EFF1E0AFF9400D9C3D5 /* URLItemExtras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50432EFC1E0AFF9400D9C3D5 /* URLItemExtras.swift */; };
 		50432F001E0AFF9400D9C3D5 /* URLItemExtras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50432EFC1E0AFF9400D9C3D5 /* URLItemExtras.swift */; };
+		5048AF0E1E0DA48600AC1B2D /* URLTaggingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5048AF0C1E0DA48600AC1B2D /* URLTaggingViewController.swift */; };
+		5048AF0F1E0DA48600AC1B2D /* URLTaggingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5048AF0D1E0DA48600AC1B2D /* URLTaggingViewController.xib */; };
 		504A3A3B1DF924D300EA46A9 /* URLItemSavingShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504A3A391DF924D300EA46A9 /* URLItemSavingShareViewController.xib */; };
 		504FC0FC1DFA444A0014C787 /* URLTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504FC0FA1DFA444A0014C787 /* URLTableViewCell.swift */; };
 		504FC0FD1DFA444A0014C787 /* URLTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504FC0FB1DFA444A0014C787 /* URLTableViewCell.xib */; };
@@ -185,6 +187,8 @@
 		50432EF21E048BF800D9C3D5 /* Realm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Realm.swift; sourceTree = "<group>"; };
 		50432EF71E048DF400D9C3D5 /* TempPassword.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TempPassword.swift; sourceTree = "<group>"; };
 		50432EFC1E0AFF9400D9C3D5 /* URLItemExtras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemExtras.swift; sourceTree = "<group>"; };
+		5048AF0C1E0DA48600AC1B2D /* URLTaggingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLTaggingViewController.swift; sourceTree = "<group>"; };
+		5048AF0D1E0DA48600AC1B2D /* URLTaggingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLTaggingViewController.xib; sourceTree = "<group>"; };
 		504A3A391DF924D300EA46A9 /* URLItemSavingShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLItemSavingShareViewController.xib; sourceTree = "<group>"; };
 		504FC0FA1DFA444A0014C787 /* URLTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLTableViewCell.swift; sourceTree = "<group>"; };
 		504FC0FB1DFA444A0014C787 /* URLTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLTableViewCell.xib; sourceTree = "<group>"; };
@@ -346,6 +350,15 @@
 			path = Hipstapaper_realm;
 			sourceTree = "<group>";
 		};
+		5048AF0B1E0DA45300AC1B2D /* URLTaggingViewController */ = {
+			isa = PBXGroup;
+			children = (
+				5048AF0C1E0DA48600AC1B2D /* URLTaggingViewController.swift */,
+				5048AF0D1E0DA48600AC1B2D /* URLTaggingViewController.xib */,
+			);
+			path = URLTaggingViewController;
+			sourceTree = "<group>";
+		};
 		505B30481DEA695D00B74AE6 /* URLItemWebViewWindowController */ = {
 			isa = PBXGroup;
 			children = (
@@ -392,6 +405,7 @@
 				50088A6F1E07153200D6AAED /* HipstapaperWindowController.swift */,
 				50088A691E07093000D6AAED /* Main.storyboard */,
 				505B30481DEA695D00B74AE6 /* URLItemWebViewWindowController */,
+				5048AF0B1E0DA45300AC1B2D /* URLTaggingViewController */,
 				506A3F091DD6C10D00A5656E /* Assets.xcassets */,
 				506A3F0B1DD6C10D00A5656E /* MainMenu.xib */,
 				506A3F0E1DD6C10D00A5656E /* Info.plist */,
@@ -700,6 +714,7 @@
 				506A3F0D1DD6C10D00A5656E /* MainMenu.xib in Resources */,
 				505B304C1DEA698300B74AE6 /* URLItemWebViewWindowController.xib in Resources */,
 				50088A6A1E07093000D6AAED /* Main.storyboard in Resources */,
+				5048AF0F1E0DA48600AC1B2D /* URLTaggingViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -973,6 +988,7 @@
 				506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */,
 				50432EF81E048DF400D9C3D5 /* TempPassword.swift in Sources */,
 				50432EFD1E0AFF9400D9C3D5 /* URLItemExtras.swift in Sources */,
+				5048AF0E1E0DA48600AC1B2D /* URLTaggingViewController.swift in Sources */,
 				50088A701E07153200D6AAED /* HipstapaperWindowController.swift in Sources */,
 				50088A6C1E07151200D6AAED /* TagListViewController.swift in Sources */,
 				50088A6E1E07152400D6AAED /* URLListViewController.swift in Sources */,

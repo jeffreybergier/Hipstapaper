@@ -121,7 +121,10 @@ class URLListViewController: NSViewController {
     }
     
     @objc private func tagSelected(_ sender: NSObject?) {
-        
+        guard let item = sender as? NSButton else { return }
+        guard let selectedItems = self.arrayController?.selectedURLItems else { return }
+        let tagVC = URLTaggingViewController(items: selectedItems)
+        self.presentViewController(tagVC, asPopoverRelativeTo: .zero, of: item, preferredEdge: .minY, behavior: .semitransient)
     }
     
     @objc private func shareSelected(_ sender: NSObject?) {
