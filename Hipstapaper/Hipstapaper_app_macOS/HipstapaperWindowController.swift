@@ -15,6 +15,7 @@ class HipstapaperWindowController: NSWindowController {
     
     override func windowDidLoad() {
         super.windowDidLoad()
+        
         self.window?.titleVisibility = .hidden
         
         for childVC in self.window?.contentViewController?.childViewControllers ?? [] {

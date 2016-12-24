@@ -44,7 +44,7 @@ class XPURLShareViewController: XPViewController {
             guard let extensionItem = self.extensionContext?.inputItems.first as? NSExtensionItem else {
                 self.uiState = .error
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                    self.extensionContext?.cancelRequest(withError: NSError())
+                    self.extensionContext?.cancelRequest(withError: NSError(domain: "", code: 0, userInfo: nil))
                 }
                 return
             }
@@ -53,7 +53,7 @@ class XPURLShareViewController: XPViewController {
                 guard let tuple = tuple else {
                     self.uiState = .error
                     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                        self.extensionContext?.cancelRequest(withError: NSError())
+                        self.extensionContext?.cancelRequest(withError: NSError(domain: "", code: 0, userInfo: nil))
                     }
                     return
                 }
