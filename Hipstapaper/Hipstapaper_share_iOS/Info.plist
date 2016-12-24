@@ -28,7 +28,7 @@
 			<string>TRUEPREDICATE</string>
 		</dict>
 		<key>NSExtensionPrincipalClass</key>
-		<string>URLItemSavingShareViewController</string>
+		<string>$(PRODUCT_MODULE_NAME).URLShareiOSViewController</string>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.share-services</string>
 	</dict>

@@ -9,14 +9,9 @@
 import RealmSwift
 import UIKit
 
-@objc(URLItemSavingShareViewController)
-class URLItemSavingShareViewController: UIViewController {
+class URLShareiOSViewController: XPURLShareViewController {
     
-    private enum UIState {
-        case start, loggingIn, saving, saved, error
-    }
-    
-    private var uiState = UIState.start {
+    override var uiState: UIState {
         didSet {
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 0.3, delay: 0.0, options: [.curveEaseInOut], animations: {
@@ -65,57 +60,5 @@ class URLItemSavingShareViewController: UIViewController {
         self.containerViewVerticalSpaceConstraint?.constant = UIScreen.main.bounds.height
         self.view.layoutIfNeeded()
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        self.uiState = .loggingIn
-        
-        RealmConfig.configure() {
-            self.uiState = .saving
-            
-            guard let extensionItem = self.extensionContext?.inputItems.first as? NSExtensionItem else {
-                self.uiState = .error
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                    self.extensionContext?.cancelRequest(withError: NSError())
-                }
-                return
-            }
-            
-            URLItemExtras.extras(from: extensionItem) { tuple in
-                guard let tuple = tuple else {
-                    self.uiState = .error
-                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                        self.extensionContext?.cancelRequest(withError: NSError())
-                    }
-                    return
-                }
-                
-                DispatchQueue.global(qos: .userInitiated).async {
-                    let realm = try! Realm()
-                    realm.beginWrite()
-                    let newURLItem = URLItem()
-                    newURLItem.urlString = tuple.1
-                    newURLItem.extras = tuple.0
-                    realm.add(newURLItem)
-                    try! realm.commitWrite()
-                    self.uiState = .saved
-                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.7) {
-                        self.extensionContext?.completeRequest(returningItems: .none, completionHandler: { _ in })
-                    }
-                    
-                }
-            }
-        }
-    }
-    
-    @IBAction private func cancel(_ sender: NSObject?) {
-        
-    }
-}
-
-extension URLItemSavingShareViewController {
-    
-  
 }
 

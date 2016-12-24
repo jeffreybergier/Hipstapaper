@@ -34,7 +34,7 @@
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.share-services</string>
 		<key>NSExtensionPrincipalClass</key>
-		<string>$(PRODUCT_MODULE_NAME).URLItemSavingShareViewController</string>
+		<string>$(PRODUCT_MODULE_NAME).URLShareMacViewController</string>
 	</dict>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2016 Jeffrey Bergier. All rights reserved.</string>
