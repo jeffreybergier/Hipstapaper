@@ -9,59 +9,17 @@
 import RealmSwift
 import AppKit
 
-@objc(TagSelection)
-fileprivate class TagSelection: NSObject {
-    
-    var state: NSCellStateValue = 0 {
-        didSet {
-            guard let oldState = CheckboxState(rawValue: oldValue), let newState = CheckboxState(rawValue: self.state) else { return }
-            
-            // if the new state is mixed, we need to figure out if it should be on or off
-            // annoyingly the checkbox cell allows a mixed state setting when the user clicks
-            if case .mixed = newState {
-                let keyPath = #keyPath(TagSelection.name)
-                self.willChangeValue(forKey: keyPath)
-                switch oldState {
-                case .off, .mixed:
-                    self.state = CheckboxState.on.rawValue
-                case .on:
-                    self.state = CheckboxState.off.rawValue
-                }
-                self.didChangeValue(forKey: keyPath)
-            }
-        }
-    }
-    var name: String = "unknown"
-    
-    convenience init(name: String, state: NSCellStateValue) {
-        self.init()
-        self.state = state
-        self.name = name
-    }
-    
-    static func selections(of tagItems: [TagItem], for urlItems: [URLItem]?) -> [TagSelection] {
-        let urlItems = urlItems ?? []
-        let selections = tagItems.map() { tagItem -> TagSelection in
-            let state = RealmConfig.state(of: tagItem, with: urlItems)
-            let selection = TagSelection(name: tagItem.name, state: state.rawValue)
-            return selection
-        }
-        return selections
-    }
-    
-}
-
 class URLTaggingViewController: NSViewController {
+    
+    fileprivate var selectedItems = [URLItem]()
     
     @IBOutlet private weak var arrayController: NSArrayController? {
         didSet {
-            let key = #keyPath(TagSelection.name)
+            let key = #keyPath(TagAssignment.item.name)
             let selector = #selector(NSString.localizedCaseInsensitiveCompare(_:))
             self.arrayController?.sortDescriptors = [NSSortDescriptor(key: key, ascending: true, selector: selector)]
         }
     }
-    
-    private var selectedItems = [URLItem]()
     
     convenience init(items: [URLItem]) {
         self.init()
@@ -89,10 +47,12 @@ class URLTaggingViewController: NSViewController {
     private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<TagItem>>) -> Void) = { [weak self] changes in
         switch changes {
         case .initial(let results):
-            let selections = TagSelection.selections(of: Array(results), for: self?.selectedItems)
+            let selections = TagAssignment.assignments(of: Array(results), for: self?.selectedItems)
+            selections.forEach({ $0.delegate = self })
             self?.arrayController?.content = selections
         case .update(let results, _, _, _):
-            let selections = TagSelection.selections(of: Array(results), for: self?.selectedItems)
+            let selections = TagAssignment.assignments(of: Array(results), for: self?.selectedItems)
+            selections.forEach({ $0.delegate = self })
             self?.arrayController?.content = selections
         case .error(let error):
             fatalError("\(error)")
@@ -106,4 +66,53 @@ class URLTaggingViewController: NSViewController {
     deinit {
         self.notificationToken?.stop()
     }
+}
+
+extension URLTaggingViewController: TagAssignmentChangeDelegate {
+    func didChangeAssignment(to newValue: Bool, for tagItem: TagItem) {
+        switch newValue {
+        case true:
+            RealmConfig.apply(tag: tagItem, to: self.selectedItems)
+        case false:
+            RealmConfig.remove(tag: tagItem, from: self.selectedItems)
+        }
+    }
+}
+
+fileprivate protocol TagAssignmentChangeDelegate: class {
+    func didChangeAssignment(to: Bool, for: TagItem)
+}
+
+@objc(TagAssignment)
+fileprivate class TagAssignment: NSObject {
+    
+    weak var delegate: TagAssignmentChangeDelegate?
+    
+    let item: TagItem
+    var state: NSCellStateValue {
+        didSet {
+            // slow this down a little bit so the checkbox animation is not disrupted
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                guard let newState = CheckboxState(rawValue: self.state) else { return }
+                self.delegate?.didChangeAssignment(to: newState.boolValue, for: self.item)
+            }
+        }
+    }
+    
+    init(tagItem item: TagItem, state: NSCellStateValue) {
+        self.state = state
+        self.item = item
+        super.init()
+    }
+    
+    static func assignments(of tagItems: [TagItem], for urlItems: [URLItem]?) -> [TagAssignment] {
+        let urlItems = urlItems ?? []
+        let selections = tagItems.map() { tagItem -> TagAssignment in
+            let state = RealmConfig.state(of: tagItem, with: urlItems)
+            let selection = TagAssignment(tagItem: tagItem, state: state.rawValue)
+            return selection
+        }
+        return selections
+    }
+    
 }

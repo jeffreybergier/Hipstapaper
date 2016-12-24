@@ -55,7 +55,7 @@
                                                             <font key="font" metaFont="system"/>
                                                         </buttonCell>
                                                         <connections>
-                                                            <binding destination="muq-1q-k35" name="title" keyPath="objectValue.name" id="9af-uK-j5i"/>
+                                                            <binding destination="muq-1q-k35" name="title" keyPath="objectValue.item.name" id="qAu-1a-fri"/>
                                                             <binding destination="muq-1q-k35" name="value" keyPath="objectValue.state" id="J1s-3O-E8P"/>
                                                         </connections>
                                                     </button>
@@ -93,6 +93,6 @@
                 <constraint firstItem="qm9-E6-lQc" firstAttribute="width" secondItem="Hz6-mo-xeY" secondAttribute="width" id="xbP-5x-uYx"/>
             </constraints>
         </customView>
-        <arrayController objectClassName="TagSelection" editable="NO" avoidsEmptySelection="NO" id="9MX-Ua-hfT"/>
+        <arrayController objectClassName="TagAssignmentViewModel" editable="NO" avoidsEmptySelection="NO" id="9MX-Ua-hfT"/>
     </objects>
 </document>
