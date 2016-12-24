@@ -38,15 +38,16 @@ struct RealmConfig {
     }
     
     static func newOrExistingTag(proposedName: String) -> TagItem {
-        let normalizedName = TagItem.normalize(nameString: proposedName)
+        let normalizedName = TagItem.normalize(proposedName)
         let realm = try! Realm()
-        let existingItem = realm.objects(TagItem.self).filter({ TagItem.normalize(nameString: $0.name) == normalizedName }).first
+        let existingItem = realm.object(ofType: TagItem.self, forPrimaryKey: normalizedName)
         if let existingItem = existingItem {
             return existingItem
         } else {
             realm.beginWrite()
             let newItem = TagItem()
-            newItem.name = proposedName == "" ? normalizedName : proposedName
+            newItem.normalizedNameHash = normalizedName
+            newItem.name = normalizedName == "untitledtag" ? "Untitled Tag" : proposedName
             realm.add(newItem)
             try! realm.commitWrite()
             return newItem
