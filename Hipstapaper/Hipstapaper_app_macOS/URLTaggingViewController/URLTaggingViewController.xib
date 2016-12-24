@@ -10,12 +10,13 @@
         <customObject id="-2" userLabel="File's Owner" customClass="URLTaggingViewController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
                 <outlet property="arrayController" destination="9MX-Ua-hfT" id="G59-oJ-Wjq"/>
+                <outlet property="horizontalLine" destination="hSS-lQ-K2G" id="ri2-nA-2cp"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customView id="Hz6-mo-xeY">
+        <customView wantsLayer="YES" id="Hz6-mo-xeY">
             <rect key="frame" x="0.0" y="0.0" width="315" height="200"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
@@ -26,7 +27,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="22" rowSizeStyle="automatic" viewBased="YES" id="B3L-VJ-JhR">
-                                <rect key="frame" x="0.0" y="0.0" width="315" height="128"/>
+                                <rect key="frame" x="0.0" y="0.0" width="315" height="143"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
                                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
@@ -76,7 +77,8 @@
                             </tableView>
                         </subviews>
                     </clipView>
-                    <edgeInsets key="contentInsets" left="0.0" right="0.0" top="52" bottom="20"/>
+                    <edgeInsets key="contentInsets" left="0.0" right="0.0" top="47" bottom="10"/>
+                    <edgeInsets key="scrollerInsets" left="0.0" right="0.0" top="-10" bottom="-10"/>
                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="2MJ-Ho-cZz">
                         <rect key="frame" x="16" y="168" width="268" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -140,13 +142,22 @@
                         <constraint firstItem="UDy-LX-mv9" firstAttribute="top" secondItem="yKa-yP-iaK" secondAttribute="top" constant="8" id="pc6-vF-G7G"/>
                     </constraints>
                 </visualEffectView>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="hSS-lQ-K2G">
+                    <rect key="frame" x="0.0" y="163" width="315" height="0.0"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="0.5" id="o2r-ex-Je8"/>
+                    </constraints>
+                </customView>
             </subviews>
             <constraints>
                 <constraint firstItem="yKa-yP-iaK" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="Jjc-03-1nI"/>
                 <constraint firstItem="qm9-E6-lQc" firstAttribute="height" secondItem="Hz6-mo-xeY" secondAttribute="height" id="PXQ-6b-tv1"/>
+                <constraint firstItem="hSS-lQ-K2G" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="Yqp-Yw-WgO"/>
                 <constraint firstItem="qm9-E6-lQc" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="gjf-kc-tjP"/>
                 <constraint firstAttribute="trailing" secondItem="yKa-yP-iaK" secondAttribute="trailing" id="hAN-9S-aCQ"/>
                 <constraint firstItem="yKa-yP-iaK" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="iwe-Ub-dA5"/>
+                <constraint firstAttribute="trailing" secondItem="hSS-lQ-K2G" secondAttribute="trailing" id="kab-W0-y6e"/>
+                <constraint firstItem="hSS-lQ-K2G" firstAttribute="top" secondItem="yKa-yP-iaK" secondAttribute="bottom" id="nYD-Sc-Nqv"/>
                 <constraint firstItem="qm9-E6-lQc" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="saE-MF-iho"/>
                 <constraint firstItem="qm9-E6-lQc" firstAttribute="width" secondItem="Hz6-mo-xeY" secondAttribute="width" id="xbP-5x-uYx"/>
             </constraints>

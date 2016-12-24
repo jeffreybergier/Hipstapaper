@@ -13,6 +13,8 @@ class URLTaggingViewController: NSViewController {
     
     fileprivate var selectedItems = [URLItem]()
     
+    @IBOutlet private weak var horizontalLine: NSView?
+
     @IBOutlet private weak var arrayController: NSArrayController? {
         didSet {
             let key = #keyPath(TagAssignment.item.name)
@@ -28,6 +30,7 @@ class URLTaggingViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.horizontalLine?.layer?.backgroundColor = NSColor.gray.cgColor
         self.hardReloadData()
     }
     
@@ -74,6 +77,10 @@ class URLTaggingViewController: NSViewController {
             let tag = RealmConfig.newOrExistingTag(proposedName: newName)
             // add it to the selected items
             RealmConfig.apply(tag: tag, to: self?.selectedItems ?? [])
+            // hack because the tableview shows the new tag, but doesn't have the appropriate selection
+            // maybe this is a bug in realm notifications?
+            Thread.sleep(forTimeInterval: 0.3)
+            self?.hardReloadData()
             // dismiss the naming view controller
             presentedVC.dismiss(sender)
         }
