@@ -19,6 +19,10 @@
 		50088A6C1E07151200D6AAED /* TagListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50088A6B1E07151200D6AAED /* TagListViewController.swift */; };
 		50088A6E1E07152400D6AAED /* URLListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50088A6D1E07152400D6AAED /* URLListViewController.swift */; };
 		50088A701E07153200D6AAED /* HipstapaperWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50088A6F1E07153200D6AAED /* HipstapaperWindowController.swift */; };
+		5011D7471E0F063000A6BBF1 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5011D7461E0F063000A6BBF1 /* Realm.framework */; };
+		5011D7491E0F063800A6BBF1 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5011D7481E0F063800A6BBF1 /* RealmSwift.framework */; };
+		5011D74A1E0F064300A6BBF1 /* Realm.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5011D7461E0F063000A6BBF1 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5011D74B1E0F064300A6BBF1 /* RealmSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5011D7481E0F063800A6BBF1 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		502C7F4E1DF0E4D5004E70AB /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 502C7F4D1DF0E4D5004E70AB /* icon.icns */; };
 		502C7F541DF0E4D5004E70AB /* URLItemSavingShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502C7F521DF0E4D5004E70AB /* URLItemSavingShareViewController.xib */; };
 		502C7F581DF0E4D5004E70AB /* Hipstapaper_share_macOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 502C7F4A1DF0E4D5004E70AB /* Hipstapaper_share_macOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -143,6 +147,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				5011D74A1E0F064300A6BBF1 /* Realm.framework in CopyFiles */,
+				5011D74B1E0F064300A6BBF1 /* RealmSwift.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,6 +182,8 @@
 		50088A6B1E07151200D6AAED /* TagListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagListViewController.swift; sourceTree = "<group>"; };
 		50088A6D1E07152400D6AAED /* URLListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLListViewController.swift; sourceTree = "<group>"; };
 		50088A6F1E07153200D6AAED /* HipstapaperWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HipstapaperWindowController.swift; sourceTree = "<group>"; };
+		5011D7461E0F063000A6BBF1 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/Hipstapaper-fucalajpmztkfyfjjbsapzbumphq/Build/Products/Debug/Realm-OSX/Realm.framework"; sourceTree = "<group>"; };
+		5011D7481E0F063800A6BBF1 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/Hipstapaper-fucalajpmztkfyfjjbsapzbumphq/Build/Products/Debug/RealmSwift-OSX/RealmSwift.framework"; sourceTree = "<group>"; };
 		501EC2591DF4E71D003577DA /* Hipstapaper_share_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper_share_iOS.entitlements; sourceTree = "<group>"; };
 		502C7F4A1DF0E4D5004E70AB /* Hipstapaper_share_macOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Hipstapaper_share_macOS.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		502C7F4D1DF0E4D5004E70AB /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
@@ -253,7 +261,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5011D7471E0F063000A6BBF1 /* Realm.framework in Frameworks */,
 				788A5B0BAB0BD900154003C7 /* Pods_Hipstapaper_share_macOS.framework in Frameworks */,
+				5011D7491E0F063800A6BBF1 /* RealmSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,6 +326,8 @@
 				505B79BE1E0B924C007BB364 /* URLItemSavingShareViewController.swift */,
 				502C7F521DF0E4D5004E70AB /* URLItemSavingShareViewController.xib */,
 				502C7F551DF0E4D5004E70AB /* Info.plist */,
+				5011D7461E0F063000A6BBF1 /* Realm.framework */,
+				5011D7481E0F063800A6BBF1 /* RealmSwift.framework */,
 				502C7F4C1DF0E4D5004E70AB /* Supporting Files */,
 			);
 			path = Hipstapaper_share_macOS;
@@ -502,8 +514,8 @@
 				502C7F461DF0E4D5004E70AB /* Sources */,
 				502C7F471DF0E4D5004E70AB /* Frameworks */,
 				502C7F481DF0E4D5004E70AB /* Resources */,
-				50D47BA71DFC918C00E4FD2C /* CopyFiles */,
 				34A92488768CFA22963ABF21 /* [CP] Copy Pods Resources */,
+				50D47BA71DFC918C00E4FD2C /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1140,11 +1152,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AF826E7F84AD8AFE4E01FD3 /* Pods-Hipstapaper_share_macOS.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Hipstapaper_share_macOS/Hipstapaper_share_macOS.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/Realm-OSX\"",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/RealmSwift-OSX\"",
+				);
 				INFOPLIST_FILE = Hipstapaper_share_macOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.share;
@@ -1159,11 +1177,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 131885BD692AB1C7D6BE976C /* Pods-Hipstapaper_share_macOS.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Hipstapaper_share_macOS/Hipstapaper_share_macOS.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/Realm-OSX\"",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/RealmSwift-OSX\"",
+					"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/",
+				);
 				INFOPLIST_FILE = Hipstapaper_share_macOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.share;
