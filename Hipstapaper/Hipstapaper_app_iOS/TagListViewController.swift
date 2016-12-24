@@ -38,9 +38,9 @@ class TagListViewController: UIViewController {
             self?.tableView?.reloadData()
         case .update(_, let deletions, let insertions, let modifications):
             self?.tableView?.beginUpdates()
-            self?.tableView?.insertRows(at: insertions.map({ IndexPath(row: $0, section: 1) }), with: .right)
+            self?.tableView?.insertRows(at: insertions.map({ IndexPath(row: $0, section: 1) }), with: .left)
             self?.tableView?.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 1)}), with: .left)
-            self?.tableView?.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 1) }), with: .automatic)
+            self?.tableView?.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 1) }), with: .left)
             self?.tableView?.endUpdates()
         case .error(let error):
             fatalError("\(error)")

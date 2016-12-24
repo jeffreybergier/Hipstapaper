@@ -19,13 +19,13 @@
             <rect key="frame" x="0.0" y="0.0" width="315" height="200"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" verticalScrollElasticity="allowed" translatesAutoresizingMaskIntoConstraints="NO" id="qm9-E6-lQc">
+                <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" usesPredominantAxisScrolling="NO" verticalScrollElasticity="allowed" translatesAutoresizingMaskIntoConstraints="NO" id="qm9-E6-lQc">
                     <rect key="frame" x="0.0" y="0.0" width="315" height="200"/>
                     <clipView key="contentView" drawsBackground="NO" id="84T-nf-mC0">
                         <rect key="frame" x="0.0" y="0.0" width="315" height="200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="B3L-VJ-JhR">
+                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="22" rowSizeStyle="automatic" viewBased="YES" id="B3L-VJ-JhR">
                                 <rect key="frame" x="0.0" y="0.0" width="315" height="128"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
@@ -46,11 +46,11 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView id="muq-1q-k35">
-                                                <rect key="frame" x="1" y="1" width="312" height="17"/>
+                                                <rect key="frame" x="1" y="1" width="312" height="22"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="4zm-zt-6ta">
-                                                        <rect key="frame" x="18" y="0.0" width="276" height="18"/>
+                                                        <rect key="frame" x="18" y="2" width="276" height="18"/>
                                                         <buttonCell key="cell" type="check" title="Tag Name" bezelStyle="regularSquare" imagePosition="left" state="on" allowsMixedState="YES" inset="2" id="v23-fG-Z8H">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                             <font key="font" metaFont="system"/>
