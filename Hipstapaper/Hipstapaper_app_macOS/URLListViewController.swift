@@ -9,26 +9,24 @@
 import RealmSwift
 import AppKit
 
-extension NSArrayController: KVOCapable {}
-
-fileprivate extension NSArrayController {
-    fileprivate var selectedURLItems: [URLItem]? {
-        let selectedItems = self.selectedObjects.map({ $0 as? URLItem }).flatMap({ $0 })
-        if selectedItems.isEmpty { return .none } else { return selectedItems }
-    }
-}
-
-fileprivate extension NSToolbarItem {
-    fileprivate enum Kind: Int {
-        case unarchive = 1, archive, tag, share
-    }
-}
-
 class URLListViewController: NSViewController {
+    
+    private static let imageValueTransformer: Void = {
+        let vt = URLListImageTransformer()
+        let name = NSValueTransformerName(rawValue: "URLListImageTransformer")
+        ValueTransformer.setValueTransformer(vt, forName: name)
+        return ()
+    }()
     
     @IBOutlet private weak var arrayController: NSArrayController?
     fileprivate var querySelection: URLItem.Selection?
     fileprivate var openWindowsControllers = [URLItem : NSWindowController]()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // configure value transformer
+        type(of: self).imageValueTransformer
+    }
     
     // MARK: Reload Data
     
@@ -180,5 +178,45 @@ extension URLListViewController /*NSWindowDelegate*/ {
         
         NotificationCenter.default.removeObserver(self, name: .NSWindowWillClose, object: window)
         self.openWindowsControllers[item] = .none
+    }
+}
+
+// MARK: Helper methods for getting selected Item
+
+fileprivate extension NSArrayController {
+    fileprivate var selectedURLItems: [URLItem]? {
+        let selectedItems = self.selectedObjects.map({ $0 as? URLItem }).flatMap({ $0 })
+        if selectedItems.isEmpty { return .none } else { return selectedItems }
+    }
+}
+
+// MARK: Custom enum so I know which toolbar item was clicked
+
+fileprivate extension NSToolbarItem {
+    fileprivate enum Kind: Int {
+        case unarchive = 1, archive, tag, share
+    }
+}
+
+// MARK: Handle Placeholder image for image
+
+fileprivate class URLListImageTransformer: ValueTransformer {
+    
+    private static let image = NSImage(imageLiteralResourceName: NSImageNameNetwork)
+    
+    fileprivate override func transformedValue(_ value: Any?) -> Any? {
+        if let _ = value {
+            return value
+        } else {
+            return type(of: self).image
+        }
+    }
+}
+
+// MARK: Handle Showing URL if there is no Title
+
+private extension URLItem {
+    @objc private var bindingTitle: String {
+        return self.extras?.pageTitle ?? self.urlString
     }
 }

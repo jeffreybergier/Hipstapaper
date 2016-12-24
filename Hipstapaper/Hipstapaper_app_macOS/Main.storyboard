@@ -383,21 +383,10 @@
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HV7-bY-T1O">
-                                                                    <rect key="frame" x="4" y="5" width="141" height="40"/>
+                                                                    <rect key="frame" x="8" y="5" width="431" height="40"/>
                                                                     <subviews>
-                                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="u34-DE-qlV">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
-                                                                            <constraints>
-                                                                                <constraint firstAttribute="height" constant="40" id="QdL-0g-rVs"/>
-                                                                                <constraint firstAttribute="width" secondItem="u34-DE-qlV" secondAttribute="height" multiplier="1:1" id="olL-AH-iSv"/>
-                                                                            </constraints>
-                                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="PTl-l5-vdN"/>
-                                                                            <connections>
-                                                                                <binding destination="qKj-7y-fuk" name="value" keyPath="objectValue.extras.image" id="5GI-GS-XZV"/>
-                                                                            </connections>
-                                                                        </imageView>
                                                                         <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="3" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3qf-5n-NVf">
-                                                                            <rect key="frame" x="48" y="3" width="93" height="34"/>
+                                                                            <rect key="frame" x="0.0" y="3" width="383" height="34"/>
                                                                             <subviews>
                                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wjQ-FQ-4GZ">
                                                                                     <rect key="frame" x="-2" y="17" width="97" height="17"/>
@@ -407,7 +396,11 @@
                                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                                     </textFieldCell>
                                                                                     <connections>
-                                                                                        <binding destination="qKj-7y-fuk" name="value" keyPath="objectValue.extras.pageTitle" id="K6F-vi-Dmf"/>
+                                                                                        <binding destination="qKj-7y-fuk" name="value" keyPath="objectValue.bindingTitle" id="skw-7b-Yy1">
+                                                                                            <dictionary key="options">
+                                                                                                <string key="NSNullPlaceholder">Unknown</string>
+                                                                                            </dictionary>
+                                                                                        </binding>
                                                                                     </connections>
                                                                                 </textField>
                                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d21-PK-LLC">
@@ -432,6 +425,21 @@
                                                                                 <real value="3.4028234663852886e+38"/>
                                                                             </customSpacing>
                                                                         </stackView>
+                                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="u34-DE-qlV">
+                                                                            <rect key="frame" x="391" y="0.0" width="40" height="40"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="height" constant="40" id="QdL-0g-rVs"/>
+                                                                                <constraint firstAttribute="width" secondItem="u34-DE-qlV" secondAttribute="height" multiplier="1:1" id="olL-AH-iSv"/>
+                                                                            </constraints>
+                                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="PTl-l5-vdN"/>
+                                                                            <connections>
+                                                                                <binding destination="qKj-7y-fuk" name="value" keyPath="objectValue.extras.image" id="fZL-m6-8N9">
+                                                                                    <dictionary key="options">
+                                                                                        <string key="NSValueTransformerName">URLListImageTransformer</string>
+                                                                                    </dictionary>
+                                                                                </binding>
+                                                                            </connections>
+                                                                        </imageView>
                                                                     </subviews>
                                                                     <visibilityPriorities>
                                                                         <integer value="1000"/>
@@ -441,11 +449,14 @@
                                                                         <real value="3.4028234663852886e+38"/>
                                                                         <real value="3.4028234663852886e+38"/>
                                                                     </customSpacing>
+                                                                    <connections>
+                                                                        <binding destination="qKj-7y-fuk" name="toolTip" keyPath="objectValue.urlString" id="7F2-Pv-mRb"/>
+                                                                    </connections>
                                                                 </stackView>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="HV7-bY-T1O" firstAttribute="leading" secondItem="qKj-7y-fuk" secondAttribute="leading" constant="4" id="OPh-cz-jyi"/>
-                                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="HV7-bY-T1O" secondAttribute="trailing" id="PWv-4G-wdS"/>
+                                                                <constraint firstItem="HV7-bY-T1O" firstAttribute="leading" secondItem="qKj-7y-fuk" secondAttribute="leading" constant="8" id="OPh-cz-jyi"/>
+                                                                <constraint firstAttribute="trailing" secondItem="HV7-bY-T1O" secondAttribute="trailing" constant="8" id="PWv-4G-wdS"/>
                                                                 <constraint firstItem="HV7-bY-T1O" firstAttribute="centerY" secondItem="qKj-7y-fuk" secondAttribute="centerY" id="Xsb-ZU-4QQ"/>
                                                             </constraints>
                                                             <connections>

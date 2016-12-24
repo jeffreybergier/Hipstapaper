@@ -10,6 +10,8 @@ import UIKit
 
 class URLTableViewCell: UITableViewCell {
     
+    private static let placeholderImage = #imageLiteral(resourceName: "URLTablePlaceholderImage")
+    
     static let cellHeight: CGFloat = 65
     static let nibName = "URLTableViewCell"
     
@@ -25,8 +27,8 @@ class URLTableViewCell: UITableViewCell {
     }()
     
     func configure(with item: URLItem) {
-        self.titleLabel?.text = item.extras?.pageTitle
-        self.urlImageView?.image = item.extras?.image
+        self.titleLabel?.text = item.extras?.pageTitle ?? item.urlString
+        self.urlImageView?.image = item.extras?.image ?? type(of: self).placeholderImage
         self.dateLabel?.text = self.dateFormatter.string(from: item.creationDate)
     }
 
