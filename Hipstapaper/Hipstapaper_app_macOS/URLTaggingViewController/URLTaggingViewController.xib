@@ -4,6 +4,7 @@
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="URLTaggingViewController" customModule="Hipstapaper" customModuleProvider="target">
@@ -15,23 +16,23 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="Hz6-mo-xeY">
-            <rect key="frame" x="0.0" y="0.0" width="300" height="200"/>
+            <rect key="frame" x="0.0" y="0.0" width="315" height="200"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" verticalScrollElasticity="allowed" translatesAutoresizingMaskIntoConstraints="NO" id="qm9-E6-lQc">
-                    <rect key="frame" x="0.0" y="0.0" width="300" height="200"/>
+                    <rect key="frame" x="0.0" y="0.0" width="315" height="200"/>
                     <clipView key="contentView" drawsBackground="NO" id="84T-nf-mC0">
-                        <rect key="frame" x="0.0" y="0.0" width="300" height="200"/>
+                        <rect key="frame" x="0.0" y="0.0" width="315" height="200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="B3L-VJ-JhR">
-                                <rect key="frame" x="0.0" y="0.0" width="300" height="160"/>
+                                <rect key="frame" x="0.0" y="0.0" width="315" height="128"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <size key="intercellSpacing" width="3" height="2"/>
                                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                 <tableColumns>
-                                    <tableColumn width="297" minWidth="40" maxWidth="1000" id="TWq-Nr-rq9">
+                                    <tableColumn width="312" minWidth="40" maxWidth="1000" id="TWq-Nr-rq9">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -45,11 +46,11 @@
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
                                             <tableCellView id="muq-1q-k35">
-                                                <rect key="frame" x="1" y="1" width="297" height="17"/>
+                                                <rect key="frame" x="1" y="1" width="312" height="17"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="4zm-zt-6ta">
-                                                        <rect key="frame" x="18" y="0.0" width="261" height="18"/>
+                                                        <rect key="frame" x="18" y="0.0" width="276" height="18"/>
                                                         <buttonCell key="cell" type="check" title="Tag Name" bezelStyle="regularSquare" imagePosition="left" state="on" allowsMixedState="YES" inset="2" id="v23-fG-Z8H">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -75,24 +76,84 @@
                             </tableView>
                         </subviews>
                     </clipView>
-                    <edgeInsets key="contentInsets" left="0.0" right="0.0" top="20" bottom="20"/>
+                    <edgeInsets key="contentInsets" left="0.0" right="0.0" top="52" bottom="20"/>
                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="2MJ-Ho-cZz">
                         <rect key="frame" x="16" y="168" width="268" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
-                    <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="0.5" horizontal="NO" id="tam-sY-Uiz">
+                    <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="tam-sY-Uiz">
                         <rect key="frame" x="224" y="17" width="15" height="102"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                 </scrollView>
+                <visualEffectView wantsLayer="YES" appearanceType="vibrantDark" blendingMode="withinWindow" material="titlebar" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="yKa-yP-iaK">
+                    <rect key="frame" x="0.0" y="163" width="315" height="37"/>
+                    <subviews>
+                        <stackView distribution="equalCentering" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UDy-LX-mv9">
+                            <rect key="frame" x="8" y="8" width="299" height="21"/>
+                            <subviews>
+                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WDE-wt-3Dk">
+                                    <rect key="frame" x="-6" y="-7" width="72" height="32"/>
+                                    <buttonCell key="cell" type="push" title="Done" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Mf2-2f-8p6">
+                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                        <font key="font" metaFont="system"/>
+                                    </buttonCell>
+                                    <connections>
+                                        <action selector="dismissController:" target="-1" id="D4J-Ni-jd4"/>
+                                    </connections>
+                                </button>
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ws-a5-szo">
+                                    <rect key="frame" x="120" y="2" width="72" height="17"/>
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Apply Tags" id="w9r-SX-qFd">
+                                        <font key="font" metaFont="system"/>
+                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vbt-xP-rFH">
+                                    <rect key="frame" x="258" y="-7" width="47" height="32"/>
+                                    <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSAddTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="eFW-cN-wc8">
+                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                        <font key="font" metaFont="system"/>
+                                    </buttonCell>
+                                    <connections>
+                                        <action selector="createNewTag:" target="-1" id="Gnb-s5-fu2"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <visibilityPriorities>
+                                <integer value="1000"/>
+                                <integer value="1000"/>
+                                <integer value="1000"/>
+                            </visibilityPriorities>
+                            <customSpacing>
+                                <real value="3.4028234663852886e+38"/>
+                                <real value="3.4028234663852886e+38"/>
+                                <real value="3.4028234663852886e+38"/>
+                            </customSpacing>
+                        </stackView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="UDy-LX-mv9" secondAttribute="bottom" constant="8" id="9nB-mt-hI6"/>
+                        <constraint firstItem="UDy-LX-mv9" firstAttribute="leading" secondItem="yKa-yP-iaK" secondAttribute="leading" constant="8" id="buV-Ed-ly9"/>
+                        <constraint firstAttribute="trailing" secondItem="UDy-LX-mv9" secondAttribute="trailing" constant="8" id="oME-1X-6Xh"/>
+                        <constraint firstItem="UDy-LX-mv9" firstAttribute="top" secondItem="yKa-yP-iaK" secondAttribute="top" constant="8" id="pc6-vF-G7G"/>
+                    </constraints>
+                </visualEffectView>
             </subviews>
             <constraints>
+                <constraint firstItem="yKa-yP-iaK" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="Jjc-03-1nI"/>
                 <constraint firstItem="qm9-E6-lQc" firstAttribute="height" secondItem="Hz6-mo-xeY" secondAttribute="height" id="PXQ-6b-tv1"/>
                 <constraint firstItem="qm9-E6-lQc" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="gjf-kc-tjP"/>
+                <constraint firstAttribute="trailing" secondItem="yKa-yP-iaK" secondAttribute="trailing" id="hAN-9S-aCQ"/>
+                <constraint firstItem="yKa-yP-iaK" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="iwe-Ub-dA5"/>
                 <constraint firstItem="qm9-E6-lQc" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="saE-MF-iho"/>
                 <constraint firstItem="qm9-E6-lQc" firstAttribute="width" secondItem="Hz6-mo-xeY" secondAttribute="width" id="xbP-5x-uYx"/>
             </constraints>
         </customView>
         <arrayController objectClassName="TagAssignmentViewModel" editable="NO" avoidsEmptySelection="NO" id="9MX-Ua-hfT"/>
     </objects>
+    <resources>
+        <image name="NSAddTemplate" width="11" height="11"/>
+    </resources>
 </document>

@@ -71,6 +71,8 @@
 		50A1519A1E0A15EC00529048 /* URLItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A151981E0A15E700529048 /* URLItem.swift */; };
 		50A1519B1E0A15EC00529048 /* URLItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A151981E0A15E700529048 /* URLItem.swift */; };
 		50A1519C1E0A15ED00529048 /* URLItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A151981E0A15E700529048 /* URLItem.swift */; };
+		50D61C641E0E2F9A004595CD /* NewTagNamingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D61C621E0E2F9A004595CD /* NewTagNamingViewController.swift */; };
+		50D61C651E0E2F9A004595CD /* NewTagNamingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50D61C631E0E2F9A004595CD /* NewTagNamingViewController.xib */; };
 		50EE9F081E0CB80E00E76CF5 /* ValidatingToolbarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EE9F071E0CB80E00E76CF5 /* ValidatingToolbarItem.swift */; };
 		5E9C66014BDD4E02FF7F81C6 /* Pods_Hipstapaper_app_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3D2DD77CB9D5A347E5437DC /* Pods_Hipstapaper_app_macOS.framework */; };
 		788A5B0BAB0BD900154003C7 /* Pods_Hipstapaper_share_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CB6943C88B413376B7CA9A2 /* Pods_Hipstapaper_share_macOS.framework */; };
@@ -214,6 +216,8 @@
 		5083AA2D1E05BE3800BCAC93 /* TagAddRemoveTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagAddRemoveTableViewCell.xib; sourceTree = "<group>"; };
 		50A151781E077D8000529048 /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		50A151981E0A15E700529048 /* URLItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItem.swift; sourceTree = "<group>"; };
+		50D61C621E0E2F9A004595CD /* NewTagNamingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTagNamingViewController.swift; sourceTree = "<group>"; };
+		50D61C631E0E2F9A004595CD /* NewTagNamingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewTagNamingViewController.xib; sourceTree = "<group>"; };
 		50EE9F071E0CB80E00E76CF5 /* ValidatingToolbarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidatingToolbarItem.swift; sourceTree = "<group>"; };
 		50FA3BFA1DF4F3A400551325 /* Hipstapaper_app_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper_app_iOS.entitlements; sourceTree = "<group>"; };
 		5CB6943C88B413376B7CA9A2 /* Pods_Hipstapaper_share_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hipstapaper_share_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -355,6 +359,8 @@
 			children = (
 				5048AF0C1E0DA48600AC1B2D /* URLTaggingViewController.swift */,
 				5048AF0D1E0DA48600AC1B2D /* URLTaggingViewController.xib */,
+				50D61C621E0E2F9A004595CD /* NewTagNamingViewController.swift */,
+				50D61C631E0E2F9A004595CD /* NewTagNamingViewController.xib */,
 			);
 			path = URLTaggingViewController;
 			sourceTree = "<group>";
@@ -712,6 +718,7 @@
 			files = (
 				506A3F0A1DD6C10D00A5656E /* Assets.xcassets in Resources */,
 				506A3F0D1DD6C10D00A5656E /* MainMenu.xib in Resources */,
+				50D61C651E0E2F9A004595CD /* NewTagNamingViewController.xib in Resources */,
 				505B304C1DEA698300B74AE6 /* URLItemWebViewWindowController.xib in Resources */,
 				50088A6A1E07093000D6AAED /* Main.storyboard in Resources */,
 				5048AF0F1E0DA48600AC1B2D /* URLTaggingViewController.xib in Resources */,
@@ -986,6 +993,7 @@
 			files = (
 				505B304B1DEA698300B74AE6 /* URLItemWebViewWindowController.swift in Sources */,
 				506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */,
+				50D61C641E0E2F9A004595CD /* NewTagNamingViewController.swift in Sources */,
 				50432EF81E048DF400D9C3D5 /* TempPassword.swift in Sources */,
 				50432EFD1E0AFF9400D9C3D5 /* URLItemExtras.swift in Sources */,
 				5048AF0E1E0DA48600AC1B2D /* URLTaggingViewController.swift in Sources */,

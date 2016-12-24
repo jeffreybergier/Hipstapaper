@@ -88,26 +88,6 @@ class URLListViewController: NSViewController {
         self.openOrBringFrontWindowControllers(for: selectedItems)
     }
     
-    // MARK: Handle Key Input
-    
-    override func keyDown(with event: NSEvent) {
-        let code = event.keyCode
-        if let _ = self.arrayController?.selectedURLItems, code.isReturnKeyCode {
-            // do nothing
-        } else {
-            super.keyDown(with: event)
-        }
-    }
-
-    override func keyUp(with event: NSEvent) {
-        let code = event.keyCode
-        if let selectedItems = self.arrayController?.selectedURLItems, code.isReturnKeyCode {
-            self.openOrBringFrontWindowControllers(for: selectedItems)
-        } else {
-            super.keyUp(with: event)
-        }
-    }
-    
     // MARK: Handle Toolbar First Responder Methods
     
     @objc private func archiveSelected(_ sender: NSObject?) {
@@ -162,6 +142,18 @@ class URLListViewController: NSViewController {
                 newWC.showWindow(self)
             }
         }
+    }
+    
+    // MARK: Handle Adding New Tag
+    
+    @objc private func createNewTag(_ sender: NSObject?) {
+        let newVC = NewTagNamingViewController()
+        newVC.confirm = { [weak self] newName, sender, presentedVC in
+            let tag = RealmConfig.newOrExistingTag(proposedName: newName)
+            RealmConfig.apply(tag: tag, to: self?.arrayController?.selectedURLItems ?? [])
+            presentedVC.dismiss(sender)
+        }
+        self.presentViewControllerAsSheet(newVC)
     }
     
     // MARK: Handle Going Away

@@ -46,7 +46,7 @@ struct RealmConfig {
         } else {
             realm.beginWrite()
             let newItem = TagItem()
-            newItem.name = proposedName
+            newItem.name = proposedName == "" ? normalizedName : proposedName
             realm.add(newItem)
             try! realm.commitWrite()
             return newItem
@@ -54,6 +54,7 @@ struct RealmConfig {
     }
     
     static func state(of tagItem: TagItem, with items: [URLItem]) -> CheckboxState {
+        guard items.isEmpty == false else { return .off }
         let matches = items.map({ $0.tags.index(of: tagItem) }).flatMap({ $0 })
         if matches.count == items.count {
             // this means all items have this tag

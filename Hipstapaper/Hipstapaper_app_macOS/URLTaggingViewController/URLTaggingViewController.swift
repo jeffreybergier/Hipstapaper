@@ -59,6 +59,13 @@ class URLTaggingViewController: NSViewController {
         }
     }
     
+    // MARK: Handle Creating New Tag
+    
+    @objc private func createNewTag(_ sender: NSObject?) {
+        self.presenting?.try(toPerform: #selector(self.createNewTag(_:)), with: sender)
+        self.dismiss(sender)
+    }
+    
     // MARK: Handle Going Away
     
     private var notificationToken: NotificationToken?
