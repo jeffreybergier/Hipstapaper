@@ -86,7 +86,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                 </scrollView>
-                <visualEffectView wantsLayer="YES" appearanceType="vibrantDark" blendingMode="withinWindow" material="titlebar" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="yKa-yP-iaK">
+                <visualEffectView wantsLayer="YES" appearanceType="vibrantLight" blendingMode="withinWindow" material="titlebar" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="yKa-yP-iaK">
                     <rect key="frame" x="0.0" y="163" width="315" height="37"/>
                     <subviews>
                         <stackView distribution="equalCentering" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UDy-LX-mv9">

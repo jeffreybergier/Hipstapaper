@@ -12,7 +12,6 @@ class NewTagNamingViewController: NSViewController {
     
     typealias ConfirmTuple = (newName: String, sender: NSObject?, presentedVC: NSViewController)
     var confirm: ((ConfirmTuple) -> Void)?
-    
 
     @IBOutlet private weak var nameTextField: NSTextField?
     

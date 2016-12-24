@@ -104,6 +104,7 @@ class URLListViewController: NSViewController {
         guard let item = sender as? NSButton else { return }
         guard let selectedItems = self.arrayController?.selectedURLItems else { return }
         let tagVC = URLTaggingViewController(items: selectedItems)
+//        self.presentViewControllerAsSheet(tagVC)
         self.presentViewController(tagVC, asPopoverRelativeTo: .zero, of: item, preferredEdge: .minY, behavior: .semitransient)
     }
     
@@ -142,18 +143,6 @@ class URLListViewController: NSViewController {
                 newWC.showWindow(self)
             }
         }
-    }
-    
-    // MARK: Handle Adding New Tag
-    
-    @objc private func createNewTag(_ sender: NSObject?) {
-        let newVC = NewTagNamingViewController()
-        newVC.confirm = { [weak self] newName, sender, presentedVC in
-            let tag = RealmConfig.newOrExistingTag(proposedName: newName)
-            RealmConfig.apply(tag: tag, to: self?.arrayController?.selectedURLItems ?? [])
-            presentedVC.dismiss(sender)
-        }
-        self.presentViewControllerAsSheet(newVC)
     }
     
     // MARK: Handle Going Away

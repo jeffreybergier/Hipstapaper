@@ -62,8 +62,23 @@ class URLTaggingViewController: NSViewController {
     // MARK: Handle Creating New Tag
     
     @objc private func createNewTag(_ sender: NSObject?) {
-        self.presenting?.try(toPerform: #selector(self.createNewTag(_:)), with: sender)
-        self.dismiss(sender)
+        guard let button = sender as? NSButton else {
+            // if we can't respond, just pass it on
+            self.nextResponder?.try(toPerform: #selector(self.createNewTag(_:)), with: sender)
+            return
+        }
+        // create the tag naming VC
+        let newVC = NewTagNamingViewController()
+        newVC.confirm = { [weak self] newName, sender, presentedVC in
+            // create the tag
+            let tag = RealmConfig.newOrExistingTag(proposedName: newName)
+            // add it to the selected items
+            RealmConfig.apply(tag: tag, to: self?.selectedItems ?? [])
+            // dismiss the naming view controller
+            presentedVC.dismiss(sender)
+        }
+        // present the vc
+        self.presentViewController(newVC, asPopoverRelativeTo: .zero, of: button, preferredEdge: .minY, behavior: .semitransient)
     }
     
     // MARK: Handle Going Away
