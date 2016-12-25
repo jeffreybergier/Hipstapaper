@@ -47,13 +47,14 @@
 		5048AF0F1E0DA48600AC1B2D /* URLTaggingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5048AF0D1E0DA48600AC1B2D /* URLTaggingViewController.xib */; };
 		504A3A3B1DF924D300EA46A9 /* URLShareiOSViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504A3A391DF924D300EA46A9 /* URLShareiOSViewController.xib */; };
 		504FC0FC1DFA444A0014C787 /* URLTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504FC0FA1DFA444A0014C787 /* URLTableViewCell.swift */; };
-		504FC0FD1DFA444A0014C787 /* URLTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504FC0FB1DFA444A0014C787 /* URLTableViewCell.xib */; };
+		504FC0FD1DFA444A0014C787 /* URLTableViewCellwIMG.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504FC0FB1DFA444A0014C787 /* URLTableViewCellwIMG.xib */; };
 		505B304B1DEA698300B74AE6 /* URLItemWebViewWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30491DEA698300B74AE6 /* URLItemWebViewWindowController.swift */; };
 		505B304C1DEA698300B74AE6 /* URLItemWebViewWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 505B304A1DEA698300B74AE6 /* URLItemWebViewWindowController.xib */; };
 		505B79BF1E0B924C007BB364 /* URLShareMacViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B79BE1E0B924C007BB364 /* URLShareMacViewController.swift */; };
 		506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506A3F071DD6C10C00A5656E /* AppDelegate.swift */; };
 		506A3F0A1DD6C10D00A5656E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F091DD6C10D00A5656E /* Assets.xcassets */; };
 		506A3F0D1DD6C10D00A5656E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F0B1DD6C10D00A5656E /* MainMenu.xib */; };
+		5073251D1E0F82690070AA2B /* URLTableViewCellwoIMG.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5073251C1E0F82690070AA2B /* URLTableViewCellwoIMG.xib */; };
 		5074A2A61E0224CC004FE1E7 /* PresenterDelegateSafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5074A2A51E0224CC004FE1E7 /* PresenterDelegateSafariViewController.swift */; };
 		5083AA121E04F4FC00BCAC93 /* TagListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083AA101E04F4FC00BCAC93 /* TagListViewController.swift */; };
 		5083AA131E04F4FC00BCAC93 /* TagListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5083AA111E04F4FC00BCAC93 /* TagListViewController.xib */; };
@@ -203,7 +204,7 @@
 		5048AF0D1E0DA48600AC1B2D /* URLTaggingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLTaggingViewController.xib; sourceTree = "<group>"; };
 		504A3A391DF924D300EA46A9 /* URLShareiOSViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLShareiOSViewController.xib; sourceTree = "<group>"; };
 		504FC0FA1DFA444A0014C787 /* URLTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLTableViewCell.swift; sourceTree = "<group>"; };
-		504FC0FB1DFA444A0014C787 /* URLTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLTableViewCell.xib; sourceTree = "<group>"; };
+		504FC0FB1DFA444A0014C787 /* URLTableViewCellwIMG.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLTableViewCellwIMG.xib; sourceTree = "<group>"; };
 		5056F7C466AAFEC30C373DBA /* Pods-Hipstapaper_app_macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_app_macOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_app_macOS/Pods-Hipstapaper_app_macOS.release.xcconfig"; sourceTree = "<group>"; };
 		505B30491DEA698300B74AE6 /* URLItemWebViewWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemWebViewWindowController.swift; sourceTree = "<group>"; };
 		505B304A1DEA698300B74AE6 /* URLItemWebViewWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLItemWebViewWindowController.xib; sourceTree = "<group>"; };
@@ -214,6 +215,7 @@
 		506A3F0C1DD6C10D00A5656E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		506A3F0E1DD6C10D00A5656E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		506D98121DD6CFFB002E4F54 /* Hipstapaper_app_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper_app_macOS.entitlements; sourceTree = "<group>"; };
+		5073251C1E0F82690070AA2B /* URLTableViewCellwoIMG.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLTableViewCellwoIMG.xib; sourceTree = "<group>"; };
 		5074A2A51E0224CC004FE1E7 /* PresenterDelegateSafariViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresenterDelegateSafariViewController.swift; sourceTree = "<group>"; };
 		5083AA101E04F4FC00BCAC93 /* TagListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagListViewController.swift; sourceTree = "<group>"; };
 		5083AA111E04F4FC00BCAC93 /* TagListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagListViewController.xib; sourceTree = "<group>"; };
@@ -298,7 +300,8 @@
 				5083AA141E05020E00BCAC93 /* URLListViewController.swift */,
 				5083AA151E05020E00BCAC93 /* URLListViewController.xib */,
 				504FC0FA1DFA444A0014C787 /* URLTableViewCell.swift */,
-				504FC0FB1DFA444A0014C787 /* URLTableViewCell.xib */,
+				504FC0FB1DFA444A0014C787 /* URLTableViewCellwIMG.xib */,
+				5073251C1E0F82690070AA2B /* URLTableViewCellwoIMG.xib */,
 				5083AA221E059B8900BCAC93 /* TagAddRemoveViewController.swift */,
 				5083AA231E059B8900BCAC93 /* TagAddRemoveViewController.xib */,
 				5083AA2C1E05BE3800BCAC93 /* TagAddRemoveTableViewCell.swift */,
@@ -694,9 +697,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				504FC0FD1DFA444A0014C787 /* URLTableViewCell.xib in Resources */,
+				504FC0FD1DFA444A0014C787 /* URLTableViewCellwIMG.xib in Resources */,
 				5083AA171E05020E00BCAC93 /* URLListViewController.xib in Resources */,
 				5083AA2A1E059B8900BCAC93 /* TagAddRemoveViewController.xib in Resources */,
+				5073251D1E0F82690070AA2B /* URLTableViewCellwoIMG.xib in Resources */,
 				5083AA131E04F4FC00BCAC93 /* TagListViewController.xib in Resources */,
 				5083AA341E05BE3800BCAC93 /* TagAddRemoveTableViewCell.xib in Resources */,
 				5005E1281DF4CB8300BA38E6 /* LaunchScreen.storyboard in Resources */,

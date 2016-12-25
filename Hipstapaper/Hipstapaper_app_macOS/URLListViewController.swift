@@ -11,22 +11,9 @@ import AppKit
 
 class URLListViewController: NSViewController {
     
-    private static let imageValueTransformer: Void = {
-        let vt = URLListImageTransformer()
-        let name = NSValueTransformerName(rawValue: "URLListImageTransformer")
-        ValueTransformer.setValueTransformer(vt, forName: name)
-        return ()
-    }()
-    
     @IBOutlet private weak var arrayController: NSArrayController?
     fileprivate var querySelection: URLItem.Selection?
     fileprivate var openWindowsControllers = [URLItem : NSWindowController]()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // configure value transformer
-        type(of: self).imageValueTransformer
-    }
     
     // MARK: Reload Data
     
@@ -195,21 +182,6 @@ fileprivate extension NSArrayController {
 fileprivate extension NSToolbarItem {
     fileprivate enum Kind: Int {
         case unarchive = 1, archive, tag, share
-    }
-}
-
-// MARK: Handle Placeholder image for image
-
-fileprivate class URLListImageTransformer: ValueTransformer {
-    
-    private static let image = NSImage(imageLiteralResourceName: NSImageNameNetwork)
-    
-    fileprivate override func transformedValue(_ value: Any?) -> Any? {
-        if let _ = value {
-            return value
-        } else {
-            return type(of: self).image
-        }
     }
 }
 

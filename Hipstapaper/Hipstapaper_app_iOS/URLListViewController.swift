@@ -27,8 +27,10 @@ class URLListViewController: UIViewController {
     
     @IBOutlet fileprivate weak var tableView: UITableView? {
         didSet {
-            let nib = UINib(nibName: URLTableViewCell.nibName, bundle: Bundle(for: URLTableViewCell.self))
-            self.tableView?.register(nib, forCellReuseIdentifier: URLTableViewCell.nibName)
+            let imageNib = UINib(nibName: URLTableViewCell.withImageNIBName, bundle: Bundle(for: URLTableViewCell.self))
+            let noImageNib = UINib(nibName: URLTableViewCell.withOutImageNIBName, bundle: Bundle(for: URLTableViewCell.self))
+            self.tableView?.register(imageNib, forCellReuseIdentifier: URLTableViewCell.withImageNIBName)
+            self.tableView?.register(noImageNib, forCellReuseIdentifier: URLTableViewCell.withOutImageNIBName)
             self.tableView?.allowsMultipleSelectionDuringEditing = true
             self.tableView?.rowHeight = URLTableViewCell.cellHeight
             self.tableView?.estimatedRowHeight = URLTableViewCell.cellHeight
@@ -212,10 +214,17 @@ extension URLListViewController: UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: URLTableViewCell.nibName, for: indexPath)
-        if let cell = cell as? URLTableViewCell, let item = self.data?[indexPath.row] {
-            cell.configure(with: item)
+        let item = self.data![indexPath.row]
+        
+        let cell: URLTableViewCell
+        if let _ = item.extras?.image {
+            cell = tableView.dequeueReusableCell(withIdentifier: URLTableViewCell.withImageNIBName, for: indexPath) as! URLTableViewCell
+        } else {
+            cell = tableView.dequeueReusableCell(withIdentifier: URLTableViewCell.withOutImageNIBName, for: indexPath) as! URLTableViewCell
         }
+        
+        cell.configure(with: item)
+        
         return cell
     }
 }
