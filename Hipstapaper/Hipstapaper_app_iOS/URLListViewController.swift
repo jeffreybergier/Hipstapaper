@@ -148,7 +148,7 @@ extension URLListViewController /* Handle BarButtonItems */ {
     @objc fileprivate func tagBBITapped(_ sender: NSObject?) {
         guard let bbi = sender as? UIBBI else { return }
         guard let items = self.selectedURLItems else { return }
-        let tagVC = TagAddRemoveViewController.viewController(popoverSource: bbi, selectedItems: items)
+        let tagVC = TagAddRemoveViewController.viewController(style: .popBBI(bbi), selectedItems: items)
         self.present(tagVC, animated: true, completion: .none)
         self.tableView?.setEditing(false, animated: true)
     }
@@ -204,7 +204,18 @@ extension URLListViewController: UITableViewDelegate {
         archiveToggleAction.backgroundColor = tableView.tintColor
         
         let tagAction = UITableViewRowAction(style: .normal, title: "🏷Tag") { action, indexPath in
-            print("tag: \(item.urlString)")
+            if let actionButton = action.perform("_button")?.takeUnretainedValue() as? UIButton {
+                // use 'private' api to get the actual rect and view of the button the user clicked on
+                // then present the popover from that view
+                let rect = actionButton.frame
+                let tagVC = TagAddRemoveViewController.viewController(style: .popCustom(rect: rect, view: actionButton), selectedItems: [item])
+                self.present(tagVC, animated: true, completion: nil)
+            } else {
+                // if that fails
+                // present as generic form sheet
+                let tagVC = TagAddRemoveViewController.viewController(style: .formSheet, selectedItems: [item])
+                self.present(tagVC, animated: true, completion: nil)
+            }
         }
         return [archiveToggleAction, tagAction]
     }

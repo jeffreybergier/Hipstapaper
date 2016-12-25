@@ -11,11 +11,27 @@ import UIKit
 
 class TagAddRemoveViewController: UIViewController {
     
-    class func viewController(popoverSource: UIBarButtonItem, selectedItems: [URLItem]) -> UIViewController {
+    enum PresentationStyle {
+        case popBBI(UIBarButtonItem)
+        case popCustom(rect: CGRect, view: UIView)
+        case formSheet
+    }
+    
+    class func viewController(style: PresentationStyle, selectedItems: [URLItem]) -> UIViewController {
         let tagVC = TagAddRemoveViewController(selectedItems: selectedItems)
         let navVC = UINavigationController(rootViewController: tagVC)
-        navVC.modalPresentationStyle = .popover
-        navVC.popoverPresentationController!.barButtonItem = popoverSource
+        tagVC.presentationStyle = style
+        switch style {
+        case .popBBI(let bbi):
+            navVC.modalPresentationStyle = .popover
+            navVC.popoverPresentationController!.barButtonItem = bbi
+        case .popCustom(let rect, let view):
+            navVC.modalPresentationStyle = .popover
+            navVC.popoverPresentationController!.sourceRect = rect
+            navVC.popoverPresentationController!.sourceView = view
+        case .formSheet:
+            navVC.modalPresentationStyle = .formSheet
+        }
         navVC.presentationController!.delegate = tagVC
         return navVC
     }
@@ -32,6 +48,7 @@ class TagAddRemoveViewController: UIViewController {
         }
     }
     
+    fileprivate var presentationStyle = PresentationStyle.formSheet
     fileprivate var selectedItems = [URLItem]()
     fileprivate var tags: Results<TagItem>?
     
@@ -154,10 +171,31 @@ extension TagAddRemoveViewController: UIPopoverPresentationControllerDelegate {
 }
 
 extension TagAddRemoveViewController: UIAdaptivePresentationControllerDelegate {
-    // Returning UIModalPresentationNone will indicate that an adaptation should not happen.
-    // @available(iOS 8.3, *)
     func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
-        return .none
+        switch self.presentationStyle {
+        case .popBBI, .popCustom:
+            // if we were able to present as popover
+            // always present as popover, on any device
+            // returning none makes that happen
+            return .none
+        case .formSheet:
+            // if we are not a popover, we need to do more checking
+            switch UIDevice.current.userInterfaceIdiom {
+            case .phone:
+                // if we're on an iphone
+                if UIScreen.main.bounds.height > UIScreen.main.bounds.width {
+                    // if we're in portrait, present a normal modal screen
+                    return .overCurrentContext
+                } else {
+                    // if we're in landscape, present a form sheet
+                    return .formSheet
+                }
+            case .pad, .carPlay, .tv, .unspecified:
+                // if we're on anything else
+                // present a form sheet
+                return .formSheet
+            }
+        }
     }
 }
 
