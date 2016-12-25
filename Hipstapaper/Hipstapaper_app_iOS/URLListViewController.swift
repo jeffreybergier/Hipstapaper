@@ -43,8 +43,7 @@ class URLListViewController: UIViewController {
     fileprivate lazy var archiveBBI: UIBBI = UIBBI(title: "📥Archive", style: .plain, target: self, action: #selector(self.archiveBBITapped(_:)))
     fileprivate lazy var unarchiveBBI: UIBBI = UIBBI(title: "📤Unarchive", style: .plain, target: self, action: #selector(self.unarchiveBBITapped(_:)))
     fileprivate lazy var tagBBI: UIBBI = UIBBI(title: "🏷Tag", style: .plain, target: self, action: #selector(self.tagBBITapped(_:)))
-    fileprivate lazy var flexibleSpaceBBI: UIBBI = UIBBI(barButtonSystemItem: .flexibleSpace, target: .none, action: .none)
-    
+    fileprivate let flexibleSpaceBBI: UIBBI = UIBBI(barButtonSystemItem: .flexibleSpace, target: .none, action: .none)
     
     convenience init(selection: URLItem.Selection) {
         self.init()
@@ -84,6 +83,8 @@ class URLListViewController: UIViewController {
             self?.tableView?.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .left)
             self?.tableView?.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
             self?.tableView?.endUpdates()
+            let itemsSelectedAfterUpdate = self?.selectedURLItems ?? []
+            self?.updateBBI(with: itemsSelectedAfterUpdate)
         case .error(let error):
             fatalError("\(error)")
         }
@@ -108,7 +109,14 @@ class URLListViewController: UIViewController {
 
 extension URLListViewController /* Handle BarButtonItems */ {
     @objc fileprivate func editBBITapped(_ sender: NSObject?) {
+        
+        // manage the table view
+        // if a row is slidden over, we need to close it
+        if self.tableView?.isEditing ?? false { self.tableView?.setEditing(false, animated: true) }
+        // then switch the table view to editing mode
         self.tableView?.setEditing(true, animated: true)
+        
+        // manage the toolbar item
         let items = [
             self.flexibleSpaceBBI,
             self.tagBBI,
