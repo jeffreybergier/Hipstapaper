@@ -136,11 +136,13 @@ extension URLListViewController /* Handle BarButtonItems */ {
     @objc fileprivate func archiveBBITapped(_ sender: NSObject?) {
         guard let items = self.selectedURLItems else { return }
         RealmConfig.updateArchived(to: true, on: items)
+        self.disableAllBBI()
     }
     
     @objc fileprivate func unarchiveBBITapped(_ sender: NSObject?) {
         guard let items = self.selectedURLItems else { return }
         RealmConfig.updateArchived(to: false, on: items)
+        self.disableAllBBI()
     }
     
     @objc fileprivate func tagBBITapped(_ sender: NSObject?) {
@@ -148,6 +150,7 @@ extension URLListViewController /* Handle BarButtonItems */ {
         guard let items = self.selectedURLItems else { return }
         let tagVC = TagAddRemoveViewController.viewController(popoverSource: bbi, selectedItems: items)
         self.present(tagVC, animated: true, completion: .none)
+        self.tableView?.setEditing(false, animated: true)
     }
     
     fileprivate func disableAllBBI() {
@@ -192,7 +195,6 @@ extension URLListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         guard let item = self.data?[indexPath.row] else { return .none }
         let archiveActionTitle = item.archived ? "📤Unarchive" : "📥Archive"
-        //let archiveActionTitle = item.archived ? "🎁" : "📦"
         let archiveToggleAction = UITableViewRowAction(style: .normal, title: archiveActionTitle) { action, indexPath in
             let realm = try! Realm()
             realm.beginWrite()
@@ -228,36 +230,3 @@ extension URLListViewController: UITableViewDataSource {
         return cell
     }
 }
-
-/*
-extension URLListViewController {
-    
-    fileprivate enum Data {
-        
-        case results(Results<URLItem>), links(LinkingObjects<URLItem>)
-        
-        fileprivate var count: Int {
-            switch self {
-            case .links(let data):
-                return data.count
-            case .results(let data):
-                return data.count
-            }
-        }
-        
-        fileprivate func item(at indexPath: IndexPath) -> URLItem? {
-            switch self {
-            case .links(let data):
-                return data[indexPath.row]
-            case .results(let data):
-                return data[indexPath.row]
-            }
-        }
-        
-        fileprivate func items(at indexPaths: [IndexPath]) -> [URLItem]? {
-            let items = indexPaths.map({ self.item(at: $0) }).flatMap({ $0 })
-            if items.isEmpty { return .none } else { return items }
-        }
-    }
-}
- */
