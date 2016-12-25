@@ -204,10 +204,8 @@ extension URLListViewController: UITableViewDelegate {
         guard let item = self.data?[indexPath.row] else { return .none }
         let archiveActionTitle = item.archived ? "📤Unarchive" : "📥Archive"
         let archiveToggleAction = UITableViewRowAction(style: .normal, title: archiveActionTitle) { action, indexPath in
-            let realm = try! Realm()
-            realm.beginWrite()
-            item.archived = !item.archived
-            try! realm.commitWrite()
+            let newArchiveValue = !item.archived
+            RealmConfig.updateArchived(to: newArchiveValue, on: [item])
         }
         archiveToggleAction.backgroundColor = tableView.tintColor
         

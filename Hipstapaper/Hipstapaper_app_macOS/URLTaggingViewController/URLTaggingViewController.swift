@@ -42,8 +42,7 @@ class URLTaggingViewController: NSViewController {
         self.notificationToken = .none
         self.arrayController?.content = []
         
-        let realm = try! Realm()
-        let items = realm.objects(TagItem.self)
+        let items = RealmConfig.tags
         self.notificationToken = items.addNotificationBlock(self.realmResultsChangeClosure)
     }
     

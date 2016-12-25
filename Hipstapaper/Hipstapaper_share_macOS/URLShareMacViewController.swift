@@ -6,7 +6,6 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
-import RealmSwift
 import AppKit
 
 class URLShareMacViewController: XPURLShareViewController {

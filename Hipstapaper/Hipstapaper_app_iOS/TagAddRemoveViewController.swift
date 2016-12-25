@@ -63,8 +63,7 @@ class TagAddRemoveViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.doneBBITapped(_:)))
         
         // get all the tags from realm
-        let realm = try! Realm()
-        self.tags = realm.objects(TagItem.self).sorted(byProperty: #keyPath(TagItem.name))
+        self.tags = RealmConfig.tags
         self.notificationToken = self.tags?.addNotificationBlock(self.tableUpdateClosure)
     }
     

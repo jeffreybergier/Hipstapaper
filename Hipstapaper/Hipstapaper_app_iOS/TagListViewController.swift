@@ -80,10 +80,7 @@ extension TagListViewController: UITableViewDelegate {
         guard let section = Section(rawValue: indexPath.section), section == .tags else { return }
         guard editingStyle == .delete else { return }
         guard let tagItem = self.tags?[indexPath.row] else { return }
-        let realm = try! Realm()
-        try! realm.write {
-            realm.delete(tagItem)
-        }
+        RealmConfig.delete(item: tagItem)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

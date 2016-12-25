@@ -59,13 +59,10 @@ class XPURLShareViewController: XPViewController {
                 }
                 
                 DispatchQueue.global(qos: .userInitiated).async {
-                    let realm = try! Realm()
-                    realm.beginWrite()
                     let newURLItem = URLItem()
                     newURLItem.urlString = tuple.1
                     newURLItem.extras = tuple.0
-                    realm.add(newURLItem)
-                    try! realm.commitWrite()
+                    RealmConfig.add(item: newURLItem)
                     self.uiState = .saved
                     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.7) {
                         self.extensionContext?.completeRequest(returningItems: .none, completionHandler: { _ in })

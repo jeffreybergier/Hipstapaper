@@ -17,6 +17,20 @@ struct RealmConfig {
         return tags
     }
     
+    static func add(item: Object) {
+        let realm = try! Realm()
+        realm.beginWrite()
+        realm.add(item)
+        try! realm.commitWrite()
+    }
+    
+    static func delete(item: Object) {
+        let realm = try! Realm()
+        realm.beginWrite()
+        realm.delete(item)
+        try! realm.commitWrite()
+    }
+    
     static func urlItems(for selection: URLItem.Selection, sortOrder: URLItem.SortOrder) -> Results<URLItem> {
         let realm = try! Realm()
         let results: Results<URLItem>
