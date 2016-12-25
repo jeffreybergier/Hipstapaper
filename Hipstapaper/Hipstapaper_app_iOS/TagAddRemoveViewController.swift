@@ -36,11 +36,6 @@ class TagAddRemoveViewController: UIViewController {
         return navVC
     }
     
-    override var preferredContentSize: CGSize {
-        get { return CGSize(width: 300, height: 400) }
-        set { fatalError("Something is trying to set the preferredContentSize of: \(self)") }
-    }
-    
     @IBOutlet fileprivate weak var tableView: UITableView? {
         didSet {
             let nib = UINib(nibName: TagAddRemoveTableViewCell.nibName, bundle: Bundle(for: TagAddRemoveTableViewCell.self))
@@ -48,9 +43,9 @@ class TagAddRemoveViewController: UIViewController {
         }
     }
     
-    fileprivate var presentationStyle = PresentationStyle.formSheet
-    fileprivate var selectedItems = [URLItem]()
     fileprivate var tags: Results<TagItem>?
+    fileprivate var selectedItems = [URLItem]()
+    fileprivate private(set) var presentationStyle = PresentationStyle.formSheet
     
     convenience init(selectedItems: [URLItem]) {
         self.init()
@@ -169,34 +164,21 @@ extension TagAddRemoveViewController: UIPopoverPresentationControllerDelegate {
         return true
     }
 }
-
 extension TagAddRemoveViewController: UIAdaptivePresentationControllerDelegate {
+
     func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        
         switch self.presentationStyle {
         case .popBBI, .popCustom:
             // if we were able to present as popover
             // always present as popover, on any device
-            // returning none makes that happen
+            // returning .none tells the system DO NOT adapt, so it stays as a popover
             return .none
         case .formSheet:
-            // if we are not a popover, we need to do more checking
-            switch UIDevice.current.userInterfaceIdiom {
-            case .phone:
-                // if we're on an iphone
-                if UIScreen.main.bounds.height > UIScreen.main.bounds.width {
-                    // if we're in portrait, present a normal modal screen
-                    return .overCurrentContext
-                } else {
-                    // if we're in landscape, present a form sheet
-                    return .formSheet
-                }
-            case .pad, .carPlay, .tv, .unspecified:
-                // if we're on anything else
-                // present a form sheet
-                return .formSheet
-            }
+            return .formSheet
         }
     }
+
 }
 
 
