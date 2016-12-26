@@ -10,7 +10,7 @@ import UIKit
 
 class LoggedIniOSViewController: UIViewController {
     
-    private var realmController = RealmController() {
+    private var realmController: RealmController? { // = RealmController() {
         didSet {
             self.updateUILabels()
             self.navigationController!.realmControllableChildren.forEach({ $0.realmController = self.realmController })
@@ -24,10 +24,8 @@ class LoggedIniOSViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Login"
+        self.title = "Account"
         self.updateUILabels()
-
-        self.primaryButtonTapped(.none)
     }
     
     private func updateUILabels() {
@@ -52,11 +50,14 @@ class LoggedIniOSViewController: UIViewController {
             let tagVC = TagListViewController(controller: controller)
             self.navigationController!.pushViewController(tagVC, animated: animated)
         } else {
-            NSLog("Needs to log in")
+            let tabVC = LoginiOSTableViewController.dualLoginTabBarController()
+            self.present(tabVC, animated: animated, completion: .none)
         }
     }
     
     @IBAction private func secondaryButtonTapped(_ sender: NSObject?) {
+        self.realmController?.logOut()
+        self.realmController = .none
     }
 
 }

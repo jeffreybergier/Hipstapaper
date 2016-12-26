@@ -48,6 +48,7 @@
 		504D7F121E10EAB40010A5C7 /* LoggedInMacViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D7F111E10EAB40010A5C7 /* LoggedInMacViewController.swift */; };
 		504D7F151E118A0E0010A5C7 /* LoggedIniOSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D7F131E118A0E0010A5C7 /* LoggedIniOSViewController.swift */; };
 		504D7F161E118A0E0010A5C7 /* LoggedIniOSViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504D7F141E118A0E0010A5C7 /* LoggedIniOSViewController.xib */; };
+		504D7F181E11A1BF0010A5C7 /* LoginiOSTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D7F171E11A1BF0010A5C7 /* LoginiOSTableViewController.swift */; };
 		504FC0FC1DFA444A0014C787 /* URLTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504FC0FA1DFA444A0014C787 /* URLTableViewCell.swift */; };
 		504FC0FD1DFA444A0014C787 /* URLTableViewCellwIMG.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504FC0FB1DFA444A0014C787 /* URLTableViewCellwIMG.xib */; };
 		505B304B1DEA698300B74AE6 /* URLItemWebViewWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30491DEA698300B74AE6 /* URLItemWebViewWindowController.swift */; };
@@ -88,6 +89,8 @@
 		50D61C641E0E2F9A004595CD /* NewTagNamingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D61C621E0E2F9A004595CD /* NewTagNamingViewController.swift */; };
 		50D61C651E0E2F9A004595CD /* NewTagNamingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50D61C631E0E2F9A004595CD /* NewTagNamingViewController.xib */; };
 		50EE9F081E0CB80E00E76CF5 /* ValidatingToolbarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EE9F071E0CB80E00E76CF5 /* ValidatingToolbarItem.swift */; };
+		50F7CFE81E11A7680057DC6C /* LoginTextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F7CFE61E11A7680057DC6C /* LoginTextFieldTableViewCell.swift */; };
+		50F7CFE91E11A7680057DC6C /* LoginTextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F7CFE71E11A7680057DC6C /* LoginTextFieldTableViewCell.xib */; };
 		5E9C66014BDD4E02FF7F81C6 /* Pods_Hipstapaper_app_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3D2DD77CB9D5A347E5437DC /* Pods_Hipstapaper_app_macOS.framework */; };
 		788A5B0BAB0BD900154003C7 /* Pods_Hipstapaper_share_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CB6943C88B413376B7CA9A2 /* Pods_Hipstapaper_share_macOS.framework */; };
 		9D102F8F95FB34D89CD333CB /* Pods_Hipstapaper_app_macOS_tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A5E0FB29CA3E37282CDAD7E /* Pods_Hipstapaper_app_macOS_tests.framework */; };
@@ -214,6 +217,7 @@
 		504D7F111E10EAB40010A5C7 /* LoggedInMacViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggedInMacViewController.swift; sourceTree = "<group>"; };
 		504D7F131E118A0E0010A5C7 /* LoggedIniOSViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggedIniOSViewController.swift; sourceTree = "<group>"; };
 		504D7F141E118A0E0010A5C7 /* LoggedIniOSViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoggedIniOSViewController.xib; sourceTree = "<group>"; };
+		504D7F171E11A1BF0010A5C7 /* LoginiOSTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginiOSTableViewController.swift; sourceTree = "<group>"; };
 		504FC0FA1DFA444A0014C787 /* URLTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLTableViewCell.swift; sourceTree = "<group>"; };
 		504FC0FB1DFA444A0014C787 /* URLTableViewCellwIMG.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLTableViewCellwIMG.xib; sourceTree = "<group>"; };
 		5056F7C466AAFEC30C373DBA /* Pods-Hipstapaper_app_macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_app_macOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_app_macOS/Pods-Hipstapaper_app_macOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -245,6 +249,8 @@
 		50D61C621E0E2F9A004595CD /* NewTagNamingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTagNamingViewController.swift; sourceTree = "<group>"; };
 		50D61C631E0E2F9A004595CD /* NewTagNamingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewTagNamingViewController.xib; sourceTree = "<group>"; };
 		50EE9F071E0CB80E00E76CF5 /* ValidatingToolbarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidatingToolbarItem.swift; sourceTree = "<group>"; };
+		50F7CFE61E11A7680057DC6C /* LoginTextFieldTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTextFieldTableViewCell.swift; sourceTree = "<group>"; };
+		50F7CFE71E11A7680057DC6C /* LoginTextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginTextFieldTableViewCell.xib; sourceTree = "<group>"; };
 		50FA3BFA1DF4F3A400551325 /* Hipstapaper_app_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper_app_iOS.entitlements; sourceTree = "<group>"; };
 		5CB6943C88B413376B7CA9A2 /* Pods_Hipstapaper_share_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hipstapaper_share_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		814151236C89B4999E280264 /* Pods-Hipstapaper_app_macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_app_macOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_app_macOS/Pods-Hipstapaper_app_macOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -310,6 +316,9 @@
 				5005E11D1DF4CB8300BA38E6 /* AppDelegate.swift */,
 				504D7F131E118A0E0010A5C7 /* LoggedIniOSViewController.swift */,
 				504D7F141E118A0E0010A5C7 /* LoggedIniOSViewController.xib */,
+				504D7F171E11A1BF0010A5C7 /* LoginiOSTableViewController.swift */,
+				50F7CFE61E11A7680057DC6C /* LoginTextFieldTableViewCell.swift */,
+				50F7CFE71E11A7680057DC6C /* LoginTextFieldTableViewCell.xib */,
 				5083AA101E04F4FC00BCAC93 /* TagListViewController.swift */,
 				5083AA111E04F4FC00BCAC93 /* TagListViewController.xib */,
 				5083AA141E05020E00BCAC93 /* URLListViewController.swift */,
@@ -725,6 +734,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				504FC0FD1DFA444A0014C787 /* URLTableViewCellwIMG.xib in Resources */,
+				50F7CFE91E11A7680057DC6C /* LoginTextFieldTableViewCell.xib in Resources */,
 				5083AA171E05020E00BCAC93 /* URLListViewController.xib in Resources */,
 				5083AA2A1E059B8900BCAC93 /* TagAddRemoveViewController.xib in Resources */,
 				5073251D1E0F82690070AA2B /* URLTableViewCellwoIMG.xib in Resources */,
@@ -982,9 +992,11 @@
 				5083AA301E05BE3800BCAC93 /* TagAddRemoveTableViewCell.swift in Sources */,
 				5083AA261E059B8900BCAC93 /* TagAddRemoveViewController.swift in Sources */,
 				50A1517B1E077D8000529048 /* FrameworkExtensions.swift in Sources */,
+				50F7CFE81E11A7680057DC6C /* LoginTextFieldTableViewCell.swift in Sources */,
 				5086231B1E10BF2700C06C7D /* RealmController.swift in Sources */,
 				504FC0FC1DFA444A0014C787 /* URLTableViewCell.swift in Sources */,
 				5005E11E1DF4CB8300BA38E6 /* AppDelegate.swift in Sources */,
+				504D7F181E11A1BF0010A5C7 /* LoginiOSTableViewController.swift in Sources */,
 				5083AA121E04F4FC00BCAC93 /* TagListViewController.swift in Sources */,
 				50420FEF1E0B0D0F00B237DA /* TagItem.swift in Sources */,
 				5083AA161E05020E00BCAC93 /* URLListViewController.swift in Sources */,
