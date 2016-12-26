@@ -9,6 +9,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PreferencesWindowController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
+                <outlet property="tabView" destination="Lpx-w0-jhu" id="Pwy-uC-018"/>
                 <outlet property="window" destination="uNE-Rb-Cs8" id="Jfo-8M-j08"/>
             </connections>
         </customObject>
@@ -28,7 +29,39 @@
                         <rect key="frame" x="13" y="10" width="614" height="227"/>
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
-                            <tabViewItem label="Login" identifier="1" id="rfd-QD-KOd">
+                            <tabViewItem label="Logged In" identifier="loggedin" id="ppa-jY-SJo">
+                                <view key="view" id="9Sn-I5-doT">
+                                    <rect key="frame" x="10" y="33" width="594" height="181"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L58-sF-hpQ">
+                                            <rect key="frame" x="220" y="109" width="154" height="17"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="You're already logged in." id="24H-MP-l9W">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WsV-7P-cR9">
+                                            <rect key="frame" x="252" y="73" width="89" height="32"/>
+                                            <buttonCell key="cell" type="push" title="Log Out" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="bnF-F6-bXj">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="logoutButtonClicked:" target="8Or-oO-rTN" id="CW8-U1-xxe"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="WsV-7P-cR9" firstAttribute="centerY" secondItem="9Sn-I5-doT" secondAttribute="centerY" id="3nA-WE-EPh"/>
+                                        <constraint firstItem="WsV-7P-cR9" firstAttribute="top" secondItem="L58-sF-hpQ" secondAttribute="bottom" constant="8" symbolic="YES" id="KYJ-g7-ThF"/>
+                                        <constraint firstItem="L58-sF-hpQ" firstAttribute="centerX" secondItem="WsV-7P-cR9" secondAttribute="centerX" id="q88-2Q-F1D"/>
+                                        <constraint firstItem="WsV-7P-cR9" firstAttribute="centerX" secondItem="9Sn-I5-doT" secondAttribute="centerX" id="z4R-cx-8Lb"/>
+                                    </constraints>
+                                </view>
+                            </tabViewItem>
+                            <tabViewItem label="Login" identifier="login" id="rfd-QD-KOd">
                                 <view key="view" id="5Ve-IV-zRz">
                                     <rect key="frame" x="10" y="33" width="594" height="181"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -57,6 +90,9 @@
                                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
+                                                            <connections>
+                                                                <action selector="textFieldChanged:" target="jtd-GN-czU" id="6qh-ya-46U"/>
+                                                            </connections>
                                                         </textField>
                                                     </subviews>
                                                     <visibilityPriorities>
@@ -86,6 +122,9 @@
                                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
+                                                            <connections>
+                                                                <action selector="textFieldChanged:" target="jtd-GN-czU" id="ij3-O4-fdz"/>
+                                                            </connections>
                                                         </textField>
                                                     </subviews>
                                                     <visibilityPriorities>
@@ -118,6 +157,9 @@
                                                                     <string>NSAllRomanInputSourcesLocaleIdentifier</string>
                                                                 </allowedInputSourceLocales>
                                                             </secureTextFieldCell>
+                                                            <connections>
+                                                                <action selector="textFieldChanged:" target="jtd-GN-czU" id="odI-QU-uiI"/>
+                                                            </connections>
                                                         </secureTextField>
                                                     </subviews>
                                                     <visibilityPriorities>
@@ -184,7 +226,7 @@ DQ
                                     </constraints>
                                 </view>
                             </tabViewItem>
-                            <tabViewItem label="Create Account" identifier="2" id="nZB-BR-aYh">
+                            <tabViewItem label="Create Account" identifier="create" id="nZB-BR-aYh">
                                 <view key="view" id="0df-Tt-gqW">
                                     <rect key="frame" x="10" y="33" width="594" height="181"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -213,6 +255,9 @@ DQ
                                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
+                                                            <connections>
+                                                                <action selector="textFieldChanged:" target="MB8-oN-L7e" id="kec-ln-8NX"/>
+                                                            </connections>
                                                         </textField>
                                                     </subviews>
                                                     <visibilityPriorities>
@@ -242,6 +287,9 @@ DQ
                                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
+                                                            <connections>
+                                                                <action selector="textFieldChanged:" target="MB8-oN-L7e" id="wLZ-o2-IkP"/>
+                                                            </connections>
                                                         </textField>
                                                     </subviews>
                                                     <visibilityPriorities>
@@ -274,6 +322,9 @@ DQ
                                                                     <string>NSAllRomanInputSourcesLocaleIdentifier</string>
                                                                 </allowedInputSourceLocales>
                                                             </secureTextFieldCell>
+                                                            <connections>
+                                                                <action selector="textFieldChanged:" target="MB8-oN-L7e" id="63O-i4-Rwr"/>
+                                                            </connections>
                                                         </secureTextField>
                                                     </subviews>
                                                     <visibilityPriorities>
@@ -306,6 +357,9 @@ DQ
                                                                     <string>NSAllRomanInputSourcesLocaleIdentifier</string>
                                                                 </allowedInputSourceLocales>
                                                             </secureTextFieldCell>
+                                                            <connections>
+                                                                <action selector="textFieldChanged:" target="MB8-oN-L7e" id="q03-hD-cbG"/>
+                                                            </connections>
                                                         </secureTextField>
                                                     </subviews>
                                                     <visibilityPriorities>
@@ -390,9 +444,16 @@ DQ
             </connections>
             <point key="canvasLocation" x="178" y="10.5"/>
         </window>
+        <customObject id="8Or-oO-rTN" customClass="LoggedInViewController" customModule="Hipstapaper" customModuleProvider="target">
+            <connections>
+                <outlet property="parentWindowController" destination="-2" id="A2A-RM-fFy"/>
+            </connections>
+        </customObject>
         <customObject id="jtd-GN-czU" customClass="LoginViewController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
+                <outlet property="parentWindowController" destination="-2" id="Oog-gP-Qvk"/>
                 <outlet property="password1TextField" destination="3gB-HZ-ma0" id="FCG-VZ-Pnu"/>
+                <outlet property="primaryButton" destination="5t4-1X-s9T" id="Wv3-hH-czK"/>
                 <outlet property="serverTextField" destination="YEg-Bp-VdC" id="KKB-na-17Z"/>
                 <outlet property="spinner" destination="UId-wm-d6l" id="uiQ-6F-lms"/>
                 <outlet property="usernameTextField" destination="JuI-Ro-wAE" id="fkb-hh-CFV"/>
@@ -401,8 +462,10 @@ DQ
         </customObject>
         <customObject id="MB8-oN-L7e" customClass="LoginViewController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
+                <outlet property="parentWindowController" destination="-2" id="l8S-DZ-4Cq"/>
                 <outlet property="password1TextField" destination="VeZ-kF-mNE" id="cY9-Wn-MHP"/>
                 <outlet property="password2TextField" destination="DF4-a1-D2E" id="6SO-FD-Uib"/>
+                <outlet property="primaryButton" destination="Zkl-Kf-CK1" id="8fq-YU-ZDe"/>
                 <outlet property="serverTextField" destination="eth-B3-3be" id="apD-UM-gTz"/>
                 <outlet property="spinner" destination="5jS-3Y-Hnt" id="L6d-JS-qdc"/>
                 <outlet property="usernameTextField" destination="ePu-zt-QBB" id="vug-Pg-0t4"/>

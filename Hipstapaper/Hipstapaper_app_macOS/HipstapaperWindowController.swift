@@ -9,17 +9,21 @@
 import RealmSwift
 import AppKit
 
-class HipstapaperWindowController: NSWindowController {
+class HipstapaperWindowController: NSWindowController, RealmControllable {
     
-    private let preferencesWindowController = PreferencesWindowController()
+    private lazy var preferencesWindowController: PreferencesWindowController = {
+        let wc = PreferencesWindowController()
+        wc.delegate = self
+        return wc
+    }()
     
     /*@IBOutlet*/ private weak var sidebarViewController: TagListViewController?
     /*@IBOutlet*/ fileprivate weak var mainViewController: URLListViewController?
     
-    private var realmController = RealmController() {
+    var realmController = RealmController() {
         didSet {
-            self.sidebarViewController!.realmController = self.realmController!
-            self.mainViewController!.realmController = self.realmController!
+            self.sidebarViewController?.realmController = self.realmController
+            self.mainViewController?.realmController = self.realmController
         }
     }
     
@@ -39,22 +43,10 @@ class HipstapaperWindowController: NSWindowController {
         self.sidebarViewController!.selectionDelegate = self
         
         if let realmController = self.realmController {
-            self.sidebarViewController!.realmController = realmController
-            self.mainViewController!.realmController = realmController
+            self.sidebarViewController?.realmController = realmController
+            self.mainViewController?.realmController = realmController
         } else {
             NSLog("No User Present: Attempting Login.")
-//            let credentials = SyncCredentials.usernamePassword(username: realmUsername, password: realmPassword, register: false)
-//            SyncUser.logIn(with: credentials, server: realmAuthServer) { user, error in
-//                if let user = user {
-//                    DispatchQueue.main.async {
-//                        NSLog("Login Successful")
-//                        let realmController = RealmController(user: user)
-//                        self.realmController = realmController
-//                    }
-//                } else {
-//                    NSLog("Failed to login: \(error)")
-//                }
-//            }
         }
     }
     

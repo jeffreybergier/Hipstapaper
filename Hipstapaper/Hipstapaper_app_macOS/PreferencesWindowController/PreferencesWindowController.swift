@@ -8,10 +8,48 @@
 
 import AppKit
 
-class PreferencesWindowController: NSWindowController {
+class PreferencesWindowController: NSWindowController, RealmControllable {
+    
+    @IBOutlet private weak var tabView: NSTabView?
+    
+    private var allTabViewItems = [NSTabViewItem]()
+    
+    var realmController: RealmController? {
+        get {
+            return self.delegate?.realmController
+        }
+        set {
+            self.delegate?.realmController = newValue
+        }
+    }
+    
+    weak var delegate: RealmControllable?
     
     convenience init() {
         self.init(windowNibName: "PreferencesWindowController")
     }
+    
+    override func windowDidLoad() {
+        super.windowDidLoad()
+        self.allTabViewItems = self.tabView?.tabViewItems ?? []
+    }
+    
+    override func showWindow(_ sender: Any?) {
+        super.showWindow(sender)
         
+        self.tabView?.tabViewItems.forEach() { item in
+            self.tabView?.removeTabViewItem(item)
+        }
+        
+        let items: [NSTabViewItem]
+        if let _ = self.realmController {
+            items = self.allTabViewItems.filter({ ($0.identifier as? String) == "loggedin" })
+        } else {
+            items = self.allTabViewItems.filter({ ($0.identifier as? String) == "login" || ($0.identifier as? String) == "create" })
+        }
+        
+        items.enumerated().forEach() { index, item in
+            self.tabView?.insertTabViewItem(item, at: index)
+        }
+    }
 }

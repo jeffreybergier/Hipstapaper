@@ -41,6 +41,10 @@ class RealmController {
         }
     }
     
+    func logOut() {
+        self.user.logOut()
+    }
+    
     var tags: Results<TagItem> {
         let realm = self.realm
         let tags = realm.objects(TagItem.self).sorted(byProperty: #keyPath(TagItem.name))
