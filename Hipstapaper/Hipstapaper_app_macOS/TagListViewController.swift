@@ -50,25 +50,31 @@ class TagListViewController: NSViewController {
         self.notificationToken?.stop()
         self.notificationToken = .none
         self.treeController?.content = TreeBindingObject.treeObjects(from: .none)
+        self.outlineView?.expandItem(.none, expandChildren: true)
         
+        // refresh the content with new data
         let items = self.realmController?.tags
         self.notificationToken = items?.addNotificationBlock(self.realmResultsChangeClosure)
     }
     
     private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<TagItem>>) -> Void) = { [weak self] changes in
+        let newResults: Results<TagItem>
+        let newSelection: [IndexPath]
         switch changes {
         case .initial(let results):
-            let content = TreeBindingObject.treeObjects(from: results)
-            self?.treeController?.content = content
-            self?.treeController?.setSelectionIndexPaths([IndexPath(item: 0, section: 0)])
-            self?.outlineView?.expandItem(.none, expandChildren: true)
+            newResults = results
+            newSelection = [IndexPath(item: 0, section: 0)]
         case .update(let results, _, _, _):
-            let content = TreeBindingObject.treeObjects(from: results)
-            self?.treeController?.content = content
-            self?.outlineView?.expandItem(.none, expandChildren: true)
+            newResults = results
+            newSelection = self?.treeController?.selectionIndexPaths ?? [IndexPath(item: 0, section: 0)]
         case .error(let error):
             fatalError("\(error)")
         }
+        
+        let content = TreeBindingObject.treeObjects(from: newResults)
+        self?.treeController?.content = content
+        self?.treeController?.setSelectionIndexPaths(newSelection)
+        self?.outlineView?.expandItem(.none, expandChildren: true)
     }
     
     // MARK: Handle Going Away
