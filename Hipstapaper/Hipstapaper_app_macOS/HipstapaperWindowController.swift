@@ -11,6 +11,8 @@ import AppKit
 
 class HipstapaperWindowController: NSWindowController {
     
+    private let preferencesWindowController = PreferencesWindowController()
+    
     /*@IBOutlet*/ private weak var sidebarViewController: TagListViewController?
     /*@IBOutlet*/ fileprivate weak var mainViewController: URLListViewController?
     
@@ -41,17 +43,30 @@ class HipstapaperWindowController: NSWindowController {
             self.mainViewController!.realmController = realmController
         } else {
             NSLog("No User Present: Attempting Login.")
-            let credentials = SyncCredentials.usernamePassword(username: realmUsername, password: realmPassword, register: false)
-            SyncUser.logIn(with: credentials, server: realmAuthServer) { user, error in
-                if let user = user {
-                    DispatchQueue.main.async {
-                        let realmController = RealmController(user: user)
-                        self.realmController = realmController
-                    }
-                } else {
-                    NSLog("Failed to login: \(error)")
-                }
-            }
+//            let credentials = SyncCredentials.usernamePassword(username: realmUsername, password: realmPassword, register: false)
+//            SyncUser.logIn(with: credentials, server: realmAuthServer) { user, error in
+//                if let user = user {
+//                    DispatchQueue.main.async {
+//                        NSLog("Login Successful")
+//                        let realmController = RealmController(user: user)
+//                        self.realmController = realmController
+//                    }
+//                } else {
+//                    NSLog("Failed to login: \(error)")
+//                }
+//            }
+        }
+    }
+    
+    @IBAction private func showPreferencesWindow(_ sender: NSObject?) {
+        self.preferencesWindowController.showWindow(sender)
+    }
+    
+    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        if menuItem.tag == 333 {
+            return true
+        } else {
+            return false
         }
     }
     
