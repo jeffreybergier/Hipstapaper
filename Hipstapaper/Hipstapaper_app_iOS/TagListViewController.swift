@@ -9,27 +9,50 @@
 import RealmSwift
 import UIKit
 
-class TagListViewController: UIViewController {
+class TagListViewController: UIViewController, RealmControllable {
     
     fileprivate enum Section: Int {
         case readingList = 0, tags
     }
     
-    fileprivate var tags: Results<TagItem>?
-    
     @IBOutlet private weak var tableView: UITableView?
-
+    fileprivate var tags: Results<TagItem>?
+    var realmController: RealmController? {
+        didSet {
+            self.hardReloadData()
+        }
+    }
+    
+    convenience init(controller: RealmController) {
+        self.init()
+        self.realmController = controller
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // title
         self.title = "Tags"
-
-        self.tags = RealmConfig.tags
-        self.notificationToken = self.tags?.addNotificationBlock(self.tableUpdateClosure)
         
-        if let tableView = self.tableView {
-            self.tableView(tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
+        // before we even load things, lets go to the main view of the app
+        let newVC = URLListViewController(selection: .unarchived, controller: self.realmController!)
+        self.navigationController?.pushViewController(newVC, animated: true)
+        
+        // now lets load the data in the BG
+        DispatchQueue.main.async {
+            self.hardReloadData()
         }
+    }
+    
+    private func hardReloadData() {
+        // reset everything
+        self.notificationToken?.stop()
+        self.notificationToken = .none
+        self.tags = .none
+        
+        // reload everything
+        self.tags = self.realmController?.tags
+        self.notificationToken = self.tags?.addNotificationBlock(self.tableUpdateClosure)
     }
     
     private lazy var tableUpdateClosure: ((RealmCollectionChange<Results<TagItem>>) -> Void) = { [weak self] changes in
@@ -80,11 +103,11 @@ extension TagListViewController: UITableViewDelegate {
         guard let section = Section(rawValue: indexPath.section), section == .tags else { return }
         guard editingStyle == .delete else { return }
         guard let tagItem = self.tags?[indexPath.row] else { return }
-        RealmConfig.delete(item: tagItem)
+        self.realmController?.delete(item: tagItem)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let section = Section(rawValue: indexPath.section) else { return }
+        guard let section = Section(rawValue: indexPath.section), let controller = self.realmController else { return }
         let selection: URLItem.Selection
         switch section {
         case .readingList:
@@ -93,7 +116,7 @@ extension TagListViewController: UITableViewDelegate {
             guard let tagItem = self.tags?[indexPath.row] else { fatalError() }
             selection = .tag(tagItem)
         }
-        let newVC = URLListViewController(selection: selection)
+        let newVC = URLListViewController(selection: selection, controller: controller)
         self.navigationController?.pushViewController(newVC, animated: true)
     }
 }

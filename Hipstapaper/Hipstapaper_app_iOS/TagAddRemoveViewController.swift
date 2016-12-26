@@ -9,7 +9,7 @@
 import RealmSwift
 import UIKit
 
-class TagAddRemoveViewController: UIViewController {
+class TagAddRemoveViewController: UIViewController, RealmControllable {
     
     enum PresentationStyle {
         case popBBI(UIBarButtonItem)
@@ -17,8 +17,8 @@ class TagAddRemoveViewController: UIViewController {
         case formSheet
     }
     
-    class func viewController(style: PresentationStyle, selectedItems: [URLItem]) -> UIViewController {
-        let tagVC = TagAddRemoveViewController(selectedItems: selectedItems)
+    class func viewController(style: PresentationStyle, selectedItems: [URLItem], controller: RealmController) -> UIViewController {
+        let tagVC = TagAddRemoveViewController(selectedItems: selectedItems, controller: controller)
         let navVC = UINavigationController(rootViewController: tagVC)
         tagVC.presentationStyle = style
         switch style {
@@ -46,10 +46,16 @@ class TagAddRemoveViewController: UIViewController {
     fileprivate var tags: Results<TagItem>?
     fileprivate var selectedItems = [URLItem]()
     fileprivate private(set) var presentationStyle = PresentationStyle.formSheet
+    var realmController: RealmController? {
+        didSet {
+            self.hardReloadData()
+        }
+    }
     
-    convenience init(selectedItems: [URLItem]) {
+    convenience init(selectedItems: [URLItem], controller: RealmController) {
         self.init()
         self.selectedItems = selectedItems
+        self.realmController = controller
     }
 
     override func viewDidLoad() {
@@ -62,8 +68,18 @@ class TagAddRemoveViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addBBITapped(_:)))
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.doneBBITapped(_:)))
         
-        // get all the tags from realm
-        self.tags = RealmConfig.tags
+        // load the data
+        self.hardReloadData()
+    }
+    
+    private func hardReloadData() {
+        // reset everything
+        self.notificationToken?.stop()
+        self.notificationToken = .none
+        self.tags = .none
+        
+        // reload everything
+        self.tags = self.realmController?.tags
         self.notificationToken = self.tags?.addNotificationBlock(self.tableUpdateClosure)
     }
     
@@ -91,9 +107,10 @@ class TagAddRemoveViewController: UIViewController {
         alertVC.addTextField(configurationHandler: { $0.placeholder = "tag name" })
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: .none)
         let addAction = UIAlertAction(title: "Add", style: .default) { action in
+            guard let realmController = self.realmController else { return }
             let newName = alertVC.textFields?.map({ $0.text }).flatMap({ $0 }).first ?? ""
-            let tag = RealmConfig.newOrExistingTag(proposedName: newName)
-            RealmConfig.apply(tag: tag, to: self.selectedItems)
+            let tag = realmController.newOrExistingTag(proposedName: newName)
+            realmController.apply(tag: tag, to: self.selectedItems)
         }
         alertVC.addAction(cancelAction)
         alertVC.addAction(addAction)
@@ -113,9 +130,9 @@ extension TagAddRemoveViewController: TagApplicationChangeDelegate {
         guard let indexPath = self.tableView?.indexPath(for: sender), let tagItem = self.tags?[indexPath.row] else { return }
         switch newValue {
         case true:
-            RealmConfig.apply(tag: tagItem, to: self.selectedItems)
+            self.realmController?.apply(tag: tagItem, to: self.selectedItems)
         case false:
-            RealmConfig.remove(tag: tagItem, from: self.selectedItems)
+            self.realmController?.remove(tag: tagItem, from: self.selectedItems)
         }
     }
 }
@@ -140,7 +157,7 @@ extension TagAddRemoveViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: TagAddRemoveTableViewCell.nibName, for: indexPath)
         if let cell = cell as? TagAddRemoveTableViewCell, let tagItem = self.tags?[indexPath.row] {
             cell.tagNameLabel?.text = tagItem.name
-            let state = RealmConfig.state(of: tagItem, with: self.selectedItems)
+            let state = self.realmController?.state(of: tagItem, with: self.selectedItems) ?? .mixed
             cell.tagSwitch?.isOn = state.boolValue
             cell.delegate = self
         }
@@ -151,7 +168,7 @@ extension TagAddRemoveViewController: UITableViewDataSource {
         switch editingStyle {
         case .delete:
             guard let tagItem = self.tags?[indexPath.row] else { return }
-            RealmConfig.delete(items: [tagItem])
+            self.realmController?.delete(items: [tagItem])
         case .insert, .none:
             break
         }

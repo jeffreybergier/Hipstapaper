@@ -444,12 +444,12 @@ DQ
             </connections>
             <point key="canvasLocation" x="178" y="10.5"/>
         </window>
-        <customObject id="8Or-oO-rTN" customClass="LoggedInViewController" customModule="Hipstapaper" customModuleProvider="target">
+        <customObject id="8Or-oO-rTN" customClass="LoggedInMacViewController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
                 <outlet property="parentWindowController" destination="-2" id="A2A-RM-fFy"/>
             </connections>
         </customObject>
-        <customObject id="jtd-GN-czU" customClass="LoginViewController" customModule="Hipstapaper" customModuleProvider="target">
+        <customObject id="jtd-GN-czU" customClass="LoginMacViewController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
                 <outlet property="parentWindowController" destination="-2" id="Oog-gP-Qvk"/>
                 <outlet property="password1TextField" destination="3gB-HZ-ma0" id="FCG-VZ-Pnu"/>
@@ -460,7 +460,7 @@ DQ
                 <outlet property="view" destination="5Ve-IV-zRz" id="TVM-2X-RXj"/>
             </connections>
         </customObject>
-        <customObject id="MB8-oN-L7e" customClass="LoginViewController" customModule="Hipstapaper" customModuleProvider="target">
+        <customObject id="MB8-oN-L7e" customClass="LoginMacViewController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
                 <outlet property="parentWindowController" destination="-2" id="l8S-DZ-4Cq"/>
                 <outlet property="password1TextField" destination="VeZ-kF-mNE" id="cY9-Wn-MHP"/>

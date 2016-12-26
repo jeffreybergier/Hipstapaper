@@ -8,6 +8,10 @@
 
 import RealmSwift
 
+protocol RealmControllable: class {
+    var realmController: RealmController? { get set }
+}
+
 class RealmController {
     
     private let user: SyncUser

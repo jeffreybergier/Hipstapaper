@@ -9,11 +9,7 @@
 import RealmSwift
 import AppKit
 
-protocol RealmControllable: class {
-    var realmController: RealmController? { get set }
-}
-
-class LoginViewController: NSViewController {
+class LoginMacViewController: NSViewController {
     
     private enum Purpose {
         case login, create

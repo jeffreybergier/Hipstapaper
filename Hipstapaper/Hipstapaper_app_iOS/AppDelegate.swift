@@ -20,12 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window = UIWindow(frame: UIScreen.main.bounds)
         }
         
-        RealmConfig.configure() {
-            let navVC = UINavigationController(rootViewController: TagListViewController())
-            self.window!.rootViewController = navVC
-        }
-    
-        self.window!.rootViewController = UIViewController()
+        let navVC = UINavigationController(rootViewController: LoggedIniOSViewController())
+        self.window!.rootViewController = navVC
         self.window?.backgroundColor = .white
         self.window?.makeKeyAndVisible()
         

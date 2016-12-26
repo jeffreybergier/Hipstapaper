@@ -10,20 +10,7 @@ import RealmSwift
 import SafariServices
 import UIKit
 
-class URLListViewController: UIViewController {
-    
-    private var selection: URLItem.Selection = .unarchived
-    fileprivate var data: Results<URLItem>?
-    
-    fileprivate var selectedURLItems: [URLItem]? {
-        guard
-            let data = self.data,
-            let indexPaths = self.tableView?.indexPathsForSelectedRows,
-            indexPaths.isEmpty == false
-        else { return .none}
-        let items = indexPaths.map({ data[$0.row] })
-        return items
-    }
+class URLListViewController: UIViewController, RealmControllable {
     
     @IBOutlet fileprivate weak var tableView: UITableView? {
         didSet {
@@ -45,9 +32,28 @@ class URLListViewController: UIViewController {
     fileprivate lazy var tagBBI: UIBBI = UIBBI(title: "🏷Tag", style: .plain, target: self, action: #selector(self.tagBBITapped(_:)))
     fileprivate let flexibleSpaceBBI: UIBBI = UIBBI(barButtonSystemItem: .flexibleSpace, target: .none, action: .none)
     
-    convenience init(selection: URLItem.Selection) {
+    private var selection: URLItem.Selection = .unarchived
+    fileprivate var data: Results<URLItem>?
+    var realmController: RealmController? {
+        didSet {
+            self.hardReloadData()
+        }
+    }
+    
+    fileprivate var selectedURLItems: [URLItem]? {
+        guard
+            let data = self.data,
+            let indexPaths = self.tableView?.indexPathsForSelectedRows,
+            indexPaths.isEmpty == false
+        else { return .none}
+        let items = indexPaths.map({ data[$0.row] })
+        return items
+    }
+    
+    convenience init(selection: URLItem.Selection, controller: RealmController) {
         self.init()
         self.selection = selection
+        self.realmController = controller
     }
 
     override func viewDidLoad() {
@@ -67,10 +73,20 @@ class URLListViewController: UIViewController {
             self.title = "🏷 \(tagItem.name)"
         }
         
+        // load the data
+        self.hardReloadData()
+    }
+    
+    private func hardReloadData() {
+        // clear things out
+        self.notificationToken?.stop()
+        self.notificationToken = .none
+        self.data = .none
+        
         // configure data source
-        let items = RealmConfig.urlItems(for: selection, sortOrder: URLItem.SortOrder.creationDate(newestFirst: true))
+        let items = self.realmController?.urlItems(for: selection, sortOrder: URLItem.SortOrder.creationDate(newestFirst: true))
         self.data = items
-        self.notificationToken = items.addNotificationBlock(self.realmResultsChangeClosure)
+        self.notificationToken = items?.addNotificationBlock(self.realmResultsChangeClosure)
     }
     
     private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<URLItem>>) -> Void) = { [weak self] changes in
@@ -92,12 +108,12 @@ class URLListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.setToolbarHidden(false, animated: true)
+        self.navigationController?.setToolbarHidden(false, animated: animated)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.navigationController?.setToolbarHidden(true, animated: true)
+        self.navigationController?.setToolbarHidden(true, animated: animated)
     }
     
     private var notificationToken: NotificationToken?
@@ -143,20 +159,23 @@ extension URLListViewController /* Handle BarButtonItems */ {
     
     @objc fileprivate func archiveBBITapped(_ sender: NSObject?) {
         guard let items = self.selectedURLItems else { return }
-        RealmConfig.updateArchived(to: true, on: items)
+        self.realmController?.updateArchived(to: true, on: items)
         self.disableAllBBI()
     }
     
     @objc fileprivate func unarchiveBBITapped(_ sender: NSObject?) {
         guard let items = self.selectedURLItems else { return }
-        RealmConfig.updateArchived(to: false, on: items)
+        self.realmController?.updateArchived(to: false, on: items)
         self.disableAllBBI()
     }
     
     @objc fileprivate func tagBBITapped(_ sender: NSObject?) {
-        guard let bbi = sender as? UIBBI else { return }
-        guard let items = self.selectedURLItems else { return }
-        let tagVC = TagAddRemoveViewController.viewController(style: .popBBI(bbi), selectedItems: items)
+        guard
+            let bbi = sender as? UIBBI,
+            let items = self.selectedURLItems,
+            let realmController = self.realmController
+        else { return }
+        let tagVC = TagAddRemoveViewController.viewController(style: .popBBI(bbi), selectedItems: items, controller: realmController)
         self.present(tagVC, animated: true, completion: .none)
         self.tableView?.setEditing(false, animated: true)
     }
@@ -172,8 +191,8 @@ extension URLListViewController /* Handle BarButtonItems */ {
             self.disableAllBBI()
         } else {
             self.tagBBI.isEnabled = true
-            self.archiveBBI.isEnabled = RealmConfig.atLeastOneItem(in: items, canBeArchived: true)
-            self.unarchiveBBI.isEnabled = RealmConfig.atLeastOneItem(in: items, canBeArchived: false)
+            self.archiveBBI.isEnabled = self.realmController?.atLeastOneItem(in: items, canBeArchived: true) ?? false
+            self.unarchiveBBI.isEnabled = self.realmController?.atLeastOneItem(in: items, canBeArchived: false) ?? false
         }
     }
 }
@@ -201,11 +220,11 @@ extension URLListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        guard let item = self.data?[indexPath.row] else { return .none }
+        guard let item = self.data?[indexPath.row], let realmController = self.realmController else { return .none }
         let archiveActionTitle = item.archived ? "📤Unarchive" : "📥Archive"
         let archiveToggleAction = UITableViewRowAction(style: .normal, title: archiveActionTitle) { action, indexPath in
             let newArchiveValue = !item.archived
-            RealmConfig.updateArchived(to: newArchiveValue, on: [item])
+            self.realmController?.updateArchived(to: newArchiveValue, on: [item])
         }
         archiveToggleAction.backgroundColor = tableView.tintColor
         
@@ -214,12 +233,13 @@ extension URLListViewController: UITableViewDelegate {
                 // use 'private' api to get the actual rect and view of the button the user clicked on
                 // then present the popover from that view
                 let rect = actionButton.frame
-                let tagVC = TagAddRemoveViewController.viewController(style: .popCustom(rect: rect, view: actionButton), selectedItems: [item])
+                let presentation = TagAddRemoveViewController.PresentationStyle.popCustom(rect: rect, view: actionButton)
+                let tagVC = TagAddRemoveViewController.viewController(style: presentation, selectedItems: [item], controller: realmController)
                 self.present(tagVC, animated: true, completion: nil)
             } else {
                 // if that fails
                 // present as generic form sheet
-                let tagVC = TagAddRemoveViewController.viewController(style: .formSheet, selectedItems: [item])
+                let tagVC = TagAddRemoveViewController.viewController(style: .formSheet, selectedItems: [item], controller: realmController)
                 self.present(tagVC, animated: true, completion: nil)
             }
         }
