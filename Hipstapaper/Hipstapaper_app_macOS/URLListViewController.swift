@@ -11,6 +11,12 @@ import AppKit
 
 class URLListViewController: NSViewController {
     
+    var realmController: RealmController? {
+        didSet {
+            self.hardReloadData()
+        }
+    }
+    
     @IBOutlet private weak var arrayController: NSArrayController?
     fileprivate var querySelection: URLItem.Selection?
     fileprivate var openWindowsControllers = [URLItem : NSWindowController]()
@@ -35,8 +41,8 @@ class URLListViewController: NSViewController {
             self.title = "🏷 \(tagItem.name)"
         }
         
-        let items = RealmConfig.urlItems(for: selection, sortOrder: URLItem.SortOrder.creationDate(newestFirst: true))
-        self.notificationToken = items.addNotificationBlock(self.realmResultsChangeClosure)
+        let items = self.realmController?.urlItems(for: selection, sortOrder: URLItem.SortOrder.creationDate(newestFirst: true))
+        self.notificationToken = items?.addNotificationBlock(self.realmResultsChangeClosure)
     }
     
     private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<URLItem>>) -> Void) = { [weak self] changes in
@@ -77,19 +83,21 @@ class URLListViewController: NSViewController {
     
     @objc private func archiveSelected(_ sender: NSObject?) {
         guard let selectedItems = self.arrayController?.selectedURLItems else { return }
-        RealmConfig.updateArchived(to: true, on: selectedItems)
+        self.realmController?.updateArchived(to: true, on: selectedItems)
     }
     
     @objc private func unarchiveSelected(_ sender: NSObject?) {
         guard let selectedItems = self.arrayController?.selectedURLItems else { return }
-        RealmConfig.updateArchived(to: false, on: selectedItems)
+        self.realmController?.updateArchived(to: false, on: selectedItems)
     }
     
     @objc private func tagSelected(_ sender: NSObject?) {
-        guard let item = sender as? NSButton else { return }
-        guard let selectedItems = self.arrayController?.selectedURLItems else { return }
-        let tagVC = URLTaggingViewController(items: selectedItems)
-//        self.presentViewControllerAsSheet(tagVC)
+        guard
+            let item = sender as? NSButton,
+            let realmController = self.realmController,
+            let selectedItems = self.arrayController?.selectedURLItems
+        else { return }
+        let tagVC = URLTaggingViewController(items: selectedItems, controller: realmController)
         self.presentViewController(tagVC, asPopoverRelativeTo: .zero, of: item, preferredEdge: .minY, behavior: .semitransient)
     }
     
@@ -98,13 +106,17 @@ class URLListViewController: NSViewController {
     }
     
     override func validateToolbarItem(_ item: NSObject?) -> Bool {
-        guard let item = item as? NSToolbarItem, let kind = NSToolbarItem.Kind(rawValue: item.tag) else { return false }
-        guard let selectedItems = self.arrayController?.selectedURLItems else { return false }
+        guard
+            let item = item as? NSToolbarItem,
+            let kind = NSToolbarItem.Kind(rawValue: item.tag),
+            let realmController = self.realmController,
+            let selectedItems = self.arrayController?.selectedURLItems
+        else { return false }
         switch kind {
         case .unarchive:
-            return RealmConfig.atLeastOneItem(in: selectedItems, canBeArchived: false)
+            return realmController.atLeastOneItem(in: selectedItems, canBeArchived: false)
         case .archive:
-            return RealmConfig.atLeastOneItem(in: selectedItems, canBeArchived: true)
+            return realmController.atLeastOneItem(in: selectedItems, canBeArchived: true)
         case .tag:
             return !selectedItems.isEmpty
         case .share:

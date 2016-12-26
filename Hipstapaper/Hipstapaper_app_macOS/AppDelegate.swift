@@ -15,13 +15,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     // open the main window when the app launches
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-
-        RealmConfig.configure() {
-            let storyboard = NSStoryboard(name: "Main", bundle: Bundle(for: type(of: self)))
-            self.rootWindowController = storyboard.instantiateInitialController() as? NSWindowController
-            self.rootWindowController?.showWindow(self)
-        }
-
+        
+        let storyboard = NSStoryboard(name: "Main", bundle: Bundle(for: type(of: self)))
+        self.rootWindowController = storyboard.instantiateInitialController() as? NSWindowController
+        self.rootWindowController?.showWindow(self)
+        
     }
     
     // opens the main window if the dock icon is clicked and there are no windows open

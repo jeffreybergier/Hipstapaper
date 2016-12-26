@@ -6,12 +6,20 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
+import RealmSwift
 import AppKit
 
 class HipstapaperWindowController: NSWindowController {
     
     /*@IBOutlet*/ private weak var sidebarViewController: TagListViewController?
     /*@IBOutlet*/ fileprivate weak var mainViewController: URLListViewController?
+    
+    private var realmController = RealmController() {
+        didSet {
+            self.sidebarViewController!.realmController = self.realmController!
+            self.mainViewController!.realmController = self.realmController!
+        }
+    }
     
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -27,6 +35,24 @@ class HipstapaperWindowController: NSWindowController {
         }
         
         self.sidebarViewController!.selectionDelegate = self
+        
+        if let realmController = self.realmController {
+            self.sidebarViewController!.realmController = realmController
+            self.mainViewController!.realmController = realmController
+        } else {
+            NSLog("No User Present: Attempting Login.")
+            let credentials = SyncCredentials.usernamePassword(username: realmUsername, password: realmPassword, register: false)
+            SyncUser.logIn(with: credentials, server: realmAuthServer) { user, error in
+                if let user = user {
+                    DispatchQueue.main.async {
+                        let realmController = RealmController(user: user)
+                        self.realmController = realmController
+                    }
+                } else {
+                    NSLog("Failed to login: \(error)")
+                }
+            }
+        }
     }
     
 }

@@ -17,6 +17,12 @@ protocol URLItemSelectionReceivable: class {
 
 class TagListViewController: NSViewController {
     
+    var realmController: RealmController? {
+        didSet {
+            self.hardReloadData()
+        }
+    }
+    
     weak var selectionDelegate: URLItemSelectionReceivable?
     
     @IBOutlet private weak var outlineView: NSOutlineView?
@@ -45,8 +51,8 @@ class TagListViewController: NSViewController {
         self.notificationToken = .none
         self.treeController?.content = TreeBindingObject.treeObjects(from: .none)
         
-        let items = RealmConfig.tags
-        self.notificationToken = items.addNotificationBlock(self.realmResultsChangeClosure)
+        let items = self.realmController?.tags
+        self.notificationToken = items?.addNotificationBlock(self.realmResultsChangeClosure)
     }
     
     private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<TagItem>>) -> Void) = { [weak self] changes in

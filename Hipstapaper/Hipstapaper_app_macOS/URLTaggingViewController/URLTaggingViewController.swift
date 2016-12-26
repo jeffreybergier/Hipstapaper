@@ -11,6 +11,8 @@ import AppKit
 
 class URLTaggingViewController: NSViewController {
     
+    fileprivate var realmController: RealmController?
+    
     fileprivate var selectedItems = [URLItem]()
     
     @IBOutlet private weak var horizontalLine: NSView?
@@ -23,8 +25,9 @@ class URLTaggingViewController: NSViewController {
         }
     }
     
-    convenience init(items: [URLItem]) {
+    convenience init(items: [URLItem], controller: RealmController) {
         self.init()
+        self.realmController = controller
         self.selectedItems = items
     }
 
@@ -42,18 +45,19 @@ class URLTaggingViewController: NSViewController {
         self.notificationToken = .none
         self.arrayController?.content = []
         
-        let items = RealmConfig.tags
-        self.notificationToken = items.addNotificationBlock(self.realmResultsChangeClosure)
+        let items = self.realmController?.tags
+        self.notificationToken = items?.addNotificationBlock(self.realmResultsChangeClosure)
     }
     
     private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<TagItem>>) -> Void) = { [weak self] changes in
+        guard let realmController = self?.realmController else { return }
         switch changes {
         case .initial(let results):
-            let selections = TagAssignment.assignments(of: Array(results), for: self?.selectedItems)
+            let selections = TagAssignment.assignments(of: Array(results), for: self?.selectedItems, from: realmController)
             selections.forEach({ $0.delegate = self })
             self?.arrayController?.content = selections
         case .update(let results, _, _, _):
-            let selections = TagAssignment.assignments(of: Array(results), for: self?.selectedItems)
+            let selections = TagAssignment.assignments(of: Array(results), for: self?.selectedItems, from: realmController)
             selections.forEach({ $0.delegate = self })
             self?.arrayController?.content = selections
         case .error(let error):
@@ -64,7 +68,7 @@ class URLTaggingViewController: NSViewController {
     // MARK: Handle Creating New Tag
     
     @objc private func createNewTag(_ sender: NSObject?) {
-        guard let button = sender as? NSButton else {
+        guard let button = sender as? NSButton, let realmController = self.realmController else {
             // if we can't respond, just pass it on
             self.nextResponder?.try(toPerform: #selector(self.createNewTag(_:)), with: sender)
             return
@@ -73,9 +77,9 @@ class URLTaggingViewController: NSViewController {
         let newVC = NewTagNamingViewController()
         newVC.confirm = { [weak self] newName, sender, presentedVC in
             // create the tag
-            let tag = RealmConfig.newOrExistingTag(proposedName: newName)
+            let tag = realmController.newOrExistingTag(proposedName: newName)
             // add it to the selected items
-            RealmConfig.apply(tag: tag, to: self?.selectedItems ?? [])
+            realmController.apply(tag: tag, to: self?.selectedItems ?? [])
             // hack because the tableview shows the new tag, but doesn't have the appropriate selection
             // maybe this is a bug in realm notifications?
             Thread.sleep(forTimeInterval: 0.3)
@@ -100,9 +104,9 @@ extension URLTaggingViewController: TagAssignmentChangeDelegate {
     func didChangeAssignment(to newValue: Bool, for tagItem: TagItem) {
         switch newValue {
         case true:
-            RealmConfig.apply(tag: tagItem, to: self.selectedItems)
+            self.realmController?.apply(tag: tagItem, to: self.selectedItems)
         case false:
-            RealmConfig.remove(tag: tagItem, from: self.selectedItems)
+            self.realmController?.remove(tag: tagItem, from: self.selectedItems)
         }
     }
 }
@@ -133,10 +137,10 @@ fileprivate class TagAssignment: NSObject {
         super.init()
     }
     
-    static func assignments(of tagItems: [TagItem], for urlItems: [URLItem]?) -> [TagAssignment] {
+    static func assignments(of tagItems: [TagItem], for urlItems: [URLItem]?, from realmController: RealmController) -> [TagAssignment] {
         let urlItems = urlItems ?? []
         let selections = tagItems.map() { tagItem -> TagAssignment in
-            let state = RealmConfig.state(of: tagItem, with: urlItems)
+            let state = realmController.state(of: tagItem, with: urlItems)
             let selection = TagAssignment(tagItem: tagItem, state: state.rawValue)
             return selection
         }

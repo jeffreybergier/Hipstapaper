@@ -31,7 +31,6 @@
 		50420FEF1E0B0D0F00B237DA /* TagItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50420FEC1E0B0D0F00B237DA /* TagItem.swift */; };
 		50420FF01E0B0D0F00B237DA /* TagItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50420FEC1E0B0D0F00B237DA /* TagItem.swift */; };
 		50420FF81E0B1EBE00B237DA /* URLItemSorting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50420FF71E0B1EBE00B237DA /* URLItemSorting.swift */; };
-		50432EF31E048BF800D9C3D5 /* Realm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50432EF21E048BF800D9C3D5 /* Realm.swift */; };
 		50432EF41E048BF800D9C3D5 /* Realm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50432EF21E048BF800D9C3D5 /* Realm.swift */; };
 		50432EF51E048BF800D9C3D5 /* Realm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50432EF21E048BF800D9C3D5 /* Realm.swift */; };
 		50432EF61E048BF800D9C3D5 /* Realm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50432EF21E048BF800D9C3D5 /* Realm.swift */; };
@@ -68,6 +67,10 @@
 		5083AA2A1E059B8900BCAC93 /* TagAddRemoveViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5083AA231E059B8900BCAC93 /* TagAddRemoveViewController.xib */; };
 		5083AA301E05BE3800BCAC93 /* TagAddRemoveTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083AA2C1E05BE3800BCAC93 /* TagAddRemoveTableViewCell.swift */; };
 		5083AA341E05BE3800BCAC93 /* TagAddRemoveTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5083AA2D1E05BE3800BCAC93 /* TagAddRemoveTableViewCell.xib */; };
+		508623191E10BF2700C06C7D /* RealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508623181E10BF2700C06C7D /* RealmController.swift */; };
+		5086231A1E10BF2700C06C7D /* RealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508623181E10BF2700C06C7D /* RealmController.swift */; };
+		5086231B1E10BF2700C06C7D /* RealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508623181E10BF2700C06C7D /* RealmController.swift */; };
+		5086231C1E10BF2700C06C7D /* RealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508623181E10BF2700C06C7D /* RealmController.swift */; };
 		50A151791E077D8000529048 /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A151781E077D8000529048 /* FrameworkExtensions.swift */; };
 		50A1517A1E077D8000529048 /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A151781E077D8000529048 /* FrameworkExtensions.swift */; };
 		50A1517B1E077D8000529048 /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A151781E077D8000529048 /* FrameworkExtensions.swift */; };
@@ -226,6 +229,7 @@
 		5083AA231E059B8900BCAC93 /* TagAddRemoveViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagAddRemoveViewController.xib; sourceTree = "<group>"; };
 		5083AA2C1E05BE3800BCAC93 /* TagAddRemoveTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagAddRemoveTableViewCell.swift; sourceTree = "<group>"; };
 		5083AA2D1E05BE3800BCAC93 /* TagAddRemoveTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagAddRemoveTableViewCell.xib; sourceTree = "<group>"; };
+		508623181E10BF2700C06C7D /* RealmController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmController.swift; sourceTree = "<group>"; };
 		50A151781E077D8000529048 /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		50A151981E0A15E700529048 /* URLItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItem.swift; sourceTree = "<group>"; };
 		50C162981E0F1178009F5A19 /* XPURLShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPURLShareViewController.swift; sourceTree = "<group>"; };
@@ -361,6 +365,7 @@
 			isa = PBXGroup;
 			children = (
 				50432EF21E048BF800D9C3D5 /* Realm.swift */,
+				508623181E10BF2700C06C7D /* RealmController.swift */,
 				50A151981E0A15E700529048 /* URLItem.swift */,
 				50432EFC1E0AFF9400D9C3D5 /* URLItemExtras.swift */,
 				50420FEC1E0B0D0F00B237DA /* TagItem.swift */,
@@ -953,6 +958,7 @@
 				5083AA301E05BE3800BCAC93 /* TagAddRemoveTableViewCell.swift in Sources */,
 				5083AA261E059B8900BCAC93 /* TagAddRemoveViewController.swift in Sources */,
 				50A1517B1E077D8000529048 /* FrameworkExtensions.swift in Sources */,
+				5086231B1E10BF2700C06C7D /* RealmController.swift in Sources */,
 				5074A2A61E0224CC004FE1E7 /* PresenterDelegateSafariViewController.swift in Sources */,
 				504FC0FC1DFA444A0014C787 /* URLTableViewCell.swift in Sources */,
 				5005E11E1DF4CB8300BA38E6 /* AppDelegate.swift in Sources */,
@@ -976,6 +982,7 @@
 				50A1517C1E077D8000529048 /* FrameworkExtensions.swift in Sources */,
 				50C1629A1E0F1178009F5A19 /* XPURLShareViewController.swift in Sources */,
 				50420FF01E0B0D0F00B237DA /* TagItem.swift in Sources */,
+				5086231C1E10BF2700C06C7D /* RealmController.swift in Sources */,
 				50088A4D1E062A2500D6AAED /* URLShareiOSViewController.swift in Sources */,
 				50432EFB1E048DF400D9C3D5 /* TempPassword.swift in Sources */,
 				5083AA211E05958500BCAC93 /* KeyObserver.swift in Sources */,
@@ -993,6 +1000,7 @@
 				50420FEE1E0B0D0F00B237DA /* TagItem.swift in Sources */,
 				50C162991E0F1178009F5A19 /* XPURLShareViewController.swift in Sources */,
 				50432EF91E048DF400D9C3D5 /* TempPassword.swift in Sources */,
+				5086231A1E10BF2700C06C7D /* RealmController.swift in Sources */,
 				505B79BF1E0B924C007BB364 /* URLShareMacViewController.swift in Sources */,
 				5083AA1F1E05958500BCAC93 /* KeyObserver.swift in Sources */,
 				50A1519A1E0A15EC00529048 /* URLItem.swift in Sources */,
@@ -1018,6 +1026,7 @@
 				50D61C641E0E2F9A004595CD /* NewTagNamingViewController.swift in Sources */,
 				50432EF81E048DF400D9C3D5 /* TempPassword.swift in Sources */,
 				50432EFD1E0AFF9400D9C3D5 /* URLItemExtras.swift in Sources */,
+				508623191E10BF2700C06C7D /* RealmController.swift in Sources */,
 				5048AF0E1E0DA48600AC1B2D /* URLTaggingViewController.swift in Sources */,
 				50088A701E07153200D6AAED /* HipstapaperWindowController.swift in Sources */,
 				50088A6C1E07151200D6AAED /* TagListViewController.swift in Sources */,
@@ -1026,7 +1035,6 @@
 				50420FED1E0B0D0F00B237DA /* TagItem.swift in Sources */,
 				50A151991E0A15E700529048 /* URLItem.swift in Sources */,
 				50A151791E077D8000529048 /* FrameworkExtensions.swift in Sources */,
-				50432EF31E048BF800D9C3D5 /* Realm.swift in Sources */,
 				5083AA1E1E05958500BCAC93 /* KeyObserver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
