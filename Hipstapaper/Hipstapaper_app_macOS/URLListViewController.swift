@@ -11,7 +11,7 @@ import AppKit
 
 class URLListViewController: NSViewController {
     
-    var realmController: RealmController? {
+    weak var realmController: RealmController? {
         didSet {
             self.hardReloadData()
         }

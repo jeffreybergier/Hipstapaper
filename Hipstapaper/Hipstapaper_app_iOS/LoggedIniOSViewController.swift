@@ -8,12 +8,16 @@
 
 import UIKit
 
-class LoggedIniOSViewController: UIViewController {
+class LoggedIniOSViewController: UIViewController, RealmControllable {
     
-    private var realmController: RealmController? { // = RealmController() {
+    var realmController = RealmController() {
         didSet {
             self.updateUILabels()
-            self.navigationController!.realmControllableChildren.forEach({ $0.realmController = self.realmController })
+            for item in self.navigationController?.stackedRealmControllables ?? [] {
+                guard item !== self else { continue }
+                item.realmController = self.realmController
+            }
+            self.presentedRealmControllables.forEach({ $0.realmController = self.realmController })
         }
     }
     
@@ -25,33 +29,45 @@ class LoggedIniOSViewController: UIViewController {
         super.viewDidLoad()
         
         self.title = "Account"
+        
         self.updateUILabels()
+        
+        if let controller = self.realmController {
+            self.presentApp(animated: false, controller: controller)
+        } else {
+            self.presentLogin(animated: false)
+        }
     }
     
     private func updateUILabels() {
         if let _ = realmController {
-            self.primaryButtonTextLabel?.text = "You're already logged in."
+            self.primaryButtonTextLabel?.text = "You're logged in. ☺️"
             self.primaryButton?.setTitle("Go to App", for: .normal)
             self.secondaryButton?.setTitle("Logout", for: .normal)
             self.secondaryButton?.isEnabled = true
         } else {
-            self.primaryButtonTextLabel?.text = "You need to login."
+            self.primaryButtonTextLabel?.text = "You need to login. 😱"
             self.primaryButton?.setTitle("Start Login", for: .normal)
             self.secondaryButton?.setTitle("Logout", for: .normal)
             self.secondaryButton?.isEnabled = false
         }
     }
     
+    private func presentApp(animated: Bool, controller: RealmController) {
+        let tagVC = TagListViewController(controller: controller, immediatelyPresentNextVC: !animated)
+        self.navigationController?.pushViewController(tagVC, animated: animated)
+    }
+    
+    private func presentLogin(animated: Bool) {
+        let tabVC = LoginiOSTableViewController.dualLoginTabBarController(delegate: self)
+        self.present(tabVC, animated: animated, completion: .none)
+    }
+    
     @IBAction private func primaryButtonTapped(_ sender: NSObject?) {
-        // if this method is called without user involvement, do not animate
-        let animated = sender == .none ? false : true
-        
-        if let controller = realmController {
-            let tagVC = TagListViewController(controller: controller)
-            self.navigationController!.pushViewController(tagVC, animated: animated)
+        if let controller = self.realmController {
+            self.presentApp(animated: true, controller: controller)
         } else {
-            let tabVC = LoginiOSTableViewController.dualLoginTabBarController()
-            self.present(tabVC, animated: animated, completion: .none)
+            self.presentLogin(animated: true)
         }
     }
     
@@ -63,8 +79,24 @@ class LoggedIniOSViewController: UIViewController {
 }
 
 extension UINavigationController {
-    var realmControllableChildren: [RealmControllable] {
+    var stackedRealmControllables: [RealmControllable] {
         let realmControllable = self.viewControllers.map({ $0 as? RealmControllable }).flatMap({ $0 })
+        return realmControllable
+    }
+}
+
+extension UIViewController {
+    var presentedRealmControllables: [RealmControllable] {
+        var realmControllable = [RealmControllable]()
+        var presentedVC = self.presentedViewController
+        while presentedVC != nil {
+            if let vc = presentedVC as? RealmControllable {
+                realmControllable.append(vc)
+            } else if let nav = presentedVC as? UINavigationController {
+                realmControllable += nav.stackedRealmControllables
+            }
+            presentedVC = presentedVC?.presentedViewController
+        }
         return realmControllable
     }
 }

@@ -17,15 +17,19 @@ class TagListViewController: UIViewController, RealmControllable {
     
     @IBOutlet private weak var tableView: UITableView?
     fileprivate var tags: Results<TagItem>?
-    var realmController: RealmController? {
+    weak var realmController: RealmController? {
         didSet {
             self.hardReloadData()
+            self.presentedRealmControllables.forEach({ $0.realmController = self.realmController })
         }
     }
     
-    convenience init(controller: RealmController) {
+    private var immediatelyPresentNextVC = false
+    
+    convenience init(controller: RealmController, immediatelyPresentNextVC: Bool) {
         self.init()
         self.realmController = controller
+        self.immediatelyPresentNextVC = immediatelyPresentNextVC
     }
     
     override func viewDidLoad() {
@@ -34,9 +38,12 @@ class TagListViewController: UIViewController, RealmControllable {
         // title
         self.title = "Tags"
         
-        // before we even load things, lets go to the main view of the app
-        let newVC = URLListViewController(selection: .unarchived, controller: self.realmController!)
-        self.navigationController?.pushViewController(newVC, animated: true)
+        if let controller = self.realmController, self.immediatelyPresentNextVC {
+            // before we even load things, lets go to the main view of the app
+            let newVC = URLListViewController(selection: .unarchived, controller: controller)
+            self.navigationController?.pushViewController(newVC, animated: false)
+            self.immediatelyPresentNextVC = false
+        }
         
         // now lets load the data in the BG
         DispatchQueue.main.async {
@@ -49,6 +56,7 @@ class TagListViewController: UIViewController, RealmControllable {
         self.notificationToken?.stop()
         self.notificationToken = .none
         self.tags = .none
+        self.tableView?.reloadData()
         
         // reload everything
         self.tags = self.realmController?.tags

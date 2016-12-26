@@ -46,9 +46,10 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
     fileprivate var tags: Results<TagItem>?
     fileprivate var selectedItems = [URLItem]()
     fileprivate private(set) var presentationStyle = PresentationStyle.formSheet
-    var realmController: RealmController? {
+    weak var realmController: RealmController? {
         didSet {
             self.hardReloadData()
+            self.presentedRealmControllables.forEach({ $0.realmController = self.realmController })
         }
     }
     
@@ -77,6 +78,7 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
         self.notificationToken?.stop()
         self.notificationToken = .none
         self.tags = .none
+        self.tableView?.reloadData()
         
         // reload everything
         self.tags = self.realmController?.tags

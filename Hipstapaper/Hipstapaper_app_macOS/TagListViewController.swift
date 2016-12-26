@@ -17,7 +17,7 @@ protocol URLItemSelectionReceivable: class {
 
 class TagListViewController: NSViewController {
     
-    var realmController: RealmController? {
+    weak var realmController: RealmController? {
         didSet {
             self.hardReloadData()
         }

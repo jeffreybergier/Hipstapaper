@@ -6,6 +6,7 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
+import RealmSwift
 import UIKit
 
 class LoginiOSTableViewController: UITableViewController {
@@ -21,17 +22,17 @@ class LoginiOSTableViewController: UITableViewController {
         var username: String?
         var password1: String?
         var password2: String?
+        
+        enum Validation {
+            case valid, invalid(message: String)
+        }
     }
     
     // MARK: Private State
     
+    private weak var delegate: RealmControllable?
     private var createNewAccount = false
-    fileprivate var model = Model() {
-        didSet {
-            let formValid = self.validateModel()
-            self.updateUI(formValid: formValid)
-        }
-    }
+    fileprivate var model = Model()
     
     // MARK: Bar Button Items
     
@@ -47,9 +48,10 @@ class LoginiOSTableViewController: UITableViewController {
     
     // MARK: Handle Loading
     
-    convenience init(createAccount: Bool) {
+    convenience init(createAccount: Bool, delegate: RealmControllable) {
         self.init(style: .grouped)
         self.createNewAccount = createAccount
+        self.delegate = delegate
     }
     
     override func viewDidLoad() {
@@ -62,9 +64,6 @@ class LoginiOSTableViewController: UITableViewController {
         // configure the BBI
         self.navigationItem.leftBarButtonItem = self.cancelBBI
         self.navigationItem.rightBarButtonItem = self.doneBBI
-        
-        // invalidate the form
-        self.updateUI(formValid: false)
         
         // set the title
         switch self.createNewAccount {
@@ -80,9 +79,36 @@ class LoginiOSTableViewController: UITableViewController {
     @objc private func doneBBITapped(_ sender: NSObject?) {
         self.view.endEditing(false)
         
-        self.updateUI(networkActivity: true)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            self.updateUI(networkActivity: false)
+        let formValid = self.validateModel()
+        switch formValid {
+        case .valid:
+            self.updateUI(networkActivity: true)
+            let model = self.model
+            let register = self.createNewAccount
+            let credentials = SyncCredentials.usernamePassword(username: model.username!, password: model.password1!, register: register)
+            SyncUser.logIn(with: credentials, server: URL(string: model.server!)!) { user, error in
+                DispatchQueue.main.async {
+                    if let user = user {
+                        self.updateUI(networkActivity: false)
+                        let newController = RealmController(user: user)
+                        self.delegate?.realmController = newController
+                        self.dismiss(animated: true, completion: .none)
+                    } else {
+                        let message = error?.localizedDescription ?? "Unknown Error"
+                        let alert = UIAlertController(title: "Login Error", message: message, preferredStyle: .alert)
+                        let action = UIAlertAction(title: "Dismiss", style: .cancel) { action in
+                            self.updateUI(networkActivity: false)
+                        }
+                        alert.addAction(action)
+                        self.present(alert, animated: true, completion: .none)
+                    }
+                }
+            }
+        case .invalid(let message):
+            let alert = UIAlertController(title: "Login Error", message: message, preferredStyle: .alert)
+            let action = UIAlertAction(title: "Dismiss", style: .cancel, handler: .none)
+            alert.addAction(action)
+            self.present(alert, animated: true, completion: .none)
         }
     }
     
@@ -115,48 +141,31 @@ class LoginiOSTableViewController: UITableViewController {
     
     // MARK: Form Validation
     
-    private func updateUI(formValid valid: Bool) {
-        self.doneBBI.isEnabled = valid
-    }
-    
-    private func validateModel() -> Bool {
+    private func validateModel() -> Model.Validation {
         let model = self.model
-        let serverValid: Bool
-        if let _ = URL(string: model.server ?? " ") {
-            serverValid = true
-        } else {
-            serverValid = false
+        
+        if URL(string: model.server ?? " ") == .none {
+            return .invalid(message: "Server Address is Invalid")
         }
         
-        let usernameValid: Bool
-        if model.username != nil && model.username != "" {
-            usernameValid = true
-        } else {
-            usernameValid = false
+        if model.username == nil || model.username == "" {
+            return .invalid(message: "Username is Invalid")
         }
         
-        let password1Valid: Bool
-        if model.password1 != nil && model.password1 != "" {
-            password1Valid = true
-        } else {
-            password1Valid = false
+        if model.password1 == nil || model.password1 == "" {
+            return .invalid(message: "Password is Invalid")
         }
         
-        let password2Valid: Bool
         if self.createNewAccount == true {
-            if model.password2 != nil &&
-                model.password2 != "" &&
-                model.password2 == model.password1
+            if model.password2 == nil ||
+                model.password2 == "" ||
+                model.password2 != model.password1
             {
-                password2Valid = true
-            } else {
-                password2Valid = false
+                return .invalid(message: "Passwords don't Match")
             }
-        } else {
-            password2Valid = true
         }
         
-        return serverValid && usernameValid && password1Valid && password2Valid
+        return .valid
     }
     
     // MARK: TableView Scheiße
@@ -227,11 +236,11 @@ extension LoginiOSTableViewController {
     
     // MARK: Custom Constructor
     
-    class func dualLoginTabBarController() -> UITabBarController {
+    class func dualLoginTabBarController(delegate: RealmControllable) -> UITabBarController {
         let tabVC = UITabBarController()
-        let createVC = LoginiOSTableViewController(createAccount: true)
+        let createVC = LoginiOSTableViewController(createAccount: true, delegate: delegate)
         let createNavVC = UINavigationController(rootViewController: createVC)
-        let loginVC = LoginiOSTableViewController(createAccount: false)
+        let loginVC = LoginiOSTableViewController(createAccount: false, delegate: delegate)
         let loginNavVC = UINavigationController(rootViewController: loginVC)
         tabVC.viewControllers = [loginNavVC, createNavVC]
         tabVC.tabBar.items?.enumerated().forEach() { index, item in

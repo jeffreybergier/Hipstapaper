@@ -34,9 +34,10 @@ class URLListViewController: UIViewController, RealmControllable {
     
     private var selection: URLItem.Selection = .unarchived
     fileprivate var data: Results<URLItem>?
-    var realmController: RealmController? {
+    weak var realmController: RealmController? {
         didSet {
             self.hardReloadData()
+            self.presentedRealmControllables.forEach({ $0.realmController = self.realmController })
         }
     }
     
@@ -82,6 +83,7 @@ class URLListViewController: UIViewController, RealmControllable {
         self.notificationToken?.stop()
         self.notificationToken = .none
         self.data = .none
+        self.tableView?.reloadData()
         
         // configure data source
         let items = self.realmController?.urlItems(for: selection, sortOrder: URLItem.SortOrder.creationDate(newestFirst: true))
@@ -177,6 +179,7 @@ extension URLListViewController /* Handle BarButtonItems */ {
         else { return }
         let tagVC = TagAddRemoveViewController.viewController(style: .popBBI(bbi), selectedItems: items, controller: realmController)
         self.present(tagVC, animated: true, completion: .none)
+        print(self.presentedViewController)
         self.tableView?.setEditing(false, animated: true)
     }
     
