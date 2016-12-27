@@ -11,14 +11,13 @@ import AppKit
 
 class HipstapaperWindowController: NSWindowController, RealmControllable {
     
-    lazy var preferencesWindowController: PreferencesWindowController = {
-        let wc = PreferencesWindowController()
-        wc.delegate = self
-        return wc
-    }()
+    
+    // MARK: References to child view controllers
     
     /*@IBOutlet*/ private weak var sidebarViewController: TagListViewController?
     /*@IBOutlet*/ fileprivate weak var mainViewController: URLListViewController?
+    
+    // MARK: Realm Controller Owner
     
     var realmController = RealmController() {
         didSet {
@@ -27,11 +26,16 @@ class HipstapaperWindowController: NSWindowController, RealmControllable {
         }
     }
     
+    // MARK: Configure the window
+    
     override func windowDidLoad() {
         super.windowDidLoad()
         
+        // Get that OSX Yosemite 'look'
         self.window?.titleVisibility = .hidden
-        
+    
+        // Populate the child VC's
+        // This should be done in IB, but storyboards don't seem to allow it
         for childVC in self.window?.contentViewController?.childViewControllers ?? [] {
             if let sidebarVC = childVC as? TagListViewController {
                 self.sidebarViewController = sidebarVC
@@ -40,15 +44,43 @@ class HipstapaperWindowController: NSWindowController, RealmControllable {
             }
         }
         
-        self.sidebarViewController!.selectionDelegate = self
+        // Become the selection delegate for the sidebar
+        // This lets us update the content view controller when the selection changes in the sidebar
+        self.sidebarViewController?.selectionDelegate = self
         
+        // check to see if the realm controller loaded
+        // if it didn't load, then we're not logged in
         if let realmController = self.realmController {
             self.sidebarViewController?.realmController = realmController
             self.mainViewController?.realmController = realmController
-        } else {
-            NSLog("No User Present: Attempting Login.")
         }
     }
+    
+    override func showWindow(_ sender: Any?) {
+        super.showWindow(sender)
+        
+        // check to see if the realm controller loaded
+        // if it didn't load, then we're not logged in
+        // if we're not logged in, show an alert
+        if self.realmController == nil {
+            let loginAlert = NSAlert()
+            loginAlert.messageText = "You need to login. 😱"
+            loginAlert.informativeText = "Hipstapaper uses a Realm Mobile Platform server to synchronize your Reading list between all of your devices."
+            loginAlert.addButton(withTitle: "Open Preferences")
+            loginAlert.addButton(withTitle: "Dismiss")
+            loginAlert.beginSheetModal(for: self.window!) { finished in
+                if finished == 1000 { self.showPreferencesWindow(loginAlert) }
+            }
+        }
+    }
+    
+    // MARK: Ownership of the preferences window
+    
+    private lazy var preferencesWindowController: PreferencesWindowController = {
+        let wc = PreferencesWindowController()
+        wc.delegate = self
+        return wc
+    }()
     
     @IBAction private func showPreferencesWindow(_ sender: NSObject?) {
         self.preferencesWindowController.showWindow(sender)
@@ -65,7 +97,11 @@ class HipstapaperWindowController: NSWindowController, RealmControllable {
 }
 
 extension HipstapaperWindowController: URLItemSelectionReceivable {
+    
+    // MARK: Handle Selection from Sidebar
+    
     func didSelect(_ selection: URLItem.Selection, from outlineView: NSOutlineView?) {
-        self.mainViewController!.didSelect(selection, from: outlineView)
+        // just forward the message to the content view controller
+        self.mainViewController?.didSelect(selection, from: outlineView)
     }
 }

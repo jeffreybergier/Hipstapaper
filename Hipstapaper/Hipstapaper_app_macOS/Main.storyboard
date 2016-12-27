@@ -187,27 +187,27 @@
                                                             <rect key="frame" x="1" y="0.0" width="247" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <stackView distribution="equalSpacing" orientation="horizontal" alignment="top" spacing="2" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Va-BG-OED">
-                                                                    <rect key="frame" x="4" y="4" width="99" height="17"/>
+                                                                <stackView distribution="equalSpacing" orientation="horizontal" alignment="bottom" spacing="6" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Va-BG-OED">
+                                                                    <rect key="frame" x="4" y="5.5" width="90" height="14"/>
                                                                     <subviews>
-                                                                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ehc-Vo-9eF">
-                                                                            <rect key="frame" x="-2" y="0.0" width="23" height="17"/>
-                                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="🎁" id="9Ic-J3-Wmp">
-                                                                                <font key="font" metaFont="system"/>
-                                                                                <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
-                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                                            </textFieldCell>
-                                                                        </textField>
                                                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8OP-D9-lGs">
-                                                                            <rect key="frame" x="19" y="0.0" width="82" height="17"/>
+                                                                            <rect key="frame" x="-2" y="0.0" width="72" height="14"/>
                                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Reading List" id="T32-Kb-ZLl">
-                                                                                <font key="font" metaFont="systemSemibold" size="13"/>
-                                                                                <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                                                                <font key="font" metaFont="systemSemibold" size="11"/>
+                                                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                             </textFieldCell>
                                                                             <connections>
                                                                                 <binding destination="YT3-mY-A09" name="value" keyPath="objectValue.title" id="4iV-XY-KfK"/>
                                                                             </connections>
+                                                                        </textField>
+                                                                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ehc-Vo-9eF">
+                                                                            <rect key="frame" x="72" y="0.0" width="20" height="14"/>
+                                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="🎁" id="9Ic-J3-Wmp">
+                                                                                <font key="font" metaFont="systemSemibold" size="11"/>
+                                                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
                                                                         </textField>
                                                                     </subviews>
                                                                     <visibilityPriorities>
@@ -233,27 +233,27 @@
                                                             <rect key="frame" x="1" y="24" width="247" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <stackView distribution="equalSpacing" orientation="horizontal" alignment="top" spacing="2" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P0I-dX-ZqY">
-                                                                    <rect key="frame" x="4" y="4" width="52" height="17"/>
+                                                                <stackView distribution="equalSpacing" orientation="horizontal" alignment="bottom" spacing="6" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P0I-dX-ZqY">
+                                                                    <rect key="frame" x="4" y="5.5" width="48" height="14"/>
                                                                     <subviews>
-                                                                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7Ji-eK-xQ1">
-                                                                            <rect key="frame" x="-2" y="0.0" width="23" height="17"/>
-                                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="🏷" id="BmN-7D-a6M">
-                                                                                <font key="font" metaFont="system"/>
-                                                                                <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
-                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                                            </textFieldCell>
-                                                                        </textField>
                                                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Lgh-LQ-Avv">
-                                                                            <rect key="frame" x="19" y="0.0" width="35" height="17"/>
+                                                                            <rect key="frame" x="-2" y="0.0" width="30" height="14"/>
                                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Tags" id="5Zk-V5-ikl">
-                                                                                <font key="font" metaFont="systemSemibold" size="13"/>
-                                                                                <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                                                                <font key="font" metaFont="systemSemibold" size="11"/>
+                                                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                             </textFieldCell>
                                                                             <connections>
                                                                                 <binding destination="Bkx-Df-1qy" name="value" keyPath="objectValue.title" id="5lq-os-H1O"/>
                                                                             </connections>
+                                                                        </textField>
+                                                                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7Ji-eK-xQ1">
+                                                                            <rect key="frame" x="30" y="0.0" width="20" height="14"/>
+                                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="🏷" id="BmN-7D-a6M">
+                                                                                <font key="font" metaFont="systemSemibold" size="11"/>
+                                                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
                                                                         </textField>
                                                                     </subviews>
                                                                     <visibilityPriorities>
@@ -389,12 +389,12 @@
                                                                     <rect key="frame" x="8" y="5" width="531" height="40"/>
                                                                     <subviews>
                                                                         <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3qf-5n-NVf">
-                                                                            <rect key="frame" x="0.0" y="2" width="483" height="38"/>
+                                                                            <rect key="frame" x="0.0" y="5" width="483" height="35"/>
                                                                             <subviews>
                                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wjQ-FQ-4GZ">
-                                                                                    <rect key="frame" x="-2" y="20" width="105" height="18"/>
+                                                                                    <rect key="frame" x="-2" y="18" width="97" height="17"/>
                                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="eaJ-Zn-Jpk">
-                                                                                        <font key="font" metaFont="systemMedium" size="14"/>
+                                                                                        <font key="font" metaFont="system"/>
                                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                                     </textFieldCell>
@@ -407,10 +407,10 @@
                                                                                     </connections>
                                                                                 </textField>
                                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d21-PK-LLC">
-                                                                                    <rect key="frame" x="-2" y="0.0" width="91" height="16"/>
+                                                                                    <rect key="frame" x="-2" y="0.0" width="84" height="14"/>
                                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="zyv-HC-TQr">
                                                                                         <dateFormatter key="formatter" dateStyle="short" timeStyle="short" doesRelativeDateFormatting="YES" id="5gr-bI-mpx"/>
-                                                                                        <font key="font" metaFont="system" size="12"/>
+                                                                                        <font key="font" metaFont="smallSystem"/>
                                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                                     </textFieldCell>
@@ -436,12 +436,12 @@
                                                                             </constraints>
                                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="PTl-l5-vdN"/>
                                                                             <connections>
+                                                                                <binding destination="qKj-7y-fuk" name="value" keyPath="objectValue.extras.image" id="Qvr-YU-4pl"/>
                                                                                 <binding destination="qKj-7y-fuk" name="hidden" keyPath="objectValue.extras.image" id="zqh-4L-VGC">
                                                                                     <dictionary key="options">
                                                                                         <string key="NSValueTransformerName">NSIsNil</string>
                                                                                     </dictionary>
                                                                                 </binding>
-                                                                                <binding destination="qKj-7y-fuk" name="value" keyPath="objectValue.extras.image" id="Qvr-YU-4pl"/>
                                                                             </connections>
                                                                         </imageView>
                                                                     </subviews>
