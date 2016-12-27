@@ -25,3 +25,19 @@ final public class TagItem: Object {
         return "normalizedNameHash"
     }
 }
+
+// used to show the relationship between URLItems and TagItems in the UI
+enum CheckboxState: Int {
+    case mixed = -1
+    case off = 0
+    case on = 1
+    
+    var boolValue: Bool {
+        switch self {
+        case .on, .mixed:
+            return true
+        case .off:
+            return false
+        }
+    }
+}

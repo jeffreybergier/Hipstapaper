@@ -7,7 +7,7 @@
 //
 
 enum UIState {
-    case start, loggingIn, saving, saved, error
+    case start, saving, saved, error
 }
 
 #if os(OSX)
@@ -17,7 +17,6 @@ enum UIState {
     import UIKit
     typealias XPViewController = UIViewController
 #endif
-import RealmSwift
 
 class XPURLShareViewController: XPViewController {
     
@@ -36,39 +35,30 @@ class XPURLShareViewController: XPViewController {
     #endif
     
     func start() {
-        self.uiState = .loggingIn
+        self.uiState = .saving
         
-        RealmConfig.configure() {
-            self.uiState = .saving
-            
-            guard let extensionItem = self.extensionContext?.inputItems.first as? NSExtensionItem else {
+        guard let extensionItem = self.extensionContext?.inputItems.first as? NSExtensionItem else {
+            self.uiState = .error
+            self.extensionContext?.cancelRequest(withError: NSError(domain: "", code: 0, userInfo: nil))
+            return
+        }
+        
+        SerializableURLItem.item(from: extensionItem) { item in
+            if let item = item {
+                let itemsToSave: [SerializableURLItem]
+                if let itemsOnDisk = NSKeyedUnarchiver.unarchiveObject(withFile: SerializableURLItem.archiveURL.path) as? [SerializableURLItem] {
+                    itemsToSave = itemsOnDisk + [item]
+                } else {
+                    // delete the file if it exists and has incorrect data, or else this could fail forever and never get fixed
+                    try? FileManager.default.removeItem(at: SerializableURLItem.archiveURL)
+                    itemsToSave = [item]
+                }
+                NSKeyedArchiver.archiveRootObject(itemsToSave, toFile: SerializableURLItem.archiveURL.path)
+                self.uiState = .saved
+                self.extensionContext?.completeRequest(returningItems: .none, completionHandler: { _ in })
+            } else {
                 self.uiState = .error
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                    self.extensionContext?.cancelRequest(withError: NSError(domain: "", code: 0, userInfo: nil))
-                }
-                return
-            }
-            
-            URLItemExtras.extras(from: extensionItem) { tuple in
-                guard let tuple = tuple else {
-                    self.uiState = .error
-                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                        self.extensionContext?.cancelRequest(withError: NSError(domain: "", code: 0, userInfo: nil))
-                    }
-                    return
-                }
-                
-                DispatchQueue.global(qos: .userInitiated).async {
-                    let newURLItem = URLItem()
-                    newURLItem.urlString = tuple.1
-                    newURLItem.extras = tuple.0
-                    RealmConfig.add(item: newURLItem)
-                    self.uiState = .saved
-                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.7) {
-                        self.extensionContext?.completeRequest(returningItems: .none, completionHandler: { _ in })
-                    }
-                    
-                }
+                self.extensionContext?.cancelRequest(withError: NSError(domain: "", code: 0, userInfo: nil))
             }
         }
     }

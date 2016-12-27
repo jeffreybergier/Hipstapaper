@@ -92,7 +92,7 @@ class URLItemWebViewWindowController: NSWindowController {
         super.windowDidLoad()
         
         // Get the URL loading - could probably use a bail out here if this unwrapping fails
-        if let item = self.item, let url = URL(string: String(urlStringFromRawString: item.urlString)) {
+        if let item = self.item, let url = URL(string: item.urlString) {
             self.window?.title = "Hipstapaper: " + item.urlString
             self.webView.load(URLRequest(url: url))
         } else {

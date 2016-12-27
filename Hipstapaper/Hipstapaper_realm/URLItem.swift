@@ -17,7 +17,7 @@ final public class URLItem: Object {
     public dynamic var archived = false
     public dynamic var extras: URLItemExtras?
     public var tags = List<TagItem>()
-    public private(set) dynamic var creationDate = Date()
+    public dynamic var creationDate = Date()
     public dynamic var modificationDate = Date()
     
     override public static func primaryKey() -> String {

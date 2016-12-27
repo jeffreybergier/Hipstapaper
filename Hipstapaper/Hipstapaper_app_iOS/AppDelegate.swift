@@ -12,6 +12,8 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
+    private let rootViewController = LoggedIniOSViewController()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -20,34 +22,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window = UIWindow(frame: UIScreen.main.bounds)
         }
         
-        let navVC = UINavigationController(rootViewController: LoggedIniOSViewController())
+        let navVC = UINavigationController(rootViewController: self.rootViewController)
         self.window!.rootViewController = navVC
         self.window?.backgroundColor = .white
         self.window?.makeKeyAndVisible()
         
+        self.processItemsSavedByExtension()
+        
         return true
     }
-
-    func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+    
+    private func processItemsSavedByExtension() {
+        DispatchQueue.global(qos: .background).async {
+            guard
+                let realmController = self.rootViewController.realmController,
+                let itemsOnDisk = NSKeyedUnarchiver.unarchiveObject(withFile: SerializableURLItem.archiveURL.path) as? [SerializableURLItem]
+            else {
+                // delete the file if it exists and has incorrect data, or else this could fail forever and never get fixed
+                try? FileManager.default.removeItem(at: SerializableURLItem.archiveURL)
+                return
+            }
+            DispatchQueue.main.async {
+                for item in itemsOnDisk {
+                    guard let urlString = item.urlString else { continue }
+                    let newURLItem = URLItem()
+                    newURLItem.urlString = urlString
+                    newURLItem.creationDate = item.date ?? newURLItem.creationDate
+                    newURLItem.modificationDate = item.date ?? newURLItem.modificationDate
+                    let newExtras = URLItemExtras()
+                    newExtras.image = item.image
+                    newExtras.pageTitle = item.pageTitle
+                    if newExtras.pageTitle != nil || newExtras.imageData != nil {
+                        newURLItem.extras = newExtras
+                    }
+                    realmController.add(item: newURLItem)
+                }
+                try? FileManager.default.removeItem(at: SerializableURLItem.archiveURL)
+            }
+        }
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        self.processItemsSavedByExtension()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        self.processItemsSavedByExtension()
     }
-
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    }
-
+    
     func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        self.processItemsSavedByExtension()
     }
 
 
