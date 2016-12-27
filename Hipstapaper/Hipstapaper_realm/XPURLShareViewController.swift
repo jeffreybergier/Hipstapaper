@@ -55,10 +55,8 @@ class XPURLShareViewController: XPViewController {
                 }
                 NSKeyedArchiver.archiveRootObject(itemsToSave, toFile: SerializableURLItem.archiveURL.path)
                 self.uiState = .saved
-                self.extensionContext?.completeRequest(returningItems: .none, completionHandler: { _ in })
             } else {
                 self.uiState = .error
-                self.extensionContext?.cancelRequest(withError: NSError(domain: "", code: 0, userInfo: nil))
             }
         }
     }

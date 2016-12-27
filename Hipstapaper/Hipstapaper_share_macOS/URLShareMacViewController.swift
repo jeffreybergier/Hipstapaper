@@ -16,22 +16,30 @@ class URLShareMacViewController: XPURLShareViewController {
                 switch self.uiState {
                 case .start:
                     self.spinner?.startAnimation(self)
-                    self.messageLabel?.stringValue = "Saving"
+                    self.messageLabel?.stringValue = "Saving 💻"
                 case .saving:
                     self.spinner?.startAnimation(self)
-                    self.messageLabel?.stringValue = "Saving"
+                    self.messageLabel?.stringValue = "Saving 💻"
                 case .error:
-                    self.spinner?.stopAnimation(self)
-                    self.messageLabel?.stringValue = "Error"
+                    self.spinner?.startAnimation(self)
+                    self.messageLabel?.stringValue = "Error  😭"
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                        self.extensionContext?.cancelRequest(withError: NSError(domain: "", code: 0, userInfo: nil))
+                    }
                 case .saved:
-                    self.spinner?.stopAnimation(self)
-                    self.messageLabel?.stringValue = "Saved"
+                    self.spinner?.startAnimation(self)
+                    self.messageLabel?.stringValue = "Saved  ☺️"
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        self.extensionContext?.completeRequest(returningItems: .none, completionHandler: { _ in })
+                    }
                 }
             }
         }
     }
     
+    
     @IBOutlet private var messageLabel: NSTextField?
     @IBOutlet private var spinner: NSProgressIndicator?
+
     
 }

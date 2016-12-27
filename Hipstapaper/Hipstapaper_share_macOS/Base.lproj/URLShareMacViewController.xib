@@ -19,14 +19,14 @@
         <customView translatesAutoresizingMaskIntoConstraints="NO" id="1">
             <rect key="frame" x="0.0" y="0.0" width="300" height="50"/>
             <subviews>
-                <stackView distribution="fill" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XVX-LK-5Ha">
-                    <rect key="frame" x="20" y="15" width="104" height="19"/>
+                <stackView distribution="fill" orientation="horizontal" alignment="centerY" spacing="12" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XVX-LK-5Ha">
+                    <rect key="frame" x="20" y="15" width="108" height="19"/>
                     <subviews>
                         <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="Au6-Gz-7TB">
                             <rect key="frame" x="0.0" y="1.5" width="16" height="16"/>
                         </progressIndicator>
                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="x1s-II-Y9C">
-                            <rect key="frame" x="22" y="0.0" width="84" height="19"/>
+                            <rect key="frame" x="26" y="0.0" width="84" height="19"/>
                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="URL Saved!" id="9sv-9o-nsW">
                                 <font key="font" metaFont="system" size="15"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
