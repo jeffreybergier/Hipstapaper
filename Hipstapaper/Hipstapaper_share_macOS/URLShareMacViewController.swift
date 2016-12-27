@@ -16,10 +16,7 @@ class URLShareMacViewController: XPURLShareViewController {
                 switch self.uiState {
                 case .start:
                     self.spinner?.startAnimation(self)
-                    self.messageLabel?.stringValue = "Logging In"
-                case .loggingIn:
-                    self.spinner?.startAnimation(self)
-                    self.messageLabel?.stringValue = "Logging In"
+                    self.messageLabel?.stringValue = "Saving"
                 case .saving:
                     self.spinner?.startAnimation(self)
                     self.messageLabel?.stringValue = "Saving"

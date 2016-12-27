@@ -34,10 +34,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func processItemsSavedByExtension() {
         DispatchQueue.global(qos: .background).async {
-            guard
-                let realmController = self.rootViewController.realmController,
-                let itemsOnDisk = NSKeyedUnarchiver.unarchiveObject(withFile: SerializableURLItem.archiveURL.path) as? [SerializableURLItem]
-            else {
+            guard let realmController = self.rootViewController.realmController else { return }
+            guard let itemsOnDisk = NSKeyedUnarchiver.unarchiveObject(withFile: SerializableURLItem.archiveURL.path) as? [SerializableURLItem] else {
                 // delete the file if it exists and has incorrect data, or else this could fail forever and never get fixed
                 try? FileManager.default.removeItem(at: SerializableURLItem.archiveURL)
                 return

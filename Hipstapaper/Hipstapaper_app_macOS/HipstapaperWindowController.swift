@@ -11,7 +11,7 @@ import AppKit
 
 class HipstapaperWindowController: NSWindowController, RealmControllable {
     
-    private lazy var preferencesWindowController: PreferencesWindowController = {
+    lazy var preferencesWindowController: PreferencesWindowController = {
         let wc = PreferencesWindowController()
         wc.delegate = self
         return wc
