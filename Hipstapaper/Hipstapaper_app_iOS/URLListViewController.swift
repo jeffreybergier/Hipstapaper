@@ -118,6 +118,19 @@ class URLListViewController: UIViewController, RealmControllable {
         self.navigationController?.setToolbarHidden(true, animated: animated)
     }
     
+    private var viewDidAppearOnce = false
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if self.viewDidAppearOnce == false { self.presentedViewControllerDidDisappear() }
+        self.viewDidAppearOnce = true
+    }
+    
+    fileprivate lazy var presentedViewControllerDidDisappear: @convention(block) (Void) -> Void = { [weak self] in
+        self?.tableView?.deselectAllRows(animated: true)
+        self?.tableView?.flashScrollIndicators()
+    }
+    
     private var notificationToken: NotificationToken?
     
     deinit {
@@ -179,7 +192,6 @@ extension URLListViewController /* Handle BarButtonItems */ {
         else { return }
         let tagVC = TagAddRemoveViewController.viewController(style: .popBBI(bbi), selectedItems: items, controller: realmController)
         self.present(tagVC, animated: true, completion: .none)
-        print(self.presentedViewController)
         self.tableView?.setEditing(false, animated: true)
     }
     
@@ -209,6 +221,7 @@ extension URLListViewController: UITableViewDelegate {
         } else {
             guard let selectedItem = selectedItems.first, let url = URL(string: selectedItem.urlString) else { return }
             let sfVC = SFSafariViewController(url: url, entersReaderIfAvailable: false)
+            let _ = try? sfVC.aspect_hook(#selector(NSObject.deinit), with: .positionBefore, usingBlock: self.presentedViewControllerDidDisappear)
             self.present(sfVC, animated: true, completion: .none)
         }
     }

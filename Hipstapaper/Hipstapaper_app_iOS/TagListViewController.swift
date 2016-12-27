@@ -6,8 +6,17 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
+import Aspects
 import RealmSwift
 import UIKit
+
+extension UITableView {
+    func deselectAllRows(animated: Bool) {
+        for indexPath in self.indexPathsForSelectedRows ?? [] {
+            self.deselectRow(at: indexPath, animated: animated)
+        }
+    }
+}
 
 class TagListViewController: UIViewController, RealmControllable {
     
@@ -78,6 +87,19 @@ class TagListViewController: UIViewController, RealmControllable {
         }
     }
     
+    private var viewDidAppearOnce = false
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if self.viewDidAppearOnce == false { self.presentedViewControllerDidDisappear() }
+        self.viewDidAppearOnce = true
+    }
+    
+    fileprivate lazy var presentedViewControllerDidDisappear: @convention(block) (Void) -> Void = { [weak self] in
+        self?.tableView?.deselectAllRows(animated: true)
+        self?.tableView?.flashScrollIndicators()
+    }
+    
     private var notificationToken: NotificationToken?
     
     deinit {
@@ -124,7 +146,9 @@ extension TagListViewController: UITableViewDelegate {
             guard let tagItem = self.tags?[indexPath.row] else { fatalError() }
             selection = .tag(tagItem)
         }
+    
         let newVC = URLListViewController(selection: selection, controller: controller)
+        let _ = try? newVC.aspect_hook(#selector(NSObject.deinit), with: .positionBefore, usingBlock: self.presentedViewControllerDidDisappear)
         self.navigationController?.pushViewController(newVC, animated: true)
     }
 }
