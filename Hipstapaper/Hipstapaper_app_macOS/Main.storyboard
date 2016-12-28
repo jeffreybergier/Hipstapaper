@@ -20,14 +20,14 @@
                         <value key="minSize" type="size" width="400" height="300"/>
                         <toolbar key="toolbar" implicitIdentifier="973B9786-A38C-4B7B-ACBB-23C49022270F" displayMode="iconAndLabel" sizeMode="regular" id="TlN-A4-JUa" customClass="ValidatingToolbar" customModule="Hipstapaper" customModuleProvider="target">
                             <allowedToolbarItems>
-                                <toolbarItem implicitItemIdentifier="E4E898BC-69C3-4931-BA38-FDCA64C6C4F4" label="Sidebar" paletteLabel="Collapse Sidebar" image="NSColumnViewTemplate" autovalidates="NO" id="lcG-Q2-waA">
+                                <toolbarItem implicitItemIdentifier="E4E898BC-69C3-4931-BA38-FDCA64C6C4F4" label="Sidebar" paletteLabel="Collapse Sidebar" image="NSSidebarTemplate" autovalidates="NO" id="lcG-Q2-waA">
                                     <nil key="toolTip"/>
-                                    <size key="minSize" width="60" height="43"/>
-                                    <size key="maxSize" width="60" height="43"/>
+                                    <size key="minSize" width="65" height="43"/>
+                                    <size key="maxSize" width="88" height="44"/>
                                     <button key="view" verticalHuggingPriority="750" id="LCB-EB-YyE">
-                                        <rect key="frame" x="18" y="14" width="60" height="43"/>
+                                        <rect key="frame" x="16" y="14" width="65" height="43"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSColumnViewTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="FUP-cn-zxI">
+                                        <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSSidebarTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="FUP-cn-zxI">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -38,10 +38,10 @@
                                 </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="30040198-1E0B-4329-ADAC-8D04C864BAF2" label="Unarchive" paletteLabel="Unarchive" tag="1" id="0Qc-Ty-Wjc">
                                     <nil key="toolTip"/>
-                                    <size key="minSize" width="60" height="43"/>
-                                    <size key="maxSize" width="60" height="43"/>
+                                    <size key="minSize" width="65" height="43"/>
+                                    <size key="maxSize" width="88" height="44"/>
                                     <button key="view" verticalHuggingPriority="750" tag="1" id="Dau-X1-Sf8">
-                                        <rect key="frame" x="0.0" y="14" width="60" height="43"/>
+                                        <rect key="frame" x="0.0" y="14" width="65" height="43"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="push" title="📤" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="FuR-bC-TSO">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -54,10 +54,10 @@
                                 </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="C08ABC2E-0C38-4BCF-A08B-73FB888852F4" label="Archive" paletteLabel="Archive" tag="2" id="rie-1Q-ZrY">
                                     <nil key="toolTip"/>
-                                    <size key="minSize" width="60" height="43"/>
-                                    <size key="maxSize" width="60" height="43"/>
+                                    <size key="minSize" width="65" height="43"/>
+                                    <size key="maxSize" width="88" height="44"/>
                                     <button key="view" verticalHuggingPriority="750" tag="2" id="fJJ-5t-vKy">
-                                        <rect key="frame" x="0.0" y="14" width="60" height="43"/>
+                                        <rect key="frame" x="0.0" y="14" width="65" height="43"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="push" title="📥" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fsv-QW-FRR">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -70,10 +70,10 @@
                                 </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="AB75795C-B025-4CC5-82F6-E51291885C34" label="Tag" paletteLabel="Tag" tag="3" id="qY3-5W-Xv0">
                                     <nil key="toolTip"/>
-                                    <size key="minSize" width="60" height="43"/>
-                                    <size key="maxSize" width="60" height="43"/>
+                                    <size key="minSize" width="65" height="43"/>
+                                    <size key="maxSize" width="88" height="44"/>
                                     <button key="view" verticalHuggingPriority="750" tag="3" id="LrI-Tg-uqr">
-                                        <rect key="frame" x="0.0" y="14" width="60" height="43"/>
+                                        <rect key="frame" x="0.0" y="14" width="65" height="43"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="push" title="🏷" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="PJm-Y2-ZQI">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -86,10 +86,10 @@
                                 </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="D79AFF4E-F80E-4BBA-9125-4CDB9B734F11" label="Share" paletteLabel="Share" tag="4" image="NSShareTemplate" id="0BX-Wd-2Yr">
                                     <nil key="toolTip"/>
-                                    <size key="minSize" width="60" height="43"/>
-                                    <size key="maxSize" width="60" height="43"/>
+                                    <size key="minSize" width="65" height="43"/>
+                                    <size key="maxSize" width="88" height="44"/>
                                     <button key="view" verticalHuggingPriority="750" tag="4" id="CkJ-DC-ctK">
-                                        <rect key="frame" x="0.0" y="14" width="60" height="43"/>
+                                        <rect key="frame" x="0.0" y="14" width="65" height="43"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSShareTemplate" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ZEQ-sQ-d2g">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -188,7 +188,7 @@
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <stackView distribution="equalSpacing" orientation="horizontal" alignment="bottom" spacing="6" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Va-BG-OED">
-                                                                    <rect key="frame" x="4" y="5.5" width="90" height="14"/>
+                                                                    <rect key="frame" x="4" y="5" width="90" height="14"/>
                                                                     <subviews>
                                                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8OP-D9-lGs">
                                                                             <rect key="frame" x="-2" y="0.0" width="72" height="14"/>
@@ -234,7 +234,7 @@
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <stackView distribution="equalSpacing" orientation="horizontal" alignment="bottom" spacing="6" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P0I-dX-ZqY">
-                                                                    <rect key="frame" x="4" y="5.5" width="48" height="14"/>
+                                                                    <rect key="frame" x="4" y="5" width="48" height="14"/>
                                                                     <subviews>
                                                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Lgh-LQ-Avv">
                                                                             <rect key="frame" x="-2" y="0.0" width="30" height="14"/>
@@ -506,7 +506,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="NSColumnViewTemplate" width="16" height="10"/>
         <image name="NSShareTemplate" width="11" height="16"/>
+        <image name="NSSidebarTemplate" width="128" height="128"/>
     </resources>
 </document>
