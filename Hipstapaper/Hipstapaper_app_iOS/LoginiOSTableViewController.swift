@@ -48,7 +48,7 @@ class LoginiOSTableViewController: UITableViewController {
     
     // MARK: Handle Loading
     
-    convenience init(createAccount: Bool, delegate: RealmControllable) {
+    convenience init(createAccount: Bool, delegate: RealmControllable?) {
         self.init(style: .grouped)
         self.createNewAccount = createAccount
         self.delegate = delegate
@@ -229,31 +229,5 @@ extension LoginiOSTableViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
-    }
-}
-
-extension LoginiOSTableViewController {
-    
-    // MARK: Custom Constructor
-    
-    class func dualLoginTabBarController(delegate: RealmControllable) -> UITabBarController {
-        let tabVC = UITabBarController()
-        let createVC = LoginiOSTableViewController(createAccount: true, delegate: delegate)
-        let createNavVC = UINavigationController(rootViewController: createVC)
-        let loginVC = LoginiOSTableViewController(createAccount: false, delegate: delegate)
-        let loginNavVC = UINavigationController(rootViewController: loginVC)
-        tabVC.viewControllers = [loginNavVC, createNavVC]
-        tabVC.tabBar.items?.enumerated().forEach() { index, item in
-            switch index {
-            case 0:
-                item.title = "Login"
-            case 1:
-                item.title = "Create Account"
-            default:
-                break
-            }
-        }
-        tabVC.modalPresentationStyle = .formSheet
-        return tabVC
     }
 }

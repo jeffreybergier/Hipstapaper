@@ -6,14 +6,28 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
+import Aspects
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, RealmControllable {
 
     var window: UIWindow?
     
-    private let rootViewController = LoggedIniOSViewController()
+    private let rootViewController = TagListViewController()
+    
+    fileprivate lazy var splitVCDidAppear: @convention(block) (Void) -> Void = { [weak self] in
+        guard let mySelf = self else { return }
+        if mySelf.realmController == nil {
+            mySelf.rootViewController.presentAccountsVC(animated: true)
+        }
+    }
+    
+    var realmController = RealmController() {
+        didSet {
+            NotificationCenter.default.post(name: NSNotification.Name("RealmControllerChanged"), object: self, userInfo: ["NewRealmController": self.realmController as Any])
+        }
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -22,8 +36,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window = UIWindow(frame: UIScreen.main.bounds)
         }
         
+        self.rootViewController.realmController = self.realmController
         let navVC = UINavigationController(rootViewController: self.rootViewController)
-        self.window!.rootViewController = navVC
+        let splitVC = UISplitViewController()
+        splitVC.preferredDisplayMode = .allVisible
+        splitVC.viewControllers = [navVC]
+        splitVC.showDetailViewController(URLListViewController.viewController(with: .unarchived, and: self.realmController, preparedFor: splitVC), sender: self)
+        let _ = try! splitVC.aspect_hook(#selector(UIViewController.viewDidAppear(_:)), with: .positionInstead, usingBlock: self.splitVCDidAppear)
+        self.window!.rootViewController = splitVC
         self.window?.backgroundColor = .white
         self.window?.makeKeyAndVisible()
         

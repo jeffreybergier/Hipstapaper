@@ -12,6 +12,18 @@ import UIKit
 
 class URLListViewController: UIViewController, RealmControllable {
     
+    static func viewController(with selection: URLItem.Selection, and controller: RealmController?, preparedFor splitVC: UISplitViewController?) -> UIViewController {
+        let newVC = URLListViewController(selection: selection, controller: controller)
+        if let splitVC = splitVC {
+            let navVC = UINavigationController(rootViewController: newVC)
+            newVC.navigationItem.leftBarButtonItem = splitVC.displayModeButtonItem
+            newVC.navigationItem.leftItemsSupplementBackButton = true
+            return navVC
+        } else {
+            return newVC
+        }
+    }
+    
     @IBOutlet fileprivate weak var tableView: UITableView? {
         didSet {
             let imageNib = UINib(nibName: URLTableViewCell.withImageNIBName, bundle: Bundle(for: URLTableViewCell.self))
@@ -32,12 +44,11 @@ class URLListViewController: UIViewController, RealmControllable {
     fileprivate lazy var tagBBI: UIBBI = UIBBI(title: "🏷Tag", style: .plain, target: self, action: #selector(self.tagBBITapped(_:)))
     fileprivate let flexibleSpaceBBI: UIBBI = UIBBI(barButtonSystemItem: .flexibleSpace, target: .none, action: .none)
     
-    private var selection: URLItem.Selection = .unarchived
+    private(set) var selection: URLItem.Selection = .unarchived
     fileprivate var data: Results<URLItem>?
     weak var realmController: RealmController? {
         didSet {
             self.hardReloadData()
-            self.presentedRealmControllables.forEach({ $0.realmController = self.realmController })
         }
     }
     
@@ -51,7 +62,7 @@ class URLListViewController: UIViewController, RealmControllable {
         return items
     }
     
-    convenience init(selection: URLItem.Selection, controller: RealmController) {
+    convenience init(selection: URLItem.Selection, controller: RealmController?) {
         self.init()
         self.selection = selection
         self.realmController = controller
@@ -76,6 +87,17 @@ class URLListViewController: UIViewController, RealmControllable {
         
         // load the data
         self.hardReloadData()
+        
+        // Subscribe to changes in realm controller
+        NotificationCenter.default.addObserver(self, selector: #selector(self.realmControllerChanged(_:)), name: NSNotification.Name("RealmControllerChanged"), object: .none)
+    }
+    
+    @objc private func realmControllerChanged(_ notification: Notification?) {
+        if let newController = notification?.userInfo?["NewRealmController"] as? RealmController {
+            self.realmController = newController
+        } else {
+            self.realmController = nil
+        }
     }
     
     private func hardReloadData() {
@@ -84,6 +106,7 @@ class URLListViewController: UIViewController, RealmControllable {
         self.notificationToken = .none
         self.data = .none
         self.tableView?.reloadData()
+        self.updateBBI(with: [])
         
         // configure data source
         let items = self.realmController?.urlItems(for: selection, sortOrder: URLItem.SortOrder.creationDate(newestFirst: true))

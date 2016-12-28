@@ -29,16 +29,12 @@ class TagListViewController: UIViewController, RealmControllable {
     weak var realmController: RealmController? {
         didSet {
             self.hardReloadData()
-            self.presentedRealmControllables.forEach({ $0.realmController = self.realmController })
         }
     }
     
-    private var immediatelyPresentNextVC = false
-    
-    convenience init(controller: RealmController, immediatelyPresentNextVC: Bool) {
+    convenience init(controller: RealmController?) {
         self.init()
         self.realmController = controller
-        self.immediatelyPresentNextVC = immediatelyPresentNextVC
     }
     
     override func viewDidLoad() {
@@ -47,19 +43,35 @@ class TagListViewController: UIViewController, RealmControllable {
         // title
         self.title = "Tags"
         
-        if let controller = self.realmController, self.immediatelyPresentNextVC {
-            // before we even load things, lets go to the main view of the app
-            let newVC = URLListViewController(selection: .unarchived, controller: controller)
-            self.navigationController?.pushViewController(newVC, animated: false)
-            self.immediatelyPresentNextVC = false
-        }
+        // accounts button
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Account", style: .plain, target: self, action: #selector(self.accountsBBITapped(_:)))
         
-        // now lets load the data in the BG
-        DispatchQueue.main.async {
-            self.hardReloadData()
+        // load tag data
+        self.hardReloadData()
+        
+        // Subscribe to changes in realm controller
+        NotificationCenter.default.addObserver(self, selector: #selector(self.realmControllerChanged(_:)), name: NSNotification.Name("RealmControllerChanged"), object: .none)
+    }
+    
+    @objc private func realmControllerChanged(_ notification: Notification?) {
+        if let newController = notification?.userInfo?["NewRealmController"] as? RealmController {
+            self.realmController = newController
+        } else {
+            self.realmController = nil
         }
     }
     
+    @objc private func accountsBBITapped(_ sender: NSObject?) {
+        self.presentAccountsVC(animated: true)
+    }
+    
+    func presentAccountsVC(animated: Bool) {
+        let newVC = LoggedIniOSViewController()
+        let navVC = UINavigationController(rootViewController: newVC)
+        navVC.modalPresentationStyle = .formSheet
+        self.splitViewController?.present(navVC, animated: animated, completion: .none)
+    }
+
     private func hardReloadData() {
         // reset everything
         self.notificationToken?.stop()
@@ -85,24 +97,38 @@ class TagListViewController: UIViewController, RealmControllable {
         case .error(let error):
             fatalError("\(error)")
         }
+        
+        let displayedSelection = self?.splitViewController?.viewControllers.map({ ($0 as? UINavigationController)?.viewControllers.map({ ($0 as? URLListViewController)?.selection }) }).flatMap({$0}).flatMap({$0}).flatMap({$0}).first
+        if let displayedSelection = displayedSelection {
+            switch displayedSelection {
+            case .unarchived:
+                self?.tableView?.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .none)
+            case .all:
+                self?.tableView?.selectRow(at: IndexPath(row: 1, section: 0), animated: false, scrollPosition: .none)
+            case .tag(let tag):
+                guard let index = self?.tags?.index(of: tag) else { return }
+                self?.tableView?.selectRow(at: IndexPath(row: index, section: 1), animated: false, scrollPosition: .none)
+            }
+        }
+
     }
-    
-    private var viewDidAppearOnce = false
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if self.viewDidAppearOnce == false { self.presentedViewControllerDidDisappear() }
-        self.viewDidAppearOnce = true
+        self.tableView?.flashScrollIndicators()
     }
     
     fileprivate lazy var presentedViewControllerDidDisappear: @convention(block) (Void) -> Void = { [weak self] in
+        guard let topViewController = (self?.splitViewController?.viewControllers.last as? UINavigationController)?.topViewController, topViewController === self else { return }
         self?.tableView?.deselectAllRows(animated: true)
         self?.tableView?.flashScrollIndicators()
     }
     
     private var notificationToken: NotificationToken?
+    fileprivate var deselectionToken: AspectToken?
     
     deinit {
+        self.deselectionToken?.remove()
         self.notificationToken?.stop()
     }
 
@@ -137,7 +163,7 @@ extension TagListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let section = Section(rawValue: indexPath.section), let controller = self.realmController else { return }
+        guard let section = Section(rawValue: indexPath.section) else { return }
         let selection: URLItem.Selection
         switch section {
         case .readingList:
@@ -146,10 +172,11 @@ extension TagListViewController: UITableViewDelegate {
             guard let tagItem = self.tags?[indexPath.row] else { fatalError() }
             selection = .tag(tagItem)
         }
-    
-        let newVC = URLListViewController(selection: selection, controller: controller)
-        let _ = try? newVC.aspect_hook(#selector(NSObject.deinit), with: .positionBefore, usingBlock: self.presentedViewControllerDidDisappear)
-        self.navigationController?.pushViewController(newVC, animated: true)
+        
+        self.deselectionToken?.remove()
+        let newVC = URLListViewController.viewController(with: selection, and: self.realmController, preparedFor: self.splitViewController)
+        self.deselectionToken = try? newVC.aspect_hook(#selector(UIViewController.viewDidDisappear(_:)), with: .positionBefore, usingBlock: self.presentedViewControllerDidDisappear)
+        self.splitViewController?.showDetailViewController(newVC, sender: self)
     }
 }
 

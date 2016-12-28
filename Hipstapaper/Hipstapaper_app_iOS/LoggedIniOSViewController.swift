@@ -13,90 +13,81 @@ class LoggedIniOSViewController: UIViewController, RealmControllable {
     var realmController = RealmController() {
         didSet {
             self.updateUILabels()
-            for item in self.navigationController?.stackedRealmControllables ?? [] {
-                guard item !== self else { continue }
-                item.realmController = self.realmController
-            }
-            self.presentedRealmControllables.forEach({ $0.realmController = self.realmController })
         }
     }
     
-    @IBOutlet private weak var primaryButtonTextLabel: UILabel?
-    @IBOutlet private weak var primaryButton: UIButton?
-    @IBOutlet private weak var secondaryButton: UIButton?
+    @IBOutlet private weak var primaryTextLabel: UILabel?
+    @IBOutlet private weak var loginButton: UIButton?
+    @IBOutlet private weak var createButton: UIButton?
+    @IBOutlet private weak var logoutButton: UIButton?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // configure my title
         self.title = "Account"
         
+        // configure the button so people can get out of here
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.doneBBITapped(_:)))
+        
+        // update the labels based on whether we're logged in
         self.updateUILabels()
         
-        if let controller = self.realmController {
-            self.presentApp(animated: false, controller: controller)
+        // Subscribe to changes in realm controller
+        NotificationCenter.default.addObserver(self, selector: #selector(self.realmControllerChanged(_:)), name: NSNotification.Name("RealmControllerChanged"), object: .none)
+    }
+    
+    @objc private func realmControllerChanged(_ notification: Notification?) {
+        if let newController = notification?.userInfo?["NewRealmController"] as? RealmController {
+            self.realmController = newController
         } else {
-            self.presentLogin(animated: false)
+            self.realmController = nil
         }
     }
     
+    @objc private func doneBBITapped(_ sender: NSObject?) {
+        self.dismiss(animated: true, completion: .none)
+    }
+
     private func updateUILabels() {
         if let _ = realmController {
-            self.primaryButtonTextLabel?.text = "You're logged in. ☺️"
-            self.primaryButton?.setTitle("Go to App", for: .normal)
-            self.secondaryButton?.setTitle("Logout", for: .normal)
-            self.secondaryButton?.isEnabled = true
+            self.primaryTextLabel?.text = "You're logged in. ☺️"
+            self.logoutButton?.setTitle("Logout", for: .normal)
+            self.createButton?.setTitle("Create Account", for: .normal)
+            self.loginButton?.setTitle("Login", for: .normal)
+            self.logoutButton?.isEnabled = true
+            self.createButton?.isEnabled = false
+            self.loginButton?.isEnabled = false
         } else {
-            self.primaryButtonTextLabel?.text = "You need to login. 😱"
-            self.primaryButton?.setTitle("Start Login", for: .normal)
-            self.secondaryButton?.setTitle("Logout", for: .normal)
-            self.secondaryButton?.isEnabled = false
+            self.primaryTextLabel?.text = "You need to login. 😱"
+            self.logoutButton?.setTitle("Logout", for: .normal)
+            self.createButton?.setTitle("Create Account", for: .normal)
+            self.loginButton?.setTitle("Login", for: .normal)
+            self.logoutButton?.isEnabled = false
+            self.createButton?.isEnabled = true
+            self.loginButton?.isEnabled = true
         }
     }
     
-    private func presentApp(animated: Bool, controller: RealmController) {
-        let tagVC = TagListViewController(controller: controller, immediatelyPresentNextVC: !animated)
-        self.navigationController?.pushViewController(tagVC, animated: animated)
+    private func newLoginVC(createAccount: Bool) -> UIViewController {
+        let delegate = UIApplication.shared.delegate as? RealmControllable
+        let tabVC = LoginiOSTableViewController(createAccount: createAccount, delegate: delegate)
+        let navVC = UINavigationController(rootViewController: tabVC)
+        navVC.modalPresentationStyle = .formSheet
+        return navVC
     }
     
-    private func presentLogin(animated: Bool) {
-        let tabVC = LoginiOSTableViewController.dualLoginTabBarController(delegate: self)
-        self.present(tabVC, animated: animated, completion: .none)
+    @IBAction private func createButtonTapped(_ sender: NSObject?) {
+        self.present(self.newLoginVC(createAccount: true), animated: true, completion: .none)
     }
     
-    @IBAction private func primaryButtonTapped(_ sender: NSObject?) {
-        if let controller = self.realmController {
-            self.presentApp(animated: true, controller: controller)
-        } else {
-            self.presentLogin(animated: true)
-        }
+    @IBAction private func loginButtonTapped(_ sender: NSObject?) {
+        self.present(self.newLoginVC(createAccount: false), animated: true, completion: .none)
     }
     
-    @IBAction private func secondaryButtonTapped(_ sender: NSObject?) {
+    @IBAction private func logoutButtonTapped(_ sender: NSObject?) {
         self.realmController?.logOut()
-        self.realmController = .none
+        (UIApplication.shared.delegate as? RealmControllable)?.realmController = nil
     }
 
-}
-
-extension UINavigationController {
-    var stackedRealmControllables: [RealmControllable] {
-        let realmControllable = self.viewControllers.map({ $0 as? RealmControllable }).flatMap({ $0 })
-        return realmControllable
-    }
-}
-
-extension UIViewController {
-    var presentedRealmControllables: [RealmControllable] {
-        var realmControllable = [RealmControllable]()
-        var presentedVC = self.presentedViewController
-        while presentedVC != nil {
-            if let vc = presentedVC as? RealmControllable {
-                realmControllable.append(vc)
-            } else if let nav = presentedVC as? UINavigationController {
-                realmControllable += nav.stackedRealmControllables
-            }
-            presentedVC = presentedVC?.presentedViewController
-        }
-        return realmControllable
-    }
 }

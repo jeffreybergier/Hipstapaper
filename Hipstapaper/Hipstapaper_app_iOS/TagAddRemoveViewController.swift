@@ -49,7 +49,6 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
     weak var realmController: RealmController? {
         didSet {
             self.hardReloadData()
-            self.presentedRealmControllables.forEach({ $0.realmController = self.realmController })
         }
     }
     
@@ -71,6 +70,17 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
         
         // load the data
         self.hardReloadData()
+        
+        // subscribe to changes in the realm controller
+        NotificationCenter.default.addObserver(self, selector: #selector(self.realmControllerChanged(_:)), name: NSNotification.Name("RealmControllerChanged"), object: .none)
+    }
+    
+    @objc private func realmControllerChanged(_ notification: Notification?) {
+        if let newController = notification?.userInfo?["NewRealmController"] as? RealmController {
+            self.realmController = newController
+        } else {
+            self.realmController = nil
+        }
     }
     
     private func hardReloadData() {

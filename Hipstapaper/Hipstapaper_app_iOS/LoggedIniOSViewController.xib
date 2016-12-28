@@ -11,9 +11,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoggedIniOSViewController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
-                <outlet property="primaryButton" destination="klM-XI-eFL" id="hdA-AQ-3RN"/>
-                <outlet property="primaryButtonTextLabel" destination="2Ar-aW-rb1" id="3ZH-m5-CbY"/>
-                <outlet property="secondaryButton" destination="RrW-ou-oVQ" id="sfT-EW-s5K"/>
+                <outlet property="createButton" destination="F08-sJ-8aT" id="f5h-0B-uf4"/>
+                <outlet property="loginButton" destination="klM-XI-eFL" id="tNt-Cb-Wzz"/>
+                <outlet property="logoutButton" destination="RrW-ou-oVQ" id="0NC-Ji-8E6"/>
+                <outlet property="primaryTextLabel" destination="2Ar-aW-rb1" id="v2b-IX-FPE"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -23,41 +24,56 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You're already logged in." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ar-aW-rb1">
-                    <rect key="frame" x="93" y="285.5" width="188" height="20.5"/>
+                    <rect key="frame" x="93" y="246.5" width="188" height="20.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="klM-XI-eFL">
-                    <rect key="frame" x="20" y="314" width="335" height="39"/>
-                    <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
-                    <state key="normal" title="Go to App"/>
-                    <connections>
-                        <action selector="primaryButtonTapped:" destination="-1" eventType="touchUpInside" id="sGV-hP-jdN"/>
-                    </connections>
-                </button>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="9qF-5Q-MN2">
+                    <rect key="frame" x="111" y="291" width="153" height="86"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="klM-XI-eFL">
+                            <rect key="frame" x="0.0" y="0.0" width="153" height="39"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                            <state key="normal" title="Login"/>
+                            <connections>
+                                <action selector="loginButtonTapped:" destination="-1" eventType="touchUpInside" id="En1-aS-ic0"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F08-sJ-8aT">
+                            <rect key="frame" x="0.0" y="47" width="153" height="39"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                            <state key="normal" title="Create Account"/>
+                            <connections>
+                                <action selector="createButtonTapped:" destination="-1" eventType="touchUpInside" id="RLi-wc-6ad"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                </stackView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RrW-ou-oVQ">
                     <rect key="frame" x="163" y="617" width="48" height="30"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                     <state key="normal" title="Logout"/>
                     <connections>
-                        <action selector="secondaryButtonTapped:" destination="-1" eventType="touchUpInside" id="F8o-Nd-AzT"/>
+                        <action selector="logoutButtonTapped:" destination="-1" eventType="touchUpInside" id="xAh-zP-u2u"/>
                     </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="klM-XI-eFL" firstAttribute="top" secondItem="2Ar-aW-rb1" secondAttribute="bottom" constant="8" symbolic="YES" id="1BC-jh-IcX"/>
                 <constraint firstAttribute="bottom" secondItem="RrW-ou-oVQ" secondAttribute="bottom" constant="20" symbolic="YES" id="1Uy-gF-hgR"/>
-                <constraint firstAttribute="trailing" secondItem="klM-XI-eFL" secondAttribute="trailing" constant="20" symbolic="YES" id="4XG-gE-TVu"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="RrW-ou-oVQ" secondAttribute="trailing" constant="20" symbolic="YES" id="4aa-Wk-XVN"/>
-                <constraint firstItem="RrW-ou-oVQ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="klM-XI-eFL" secondAttribute="bottom" constant="8" symbolic="YES" id="763-vL-4a6"/>
-                <constraint firstItem="klM-XI-eFL" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" priority="750" id="Fpp-oJ-tho"/>
-                <constraint firstItem="klM-XI-eFL" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="JYj-TG-2on"/>
-                <constraint firstItem="2Ar-aW-rb1" firstAttribute="centerX" secondItem="klM-XI-eFL" secondAttribute="centerX" id="UIa-w8-Vqe"/>
-                <constraint firstItem="klM-XI-eFL" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" symbolic="YES" id="bWX-DN-OKB"/>
-                <constraint firstItem="2Ar-aW-rb1" firstAttribute="top" relation="greaterThanOrEqual" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="54" id="eSh-tK-237"/>
+                <constraint firstItem="9qF-5Q-MN2" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="DDO-Xf-ddA"/>
+                <constraint firstItem="9qF-5Q-MN2" firstAttribute="top" secondItem="2Ar-aW-rb1" secondAttribute="bottom" constant="24" id="Df3-Wx-5bb"/>
+                <constraint firstItem="2Ar-aW-rb1" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" symbolic="YES" id="FOF-ex-bzH"/>
+                <constraint firstItem="9qF-5Q-MN2" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" symbolic="YES" id="KCG-cg-94o"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="2Ar-aW-rb1" secondAttribute="trailing" constant="20" symbolic="YES" id="Lyo-oW-a3z"/>
+                <constraint firstItem="2Ar-aW-rb1" firstAttribute="top" relation="greaterThanOrEqual" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" symbolic="YES" id="S8p-M6-ngp"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="9qF-5Q-MN2" secondAttribute="trailing" constant="20" symbolic="YES" id="e40-i8-dgi"/>
+                <constraint firstItem="RrW-ou-oVQ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="9qF-5Q-MN2" secondAttribute="bottom" constant="8" symbolic="YES" id="hdy-qF-nag"/>
+                <constraint firstItem="2Ar-aW-rb1" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="oiR-BN-DLg"/>
                 <constraint firstItem="RrW-ou-oVQ" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="ome-E9-gih"/>
+                <constraint firstItem="9qF-5Q-MN2" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="tTF-kw-Nzg"/>
                 <constraint firstItem="RrW-ou-oVQ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" symbolic="YES" id="yNq-RD-gPc"/>
             </constraints>
             <point key="canvasLocation" x="34.5" y="53.5"/>
