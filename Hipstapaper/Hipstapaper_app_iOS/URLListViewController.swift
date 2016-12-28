@@ -55,6 +55,17 @@ class URLListViewController: UIViewController, RealmControllable {
     }
     var selection: URLItem.Selection = .unarchived {
         didSet {
+            // set title
+            switch self.selection {
+            case .unarchived:
+                self.title = "Hipstapaper"
+            case .all:
+                self.title = "All Items"
+            case .tag(let tagItem):
+                self.title = "🏷 \(tagItem.name)"
+            }
+            
+            // reload the data
             self.hardReloadData()
         }
     }
@@ -78,6 +89,11 @@ class URLListViewController: UIViewController, RealmControllable {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // because we are in a split view, we fully own our own Navigation Controller
+        // therefore we don't need to micromanage this when switching views.
+        // its always present
+        self.navigationController?.setToolbarHidden(false, animated: false)
+        
         // configure myself for splitview
         self.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
         self.navigationItem.leftItemsSupplementBackButton = true
@@ -91,16 +107,6 @@ class URLListViewController: UIViewController, RealmControllable {
     }
     
     private func hardReloadData() {
-        // set title
-        switch self.selection {
-        case .unarchived:
-            self.title = "Hipstapaper"
-        case .all:
-            self.title = "All Items"
-        case .tag(let tagItem):
-            self.title = "🏷 \(tagItem.name)"
-        }
-        
         // clear things out
         self.notificationToken?.stop()
         self.notificationToken = .none
@@ -131,22 +137,9 @@ class URLListViewController: UIViewController, RealmControllable {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setToolbarHidden(false, animated: animated)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.navigationController?.setToolbarHidden(true, animated: animated)
-    }
-    
-    private var viewDidAppearOnce = false
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if self.viewDidAppearOnce == false { self.presentedViewControllerDidDisappear() }
-        self.viewDidAppearOnce = true
+        self.tableView?.flashScrollIndicators()
     }
     
     fileprivate lazy var presentedViewControllerDidDisappear: @convention(block) (Void) -> Void = { [weak self] in
@@ -215,7 +208,6 @@ extension URLListViewController /* Handle BarButtonItems */ {
         else { return }
         let tagVC = TagAddRemoveViewController.viewController(style: .popBBI(bbi), selectedItems: items, controller: realmController)
         self.present(tagVC, animated: true, completion: .none)
-        self.tableView?.setEditing(false, animated: true)
     }
     
     fileprivate func disableAllBBI() {

@@ -70,6 +70,9 @@ class TagListViewController: UIViewController, RealmControllable {
         switch changes {
         case .initial:
             self?.tableView?.reloadData()
+            if let currentSelection = self?.selectionDelegate?.currentSelection {
+                self?.selectTableViewRows(for: currentSelection, animated: true)
+            }
         case .update(_, let deletions, let insertions, let modifications):
             self?.tableView?.beginUpdates()
             self?.tableView?.insertRows(at: insertions.map({ IndexPath(row: $0, section: 1) }), with: .left)
@@ -85,21 +88,25 @@ class TagListViewController: UIViewController, RealmControllable {
         super.viewWillAppear(animated)
         
         if let currentSelection = self.selectionDelegate?.currentSelection {
-            switch currentSelection {
-            case .unarchived:
-                self.tableView?.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .none)
-            case .all:
-                self.tableView?.selectRow(at: IndexPath(row: 1, section: 0), animated: false, scrollPosition: .none)
-            case .tag(let tag):
-                guard let index = self.tags?.index(of: tag) else { return }
-                self.tableView?.selectRow(at: IndexPath(row: index, section: 1), animated: false, scrollPosition: .none)
-            }
+            self.selectTableViewRows(for: currentSelection, animated: true)
         }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.tableView?.flashScrollIndicators()
+    }
+    
+    private func selectTableViewRows(for selection: URLItem.Selection, animated: Bool) {
+        switch selection {
+        case .unarchived:
+            self.tableView?.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .none)
+        case .all:
+            self.tableView?.selectRow(at: IndexPath(row: 1, section: 0), animated: false, scrollPosition: .none)
+        case .tag(let tag):
+            guard let index = self.tags?.index(of: tag) else { return }
+            self.tableView?.selectRow(at: IndexPath(row: index, section: 1), animated: false, scrollPosition: .none)
+        }
     }
     
     lazy var presentedViewControllerDidDisappear: @convention(block) (Void) -> Void = { [weak self] in
@@ -154,7 +161,6 @@ extension TagListViewController: UITableViewDelegate {
             guard let tagItem = self.tags?[indexPath.row] else { fatalError() }
             selection = .tag(tagItem)
         }
-        
         self.selectionDelegate?.didSelect(selection, from: tableView)
     }
 }

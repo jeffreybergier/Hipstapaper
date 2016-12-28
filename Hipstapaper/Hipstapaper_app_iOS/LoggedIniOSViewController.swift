@@ -10,7 +10,7 @@ import UIKit
 
 class LoggedIniOSViewController: UIViewController, RealmControllable {
     
-    var realmController = RealmController() {
+    var realmController: RealmController? {
         didSet {
             self.updateUILabels()
         }
@@ -23,9 +23,10 @@ class LoggedIniOSViewController: UIViewController, RealmControllable {
     @IBOutlet private weak var createButton: UIButton?
     @IBOutlet private weak var logoutButton: UIButton?
     
-    convenience init(controllerNotifier: RealmControllable) {
+    convenience init(delegate: RealmControllable) {
         self.init()
-        self.delegate = controllerNotifier
+        self.realmController = delegate.realmController
+        self.delegate = delegate
     }
 
     override func viewDidLoad() {
