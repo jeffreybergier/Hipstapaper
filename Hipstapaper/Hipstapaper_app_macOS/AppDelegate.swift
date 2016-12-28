@@ -43,12 +43,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.rootWindowController.showWindow(self)
     }
     
+    private var syncInProgress = false
+    
     private func processItemsSavedByExtension() {
+        guard self.syncInProgress == false else { return }
+        self.syncInProgress = true
         DispatchQueue.global(qos: .background).async {
-            guard let realmController = self.rootWindowController.realmController else { return }
+            guard let realmController = self.rootWindowController.realmController else {
+                self.syncInProgress = false
+                return
+            }
             guard let itemsOnDisk = NSKeyedUnarchiver.unarchiveObject(withFile: SerializableURLItem.archiveURL.path) as? [SerializableURLItem] else {
                 // delete the file if it exists and has incorrect data, or else this could fail forever and never get fixed
                 try? FileManager.default.removeItem(at: SerializableURLItem.archiveURL)
+                self.syncInProgress = false
                 return
             }
             DispatchQueue.main.async {
@@ -67,6 +75,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                     realmController.add(item: newURLItem)
                 }
                 try? FileManager.default.removeItem(at: SerializableURLItem.archiveURL)
+                self.syncInProgress = false
             }
         }
     }
