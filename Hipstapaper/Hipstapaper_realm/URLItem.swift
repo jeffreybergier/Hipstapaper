@@ -8,6 +8,11 @@
 
 import RealmSwift
 
+protocol URLItemSelectionDelegate: class {
+    var currentSelection: URLItem.Selection? { get }
+    func didSelect(_: URLItem.Selection, from: NSObject?)
+}
+
 final public class URLItem: Object {
     
     // MARK: All the Properties

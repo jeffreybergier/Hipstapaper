@@ -96,12 +96,16 @@ class HipstapaperWindowController: NSWindowController, RealmControllable {
     
 }
 
-extension HipstapaperWindowController: URLItemSelectionReceivable {
+extension HipstapaperWindowController: URLItemSelectionDelegate {
+    
+    var currentSelection: URLItem.Selection? {
+        return self.mainViewController?.currentSelection
+    }
     
     // MARK: Handle Selection from Sidebar
     
-    func didSelect(_ selection: URLItem.Selection, from outlineView: NSOutlineView?) {
+    func didSelect(_ selection: URLItem.Selection, from sender: NSObject?) {
         // just forward the message to the content view controller
-        self.mainViewController?.didSelect(selection, from: outlineView)
+        self.mainViewController?.didSelect(selection, from: sender)
     }
 }

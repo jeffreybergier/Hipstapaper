@@ -6,6 +6,7 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
+import Aspects
 import RealmSwift
 import SafariServices
 import UIKit
@@ -13,7 +14,7 @@ import UIKit
 class URLListViewController: UIViewController, RealmControllable {
     
     static func viewController(with selection: URLItem.Selection, and controller: RealmController?, preparedFor splitVC: UISplitViewController?) -> UIViewController {
-        let newVC = URLListViewController(selection: selection, controller: controller)
+        let newVC = URLListViewController()
         if let splitVC = splitVC {
             let navVC = UINavigationController(rootViewController: newVC)
             newVC.navigationItem.leftBarButtonItem = splitVC.displayModeButtonItem
@@ -44,9 +45,15 @@ class URLListViewController: UIViewController, RealmControllable {
     fileprivate lazy var tagBBI: UIBBI = UIBBI(title: "🏷Tag", style: .plain, target: self, action: #selector(self.tagBBITapped(_:)))
     fileprivate let flexibleSpaceBBI: UIBBI = UIBBI(barButtonSystemItem: .flexibleSpace, target: .none, action: .none)
     
-    private(set) var selection: URLItem.Selection = .unarchived
     fileprivate var data: Results<URLItem>?
     weak var realmController: RealmController? {
+        didSet {
+            self.hardReloadData()
+            let addRemoveTagPopoverVC = (self.presentedViewController as? UINavigationController)?.viewControllers.first as? RealmControllable
+            addRemoveTagPopoverVC?.realmController = self.realmController
+        }
+    }
+    var selection: URLItem.Selection = .unarchived {
         didSet {
             self.hardReloadData()
         }
@@ -64,17 +71,26 @@ class URLListViewController: UIViewController, RealmControllable {
     
     convenience init(selection: URLItem.Selection, controller: RealmController?) {
         self.init()
-        self.selection = selection
         self.realmController = controller
+        self.selection = selection
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // configure myself for splitview
+        self.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
+        self.navigationItem.leftItemsSupplementBackButton = true
+        
         // put us into non-edit mode
         self.doneBBITapped(.none)
         self.disableAllBBI()
-
+        
+        // load the data
+        self.hardReloadData()
+    }
+    
+    private func hardReloadData() {
         // set title
         switch self.selection {
         case .unarchived:
@@ -85,28 +101,12 @@ class URLListViewController: UIViewController, RealmControllable {
             self.title = "🏷 \(tagItem.name)"
         }
         
-        // load the data
-        self.hardReloadData()
-        
-        // Subscribe to changes in realm controller
-        NotificationCenter.default.addObserver(self, selector: #selector(self.realmControllerChanged(_:)), name: NSNotification.Name("RealmControllerChanged"), object: .none)
-    }
-    
-    @objc private func realmControllerChanged(_ notification: Notification?) {
-        if let newController = notification?.userInfo?["NewRealmController"] as? RealmController {
-            self.realmController = newController
-        } else {
-            self.realmController = nil
-        }
-    }
-    
-    private func hardReloadData() {
         // clear things out
         self.notificationToken?.stop()
         self.notificationToken = .none
         self.data = .none
         self.tableView?.reloadData()
-        self.updateBBI(with: [])
+        self.doneBBITapped(.none)
         
         // configure data source
         let items = self.realmController?.urlItems(for: selection, sortOrder: URLItem.SortOrder.creationDate(newestFirst: true))

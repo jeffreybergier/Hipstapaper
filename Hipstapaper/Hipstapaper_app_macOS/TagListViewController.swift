@@ -11,10 +11,6 @@ import AppKit
 
 extension NSTreeController: KVOCapable {}
 
-protocol URLItemSelectionReceivable: class {
-    func didSelect(_: URLItem.Selection, from: NSOutlineView?)
-}
-
 class TagListViewController: NSViewController {
     
     weak var realmController: RealmController? {
@@ -23,7 +19,7 @@ class TagListViewController: NSViewController {
         }
     }
     
-    weak var selectionDelegate: URLItemSelectionReceivable?
+    weak var selectionDelegate: URLItemSelectionDelegate?
     
     @IBOutlet private weak var outlineView: NSOutlineView?
     @IBOutlet private weak var treeController: NSTreeController?

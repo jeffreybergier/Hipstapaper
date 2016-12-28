@@ -6,7 +6,6 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
-import Aspects
 import RealmSwift
 import UIKit
 
@@ -26,14 +25,18 @@ class TagListViewController: UIViewController, RealmControllable {
     
     @IBOutlet private weak var tableView: UITableView?
     fileprivate var tags: Results<TagItem>?
+    
+    fileprivate weak var selectionDelegate: URLItemSelectionDelegate?
+    
     weak var realmController: RealmController? {
         didSet {
             self.hardReloadData()
         }
     }
     
-    convenience init(controller: RealmController?) {
+    convenience init(selectionDelegate: URLItemSelectionDelegate, controller: RealmController?) {
         self.init()
+        self.selectionDelegate = selectionDelegate
         self.realmController = controller
     }
     
@@ -44,32 +47,11 @@ class TagListViewController: UIViewController, RealmControllable {
         self.title = "Tags"
         
         // accounts button
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Account", style: .plain, target: self, action: #selector(self.accountsBBITapped(_:)))
+        // set target to nil so it goes down the responder chain to the parent splitview controller
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Account", style: .plain, target: nil, action: #selector(HipstapaperSplitViewController.accountsBBITapped(_:)))
         
         // load tag data
         self.hardReloadData()
-        
-        // Subscribe to changes in realm controller
-        NotificationCenter.default.addObserver(self, selector: #selector(self.realmControllerChanged(_:)), name: NSNotification.Name("RealmControllerChanged"), object: .none)
-    }
-    
-    @objc private func realmControllerChanged(_ notification: Notification?) {
-        if let newController = notification?.userInfo?["NewRealmController"] as? RealmController {
-            self.realmController = newController
-        } else {
-            self.realmController = nil
-        }
-    }
-    
-    @objc private func accountsBBITapped(_ sender: NSObject?) {
-        self.presentAccountsVC(animated: true)
-    }
-    
-    func presentAccountsVC(animated: Bool) {
-        let newVC = LoggedIniOSViewController()
-        let navVC = UINavigationController(rootViewController: newVC)
-        navVC.modalPresentationStyle = .formSheet
-        self.splitViewController?.present(navVC, animated: animated, completion: .none)
     }
 
     private func hardReloadData() {
@@ -97,20 +79,22 @@ class TagListViewController: UIViewController, RealmControllable {
         case .error(let error):
             fatalError("\(error)")
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        let displayedSelection = self?.splitViewController?.viewControllers.map({ ($0 as? UINavigationController)?.viewControllers.map({ ($0 as? URLListViewController)?.selection }) }).flatMap({$0}).flatMap({$0}).flatMap({$0}).first
-        if let displayedSelection = displayedSelection {
-            switch displayedSelection {
+        if let currentSelection = self.selectionDelegate?.currentSelection {
+            switch currentSelection {
             case .unarchived:
-                self?.tableView?.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .none)
+                self.tableView?.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .none)
             case .all:
-                self?.tableView?.selectRow(at: IndexPath(row: 1, section: 0), animated: false, scrollPosition: .none)
+                self.tableView?.selectRow(at: IndexPath(row: 1, section: 0), animated: false, scrollPosition: .none)
             case .tag(let tag):
-                guard let index = self?.tags?.index(of: tag) else { return }
-                self?.tableView?.selectRow(at: IndexPath(row: index, section: 1), animated: false, scrollPosition: .none)
+                guard let index = self.tags?.index(of: tag) else { return }
+                self.tableView?.selectRow(at: IndexPath(row: index, section: 1), animated: false, scrollPosition: .none)
             }
         }
-
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -118,17 +102,15 @@ class TagListViewController: UIViewController, RealmControllable {
         self.tableView?.flashScrollIndicators()
     }
     
-    fileprivate lazy var presentedViewControllerDidDisappear: @convention(block) (Void) -> Void = { [weak self] in
+    lazy var presentedViewControllerDidDisappear: @convention(block) (Void) -> Void = { [weak self] in
         guard let topViewController = (self?.splitViewController?.viewControllers.last as? UINavigationController)?.topViewController, topViewController === self else { return }
         self?.tableView?.deselectAllRows(animated: true)
         self?.tableView?.flashScrollIndicators()
     }
     
     private var notificationToken: NotificationToken?
-    fileprivate var deselectionToken: AspectToken?
     
     deinit {
-        self.deselectionToken?.remove()
         self.notificationToken?.stop()
     }
 
@@ -173,10 +155,7 @@ extension TagListViewController: UITableViewDelegate {
             selection = .tag(tagItem)
         }
         
-        self.deselectionToken?.remove()
-        let newVC = URLListViewController.viewController(with: selection, and: self.realmController, preparedFor: self.splitViewController)
-        self.deselectionToken = try? newVC.aspect_hook(#selector(UIViewController.viewDidDisappear(_:)), with: .positionBefore, usingBlock: self.presentedViewControllerDidDisappear)
-        self.splitViewController?.showDetailViewController(newVC, sender: self)
+        self.selectionDelegate?.didSelect(selection, from: tableView)
     }
 }
 

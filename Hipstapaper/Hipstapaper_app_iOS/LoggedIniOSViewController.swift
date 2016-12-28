@@ -16,10 +16,17 @@ class LoggedIniOSViewController: UIViewController, RealmControllable {
         }
     }
     
+    fileprivate weak var delegate: RealmControllable?
+    
     @IBOutlet private weak var primaryTextLabel: UILabel?
     @IBOutlet private weak var loginButton: UIButton?
     @IBOutlet private weak var createButton: UIButton?
     @IBOutlet private weak var logoutButton: UIButton?
+    
+    convenience init(controllerNotifier: RealmControllable) {
+        self.init()
+        self.delegate = controllerNotifier
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,17 +39,6 @@ class LoggedIniOSViewController: UIViewController, RealmControllable {
         
         // update the labels based on whether we're logged in
         self.updateUILabels()
-        
-        // Subscribe to changes in realm controller
-        NotificationCenter.default.addObserver(self, selector: #selector(self.realmControllerChanged(_:)), name: NSNotification.Name("RealmControllerChanged"), object: .none)
-    }
-    
-    @objc private func realmControllerChanged(_ notification: Notification?) {
-        if let newController = notification?.userInfo?["NewRealmController"] as? RealmController {
-            self.realmController = newController
-        } else {
-            self.realmController = nil
-        }
     }
     
     @objc private func doneBBITapped(_ sender: NSObject?) {
@@ -70,8 +66,7 @@ class LoggedIniOSViewController: UIViewController, RealmControllable {
     }
     
     private func newLoginVC(createAccount: Bool) -> UIViewController {
-        let delegate = UIApplication.shared.delegate as? RealmControllable
-        let tabVC = LoginiOSTableViewController(createAccount: createAccount, delegate: delegate)
+        let tabVC = LoginiOSTableViewController(createAccount: createAccount, delegate: self.delegate)
         let navVC = UINavigationController(rootViewController: tabVC)
         navVC.modalPresentationStyle = .formSheet
         return navVC
@@ -87,7 +82,7 @@ class LoggedIniOSViewController: UIViewController, RealmControllable {
     
     @IBAction private func logoutButtonTapped(_ sender: NSObject?) {
         self.realmController?.logOut()
-        (UIApplication.shared.delegate as? RealmControllable)?.realmController = nil
+        self.delegate?.realmController = nil
     }
 
 }

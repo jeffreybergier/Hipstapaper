@@ -157,8 +157,11 @@ fileprivate extension UInt16 {
     }
 }
 
-extension URLListViewController: URLItemSelectionReceivable {
-    func didSelect(_ selection: URLItem.Selection, from: NSOutlineView?) {
+extension URLListViewController: URLItemSelectionDelegate {
+    var currentSelection: URLItem.Selection? {
+        fatalError()
+    }
+    func didSelect(_ selection: URLItem.Selection, from _: NSObject?) {
         self.querySelection = selection
         self.hardReloadData()
     }
