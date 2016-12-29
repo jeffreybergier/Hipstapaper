@@ -27,6 +27,8 @@
 		5048AF0E1E0DA48600AC1B2D /* URLTaggingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5048AF0C1E0DA48600AC1B2D /* URLTaggingViewController.swift */; };
 		5048AF0F1E0DA48600AC1B2D /* URLTaggingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5048AF0D1E0DA48600AC1B2D /* URLTaggingViewController.xib */; };
 		504A3A3B1DF924D300EA46A9 /* URLShareiOSViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504A3A391DF924D300EA46A9 /* URLShareiOSViewController.xib */; };
+		504AFCBD1E1592FC00B8CC3A /* SaveExtensionFileProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504AFCBC1E1592FC00B8CC3A /* SaveExtensionFileProcessor.swift */; };
+		504AFCBE1E1592FC00B8CC3A /* SaveExtensionFileProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504AFCBC1E1592FC00B8CC3A /* SaveExtensionFileProcessor.swift */; };
 		504D7F101E10D4F60010A5C7 /* LoginMacViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D7F0F1E10D4F60010A5C7 /* LoginMacViewController.swift */; };
 		504D7F121E10EAB40010A5C7 /* LoggedInMacViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D7F111E10EAB40010A5C7 /* LoggedInMacViewController.swift */; };
 		504D7F151E118A0E0010A5C7 /* LoggedIniOSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D7F131E118A0E0010A5C7 /* LoggedIniOSViewController.swift */; };
@@ -175,6 +177,7 @@
 		5048AF0C1E0DA48600AC1B2D /* URLTaggingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLTaggingViewController.swift; sourceTree = "<group>"; };
 		5048AF0D1E0DA48600AC1B2D /* URLTaggingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLTaggingViewController.xib; sourceTree = "<group>"; };
 		504A3A391DF924D300EA46A9 /* URLShareiOSViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLShareiOSViewController.xib; sourceTree = "<group>"; };
+		504AFCBC1E1592FC00B8CC3A /* SaveExtensionFileProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveExtensionFileProcessor.swift; sourceTree = "<group>"; };
 		504D7F0F1E10D4F60010A5C7 /* LoginMacViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginMacViewController.swift; sourceTree = "<group>"; };
 		504D7F111E10EAB40010A5C7 /* LoggedInMacViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggedInMacViewController.swift; sourceTree = "<group>"; };
 		504D7F131E118A0E0010A5C7 /* LoggedIniOSViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggedIniOSViewController.swift; sourceTree = "<group>"; };
@@ -343,6 +346,7 @@
 				50432EFC1E0AFF9400D9C3D5 /* URLItemExtras.swift */,
 				50420FEC1E0B0D0F00B237DA /* TagItem.swift */,
 				50088A4E1E06595A00D6AAED /* SerializableURLItem.swift */,
+				504AFCBC1E1592FC00B8CC3A /* SaveExtensionFileProcessor.swift */,
 				50C162981E0F1178009F5A19 /* XPURLShareViewController.swift */,
 				5083AA1D1E05958500BCAC93 /* KeyObserver.swift */,
 			);
@@ -887,6 +891,7 @@
 				50F7CFED1E12178E0057DC6C /* SerializableURLItem.swift in Sources */,
 				504D7F151E118A0E0010A5C7 /* LoggedIniOSViewController.swift in Sources */,
 				50432EFF1E0AFF9400D9C3D5 /* URLItemExtras.swift in Sources */,
+				504AFCBE1E1592FC00B8CC3A /* SaveExtensionFileProcessor.swift in Sources */,
 				50A1519B1E0A15EC00529048 /* URLItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -929,6 +934,7 @@
 				506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */,
 				50D61C641E0E2F9A004595CD /* NewTagNamingViewController.swift in Sources */,
 				50432EFD1E0AFF9400D9C3D5 /* URLItemExtras.swift in Sources */,
+				504AFCBD1E1592FC00B8CC3A /* SaveExtensionFileProcessor.swift in Sources */,
 				508623191E10BF2700C06C7D /* RealmController.swift in Sources */,
 				5048AF0E1E0DA48600AC1B2D /* URLTaggingViewController.swift in Sources */,
 				50088A701E07153200D6AAED /* HipstapaperWindowController.swift in Sources */,

@@ -8,11 +8,11 @@
 
 import RealmSwift
 
-protocol RealmControllable: class {
+public protocol RealmControllable: class {
     var realmController: RealmController? { get set }
 }
 
-class RealmController {
+public class RealmController {
     
     private let user: SyncUser
     private let realmURL: URL
@@ -23,7 +23,7 @@ class RealmController {
         return realm
     }
     
-    static func realmURL(for user: SyncUser) -> URL {
+    public static func realmURL(for user: SyncUser) -> URL {
         var components = URLComponents(url: user.authenticationServer!, resolvingAgainstBaseURL: false)!
         components.scheme = "realm"
         components.path = "/~/Hipstapaper"
@@ -31,12 +31,12 @@ class RealmController {
         return url
     }
     
-    init(user: SyncUser) {
+    public init(user: SyncUser) {
         self.user = user
         self.realmURL = RealmController.realmURL(for: user)
     }
     
-    init?() {
+    public init?() {
         if let user = SyncUser.current {
             self.user = user
             self.realmURL = RealmController.realmURL(for: user)
@@ -45,31 +45,31 @@ class RealmController {
         }
     }
     
-    func logOut() {
+    public func logOut() {
         self.user.logOut()
     }
     
-    var tags: Results<TagItem> {
+    public var tags: Results<TagItem> {
         let realm = self.realm
         let tags = realm.objects(TagItem.self).sorted(byProperty: #keyPath(TagItem.name))
         return tags
     }
     
-    func add(item: Object) {
+    public func add(item: Object) {
         let realm = self.realm
         realm.beginWrite()
         realm.add(item)
         try! realm.commitWrite()
     }
     
-    func delete(item: Object) {
+    public func delete(item: Object) {
         let realm = self.realm
         realm.beginWrite()
         realm.delete(item)
         try! realm.commitWrite()
     }
     
-    func urlItems(for selection: URLItem.Selection, sortOrder: URLItem.SortOrder) -> Results<URLItem>? {
+    public func urlItems(for selection: URLItem.Selection, sortOrder: URLItem.SortOrder) -> Results<URLItem>? {
         let realm = self.realm
         switch selection {
         case .unarchived:
@@ -86,12 +86,12 @@ class RealmController {
         }
     }
     
-    func atLeastOneItem(in items: [URLItem], canBeArchived: Bool) -> Bool {
+    public func atLeastOneItem(in items: [URLItem], canBeArchived: Bool) -> Bool {
         let filtered = items.filter({ $0.archived != canBeArchived })
         return !filtered.isEmpty
     }
     
-    func newOrExistingTag(proposedName: String) -> TagItem {
+    public func newOrExistingTag(proposedName: String) -> TagItem {
         let normalizedName = TagItem.normalize(proposedName)
         let realm = self.realm
         let existingItem = realm.object(ofType: TagItem.self, forPrimaryKey: normalizedName)
@@ -108,7 +108,7 @@ class RealmController {
         }
     }
     
-    func state(of tagItem: TagItem, with items: [URLItem]) -> CheckboxState {
+    public func state(of tagItem: TagItem, with items: [URLItem]) -> CheckboxState {
         guard items.isEmpty == false else { return .off }
         let matches = items.map({ $0.tags.index(of: tagItem) }).flatMap({ $0 })
         if matches.count == items.count {
@@ -125,7 +125,7 @@ class RealmController {
         }
     }
     
-    func apply(tag tagItem: TagItem, to items: [URLItem]) {
+    public func apply(tag tagItem: TagItem, to items: [URLItem]) {
         let realm = self.realm
         realm.beginWrite()
         for urlItem in items {
@@ -137,7 +137,7 @@ class RealmController {
         try! realm.commitWrite()
     }
     
-    func remove(tag tagItem: TagItem, from items: [URLItem]) {
+    public func remove(tag tagItem: TagItem, from items: [URLItem]) {
         let realm = self.realm
         realm.beginWrite()
         for urlItem in items {
@@ -149,7 +149,7 @@ class RealmController {
         try! realm.commitWrite()
     }
     
-    func delete(items: [TagItem]) {
+    public func delete(items: [TagItem]) {
         let realm = self.realm
         realm.beginWrite()
         for item in items {
@@ -158,7 +158,7 @@ class RealmController {
         try! realm.commitWrite()
     }
     
-    func updateArchived(to archived: Bool, on items: [URLItem]) {
+    public func updateArchived(to archived: Bool, on items: [URLItem]) {
         let realm = self.realm
         realm.beginWrite()
         for item in items {

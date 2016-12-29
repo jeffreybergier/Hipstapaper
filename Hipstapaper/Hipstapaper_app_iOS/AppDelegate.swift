@@ -12,7 +12,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    
+    private let extensionFileProcessor = SaveExtensionFileProcessor()
     private let rootViewController: HipstapaperSplitViewController = {
         let hpVC = HipstapaperSplitViewController()
         hpVC.delegate = hpVC
@@ -29,58 +29,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.backgroundColor = .white
         self.window?.makeKeyAndVisible()
         
-        self.processItemsSavedByExtension()
+        self.extensionFileProcessor.processFiles(with: self.rootViewController.realmController)
         
         return true
     }
-    
-    private var syncInProgress = false
-    
-    private func processItemsSavedByExtension() {
-        guard self.syncInProgress == false else { return }
-        self.syncInProgress = true
-        DispatchQueue.global(qos: .background).async {
-            guard let realmController = self.rootViewController.realmController else {
-                self.syncInProgress = false
-                return
-            }
-            guard let itemsOnDisk = NSKeyedUnarchiver.unarchiveObject(withFile: SerializableURLItem.archiveURL.path) as? [SerializableURLItem] else {
-                // delete the file if it exists and has incorrect data, or else this could fail forever and never get fixed
-                try? FileManager.default.removeItem(at: SerializableURLItem.archiveURL)
-                self.syncInProgress = false
-                return
-            }
-            DispatchQueue.main.async {
-                for item in itemsOnDisk {
-                    guard let urlString = item.urlString else { continue }
-                    let newURLItem = URLItem()
-                    newURLItem.urlString = urlString
-                    newURLItem.creationDate = item.date ?? newURLItem.creationDate
-                    newURLItem.modificationDate = item.date ?? newURLItem.modificationDate
-                    let newExtras = URLItemExtras()
-                    newExtras.image = item.image
-                    newExtras.pageTitle = item.pageTitle
-                    if newExtras.pageTitle != nil || newExtras.imageData != nil {
-                        newURLItem.extras = newExtras
-                    }
-                    realmController.add(item: newURLItem)
-                }
-                try? FileManager.default.removeItem(at: SerializableURLItem.archiveURL)
-                self.syncInProgress = false
-            }
-        }
-    }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        self.processItemsSavedByExtension()
+        self.extensionFileProcessor.processFiles(with: self.rootViewController.realmController)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        self.processItemsSavedByExtension()
+        self.extensionFileProcessor.processFiles(with: self.rootViewController.realmController)
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-        self.processItemsSavedByExtension()
+        self.extensionFileProcessor.processFiles(with: self.rootViewController.realmController)
     }
 
 

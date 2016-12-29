@@ -13,7 +13,7 @@ final public class URLItemExtras: Object {
     public dynamic var pageTitle: String?
     public fileprivate(set) dynamic var imageData: Data?
         
-    convenience init(title: String?, imageData: Data?) {
+    public convenience init(title: String?, imageData: Data?) {
         self.init()
         self.pageTitle = title
         self.imageData = imageData
@@ -27,15 +27,15 @@ final public class URLItemExtras: Object {
 #if os(OSX)
     import AppKit
     
-    extension URLItemExtras {
+    public extension URLItemExtras {
         
-        convenience init(title: String?, image: NSImage?) {
+        public convenience init(title: String?, image: NSImage?) {
             self.init()
             self.pageTitle = title
             self.image = image
         }
         
-        var image: NSImage? {
+        public var image: NSImage? {
             get {
                 guard let data = self.imageData else { return .none }
                 let image = NSImage(data: data)
@@ -51,15 +51,15 @@ final public class URLItemExtras: Object {
 #else
     import UIKit
     
-    extension URLItemExtras {
+    public extension URLItemExtras {
         
-        convenience init(title: String?, image: UIImage?) {
+        public convenience init(title: String?, image: UIImage?) {
             self.init()
             self.pageTitle = title
             self.image = image
         }
         
-        var image: UIImage? {
+        public var image: UIImage? {
             get {
                 guard let data = self.imageData else { return .none }
                 let image = UIImage(data: data)

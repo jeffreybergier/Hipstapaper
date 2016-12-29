@@ -8,7 +8,7 @@
 
 import RealmSwift
 
-protocol URLItemSelectionDelegate: class {
+public protocol URLItemSelectionDelegate: class {
     var currentSelection: URLItem.Selection? { get }
     func didSelect(_: URLItem.Selection, from: NSObject?)
 }

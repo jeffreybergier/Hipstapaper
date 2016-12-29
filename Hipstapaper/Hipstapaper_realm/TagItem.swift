@@ -15,16 +15,16 @@ final public class TagItem: Object {
         var displayName: String
     }
     
-    class func normalize(_ nameString: String) -> String {
+    public class func normalize(_ nameString: String) -> String {
         let lowerCase = nameString.lowercased()
         let characterSet = CharacterSet.alphanumerics.inverted
         let trimmed = lowerCase.components(separatedBy: characterSet).joined(separator: "")
         if trimmed == "" { return "untitledtag" } else { return trimmed }
     }
     
-    dynamic var name = "Untitled Tag"
-    dynamic var normalizedNameHash: String = TagItem.normalize("Untitled Tag")
-    let items = LinkingObjects(fromType: URLItem.self, property: "tags")
+    public dynamic var name = "Untitled Tag"
+    public dynamic var normalizedNameHash: String = TagItem.normalize("Untitled Tag")
+    public let items = LinkingObjects(fromType: URLItem.self, property: "tags")
     
     override public static func primaryKey() -> String {
         return "normalizedNameHash"
@@ -32,7 +32,7 @@ final public class TagItem: Object {
 }
 
 // used to show the relationship between URLItems and TagItems in the UI
-enum CheckboxState: Int {
+public enum CheckboxState: Int {
     case mixed = -1
     case off = 0
     case on = 1

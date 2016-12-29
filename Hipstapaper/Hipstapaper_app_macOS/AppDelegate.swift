@@ -11,6 +11,8 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
+    private let extensionFileProcessor = SaveExtensionFileProcessor()
+    
     private let rootWindowController: HipstapaperWindowController = {
         let storyboard = NSStoryboard(name: "Main", bundle: Bundle(for: AppDelegate.self))
         let initial = storyboard.instantiateInitialController()!
@@ -21,7 +23,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // open the main window when the app launches
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         self.rootWindowController.showWindow(self)
-        self.processItemsSavedByExtension()
+        self.extensionFileProcessor.processFiles(with: self.rootWindowController.realmController)
     }
     
     // opens the main window if the dock icon is clicked and there are no windows open
@@ -29,7 +31,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if flag == false {
             self.rootWindowController.showWindow(self)
         }
-        self.processItemsSavedByExtension()
+        self.extensionFileProcessor.processFiles(with: self.rootWindowController.realmController)
         return true
     }
     
@@ -39,45 +41,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let menuItem = sender as? NSMenuItem,
             menuItem.title == "Hipstapaper"
         else { return }
-        self.processItemsSavedByExtension()
+        self.extensionFileProcessor.processFiles(with: self.rootWindowController.realmController)
         self.rootWindowController.showWindow(self)
-    }
-    
-    private var syncInProgress = false
-    
-    private func processItemsSavedByExtension() {
-        guard self.syncInProgress == false else { return }
-        self.syncInProgress = true
-        DispatchQueue.global(qos: .background).async {
-            guard let realmController = self.rootWindowController.realmController else {
-                self.syncInProgress = false
-                return
-            }
-            guard let itemsOnDisk = NSKeyedUnarchiver.unarchiveObject(withFile: SerializableURLItem.archiveURL.path) as? [SerializableURLItem] else {
-                // delete the file if it exists and has incorrect data, or else this could fail forever and never get fixed
-                try? FileManager.default.removeItem(at: SerializableURLItem.archiveURL)
-                self.syncInProgress = false
-                return
-            }
-            DispatchQueue.main.async {
-                for item in itemsOnDisk {
-                    guard let urlString = item.urlString else { continue }
-                    let newURLItem = URLItem()
-                    newURLItem.urlString = urlString
-                    newURLItem.creationDate = item.date ?? newURLItem.creationDate
-                    newURLItem.modificationDate = item.date ?? newURLItem.modificationDate
-                    let newExtras = URLItemExtras()
-                    newExtras.image = item.image
-                    newExtras.pageTitle = item.pageTitle
-                    if newExtras.pageTitle != nil || newExtras.imageData != nil {
-                        newURLItem.extras = newExtras
-                    }
-                    realmController.add(item: newURLItem)
-                }
-                try? FileManager.default.removeItem(at: SerializableURLItem.archiveURL)
-                self.syncInProgress = false
-            }
-        }
     }
 }
 
