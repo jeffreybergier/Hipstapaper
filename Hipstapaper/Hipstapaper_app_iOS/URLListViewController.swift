@@ -6,7 +6,6 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
-import Aspects
 import RealmSwift
 import SafariServices
 import UIKit
@@ -82,6 +81,11 @@ class URLListViewController: UIViewController, RealmControllable {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // register for 3d touch events
+        if case .available = self.traitCollection.forceTouchCapability {
+            self.registerForPreviewing(with: self, sourceView: view)
+        }
+        
         // because we are in a split view, we fully own our own Navigation Controller
         // therefore we don't need to micromanage this when switching views.
         // its always present
@@ -148,11 +152,7 @@ class URLListViewController: UIViewController, RealmControllable {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.tableView?.flashScrollIndicators()
-    }
-    
-    fileprivate lazy var presentedViewControllerDidDisappear: @convention(block) (Void) -> Void = { [weak self] in
-        self?.tableView?.deselectAllRows(animated: true)
-        self?.tableView?.flashScrollIndicators()
+        self.tableView?.deselectAllRows(animated: true)
     }
     
     private var notificationToken: NotificationToken?
@@ -235,8 +235,42 @@ extension URLListViewController /* Handle BarButtonItems */ {
     }
 }
 
-extension URLListViewController: UITableViewDelegate {
+extension URLListViewController: UIViewControllerPreviewingDelegate {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard
+            let tableView = self.tableView,
+            let indexPath = tableView.indexPathForRow(at: self.view.convert(location, to: tableView)),
+            let cellView = tableView.cellForRow(at: indexPath),
+            let item = self.data?[indexPath.row],
+            let url = URL(string: item.urlString)
+        else { return .none }
+        
+        previewingContext.sourceRect = tableView.convert(cellView.frame, to: self.view)
+        let sfVC = SFSafariViewController(url: url, entersReaderIfAvailable: false)
+        
+        return sfVC
+    }
     
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        guard viewControllerToCommit is SFSafariViewController else { return }
+        self.present(viewControllerToCommit, animated: true, completion: .none)
+    }
+    
+    /*
+    // possible future code to add 3d touch actions
+    let closure: ((Void) -> [UIPreviewActionItem]) = {
+        let archiveAction = UIPreviewAction(title: "Archive", style: .default) { action in
+            print(action)
+        }
+        return [archiveAction]
+    }
+    let block: @convention(block) (Void) -> [UIPreviewActionItem] = closure
+    let _ = try! sfVC.aspect_hook(#selector(getter: UIViewController.previewActionItems), with: .positionBefore, usingBlock: block)
+    */
+}
+
+extension URLListViewController: UITableViewDelegate {
+ 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedItems = self.selectedURLItems ?? []
         if tableView.isEditing {
@@ -244,7 +278,6 @@ extension URLListViewController: UITableViewDelegate {
         } else {
             guard let selectedItem = selectedItems.first, let url = URL(string: selectedItem.urlString) else { return }
             let sfVC = SFSafariViewController(url: url, entersReaderIfAvailable: false)
-            let _ = try? sfVC.aspect_hook(#selector(NSObject.deinit), with: .positionBefore, usingBlock: self.presentedViewControllerDidDisappear)
             self.present(sfVC, animated: true, completion: .none)
         }
     }
