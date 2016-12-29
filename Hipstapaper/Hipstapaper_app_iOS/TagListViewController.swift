@@ -101,7 +101,7 @@ class TagListViewController: UIViewController, RealmControllable {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.tableView?.flashScrollIndicators()
-        if let currentSelection = self.selectionDelegate?.currentSelection, self.splitViewController?.isCollapsed == false {
+        if let currentSelection = self.selectionDelegate?.currentSelection, (self.splitViewController?.isCollapsed ?? true) == false {
             // because of the complexities of split view, we need to do some logic to figure out if we should deselect our row or select it
             // When the view appears and there is a selection and the splitview is not collapsed, that means the user can see the Tag List and URL List
             // at the same time. This means we need to select the row so the user can see what data is shown in the URL List

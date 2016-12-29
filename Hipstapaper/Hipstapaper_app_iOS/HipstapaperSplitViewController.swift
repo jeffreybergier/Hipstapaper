@@ -38,7 +38,7 @@ class HipstapaperSplitViewController: UISplitViewController, RealmControllable {
     
     // These instances are recycled rather than being re-created every time the selection changes.
     
-    fileprivate var sourceListVC: TagListViewController {
+    private var sourceListVC: TagListViewController {
         return self.sourceListNavVC.viewControllers.first as! TagListViewController
     }
     
