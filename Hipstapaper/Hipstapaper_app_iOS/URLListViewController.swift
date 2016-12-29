@@ -106,8 +106,8 @@ class URLListViewController: UIViewController, RealmControllable {
             self.title = "Hipstapaper"
         case .all:
             self.title = "All Items"
-        case .tag(let tagItem):
-            self.title = "🏷 \(tagItem.name)"
+        case .tag(let tagID):
+            self.title = "🏷 \(tagID.displayName)"
         }
         
         // clear things out

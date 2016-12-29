@@ -95,7 +95,7 @@ extension URLItem {
 extension URLItem {
     public enum Selection {
         // TODO: Get the actual tag object out of this selection, just store the display name and the ID
-        case unarchived, all, tag(TagItem)
+        case unarchived, all, tag(TagItem.UIIdentifier)
     }
 }
 
@@ -108,7 +108,7 @@ public func ==(lhs: URLItem.Selection, rhs: URLItem.Selection) -> Bool {
     case .all:
         if case .all = rhs { return true }
     case .tag(let lhsTag):
-        if case .tag(let rhsTag) = rhs { return lhsTag.normalizedNameHash == rhsTag.normalizedNameHash }
+        if case .tag(let rhsTag) = rhs { return lhsTag.idName == rhsTag.idName }
     }
     
     return false

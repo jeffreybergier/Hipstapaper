@@ -10,6 +10,11 @@ import RealmSwift
 
 final public class TagItem: Object {
     
+    public struct UIIdentifier {
+        var idName: String
+        var displayName: String
+    }
+    
     class func normalize(_ nameString: String) -> String {
         let lowerCase = nameString.lowercased()
         let characterSet = CharacterSet.alphanumerics.inverted

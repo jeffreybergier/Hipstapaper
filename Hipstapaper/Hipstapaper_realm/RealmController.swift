@@ -69,19 +69,21 @@ class RealmController {
         try! realm.commitWrite()
     }
     
-    func urlItems(for selection: URLItem.Selection, sortOrder: URLItem.SortOrder) -> Results<URLItem> {
+    func urlItems(for selection: URLItem.Selection, sortOrder: URLItem.SortOrder) -> Results<URLItem>? {
         let realm = self.realm
-        let results: Results<URLItem>
         switch selection {
         case .unarchived:
             let archived = URLItem.SortOrder.archived(archivedFirst: true).keyPath
-            results = sortOrder.sort(results: realm.objects(URLItem.self).filter("\(archived) = NO"))
+            let results = sortOrder.sort(results: realm.objects(URLItem.self).filter("\(archived) = NO"))
+            return results
         case .all:
-            results = sortOrder.sort(results: realm.objects(URLItem.self))
-        case .tag(let tagItem):
-            results = sortOrder.sort(results: tagItem.items)
+            let results = sortOrder.sort(results: realm.objects(URLItem.self))
+            return results
+        case .tag(let tagID):
+            guard let tag = realm.object(ofType: TagItem.self, forPrimaryKey: tagID.idName) else { return nil }
+            let results = sortOrder.sort(results: tag.items)
+            return results
         }
-        return results
     }
     
     func atLeastOneItem(in items: [URLItem], canBeArchived: Bool) -> Bool {

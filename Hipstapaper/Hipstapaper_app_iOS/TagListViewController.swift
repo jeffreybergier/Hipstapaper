@@ -103,8 +103,9 @@ class TagListViewController: UIViewController, RealmControllable {
             self.tableView?.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .none)
         case .all:
             self.tableView?.selectRow(at: IndexPath(row: 1, section: 0), animated: false, scrollPosition: .none)
-        case .tag(let tag):
-            guard let index = self.tags?.index(of: tag) else { return }
+        case .tag(let tagID):
+            guard let index = self.tags?.enumerated().filter({ $0.element.normalizedNameHash == tagID.idName }).map({ $0.offset }).first else { return }
+//            guard let index = self.tags?.index(of: tag) else { return }
             self.tableView?.selectRow(at: IndexPath(row: index, section: 1), animated: false, scrollPosition: .none)
         }
     }
@@ -159,7 +160,7 @@ extension TagListViewController: UITableViewDelegate {
             selection = indexPath.row == 0 ? .unarchived : .all
         case .tags:
             guard let tagItem = self.tags?[indexPath.row] else { fatalError() }
-            selection = .tag(tagItem)
+            selection = .tag(TagItem.UIIdentifier(idName: tagItem.normalizedNameHash, displayName: tagItem.name))
         }
         self.selectionDelegate?.didSelect(selection, from: tableView)
     }

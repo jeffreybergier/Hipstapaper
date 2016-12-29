@@ -119,19 +119,32 @@ extension TagListViewController: NSOutlineViewDelegate {
 private class TreeBindingObject: NSObject {
     
     class func treeObjects(from results: Results<TagItem>?) -> [TreeBindingObject] {
-        let tagChildren: [TreeBindingObject]
-        if let mappedResults = results?.map({ TreeBindingObject(title: $0.name, kind: .selectable(.tag($0))) }) {
-            tagChildren = Array(mappedResults)
-        } else {
-            tagChildren = []
-        }
         
+        // Make Children for the top part of the list
+        // these are always present
         let unarchivedChild = TreeBindingObject(title: "Unread Items", kind: .selectable(.unarchived))
         let allChild = TreeBindingObject(title: "All Items", kind: .selectable(.all))
         
+        // create the parent for the top part
         let mainTree = TreeBindingObject(title: "Reading List", children: [unarchivedChild, allChild], kind: .notSelectable(.main))
-        let tagTree = TreeBindingObject(title: "Tags", children: tagChildren, kind: .notSelectable(.tags))
         
+        // Iterate through the tags and create children for them
+        let tagChildren = results?.map() { tagItem -> TreeBindingObject in
+            let uiIdentifier = TagItem.UIIdentifier(idName: tagItem.normalizedNameHash, displayName: tagItem.name)
+            let child = TreeBindingObject(title: tagItem.name, kind: .selectable(.tag(uiIdentifier)))
+            return child
+        }
+        
+        // Cannot wrap optional lazy protocol sequence craziness that comes back from realm in Array()
+        // so we need to check its optionality before making the parent of the tags
+        // the parent always exists, even if it has no children
+        let tagTree: TreeBindingObject
+        if let tagChildren = tagChildren {
+            tagTree = TreeBindingObject(title: "Tags", children: Array(tagChildren), kind: .notSelectable(.tags))
+        } else {
+            tagTree = TreeBindingObject(title: "Tags", children: .none, kind: .notSelectable(.tags))
+        }
+
         return [mainTree, tagTree]
     }
     
@@ -139,10 +152,10 @@ private class TreeBindingObject: NSObject {
     var children: [TreeBindingObject] = []
     var kind = Selection.notSelectable(.main)
     
-    convenience init(title: String, children: [TreeBindingObject] = [], kind: Selection = .notSelectable(.main)) {
+    convenience init(title: String, children: [TreeBindingObject]? = nil, kind: Selection = .notSelectable(.main)) {
         self.init()
         self.title = title
-        self.children = children
+        self.children = children ?? []
         self.kind = kind
     }
     
