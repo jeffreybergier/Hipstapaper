@@ -54,7 +54,9 @@ class URLListViewController: NSViewController {
         case .update(let results, _, _, _):
             self?.arrayController?.content = Array(results)
         case .error(let error):
-            fatalError("\(error)")
+            guard let window = self?.view.window else { break }
+            let alert = NSAlert(error: error)
+            alert.beginSheetModal(for: window, completionHandler: .none)
         }
     }
     

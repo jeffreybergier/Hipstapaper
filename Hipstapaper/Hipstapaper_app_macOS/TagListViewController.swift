@@ -55,7 +55,7 @@ class TagListViewController: NSViewController {
     }
     
     private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<TagItem>>) -> Void) = { [weak self] changes in
-        let newResults: Results<TagItem>
+        let newResults: Results<TagItem>?
         let newSelection: [IndexPath]
         switch changes {
         case .initial(let results):
@@ -65,7 +65,11 @@ class TagListViewController: NSViewController {
             newResults = results
             newSelection = self?.treeController?.selectionIndexPaths ?? [IndexPath(item: 0, section: 0)]
         case .error(let error):
-            fatalError("\(error)")
+            newResults = .none
+            newSelection = []
+            guard let window = self?.view.window else { break }
+            let alert = NSAlert(error: error)
+            alert.beginSheetModal(for: window, completionHandler: .none)
         }
         
         let content = TreeBindingObject.treeObjects(from: newResults)
