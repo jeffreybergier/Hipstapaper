@@ -16,7 +16,7 @@ target 'Hipstapaper_app_iOS' do
   platform :ios, '9.0'
   use_frameworks!
   pod 'RealmSwift'
-  pod 'Aspects'
+#   pod 'Aspects'
 end
 
 post_install do |installer|

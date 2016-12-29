@@ -1,5 +1,4 @@
 PODS:
-  - Aspects (1.4.1)
   - Realm (2.1.2):
     - Realm/Headers (= 2.1.2)
   - Realm/Headers (2.1.2)
@@ -7,14 +6,12 @@ PODS:
     - Realm (= 2.1.2)
 
 DEPENDENCIES:
-  - Aspects
   - RealmSwift
 
 SPEC CHECKSUMS:
-  Aspects: 7595ba96a6727a58ebcbfc954497fc5d2fdde546
   Realm: efe855f4d977c8ce5a82d3116d9f1ff155a6550c
   RealmSwift: 17d6ee30b6f9df86364408c2197492e33bfea567
 
-PODFILE CHECKSUM: fcef4179d7bd91ebecf7718a575fe3e0f471a6e6
+PODFILE CHECKSUM: a0ea4f9494403e8fcffcf2668455f6b2f5cadb0c
 
 COCOAPODS: 1.1.1
