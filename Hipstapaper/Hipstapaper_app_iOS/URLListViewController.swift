@@ -238,6 +238,7 @@ extension URLListViewController /* Handle BarButtonItems */ {
 extension URLListViewController: UIViewControllerPreviewingDelegate {
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
         guard
+            let realmController = self.realmController,
             let tableView = self.tableView,
             let indexPath = tableView.indexPathForRow(at: self.view.convert(location, to: tableView)),
             let cellView = tableView.cellForRow(at: indexPath),
@@ -245,28 +246,40 @@ extension URLListViewController: UIViewControllerPreviewingDelegate {
             let url = URL(string: item.urlString)
         else { return .none }
         
-        previewingContext.sourceRect = tableView.convert(cellView.frame, to: self.view)
-        let sfVC = SFSafariViewController(url: url, entersReaderIfAvailable: false)
+        // Lets create some cool 3d actions
+        // this code is almost a duplicate of the row actions
+        // but ever so slightly different
+        // might be able to abstract later, but for now, it works
+        let archiveActionTitle = item.archived ? "📤 Unarchive" : "📥 Archive"
+        let archiveAction = UIPreviewAction(title: archiveActionTitle, style: .default) { _ in
+            let newArchiveValue = !item.archived
+            realmController.updateArchived(to: newArchiveValue, on: [item])
+        }
+        let tagAction = UIPreviewAction(title: "🏷 Tag", style: .default) { [weak self] _ in
+            let presentation = TagAddRemoveViewController.PresentationStyle.popCustom(rect: cellView.bounds, view: cellView)
+            let tagVC = TagAddRemoveViewController.viewController(style: presentation, selectedItems: [item], controller: realmController)
+            self?.present(tagVC, animated: true, completion: nil)
+        }
+        // use my special preview action injection SafariViewController
+        // the actions are queried for on the presented view controller
+        // but SFSafariViewController knows nothing about realm controller, no do I want it to
+        let sfVC = PreviewActionInjectionSafariViewController(url: url, previewActions: [tagAction, archiveAction])
         
+        // give the previewing context the Rect that the CellView is in so it knows where this 3d touch came from
+        previewingContext.sourceRect = tableView.convert(cellView.frame, to: self.view)
+        
+        // return the configured view controller
         return sfVC
     }
     
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        // i'm not sure why apple makes you do this
+        // but they make you confirm that you actually want to present this new view controller
+        // so I just check to make sure its a safari view controller of some kind
+        // then present
         guard viewControllerToCommit is SFSafariViewController else { return }
         self.present(viewControllerToCommit, animated: true, completion: .none)
     }
-    
-    /*
-    // possible future code to add 3d touch actions
-    let closure: ((Void) -> [UIPreviewActionItem]) = {
-        let archiveAction = UIPreviewAction(title: "Archive", style: .default) { action in
-            print(action)
-        }
-        return [archiveAction]
-    }
-    let block: @convention(block) (Void) -> [UIPreviewActionItem] = closure
-    let _ = try! sfVC.aspect_hook(#selector(getter: UIViewController.previewActionItems), with: .positionBefore, usingBlock: block)
-    */
 }
 
 extension URLListViewController: UITableViewDelegate {
@@ -304,8 +317,7 @@ extension URLListViewController: UITableViewDelegate {
             if let actionButton = action.perform("_button")?.takeUnretainedValue() as? UIButton {
                 // use 'private' api to get the actual rect and view of the button the user clicked on
                 // then present the popover from that view
-                let rect = actionButton.frame
-                let presentation = TagAddRemoveViewController.PresentationStyle.popCustom(rect: rect, view: actionButton)
+                let presentation = TagAddRemoveViewController.PresentationStyle.popCustom(rect: actionButton.bounds, view: actionButton)
                 let tagVC = TagAddRemoveViewController.viewController(style: presentation, selectedItems: [item], controller: realmController)
                 self.present(tagVC, animated: true, completion: nil)
             } else {
