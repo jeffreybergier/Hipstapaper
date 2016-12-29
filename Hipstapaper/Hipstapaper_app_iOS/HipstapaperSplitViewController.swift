@@ -141,15 +141,19 @@ extension HipstapaperSplitViewController: URLItemSelectionDelegate {
     // Just changing the selection and letting the URLList view controller do its own thing
     
     func didSelect(_ newSelection: URLItem.Selection, from sender: NSObject?) {
+        // at the end of any selection validation we need to do some logic
+        defer {
+            // if the splitVC is collapsed, that means, we need to manually tell
+            // the splitVC to show the detail view controller
+            // otherwise, the detailVC is already visible, so we don't need to do anything
+            if self.isCollapsed == true {
+                self.showDetailViewController(self.contentListNavVC, sender: sender)
+            }
+        }
+        // if the new selection is different than the last one, forward it on
+        guard newSelection != self.currentSelection else { return }
         // this part is obvious
         self.contentListVC.selection = newSelection
-        
-        // if we are on an ipad/the master VC panel is showing, we don't need to do anything
-        // however, if on an iphone, we need to tell the SplitVC to push the detailVC on the stack
-        // This check does that.
-        if self.isCollapsed == true {
-            self.showDetailViewController(self.contentListNavVC, sender: sender)
-        }
     }
 }
 
