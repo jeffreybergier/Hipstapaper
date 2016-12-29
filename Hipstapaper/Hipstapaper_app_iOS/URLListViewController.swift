@@ -129,14 +129,19 @@ class URLListViewController: UIViewController, RealmControllable {
             self?.tableView?.reloadData()
         case .update(_, let deletions, let insertions, let modifications):
             self?.tableView?.beginUpdates()
-            self?.tableView?.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }), with: .right)
-            self?.tableView?.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .left)
+            self?.tableView?.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
+            self?.tableView?.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .automatic)
             self?.tableView?.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
             self?.tableView?.endUpdates()
             let itemsSelectedAfterUpdate = self?.selectedURLItems ?? []
             self?.updateBBI(with: itemsSelectedAfterUpdate)
         case .error(let error):
-            fatalError("\(error)")
+            let alert = UIAlertController(title: "Error Loading Reading List", message: error.localizedDescription, preferredStyle: .alert)
+            let action = UIAlertAction(title: "Dismiss", style: .cancel, handler: .none)
+            alert.addAction(action)
+            self?.present(alert, animated: true, completion: .none)
+            self?.data = .none
+            self?.tableView?.reloadData()
         }
     }
     
@@ -287,17 +292,12 @@ extension URLListViewController: UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = self.data![indexPath.row]
-        
-        let cell: URLTableViewCell
-        if let _ = item.extras?.image {
-            cell = tableView.dequeueReusableCell(withIdentifier: URLTableViewCell.withImageNIBName, for: indexPath) as! URLTableViewCell
-        } else {
-            cell = tableView.dequeueReusableCell(withIdentifier: URLTableViewCell.withOutImageNIBName, for: indexPath) as! URLTableViewCell
+        let item = self.data?[indexPath.row]
+        let identifier = item?.extras?.image == .none ? URLTableViewCell.withOutImageNIBName : URLTableViewCell.withImageNIBName
+        let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath)
+        if let cell = cell as? URLTableViewCell, let item = item {
+            cell.configure(with: item)
         }
-        
-        cell.configure(with: item)
-        
         return cell
     }
 }

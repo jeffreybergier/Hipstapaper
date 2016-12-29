@@ -6,7 +6,6 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
-import Aspects
 import UIKit
 
 // 
@@ -31,8 +30,6 @@ class HipstapaperSplitViewController: UISplitViewController, RealmControllable {
     
     fileprivate lazy var contentListNavVC: UINavigationController = {
         let urlVC = URLListViewController(selection: .unarchived, controller: self.realmController)
-        // this aspect hook lets the TagVC know when the URLVC appears and disappears. It can use this info to know whether it should deselect its table view cells or not
-        let _ = try! urlVC.aspect_hook(#selector(urlVC.viewDidDisappear(_:)), with: .positionInstead, usingBlock: self.sourceListVC.presentedViewControllerDidDisappear)
         let navVC = UINavigationController(rootViewController: urlVC)
         return navVC
     }()
