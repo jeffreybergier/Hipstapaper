@@ -48,23 +48,16 @@ class URLListViewController: UIViewController, RealmControllable {
     fileprivate var data: Results<URLItem>?
     weak var realmController: RealmController? {
         didSet {
-            self.hardReloadData()
+            // forward the message to any presented view controllers
             let addRemoveTagPopoverVC = (self.presentedViewController as? UINavigationController)?.viewControllers.first as? RealmControllable
             addRemoveTagPopoverVC?.realmController = self.realmController
+            
+            // reload the data
+            self.hardReloadData()
         }
     }
     var selection: URLItem.Selection = .unarchived {
         didSet {
-            // set title
-            switch self.selection {
-            case .unarchived:
-                self.title = "Hipstapaper"
-            case .all:
-                self.title = "All Items"
-            case .tag(let tagItem):
-                self.title = "🏷 \(tagItem.name)"
-            }
-            
             // reload the data
             self.hardReloadData()
         }
@@ -107,6 +100,16 @@ class URLListViewController: UIViewController, RealmControllable {
     }
     
     private func hardReloadData() {
+        // set title
+        switch self.selection {
+        case .unarchived:
+            self.title = "Hipstapaper"
+        case .all:
+            self.title = "All Items"
+        case .tag(let tagItem):
+            self.title = "🏷 \(tagItem.name)"
+        }
+        
         // clear things out
         self.notificationToken?.stop()
         self.notificationToken = .none

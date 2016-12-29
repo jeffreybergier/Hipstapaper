@@ -128,9 +128,9 @@ extension TagListViewController: UITableViewDelegate {
         guard let section = Section(rawValue: section) else { return .none }
         switch section {
         case .readingList:
-            return "Reading List"
+            return "Reading List  🎁"
         case .tags:
-            return "Tags"
+            return "Tags  🏷"
         }
     }
     
