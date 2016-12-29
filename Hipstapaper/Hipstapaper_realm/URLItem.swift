@@ -33,10 +33,6 @@ final public class URLItem: Object {
 
 extension URLItem {
     
-    public enum Selection {
-        case unarchived, all, tag(TagItem)
-    }
-    
     public enum SortOrder {
         
         case creationDate(newestFirst: Bool)
@@ -95,3 +91,34 @@ extension URLItem {
         }
     }
 }
+
+extension URLItem {
+    public enum Selection {
+        // TODO: Get the actual tag object out of this selection, just store the display name and the ID
+        case unarchived, all, tag(TagItem)
+    }
+}
+
+extension URLItem.Selection: Equatable { }
+
+public func ==(lhs: URLItem.Selection, rhs: URLItem.Selection) -> Bool {
+    switch lhs {
+    case .unarchived:
+        if case .unarchived = rhs { return true }
+    case .all:
+        if case .all = rhs { return true }
+    case .tag(let lhsTag):
+        if case .tag(let rhsTag) = rhs { return lhsTag.normalizedNameHash == rhsTag.normalizedNameHash }
+    }
+    
+    return false
+}
+
+
+
+
+
+
+
+
+

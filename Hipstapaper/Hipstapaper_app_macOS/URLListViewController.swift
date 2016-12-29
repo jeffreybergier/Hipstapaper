@@ -18,8 +18,12 @@ class URLListViewController: NSViewController {
     }
     
     @IBOutlet private weak var arrayController: NSArrayController?
-    fileprivate var querySelection: URLItem.Selection?
     fileprivate var openWindowsControllers = [URLItem : NSWindowController]()
+    var selection = URLItem.Selection.unarchived {
+        didSet {
+            self.hardReloadData()
+        }
+    }
     
     // MARK: Reload Data
     
@@ -29,10 +33,8 @@ class URLListViewController: NSViewController {
         self.notificationToken = .none
         self.arrayController?.content = []
         
-        guard let selection = self.querySelection else { return }
-        
         // now ask realm for new data and give it our closure to get updates
-        switch selection {
+        switch self.selection {
         case .unarchived:
             self.title = "Hipstapaper"
         case .all:
@@ -154,16 +156,6 @@ class URLListViewController: NSViewController {
 fileprivate extension UInt16 {
     fileprivate var isReturnKeyCode: Bool {
         return self == 36 || self == 76
-    }
-}
-
-extension URLListViewController: URLItemSelectionDelegate {
-    var currentSelection: URLItem.Selection? {
-        fatalError()
-    }
-    func didSelect(_ selection: URLItem.Selection, from _: NSObject?) {
-        self.querySelection = selection
-        self.hardReloadData()
     }
 }
 

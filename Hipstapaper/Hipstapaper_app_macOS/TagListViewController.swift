@@ -31,10 +31,11 @@ class TagListViewController: NSViewController {
         self.hardReloadData()
         
         self.selectionObserver.startObserving() { [weak self] _ -> NSNull? in
-            guard let selectedObject = self?.treeController?.selectedObjects.first as? TreeBindingObject else { return nil }
-            if case .selectable(let selection) = selectedObject.kind {
-                self?.selectionDelegate?.didSelect(selection, from: self?.outlineView)
-            }
+            guard
+                let selectedObject = self?.treeController?.selectedObjects.first as? TreeBindingObject,
+                case .selectable(let selection) = selectedObject.kind
+            else { return nil }
+            self?.selectionDelegate?.didSelect(selection, from: self?.outlineView)
             return nil
         }
     }

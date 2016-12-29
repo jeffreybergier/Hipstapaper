@@ -93,19 +93,19 @@ class HipstapaperWindowController: NSWindowController, RealmControllable {
             return false
         }
     }
-    
 }
 
 extension HipstapaperWindowController: URLItemSelectionDelegate {
     
     var currentSelection: URLItem.Selection? {
-        return self.mainViewController?.currentSelection
+        return self.mainViewController?.selection
     }
     
     // MARK: Handle Selection from Sidebar
     
-    func didSelect(_ selection: URLItem.Selection, from sender: NSObject?) {
-        // just forward the message to the content view controller
-        self.mainViewController?.didSelect(selection, from: sender)
+    func didSelect(_ newSelection: URLItem.Selection, from sender: NSObject?) {
+        // if the new selection is different than the last one, forward it on
+        guard newSelection != self.currentSelection else { return }
+        self.mainViewController?.selection = newSelection
     }
 }
