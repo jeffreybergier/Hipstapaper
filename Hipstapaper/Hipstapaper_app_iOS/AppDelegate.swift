@@ -21,6 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+        
         if self.window == .none {
             self.window = UIWindow(frame: UIScreen.main.bounds)
         }
@@ -31,8 +33,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window!.backgroundColor = .white
         self.window!.makeKeyAndVisible()
         
-        self.extensionFileProcessor.processFiles(with: self.rootViewController.realmController)
-        
+        if UIApplication.shared.applicationState != .background {
+            self.extensionFileProcessor.processFiles(with: self.rootViewController.realmController)
+        }
+                
         return true
     }
 
@@ -46,6 +50,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationWillTerminate(_ application: UIApplication) {
         self.extensionFileProcessor.processFiles(with: self.rootViewController.realmController)
+    }
+    
+    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        NSLog("BACKGROUNDFETCHOPEN")
+        self.extensionFileProcessor.processFiles(with: self.rootViewController.realmController) { success in
+            completionHandler(UIBackgroundFetchResult(rawValue: success.rawValue) ?? .failed)
+        }
     }
 
 
