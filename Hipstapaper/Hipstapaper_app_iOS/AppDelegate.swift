@@ -13,12 +13,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     private let extensionFileProcessor = SaveExtensionFileProcessor()
-    private let rootViewController: HipstapaperSplitViewController = {
-        let hpVC = HipstapaperSplitViewController()
-        hpVC.delegate = hpVC
-        return hpVC
-    }()
-
+    private let rootViewController = HipstapaperSplitViewController()
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)

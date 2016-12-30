@@ -17,6 +17,24 @@ import UIKit
 
 class HipstapaperSplitViewController: UISplitViewController, RealmControllable {
     
+    // MARK: Overriding Inits to configure oneself
+    
+    override init(nibName: String?, bundle: Bundle?) {
+        super.init(nibName: nibName, bundle: bundle)
+        // configure my delegate
+        self.delegate = self
+        // configure our view controllers for master / detail
+        self.viewControllers = [self.sourceListNavVC, self.contentListNavVC]
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        // configure my delegate
+        self.delegate = self
+        // configure our view controllers for master / detail
+        self.viewControllers = [self.sourceListNavVC, self.contentListNavVC]
+    }
+    
     // MARK: Master / Detail Navigation Controllers
     
     // The split view controller needs its master/detail panes to be contained
@@ -65,9 +83,6 @@ class HipstapaperSplitViewController: UISplitViewController, RealmControllable {
 
         // gives us the nice 2-up mode on ipads
         self.preferredDisplayMode = .allVisible
-        
-        // configure our view controllers for master / detail
-        self.viewControllers = [self.sourceListNavVC, self.contentListNavVC]
         
         // Delete Later: Timer that tests whether clearing the realm controller propogates through all the view controllers
         // Timer.scheduledTimer(timeInterval: 10, target: self, selector: "timerFired:", userInfo: nil, repeats: false)
