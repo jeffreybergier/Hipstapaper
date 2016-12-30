@@ -368,7 +368,7 @@
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn width="547" minWidth="40" maxWidth="1000" id="33F-UH-i4l">
+                                                <tableColumn width="547" minWidth="40" maxWidth="10000" id="33F-UH-i4l">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -507,6 +507,6 @@
     </scenes>
     <resources>
         <image name="NSShareTemplate" width="11" height="16"/>
-        <image name="NSSidebarTemplate" width="128" height="128"/>
+        <image name="NSSidebarTemplate" width="15" height="12"/>
     </resources>
 </document>
