@@ -78,6 +78,12 @@ public class RealmController {
         try! realm.commitWrite()
     }
     
+    public func urlItem(withUUIDString uuid: String) -> URLItem? {
+        let realm = self.realm
+        let item = realm.object(ofType: URLItem.self, forPrimaryKey: uuid)
+        return item
+    }
+    
     public func deleteTag(with tagID: TagItem.UIIdentifier) {
         let realm = self.realm
         guard let tag = realm.object(ofType: TagItem.self, forPrimaryKey: tagID.idName) else { return }

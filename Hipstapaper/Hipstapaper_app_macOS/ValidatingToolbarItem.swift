@@ -24,12 +24,21 @@ fileprivate extension NSToolbarItem {
 
 class ValidatingToolbar: NSToolbar {
     
+    private let flexibleSpaceClass: AnyObject.Type? = NSClassFromString("NSToolbarFlexibleSpaceItem")
+    private let fixedSpaceClass: AnyObject.Type? = NSClassFromString("NSToolbarSpaceItem")
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+
         // configuring the size of these in IB is really impossible
         // just overriding it in code
         for toolbarItem in self.items {
+            guard
+                toolbarItem.isKind(of: self.flexibleSpaceClass ?? NSTableView.self) == false &&
+                toolbarItem.isKind(of: self.fixedSpaceClass ?? NSTableView.self) == false &&
+                toolbarItem.itemIdentifier != NSToolbarFlexibleSpaceItemIdentifier &&
+                toolbarItem.itemIdentifier != NSToolbarSpaceItemIdentifier
+            else { continue }
             toolbarItem.minSize = NSSize(width: 56, height: 34)
             toolbarItem.maxSize = NSSize(width: 56, height: 34)
         }

@@ -30,7 +30,8 @@ class URLItemWebViewWindowController: NSWindowController {
     
     // MARK: Model Item
     
-    private(set) var item: URLItem?
+    private(set) var itemID: URLItem.UIIdentifier?
+    private weak var delegate: RealmControllable?
     
     // MARK: Control Outlets
     
@@ -82,21 +83,72 @@ class URLItemWebViewWindowController: NSWindowController {
     
     // MARK: Initialization
     
-    convenience init(item: URLItem) {
+    convenience init(itemID: URLItem.UIIdentifier, delegate: RealmControllable?) {
         URLItemWebViewWindowController.titleValueTransformer // activate the value transformer once
         self.init(windowNibName: "URLItemWebViewWindowController")
-        self.item = item
+        self.itemID = itemID
+        self.delegate = delegate
     }
 
     override func windowDidLoad() {
         super.windowDidLoad()
         
+        // hack to force the toolbar to lay itself out
+        let existingToolBar = self.window?.toolbar
+        self.window?.toolbar = existingToolBar
+        
         // Get the URL loading - could probably use a bail out here if this unwrapping fails
-        if let item = self.item, let url = URL(string: item.urlString) {
-            self.window?.title = "Hipstapaper: " + item.urlString
+        if let itemID = self.itemID, let url = URL(string: itemID.urlString) {
+            self.window?.title = "Hipstapaper: " + itemID.urlString
             self.webView.load(URLRequest(url: url))
         } else {
             self.webView.load(URLRequest(url: URL(string: "https://github.com/404")!))
+        }
+        
+    }
+    
+    // MARK: Handle Toolbar Items
+    
+    @objc private func archive(_ sender: NSObject?) {
+        guard
+            let realmController = self.delegate?.realmController,
+            let itemID = self.itemID,
+            let item = realmController.urlItem(withUUIDString: itemID.uuid)
+        else { return }
+        realmController.updateArchived(to: true, on: [item])
+        self.window?.close()
+    }
+    
+    @objc private func unarchive(_ sender: NSObject?) {
+        guard
+            let realmController = self.delegate?.realmController,
+            let itemID = self.itemID,
+            let item = realmController.urlItem(withUUIDString: itemID.uuid)
+        else { return }
+        realmController.updateArchived(to: false, on: [item])
+        self.window?.close()
+    }
+    
+    @objc private func share(_ sender: NSObject?) {
+        print("Share")
+    }
+    
+    override func validateToolbarItem(_ sender: NSObject?) -> Bool {
+        guard
+            let toolbarItem = sender as? NSToolbarItem,
+            let kind = NSToolbarItem.Kind(rawValue: toolbarItem.tag),
+            let _ = self.delegate?.realmController,
+            let itemID = self.itemID
+        else { return false }
+        switch kind {
+        case .unarchive:
+            return itemID.archived
+        case .archive:
+            return !itemID.archived
+        case .tag:
+            return false
+        case .share:
+            return true
         }
     }
     

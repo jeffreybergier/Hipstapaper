@@ -9,7 +9,7 @@
 import RealmSwift
 import AppKit
 
-class URLListViewController: NSViewController {
+class URLListViewController: NSViewController, RealmControllable {
     
     weak var realmController: RealmController? {
         didSet {
@@ -18,7 +18,7 @@ class URLListViewController: NSViewController {
     }
     
     @IBOutlet private weak var arrayController: NSArrayController?
-    fileprivate var openWindowsControllers = [URLItem : NSWindowController]()
+    fileprivate var openWindowsControllers: [URLItem.UIIdentifier : NSWindowController] = [:]
     var selection = URLItem.Selection.unarchived {
         didSet {
             self.hardReloadData()
@@ -106,7 +106,7 @@ class URLListViewController: NSViewController {
         NSPasteboard.general().setString(item.urlString, forType: NSStringPboardType)
     }
     
-    // MARK: Handle Toolbar First Responder Methods
+    // MARK: Handle Toolbar Items
     
     @objc private func archive(_ sender: NSObject?) {
         guard let selectedItems = self.arrayController?.selectedURLItems else { return }
@@ -128,7 +128,7 @@ class URLListViewController: NSViewController {
         self.presentViewController(tagVC, asPopoverRelativeTo: .zero, of: item, preferredEdge: .minY, behavior: .semitransient)
     }
     
-    @objc private func shareSelected(_ sender: NSObject?) {
+    @objc private func share(_ sender: NSObject?) {
         
     }
     
@@ -155,15 +155,16 @@ class URLListViewController: NSViewController {
     
     private func openOrBringFrontWindowControllers(for items: [URLItem]) {
         items.forEach() { item in
-            if let existingWC = self.openWindowsControllers[item] {
+            let itemID = URLItem.UIIdentifier(uuid: item.uuid, urlString: item.urlString, archived: item.archived)
+            if let existingWC = self.openWindowsControllers[itemID] {
                 existingWC.showWindow(self)
             } else {
-                let newWC = URLItemWebViewWindowController(item: item)
+                let newWC = URLItemWebViewWindowController(itemID: itemID, delegate: self)
                 NotificationCenter.default.addObserver(self,
                                                        selector: #selector(self.itemWindowWillClose(_:)),
                                                        name: .NSWindowWillClose,
                                                        object: newWC.window!)
-                self.openWindowsControllers[item] = newWC
+                self.openWindowsControllers[itemID] = newWC
                 newWC.showWindow(self)
             }
         }
@@ -192,7 +193,7 @@ extension URLListViewController /*NSWindowDelegate*/ {
         guard
             let window = notification.object as? NSWindow,
             let itemWindowController = window.windowController as? URLItemWebViewWindowController,
-            let item = itemWindowController.item
+            let item = itemWindowController.itemID
         else { return }
         
         NotificationCenter.default.removeObserver(self, name: .NSWindowWillClose, object: window)
@@ -211,9 +212,9 @@ fileprivate extension NSArrayController {
 
 // MARK: Custom enum so I know which toolbar item was clicked
 
-fileprivate extension NSToolbarItem {
-    fileprivate enum Kind: Int {
-        case unarchive = 1, archive, tag, share
+extension NSToolbarItem {
+    enum Kind: Int {
+        case unarchive = 544, archive = 555, tag = 222, share = 233
     }
 }
 

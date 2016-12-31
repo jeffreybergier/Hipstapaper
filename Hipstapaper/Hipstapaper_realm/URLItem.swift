@@ -114,6 +114,24 @@ public func ==(lhs: URLItem.Selection, rhs: URLItem.Selection) -> Bool {
     return false
 }
 
+extension URLItem {
+    public struct UIIdentifier {
+        var uuid: String
+        var urlString: String
+        var archived: Bool
+    }
+}
+
+extension URLItem.UIIdentifier: Hashable {
+    public var hashValue: Int {
+        return self.uuid.hashValue
+    }
+}
+
+public func ==(lhs: URLItem.UIIdentifier, rhs: URLItem.UIIdentifier) -> Bool {
+    return lhs.hashValue == rhs.hashValue
+}
+
 
 
 
