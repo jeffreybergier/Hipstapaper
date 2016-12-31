@@ -33,7 +33,7 @@ class URLTaggingViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.horizontalLine?.layer?.backgroundColor = NSColor.gray.cgColor
+        self.horizontalLine?.layer?.backgroundColor = NSColor.lightGray.cgColor
         self.hardReloadData()
     }
     

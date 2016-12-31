@@ -4,7 +4,6 @@
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
-        <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="URLTaggingViewController" customModule="Hipstapaper" customModuleProvider="target">
@@ -88,12 +87,12 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                 </scrollView>
-                <visualEffectView wantsLayer="YES" appearanceType="vibrantLight" blendingMode="withinWindow" material="titlebar" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="yKa-yP-iaK">
+                <visualEffectView wantsLayer="YES" appearanceType="vibrantLight" blendingMode="withinWindow" material="menu" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="yKa-yP-iaK">
                     <rect key="frame" x="0.0" y="263" width="350" height="37"/>
                     <subviews>
-                        <stackView distribution="equalCentering" orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UDy-LX-mv9">
+                        <stackView orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UDy-LX-mv9">
                             <rect key="frame" x="8" y="8" width="334" height="21"/>
-                            <subviews>
+                            <beginningViews>
                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WDE-wt-3Dk">
                                     <rect key="frame" x="-6" y="-7" width="72" height="32"/>
                                     <buttonCell key="cell" type="push" title="Done" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Mf2-2f-8p6">
@@ -104,14 +103,18 @@
                                         <action selector="dismissController:" target="-1" id="D4J-Ni-jd4"/>
                                     </connections>
                                 </button>
+                            </beginningViews>
+                            <middleViews>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ws-a5-szo">
-                                    <rect key="frame" x="137.5" y="2" width="72" height="17"/>
+                                    <rect key="frame" x="131" y="2" width="72" height="17"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Apply Tags" id="w9r-SX-qFd">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
+                            </middleViews>
+                            <endViews>
                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vbt-xP-rFH">
                                     <rect key="frame" x="293" y="-7" width="47" height="32"/>
                                     <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSAddTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="eFW-cN-wc8">
@@ -122,7 +125,7 @@
                                         <action selector="createNewTag:" target="-1" id="Gnb-s5-fu2"/>
                                     </connections>
                                 </button>
-                            </subviews>
+                            </endViews>
                             <visibilityPriorities>
                                 <integer value="1000"/>
                                 <integer value="1000"/>
@@ -143,7 +146,7 @@
                     </constraints>
                 </visualEffectView>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="hSS-lQ-K2G">
-                    <rect key="frame" x="0.0" y="263" width="350" height="0.0"/>
+                    <rect key="frame" x="0.0" y="262" width="350" height="1"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="0.5" id="o2r-ex-Je8"/>
                     </constraints>

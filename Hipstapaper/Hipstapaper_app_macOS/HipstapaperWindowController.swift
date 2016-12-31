@@ -33,6 +33,7 @@ class HipstapaperWindowController: NSWindowController, RealmControllable {
         
         // Get that OSX Yosemite 'look'
         self.window?.titleVisibility = .hidden
+        self.window?.titlebarAppearsTransparent = true
     
         // Populate the child VC's
         // This should be done in IB, but storyboards don't seem to allow it
