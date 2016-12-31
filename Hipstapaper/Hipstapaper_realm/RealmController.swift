@@ -69,6 +69,14 @@ public class RealmController {
         try! realm.commitWrite()
     }
     
+    public func deleteTag(with tagID: TagItem.UIIdentifier) {
+        let realm = self.realm
+        guard let tag = realm.object(ofType: TagItem.self, forPrimaryKey: tagID.idName) else { return }
+        realm.beginWrite()
+        realm.delete(tag)
+        try! realm.commitWrite()
+    }
+    
     public func urlItems(for selection: URLItem.Selection, sortOrder: URLItem.SortOrder) -> Results<URLItem>? {
         let realm = self.realm
         switch selection {

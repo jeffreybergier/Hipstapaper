@@ -13,7 +13,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     private let extensionFileProcessor = SaveExtensionFileProcessor()
     
-    private let rootWindowController: HipstapaperWindowController = {
+    let rootWindowController: HipstapaperWindowController = {
         let storyboard = NSStoryboard(name: "Main", bundle: Bundle(for: AppDelegate.self))
         let initial = storyboard.instantiateInitialController()!
         let windowController = initial as! HipstapaperWindowController

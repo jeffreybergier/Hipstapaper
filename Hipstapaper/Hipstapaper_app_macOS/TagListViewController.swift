@@ -78,6 +78,35 @@ class TagListViewController: NSViewController {
         self?.outlineView?.expandItem(.none, expandChildren: true)
     }
     
+    // MARK: Handle NSOutlineView Menus
+    
+    private var selectedTags: [TagItem.UIIdentifier]? {
+        let selectedNodes = self.treeController?.selectedObjects.map({ $0 as? TreeBindingObject }).flatMap({ $0 }) ?? []
+        let selectedTags = selectedNodes.map() { node -> TagItem.UIIdentifier? in
+            guard case .selectable(let selection) = node.kind, case .tag(let tag) = selection else { return .none }
+            return tag
+        }.flatMap({ $0 })
+        if selectedTags.isEmpty == true { return .none } else { return selectedTags }
+    }
+    
+    @objc private func delete(_ menuItem: NSMenuItem) {
+        guard let realmController = self.realmController, menuItem.tag == 666, let selectedTag = self.selectedTags?.first else { return }
+        let alert = NSAlert()
+        alert.messageText = "Delete '\(selectedTag.displayName)'?"
+        alert.informativeText = "This action cannot be undone"
+        alert.addButton(withTitle: "Delete")
+        alert.addButton(withTitle: "Cancel")
+        alert.beginSheetModal(for: self.view.window!) { buttonNumber in
+            guard buttonNumber == 1000 else { return }
+            realmController.deleteTag(with: selectedTag)
+        }
+    }
+    
+    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        guard let _ = self.realmController, menuItem.tag == 666, let _ = self.selectedTags else { return false }
+        return true
+    }
+    
     // MARK: Handle Going Away
     
     private var notificationToken: NotificationToken?
