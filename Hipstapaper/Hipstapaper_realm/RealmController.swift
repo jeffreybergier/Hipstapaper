@@ -69,6 +69,15 @@ public class RealmController {
         try! realm.commitWrite()
     }
     
+    public func delete(items: [Object]) {
+        let realm = self.realm
+        realm.beginWrite()
+        for item in items {
+            realm.delete(item)
+        }
+        try! realm.commitWrite()
+    }
+    
     public func deleteTag(with tagID: TagItem.UIIdentifier) {
         let realm = self.realm
         guard let tag = realm.object(ofType: TagItem.self, forPrimaryKey: tagID.idName) else { return }
@@ -157,14 +166,14 @@ public class RealmController {
         try! realm.commitWrite()
     }
     
-    public func delete(items: [TagItem]) {
-        let realm = self.realm
-        realm.beginWrite()
-        for item in items {
-            realm.delete(item)
-        }
-        try! realm.commitWrite()
-    }
+//    public func delete(items: [TagItem]) {
+//        let realm = self.realm
+//        realm.beginWrite()
+//        for item in items {
+//            realm.delete(item)
+//        }
+//        try! realm.commitWrite()
+//    }
     
     public func updateArchived(to archived: Bool, on items: [URLItem]) {
         let realm = self.realm

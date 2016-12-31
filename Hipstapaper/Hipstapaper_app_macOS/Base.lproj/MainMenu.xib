@@ -68,7 +68,7 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="File" id="bib-Uj-vzu">
                         <items>
-                            <menuItem title="Open Selected" keyEquivalent="o" id="h6C-0l-sLe">
+                            <menuItem title="Open Selected" tag="999" keyEquivalent="o" id="h6C-0l-sLe">
                                 <connections>
                                     <action selector="open:" target="-1" id="1Ly-kq-ZGY"/>
                                 </connections>
@@ -109,6 +109,15 @@ CA
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="archive:" target="-1" id="Vnx-Pn-wBU"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Unarchive" tag="544" id="FNU-5y-7bw">
+                                <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
+                                <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                <connections>
+                                    <action selector="unarchive:" target="-1" id="lZG-03-cZF"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Delete" tag="666" id="pa3-QI-u2k">

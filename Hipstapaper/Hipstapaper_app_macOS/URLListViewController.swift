@@ -70,11 +70,23 @@ class URLListViewController: NSViewController {
     // MARK: Handle Menu Bar Items
     
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        guard menuItem.title == "Open Selected" else { fatalError() }
-        if let selectedItems = self.arrayController?.selectedURLItems, selectedItems.isEmpty == false {
+        guard
+            let realmController = self.realmController,
+            let kind = NSMenuItem.Kind(rawValue: menuItem.tag),
+            let selectedItems = self.arrayController?.selectedURLItems
+        else { return false }
+        
+        switch kind {
+        case .unarchive:
+            return realmController.atLeastOneItem(in: selectedItems, canBeArchived: false)
+        case .archive:
+            return realmController.atLeastOneItem(in: selectedItems, canBeArchived: true)
+        case .copy:
             return true
-        } else {
-            return false
+        case .delete:
+            return true
+        case .open:
+            return true
         }
     }
     
@@ -83,14 +95,23 @@ class URLListViewController: NSViewController {
         self.openOrBringFrontWindowControllers(for: selectedItems)
     }
     
+    @objc private func delete(_ sender: NSObject?) {
+        guard let selectedItems = self.arrayController?.selectedURLItems else { return }
+        self.realmController?.delete(items: selectedItems)
+    }
+    
+//    @objc private func copy(_ sender: NSObject?) {
+//        
+//    }
+    
     // MARK: Handle Toolbar First Responder Methods
     
-    @objc private func archiveSelected(_ sender: NSObject?) {
+    @objc private func archive(_ sender: NSObject?) {
         guard let selectedItems = self.arrayController?.selectedURLItems else { return }
         self.realmController?.updateArchived(to: true, on: selectedItems)
     }
     
-    @objc private func unarchiveSelected(_ sender: NSObject?) {
+    @objc private func unarchive(_ sender: NSObject?) {
         guard let selectedItems = self.arrayController?.selectedURLItems else { return }
         self.realmController?.updateArchived(to: false, on: selectedItems)
     }
@@ -191,6 +212,16 @@ fileprivate extension NSArrayController {
 fileprivate extension NSToolbarItem {
     fileprivate enum Kind: Int {
         case unarchive = 1, archive, tag, share
+    }
+}
+
+fileprivate extension NSMenuItem {
+    fileprivate enum Kind: Int {
+        case open = 999
+        case copy = 444
+        case archive = 555
+        case unarchive = 544
+        case delete = 666
     }
 }
 
