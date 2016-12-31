@@ -97,11 +97,12 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Edit" id="W48-6f-4Dl">
                         <items>
-                            <menuItem title="Copy URL" tag="444" keyEquivalent="c" id="x3v-GG-iWU">
+                            <menuItem title="Copy Link" tag="444" keyEquivalent="c" id="x3v-GG-iWU">
                                 <connections>
                                     <action selector="copy:" target="-1" id="G1f-GL-Joy"/>
                                 </connections>
                             </menuItem>
+                            <menuItem isSeparatorItem="YES" hidden="YES" id="W8M-uB-ero"/>
                             <menuItem title="Archive" tag="555" id="cjl-1l-c39">
                                 <string key="keyEquivalent" base64-UTF8="YES">
 CA
@@ -128,7 +129,6 @@ CA
                                     <action selector="delete:" target="-1" id="0Mk-Ml-PaM"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" hidden="YES" id="WRV-NI-Exz"/>
                             <menuItem title="Select All" keyEquivalent="a" id="Ruw-6m-B2m">
                                 <connections>
                                     <action selector="selectAll:" target="-1" id="VNm-Mi-diN"/>

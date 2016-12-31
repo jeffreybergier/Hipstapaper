@@ -82,7 +82,7 @@ class URLListViewController: NSViewController {
         case .archive:
             return realmController.atLeastOneItem(in: selectedItems, canBeArchived: true)
         case .copy:
-            return true
+            return selectedItems.count == 1
         case .delete:
             return true
         case .open:
@@ -100,9 +100,11 @@ class URLListViewController: NSViewController {
         self.realmController?.delete(items: selectedItems)
     }
     
-//    @objc private func copy(_ sender: NSObject?) {
-//        
-//    }
+    @objc private func copy(_ sender: NSObject?) {
+        guard let selectedItems = self.arrayController?.selectedURLItems, let item = selectedItems.first else { NSBeep(); return; }
+        NSPasteboard.general().declareTypes([NSStringPboardType], owner: self)
+        NSPasteboard.general().setString(item.urlString, forType: NSStringPboardType)
+    }
     
     // MARK: Handle Toolbar First Responder Methods
     
