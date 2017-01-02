@@ -18,7 +18,7 @@ class URLListViewController: NSViewController, RealmControllable {
         }
     }
     
-    @IBOutlet private weak var arrayController: NSArrayController?
+    @IBOutlet fileprivate weak var arrayController: NSArrayController?
     fileprivate var openWindowsControllers: [URLItem.UIIdentifier : NSWindowController] = [:]
     var selection = URLItem.Selection.unarchived {
         didSet {
@@ -174,15 +174,24 @@ class URLListViewController: NSViewController, RealmControllable {
     // MARK: Handle Going Away
     
     private var notificationToken: NotificationToken?
-    
+
     deinit {
         self.notificationToken?.stop()
     }
 }
 
-fileprivate extension UInt16 {
-    fileprivate var isReturnKeyCode: Bool {
-        return self == 36 || self == 76
+extension URLListViewController: NSTableViewDelegate {
+    func tableView(_ tableView: NSTableView, rowActionsForRow row: Int, edge: NSTableRowActionEdge) -> [NSTableViewRowAction] {
+        guard edge == .trailing, let item = (self.arrayController?.content as? NSArray)?[row] as? URLItem else { return [] }
+        let archiveActionTitle = item.archived ? "📤Unarchive" : "📥Archive"
+        let archiveToggleAction = NSTableViewRowAction(style: .regular, title: archiveActionTitle) { _ in
+            let newArchiveValue = !item.archived
+            self.realmController?.updateArchived(to: newArchiveValue, on: [item])
+        }
+        let tagAction = NSTableViewRowAction(style: .regular, title: "🏷Tag") { _ in
+        }
+        tagAction.backgroundColor = NSColor.lightGray
+        return [tagAction, archiveToggleAction]
     }
 }
 
