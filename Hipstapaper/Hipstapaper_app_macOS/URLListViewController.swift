@@ -107,6 +107,30 @@ class URLListViewController: NSViewController, RealmControllable {
         NSPasteboard.general().setString(item.urlString, forType: NSStringPboardType)
     }
     
+    // MARK: Handle Key Events
+    
+    override func keyDown(with event: NSEvent) {
+        switch event.keyCode {
+        case 36, 76: // enter keys
+            break
+        case 53: // escape key
+            break
+        default:
+            super.keyDown(with: event)
+        }
+    }
+    
+    override func keyUp(with event: NSEvent) {
+        switch event.keyCode {
+        case 36, 76: // enter keys
+            self.open(event)
+        case 53:
+            self.view.window?.firstResponder.try(toPerform: #selector(NSTableView.deselectAll(_:)), with: event)
+        default:
+            super.keyUp(with: event)
+        }
+    }
+    
     // MARK: Handle Toolbar Items
     
     @objc private func archive(_ sender: NSObject?) {
