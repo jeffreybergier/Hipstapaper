@@ -32,12 +32,14 @@ public class RealmController {
     }
     
     public init(user: SyncUser) {
+        SyncManager.shared.logLevel = .error
         self.user = user
         self.realmURL = RealmController.realmURL(for: user)
     }
     
     public init?() {
         if let user = SyncUser.current {
+            SyncManager.shared.logLevel = .error
             self.user = user
             self.realmURL = RealmController.realmURL(for: user)
         } else {
