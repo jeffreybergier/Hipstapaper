@@ -7,6 +7,7 @@
 //
 
 import RealmSwift
+import Social
 import AppKit
 
 class URLListViewController: NSViewController, RealmControllable {
@@ -118,7 +119,7 @@ class URLListViewController: NSViewController, RealmControllable {
         self.realmController?.updateArchived(to: false, on: selectedItems)
     }
     
-    @objc private func tagSelected(_ sender: NSObject?) {
+    @objc private func tag(_ sender: NSObject?) {
         guard
             let item = sender as? NSButton,
             let realmController = self.realmController,
@@ -129,7 +130,7 @@ class URLListViewController: NSViewController, RealmControllable {
     }
     
     @objc private func share(_ sender: NSObject?) {
-        
+        print("share")
     }
     
     override func validateToolbarItem(_ item: NSObject?) -> Bool {

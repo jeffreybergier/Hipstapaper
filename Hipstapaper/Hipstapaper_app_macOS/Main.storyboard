@@ -81,7 +81,7 @@
                                         </buttonCell>
                                     </button>
                                     <connections>
-                                        <action selector="tagSelected:" target="0ba-tZ-P43" id="BSr-pJ-s3s"/>
+                                        <action selector="tag:" target="0ba-tZ-P43" id="wQZ-TD-Bkc"/>
                                     </connections>
                                 </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="D79AFF4E-F80E-4BBA-9125-4CDB9B734F11" label="Share" paletteLabel="Share" tag="233" image="NSShareTemplate" id="0BX-Wd-2Yr">
