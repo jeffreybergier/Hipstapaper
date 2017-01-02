@@ -23,7 +23,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // open the main window when the app launches
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         self.rootWindowController.showWindow(self)
-        self.extensionFileProcessor.processFiles(with: self.rootWindowController.realmController)
     }
     
     // opens the main window if the dock icon is clicked and there are no windows open
@@ -31,7 +30,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if flag == false {
             self.rootWindowController.showWindow(self)
         }
-        self.extensionFileProcessor.processFiles(with: self.rootWindowController.realmController)
         return true
     }
     
@@ -41,8 +39,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let menuItem = sender as? NSMenuItem,
             menuItem.title == "Hipstapaper"
         else { return }
-        self.extensionFileProcessor.processFiles(with: self.rootWindowController.realmController)
         self.rootWindowController.showWindow(self)
+    }
+    
+    // MARK: Load Items from Extension when App Comes or Goes
+    
+    func applicationDidBecomeActive(_ notification: Notification) {
+        self.extensionFileProcessor.processFiles(with: self.rootWindowController.realmController)
+    }
+    
+    func applicationDidResignActive(_ notification: Notification) {
+        self.extensionFileProcessor.processFiles(with: self.rootWindowController.realmController)
     }
 }
 
