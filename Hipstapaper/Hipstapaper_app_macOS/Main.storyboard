@@ -88,7 +88,7 @@
                                     <nil key="toolTip"/>
                                     <size key="minSize" width="65" height="43"/>
                                     <size key="maxSize" width="88" height="44"/>
-                                    <button key="view" verticalHuggingPriority="750" tag="233" id="CkJ-DC-ctK">
+                                    <button key="view" verticalHuggingPriority="750" tag="233" id="CkJ-DC-ctK" customClass="MouseDownButton" customModule="Hipstapaper" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="14" width="65" height="43"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSShareTemplate" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ZEQ-sQ-d2g">

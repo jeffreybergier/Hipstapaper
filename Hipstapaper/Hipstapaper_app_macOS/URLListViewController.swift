@@ -95,6 +95,8 @@ class URLListViewController: NSViewController, RealmControllable {
             return true
         case .shareSubmenu:
             return true
+        case .javascript:
+            return false
         }
     }
     
@@ -170,7 +172,7 @@ class URLListViewController: NSViewController, RealmControllable {
         NSSharingServicePicker(items: urls).show(relativeTo: .zero, of: button, preferredEdge: .minY)
     }
     
-    @objc fileprivate func shareMenu(_ sender: NSObject?) {
+    @objc func shareMenu(_ sender: NSObject?) {
         guard let urls = self.arrayController?.selectedURLItems?.map({ URL(string: $0.urlString) }).flatMap({ $0 }), urls.isEmpty == false else { return }
         ((sender as? NSMenuItem)?.representedObject as? NSSharingService)?.perform(withItems: urls)
     }
@@ -259,36 +261,6 @@ fileprivate extension NSArrayController {
     fileprivate var selectedURLItems: [URLItem]? {
         let selectedItems = self.selectedObjects.map({ $0 as? URLItem }).flatMap({ $0 })
         if selectedItems.isEmpty { return .none } else { return selectedItems }
-    }
-}
-
-// MARK: Custom enum so I know which toolbar item was clicked
-
-extension NSToolbarItem {
-    enum Kind: Int {
-        case unarchive = 544, archive = 555, tag = 222, share = 233
-    }
-}
-
-fileprivate extension NSMenuItem {
-    fileprivate enum Kind: Int {
-        case open = 999, copy = 444, archive = 555, unarchive = 544, delete = 666, share = 898, shareSubmenu = 897
-    }
-}
-
-fileprivate extension NSMenu {
-    convenience init(shareMenuWithItems items: [URL]) {
-        self.init()
-        let compatibleServices = NSSharingService.sharingServices(forItems: items)
-        compatibleServices.forEach() { service in
-            let title = service.title
-            let image = service.image
-            let newMenuItem = NSMenuItem(title: title, action: #selector(URLListViewController.shareMenu(_:)), keyEquivalent: "")
-            newMenuItem.image = image
-            newMenuItem.representedObject = service
-            newMenuItem.tag = NSMenuItem.Kind.shareSubmenu.rawValue
-            self.addItem(newMenuItem)
-        }
     }
 }
 

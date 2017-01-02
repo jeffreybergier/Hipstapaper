@@ -130,7 +130,12 @@ class URLItemWebViewWindowController: NSWindowController {
     }
     
     @objc private func share(_ sender: NSObject?) {
-        print("Share")
+        guard
+            let button = sender as? NSButton,
+            let item = self.itemID,
+            let url = URL(string: item.urlString)
+        else { return }
+        NSSharingServicePicker(items: [url]).show(relativeTo: .zero, of: button, preferredEdge: .minY)
     }
     
     override func validateToolbarItem(_ sender: NSObject?) -> Bool {
@@ -170,11 +175,34 @@ class URLItemWebViewWindowController: NSWindowController {
         self.javascriptEnabled = !newValue
     }
     
-    override func validateMenuItem(_ sender: NSObject?) -> Bool {
-        guard let sender = sender as? NSMenuItem, sender.title == "Enable Javascript" else { fatalError() }
-        let value = NSNumber(value: self.webView.configuration.preferences.javaScriptEnabled)
-        sender.state = value.intValue
-        return true
+    @objc fileprivate func shareMenu(_ sender: NSObject?) {
+        guard
+            let item = self.itemID,
+            let url = URL(string: item.urlString)
+        else { return }
+        ((sender as? NSMenuItem)?.representedObject as? NSSharingService)?.perform(withItems: [url])
+    }
+    
+    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        guard let itemID = self.itemID, let kind = NSMenuItem.Kind(rawValue: menuItem.tag) else { return false }
+        switch kind {
+        case .javascript:
+            let value = NSNumber(value: self.webView.configuration.preferences.javaScriptEnabled)
+            menuItem.state = value.intValue
+            return true
+        case .archive:
+            return !itemID.archived
+        case .unarchive:
+            return itemID.archived
+        case .share:
+            guard let itemURL = URL(string: itemID.urlString) else { return false }
+            menuItem.submenu = NSMenu(shareMenuWithItems: [itemURL])
+            return true
+        case .shareSubmenu:
+            return true
+        case .copy, .open, .delete:
+            return false
+        }
     }
     
     

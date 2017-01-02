@@ -601,7 +601,7 @@ CA
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="ENZ-ck-udf"/>
-                            <menuItem title="Enable Javascript" keyEquivalent="J" id="11X-SX-Bw8">
+                            <menuItem title="Enable Javascript" tag="433" keyEquivalent="J" id="11X-SX-Bw8">
                                 <connections>
                                     <action selector="javascriptMenuToggled:" target="-1" id="910-BU-scU"/>
                                 </connections>

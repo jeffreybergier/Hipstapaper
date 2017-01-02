@@ -97,7 +97,7 @@
                         <nil key="toolTip"/>
                         <size key="minSize" width="35" height="28"/>
                         <size key="maxSize" width="49" height="43"/>
-                        <button key="view" verticalHuggingPriority="750" tag="233" id="1Tm-9F-ReY">
+                        <button key="view" verticalHuggingPriority="750" tag="233" id="1Tm-9F-ReY" customClass="MouseDownButton" customModule="Hipstapaper" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="14" width="49" height="43"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSShareTemplate" imagePosition="only" alignment="center" borderStyle="border" inset="2" id="87u-Lz-atv">

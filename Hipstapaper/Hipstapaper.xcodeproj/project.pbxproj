@@ -37,6 +37,8 @@
 		504D7F181E11A1BF0010A5C7 /* LoginiOSTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D7F171E11A1BF0010A5C7 /* LoginiOSTableViewController.swift */; };
 		504FC0FC1DFA444A0014C787 /* URLTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504FC0FA1DFA444A0014C787 /* URLTableViewCell.swift */; };
 		504FC0FD1DFA444A0014C787 /* URLTableViewCellwIMG.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504FC0FB1DFA444A0014C787 /* URLTableViewCellwIMG.xib */; };
+		5055515D1E1ACF78006E2A3B /* MouseDownButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5055515C1E1ACF77006E2A3B /* MouseDownButton.swift */; };
+		5055515F1E1AD8BC006E2A3B /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5055515E1E1AD8BC006E2A3B /* FrameworkExtensions.swift */; };
 		505B304B1DEA698300B74AE6 /* URLItemWebViewWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30491DEA698300B74AE6 /* URLItemWebViewWindowController.swift */; };
 		505B304C1DEA698300B74AE6 /* URLItemWebViewWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 505B304A1DEA698300B74AE6 /* URLItemWebViewWindowController.xib */; };
 		505B79BF1E0B924C007BB364 /* URLShareMacViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B79BE1E0B924C007BB364 /* URLShareMacViewController.swift */; };
@@ -187,6 +189,8 @@
 		504D7F171E11A1BF0010A5C7 /* LoginiOSTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginiOSTableViewController.swift; sourceTree = "<group>"; };
 		504FC0FA1DFA444A0014C787 /* URLTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLTableViewCell.swift; sourceTree = "<group>"; };
 		504FC0FB1DFA444A0014C787 /* URLTableViewCellwIMG.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLTableViewCellwIMG.xib; sourceTree = "<group>"; };
+		5055515C1E1ACF77006E2A3B /* MouseDownButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MouseDownButton.swift; sourceTree = "<group>"; };
+		5055515E1E1AD8BC006E2A3B /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		505B30491DEA698300B74AE6 /* URLItemWebViewWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemWebViewWindowController.swift; sourceTree = "<group>"; };
 		505B304A1DEA698300B74AE6 /* URLItemWebViewWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLItemWebViewWindowController.xib; sourceTree = "<group>"; };
 		505B79BE1E0B924C007BB364 /* URLShareMacViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLShareMacViewController.swift; sourceTree = "<group>"; };
@@ -421,6 +425,8 @@
 				50088A6B1E07151200D6AAED /* TagListViewController.swift */,
 				50088A6D1E07152400D6AAED /* URLListViewController.swift */,
 				50EE9F071E0CB80E00E76CF5 /* ValidatingToolbarItem.swift */,
+				5055515C1E1ACF77006E2A3B /* MouseDownButton.swift */,
+				5055515E1E1AD8BC006E2A3B /* FrameworkExtensions.swift */,
 				50088A6F1E07153200D6AAED /* HipstapaperWindowController.swift */,
 				50088A691E07093000D6AAED /* Main.storyboard */,
 				5048AF0B1E0DA45300AC1B2D /* URLTaggingViewController */,
@@ -932,9 +938,11 @@
 			files = (
 				505B304B1DEA698300B74AE6 /* URLItemWebViewWindowController.swift in Sources */,
 				506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */,
+				5055515D1E1ACF78006E2A3B /* MouseDownButton.swift in Sources */,
 				50D61C641E0E2F9A004595CD /* NewTagNamingViewController.swift in Sources */,
 				50432EFD1E0AFF9400D9C3D5 /* URLItemExtras.swift in Sources */,
 				504AFCBD1E1592FC00B8CC3A /* SaveExtensionFileProcessor.swift in Sources */,
+				5055515F1E1AD8BC006E2A3B /* FrameworkExtensions.swift in Sources */,
 				508623191E10BF2700C06C7D /* RealmController.swift in Sources */,
 				5048AF0E1E0DA48600AC1B2D /* URLTaggingViewController.swift in Sources */,
 				50088A701E07153200D6AAED /* HipstapaperWindowController.swift in Sources */,
