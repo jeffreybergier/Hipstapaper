@@ -88,6 +88,13 @@ class URLListViewController: NSViewController, RealmControllable {
             return true
         case .open:
             return true
+        case .share:
+            let items = selectedItems.map({ URL(string: $0.urlString) }).flatMap({ $0 })
+            guard items.isEmpty == false else { return false }
+            menuItem.submenu = NSMenu(shareMenuWithItems: items)
+            return true
+        case .shareSubmenu:
+            return true
         }
     }
     
@@ -124,8 +131,9 @@ class URLListViewController: NSViewController, RealmControllable {
         switch event.keyCode {
         case 36, 76: // enter keys
             self.open(event)
-        case 53:
+        case 53: // escape key
             self.view.window?.firstResponder.try(toPerform: #selector(NSTableView.deselectAll(_:)), with: event)
+            self.view.window?.toolbar?.validateVisibleItems() // it was taking almost a full second to re-validate toolbar items without forcing it manually
         default:
             super.keyUp(with: event)
         }
@@ -154,7 +162,17 @@ class URLListViewController: NSViewController, RealmControllable {
     }
     
     @objc private func share(_ sender: NSObject?) {
-        print("share")
+        guard
+            let button = sender as? NSButton,
+            let urls = self.arrayController?.selectedURLItems?.map({ URL(string: $0.urlString) }).flatMap({ $0 }),
+            urls.isEmpty == false
+        else { return }
+        NSSharingServicePicker(items: urls).show(relativeTo: .zero, of: button, preferredEdge: .minY)
+    }
+    
+    @objc fileprivate func shareMenu(_ sender: NSObject?) {
+        guard let urls = self.arrayController?.selectedURLItems?.map({ URL(string: $0.urlString) }).flatMap({ $0 }), urls.isEmpty == false else { return }
+        ((sender as? NSMenuItem)?.representedObject as? NSSharingService)?.perform(withItems: urls)
     }
     
     override func validateToolbarItem(_ item: NSObject?) -> Bool {
@@ -254,11 +272,23 @@ extension NSToolbarItem {
 
 fileprivate extension NSMenuItem {
     fileprivate enum Kind: Int {
-        case open = 999
-        case copy = 444
-        case archive = 555
-        case unarchive = 544
-        case delete = 666
+        case open = 999, copy = 444, archive = 555, unarchive = 544, delete = 666, share = 898, shareSubmenu = 897
+    }
+}
+
+fileprivate extension NSMenu {
+    convenience init(shareMenuWithItems items: [URL]) {
+        self.init()
+        let compatibleServices = NSSharingService.sharingServices(forItems: items)
+        compatibleServices.forEach() { service in
+            let title = service.title
+            let image = service.image
+            let newMenuItem = NSMenuItem(title: title, action: #selector(URLListViewController.shareMenu(_:)), keyEquivalent: "")
+            newMenuItem.image = image
+            newMenuItem.representedObject = service
+            newMenuItem.tag = NSMenuItem.Kind.shareSubmenu.rawValue
+            self.addItem(newMenuItem)
+        }
     }
 }
 

@@ -73,36 +73,6 @@
                                     <action selector="open:" target="-1" id="1Ly-kq-ZGY"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Close" keyEquivalent="w" id="DVo-aG-piG">
-                                <connections>
-                                    <action selector="performClose:" target="-1" id="HmO-Ls-i7Q"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="aJh-i4-bef"/>
-                            <menuItem title="Page Setup…" keyEquivalent="P" id="qIS-W8-SiK">
-                                <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
-                                <connections>
-                                    <action selector="runPageLayout:" target="-1" id="Din-rz-gC5"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Print…" keyEquivalent="p" id="aTl-1u-JFS">
-                                <connections>
-                                    <action selector="print:" target="-1" id="qaZ-4w-aoO"/>
-                                </connections>
-                            </menuItem>
-                        </items>
-                    </menu>
-                </menuItem>
-                <menuItem title="Edit" id="5QF-Oa-p0T">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="Edit" id="W48-6f-4Dl">
-                        <items>
-                            <menuItem title="Copy Link" tag="444" keyEquivalent="c" id="x3v-GG-iWU">
-                                <connections>
-                                    <action selector="copy:" target="-1" id="G1f-GL-Joy"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" hidden="YES" id="W8M-uB-ero"/>
                             <menuItem title="Archive" tag="555" id="cjl-1l-c39">
                                 <string key="keyEquivalent" base64-UTF8="YES">
 CA
@@ -121,12 +91,37 @@ CA
                                     <action selector="unarchive:" target="-1" id="lZG-03-cZF"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Delete" tag="666" id="pa3-QI-u2k">
+                            <menuItem title="Delete" tag="666" id="pa3-QI-u2k" userLabel="Delete Selected">
                                 <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>
                                 <connections>
                                     <action selector="delete:" target="-1" id="0Mk-Ml-PaM"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="aJh-i4-bef"/>
+                            <menuItem title="Share" tag="898" id="xUM-ID-SE1">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="share:" target="-1" id="cZg-Sf-i80"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="Utu-9o-9HV"/>
+                            <menuItem title="Close Window" keyEquivalent="w" id="DVo-aG-piG">
+                                <connections>
+                                    <action selector="performClose:" target="-1" id="HmO-Ls-i7Q"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Edit" id="5QF-Oa-p0T">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Edit" id="W48-6f-4Dl">
+                        <items>
+                            <menuItem title="Copy Link" tag="444" keyEquivalent="c" id="x3v-GG-iWU">
+                                <connections>
+                                    <action selector="copy:" target="-1" id="G1f-GL-Joy"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Select All" keyEquivalent="a" id="Ruw-6m-B2m">
