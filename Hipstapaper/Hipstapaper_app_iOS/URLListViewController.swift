@@ -320,18 +320,18 @@ extension URLListViewController: UITableViewDelegate {
         
         let tagAction = UITableViewRowAction(style: .normal, title: "🏷Tag") { [weak self] action, indexPath in
             let selector: Selector = "_button"
+            let popoverView: UIView
             if action.responds(to: selector), let actionButton = action.perform(selector)?.takeUnretainedValue() as? UIView {
                 // use 'private' api to get the actual rect and view of the button the user clicked on
                 // then present the popover from that view
-                let presentation = TagAddRemoveViewController.PresentationStyle.popCustom(rect: actionButton.bounds, view: actionButton)
-                let tagVC = TagAddRemoveViewController.viewController(style: presentation, selectedItems: [item], controller: realmController)
-                self?.present(tagVC, animated: true, completion: nil)
+                popoverView = actionButton
             } else {
                 // if we can't get that button, then just popover on the cell view
-                let presentation = TagAddRemoveViewController.PresentationStyle.popCustom(rect: cellView.bounds, view: cellView)
-                let tagVC = TagAddRemoveViewController.viewController(style: presentation, selectedItems: [item], controller: realmController)
-                self?.present(tagVC, animated: true, completion: nil)
+                popoverView = cellView
             }
+            let presentation = TagAddRemoveViewController.PresentationStyle.popCustom(rect: popoverView.bounds, view: popoverView)
+            let tagVC = TagAddRemoveViewController.viewController(style: presentation, selectedItems: [item], controller: realmController)
+            self?.present(tagVC, animated: true, completion: nil)
         }
         return [archiveToggleAction, tagAction]
     }
