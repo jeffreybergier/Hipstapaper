@@ -9,24 +9,7 @@
 import WebKit
 import AppKit
 
-class WebViewTitleTransformer: ValueTransformer {
-    override func transformedValue(_ value: Any?) -> Any? {
-        if let value = value as? String {
-            return "Hipstapaper: " + value
-        } else {
-            return super.transformedValue(value)
-        }
-    }
-}
-
 class URLItemWebViewWindowController: NSWindowController {
-    
-    // Create and register a value transformer for URLWebWindow title Bindings
-    private static let titleValueTransformer: Void = {
-        let transformer = WebViewTitleTransformer()
-        let name = NSValueTransformerName("WebViewTitleTransformer")
-        ValueTransformer.setValueTransformer(transformer, forName: name)
-    }()
     
     // MARK: Model Item
     
@@ -84,7 +67,6 @@ class URLItemWebViewWindowController: NSWindowController {
     // MARK: Initialization
     
     convenience init(itemID: URLItem.UIIdentifier, delegate: RealmControllable?) {
-        URLItemWebViewWindowController.titleValueTransformer // activate the value transformer once
         self.init(windowNibName: "URLItemWebViewWindowController")
         self.itemID = itemID
         self.delegate = delegate
@@ -92,6 +74,9 @@ class URLItemWebViewWindowController: NSWindowController {
 
     override func windowDidLoad() {
         super.windowDidLoad()
+        
+        // make the titlebar skinny and sexy
+        self.window?.titleVisibility = .hidden
         
         // hack to force the toolbar to lay itself out
         let existingToolBar = self.window?.toolbar

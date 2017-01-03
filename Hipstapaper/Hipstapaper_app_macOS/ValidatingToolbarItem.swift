@@ -37,7 +37,8 @@ class ValidatingToolbar: NSToolbar {
                 toolbarItem.isKind(of: self.flexibleSpaceClass ?? NSTableView.self) == false &&
                 toolbarItem.isKind(of: self.fixedSpaceClass ?? NSTableView.self) == false &&
                 toolbarItem.itemIdentifier != NSToolbarFlexibleSpaceItemIdentifier &&
-                toolbarItem.itemIdentifier != NSToolbarSpaceItemIdentifier
+                toolbarItem.itemIdentifier != NSToolbarSpaceItemIdentifier &&
+                toolbarItem.itemIdentifier.contains("NORESIZE-") == false
             else { continue }
             toolbarItem.minSize = NSSize(width: 56, height: 34)
             toolbarItem.maxSize = NSSize(width: 56, height: 34)
