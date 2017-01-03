@@ -305,7 +305,12 @@ extension URLListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        guard let item = self.data?[indexPath.row], let realmController = self.realmController else { return .none }
+        guard
+            let item = self.data?[indexPath.row],
+            let cellView = tableView.cellForRow(at: indexPath),
+            let realmController = self.realmController
+        else { return .none }
+        
         let archiveActionTitle = item.archived ? "📤Unarchive" : "📥Archive"
         let archiveToggleAction = UITableViewRowAction(style: .normal, title: archiveActionTitle) { action, indexPath in
             let newArchiveValue = !item.archived
@@ -313,18 +318,19 @@ extension URLListViewController: UITableViewDelegate {
         }
         archiveToggleAction.backgroundColor = tableView.tintColor
         
-        let tagAction = UITableViewRowAction(style: .normal, title: "🏷Tag") { action, indexPath in
-            if let actionButton = action.perform("_button")?.takeUnretainedValue() as? UIButton {
+        let tagAction = UITableViewRowAction(style: .normal, title: "🏷Tag") { [weak self] action, indexPath in
+            let selector: Selector = "_button"
+            if action.responds(to: selector), let actionButton = action.perform(selector)?.takeUnretainedValue() as? UIView {
                 // use 'private' api to get the actual rect and view of the button the user clicked on
                 // then present the popover from that view
                 let presentation = TagAddRemoveViewController.PresentationStyle.popCustom(rect: actionButton.bounds, view: actionButton)
                 let tagVC = TagAddRemoveViewController.viewController(style: presentation, selectedItems: [item], controller: realmController)
-                self.present(tagVC, animated: true, completion: nil)
+                self?.present(tagVC, animated: true, completion: nil)
             } else {
-                // if that fails
-                // present as generic form sheet
-                let tagVC = TagAddRemoveViewController.viewController(style: .formSheet, selectedItems: [item], controller: realmController)
-                self.present(tagVC, animated: true, completion: nil)
+                // if we can't get that button, then just popover on the cell view
+                let presentation = TagAddRemoveViewController.PresentationStyle.popCustom(rect: cellView.bounds, view: cellView)
+                let tagVC = TagAddRemoveViewController.viewController(style: presentation, selectedItems: [item], controller: realmController)
+                self?.present(tagVC, animated: true, completion: nil)
             }
         }
         return [archiveToggleAction, tagAction]

@@ -24,15 +24,15 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
         switch style {
         case .popBBI(let bbi):
             navVC.modalPresentationStyle = .popover
-            navVC.popoverPresentationController!.barButtonItem = bbi
+            navVC.popoverPresentationController?.barButtonItem = bbi
         case .popCustom(let rect, let view):
             navVC.modalPresentationStyle = .popover
-            navVC.popoverPresentationController!.sourceRect = rect
-            navVC.popoverPresentationController!.sourceView = view
+            navVC.popoverPresentationController?.sourceRect = rect
+            navVC.popoverPresentationController?.sourceView = view
         case .formSheet:
             navVC.modalPresentationStyle = .formSheet
         }
-        navVC.presentationController!.delegate = tagVC
+        navVC.presentationController?.delegate = tagVC
         return navVC
     }
     
