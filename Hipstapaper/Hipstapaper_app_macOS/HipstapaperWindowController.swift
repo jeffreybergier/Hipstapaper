@@ -11,6 +11,12 @@ import AppKit
 
 class HipstapaperWindowController: NSWindowController, RealmControllable {
     
+    @IBOutlet private weak var shareToolbarButton: NSButton? {
+        didSet {
+            // configure the share button to send its action on mousedown
+            self.shareToolbarButton?.sendAction(on: .leftMouseDown)
+        }
+    }
     
     // MARK: References to child view controllers
     
@@ -33,7 +39,7 @@ class HipstapaperWindowController: NSWindowController, RealmControllable {
         
         // Get that OSX Yosemite 'look'
         self.window?.titleVisibility = .hidden
-    
+        
         // Populate the child VC's
         // This should be done in IB, but storyboards don't seem to allow it
         for childVC in self.window?.contentViewController?.childViewControllers ?? [] {

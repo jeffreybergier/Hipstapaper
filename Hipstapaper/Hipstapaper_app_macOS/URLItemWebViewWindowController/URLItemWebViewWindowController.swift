@@ -18,6 +18,12 @@ class URLItemWebViewWindowController: NSWindowController {
     
     // MARK: Control Outlets
     
+    @IBOutlet private weak var shareToolbarButton: NSButton? {
+        didSet {
+            self.shareToolbarButton?.sendAction(on: .leftMouseDown)
+        }
+    }
+    
     private var javascriptEnabled: Bool = false {
         didSet {
             let newValueNumber = NSNumber(value: self.javascriptEnabled)

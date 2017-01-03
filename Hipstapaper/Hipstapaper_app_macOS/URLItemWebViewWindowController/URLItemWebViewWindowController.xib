@@ -10,6 +10,7 @@
             <connections>
                 <outlet property="bottomToolbarView" destination="f02-f1-Qbx" id="bZv-bl-GPV"/>
                 <outlet property="javascriptCheckbox" destination="84K-pi-zIe" id="iUY-t0-Ato"/>
+                <outlet property="shareToolbarButton" destination="1Tm-9F-ReY" id="LcF-va-Fne"/>
                 <outlet property="webViewParentView" destination="yJk-nd-Q33" id="QFp-9c-rce"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
             </connections>
@@ -19,7 +20,7 @@
         <window identifier="HipstapaperWebWindow" title="Loading..." allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="documentWindow" tabbingIdentifier="HipstapaperWebWindow" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES" fullSizeContentView="YES"/>
             <rect key="contentRect" x="268" y="189" width="800" height="1080"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <value key="minSize" type="size" width="500" height="600"/>
             <view key="contentView" wantsLayer="YES" id="se5-gp-TjO">
                 <rect key="frame" x="0.0" y="0.0" width="800" height="1080"/>
@@ -97,7 +98,7 @@
                         <nil key="toolTip"/>
                         <size key="minSize" width="49" height="34"/>
                         <size key="maxSize" width="49" height="43"/>
-                        <button key="view" verticalHuggingPriority="750" tag="233" id="1Tm-9F-ReY" customClass="MouseDownButton" customModule="Hipstapaper" customModuleProvider="target">
+                        <button key="view" verticalHuggingPriority="750" tag="233" id="1Tm-9F-ReY">
                             <rect key="frame" x="0.0" y="14" width="49" height="43"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSShareTemplate" imagePosition="only" alignment="center" borderStyle="border" inset="2" id="87u-Lz-atv">
