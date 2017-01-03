@@ -88,7 +88,7 @@ class URLTaggingViewController: NSViewController {
             presentedVC.dismiss(sender)
         }
         // present the vc
-        self.presentViewController(newVC, asPopoverRelativeTo: .zero, of: button, preferredEdge: .minY, behavior: .semitransient)
+        self.presentViewController(newVC, asPopoverRelativeTo: .zero, of: button, preferredEdge: .minY, behavior: .transient)
     }
     
     // MARK: Handle Going Away

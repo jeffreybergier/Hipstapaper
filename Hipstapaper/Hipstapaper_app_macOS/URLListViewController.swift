@@ -160,7 +160,7 @@ class URLListViewController: NSViewController, RealmControllable {
             let selectedItems = self.arrayController?.selectedURLItems
         else { return }
         let tagVC = URLTaggingViewController(items: selectedItems, controller: realmController)
-        self.presentViewController(tagVC, asPopoverRelativeTo: .zero, of: item, preferredEdge: .minY, behavior: .semitransient)
+        self.presentViewController(tagVC, asPopoverRelativeTo: .zero, of: item, preferredEdge: .maxY, behavior: .semitransient)
     }
     
     @objc private func share(_ sender: NSObject?) {
@@ -226,13 +226,22 @@ class URLListViewController: NSViewController, RealmControllable {
 
 extension URLListViewController: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, rowActionsForRow row: Int, edge: NSTableRowActionEdge) -> [NSTableViewRowAction] {
-        guard edge == .trailing, let item = (self.arrayController?.content as? NSArray)?[row] as? URLItem else { return [] }
+        guard
+            edge == .trailing,
+            let rowView = tableView.rowView(atRow: row, makeIfNecessary: false),
+            let item = (self.arrayController?.content as? NSArray)?[row] as? URLItem,
+            let realmController = self.realmController
+        else { return [] }
+        
         let archiveActionTitle = item.archived ? "📤Unarchive" : "📥Archive"
         let archiveToggleAction = NSTableViewRowAction(style: .regular, title: archiveActionTitle) { _ in
             let newArchiveValue = !item.archived
-            self.realmController?.updateArchived(to: newArchiveValue, on: [item])
+            realmController.updateArchived(to: newArchiveValue, on: [item])
         }
-        let tagAction = NSTableViewRowAction(style: .regular, title: "🏷Tag") { _ in
+        let tagAction = NSTableViewRowAction(style: .regular, title: "🏷Tag") { action, index in
+            let actionButtonView = tableView.tableViewActionButtons?.first ?? rowView
+            let tagVC = URLTaggingViewController(items: [item], controller: realmController)
+            self.presentViewController(tagVC, asPopoverRelativeTo: .zero, of: actionButtonView, preferredEdge: .minY, behavior: .transient)
         }
         tagAction.backgroundColor = NSColor.lightGray
         return [tagAction, archiveToggleAction]
@@ -252,6 +261,26 @@ extension URLListViewController /*NSWindowDelegate*/ {
         
         NotificationCenter.default.removeObserver(self, name: .NSWindowWillClose, object: window)
         self.openWindowsControllers[item] = .none
+    }
+}
+
+fileprivate extension NSView {
+    
+    fileprivate var tableViewActionButtons: [NSView]? {
+        guard let type = NSClassFromString("NSTableViewActionButton") else { return .none }
+        let matches = self.subviews(matchingType: type)
+        if matches.isEmpty { return .none } else { return matches }
+    }
+    
+    private func subviews(matchingType type: AnyClass) -> [NSView] {
+        var matches = [NSView]()
+        if self.classForCoder == type {
+            matches.append(self)
+        }
+        for subview in self.subviews {
+            matches += subview.subviews(matchingType: type)
+        }
+        return matches
     }
 }
 
