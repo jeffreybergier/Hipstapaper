@@ -14,7 +14,7 @@
             <objects>
                 <windowController storyboardIdentifier="HipstapaperWindowController" id="7YH-rH-fFV" customClass="HipstapaperWindowController" customModule="Hipstapaper" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" identifier="HipstapaperWindow" title="Hipstapaper" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" frameAutosaveName="HipstapaperWindow" animationBehavior="default" tabbingIdentifier="HipstapaperWindow" tabbingMode="disallowed" id="h2p-vQ-WtL">
-                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
                         <rect key="contentRect" x="427" y="534" width="800" height="700"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
                         <value key="minSize" type="size" width="400" height="300"/>
