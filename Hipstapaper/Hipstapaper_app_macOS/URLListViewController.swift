@@ -12,27 +12,45 @@ import AppKit
 
 class URLListViewController: NSViewController, RealmControllable {
     
-    weak var realmController: RealmController? {
-        didSet {
-            self.hardReloadData()
-        }
-    }
+    // MARK: External Interface
     
-    @IBOutlet fileprivate weak var arrayController: NSArrayController?
-    fileprivate var openWindowsControllers: [URLItem.UIIdentifier : NSWindowController] = [:]
     var selection = URLItem.Selection.unarchived {
         didSet {
             self.hardReloadData()
         }
     }
     
+    weak var realmController: RealmController? {
+        didSet {
+            self.hardReloadData()
+        }
+    }
+    
+    // MARK: Data
+    
+    fileprivate var data: Results<URLItem>?
+    
+    fileprivate var selectedURLItems: [URLItem]? {
+        let items = self.tableView?.selectedRowIndexes.map({ self.data?[$0] }).flatMap({ $0 }) ?? []
+        if items.isEmpty { return .none } else { return items }
+    }
+    
+    // MARK Outlets
+    
+    @IBOutlet private weak var tableView: NSTableView?
+    
+    // MARK: Manage Open Child Windows
+    
+    fileprivate var openWindowsControllers: [URLItem.UIIdentifier : NSWindowController] = [:]
+    
     // MARK: Reload Data
     
     fileprivate func hardReloadData() {
         // clear out all previous update tokens and tableview
+        self.data = .none
         self.notificationToken?.stop()
         self.notificationToken = .none
-        self.arrayController?.content = []
+        self.tableView?.reloadData()
         
         // now ask realm for new data and give it our closure to get updates
         switch self.selection {
@@ -44,16 +62,16 @@ class URLListViewController: NSViewController, RealmControllable {
             self.title = "🏷 \(tagID.displayName)"
         }
         
-        let items = self.realmController?.urlItems(for: selection, sortOrder: URLItem.SortOrder.creationDate(newestFirst: true))
-        self.notificationToken = items?.addNotificationBlock(self.realmResultsChangeClosure)
+        self.data = self.realmController?.urlItems(for: selection, sortOrder: URLItem.SortOrder.creationDate(newestFirst: true))
+        self.notificationToken = self.data?.addNotificationBlock(self.realmResultsChangeClosure)
     }
     
     private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<URLItem>>) -> Void) = { [weak self] changes in
         switch changes {
-        case .initial(let results):
-            self?.arrayController?.content = Array(results)
-        case .update(let results, _, _, _):
-            self?.arrayController?.content = Array(results)
+        case .initial:
+            self?.tableView?.reloadData()
+        case .update(_, _, _, _):
+            self?.tableView?.reloadData()
         case .error(let error):
             guard let window = self?.view.window else { break }
             let alert = NSAlert(error: error)
@@ -64,7 +82,7 @@ class URLListViewController: NSViewController, RealmControllable {
     // MARK: Handle Double click on TableView
     
     @IBAction func tableViewDoubleClicked(_ sender: NSObject?) {
-        guard let selectedItems = self.arrayController?.selectedURLItems else { return }
+        guard let selectedItems = self.selectedURLItems else { return }
         self.openOrBringFrontWindowControllers(for: selectedItems)
     }
     
@@ -74,7 +92,7 @@ class URLListViewController: NSViewController, RealmControllable {
         guard
             let realmController = self.realmController,
             let kind = NSMenuItem.Kind(rawValue: menuItem.tag),
-            let selectedItems = self.arrayController?.selectedURLItems
+            let selectedItems = self.selectedURLItems
         else { return false }
         
         switch kind {
@@ -101,17 +119,18 @@ class URLListViewController: NSViewController, RealmControllable {
     }
     
     @objc private func open(_ sender: NSObject?) {
-        guard let selectedItems = self.arrayController?.selectedURLItems else { return }
+        guard let selectedItems = self.selectedURLItems else { return }
+//        guard let selectedItems = self.arrayController?.selectedURLItems else { return }
         self.openOrBringFrontWindowControllers(for: selectedItems)
     }
     
     @objc private func delete(_ sender: NSObject?) {
-        guard let selectedItems = self.arrayController?.selectedURLItems else { return }
+        guard let selectedItems = self.selectedURLItems else { return }
         self.realmController?.delete(items: selectedItems)
     }
     
     @objc private func copy(_ sender: NSObject?) {
-        guard let selectedItems = self.arrayController?.selectedURLItems, let item = selectedItems.first else { NSBeep(); return; }
+        guard let selectedItems = self.selectedURLItems, let item = selectedItems.first else { NSBeep(); return; }
         NSPasteboard.general().declareTypes([NSStringPboardType], owner: self)
         NSPasteboard.general().setString(item.urlString, forType: NSStringPboardType)
     }
@@ -144,12 +163,12 @@ class URLListViewController: NSViewController, RealmControllable {
     // MARK: Handle Toolbar Items
     
     @objc private func archive(_ sender: NSObject?) {
-        guard let selectedItems = self.arrayController?.selectedURLItems else { return }
+        guard let selectedItems = self.selectedURLItems else { return }
         self.realmController?.updateArchived(to: true, on: selectedItems)
     }
     
     @objc private func unarchive(_ sender: NSObject?) {
-        guard let selectedItems = self.arrayController?.selectedURLItems else { return }
+        guard let selectedItems = self.selectedURLItems else { return }
         self.realmController?.updateArchived(to: false, on: selectedItems)
     }
     
@@ -157,7 +176,7 @@ class URLListViewController: NSViewController, RealmControllable {
         guard
             let item = sender as? NSButton,
             let realmController = self.realmController,
-            let selectedItems = self.arrayController?.selectedURLItems
+            let selectedItems = self.selectedURLItems
         else { return }
         let tagVC = URLTaggingViewController(items: selectedItems, controller: realmController)
         self.presentViewController(tagVC, asPopoverRelativeTo: .zero, of: item, preferredEdge: .maxY, behavior: .semitransient)
@@ -166,14 +185,14 @@ class URLListViewController: NSViewController, RealmControllable {
     @objc private func share(_ sender: NSObject?) {
         guard
             let button = sender as? NSButton,
-            let urls = self.arrayController?.selectedURLItems?.map({ URL(string: $0.urlString) }).flatMap({ $0 }),
+            let urls = self.selectedURLItems?.map({ URL(string: $0.urlString) }).flatMap({ $0 }),
             urls.isEmpty == false
         else { return }
         NSSharingServicePicker(items: urls).show(relativeTo: .zero, of: button, preferredEdge: .minY)
     }
     
     @objc func shareMenu(_ sender: NSObject?) {
-        guard let urls = self.arrayController?.selectedURLItems?.map({ URL(string: $0.urlString) }).flatMap({ $0 }), urls.isEmpty == false else { return }
+        guard let urls = self.selectedURLItems?.map({ URL(string: $0.urlString) }).flatMap({ $0 }), urls.isEmpty == false else { return }
         ((sender as? NSMenuItem)?.representedObject as? NSSharingService)?.perform(withItems: urls)
     }
     
@@ -182,7 +201,7 @@ class URLListViewController: NSViewController, RealmControllable {
             let item = item as? NSToolbarItem,
             let kind = NSToolbarItem.Kind(rawValue: item.tag),
             let realmController = self.realmController,
-            let selectedItems = self.arrayController?.selectedURLItems
+            let selectedItems = self.selectedURLItems
         else { return false }
         switch kind {
         case .unarchive:
@@ -224,12 +243,24 @@ class URLListViewController: NSViewController, RealmControllable {
     }
 }
 
+extension URLListViewController: NSTableViewDataSource {
+    
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        return self.data?.count ?? 0
+    }
+    
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
+        return self.data?[row]
+    }
+    
+}
+
 extension URLListViewController: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, rowActionsForRow row: Int, edge: NSTableRowActionEdge) -> [NSTableViewRowAction] {
         guard
             edge == .trailing,
             let rowView = tableView.rowView(atRow: row, makeIfNecessary: false),
-            let item = (self.arrayController?.content as? NSArray)?[row] as? URLItem,
+            let item = self.data?[row],
             let realmController = self.realmController
         else { return [] }
         
@@ -286,12 +317,12 @@ fileprivate extension NSView {
 
 // MARK: Helper methods for getting selected Item
 
-fileprivate extension NSArrayController {
-    fileprivate var selectedURLItems: [URLItem]? {
-        let selectedItems = self.selectedObjects.map({ $0 as? URLItem }).flatMap({ $0 })
-        if selectedItems.isEmpty { return .none } else { return selectedItems }
-    }
-}
+//fileprivate extension NSArrayController {
+//    fileprivate var selectedURLItems: [URLItem]? {
+//        let selectedItems = self.selectedObjects.map({ $0 as? URLItem }).flatMap({ $0 })
+//        if selectedItems.isEmpty { return .none } else { return selectedItems }
+//    }
+//}
 
 // MARK: Handle Showing URL if there is no Title
 
