@@ -9,9 +9,9 @@
 import RealmSwift
 import AppKit
 
-extension NSTreeController: KVOCapable {}
-
 class TagListViewController: NSViewController {
+    
+    // MARK: External Interface
     
     weak var realmController: RealmController? {
         didSet {
@@ -21,76 +21,71 @@ class TagListViewController: NSViewController {
     
     weak var selectionDelegate: URLItemSelectionDelegate?
     
-    @IBOutlet private weak var outlineView: NSOutlineView?
-    @IBOutlet private weak var treeController: NSTreeController?
-    private lazy var selectionObserver: KeyValueObserver<NSNull> = KeyValueObserver<NSNull>(target: self.treeController!, keyPath: #keyPath(NSTreeController.selectionIndexPath))
+    // MARK: Tag Data
+    
+    fileprivate var data: Results<TagItem>?
+    
+    // MARK: Outlets
+    
+    @IBOutlet fileprivate weak var outlineView: NSOutlineView?
+    
+    // MARK View Loading
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.hardReloadData()
-        
-        self.selectionObserver.startObserving() { [weak self] _ -> NSNull? in
-            guard
-                let selectedObject = self?.treeController?.selectedObjects.first as? TreeBindingObject,
-                case .selectable(let selection) = selectedObject.kind
-            else { return nil }
-            self?.selectionDelegate?.didSelect(selection, from: self?.outlineView)
-            return nil
-        }
     }
     
     // MARK: Reload Data
     
     private func hardReloadData() {
         // clear out all previous update tokens and tableview
+        self.data = .none
         self.notificationToken?.stop()
         self.notificationToken = .none
-        self.treeController?.content = TreeBindingObject.treeObjects(from: .none)
-        self.outlineView?.expandItem(.none, expandChildren: true)
+        self.outlineView?.reloadData()
         
         // refresh the content with new data
-        let items = self.realmController?.tags
-        self.notificationToken = items?.addNotificationBlock(self.realmResultsChangeClosure)
+        self.data = self.realmController?.tags
+        self.notificationToken = self.data?.addNotificationBlock(self.realmResultsChangeClosure)
     }
     
     private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<TagItem>>) -> Void) = { [weak self] changes in
-        let newResults: Results<TagItem>?
-        let newSelection: [IndexPath]
         switch changes {
         case .initial(let results):
-            newResults = results
-            newSelection = [IndexPath(item: 0, section: 0)]
+            self?.outlineView?.reloadData()
+            self?.outlineView?.expandItem(.none, expandChildren: true)
+            self?.outlineView?.selectRowIndexes(IndexSet([1]), byExtendingSelection: false)
         case .update(let results, _, _, _):
-            newResults = results
-            newSelection = self?.treeController?.selectionIndexPaths ?? [IndexPath(item: 0, section: 0)]
+            self?.outlineView?.reloadData()
         case .error(let error):
-            newResults = .none
-            newSelection = []
             guard let window = self?.view.window else { break }
             let alert = NSAlert(error: error)
             alert.beginSheetModal(for: window, completionHandler: .none)
         }
-        
-        let content = TreeBindingObject.treeObjects(from: newResults)
-        self?.treeController?.content = content
-        self?.treeController?.setSelectionIndexPaths(newSelection)
-        self?.outlineView?.expandItem(.none, expandChildren: true)
     }
     
     // MARK: Handle NSOutlineView Menus
     
-    private var selectedTags: [TagItem.UIIdentifier]? {
-        let selectedNodes = self.treeController?.selectedObjects.map({ $0 as? TreeBindingObject }).flatMap({ $0 }) ?? []
-        let selectedTags = selectedNodes.map() { node -> TagItem.UIIdentifier? in
-            guard case .selectable(let selection) = node.kind, case .tag(let tag) = selection else { return .none }
+    fileprivate var selection: URLItem.Selection? {
+        let tree = self.outlineView?.selectedRowIndexes.map({ self.outlineView?.item(atRow: $0) as? TreeBindingObject }).flatMap({ $0 }).first
+        guard let item = tree else { return .none }
+        if case .selectable(let selection) = item.kind {
+            return selection
+        }
+        return .none
+    }
+    
+    fileprivate var selectedTags: TagItem.UIIdentifier? {
+        guard let selection = self.selection else { return .none }
+        if case .tag(let tag) = selection {
             return tag
-        }.flatMap({ $0 })
-        if selectedTags.isEmpty == true { return .none } else { return selectedTags }
+        }
+        return .none
     }
     
     @objc private func delete(_ menuItem: NSMenuItem) {
-        guard let realmController = self.realmController, menuItem.tag == 666, let selectedTag = self.selectedTags?.first else { return }
+        guard let realmController = self.realmController, menuItem.tag == 666, let selectedTag = self.selectedTags else { return }
         let alert = NSAlert()
         alert.messageText = "Delete '\(selectedTag.displayName)'?"
         alert.informativeText = "This action cannot be undone"
@@ -113,14 +108,46 @@ class TagListViewController: NSViewController {
     
     deinit {
         self.notificationToken?.stop()
-        self.selectionObserver.endObserving()
     }
 
 }
 
+extension TagListViewController: NSOutlineViewDataSource {
+    
+    func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
+        if let tree = item as? TreeBindingObject {
+            return tree.children[index]
+        } else {
+            switch index {
+            case 0:
+                return TreeBindingObject.parentTreeObject()
+            case 1:
+                return TreeBindingObject.parentTreeObject(from: self.data)
+            default:
+                fatalError()
+            }
+        }
+    }
+    
+    func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
+        guard let tree = item as? TreeBindingObject else { return 2 }
+        return tree.children.count
+    }
+    
+    func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
+        guard let tree = item as? TreeBindingObject else { return false }
+        return !tree.children.isEmpty
+    }
+    
+    func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: Any?) -> Any? {
+        return item
+    }
+    
+}
+
 extension TagListViewController: NSOutlineViewDelegate {
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
-        guard let item = (item as? NSTreeNode)?.representedObject as? TreeBindingObject else { return .none }
+        guard let item = item as? TreeBindingObject else { return .none }
         let identifier: String
         switch item.kind {
         case .notSelectable(let section):
@@ -138,7 +165,7 @@ extension TagListViewController: NSOutlineViewDelegate {
     }
     
     func outlineView(_ outlineView: NSOutlineView, shouldSelectItem item: Any) -> Bool {
-        guard let item = (item as? NSTreeNode)?.representedObject as? TreeBindingObject else { return false }
+        guard let item = item as? TreeBindingObject else { return false }
         switch item.kind {
         case .notSelectable:
             return false
@@ -146,12 +173,17 @@ extension TagListViewController: NSOutlineViewDelegate {
             return true
         }
     }
+    
+    func outlineViewSelectionDidChange(_ notification: Notification) {
+        guard let selection = self.selection else { return }
+        self.selectionDelegate?.didSelect(selection, from: self.outlineView)
+    }
 }
 
 @objc(TreeBindingObject)
 private class TreeBindingObject: NSObject {
     
-    class func treeObjects(from results: Results<TagItem>?) -> [TreeBindingObject] {
+    class func parentTreeObject() -> TreeBindingObject {
         
         // Make Children for the top part of the list
         // these are always present
@@ -160,7 +192,11 @@ private class TreeBindingObject: NSObject {
         
         // create the parent for the top part
         let mainTree = TreeBindingObject(title: "Reading List", children: [unarchivedChild, allChild], kind: .notSelectable(.main))
-        
+
+        return mainTree
+    }
+    
+    class func parentTreeObject(from results: Results<TagItem>?) -> TreeBindingObject {
         // Iterate through the tags and create children for them
         let tagChildren = results?.map() { tagItem -> TreeBindingObject in
             let uiIdentifier = TagItem.UIIdentifier(idName: tagItem.normalizedNameHash, displayName: tagItem.name)
@@ -177,8 +213,8 @@ private class TreeBindingObject: NSObject {
         } else {
             tagTree = TreeBindingObject(title: "Tags", children: .none, kind: .notSelectable(.tags))
         }
-
-        return [mainTree, tagTree]
+        
+        return tagTree
     }
     
     var title = "untitled"

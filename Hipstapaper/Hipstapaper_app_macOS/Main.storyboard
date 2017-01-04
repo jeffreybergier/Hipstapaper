@@ -245,7 +245,7 @@
                                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                             </textFieldCell>
                                                                             <connections>
-                                                                                <binding destination="Bkx-Df-1qy" name="value" keyPath="objectValue.title" id="5lq-os-H1O"/>
+                                                                                <binding destination="Bkx-Df-1qy" name="value" keyPath="objectValue.title" id="KOe-sV-9BV"/>
                                                                             </connections>
                                                                         </textField>
                                                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7Ji-eK-xQ1">
@@ -313,8 +313,7 @@
                                                 </tableColumn>
                                             </tableColumns>
                                             <connections>
-                                                <binding destination="xeL-7S-Uod" name="content" keyPath="arrangedObjects" id="dTK-6d-6cp"/>
-                                                <binding destination="xeL-7S-Uod" name="selectionIndexPaths" keyPath="selectionIndexPaths" previousBinding="dTK-6d-6cp" id="d1q-lY-rL3"/>
+                                                <outlet property="dataSource" destination="n7H-nv-TbP" id="7UN-yJ-KN2"/>
                                                 <outlet property="delegate" destination="n7H-nv-TbP" id="Iwy-qB-BXZ"/>
                                                 <outlet property="menu" destination="QzB-g6-3lY" id="23L-BY-9D1"/>
                                             </connections>
@@ -341,7 +340,6 @@
                     </view>
                     <connections>
                         <outlet property="outlineView" destination="vI3-8g-VCF" id="SbP-D3-6ee"/>
-                        <outlet property="treeController" destination="xeL-7S-Uod" id="hSf-4j-rWh"/>
                     </connections>
                 </viewController>
                 <customObject id="ZRK-RX-PDb" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -357,7 +355,6 @@ CA
                         </menuItem>
                     </items>
                 </menu>
-                <treeController objectClassName="TreeBindingObject" childrenKeyPath="children" id="xeL-7S-Uod"/>
             </objects>
             <point key="canvasLocation" x="-1033" y="1442"/>
         </scene>
