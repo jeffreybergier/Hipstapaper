@@ -79,9 +79,9 @@ class TagListViewController: UIViewController, RealmControllable {
         case .update(_, let deletions, let insertions, let modifications):
             // when there are changes from realm, update the table view with sweet animations
             self?.tableView?.beginUpdates()
-            self?.tableView?.insertRows(at: insertions.map({ IndexPath(row: $0, section: 1) }), with: .automatic)
-            self?.tableView?.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 1)}), with: .automatic)
-            self?.tableView?.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 1) }), with: .automatic)
+            self?.tableView?.insertRows(at: insertions.map({ IndexPath(row: $0, section: 1) }), with: .right)
+            self?.tableView?.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 1)}), with: .left)
+            self?.tableView?.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 1) }), with: .left)
             self?.tableView?.endUpdates()
             
             // if a tag is the current selection, things may have changed out from underneath us, so we should update the current selections
