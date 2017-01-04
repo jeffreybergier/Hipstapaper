@@ -25,6 +25,9 @@ class TagListViewController: NSViewController {
     
     fileprivate var data: Results<TagItem>?
     
+    fileprivate let mainParent = TreeBindingObject(title: "Reading List", kind: .notSelectable(.main), childCount: 2)
+    fileprivate let tagParent = TreeBindingObject(title: "Tags", kind: .notSelectable(.tags))
+    
     // MARK: Outlets
     
     @IBOutlet fileprivate weak var outlineView: NSOutlineView?
@@ -43,6 +46,7 @@ class TagListViewController: NSViewController {
         self.data = .none
         self.notificationToken?.stop()
         self.notificationToken = .none
+        self.tagParent.childCount = 0
         self.outlineView?.reloadData()
         
         // refresh the content with new data
@@ -52,12 +56,22 @@ class TagListViewController: NSViewController {
     
     private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<TagItem>>) -> Void) = { [weak self] changes in
         switch changes {
-        case .initial(let results):
+        case .initial:
+            self?.tagParent.childCount = self?.data?.count ?? 0
             self?.outlineView?.reloadData()
             self?.outlineView?.expandItem(.none, expandChildren: true)
             self?.outlineView?.selectRowIndexes(IndexSet([1]), byExtendingSelection: false)
-        case .update(let results, _, _, _):
-            self?.outlineView?.reloadData()
+        case .update(_, let deletions, let insertions, let modifications):
+            self?.tagParent.childCount = self?.data?.count ?? 0
+            self?.outlineView?.beginUpdates()
+            self?.outlineView?.insertItems(at: IndexSet(insertions), inParent: self?.tagParent, withAnimation: .slideLeft)
+            self?.outlineView?.removeItems(at: IndexSet(deletions), inParent: self?.tagParent, withAnimation: .slideLeft)
+            modifications.forEach() { childIndex in
+                let parentRow = self?.outlineView?.row(forItem: self?.tagParent) ?? 3
+                let childObject = self?.outlineView?.item(atRow: parentRow + childIndex + 1)
+                self?.outlineView?.reloadItem(childObject, reloadChildren: false)
+            }
+            self?.outlineView?.endUpdates()
         case .error(let error):
             guard let window = self?.view.window else { break }
             let alert = NSAlert(error: error)
@@ -76,7 +90,7 @@ class TagListViewController: NSViewController {
         return .none
     }
     
-    fileprivate var selectedTags: TagItem.UIIdentifier? {
+    private var selectedTags: TagItem.UIIdentifier? {
         guard let selection = self.selection else { return .none }
         if case .tag(let tag) = selection {
             return tag
@@ -91,9 +105,11 @@ class TagListViewController: NSViewController {
         alert.informativeText = "This action cannot be undone"
         alert.addButton(withTitle: "Delete")
         alert.addButton(withTitle: "Cancel")
-        alert.beginSheetModal(for: self.view.window!) { buttonNumber in
+        alert.beginSheetModal(for: self.view.window!) { [weak self] buttonNumber in
             guard buttonNumber == 1000 else { return }
             realmController.deleteTag(with: selectedTag)
+            // MARK: HACK, reload data in the table because the callback is not being called
+            self?.outlineView?.reloadItem(self?.tagParent, reloadChildren: true)
         }
     }
     
@@ -128,16 +144,16 @@ extension TagListViewController: NSOutlineViewDataSource {
                     fatalError("There shouldn't be more than 2 children under the main section")
                 }
             case .tags:
-                let item = self.data![index]
-                let itemID = TagItem.UIIdentifier(idName: item.normalizedNameHash, displayName: item.name)
-                return TreeBindingObject(title: itemID.displayName, kind: .selectable(.tag(itemID)))
+                let tagItem = self.data?[index]
+                let tagID = TagItem.UIIdentifier(idName: tagItem?.normalizedNameHash ?? "ErrorLoadingTag", displayName: tagItem?.name ?? "Error Loading Tag")
+                return TreeBindingObject(title: tagID.displayName, kind: .selectable(.tag(tagID)), itemCount: tagItem?.items.count ?? 0)
             }
         } else {
             switch index {
             case 0:
-                return TreeBindingObject(title: "Reading List", kind: .notSelectable(.main), childCount: 2)
+                return self.mainParent
             case 1:
-                return TreeBindingObject(title: "Tags", kind: .notSelectable(.tags), childCount: self.data?.count ?? 0)
+                return self.tagParent
             default:
                 fatalError("Too many root level items requested by NSOutlineView. There should only be the main parent and the tag parent.")
             }
@@ -172,8 +188,13 @@ extension TagListViewController: NSOutlineViewDelegate {
             case .tags:
                 identifier = "TagHeaderCell"
             }
-        case .selectable:
-            identifier = "DataCell"
+        case .selectable(let selection):
+            switch selection {
+            case .all, .unarchived:
+                identifier = "DataCellWithoutNumber"
+            case .tag:
+                identifier = "DataCellWithNumber"
+            }
         }
         let view = outlineView.make(withIdentifier: identifier, owner: outlineView)
         return view
@@ -197,48 +218,16 @@ extension TagListViewController: NSOutlineViewDelegate {
 
 private class TreeBindingObject: NSObject {
     
-//    class func parentTreeObject() -> TreeBindingObject {
-//        
-//        // Make Children for the top part of the list
-//        // these are always present
-//        let unarchivedChild = TreeBindingObject(title: "Unread Items", kind: .selectable(.unarchived))
-//        let allChild = TreeBindingObject(title: "All Items", kind: .selectable(.all))
-//        
-//        // create the parent for the top part
-//        let mainTree = TreeBindingObject(title: "Reading List", children: [unarchivedChild, allChild], kind: .notSelectable(.main))
-//
-//        return mainTree
-//    }
-//    
-//    class func parentTreeObject(from results: Results<TagItem>?) -> TreeBindingObject {
-//        // Iterate through the tags and create children for them
-//        let tagChildren = results?.map() { tagItem -> TreeBindingObject in
-//            let uiIdentifier = TagItem.UIIdentifier(idName: tagItem.normalizedNameHash, displayName: tagItem.name)
-//            let child = TreeBindingObject(title: tagItem.name, kind: .selectable(.tag(uiIdentifier)))
-//            return child
-//        }
-//        
-//        // Cannot wrap optional lazy protocol sequence craziness that comes back from realm in Array()
-//        // so we need to check its optionality before making the parent of the tags
-//        // the parent always exists, even if it has no children
-//        let tagTree: TreeBindingObject
-//        if let tagChildren = tagChildren {
-//            tagTree = TreeBindingObject(title: "Tags", children: Array(tagChildren), kind: .notSelectable(.tags))
-//        } else {
-//            tagTree = TreeBindingObject(title: "Tags", children: .none, kind: .notSelectable(.tags))
-//        }
-//        
-//        return tagTree
-//    }
-    
     let title: String
-    let childCount: Int
     let kind: Selection
+    fileprivate(set) var childCount: Int
+    let itemCount: String
     
-    init(title: String, kind: Selection, childCount: Int = 0) {
+    init(title: String, kind: Selection, childCount: Int = 0, itemCount: Int = 0) {
         self.title = title
-        self.childCount = childCount
         self.kind = kind
+        self.childCount = childCount
+        self.itemCount = String(itemCount)
         super.init()
     }
     

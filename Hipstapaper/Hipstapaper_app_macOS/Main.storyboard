@@ -230,8 +230,41 @@
                                                                 <outlet property="textField" destination="8OP-D9-lGs" id="18d-LA-wTq"/>
                                                             </connections>
                                                         </tableCellView>
-                                                        <tableCellView identifier="TagHeaderCell" id="Bkx-Df-1qy">
+                                                        <tableCellView identifier="DataCellWithoutNumber" id="5k1-p0-acO">
                                                             <rect key="frame" x="1" y="24" width="247" height="24"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <subviews>
+                                                                <stackView identifier="DataCell" distribution="equalSpacing" orientation="horizontal" alignment="top" spacing="2" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YLt-PG-wzp">
+                                                                    <rect key="frame" x="4" y="4" width="77" height="17"/>
+                                                                    <subviews>
+                                                                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="C5b-O6-AFk">
+                                                                            <rect key="frame" x="-2" y="0.0" width="81" height="17"/>
+                                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Main Item #1" id="4mi-2F-asc">
+                                                                                <font key="font" metaFont="system"/>
+                                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                            </textFieldCell>
+                                                                            <connections>
+                                                                                <binding destination="5k1-p0-acO" name="value" keyPath="objectValue.title" id="05P-NR-4OB"/>
+                                                                            </connections>
+                                                                        </textField>
+                                                                    </subviews>
+                                                                    <visibilityPriorities>
+                                                                        <integer value="1000"/>
+                                                                    </visibilityPriorities>
+                                                                    <customSpacing>
+                                                                        <real value="3.4028234663852886e+38"/>
+                                                                    </customSpacing>
+                                                                </stackView>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="YLt-PG-wzp" secondAttribute="trailing" constant="4" id="Cbz-OH-PcZ"/>
+                                                                <constraint firstItem="YLt-PG-wzp" firstAttribute="leading" secondItem="5k1-p0-acO" secondAttribute="leading" constant="4" id="Gef-f6-zc5"/>
+                                                                <constraint firstItem="YLt-PG-wzp" firstAttribute="centerY" secondItem="5k1-p0-acO" secondAttribute="centerY" id="ugs-E6-dhq"/>
+                                                            </constraints>
+                                                        </tableCellView>
+                                                        <tableCellView identifier="TagHeaderCell" id="Bkx-Df-1qy">
+                                                            <rect key="frame" x="1" y="48" width="247" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <stackView distribution="equalSpacing" orientation="horizontal" alignment="bottom" spacing="6" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P0I-dX-ZqY">
@@ -276,16 +309,16 @@
                                                                 <outlet property="textField" destination="Lgh-LQ-Avv" id="SDx-Qv-w1A"/>
                                                             </connections>
                                                         </tableCellView>
-                                                        <tableCellView identifier="DataCell" id="VeW-8r-SJ5">
-                                                            <rect key="frame" x="1" y="48" width="247" height="24"/>
+                                                        <tableCellView identifier="DataCellWithNumber" id="VeW-8r-SJ5">
+                                                            <rect key="frame" x="1" y="72" width="247" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <stackView identifier="DataCell" distribution="equalSpacing" orientation="horizontal" alignment="top" spacing="2" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vem-Su-mvt">
-                                                                    <rect key="frame" x="4" y="4" width="82" height="17"/>
+                                                                    <rect key="frame" x="4" y="4" width="239" height="17"/>
                                                                     <subviews>
                                                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xFF-2Z-nWB">
-                                                                            <rect key="frame" x="-2" y="0.0" width="86" height="17"/>
-                                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Unread Items" id="vGJ-Hr-cGc">
+                                                                            <rect key="frame" x="-2" y="0.0" width="44" height="17"/>
+                                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Tag #1" id="vGJ-Hr-cGc">
                                                                                 <font key="font" metaFont="system"/>
                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -294,11 +327,23 @@
                                                                                 <binding destination="VeW-8r-SJ5" name="value" keyPath="objectValue.title" id="ao3-wx-NUB"/>
                                                                             </connections>
                                                                         </textField>
+                                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fpU-lx-xfL">
+                                                                            <rect key="frame" x="219" y="0.0" width="20" height="17"/>
+                                                                            <buttonCell key="cell" type="inline" title="0" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="6km-JE-Zbk">
+                                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                                <font key="font" metaFont="smallSystemBold"/>
+                                                                            </buttonCell>
+                                                                            <connections>
+                                                                                <binding destination="VeW-8r-SJ5" name="title" keyPath="objectValue.itemCount" id="cbE-UZ-3Yo"/>
+                                                                            </connections>
+                                                                        </button>
                                                                     </subviews>
                                                                     <visibilityPriorities>
                                                                         <integer value="1000"/>
+                                                                        <integer value="1000"/>
                                                                     </visibilityPriorities>
                                                                     <customSpacing>
+                                                                        <real value="3.4028234663852886e+38"/>
                                                                         <real value="3.4028234663852886e+38"/>
                                                                     </customSpacing>
                                                                 </stackView>
@@ -306,7 +351,7 @@
                                                             <constraints>
                                                                 <constraint firstItem="Vem-Su-mvt" firstAttribute="centerY" secondItem="VeW-8r-SJ5" secondAttribute="centerY" id="F5i-Y1-ZUJ"/>
                                                                 <constraint firstItem="Vem-Su-mvt" firstAttribute="leading" secondItem="VeW-8r-SJ5" secondAttribute="leading" constant="4" id="ikX-Hv-Jqy"/>
-                                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Vem-Su-mvt" secondAttribute="trailing" constant="4" id="sEu-zy-CU6"/>
+                                                                <constraint firstAttribute="trailing" secondItem="Vem-Su-mvt" secondAttribute="trailing" constant="4" id="sEu-zy-CU6"/>
                                                             </constraints>
                                                         </tableCellView>
                                                     </prototypeCellViews>
