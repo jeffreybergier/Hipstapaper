@@ -70,8 +70,12 @@ class URLListViewController: NSViewController, RealmControllable {
         switch changes {
         case .initial:
             self?.tableView?.reloadData()
-        case .update(_, _, _, _):
-            self?.tableView?.reloadData()
+        case .update(_, let deletions, let insertions, let modifications):
+            self?.tableView?.beginUpdates()
+            self?.tableView?.insertRows(at: IndexSet(insertions), withAnimation: .slideRight)
+            self?.tableView?.removeRows(at: IndexSet(deletions), withAnimation: .slideLeft)
+            self?.tableView?.reloadData(forRowIndexes: IndexSet(modifications), columnIndexes: IndexSet([0]))
+            self?.tableView?.endUpdates()
         case .error(let error):
             guard let window = self?.view.window else { break }
             let alert = NSAlert(error: error)
@@ -120,7 +124,6 @@ class URLListViewController: NSViewController, RealmControllable {
     
     @objc private func open(_ sender: NSObject?) {
         guard let selectedItems = self.selectedURLItems else { return }
-//        guard let selectedItems = self.arrayController?.selectedURLItems else { return }
         self.openOrBringFrontWindowControllers(for: selectedItems)
     }
     
