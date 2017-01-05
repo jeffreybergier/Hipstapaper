@@ -12,6 +12,11 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customObject id="Wow-ow-8cV" customClass="MenuController" customModule="Hipstapaper" customModuleProvider="target">
+            <connections>
+                <outlet property="copyMenuItem" destination="x3v-GG-iWU" id="drv-PC-DM7"/>
+            </connections>
+        </customObject>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Hipstapaper" customModuleProvider="target"/>
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
         <menu title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
