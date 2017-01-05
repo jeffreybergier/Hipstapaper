@@ -8,8 +8,8 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="URLTaggingViewController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
-                <outlet property="arrayController" destination="9MX-Ua-hfT" id="G59-oJ-Wjq"/>
                 <outlet property="horizontalLine" destination="hSS-lQ-K2G" id="ri2-nA-2cp"/>
+                <outlet property="tableView" destination="B3L-VJ-JhR" id="WDo-Iy-rbI"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
@@ -71,7 +71,7 @@
                                     </tableColumn>
                                 </tableColumns>
                                 <connections>
-                                    <binding destination="9MX-Ua-hfT" name="content" keyPath="arrangedObjects" id="vHQ-Px-G47"/>
+                                    <outlet property="dataSource" destination="-2" id="wDk-gK-3Fw"/>
                                 </connections>
                             </tableView>
                         </subviews>
@@ -79,7 +79,7 @@
                     <edgeInsets key="contentInsets" left="0.0" right="0.0" top="47" bottom="10"/>
                     <edgeInsets key="scrollerInsets" left="0.0" right="0.0" top="-10" bottom="-10"/>
                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="2MJ-Ho-cZz">
-                        <rect key="frame" x="16" y="168" width="268" height="16"/>
+                        <rect key="frame" x="1" y="284" width="348" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                     <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="tam-sY-Uiz">
@@ -146,7 +146,7 @@
                     </constraints>
                 </visualEffectView>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="hSS-lQ-K2G">
-                    <rect key="frame" x="0.0" y="262" width="350" height="1"/>
+                    <rect key="frame" x="0.0" y="263" width="350" height="0.0"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="0.5" id="o2r-ex-Je8"/>
                     </constraints>
@@ -165,7 +165,6 @@
                 <constraint firstItem="qm9-E6-lQc" firstAttribute="width" secondItem="Hz6-mo-xeY" secondAttribute="width" id="xbP-5x-uYx"/>
             </constraints>
         </customView>
-        <arrayController objectClassName="TagAssignmentViewModel" editable="NO" avoidsEmptySelection="NO" id="9MX-Ua-hfT"/>
     </objects>
     <resources>
         <image name="NSAddTemplate" width="11" height="11"/>

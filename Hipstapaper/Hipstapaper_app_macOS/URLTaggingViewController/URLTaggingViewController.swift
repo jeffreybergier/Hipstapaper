@@ -11,24 +11,28 @@ import AppKit
 
 class URLTaggingViewController: NSViewController {
     
-    fileprivate var realmController: RealmController?
-    
-    fileprivate var selectedItems = [URLItem]()
-    
-    @IBOutlet private weak var horizontalLine: NSView?
-
-    @IBOutlet private weak var arrayController: NSArrayController? {
+    fileprivate weak var realmController: RealmController? {
         didSet {
-            let key = #keyPath(TagAssignment.item.name)
-            let selector = #selector(NSString.localizedCaseInsensitiveCompare(_:))
-            self.arrayController?.sortDescriptors = [NSSortDescriptor(key: key, ascending: true, selector: selector)]
+            self.hardReloadData()
         }
     }
     
-    convenience init(items: [URLItem], controller: RealmController) {
+    // MARK: Data
+    
+    fileprivate var data: Results<TagItem>?
+    fileprivate var itemsToTag = [URLItem]()
+    
+    // MARK: Outlets
+    
+    @IBOutlet private weak var horizontalLine: NSView?
+    @IBOutlet private weak var tableView: NSTableView?
+    
+    // MARK: Loading
+    
+    convenience init(itemsToTag items: [URLItem], controller: RealmController) {
         self.init()
         self.realmController = controller
-        self.selectedItems = items
+        self.itemsToTag = items
     }
 
     override func viewDidLoad() {
@@ -40,28 +44,28 @@ class URLTaggingViewController: NSViewController {
     // MARK: Reload Data
     
     private func hardReloadData() {
-        // clear out all previous update tokens and tableview
+        self.data = .none
         self.notificationToken?.stop()
         self.notificationToken = .none
-        self.arrayController?.content = []
         
-        let items = self.realmController?.tags
-        self.notificationToken = items?.addNotificationBlock(self.realmResultsChangeClosure)
+        self.data = self.realmController?.tags
+        self.notificationToken = self.data?.addNotificationBlock(self.realmResultsChangeClosure)
     }
     
     private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<TagItem>>) -> Void) = { [weak self] changes in
-        guard let realmController = self?.realmController else { return }
         switch changes {
-        case .initial(let results):
-            let selections = TagAssignment.assignments(of: Array(results), for: self?.selectedItems, from: realmController)
-            selections.forEach({ $0.delegate = self })
-            self?.arrayController?.content = selections
-        case .update(let results, _, _, _):
-            let selections = TagAssignment.assignments(of: Array(results), for: self?.selectedItems, from: realmController)
-            selections.forEach({ $0.delegate = self })
-            self?.arrayController?.content = selections
+        case .initial:
+            self?.tableView?.reloadData()
+        case .update(_, let deletions, let insertions, let modifications):
+            self?.tableView?.beginUpdates()
+            self?.tableView?.insertRows(at: IndexSet(insertions), withAnimation: .slideRight)
+            self?.tableView?.removeRows(at: IndexSet(deletions), withAnimation: .slideLeft)
+            self?.tableView?.reloadData(forRowIndexes: IndexSet(modifications), columnIndexes: IndexSet([0]))
+            self?.tableView?.endUpdates()
         case .error(let error):
-            fatalError("\(error)")
+            guard let window = self?.view.window else { break }
+            let alert = NSAlert(error: error)
+            alert.beginSheetModal(for: window, completionHandler: .none)
         }
     }
     
@@ -79,7 +83,7 @@ class URLTaggingViewController: NSViewController {
             // create the tag
             let tag = realmController.newOrExistingTag(proposedName: newName)
             // add it to the selected items
-            realmController.apply(tag: tag, to: self?.selectedItems ?? [])
+            realmController.apply(tag: tag, to: self?.itemsToTag ?? [])
             // hack because the tableview shows the new tag, but doesn't have the appropriate selection
             // maybe this is a bug in realm notifications?
             Thread.sleep(forTimeInterval: 0.3)
@@ -100,27 +104,49 @@ class URLTaggingViewController: NSViewController {
     }
 }
 
-extension URLTaggingViewController: TagAssignmentChangeDelegate {
-    func didChangeAssignment(to newValue: Bool, for tagItem: TagItem) {
-        switch newValue {
-        case true:
-            self.realmController?.apply(tag: tagItem, to: self.selectedItems)
-        case false:
-            self.realmController?.remove(tag: tagItem, from: self.selectedItems)
-        }
+// MARK: NSTableViewDataSource
+
+extension URLTaggingViewController: NSTableViewDataSource {
+    
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        return self.data?.count ?? 0
     }
+    
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
+        guard let tagItem = self.data?[row], let realmController = self.realmController else { return .none }
+        let state = realmController.state(of: tagItem, with: self.itemsToTag)
+        let tagAssignment = TagAssignment(tagItem: tagItem, state: state.rawValue)
+        tagAssignment.delegate = self
+        return tagAssignment
+    }
+    
 }
+
+// MARK: Handle Input from TableViewCells
 
 fileprivate protocol TagAssignmentChangeDelegate: class {
     func didChangeAssignment(to: Bool, for: TagItem)
 }
 
-@objc(TagAssignment)
+extension URLTaggingViewController: TagAssignmentChangeDelegate {
+    func didChangeAssignment(to newValue: Bool, for tagItem: TagItem) {
+        switch newValue {
+        case true:
+            self.realmController?.apply(tag: tagItem, to: self.itemsToTag)
+        case false:
+            self.realmController?.remove(tag: tagItem, from: self.itemsToTag)
+        }
+    }
+}
+
+// MARK: Bindings Class for TableViewCells Display/Input
+
 fileprivate class TagAssignment: NSObject {
     
     weak var delegate: TagAssignmentChangeDelegate?
     
     let item: TagItem
+    
     var state: NSCellStateValue {
         didSet {
             // slow this down a little bit so the checkbox animation is not disrupted
@@ -136,15 +162,4 @@ fileprivate class TagAssignment: NSObject {
         self.item = item
         super.init()
     }
-    
-    static func assignments(of tagItems: [TagItem], for urlItems: [URLItem]?, from realmController: RealmController) -> [TagAssignment] {
-        let urlItems = urlItems ?? []
-        let selections = tagItems.map() { tagItem -> TagAssignment in
-            let state = realmController.state(of: tagItem, with: urlItems)
-            let selection = TagAssignment(tagItem: tagItem, state: state.rawValue)
-            return selection
-        }
-        return selections
-    }
-    
 }

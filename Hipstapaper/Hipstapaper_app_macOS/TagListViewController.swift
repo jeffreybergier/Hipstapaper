@@ -73,7 +73,7 @@ class TagListViewController: NSViewController {
             self?.tagParent.childCount = self?.data?.count ?? 0
             // add and remove changed rows
             self?.outlineView?.beginUpdates()
-            self?.outlineView?.insertItems(at: IndexSet(insertions), inParent: self?.tagParent, withAnimation: .slideLeft)
+            self?.outlineView?.insertItems(at: IndexSet(insertions), inParent: self?.tagParent, withAnimation: .slideRight)
             self?.outlineView?.removeItems(at: IndexSet(deletions), inParent: self?.tagParent, withAnimation: .slideLeft)
             // updating rows is different, there is no bulk method
             modifications.forEach() { childIndex in

@@ -181,7 +181,7 @@ class URLListViewController: NSViewController, RealmControllable {
             let realmController = self.realmController,
             let selectedItems = self.selectedURLItems
         else { return }
-        let tagVC = URLTaggingViewController(items: selectedItems, controller: realmController)
+        let tagVC = URLTaggingViewController(itemsToTag: selectedItems, controller: realmController)
         self.presentViewController(tagVC, asPopoverRelativeTo: .zero, of: item, preferredEdge: .maxY, behavior: .semitransient)
     }
     
@@ -274,7 +274,7 @@ extension URLListViewController: NSTableViewDelegate {
         }
         let tagAction = NSTableViewRowAction(style: .regular, title: "🏷Tag") { action, index in
             let actionButtonView = tableView.tableViewActionButtons?.first ?? rowView
-            let tagVC = URLTaggingViewController(items: [item], controller: realmController)
+            let tagVC = URLTaggingViewController(itemsToTag: [item], controller: realmController)
             self.presentViewController(tagVC, asPopoverRelativeTo: .zero, of: actionButtonView, preferredEdge: .minY, behavior: .transient)
         }
         tagAction.backgroundColor = NSColor.lightGray
