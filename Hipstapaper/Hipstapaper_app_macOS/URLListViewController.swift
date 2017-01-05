@@ -318,15 +318,6 @@ fileprivate extension NSView {
     }
 }
 
-// MARK: Helper methods for getting selected Item
-
-//fileprivate extension NSArrayController {
-//    fileprivate var selectedURLItems: [URLItem]? {
-//        let selectedItems = self.selectedObjects.map({ $0 as? URLItem }).flatMap({ $0 })
-//        if selectedItems.isEmpty { return .none } else { return selectedItems }
-//    }
-//}
-
 // MARK: Handle Showing URL if there is no Title
 
 private extension URLItem {

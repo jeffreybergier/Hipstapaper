@@ -25,8 +25,8 @@ class TagListViewController: NSViewController {
     
     fileprivate var data: Results<TagItem>?
     
-    fileprivate let mainParent = TreeBindingObject(title: "Reading List", kind: .notSelectable(.main), childCount: 2)
-    fileprivate let tagParent = TreeBindingObject(title: "Tags", kind: .notSelectable(.tags))
+    // this property needs to be permanent to help with dynamically refreshing the outline view
+    fileprivate let tagParent = TreeBindingObject(title: "Tags  🏷", kind: .notSelectable(.tags))
     
     // MARK: Outlets
     
@@ -57,18 +57,31 @@ class TagListViewController: NSViewController {
     private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<TagItem>>) -> Void) = { [weak self] changes in
         switch changes {
         case .initial:
+            // manually update the child count of the tag parent
             self?.tagParent.childCount = self?.data?.count ?? 0
+            // hard reload the data
             self?.outlineView?.reloadData()
+            // expand all items in the outline
             self?.outlineView?.expandItem(.none, expandChildren: true)
-            self?.outlineView?.selectRowIndexes(IndexSet([1]), byExtendingSelection: false)
+            // select the unread items object
+            // get the row of its parent (should be 0)
+            let parentIndex = 0
+            // select the item after that row... the unread row
+            self?.outlineView?.selectRowIndexes(IndexSet([parentIndex + 1]), byExtendingSelection: false)
         case .update(_, let deletions, let insertions, let modifications):
+            // manually update the child count of the tag parent
             self?.tagParent.childCount = self?.data?.count ?? 0
+            // add and remove changed rows
             self?.outlineView?.beginUpdates()
             self?.outlineView?.insertItems(at: IndexSet(insertions), inParent: self?.tagParent, withAnimation: .slideLeft)
             self?.outlineView?.removeItems(at: IndexSet(deletions), inParent: self?.tagParent, withAnimation: .slideLeft)
+            // updating rows is different, there is no bulk method
             modifications.forEach() { childIndex in
-                let parentRow = self?.outlineView?.row(forItem: self?.tagParent) ?? 3
-                let childObject = self?.outlineView?.item(atRow: parentRow + childIndex + 1)
+                // no good way to find the parentRowindex... should always be 3
+                let parentIndex = 3
+                // get the item that needs to be updated.
+                let childObject = self?.outlineView?.item(atRow: parentIndex + childIndex + 1)
+                // tell the outline view to update that object
                 self?.outlineView?.reloadItem(childObject, reloadChildren: false)
             }
             self?.outlineView?.endUpdates()
@@ -151,7 +164,7 @@ extension TagListViewController: NSOutlineViewDataSource {
         } else {
             switch index {
             case 0:
-                return self.mainParent
+                return TreeBindingObject(title: "Reading List  🎁", kind: .notSelectable(.main), childCount: 2)
             case 1:
                 return self.tagParent
             default:
@@ -161,6 +174,9 @@ extension TagListViewController: NSOutlineViewDataSource {
     }
     
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
+        // if this is NIL, we have not given it any objects yet
+        // so we just need to tell it there are 2 children at the root
+        // 1) is the main area with Unread/All children 2) is the tag area with N children
         guard let tree = item as? TreeBindingObject else { return 2 }
         return tree.childCount
     }
@@ -171,6 +187,7 @@ extension TagListViewController: NSOutlineViewDataSource {
     }
     
     func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: Any?) -> Any? {
+        // this method just populates the view with an object value so that bindings work from IB
         return item
     }
     
@@ -181,13 +198,8 @@ extension TagListViewController: NSOutlineViewDelegate {
         guard let item = item as? TreeBindingObject else { return .none }
         let identifier: String
         switch item.kind {
-        case .notSelectable(let section):
-            switch section {
-            case .main:
-                identifier = "MainHeaderCell"
-            case .tags:
-                identifier = "TagHeaderCell"
-            }
+        case .notSelectable:
+            identifier = "HeaderCell"
         case .selectable(let selection):
             switch selection {
             case .all, .unarchived:
