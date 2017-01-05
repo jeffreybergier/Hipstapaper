@@ -175,7 +175,7 @@ class URLItemWebViewWindowController: NSWindowController {
     }
     
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        guard let itemID = self.itemID, let kind = NSMenuItem.Kind(rawValue: menuItem.tag) else { return false }
+        guard let itemID = self.itemID, let kind = NSMenuItem.Kind(rawValue: menuItem.tag), let _ = self.delegate?.realmController else { return false }
         switch kind {
         case .javascript:
             let value = NSNumber(value: self.webView.configuration.preferences.javaScriptEnabled)
