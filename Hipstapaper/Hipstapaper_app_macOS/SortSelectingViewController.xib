@@ -8,6 +8,8 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="SortSelectingViewController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
+                <outlet property="filterPopupButton" destination="MQX-h3-njJ" id="rgb-2S-Hdz"/>
+                <outlet property="sortOrderPopupButton" destination="1L9-ut-RbH" id="ZEY-Ba-DHu"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
@@ -22,32 +24,35 @@
                     <subviews>
                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1L9-ut-RbH">
                             <rect key="frame" x="6" y="3" width="213" height="26"/>
-                            <popUpButtonCell key="cell" type="push" title="Recently Added on Top" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="ZQN-q8-lVI" id="Ssa-Tk-fKj">
+                            <popUpButtonCell key="cell" type="push" title="Recently Added on Top" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="2" imageScaling="proportionallyDown" inset="2" selectedItem="ZQN-q8-lVI" id="Ssa-Tk-fKj">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="menu"/>
                                 <menu key="menu" id="D2s-yc-tSr">
                                     <items>
-                                        <menuItem title="Recently Added on Top" state="on" id="ZQN-q8-lVI">
+                                        <menuItem title="Recently Added on Top" state="on" tag="2" id="ZQN-q8-lVI">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                         </menuItem>
-                                        <menuItem title="Recently Added on Bottom" id="Lca-yl-lE1">
+                                        <menuItem title="Recently Added on Bottom" tag="3" id="Lca-yl-lE1">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                         </menuItem>
-                                        <menuItem title="Recently Modified on Top" id="PdU-bi-wLU">
+                                        <menuItem title="Recently Modified on Top" tag="4" id="PdU-bi-wLU">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                         </menuItem>
-                                        <menuItem title="Recently Modified on Bottom" id="26d-eW-EgH">
+                                        <menuItem title="Recently Modified on Bottom" tag="5" id="26d-eW-EgH">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                         </menuItem>
-                                        <menuItem title="URL's with A on Top" id="2ip-eC-Sx0">
+                                        <menuItem title="URL's with A on Top" tag="6" id="2ip-eC-Sx0">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                         </menuItem>
-                                        <menuItem title="URLs with Z on Top" id="jq3-D3-LLp">
+                                        <menuItem title="URLs with Z on Top" tag="7" id="jq3-D3-LLp">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                         </menuItem>
                                     </items>
                                 </menu>
                             </popUpButtonCell>
+                            <connections>
+                                <action selector="sortOrderChosen:" target="-2" id="Q2T-9l-A8P"/>
+                            </connections>
                         </popUpButton>
                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MQX-h3-njJ">
                             <rect key="frame" x="439" y="3" width="106" height="26"/>
@@ -59,12 +64,15 @@
                                         <menuItem title="Unarchived" state="on" id="a6Z-oC-nbW">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                         </menuItem>
-                                        <menuItem title="All" id="Dnu-Qw-Lyd">
+                                        <menuItem title="All" tag="1" id="Dnu-Qw-Lyd">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                         </menuItem>
                                     </items>
                                 </menu>
                             </popUpButtonCell>
+                            <connections>
+                                <action selector="filterChosen:" target="-2" id="r5q-Kn-ddv"/>
+                            </connections>
                         </popUpButton>
                     </subviews>
                     <constraints>
