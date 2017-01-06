@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="SortSelectingViewController" customModule="Hipstapaper" customModuleProvider="target">
+            <connections>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView wantsLayer="YES" id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="550" height="32"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <visualEffectView appearanceType="vibrantLight" blendingMode="withinWindow" material="light" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="emY-jV-ksg">
+                    <rect key="frame" x="0.0" y="0.0" width="550" height="32"/>
+                    <subviews>
+                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1L9-ut-RbH">
+                            <rect key="frame" x="6" y="3" width="213" height="26"/>
+                            <popUpButtonCell key="cell" type="push" title="Recently Added on Top" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="ZQN-q8-lVI" id="Ssa-Tk-fKj">
+                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="menu"/>
+                                <menu key="menu" id="D2s-yc-tSr">
+                                    <items>
+                                        <menuItem title="Recently Added on Top" state="on" id="ZQN-q8-lVI">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                        <menuItem title="Recently Added on Bottom" id="Lca-yl-lE1">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                        <menuItem title="Recently Modified on Top" id="PdU-bi-wLU">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                        <menuItem title="Recently Modified on Bottom" id="26d-eW-EgH">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                        <menuItem title="URL's with A on Top" id="2ip-eC-Sx0">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                        <menuItem title="URLs with Z on Top" id="jq3-D3-LLp">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </popUpButtonCell>
+                        </popUpButton>
+                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MQX-h3-njJ">
+                            <rect key="frame" x="439" y="3" width="106" height="26"/>
+                            <popUpButtonCell key="cell" type="push" title="Unarchived" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="a6Z-oC-nbW" id="fvW-Tc-6wD">
+                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="menu"/>
+                                <menu key="menu" id="2S4-Mp-rRq">
+                                    <items>
+                                        <menuItem title="Unarchived" state="on" id="a6Z-oC-nbW">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                        <menuItem title="All" id="Dnu-Qw-Lyd">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </popUpButtonCell>
+                        </popUpButton>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="1L9-ut-RbH" firstAttribute="leading" secondItem="emY-jV-ksg" secondAttribute="leading" constant="8" id="738-Gf-bVY"/>
+                        <constraint firstItem="MQX-h3-njJ" firstAttribute="centerY" secondItem="emY-jV-ksg" secondAttribute="centerY" id="G1g-hE-0Bf"/>
+                        <constraint firstAttribute="height" constant="32" id="ReS-W7-g7f"/>
+                        <constraint firstAttribute="trailing" secondItem="MQX-h3-njJ" secondAttribute="trailing" constant="8" id="cK6-eX-RXc"/>
+                        <constraint firstItem="1L9-ut-RbH" firstAttribute="centerY" secondItem="emY-jV-ksg" secondAttribute="centerY" id="fLF-d1-Bza"/>
+                        <constraint firstItem="MQX-h3-njJ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1L9-ut-RbH" secondAttribute="trailing" constant="8" symbolic="YES" id="ntg-TW-ZPc"/>
+                    </constraints>
+                </visualEffectView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="emY-jV-ksg" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="9A4-wg-Y0f"/>
+                <constraint firstAttribute="bottom" secondItem="emY-jV-ksg" secondAttribute="bottom" id="KAr-Ry-oCU"/>
+                <constraint firstItem="emY-jV-ksg" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="ccs-vv-MUT"/>
+                <constraint firstAttribute="trailing" secondItem="emY-jV-ksg" secondAttribute="trailing" id="oYu-WJ-KzP"/>
+            </constraints>
+            <point key="canvasLocation" x="216.5" y="77"/>
+        </customView>
+    </objects>
+</document>

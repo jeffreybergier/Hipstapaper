@@ -38,10 +38,44 @@ class URLListViewController: NSViewController, RealmControllable {
     // MARK Outlets
     
     @IBOutlet private weak var tableView: NSTableView?
+    @IBOutlet private weak var scrollView: NSScrollView?
+    private let sortSelectingViewController = SortSelectingViewController()
+    private var sortSelectingViewTopConstraint: NSLayoutConstraint?
     
     // MARK: Manage Open Child Windows
     
     fileprivate var openWindowsControllers: [URLItem.UIIdentifier : NSWindowController] = [:]
+    
+    // MARK: View Loading
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.addChildViewController(self.sortSelectingViewController)
+        self.view.addSubview(self.sortSelectingViewController.view)
+        self.sortSelectingViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        self.sortSelectingViewController.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
+        self.sortSelectingViewController.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0).isActive = true
+        self.scrollView?.automaticallyAdjustsContentInsets = false
+    }
+    
+    override func viewWillAppear() {
+        super.viewWillAppear()
+        
+        if self.sortSelectingViewTopConstraint == .none {
+            // have to do this in viewWillAppear because in viewDidLoad the window property is not set
+            let topLayoutGuide = self.view.window!.contentLayoutGuide as! NSLayoutGuide
+            self.sortSelectingViewTopConstraint = self.sortSelectingViewController.view.topAnchor.constraint(equalTo: topLayoutGuide.topAnchor, constant: 0)
+            self.sortSelectingViewTopConstraint?.isActive = true
+        }
+    }
+    
+    override func viewDidLayout() {
+        super.viewDidLayout()
+        
+        let height = CGFloat(70)
+        self.scrollView!.contentInsets.top = height
+    }
     
     // MARK: Reload Data
     

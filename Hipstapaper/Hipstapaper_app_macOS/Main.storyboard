@@ -154,7 +154,7 @@
         <scene sceneID="mT2-za-Wq8">
             <objects>
                 <viewController identifier="TagListViewController" storyboardIdentifier="TagListViewController" id="n7H-nv-TbP" customClass="TagListViewController" customModule="Hipstapaper" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="TgP-n1-DUL">
+                    <view key="view" wantsLayer="YES" id="TgP-n1-DUL">
                         <rect key="frame" x="0.0" y="0.0" width="250" height="700"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
@@ -257,7 +257,7 @@
                                                             <rect key="frame" x="1" y="48" width="247" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <stackView identifier="DataCell" distribution="equalSpacing" orientation="horizontal" alignment="top" spacing="2" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vem-Su-mvt">
+                                                                <stackView identifier="DataCell" distribution="equalSpacing" orientation="horizontal" alignment="top" spacing="4" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vem-Su-mvt">
                                                                     <rect key="frame" x="4" y="4" width="239" height="17"/>
                                                                     <subviews>
                                                                         <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xFF-2Z-nWB">
@@ -271,7 +271,7 @@
                                                                                 <binding destination="VeW-8r-SJ5" name="value" keyPath="objectValue.title" id="ao3-wx-NUB"/>
                                                                             </connections>
                                                                         </textField>
-                                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fpU-lx-xfL">
+                                                                        <button verticalHuggingPriority="750" horizontalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="fpU-lx-xfL">
                                                                             <rect key="frame" x="219" y="0.0" width="20" height="17"/>
                                                                             <buttonCell key="cell" type="inline" title="0" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="6km-JE-Zbk">
                                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -351,7 +351,7 @@ CA
         <scene sceneID="zdE-MF-b4E">
             <objects>
                 <viewController identifier="URLListViewController" storyboardIdentifier="URLListViewController" id="NX4-AI-9bE" customClass="URLListViewController" customModule="Hipstapaper" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="Gp7-XG-yk4">
+                    <view key="view" wantsLayer="YES" id="Gp7-XG-yk4">
                         <rect key="frame" x="0.0" y="0.0" width="550" height="700"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
@@ -480,7 +480,7 @@ CA
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="cXx-mb-e9r">
-                                    <rect key="frame" x="1" y="119" width="223" height="15"/>
+                                    <rect key="frame" x="0.0" y="684" width="550" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="1yk-tR-kJO">
@@ -497,6 +497,7 @@ CA
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="scrollView" destination="IHM-7z-G0D" id="6uB-95-gWM"/>
                         <outlet property="tableView" destination="bh5-li-PZ0" id="YIV-w3-V21"/>
                     </connections>
                 </viewController>
