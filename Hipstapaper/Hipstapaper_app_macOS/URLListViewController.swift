@@ -39,42 +39,45 @@ class URLListViewController: NSViewController, RealmControllable {
     
     @IBOutlet private weak var tableView: NSTableView?
     @IBOutlet private weak var scrollView: NSScrollView?
-    private let sortSelectingViewController = SortSelectingViewController()
-    private var sortSelectingViewTopConstraint: NSLayoutConstraint?
+    private let sortVC = SortSelectingViewController()
     
     // MARK: Manage Open Child Windows
     
     fileprivate var openWindowsControllers: [URLItem.UIIdentifier : NSWindowController] = [:]
     
     // MARK: View Loading
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.addChildViewController(self.sortSelectingViewController)
-        self.view.addSubview(self.sortSelectingViewController.view)
-        self.sortSelectingViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        self.sortSelectingViewController.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
-        self.sortSelectingViewController.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0).isActive = true
-        self.scrollView?.automaticallyAdjustsContentInsets = false
-    }
-    
+
     override func viewWillAppear() {
         super.viewWillAppear()
         
-        if self.sortSelectingViewTopConstraint == .none {
-            // have to do this in viewWillAppear because in viewDidLoad the window property is not set
+        if self.childViewControllers.filter({ $0 === self.sortVC }).isEmpty == true {
+            // this needs to be done in view will appear because the window property is not set in viewdidload but it needs to only happen once.
+            // I am trying to avoid state to check if its done, so I'm using the childViewControllers property thats already there
+            self.addChildViewController(self.sortVC)
+            self.view.addSubview(self.sortVC.view)
+            self.sortVC.view.translatesAutoresizingMaskIntoConstraints = false
+            self.sortVC.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
+            self.sortVC.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0).isActive = true
             let topLayoutGuide = self.view.window!.contentLayoutGuide as! NSLayoutGuide
-            self.sortSelectingViewTopConstraint = self.sortSelectingViewController.view.topAnchor.constraint(equalTo: topLayoutGuide.topAnchor, constant: 0)
-            self.sortSelectingViewTopConstraint?.isActive = true
+            self.sortVC.view.topAnchor.constraint(equalTo: topLayoutGuide.topAnchor, constant: 0).isActive = true
         }
+    }
+    
+    override func viewWillLayout() {
+        // let the scrollview adjust its own insets during next layout
+        self.scrollView?.automaticallyAdjustsContentInsets = true
+        
+        super.viewWillLayout()
     }
     
     override func viewDidLayout() {
         super.viewDidLayout()
         
-        let height = CGFloat(70)
-        self.scrollView!.contentInsets.top = height
+        // stop the scrollview from autoupdating so I can control the top inset
+        self.scrollView?.automaticallyAdjustsContentInsets = false
+        
+        // adjust the inset to allow for the sort selecting view
+        self.scrollView?.contentInsets.top += self.sortVC.view.frame.height
     }
     
     // MARK: Reload Data
