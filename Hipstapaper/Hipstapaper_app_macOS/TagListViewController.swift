@@ -148,26 +148,31 @@ extension TagListViewController: URLItemsToLoadChangeDelegate {
     var filter: URLItem.ArchiveFilter {
         return self.selectionDelegate!.filter
     }
-    var sortOrder: URLItem.SortOrderA {
+    var sortOrder: URLItem.SortOrder {
         return self.selectionDelegate!.sortOrder
     }
-    func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrderA?, filter: URLItem.ArchiveFilter?, sender: ViewControllerSender) {
-        guard let itemsToLoad = itemsToLoad else { return }
-        switch itemsToLoad {
-        case .all:
-            let parentIndex = 0
-            switch filter ?? .unarchived {
-            case .unarchived:
-                self.outlineView?.selectRowIndexes(IndexSet([parentIndex + 1]), byExtendingSelection: false)
+    func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrder?, filter: URLItem.ArchiveFilter?, sender: ViewControllerSender) {
+        switch sender {
+        case .sourceListVC, .tertiaryVC:
+            fatalError()
+        case .contentVC:
+            guard let itemsToLoad = itemsToLoad else { return }
+            switch itemsToLoad {
             case .all:
-                self.outlineView?.selectRowIndexes(IndexSet([parentIndex + 2]), byExtendingSelection: false)
+                let parentIndex = 0
+                switch filter ?? .unarchived {
+                case .unarchived:
+                    self.outlineView?.selectRowIndexes(IndexSet([parentIndex + 1]), byExtendingSelection: false)
+                case .all:
+                    self.outlineView?.selectRowIndexes(IndexSet([parentIndex + 2]), byExtendingSelection: false)
+                }
+            case .tag(let tagID):
+                guard
+                    let parentIndex = self.outlineView?.row(forItem: self.tagParent),
+                    let matchingTagIndex = self.data?.enumerated().filter({ $0.element.normalizedNameHash == tagID.idName }).map({ $0.offset }).first
+                else { break }
+                self.outlineView?.selectRowIndexes(IndexSet([parentIndex + matchingTagIndex + 1]), byExtendingSelection: false)
             }
-        case .tag(let tagID):
-            guard
-                let parentIndex = self.outlineView?.row(forItem: self.tagParent),
-                let matchingTagIndex = self.data?.enumerated().filter({ $0.element.normalizedNameHash == tagID.idName }).map({ $0.offset }).first
-            else { break }
-            self.outlineView?.selectRowIndexes(IndexSet([parentIndex + matchingTagIndex + 1]), byExtendingSelection: false)
         }
     }
 }
@@ -298,6 +303,6 @@ extension TagListViewController: NSOutlineViewDelegate {
     fileprivate struct Selection {
         var itemsToLoad: URLItem.ItemsToLoad
         var filter: URLItem.ArchiveFilter
-        var sortOrder: URLItem.SortOrderA?
+        var sortOrder: URLItem.SortOrder?
     }
 }

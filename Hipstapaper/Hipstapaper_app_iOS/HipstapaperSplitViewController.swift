@@ -47,7 +47,7 @@ class HipstapaperSplitViewController: UISplitViewController, RealmControllable {
     }()
     
     fileprivate lazy var contentListNavVC: UINavigationController = {
-        let urlVC = URLListViewController(controller: self.realmController)
+        let urlVC = URLListViewController(selectionDelegate: self, controller: self.realmController)
         let navVC = UINavigationController(rootViewController: urlVC)
         return navVC
     }()
@@ -56,7 +56,7 @@ class HipstapaperSplitViewController: UISplitViewController, RealmControllable {
     
     // These instances are recycled rather than being re-created every time the selection changes.
     
-    private var sourceListVC: TagListViewController {
+    fileprivate var sourceListVC: TagListViewController {
         return self.sourceListNavVC.viewControllers.first as! TagListViewController
     }
     
@@ -143,30 +143,35 @@ extension HipstapaperSplitViewController: URLItemsToLoadChangeDelegate {
     var filter: URLItem.ArchiveFilter {
         return self.contentListVC.filter
     }
-    var sortOrder: URLItem.SortOrderA {
+    var sortOrder: URLItem.SortOrder {
         return self.contentListVC.sortOrder
     }
-    func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrderA?, filter: URLItem.ArchiveFilter?, sender: NSObject?) {
-        // at the end of any selection validation we need to do some logic
-        defer {
-            // if the splitVC is collapsed, that means, we need to manually tell
-            // the splitVC to show the detail view controller
-            // otherwise, the detailVC is already visible, so we don't need to do anything
-            if self.isCollapsed == true {
-                self.showDetailViewController(self.contentListNavVC, sender: sender)
+    func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrder?, filter: URLItem.ArchiveFilter?, sender: ViewControllerSender) {
+        switch sender {
+        case .tertiaryVC:
+            fatalError()
+        case .contentVC:
+            self.sourceListVC.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
+        case .sourceListVC:
+            // at the end of any selection validation we need to do some logic
+            defer {
+                // if the splitVC is collapsed, that means, we need to manually tell
+                // the splitVC to show the detail view controller
+                // otherwise, the detailVC is already visible, so we don't need to do anything
+                if self.isCollapsed == true {
+                    self.showDetailViewController(self.contentListNavVC, sender: sender)
+                }
             }
+            // if the new selection is different than the last one, forward it on
+            // since the items can be nil, I only want to compare them if they are not nill
+            // to accomplish that, if they're nil I set them to the same value that they're being compared with
+            guard
+                (itemsToLoad ?? self.itemsToLoad) != self.itemsToLoad ||
+                (filter ?? self.filter) != self.filter ||
+                (sortOrder ?? self.sortOrder) != self.sortOrder
+            else { break }
+            self.contentListVC.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
         }
-        
-        // if the new selection is different than the last one, forward it on
-        // since the items can be nil, I only want to compare them if they are not nill
-        // to accomplish that, if they're nil I set them to the same value that they're being compared with
-        guard
-            (itemsToLoad ?? self.itemsToLoad) != self.itemsToLoad ||
-            (filter ?? self.filter) != self.filter ||
-            (sortOrder ?? self.sortOrder) != self.sortOrder
-        else { return }
-        
-        self.contentListVC.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
     }
 }
 

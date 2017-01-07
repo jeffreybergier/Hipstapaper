@@ -112,11 +112,11 @@ extension HipstapaperWindowController: URLItemsToLoadChangeDelegate {
     var filter: URLItem.ArchiveFilter {
         return self.mainViewController?.filter ?? .unarchived
     }
-    var sortOrder: URLItem.SortOrderA {
+    var sortOrder: URLItem.SortOrder {
         return self.mainViewController?.sortOrder ?? .recentlyAddedOnTop
     }
     
-    func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrderA?, filter: URLItem.ArchiveFilter?, sender: ViewControllerSender) {
+    func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrder?, filter: URLItem.ArchiveFilter?, sender: ViewControllerSender) {
 
         switch sender {
         case .tertiaryVC:

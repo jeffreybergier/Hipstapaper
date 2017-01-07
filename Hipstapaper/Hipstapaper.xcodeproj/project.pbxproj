@@ -60,6 +60,8 @@
 		5083AA341E05BE3800BCAC93 /* TagAddRemoveTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5083AA2D1E05BE3800BCAC93 /* TagAddRemoveTableViewCell.xib */; };
 		50841AF51E1F56EE008621BB /* SortSelectingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50841AF31E1F56EE008621BB /* SortSelectingViewController.swift */; };
 		50841AF61E1F56EE008621BB /* SortSelectingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50841AF41E1F56EE008621BB /* SortSelectingViewController.xib */; };
+		50841AF91E2166A6008621BB /* SortSelectingiOSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50841AF71E2166A6008621BB /* SortSelectingiOSViewController.swift */; };
+		50841AFA1E2166A6008621BB /* SortSelectingiOSViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50841AF81E2166A6008621BB /* SortSelectingiOSViewController.xib */; };
 		508623191E10BF2700C06C7D /* RealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508623181E10BF2700C06C7D /* RealmController.swift */; };
 		5086231B1E10BF2700C06C7D /* RealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508623181E10BF2700C06C7D /* RealmController.swift */; };
 		508623201E10C74D00C06C7D /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5086231E1E10C74D00C06C7D /* PreferencesWindowController.swift */; };
@@ -214,6 +216,8 @@
 		5083AA2D1E05BE3800BCAC93 /* TagAddRemoveTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagAddRemoveTableViewCell.xib; sourceTree = "<group>"; };
 		50841AF31E1F56EE008621BB /* SortSelectingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortSelectingViewController.swift; sourceTree = "<group>"; };
 		50841AF41E1F56EE008621BB /* SortSelectingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SortSelectingViewController.xib; sourceTree = "<group>"; };
+		50841AF71E2166A6008621BB /* SortSelectingiOSViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortSelectingiOSViewController.swift; sourceTree = "<group>"; };
+		50841AF81E2166A6008621BB /* SortSelectingiOSViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SortSelectingiOSViewController.xib; sourceTree = "<group>"; };
 		508623181E10BF2700C06C7D /* RealmController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmController.swift; sourceTree = "<group>"; };
 		5086231E1E10C74D00C06C7D /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		5086231F1E10C74D00C06C7D /* PreferencesWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesWindowController.xib; sourceTree = "<group>"; };
@@ -304,6 +308,8 @@
 				5083AA111E04F4FC00BCAC93 /* TagListViewController.xib */,
 				5083AA141E05020E00BCAC93 /* URLListViewController.swift */,
 				5083AA151E05020E00BCAC93 /* URLListViewController.xib */,
+				50841AF71E2166A6008621BB /* SortSelectingiOSViewController.swift */,
+				50841AF81E2166A6008621BB /* SortSelectingiOSViewController.xib */,
 				504FC0FA1DFA444A0014C787 /* URLTableViewCell.swift */,
 				504FC0FB1DFA444A0014C787 /* URLTableViewCellwIMG.xib */,
 				5073251C1E0F82690070AA2B /* URLTableViewCellwoIMG.xib */,
@@ -692,6 +698,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				504FC0FD1DFA444A0014C787 /* URLTableViewCellwIMG.xib in Resources */,
+				50841AFA1E2166A6008621BB /* SortSelectingiOSViewController.xib in Resources */,
 				50F7CFE91E11A7680057DC6C /* LoginTextFieldTableViewCell.xib in Resources */,
 				5083AA171E05020E00BCAC93 /* URLListViewController.xib in Resources */,
 				5083AA2A1E059B8900BCAC93 /* TagAddRemoveViewController.xib in Resources */,
@@ -897,6 +904,7 @@
 				504D7F181E11A1BF0010A5C7 /* LoginiOSTableViewController.swift in Sources */,
 				5083AA121E04F4FC00BCAC93 /* TagListViewController.swift in Sources */,
 				50420FEF1E0B0D0F00B237DA /* TagItem.swift in Sources */,
+				50841AF91E2166A6008621BB /* SortSelectingiOSViewController.swift in Sources */,
 				504AFCE01E15C3B400B8CC3A /* PreviewActionInjectionSafariViewController.swift in Sources */,
 				5083AA161E05020E00BCAC93 /* URLListViewController.swift in Sources */,
 				5083AA201E05958500BCAC93 /* KeyObserver.swift in Sources */,

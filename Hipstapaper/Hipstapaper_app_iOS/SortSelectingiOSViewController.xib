@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SortSelectingiOSViewController" customModule="Hipstapaper" customModuleProvider="target">
+            <connections>
+                <outlet property="pickerView" destination="TdK-LX-6hU" id="9Eb-iO-hAQ"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="300" height="200"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TdK-LX-6hU">
+                    <rect key="frame" x="0.0" y="0.0" width="300" height="200"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="e5A-Q5-cy1"/>
+                        <outlet property="delegate" destination="-1" id="Ez3-TN-Jez"/>
+                    </connections>
+                </pickerView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="TdK-LX-6hU" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" id="5eV-0S-VUX"/>
+                <constraint firstItem="TdK-LX-6hU" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="BLg-ht-88z"/>
+                <constraint firstItem="TdK-LX-6hU" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="MUZ-JM-MGS"/>
+                <constraint firstItem="TdK-LX-6hU" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="OM0-0H-XiF"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-89" y="30"/>
+        </view>
+    </objects>
+</document>

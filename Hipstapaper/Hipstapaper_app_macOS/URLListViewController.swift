@@ -19,7 +19,7 @@ class URLListViewController: NSViewController, RealmControllable {
     // they are also changeable by selecting items in the source list
     var itemsToLoad = URLItem.ItemsToLoad.all
     var filter: URLItem.ArchiveFilter = .unarchived
-    var sortOrder: URLItem.SortOrderA = .recentlyAddedOnTop
+    var sortOrder: URLItem.SortOrder = .recentlyAddedOnTop
     
     // this selection delegate allows us to notify the source list of changing selection
     // this way the source list can update its selection if needed
@@ -92,7 +92,7 @@ class URLListViewController: NSViewController, RealmControllable {
         self.tableView?.reloadData()
         
         // now ask realm for new data and give it our closure to get updates
-        switch self.itemsToLoad {
+        switch itemsToLoad {
         case .all:
             self.title = "Hipstapaper"
         case .tag(let tagID):
@@ -289,7 +289,7 @@ class URLListViewController: NSViewController, RealmControllable {
 }
 
 extension URLListViewController: URLItemsToLoadChangeDelegate {
-    func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrderA?, filter: URLItem.ArchiveFilter?, sender: ViewControllerSender) {
+    func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrder?, filter: URLItem.ArchiveFilter?, sender: ViewControllerSender) {
         switch sender {
         case .contentVC:
             fatalError()

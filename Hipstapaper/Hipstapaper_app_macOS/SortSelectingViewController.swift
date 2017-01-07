@@ -14,7 +14,10 @@ class SortSelectingViewController: NSViewController {
     
     var filter: URLItem.ArchiveFilter {
         get {
-            guard let button = self.filterPopupButton, let selection = URLItem.ArchiveFilter(rawValue: button.selectedItem?.tag ?? 55) else { return URLItem.ArchiveFilter.unarchived }
+            guard
+                let button = self.filterPopupButton,
+                let selection = URLItem.ArchiveFilter(rawValue: button.selectedItem?.tag ?? 55)
+            else { return URLItem.ArchiveFilter.unarchived }
             return selection
         }
         set {
@@ -23,9 +26,12 @@ class SortSelectingViewController: NSViewController {
         }
     }
     
-    var sortOrder: URLItem.SortOrderA {
+    var sortOrder: URLItem.SortOrder {
         get {
-            guard let button = self.sortOrderPopupButton, let selection = URLItem.SortOrderA(rawValue: button.selectedItem?.tag ?? 55) else { return URLItem.SortOrderA.recentlyAddedOnTop }
+            guard
+                let button = self.sortOrderPopupButton,
+                let selection = URLItem.SortOrder(rawValue: button.selectedItem?.tag ?? 55)
+            else { return URLItem.SortOrder.recentlyAddedOnTop }
             return selection
         }
         set {

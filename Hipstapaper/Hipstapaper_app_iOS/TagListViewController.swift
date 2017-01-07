@@ -124,18 +124,18 @@ class TagListViewController: UIViewController, RealmControllable {
         }
     }
     
-    private func selectTableViewRows(for itemsToSelect: URLItem.ItemsToLoad, filter: URLItem.ArchiveFilter, animated: Bool) {
+    fileprivate func selectTableViewRows(for itemsToSelect: URLItem.ItemsToLoad, filter: URLItem.ArchiveFilter, animated: Bool) {
         switch itemsToSelect {
         case .all:
             switch filter {
             case .all:
-                self.tableView?.selectRow(at: IndexPath(row: 1, section: 0), animated: false, scrollPosition: .none)
+                self.tableView?.selectRow(at: IndexPath(row: 1, section: Section.readingList.rawValue), animated: false, scrollPosition: .none)
             case .unarchived:
-                self.tableView?.selectRow(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .none)
+                self.tableView?.selectRow(at: IndexPath(row: 0, section: Section.readingList.rawValue), animated: false, scrollPosition: .none)
             }
         case .tag(let tagID):
             guard let index = self.tags?.enumerated().filter({ $0.element.normalizedNameHash == tagID.idName }).map({ $0.offset }).first else { return }
-            self.tableView?.selectRow(at: IndexPath(row: index, section: 1), animated: false, scrollPosition: .none)
+            self.tableView?.selectRow(at: IndexPath(row: index, section: Section.tags.rawValue), animated: false, scrollPosition: .none)
         }
     }
     
@@ -145,6 +145,27 @@ class TagListViewController: UIViewController, RealmControllable {
         self.notificationToken?.stop()
     }
 
+}
+
+extension TagListViewController: URLItemsToLoadChangeDelegate {
+    var itemsToLoad: URLItem.ItemsToLoad {
+        return self.selectionDelegate!.itemsToLoad
+    }
+    var filter: URLItem.ArchiveFilter {
+        return self.selectionDelegate!.filter
+    }
+    var sortOrder: URLItem.SortOrder {
+        return self.selectionDelegate!.sortOrder
+    }
+    func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrder?, filter: URLItem.ArchiveFilter?, sender: ViewControllerSender) {
+        switch sender {
+        case .sourceListVC, .tertiaryVC:
+            fatalError()
+        case .contentVC:
+            guard let itemsToLoad = itemsToLoad else { break }
+            self.selectTableViewRows(for: itemsToLoad, filter: filter ?? .unarchived, animated: true)
+        }
+    }
 }
 
 extension TagListViewController: UITableViewDelegate {
@@ -186,7 +207,7 @@ extension TagListViewController: UITableViewDelegate {
             itemsToLoad = .tag(TagItem.UIIdentifier(idName: tagItem.normalizedNameHash, displayName: tagItem.name))
             filter = .all
         }
-        self.selectionDelegate?.didChange(itemsToLoad: itemsToLoad, sortOrder: .none, filter: filter, sender: tableView)
+        self.selectionDelegate?.didChange(itemsToLoad: itemsToLoad, sortOrder: .none, filter: filter, sender: .sourceListVC)
     }
 }
 

@@ -11,8 +11,8 @@ import RealmSwift
 public protocol URLItemsToLoadChangeDelegate: class {
     var itemsToLoad: URLItem.ItemsToLoad { get }
     var filter: URLItem.ArchiveFilter { get }
-    var sortOrder: URLItem.SortOrderA { get }
-    func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrderA?, filter: URLItem.ArchiveFilter?, sender: ViewControllerSender)
+    var sortOrder: URLItem.SortOrder { get }
+    func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrder?, filter: URLItem.ArchiveFilter?, sender: ViewControllerSender)
 }
 
 public enum ViewControllerSender {
@@ -37,21 +37,51 @@ final public class URLItem: Object {
     
 }
 
-extension URLItem {
+public extension URLItem {
     
     public enum ArchiveFilter: Int {
         case unarchived = 0, all
         
-        var keyPath: String {
+        public var keyPath: String {
             return #keyPath(URLItem.archived)
+        }
+        
+        public static var count: Int {
+            return 2
+        }
+        
+        public var displayName: String {
+            switch self {
+            case .all:
+                return "All"
+            case .unarchived:
+                return "Unarchived"
+            }
         }
     }
 }
 
-extension URLItem {
+public extension URLItem {
 
-    public enum SortOrderA: Int {
+    public enum SortOrder: Int {
         case recentlyAddedOnTop = 2, recentlyAddedOnBottom = 3, recentlyModifiedOnTop = 4, recentlyModifiedOnBottom = 5, urlAOnTop = 6, urlZOnTop = 7
+        
+        public var displayName: String {
+            switch self {
+            case .recentlyAddedOnTop:
+                return "Recently Added on Top"
+            case .recentlyAddedOnBottom:
+                return "Recently Added on Bottom"
+            case .recentlyModifiedOnTop:
+                return "Recently Modified on Top"
+            case .recentlyModifiedOnBottom:
+                return "Recently Modified on Bottom"
+            case .urlAOnTop:
+                return "URL's with A on Top"
+            case .urlZOnTop:
+                return "URL's with Z on Top"
+            }
+        }
         
         var keyPath: String {
             switch self {
@@ -86,10 +116,14 @@ extension URLItem {
             let output = input.sorted(byProperty: keyPath, ascending: ascending)
             return output
         }
+        
+        public static var count: Int {
+            return 6
+        }
     }
 }
 
-extension URLItem {
+public extension URLItem {
     public enum ItemsToLoad {
         case all, tag(TagItem.UIIdentifier)
     }
@@ -108,7 +142,7 @@ public func ==(lhs: URLItem.ItemsToLoad, rhs: URLItem.ItemsToLoad) -> Bool {
     return false
 }
 
-extension URLItem {
+public extension URLItem {
     public struct UIIdentifier {
         var uuid: String
         var urlString: String

@@ -30,15 +30,27 @@ class URLListViewController: UIViewController, RealmControllable {
     fileprivate lazy var archiveBBI: UIBBI = UIBBI(title: "📥Archive", style: .plain, target: self, action: #selector(self.archiveBBITapped(_:)))
     fileprivate lazy var unarchiveBBI: UIBBI = UIBBI(title: "📤Unarchive", style: .plain, target: self, action: #selector(self.unarchiveBBITapped(_:)))
     fileprivate lazy var tagBBI: UIBBI = UIBBI(title: "🏷Tag", style: .plain, target: self, action: #selector(self.tagBBITapped(_:)))
+    fileprivate lazy var sortBBI: UIBBI = UIBBI(title: "Sort", style: .plain, target: self, action: #selector(self.sortBBITapped(_:)))
+    fileprivate lazy var filterBBI: UIBBI = UIBBI(title: "Filter", style: .plain, target: self, action: #selector(self.filterBBITapped(_:)))
     fileprivate let flexibleSpaceBBI: UIBBI = UIBBI(barButtonSystemItem: .flexibleSpace, target: .none, action: .none)
+    fileprivate let verticalBarSpaceBBI: UIBBI = {
+        let bbi = UIBBI(title: "|", style: .plain, target: .none, action: .none)
+        bbi.isEnabled = false
+        return bbi
+    }()
+    
+    
+    // MARK: Selection
+    
+    var itemsToLoad = URLItem.ItemsToLoad.all
+    var filter: URLItem.ArchiveFilter = .unarchived
+    var sortOrder: URLItem.SortOrder = .recentlyAddedOnTop
+    
+    fileprivate weak var selectionDelegate: URLItemsToLoadChangeDelegate?
     
     // MARK: Data
     
     fileprivate var data: Results<URLItem>?
-    
-    var itemsToLoad = URLItem.ItemsToLoad.all
-    var filter: URLItem.ArchiveFilter = .unarchived
-    var sortOrder: URLItem.SortOrderA = .recentlyAddedOnTop
     
     weak var realmController: RealmController? {
         didSet {
@@ -61,8 +73,9 @@ class URLListViewController: UIViewController, RealmControllable {
         return items
     }
     
-    convenience init(controller: RealmController?) {
+    convenience init(selectionDelegate: URLItemsToLoadChangeDelegate, controller: RealmController?) {
         self.init()
+        self.selectionDelegate = selectionDelegate
         self.realmController = controller
     }
 
@@ -153,22 +166,35 @@ class URLListViewController: UIViewController, RealmControllable {
 }
 
 extension URLListViewController: URLItemsToLoadChangeDelegate {
-    func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrderA?, filter: URLItem.ArchiveFilter?, sender: NSObject?) {
-        var changedSomething = false
-        if let itemsToLoad = itemsToLoad {
-            self.itemsToLoad = itemsToLoad
-            changedSomething = true
-        }
-        if let sortOrder = sortOrder {
-            self.sortOrder = sortOrder
-            changedSomething = true
-        }
-        if let filter = filter {
-            self.filter = filter
-            changedSomething = true
-        }
-        if changedSomething {
-            self.hardReloadData()
+    func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrder?, filter: URLItem.ArchiveFilter?, sender: ViewControllerSender) {
+        switch sender {
+        case .contentVC:
+            fatalError()
+        case .tertiaryVC:
+            // if the user changes the selection in the custom VC, we need to notify the source list
+            self.selectionDelegate?.didChange(itemsToLoad: itemsToLoad ?? self.itemsToLoad,
+                                              sortOrder: sortOrder ?? self.sortOrder,
+                                              filter: filter ?? self.filter,
+                                              sender: .contentVC)
+            // then fall through to follow the logic of normal selection coming from the source list
+            fallthrough
+        case .sourceListVC:
+            var changedSomething = false
+            if let itemsToLoad = itemsToLoad {
+                self.itemsToLoad = itemsToLoad
+                changedSomething = true
+            }
+            if let sortOrder = sortOrder {
+                self.sortOrder = sortOrder
+                changedSomething = true
+            }
+            if let filter = filter {
+                self.filter = filter
+                changedSomething = true
+            }
+            if changedSomething {
+                self.hardReloadData()
+            }
         }
     }
 }
@@ -200,6 +226,9 @@ extension URLListViewController /* Handle BarButtonItems */ {
     @objc fileprivate func doneBBITapped(_ sender: NSObject?) {
         self.tableView?.setEditing(false, animated: true)
         let items = [
+            self.sortBBI,
+            self.verticalBarSpaceBBI,
+            self.filterBBI,
             self.flexibleSpaceBBI,
             self.editBBI
         ]
@@ -227,6 +256,18 @@ extension URLListViewController /* Handle BarButtonItems */ {
         else { return }
         let tagVC = TagAddRemoveViewController.viewController(style: .popBBI(bbi), selectedItems: items, controller: realmController)
         self.present(tagVC, animated: true, completion: .none)
+    }
+    
+    @objc fileprivate func sortBBITapped(_ sender: NSObject?) {
+        guard let bbi = sender as? UIBBI, self.presentedViewController == .none else { return }
+        let vc = SortSelectingiOSViewController.newPopover(kind: .sort(currentSort: self.sortOrder), delegate: self, from: bbi)
+        self.present(vc, animated: true, completion: .none)
+    }
+    
+    @objc fileprivate func filterBBITapped(_ sender: NSObject?) {
+        guard let bbi = sender as? UIBBI, self.presentedViewController == .none else { return }
+        let vc = SortSelectingiOSViewController.newPopover(kind: .filter(currentFilter: self.filter), delegate: self, from: bbi)
+        self.present(vc, animated: true, completion: .none)
     }
     
     fileprivate func disableAllBBI() {
