@@ -116,19 +116,3 @@ extension HipstapaperWindowController: URLItemsToLoadChangeDelegate {
         self.mainViewController!.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
     }
 }
-
-extension HipstapaperWindowController: URLItemSelectionDelegate {
-    
-    var currentSelection: URLItem.Selection? {
-//        return self.mainViewController?.selection
-        return nil
-    }
-    
-    // MARK: Handle Selection from Sidebar
-    
-    func didSelect(_ newSelection: URLItem.Selection, from sender: NSObject?) {
-//        // if the new selection is different than the last one, forward it on
-//        guard newSelection != self.currentSelection else { return }
-//        self.mainViewController?.selection = newSelection
-    }
-}

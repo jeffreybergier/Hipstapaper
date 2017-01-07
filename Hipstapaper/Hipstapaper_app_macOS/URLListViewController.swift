@@ -53,30 +53,21 @@ class URLListViewController: NSViewController, RealmControllable {
             // I am trying to avoid state to check if its done, so I'm using the childViewControllers property thats already there
             self.addChildViewController(self.sortVC)
             self.view.addSubview(self.sortVC.view)
+            
+            // configure autolayout
             self.sortVC.view.translatesAutoresizingMaskIntoConstraints = false
             self.sortVC.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
             self.sortVC.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0).isActive = true
             let topLayoutGuide = self.view.window!.contentLayoutGuide as! NSLayoutGuide
             self.sortVC.view.topAnchor.constraint(equalTo: topLayoutGuide.topAnchor, constant: 0).isActive = true
+            
+            // stop the scrollview from autoupdating so I can control the top inset
+            self.scrollView?.automaticallyAdjustsContentInsets = false
+            // adjust the inset to allow for the sort selecting view
+            self.scrollView?.contentInsets.top += self.sortVC.view.frame.height
+            // get ready to know when the user changes the selection
             self.sortVC.delegate = self
         }
-    }
-    
-    override func viewWillLayout() {
-        // let the scrollview adjust its own insets during next layout
-        self.scrollView?.automaticallyAdjustsContentInsets = true
-        
-        super.viewWillLayout()
-    }
-    
-    override func viewDidLayout() {
-        super.viewDidLayout()
-        
-        // stop the scrollview from autoupdating so I can control the top inset
-        self.scrollView?.automaticallyAdjustsContentInsets = false
-        
-        // adjust the inset to allow for the sort selecting view
-        self.scrollView?.contentInsets.top += self.sortVC.view.frame.height
     }
     
     // MARK: Reload Data
