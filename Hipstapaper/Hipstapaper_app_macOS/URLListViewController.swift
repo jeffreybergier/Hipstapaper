@@ -14,6 +14,10 @@ class URLListViewController: NSViewController, RealmControllable {
     
     // MARK: External Interface
     
+    var itemsToLoad = URLItem.ItemsToLoad.all
+    var filter: URLItem.ArchiveFilter = .unarchived
+    var sortOrder: URLItem.SortOrderA = .recentlyAddedOnTop
+    
     var selection = URLItem.Selection.unarchived {
         didSet {
             self.hardReloadData()
@@ -60,6 +64,7 @@ class URLListViewController: NSViewController, RealmControllable {
             self.sortVC.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0).isActive = true
             let topLayoutGuide = self.view.window!.contentLayoutGuide as! NSLayoutGuide
             self.sortVC.view.topAnchor.constraint(equalTo: topLayoutGuide.topAnchor, constant: 0).isActive = true
+            self.sortVC.delegate = self
         }
     }
     
@@ -280,6 +285,27 @@ class URLListViewController: NSViewController, RealmControllable {
 
     deinit {
         self.notificationToken?.stop()
+    }
+}
+
+extension URLListViewController: URLItemsToLoadChangeDelegate {
+    func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrderA?, filter: URLItem.ArchiveFilter?, sender: NSObject?) {
+        var changedSomething = false
+        if let itemsToLoad = itemsToLoad {
+            self.itemsToLoad = itemsToLoad
+            changedSomething = true
+        }
+        if let sortOrder = sortOrder {
+            self.sortOrder = sortOrder
+            changedSomething = true
+        }
+        if let filter = filter {
+            self.filter = filter
+            changedSomething = true
+        }
+        if changedSomething {
+            self.hardReloadData()
+        }
     }
 }
 

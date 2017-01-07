@@ -13,6 +13,13 @@ public protocol URLItemSelectionDelegate: class {
     func didSelect(_: URLItem.Selection, from: NSObject?)
 }
 
+public protocol URLItemsToLoadChangeDelegate: class {
+    var itemsToLoad: URLItem.ItemsToLoad { get }
+    var filter: URLItem.ArchiveFilter { get }
+    var sortOrder: URLItem.SortOrderA { get }
+    func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrderA?, filter: URLItem.ArchiveFilter?, sender: NSObject?)
+}
+
 final public class URLItem: Object {
     
     // MARK: All the Properties
@@ -32,6 +39,29 @@ final public class URLItem: Object {
 }
 
 extension URLItem {
+    
+    public enum ArchiveFilter: Int {
+        case unarchived = 0, all
+        
+        var keyPath: String {
+            return #keyPath(URLItem.archived)
+        }
+    }
+    
+    public enum SortOrderA: Int {
+        case recentlyAddedOnTop = 2, recentlyAddedOnBottom = 3, recentlyModifiedOnTop = 4, recentlyModifiedOnBottom = 5, urlAOnTop = 6, urlZOnTop = 7
+        
+        var keyPath: String {
+            switch self {
+            case .recentlyAddedOnTop, .recentlyAddedOnBottom:
+                return #keyPath(URLItem.creationDate)
+            case .recentlyModifiedOnTop, .recentlyModifiedOnBottom:
+                return #keyPath(URLItem.modificationDate)
+            case .urlAOnTop, .urlZOnTop:
+                return #keyPath(URLItem.urlString)
+            }
+        }
+    }
     
     public enum SortOrder {
         
@@ -93,6 +123,11 @@ extension URLItem {
 }
 
 extension URLItem {
+    
+    public enum ItemsToLoad {
+        case all, tag(TagItem.UIIdentifier)
+    }
+    
     public enum Selection {
         // TODO: Get the actual tag object out of this selection, just store the display name and the ID
         case unarchived, all, tag(TagItem.UIIdentifier)

@@ -94,6 +94,13 @@ public class RealmController {
         try! realm.commitWrite()
     }
     
+    public func urlItems(for itemsToLoad: URLItem.ItemsToLoad, sortedBy sortOrder: URLItem.SortOrderA, filteredBy filter: URLItem.ArchiveFilter) -> Results<URLItem>? {
+        switch itemsToLoad {
+        case .all:
+        case .tag(let tagID):
+        }
+    }
+    
     public func urlItems(for selection: URLItem.Selection, sortOrder: URLItem.SortOrder) -> Results<URLItem>? {
         let realm = self.realm
         switch selection {

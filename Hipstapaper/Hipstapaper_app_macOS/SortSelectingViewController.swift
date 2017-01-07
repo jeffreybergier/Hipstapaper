@@ -9,29 +9,39 @@
 import Cocoa
 
 class SortSelectingViewController: NSViewController {
-
+    
+    weak var delegate: URLItemsToLoadChangeDelegate?
+    
+    var filter: URLItem.ArchiveFilter {
+        get {
+            guard let button = self.filterPopupButton, let selection = URLItem.ArchiveFilter(rawValue: button.selectedItem?.tag ?? 55) else { return URLItem.ArchiveFilter.unarchived }
+            return selection
+        }
+        set {
+            let item = self.filterPopupButton?.menu?.items.filter({ $0.tag == newValue.rawValue }).first
+            self.filterPopupButton?.select(item)
+        }
+    }
+    
+    var sortOrder: URLItem.SortOrderA {
+        get {
+            guard let button = self.sortOrderPopupButton, let selection = URLItem.SortOrderA(rawValue: button.selectedItem?.tag ?? 55) else { return URLItem.SortOrderA.recentlyAddedOnTop }
+            return selection
+        }
+        set {
+            let item = self.sortOrderPopupButton?.menu?.items.filter({ $0.tag == newValue.rawValue }).first
+            self.sortOrderPopupButton?.select(item)
+        }
+    }
+    
     @IBOutlet private weak var sortOrderPopupButton: NSPopUpButton?
     @IBOutlet private weak var filterPopupButton: NSPopUpButton?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
     @IBAction private func sortOrderChosen(_ sender: NSObject?) {
-        guard let button = sender as? NSPopUpButton, button === self.sortOrderPopupButton, let selection = SortOrderSelection(rawValue: button.selectedItem?.tag ?? 55) else { return }
-        print("Sort Order Chosen: \(selection)")
+        self.delegate?.didChange(itemsToLoad: .none, sortOrder: self.sortOrder, filter: .none, sender: sender)
     }
     
     @IBAction func filterChosen(_ sender: NSObject?) {
-        guard let button = sender as? NSPopUpButton, button === self.filterPopupButton, let selection = FilterSelection(rawValue: button.selectedItem?.tag ?? 55) else { return }
-        print("Sort Order Chosen: \(selection)")
+        self.delegate?.didChange(itemsToLoad: .none, sortOrder: .none, filter: self.filter, sender: sender)
     }
-}
-
-enum FilterSelection: Int {
-    case unarchived = 0, all
-}
-
-enum SortOrderSelection: Int {
-    case recentlyAddedOnTop = 2, recentlyAddedOnBottom = 3, recentlyModifiedOnTop = 4, recentlyModifiedOnBottom = 5, urlAOnTop = 6, urlZOnTop = 7
 }
