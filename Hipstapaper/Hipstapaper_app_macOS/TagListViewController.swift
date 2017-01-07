@@ -94,7 +94,7 @@ class TagListViewController: NSViewController {
     
     // MARK: Handle NSOutlineView Menus
     
-    fileprivate var selection: URLItem.Selection? {
+    fileprivate var selection: TreeBindingObject.Selection? {
         let tree = self.outlineView?.selectedRowIndexes.map({ self.outlineView?.item(atRow: $0) as? TreeBindingObject }).flatMap({ $0 }).first
         guard let item = tree else { return .none }
         if case .selectable(let selection) = item.kind {
@@ -105,7 +105,7 @@ class TagListViewController: NSViewController {
     
     private var selectedTags: TagItem.UIIdentifier? {
         guard let selection = self.selection else { return .none }
-        if case .tag(let tag) = selection {
+        if case .tag(let tag) = selection.itemsToLoad {
             return tag
         }
         return .none
@@ -148,18 +148,24 @@ extension TagListViewController: NSOutlineViewDataSource {
             guard case .notSelectable(let section) = item.kind else { fatalError("Only the main items should have children") }
             switch section {
             case .main:
+                let selection: TreeBindingObject.Selection
+                let title: String
                 switch index {
                 case 0:
-                    return TreeBindingObject(title: "Unread Items", kind: .selectable(.unarchived))
+                    title = "Unread Items"
+                    selection = TreeBindingObject.Selection(itemsToLoad: .all, filter: .unarchived, sortOrder: .none)
                 case 1:
-                    return TreeBindingObject(title: "All Items", kind: .selectable(.all))
+                    title = "All Items"
+                    selection = TreeBindingObject.Selection(itemsToLoad: .all, filter: .all, sortOrder: .none)
                 default:
                     fatalError("There shouldn't be more than 2 children under the main section")
                 }
+                return TreeBindingObject(title: title, kind: .selectable(selection))
             case .tags:
                 let tagItem = self.data?[index]
                 let tagID = TagItem.UIIdentifier(idName: tagItem?.normalizedNameHash ?? "ErrorLoadingTag", displayName: tagItem?.name ?? "Error Loading Tag")
-                return TreeBindingObject(title: tagID.displayName, kind: .selectable(.tag(tagID)), itemCount: tagItem?.items.count ?? 0)
+                let selection = TreeBindingObject.Selection(itemsToLoad: .tag(tagID), filter: .all, sortOrder: .none)
+                return TreeBindingObject(title: tagID.displayName, kind: .selectable(selection), itemCount: tagItem?.items.count ?? 0)
             }
         } else {
             switch index {
@@ -201,8 +207,8 @@ extension TagListViewController: NSOutlineViewDelegate {
         case .notSelectable:
             identifier = "HeaderCell"
         case .selectable(let selection):
-            switch selection {
-            case .all, .unarchived:
+            switch selection.itemsToLoad {
+            case .all:
                 identifier = "DataCellWithoutNumber"
             case .tag:
                 identifier = "DataCellWithNumber"
@@ -224,26 +230,23 @@ extension TagListViewController: NSOutlineViewDelegate {
     
     func outlineViewSelectionDidChange(_ notification: Notification) {
         guard let selection = self.selection else { return }
-        switch selection {
-        case .all:
-            self.selectionDelegate?.didChange(itemsToLoad: .all, sortOrder: .none, filter: .all, sender: self.outlineView)
-        case .unarchived:
-            self.selectionDelegate?.didChange(itemsToLoad: .all, sortOrder: .none, filter: .unarchived, sender: self.outlineView)
-        case .tag(let tagID):
-            let itemsToLoad = URLItem.ItemsToLoad.tag(tagID)
-            self.selectionDelegate?.didChange(itemsToLoad: itemsToLoad, sortOrder: .none, filter: .all, sender: self.outlineView)
-        }
+        self.selectionDelegate?.didChange(itemsToLoad: selection.itemsToLoad, sortOrder: selection.sortOrder, filter: selection.filter, sender: self.outlineView)
     }
 }
 
-private class TreeBindingObject: NSObject {
+@objc fileprivate class TreeBindingObject: NSObject {
     
-    let title: String
-    let kind: Selection
+    // MARK: Bindings Properties for Cell View
+    @objc fileprivate let title: String
+    @objc fileprivate let itemCount: String
+    
+    // MARK: Properties for getting data back from the outlineview
+    fileprivate let kind: Kind
     fileprivate(set) var childCount: Int
-    let itemCount: String
     
-    init(title: String, kind: Selection, childCount: Int = 0, itemCount: Int = 0) {
+    // MARK: Initialization
+    
+    fileprivate init(title: String, kind: Kind, childCount: Int = 0, itemCount: Int = 0) {
         self.title = title
         self.kind = kind
         self.childCount = childCount
@@ -251,11 +254,19 @@ private class TreeBindingObject: NSObject {
         super.init()
     }
     
-    enum Selection {
-        case notSelectable(Section), selectable(URLItem.Selection)
+    // MARK: Custom Types to make things easier
+    
+    fileprivate enum Kind {
+        case notSelectable(Section), selectable(Selection)
     }
     
-    enum Section {
+    fileprivate enum Section {
         case main, tags
+    }
+    
+    fileprivate struct Selection {
+        var itemsToLoad: URLItem.ItemsToLoad
+        var filter: URLItem.ArchiveFilter
+        var sortOrder: URLItem.SortOrderA?
     }
 }

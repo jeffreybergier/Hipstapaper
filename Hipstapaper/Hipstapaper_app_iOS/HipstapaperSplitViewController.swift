@@ -156,9 +156,16 @@ extension HipstapaperSplitViewController: URLItemsToLoadChangeDelegate {
                 self.showDetailViewController(self.contentListNavVC, sender: sender)
             }
         }
+        
         // if the new selection is different than the last one, forward it on
-//        guard newSelection != self.currentSelection else { return }
-        // this part is obvious
+        // since the items can be nil, I only want to compare them if they are not nill
+        // to accomplish that, if they're nil I set them to the same value that they're being compared with
+        guard
+            (itemsToLoad ?? self.itemsToLoad) != self.itemsToLoad ||
+            (filter ?? self.filter) != self.filter ||
+            (sortOrder ?? self.sortOrder) != self.sortOrder
+        else { return }
+        
         self.contentListVC.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
     }
 }

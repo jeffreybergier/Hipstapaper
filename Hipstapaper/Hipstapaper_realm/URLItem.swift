@@ -42,7 +42,10 @@ extension URLItem {
             return #keyPath(URLItem.archived)
         }
     }
-    
+}
+
+extension URLItem {
+
     public enum SortOrderA: Int {
         case recentlyAddedOnTop = 2, recentlyAddedOnBottom = 3, recentlyModifiedOnTop = 4, recentlyModifiedOnBottom = 5, urlAOnTop = 6, urlZOnTop = 7
         
@@ -80,84 +83,18 @@ extension URLItem {
             return output
         }
     }
-    
-    public enum SortOrder {
-        
-        case creationDate(newestFirst: Bool)
-        case modificationDate(newestFirst: Bool)
-//        case pageTitle(aFirst: Bool) // sorting on key paths not possible yet
-//        case tagCount(mostFirst: Bool) // sorting on key paths not possible yet
-        case urlString(aFirst: Bool)
-        case archived(archivedFirst: Bool)
-        
-        var keyPath: String {
-            switch self {
-            case .creationDate:
-                return #keyPath(URLItem.creationDate)
-            case .modificationDate:
-                return #keyPath(URLItem.modificationDate)
-//            case .pageTitle:
-//                return #keyPath(URLItem.extras.pageTitle)
-            case .urlString:
-                return #keyPath(URLItem.urlString)
-//            case .tagCount:
-//                return "tags.count" //#keyPath(URLItem.tags.count)
-            case .archived:
-                return #keyPath(URLItem.archived)
-            }
-        }
-        
-        private var ascending: Bool {
-            switch self {
-            case .creationDate(let newestFirst):
-                return !newestFirst
-            case .modificationDate(let newestFirst):
-                return !newestFirst
-//            case .pageTitle(let aFirst):
-//                return !aFirst
-            case .urlString(let aFirst):
-                return aFirst
-//            case .tagCount(let mostFirst):
-//                return !mostFirst
-            case .archived(let archivedFirst):
-                return !archivedFirst
-            }
-        }
-        
-        func sort(results input: Results<URLItem>) -> Results<URLItem> {
-            let keyPath = self.keyPath
-            let ascending = self.ascending
-            let output = input.sorted(byProperty: keyPath, ascending: ascending)
-            return output
-        }
-        
-        func sort(results input: LinkingObjects<URLItem>) -> Results<URLItem> {
-            let keyPath = self.keyPath
-            let ascending = self.ascending
-            let output = input.sorted(byProperty: keyPath, ascending: ascending)
-            return output
-        }
-    }
 }
 
 extension URLItem {
-    
     public enum ItemsToLoad {
         case all, tag(TagItem.UIIdentifier)
     }
-    
-    public enum Selection {
-        // TODO: Get the actual tag object out of this selection, just store the display name and the ID
-        case unarchived, all, tag(TagItem.UIIdentifier)
-    }
 }
 
-extension URLItem.Selection: Equatable { }
+extension URLItem.ItemsToLoad: Equatable { }
 
-public func ==(lhs: URLItem.Selection, rhs: URLItem.Selection) -> Bool {
+public func ==(lhs: URLItem.ItemsToLoad, rhs: URLItem.ItemsToLoad) -> Bool {
     switch lhs {
-    case .unarchived:
-        if case .unarchived = rhs { return true }
     case .all:
         if case .all = rhs { return true }
     case .tag(let lhsTag):

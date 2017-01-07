@@ -12,18 +12,6 @@ import UIKit
 
 class URLListViewController: UIViewController, RealmControllable {
     
-    static func viewController(with selection: URLItem.Selection, and controller: RealmController?, preparedFor splitVC: UISplitViewController?) -> UIViewController {
-        let newVC = URLListViewController()
-        if let splitVC = splitVC {
-            let navVC = UINavigationController(rootViewController: newVC)
-            newVC.navigationItem.leftBarButtonItem = splitVC.displayModeButtonItem
-            newVC.navigationItem.leftItemsSupplementBackButton = true
-            return navVC
-        } else {
-            return newVC
-        }
-    }
-    
     @IBOutlet fileprivate weak var tableView: UITableView? {
         didSet {
             let imageNib = UINib(nibName: URLTableViewCell.withImageNIBName, bundle: Bundle(for: URLTableViewCell.self))

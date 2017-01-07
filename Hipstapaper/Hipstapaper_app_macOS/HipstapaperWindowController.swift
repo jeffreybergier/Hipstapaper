@@ -103,16 +103,24 @@ class HipstapaperWindowController: NSWindowController, RealmControllable {
 
 extension HipstapaperWindowController: URLItemsToLoadChangeDelegate {
     var itemsToLoad: URLItem.ItemsToLoad {
-        return self.mainViewController!.itemsToLoad
+        return self.mainViewController?.itemsToLoad ?? .all
     }
     var filter: URLItem.ArchiveFilter {
-        return self.mainViewController!.filter
+        return self.mainViewController?.filter ?? .unarchived
     }
     var sortOrder: URLItem.SortOrderA {
-        return self.mainViewController!.sortOrder
+        return self.mainViewController?.sortOrder ?? .recentlyAddedOnTop
     }
     
     func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrderA?, filter: URLItem.ArchiveFilter?, sender: NSObject?) {
-        self.mainViewController!.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
+        // if the new selection is different than the last one, forward it on
+        // since the items can be nil, I only want to compare them if they are not nill
+        // to accomplish that, if they're nil I set them to the same value that they're being compared with
+        guard
+            (itemsToLoad ?? self.itemsToLoad) != self.itemsToLoad ||
+            (filter ?? self.filter) != self.filter ||
+            (sortOrder ?? self.sortOrder) != self.sortOrder
+        else { return }
+        self.mainViewController?.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
     }
 }
