@@ -47,7 +47,7 @@ class HipstapaperSplitViewController: UISplitViewController, RealmControllable {
     }()
     
     fileprivate lazy var contentListNavVC: UINavigationController = {
-        let urlVC = URLListViewController(selection: .unarchived, controller: self.realmController)
+        let urlVC = URLListViewController(controller: self.realmController)
         let navVC = UINavigationController(rootViewController: urlVC)
         return navVC
     }()
@@ -136,23 +136,17 @@ class HipstapaperSplitViewController: UISplitViewController, RealmControllable {
     }
 }
 
-extension HipstapaperSplitViewController: URLItemSelectionDelegate {
-    
-    // MARK: Selection Delegate
-    
-    // The tag list VC also occasionally needs to know the current selection
-    // So we allow that information to be queried
-    
-    var currentSelection: URLItem.Selection? {
-        return self.contentListVC.selection
+extension HipstapaperSplitViewController: URLItemsToLoadChangeDelegate {
+    var itemsToLoad: URLItem.ItemsToLoad {
+        return self.contentListVC.itemsToLoad
     }
-    
-    // When the TagListVC chooses an item, it calls this method on its delegate (me)
-    // Then my job is to propogate that selection to the URLListViewController
-    // Remember, we're recycling the view controllers so we are not creating new ones every time
-    // Just changing the selection and letting the URLList view controller do its own thing
-    
-    func didSelect(_ newSelection: URLItem.Selection, from sender: NSObject?) {
+    var filter: URLItem.ArchiveFilter {
+        return self.contentListVC.filter
+    }
+    var sortOrder: URLItem.SortOrderA {
+        return self.contentListVC.sortOrder
+    }
+    func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrderA?, filter: URLItem.ArchiveFilter?, sender: NSObject?) {
         // at the end of any selection validation we need to do some logic
         defer {
             // if the splitVC is collapsed, that means, we need to manually tell
@@ -163,9 +157,9 @@ extension HipstapaperSplitViewController: URLItemSelectionDelegate {
             }
         }
         // if the new selection is different than the last one, forward it on
-        guard newSelection != self.currentSelection else { return }
+//        guard newSelection != self.currentSelection else { return }
         // this part is obvious
-        self.contentListVC.selection = newSelection
+        self.contentListVC.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
     }
 }
 

@@ -44,19 +44,20 @@ class URLListViewController: UIViewController, RealmControllable {
     fileprivate lazy var tagBBI: UIBBI = UIBBI(title: "🏷Tag", style: .plain, target: self, action: #selector(self.tagBBITapped(_:)))
     fileprivate let flexibleSpaceBBI: UIBBI = UIBBI(barButtonSystemItem: .flexibleSpace, target: .none, action: .none)
     
+    // MARK: Data
+    
     fileprivate var data: Results<URLItem>?
+    
+    var itemsToLoad = URLItem.ItemsToLoad.all
+    var filter: URLItem.ArchiveFilter = .unarchived
+    var sortOrder: URLItem.SortOrderA = .recentlyAddedOnTop
+    
     weak var realmController: RealmController? {
         didSet {
             // forward the message to any presented view controllers
             let addRemoveTagPopoverVC = (self.presentedViewController as? UINavigationController)?.viewControllers.first as? RealmControllable
             addRemoveTagPopoverVC?.realmController = self.realmController
             
-            // reload the data
-            self.hardReloadData()
-        }
-    }
-    var selection: URLItem.Selection = .unarchived {
-        didSet {
             // reload the data
             self.hardReloadData()
         }
@@ -72,10 +73,9 @@ class URLListViewController: UIViewController, RealmControllable {
         return items
     }
     
-    convenience init(selection: URLItem.Selection, controller: RealmController?) {
+    convenience init(controller: RealmController?) {
         self.init()
         self.realmController = controller
-        self.selection = selection
     }
 
     override func viewDidLoad() {
@@ -103,13 +103,16 @@ class URLListViewController: UIViewController, RealmControllable {
         self.hardReloadData()
     }
     
-    private func hardReloadData() {
+    fileprivate func hardReloadData() {
+        // get values in case things change
+        let itemsToLoad = self.itemsToLoad
+        let filter = self.filter
+        let sortOrder = self.sortOrder
+        
         // set title
-        switch self.selection {
-        case .unarchived:
-            self.title = "Hipstapaper"
+        switch itemsToLoad {
         case .all:
-            self.title = "All Items"
+            self.title = "Hipstapaper"
         case .tag(let tagID):
             self.title = "🏷 \(tagID.displayName)"
         }
@@ -122,9 +125,8 @@ class URLListViewController: UIViewController, RealmControllable {
         self.doneBBITapped(.none)
         
         // configure data source
-        let items = self.realmController?.urlItems(for: selection, sortOrder: URLItem.SortOrder.creationDate(newestFirst: true))
-        self.data = items
-        self.notificationToken = items?.addNotificationBlock(self.realmResultsChangeClosure)
+        self.data = self.realmController?.urlItems(for: itemsToLoad, sortedBy: sortOrder, filteredBy: filter)
+        self.notificationToken = self.data?.addNotificationBlock(self.realmResultsChangeClosure)
     }
     
     private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<URLItem>>) -> Void) = { [weak self] changes in
@@ -159,6 +161,27 @@ class URLListViewController: UIViewController, RealmControllable {
     
     deinit {
         self.notificationToken?.stop()
+    }
+}
+
+extension URLListViewController: URLItemsToLoadChangeDelegate {
+    func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrderA?, filter: URLItem.ArchiveFilter?, sender: NSObject?) {
+        var changedSomething = false
+        if let itemsToLoad = itemsToLoad {
+            self.itemsToLoad = itemsToLoad
+            changedSomething = true
+        }
+        if let sortOrder = sortOrder {
+            self.sortOrder = sortOrder
+            changedSomething = true
+        }
+        if let filter = filter {
+            self.filter = filter
+            changedSomething = true
+        }
+        if changedSomething {
+            self.hardReloadData()
+        }
     }
 }
 

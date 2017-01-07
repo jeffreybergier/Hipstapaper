@@ -8,11 +8,6 @@
 
 import RealmSwift
 
-public protocol URLItemSelectionDelegate: class {
-    var currentSelection: URLItem.Selection? { get }
-    func didSelect(_: URLItem.Selection, from: NSObject?)
-}
-
 public protocol URLItemsToLoadChangeDelegate: class {
     var itemsToLoad: URLItem.ItemsToLoad { get }
     var filter: URLItem.ArchiveFilter { get }
