@@ -62,6 +62,7 @@
 		50841AF61E1F56EE008621BB /* SortSelectingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50841AF41E1F56EE008621BB /* SortSelectingViewController.xib */; };
 		50841AF91E2166A6008621BB /* SortSelectingiOSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50841AF71E2166A6008621BB /* SortSelectingiOSViewController.swift */; };
 		50841AFA1E2166A6008621BB /* SortSelectingiOSViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50841AF81E2166A6008621BB /* SortSelectingiOSViewController.xib */; };
+		50841AFC1E21B7AC008621BB /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50841AFB1E21B7AC008621BB /* FrameworkExtensions.swift */; };
 		508623191E10BF2700C06C7D /* RealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508623181E10BF2700C06C7D /* RealmController.swift */; };
 		5086231B1E10BF2700C06C7D /* RealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508623181E10BF2700C06C7D /* RealmController.swift */; };
 		508623201E10C74D00C06C7D /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5086231E1E10C74D00C06C7D /* PreferencesWindowController.swift */; };
@@ -218,6 +219,7 @@
 		50841AF41E1F56EE008621BB /* SortSelectingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SortSelectingViewController.xib; sourceTree = "<group>"; };
 		50841AF71E2166A6008621BB /* SortSelectingiOSViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortSelectingiOSViewController.swift; sourceTree = "<group>"; };
 		50841AF81E2166A6008621BB /* SortSelectingiOSViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SortSelectingiOSViewController.xib; sourceTree = "<group>"; };
+		50841AFB1E21B7AC008621BB /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		508623181E10BF2700C06C7D /* RealmController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmController.swift; sourceTree = "<group>"; };
 		5086231E1E10C74D00C06C7D /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		5086231F1E10C74D00C06C7D /* PreferencesWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesWindowController.xib; sourceTree = "<group>"; };
@@ -298,6 +300,7 @@
 			isa = PBXGroup;
 			children = (
 				5005E11D1DF4CB8300BA38E6 /* AppDelegate.swift */,
+				50841AFB1E21B7AC008621BB /* FrameworkExtensions.swift */,
 				50F7CFEE1E136E720057DC6C /* HipstapaperSplitViewController.swift */,
 				504D7F131E118A0E0010A5C7 /* LoggedIniOSViewController.swift */,
 				504D7F141E118A0E0010A5C7 /* LoggedIniOSViewController.xib */,
@@ -901,6 +904,7 @@
 				5086231B1E10BF2700C06C7D /* RealmController.swift in Sources */,
 				504FC0FC1DFA444A0014C787 /* URLTableViewCell.swift in Sources */,
 				5005E11E1DF4CB8300BA38E6 /* AppDelegate.swift in Sources */,
+				50841AFC1E21B7AC008621BB /* FrameworkExtensions.swift in Sources */,
 				504D7F181E11A1BF0010A5C7 /* LoginiOSTableViewController.swift in Sources */,
 				5083AA121E04F4FC00BCAC93 /* TagListViewController.swift in Sources */,
 				50420FEF1E0B0D0F00B237DA /* TagItem.swift in Sources */,

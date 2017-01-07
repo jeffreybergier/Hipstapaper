@@ -20,7 +20,7 @@ class SortSelectingiOSViewController: UIViewController {
         let vc = SortSelectingiOSViewController(kind: kind, delegate: delegate)
         let navVC = UINavigationController(rootViewController: vc)
         navVC.modalPresentationStyle = .popover
-        navVC.popoverPresentationController!.delegate = vc
+        navVC.popoverPresentationController?.delegate = vc
         navVC.popoverPresentationController?.barButtonItem = bbi
         return navVC
     }
@@ -56,8 +56,6 @@ class SortSelectingiOSViewController: UIViewController {
             self.title = "Filter"
             self.pickerView?.selectRow(current.rawValue, inComponent: 0, animated: false)
         }
-        
-        
     }
     
     @objc private func doneBBITapped(_ sender: NSObject?) {

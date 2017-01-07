@@ -201,26 +201,30 @@ extension URLListViewController: URLItemsToLoadChangeDelegate {
 
 extension URLListViewController /* Handle BarButtonItems */ {
     @objc fileprivate func editBBITapped(_ sender: NSObject?) {
+        let enterEditMode = {
+            // manage the table view
+            // if a row is slidden over, we need to close it
+            if self.tableView?.isEditing ?? false { self.tableView?.setEditing(false, animated: true) }
+            // then switch the table view to editing mode
+            self.tableView?.setEditing(true, animated: true)
+            
+            // manage the toolbar item
+            let items = [
+                self.flexibleSpaceBBI,
+                self.tagBBI,
+                self.flexibleSpaceBBI,
+                self.unarchiveBBI,
+                self.flexibleSpaceBBI,
+                self.archiveBBI,
+                self.flexibleSpaceBBI,
+                self.doneBBI
+            ]
+            self.disableAllBBI()
+            self.setToolbarItems(items, animated: true)
+        }
         
-        // manage the table view
-        // if a row is slidden over, we need to close it
-        if self.tableView?.isEditing ?? false { self.tableView?.setEditing(false, animated: true) }
-        // then switch the table view to editing mode
-        self.tableView?.setEditing(true, animated: true)
-        
-        // manage the toolbar item
-        let items = [
-            self.flexibleSpaceBBI,
-            self.tagBBI,
-            self.flexibleSpaceBBI,
-            self.unarchiveBBI,
-            self.flexibleSpaceBBI,
-            self.archiveBBI,
-            self.flexibleSpaceBBI,
-            self.doneBBI
-        ]
-        self.disableAllBBI()
-        self.setToolbarItems(items, animated: true)
+        // HIG states that a popover should be dismissiable and a new one presentable in one tap
+        self.emergencyDismiss(thenDo: enterEditMode)
     }
     
     @objc fileprivate func doneBBITapped(_ sender: NSObject?) {
@@ -259,15 +263,17 @@ extension URLListViewController /* Handle BarButtonItems */ {
     }
     
     @objc fileprivate func sortBBITapped(_ sender: NSObject?) {
-        guard let bbi = sender as? UIBBI, self.presentedViewController == .none else { return }
+        guard let bbi = sender as? UIBBI else { return }
         let vc = SortSelectingiOSViewController.newPopover(kind: .sort(currentSort: self.sortOrder), delegate: self, from: bbi)
-        self.present(vc, animated: true, completion: .none)
+        // HIG states that a popover should be dismissiable and a new one presentable in one tap
+        self.emergencyDismiss(thenPresentViewController: vc)
     }
     
     @objc fileprivate func filterBBITapped(_ sender: NSObject?) {
-        guard let bbi = sender as? UIBBI, self.presentedViewController == .none else { return }
+        guard let bbi = sender as? UIBBI else { return }
         let vc = SortSelectingiOSViewController.newPopover(kind: .filter(currentFilter: self.filter), delegate: self, from: bbi)
-        self.present(vc, animated: true, completion: .none)
+        // HIG states that a popover should be dismissiable and a new one presentable in one tap
+        self.emergencyDismiss(thenPresentViewController: vc)
     }
     
     fileprivate func disableAllBBI() {
