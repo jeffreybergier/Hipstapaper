@@ -19,7 +19,7 @@ class TagListViewController: NSViewController {
         }
     }
     
-    weak var selectionDelegate: URLItemSelectionDelegate?
+    weak var selectionDelegate: URLItemsToLoadChangeDelegate?
     
     // MARK: Tag Data
     
@@ -224,7 +224,15 @@ extension TagListViewController: NSOutlineViewDelegate {
     
     func outlineViewSelectionDidChange(_ notification: Notification) {
         guard let selection = self.selection else { return }
-        self.selectionDelegate?.didSelect(selection, from: self.outlineView)
+        switch selection {
+        case .all:
+            self.selectionDelegate?.didChange(itemsToLoad: .all, sortOrder: .none, filter: .all, sender: self.outlineView)
+        case .unarchived:
+            self.selectionDelegate?.didChange(itemsToLoad: .all, sortOrder: .none, filter: .unarchived, sender: self.outlineView)
+        case .tag(let tagID):
+            let itemsToLoad = URLItem.ItemsToLoad.tag(tagID)
+            self.selectionDelegate?.didChange(itemsToLoad: itemsToLoad, sortOrder: .none, filter: .all, sender: self.outlineView)
+        }
     }
 }
 

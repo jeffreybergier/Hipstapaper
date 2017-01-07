@@ -97,7 +97,24 @@ public class RealmController {
     public func urlItems(for itemsToLoad: URLItem.ItemsToLoad, sortedBy sortOrder: URLItem.SortOrderA, filteredBy filter: URLItem.ArchiveFilter) -> Results<URLItem>? {
         switch itemsToLoad {
         case .all:
+            switch filter {
+            case .all:
+                let results = sortOrder.sort(results: realm.objects(URLItem.self))
+                return results
+            case .unarchived:
+                let results = sortOrder.sort(results: realm.objects(URLItem.self).filter("\(filter.keyPath) = NO"))
+                return results
+            }
         case .tag(let tagID):
+            guard let tag = realm.object(ofType: TagItem.self, forPrimaryKey: tagID.idName) else { return nil }
+            switch filter {
+            case .all:
+                let results = sortOrder.sort(results: tag.items)
+                return results
+            case .unarchived:
+                let results = sortOrder.sort(results: tag.items.filter("\(filter.keyPath) = NO"))
+                return results
+            }
         }
     }
     

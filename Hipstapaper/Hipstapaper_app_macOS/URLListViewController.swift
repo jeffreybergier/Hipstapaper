@@ -18,12 +18,6 @@ class URLListViewController: NSViewController, RealmControllable {
     var filter: URLItem.ArchiveFilter = .unarchived
     var sortOrder: URLItem.SortOrderA = .recentlyAddedOnTop
     
-    var selection = URLItem.Selection.unarchived {
-        didSet {
-            self.hardReloadData()
-        }
-    }
-    
     weak var realmController: RealmController? {
         didSet {
             self.hardReloadData()
@@ -88,6 +82,11 @@ class URLListViewController: NSViewController, RealmControllable {
     // MARK: Reload Data
     
     fileprivate func hardReloadData() {
+        // grab these values in case things change before we get to the end
+        let itemsToLoad = self.itemsToLoad
+        let sortOrder = self.sortOrder
+        let filter = self.filter
+        
         // clear out all previous update tokens and tableview
         self.data = .none
         self.notificationToken?.stop()
@@ -95,16 +94,19 @@ class URLListViewController: NSViewController, RealmControllable {
         self.tableView?.reloadData()
         
         // now ask realm for new data and give it our closure to get updates
-        switch self.selection {
-        case .unarchived:
-            self.title = "Hipstapaper"
+        switch self.itemsToLoad {
         case .all:
-            self.title = "All Items"
+            self.title = "Hipstapaper"
         case .tag(let tagID):
             self.title = "🏷 \(tagID.displayName)"
         }
         
-        self.data = self.realmController?.urlItems(for: selection, sortOrder: URLItem.SortOrder.creationDate(newestFirst: true))
+        // update the filter vc
+        self.sortVC.sortOrder = sortOrder
+        self.sortVC.filter = filter
+        
+        // load the data
+        self.data = self.realmController?.urlItems(for: itemsToLoad, sortedBy: sortOrder, filteredBy: filter)
         self.notificationToken = self.data?.addNotificationBlock(self.realmResultsChangeClosure)
     }
     

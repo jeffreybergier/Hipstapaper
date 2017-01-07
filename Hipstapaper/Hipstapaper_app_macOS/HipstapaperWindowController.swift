@@ -101,17 +101,34 @@ class HipstapaperWindowController: NSWindowController, RealmControllable {
     }
 }
 
+extension HipstapaperWindowController: URLItemsToLoadChangeDelegate {
+    var itemsToLoad: URLItem.ItemsToLoad {
+        return self.mainViewController!.itemsToLoad
+    }
+    var filter: URLItem.ArchiveFilter {
+        return self.mainViewController!.filter
+    }
+    var sortOrder: URLItem.SortOrderA {
+        return self.mainViewController!.sortOrder
+    }
+    
+    func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrderA?, filter: URLItem.ArchiveFilter?, sender: NSObject?) {
+        self.mainViewController!.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
+    }
+}
+
 extension HipstapaperWindowController: URLItemSelectionDelegate {
     
     var currentSelection: URLItem.Selection? {
-        return self.mainViewController?.selection
+//        return self.mainViewController?.selection
+        return nil
     }
     
     // MARK: Handle Selection from Sidebar
     
     func didSelect(_ newSelection: URLItem.Selection, from sender: NSObject?) {
-        // if the new selection is different than the last one, forward it on
-        guard newSelection != self.currentSelection else { return }
-        self.mainViewController?.selection = newSelection
+//        // if the new selection is different than the last one, forward it on
+//        guard newSelection != self.currentSelection else { return }
+//        self.mainViewController?.selection = newSelection
     }
 }

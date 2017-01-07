@@ -61,6 +61,29 @@ extension URLItem {
                 return #keyPath(URLItem.urlString)
             }
         }
+        
+        private var ascending: Bool {
+            switch self {
+            case .recentlyAddedOnTop, .recentlyModifiedOnTop, .urlAOnTop:
+                return false
+            case .recentlyAddedOnBottom, .recentlyModifiedOnBottom, .urlZOnTop:
+                return true
+            }
+        }
+        
+        func sort(results input: Results<URLItem>) -> Results<URLItem> {
+            let keyPath = self.keyPath
+            let ascending = self.ascending
+            let output = input.sorted(byProperty: keyPath, ascending: ascending)
+            return output
+        }
+        
+        func sort(results input: LinkingObjects<URLItem>) -> Results<URLItem> {
+            let keyPath = self.keyPath
+            let ascending = self.ascending
+            let output = input.sorted(byProperty: keyPath, ascending: ascending)
+            return output
+        }
     }
     
     public enum SortOrder {
