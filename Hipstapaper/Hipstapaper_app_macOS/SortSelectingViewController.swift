@@ -38,10 +38,14 @@ class SortSelectingViewController: NSViewController {
     @IBOutlet private weak var filterPopupButton: NSPopUpButton?
     
     @IBAction private func sortOrderChosen(_ sender: NSObject?) {
-        self.delegate?.didChange(itemsToLoad: .none, sortOrder: self.sortOrder, filter: .none, sender: sender)
+        // check if the new selection is different before notifying the delegate
+        guard self.sortOrder != self.delegate?.sortOrder else { return }
+        self.delegate?.didChange(itemsToLoad: .none, sortOrder: self.sortOrder, filter: .none, sender: .tertiaryVC)
     }
     
     @IBAction func filterChosen(_ sender: NSObject?) {
-        self.delegate?.didChange(itemsToLoad: .none, sortOrder: .none, filter: self.filter, sender: sender)
+        // check if the new selection is different before notifying the delegate
+        guard self.filter != self.delegate?.filter else { return }
+        self.delegate?.didChange(itemsToLoad: .none, sortOrder: .none, filter: self.filter, sender: .tertiaryVC)
     }
 }

@@ -12,7 +12,11 @@ public protocol URLItemsToLoadChangeDelegate: class {
     var itemsToLoad: URLItem.ItemsToLoad { get }
     var filter: URLItem.ArchiveFilter { get }
     var sortOrder: URLItem.SortOrderA { get }
-    func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrderA?, filter: URLItem.ArchiveFilter?, sender: NSObject?)
+    func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrderA?, filter: URLItem.ArchiveFilter?, sender: ViewControllerSender)
+}
+
+public enum ViewControllerSender {
+    case sourceListVC, contentVC, tertiaryVC
 }
 
 final public class URLItem: Object {
@@ -62,9 +66,9 @@ extension URLItem {
         
         private var ascending: Bool {
             switch self {
-            case .recentlyAddedOnTop, .recentlyModifiedOnTop, .urlAOnTop:
+            case .recentlyAddedOnTop, .recentlyModifiedOnTop, .urlZOnTop:
                 return false
-            case .recentlyAddedOnBottom, .recentlyModifiedOnBottom, .urlZOnTop:
+            case .recentlyAddedOnBottom, .recentlyModifiedOnBottom, .urlAOnTop:
                 return true
             }
         }

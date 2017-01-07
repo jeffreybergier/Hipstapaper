@@ -14,15 +14,16 @@ class URLListViewController: NSViewController, RealmControllable {
     
     // MARK: External Interface
     
+    // these 3 properties are used to load and sort the data
+    // they are user changeable from a special UI
+    // they are also changeable by selecting items in the source list
     var itemsToLoad = URLItem.ItemsToLoad.all
     var filter: URLItem.ArchiveFilter = .unarchived
     var sortOrder: URLItem.SortOrderA = .recentlyAddedOnTop
     
-    weak var realmController: RealmController? {
-        didSet {
-            self.hardReloadData()
-        }
-    }
+    // this selection delegate allows us to notify the source list of changing selection
+    // this way the source list can update its selection if needed
+    weak var selectionDelegate: URLItemsToLoadChangeDelegate?
     
     // MARK: Data
     
@@ -31,6 +32,12 @@ class URLListViewController: NSViewController, RealmControllable {
     fileprivate var selectedURLItems: [URLItem]? {
         let items = self.tableView?.selectedRowIndexes.map({ self.data?[$0] }).flatMap({ $0 }) ?? []
         if items.isEmpty { return .none } else { return items }
+    }
+    
+    weak var realmController: RealmController? {
+        didSet {
+            self.hardReloadData()
+        }
     }
     
     // MARK Outlets
@@ -282,22 +289,35 @@ class URLListViewController: NSViewController, RealmControllable {
 }
 
 extension URLListViewController: URLItemsToLoadChangeDelegate {
-    func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrderA?, filter: URLItem.ArchiveFilter?, sender: NSObject?) {
-        var changedSomething = false
-        if let itemsToLoad = itemsToLoad {
-            self.itemsToLoad = itemsToLoad
-            changedSomething = true
-        }
-        if let sortOrder = sortOrder {
-            self.sortOrder = sortOrder
-            changedSomething = true
-        }
-        if let filter = filter {
-            self.filter = filter
-            changedSomething = true
-        }
-        if changedSomething {
-            self.hardReloadData()
+    func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrderA?, filter: URLItem.ArchiveFilter?, sender: ViewControllerSender) {
+        switch sender {
+        case .contentVC:
+            fatalError()
+        case .tertiaryVC:
+            // if the user changes the selection in the custom VC, we need to notify the source list
+            self.selectionDelegate?.didChange(itemsToLoad: itemsToLoad ?? self.itemsToLoad,
+                                              sortOrder: sortOrder ?? self.sortOrder,
+                                              filter: filter ?? self.filter,
+                                              sender: .contentVC)
+            // then fall through to follow the logic of normal selection coming from the source list
+            fallthrough
+        case .sourceListVC:
+            var changedSomething = false
+            if let itemsToLoad = itemsToLoad {
+                self.itemsToLoad = itemsToLoad
+                changedSomething = true
+            }
+            if let sortOrder = sortOrder {
+                self.sortOrder = sortOrder
+                changedSomething = true
+            }
+            if let filter = filter {
+                self.filter = filter
+                changedSomething = true
+            }
+            if changedSomething {
+                self.hardReloadData()
+            }
         }
     }
 }

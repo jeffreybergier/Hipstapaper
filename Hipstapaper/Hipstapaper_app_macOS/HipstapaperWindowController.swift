@@ -20,7 +20,7 @@ class HipstapaperWindowController: NSWindowController, RealmControllable {
     
     // MARK: References to child view controllers
     
-    /*@IBOutlet*/ private weak var sidebarViewController: TagListViewController?
+    /*@IBOutlet*/ fileprivate weak var sidebarViewController: TagListViewController?
     /*@IBOutlet*/ fileprivate weak var mainViewController: URLListViewController?
     
     // MARK: Realm Controller Owner
@@ -53,6 +53,10 @@ class HipstapaperWindowController: NSWindowController, RealmControllable {
         // Become the selection delegate for the sidebar
         // This lets us update the content view controller when the selection changes in the sidebar
         self.sidebarViewController?.selectionDelegate = self
+        
+        // Become the selection delegate for the contentVC
+        // This lets us update the sourceListVC when the user changes selection settings in the contentVC
+        self.mainViewController?.selectionDelegate = self
         
         // check to see if the realm controller loaded
         // if it didn't load, then we're not logged in
@@ -112,15 +116,23 @@ extension HipstapaperWindowController: URLItemsToLoadChangeDelegate {
         return self.mainViewController?.sortOrder ?? .recentlyAddedOnTop
     }
     
-    func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrderA?, filter: URLItem.ArchiveFilter?, sender: NSObject?) {
-        // if the new selection is different than the last one, forward it on
-        // since the items can be nil, I only want to compare them if they are not nill
-        // to accomplish that, if they're nil I set them to the same value that they're being compared with
-        guard
-            (itemsToLoad ?? self.itemsToLoad) != self.itemsToLoad ||
-            (filter ?? self.filter) != self.filter ||
-            (sortOrder ?? self.sortOrder) != self.sortOrder
-        else { return }
-        self.mainViewController?.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
+    func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrderA?, filter: URLItem.ArchiveFilter?, sender: ViewControllerSender) {
+
+        switch sender {
+        case .tertiaryVC:
+            fatalError()
+        case .sourceListVC:
+            // if the new selection is different than the last one, forward it on
+            // since the items can be nil, I only want to compare them if they are not nill
+            // to accomplish that, if they're nil I set them to the same value that they're being compared with
+            guard
+                (itemsToLoad ?? self.itemsToLoad) != self.itemsToLoad ||
+                (filter ?? self.filter) != self.filter ||
+                (sortOrder ?? self.sortOrder) != self.sortOrder
+            else { return }
+            self.mainViewController?.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
+        case .contentVC:
+            self.sidebarViewController?.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
+        }
     }
 }

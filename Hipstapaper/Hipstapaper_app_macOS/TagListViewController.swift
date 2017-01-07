@@ -141,6 +141,37 @@ class TagListViewController: NSViewController {
 
 }
 
+extension TagListViewController: URLItemsToLoadChangeDelegate {
+    var itemsToLoad: URLItem.ItemsToLoad {
+        return self.selectionDelegate!.itemsToLoad
+    }
+    var filter: URLItem.ArchiveFilter {
+        return self.selectionDelegate!.filter
+    }
+    var sortOrder: URLItem.SortOrderA {
+        return self.selectionDelegate!.sortOrder
+    }
+    func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrderA?, filter: URLItem.ArchiveFilter?, sender: ViewControllerSender) {
+        guard let itemsToLoad = itemsToLoad else { return }
+        switch itemsToLoad {
+        case .all:
+            let parentIndex = 0
+            switch filter ?? .unarchived {
+            case .unarchived:
+                self.outlineView?.selectRowIndexes(IndexSet([parentIndex + 1]), byExtendingSelection: false)
+            case .all:
+                self.outlineView?.selectRowIndexes(IndexSet([parentIndex + 2]), byExtendingSelection: false)
+            }
+        case .tag(let tagID):
+            guard
+                let parentIndex = self.outlineView?.row(forItem: self.tagParent),
+                let matchingTagIndex = self.data?.enumerated().filter({ $0.element.normalizedNameHash == tagID.idName }).map({ $0.offset }).first
+            else { break }
+            self.outlineView?.selectRowIndexes(IndexSet([parentIndex + matchingTagIndex + 1]), byExtendingSelection: false)
+        }
+    }
+}
+
 extension TagListViewController: NSOutlineViewDataSource {
     
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
@@ -230,7 +261,7 @@ extension TagListViewController: NSOutlineViewDelegate {
     
     func outlineViewSelectionDidChange(_ notification: Notification) {
         guard let selection = self.selection else { return }
-        self.selectionDelegate?.didChange(itemsToLoad: selection.itemsToLoad, sortOrder: selection.sortOrder, filter: selection.filter, sender: self.outlineView)
+        self.selectionDelegate?.didChange(itemsToLoad: selection.itemsToLoad, sortOrder: selection.sortOrder, filter: selection.filter, sender: .sourceListVC)
     }
 }
 
