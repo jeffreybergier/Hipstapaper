@@ -143,9 +143,11 @@ extension RealmController {
     public func tag_apply(tag tagItem: TagItem, to items: [URLItem]) {
         let realm = self.realm
         realm.beginWrite()
+        let newDate = Date()
         for urlItem in items {
             guard urlItem.tags.index(of: tagItem) == nil else { continue }
             urlItem.tags.append(tagItem)
+            urlItem.modificationDate = newDate
             let tagItemName = tagItem.name
             tagItem.name = tagItemName // hack to trigger change notification on the TagItem so tables reload in the UI
         }
@@ -155,9 +157,11 @@ extension RealmController {
     public func tag_remove(tag tagItem: TagItem, from items: [URLItem]) {
         let realm = self.realm
         realm.beginWrite()
+        let newDate = Date()
         for urlItem in items {
             guard let index = urlItem.tags.index(of: tagItem) else { continue }
             urlItem.tags.remove(objectAtIndex: index)
+            urlItem.modificationDate = newDate
             let tagItemName = tagItem.name
             tagItem.name = tagItemName // hack to trigger change notification on the TagItem so tables reload in the UI
         }
@@ -202,8 +206,10 @@ extension RealmController {
     public func url_setArchived(to archived: Bool, on items: [URLItem]) {
         let realm = self.realm
         realm.beginWrite()
+        let newDate = Date()
         for item in items {
             item.archived = archived
+            item.modificationDate = newDate
         }
         try! realm.commitWrite()
     }
