@@ -114,8 +114,8 @@ class URLListViewController: NSViewController, RealmControllable {
             self?.tableView?.reloadData()
         case .update(_, let deletions, let insertions, let modifications):
             self?.tableView?.beginUpdates()
-            self?.tableView?.insertRows(at: IndexSet(insertions), withAnimation: .slideRight)
             self?.tableView?.removeRows(at: IndexSet(deletions), withAnimation: .slideLeft)
+            self?.tableView?.insertRows(at: IndexSet(insertions), withAnimation: .slideRight)
             self?.tableView?.reloadData(forRowIndexes: IndexSet(modifications), columnIndexes: IndexSet([0]))
             self?.tableView?.endUpdates()
         case .error(let error):

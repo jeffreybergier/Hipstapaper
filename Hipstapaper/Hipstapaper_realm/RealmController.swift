@@ -175,7 +175,7 @@ extension RealmController {
 
     public func url_existingItem(itemID: URLItem.UIIdentifier) -> URLItem? {
         let realm = self.realm
-        let item = realm.object(ofType: URLItem.self, forPrimaryKey: itemID)
+        let item = realm.object(ofType: URLItem.self, forPrimaryKey: itemID.uuid)
         return item
     }
     

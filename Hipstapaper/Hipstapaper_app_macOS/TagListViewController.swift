@@ -43,9 +43,9 @@ class TagListViewController: NSViewController {
     
     private func hardReloadData() {
         // clear out all previous update tokens and tableview
-        self.data = .none
         self.notificationToken?.stop()
         self.notificationToken = .none
+        self.data = .none
         self.tagParent.childCount = 0
         self.outlineView?.reloadData()
         
@@ -73,8 +73,8 @@ class TagListViewController: NSViewController {
             self?.tagParent.childCount = self?.data?.count ?? 0
             // add and remove changed rows
             self?.outlineView?.beginUpdates()
-            self?.outlineView?.insertItems(at: IndexSet(insertions), inParent: self?.tagParent, withAnimation: .slideRight)
             self?.outlineView?.removeItems(at: IndexSet(deletions), inParent: self?.tagParent, withAnimation: .slideLeft)
+            self?.outlineView?.insertItems(at: IndexSet(insertions), inParent: self?.tagParent, withAnimation: .slideRight)
             // updating rows is different, there is no bulk method
             modifications.forEach() { childIndex in
                 // no good way to find the parentRowindex... should always be 3
@@ -122,7 +122,8 @@ class TagListViewController: NSViewController {
             guard buttonNumber == 1000 else { return }
             realmController.tag_deleteTag(with: selectedTag)
             // MARK: HACK, reload data in the table because the callback is not being called
-            self?.outlineView?.reloadItem(self?.tagParent, reloadChildren: true)
+            Thread.sleep(forTimeInterval: 0.2)
+            self?.hardReloadData()
         }
     }
     
