@@ -104,9 +104,9 @@ class URLItemWebViewWindowController: NSWindowController {
         guard
             let realmController = self.delegate?.realmController,
             let itemID = self.itemID,
-            let item = realmController.urlItem(withUUIDString: itemID.uuid)
+            let item = realmController.url_existingItem(itemID: itemID)
         else { return }
-        realmController.updateArchived(to: true, on: [item])
+        realmController.url_setArchived(to: true, on: [item])
         self.window?.close()
     }
     
@@ -114,9 +114,9 @@ class URLItemWebViewWindowController: NSWindowController {
         guard
             let realmController = self.delegate?.realmController,
             let itemID = self.itemID,
-            let item = realmController.urlItem(withUUIDString: itemID.uuid)
+            let item = realmController.url_existingItem(itemID: itemID)
         else { return }
-        realmController.updateArchived(to: false, on: [item])
+        realmController.url_setArchived(to: false, on: [item])
         self.window?.close()
     }
     

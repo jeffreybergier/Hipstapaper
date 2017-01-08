@@ -48,7 +48,7 @@ class URLTaggingViewController: NSViewController {
         self.notificationToken?.stop()
         self.notificationToken = .none
         
-        self.data = self.realmController?.tags
+        self.data = self.realmController?.tag_loadAll()
         self.notificationToken = self.data?.addNotificationBlock(self.realmResultsChangeClosure)
     }
     
@@ -81,9 +81,9 @@ class URLTaggingViewController: NSViewController {
         let newVC = NewTagNamingViewController()
         newVC.confirm = { [weak self] newName, sender, presentedVC in
             // create the tag
-            let tag = realmController.newOrExistingTag(proposedName: newName)
+            let tag = realmController.tag_uniqueTag(named: newName)
             // add it to the selected items
-            realmController.apply(tag: tag, to: self?.itemsToTag ?? [])
+            realmController.tag_apply(tag: tag, to: self?.itemsToTag ?? [])
             // hack because the tableview shows the new tag, but doesn't have the appropriate selection
             // maybe this is a bug in realm notifications?
             Thread.sleep(forTimeInterval: 0.3)
@@ -114,7 +114,7 @@ extension URLTaggingViewController: NSTableViewDataSource {
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         guard let tagItem = self.data?[row], let realmController = self.realmController else { return .none }
-        let state = realmController.state(of: tagItem, with: self.itemsToTag)
+        let state = realmController.tag_applicationState(of: tagItem, on: self.itemsToTag)
         let tagAssignment = TagAssignment(tagItem: tagItem, state: state.rawValue)
         tagAssignment.delegate = self
         return tagAssignment
@@ -132,9 +132,9 @@ extension URLTaggingViewController: TagAssignmentChangeDelegate {
     func didChangeAssignment(to newValue: Bool, for tagItem: TagItem) {
         switch newValue {
         case true:
-            self.realmController?.apply(tag: tagItem, to: self.itemsToTag)
+            self.realmController?.tag_apply(tag: tagItem, to: self.itemsToTag)
         case false:
-            self.realmController?.remove(tag: tagItem, from: self.itemsToTag)
+            self.realmController?.tag_remove(tag: tagItem, from: self.itemsToTag)
         }
     }
 }

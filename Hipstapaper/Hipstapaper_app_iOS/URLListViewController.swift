@@ -126,7 +126,7 @@ class URLListViewController: UIViewController, RealmControllable {
         self.doneBBITapped(.none)
         
         // configure data source
-        self.data = self.realmController?.urlItems(for: itemsToLoad, sortedBy: sortOrder, filteredBy: filter)
+        self.data = self.realmController?.url_loadAll(for: itemsToLoad, sortedBy: sortOrder, filteredBy: filter)
         self.notificationToken = self.data?.addNotificationBlock(self.realmResultsChangeClosure)
     }
     
@@ -242,13 +242,13 @@ extension URLListViewController /* Handle BarButtonItems */ {
     
     @objc fileprivate func archiveBBITapped(_ sender: NSObject?) {
         guard let items = self.selectedURLItems else { return }
-        self.realmController?.updateArchived(to: true, on: items)
+        self.realmController?.url_setArchived(to: true, on: items)
         self.disableAllBBI()
     }
     
     @objc fileprivate func unarchiveBBITapped(_ sender: NSObject?) {
         guard let items = self.selectedURLItems else { return }
-        self.realmController?.updateArchived(to: false, on: items)
+        self.realmController?.url_setArchived(to: false, on: items)
         self.disableAllBBI()
     }
     
@@ -287,8 +287,8 @@ extension URLListViewController /* Handle BarButtonItems */ {
             self.disableAllBBI()
         } else {
             self.tagBBI.isEnabled = true
-            self.archiveBBI.isEnabled = self.realmController?.atLeastOneItem(in: items, canBeArchived: true) ?? false
-            self.unarchiveBBI.isEnabled = self.realmController?.atLeastOneItem(in: items, canBeArchived: false) ?? false
+            self.archiveBBI.isEnabled = !items.filter({ $0.archived == false }).isEmpty
+            self.unarchiveBBI.isEnabled = !items.filter({ $0.archived == true }).isEmpty
         }
     }
 }
@@ -311,7 +311,7 @@ extension URLListViewController: UIViewControllerPreviewingDelegate {
         let archiveActionTitle = item.archived ? "📤 Unarchive" : "📥 Archive"
         let archiveAction = UIPreviewAction(title: archiveActionTitle, style: .default) { _ in
             let newArchiveValue = !item.archived
-            realmController.updateArchived(to: newArchiveValue, on: [item])
+            realmController.url_setArchived(to: newArchiveValue, on: [item])
         }
         let tagAction = UIPreviewAction(title: "🏷 Tag", style: .default) { [weak self] _ in
             let presentation = TagAddRemoveViewController.PresentationStyle.popCustom(rect: cellView.bounds, view: cellView)
@@ -372,7 +372,7 @@ extension URLListViewController: UITableViewDelegate {
         let archiveActionTitle = item.archived ? "📤Unarchive" : "📥Archive"
         let archiveToggleAction = UITableViewRowAction(style: .normal, title: archiveActionTitle) { action, indexPath in
             let newArchiveValue = !item.archived
-            self.realmController?.updateArchived(to: newArchiveValue, on: [item])
+            self.realmController?.url_setArchived(to: newArchiveValue, on: [item])
         }
         archiveToggleAction.backgroundColor = tableView.tintColor
         

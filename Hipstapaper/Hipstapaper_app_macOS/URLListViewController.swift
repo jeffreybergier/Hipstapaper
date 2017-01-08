@@ -104,7 +104,7 @@ class URLListViewController: NSViewController, RealmControllable {
         self.sortVC.filter = filter
         
         // load the data
-        self.data = self.realmController?.urlItems(for: itemsToLoad, sortedBy: sortOrder, filteredBy: filter)
+        self.data = self.realmController?.url_loadAll(for: itemsToLoad, sortedBy: sortOrder, filteredBy: filter)
         self.notificationToken = self.data?.addNotificationBlock(self.realmResultsChangeClosure)
     }
     
@@ -136,16 +136,15 @@ class URLListViewController: NSViewController, RealmControllable {
     
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         guard
-            let realmController = self.realmController,
             let kind = NSMenuItem.Kind(rawValue: menuItem.tag),
             let selectedItems = self.selectedURLItems
         else { return false }
         
         switch kind {
         case .unarchive:
-            return realmController.atLeastOneItem(in: selectedItems, canBeArchived: false)
+            return !selectedItems.filter({ $0.archived == true }).isEmpty
         case .archive:
-            return realmController.atLeastOneItem(in: selectedItems, canBeArchived: true)
+            return !selectedItems.filter({ $0.archived == false }).isEmpty
         case .copy:
             return selectedItems.count == 1
         case .delete:
@@ -171,7 +170,7 @@ class URLListViewController: NSViewController, RealmControllable {
     
     @objc private func delete(_ sender: NSObject?) {
         guard let selectedItems = self.selectedURLItems else { return }
-        self.realmController?.delete(items: selectedItems)
+        self.realmController?.delete(selectedItems)
     }
     
     @objc private func copy(_ sender: NSObject?) {
@@ -209,12 +208,12 @@ class URLListViewController: NSViewController, RealmControllable {
     
     @objc private func archive(_ sender: NSObject?) {
         guard let selectedItems = self.selectedURLItems else { return }
-        self.realmController?.updateArchived(to: true, on: selectedItems)
+        self.realmController?.url_setArchived(to: true, on: selectedItems)
     }
     
     @objc private func unarchive(_ sender: NSObject?) {
         guard let selectedItems = self.selectedURLItems else { return }
-        self.realmController?.updateArchived(to: false, on: selectedItems)
+        self.realmController?.url_setArchived(to: false, on: selectedItems)
     }
     
     @objc private func tag(_ sender: NSObject?) {
@@ -245,14 +244,14 @@ class URLListViewController: NSViewController, RealmControllable {
         guard
             let item = item as? NSToolbarItem,
             let kind = NSToolbarItem.Kind(rawValue: item.tag),
-            let realmController = self.realmController,
+            let _ = self.realmController,
             let selectedItems = self.selectedURLItems
         else { return false }
         switch kind {
         case .unarchive:
-            return realmController.atLeastOneItem(in: selectedItems, canBeArchived: false)
+            return !selectedItems.filter({ $0.archived == true }).isEmpty
         case .archive:
-            return realmController.atLeastOneItem(in: selectedItems, canBeArchived: true)
+            return !selectedItems.filter({ $0.archived == false }).isEmpty
         case .tag:
             return !selectedItems.isEmpty
         case .share:
@@ -346,7 +345,7 @@ extension URLListViewController: NSTableViewDelegate {
         let archiveActionTitle = item.archived ? "📤Unarchive" : "📥Archive"
         let archiveToggleAction = NSTableViewRowAction(style: .regular, title: archiveActionTitle) { _ in
             let newArchiveValue = !item.archived
-            realmController.updateArchived(to: newArchiveValue, on: [item])
+            realmController.url_setArchived(to: newArchiveValue, on: [item])
         }
         let tagAction = NSTableViewRowAction(style: .regular, title: "🏷Tag") { action, index in
             let actionButtonView = tableView.tableViewActionButtons?.first ?? rowView

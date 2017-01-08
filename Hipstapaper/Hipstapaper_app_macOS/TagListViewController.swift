@@ -50,7 +50,7 @@ class TagListViewController: NSViewController {
         self.outlineView?.reloadData()
         
         // refresh the content with new data
-        self.data = self.realmController?.tags
+        self.data = self.realmController?.tag_loadAll()
         self.notificationToken = self.data?.addNotificationBlock(self.realmResultsChangeClosure)
     }
     
@@ -120,7 +120,7 @@ class TagListViewController: NSViewController {
         alert.addButton(withTitle: "Cancel")
         alert.beginSheetModal(for: self.view.window!) { [weak self] buttonNumber in
             guard buttonNumber == 1000 else { return }
-            realmController.deleteTag(with: selectedTag)
+            realmController.tag_deleteTag(with: selectedTag)
             // MARK: HACK, reload data in the table because the callback is not being called
             self?.outlineView?.reloadItem(self?.tagParent, reloadChildren: true)
         }

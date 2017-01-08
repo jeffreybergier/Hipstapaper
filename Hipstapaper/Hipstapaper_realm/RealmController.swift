@@ -12,18 +12,20 @@ public protocol RealmControllable: class {
     var realmController: RealmController? { get set }
 }
 
+// MARK: Initialization
+
 public class RealmController {
     
     private let user: SyncUser
     private let realmURL: URL
     
-    private var realm: Realm {
+    fileprivate var realm: Realm {
         let config = Realm.Configuration(syncConfiguration: SyncConfiguration(user: self.user, realmURL: self.realmURL))
         let realm = try! Realm(configuration: config)
         return realm
     }
     
-    public static func realmURL(for user: SyncUser) -> URL {
+    private static func realmURL(for user: SyncUser) -> URL {
         var components = URLComponents(url: user.authenticationServer!, resolvingAgainstBaseURL: false)!
         components.scheme = "realm"
         components.path = "/~/Hipstapaper"
@@ -51,27 +53,27 @@ public class RealmController {
         self.user.logOut()
     }
     
-    public var tags: Results<TagItem> {
-        let realm = self.realm
-        let tags = realm.objects(TagItem.self).sorted(byProperty: #keyPath(TagItem.name))
-        return tags
-    }
+}
+
+// MARK: Object Agnostic Helper Methods
+
+extension RealmController {
     
-    public func add(item: Object) {
+    public func add(_ item: Object) {
         let realm = self.realm
         realm.beginWrite()
         realm.add(item)
         try! realm.commitWrite()
     }
     
-    public func delete(item: Object) {
+    public func delete(_ item: Object) {
         let realm = self.realm
         realm.beginWrite()
         realm.delete(item)
         try! realm.commitWrite()
     }
     
-    public func delete(items: [Object]) {
+    public func delete(_ items: [Object]) {
         let realm = self.realm
         realm.beginWrite()
         for item in items {
@@ -80,13 +82,21 @@ public class RealmController {
         try! realm.commitWrite()
     }
     
-    public func urlItem(withUUIDString uuid: String) -> URLItem? {
+}
+
+// MARK: Tag Helper Methods
+
+extension RealmController {
+    
+    // MARK: Create / Load / Delete Tags
+    
+    public func tag_loadAll() -> Results<TagItem> {
         let realm = self.realm
-        let item = realm.object(ofType: URLItem.self, forPrimaryKey: uuid)
-        return item
+        let tags = realm.objects(TagItem.self).sorted(byProperty: #keyPath(TagItem.name))
+        return tags
     }
     
-    public func deleteTag(with tagID: TagItem.UIIdentifier) {
+    public func tag_deleteTag(with tagID: TagItem.UIIdentifier) {
         let realm = self.realm
         guard let tag = realm.object(ofType: TagItem.self, forPrimaryKey: tagID.idName) else { return }
         realm.beginWrite()
@@ -94,7 +104,78 @@ public class RealmController {
         try! realm.commitWrite()
     }
     
-    public func urlItems(for itemsToLoad: URLItem.ItemsToLoad, sortedBy sortOrder: URLItem.SortOrder, filteredBy filter: URLItem.ArchiveFilter) -> Results<URLItem>? {
+    public func tag_uniqueTag(named proposedName: String) -> TagItem {
+        let normalizedName = TagItem.normalize(proposedName)
+        let realm = self.realm
+        let existingItem = realm.object(ofType: TagItem.self, forPrimaryKey: normalizedName)
+        if let existingItem = existingItem {
+            return existingItem
+        } else {
+            realm.beginWrite()
+            let newItem = TagItem()
+            newItem.normalizedNameHash = normalizedName
+            newItem.name = normalizedName == "untitledtag" ? "Untitled Tag" : proposedName
+            realm.add(newItem)
+            try! realm.commitWrite()
+            return newItem
+        }
+    }
+    
+    // MARK: Query / Apply / Remove Tags from URLItems
+    
+    public func tag_applicationState(of tagItem: TagItem, on items: [URLItem]) -> CheckboxState {
+        guard items.isEmpty == false else { return .off }
+        let matches = items.map({ $0.tags.index(of: tagItem) }).flatMap({ $0 })
+        if matches.count == items.count {
+            // this means all items have this tag
+            return .on
+        } else {
+            if matches.isEmpty {
+                // this means that none of the items have this tag
+                return .off
+            } else {
+                // this means we're mixed. Some items have the tag and some don't
+                return .mixed
+            }
+        }
+    }
+    
+    public func tag_apply(tag tagItem: TagItem, to items: [URLItem]) {
+        let realm = self.realm
+        realm.beginWrite()
+        for urlItem in items {
+            guard urlItem.tags.index(of: tagItem) == nil else { continue }
+            urlItem.tags.append(tagItem)
+            let tagItemName = tagItem.name
+            tagItem.name = tagItemName // hack to trigger change notification on the TagItem so tables reload in the UI
+        }
+        try! realm.commitWrite()
+    }
+    
+    public func tag_remove(tag tagItem: TagItem, from items: [URLItem]) {
+        let realm = self.realm
+        realm.beginWrite()
+        for urlItem in items {
+            guard let index = urlItem.tags.index(of: tagItem) else { continue }
+            urlItem.tags.remove(objectAtIndex: index)
+            let tagItemName = tagItem.name
+            tagItem.name = tagItemName // hack to trigger change notification on the TagItem so tables reload in the UI
+        }
+        try! realm.commitWrite()
+    }
+}
+
+// MARK: URLItem Helper Methods
+
+extension RealmController {
+
+    public func url_existingItem(itemID: URLItem.UIIdentifier) -> URLItem? {
+        let realm = self.realm
+        let item = realm.object(ofType: URLItem.self, forPrimaryKey: itemID)
+        return item
+    }
+    
+    public func url_loadAll(for itemsToLoad: URLItem.ItemsToLoad, sortedBy sortOrder: URLItem.SortOrder, filteredBy filter: URLItem.ArchiveFilter) -> Results<URLItem>? {
         switch itemsToLoad {
         case .all:
             switch filter {
@@ -118,70 +199,7 @@ public class RealmController {
         }
     }
     
-    public func atLeastOneItem(in items: [URLItem], canBeArchived: Bool) -> Bool {
-        let filtered = items.filter({ $0.archived != canBeArchived })
-        return !filtered.isEmpty
-    }
-    
-    public func newOrExistingTag(proposedName: String) -> TagItem {
-        let normalizedName = TagItem.normalize(proposedName)
-        let realm = self.realm
-        let existingItem = realm.object(ofType: TagItem.self, forPrimaryKey: normalizedName)
-        if let existingItem = existingItem {
-            return existingItem
-        } else {
-            realm.beginWrite()
-            let newItem = TagItem()
-            newItem.normalizedNameHash = normalizedName
-            newItem.name = normalizedName == "untitledtag" ? "Untitled Tag" : proposedName
-            realm.add(newItem)
-            try! realm.commitWrite()
-            return newItem
-        }
-    }
-    
-    public func state(of tagItem: TagItem, with items: [URLItem]) -> CheckboxState {
-        guard items.isEmpty == false else { return .off }
-        let matches = items.map({ $0.tags.index(of: tagItem) }).flatMap({ $0 })
-        if matches.count == items.count {
-            // this means all items have this tag
-            return .on
-        } else {
-            if matches.isEmpty {
-                // this means that none of the items have this tag
-                return .off
-            } else {
-                // this means we're mixed. Some items have the tag and some don't
-                return .mixed
-            }
-        }
-    }
-    
-    public func apply(tag tagItem: TagItem, to items: [URLItem]) {
-        let realm = self.realm
-        realm.beginWrite()
-        for urlItem in items {
-            guard urlItem.tags.index(of: tagItem) == nil else { continue }
-            urlItem.tags.append(tagItem)
-            let tagItemName = tagItem.name
-            tagItem.name = tagItemName // hack to trigger change notification on the TagItem so tables reload in the UI
-        }
-        try! realm.commitWrite()
-    }
-    
-    public func remove(tag tagItem: TagItem, from items: [URLItem]) {
-        let realm = self.realm
-        realm.beginWrite()
-        for urlItem in items {
-            guard let index = urlItem.tags.index(of: tagItem) else { continue }
-            urlItem.tags.remove(objectAtIndex: index)
-            let tagItemName = tagItem.name
-            tagItem.name = tagItemName // hack to trigger change notification on the TagItem so tables reload in the UI
-        }
-        try! realm.commitWrite()
-    }
-    
-    public func updateArchived(to archived: Bool, on items: [URLItem]) {
+    public func url_setArchived(to archived: Bool, on items: [URLItem]) {
         let realm = self.realm
         realm.beginWrite()
         for item in items {

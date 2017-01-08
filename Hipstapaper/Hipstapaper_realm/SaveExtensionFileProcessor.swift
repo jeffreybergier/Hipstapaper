@@ -46,7 +46,7 @@ public class SaveExtensionFileProcessor {
                         if newExtras.pageTitle != nil || newExtras.imageData != nil {
                             newURLItem.extras = newExtras
                         }
-                        realmController.add(item: newURLItem)
+                        realmController.add(newURLItem)
                     }
                     try? FileManager.default.removeItem(at: SerializableURLItem.archiveURL)
                     if itemsOnDisk.isEmpty == false {

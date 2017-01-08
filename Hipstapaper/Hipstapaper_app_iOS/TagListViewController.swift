@@ -62,7 +62,7 @@ class TagListViewController: UIViewController, RealmControllable {
         self.tableView?.reloadData()
         
         // reload everything
-        self.tags = self.realmController?.tags
+        self.tags = self.realmController?.tag_loadAll()
         self.notificationToken = self.tags?.addNotificationBlock(self.tableUpdateClosure)
     }
     
@@ -191,7 +191,7 @@ extension TagListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         guard let section = Section(rawValue: indexPath.section), section == .tags, editingStyle == .delete, let tagItem = self.tags?[indexPath.row] else { return }
-        self.realmController?.delete(item: tagItem)
+        self.realmController?.delete(tagItem)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
