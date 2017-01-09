@@ -16,6 +16,10 @@ import Foundation
 @objc(SerializableURLItem) // needed so the object can be archived/unarchived across modules
 class SerializableURLItem: NSObject, NSCoding {
     
+    enum Result {
+        case success(SerializableURLItem), error
+    }
+    
     #if os(OSX)
     private static let appGroupIdentifier = "V6ESYGU6CV.hipstapaper.appgroup"
     #else
@@ -68,7 +72,7 @@ class SerializableURLItem: NSObject, NSCoding {
 
 extension SerializableURLItem {
     
-    static func item(from extensionItem: NSExtensionItem, handler: @escaping (SerializableURLItem?) -> Void) {
+    static func item(from extensionItem: NSExtensionItem, handler: @escaping (Result) -> Void) {
         // create the object to return
         let outputItem = SerializableURLItem()
         
@@ -82,10 +86,10 @@ extension SerializableURLItem {
                 guard hitCount == 2 else { return }
                 DispatchQueue.main.async {
                     // our object is valid
-                    if let _ = outputItem.urlString {
-                        handler(outputItem)
+                    if let urlString = outputItem.urlString, let _ = URL(string: urlString) {
+                        handler(.success(outputItem))
                     } else {
-                        handler(.none)
+                        handler(.error)
                     }
                 }
             }
@@ -93,7 +97,7 @@ extension SerializableURLItem {
         
         // make sure we have an attachment
         // if not, return nil
-        guard let attachment = extensionItem.attachments?.first as? NSItemProvider else { handler(.none); return; }
+        guard let attachment = extensionItem.attachments?.first as? NSItemProvider else { handler(.error); return; }
         
         // load the URL for the object
         attachment.loadItem(forTypeIdentifier: kUTTypeURL as String, options: .none) { secureCoding, error in
