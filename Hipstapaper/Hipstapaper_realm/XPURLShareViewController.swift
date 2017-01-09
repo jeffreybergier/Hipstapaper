@@ -15,6 +15,8 @@
 #endif
 import WebKit
 
+extension WKWebView: KVOCapable {}
+
 class XPURLShareViewController: XPViewController {
     
     var item: SerializableURLItem.Result?
@@ -58,11 +60,17 @@ class XPURLShareViewController: XPViewController {
     static func configuredWebView() -> WKWebView {
         let config = WKWebViewConfiguration()
         config.allowsAirPlayForMediaPlayback = false
-        config.allowsInlineMediaPlayback = false
-        config.allowsPictureInPictureMediaPlayback = false
         config.preferences.javaScriptEnabled = false
+        #if os(OSX)
+            config.preferences.plugInsEnabled = false
+        #else
+            config.allowsInlineMediaPlayback = false
+            config.allowsPictureInPictureMediaPlayback = false
+        #endif
         let webView = WKWebView(frame: .zero, configuration: config)
-        webView.isUserInteractionEnabled = false
+        #if os(iOS)
+            webView.isUserInteractionEnabled = false
+        #endif
         webView.translatesAutoresizingMaskIntoConstraints = false
         return webView
     }

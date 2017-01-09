@@ -9,8 +9,6 @@
 import WebKit
 import UIKit
 
-extension WKWebView: KVOCapable {}
-
 class URLShareiOSViewController: XPURLShareViewController {
     
     // MARK: IBOutlets
