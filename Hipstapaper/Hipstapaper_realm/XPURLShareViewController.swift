@@ -13,6 +13,7 @@
     import UIKit
     typealias XPViewController = UIViewController
 #endif
+import WebKit
 
 class XPURLShareViewController: XPViewController {
     
@@ -31,12 +32,10 @@ class XPURLShareViewController: XPViewController {
     #endif
     
     func start() {
-        
         guard let extensionItem = self.extensionContext?.inputItems.first as? NSExtensionItem else {
             self.extensionContext?.cancelRequest(withError: NSError(domain: "", code: 0, userInfo: nil))
             return
         }
-        
         SerializableURLItem.item(from: extensionItem) { result in
             DispatchQueue.main.async {
                 self.item = result
@@ -54,5 +53,17 @@ class XPURLShareViewController: XPViewController {
             itemsToSave = [item]
         }
         NSKeyedArchiver.archiveRootObject(itemsToSave, toFile: SerializableURLItem.archiveURL.path)
+    }
+    
+    static func configuredWebView() -> WKWebView {
+        let config = WKWebViewConfiguration()
+        config.allowsAirPlayForMediaPlayback = false
+        config.allowsInlineMediaPlayback = false
+        config.allowsPictureInPictureMediaPlayback = false
+        config.preferences.javaScriptEnabled = false
+        let webView = WKWebView(frame: .zero, configuration: config)
+        webView.isUserInteractionEnabled = false
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        return webView
     }
 }

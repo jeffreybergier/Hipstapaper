@@ -13,6 +13,8 @@ extension WKWebView: KVOCapable {}
 
 class URLShareiOSViewController: XPURLShareViewController {
     
+    // MARK: IBOutlets
+    
     private let dateFormatter: DateFormatter = {
         let df = DateFormatter()
         df.dateStyle = .medium
@@ -36,6 +38,13 @@ class URLShareiOSViewController: XPURLShareViewController {
         }
     }
     
+    // MARK: Internal State
+    
+    private var timer: Timer?
+    private var webView: WKWebView?
+    private var webViewTitleObserver: KeyValueObserver<String>?
+    private var webViewDoneObserver: KeyValueObserver<Bool>?
+    
     override var item: SerializableURLItem.Result? {
         didSet {
             self.slideIntoFrame()
@@ -51,6 +60,9 @@ class URLShareiOSViewController: XPURLShareViewController {
                     // it gets 3 seconds to load and then we capture a snapshot
                     self.configureWebView(item: item)
                 }
+            } else {
+                duration = 2
+                self.configureError()
             }
             // all the missing information is filled in the timerFired method and the view is dismissed from there
             self.timer = Timer.scheduledTimer(timeInterval: duration, target: self, selector: #selector(self.timerFired(_:)), userInfo: .none, repeats: false)
@@ -96,14 +108,14 @@ class URLShareiOSViewController: XPURLShareViewController {
     // MARK: Stage 3 - Optional - Use webview to capture missing information
     
     private func configureWebView(item: SerializableURLItem) {
-        self.providedImageView?.removeFromSuperview()
-        let config = WKWebViewConfiguration()
-        config.allowsAirPlayForMediaPlayback = false
-        config.allowsInlineMediaPlayback = false
-        config.allowsPictureInPictureMediaPlayback = false
-        config.preferences.javaScriptEnabled = false
-        let webView = WKWebView(frame: .zero, configuration: config)
+        // get a preconfigured new webview
+        let webView = type(of: self).configuredWebView()
         self.webView = webView
+        
+        // remove the imageview from the view hierarchy
+        self.providedImageView?.removeFromSuperview()
+        
+        // start observing the title and the finished loading
         self.webViewTitleObserver = KeyValueObserver<String>(target: webView, keyPath: #keyPath(WKWebView.title))
         self.webViewTitleObserver?.startObserving() { [weak self] newTitle -> String? in
             self?.pageTitleLabel?.text = newTitle
@@ -114,29 +126,39 @@ class URLShareiOSViewController: XPURLShareViewController {
             guard loading == false else { return .none }
             self?.loadingSpinner?.stopAnimating()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                self?.timer?.fire()
+                self?.timer?.fire() // believe it or not, even when duck out early because the webview finished, we still need a delay to make it feel good
             }
             return .none
         }
-        webView.isUserInteractionEnabled = false
-        webView.translatesAutoresizingMaskIntoConstraints = false
+        
+        // add the webview to the view hierarchy
+        // the autolayout for this makes it purposefully twice as big
+        // then shrinks it down via a transform
+        // this is so a 'normal' size page is what loads.
         self.webImageViewParentView?.addSubview(webView)
         self.webImageViewParentView?.centerYAnchor.constraint(equalTo: webView.centerYAnchor, constant: 0).isActive = true
         self.webImageViewParentView?.centerXAnchor.constraint(equalTo: webView.centerXAnchor, constant: 0).isActive = true
         self.webImageViewParentView?.widthAnchor.constraint(equalTo: webView.widthAnchor, multiplier: 0.5, constant: 0).isActive = true
         self.webImageViewParentView?.heightAnchor.constraint(equalTo: webView.heightAnchor, multiplier: 0.5, constant: 0).isActive = true
         webView.transform = webView.transform.scaledBy(x: 0.5, y: 0.5)
+        
+        // load the url in the webview
         let url = URL(string: item.urlString!)!
         webView.load(URLRequest(url: url))
     }
     
-    // MARK: Stage 4 - Slide Out
+    // MARK: Stage 4 - Optional - Show Error
     
-    private var timer: Timer?
-    private var webView: WKWebView?
-    private var webViewTitleObserver: KeyValueObserver<String>?
-    private var webViewDoneObserver: KeyValueObserver<Bool>?
-
+    private func configureError() {
+        self.loadingSpinner?.stopAnimating()
+        self.providedImageView?.image = .none
+        self.webView?.removeFromSuperview()
+        self.webView = .none
+        self.pageDateLabel?.text = .none
+        self.pageTitleLabel?.text = "Error 😔"
+    }
+    
+    // MARK: Stage 5 - Slide Out
     
     @objc private func timerFired(_ timer: Timer?) {
         // clear all the time shit
