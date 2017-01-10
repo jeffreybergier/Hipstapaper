@@ -46,7 +46,7 @@ class URLShareiOSViewController: XPURLShareViewController {
     override var item: SerializableURLItem.Result? {
         didSet {
             self.slideIntoFrame()
-            var duration: TimeInterval = 5
+            var duration: TimeInterval = 8
             if let result = self.item, case .success(let item) = result {
                 // check to see if we have the info needed
                 let fullyConfigured = self.configureCard(item: item)

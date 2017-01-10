@@ -60,7 +60,7 @@ class XPURLShareViewController: XPViewController {
     static func configuredWebView() -> WKWebView {
         let config = WKWebViewConfiguration()
         config.allowsAirPlayForMediaPlayback = false
-        config.preferences.javaScriptEnabled = false
+        config.preferences.javaScriptEnabled = true
         #if os(OSX)
             config.preferences.plugInsEnabled = false
         #else
