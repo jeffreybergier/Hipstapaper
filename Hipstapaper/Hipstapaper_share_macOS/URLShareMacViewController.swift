@@ -29,7 +29,7 @@ class URLShareMacViewController: XPURLShareViewController {
     
     override var item: SerializableURLItem.Result? {
         didSet {
-            var duration: TimeInterval = 5
+            var duration: TimeInterval = 8
             if let result = self.item, case .success(let item) = result {
                 // check to see if we have the info needed
                 let fullyConfigured = self.configureCard(item: item)
@@ -148,11 +148,11 @@ class URLShareMacViewController: XPURLShareViewController {
             // we have an item
             if let webView = self.webView {
                 // if we have  webview that means we need to take a snopshot
-                if item.pageTitle == nil {
+                if item.pageTitle == .none {
                     item.pageTitle = webView.title
                 }
-                if item.image == nil {
-                    item.image = webView.snapshot
+                if item.image == .none {
+//                    item.image = webView.snapshot
                 }
                 self.save(item: item)
                 self.extensionContext?.completeRequest(returningItems: .none, completionHandler: .none)
@@ -169,11 +169,40 @@ class URLShareMacViewController: XPURLShareViewController {
 }
 
 extension WKWebView {
-    var snapshot: NSImage {
-        let rep = self.bitmapImageRepForCachingDisplay(in: self.bounds)!
-        self.cacheDisplay(in: self.bounds, to: rep)
-        let image = NSImage(size: self.bounds.size)
-        image.addRepresentation(rep)
-        return image
+//    var snapshot: NSImage {
+//        let rep = self.bitmapImageRepForCachingDisplay(in: self.bounds)!
+//        self.cacheDisplay(in: self.bounds, to: rep)
+//        let image = NSImage(size: self.bounds.size)
+//        image.addRepresentation(rep)
+//        return image
+//    }
+    
+    var snapshot: NSImage? {
+        
+        let layer = self.layer!
+        let bounds = layer.bounds
+        
+        let pixelsHigh = Int(floor(bounds.size.height))
+        let pixelsWide = Int(floor(bounds.size.width))
+        
+        let bitmapBytesPerRow = (pixelsWide * 4)
+        
+        let colorSpace = CGColorSpace(name: CGColorSpace.sRGB)!
+        let context = CGContext(data: nil,
+                                width: pixelsWide,
+                                height: pixelsHigh,
+                                bitsPerComponent: 8,
+                                bytesPerRow: bitmapBytesPerRow,
+                                space: colorSpace,
+                                bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
+        
+        if let context = context {
+            layer.render(in: context)
+            let img = context.makeImage()!
+            let image = NSImage(cgImage: img, size: bounds.size)
+            return image
+        } else {
+            return nil
+        }
     }
 }
