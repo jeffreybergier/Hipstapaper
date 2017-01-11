@@ -10,6 +10,8 @@ import ApplicationServices
 import WebKit
 import AppKit
 
+extension WebView: KVOCapable {}
+
 class URLShareMacViewController: XPURLShareViewController {
     
     // MARK: Outlets
@@ -23,13 +25,13 @@ class URLShareMacViewController: XPURLShareViewController {
     // MARK: Internal State
     
     private var timer: Timer?
-    private var webView: WKWebView?
+    private var webView: WebView?
     private var webViewTitleObserver: KeyValueObserver<String>?
     private var webViewDoneObserver: KeyValueObserver<Bool>?
     
     override var item: SerializableURLItem.Result? {
         didSet {
-            var duration: TimeInterval = 8
+            var duration: TimeInterval = 4
             if let result = self.item, case .success(let item) = result {
                 // check to see if we have the info needed
                 let fullyConfigured = self.configureCard(item: item)
@@ -57,6 +59,8 @@ class URLShareMacViewController: XPURLShareViewController {
     // MARK: Stage 2 - Animate Card into View
     
     private func configureCard(item: SerializableURLItem) -> Bool {
+        self.loadingSpinner?.startAnimation(self)
+        
         var webViewNeeded = false
         if let pageTitle = item.pageTitle {
             self.pageTitleLabel?.stringValue = pageTitle
@@ -78,14 +82,14 @@ class URLShareMacViewController: XPURLShareViewController {
     
     private func configureWebView(item: SerializableURLItem) {
         // get a preconfigured new webview
-        let webView = type(of: self).configuredWebView()
+        let webView = WebView()
         self.webView = webView
         
         // remove the imageview from the view hierarchy
         self.providedImageView?.removeFromSuperview()
         
         // start observing the title and the finished loading
-        self.webViewTitleObserver = KeyValueObserver<String>(target: webView, keyPath: #keyPath(WKWebView.title))
+        self.webViewTitleObserver = KeyValueObserver<String>(target: webView, keyPath: #keyPath(WebView.mainFrameTitle))
         self.webViewTitleObserver?.startObserving() { [weak self] newTitle -> String? in
             self?.pageTitleLabel?.stringValue = newTitle
             return .none
@@ -104,19 +108,22 @@ class URLShareMacViewController: XPURLShareViewController {
         // the autolayout for this makes it purposefully twice as big
         // then shrinks it down via a transform
         // this is so a 'normal' size page is what loads.
+        webView.translatesAutoresizingMaskIntoConstraints = false
         self.webImageViewParentView?.addSubview(webView)
         self.webImageViewParentView?.centerYAnchor.constraint(equalTo: webView.centerYAnchor, constant: 0).isActive = true
         self.webImageViewParentView?.centerXAnchor.constraint(equalTo: webView.centerXAnchor, constant: 0).isActive = true
         self.webImageViewParentView?.widthAnchor.constraint(equalTo: webView.widthAnchor, multiplier: 0.5, constant: 0).isActive = true
         self.webImageViewParentView?.heightAnchor.constraint(equalTo: webView.heightAnchor, multiplier: 0.5, constant: 0).isActive = true
-//        let originalTransform = webView.layer!.affineTransform()
-//        webView.layer!.setAffineTransform(originalTransform.scaledBy(x: 0.5, y: 0.5))
-//        webView.layer!.sublayerTransform = CATransform3DMakeScale(0.5, 0.5, 0.0)
-//        webView.layer!.sublayerTransform = CATransform3DMakeAffineTransform(CGAffineTransform(scaleX: 0.5, y: 0.5))
-
+        self.webImageViewParentView?.layout()
+        let webViewBounds = webView.bounds
+        let originalTransform = webView.layer?.sublayerTransform ?? CATransform3DIdentity
+        let scale = CATransform3DScale(originalTransform, 0.5, 0.5, 1.0)
+        let translate = CATransform3DTranslate(scale, webViewBounds.size.width / 2, webViewBounds.size.height / 2, 0)
+        webView.layer?.sublayerTransform = translate
+        
         // load the url in the webview
         let url = URL(string: item.urlString!)!
-        webView.load(URLRequest(url: url))
+        webView.mainFrame.load(URLRequest(url: url))
     }
     
     // MARK: Stage 4 - Optional - Show Error
@@ -149,10 +156,10 @@ class URLShareMacViewController: XPURLShareViewController {
             if let webView = self.webView {
                 // if we have  webview that means we need to take a snopshot
                 if item.pageTitle == .none {
-                    item.pageTitle = webView.title
+                    item.pageTitle = webView.mainFrameTitle
                 }
                 if item.image == .none {
-//                    item.image = webView.snapshot
+                    item.image = webView.snapshot
                 }
                 self.save(item: item)
                 self.extensionContext?.completeRequest(returningItems: .none, completionHandler: .none)
@@ -168,41 +175,27 @@ class URLShareMacViewController: XPURLShareViewController {
     }
 }
 
-extension WKWebView {
-//    var snapshot: NSImage {
-//        let rep = self.bitmapImageRepForCachingDisplay(in: self.bounds)!
-//        self.cacheDisplay(in: self.bounds, to: rep)
-//        let image = NSImage(size: self.bounds.size)
-//        image.addRepresentation(rep)
-//        return image
-//    }
-    
-    var snapshot: NSImage? {
-        
-        let layer = self.layer!
+fileprivate extension NSView {
+    fileprivate var snapshot: NSImage? {
+        let _layer = self.layer?.sublayers?.first ?? self.layer
+        guard let layer = _layer, let colorSpace = CGColorSpace(name: CGColorSpace.sRGB) else { return .none }
         let bounds = layer.bounds
         
         let pixelsHigh = Int(floor(bounds.size.height))
         let pixelsWide = Int(floor(bounds.size.width))
         
-        let bitmapBytesPerRow = (pixelsWide * 4)
-        
-        let colorSpace = CGColorSpace(name: CGColorSpace.sRGB)!
-        let context = CGContext(data: nil,
+        let _context = CGContext(data: nil,
                                 width: pixelsWide,
                                 height: pixelsHigh,
                                 bitsPerComponent: 8,
-                                bytesPerRow: bitmapBytesPerRow,
+                                bytesPerRow: 0,
                                 space: colorSpace,
                                 bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
         
-        if let context = context {
-            layer.render(in: context)
-            let img = context.makeImage()!
-            let image = NSImage(cgImage: img, size: bounds.size)
-            return image
-        } else {
-            return nil
-        }
+        guard let context = _context else { return .none }
+        layer.render(in: context)
+        guard let _image = context.makeImage() else { return .none }
+        let image = NSImage(cgImage: _image, size: NSSize.zero)
+        return image
     }
 }
