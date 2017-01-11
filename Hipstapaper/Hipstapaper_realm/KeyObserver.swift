@@ -32,7 +32,7 @@ open class KeyValueObserver<T: Equatable>: NSObject {
     
     public func startObserving(_ callback: @escaping ((T) -> T?)) {
         self.callback = callback
-        self.startObserving(keyPath: keyPath)
+        self.startObserving(keyPath: self.keyPath)
     }
     
     public func endObserving() {

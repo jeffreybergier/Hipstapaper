@@ -6,7 +6,6 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
-import ApplicationServices
 import WebKit
 import AppKit
 
@@ -25,13 +24,18 @@ class URLShareMacViewController: XPURLShareViewController {
     // MARK: Internal State
     
     private var timer: Timer?
-    private var webView: WebView?
+    private var webView: WebView? // have to use old WebView because new one cannot be snapshotted - it just shows a white box
     private var webViewTitleObserver: KeyValueObserver<String>?
-    private var webViewDoneObserver: KeyValueObserver<Bool>?
+    @objc private func webViewFinishedLoading(_ notification: Notification?) {
+        self.loadingSpinner?.stopAnimation(self)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.timer?.fire() // believe it or not, even when duck out early because the webview finished, we still need a delay to make it feel good
+        }
+    }
     
     override var item: SerializableURLItem.Result? {
         didSet {
-            var duration: TimeInterval = 4
+            var duration: TimeInterval = 8
             if let result = self.item, case .success(let item) = result {
                 // check to see if we have the info needed
                 let fullyConfigured = self.configureCard(item: item)
@@ -94,15 +98,9 @@ class URLShareMacViewController: XPURLShareViewController {
             self?.pageTitleLabel?.stringValue = newTitle
             return .none
         }
-        self.webViewDoneObserver = KeyValueObserver<Bool>(target: webView, keyPath: "loading") // #keyPath(WKWebView.isLoading) not working
-        self.webViewDoneObserver?.startObserving() { [weak self] loading -> Bool? in
-            guard loading == false else { return .none }
-            self?.loadingSpinner?.stopAnimation(self)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                self?.timer?.fire() // believe it or not, even when duck out early because the webview finished, we still need a delay to make it feel good
-            }
-            return .none
-        }
+        
+        // start observing for finished loading
+        NotificationCenter.default.addObserver(self, selector: #selector(self.webViewFinishedLoading(_:)), name: .WebViewProgressFinished, object: webView)
         
         // add the webview to the view hierarchy
         // the autolayout for this makes it purposefully twice as big
@@ -145,8 +143,10 @@ class URLShareMacViewController: XPURLShareViewController {
         self.timer = .none
         
         // stop KVO
-        self.webViewDoneObserver = .none
         self.webViewTitleObserver = .none
+        
+        // de-register observer
+        NotificationCenter.default.removeObserver(self, name: .WebViewProgressFinished, object: self.webView)
         
         // stop the spinner
         self.loadingSpinner?.stopAnimation(self)
@@ -177,6 +177,8 @@ class URLShareMacViewController: XPURLShareViewController {
 
 fileprivate extension NSView {
     fileprivate var snapshot: NSImage? {
+        // the sublayer shows the pure transform. so try and grab that
+        // the primary layer works but it shows a bunch of empty space where there is a view but nothing rendered because of the transform
         let _layer = self.layer?.sublayers?.first ?? self.layer
         guard let layer = _layer, let colorSpace = CGColorSpace(name: CGColorSpace.sRGB) else { return .none }
         let bounds = layer.bounds
