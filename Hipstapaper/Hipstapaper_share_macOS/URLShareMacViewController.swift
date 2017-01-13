@@ -26,12 +26,6 @@ class URLShareMacViewController: XPURLShareViewController {
     private var timer: Timer?
     private var webView: WebView? // have to use old WebView because new one cannot be snapshotted - it just shows a white box
     private var webViewTitleObserver: KeyValueObserver<String>?
-    @objc private func webViewFinishedLoading(_ notification: Notification?) {
-        self.loadingSpinner?.stopAnimation(self)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            self.timer?.fire() // believe it or not, even when duck out early because the webview finished, we still need a delay to make it feel good
-        }
-    }
     
     override var item: SerializableURLItem.Result? {
         didSet {
@@ -86,7 +80,7 @@ class URLShareMacViewController: XPURLShareViewController {
     
     private func configureWebView(item: SerializableURLItem) {
         // get a preconfigured new webview
-        let webView = WebView()
+        let webView = type(of: self).configuredWebView()
         self.webView = webView
         
         // remove the imageview from the view hierarchy
@@ -100,7 +94,12 @@ class URLShareMacViewController: XPURLShareViewController {
         }
         
         // start observing for finished loading
-        NotificationCenter.default.addObserver(self, selector: #selector(self.webViewFinishedLoading(_:)), name: .WebViewProgressFinished, object: webView)
+        NotificationCenter.default.addObserver(forName: .WebViewProgressFinished, object: webView, queue: .none) { notification in
+            self.loadingSpinner?.stopAnimation(self)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                self.timer?.fire() // believe it or not, even when duck out early because the webview finished, we still need a delay to make it feel good
+            }
+        }
         
         // add the webview to the view hierarchy
         // the autolayout for this makes it purposefully twice as big

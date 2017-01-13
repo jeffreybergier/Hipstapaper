@@ -434,7 +434,7 @@ CA
                                                                                 <constraint firstAttribute="height" constant="40" id="QdL-0g-rVs"/>
                                                                                 <constraint firstAttribute="width" secondItem="u34-DE-qlV" secondAttribute="height" multiplier="1:1" id="olL-AH-iSv"/>
                                                                             </constraints>
-                                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="PTl-l5-vdN"/>
+                                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topRight" imageScaling="proportionallyDown" id="PTl-l5-vdN"/>
                                                                             <connections>
                                                                                 <binding destination="qKj-7y-fuk" name="value" keyPath="objectValue.extras.image" id="Qvr-YU-4pl"/>
                                                                                 <binding destination="qKj-7y-fuk" name="hidden" keyPath="objectValue.extras.image" id="zqh-4L-VGC">

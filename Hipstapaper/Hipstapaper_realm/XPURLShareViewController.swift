@@ -57,21 +57,32 @@ class XPURLShareViewController: XPViewController {
         NSKeyedArchiver.archiveRootObject(itemsToSave, toFile: SerializableURLItem.archiveURL.path)
     }
     
-    static func configuredWebView() -> WKWebView {
-        let config = WKWebViewConfiguration()
-        config.allowsAirPlayForMediaPlayback = false
-        config.preferences.javaScriptEnabled = true
-        #if os(OSX)
-            config.preferences.plugInsEnabled = false
-        #else
-            config.allowsInlineMediaPlayback = false
-            config.allowsPictureInPictureMediaPlayback = false
-        #endif
-        let webView = WKWebView(frame: .zero, configuration: config)
-        #if os(iOS)
-            webView.isUserInteractionEnabled = false
-        #endif
-        webView.translatesAutoresizingMaskIntoConstraints = false
+    #if os(OSX)
+    static func configuredWebView() -> WebView {
+        let webView = WebView()
+        let prefs = WebPreferences()
+        prefs.isJavaEnabled = false
+        prefs.isJavaScriptEnabled = false
+        prefs.javaScriptCanOpenWindowsAutomatically = false
+        prefs.arePlugInsEnabled = false
+        prefs.userStyleSheetEnabled = false
+        prefs.allowsAnimatedImages = false
+        prefs.allowsAnimatedImageLooping = false
+        prefs.allowsAirPlayForMediaPlayback = false
+        webView.preferences = prefs
         return webView
     }
+    #else
+    static func configuredWebView() -> WKWebView {
+    let config = WKWebViewConfiguration()
+    config.allowsAirPlayForMediaPlayback = false
+    config.preferences.javaScriptEnabled = true
+    config.allowsInlineMediaPlayback = false
+    config.allowsPictureInPictureMediaPlayback = false
+    let webView = WKWebView(frame: .zero, configuration: config)
+    webView.isUserInteractionEnabled = false
+    webView.translatesAutoresizingMaskIntoConstraints = false
+    return webView
+    }
+    #endif
 }
