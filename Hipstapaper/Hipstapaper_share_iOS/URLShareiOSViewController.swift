@@ -142,6 +142,9 @@ class URLShareiOSViewController: XPURLShareViewController {
         
         // load the url in the webview
         let url = URL(string: item.urlString!)!
+        // check if we should enable javascript for whitelisted sites
+        webView.configuration.preferences.javaScriptEnabled = type(of: self).javascriptWhiteListed(for: url)
+        // load the page
         webView.load(URLRequest(url: url))
     }
     
@@ -207,11 +210,21 @@ class URLShareiOSViewController: XPURLShareViewController {
             self.view.layoutIfNeeded()
         }, completion: animationCompletion)
     }
+    
+    // some sites on mobile load faster / at all with Javascript enabled
+    private static func javascriptWhiteListed(for url: URL) -> Bool {
+        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        guard let host = components?.host?.lowercased() else { return false }
+        let whitelisted =
+            host.contains("youtube.") ||
+            host.contains("theverge.com")
+        return whitelisted
+    }
 }
 
-extension WKWebView {
-    var snapshot: UIImage? {
-        UIGraphicsBeginImageContextWithOptions(self.bounds.size, true, 0)
+fileprivate extension UIView {
+    fileprivate var snapshot: UIImage? {
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size, true, 1.0) // 1.0 because theres no need for all that quality.
         self.drawHierarchy(in: self.bounds, afterScreenUpdates: true)
         let snapshotImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()

@@ -74,15 +74,15 @@ class XPURLShareViewController: XPViewController {
     }
     #else
     static func configuredWebView() -> WKWebView {
-    let config = WKWebViewConfiguration()
-    config.allowsAirPlayForMediaPlayback = false
-    config.preferences.javaScriptEnabled = true
-    config.allowsInlineMediaPlayback = false
-    config.allowsPictureInPictureMediaPlayback = false
-    let webView = WKWebView(frame: .zero, configuration: config)
-    webView.isUserInteractionEnabled = false
-    webView.translatesAutoresizingMaskIntoConstraints = false
-    return webView
+        let config = WKWebViewConfiguration()
+        config.allowsAirPlayForMediaPlayback = false
+        config.preferences.javaScriptEnabled = false
+        config.allowsInlineMediaPlayback = false
+        config.allowsPictureInPictureMediaPlayback = false
+        let webView = WKWebView(frame: .zero, configuration: config)
+        webView.isUserInteractionEnabled = false
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        return webView
     }
     #endif
 }

@@ -19,40 +19,40 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="66.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="uA1-kx-vRT">
-                        <rect key="frame" x="8" y="8" width="304" height="50"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="QAn-01-9rj">
+                        <rect key="frame" x="8" y="8" width="168" height="50"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="QAn-01-9rj">
-                                <rect key="frame" x="0.0" y="0.0" width="250" height="50"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="https://www.apple.com" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="223-98-MTh">
-                                        <rect key="frame" x="0.0" y="0.0" width="250" height="25"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="https://www.apple.com" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7gE-RT-6DC">
-                                        <rect key="frame" x="0.0" y="25" width="250" height="25"/>
-                                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                            </stackView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="trg-dg-oVQ">
-                                <rect key="frame" x="254" y="0.0" width="50" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="trg-dg-oVQ" secondAttribute="height" multiplier="1:1" id="dYD-Fl-0C8"/>
-                                    <constraint firstAttribute="width" constant="50" id="lDo-xQ-qzm"/>
-                                </constraints>
-                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="https://www.apple.com" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="223-98-MTh">
+                                <rect key="frame" x="0.0" y="0.0" width="168" height="25"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="https://www.apple.com" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7gE-RT-6DC">
+                                <rect key="frame" x="0.0" y="25" width="168" height="25"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="50" id="fns-jk-ENh"/>
+                        </constraints>
                     </stackView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="trg-dg-oVQ">
+                        <rect key="frame" x="262" y="8" width="50" height="50"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="trg-dg-oVQ" secondAttribute="height" multiplier="1:1" id="2Zd-3d-Yhr"/>
+                            <constraint firstAttribute="height" constant="50" id="7rT-77-YRW"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="leadingMargin" secondItem="uA1-kx-vRT" secondAttribute="leading" id="P79-mb-Hde"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="uA1-kx-vRT" secondAttribute="trailing" id="bgZ-pk-3I9"/>
-                    <constraint firstItem="uA1-kx-vRT" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="lN4-kQ-NDQ"/>
+                    <constraint firstAttribute="topMargin" secondItem="trg-dg-oVQ" secondAttribute="top" id="1NF-qU-hxK"/>
+                    <constraint firstItem="QAn-01-9rj" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="MfK-bo-8f2"/>
+                    <constraint firstItem="QAn-01-9rj" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="a0P-bR-ID1"/>
+                    <constraint firstItem="trg-dg-oVQ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="QAn-01-9rj" secondAttribute="trailing" constant="8" symbolic="YES" id="orc-R6-54r"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="trg-dg-oVQ" secondAttribute="trailing" id="vR8-Vi-BBv"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
