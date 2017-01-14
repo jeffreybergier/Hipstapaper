@@ -158,6 +158,43 @@ class URLListViewController: UIViewController, RealmControllable {
         self.tableView?.deselectAllRows(animated: true)
     }
     
+    // MARK: Watch for shake gesture for deleting
+    
+    private func validateDelete() -> Bool {
+        guard self.presentedViewController == .none, let items = self.selectedURLItems, items.isEmpty == false else { return false }
+        return true
+    }
+    
+    private func shakeToDelete() {
+        guard let realmController = self.realmController, let items = self.selectedURLItems, items.isEmpty == false else { return }
+//        let itemString = items.reduce("") { input, item -> String in
+//            let commaSeparator = input == "" ? "" : ", "
+//            let title = item.extras?.pageTitle ?? "Untitled"
+//            let trimLength = title.characters.count > 20 ? 20 : title.characters.count
+//            let trimmed = title.substring(to: title.index(title.startIndex, offsetBy: trimLength))
+//            let ellipsed = trimmed.characters.count < title.characters.count ? trimmed + "…" : trimmed
+//            return input + commaSeparator + ellipsed
+//        }
+        let alert = UIAlertController(title: "Delete \(items.count) Item(s)?", message: "This action cannot be undone.", preferredStyle: .actionSheet)
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: .none)
+        let delete = UIAlertAction(title: "Delete", style: .destructive) { action in
+            realmController.delete(items)
+        }
+        alert.addAction(cancel)
+        alert.addAction(delete)
+        self.emergencyDismiss(thenPresentViewController: alert)
+    }
+    
+    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+        switch motion {
+        case .motionShake:
+            guard self.validateDelete() else { super.motionEnded(motion, with: event); return; }
+            self.shakeToDelete()
+        default:
+            super.motionEnded(motion, with: event)
+        }
+    }
+    
     private var notificationToken: NotificationToken?
     
     deinit {
