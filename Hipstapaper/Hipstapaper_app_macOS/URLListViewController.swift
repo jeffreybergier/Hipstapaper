@@ -256,6 +256,8 @@ class URLListViewController: NSViewController, RealmControllable {
             return !selectedItems.isEmpty
         case .share:
             return !selectedItems.isEmpty
+        case .jsToggle:
+            return false
         }
     }
     

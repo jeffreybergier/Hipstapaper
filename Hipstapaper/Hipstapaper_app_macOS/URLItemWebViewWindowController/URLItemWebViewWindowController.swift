@@ -24,21 +24,6 @@ class URLItemWebViewWindowController: NSWindowController {
         }
     }
     
-    private var javascriptEnabled: Bool = false {
-        didSet {
-            let newValueNumber = NSNumber(value: self.javascriptEnabled)
-            self.javascriptCheckbox?.state = newValueNumber.intValue
-            self.webView.configuration.preferences.javaScriptEnabled = self.javascriptEnabled
-            self.webView.reload()
-        }
-    }
-    
-    @IBOutlet private weak var javascriptCheckbox: NSButton? {
-        didSet {
-            self.javascriptEnabled = self.webView.configuration.preferences.javaScriptEnabled
-        }
-    }
-    
     // MARK: NSView Outlets
     
     @IBOutlet private weak var webViewParentView: NSView? {
@@ -129,6 +114,12 @@ class URLItemWebViewWindowController: NSWindowController {
         NSSharingServicePicker(items: [url]).show(relativeTo: .zero, of: button, preferredEdge: .minY)
     }
     
+    @objc private func toggleJS(_ sender: NSObject?) {
+        let oldValue = self.webView.configuration.preferences.javaScriptEnabled
+        self.webView.configuration.preferences.javaScriptEnabled = !oldValue
+        self.webView.reload()
+    }
+    
     override func validateToolbarItem(_ sender: NSObject?) -> Bool {
         guard
             let toolbarItem = sender as? NSToolbarItem,
@@ -145,27 +136,15 @@ class URLItemWebViewWindowController: NSWindowController {
             return false
         case .share:
             return true
+        case .jsToggle:
+            guard let button = toolbarItem.view as? NSButton else { return false }
+            button.state = self.webView.configuration.preferences.javaScriptEnabled ? 1 : 0
+            return true
         }
     }
     
-    // MARK: Actions from Bottom Toolbar
-    
-    @IBAction private func javascriptCheckboxToggled(_ sender: NSObject?) {
-        guard let sender = sender as? NSButton else { return }
-        let newValue = NSNumber(value: sender.state).boolValue
-        self.javascriptEnabled = newValue
-    }
-    
     // MARK: Handle Menu Items
-    
-    @IBAction func javascriptMenuToggled(_ sender: NSObject?) {
-        guard let sender = sender as? NSMenuItem else { return }
-        print(sender.title)
-        print(sender.state)
-        let newValue = NSNumber(value: sender.state).boolValue
-        self.javascriptEnabled = !newValue
-    }
-    
+
     @objc fileprivate func shareMenu(_ sender: NSObject?) {
         guard
             let item = self.itemID,

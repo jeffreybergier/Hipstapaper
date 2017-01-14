@@ -10,7 +10,7 @@ import AppKit
 
 extension NSToolbarItem {
     enum Kind: Int {
-        case unarchive = 544, archive = 555, tag = 222, share = 233
+        case unarchive = 544, archive = 555, tag = 222, share = 233, jsToggle = 766
     }
 }
 

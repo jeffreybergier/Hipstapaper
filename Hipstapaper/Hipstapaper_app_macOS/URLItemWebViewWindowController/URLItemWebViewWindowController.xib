@@ -8,8 +8,6 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="URLItemWebViewWindowController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
-                <outlet property="bottomToolbarView" destination="f02-f1-Qbx" id="bZv-bl-GPV"/>
-                <outlet property="javascriptCheckbox" destination="84K-pi-zIe" id="iUY-t0-Ato"/>
                 <outlet property="shareToolbarButton" destination="1Tm-9F-ReY" id="LcF-va-Fne"/>
                 <outlet property="webViewParentView" destination="yJk-nd-Q33" id="QFp-9c-rce"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
@@ -20,43 +18,20 @@
         <window identifier="HipstapaperWebWindow" title="Loading..." allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="documentWindow" tabbingIdentifier="HipstapaperWebWindow" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES" fullSizeContentView="YES"/>
             <rect key="contentRect" x="268" y="189" width="800" height="1080"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <value key="minSize" type="size" width="500" height="600"/>
             <view key="contentView" wantsLayer="YES" id="se5-gp-TjO">
                 <rect key="frame" x="0.0" y="0.0" width="800" height="1080"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="yJk-nd-Q33">
-                        <rect key="frame" x="0.0" y="40" width="800" height="1040"/>
-                    </customView>
-                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="f02-f1-Qbx">
-                        <rect key="frame" x="0.0" y="0.0" width="800" height="40"/>
-                        <subviews>
-                            <button toolTip="Uncheck to increase performance and reduce ads" translatesAutoresizingMaskIntoConstraints="NO" id="84K-pi-zIe">
-                                <rect key="frame" x="18" y="11" width="85" height="18"/>
-                                <buttonCell key="cell" type="check" title="Javascript" bezelStyle="regularSquare" imagePosition="left" inset="2" id="6rK-E8-TO1">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="javascriptCheckboxToggled:" target="-2" id="ohS-UZ-OTA"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="84K-pi-zIe" firstAttribute="leading" secondItem="f02-f1-Qbx" secondAttribute="leading" constant="20" symbolic="YES" id="1z3-Ku-l3r"/>
-                            <constraint firstItem="84K-pi-zIe" firstAttribute="centerY" secondItem="f02-f1-Qbx" secondAttribute="centerY" id="Ed7-O4-1p3"/>
-                            <constraint firstAttribute="height" constant="40" id="Tkg-xt-8I8"/>
-                        </constraints>
+                        <rect key="frame" x="0.0" y="0.0" width="800" height="1080"/>
                     </customView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="f02-f1-Qbx" firstAttribute="top" secondItem="yJk-nd-Q33" secondAttribute="bottom" id="CTi-Og-ZaL"/>
                     <constraint firstItem="yJk-nd-Q33" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" id="GLT-Zg-Q1V"/>
-                    <constraint firstAttribute="trailing" secondItem="f02-f1-Qbx" secondAttribute="trailing" id="Ok8-Ty-WVd"/>
                     <constraint firstItem="yJk-nd-Q33" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" id="WPA-He-SQB"/>
-                    <constraint firstItem="f02-f1-Qbx" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" id="WRI-EP-3MX"/>
-                    <constraint firstAttribute="bottom" secondItem="f02-f1-Qbx" secondAttribute="bottom" id="ZcF-MW-ACN"/>
+                    <constraint firstAttribute="bottom" secondItem="yJk-nd-Q33" secondAttribute="bottom" id="amL-9E-Dza"/>
                     <constraint firstAttribute="trailing" secondItem="yJk-nd-Q33" secondAttribute="trailing" id="xgr-FD-ePi"/>
                 </constraints>
             </view>
@@ -219,6 +194,22 @@
                             </connections>
                         </button>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="36C6CFB1-B0DF-4AE7-97C1-25EA64942DF0" label="Javascript" paletteLabel="Javascript" tag="766" id="maz-Oh-PBo">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="49" height="34"/>
+                        <size key="maxSize" width="49" height="43"/>
+                        <button key="view" verticalHuggingPriority="750" tag="766" id="1JM-pJ-dqx">
+                            <rect key="frame" x="6" y="14" width="49" height="43"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="push" title="JS" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="GsC-8J-z2o">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
+                        <connections>
+                            <action selector="toggleJS:" target="-1" id="Uhf-1f-KYe"/>
+                        </connections>
+                    </toolbarItem>
                     <toolbarItem implicitItemIdentifier="CC14D200-40C2-4721-90D4-CBF3014DE14C" explicitItemIdentifier="NORESIZE-PageTitleToolbarItem" label="Title" paletteLabel="Page Title" id="908-8w-fii">
                         <nil key="toolTip"/>
                         <size key="minSize" width="200" height="28"/>
@@ -249,6 +240,7 @@
                     <toolbarItem reference="4tr-wk-3nz"/>
                     <toolbarItem reference="p1x-UJ-lwU"/>
                     <toolbarItem reference="908-8w-fii"/>
+                    <toolbarItem reference="maz-Oh-PBo"/>
                     <toolbarItem reference="p1x-UJ-lwU"/>
                     <toolbarItem reference="SpS-UR-rbq"/>
                 </defaultToolbarItems>
