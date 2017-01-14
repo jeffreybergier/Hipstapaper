@@ -61,13 +61,13 @@ class URLShareMacViewController: XPURLShareViewController {
         
         var webViewNeeded = false
         if let pageTitle = item.pageTitle {
-            self.pageTitleLabel?.stringValue = pageTitle
+            self.pageTitleLabel?.objectValue = pageTitle
         } else {
             webViewNeeded = true
-            self.pageTitleLabel?.stringValue = "Loading..."
+            self.pageTitleLabel?.objectValue = "Loading..."
         }
         if let image = item.image {
-            self.providedImageView?.image = image
+            self.providedImageView?.objectValue = image
         } else {
             webViewNeeded = true
         }
