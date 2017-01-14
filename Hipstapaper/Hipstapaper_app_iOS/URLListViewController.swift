@@ -265,28 +265,34 @@ extension URLListViewController /* Handle BarButtonItems */ {
     }
     
     @objc fileprivate func doneBBITapped(_ sender: NSObject?) {
-        self.tableView?.setEditing(false, animated: true)
-        let items = [
-            self.sortBBI,
-            self.verticalBarSpaceBBI,
-            self.filterBBI,
-            self.flexibleSpaceBBI,
-            self.editBBI
-        ]
-        self.disableAllBBI()
-        self.setToolbarItems(items, animated: true)
+        self.emergencyDismiss() { // dismisses any popovers and then does the action
+            self.tableView?.setEditing(false, animated: true)
+            let items = [
+                self.sortBBI,
+                self.verticalBarSpaceBBI,
+                self.filterBBI,
+                self.flexibleSpaceBBI,
+                self.editBBI
+            ]
+            self.disableAllBBI()
+            self.setToolbarItems(items, animated: true)
+        }
     }
     
     @objc fileprivate func archiveBBITapped(_ sender: NSObject?) {
-        guard let items = self.selectedURLItems else { return }
-        self.realmController?.url_setArchived(to: true, on: items)
-        self.disableAllBBI()
+        self.emergencyDismiss() { // dismisses any popovers and then does the action
+            guard let items = self.selectedURLItems else { return }
+            self.realmController?.url_setArchived(to: true, on: items)
+            self.disableAllBBI()
+        }
     }
     
     @objc fileprivate func unarchiveBBITapped(_ sender: NSObject?) {
-        guard let items = self.selectedURLItems else { return }
-        self.realmController?.url_setArchived(to: false, on: items)
-        self.disableAllBBI()
+        self.emergencyDismiss() { // dismisses any popovers and then does the action
+            guard let items = self.selectedURLItems else { return }
+            self.realmController?.url_setArchived(to: false, on: items)
+            self.disableAllBBI()
+        }
     }
     
     @objc fileprivate func tagBBITapped(_ sender: NSObject?) {
