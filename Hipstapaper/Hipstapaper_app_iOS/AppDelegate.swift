@@ -49,6 +49,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.extensionFileProcessor.processFiles(with: self.rootViewController.realmController)
     }
     
+    func application(_ application: UIApplication, shouldSaveApplicationState coder: NSCoder) -> Bool {
+        NSLog("Saving: AppDelegate")
+        return true
+    }
+    
+    func application(_ application: UIApplication, shouldRestoreApplicationState coder: NSCoder) -> Bool {
+        NSLog("Restoring: AppDelegate")
+        return true
+    }
+    
+    func application(_ application: UIApplication, viewControllerWithRestorationIdentifierPath identifierComponents: [Any], coder: NSCoder) -> UIViewController? {
+        print("uAppDelegate: VCforID: \(identifierComponents.last!)")
+        guard let id = identifierComponents.last as? String, let identifier = StateRestorationIdentifier(rawValue: id) else { return .none }
+        print("cAppDelegate: VCforID: \(identifier.rawValue)")
+        switch identifier {
+        case .hipstapaperSplitViewController:
+            return self.rootViewController
+        case .tagListViewController:
+            return self.rootViewController.sourceListVC
+        case .urlListViewController:
+            return self.rootViewController.contentListVC
+        case .tagListNavVC:
+            return nil
+        case .urlListNavVC:
+            return nil
+        }
+    }
+    
 //    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
 //        NSLog("BACKGROUNDFETCHOPEN")
 //        self.extensionFileProcessor.processFiles(with: self.rootViewController.realmController) { success in

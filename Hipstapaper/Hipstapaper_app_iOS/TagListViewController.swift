@@ -139,6 +139,14 @@ class TagListViewController: UIViewController, RealmControllable {
         }
     }
     
+    override func decodeRestorableState(with coder: NSCoder) {
+        NSLog("Decoded: \(self.restorationIdentifier!)")
+        let redView = UIView(frame: CGRect(x: 10, y: 70, width: 30, height: 30))
+        redView.backgroundColor = .red
+        self.view.addSubview(redView)
+        super.decodeRestorableState(with: coder)
+    }
+    
     private var notificationToken: NotificationToken?
     
     deinit {

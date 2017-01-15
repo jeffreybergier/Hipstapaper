@@ -43,12 +43,22 @@ class HipstapaperSplitViewController: UISplitViewController, RealmControllable {
     fileprivate lazy var sourceListNavVC: UINavigationController = {
         let tagVC = TagListViewController(selectionDelegate: self, controller: self.realmController)
         let navVC = UINavigationController(rootViewController: tagVC)
+        
+        // register for state restoration
+        tagVC.restorationIdentifier = StateRestorationIdentifier.tagListViewController.rawValue
+        navVC.restorationIdentifier = StateRestorationIdentifier.tagListNavVC.rawValue
+        
         return navVC
     }()
     
     fileprivate lazy var contentListNavVC: UINavigationController = {
         let urlVC = URLListViewController(selectionDelegate: self, controller: self.realmController)
         let navVC = UINavigationController(rootViewController: urlVC)
+        
+        // register for state restoration
+        urlVC.restorationIdentifier = StateRestorationIdentifier.urlListViewController.rawValue
+        navVC.restorationIdentifier = StateRestorationIdentifier.urlListNavVC.rawValue
+        
         return navVC
     }()
     
@@ -56,11 +66,11 @@ class HipstapaperSplitViewController: UISplitViewController, RealmControllable {
     
     // These instances are recycled rather than being re-created every time the selection changes.
     
-    fileprivate var sourceListVC: TagListViewController {
+    internal var sourceListVC: TagListViewController {
         return self.sourceListNavVC.viewControllers.first as! TagListViewController
     }
     
-    fileprivate var contentListVC: URLListViewController {
+    internal var contentListVC: URLListViewController {
         return self.contentListNavVC.viewControllers.first as! URLListViewController
     }
     
@@ -80,6 +90,9 @@ class HipstapaperSplitViewController: UISplitViewController, RealmControllable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // register for state restoration
+        self.restorationIdentifier = StateRestorationIdentifier.hipstapaperSplitViewController.rawValue
 
         // gives us the nice 2-up mode on ipads
         self.preferredDisplayMode = .allVisible

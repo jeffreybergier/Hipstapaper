@@ -195,6 +195,18 @@ class URLListViewController: UIViewController, RealmControllable {
         }
     }
     
+    // MARK: State Restoration
+    
+    override func decodeRestorableState(with coder: NSCoder) {
+        NSLog("Decoded: \(self.restorationIdentifier!)")
+        let redView = UIView(frame: CGRect(x: 10, y: 70, width: 30, height: 30))
+        redView.backgroundColor = .red
+        self.view.addSubview(redView)
+        super.decodeRestorableState(with: coder)
+    }
+    
+    // MARK: Deinit
+    
     private var notificationToken: NotificationToken?
     
     deinit {
@@ -453,3 +465,22 @@ extension URLListViewController: UITableViewDataSource {
         return cell
     }
 }
+/*
+extension URLListViewController: UIDataSourceModelAssociation {
+    
+    func modelIdentifierForElement(at idx: IndexPath, in view: UIView) -> String? {
+        return self.data?[idx.row].uuid
+    }
+    
+    func indexPathForElement(withModelIdentifier identifier: String, in view: UIView) -> IndexPath? {
+        print("\(identifier)")
+        return nil
+//        let index = self.data?.index(matching: "uuid = \(identifier)")
+//        if let index = index {
+//            return IndexPath(row: index, section: 0)
+//        } else {
+//            return .none
+//        }
+    }
+}
+ */

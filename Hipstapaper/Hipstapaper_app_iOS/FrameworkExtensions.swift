@@ -31,3 +31,7 @@ extension UIViewController {
         }
     }
 }
+
+enum StateRestorationIdentifier: String {
+    case hipstapaperSplitViewController, tagListViewController, tagListNavVC, urlListViewController, urlListNavVC
+}
