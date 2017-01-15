@@ -97,6 +97,10 @@ class HipstapaperSplitViewController: UISplitViewController, RealmControllable {
         // gives us the nice 2-up mode on ipads
         self.preferredDisplayMode = .allVisible
         
+        // load the previous selection
+        let selection = UserDefaults.standard.currentSelection
+        self.didChange(itemsToLoad: selection.itemsToLoad, sortOrder: selection.sortOrder, filter: selection.filter, sender: .tertiaryVC)
+        
         // Delete Later: Timer that tests whether clearing the realm controller propogates through all the view controllers
         // Timer.scheduledTimer(timeInterval: 10, target: self, selector: "timerFired:", userInfo: nil, repeats: false)
     }
@@ -161,10 +165,14 @@ extension HipstapaperSplitViewController: URLItemsToLoadChangeDelegate {
     }
     func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrder?, filter: URLItem.ArchiveFilter?, sender: ViewControllerSender) {
         switch sender {
-        case .tertiaryVC:
-            fatalError()
+        case .tertiaryVC: // happens in viewdidload
+            // set to contentlistVC because then sourceListVC doesn't call back into its selection delegate
+            self.sourceListVC.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: .contentVC)
+            // set to sourcelistvc because then contentvc doesn't call back into its selection delegate
+            self.contentListVC.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: .sourceListVC)
         case .contentVC:
             self.sourceListVC.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
+            UserDefaults.standard.currentSelection = (itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter)
         case .sourceListVC:
             // at the end of any selection validation we need to do some logic
             defer {
@@ -184,6 +192,7 @@ extension HipstapaperSplitViewController: URLItemsToLoadChangeDelegate {
                 (sortOrder ?? self.sortOrder) != self.sortOrder
             else { break }
             self.contentListVC.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
+            UserDefaults.standard.currentSelection = (itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter)
         }
     }
 }

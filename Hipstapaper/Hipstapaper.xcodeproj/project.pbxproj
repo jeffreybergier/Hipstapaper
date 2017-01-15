@@ -38,7 +38,9 @@
 		504D7F181E11A1BF0010A5C7 /* LoginiOSTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D7F171E11A1BF0010A5C7 /* LoginiOSTableViewController.swift */; };
 		504FC0FC1DFA444A0014C787 /* URLTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504FC0FA1DFA444A0014C787 /* URLTableViewCell.swift */; };
 		504FC0FD1DFA444A0014C787 /* URLTableViewCellwIMG.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504FC0FB1DFA444A0014C787 /* URLTableViewCellwIMG.xib */; };
-		5055515F1E1AD8BC006E2A3B /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5055515E1E1AD8BC006E2A3B /* FrameworkExtensions.swift */; };
+		5055515F1E1AD8BC006E2A3B /* macOSFrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5055515E1E1AD8BC006E2A3B /* macOSFrameworkExtensions.swift */; };
+		505A23341E2C116A0011D00F /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505A23331E2C116A0011D00F /* FrameworkExtensions.swift */; };
+		505A23351E2C116A0011D00F /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505A23331E2C116A0011D00F /* FrameworkExtensions.swift */; };
 		505B304B1DEA698300B74AE6 /* URLItemWebViewWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30491DEA698300B74AE6 /* URLItemWebViewWindowController.swift */; };
 		505B304C1DEA698300B74AE6 /* URLItemWebViewWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 505B304A1DEA698300B74AE6 /* URLItemWebViewWindowController.xib */; };
 		505B79BF1E0B924C007BB364 /* URLShareMacViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B79BE1E0B924C007BB364 /* URLShareMacViewController.swift */; };
@@ -62,7 +64,7 @@
 		50841AF61E1F56EE008621BB /* SortSelectingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50841AF41E1F56EE008621BB /* SortSelectingViewController.xib */; };
 		50841AF91E2166A6008621BB /* SortSelectingiOSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50841AF71E2166A6008621BB /* SortSelectingiOSViewController.swift */; };
 		50841AFA1E2166A6008621BB /* SortSelectingiOSViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50841AF81E2166A6008621BB /* SortSelectingiOSViewController.xib */; };
-		50841AFC1E21B7AC008621BB /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50841AFB1E21B7AC008621BB /* FrameworkExtensions.swift */; };
+		50841AFC1E21B7AC008621BB /* iOSFrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50841AFB1E21B7AC008621BB /* iOSFrameworkExtensions.swift */; };
 		508623191E10BF2700C06C7D /* RealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508623181E10BF2700C06C7D /* RealmController.swift */; };
 		5086231B1E10BF2700C06C7D /* RealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508623181E10BF2700C06C7D /* RealmController.swift */; };
 		508623201E10C74D00C06C7D /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5086231E1E10C74D00C06C7D /* PreferencesWindowController.swift */; };
@@ -195,7 +197,8 @@
 		504D7F171E11A1BF0010A5C7 /* LoginiOSTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginiOSTableViewController.swift; sourceTree = "<group>"; };
 		504FC0FA1DFA444A0014C787 /* URLTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLTableViewCell.swift; sourceTree = "<group>"; };
 		504FC0FB1DFA444A0014C787 /* URLTableViewCellwIMG.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLTableViewCellwIMG.xib; sourceTree = "<group>"; };
-		5055515E1E1AD8BC006E2A3B /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
+		5055515E1E1AD8BC006E2A3B /* macOSFrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = macOSFrameworkExtensions.swift; sourceTree = "<group>"; };
+		505A23331E2C116A0011D00F /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		505B30491DEA698300B74AE6 /* URLItemWebViewWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemWebViewWindowController.swift; sourceTree = "<group>"; };
 		505B304A1DEA698300B74AE6 /* URLItemWebViewWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLItemWebViewWindowController.xib; sourceTree = "<group>"; };
 		505B79BE1E0B924C007BB364 /* URLShareMacViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLShareMacViewController.swift; sourceTree = "<group>"; };
@@ -219,7 +222,7 @@
 		50841AF41E1F56EE008621BB /* SortSelectingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SortSelectingViewController.xib; sourceTree = "<group>"; };
 		50841AF71E2166A6008621BB /* SortSelectingiOSViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortSelectingiOSViewController.swift; sourceTree = "<group>"; };
 		50841AF81E2166A6008621BB /* SortSelectingiOSViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SortSelectingiOSViewController.xib; sourceTree = "<group>"; };
-		50841AFB1E21B7AC008621BB /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
+		50841AFB1E21B7AC008621BB /* iOSFrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOSFrameworkExtensions.swift; sourceTree = "<group>"; };
 		508623181E10BF2700C06C7D /* RealmController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmController.swift; sourceTree = "<group>"; };
 		5086231E1E10C74D00C06C7D /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		5086231F1E10C74D00C06C7D /* PreferencesWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesWindowController.xib; sourceTree = "<group>"; };
@@ -300,7 +303,7 @@
 			isa = PBXGroup;
 			children = (
 				5005E11D1DF4CB8300BA38E6 /* AppDelegate.swift */,
-				50841AFB1E21B7AC008621BB /* FrameworkExtensions.swift */,
+				50841AFB1E21B7AC008621BB /* iOSFrameworkExtensions.swift */,
 				50F7CFEE1E136E720057DC6C /* HipstapaperSplitViewController.swift */,
 				504D7F131E118A0E0010A5C7 /* LoggedIniOSViewController.swift */,
 				504D7F141E118A0E0010A5C7 /* LoggedIniOSViewController.xib */,
@@ -373,6 +376,7 @@
 			isa = PBXGroup;
 			children = (
 				508623181E10BF2700C06C7D /* RealmController.swift */,
+				505A23331E2C116A0011D00F /* FrameworkExtensions.swift */,
 				50A151981E0A15E700529048 /* URLItem.swift */,
 				50432EFC1E0AFF9400D9C3D5 /* URLItemExtras.swift */,
 				50420FEC1E0B0D0F00B237DA /* TagItem.swift */,
@@ -440,7 +444,7 @@
 				50841AF31E1F56EE008621BB /* SortSelectingViewController.swift */,
 				50841AF41E1F56EE008621BB /* SortSelectingViewController.xib */,
 				50EE9F071E0CB80E00E76CF5 /* ValidatingToolbarItem.swift */,
-				5055515E1E1AD8BC006E2A3B /* FrameworkExtensions.swift */,
+				5055515E1E1AD8BC006E2A3B /* macOSFrameworkExtensions.swift */,
 				50088A6F1E07153200D6AAED /* HipstapaperWindowController.swift */,
 				50088A691E07093000D6AAED /* Main.storyboard */,
 				5048AF0B1E0DA45300AC1B2D /* URLTaggingViewController */,
@@ -904,12 +908,13 @@
 				5086231B1E10BF2700C06C7D /* RealmController.swift in Sources */,
 				504FC0FC1DFA444A0014C787 /* URLTableViewCell.swift in Sources */,
 				5005E11E1DF4CB8300BA38E6 /* AppDelegate.swift in Sources */,
-				50841AFC1E21B7AC008621BB /* FrameworkExtensions.swift in Sources */,
+				50841AFC1E21B7AC008621BB /* iOSFrameworkExtensions.swift in Sources */,
 				504D7F181E11A1BF0010A5C7 /* LoginiOSTableViewController.swift in Sources */,
 				5083AA121E04F4FC00BCAC93 /* TagListViewController.swift in Sources */,
 				50420FEF1E0B0D0F00B237DA /* TagItem.swift in Sources */,
 				50841AF91E2166A6008621BB /* SortSelectingiOSViewController.swift in Sources */,
 				504AFCE01E15C3B400B8CC3A /* URLSafariViewController.swift in Sources */,
+				505A23351E2C116A0011D00F /* FrameworkExtensions.swift in Sources */,
 				5083AA161E05020E00BCAC93 /* URLListViewController.swift in Sources */,
 				5083AA201E05958500BCAC93 /* KeyObserver.swift in Sources */,
 				50F7CFEF1E136E720057DC6C /* HipstapaperSplitViewController.swift in Sources */,
@@ -957,11 +962,12 @@
 			files = (
 				502D068F1E1E0861000CEEB3 /* MenuController.swift in Sources */,
 				505B304B1DEA698300B74AE6 /* URLItemWebViewWindowController.swift in Sources */,
+				505A23341E2C116A0011D00F /* FrameworkExtensions.swift in Sources */,
 				506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */,
 				50D61C641E0E2F9A004595CD /* NewTagNamingViewController.swift in Sources */,
 				50432EFD1E0AFF9400D9C3D5 /* URLItemExtras.swift in Sources */,
 				504AFCBD1E1592FC00B8CC3A /* SaveExtensionFileProcessor.swift in Sources */,
-				5055515F1E1AD8BC006E2A3B /* FrameworkExtensions.swift in Sources */,
+				5055515F1E1AD8BC006E2A3B /* macOSFrameworkExtensions.swift in Sources */,
 				508623191E10BF2700C06C7D /* RealmController.swift in Sources */,
 				5048AF0E1E0DA48600AC1B2D /* URLTaggingViewController.swift in Sources */,
 				50088A701E07153200D6AAED /* HipstapaperWindowController.swift in Sources */,
