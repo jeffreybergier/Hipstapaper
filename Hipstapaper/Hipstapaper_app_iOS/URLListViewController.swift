@@ -167,14 +167,6 @@ class URLListViewController: UIViewController, RealmControllable {
     
     private func shakeToDelete() {
         guard let realmController = self.realmController, let items = self.selectedURLItems, items.isEmpty == false else { return }
-//        let itemString = items.reduce("") { input, item -> String in
-//            let commaSeparator = input == "" ? "" : ", "
-//            let title = item.extras?.pageTitle ?? "Untitled"
-//            let trimLength = title.characters.count > 20 ? 20 : title.characters.count
-//            let trimmed = title.substring(to: title.index(title.startIndex, offsetBy: trimLength))
-//            let ellipsed = trimmed.characters.count < title.characters.count ? trimmed + "…" : trimmed
-//            return input + commaSeparator + ellipsed
-//        }
         let alert = UIAlertController(title: "Delete \(items.count) Item(s)?", message: "This action cannot be undone.", preferredStyle: .actionSheet)
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: .none)
         let delete = UIAlertAction(title: "Delete", style: .destructive) { action in
@@ -376,7 +368,7 @@ extension URLListViewController: UIViewControllerPreviewingDelegate {
         // use my special preview action injection SafariViewController
         // the actions are queried for on the presented view controller
         // but SFSafariViewController knows nothing about realm controller, no do I want it to
-        let sfVC = PreviewActionInjectionSafariViewController(url: url, previewActions: [tagAction, archiveAction])
+        let sfVC = URLSafariViewController(url: url, previewActions: [tagAction, archiveAction])
         
         // give the previewing context the Rect that the CellView is in so it knows where this 3d touch came from
         previewingContext.sourceRect = tableView.convert(cellView.frame, to: self.view)
@@ -403,7 +395,7 @@ extension URLListViewController: UITableViewDelegate {
             self.updateBBI(with: selectedItems)
         } else {
             guard let selectedItem = selectedItems.first, let url = URL(string: selectedItem.urlString) else { return }
-            let sfVC = SFSafariViewController(url: url, entersReaderIfAvailable: false)
+            let sfVC = URLSafariViewController(url: url, previewActions: .none)
             self.present(sfVC, animated: true, completion: .none)
         }
     }
@@ -465,22 +457,22 @@ extension URLListViewController: UITableViewDataSource {
         return cell
     }
 }
-/*
+
 extension URLListViewController: UIDataSourceModelAssociation {
     
-    func modelIdentifierForElement(at idx: IndexPath, in view: UIView) -> String? {
-        return self.data?[idx.row].uuid
+    // Framework was passing NIL for indexPath which was causing a crash
+    func modelIdentifierForElement(at idx: IndexPath?, in view: UIView) -> String? {
+        guard let indexPath = idx else { return .none }
+        let uuid = self.data?[indexPath.row].uuid
+        return uuid
     }
     
-    func indexPathForElement(withModelIdentifier identifier: String, in view: UIView) -> IndexPath? {
-        print("\(identifier)")
-        return nil
-//        let index = self.data?.index(matching: "uuid = \(identifier)")
-//        if let index = index {
-//            return IndexPath(row: index, section: 0)
-//        } else {
-//            return .none
-//        }
+    // Afraid framework will pass NIL for identifier. So changing its optionality
+    func indexPathForElement(withModelIdentifier identifier: String?, in view: UIView) -> IndexPath? {
+        guard let identifier = identifier else { return .none }
+        let _index = self.data?.index(matching: "uuid = '\(identifier)'")
+        guard let index = _index else { return .none }
+        return IndexPath(row: index, section: 0)
     }
 }
- */
+

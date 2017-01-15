@@ -33,5 +33,5 @@ extension UIViewController {
 }
 
 enum StateRestorationIdentifier: String {
-    case hipstapaperSplitViewController, tagListViewController, tagListNavVC, urlListViewController, urlListNavVC
+    case hipstapaperSplitViewController, tagListViewController, tagListNavVC, urlListViewController, urlListNavVC, tagAddRemoveViewController, tagAddRemoveNavVC, safariViewController
 }

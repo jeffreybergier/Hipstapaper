@@ -20,6 +20,8 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
     class func viewController(style: PresentationStyle, selectedItems: [URLItem], controller: RealmController) -> UIViewController {
         let tagVC = TagAddRemoveViewController(selectedItems: selectedItems, controller: controller)
         let navVC = UINavigationController(rootViewController: tagVC)
+        tagVC.restorationIdentifier = StateRestorationIdentifier.tagAddRemoveViewController.rawValue
+        navVC.restorationIdentifier = StateRestorationIdentifier.tagAddRemoveNavVC.rawValue
         tagVC.presentationStyle = style
         switch style {
         case .popBBI(let bbi):

@@ -15,17 +15,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private let extensionFileProcessor = SaveExtensionFileProcessor()
     private let rootViewController = HipstapaperSplitViewController()
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
+    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalNever)
-//        UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+        //        UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
         if self.window == .none {
             self.window = UIWindow(frame: UIScreen.main.bounds)
         }
         
         UIView.appearance().tintColor = UIColor(red: 0, green: 204/255.0, blue: 197/255.0, alpha: 1)
-
+        
         self.window!.rootViewController = rootViewController
         self.window!.backgroundColor = .white
         self.window!.makeKeyAndVisible()
@@ -33,7 +32,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if UIApplication.shared.applicationState != .background {
             self.extensionFileProcessor.processFiles(with: self.rootViewController.realmController)
         }
-                
+        
+        return true
+    }
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         return true
     }
 
@@ -60,9 +63,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, viewControllerWithRestorationIdentifierPath identifierComponents: [Any], coder: NSCoder) -> UIViewController? {
-        print("uAppDelegate: VCforID: \(identifierComponents.last!)")
+        NSLog("AppDelegate: VCforID: \(identifierComponents.last!)")
         guard let id = identifierComponents.last as? String, let identifier = StateRestorationIdentifier(rawValue: id) else { return .none }
-        print("cAppDelegate: VCforID: \(identifier.rawValue)")
         switch identifier {
         case .hipstapaperSplitViewController:
             return self.rootViewController
@@ -70,10 +72,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return self.rootViewController.sourceListVC
         case .urlListViewController:
             return self.rootViewController.contentListVC
-        case .tagListNavVC:
-            return nil
-        case .urlListNavVC:
-            return nil
+        case .tagListNavVC, .urlListNavVC:
+            // state restoration added to these, just so it gets added to their children
+            return .none
+        case .tagAddRemoveViewController, .tagAddRemoveNavVC:
+            // state restoration added to these just so the screenshot gets taken.
+            // I don't actually want to restore state
+            return .none
+        case .safariViewController:
+            return .none // should never be called. SafariViewController handles its own restoration
         }
     }
     
