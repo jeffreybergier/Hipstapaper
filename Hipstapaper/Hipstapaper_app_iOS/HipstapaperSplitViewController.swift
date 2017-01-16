@@ -97,10 +97,6 @@ class HipstapaperSplitViewController: UISplitViewController, RealmControllable {
         // gives us the nice 2-up mode on ipads
         self.preferredDisplayMode = .allVisible
         
-        // load the previous selection
-        let selection = UserDefaults.standard.currentSelection
-        self.didChange(itemsToLoad: selection.itemsToLoad, sortOrder: selection.sortOrder, filter: selection.filter, sender: .tertiaryVC)
-        
         // Delete Later: Timer that tests whether clearing the realm controller propogates through all the view controllers
         // Timer.scheduledTimer(timeInterval: 10, target: self, selector: "timerFired:", userInfo: nil, repeats: false)
     }
@@ -151,6 +147,16 @@ class HipstapaperSplitViewController: UISplitViewController, RealmControllable {
         navVC.modalPresentationStyle = .formSheet
         self.present(navVC, animated: animated, completion: .none)
     }
+    
+    // MARK: State Restoration
+    
+//    override func encodeRestorableState(with coder: NSCoder) {
+//        super.encodeRestorableState(with: coder)
+//    }
+//    
+//    override func decodeRestorableState(with coder: NSCoder) {
+//        super.decodeRestorableState(with: coder)
+//    }
 }
 
 extension HipstapaperSplitViewController: URLItemsToLoadChangeDelegate {
@@ -165,15 +171,20 @@ extension HipstapaperSplitViewController: URLItemsToLoadChangeDelegate {
     }
     func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrder?, filter: URLItem.ArchiveFilter?, sender: ViewControllerSender) {
         switch sender {
-        case .tertiaryVC: // happens in viewdidload
-            // set to contentlistVC because then sourceListVC doesn't call back into its selection delegate
-            self.sourceListVC.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: .contentVC)
-            // set to sourcelistvc because then contentvc doesn't call back into its selection delegate
-            self.contentListVC.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: .sourceListVC)
+        case .tertiaryVC:
+            break
         case .contentVC:
+            // let the source list know this. It needs to update its selected row
             self.sourceListVC.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
-            UserDefaults.standard.currentSelection = (itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter)
+            // save the changes in NSUserDefaults
+            UserDefaults.standard.userSelection = (itemsToLoad: itemsToLoad ?? self.itemsToLoad,
+                                                      sortOrder: sortOrder ?? self.sortOrder,
+                                                      filter: filter ?? self.filter)
         case .sourceListVC:
+            // save the changes in NSUserDefaults
+            UserDefaults.standard.userSelection = (itemsToLoad: itemsToLoad ?? self.itemsToLoad,
+                                                      sortOrder: sortOrder ?? self.sortOrder,
+                                                      filter: filter ?? self.filter)
             // at the end of any selection validation we need to do some logic
             defer {
                 // if the splitVC is collapsed, that means, we need to manually tell
@@ -192,7 +203,6 @@ extension HipstapaperSplitViewController: URLItemsToLoadChangeDelegate {
                 (sortOrder ?? self.sortOrder) != self.sortOrder
             else { break }
             self.contentListVC.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
-            UserDefaults.standard.currentSelection = (itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter)
         }
     }
 }

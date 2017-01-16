@@ -8,6 +8,14 @@
 
 import UIKit
 
+extension UITableView {
+    func deselectAllRows(animated: Bool) {
+        for indexPath in self.indexPathsForSelectedRows ?? [] {
+            self.deselectRow(at: indexPath, animated: animated)
+        }
+    }
+}
+
 extension UIViewController {
     func emergencyDismiss(animated animatedDismiss: Bool = false,
                           thenPresentViewController vc: UIViewController,

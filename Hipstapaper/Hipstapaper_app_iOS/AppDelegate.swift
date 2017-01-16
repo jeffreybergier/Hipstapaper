@@ -16,8 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private let rootViewController = HipstapaperSplitViewController()
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
+        
         UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalNever)
-        //        UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+//        UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
         if self.window == .none {
             self.window = UIWindow(frame: UIScreen.main.bounds)
@@ -25,8 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIView.appearance().tintColor = UIColor(red: 0, green: 204/255.0, blue: 197/255.0, alpha: 1)
         
-        self.window!.rootViewController = rootViewController
-        self.window!.backgroundColor = .white
+        self.window?.rootViewController = rootViewController
+        self.window?.backgroundColor = .white
         self.window!.makeKeyAndVisible()
         
         if UIApplication.shared.applicationState != .background {
@@ -53,17 +54,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, shouldSaveApplicationState coder: NSCoder) -> Bool {
-        NSLog("Saving: AppDelegate")
         return true
     }
     
     func application(_ application: UIApplication, shouldRestoreApplicationState coder: NSCoder) -> Bool {
-        NSLog("Restoring: AppDelegate")
         return true
     }
     
     func application(_ application: UIApplication, viewControllerWithRestorationIdentifierPath identifierComponents: [Any], coder: NSCoder) -> UIViewController? {
-        NSLog("AppDelegate: VCforID: \(identifierComponents.last!)")
         guard let id = identifierComponents.last as? String, let identifier = StateRestorationIdentifier(rawValue: id) else { return .none }
         switch identifier {
         case .hipstapaperSplitViewController:

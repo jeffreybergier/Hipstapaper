@@ -9,14 +9,6 @@
 import RealmSwift
 import UIKit
 
-extension UITableView {
-    func deselectAllRows(animated: Bool) {
-        for indexPath in self.indexPathsForSelectedRows ?? [] {
-            self.deselectRow(at: indexPath, animated: animated)
-        }
-    }
-}
-
 class TagListViewController: UIViewController, RealmControllable {
     
     fileprivate enum Section: Int {
@@ -59,7 +51,7 @@ class TagListViewController: UIViewController, RealmControllable {
         self.notificationToken?.stop()
         self.notificationToken = .none
         self.tags = .none
-        self.tableView?.reloadData()
+        if self.tableView?.numberOfRows(inSection: 0) != 0 { self.tableView?.reloadData() } // helps reduce flickering the tableview is already empty
         
         // reload everything
         self.tags = self.realmController?.tag_loadAll()
@@ -129,23 +121,23 @@ class TagListViewController: UIViewController, RealmControllable {
         case .all:
             switch filter {
             case .all:
-                self.tableView?.selectRow(at: IndexPath(row: 1, section: Section.readingList.rawValue), animated: false, scrollPosition: .none)
+                self.tableView?.selectRow(at: IndexPath(row: 1, section: Section.readingList.rawValue), animated: animated, scrollPosition: .top)
             case .unarchived:
-                self.tableView?.selectRow(at: IndexPath(row: 0, section: Section.readingList.rawValue), animated: false, scrollPosition: .none)
+                self.tableView?.selectRow(at: IndexPath(row: 0, section: Section.readingList.rawValue), animated: animated, scrollPosition: .top)
             }
         case .tag(let tagID):
             guard let index = self.tags?.enumerated().filter({ $0.element.normalizedNameHash == tagID.idName }).map({ $0.offset }).first else { return }
-            self.tableView?.selectRow(at: IndexPath(row: index, section: Section.tags.rawValue), animated: false, scrollPosition: .none)
+            self.tableView?.selectRow(at: IndexPath(row: index, section: Section.tags.rawValue), animated: animated, scrollPosition: .top)
         }
     }
     
-    override func decodeRestorableState(with coder: NSCoder) {
-        NSLog("Decoded: \(self.restorationIdentifier!)")
-        let redView = UIView(frame: CGRect(x: 10, y: 70, width: 30, height: 30))
-        redView.backgroundColor = .red
-        self.view.addSubview(redView)
-        super.decodeRestorableState(with: coder)
-    }
+//    override func decodeRestorableState(with coder: NSCoder) {
+//        NSLog("Decoded: \(self.restorationIdentifier!)")
+//        let redView = UIView(frame: CGRect(x: 10, y: 70, width: 30, height: 30))
+//        redView.backgroundColor = .red
+//        self.view.addSubview(redView)
+//        super.decodeRestorableState(with: coder)
+//    }
     
     private var notificationToken: NotificationToken?
     

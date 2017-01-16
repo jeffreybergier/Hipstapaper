@@ -42,9 +42,9 @@ class URLListViewController: UIViewController, RealmControllable {
     
     // MARK: Selection
     
-    var itemsToLoad = URLItem.ItemsToLoad.all
-    var filter: URLItem.ArchiveFilter = .unarchived
-    var sortOrder: URLItem.SortOrder = .recentlyAddedOnTop
+    var itemsToLoad = UserDefaults.standard.userSelection.itemsToLoad
+    var filter = UserDefaults.standard.userSelection.filter
+    var sortOrder = UserDefaults.standard.userSelection.sortOrder
     
     fileprivate weak var selectionDelegate: URLItemsToLoadChangeDelegate?
     
@@ -122,7 +122,7 @@ class URLListViewController: UIViewController, RealmControllable {
         self.notificationToken?.stop()
         self.notificationToken = .none
         self.data = .none
-        self.tableView?.reloadData()
+        if self.tableView?.numberOfRows(inSection: 0) != 0 { self.tableView?.reloadData() } // helps reduce flickering the tableview is already empty
         self.doneBBITapped(.none)
         
         // configure data source
@@ -189,13 +189,13 @@ class URLListViewController: UIViewController, RealmControllable {
     
     // MARK: State Restoration
     
-    override func decodeRestorableState(with coder: NSCoder) {
-        NSLog("Decoded: \(self.restorationIdentifier!)")
-        let redView = UIView(frame: CGRect(x: 10, y: 70, width: 30, height: 30))
-        redView.backgroundColor = .red
-        self.view.addSubview(redView)
-        super.decodeRestorableState(with: coder)
-    }
+//    override func decodeRestorableState(with coder: NSCoder) {
+//        NSLog("Decoded: \(self.restorationIdentifier!)")
+//        let redView = UIView(frame: CGRect(x: 10, y: 70, width: 30, height: 30))
+//        redView.backgroundColor = .red
+//        self.view.addSubview(redView)
+//        super.decodeRestorableState(with: coder)
+//    }
     
     // MARK: Deinit
     

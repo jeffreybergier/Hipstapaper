@@ -17,7 +17,7 @@ extension UserDefaults {
         fileprivate static let tagUniqueName = "kTagUniqueNameKey"
     }
     
-    var currentSelection: (itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrder?, filter: URLItem.ArchiveFilter?) {
+    var userSelection: (itemsToLoad: URLItem.ItemsToLoad, sortOrder: URLItem.SortOrder, filter: URLItem.ArchiveFilter) {
         get {
             let sortValue = (self.value(forKey: Keys.sortOrder) as? NSNumber)?.intValue ?? -1
             let filterValue = (self.value(forKey: Keys.filter) as? NSNumber)?.intValue ?? -1
@@ -31,14 +31,14 @@ extension UserDefaults {
             } else {
                 itemsToLoad = .all
             }
-            return (itemsToLoad: itemsToLoad, sortOrder: sort, filter: filter)
+            return (itemsToLoad: itemsToLoad, sortOrder: sort ?? .recentlyAddedOnTop, filter: filter ?? .unarchived)
         }
         set {
-            let sortNumber = NSNumber(integerLiteral: newValue.sortOrder?.rawValue ?? -1)
-            let filterNumber = NSNumber(integerLiteral: newValue.filter?.rawValue ?? -1)
+            let sortNumber = NSNumber(integerLiteral: newValue.sortOrder.rawValue)
+            let filterNumber = NSNumber(integerLiteral: newValue.filter.rawValue)
             self.set(sortNumber, forKey: Keys.sortOrder)
             self.set(filterNumber, forKey: Keys.filter)
-            if let itemsToLoad = newValue.itemsToLoad, case .tag(let tagID) = itemsToLoad {
+            if case .tag(let tagID) = newValue.itemsToLoad {
                 self.set(tagID.displayName, forKey: Keys.tagDisplayName)
                 self.set(tagID.idName, forKey: Keys.tagUniqueName)
             } else {
