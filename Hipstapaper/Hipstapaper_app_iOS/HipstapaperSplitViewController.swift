@@ -147,16 +147,6 @@ class HipstapaperSplitViewController: UISplitViewController, RealmControllable {
         navVC.modalPresentationStyle = .formSheet
         self.present(navVC, animated: animated, completion: .none)
     }
-    
-    // MARK: State Restoration
-    
-//    override func encodeRestorableState(with coder: NSCoder) {
-//        super.encodeRestorableState(with: coder)
-//    }
-//    
-//    override func decodeRestorableState(with coder: NSCoder) {
-//        super.decodeRestorableState(with: coder)
-//    }
 }
 
 extension HipstapaperSplitViewController: URLItemsToLoadChangeDelegate {

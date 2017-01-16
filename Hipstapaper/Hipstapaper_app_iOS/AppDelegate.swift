@@ -73,12 +73,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case .tagListNavVC, .urlListNavVC:
             // state restoration added to these, just so it gets added to their children
             return .none
-        case .tagAddRemoveViewController, .tagAddRemoveNavVC:
+        case .tertiaryPopOverViewController, .tertiaryPopOverNavVC:
             // state restoration added to these just so the screenshot gets taken.
             // I don't actually want to restore state
             return .none
         case .safariViewController:
-            return .none // should never be called. SafariViewController handles its own restoration
+            fatalError() // should never be called. SafariViewController handles its own restoration
         }
     }
     

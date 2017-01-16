@@ -19,6 +19,8 @@ class SortSelectingiOSViewController: UIViewController {
     static func newPopover(kind: Kind, delegate: URLItemsToLoadChangeDelegate, from bbi: UIBarButtonItem) -> UIViewController {
         let vc = SortSelectingiOSViewController(kind: kind, delegate: delegate)
         let navVC = UINavigationController(rootViewController: vc)
+        vc.restorationIdentifier = StateRestorationIdentifier.tertiaryPopOverViewController.rawValue
+        navVC.restorationIdentifier = StateRestorationIdentifier.tertiaryPopOverNavVC.rawValue
         navVC.modalPresentationStyle = .popover
         navVC.popoverPresentationController?.delegate = vc
         navVC.popoverPresentationController?.barButtonItem = bbi

@@ -41,5 +41,7 @@ extension UIViewController {
 }
 
 enum StateRestorationIdentifier: String {
-    case hipstapaperSplitViewController, tagListViewController, tagListNavVC, urlListViewController, urlListNavVC, tagAddRemoveViewController, tagAddRemoveNavVC, safariViewController
+    // TagList restoration does not work on collapsed splitview controller
+    // I cannot figure out how to make the splitview controller fall back to its source list after it restores its state
+    case hipstapaperSplitViewController, tagListViewController, tagListNavVC, urlListViewController, urlListNavVC, tertiaryPopOverViewController, tertiaryPopOverNavVC, safariViewController
 }
