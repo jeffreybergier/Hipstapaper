@@ -64,7 +64,7 @@ public extension URLItem {
 public extension URLItem {
 
     public enum SortOrder: Int {
-        case recentlyAddedOnTop = 2, recentlyAddedOnBottom = 3, recentlyModifiedOnTop = 4, recentlyModifiedOnBottom = 5, urlAOnTop = 6, urlZOnTop = 7
+        case recentlyAddedOnTop = 0, recentlyAddedOnBottom, recentlyModifiedOnTop, recentlyModifiedOnBottom, urlAOnTop, urlZOnTop
         
         public var displayName: String {
             switch self {

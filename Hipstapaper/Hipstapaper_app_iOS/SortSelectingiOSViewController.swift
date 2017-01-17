@@ -53,7 +53,7 @@ class SortSelectingiOSViewController: UIViewController {
         switch self.kind {
         case .sort(let current):
             self.title = "Sort"
-            self.pickerView?.selectRow(current.rawValue - 2, inComponent: 0, animated: false)
+            self.pickerView?.selectRow(current.rawValue, inComponent: 0, animated: false)
         case .filter(let current):
             self.title = "Filter"
             self.pickerView?.selectRow(current.rawValue, inComponent: 0, animated: false)
@@ -67,7 +67,7 @@ class SortSelectingiOSViewController: UIViewController {
             guard let new = URLItem.ArchiveFilter(rawValue: selection), new != current else { break }
             self.selectionDelegate?.didChange(itemsToLoad: .none, sortOrder: .none, filter: new, sender: .tertiaryVC)
         case .sort(let current):
-            guard let new = URLItem.SortOrder(rawValue: selection + 2), new != current else { break }
+            guard let new = URLItem.SortOrder(rawValue: selection), new != current else { break }
             self.selectionDelegate?.didChange(itemsToLoad: .none, sortOrder: new, filter: .none, sender: .tertiaryVC)
         }
         self.dismiss(animated: true, completion: .none)
@@ -117,7 +117,7 @@ extension SortSelectingiOSViewController: UIPickerViewDelegate {
             let filter = URLItem.ArchiveFilter(rawValue: row)
             return filter?.displayName ?? "Error"
         case .sort:
-            let sort = URLItem.SortOrder(rawValue: row + 2)
+            let sort = URLItem.SortOrder(rawValue: row)
             return sort?.displayName ?? "Error"
         }
     }

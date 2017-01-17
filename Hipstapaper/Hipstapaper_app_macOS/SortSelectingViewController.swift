@@ -43,6 +43,31 @@ class SortSelectingViewController: NSViewController {
     @IBOutlet private weak var sortOrderPopupButton: NSPopUpButton?
     @IBOutlet private weak var filterPopupButton: NSPopUpButton?
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.configureSortOrderPopupButton()
+        self.configureFilterPopupButton()
+    }
+    
+    private func configureSortOrderPopupButton() {
+        for i in 0 ..< URLItem.SortOrder.count {
+            guard let sort = URLItem.SortOrder(rawValue: i) else { continue }
+            let item = NSMenuItem(title: sort.displayName, action: .none, keyEquivalent: "")
+            item.tag = sort.rawValue
+            self.sortOrderPopupButton?.menu?.addItem(item)
+        }
+    }
+    
+    private func configureFilterPopupButton() {
+        for i in 0 ..< URLItem.ArchiveFilter.count {
+            guard let filter = URLItem.ArchiveFilter(rawValue: i) else { continue }
+            let item = NSMenuItem(title: filter.displayName, action: .none, keyEquivalent: "")
+            item.tag = filter.rawValue
+            self.filterPopupButton?.menu?.addItem(item)
+        }
+    }
+    
     @IBAction private func sortOrderChosen(_ sender: NSObject?) {
         // check if the new selection is different before notifying the delegate
         guard self.sortOrder != self.delegate?.sortOrder else { return }
