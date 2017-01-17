@@ -92,7 +92,7 @@ extension RealmController {
     
     public func tag_loadAll() -> Results<TagItem> {
         let realm = self.realm
-        let tags = realm.objects(TagItem.self).sorted(byProperty: #keyPath(TagItem.name))
+        let tags = realm.objects(TagItem.self).sorted(byKeyPath: #keyPath(TagItem.name))
         return tags
     }
     

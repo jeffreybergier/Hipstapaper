@@ -106,14 +106,14 @@ public extension URLItem {
         func sort(results input: Results<URLItem>) -> Results<URLItem> {
             let keyPath = self.keyPath
             let ascending = self.ascending
-            let output = input.sorted(byProperty: keyPath, ascending: ascending)
+            let output = input.sorted(byKeyPath: keyPath, ascending: ascending)
             return output
         }
         
         func sort(results input: LinkingObjects<URLItem>) -> Results<URLItem> {
             let keyPath = self.keyPath
             let ascending = self.ascending
-            let output = input.sorted(byProperty: keyPath, ascending: ascending)
+            let output = input.sorted(byKeyPath: keyPath, ascending: ascending)
             return output
         }
         
