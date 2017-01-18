@@ -10,16 +10,16 @@ import Cocoa
 
 class SortSelectingViewController: NSViewController {
     
+    // MARK: Delegate
+    
     weak var delegate: URLItemsToLoadChangeDelegate?
     
-    private var _filter: URLItem.ArchiveFilter = .all
+    // MARK: Ivars and Properties
+    
+    private var _filter = URLItem.ArchiveFilter.unarchived
     var filter: URLItem.ArchiveFilter {
         get {
-            guard
-                let button = self.filterPopupButton,
-                let selection = URLItem.ArchiveFilter(rawValue: button.selectedItem?.tag ?? 55)
-            else { return self._filter }
-            return selection
+            return _filter
         }
         set {
             self._filter = newValue
@@ -28,14 +28,10 @@ class SortSelectingViewController: NSViewController {
         }
     }
     
-    private var _sortOrder: URLItem.SortOrder = .urlAOnTop
+    private var _sortOrder = URLItem.SortOrder.recentlyAddedOnTop
     var sortOrder: URLItem.SortOrder {
         get {
-            guard
-                let button = self.sortOrderPopupButton,
-                let selection = URLItem.SortOrder(rawValue: button.selectedItem?.tag ?? 55)
-            else { return self._sortOrder }
-            return selection
+            return _sortOrder
         }
         set {
             self._sortOrder = newValue
@@ -44,8 +40,12 @@ class SortSelectingViewController: NSViewController {
         }
     }
     
+    // MARK: Outlets
+    
     @IBOutlet private weak var sortOrderPopupButton: NSPopUpButton?
     @IBOutlet private weak var filterPopupButton: NSPopUpButton?
+    
+    // MARK: Initial Configuration
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,10 +56,8 @@ class SortSelectingViewController: NSViewController {
         
         // view did load could be called after these things have been configured by the parent view
         // so just hit that didSet method again to make sure I'm up to date
-        let sortOrder = self._sortOrder
-        let filter = self._filter
-        self.sortOrder = sortOrder
-        self.filter = filter
+        self.sortOrder = _sortOrder
+        self.filter = _filter
     }
     
     private func configureSortOrderPopupButton() {
@@ -80,15 +78,37 @@ class SortSelectingViewController: NSViewController {
         }
     }
     
+    // MARK: Extract Info from UI
+    
+    private func filterFromUI() -> URLItem.ArchiveFilter? {
+        guard
+            let button = self.filterPopupButton,
+            let selection = URLItem.ArchiveFilter(rawValue: button.selectedItem?.tag ?? 55)
+        else { return .none }
+        return selection
+    }
+    
+    private func sortOrderFromUI() -> URLItem.SortOrder? {
+        guard
+            let button = self.sortOrderPopupButton,
+            let selection = URLItem.SortOrder(rawValue: button.selectedItem?.tag ?? 55)
+        else { return .none }
+        return selection
+    }
+    
+    // MARK: Respond to User Actions
+    
     @IBAction private func sortOrderChosen(_ sender: NSObject?) {
         // check if the new selection is different before notifying the delegate
-        guard self.sortOrder != self.delegate?.sortOrder else { return }
+        guard let newValue = self.sortOrderFromUI(), newValue != _sortOrder else { return }
+        _sortOrder = newValue
         self.delegate?.didChange(itemsToLoad: .none, sortOrder: self.sortOrder, filter: .none, sender: .tertiaryVC)
     }
     
     @IBAction func filterChosen(_ sender: NSObject?) {
         // check if the new selection is different before notifying the delegate
-        guard self.filter != self.delegate?.filter else { return }
+        guard let newValue = self.filterFromUI(), newValue != _filter else { return }
+        _filter = newValue
         self.delegate?.didChange(itemsToLoad: .none, sortOrder: .none, filter: self.filter, sender: .tertiaryVC)
     }
 }
