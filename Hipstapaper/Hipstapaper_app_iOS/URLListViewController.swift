@@ -128,12 +128,13 @@ class URLListViewController: UIViewController, RealmControllable {
         // configure data source
         self.data = self.realmController?.url_loadAll(for: itemsToLoad, sortedBy: sortOrder, filteredBy: filter)
         self.notificationToken = self.data?.addNotificationBlock(self.realmResultsChangeClosure)
+        self.tableView?.reloadData()
     }
     
     private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<URLItem>>) -> Void) = { [weak self] changes in
         switch changes {
         case .initial:
-            self?.tableView?.reloadData()
+            break // forcing reload synchronously to improve app state restoration behavior
         case .update(_, let deletions, let insertions, let modifications):
             self?.tableView?.beginUpdates()
             self?.tableView?.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .left)
@@ -155,7 +156,17 @@ class URLListViewController: UIViewController, RealmControllable {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.tableView?.flashScrollIndicators()
-        self.tableView?.deselectAllRows(animated: true)
+        let isEditing = self.tableView?.isEditing ?? false
+        if isEditing == false {
+            // if we're not editing when we appear its probably because of fresh launch or because the user dismissed SafariVC
+            // so we need to deselect the row
+            self.tableView?.deselectAllRows(animated: true)
+        } else {
+            // if we are editing when we appear, we probably restored from state restoration
+            // if so we need to update the BBI so that the user can tap the appropriate ones.
+            let selectedItems = self.selectedURLItems ?? []
+            self.updateBBI(with: selectedItems)
+        }
     }
     
     // MARK: Watch for shake gesture for deleting
@@ -189,13 +200,21 @@ class URLListViewController: UIViewController, RealmControllable {
     
     // MARK: State Restoration
     
-//    override func decodeRestorableState(with coder: NSCoder) {
-//        NSLog("Decoded: \(self.restorationIdentifier!)")
-//        let redView = UIView(frame: CGRect(x: 10, y: 70, width: 30, height: 30))
-//        redView.backgroundColor = .red
-//        self.view.addSubview(redView)
-//        super.decodeRestorableState(with: coder)
-//    }
+    private static let kTableViewWasEditing = "kTableViewWasEditingKey"
+    
+    override func decodeRestorableState(with coder: NSCoder) {
+        let wasEditing = coder.decodeBool(forKey: type(of: self).kTableViewWasEditing)
+        if wasEditing == true {
+            self.editBBITapped(self)
+        }
+        super.decodeRestorableState(with: coder)
+    }
+    
+    override func encodeRestorableState(with coder: NSCoder) {
+        let wasEditing = self.tableView?.isEditing ?? false
+        coder.encode(wasEditing, forKey: type(of: self).kTableViewWasEditing)
+        super.encodeRestorableState(with: coder)
+    }
     
     // MARK: Deinit
     
