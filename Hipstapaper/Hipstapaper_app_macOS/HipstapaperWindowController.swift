@@ -121,7 +121,17 @@ extension HipstapaperWindowController: URLItemsToLoadChangeDelegate {
         switch sender {
         case .tertiaryVC:
             fatalError()
+        case .contentVC:
+            self.sidebarViewController?.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
+            // save the changes in NSUserDefaults
+            UserDefaults.standard.userSelection = (itemsToLoad: itemsToLoad ?? self.itemsToLoad,
+                                                   sortOrder: sortOrder ?? self.sortOrder,
+                                                   filter: filter ?? self.filter)
         case .sourceListVC:
+            // save the changes in NSUserDefaults
+            UserDefaults.standard.userSelection = (itemsToLoad: itemsToLoad ?? self.itemsToLoad,
+                                                   sortOrder: sortOrder ?? self.sortOrder,
+                                                   filter: filter ?? self.filter)
             // if the new selection is different than the last one, forward it on
             // since the items can be nil, I only want to compare them if they are not nill
             // to accomplish that, if they're nil I set them to the same value that they're being compared with
@@ -131,8 +141,6 @@ extension HipstapaperWindowController: URLItemsToLoadChangeDelegate {
                 (sortOrder ?? self.sortOrder) != self.sortOrder
             else { return }
             self.mainViewController?.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
-        case .contentVC:
-            self.sidebarViewController?.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
         }
     }
 }

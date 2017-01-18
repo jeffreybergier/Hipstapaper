@@ -17,9 +17,9 @@ class URLListViewController: NSViewController, RealmControllable {
     // these 3 properties are used to load and sort the data
     // they are user changeable from a special UI
     // they are also changeable by selecting items in the source list
-    var itemsToLoad = URLItem.ItemsToLoad.all
-    var filter: URLItem.ArchiveFilter = .unarchived
-    var sortOrder: URLItem.SortOrder = .recentlyAddedOnTop
+    var itemsToLoad = UserDefaults.standard.userSelection.itemsToLoad
+    var filter = UserDefaults.standard.userSelection.filter
+    var sortOrder = UserDefaults.standard.userSelection.sortOrder
     
     // this selection delegate allows us to notify the source list of changing selection
     // this way the source list can update its selection if needed

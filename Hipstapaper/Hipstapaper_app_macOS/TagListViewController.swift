@@ -67,7 +67,10 @@ class TagListViewController: NSViewController {
             // get the row of its parent (should be 0)
             let parentIndex = 0
             // select the item after that row... the unread row
-            self?.outlineView?.selectRowIndexes(IndexSet([parentIndex + 1]), byExtendingSelection: false)
+            self?.didChange(itemsToLoad: self?.selectionDelegate?.itemsToLoad,
+                            sortOrder: self?.selectionDelegate?.sortOrder,
+                            filter: self?.selectionDelegate?.filter,
+                            sender: .contentVC)
         case .update(_, let deletions, let insertions, let modifications):
             // manually update the child count of the tag parent
             self?.tagParent.childCount = self?.data?.count ?? 0
@@ -263,6 +266,10 @@ extension TagListViewController: NSOutlineViewDelegate {
         case .selectable:
             return true
         }
+    }
+    
+    func outlineViewSelectionIsChanging(_ notification: Notification) {
+
     }
     
     func outlineViewSelectionDidChange(_ notification: Notification) {
