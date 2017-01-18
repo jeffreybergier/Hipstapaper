@@ -54,6 +54,8 @@ class TagListViewController: NSViewController {
         self.notificationToken = self.data?.addNotificationBlock(self.realmResultsChangeClosure)
     }
     
+    fileprivate var changingSelectionProgrammaticaly = false // refer to MARK Selection Super Hack
+    
     private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<TagItem>>) -> Void) = { [weak self] changes in
         switch changes {
         case .initial:
@@ -70,7 +72,7 @@ class TagListViewController: NSViewController {
             self?.didChange(itemsToLoad: self?.selectionDelegate?.itemsToLoad,
                             sortOrder: self?.selectionDelegate?.sortOrder,
                             filter: self?.selectionDelegate?.filter,
-                            sender: .contentVC)
+                            sender: .sourceListVC)
         case .update(_, let deletions, let insertions, let modifications):
             // manually update the child count of the tag parent
             self?.tagParent.childCount = self?.data?.count ?? 0
@@ -157,8 +159,11 @@ extension TagListViewController: URLItemsToLoadChangeDelegate {
     }
     func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrder?, filter: URLItem.ArchiveFilter?, sender: ViewControllerSender) {
         switch sender {
-        case .sourceListVC, .tertiaryVC:
+        case .tertiaryVC:
             fatalError()
+        case .sourceListVC:
+            self.changingSelectionProgrammaticaly = true
+            fallthrough
         case .contentVC:
             guard let itemsToLoad = itemsToLoad else { return }
             switch itemsToLoad {
@@ -268,12 +273,24 @@ extension TagListViewController: NSOutlineViewDelegate {
         }
     }
     
-    func outlineViewSelectionIsChanging(_ notification: Notification) {
-
-    }
+    // MARK: Selection Super Hack
+    
+    // Normally programmatically causing something to change does not cause delegate callbacks for that change to be called
+    // However, for Outline view, programatically selecting things does cause the selectionDidChange callback to be called
+    // So now I am storing some state that says whether the selection was changed programatically or not
+    
+    // // https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/TableView/RowSelection/RowSelection.html
+    // // The selectRowIndexes:byExtendingSelection: method expects an NSIndexSet containing the indexes (zero-based) of 
+    // // the rows to be selected, and a parameter that specifies whether the current selection should be extended. 
+    // // If the extending selection parameter is YES, the specified row indexes are selected in addition to any previously selected rows; 
+    // // if it’s NO, the selection is changed to the newly specified rows. When this method is called, the delegate receives 
+    // // only the tableViewSelectionDidChange: notification.
     
     func outlineViewSelectionDidChange(_ notification: Notification) {
-        guard let selection = self.selection else { return }
+        defer {
+            self.changingSelectionProgrammaticaly = false
+        }
+        guard let selection = self.selection, self.changingSelectionProgrammaticaly == false else { return }
         self.selectionDelegate?.didChange(itemsToLoad: selection.itemsToLoad, sortOrder: selection.sortOrder, filter: selection.filter, sender: .sourceListVC)
     }
 }
