@@ -12,29 +12,33 @@ class SortSelectingViewController: NSViewController {
     
     weak var delegate: URLItemsToLoadChangeDelegate?
     
+    private var _filter: URLItem.ArchiveFilter = .all
     var filter: URLItem.ArchiveFilter {
         get {
             guard
                 let button = self.filterPopupButton,
                 let selection = URLItem.ArchiveFilter(rawValue: button.selectedItem?.tag ?? 55)
-            else { return URLItem.ArchiveFilter.unarchived }
+            else { return self._filter }
             return selection
         }
         set {
+            self._filter = newValue
             let item = self.filterPopupButton?.menu?.items.filter({ $0.tag == newValue.rawValue }).first
             self.filterPopupButton?.select(item)
         }
     }
     
+    private var _sortOrder: URLItem.SortOrder = .urlAOnTop
     var sortOrder: URLItem.SortOrder {
         get {
             guard
                 let button = self.sortOrderPopupButton,
                 let selection = URLItem.SortOrder(rawValue: button.selectedItem?.tag ?? 55)
-            else { return URLItem.SortOrder.recentlyAddedOnTop }
+            else { return self._sortOrder }
             return selection
         }
         set {
+            self._sortOrder = newValue
             let item = self.sortOrderPopupButton?.menu?.items.filter({ $0.tag == newValue.rawValue }).first
             self.sortOrderPopupButton?.select(item)
         }
@@ -46,8 +50,16 @@ class SortSelectingViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // configure myself
         self.configureSortOrderPopupButton()
         self.configureFilterPopupButton()
+        
+        // view did load could be called after these things have been configured by the parent view
+        // so just hit that didSet method again to make sure I'm up to date
+        let sortOrder = self._sortOrder
+        let filter = self._filter
+        self.sortOrder = sortOrder
+        self.filter = filter
     }
     
     private func configureSortOrderPopupButton() {
