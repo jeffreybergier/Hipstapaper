@@ -155,6 +155,7 @@ class URLListViewController: UIViewController, RealmControllable {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.updateNavBarHiding(basedOn: self.view.traitCollection)
         self.tableView?.flashScrollIndicators()
         let isEditing = self.tableView?.isEditing ?? false
         if isEditing == false {
@@ -196,6 +197,22 @@ class URLListViewController: UIViewController, RealmControllable {
         default:
             super.motionEnded(motion, with: event)
         }
+    }
+    
+    // MARK: Change Bar Hiding on Compact Vertical Size Class Change
+    
+    private func updateNavBarHiding(basedOn traitCollection: UITraitCollection) {
+        switch traitCollection.verticalSizeClass {
+        case .compact:
+            self.navigationController?.hidesBarsOnSwipe = true
+        case .regular, .unspecified:
+            self.navigationController?.hidesBarsOnSwipe = false
+        }
+    }
+    
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        self.updateNavBarHiding(basedOn: newCollection)
+        super.willTransition(to: newCollection, with: coordinator)
     }
     
     // MARK: State Restoration
