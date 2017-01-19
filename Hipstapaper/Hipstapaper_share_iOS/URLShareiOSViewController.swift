@@ -217,6 +217,7 @@ class URLShareiOSViewController: XPURLShareViewController {
         guard let host = components?.host?.lowercased() else { return false }
         let whitelisted =
             host.contains("youtube.") ||
+            host.contains("youtu.be") ||
             host.contains("theverge.com")
         return whitelisted
     }
