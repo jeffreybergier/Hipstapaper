@@ -17,8 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         
-        UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalNever)
-//        UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+//        UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalNever)
+        UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
         if self.window == .none {
             self.window = UIWindow(frame: UIScreen.main.bounds)
@@ -82,12 +82,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-//    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-//        NSLog("BACKGROUNDFETCHOPEN")
-//        self.extensionFileProcessor.processFiles(with: self.rootViewController.realmController) { success in
-//            completionHandler(UIBackgroundFetchResult(rawValue: success.rawValue) ?? .failed)
-//        }
-//    }
+    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        NSLog("BACKGROUNDFETCHOPEN")
+        self.extensionFileProcessor.processFiles(with: self.rootViewController.realmController) { success in
+            completionHandler(UIBackgroundFetchResult(rawValue: success.rawValue) ?? .failed)
+        }
+    }
 
 
 }
