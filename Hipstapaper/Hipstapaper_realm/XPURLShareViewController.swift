@@ -106,9 +106,9 @@ class XPURLShareViewController: XPViewController {
 #endif
 fileprivate extension XPURLShareViewController {
     fileprivate class func xpSnapshot(of view: XPView) -> XPImage? {
-        // the sublayer shows the pure transform. so try and grab that
-        // the primary layer works but it shows a bunch of empty space where there is a view but nothing rendered because of the transform
         #if os(OSX)
+            // the sublayer shows the pure transform. so try and grab that
+            // the primary layer works but it shows a bunch of empty space where there is a view but nothing rendered because of the transform
             let _layer = view.layer?.sublayers?.first
             guard let theLayer = _layer else { return .none }
         #else
