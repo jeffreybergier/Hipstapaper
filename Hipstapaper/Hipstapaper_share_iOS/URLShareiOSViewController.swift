@@ -123,8 +123,9 @@ class URLShareiOSViewController: XPURLShareViewController {
         self.webViewDoneObserver?.startObserving() { [weak self] loading -> Bool? in
             guard loading == false else { return .none }
             self?.loadingSpinner?.stopAnimating()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                self?.timer?.fire() // believe it or not, even when duck out early because the webview finished, we still need a delay to make it feel good
+            self?.timer?.invalidate()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self?.timerFired(.none) // believe it or not, even when duck out early because the webview finished, we still need a delay to make it feel good
             }
             return .none
         }
@@ -162,8 +163,10 @@ class URLShareiOSViewController: XPURLShareViewController {
     // MARK: Stage 5 - Slide Out
     
     @objc private func timerFired(_ timer: Timer?) {
+        
         // clear all the time shit
         timer?.invalidate()
+        self.timer?.invalidate()
         self.timer = .none
         
         // stop KVO
@@ -217,8 +220,8 @@ class URLShareiOSViewController: XPURLShareViewController {
         guard let host = components?.host?.lowercased() else { return false }
         let whitelisted =
             host.contains("youtube.") ||
-            host.contains("youtu.be") ||
-            host.contains("theverge.com")
+            host.contains("youtu.be")
+//            host.contains("theverge.com")
         return whitelisted
     }
 }
