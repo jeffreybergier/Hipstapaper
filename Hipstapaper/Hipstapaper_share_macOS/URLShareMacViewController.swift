@@ -158,7 +158,7 @@ class URLShareMacViewController: XPURLShareViewController {
                     item.pageTitle = webView.mainFrameTitle
                 }
                 if item.image == .none {
-                    item.image = webView.snapshot
+                    item.image = type(of: self).snapshot(of: webView)
                 }
                 self.save(item: item)
                 self.extensionContext?.completeRequest(returningItems: .none, completionHandler: .none)
@@ -171,32 +171,5 @@ class URLShareMacViewController: XPURLShareViewController {
             // if we have nothing we need to slide out can cancel with error
             self.extensionContext?.cancelRequest(withError: NSError(domain: "", code: 0, userInfo: .none))
         }
-    }
-}
-
-fileprivate extension NSView {
-    fileprivate var snapshot: NSImage? {
-        // the sublayer shows the pure transform. so try and grab that
-        // the primary layer works but it shows a bunch of empty space where there is a view but nothing rendered because of the transform
-        let _layer = self.layer?.sublayers?.first ?? self.layer
-        guard let layer = _layer, let colorSpace = CGColorSpace(name: CGColorSpace.sRGB) else { return .none }
-        let bounds = layer.bounds
-        
-        let pixelsHigh = Int(floor(bounds.size.height))
-        let pixelsWide = Int(floor(bounds.size.width))
-        
-        let _context = CGContext(data: nil,
-                                width: pixelsWide,
-                                height: pixelsHigh,
-                                bitsPerComponent: 8,
-                                bytesPerRow: 0,
-                                space: colorSpace,
-                                bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
-        
-        guard let context = _context else { return .none }
-        layer.render(in: context)
-        guard let _image = context.makeImage() else { return .none }
-        let image = NSImage(cgImage: _image, size: NSSize.zero)
-        return image
     }
 }

@@ -181,7 +181,7 @@ class URLShareiOSViewController: XPURLShareViewController {
                     item.pageTitle = webView.title
                 }
                 if item.image == nil {
-                    item.image = webView.snapshot
+                    item.image = type(of: self).snapshot(of: webView)
                 }
                 self.save(item: item)
                 self.slideOutOfFrame() { _ in
@@ -220,16 +220,6 @@ class URLShareiOSViewController: XPURLShareViewController {
             host.contains("youtu.be") ||
             host.contains("theverge.com")
         return whitelisted
-    }
-}
-
-fileprivate extension UIView {
-    fileprivate var snapshot: UIImage? {
-        UIGraphicsBeginImageContextWithOptions(self.bounds.size, true, 1.0) // 1.0 because theres no need for all that quality.
-        self.drawHierarchy(in: self.bounds, afterScreenUpdates: true)
-        let snapshotImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return snapshotImage!
     }
 }
 

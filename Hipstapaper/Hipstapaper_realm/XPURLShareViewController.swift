@@ -58,7 +58,7 @@ class XPURLShareViewController: XPViewController {
     }
     
     #if os(OSX)
-    static func configuredWebView() -> WebView {
+    class func configuredWebView() -> WebView {
         let webView = WebView()
         let prefs = WebPreferences()
         prefs.isJavaEnabled = false
@@ -73,7 +73,7 @@ class XPURLShareViewController: XPViewController {
         return webView
     }
     #else
-    static func configuredWebView() -> WKWebView {
+    class func configuredWebView() -> WKWebView {
         let config = WKWebViewConfiguration()
         config.allowsAirPlayForMediaPlayback = false
         config.preferences.javaScriptEnabled = false
@@ -85,4 +85,62 @@ class XPURLShareViewController: XPViewController {
         return webView
     }
     #endif
+    
+    #if os(OSX)
+    class func snapshot(of view: NSView) -> NSImage? {
+        return self.xpSnapshot(of: view)
+    }
+    #else
+    class func snapshot(of view: UIView) -> UIImage? {
+        return self.xpSnapshot(of: view)
+    }
+    #endif
+}
+
+#if os(OSX)
+    fileprivate typealias XPImage = NSImage
+    fileprivate typealias XPView = NSView
+#else
+    fileprivate typealias XPImage = UIImage
+    fileprivate typealias XPView = UIView
+#endif
+fileprivate extension XPURLShareViewController {
+    fileprivate class func xpSnapshot(of view: XPView) -> XPImage? {
+        // the sublayer shows the pure transform. so try and grab that
+        // the primary layer works but it shows a bunch of empty space where there is a view but nothing rendered because of the transform
+        #if os(OSX)
+            let _layer = view.layer?.sublayers?.first
+            guard let theLayer = _layer else { return .none }
+        #else
+            let theLayer = view.layer
+        #endif
+        guard let colorSpace = CGColorSpace(name: CGColorSpace.sRGB) else { return .none }
+        let theBounds = theLayer.bounds
+        
+        let pixelsHigh = Int(floor(theBounds.size.height))
+        let pixelsWide = Int(floor(theBounds.size.width))
+        
+        let _context = CGContext(data: nil,
+                                 width: pixelsWide,
+                                 height: pixelsHigh,
+                                 bitsPerComponent: 8,
+                                 bytesPerRow: 0,
+                                 space: colorSpace,
+                                 bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
+        
+        guard let context = _context else { return .none }
+        #if os(iOS)
+            let iOSFlip = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: theBounds.size.height)
+            context.concatenate(iOSFlip)
+        #endif
+        theLayer.render(in: context)
+        
+        guard let _image = context.makeImage() else { return .none }
+        #if os(OSX)
+            let image = NSImage(cgImage: _image, size: NSSize.zero)
+        #else
+            let image = UIImage(cgImage: _image, scale: 1.0, orientation: .up)
+        #endif
+        return image
+    }
 }
