@@ -15,6 +15,7 @@
         <customObject id="Wow-ow-8cV" customClass="MenuController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
                 <outlet property="copyMenuItem" destination="x3v-GG-iWU" id="drv-PC-DM7"/>
+                <outlet property="pasteMenuItem" destination="4O2-9C-xxx" id="Ov2-2d-OWp"/>
             </connections>
         </customObject>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="Hipstapaper" customModuleProvider="target"/>
@@ -132,6 +133,11 @@ CA
                             <menuItem title="Select All" keyEquivalent="a" id="Ruw-6m-B2m">
                                 <connections>
                                     <action selector="selectAll:" target="-1" id="VNm-Mi-diN"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Paste" keyEquivalent="v" id="4O2-9C-xxx">
+                                <connections>
+                                    <action selector="pasteAsPlainText:" target="-1" id="EuL-yR-Fuf"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="uyl-h8-XO2"/>
