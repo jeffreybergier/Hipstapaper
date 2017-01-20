@@ -113,7 +113,12 @@ class URLListViewController: UIViewController, RealmControllable {
         // set title
         switch itemsToLoad {
         case .all:
-            self.title = "Hipstapaper"
+            switch self.filter {
+            case .all:
+                self.title = "All Items"
+            case .unarchived:
+                self.title = "Hipstapaper"
+            }
         case .tag(let tagID):
             self.title = "🏷 \(tagID.displayName)"
         }
