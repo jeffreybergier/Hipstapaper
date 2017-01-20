@@ -208,7 +208,8 @@ class URLShareiOSViewController: XPURLShareViewController {
     private func slideOutOfFrame(animationCompletion: @escaping (Bool) -> Void) {
         self.view.setNeedsLayout()
         UIView.animate(withDuration: 0.3, delay: 0.0, options: [.curveEaseInOut], animations: {
-            self.containerViewCenterYConstraint?.constant = -1 * (floor(UIScreen.main.bounds.height / 2) + 150 + 10) //10 extra for the shadow
+            let cardViewHeightOffset = floor((self.cardView?.bounds.height ?? 353) / 2)
+            self.containerViewCenterYConstraint?.constant = -1 * (floor(UIScreen.main.bounds.height / 2) + cardViewHeightOffset + 10) //10 extra for the shadow
             self.modalGrayView?.alpha = 0.0
             self.view.layoutIfNeeded()
         }, completion: animationCompletion)
