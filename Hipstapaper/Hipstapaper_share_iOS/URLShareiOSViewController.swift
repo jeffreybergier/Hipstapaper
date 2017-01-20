@@ -20,19 +20,17 @@ class URLShareiOSViewController: XPURLShareViewController {
         return df
     }()
     
-    @IBOutlet private var containerViewCenterYConstraint: NSLayoutConstraint?
     @IBOutlet private var pageTitleLabel: UILabel?
     @IBOutlet private var pageDateLabel: UILabel?
     @IBOutlet private var providedImageView: UIImageView?
     @IBOutlet private var loadingSpinner: UIActivityIndicatorView?
     @IBOutlet private var webImageViewParentView: UIView?
     @IBOutlet private var modalGrayView: UIView?
+    @IBOutlet private var cardViewCenterYConstraint: NSLayoutConstraint?
     @IBOutlet private var cardView: UIView? {
         didSet {
-            self.cardView?.layer.shadowColor = UIColor.black.cgColor
-            self.cardView?.layer.shadowOffset = CGSize(width: 2, height: 3)
-            self.cardView?.layer.shadowOpacity = 0.4
-            self.cardView?.layer.cornerRadius = 5
+            self.cardView?.clipsToBounds = true
+            self.cardView?.layer.cornerRadius = 15
         }
     }
     
@@ -71,13 +69,13 @@ class URLShareiOSViewController: XPURLShareViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.containerViewCenterYConstraint?.constant = floor(UIScreen.main.bounds.height / 2) + 150
+        self.cardViewCenterYConstraint?.constant = floor(UIScreen.main.bounds.height / 2) + 150
         self.modalGrayView?.alpha = 0
     }
     
     private func slideIntoFrame() {
         UIView.animate(withDuration: 0.6, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.8, options: [], animations: {
-            self.containerViewCenterYConstraint?.constant = 0
+            self.cardViewCenterYConstraint?.constant = 0
             self.modalGrayView?.alpha = 0.5
             self.view.layoutIfNeeded()
         }, completion: .none)
@@ -209,7 +207,7 @@ class URLShareiOSViewController: XPURLShareViewController {
         self.view.setNeedsLayout()
         UIView.animate(withDuration: 0.3, delay: 0.0, options: [.curveEaseInOut], animations: {
             let cardViewHeightOffset = floor((self.cardView?.bounds.height ?? 353) / 2)
-            self.containerViewCenterYConstraint?.constant = -1 * (floor(UIScreen.main.bounds.height / 2) + cardViewHeightOffset + 10) //10 extra for the shadow
+            self.cardViewCenterYConstraint?.constant = -1 * (floor(UIScreen.main.bounds.height / 2) + cardViewHeightOffset + 10) //10 extra for the shadow
             self.modalGrayView?.alpha = 0.0
             self.view.layoutIfNeeded()
         }, completion: animationCompletion)
