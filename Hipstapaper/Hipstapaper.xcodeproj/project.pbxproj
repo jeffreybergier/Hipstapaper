@@ -65,6 +65,7 @@
 		50841AF91E2166A6008621BB /* SortSelectingiOSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50841AF71E2166A6008621BB /* SortSelectingiOSViewController.swift */; };
 		50841AFA1E2166A6008621BB /* SortSelectingiOSViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50841AF81E2166A6008621BB /* SortSelectingiOSViewController.xib */; };
 		50841AFC1E21B7AC008621BB /* iOSFrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50841AFB1E21B7AC008621BB /* iOSFrameworkExtensions.swift */; };
+		5085A15A1E32D2AA00F8EC34 /* MacFrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A1591E32D2AA00F8EC34 /* MacFrameworkExtensions.swift */; };
 		508623191E10BF2700C06C7D /* RealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508623181E10BF2700C06C7D /* RealmController.swift */; };
 		5086231B1E10BF2700C06C7D /* RealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508623181E10BF2700C06C7D /* RealmController.swift */; };
 		508623201E10C74D00C06C7D /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5086231E1E10C74D00C06C7D /* PreferencesWindowController.swift */; };
@@ -223,6 +224,7 @@
 		50841AF71E2166A6008621BB /* SortSelectingiOSViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortSelectingiOSViewController.swift; sourceTree = "<group>"; };
 		50841AF81E2166A6008621BB /* SortSelectingiOSViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SortSelectingiOSViewController.xib; sourceTree = "<group>"; };
 		50841AFB1E21B7AC008621BB /* iOSFrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOSFrameworkExtensions.swift; sourceTree = "<group>"; };
+		5085A1591E32D2AA00F8EC34 /* MacFrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MacFrameworkExtensions.swift; sourceTree = "<group>"; };
 		508623181E10BF2700C06C7D /* RealmController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmController.swift; sourceTree = "<group>"; };
 		5086231E1E10C74D00C06C7D /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		5086231F1E10C74D00C06C7D /* PreferencesWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesWindowController.xib; sourceTree = "<group>"; };
@@ -439,6 +441,7 @@
 			isa = PBXGroup;
 			children = (
 				506A3F071DD6C10C00A5656E /* AppDelegate.swift */,
+				5085A1591E32D2AA00F8EC34 /* MacFrameworkExtensions.swift */,
 				50088A6B1E07151200D6AAED /* TagListViewController.swift */,
 				50088A6D1E07152400D6AAED /* URLListViewController.swift */,
 				50841AF31E1F56EE008621BB /* SortSelectingViewController.swift */,
@@ -971,6 +974,7 @@
 				508623191E10BF2700C06C7D /* RealmController.swift in Sources */,
 				5048AF0E1E0DA48600AC1B2D /* URLTaggingViewController.swift in Sources */,
 				50088A701E07153200D6AAED /* HipstapaperWindowController.swift in Sources */,
+				5085A15A1E32D2AA00F8EC34 /* MacFrameworkExtensions.swift in Sources */,
 				50088A6C1E07151200D6AAED /* TagListViewController.swift in Sources */,
 				50088A6E1E07152400D6AAED /* URLListViewController.swift in Sources */,
 				50EE9F081E0CB80E00E76CF5 /* ValidatingToolbarItem.swift in Sources */,
