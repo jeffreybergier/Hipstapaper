@@ -19,20 +19,9 @@
             <rect key="frame" x="0.0" y="0.0" width="550" height="32"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <visualEffectView appearanceType="vibrantLight" blendingMode="withinWindow" material="light" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="emY-jV-ksg">
+                <visualEffectView blendingMode="withinWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="emY-jV-ksg">
                     <rect key="frame" x="0.0" y="0.0" width="550" height="32"/>
                     <subviews>
-                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1L9-ut-RbH">
-                            <rect key="frame" x="6" y="3" width="37" height="26"/>
-                            <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="Ssa-Tk-fKj">
-                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                <font key="font" metaFont="menu"/>
-                                <menu key="menu" id="D2s-yc-tSr"/>
-                            </popUpButtonCell>
-                            <connections>
-                                <action selector="sortOrderChosen:" target="-2" id="Q2T-9l-A8P"/>
-                            </connections>
-                        </popUpButton>
                         <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MQX-h3-njJ">
                             <rect key="frame" x="508" y="3" width="37" height="26"/>
                             <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="fvW-Tc-6wD">
@@ -44,13 +33,30 @@
                                 <action selector="filterChosen:" target="-2" id="r5q-Kn-ddv"/>
                             </connections>
                         </popUpButton>
+                        <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1L9-ut-RbH">
+                            <rect key="frame" x="6" y="3" width="37" height="26"/>
+                            <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="Ssa-Tk-fKj">
+                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="menu"/>
+                                <menu key="menu" id="D2s-yc-tSr"/>
+                            </popUpButtonCell>
+                            <connections>
+                                <action selector="sortOrderChosen:" target="-2" id="Q2T-9l-A8P"/>
+                            </connections>
+                        </popUpButton>
+                        <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="TlF-bT-egL">
+                            <rect key="frame" x="0.0" y="-2" width="550" height="5"/>
+                        </box>
                     </subviews>
                     <constraints>
                         <constraint firstItem="1L9-ut-RbH" firstAttribute="leading" secondItem="emY-jV-ksg" secondAttribute="leading" constant="8" id="738-Gf-bVY"/>
                         <constraint firstItem="MQX-h3-njJ" firstAttribute="centerY" secondItem="emY-jV-ksg" secondAttribute="centerY" id="G1g-hE-0Bf"/>
+                        <constraint firstItem="TlF-bT-egL" firstAttribute="leading" secondItem="emY-jV-ksg" secondAttribute="leading" id="LWW-ed-wYw"/>
+                        <constraint firstAttribute="trailing" secondItem="TlF-bT-egL" secondAttribute="trailing" id="MQX-13-S4g"/>
                         <constraint firstAttribute="height" constant="32" id="ReS-W7-g7f"/>
                         <constraint firstAttribute="trailing" secondItem="MQX-h3-njJ" secondAttribute="trailing" constant="8" id="cK6-eX-RXc"/>
                         <constraint firstItem="1L9-ut-RbH" firstAttribute="centerY" secondItem="emY-jV-ksg" secondAttribute="centerY" id="fLF-d1-Bza"/>
+                        <constraint firstAttribute="bottom" secondItem="TlF-bT-egL" secondAttribute="bottom" id="lBZ-tu-3kL"/>
                         <constraint firstItem="MQX-h3-njJ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1L9-ut-RbH" secondAttribute="trailing" constant="8" symbolic="YES" id="ntg-TW-ZPc"/>
                     </constraints>
                 </visualEffectView>
