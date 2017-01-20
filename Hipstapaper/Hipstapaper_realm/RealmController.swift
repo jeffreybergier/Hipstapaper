@@ -69,6 +69,9 @@ extension RealmController {
     public func delete(_ item: Object) {
         let realm = self.realm
         realm.beginWrite()
+        if let urlItem = item as? URLItem, let extras = urlItem.extras {
+            realm.delete(extras) // add check to perform cascade delete
+        }
         realm.delete(item)
         try! realm.commitWrite()
     }
@@ -77,6 +80,9 @@ extension RealmController {
         let realm = self.realm
         realm.beginWrite()
         for item in items {
+            if let urlItem = item as? URLItem, let extras = urlItem.extras {
+                realm.delete(extras) // add check to perform cascade delete
+            }
             realm.delete(item)
         }
         try! realm.commitWrite()
