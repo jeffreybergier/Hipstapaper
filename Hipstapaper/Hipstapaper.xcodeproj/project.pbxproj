@@ -12,10 +12,6 @@
 		5005E1281DF4CB8300BA38E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5005E1261DF4CB8300BA38E6 /* LaunchScreen.storyboard */; };
 		5005E1491DF4CC2600BA38E6 /* Hipstapaper_share_iOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 5005E13F1DF4CC2600BA38E6 /* Hipstapaper_share_iOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		50088A4D1E062A2500D6AAED /* URLShareiOSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50088A4C1E062A2500D6AAED /* URLShareiOSViewController.swift */; };
-		50088A6A1E07093000D6AAED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50088A691E07093000D6AAED /* Main.storyboard */; };
-		50088A6C1E07151200D6AAED /* TagListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50088A6B1E07151200D6AAED /* TagListViewController.swift */; };
-		50088A6E1E07152400D6AAED /* URLListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50088A6D1E07152400D6AAED /* URLListViewController.swift */; };
-		50088A701E07153200D6AAED /* HipstapaperWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50088A6F1E07153200D6AAED /* HipstapaperWindowController.swift */; };
 		502C7F4E1DF0E4D5004E70AB /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 502C7F4D1DF0E4D5004E70AB /* icon.icns */; };
 		502C7F541DF0E4D5004E70AB /* URLShareMacViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502C7F521DF0E4D5004E70AB /* URLShareMacViewController.xib */; };
 		502C7F581DF0E4D5004E70AB /* Hipstapaper_share_macOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 502C7F4A1DF0E4D5004E70AB /* Hipstapaper_share_macOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -60,12 +56,17 @@
 		5083AA2A1E059B8900BCAC93 /* TagAddRemoveViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5083AA231E059B8900BCAC93 /* TagAddRemoveViewController.xib */; };
 		5083AA301E05BE3800BCAC93 /* TagAddRemoveTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5083AA2C1E05BE3800BCAC93 /* TagAddRemoveTableViewCell.swift */; };
 		5083AA341E05BE3800BCAC93 /* TagAddRemoveTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5083AA2D1E05BE3800BCAC93 /* TagAddRemoveTableViewCell.xib */; };
-		50841AF51E1F56EE008621BB /* SortSelectingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50841AF31E1F56EE008621BB /* SortSelectingViewController.swift */; };
-		50841AF61E1F56EE008621BB /* SortSelectingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50841AF41E1F56EE008621BB /* SortSelectingViewController.xib */; };
 		50841AF91E2166A6008621BB /* SortSelectingiOSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50841AF71E2166A6008621BB /* SortSelectingiOSViewController.swift */; };
 		50841AFA1E2166A6008621BB /* SortSelectingiOSViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50841AF81E2166A6008621BB /* SortSelectingiOSViewController.xib */; };
 		50841AFC1E21B7AC008621BB /* iOSFrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50841AFB1E21B7AC008621BB /* iOSFrameworkExtensions.swift */; };
-		5085A15A1E32D2AA00F8EC34 /* MacFrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A1591E32D2AA00F8EC34 /* MacFrameworkExtensions.swift */; };
+		5085A15E1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A15C1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift */; };
+		5085A15F1E3429D800F8EC34 /* ValidatingToolbarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A15D1E3429D800F8EC34 /* ValidatingToolbarItem.swift */; };
+		5085A1651E342A4700F8EC34 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5085A1611E342A4700F8EC34 /* Main.storyboard */; };
+		5085A1661E342A4700F8EC34 /* HipstapaperWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A1621E342A4700F8EC34 /* HipstapaperWindowController.swift */; };
+		5085A1671E342A4700F8EC34 /* URLListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A1631E342A4700F8EC34 /* URLListViewController.swift */; };
+		5085A1681E342A4700F8EC34 /* TagListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A1641E342A4700F8EC34 /* TagListViewController.swift */; };
+		5085A16B1E342A9C00F8EC34 /* SortSelectingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A1691E342A9C00F8EC34 /* SortSelectingViewController.swift */; };
+		5085A16C1E342A9C00F8EC34 /* SortSelectingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5085A16A1E342A9C00F8EC34 /* SortSelectingViewController.xib */; };
 		508623191E10BF2700C06C7D /* RealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508623181E10BF2700C06C7D /* RealmController.swift */; };
 		5086231B1E10BF2700C06C7D /* RealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508623181E10BF2700C06C7D /* RealmController.swift */; };
 		508623201E10C74D00C06C7D /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5086231E1E10C74D00C06C7D /* PreferencesWindowController.swift */; };
@@ -76,7 +77,6 @@
 		50C1629A1E0F1178009F5A19 /* XPURLShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C162981E0F1178009F5A19 /* XPURLShareViewController.swift */; };
 		50D61C641E0E2F9A004595CD /* NewTagNamingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D61C621E0E2F9A004595CD /* NewTagNamingViewController.swift */; };
 		50D61C651E0E2F9A004595CD /* NewTagNamingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50D61C631E0E2F9A004595CD /* NewTagNamingViewController.xib */; };
-		50EE9F081E0CB80E00E76CF5 /* ValidatingToolbarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EE9F071E0CB80E00E76CF5 /* ValidatingToolbarItem.swift */; };
 		50F7CFE81E11A7680057DC6C /* LoginTextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F7CFE61E11A7680057DC6C /* LoginTextFieldTableViewCell.swift */; };
 		50F7CFE91E11A7680057DC6C /* LoginTextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F7CFE71E11A7680057DC6C /* LoginTextFieldTableViewCell.xib */; };
 		50F7CFEA1E12083C0057DC6C /* SerializableURLItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50088A4E1E06595A00D6AAED /* SerializableURLItem.swift */; };
@@ -170,10 +170,6 @@
 		5005E1461DF4CC2600BA38E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50088A4C1E062A2500D6AAED /* URLShareiOSViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLShareiOSViewController.swift; sourceTree = "<group>"; };
 		50088A4E1E06595A00D6AAED /* SerializableURLItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializableURLItem.swift; sourceTree = "<group>"; };
-		50088A691E07093000D6AAED /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		50088A6B1E07151200D6AAED /* TagListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagListViewController.swift; sourceTree = "<group>"; };
-		50088A6D1E07152400D6AAED /* URLListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLListViewController.swift; sourceTree = "<group>"; };
-		50088A6F1E07153200D6AAED /* HipstapaperWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HipstapaperWindowController.swift; sourceTree = "<group>"; };
 		501EC2591DF4E71D003577DA /* Hipstapaper_share_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper_share_iOS.entitlements; sourceTree = "<group>"; };
 		502C7F4A1DF0E4D5004E70AB /* Hipstapaper_share_macOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Hipstapaper_share_macOS.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		502C7F4D1DF0E4D5004E70AB /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
@@ -219,12 +215,17 @@
 		5083AA231E059B8900BCAC93 /* TagAddRemoveViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagAddRemoveViewController.xib; sourceTree = "<group>"; };
 		5083AA2C1E05BE3800BCAC93 /* TagAddRemoveTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagAddRemoveTableViewCell.swift; sourceTree = "<group>"; };
 		5083AA2D1E05BE3800BCAC93 /* TagAddRemoveTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagAddRemoveTableViewCell.xib; sourceTree = "<group>"; };
-		50841AF31E1F56EE008621BB /* SortSelectingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortSelectingViewController.swift; sourceTree = "<group>"; };
-		50841AF41E1F56EE008621BB /* SortSelectingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SortSelectingViewController.xib; sourceTree = "<group>"; };
 		50841AF71E2166A6008621BB /* SortSelectingiOSViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortSelectingiOSViewController.swift; sourceTree = "<group>"; };
 		50841AF81E2166A6008621BB /* SortSelectingiOSViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SortSelectingiOSViewController.xib; sourceTree = "<group>"; };
 		50841AFB1E21B7AC008621BB /* iOSFrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOSFrameworkExtensions.swift; sourceTree = "<group>"; };
-		5085A1591E32D2AA00F8EC34 /* MacFrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MacFrameworkExtensions.swift; sourceTree = "<group>"; };
+		5085A15C1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleInterfaceStyleWindowAppearanceSwitcher.swift; sourceTree = "<group>"; };
+		5085A15D1E3429D800F8EC34 /* ValidatingToolbarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidatingToolbarItem.swift; sourceTree = "<group>"; };
+		5085A1611E342A4700F8EC34 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		5085A1621E342A4700F8EC34 /* HipstapaperWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HipstapaperWindowController.swift; sourceTree = "<group>"; };
+		5085A1631E342A4700F8EC34 /* URLListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLListViewController.swift; sourceTree = "<group>"; };
+		5085A1641E342A4700F8EC34 /* TagListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagListViewController.swift; sourceTree = "<group>"; };
+		5085A1691E342A9C00F8EC34 /* SortSelectingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortSelectingViewController.swift; sourceTree = "<group>"; };
+		5085A16A1E342A9C00F8EC34 /* SortSelectingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SortSelectingViewController.xib; sourceTree = "<group>"; };
 		508623181E10BF2700C06C7D /* RealmController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmController.swift; sourceTree = "<group>"; };
 		5086231E1E10C74D00C06C7D /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		5086231F1E10C74D00C06C7D /* PreferencesWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesWindowController.xib; sourceTree = "<group>"; };
@@ -232,7 +233,6 @@
 		50C162981E0F1178009F5A19 /* XPURLShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPURLShareViewController.swift; sourceTree = "<group>"; };
 		50D61C621E0E2F9A004595CD /* NewTagNamingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTagNamingViewController.swift; sourceTree = "<group>"; };
 		50D61C631E0E2F9A004595CD /* NewTagNamingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewTagNamingViewController.xib; sourceTree = "<group>"; };
-		50EE9F071E0CB80E00E76CF5 /* ValidatingToolbarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidatingToolbarItem.swift; sourceTree = "<group>"; };
 		50F7CFE61E11A7680057DC6C /* LoginTextFieldTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTextFieldTableViewCell.swift; sourceTree = "<group>"; };
 		50F7CFE71E11A7680057DC6C /* LoginTextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginTextFieldTableViewCell.xib; sourceTree = "<group>"; };
 		50F7CFEE1E136E720057DC6C /* HipstapaperSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HipstapaperSplitViewController.swift; sourceTree = "<group>"; };
@@ -441,18 +441,12 @@
 			isa = PBXGroup;
 			children = (
 				506A3F071DD6C10C00A5656E /* AppDelegate.swift */,
-				5085A1591E32D2AA00F8EC34 /* MacFrameworkExtensions.swift */,
-				50088A6B1E07151200D6AAED /* TagListViewController.swift */,
-				50088A6D1E07152400D6AAED /* URLListViewController.swift */,
-				50841AF31E1F56EE008621BB /* SortSelectingViewController.swift */,
-				50841AF41E1F56EE008621BB /* SortSelectingViewController.xib */,
-				50EE9F071E0CB80E00E76CF5 /* ValidatingToolbarItem.swift */,
 				5055515E1E1AD8BC006E2A3B /* macOSFrameworkExtensions.swift */,
-				50088A6F1E07153200D6AAED /* HipstapaperWindowController.swift */,
-				50088A691E07093000D6AAED /* Main.storyboard */,
+				5085A1601E3429E400F8EC34 /* MainWindow */,
 				5048AF0B1E0DA45300AC1B2D /* URLTaggingViewController */,
 				505B30481DEA695D00B74AE6 /* URLItemWebViewWindowController */,
 				5086231D1E10C72400C06C7D /* PreferencesWindowController */,
+				5085A15B1E3429B300F8EC34 /* HelperClasses */,
 				506A3F091DD6C10D00A5656E /* Assets.xcassets */,
 				502D068E1E1E0861000CEEB3 /* MenuController.swift */,
 				506A3F0B1DD6C10D00A5656E /* MainMenu.xib */,
@@ -460,6 +454,28 @@
 				506D98121DD6CFFB002E4F54 /* Hipstapaper_app_macOS.entitlements */,
 			);
 			path = Hipstapaper_app_macOS;
+			sourceTree = "<group>";
+		};
+		5085A15B1E3429B300F8EC34 /* HelperClasses */ = {
+			isa = PBXGroup;
+			children = (
+				5085A15C1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift */,
+				5085A15D1E3429D800F8EC34 /* ValidatingToolbarItem.swift */,
+			);
+			path = HelperClasses;
+			sourceTree = "<group>";
+		};
+		5085A1601E3429E400F8EC34 /* MainWindow */ = {
+			isa = PBXGroup;
+			children = (
+				5085A1621E342A4700F8EC34 /* HipstapaperWindowController.swift */,
+				5085A1631E342A4700F8EC34 /* URLListViewController.swift */,
+				5085A1641E342A4700F8EC34 /* TagListViewController.swift */,
+				5085A1611E342A4700F8EC34 /* Main.storyboard */,
+				5085A1691E342A9C00F8EC34 /* SortSelectingViewController.swift */,
+				5085A16A1E342A9C00F8EC34 /* SortSelectingViewController.xib */,
+			);
+			path = MainWindow;
 			sourceTree = "<group>";
 		};
 		5086231D1E10C72400C06C7D /* PreferencesWindowController */ = {
@@ -752,10 +768,10 @@
 				506A3F0A1DD6C10D00A5656E /* Assets.xcassets in Resources */,
 				508623211E10C74D00C06C7D /* PreferencesWindowController.xib in Resources */,
 				506A3F0D1DD6C10D00A5656E /* MainMenu.xib in Resources */,
+				5085A1651E342A4700F8EC34 /* Main.storyboard in Resources */,
 				50D61C651E0E2F9A004595CD /* NewTagNamingViewController.xib in Resources */,
+				5085A16C1E342A9C00F8EC34 /* SortSelectingViewController.xib in Resources */,
 				505B304C1DEA698300B74AE6 /* URLItemWebViewWindowController.xib in Resources */,
-				50841AF61E1F56EE008621BB /* SortSelectingViewController.xib in Resources */,
-				50088A6A1E07093000D6AAED /* Main.storyboard in Resources */,
 				5048AF0F1E0DA48600AC1B2D /* URLTaggingViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -967,20 +983,20 @@
 				505B304B1DEA698300B74AE6 /* URLItemWebViewWindowController.swift in Sources */,
 				505A23341E2C116A0011D00F /* FrameworkExtensions.swift in Sources */,
 				506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */,
+				5085A1671E342A4700F8EC34 /* URLListViewController.swift in Sources */,
+				5085A1661E342A4700F8EC34 /* HipstapaperWindowController.swift in Sources */,
 				50D61C641E0E2F9A004595CD /* NewTagNamingViewController.swift in Sources */,
 				50432EFD1E0AFF9400D9C3D5 /* URLItemExtras.swift in Sources */,
 				504AFCBD1E1592FC00B8CC3A /* SaveExtensionFileProcessor.swift in Sources */,
+				5085A15F1E3429D800F8EC34 /* ValidatingToolbarItem.swift in Sources */,
+				5085A15E1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift in Sources */,
 				5055515F1E1AD8BC006E2A3B /* macOSFrameworkExtensions.swift in Sources */,
 				508623191E10BF2700C06C7D /* RealmController.swift in Sources */,
 				5048AF0E1E0DA48600AC1B2D /* URLTaggingViewController.swift in Sources */,
-				50088A701E07153200D6AAED /* HipstapaperWindowController.swift in Sources */,
-				5085A15A1E32D2AA00F8EC34 /* MacFrameworkExtensions.swift in Sources */,
-				50088A6C1E07151200D6AAED /* TagListViewController.swift in Sources */,
-				50088A6E1E07152400D6AAED /* URLListViewController.swift in Sources */,
-				50EE9F081E0CB80E00E76CF5 /* ValidatingToolbarItem.swift in Sources */,
-				50841AF51E1F56EE008621BB /* SortSelectingViewController.swift in Sources */,
 				50F7CFEC1E12178D0057DC6C /* SerializableURLItem.swift in Sources */,
+				5085A16B1E342A9C00F8EC34 /* SortSelectingViewController.swift in Sources */,
 				50420FED1E0B0D0F00B237DA /* TagItem.swift in Sources */,
+				5085A1681E342A4700F8EC34 /* TagListViewController.swift in Sources */,
 				50A151991E0A15E700529048 /* URLItem.swift in Sources */,
 				504D7F101E10D4F60010A5C7 /* LoginMacViewController.swift in Sources */,
 				504D7F121E10EAB40010A5C7 /* LoggedInMacViewController.swift in Sources */,
