@@ -10,6 +10,8 @@ import Cocoa
 
 class NewTagNamingViewController: NSViewController {
     
+    private lazy var appearanceSwitcher: AppleInterfaceStyleWindowAppearanceSwitcher = AppleInterfaceStyleWindowAppearanceSwitcher(window: self.view.window!)
+    
     typealias ConfirmTuple = (newName: String, sender: NSObject?, presentedVC: NSViewController)
     var confirm: ((ConfirmTuple) -> Void)?
 
@@ -18,6 +20,11 @@ class NewTagNamingViewController: NSViewController {
     @IBAction private func addTagButtonClicked(_ sender: NSObject?) {
         let newTagName = self.nameTextField?.stringValue ?? ""
         self.confirm?((newName: newTagName, sender: sender, presentedVC: self))
+    }
+    
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        let _ = self.appearanceSwitcher
     }
     
 }

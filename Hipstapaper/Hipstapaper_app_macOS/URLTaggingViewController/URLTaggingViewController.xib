@@ -8,7 +8,6 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="URLTaggingViewController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
-                <outlet property="horizontalLine" destination="hSS-lQ-K2G" id="ri2-nA-2cp"/>
                 <outlet property="tableView" destination="B3L-VJ-JhR" id="WDo-Iy-rbI"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
@@ -87,7 +86,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                 </scrollView>
-                <visualEffectView wantsLayer="YES" appearanceType="vibrantLight" blendingMode="withinWindow" material="titlebar" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="yKa-yP-iaK">
+                <visualEffectView wantsLayer="YES" blendingMode="withinWindow" material="titlebar" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="yKa-yP-iaK">
                     <rect key="frame" x="0.0" y="263" width="350" height="37"/>
                     <subviews>
                         <stackView orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UDy-LX-mv9">
@@ -145,22 +144,13 @@
                         <constraint firstItem="UDy-LX-mv9" firstAttribute="top" secondItem="yKa-yP-iaK" secondAttribute="top" constant="8" id="pc6-vF-G7G"/>
                     </constraints>
                 </visualEffectView>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="hSS-lQ-K2G">
-                    <rect key="frame" x="0.0" y="263" width="350" height="0.0"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="0.5" id="o2r-ex-Je8"/>
-                    </constraints>
-                </customView>
             </subviews>
             <constraints>
                 <constraint firstItem="yKa-yP-iaK" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="Jjc-03-1nI"/>
                 <constraint firstItem="qm9-E6-lQc" firstAttribute="height" secondItem="Hz6-mo-xeY" secondAttribute="height" id="PXQ-6b-tv1"/>
-                <constraint firstItem="hSS-lQ-K2G" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="Yqp-Yw-WgO"/>
                 <constraint firstItem="qm9-E6-lQc" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="gjf-kc-tjP"/>
                 <constraint firstAttribute="trailing" secondItem="yKa-yP-iaK" secondAttribute="trailing" id="hAN-9S-aCQ"/>
                 <constraint firstItem="yKa-yP-iaK" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="iwe-Ub-dA5"/>
-                <constraint firstAttribute="trailing" secondItem="hSS-lQ-K2G" secondAttribute="trailing" id="kab-W0-y6e"/>
-                <constraint firstItem="hSS-lQ-K2G" firstAttribute="top" secondItem="yKa-yP-iaK" secondAttribute="bottom" id="nYD-Sc-Nqv"/>
                 <constraint firstItem="qm9-E6-lQc" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="saE-MF-iho"/>
                 <constraint firstItem="qm9-E6-lQc" firstAttribute="width" secondItem="Hz6-mo-xeY" secondAttribute="width" id="xbP-5x-uYx"/>
             </constraints>

@@ -24,8 +24,11 @@ class URLTaggingViewController: NSViewController {
     
     // MARK: Outlets
     
-    @IBOutlet private weak var horizontalLine: NSView?
     @IBOutlet private weak var tableView: NSTableView?
+    
+    // MARK: Appearance
+    
+    private lazy var appearanceSwitcher: AppleInterfaceStyleWindowAppearanceSwitcher = AppleInterfaceStyleWindowAppearanceSwitcher(window: self.view.window!)
     
     // MARK: Loading
     
@@ -37,8 +40,12 @@ class URLTaggingViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.horizontalLine?.layer?.backgroundColor = NSColor.lightGray.cgColor
         self.hardReloadData()
+    }
+    
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        let _ = self.appearanceSwitcher
     }
     
     // MARK: Reload Data

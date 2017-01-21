@@ -23,6 +23,8 @@ class HipstapaperWindowController: NSWindowController, RealmControllable {
     /*@IBOutlet*/ fileprivate weak var sidebarViewController: TagListViewController?
     /*@IBOutlet*/ fileprivate weak var mainViewController: URLListViewController?
     
+    private lazy var appearanceSwitcher: AppleInterfaceStyleWindowAppearanceSwitcher = AppleInterfaceStyleWindowAppearanceSwitcher(window: self.window!)
+    
     // MARK: Realm Controller Owner
     
     var realmController = RealmController() {
@@ -39,10 +41,7 @@ class HipstapaperWindowController: NSWindowController, RealmControllable {
         
         // Get that OSX Yosemite 'look'
         self.window?.titleVisibility = .hidden
-        self.screenParametersDidChange(.none)
-        
-        // get notified if user changes appearance
-        NotificationCenter.default.addObserver(self, selector: #selector(self.screenParametersDidChange(_:)), name: .NSApplicationDidChangeScreenParameters, object: .none)
+        let _ = self.appearanceSwitcher
         
         // Populate the child VC's
         // This should be done in IB, but storyboards don't seem to allow it
@@ -67,16 +66,6 @@ class HipstapaperWindowController: NSWindowController, RealmControllable {
         if let realmController = self.realmController {
             self.sidebarViewController?.realmController = realmController
             self.mainViewController?.realmController = realmController
-        }
-    }
-    
-    @objc private func screenParametersDidChange(_ notification: Notification?) {
-        let style = AppleInterfaceStyle.system
-        switch style {
-        case .light:
-            self.window?.appearance = NSAppearance(named: NSAppearanceNameVibrantLight)
-        case .dark:
-            self.window?.appearance = NSAppearance(named: NSAppearanceNameVibrantDark)
         }
     }
     

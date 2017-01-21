@@ -11,6 +11,10 @@ import AppKit
 
 class URLItemWebViewWindowController: NSWindowController {
     
+    // MARK: Appearance
+    
+    private lazy var appearanceSwitcher: AppleInterfaceStyleWindowAppearanceSwitcher = AppleInterfaceStyleWindowAppearanceSwitcher(window: self.window!)
+    
     // MARK: Model Item
     
     private(set) var itemID: URLItem.UIIdentifier?
@@ -68,6 +72,7 @@ class URLItemWebViewWindowController: NSWindowController {
         
         // make the titlebar skinny and sexy
         self.window?.titleVisibility = .hidden
+        let _ = self.appearanceSwitcher
         
         // hack to force the toolbar to lay itself out
         let existingToolBar = self.window?.toolbar

@@ -12,6 +12,8 @@ class PreferencesWindowController: NSWindowController, RealmControllable {
     
     @IBOutlet private weak var tabView: NSTabView?
     
+    private lazy var appearanceSwitcher: AppleInterfaceStyleWindowAppearanceSwitcher = AppleInterfaceStyleWindowAppearanceSwitcher(window: self.window!)
+    
     private var allTabViewItems = [NSTabViewItem]()
     
     var realmController: RealmController? {
@@ -32,6 +34,7 @@ class PreferencesWindowController: NSWindowController, RealmControllable {
     override func windowDidLoad() {
         super.windowDidLoad()
         self.allTabViewItems = self.tabView?.tabViewItems ?? []
+        let _ = self.appearanceSwitcher
     }
     
     override func showWindow(_ sender: Any?) {
