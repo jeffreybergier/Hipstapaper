@@ -106,140 +106,207 @@ class URLItemSorting: XCTestCase {
     }
     
     func testURLStringSortAFirst() {
-        let sort = URLItem.SortOrder.urlString(aFirst: true)
-        let items = sort.sort(results: self.realm.objects(URLItem.self))
+        let sort = URLItem.SortOrder.urlAOnTop
+        let unsortedResults = self.realm.objects(URLItem.self)
+        let sortedResults = sort.sort(results: unsortedResults)
+        
+        XCTAssert(unsortedResults.count == sortedResults.count)
+        
         let sortedCorrectly =
-            items[0].urlString == "http://www.0.com" &&
-                items[1].urlString == "http://www.01.com" &&
-                items[2].urlString == "http://www.02.com" &&
-                items[3].urlString == "http://www.1.com" &&
-                items[4].urlString == "http://www.10.com" &&
-                items[5].urlString == "http://www.2.com" &&
-                items[6].urlString == "http://www.20.com" &&
-                items[7].urlString == "http://www.a.com" &&
-                items[8].urlString == "http://www.A.com" &&
-                items[9].urlString == "http://www.b.com" &&
-                items[10].urlString == "http://www.B.com" &&
-                items[11].urlString == "http://www.z.com" &&
-                items[12].urlString == "http://www.Z.com"
+            sortedResults[0].urlString == "http://www.0.com" &&
+                sortedResults[1].urlString == "http://www.01.com" &&
+                sortedResults[2].urlString == "http://www.02.com" &&
+                sortedResults[3].urlString == "http://www.1.com" &&
+                sortedResults[4].urlString == "http://www.10.com" &&
+                sortedResults[5].urlString == "http://www.2.com" &&
+                sortedResults[6].urlString == "http://www.20.com" &&
+                sortedResults[7].urlString == "http://www.a.com" &&
+                sortedResults[8].urlString == "http://www.A.com" &&
+                sortedResults[9].urlString == "http://www.b.com" &&
+                sortedResults[10].urlString == "http://www.B.com" &&
+                sortedResults[11].urlString == "http://www.z.com" &&
+                sortedResults[12].urlString == "http://www.Z.com"
+        
         XCTAssert(sortedCorrectly)
     }
     
     func testURLStringSortZFirst() {
-        let sort = URLItem.SortOrder.urlString(aFirst: false)
-        let items = sort.sort(results: self.realm.objects(URLItem.self))
+        let sort = URLItem.SortOrder.urlZOnTop
+        let unsortedResults = self.realm.objects(URLItem.self)
+        let sortedResults = sort.sort(results: unsortedResults)
+        
+        XCTAssert(unsortedResults.count == sortedResults.count)
+        
         let sortedCorrectly =
-            items[12].urlString == "http://www.0.com" &&
-                items[11].urlString == "http://www.01.com" &&
-                items[10].urlString == "http://www.02.com" &&
-                items[9].urlString == "http://www.1.com" &&
-                items[8].urlString == "http://www.10.com" &&
-                items[7].urlString == "http://www.2.com" &&
-                items[6].urlString == "http://www.20.com" &&
-                items[5].urlString == "http://www.a.com" &&
-                items[4].urlString == "http://www.A.com" &&
-                items[3].urlString == "http://www.b.com" &&
-                items[2].urlString == "http://www.B.com" &&
-                items[1].urlString == "http://www.z.com" &&
-                items[0].urlString == "http://www.Z.com"
+            sortedResults[12].urlString == "http://www.0.com" &&
+                sortedResults[11].urlString == "http://www.01.com" &&
+                sortedResults[10].urlString == "http://www.02.com" &&
+                sortedResults[9].urlString == "http://www.1.com" &&
+                sortedResults[8].urlString == "http://www.10.com" &&
+                sortedResults[7].urlString == "http://www.2.com" &&
+                sortedResults[6].urlString == "http://www.20.com" &&
+                sortedResults[5].urlString == "http://www.a.com" &&
+                sortedResults[4].urlString == "http://www.A.com" &&
+                sortedResults[3].urlString == "http://www.b.com" &&
+                sortedResults[2].urlString == "http://www.B.com" &&
+                sortedResults[1].urlString == "http://www.z.com" &&
+                sortedResults[0].urlString == "http://www.Z.com"
+        
         XCTAssert(sortedCorrectly)
     }
     
     func testArchivedFirst() {
-        let sort = URLItem.SortOrder.archived(archivedFirst: true)
-        let items = sort.sort(results: self.realm.objects(URLItem.self))
+        let sort = URLItem.SortOrder.archivedOnTop
+        let unsortedResults = self.realm.objects(URLItem.self)
+        let sortedResults = sort.sort(results: unsortedResults)
+        
+        XCTAssert(unsortedResults.count == sortedResults.count)
+        
         let sortedCorrectly =
-            items[0].archived == true &&
-                items[1].archived == true &&
-                items[2].archived == true &&
-                items[3].archived == true &&
-                items[4].archived == true &&
-                items[5].archived == true &&
-                items[6].archived == true &&
-                items[7].archived == true &&
-                items[8].archived == false &&
-                items[9].archived == false &&
-                items[10].archived == false &&
-                items[11].archived == false &&
-                items[12].archived == false
+            sortedResults[0].archived == true &&
+                sortedResults[1].archived == true &&
+                sortedResults[2].archived == true &&
+                sortedResults[3].archived == true &&
+                sortedResults[4].archived == true &&
+                sortedResults[5].archived == true &&
+                sortedResults[6].archived == true &&
+                sortedResults[7].archived == true &&
+                sortedResults[8].archived == false &&
+                sortedResults[9].archived == false &&
+                sortedResults[10].archived == false &&
+                sortedResults[11].archived == false &&
+                sortedResults[12].archived == false
+        
         XCTAssert(sortedCorrectly)
     }
     
     func testUnarchivedFirst() {
-        let sort = URLItem.SortOrder.archived(archivedFirst: false)
-        let items = sort.sort(results: self.realm.objects(URLItem.self))
+        let sort = URLItem.SortOrder.unarchivedOnTop
+        let unsortedResults = self.realm.objects(URLItem.self)
+        let sortedResults = sort.sort(results: unsortedResults)
+        
+        XCTAssert(unsortedResults.count == sortedResults.count)
+        
         let sortedCorrectly =
-            items[12].archived == true &&
-                items[11].archived == true &&
-                items[10].archived == true &&
-                items[9].archived == true &&
-                items[8].archived == true &&
-                items[7].archived == true &&
-                items[6].archived == true &&
-                items[5].archived == true &&
-                items[4].archived == false &&
-                items[3].archived == false &&
-                items[2].archived == false &&
-                items[1].archived == false &&
-                items[0].archived == false
+            sortedResults[12].archived == true &&
+                sortedResults[11].archived == true &&
+                sortedResults[10].archived == true &&
+                sortedResults[9].archived == true &&
+                sortedResults[8].archived == true &&
+                sortedResults[7].archived == true &&
+                sortedResults[6].archived == true &&
+                sortedResults[5].archived == true &&
+                sortedResults[4].archived == false &&
+                sortedResults[3].archived == false &&
+                sortedResults[2].archived == false &&
+                sortedResults[1].archived == false &&
+                sortedResults[0].archived == false
+        
         XCTAssert(sortedCorrectly)
     }
     
     func testCreationDateNewestFirst() {
-        let sort = URLItem.SortOrder.creationDate(newestFirst: true)
-        let items = sort.sort(results: self.realm.objects(URLItem.self))
-        let sortedCorrectly = items[0].creationDate > items[12].creationDate
+        let sort = URLItem.SortOrder.recentlyAddedOnTop
+        let unsortedResults = self.realm.objects(URLItem.self)
+        let sortedResults = sort.sort(results: unsortedResults)
+        
+        XCTAssert(unsortedResults.count == sortedResults.count)
+        
+        let sortedCorrectly = sortedResults[0].creationDate > sortedResults[12].creationDate
+        
         XCTAssert(sortedCorrectly)
     }
     
     func testCreationDateOldestFirst() {
-        let sort = URLItem.SortOrder.creationDate(newestFirst: false)
-        let items = sort.sort(results: self.realm.objects(URLItem.self))
-        let sortedCorrectly = items[0].creationDate < items[12].creationDate
+        let sort = URLItem.SortOrder.recentlyAddedOnBottom
+        let unsortedResults = self.realm.objects(URLItem.self)
+        let sortedResults = sort.sort(results: unsortedResults)
+        
+        XCTAssert(unsortedResults.count == sortedResults.count)
+        
+        let sortedCorrectly = sortedResults[0].creationDate < sortedResults[12].creationDate
+        
         XCTAssert(sortedCorrectly)
     }
     
     func testModificationDateNewestFirst() {
-        let sort = URLItem.SortOrder.modificationDate(newestFirst: true)
-        let items = sort.sort(results: self.realm.objects(URLItem.self))
-        let sortedCorrectly = items[0].modificationDate > items[12].modificationDate
+        let sort = URLItem.SortOrder.recentlyModifiedOnTop
+        let unsortedResults = self.realm.objects(URLItem.self)
+        let sortedResults = sort.sort(results: unsortedResults)
+        
+        XCTAssert(unsortedResults.count == sortedResults.count)
+        
+        let sortedCorrectly = sortedResults[0].modificationDate > sortedResults[12].modificationDate
+        
         XCTAssert(sortedCorrectly)
     }
     
     func testModificationDateOldestFirst() {
-        let sort = URLItem.SortOrder.modificationDate(newestFirst: false)
-        let items = sort.sort(results: self.realm.objects(URLItem.self))
-        let sortedCorrectly = items[0].modificationDate < items[12].modificationDate
+        let sort = URLItem.SortOrder.recentlyModifiedOnBottom
+        let unsortedResults = self.realm.objects(URLItem.self)
+        let sortedResults = sort.sort(results: unsortedResults)
+        
+        XCTAssert(unsortedResults.count == sortedResults.count)
+        
+        let sortedCorrectly = sortedResults[0].modificationDate < sortedResults[12].modificationDate
+        
         XCTAssert(sortedCorrectly)
     }
-    
     /*
     func testTagCountMostFirst() {
         let sort = URLItem.SortOrder.tagCount(mostFirst: true)
         let items = sort.sort(results: self.realm.objects(URLItem.self))
         XCTAssert(true)
     }
-    */
-    /*
+*/
+    
     func testPageTitleSortAFirst() {
-        let sort = URLItem.SortOrder.pageTitle(aFirst: true)
-        let items = sort.sort(results: self.realm.objects(URLItem.self))
+        let sort = URLItem.SortOrder.pageTitleAOnTop
+        let unsortedResults = self.realm.objects(URLItem.self)
+        let sortedResults = sort.sort(results: unsortedResults)
+        
+        XCTAssert(unsortedResults.count == sortedResults.count)
+        
         let sortedCorrectly =
-            items[0].urlString == "http://www.0.com" &&
-                items[1].urlString == "http://www.01.com" &&
-                items[2].urlString == "http://www.02.com" &&
-                items[3].urlString == "http://www.1.com" &&
-                items[4].urlString == "http://www.10.com" &&
-                items[5].urlString == "http://www.2.com" &&
-                items[6].urlString == "http://www.20.com" &&
-                items[7].urlString == "http://www.a.com" &&
-                items[8].urlString == "http://www.A.com" &&
-                items[9].urlString == "http://www.b.com" &&
-                items[10].urlString == "http://www.B.com" &&
-                items[11].urlString == "http://www.z.com" &&
-                items[12].urlString == "http://www.Z.com"
+            sortedResults[0].extras!.pageTitle == "0 Page Title" &&
+                sortedResults[1].extras!.pageTitle == "01 Page Title" &&
+                sortedResults[2].extras!.pageTitle == "02 Page Title" &&
+                sortedResults[3].extras!.pageTitle == "1 Page Title" &&
+                sortedResults[4].extras!.pageTitle == "10 Page Title" &&
+                sortedResults[5].extras!.pageTitle == "2 Page Title" &&
+                sortedResults[6].extras!.pageTitle == "20 Page Title" &&
+                sortedResults[7].extras!.pageTitle == "a Page Title" &&
+                sortedResults[8].extras!.pageTitle == "A Page Title" &&
+                sortedResults[9].extras!.pageTitle == "b Page Title" &&
+                sortedResults[10].extras!.pageTitle == "B Page Title" &&
+                sortedResults[11].extras!.pageTitle == "z Page Title" &&
+                sortedResults[12].extras!.pageTitle == "Z Page Title"
+        
         XCTAssert(sortedCorrectly)
     }
-     */
     
+    func testPageTitleSortZFirst() {
+        let sort = URLItem.SortOrder.pageTitleZOnTop
+        let unsortedResults = self.realm.objects(URLItem.self)
+        let sortedResults = sort.sort(results: unsortedResults)
+        
+        XCTAssert(unsortedResults.count == sortedResults.count)
+        
+        let sortedCorrectly =
+            sortedResults[12].extras!.pageTitle == "0 Page Title" &&
+                sortedResults[11].extras!.pageTitle == "01 Page Title" &&
+                sortedResults[10].extras!.pageTitle == "02 Page Title" &&
+                sortedResults[9].extras!.pageTitle == "1 Page Title" &&
+                sortedResults[8].extras!.pageTitle == "10 Page Title" &&
+                sortedResults[7].extras!.pageTitle == "2 Page Title" &&
+                sortedResults[6].extras!.pageTitle == "20 Page Title" &&
+                sortedResults[5].extras!.pageTitle == "a Page Title" &&
+                sortedResults[4].extras!.pageTitle == "A Page Title" &&
+                sortedResults[3].extras!.pageTitle == "b Page Title" &&
+                sortedResults[2].extras!.pageTitle == "B Page Title" &&
+                sortedResults[1].extras!.pageTitle == "z Page Title" &&
+                sortedResults[0].extras!.pageTitle == "Z Page Title"
+        
+        XCTAssert(sortedCorrectly)
+    }
 }

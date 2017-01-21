@@ -64,7 +64,16 @@ public extension URLItem {
 public extension URLItem {
 
     public enum SortOrder: Int {
-        case recentlyAddedOnTop = 0, recentlyAddedOnBottom, recentlyModifiedOnTop, recentlyModifiedOnBottom, urlAOnTop, urlZOnTop
+        
+        case recentlyAddedOnTop = 0, recentlyAddedOnBottom,
+        recentlyModifiedOnTop, recentlyModifiedOnBottom,
+        pageTitleAOnTop, pageTitleZOnTop,
+        urlAOnTop, urlZOnTop,
+        unarchivedOnTop, archivedOnTop
+        
+        public static var count: Int {
+            return 10
+        }
         
         public var displayName: String {
             switch self {
@@ -80,6 +89,14 @@ public extension URLItem {
                 return "URL's with A on Top"
             case .urlZOnTop:
                 return "URL's with Z on Top"
+            case .archivedOnTop:
+                return "Archived on Top"
+            case .unarchivedOnTop:
+                return "Unarchived on Top"
+            case .pageTitleAOnTop:
+                return "Page Titles with A on Top"
+            case .pageTitleZOnTop:
+                return "Page Titles with Z on Top"
             }
         }
         
@@ -91,14 +108,18 @@ public extension URLItem {
                 return #keyPath(URLItem.modificationDate)
             case .urlAOnTop, .urlZOnTop:
                 return #keyPath(URLItem.urlString)
+            case .archivedOnTop, .unarchivedOnTop:
+                return #keyPath(URLItem.archived)
+            case .pageTitleAOnTop, .pageTitleZOnTop:
+                return #keyPath(URLItem.extras.pageTitle)
             }
         }
         
         private var ascending: Bool {
             switch self {
-            case .recentlyAddedOnTop, .recentlyModifiedOnTop, .urlZOnTop:
+            case .recentlyAddedOnTop, .recentlyModifiedOnTop, .urlZOnTop, .archivedOnTop, .pageTitleZOnTop:
                 return false
-            case .recentlyAddedOnBottom, .recentlyModifiedOnBottom, .urlAOnTop:
+            case .recentlyAddedOnBottom, .recentlyModifiedOnBottom, .urlAOnTop, .unarchivedOnTop, .pageTitleAOnTop:
                 return true
             }
         }
@@ -115,10 +136,6 @@ public extension URLItem {
             let ascending = self.ascending
             let output = input.sorted(byKeyPath: keyPath, ascending: ascending)
             return output
-        }
-        
-        public static var count: Int {
-            return 6
         }
     }
 }
