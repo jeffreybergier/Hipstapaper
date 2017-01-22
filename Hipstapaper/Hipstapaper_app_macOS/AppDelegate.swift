@@ -13,12 +13,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     private let extensionFileProcessor = SaveExtensionFileProcessor()
     
-    let rootWindowController: HipstapaperWindowController = {
-        let storyboard = NSStoryboard(name: "Main", bundle: Bundle(for: AppDelegate.self))
-        let initial = storyboard.instantiateInitialController()!
-        let windowController = initial as! HipstapaperWindowController
-        return windowController
-    }()
+    // during state restoration this property is set before the lazy getting does anything
+    // if state restoration does not happen, then this just acts normally
+    fileprivate lazy var rootWindowController: HipstapaperWindowController = HipstapaperWindowCreator.windowController()
 
     // open the main window when the app launches
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -50,6 +47,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidResignActive(_ notification: Notification) {
         self.extensionFileProcessor.processFiles(with: self.rootWindowController.realmController)
+    }
+}
+
+fileprivate class HipstapaperWindowCreator: NSObject, NSWindowRestoration {
+    
+    fileprivate static func restoreWindow(withIdentifier identifier: String, state: NSCoder, completionHandler: @escaping (NSWindow?, Error?) -> Swift.Void) {
+        let wc = self.windowController()
+        (NSApp.delegate as? AppDelegate)?.rootWindowController = wc
+        completionHandler(wc.window, .none)
+    }
+    
+    fileprivate static func windowController() -> HipstapaperWindowController {
+        let storyboard = NSStoryboard(name: "Main", bundle: Bundle(for: self))
+        let initial = storyboard.instantiateInitialController()!
+        let wc = initial as! HipstapaperWindowController
+        wc.window?.isRestorable = true
+        wc.window?.restorationClass = self
+        wc.window?.identifier = "MainHipstapaperWindow"
+        wc.windowFrameAutosaveName = "MainHipstapaperWindow"
+        return wc
     }
 }
 
