@@ -34,10 +34,7 @@ class XPURLShareViewController: XPViewController {
     #endif
     
     func start() {
-        guard let extensionItem = self.extensionContext?.inputItems.first as? NSExtensionItem else {
-            self.extensionContext?.cancelRequest(withError: NSError(domain: "", code: 0, userInfo: nil))
-            return
-        }
+        guard let extensionItem = self.extensionContext?.inputItems.first as? NSExtensionItem else { self.item = .error; return; }
         SerializableURLItem.item(from: extensionItem) { result in
             DispatchQueue.main.async {
                 self.item = result

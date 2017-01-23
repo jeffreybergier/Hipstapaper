@@ -96,6 +96,9 @@ extension SerializableURLItem {
             }
         }
         
+        // if the number of attached items is 0, we need to trigger the exit by calling didSet on hitcount
+        guard itemCount > 0 else { hitCount = 0; return; }
+        
         // make sure we have an attachment
         // if not, return nil
         guard let attachments = extensionItem.attachments as? [NSItemProvider] else { handler(.error); return; }
