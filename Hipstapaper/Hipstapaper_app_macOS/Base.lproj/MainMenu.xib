@@ -643,7 +643,7 @@ CA
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="VYK-Z2-QUb"/>
-                            <menuItem title="Hipstapaper" keyEquivalent="0" id="qAZ-dq-Ytd">
+                            <menuItem title="Hipstapaper" tag="374" keyEquivalent="0" id="qAZ-dq-Ytd">
                                 <connections>
                                     <action selector="showMainWindowMenuChosen:" target="Voe-Tx-rLC" id="IU9-Le-IJJ"/>
                                 </connections>

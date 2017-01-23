@@ -177,7 +177,7 @@ class URLItemWebViewWindowController: NSWindowController {
             return true
         case .shareSubmenu:
             return true
-        case .copy, .open, .delete:
+        case .copy, .open, .delete, .showMainWindow:
             return false
         }
     }

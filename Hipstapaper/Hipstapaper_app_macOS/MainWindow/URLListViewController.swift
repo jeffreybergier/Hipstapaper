@@ -165,6 +165,8 @@ class URLListViewController: NSViewController, RealmControllable {
             return true
         case .javascript:
             return false
+        case .showMainWindow:
+            return false
         }
     }
     

@@ -16,7 +16,7 @@ extension NSToolbarItem {
 
 extension NSMenuItem {
     enum Kind: Int {
-        case open = 999, copy = 444, archive = 555, unarchive = 544, delete = 666, share = 898, shareSubmenu = 897, javascript = 433
+        case open = 999, copy = 444, archive = 555, unarchive = 544, delete = 666, share = 898, shareSubmenu = 897, javascript = 433, showMainWindow = 374
     }
 }
 

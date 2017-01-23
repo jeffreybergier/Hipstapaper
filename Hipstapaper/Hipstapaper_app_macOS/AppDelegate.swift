@@ -19,7 +19,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     // open the main window when the app launches
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        self.rootWindowController.showWindow(self)
+        if (self.rootWindowController.window?.isVisible ?? false) == false {
+            self.rootWindowController.showWindow(self)
+        }
     }
     
     // opens the main window if the dock icon is clicked and there are no windows open
@@ -34,7 +36,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBAction func showMainWindowMenuChosen(_ sender: NSObject?) {
         guard
             let menuItem = sender as? NSMenuItem,
-            menuItem.title == "Hipstapaper"
+            let kind = NSMenuItem.Kind(rawValue: menuItem.tag),
+            kind == .showMainWindow
         else { return }
         self.rootWindowController.showWindow(self)
     }
