@@ -48,9 +48,14 @@ class URLListViewController: NSViewController, RealmControllable {
     
     // MARK: Manage Open Child Windows
     
-    fileprivate var openWindowsControllers: [URLItem.UIIdentifier : NSWindowController] = [:]
+    let windowLoader = URLItemWebViewWindowControllerLazyLoader()
     
     // MARK: View Loading
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.windowLoader.windowControllerDelegate = self
+    }
 
     override func viewWillAppear() {
         super.viewWillAppear()
@@ -266,17 +271,8 @@ class URLListViewController: NSViewController, RealmControllable {
     private func openOrBringFrontWindowControllers(for items: [URLItem]) {
         items.forEach() { item in
             let itemID = URLItem.UIIdentifier(uuid: item.uuid, urlString: item.urlString, archived: item.archived)
-            if let existingWC = self.openWindowsControllers[itemID] {
-                existingWC.showWindow(self)
-            } else {
-                let newWC = URLItemWebViewWindowController(itemID: itemID, delegate: self)
-                NotificationCenter.default.addObserver(self,
-                                                       selector: #selector(self.itemWindowWillClose(_:)),
-                                                       name: .NSWindowWillClose,
-                                                       object: newWC.window!)
-                self.openWindowsControllers[itemID] = newWC
-                newWC.showWindow(self)
-            }
+            let wc = self.windowLoader[itemID]
+            wc?.showWindow(self)
         }
     }
     
@@ -356,22 +352,6 @@ extension URLListViewController: NSTableViewDelegate {
         }
         tagAction.backgroundColor = NSColor.lightGray
         return [tagAction, archiveToggleAction]
-    }
-}
-
-extension URLListViewController /*NSWindowDelegate*/ {
-    
-    // MARK: Handle Child Window Closing to Remove from OpenItemWindows Property and from Memory
-    
-    @objc fileprivate func itemWindowWillClose(_ notification: NSNotification) {
-        guard
-            let window = notification.object as? NSWindow,
-            let itemWindowController = window.windowController as? URLItemWebViewWindowController,
-            let item = itemWindowController.itemID
-        else { return }
-        
-        NotificationCenter.default.removeObserver(self, name: .NSWindowWillClose, object: window)
-        self.openWindowsControllers[item] = .none
     }
 }
 

@@ -18,7 +18,7 @@ class URLItemWebViewWindowController: NSWindowController {
     // MARK: Model Item
     
     private(set) var itemID: URLItem.UIIdentifier?
-    private weak var delegate: RealmControllable?
+    weak var delegate: RealmControllable?
     
     // MARK: Control Outlets
     
@@ -61,10 +61,10 @@ class URLItemWebViewWindowController: NSWindowController {
     
     // MARK: Initialization
     
-    convenience init(itemID: URLItem.UIIdentifier, delegate: RealmControllable?) {
+    convenience init(itemID: URLItem.UIIdentifier?) {
         self.init(windowNibName: "URLItemWebViewWindowController")
         self.itemID = itemID
-        self.delegate = delegate
+        self.invalidateRestorableState()
     }
 
     override func windowDidLoad() {
@@ -123,6 +123,7 @@ class URLItemWebViewWindowController: NSWindowController {
         let oldValue = self.webView.configuration.preferences.javaScriptEnabled
         self.webView.configuration.preferences.javaScriptEnabled = !oldValue
         self.webView.reload()
+        self.invalidateRestorableState()
     }
     
     override func validateToolbarItem(_ sender: NSObject?) -> Bool {
@@ -181,5 +182,29 @@ class URLItemWebViewWindowController: NSWindowController {
         }
     }
     
+    // MARK: State Restoration
     
+    enum StateRestorationConstants {
+        static let kJavascriptEnabled = "kJavascriptEnabledKey"
+        static let kURLItemUUID = "kURLItemUUIDKey"
+        static let kURLItemURLString = "kURLItemURLStringKey"
+        static let kURLItemArchived = "kURLItemArchivedKey"
+    }
+    
+    override func encodeRestorableState(with coder: NSCoder) {
+        // save all the state
+        coder.encode(self.itemID?.uuid, forKey: StateRestorationConstants.kURLItemUUID)
+        coder.encode(self.itemID?.urlString, forKey: StateRestorationConstants.kURLItemURLString)
+        coder.encode(NSNumber(value: self.itemID?.archived ?? false), forKey: StateRestorationConstants.kURLItemArchived)
+        coder.encode(NSNumber(value: self.webView.configuration.preferences.javaScriptEnabled), forKey: StateRestorationConstants.kJavascriptEnabled)
+        super.encodeRestorableState(with: coder)
+    }
+    
+    override func restoreState(with coder: NSCoder) {
+        // only restore the javascript state
+        let javascriptEnabled = coder.decodeObject(forKey: StateRestorationConstants.kJavascriptEnabled) as? NSNumber
+        let restoredValue = javascriptEnabled?.boolValue ?? self.webView.configuration.preferences.javaScriptEnabled
+        self.webView.configuration.preferences.javaScriptEnabled = restoredValue
+        super.restoreState(with: coder)
+    }
 }

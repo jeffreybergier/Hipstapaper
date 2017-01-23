@@ -21,7 +21,7 @@ class HipstapaperWindowController: NSWindowController, RealmControllable {
     // MARK: References to child view controllers
     
     /*@IBOutlet*/ fileprivate weak var sidebarViewController: TagListViewController?
-    /*@IBOutlet*/ fileprivate weak var mainViewController: URLListViewController?
+    /*@IBOutlet*/ fileprivate(set) weak var mainViewController: URLListViewController?
     
     private lazy var appearanceSwitcher: AppleInterfaceStyleWindowAppearanceSwitcher = AppleInterfaceStyleWindowAppearanceSwitcher(window: self.window!)
     

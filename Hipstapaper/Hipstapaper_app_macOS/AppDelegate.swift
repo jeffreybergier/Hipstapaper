@@ -15,7 +15,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     // during state restoration this property is set before the lazy getting does anything
     // if state restoration does not happen, then this just acts normally
-    fileprivate lazy var rootWindowController: HipstapaperWindowController = HipstapaperWindowCreator.windowController()
+    fileprivate(set) lazy var rootWindowController: HipstapaperWindowController = HipstapaperWindowCreator.windowController()
 
     // open the main window when the app launches
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -54,7 +54,11 @@ fileprivate class HipstapaperWindowCreator: NSObject, NSWindowRestoration {
     
     fileprivate static func restoreWindow(withIdentifier identifier: String, state: NSCoder, completionHandler: @escaping (NSWindow?, Error?) -> Swift.Void) {
         let wc = self.windowController()
-        (NSApp.delegate as? AppDelegate)?.rootWindowController = wc
+        guard let appDelegate = NSApp.delegate as? AppDelegate else {
+            completionHandler(.none, .none)
+            return
+        }
+        appDelegate.rootWindowController = wc
         completionHandler(wc.window, .none)
     }
     
