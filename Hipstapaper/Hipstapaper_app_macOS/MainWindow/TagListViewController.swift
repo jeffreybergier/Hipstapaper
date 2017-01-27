@@ -52,6 +52,18 @@ class TagListViewController: NSViewController {
         // refresh the content with new data
         self.data = self.realmController?.tag_loadAll()
         self.notificationToken = self.data?.addNotificationBlock(self.realmResultsChangeClosure)
+        
+        // manually update the child count of the tag parent
+        self.tagParent.childCount = self.data?.count ?? 0
+        // hard reload the data
+        self.outlineView?.reloadData()
+        // expand all items in the outline
+        self.outlineView?.expandItem(.none, expandChildren: true)
+        // select the item after that row... the unread row
+        self.didChange(itemsToLoad: self.selectionDelegate?.itemsToLoad,
+                        sortOrder: self.selectionDelegate?.sortOrder,
+                        filter: self.selectionDelegate?.filter,
+                        sender: .sourceListVC)
     }
     
     fileprivate var changingSelectionProgrammaticaly = false // refer to MARK Selection Super Hack
@@ -59,20 +71,7 @@ class TagListViewController: NSViewController {
     private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<TagItem>>) -> Void) = { [weak self] changes in
         switch changes {
         case .initial:
-            // manually update the child count of the tag parent
-            self?.tagParent.childCount = self?.data?.count ?? 0
-            // hard reload the data
-            self?.outlineView?.reloadData()
-            // expand all items in the outline
-            self?.outlineView?.expandItem(.none, expandChildren: true)
-            // select the unread items object
-            // get the row of its parent (should be 0)
-            let parentIndex = 0
-            // select the item after that row... the unread row
-            self?.didChange(itemsToLoad: self?.selectionDelegate?.itemsToLoad,
-                            sortOrder: self?.selectionDelegate?.sortOrder,
-                            filter: self?.selectionDelegate?.filter,
-                            sender: .sourceListVC)
+            break
         case .update(_, let deletions, let insertions, let modifications):
             // manually update the child count of the tag parent
             self?.tagParent.childCount = self?.data?.count ?? 0

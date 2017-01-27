@@ -111,12 +111,15 @@ class URLListViewController: NSViewController, RealmControllable {
         // load the data
         self.data = self.realmController?.url_loadAll(for: itemsToLoad, sortedBy: sortOrder, filteredBy: filter)
         self.notificationToken = self.data?.addNotificationBlock(self.realmResultsChangeClosure)
+        
+        // reload the data synchronously
+        self.tableView?.reloadData()
     }
     
     private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<URLItem>>) -> Void) = { [weak self] changes in
         switch changes {
         case .initial:
-            self?.tableView?.reloadData()
+            break
         case .update(_, let deletions, let insertions, let modifications):
             self?.tableView?.beginUpdates()
             self?.tableView?.removeRows(at: IndexSet(deletions), withAnimation: .slideLeft)
