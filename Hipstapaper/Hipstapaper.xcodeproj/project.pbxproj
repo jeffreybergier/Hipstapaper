@@ -16,7 +16,6 @@
 		502C7F541DF0E4D5004E70AB /* URLShareMacViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502C7F521DF0E4D5004E70AB /* URLShareMacViewController.xib */; };
 		502C7F581DF0E4D5004E70AB /* Hipstapaper_share_macOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 502C7F4A1DF0E4D5004E70AB /* Hipstapaper_share_macOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		502D068F1E1E0861000CEEB3 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502D068E1E1E0861000CEEB3 /* MenuController.swift */; };
-		502D66C11E3B0167008BA34C /* TableSelectionColorSwitchingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502D66C01E3B0167008BA34C /* TableSelectionColorSwitchingTextField.swift */; };
 		50420FED1E0B0D0F00B237DA /* TagItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50420FEC1E0B0D0F00B237DA /* TagItem.swift */; };
 		50420FEF1E0B0D0F00B237DA /* TagItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50420FEC1E0B0D0F00B237DA /* TagItem.swift */; };
 		50420FF81E0B1EBE00B237DA /* URLItemSorting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50420FF71E0B1EBE00B237DA /* URLItemSorting.swift */; };
@@ -179,7 +178,6 @@
 		502C7F531DF0E4D5004E70AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/URLShareMacViewController.xib; sourceTree = "<group>"; };
 		502C7F551DF0E4D5004E70AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		502D068E1E1E0861000CEEB3 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
-		502D66C01E3B0167008BA34C /* TableSelectionColorSwitchingTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableSelectionColorSwitchingTextField.swift; sourceTree = "<group>"; };
 		50420FEC1E0B0D0F00B237DA /* TagItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagItem.swift; sourceTree = "<group>"; };
 		50420FF51E0B1EBE00B237DA /* Hipstapaper_app_macOS_tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Hipstapaper_app_macOS_tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		50420FF71E0B1EBE00B237DA /* URLItemSorting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLItemSorting.swift; sourceTree = "<group>"; };
@@ -452,7 +450,6 @@
 			children = (
 				5085A15C1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift */,
 				5085A15D1E3429D800F8EC34 /* ValidatingToolbarItem.swift */,
-				502D66C01E3B0167008BA34C /* TableSelectionColorSwitchingTextField.swift */,
 			);
 			path = HelperClasses;
 			sourceTree = "<group>";
@@ -1029,7 +1026,6 @@
 				505B304B1DEA698300B74AE6 /* URLItemWebViewWindowController.swift in Sources */,
 				505A23341E2C116A0011D00F /* FrameworkExtensions.swift in Sources */,
 				506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */,
-				502D66C11E3B0167008BA34C /* TableSelectionColorSwitchingTextField.swift in Sources */,
 				5085A1671E342A4700F8EC34 /* URLListViewController.swift in Sources */,
 				5085A1661E342A4700F8EC34 /* HipstapaperWindowController.swift in Sources */,
 				50D61C641E0E2F9A004595CD /* NewTagNamingViewController.swift in Sources */,

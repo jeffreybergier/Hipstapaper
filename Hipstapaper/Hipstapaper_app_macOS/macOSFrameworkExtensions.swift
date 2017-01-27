@@ -35,3 +35,46 @@ extension NSMenu {
         }
     }
 }
+
+// MARK: Autochanging Text Field Colors in TableViews
+
+// The purpose of this is to change color when the selection changes on the tableview. There are some hacks in here.
+// Normally NSTableCellView forwards the setBackgroundStyle message to all subviews.
+// However, it doesn't do this recursiely.
+// Since the labels are wthin a stackview they don't get the message.
+// Below there is an NSView extension that always forwards the message on to all subviews
+
+extension NSView {
+    func setBackgroundStyle(_ newValue: NSBackgroundStyle) {
+        for view in self.subviews {
+            view.setBackgroundStyle(newValue)
+        }
+    }
+}
+
+extension NSTextField {
+    override func setBackgroundStyle(_ newValue: NSBackgroundStyle) {
+        switch newValue {
+        case .dark:
+            self.textColor = NSColor.controlLightHighlightColor
+        case .light, .lowered, .raised:
+            self.textColor = NSColor.labelColor
+        }
+        super.setBackgroundStyle(newValue)
+    }
+}
+//
+//extension NSBackgroundStyle: CustomStringConvertible {
+//    public var description: String {
+//        switch self {
+//        case .dark:
+//            return ".dark"
+//        case .light:
+//            return ".light"
+//        case .lowered:
+//            return ".lowered"
+//        case .raised:
+//            return ".raised"
+//        }
+//    }
+//}
