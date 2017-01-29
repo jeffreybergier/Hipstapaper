@@ -14,9 +14,9 @@
 import Foundation
 
 @objc(SerializableURLItem) // needed so the object can be archived/unarchived across modules
-class SerializableURLItem: NSObject, NSCoding {
+public class SerializableURLItem: NSObject, NSCoding {
     
-    enum Result {
+    public enum Result {
         case success(SerializableURLItem), error
     }
     
@@ -31,20 +31,20 @@ class SerializableURLItem: NSObject, NSCoding {
         return archiveURL
     }()
     
-    var urlString: String?
-    var date: Date? = Date()
-    var pageTitle: String?
+    public var urlString: String?
+    public var date: Date? = Date()
+    public var pageTitle: String?
     #if os(OSX)
-    var image: NSImage?
+    public var image: NSImage?
     #else
-    var image: UIImage?
+    public var image: UIImage?
     #endif
     
     override init() {
         super.init()
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         if let urlString = coder.decodeObject(forKey: "URLString") as? String {
             self.urlString = urlString
         } else {
@@ -60,7 +60,7 @@ class SerializableURLItem: NSObject, NSCoding {
         super.init()
     }
     
-    func encode(with coder: NSCoder) {
+    public func encode(with coder: NSCoder) {
         coder.encode(self.urlString, forKey: "URLString")
         coder.encode(self.date, forKey: "Date")
         coder.encode(self.pageTitle, forKey: "PageTitle")

@@ -15,6 +15,8 @@ public class SaveExtensionFileProcessor {
     
     private var processingInProgress = false
     
+    public init() {}
+    
     public func processFiles(with realmController: RealmController?, completionHandler: ((XPBackgroundFetchResult) -> Void)? = nil) {
         DispatchQueue.main.async {
             guard self.processingInProgress == false, let realmController = realmController else {

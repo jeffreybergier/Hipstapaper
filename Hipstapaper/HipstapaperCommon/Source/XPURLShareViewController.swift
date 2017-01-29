@@ -8,32 +8,32 @@
 
 #if os(OSX)
     import AppKit
-    typealias XPViewController = NSViewController
+    public typealias XPViewController = NSViewController
 #else
     import UIKit
-    typealias XPViewController = UIViewController
+    public typealias XPViewController = UIViewController
 #endif
 import WebKit
 
 extension WKWebView: KVOCapable {}
 
-class XPURLShareViewController: XPViewController {
+open class XPURLShareViewController: XPViewController {
     
-    var item: SerializableURLItem.Result?
+    open var item: SerializableURLItem.Result?
     
     #if os(OSX)
-    override func viewDidAppear() {
+    override open func viewDidAppear() {
         super.viewDidAppear()
         self.start()
     }
     #else
-    override func viewDidAppear(_ animated: Bool) {
+    override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.start()
     }
     #endif
     
-    func start() {
+    public func start() {
         guard let extensionItem = self.extensionContext?.inputItems.first as? NSExtensionItem else { self.item = .error; return; }
         SerializableURLItem.item(from: extensionItem) { result in
             DispatchQueue.main.async {
@@ -42,7 +42,7 @@ class XPURLShareViewController: XPViewController {
         }
     }
     
-    func save(item: SerializableURLItem) {
+    public func save(item: SerializableURLItem) {
         let itemsToSave: [SerializableURLItem]
         if let itemsOnDisk = NSKeyedUnarchiver.unarchiveObject(withFile: SerializableURLItem.archiveURL.path) as? [SerializableURLItem] {
             itemsToSave = itemsOnDisk + [item]
@@ -55,7 +55,7 @@ class XPURLShareViewController: XPViewController {
     }
     
     #if os(OSX)
-    class func configuredWebView() -> WebView {
+    public class func configuredWebView() -> WebView {
         let webView = WebView()
         let prefs = WebPreferences()
         prefs.isJavaEnabled = false
@@ -70,7 +70,7 @@ class XPURLShareViewController: XPViewController {
         return webView
     }
     #else
-    class func configuredWebView() -> WKWebView {
+    public class func configuredWebView() -> WKWebView {
         let config = WKWebViewConfiguration()
         config.allowsAirPlayForMediaPlayback = false
         config.preferences.javaScriptEnabled = false
@@ -84,11 +84,11 @@ class XPURLShareViewController: XPViewController {
     #endif
     
     #if os(OSX)
-    class func snapshot(of view: NSView) -> NSImage? {
+    public class func snapshot(of view: NSView) -> NSImage? {
         return self.xpSnapshot(of: view)
     }
     #else
-    class func snapshot(of view: UIView) -> UIImage? {
+    public class func snapshot(of view: UIView) -> UIImage? {
         return self.xpSnapshot(of: view)
     }
     #endif

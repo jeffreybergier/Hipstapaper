@@ -63,6 +63,16 @@
                ReferencedContainer = "container:Hipstapaper.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "502D67171E3E810B008BA34C"
+               BuildableName = "Hipstapaper_tests_macOS.xctest"
+               BlueprintName = "Hipstapaper_tests_macOS"
+               ReferencedContainer = "container:Hipstapaper.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

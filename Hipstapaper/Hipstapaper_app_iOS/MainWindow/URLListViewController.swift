@@ -6,6 +6,7 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
+import Common
 import RealmSwift
 import SafariServices
 import UIKit

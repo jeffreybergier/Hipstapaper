@@ -161,9 +161,15 @@ public func ==(lhs: URLItem.ItemsToLoad, rhs: URLItem.ItemsToLoad) -> Bool {
 
 public extension URLItem {
     public struct UIIdentifier {
-        var uuid: String
-        var urlString: String
-        var archived: Bool
+        public var uuid: String
+        public var urlString: String
+        public var archived: Bool
+        
+        public init(uuid: String, urlString: String, archived: Bool) {
+            self.uuid = uuid
+            self.urlString = urlString
+            self.archived = archived
+        }
     }
 }
 

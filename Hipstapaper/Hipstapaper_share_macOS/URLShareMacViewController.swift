@@ -8,6 +8,7 @@
 
 import WebKit
 import AppKit
+import Common
 
 extension WebView: KVOCapable {}
 

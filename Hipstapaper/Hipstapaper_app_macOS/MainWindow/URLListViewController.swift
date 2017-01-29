@@ -7,6 +7,7 @@
 //
 
 import RealmSwift
+import Common
 import Social
 import AppKit
 

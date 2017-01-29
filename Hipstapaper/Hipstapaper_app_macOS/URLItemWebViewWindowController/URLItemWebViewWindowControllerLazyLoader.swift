@@ -6,6 +6,7 @@
 //  Copyright © 2017 Jeffrey Bergier. All rights reserved.
 //
 
+import Common
 import AppKit
 
 class URLItemWebViewWindowControllerLazyLoader: NSObject {

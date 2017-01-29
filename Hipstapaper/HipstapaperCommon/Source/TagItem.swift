@@ -11,8 +11,13 @@ import RealmSwift
 final public class TagItem: Object {
     
     public struct UIIdentifier {
-        var idName: String
-        var displayName: String
+        public var idName: String
+        public var displayName: String
+        
+        public init(idName: String, displayName: String) {
+            self.idName = idName
+            self.displayName = displayName
+        }
     }
     
     public class func normalize(_ nameString: String) -> String {
@@ -37,7 +42,7 @@ public enum CheckboxState: Int {
     case off = 0
     case on = 1
     
-    var boolValue: Bool {
+    public var boolValue: Bool {
         switch self {
         case .on, .mixed:
             return true

@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension UserDefaults {
+public extension UserDefaults {
     
     private enum Keys {
         fileprivate static let sortOrder = "kSortOrderKey"
@@ -17,7 +17,7 @@ extension UserDefaults {
         fileprivate static let tagUniqueName = "kTagUniqueNameKey"
     }
     
-    var userSelection: (itemsToLoad: URLItem.ItemsToLoad, sortOrder: URLItem.SortOrder, filter: URLItem.ArchiveFilter) {
+    public var userSelection: (itemsToLoad: URLItem.ItemsToLoad, sortOrder: URLItem.SortOrder, filter: URLItem.ArchiveFilter) {
         get {
             let sortValue = (self.value(forKey: Keys.sortOrder) as? NSNumber)?.intValue ?? -1
             let filterValue = (self.value(forKey: Keys.filter) as? NSNumber)?.intValue ?? -1

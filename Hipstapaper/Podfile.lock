@@ -1,17 +1,25 @@
 PODS:
-  - Realm (2.2.0):
-    - Realm/Headers (= 2.2.0)
-  - Realm/Headers (2.2.0)
-  - RealmSwift (2.2.0):
-    - Realm (= 2.2.0)
+  - Common (0.0.1):
+    - RealmSwift
+  - Realm (2.4.1):
+    - Realm/Headers (= 2.4.1)
+  - Realm/Headers (2.4.1)
+  - RealmSwift (2.4.1):
+    - Realm (= 2.4.1)
 
 DEPENDENCIES:
+  - Common (from `HipstapaperCommon`)
   - RealmSwift
 
+EXTERNAL SOURCES:
+  Common:
+    :path: HipstapaperCommon
+
 SPEC CHECKSUMS:
-  Realm: d95b8fb34c83f1e764b66d319277a62c2b6e4bf5
-  RealmSwift: a4fa52d06e946a32ec746b3388374f742e6b8731
+  Common: 1eed912a48fe51966a868ddb1b045ffe9942008f
+  Realm: 37a5198a197598d9ec0e4d1ae2f64924c86eeb9a
+  RealmSwift: d69e431b79a41acdf14c404b868ae1c2458916e1
 
-PODFILE CHECKSUM: bfcff21a289b66de573242daa2ec18b035a5762a
+PODFILE CHECKSUM: 489d69bbd3970cefad5d3d3f4fde6d77339706b2
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.0
