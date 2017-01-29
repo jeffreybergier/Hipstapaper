@@ -10,7 +10,7 @@ import RealmSwift
 
 final public class URLItemExtras: Object {
     
-    public dynamic var pageTitle: String?
+    public internal(set) dynamic var pageTitle: String?
     public fileprivate(set) dynamic var imageData: Data?
         
     public convenience init(title: String?, imageData: Data?) {
@@ -35,7 +35,7 @@ final public class URLItemExtras: Object {
             self.image = image
         }
         
-        public var image: NSImage? {
+        public internal(set) var image: NSImage? {
             get {
                 guard let data = self.imageData else { return .none }
                 let image = NSImage(data: data)
@@ -59,7 +59,7 @@ final public class URLItemExtras: Object {
             self.image = image
         }
         
-        public var image: UIImage? {
+        public internal(set) var image: UIImage? {
             get {
                 guard let data = self.imageData else { return .none }
                 let image = UIImage(data: data)

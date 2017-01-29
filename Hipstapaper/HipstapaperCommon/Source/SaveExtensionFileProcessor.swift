@@ -61,26 +61,4 @@ public class SaveExtensionFileProcessor {
             }
         }
     }
-    
-    
-}
-
-public enum XPBackgroundFetchResult: UInt {
-    case newData = 0, noData, failed
-    
-    #if os(iOS)
-    var iOSValue: UIBackgroundFetchResult {
-        return UIBackgroundFetchResult(rawValue: self.rawValue) ?? .failed
-    }
-    init(iOSValue: UIBackgroundFetchResult) {
-        switch iOSValue {
-        case .noData:
-            self = .noData
-        case .failed:
-            self = .failed
-        case .newData:
-            self = .newData
-        }
-    }
-    #endif
 }

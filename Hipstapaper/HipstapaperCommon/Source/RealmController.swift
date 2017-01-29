@@ -8,10 +8,6 @@
 
 import RealmSwift
 
-public protocol RealmControllable: class {
-    var realmController: RealmController? { get set }
-}
-
 // MARK: Initialization
 
 public class RealmController {

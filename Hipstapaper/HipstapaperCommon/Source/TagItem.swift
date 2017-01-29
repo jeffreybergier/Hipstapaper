@@ -27,27 +27,12 @@ final public class TagItem: Object {
         if trimmed == "" { return "untitledtag" } else { return trimmed }
     }
     
-    public dynamic var name = "Untitled Tag"
-    public dynamic var normalizedNameHash: String = TagItem.normalize("Untitled Tag")
+    public internal(set) dynamic var name = "Untitled Tag"
+    public internal(set) dynamic var normalizedNameHash: String = TagItem.normalize("Untitled Tag")
     public let items = LinkingObjects(fromType: URLItem.self, property: "tags")
     
     override public static func primaryKey() -> String {
+        // return #keyPath(self.normalizedNameHash) // Argument of '#keyPath' refers to non-'@objc' property 'self'
         return "normalizedNameHash"
-    }
-}
-
-// used to show the relationship between URLItems and TagItems in the UI
-public enum CheckboxState: Int {
-    case mixed = -1
-    case off = 0
-    case on = 1
-    
-    public var boolValue: Bool {
-        switch self {
-        case .on, .mixed:
-            return true
-        case .off:
-            return false
-        }
     }
 }
