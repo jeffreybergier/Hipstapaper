@@ -8,6 +8,12 @@
 
 import AppKit
 
+extension NSTextField {
+    enum Kind: Int {
+        case backgroundStyleAdaptable = 756
+    }
+}
+
 extension NSToolbarItem {
     enum Kind: Int {
         case unarchive = 544, archive = 555, tag = 222, share = 233, jsToggle = 766
@@ -54,27 +60,37 @@ extension NSView {
 
 extension NSTextField {
     override func setBackgroundStyle(_ newValue: NSBackgroundStyle) {
-        switch newValue {
-        case .dark:
-            self.textColor = NSColor.controlLightHighlightColor
-        case .light, .lowered, .raised:
-            self.textColor = NSColor.labelColor
+        defer {
+            super.setBackgroundStyle(newValue)
         }
-        super.setBackgroundStyle(newValue)
+        
+        guard let kind = Kind(rawValue: self.tag) else { return }
+        
+        switch kind {
+        case .backgroundStyleAdaptable:
+            switch newValue {
+            case .dark:
+                self.textColor = NSColor.controlLightHighlightColor
+            case .light, .lowered, .raised:
+                self.textColor = NSColor.labelColor
+            }
+        }
     }
 }
-//
-//extension NSBackgroundStyle: CustomStringConvertible {
-//    public var description: String {
-//        switch self {
-//        case .dark:
-//            return ".dark"
-//        case .light:
-//            return ".light"
-//        case .lowered:
-//            return ".lowered"
-//        case .raised:
-//            return ".raised"
-//        }
-//    }
-//}
+
+/*
+extension NSBackgroundStyle: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .dark:
+            return ".dark"
+        case .light:
+            return ".light"
+        case .lowered:
+            return ".lowered"
+        case .raised:
+            return ".raised"
+        }
+    }
+}
+ */
