@@ -6,7 +6,7 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
-import Cocoa
+import AppKit
 import Common
 
 @NSApplicationMain
@@ -16,7 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     // during state restoration this property is set before the lazy getting does anything
     // if state restoration does not happen, then this just acts normally
-    fileprivate(set) lazy var rootWindowController: MainWindowController = MainWindowCreator.newMainWindowController()
+    lazy var rootWindowController: MainWindowController = MainWindowCreator.newMainWindowController()
 
     // open the main window when the app launches
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -51,27 +51,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidResignActive(_ notification: Notification) {
         self.extensionFileProcessor.processFiles(with: self.rootWindowController.realmController)
-    }
-}
-
-fileprivate class MainWindowCreator: NSObject, NSWindowRestoration {
-    
-    fileprivate static func restoreWindow(withIdentifier identifier: String, state: NSCoder, completionHandler: @escaping (NSWindow?, Error?) -> Swift.Void) {
-        guard let appDelegate = NSApp.delegate as? AppDelegate else { completionHandler(.none, .none); return; }
-        let wc = self.newMainWindowController()
-        appDelegate.rootWindowController = wc
-        completionHandler(wc.window, .none)
-    }
-    
-    fileprivate static func newMainWindowController() -> MainWindowController {
-        let storyboard = NSStoryboard(name: "MainWindow", bundle: Bundle(for: self))
-        let initial = storyboard.instantiateInitialController()!
-        let wc = initial as! MainWindowController
-        wc.window?.isRestorable = true
-        wc.window?.restorationClass = self
-        wc.window?.identifier = "MainHipstapaperWindow"
-        wc.windowFrameAutosaveName = "MainHipstapaperWindow"
-        return wc
     }
 }
 

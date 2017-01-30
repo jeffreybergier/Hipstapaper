@@ -9,7 +9,7 @@
 import SafariServices
 import UIKit
 
-class URLSafariViewController: SFSafariViewController, UIViewControllerRestoration {
+class WebBrowserViewController: SFSafariViewController, UIViewControllerRestoration {
     
     private static let kOriginalURLString = "kOriginalURLStringKey"
     
@@ -18,7 +18,7 @@ class URLSafariViewController: SFSafariViewController, UIViewControllerRestorati
             let urlString = coder.decodeObject(forKey: self.kOriginalURLString) as? String,
             let url = URL(string: urlString)
         else { return .none }
-        let vc = URLSafariViewController(url: url, previewActions: nil)
+        let vc = WebBrowserViewController(url: url, previewActions: nil)
         return vc
     }
     

@@ -10,7 +10,7 @@ import Common
 import WebKit
 import AppKit
 
-class URLItemWebViewWindowController: NSWindowController {
+class WebBrowserWindowController: NSWindowController {
     
     // MARK: Appearance
     
@@ -63,7 +63,7 @@ class URLItemWebViewWindowController: NSWindowController {
     // MARK: Initialization
     
     convenience init(itemID: URLItem.UIIdentifier?) {
-        self.init(windowNibName: "URLItemWebViewWindowController")
+        self.init(windowNibName: "WebBrowserWindowController")
         self.itemID = itemID
         self.invalidateRestorableState()
     }

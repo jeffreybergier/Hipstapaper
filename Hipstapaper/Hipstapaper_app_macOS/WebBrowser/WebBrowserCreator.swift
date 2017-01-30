@@ -9,12 +9,12 @@
 import Common
 import AppKit
 
-class URLItemWebViewWindowControllerLazyLoader: NSObject {
+class WebBrowserCreator: NSObject {
     
     // MARK: Internal State
     
     // internal state to strongly reference windows
-    private var openWindowsControllers: [URLItem.UIIdentifier : URLItemWebViewWindowController] = [:]
+    private var openWindowsControllers: [URLItem.UIIdentifier : WebBrowserWindowController] = [:]
     
     // MARK: Public API
     
@@ -22,9 +22,9 @@ class URLItemWebViewWindowControllerLazyLoader: NSObject {
     weak var windowControllerDelegate: RealmControllable?
     
     // lazy loading interface
-    subscript(identifier: URLItem.UIIdentifier) -> URLItemWebViewWindowController! {
+    subscript(identifier: URLItem.UIIdentifier) -> WebBrowserWindowController! {
         get {
-            let wc: URLItemWebViewWindowController
+            let wc: WebBrowserWindowController
             if let foundWC = self.openWindowsControllers[identifier] {
                 // look for an existing window
                 wc = foundWC
@@ -54,14 +54,14 @@ class URLItemWebViewWindowControllerLazyLoader: NSObject {
 
 }
 
-extension URLItemWebViewWindowControllerLazyLoader /*NSWindowDelegate*/ {
+extension WebBrowserCreator /*NSWindowDelegate*/ {
     
     // MARK: Handle Child Window Closing to Remove from OpenItemWindows Property and from Memory
     
     @objc fileprivate func itemWindowWillClose(_ notification: NSNotification) {
         guard
             let window = notification.object as? NSWindow,
-            let itemWindowController = window.windowController as? URLItemWebViewWindowController,
+            let itemWindowController = window.windowController as? WebBrowserWindowController,
             let item = itemWindowController.itemID
         else { return }
         
@@ -70,7 +70,7 @@ extension URLItemWebViewWindowControllerLazyLoader /*NSWindowDelegate*/ {
     }
 }
 
-extension URLItemWebViewWindowControllerLazyLoader: NSWindowRestoration {
+extension WebBrowserCreator: NSWindowRestoration {
     
     // MARK: State Restoration
     
@@ -78,9 +78,9 @@ extension URLItemWebViewWindowControllerLazyLoader: NSWindowRestoration {
         // restore the needed state
         guard
             let appDelegate = NSApp.delegate as? AppDelegate,
-            let itemUUID = state.decodeObject(forKey: URLItemWebViewWindowController.StateRestorationConstants.kURLItemUUID) as? String,
-            let itemURLString = state.decodeObject(forKey: URLItemWebViewWindowController.StateRestorationConstants.kURLItemURLString) as? String,
-            let itemArchived = state.decodeObject(forKey: URLItemWebViewWindowController.StateRestorationConstants.kURLItemArchived) as? NSNumber
+            let itemUUID = state.decodeObject(forKey: WebBrowserWindowController.StateRestorationConstants.kURLItemUUID) as? String,
+            let itemURLString = state.decodeObject(forKey: WebBrowserWindowController.StateRestorationConstants.kURLItemURLString) as? String,
+            let itemArchived = state.decodeObject(forKey: WebBrowserWindowController.StateRestorationConstants.kURLItemArchived) as? NSNumber
             else { completionHandler(.none, .none); return; }
         
         // create the window controller
@@ -98,8 +98,8 @@ extension URLItemWebViewWindowControllerLazyLoader: NSWindowRestoration {
     
     // used for state restoration and normal operation
     
-    fileprivate static func windowController(for itemID: URLItem.UIIdentifier) -> URLItemWebViewWindowController {
-        let newWC = URLItemWebViewWindowController(itemID: itemID)
+    fileprivate static func windowController(for itemID: URLItem.UIIdentifier) -> WebBrowserWindowController {
+        let newWC = WebBrowserWindowController(itemID: itemID)
         newWC.window?.isRestorable = true
         newWC.window?.restorationClass = self
         newWC.window?.identifier = "URLItemWebViewWindow"

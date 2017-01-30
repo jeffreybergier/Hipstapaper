@@ -22,8 +22,8 @@ class MenuController: NSObject {
         let window = notification?.object as? NSWindow
         guard let controller = window?.nextResponder else { self.defaultMenu(); return; }
         switch controller {
-        case is URLItemWebViewWindowController:
-            self.urlItemWebViewWindowControllerMenu()
+        case is WebBrowserWindowController:
+            self.webBrowserWindowControllerMenu()
         case is PreferencesWindowController:
             self.preferencesWindowControllerMenu()
         default:
@@ -36,7 +36,7 @@ class MenuController: NSObject {
         self.pasteMenuItem?.isHidden = true
     }
     
-    private func urlItemWebViewWindowControllerMenu() {
+    private func webBrowserWindowControllerMenu() {
         self.copyMenuItem?.title = "Copy"
         self.pasteMenuItem?.isHidden = true
     }

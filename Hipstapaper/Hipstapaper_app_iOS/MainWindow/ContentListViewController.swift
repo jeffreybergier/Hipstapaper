@@ -410,7 +410,7 @@ extension ContentListViewController: UIViewControllerPreviewingDelegate {
         // use my special preview action injection SafariViewController
         // the actions are queried for on the presented view controller
         // but SFSafariViewController knows nothing about realm controller, no do I want it to
-        let sfVC = URLSafariViewController(url: url, previewActions: [tagAction, archiveAction])
+        let sfVC = WebBrowserViewController(url: url, previewActions: [tagAction, archiveAction])
         
         // give the previewing context the Rect that the CellView is in so it knows where this 3d touch came from
         previewingContext.sourceRect = tableView.convert(cellView.frame, to: self.view)
@@ -437,7 +437,7 @@ extension ContentListViewController: UITableViewDelegate {
             self.updateBBI(with: selectedItems)
         } else {
             guard let selectedItem = selectedItems.first, let url = URL(string: selectedItem.urlString) else { return }
-            let sfVC = URLSafariViewController(url: url, previewActions: .none)
+            let sfVC = WebBrowserViewController(url: url, previewActions: .none)
             self.present(sfVC, animated: true, completion: .none)
         }
     }

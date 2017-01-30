@@ -49,7 +49,7 @@ class ContentListViewController: NSViewController, RealmControllable {
     
     // MARK: Manage Open Child Windows
     
-    let windowLoader = URLItemWebViewWindowControllerLazyLoader()
+    let windowLoader = WebBrowserCreator()
     
     // MARK: View Loading
     
