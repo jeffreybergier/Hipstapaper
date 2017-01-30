@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
@@ -8,7 +8,7 @@
         <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="URLShareMacViewController" customModule="Hipstapaper_share_macOS" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="ShareViewController" customModule="Hipstapaper_share_macOS" customModuleProvider="target">
             <connections>
                 <outlet property="loadingSpinner" destination="d5C-mx-C9a" id="abA-Yj-RkY"/>
                 <outlet property="pageDateLabel" destination="Gtv-w8-cg4" id="lAU-Rr-FGd"/>

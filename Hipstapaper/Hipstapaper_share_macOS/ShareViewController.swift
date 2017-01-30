@@ -6,13 +6,13 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
+import Common
 import WebKit
 import AppKit
-import Common
 
 extension WebView: KVOCapable {}
 
-class URLShareMacViewController: XPURLShareViewController {
+class ShareViewController: XPURLShareViewController {
     
     // MARK: Outlets
 

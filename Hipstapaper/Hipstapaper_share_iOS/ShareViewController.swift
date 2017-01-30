@@ -10,7 +10,7 @@ import Common
 import WebKit
 import UIKit
 
-class URLShareiOSViewController: XPURLShareViewController {
+class ShareViewController: XPURLShareViewController {
     
     // MARK: IBOutlets
     
