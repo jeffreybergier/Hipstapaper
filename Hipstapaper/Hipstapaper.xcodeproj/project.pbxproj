@@ -20,8 +20,6 @@
 		5048AF0F1E0DA48600AC1B2D /* URLTaggingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5048AF0D1E0DA48600AC1B2D /* URLTaggingViewController.xib */; };
 		504A3A3B1DF924D300EA46A9 /* URLShareiOSViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504A3A391DF924D300EA46A9 /* URLShareiOSViewController.xib */; };
 		504AFCE01E15C3B400B8CC3A /* URLSafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504AFCDF1E15C3B400B8CC3A /* URLSafariViewController.swift */; };
-		504D7F101E10D4F60010A5C7 /* LoginMacViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D7F0F1E10D4F60010A5C7 /* LoginMacViewController.swift */; };
-		504D7F121E10EAB40010A5C7 /* LoggedInMacViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D7F111E10EAB40010A5C7 /* LoggedInMacViewController.swift */; };
 		5055515F1E1AD8BC006E2A3B /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5055515E1E1AD8BC006E2A3B /* FrameworkExtensions.swift */; };
 		505B304B1DEA698300B74AE6 /* URLItemWebViewWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30491DEA698300B74AE6 /* URLItemWebViewWindowController.swift */; };
 		505B304C1DEA698300B74AE6 /* URLItemWebViewWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 505B304A1DEA698300B74AE6 /* URLItemWebViewWindowController.xib */; };
@@ -36,14 +34,16 @@
 		5085A1661E342A4700F8EC34 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A1621E342A4700F8EC34 /* MainWindowController.swift */; };
 		5085A1671E342A4700F8EC34 /* ContentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A1631E342A4700F8EC34 /* ContentListViewController.swift */; };
 		5085A1681E342A4700F8EC34 /* SourceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A1641E342A4700F8EC34 /* SourceListViewController.swift */; };
-		508623201E10C74D00C06C7D /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5086231E1E10C74D00C06C7D /* PreferencesWindowController.swift */; };
-		508623211E10C74D00C06C7D /* PreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5086231F1E10C74D00C06C7D /* PreferencesWindowController.xib */; };
+		509716651E3ED2DE00FC12A2 /* LoggedInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509716611E3ED2DE00FC12A2 /* LoggedInViewController.swift */; };
+		509716661E3ED2DE00FC12A2 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509716621E3ED2DE00FC12A2 /* LoginViewController.swift */; };
+		509716671E3ED2DE00FC12A2 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509716631E3ED2DE00FC12A2 /* PreferencesWindowController.swift */; };
+		509716681E3ED2DE00FC12A2 /* PreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 509716641E3ED2DE00FC12A2 /* PreferencesWindowController.xib */; };
 		50A1F9441E354DC7007D1313 /* URLItemWebViewWindowControllerLazyLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A1F9431E354DC7007D1313 /* URLItemWebViewWindowControllerLazyLoader.swift */; };
 		50D61C641E0E2F9A004595CD /* NewTagNamingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D61C621E0E2F9A004595CD /* NewTagNamingViewController.swift */; };
 		50D61C651E0E2F9A004595CD /* NewTagNamingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50D61C631E0E2F9A004595CD /* NewTagNamingViewController.xib */; };
-		50F8329C1E371D4D0008921B /* LoggedIniOSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832971E371D4D0008921B /* LoggedIniOSViewController.swift */; };
-		50F8329D1E371D4D0008921B /* LoggedIniOSViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F832981E371D4D0008921B /* LoggedIniOSViewController.xib */; };
-		50F8329E1E371D4D0008921B /* LoginiOSTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832991E371D4D0008921B /* LoginiOSTableViewController.swift */; };
+		50F8329C1E371D4D0008921B /* LoggedInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832971E371D4D0008921B /* LoggedInViewController.swift */; };
+		50F8329D1E371D4D0008921B /* LoggedInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F832981E371D4D0008921B /* LoggedInViewController.xib */; };
+		50F8329E1E371D4D0008921B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832991E371D4D0008921B /* LoginViewController.swift */; };
 		50F8329F1E371D4D0008921B /* LoginTextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F8329A1E371D4D0008921B /* LoginTextFieldTableViewCell.swift */; };
 		50F832A01E371D4D0008921B /* LoginTextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F8329B1E371D4D0008921B /* LoginTextFieldTableViewCell.xib */; };
 		50F832A61E371D900008921B /* ContentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832A11E371D900008921B /* ContentListViewController.swift */; };
@@ -153,8 +153,6 @@
 		5048AF0D1E0DA48600AC1B2D /* URLTaggingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLTaggingViewController.xib; sourceTree = "<group>"; };
 		504A3A391DF924D300EA46A9 /* URLShareiOSViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLShareiOSViewController.xib; sourceTree = "<group>"; };
 		504AFCDF1E15C3B400B8CC3A /* URLSafariViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLSafariViewController.swift; sourceTree = "<group>"; };
-		504D7F0F1E10D4F60010A5C7 /* LoginMacViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginMacViewController.swift; sourceTree = "<group>"; };
-		504D7F111E10EAB40010A5C7 /* LoggedInMacViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggedInMacViewController.swift; sourceTree = "<group>"; };
 		5055515E1E1AD8BC006E2A3B /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		505B30491DEA698300B74AE6 /* URLItemWebViewWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemWebViewWindowController.swift; sourceTree = "<group>"; };
 		505B304A1DEA698300B74AE6 /* URLItemWebViewWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLItemWebViewWindowController.xib; sourceTree = "<group>"; };
@@ -172,14 +170,16 @@
 		5085A1621E342A4700F8EC34 /* MainWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		5085A1631E342A4700F8EC34 /* ContentListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentListViewController.swift; sourceTree = "<group>"; };
 		5085A1641E342A4700F8EC34 /* SourceListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceListViewController.swift; sourceTree = "<group>"; };
-		5086231E1E10C74D00C06C7D /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
-		5086231F1E10C74D00C06C7D /* PreferencesWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesWindowController.xib; sourceTree = "<group>"; };
+		509716611E3ED2DE00FC12A2 /* LoggedInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggedInViewController.swift; sourceTree = "<group>"; };
+		509716621E3ED2DE00FC12A2 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		509716631E3ED2DE00FC12A2 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
+		509716641E3ED2DE00FC12A2 /* PreferencesWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesWindowController.xib; sourceTree = "<group>"; };
 		50A1F9431E354DC7007D1313 /* URLItemWebViewWindowControllerLazyLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemWebViewWindowControllerLazyLoader.swift; sourceTree = "<group>"; };
 		50D61C621E0E2F9A004595CD /* NewTagNamingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTagNamingViewController.swift; sourceTree = "<group>"; };
 		50D61C631E0E2F9A004595CD /* NewTagNamingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewTagNamingViewController.xib; sourceTree = "<group>"; };
-		50F832971E371D4D0008921B /* LoggedIniOSViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggedIniOSViewController.swift; sourceTree = "<group>"; };
-		50F832981E371D4D0008921B /* LoggedIniOSViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoggedIniOSViewController.xib; sourceTree = "<group>"; };
-		50F832991E371D4D0008921B /* LoginiOSTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginiOSTableViewController.swift; sourceTree = "<group>"; };
+		50F832971E371D4D0008921B /* LoggedInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggedInViewController.swift; sourceTree = "<group>"; };
+		50F832981E371D4D0008921B /* LoggedInViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoggedInViewController.xib; sourceTree = "<group>"; };
+		50F832991E371D4D0008921B /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		50F8329A1E371D4D0008921B /* LoginTextFieldTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTextFieldTableViewCell.swift; sourceTree = "<group>"; };
 		50F8329B1E371D4D0008921B /* LoginTextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginTextFieldTableViewCell.xib; sourceTree = "<group>"; };
 		50F832A11E371D900008921B /* ContentListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentListViewController.swift; sourceTree = "<group>"; };
@@ -357,10 +357,10 @@
 				506A3F071DD6C10C00A5656E /* AppDelegate.swift */,
 				5055515E1E1AD8BC006E2A3B /* FrameworkExtensions.swift */,
 				5085A1601E3429E400F8EC34 /* MainWindow */,
+				5086231D1E10C72400C06C7D /* LoginViewControllers */,
 				50F832AB1E371DC50008921B /* SortSelectingViewController */,
 				5048AF0B1E0DA45300AC1B2D /* URLTaggingViewController */,
 				505B30481DEA695D00B74AE6 /* URLItemWebViewWindowController */,
-				5086231D1E10C72400C06C7D /* PreferencesWindowController */,
 				5085A15B1E3429B300F8EC34 /* HelperClasses */,
 				506A3F091DD6C10D00A5656E /* Assets.xcassets */,
 				502D068E1E1E0861000CEEB3 /* MenuController.swift */,
@@ -391,15 +391,15 @@
 			path = MainWindow;
 			sourceTree = "<group>";
 		};
-		5086231D1E10C72400C06C7D /* PreferencesWindowController */ = {
+		5086231D1E10C72400C06C7D /* LoginViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				504D7F0F1E10D4F60010A5C7 /* LoginMacViewController.swift */,
-				504D7F111E10EAB40010A5C7 /* LoggedInMacViewController.swift */,
-				5086231E1E10C74D00C06C7D /* PreferencesWindowController.swift */,
-				5086231F1E10C74D00C06C7D /* PreferencesWindowController.xib */,
+				509716611E3ED2DE00FC12A2 /* LoggedInViewController.swift */,
+				509716621E3ED2DE00FC12A2 /* LoginViewController.swift */,
+				509716631E3ED2DE00FC12A2 /* PreferencesWindowController.swift */,
+				509716641E3ED2DE00FC12A2 /* PreferencesWindowController.xib */,
 			);
-			path = PreferencesWindowController;
+			path = LoginViewControllers;
 			sourceTree = "<group>";
 		};
 		50F832941E371CB30008921B /* MainWindow */ = {
@@ -420,9 +420,9 @@
 		50F832951E371CC10008921B /* LoginViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				50F832971E371D4D0008921B /* LoggedIniOSViewController.swift */,
-				50F832981E371D4D0008921B /* LoggedIniOSViewController.xib */,
-				50F832991E371D4D0008921B /* LoginiOSTableViewController.swift */,
+				50F832971E371D4D0008921B /* LoggedInViewController.swift */,
+				50F832981E371D4D0008921B /* LoggedInViewController.xib */,
+				50F832991E371D4D0008921B /* LoginViewController.swift */,
 				50F8329A1E371D4D0008921B /* LoginTextFieldTableViewCell.swift */,
 				50F8329B1E371D4D0008921B /* LoginTextFieldTableViewCell.xib */,
 			);
@@ -675,7 +675,7 @@
 			files = (
 				50F832B41E371E360008921B /* SortSelectingiOSViewController.xib in Resources */,
 				50F832A91E371D900008921B /* SourceListViewController.xib in Resources */,
-				50F8329D1E371D4D0008921B /* LoggedIniOSViewController.xib in Resources */,
+				50F8329D1E371D4D0008921B /* LoggedInViewController.xib in Resources */,
 				50F832B91E371E720008921B /* ContentTableViewCellImage.xib in Resources */,
 				50F832A71E371D900008921B /* ContentListViewController.xib in Resources */,
 				5005E1281DF4CB8300BA38E6 /* LaunchScreen.storyboard in Resources */,
@@ -709,12 +709,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				506A3F0A1DD6C10D00A5656E /* Assets.xcassets in Resources */,
-				508623211E10C74D00C06C7D /* PreferencesWindowController.xib in Resources */,
 				506A3F0D1DD6C10D00A5656E /* MainMenu.xib in Resources */,
 				5085A1651E342A4700F8EC34 /* MainWindow.storyboard in Resources */,
 				50D61C651E0E2F9A004595CD /* NewTagNamingViewController.xib in Resources */,
 				50F832AF1E371DFE0008921B /* SortSelectingViewController.xib in Resources */,
 				505B304C1DEA698300B74AE6 /* URLItemWebViewWindowController.xib in Resources */,
+				509716681E3ED2DE00FC12A2 /* PreferencesWindowController.xib in Resources */,
 				5048AF0F1E0DA48600AC1B2D /* URLTaggingViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -880,7 +880,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				50F832BF1E371EA90008921B /* TagAddRemoveTableViewCell.swift in Sources */,
-				50F8329E1E371D4D0008921B /* LoginiOSTableViewController.swift in Sources */,
+				50F8329E1E371D4D0008921B /* LoginViewController.swift in Sources */,
 				50F832C11E371EA90008921B /* TagAddRemoveViewController.swift in Sources */,
 				50F832A61E371D900008921B /* ContentListViewController.swift in Sources */,
 				5005E11E1DF4CB8300BA38E6 /* AppDelegate.swift in Sources */,
@@ -889,7 +889,7 @@
 				50F832AA1E371D900008921B /* MainSplitViewController.swift in Sources */,
 				50F8329F1E371D4D0008921B /* LoginTextFieldTableViewCell.swift in Sources */,
 				50F832B81E371E720008921B /* ContentTableViewCell.swift in Sources */,
-				50F8329C1E371D4D0008921B /* LoggedIniOSViewController.swift in Sources */,
+				50F8329C1E371D4D0008921B /* LoggedInViewController.swift in Sources */,
 				50F832A81E371D900008921B /* SourceListViewController.swift in Sources */,
 				50F832B31E371E360008921B /* SortSelectingiOSViewController.swift in Sources */,
 			);
@@ -918,8 +918,10 @@
 				502D068F1E1E0861000CEEB3 /* MenuController.swift in Sources */,
 				505B304B1DEA698300B74AE6 /* URLItemWebViewWindowController.swift in Sources */,
 				506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */,
+				509716661E3ED2DE00FC12A2 /* LoginViewController.swift in Sources */,
 				5085A1671E342A4700F8EC34 /* ContentListViewController.swift in Sources */,
 				5085A1661E342A4700F8EC34 /* MainWindowController.swift in Sources */,
+				509716651E3ED2DE00FC12A2 /* LoggedInViewController.swift in Sources */,
 				50D61C641E0E2F9A004595CD /* NewTagNamingViewController.swift in Sources */,
 				50A1F9441E354DC7007D1313 /* URLItemWebViewWindowControllerLazyLoader.swift in Sources */,
 				5085A15F1E3429D800F8EC34 /* ValidatingToolbarItem.swift in Sources */,
@@ -927,10 +929,8 @@
 				5055515F1E1AD8BC006E2A3B /* FrameworkExtensions.swift in Sources */,
 				5048AF0E1E0DA48600AC1B2D /* URLTaggingViewController.swift in Sources */,
 				5085A1681E342A4700F8EC34 /* SourceListViewController.swift in Sources */,
+				509716671E3ED2DE00FC12A2 /* PreferencesWindowController.swift in Sources */,
 				50F832AE1E371DFE0008921B /* SortSelectingViewController.swift in Sources */,
-				504D7F101E10D4F60010A5C7 /* LoginMacViewController.swift in Sources */,
-				504D7F121E10EAB40010A5C7 /* LoggedInMacViewController.swift in Sources */,
-				508623201E10C74D00C06C7D /* PreferencesWindowController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

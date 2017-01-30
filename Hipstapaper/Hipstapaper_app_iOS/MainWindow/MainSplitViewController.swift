@@ -143,7 +143,7 @@ class MainSplitViewController: UISplitViewController, RealmControllable {
     }
 
     private func presentAccountsVC(animated: Bool) {
-        let newVC = LoggedIniOSViewController(delegate: self)
+        let newVC = LoggedInViewController(delegate: self)
         let navVC = UINavigationController(rootViewController: newVC)
         navVC.modalPresentationStyle = .formSheet
         self.present(navVC, animated: animated, completion: .none)

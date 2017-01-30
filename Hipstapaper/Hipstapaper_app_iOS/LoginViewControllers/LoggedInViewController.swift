@@ -9,7 +9,7 @@
 import Common
 import UIKit
 
-class LoggedIniOSViewController: UIViewController, RealmControllable {
+class LoggedInViewController: UIViewController, RealmControllable {
     
     var realmController: RealmController? {
         didSet {
@@ -68,7 +68,7 @@ class LoggedIniOSViewController: UIViewController, RealmControllable {
     }
     
     private func newLoginVC(createAccount: Bool) -> UIViewController {
-        let tabVC = LoginiOSTableViewController(createAccount: createAccount, delegate: self.delegate)
+        let tabVC = LoginViewController(createAccount: createAccount, delegate: self.delegate)
         let navVC = UINavigationController(rootViewController: tabVC)
         navVC.modalPresentationStyle = .formSheet
         return navVC

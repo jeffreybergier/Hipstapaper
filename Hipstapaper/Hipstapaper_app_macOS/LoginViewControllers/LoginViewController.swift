@@ -10,7 +10,7 @@ import Common
 import RealmSwift
 import AppKit
 
-class LoginMacViewController: NSViewController {
+class LoginViewController: NSViewController {
     
     private enum Purpose {
         case login, create

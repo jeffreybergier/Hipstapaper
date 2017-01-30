@@ -12,7 +12,7 @@ class LoginTextFieldTableViewCell: UITableViewCell {
     
     static let nibName = "LoginTextFieldTableViewCell"
     
-    var kind = LoginiOSTableViewController.CellKind.server {
+    var kind = LoginViewController.CellKind.server {
         didSet {
             self.textField?.tag = self.kind.rawValue
             switch self.kind {

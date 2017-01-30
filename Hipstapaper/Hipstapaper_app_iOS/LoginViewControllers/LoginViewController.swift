@@ -10,7 +10,7 @@ import Common
 import RealmSwift
 import UIKit
 
-class LoginiOSTableViewController: UITableViewController {
+class LoginViewController: UITableViewController {
     
     // MARK: Custom Types
     
@@ -209,7 +209,7 @@ class LoginiOSTableViewController: UITableViewController {
     
 }
 
-extension LoginiOSTableViewController: UITextFieldDelegate {
+extension LoginViewController: UITextFieldDelegate {
     
     // MARK: Handle TextField Input
     

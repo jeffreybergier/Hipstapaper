@@ -8,7 +8,7 @@
 
 import AppKit
 
-class LoggedInMacViewController: NSViewController {
+class LoggedInViewController: NSViewController {
     
     @IBOutlet private weak var parentWindowController: PreferencesWindowController?
     

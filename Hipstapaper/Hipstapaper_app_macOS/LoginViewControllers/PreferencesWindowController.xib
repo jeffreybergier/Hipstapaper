@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
@@ -18,7 +18,7 @@
         <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" frameAutosaveName="" animationBehavior="default" tabbingMode="disallowed" id="uNE-Rb-Cs8">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <rect key="contentRect" x="131" y="158" width="640" height="251"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <value key="minSize" type="size" width="640" height="251"/>
             <value key="maxSize" type="size" width="640" height="251"/>
             <view key="contentView" id="asI-E1-5lp">
@@ -444,12 +444,12 @@ DQ
             </connections>
             <point key="canvasLocation" x="178" y="10.5"/>
         </window>
-        <customObject id="8Or-oO-rTN" customClass="LoggedInMacViewController" customModule="Hipstapaper" customModuleProvider="target">
+        <customObject id="8Or-oO-rTN" customClass="LoggedInViewController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
                 <outlet property="parentWindowController" destination="-2" id="A2A-RM-fFy"/>
             </connections>
         </customObject>
-        <customObject id="jtd-GN-czU" customClass="LoginMacViewController" customModule="Hipstapaper" customModuleProvider="target">
+        <customObject id="jtd-GN-czU" customClass="LoginViewController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
                 <outlet property="parentWindowController" destination="-2" id="Oog-gP-Qvk"/>
                 <outlet property="password1TextField" destination="3gB-HZ-ma0" id="FCG-VZ-Pnu"/>
@@ -460,7 +460,7 @@ DQ
                 <outlet property="view" destination="5Ve-IV-zRz" id="TVM-2X-RXj"/>
             </connections>
         </customObject>
-        <customObject id="MB8-oN-L7e" customClass="LoginMacViewController" customModule="Hipstapaper" customModuleProvider="target">
+        <customObject id="MB8-oN-L7e" customClass="LoginViewController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
                 <outlet property="parentWindowController" destination="-2" id="l8S-DZ-4Cq"/>
                 <outlet property="password1TextField" destination="VeZ-kF-mNE" id="cY9-Wn-MHP"/>
