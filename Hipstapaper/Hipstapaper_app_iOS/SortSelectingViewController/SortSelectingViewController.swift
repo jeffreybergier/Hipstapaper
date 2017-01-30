@@ -9,7 +9,7 @@
 import Common
 import UIKit
 
-class SortSelectingiOSViewController: UIViewController {
+class SortSelectingViewController: UIViewController {
     
     // MARK: Custom Types
     
@@ -18,7 +18,7 @@ class SortSelectingiOSViewController: UIViewController {
     }
     
     static func newPopover(kind: Kind, delegate: URLItemsToLoadChangeDelegate, from bbi: UIBarButtonItem) -> UIViewController {
-        let vc = SortSelectingiOSViewController(kind: kind, delegate: delegate)
+        let vc = SortSelectingViewController(kind: kind, delegate: delegate)
         let navVC = UINavigationController(rootViewController: vc)
         vc.restorationIdentifier = StateRestorationIdentifier.tertiaryPopOverViewController.rawValue
         navVC.restorationIdentifier = StateRestorationIdentifier.tertiaryPopOverNavVC.rawValue
@@ -94,7 +94,7 @@ class SortSelectingiOSViewController: UIViewController {
     }
 }
 
-extension SortSelectingiOSViewController: UIPickerViewDataSource {
+extension SortSelectingViewController: UIPickerViewDataSource {
     
     public func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -110,7 +110,7 @@ extension SortSelectingiOSViewController: UIPickerViewDataSource {
     }
 }
 
-extension SortSelectingiOSViewController: UIPickerViewDelegate {
+extension SortSelectingViewController: UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         switch self.kind {
@@ -124,12 +124,12 @@ extension SortSelectingiOSViewController: UIPickerViewDelegate {
     }
 }
 
-extension SortSelectingiOSViewController: UIPopoverPresentationControllerDelegate {
+extension SortSelectingViewController: UIPopoverPresentationControllerDelegate {
     func popoverPresentationControllerShouldDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) -> Bool {
         return true
     }
 }
-extension SortSelectingiOSViewController: UIAdaptivePresentationControllerDelegate {
+extension SortSelectingViewController: UIAdaptivePresentationControllerDelegate {
     func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         return .none
     }

@@ -53,8 +53,8 @@
 		50F832AA1E371D900008921B /* MainSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832A51E371D900008921B /* MainSplitViewController.swift */; };
 		50F832AE1E371DFE0008921B /* SortSelectingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832AC1E371DFE0008921B /* SortSelectingViewController.swift */; };
 		50F832AF1E371DFE0008921B /* SortSelectingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F832AD1E371DFE0008921B /* SortSelectingViewController.xib */; };
-		50F832B31E371E360008921B /* SortSelectingiOSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832B11E371E360008921B /* SortSelectingiOSViewController.swift */; };
-		50F832B41E371E360008921B /* SortSelectingiOSViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F832B21E371E360008921B /* SortSelectingiOSViewController.xib */; };
+		50F832B31E371E360008921B /* SortSelectingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832B11E371E360008921B /* SortSelectingViewController.swift */; };
+		50F832B41E371E360008921B /* SortSelectingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F832B21E371E360008921B /* SortSelectingViewController.xib */; };
 		50F832B81E371E720008921B /* ContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832B51E371E720008921B /* ContentTableViewCell.swift */; };
 		50F832B91E371E720008921B /* ContentTableViewCellImage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F832B61E371E720008921B /* ContentTableViewCellImage.xib */; };
 		50F832BA1E371E720008921B /* ContentTableViewCellNoImage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F832B71E371E720008921B /* ContentTableViewCellNoImage.xib */; };
@@ -189,8 +189,8 @@
 		50F832A51E371D900008921B /* MainSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainSplitViewController.swift; sourceTree = "<group>"; };
 		50F832AC1E371DFE0008921B /* SortSelectingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortSelectingViewController.swift; sourceTree = "<group>"; };
 		50F832AD1E371DFE0008921B /* SortSelectingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SortSelectingViewController.xib; sourceTree = "<group>"; };
-		50F832B11E371E360008921B /* SortSelectingiOSViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortSelectingiOSViewController.swift; sourceTree = "<group>"; };
-		50F832B21E371E360008921B /* SortSelectingiOSViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SortSelectingiOSViewController.xib; sourceTree = "<group>"; };
+		50F832B11E371E360008921B /* SortSelectingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortSelectingViewController.swift; sourceTree = "<group>"; };
+		50F832B21E371E360008921B /* SortSelectingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SortSelectingViewController.xib; sourceTree = "<group>"; };
 		50F832B51E371E720008921B /* ContentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentTableViewCell.swift; sourceTree = "<group>"; };
 		50F832B61E371E720008921B /* ContentTableViewCellImage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContentTableViewCellImage.xib; sourceTree = "<group>"; };
 		50F832B71E371E720008921B /* ContentTableViewCellNoImage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContentTableViewCellNoImage.xib; sourceTree = "<group>"; };
@@ -452,8 +452,8 @@
 		50F832B01E371E120008921B /* SortSelectingViewController */ = {
 			isa = PBXGroup;
 			children = (
-				50F832B11E371E360008921B /* SortSelectingiOSViewController.swift */,
-				50F832B21E371E360008921B /* SortSelectingiOSViewController.xib */,
+				50F832B11E371E360008921B /* SortSelectingViewController.swift */,
+				50F832B21E371E360008921B /* SortSelectingViewController.xib */,
 			);
 			path = SortSelectingViewController;
 			sourceTree = "<group>";
@@ -673,7 +673,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50F832B41E371E360008921B /* SortSelectingiOSViewController.xib in Resources */,
+				50F832B41E371E360008921B /* SortSelectingViewController.xib in Resources */,
 				50F832A91E371D900008921B /* SourceListViewController.xib in Resources */,
 				50F8329D1E371D4D0008921B /* LoggedInViewController.xib in Resources */,
 				50F832B91E371E720008921B /* ContentTableViewCellImage.xib in Resources */,
@@ -891,7 +891,7 @@
 				50F832B81E371E720008921B /* ContentTableViewCell.swift in Sources */,
 				50F8329C1E371D4D0008921B /* LoggedInViewController.swift in Sources */,
 				50F832A81E371D900008921B /* SourceListViewController.swift in Sources */,
-				50F832B31E371E360008921B /* SortSelectingiOSViewController.swift in Sources */,
+				50F832B31E371E360008921B /* SortSelectingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

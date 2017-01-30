@@ -353,14 +353,14 @@ extension ContentListViewController /* Handle BarButtonItems */ {
     
     @objc fileprivate func sortBBITapped(_ sender: NSObject?) {
         guard let bbi = sender as? UIBBI else { return }
-        let vc = SortSelectingiOSViewController.newPopover(kind: .sort(currentSort: self.sortOrder), delegate: self, from: bbi)
+        let vc = SortSelectingViewController.newPopover(kind: .sort(currentSort: self.sortOrder), delegate: self, from: bbi)
         // HIG states that a popover should be dismissiable and a new one presentable in one tap
         self.emergencyDismiss(thenPresentViewController: vc)
     }
     
     @objc fileprivate func filterBBITapped(_ sender: NSObject?) {
         guard let bbi = sender as? UIBBI else { return }
-        let vc = SortSelectingiOSViewController.newPopover(kind: .filter(currentFilter: self.filter), delegate: self, from: bbi)
+        let vc = SortSelectingViewController.newPopover(kind: .filter(currentFilter: self.filter), delegate: self, from: bbi)
         // HIG states that a popover should be dismissiable and a new one presentable in one tap
         self.emergencyDismiss(thenPresentViewController: vc)
     }
