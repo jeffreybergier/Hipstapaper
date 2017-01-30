@@ -57,21 +57,19 @@ class SourceListViewController: UIViewController, RealmControllable {
         // reload everything
         self.tags = self.realmController?.tag_loadAll()
         self.notificationToken = self.tags?.addNotificationBlock(self.tableUpdateClosure)
-        
-        // when the data is ready, relad the tableview
-        self.tableView?.reloadData()
-        
-        // after that, select the currently selected row
-        // here we should always select the row because we want the row to be able to deselect itself when the view appears later
-        if let itemsToLoad = self.selectionDelegate?.itemsToLoad, let filter = self.selectionDelegate?.filter {
-            self.selectTableViewRows(for: itemsToLoad, filter: filter, animated: false)
-        }
     }
     
     private lazy var tableUpdateClosure: ((RealmCollectionChange<Results<TagItem>>) -> Void) = { [weak self] changes in
         switch changes {
         case .initial:
-            break // reload data synchronously to improve app state restoration
+            // when the data is ready, relad the tableview
+            self?.tableView?.reloadData()
+            
+            // after that, select the currently selected row
+            // here we should always select the row because we want the row to be able to deselect itself when the view appears later
+            if let itemsToLoad = self?.selectionDelegate?.itemsToLoad, let filter = self?.selectionDelegate?.filter {
+                self?.selectTableViewRows(for: itemsToLoad, filter: filter, animated: false)
+            }
         case .update(_, let deletions, let insertions, let modifications):
             // when there are changes from realm, update the table view with sweet animations
             self?.tableView?.beginUpdates()

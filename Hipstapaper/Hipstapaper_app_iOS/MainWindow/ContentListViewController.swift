@@ -134,13 +134,12 @@ class ContentListViewController: UIViewController, RealmControllable {
         // configure data source
         self.data = self.realmController?.url_loadAll(for: itemsToLoad, sortedBy: sortOrder, filteredBy: filter)
         self.notificationToken = self.data?.addNotificationBlock(self.realmResultsChangeClosure)
-        self.tableView?.reloadData()
     }
     
     private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<URLItem>>) -> Void) = { [weak self] changes in
         switch changes {
         case .initial:
-            break // forcing reload synchronously to improve app state restoration behavior
+            self?.tableView?.reloadData()
         case .update(_, let deletions, let insertions, let modifications):
             self?.tableView?.beginUpdates()
             self?.tableView?.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .left)
@@ -497,24 +496,6 @@ extension ContentListViewController: UITableViewDataSource {
             cell.configure(with: item)
         }
         return cell
-    }
-}
-
-extension ContentListViewController: UIDataSourceModelAssociation {
-    
-    // Framework was passing NIL for indexPath which was causing a crash
-    func modelIdentifierForElement(at idx: IndexPath?, in view: UIView) -> String? {
-        guard let indexPath = idx else { return .none }
-        let uuid = self.data?[indexPath.row].uuid
-        return uuid
-    }
-    
-    // Afraid framework will pass NIL for identifier. So changing its optionality
-    func indexPathForElement(withModelIdentifier identifier: String?, in view: UIView) -> IndexPath? {
-        guard let identifier = identifier else { return .none }
-        let _index = self.data?.index(matching: "uuid = '\(identifier)'")
-        guard let index = _index else { return .none }
-        return IndexPath(row: index, section: 0)
     }
 }
 
