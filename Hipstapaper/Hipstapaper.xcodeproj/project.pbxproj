@@ -22,20 +22,20 @@
 		504AFCE01E15C3B400B8CC3A /* URLSafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504AFCDF1E15C3B400B8CC3A /* URLSafariViewController.swift */; };
 		504D7F101E10D4F60010A5C7 /* LoginMacViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D7F0F1E10D4F60010A5C7 /* LoginMacViewController.swift */; };
 		504D7F121E10EAB40010A5C7 /* LoggedInMacViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504D7F111E10EAB40010A5C7 /* LoggedInMacViewController.swift */; };
-		5055515F1E1AD8BC006E2A3B /* macOSFrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5055515E1E1AD8BC006E2A3B /* macOSFrameworkExtensions.swift */; };
+		5055515F1E1AD8BC006E2A3B /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5055515E1E1AD8BC006E2A3B /* FrameworkExtensions.swift */; };
 		505B304B1DEA698300B74AE6 /* URLItemWebViewWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B30491DEA698300B74AE6 /* URLItemWebViewWindowController.swift */; };
 		505B304C1DEA698300B74AE6 /* URLItemWebViewWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 505B304A1DEA698300B74AE6 /* URLItemWebViewWindowController.xib */; };
 		505B79BF1E0B924C007BB364 /* URLShareMacViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B79BE1E0B924C007BB364 /* URLShareMacViewController.swift */; };
 		506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506A3F071DD6C10C00A5656E /* AppDelegate.swift */; };
 		506A3F0A1DD6C10D00A5656E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F091DD6C10D00A5656E /* Assets.xcassets */; };
 		506A3F0D1DD6C10D00A5656E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F0B1DD6C10D00A5656E /* MainMenu.xib */; };
-		50841AFC1E21B7AC008621BB /* iOSFrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50841AFB1E21B7AC008621BB /* iOSFrameworkExtensions.swift */; };
+		50841AFC1E21B7AC008621BB /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50841AFB1E21B7AC008621BB /* FrameworkExtensions.swift */; };
 		5085A15E1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A15C1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift */; };
 		5085A15F1E3429D800F8EC34 /* ValidatingToolbarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A15D1E3429D800F8EC34 /* ValidatingToolbarItem.swift */; };
-		5085A1651E342A4700F8EC34 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5085A1611E342A4700F8EC34 /* Main.storyboard */; };
-		5085A1661E342A4700F8EC34 /* HipstapaperWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A1621E342A4700F8EC34 /* HipstapaperWindowController.swift */; };
-		5085A1671E342A4700F8EC34 /* URLListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A1631E342A4700F8EC34 /* URLListViewController.swift */; };
-		5085A1681E342A4700F8EC34 /* TagListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A1641E342A4700F8EC34 /* TagListViewController.swift */; };
+		5085A1651E342A4700F8EC34 /* MainWindow.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5085A1611E342A4700F8EC34 /* MainWindow.storyboard */; };
+		5085A1661E342A4700F8EC34 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A1621E342A4700F8EC34 /* MainWindowController.swift */; };
+		5085A1671E342A4700F8EC34 /* ContentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A1631E342A4700F8EC34 /* ContentListViewController.swift */; };
+		5085A1681E342A4700F8EC34 /* SourceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A1641E342A4700F8EC34 /* SourceListViewController.swift */; };
 		508623201E10C74D00C06C7D /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5086231E1E10C74D00C06C7D /* PreferencesWindowController.swift */; };
 		508623211E10C74D00C06C7D /* PreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5086231F1E10C74D00C06C7D /* PreferencesWindowController.xib */; };
 		50A1F9441E354DC7007D1313 /* URLItemWebViewWindowControllerLazyLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A1F9431E354DC7007D1313 /* URLItemWebViewWindowControllerLazyLoader.swift */; };
@@ -46,18 +46,18 @@
 		50F8329E1E371D4D0008921B /* LoginiOSTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832991E371D4D0008921B /* LoginiOSTableViewController.swift */; };
 		50F8329F1E371D4D0008921B /* LoginTextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F8329A1E371D4D0008921B /* LoginTextFieldTableViewCell.swift */; };
 		50F832A01E371D4D0008921B /* LoginTextFieldTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F8329B1E371D4D0008921B /* LoginTextFieldTableViewCell.xib */; };
-		50F832A61E371D900008921B /* URLListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832A11E371D900008921B /* URLListViewController.swift */; };
-		50F832A71E371D900008921B /* URLListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F832A21E371D900008921B /* URLListViewController.xib */; };
-		50F832A81E371D900008921B /* TagListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832A31E371D900008921B /* TagListViewController.swift */; };
-		50F832A91E371D900008921B /* TagListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F832A41E371D900008921B /* TagListViewController.xib */; };
-		50F832AA1E371D900008921B /* HipstapaperSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832A51E371D900008921B /* HipstapaperSplitViewController.swift */; };
+		50F832A61E371D900008921B /* ContentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832A11E371D900008921B /* ContentListViewController.swift */; };
+		50F832A71E371D900008921B /* ContentListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F832A21E371D900008921B /* ContentListViewController.xib */; };
+		50F832A81E371D900008921B /* SourceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832A31E371D900008921B /* SourceListViewController.swift */; };
+		50F832A91E371D900008921B /* SourceListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F832A41E371D900008921B /* SourceListViewController.xib */; };
+		50F832AA1E371D900008921B /* MainSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832A51E371D900008921B /* MainSplitViewController.swift */; };
 		50F832AE1E371DFE0008921B /* SortSelectingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832AC1E371DFE0008921B /* SortSelectingViewController.swift */; };
 		50F832AF1E371DFE0008921B /* SortSelectingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F832AD1E371DFE0008921B /* SortSelectingViewController.xib */; };
 		50F832B31E371E360008921B /* SortSelectingiOSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832B11E371E360008921B /* SortSelectingiOSViewController.swift */; };
 		50F832B41E371E360008921B /* SortSelectingiOSViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F832B21E371E360008921B /* SortSelectingiOSViewController.xib */; };
-		50F832B81E371E720008921B /* URLTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832B51E371E720008921B /* URLTableViewCell.swift */; };
-		50F832B91E371E720008921B /* URLTableViewCellwIMG.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F832B61E371E720008921B /* URLTableViewCellwIMG.xib */; };
-		50F832BA1E371E720008921B /* URLTableViewCellwoIMG.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F832B71E371E720008921B /* URLTableViewCellwoIMG.xib */; };
+		50F832B81E371E720008921B /* ContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832B51E371E720008921B /* ContentTableViewCell.swift */; };
+		50F832B91E371E720008921B /* ContentTableViewCellImage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F832B61E371E720008921B /* ContentTableViewCellImage.xib */; };
+		50F832BA1E371E720008921B /* ContentTableViewCellNoImage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F832B71E371E720008921B /* ContentTableViewCellNoImage.xib */; };
 		50F832BF1E371EA90008921B /* TagAddRemoveTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832BB1E371EA90008921B /* TagAddRemoveTableViewCell.swift */; };
 		50F832C01E371EA90008921B /* TagAddRemoveTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F832BC1E371EA90008921B /* TagAddRemoveTableViewCell.xib */; };
 		50F832C11E371EA90008921B /* TagAddRemoveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832BD1E371EA90008921B /* TagAddRemoveViewController.swift */; };
@@ -155,7 +155,7 @@
 		504AFCDF1E15C3B400B8CC3A /* URLSafariViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLSafariViewController.swift; sourceTree = "<group>"; };
 		504D7F0F1E10D4F60010A5C7 /* LoginMacViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginMacViewController.swift; sourceTree = "<group>"; };
 		504D7F111E10EAB40010A5C7 /* LoggedInMacViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggedInMacViewController.swift; sourceTree = "<group>"; };
-		5055515E1E1AD8BC006E2A3B /* macOSFrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = macOSFrameworkExtensions.swift; sourceTree = "<group>"; };
+		5055515E1E1AD8BC006E2A3B /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		505B30491DEA698300B74AE6 /* URLItemWebViewWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemWebViewWindowController.swift; sourceTree = "<group>"; };
 		505B304A1DEA698300B74AE6 /* URLItemWebViewWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLItemWebViewWindowController.xib; sourceTree = "<group>"; };
 		505B79BE1E0B924C007BB364 /* URLShareMacViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLShareMacViewController.swift; sourceTree = "<group>"; };
@@ -165,13 +165,13 @@
 		506A3F0C1DD6C10D00A5656E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		506A3F0E1DD6C10D00A5656E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		506D98121DD6CFFB002E4F54 /* Hipstapaper_app_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper_app_macOS.entitlements; sourceTree = "<group>"; };
-		50841AFB1E21B7AC008621BB /* iOSFrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOSFrameworkExtensions.swift; sourceTree = "<group>"; };
+		50841AFB1E21B7AC008621BB /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		5085A15C1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleInterfaceStyleWindowAppearanceSwitcher.swift; sourceTree = "<group>"; };
 		5085A15D1E3429D800F8EC34 /* ValidatingToolbarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidatingToolbarItem.swift; sourceTree = "<group>"; };
-		5085A1611E342A4700F8EC34 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		5085A1621E342A4700F8EC34 /* HipstapaperWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HipstapaperWindowController.swift; sourceTree = "<group>"; };
-		5085A1631E342A4700F8EC34 /* URLListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLListViewController.swift; sourceTree = "<group>"; };
-		5085A1641E342A4700F8EC34 /* TagListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagListViewController.swift; sourceTree = "<group>"; };
+		5085A1611E342A4700F8EC34 /* MainWindow.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainWindow.storyboard; sourceTree = "<group>"; };
+		5085A1621E342A4700F8EC34 /* MainWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
+		5085A1631E342A4700F8EC34 /* ContentListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentListViewController.swift; sourceTree = "<group>"; };
+		5085A1641E342A4700F8EC34 /* SourceListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceListViewController.swift; sourceTree = "<group>"; };
 		5086231E1E10C74D00C06C7D /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		5086231F1E10C74D00C06C7D /* PreferencesWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesWindowController.xib; sourceTree = "<group>"; };
 		50A1F9431E354DC7007D1313 /* URLItemWebViewWindowControllerLazyLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemWebViewWindowControllerLazyLoader.swift; sourceTree = "<group>"; };
@@ -182,18 +182,18 @@
 		50F832991E371D4D0008921B /* LoginiOSTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginiOSTableViewController.swift; sourceTree = "<group>"; };
 		50F8329A1E371D4D0008921B /* LoginTextFieldTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginTextFieldTableViewCell.swift; sourceTree = "<group>"; };
 		50F8329B1E371D4D0008921B /* LoginTextFieldTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginTextFieldTableViewCell.xib; sourceTree = "<group>"; };
-		50F832A11E371D900008921B /* URLListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLListViewController.swift; sourceTree = "<group>"; };
-		50F832A21E371D900008921B /* URLListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLListViewController.xib; sourceTree = "<group>"; };
-		50F832A31E371D900008921B /* TagListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagListViewController.swift; sourceTree = "<group>"; };
-		50F832A41E371D900008921B /* TagListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagListViewController.xib; sourceTree = "<group>"; };
-		50F832A51E371D900008921B /* HipstapaperSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HipstapaperSplitViewController.swift; sourceTree = "<group>"; };
+		50F832A11E371D900008921B /* ContentListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentListViewController.swift; sourceTree = "<group>"; };
+		50F832A21E371D900008921B /* ContentListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContentListViewController.xib; sourceTree = "<group>"; };
+		50F832A31E371D900008921B /* SourceListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceListViewController.swift; sourceTree = "<group>"; };
+		50F832A41E371D900008921B /* SourceListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SourceListViewController.xib; sourceTree = "<group>"; };
+		50F832A51E371D900008921B /* MainSplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainSplitViewController.swift; sourceTree = "<group>"; };
 		50F832AC1E371DFE0008921B /* SortSelectingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortSelectingViewController.swift; sourceTree = "<group>"; };
 		50F832AD1E371DFE0008921B /* SortSelectingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SortSelectingViewController.xib; sourceTree = "<group>"; };
 		50F832B11E371E360008921B /* SortSelectingiOSViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortSelectingiOSViewController.swift; sourceTree = "<group>"; };
 		50F832B21E371E360008921B /* SortSelectingiOSViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SortSelectingiOSViewController.xib; sourceTree = "<group>"; };
-		50F832B51E371E720008921B /* URLTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLTableViewCell.swift; sourceTree = "<group>"; };
-		50F832B61E371E720008921B /* URLTableViewCellwIMG.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLTableViewCellwIMG.xib; sourceTree = "<group>"; };
-		50F832B71E371E720008921B /* URLTableViewCellwoIMG.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLTableViewCellwoIMG.xib; sourceTree = "<group>"; };
+		50F832B51E371E720008921B /* ContentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentTableViewCell.swift; sourceTree = "<group>"; };
+		50F832B61E371E720008921B /* ContentTableViewCellImage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContentTableViewCellImage.xib; sourceTree = "<group>"; };
+		50F832B71E371E720008921B /* ContentTableViewCellNoImage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContentTableViewCellNoImage.xib; sourceTree = "<group>"; };
 		50F832BB1E371EA90008921B /* TagAddRemoveTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagAddRemoveTableViewCell.swift; sourceTree = "<group>"; };
 		50F832BC1E371EA90008921B /* TagAddRemoveTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagAddRemoveTableViewCell.xib; sourceTree = "<group>"; };
 		50F832BD1E371EA90008921B /* TagAddRemoveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagAddRemoveViewController.swift; sourceTree = "<group>"; };
@@ -261,7 +261,7 @@
 			isa = PBXGroup;
 			children = (
 				5005E11D1DF4CB8300BA38E6 /* AppDelegate.swift */,
-				50841AFB1E21B7AC008621BB /* iOSFrameworkExtensions.swift */,
+				50841AFB1E21B7AC008621BB /* FrameworkExtensions.swift */,
 				50F832941E371CB30008921B /* MainWindow */,
 				50F832951E371CC10008921B /* LoginViewControllers */,
 				50F832B01E371E120008921B /* SortSelectingViewController */,
@@ -355,7 +355,7 @@
 			isa = PBXGroup;
 			children = (
 				506A3F071DD6C10C00A5656E /* AppDelegate.swift */,
-				5055515E1E1AD8BC006E2A3B /* macOSFrameworkExtensions.swift */,
+				5055515E1E1AD8BC006E2A3B /* FrameworkExtensions.swift */,
 				5085A1601E3429E400F8EC34 /* MainWindow */,
 				50F832AB1E371DC50008921B /* SortSelectingViewController */,
 				5048AF0B1E0DA45300AC1B2D /* URLTaggingViewController */,
@@ -383,10 +383,10 @@
 		5085A1601E3429E400F8EC34 /* MainWindow */ = {
 			isa = PBXGroup;
 			children = (
-				5085A1621E342A4700F8EC34 /* HipstapaperWindowController.swift */,
-				5085A1631E342A4700F8EC34 /* URLListViewController.swift */,
-				5085A1641E342A4700F8EC34 /* TagListViewController.swift */,
-				5085A1611E342A4700F8EC34 /* Main.storyboard */,
+				5085A1621E342A4700F8EC34 /* MainWindowController.swift */,
+				5085A1641E342A4700F8EC34 /* SourceListViewController.swift */,
+				5085A1631E342A4700F8EC34 /* ContentListViewController.swift */,
+				5085A1611E342A4700F8EC34 /* MainWindow.storyboard */,
 			);
 			path = MainWindow;
 			sourceTree = "<group>";
@@ -405,14 +405,14 @@
 		50F832941E371CB30008921B /* MainWindow */ = {
 			isa = PBXGroup;
 			children = (
-				50F832A51E371D900008921B /* HipstapaperSplitViewController.swift */,
-				50F832A11E371D900008921B /* URLListViewController.swift */,
-				50F832A21E371D900008921B /* URLListViewController.xib */,
-				50F832A31E371D900008921B /* TagListViewController.swift */,
-				50F832A41E371D900008921B /* TagListViewController.xib */,
-				50F832B51E371E720008921B /* URLTableViewCell.swift */,
-				50F832B61E371E720008921B /* URLTableViewCellwIMG.xib */,
-				50F832B71E371E720008921B /* URLTableViewCellwoIMG.xib */,
+				50F832A51E371D900008921B /* MainSplitViewController.swift */,
+				50F832A11E371D900008921B /* ContentListViewController.swift */,
+				50F832A21E371D900008921B /* ContentListViewController.xib */,
+				50F832A31E371D900008921B /* SourceListViewController.swift */,
+				50F832A41E371D900008921B /* SourceListViewController.xib */,
+				50F832B51E371E720008921B /* ContentTableViewCell.swift */,
+				50F832B61E371E720008921B /* ContentTableViewCellImage.xib */,
+				50F832B71E371E720008921B /* ContentTableViewCellNoImage.xib */,
 			);
 			path = MainWindow;
 			sourceTree = "<group>";
@@ -674,14 +674,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				50F832B41E371E360008921B /* SortSelectingiOSViewController.xib in Resources */,
-				50F832A91E371D900008921B /* TagListViewController.xib in Resources */,
+				50F832A91E371D900008921B /* SourceListViewController.xib in Resources */,
 				50F8329D1E371D4D0008921B /* LoggedIniOSViewController.xib in Resources */,
-				50F832B91E371E720008921B /* URLTableViewCellwIMG.xib in Resources */,
-				50F832A71E371D900008921B /* URLListViewController.xib in Resources */,
+				50F832B91E371E720008921B /* ContentTableViewCellImage.xib in Resources */,
+				50F832A71E371D900008921B /* ContentListViewController.xib in Resources */,
 				5005E1281DF4CB8300BA38E6 /* LaunchScreen.storyboard in Resources */,
 				50F832C01E371EA90008921B /* TagAddRemoveTableViewCell.xib in Resources */,
 				50F832C21E371EA90008921B /* TagAddRemoveViewController.xib in Resources */,
-				50F832BA1E371E720008921B /* URLTableViewCellwoIMG.xib in Resources */,
+				50F832BA1E371E720008921B /* ContentTableViewCellNoImage.xib in Resources */,
 				50F832A01E371D4D0008921B /* LoginTextFieldTableViewCell.xib in Resources */,
 				5005E1251DF4CB8300BA38E6 /* Assets.xcassets in Resources */,
 			);
@@ -711,7 +711,7 @@
 				506A3F0A1DD6C10D00A5656E /* Assets.xcassets in Resources */,
 				508623211E10C74D00C06C7D /* PreferencesWindowController.xib in Resources */,
 				506A3F0D1DD6C10D00A5656E /* MainMenu.xib in Resources */,
-				5085A1651E342A4700F8EC34 /* Main.storyboard in Resources */,
+				5085A1651E342A4700F8EC34 /* MainWindow.storyboard in Resources */,
 				50D61C651E0E2F9A004595CD /* NewTagNamingViewController.xib in Resources */,
 				50F832AF1E371DFE0008921B /* SortSelectingViewController.xib in Resources */,
 				505B304C1DEA698300B74AE6 /* URLItemWebViewWindowController.xib in Resources */,
@@ -882,15 +882,15 @@
 				50F832BF1E371EA90008921B /* TagAddRemoveTableViewCell.swift in Sources */,
 				50F8329E1E371D4D0008921B /* LoginiOSTableViewController.swift in Sources */,
 				50F832C11E371EA90008921B /* TagAddRemoveViewController.swift in Sources */,
-				50F832A61E371D900008921B /* URLListViewController.swift in Sources */,
+				50F832A61E371D900008921B /* ContentListViewController.swift in Sources */,
 				5005E11E1DF4CB8300BA38E6 /* AppDelegate.swift in Sources */,
-				50841AFC1E21B7AC008621BB /* iOSFrameworkExtensions.swift in Sources */,
+				50841AFC1E21B7AC008621BB /* FrameworkExtensions.swift in Sources */,
 				504AFCE01E15C3B400B8CC3A /* URLSafariViewController.swift in Sources */,
-				50F832AA1E371D900008921B /* HipstapaperSplitViewController.swift in Sources */,
+				50F832AA1E371D900008921B /* MainSplitViewController.swift in Sources */,
 				50F8329F1E371D4D0008921B /* LoginTextFieldTableViewCell.swift in Sources */,
-				50F832B81E371E720008921B /* URLTableViewCell.swift in Sources */,
+				50F832B81E371E720008921B /* ContentTableViewCell.swift in Sources */,
 				50F8329C1E371D4D0008921B /* LoggedIniOSViewController.swift in Sources */,
-				50F832A81E371D900008921B /* TagListViewController.swift in Sources */,
+				50F832A81E371D900008921B /* SourceListViewController.swift in Sources */,
 				50F832B31E371E360008921B /* SortSelectingiOSViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -918,15 +918,15 @@
 				502D068F1E1E0861000CEEB3 /* MenuController.swift in Sources */,
 				505B304B1DEA698300B74AE6 /* URLItemWebViewWindowController.swift in Sources */,
 				506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */,
-				5085A1671E342A4700F8EC34 /* URLListViewController.swift in Sources */,
-				5085A1661E342A4700F8EC34 /* HipstapaperWindowController.swift in Sources */,
+				5085A1671E342A4700F8EC34 /* ContentListViewController.swift in Sources */,
+				5085A1661E342A4700F8EC34 /* MainWindowController.swift in Sources */,
 				50D61C641E0E2F9A004595CD /* NewTagNamingViewController.swift in Sources */,
 				50A1F9441E354DC7007D1313 /* URLItemWebViewWindowControllerLazyLoader.swift in Sources */,
 				5085A15F1E3429D800F8EC34 /* ValidatingToolbarItem.swift in Sources */,
 				5085A15E1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift in Sources */,
-				5055515F1E1AD8BC006E2A3B /* macOSFrameworkExtensions.swift in Sources */,
+				5055515F1E1AD8BC006E2A3B /* FrameworkExtensions.swift in Sources */,
 				5048AF0E1E0DA48600AC1B2D /* URLTaggingViewController.swift in Sources */,
-				5085A1681E342A4700F8EC34 /* TagListViewController.swift in Sources */,
+				5085A1681E342A4700F8EC34 /* SourceListViewController.swift in Sources */,
 				50F832AE1E371DFE0008921B /* SortSelectingViewController.swift in Sources */,
 				504D7F101E10D4F60010A5C7 /* LoginMacViewController.swift in Sources */,
 				504D7F121E10EAB40010A5C7 /* LoggedInMacViewController.swift in Sources */,

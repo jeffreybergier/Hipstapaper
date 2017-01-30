@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     private let extensionFileProcessor = SaveExtensionFileProcessor()
-    private let rootViewController = HipstapaperSplitViewController()
+    private let rootViewController = MainSplitViewController()
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         
@@ -65,12 +65,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, viewControllerWithRestorationIdentifierPath identifierComponents: [Any], coder: NSCoder) -> UIViewController? {
         guard let id = identifierComponents.last as? String, let identifier = StateRestorationIdentifier(rawValue: id) else { return .none }
         switch identifier {
-        case .hipstapaperSplitViewController:
+        case .mainSplitViewController:
             return self.rootViewController
         case .tagListViewController:
-            return self.rootViewController.sourceListVC
+            return self.rootViewController.sourceListViewController
         case .urlListViewController:
-            return self.rootViewController.contentListVC
+            return self.rootViewController.contentListViewController
         case .tagListNavVC, .urlListNavVC:
             // state restoration added to these, just so it gets added to their children
             return .none

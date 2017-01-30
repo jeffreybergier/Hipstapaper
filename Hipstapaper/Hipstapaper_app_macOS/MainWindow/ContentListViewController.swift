@@ -11,7 +11,7 @@ import Common
 import Social
 import AppKit
 
-class URLListViewController: NSViewController, RealmControllable {
+class ContentListViewController: NSViewController, RealmControllable {
     
     // MARK: External Interface
     
@@ -291,7 +291,7 @@ class URLListViewController: NSViewController, RealmControllable {
     }
 }
 
-extension URLListViewController: URLItemsToLoadChangeDelegate {
+extension ContentListViewController: URLItemsToLoadChangeDelegate {
     func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrder?, filter: URLItem.ArchiveFilter?, sender: ViewControllerSender) {
         switch sender {
         case .contentVC:
@@ -325,7 +325,7 @@ extension URLListViewController: URLItemsToLoadChangeDelegate {
     }
 }
 
-extension URLListViewController: NSTableViewDataSource {
+extension ContentListViewController: NSTableViewDataSource {
     
     func numberOfRows(in tableView: NSTableView) -> Int {
         return self.data?.count ?? 0
@@ -337,7 +337,7 @@ extension URLListViewController: NSTableViewDataSource {
     
 }
 
-extension URLListViewController: NSTableViewDelegate {
+extension ContentListViewController: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, rowActionsForRow row: Int, edge: NSTableRowActionEdge) -> [NSTableViewRowAction] {
         guard
             edge == .trailing,

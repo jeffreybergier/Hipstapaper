@@ -16,7 +16,7 @@ import UIKit
 // This class also handles the responsibilities for spreading RealmController changes when the user changes / signs out
 //
 
-class HipstapaperSplitViewController: UISplitViewController, RealmControllable {
+class MainSplitViewController: UISplitViewController, RealmControllable {
     
     // MARK: Overriding Inits to configure oneself
     
@@ -25,7 +25,7 @@ class HipstapaperSplitViewController: UISplitViewController, RealmControllable {
         // configure my delegate
         self.delegate = self
         // configure our view controllers for master / detail
-        self.viewControllers = [self.sourceListNavVC, self.contentListNavVC]
+        self.viewControllers = [self.sourceListNavigationController, self.contentListNavigationController]
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -33,7 +33,7 @@ class HipstapaperSplitViewController: UISplitViewController, RealmControllable {
         // configure my delegate
         self.delegate = self
         // configure our view controllers for master / detail
-        self.viewControllers = [self.sourceListNavVC, self.contentListNavVC]
+        self.viewControllers = [self.sourceListNavigationController, self.contentListNavigationController]
     }
     
     // MARK: Master / Detail Navigation Controllers
@@ -41,8 +41,8 @@ class HipstapaperSplitViewController: UISplitViewController, RealmControllable {
     // The split view controller needs its master/detail panes to be contained
     // in Navigation Controllers. This is where we store the navigation controllers
     
-    fileprivate lazy var sourceListNavVC: UINavigationController = {
-        let tagVC = TagListViewController(selectionDelegate: self, controller: self.realmController)
+    fileprivate lazy var sourceListNavigationController: UINavigationController = {
+        let tagVC = SourceListViewController(selectionDelegate: self, controller: self.realmController)
         let navVC = UINavigationController(rootViewController: tagVC)
         
         // register for state restoration
@@ -52,8 +52,8 @@ class HipstapaperSplitViewController: UISplitViewController, RealmControllable {
         return navVC
     }()
     
-    fileprivate lazy var contentListNavVC: UINavigationController = {
-        let urlVC = URLListViewController(selectionDelegate: self, controller: self.realmController)
+    fileprivate lazy var contentListNavigationController: UINavigationController = {
+        let urlVC = ContentListViewController(selectionDelegate: self, controller: self.realmController)
         let navVC = UINavigationController(rootViewController: urlVC)
         
         // register for state restoration
@@ -67,12 +67,12 @@ class HipstapaperSplitViewController: UISplitViewController, RealmControllable {
     
     // These instances are recycled rather than being re-created every time the selection changes.
     
-    internal var sourceListVC: TagListViewController {
-        return self.sourceListNavVC.viewControllers.first as! TagListViewController
+    internal var sourceListViewController: SourceListViewController {
+        return self.sourceListNavigationController.viewControllers.first as! SourceListViewController
     }
     
-    internal var contentListVC: URLListViewController {
-        return self.contentListNavVC.viewControllers.first as! URLListViewController
+    internal var contentListViewController: ContentListViewController {
+        return self.contentListNavigationController.viewControllers.first as! ContentListViewController
     }
     
     // MARK: Realm Controller
@@ -81,8 +81,8 @@ class HipstapaperSplitViewController: UISplitViewController, RealmControllable {
     
     var realmController = RealmController() {
         didSet {
-            self.sourceListVC.realmController = self.realmController
-            self.contentListVC.realmController = self.realmController
+            self.sourceListViewController.realmController = self.realmController
+            self.contentListViewController.realmController = self.realmController
             ((self.presentedViewController as? UINavigationController)?.viewControllers.first as? RealmControllable)?.realmController = self.realmController
         }
     }
@@ -93,7 +93,7 @@ class HipstapaperSplitViewController: UISplitViewController, RealmControllable {
         super.viewDidLoad()
         
         // register for state restoration
-        self.restorationIdentifier = StateRestorationIdentifier.hipstapaperSplitViewController.rawValue
+        self.restorationIdentifier = StateRestorationIdentifier.mainSplitViewController.rawValue
 
         // gives us the nice 2-up mode on ipads
         self.preferredDisplayMode = .allVisible
@@ -150,15 +150,15 @@ class HipstapaperSplitViewController: UISplitViewController, RealmControllable {
     }
 }
 
-extension HipstapaperSplitViewController: URLItemsToLoadChangeDelegate {
+extension MainSplitViewController: URLItemsToLoadChangeDelegate {
     var itemsToLoad: URLItem.ItemsToLoad {
-        return self.contentListVC.itemsToLoad
+        return self.contentListViewController.itemsToLoad
     }
     var filter: URLItem.ArchiveFilter {
-        return self.contentListVC.filter
+        return self.contentListViewController.filter
     }
     var sortOrder: URLItem.SortOrder {
-        return self.contentListVC.sortOrder
+        return self.contentListViewController.sortOrder
     }
     func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrder?, filter: URLItem.ArchiveFilter?, sender: ViewControllerSender) {
         switch sender {
@@ -166,7 +166,7 @@ extension HipstapaperSplitViewController: URLItemsToLoadChangeDelegate {
             break
         case .contentVC:
             // let the source list know this. It needs to update its selected row
-            self.sourceListVC.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
+            self.sourceListViewController.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
             // save the changes in NSUserDefaults
             UserDefaults.standard.userSelection = (itemsToLoad: itemsToLoad ?? self.itemsToLoad,
                                                       sortOrder: sortOrder ?? self.sortOrder,
@@ -182,7 +182,7 @@ extension HipstapaperSplitViewController: URLItemsToLoadChangeDelegate {
                 // the splitVC to show the detail view controller
                 // otherwise, the detailVC is already visible, so we don't need to do anything
                 if self.isCollapsed == true {
-                    self.showDetailViewController(self.contentListNavVC, sender: sender)
+                    self.showDetailViewController(self.contentListNavigationController, sender: sender)
                 }
             }
             // if the new selection is different than the last one, forward it on
@@ -193,12 +193,12 @@ extension HipstapaperSplitViewController: URLItemsToLoadChangeDelegate {
                 (filter ?? self.filter) != self.filter ||
                 (sortOrder ?? self.sortOrder) != self.sortOrder
             else { break }
-            self.contentListVC.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
+            self.contentListViewController.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
         }
     }
 }
 
-extension HipstapaperSplitViewController: UISplitViewControllerDelegate {
+extension MainSplitViewController: UISplitViewControllerDelegate {
     
     // MARK: Manhandling the SplitView
     
@@ -208,14 +208,14 @@ extension HipstapaperSplitViewController: UISplitViewControllerDelegate {
     // We basically just always return the SourceListVC for the master panel and the contentListVC for the detail panel
     
     func primaryViewController(forCollapsing splitViewController: UISplitViewController) -> UIViewController? {
-        return self.sourceListNavVC
+        return self.sourceListNavigationController
     }
     
     func primaryViewController(forExpanding splitViewController: UISplitViewController) -> UIViewController? {
-        return self.sourceListNavVC
+        return self.sourceListNavigationController
     }
     
     func splitViewController(_ splitViewController: UISplitViewController, separateSecondaryFrom primaryViewController: UIViewController) -> UIViewController? {
-        return self.contentListNavVC
+        return self.contentListNavigationController
     }
 }

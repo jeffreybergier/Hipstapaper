@@ -10,7 +10,7 @@ import RealmSwift
 import Common
 import AppKit
 
-class HipstapaperWindowController: NSWindowController, RealmControllable {
+class MainWindowController: NSWindowController, RealmControllable {
     
     @IBOutlet private weak var shareToolbarButton: NSButton? {
         didSet {
@@ -21,8 +21,8 @@ class HipstapaperWindowController: NSWindowController, RealmControllable {
     
     // MARK: References to child view controllers
     
-    /*@IBOutlet*/ fileprivate weak var sidebarViewController: TagListViewController?
-    /*@IBOutlet*/ fileprivate(set) weak var mainViewController: URLListViewController?
+    /*@IBOutlet*/ fileprivate weak var sourceListViewController: SourceListViewController?
+    /*@IBOutlet*/ internal fileprivate(set) weak var contentListViewController: ContentListViewController?
     
     private lazy var appearanceSwitcher: AppleInterfaceStyleWindowAppearanceSwitcher = AppleInterfaceStyleWindowAppearanceSwitcher(window: self.window!)
     
@@ -30,8 +30,8 @@ class HipstapaperWindowController: NSWindowController, RealmControllable {
     
     var realmController = RealmController() {
         didSet {
-            self.sidebarViewController?.realmController = self.realmController
-            self.mainViewController?.realmController = self.realmController
+            self.sourceListViewController?.realmController = self.realmController
+            self.contentListViewController?.realmController = self.realmController
         }
     }
     
@@ -47,26 +47,26 @@ class HipstapaperWindowController: NSWindowController, RealmControllable {
         // Populate the child VC's
         // This should be done in IB, but storyboards don't seem to allow it
         for childVC in self.window?.contentViewController?.childViewControllers ?? [] {
-            if let sidebarVC = childVC as? TagListViewController {
-                self.sidebarViewController = sidebarVC
-            } else if let mainVC = childVC as? URLListViewController {
-                self.mainViewController = mainVC
+            if let sidebarVC = childVC as? SourceListViewController {
+                self.sourceListViewController = sidebarVC
+            } else if let mainVC = childVC as? ContentListViewController {
+                self.contentListViewController = mainVC
             }
         }
         
         // Become the selection delegate for the sidebar
         // This lets us update the content view controller when the selection changes in the sidebar
-        self.sidebarViewController?.selectionDelegate = self
+        self.sourceListViewController?.selectionDelegate = self
         
         // Become the selection delegate for the contentVC
         // This lets us update the sourceListVC when the user changes selection settings in the contentVC
-        self.mainViewController?.selectionDelegate = self
+        self.contentListViewController?.selectionDelegate = self
         
         // check to see if the realm controller loaded
         // if it didn't load, then we're not logged in
         if let realmController = self.realmController {
-            self.sidebarViewController?.realmController = realmController
-            self.mainViewController?.realmController = realmController
+            self.sourceListViewController?.realmController = realmController
+            self.contentListViewController?.realmController = realmController
         }
     }
     
@@ -109,15 +109,15 @@ class HipstapaperWindowController: NSWindowController, RealmControllable {
     }
 }
 
-extension HipstapaperWindowController: URLItemsToLoadChangeDelegate {
+extension MainWindowController: URLItemsToLoadChangeDelegate {
     var itemsToLoad: URLItem.ItemsToLoad {
-        return self.mainViewController?.itemsToLoad ?? .all
+        return self.contentListViewController?.itemsToLoad ?? .all
     }
     var filter: URLItem.ArchiveFilter {
-        return self.mainViewController?.filter ?? .unarchived
+        return self.contentListViewController?.filter ?? .unarchived
     }
     var sortOrder: URLItem.SortOrder {
-        return self.mainViewController?.sortOrder ?? .recentlyAddedOnTop
+        return self.contentListViewController?.sortOrder ?? .recentlyAddedOnTop
     }
     
     func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrder?, filter: URLItem.ArchiveFilter?, sender: ViewControllerSender) {
@@ -126,7 +126,7 @@ extension HipstapaperWindowController: URLItemsToLoadChangeDelegate {
         case .tertiaryVC:
             fatalError()
         case .contentVC:
-            self.sidebarViewController?.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
+            self.sourceListViewController?.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
             // save the changes in NSUserDefaults
             UserDefaults.standard.userSelection = (itemsToLoad: itemsToLoad ?? self.itemsToLoad,
                                                    sortOrder: sortOrder ?? self.sortOrder,
@@ -144,7 +144,7 @@ extension HipstapaperWindowController: URLItemsToLoadChangeDelegate {
                 (filter ?? self.filter) != self.filter ||
                 (sortOrder ?? self.sortOrder) != self.sortOrder
             else { return }
-            self.mainViewController?.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
+            self.contentListViewController?.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
         }
     }
 }

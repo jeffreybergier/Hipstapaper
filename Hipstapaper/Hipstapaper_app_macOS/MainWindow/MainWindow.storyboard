@@ -12,7 +12,7 @@
         <!--Window Controller-->
         <scene sceneID="vye-fn-BFf">
             <objects>
-                <windowController storyboardIdentifier="HipstapaperWindowController" id="7YH-rH-fFV" customClass="HipstapaperWindowController" customModule="Hipstapaper" customModuleProvider="target" sceneMemberID="viewController">
+                <windowController storyboardIdentifier="HipstapaperWindowController" id="7YH-rH-fFV" customClass="MainWindowController" customModule="Hipstapaper" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" identifier="HipstapaperWindow" title="Hipstapaper" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" frameAutosaveName="HipstapaperWindow" animationBehavior="default" tabbingIdentifier="HipstapaperWindow" tabbingMode="disallowed" id="h2p-vQ-WtL">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
                         <rect key="contentRect" x="427" y="534" width="800" height="700"/>
@@ -150,10 +150,10 @@
             </objects>
             <point key="canvasLocation" x="-794" y="619"/>
         </scene>
-        <!--Tag List View Controller-->
+        <!--Source List View Controller-->
         <scene sceneID="mT2-za-Wq8">
             <objects>
-                <viewController identifier="TagListViewController" storyboardIdentifier="TagListViewController" id="n7H-nv-TbP" customClass="TagListViewController" customModule="Hipstapaper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController identifier="TagListViewController" storyboardIdentifier="TagListViewController" id="n7H-nv-TbP" customClass="SourceListViewController" customModule="Hipstapaper" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="TgP-n1-DUL">
                         <rect key="frame" x="0.0" y="0.0" width="250" height="700"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -347,10 +347,10 @@ CA
             </objects>
             <point key="canvasLocation" x="-1033" y="1442"/>
         </scene>
-        <!--URL List View Controller-->
+        <!--Content List View Controller-->
         <scene sceneID="zdE-MF-b4E">
             <objects>
-                <viewController identifier="URLListViewController" storyboardIdentifier="URLListViewController" id="NX4-AI-9bE" customClass="URLListViewController" customModule="Hipstapaper" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController identifier="URLListViewController" storyboardIdentifier="URLListViewController" id="NX4-AI-9bE" customClass="ContentListViewController" customModule="Hipstapaper" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="Gp7-XG-yk4">
                         <rect key="frame" x="0.0" y="0.0" width="550" height="700"/>
                         <autoresizingMask key="autoresizingMask"/>

@@ -11,17 +11,17 @@ import RealmSwift
 import SafariServices
 import UIKit
 
-class URLListViewController: UIViewController, RealmControllable {
+class ContentListViewController: UIViewController, RealmControllable {
     
     @IBOutlet fileprivate weak var tableView: UITableView? {
         didSet {
-            let imageNib = UINib(nibName: URLTableViewCell.withImageNIBName, bundle: Bundle(for: URLTableViewCell.self))
-            let noImageNib = UINib(nibName: URLTableViewCell.withOutImageNIBName, bundle: Bundle(for: URLTableViewCell.self))
-            self.tableView?.register(imageNib, forCellReuseIdentifier: URLTableViewCell.withImageNIBName)
-            self.tableView?.register(noImageNib, forCellReuseIdentifier: URLTableViewCell.withOutImageNIBName)
+            let imageNib = UINib(nibName: ContentTableViewCell.withImageNIBName, bundle: Bundle(for: ContentTableViewCell.self))
+            let noImageNib = UINib(nibName: ContentTableViewCell.withOutImageNIBName, bundle: Bundle(for: ContentTableViewCell.self))
+            self.tableView?.register(imageNib, forCellReuseIdentifier: ContentTableViewCell.withImageNIBName)
+            self.tableView?.register(noImageNib, forCellReuseIdentifier: ContentTableViewCell.withOutImageNIBName)
             self.tableView?.allowsMultipleSelectionDuringEditing = true
-            self.tableView?.rowHeight = URLTableViewCell.cellHeight
-            self.tableView?.estimatedRowHeight = URLTableViewCell.cellHeight
+            self.tableView?.rowHeight = ContentTableViewCell.cellHeight
+            self.tableView?.estimatedRowHeight = ContentTableViewCell.cellHeight
         }
     }
     
@@ -248,7 +248,7 @@ class URLListViewController: UIViewController, RealmControllable {
     }
 }
 
-extension URLListViewController: URLItemsToLoadChangeDelegate {
+extension ContentListViewController: URLItemsToLoadChangeDelegate {
     func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrder?, filter: URLItem.ArchiveFilter?, sender: ViewControllerSender) {
         switch sender {
         case .contentVC:
@@ -282,7 +282,7 @@ extension URLListViewController: URLItemsToLoadChangeDelegate {
     }
 }
 
-extension URLListViewController /* Handle BarButtonItems */ {
+extension ContentListViewController /* Handle BarButtonItems */ {
     @objc fileprivate func editBBITapped(_ sender: NSObject?) {
         let enterEditMode = {
             // manage the table view
@@ -382,7 +382,7 @@ extension URLListViewController /* Handle BarButtonItems */ {
     }
 }
 
-extension URLListViewController: UIViewControllerPreviewingDelegate {
+extension ContentListViewController: UIViewControllerPreviewingDelegate {
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
         guard
             let realmController = self.realmController,
@@ -429,7 +429,7 @@ extension URLListViewController: UIViewControllerPreviewingDelegate {
     }
 }
 
-extension URLListViewController: UITableViewDelegate {
+extension ContentListViewController: UITableViewDelegate {
  
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedItems = self.selectedURLItems ?? []
@@ -448,7 +448,7 @@ extension URLListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return URLTableViewCell.cellHeight
+        return ContentTableViewCell.cellHeight
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
@@ -484,23 +484,23 @@ extension URLListViewController: UITableViewDelegate {
     }
 }
 
-extension URLListViewController: UITableViewDataSource {
+extension ContentListViewController: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.data?.count ?? 0
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = self.data?[indexPath.row]
-        let identifier = item?.extras?.image == .none ? URLTableViewCell.withOutImageNIBName : URLTableViewCell.withImageNIBName
+        let identifier = item?.extras?.image == .none ? ContentTableViewCell.withOutImageNIBName : ContentTableViewCell.withImageNIBName
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath)
-        if let cell = cell as? URLTableViewCell, let item = item {
+        if let cell = cell as? ContentTableViewCell, let item = item {
             cell.configure(with: item)
         }
         return cell
     }
 }
 
-extension URLListViewController: UIDataSourceModelAssociation {
+extension ContentListViewController: UIDataSourceModelAssociation {
     
     // Framework was passing NIL for indexPath which was causing a crash
     func modelIdentifierForElement(at idx: IndexPath?, in view: UIView) -> String? {

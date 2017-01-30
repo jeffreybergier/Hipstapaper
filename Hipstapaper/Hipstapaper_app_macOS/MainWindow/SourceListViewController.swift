@@ -10,7 +10,7 @@ import Common
 import RealmSwift
 import AppKit
 
-class TagListViewController: NSViewController {
+class SourceListViewController: NSViewController {
     
     // MARK: External Interface
     
@@ -147,7 +147,7 @@ class TagListViewController: NSViewController {
 
 }
 
-extension TagListViewController: URLItemsToLoadChangeDelegate {
+extension SourceListViewController: URLItemsToLoadChangeDelegate {
     var itemsToLoad: URLItem.ItemsToLoad {
         return self.selectionDelegate!.itemsToLoad
     }
@@ -186,7 +186,7 @@ extension TagListViewController: URLItemsToLoadChangeDelegate {
     }
 }
 
-extension TagListViewController: NSOutlineViewDataSource {
+extension SourceListViewController: NSOutlineViewDataSource {
     
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
         if let item = item as? TreeBindingObject {
@@ -244,7 +244,7 @@ extension TagListViewController: NSOutlineViewDataSource {
     
 }
 
-extension TagListViewController: NSOutlineViewDelegate {
+extension SourceListViewController: NSOutlineViewDelegate {
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
         guard let item = item as? TreeBindingObject else { return .none }
         let identifier: String

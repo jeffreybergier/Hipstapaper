@@ -27,7 +27,7 @@ extension NSMenu {
         compatibleServices.forEach() { service in
             let title = service.title
             let image = service.image
-            let newMenuItem = NSMenuItem(title: title, action: #selector(URLListViewController.shareMenu(_:)), keyEquivalent: "")
+            let newMenuItem = NSMenuItem(title: title, action: #selector(ContentListViewController.shareMenu(_:)), keyEquivalent: "")
             newMenuItem.image = image
             newMenuItem.representedObject = service
             newMenuItem.tag = NSMenuItem.Kind.shareSubmenu.rawValue

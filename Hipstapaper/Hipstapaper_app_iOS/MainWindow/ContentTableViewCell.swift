@@ -9,11 +9,11 @@
 import Common
 import UIKit
 
-class URLTableViewCell: UITableViewCell {
+class ContentTableViewCell: UITableViewCell {
     
     static let cellHeight: CGFloat = 65
-    static let withImageNIBName = "URLTableViewCellwIMG"
-    static let withOutImageNIBName = "URLTableViewCellwoIMG"
+    static let withImageNIBName = "ContentTableViewCellImage"
+    static let withOutImageNIBName = "ContentTableViewCellNoImage"
     
     @IBOutlet private weak var titleLabel: UILabel?
     @IBOutlet private weak var dateLabel: UILabel?

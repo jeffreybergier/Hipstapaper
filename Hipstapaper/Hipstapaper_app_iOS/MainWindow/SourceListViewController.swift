@@ -10,7 +10,7 @@ import Common
 import RealmSwift
 import UIKit
 
-class TagListViewController: UIViewController, RealmControllable {
+class SourceListViewController: UIViewController, RealmControllable {
     
     fileprivate enum Section: Int {
         case readingList = 0, tags
@@ -41,7 +41,7 @@ class TagListViewController: UIViewController, RealmControllable {
         
         // accounts button
         // set target to nil so it goes down the responder chain to the parent splitview controller
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Account", style: .plain, target: nil, action: #selector(HipstapaperSplitViewController.accountsBBITapped(_:)))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Account", style: .plain, target: nil, action: #selector(MainSplitViewController.accountsBBITapped(_:)))
         
         // load tag data
         self.hardReloadData()
@@ -143,7 +143,7 @@ class TagListViewController: UIViewController, RealmControllable {
 
 }
 
-extension TagListViewController: URLItemsToLoadChangeDelegate {
+extension SourceListViewController: URLItemsToLoadChangeDelegate {
     var itemsToLoad: URLItem.ItemsToLoad {
         return self.selectionDelegate!.itemsToLoad
     }
@@ -164,7 +164,7 @@ extension TagListViewController: URLItemsToLoadChangeDelegate {
     }
 }
 
-extension TagListViewController: UITableViewDelegate {
+extension SourceListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let section = Section(rawValue: section) else { return .none }
         switch section {
@@ -207,7 +207,7 @@ extension TagListViewController: UITableViewDelegate {
     }
 }
 
-extension TagListViewController: UITableViewDataSource {
+extension SourceListViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }

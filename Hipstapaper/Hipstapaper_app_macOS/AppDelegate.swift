@@ -16,7 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     // during state restoration this property is set before the lazy getting does anything
     // if state restoration does not happen, then this just acts normally
-    fileprivate(set) lazy var rootWindowController: HipstapaperWindowController = HipstapaperWindowCreator.windowController()
+    fileprivate(set) lazy var rootWindowController: MainWindowController = MainWindowCreator.newMainWindowController()
 
     // open the main window when the app launches
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -54,22 +54,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 }
 
-fileprivate class HipstapaperWindowCreator: NSObject, NSWindowRestoration {
+fileprivate class MainWindowCreator: NSObject, NSWindowRestoration {
     
     fileprivate static func restoreWindow(withIdentifier identifier: String, state: NSCoder, completionHandler: @escaping (NSWindow?, Error?) -> Swift.Void) {
-        let wc = self.windowController()
-        guard let appDelegate = NSApp.delegate as? AppDelegate else {
-            completionHandler(.none, .none)
-            return
-        }
+        guard let appDelegate = NSApp.delegate as? AppDelegate else { completionHandler(.none, .none); return; }
+        let wc = self.newMainWindowController()
         appDelegate.rootWindowController = wc
         completionHandler(wc.window, .none)
     }
     
-    fileprivate static func windowController() -> HipstapaperWindowController {
-        let storyboard = NSStoryboard(name: "Main", bundle: Bundle(for: self))
+    fileprivate static func newMainWindowController() -> MainWindowController {
+        let storyboard = NSStoryboard(name: "MainWindow", bundle: Bundle(for: self))
         let initial = storyboard.instantiateInitialController()!
-        let wc = initial as! HipstapaperWindowController
+        let wc = initial as! MainWindowController
         wc.window?.isRestorable = true
         wc.window?.restorationClass = self
         wc.window?.identifier = "MainHipstapaperWindow"
