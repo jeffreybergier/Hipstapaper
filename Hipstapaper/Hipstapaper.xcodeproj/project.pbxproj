@@ -13,7 +13,7 @@
 		5005E1491DF4CC2600BA38E6 /* Hipstapaper_share_iOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 5005E13F1DF4CC2600BA38E6 /* Hipstapaper_share_iOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		50088A4D1E062A2500D6AAED /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50088A4C1E062A2500D6AAED /* ShareViewController.swift */; };
 		502C7F4E1DF0E4D5004E70AB /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 502C7F4D1DF0E4D5004E70AB /* icon.icns */; };
-		502C7F541DF0E4D5004E70AB /* ShareViewController.swift.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502C7F521DF0E4D5004E70AB /* ShareViewController.swift.xib */; };
+		502C7F541DF0E4D5004E70AB /* ShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502C7F521DF0E4D5004E70AB /* ShareViewController.xib */; };
 		502C7F581DF0E4D5004E70AB /* Hipstapaper_share_macOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 502C7F4A1DF0E4D5004E70AB /* Hipstapaper_share_macOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		504A3A3B1DF924D300EA46A9 /* ShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504A3A391DF924D300EA46A9 /* ShareViewController.xib */; };
 		5055515F1E1AD8BC006E2A3B /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5055515E1E1AD8BC006E2A3B /* FrameworkExtensions.swift */; };
@@ -147,8 +147,9 @@
 		502C7F4A1DF0E4D5004E70AB /* Hipstapaper_share_macOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Hipstapaper_share_macOS.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		502C7F4D1DF0E4D5004E70AB /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		502C7F4F1DF0E4D5004E70AB /* Hipstapaper_share_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper_share_macOS.entitlements; sourceTree = "<group>"; };
-		502C7F531DF0E4D5004E70AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ShareViewController.swift.xib; sourceTree = "<group>"; };
+		502C7F531DF0E4D5004E70AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ShareViewController.xib; sourceTree = "<group>"; };
 		502C7F551DF0E4D5004E70AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		503DDFFF1E3FB8A600BCECE5 /* Common.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Common.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Hipstapaper-fucalajpmztkfyfjjbsapzbumphq/Build/Products/Debug/Common-OSX/Common.framework"; sourceTree = "<group>"; };
 		504A3A391DF924D300EA46A9 /* ShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShareViewController.xib; sourceTree = "<group>"; };
 		5055515E1E1AD8BC006E2A3B /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		505B79BE1E0B924C007BB364 /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
@@ -251,6 +252,7 @@
 		17092F35B6713DD75087CAD5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				503DDFFF1E3FB8A600BCECE5 /* Common.framework */,
 				90DDD86949B3AB421C23DF72 /* Pods_Hipstapaper_app_iOS.framework */,
 				E646CA78B90435CAAFD1E09C /* Pods_Hipstapaper_app_macOS.framework */,
 				3D26BB1F55D9FFF4C85A5526 /* Pods_Hipstapaper_share_iOS.framework */,
@@ -292,7 +294,7 @@
 			isa = PBXGroup;
 			children = (
 				505B79BE1E0B924C007BB364 /* ShareViewController.swift */,
-				502C7F521DF0E4D5004E70AB /* ShareViewController.swift.xib */,
+				502C7F521DF0E4D5004E70AB /* ShareViewController.xib */,
 				502C7F551DF0E4D5004E70AB /* Info.plist */,
 				502C7F4C1DF0E4D5004E70AB /* Supporting Files */,
 			);
@@ -710,7 +712,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				502C7F541DF0E4D5004E70AB /* ShareViewController.swift.xib in Resources */,
+				502C7F541DF0E4D5004E70AB /* ShareViewController.xib in Resources */,
 				502C7F4E1DF0E4D5004E70AB /* icon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -970,12 +972,12 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
-		502C7F521DF0E4D5004E70AB /* ShareViewController.swift.xib */ = {
+		502C7F521DF0E4D5004E70AB /* ShareViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				502C7F531DF0E4D5004E70AB /* Base */,
 			);
-			name = ShareViewController.swift.xib;
+			name = ShareViewController.xib;
 			sourceTree = "<group>";
 		};
 		506A3F0B1DD6C10D00A5656E /* MainMenu.xib */ = {
@@ -1072,7 +1074,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5F54888A6DD3B257C9590AEA /* Pods-Hipstapaper_share_macOS.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Hipstapaper_share_macOS/Hipstapaper_share_macOS.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
@@ -1085,7 +1086,7 @@
 					"\"$PODS_CONFIGURATION_BUILD_DIR/RealmSwift-OSX\"",
 				);
 				INFOPLIST_FILE = Hipstapaper_share_macOS/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.share;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1099,7 +1100,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9F39DF42A44AA2B4AB4AAE3A /* Pods-Hipstapaper_share_macOS.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Hipstapaper_share_macOS/Hipstapaper_share_macOS.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
@@ -1113,7 +1113,7 @@
 					"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/",
 				);
 				INFOPLIST_FILE = Hipstapaper_share_macOS/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.share;
 				PRODUCT_NAME = "$(TARGET_NAME)";
