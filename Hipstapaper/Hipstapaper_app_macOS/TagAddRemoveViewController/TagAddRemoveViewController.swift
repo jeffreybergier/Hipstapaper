@@ -10,7 +10,7 @@ import Common
 import RealmSwift
 import AppKit
 
-class URLTaggingViewController: NSViewController {
+class TagAddRemoveViewController: NSViewController {
     
     fileprivate weak var realmController: RealmController? {
         didSet {
@@ -86,8 +86,8 @@ class URLTaggingViewController: NSViewController {
             return
         }
         // create the tag naming VC
-        let newVC = NewTagNamingViewController()
-        newVC.confirm = { [weak self] newName, sender, presentedVC in
+        let newVC = TagCreateViewController()
+        newVC.confirmTagActionHandler = { [weak self] newName, sender, presentedVC in
             // create the tag
             let tag = realmController.tag_uniqueTag(named: newName)
             // add it to the selected items
@@ -114,7 +114,7 @@ class URLTaggingViewController: NSViewController {
 
 // MARK: NSTableViewDataSource
 
-extension URLTaggingViewController: NSTableViewDataSource {
+extension TagAddRemoveViewController: NSTableViewDataSource {
     
     func numberOfRows(in tableView: NSTableView) -> Int {
         return self.data?.count ?? 0
@@ -136,7 +136,7 @@ fileprivate protocol TagAssignmentChangeDelegate: class {
     func didChangeAssignment(to: Bool, for: TagItem)
 }
 
-extension URLTaggingViewController: TagAssignmentChangeDelegate {
+extension TagAddRemoveViewController: TagAssignmentChangeDelegate {
     func didChangeAssignment(to newValue: Bool, for tagItem: TagItem) {
         switch newValue {
         case true:

@@ -16,8 +16,6 @@
 		502C7F541DF0E4D5004E70AB /* URLShareMacViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502C7F521DF0E4D5004E70AB /* URLShareMacViewController.xib */; };
 		502C7F581DF0E4D5004E70AB /* Hipstapaper_share_macOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 502C7F4A1DF0E4D5004E70AB /* Hipstapaper_share_macOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		502D068F1E1E0861000CEEB3 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502D068E1E1E0861000CEEB3 /* MenuController.swift */; };
-		5048AF0E1E0DA48600AC1B2D /* URLTaggingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5048AF0C1E0DA48600AC1B2D /* URLTaggingViewController.swift */; };
-		5048AF0F1E0DA48600AC1B2D /* URLTaggingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5048AF0D1E0DA48600AC1B2D /* URLTaggingViewController.xib */; };
 		504A3A3B1DF924D300EA46A9 /* URLShareiOSViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504A3A391DF924D300EA46A9 /* URLShareiOSViewController.xib */; };
 		504AFCE01E15C3B400B8CC3A /* URLSafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504AFCDF1E15C3B400B8CC3A /* URLSafariViewController.swift */; };
 		5055515F1E1AD8BC006E2A3B /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5055515E1E1AD8BC006E2A3B /* FrameworkExtensions.swift */; };
@@ -38,9 +36,11 @@
 		509716661E3ED2DE00FC12A2 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509716621E3ED2DE00FC12A2 /* LoginViewController.swift */; };
 		509716671E3ED2DE00FC12A2 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509716631E3ED2DE00FC12A2 /* PreferencesWindowController.swift */; };
 		509716681E3ED2DE00FC12A2 /* PreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 509716641E3ED2DE00FC12A2 /* PreferencesWindowController.xib */; };
+		5097166D1E3ED5AC00FC12A2 /* TagAddRemoveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509716691E3ED5AC00FC12A2 /* TagAddRemoveViewController.swift */; };
+		5097166E1E3ED5AC00FC12A2 /* TagCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5097166A1E3ED5AC00FC12A2 /* TagCreateViewController.swift */; };
+		5097166F1E3ED5AC00FC12A2 /* TagAddRemoveViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5097166B1E3ED5AC00FC12A2 /* TagAddRemoveViewController.xib */; };
+		509716701E3ED5AC00FC12A2 /* TagCreateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5097166C1E3ED5AC00FC12A2 /* TagCreateViewController.xib */; };
 		50A1F9441E354DC7007D1313 /* URLItemWebViewWindowControllerLazyLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A1F9431E354DC7007D1313 /* URLItemWebViewWindowControllerLazyLoader.swift */; };
-		50D61C641E0E2F9A004595CD /* NewTagNamingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D61C621E0E2F9A004595CD /* NewTagNamingViewController.swift */; };
-		50D61C651E0E2F9A004595CD /* NewTagNamingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50D61C631E0E2F9A004595CD /* NewTagNamingViewController.xib */; };
 		50F8329C1E371D4D0008921B /* LoggedInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832971E371D4D0008921B /* LoggedInViewController.swift */; };
 		50F8329D1E371D4D0008921B /* LoggedInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F832981E371D4D0008921B /* LoggedInViewController.xib */; };
 		50F8329E1E371D4D0008921B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832991E371D4D0008921B /* LoginViewController.swift */; };
@@ -149,8 +149,6 @@
 		502C7F531DF0E4D5004E70AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/URLShareMacViewController.xib; sourceTree = "<group>"; };
 		502C7F551DF0E4D5004E70AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		502D068E1E1E0861000CEEB3 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
-		5048AF0C1E0DA48600AC1B2D /* URLTaggingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLTaggingViewController.swift; sourceTree = "<group>"; };
-		5048AF0D1E0DA48600AC1B2D /* URLTaggingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLTaggingViewController.xib; sourceTree = "<group>"; };
 		504A3A391DF924D300EA46A9 /* URLShareiOSViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = URLShareiOSViewController.xib; sourceTree = "<group>"; };
 		504AFCDF1E15C3B400B8CC3A /* URLSafariViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLSafariViewController.swift; sourceTree = "<group>"; };
 		5055515E1E1AD8BC006E2A3B /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
@@ -174,9 +172,11 @@
 		509716621E3ED2DE00FC12A2 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		509716631E3ED2DE00FC12A2 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		509716641E3ED2DE00FC12A2 /* PreferencesWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesWindowController.xib; sourceTree = "<group>"; };
+		509716691E3ED5AC00FC12A2 /* TagAddRemoveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagAddRemoveViewController.swift; sourceTree = "<group>"; };
+		5097166A1E3ED5AC00FC12A2 /* TagCreateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagCreateViewController.swift; sourceTree = "<group>"; };
+		5097166B1E3ED5AC00FC12A2 /* TagAddRemoveViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagAddRemoveViewController.xib; sourceTree = "<group>"; };
+		5097166C1E3ED5AC00FC12A2 /* TagCreateViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagCreateViewController.xib; sourceTree = "<group>"; };
 		50A1F9431E354DC7007D1313 /* URLItemWebViewWindowControllerLazyLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLItemWebViewWindowControllerLazyLoader.swift; sourceTree = "<group>"; };
-		50D61C621E0E2F9A004595CD /* NewTagNamingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTagNamingViewController.swift; sourceTree = "<group>"; };
-		50D61C631E0E2F9A004595CD /* NewTagNamingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewTagNamingViewController.xib; sourceTree = "<group>"; };
 		50F832971E371D4D0008921B /* LoggedInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggedInViewController.swift; sourceTree = "<group>"; };
 		50F832981E371D4D0008921B /* LoggedInViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoggedInViewController.xib; sourceTree = "<group>"; };
 		50F832991E371D4D0008921B /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -306,15 +306,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		5048AF0B1E0DA45300AC1B2D /* URLTaggingViewController */ = {
+		5048AF0B1E0DA45300AC1B2D /* TagAddRemoveViewController */ = {
 			isa = PBXGroup;
 			children = (
-				5048AF0C1E0DA48600AC1B2D /* URLTaggingViewController.swift */,
-				5048AF0D1E0DA48600AC1B2D /* URLTaggingViewController.xib */,
-				50D61C621E0E2F9A004595CD /* NewTagNamingViewController.swift */,
-				50D61C631E0E2F9A004595CD /* NewTagNamingViewController.xib */,
+				509716691E3ED5AC00FC12A2 /* TagAddRemoveViewController.swift */,
+				5097166B1E3ED5AC00FC12A2 /* TagAddRemoveViewController.xib */,
+				5097166A1E3ED5AC00FC12A2 /* TagCreateViewController.swift */,
+				5097166C1E3ED5AC00FC12A2 /* TagCreateViewController.xib */,
 			);
-			path = URLTaggingViewController;
+			path = TagAddRemoveViewController;
 			sourceTree = "<group>";
 		};
 		505B30481DEA695D00B74AE6 /* URLItemWebViewWindowController */ = {
@@ -359,7 +359,7 @@
 				5085A1601E3429E400F8EC34 /* MainWindow */,
 				5086231D1E10C72400C06C7D /* LoginViewControllers */,
 				50F832AB1E371DC50008921B /* SortSelectingViewController */,
-				5048AF0B1E0DA45300AC1B2D /* URLTaggingViewController */,
+				5048AF0B1E0DA45300AC1B2D /* TagAddRemoveViewController */,
 				505B30481DEA695D00B74AE6 /* URLItemWebViewWindowController */,
 				5085A15B1E3429B300F8EC34 /* HelperClasses */,
 				506A3F091DD6C10D00A5656E /* Assets.xcassets */,
@@ -432,10 +432,10 @@
 		50F832961E371CDA0008921B /* TagAddRemoveViewController */ = {
 			isa = PBXGroup;
 			children = (
-				50F832BB1E371EA90008921B /* TagAddRemoveTableViewCell.swift */,
-				50F832BC1E371EA90008921B /* TagAddRemoveTableViewCell.xib */,
 				50F832BD1E371EA90008921B /* TagAddRemoveViewController.swift */,
 				50F832BE1E371EA90008921B /* TagAddRemoveViewController.xib */,
+				50F832BB1E371EA90008921B /* TagAddRemoveTableViewCell.swift */,
+				50F832BC1E371EA90008921B /* TagAddRemoveTableViewCell.xib */,
 			);
 			path = TagAddRemoveViewController;
 			sourceTree = "<group>";
@@ -709,13 +709,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				506A3F0A1DD6C10D00A5656E /* Assets.xcassets in Resources */,
+				5097166F1E3ED5AC00FC12A2 /* TagAddRemoveViewController.xib in Resources */,
 				506A3F0D1DD6C10D00A5656E /* MainMenu.xib in Resources */,
 				5085A1651E342A4700F8EC34 /* MainWindow.storyboard in Resources */,
-				50D61C651E0E2F9A004595CD /* NewTagNamingViewController.xib in Resources */,
 				50F832AF1E371DFE0008921B /* SortSelectingViewController.xib in Resources */,
 				505B304C1DEA698300B74AE6 /* URLItemWebViewWindowController.xib in Resources */,
+				509716701E3ED5AC00FC12A2 /* TagCreateViewController.xib in Resources */,
 				509716681E3ED2DE00FC12A2 /* PreferencesWindowController.xib in Resources */,
-				5048AF0F1E0DA48600AC1B2D /* URLTaggingViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -919,17 +919,17 @@
 				505B304B1DEA698300B74AE6 /* URLItemWebViewWindowController.swift in Sources */,
 				506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */,
 				509716661E3ED2DE00FC12A2 /* LoginViewController.swift in Sources */,
+				5097166E1E3ED5AC00FC12A2 /* TagCreateViewController.swift in Sources */,
 				5085A1671E342A4700F8EC34 /* ContentListViewController.swift in Sources */,
 				5085A1661E342A4700F8EC34 /* MainWindowController.swift in Sources */,
 				509716651E3ED2DE00FC12A2 /* LoggedInViewController.swift in Sources */,
-				50D61C641E0E2F9A004595CD /* NewTagNamingViewController.swift in Sources */,
 				50A1F9441E354DC7007D1313 /* URLItemWebViewWindowControllerLazyLoader.swift in Sources */,
 				5085A15F1E3429D800F8EC34 /* ValidatingToolbarItem.swift in Sources */,
 				5085A15E1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift in Sources */,
 				5055515F1E1AD8BC006E2A3B /* FrameworkExtensions.swift in Sources */,
-				5048AF0E1E0DA48600AC1B2D /* URLTaggingViewController.swift in Sources */,
 				5085A1681E342A4700F8EC34 /* SourceListViewController.swift in Sources */,
 				509716671E3ED2DE00FC12A2 /* PreferencesWindowController.swift in Sources */,
+				5097166D1E3ED5AC00FC12A2 /* TagAddRemoveViewController.swift in Sources */,
 				50F832AE1E371DFE0008921B /* SortSelectingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
