@@ -228,9 +228,9 @@ class ContentListViewController: NSViewController, RealmControllable {
         guard
             let item = sender as? NSButton,
             let realmController = self.realmController,
-            let selectedItems = self.selectedURLItems
+            let itemIDs = self.selectedURLItems?.map({ URLItem.UIIdentifier(uuid: $0.uuid, urlString: $0.urlString, archived: $0.archived) })
         else { return }
-        let tagVC = TagAddRemoveViewController(itemsToTag: selectedItems, controller: realmController)
+        let tagVC = TagAddRemoveViewController(itemsToTag: itemIDs, controller: realmController)
         self.presentViewController(tagVC, asPopoverRelativeTo: .zero, of: item, preferredEdge: .maxY, behavior: .semitransient)
     }
     
@@ -350,7 +350,8 @@ extension ContentListViewController: NSTableViewDelegate {
         }
         let tagAction = NSTableViewRowAction(style: .regular, title: "🏷Tag") { action, index in
             let actionButtonView = tableView.tableViewActionButtons?.first ?? rowView
-            let tagVC = TagAddRemoveViewController(itemsToTag: [item], controller: realmController)
+            let itemID = URLItem.UIIdentifier(uuid: item.uuid, urlString: item.urlString, archived: item.archived)
+            let tagVC = TagAddRemoveViewController(itemsToTag: [itemID], controller: realmController)
             self.presentViewController(tagVC, asPopoverRelativeTo: .zero, of: actionButtonView, preferredEdge: .minY, behavior: .transient)
         }
         tagAction.backgroundColor = NSColor.lightGray

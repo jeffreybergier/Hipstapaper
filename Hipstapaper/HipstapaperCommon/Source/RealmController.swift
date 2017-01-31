@@ -174,54 +174,6 @@ extension RealmController {
         }
         try! realm.commitWrite()
     }
-    
-    /* Need to delete */
-    public func tag_applicationState(of tagItem: TagItem, on items: [URLItem]) -> CheckboxState {
-        guard items.isEmpty == false else { return .off }
-        let matches = items.map({ $0.tags.index(of: tagItem) }).flatMap({ $0 })
-        if matches.count == items.count {
-            // this means all items have this tag
-            return .on
-        } else {
-            if matches.isEmpty {
-                // this means that none of the items have this tag
-                return .off
-            } else {
-                // this means we're mixed. Some items have the tag and some don't
-                return .mixed
-            }
-        }
-    }
-    
-    /* Need to delete */
-    public func tag_apply(tag tagItem: TagItem, to items: [URLItem]) {
-        let realm = self.realm
-        realm.beginWrite()
-        let newDate = Date()
-        for urlItem in items {
-            guard urlItem.tags.index(of: tagItem) == nil else { continue }
-            urlItem.tags.append(tagItem)
-            urlItem.modificationDate = newDate
-            let tagItemName = tagItem.name
-            tagItem.name = tagItemName // hack to trigger change notification on the TagItem so tables reload in the UI
-        }
-        try! realm.commitWrite()
-    }
-    
-    /* Need to delete */
-    public func tag_remove(tag tagItem: TagItem, from items: [URLItem]) {
-        let realm = self.realm
-        realm.beginWrite()
-        let newDate = Date()
-        for urlItem in items {
-            guard let index = urlItem.tags.index(of: tagItem) else { continue }
-            urlItem.tags.remove(objectAtIndex: index)
-            urlItem.modificationDate = newDate
-            let tagItemName = tagItem.name
-            tagItem.name = tagItemName // hack to trigger change notification on the TagItem so tables reload in the UI
-        }
-        try! realm.commitWrite()
-    }
 }
 
 // MARK: URLItem Helper Methods

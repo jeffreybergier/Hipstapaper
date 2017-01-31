@@ -21,7 +21,7 @@ class TagAddRemoveViewController: NSViewController {
     // MARK: Data
     
     fileprivate var data: Results<TagItem>?
-    fileprivate var itemsToTag = [URLItem]()
+    fileprivate var itemsToTag: [URLItem.UIIdentifier] = []
     
     // MARK: Outlets
     
@@ -33,7 +33,7 @@ class TagAddRemoveViewController: NSViewController {
     
     // MARK: Loading
     
-    convenience init(itemsToTag items: [URLItem], controller: RealmController) {
+    convenience init(itemsToTag items: [URLItem.UIIdentifier], controller: RealmController) {
         self.init()
         self.realmController = controller
         self.itemsToTag = items
@@ -123,9 +123,9 @@ extension TagAddRemoveViewController: NSTableViewDataSource {
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         guard let tagItem = self.data?[row], let realmController = self.realmController else { return .none }
         let state = realmController.tag_applicationState(of: tagItem, on: self.itemsToTag)
-        let tagAssignment = TagAssignment(tagItem: tagItem, state: state.rawValue)
-        tagAssignment.delegate = self
-        return tagAssignment
+        let object = CheckboxStateTableCellBindingObject(displayName: tagItem.name, state: state.rawValue, index: row)
+        object.delegate = self
+        return object
     }
     
 }
@@ -133,11 +133,12 @@ extension TagAddRemoveViewController: NSTableViewDataSource {
 // MARK: Handle Input from TableViewCells
 
 fileprivate protocol TagAssignmentChangeDelegate: class {
-    func didChangeAssignment(to: Bool, for: TagItem)
+    func didChangeAssignment(to: Bool, forIndex: Int)
 }
 
 extension TagAddRemoveViewController: TagAssignmentChangeDelegate {
-    func didChangeAssignment(to newValue: Bool, for tagItem: TagItem) {
+    func didChangeAssignment(to newValue: Bool, forIndex index: Int) {
+        guard let tagItem = self.data?[index] else { return }
         switch newValue {
         case true:
             self.realmController?.tag_apply(tag: tagItem, to: self.itemsToTag)
@@ -149,25 +150,23 @@ extension TagAddRemoveViewController: TagAssignmentChangeDelegate {
 
 // MARK: Bindings Class for TableViewCells Display/Input
 
-fileprivate class TagAssignment: NSObject {
-    
+fileprivate class CheckboxStateTableCellBindingObject: NSObject {
     weak var delegate: TagAssignmentChangeDelegate?
-    
-    let item: TagItem
-    
+    let index: Int
+    let displayName: String
     var state: NSCellStateValue {
         didSet {
             // slow this down a little bit so the checkbox animation is not disrupted
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 guard let newState = CheckboxState(rawValue: self.state) else { return }
-                self.delegate?.didChangeAssignment(to: newState.boolValue, for: self.item)
+                self.delegate?.didChangeAssignment(to: newState.boolValue, forIndex: self.index)
             }
         }
     }
-    
-    init(tagItem item: TagItem, state: NSCellStateValue) {
+    init(displayName: String, state: NSCellStateValue, index: Int) {
         self.state = state
-        self.item = item
+        self.displayName = displayName
+        self.index = index
         super.init()
     }
 }
