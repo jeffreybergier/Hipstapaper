@@ -22,3 +22,7 @@ public protocol URLItemsToLoadChangeDelegate: class {
 public enum ViewControllerSender {
     case sourceListVC, contentVC, tertiaryVC
 }
+
+public protocol TagAssignmentChangeDelegate: class {
+    func didChangeAssignment(to: Bool, forTagItemAtIndex: Int)
+}

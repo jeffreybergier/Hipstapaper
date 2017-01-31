@@ -6,11 +6,8 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
+import Common
 import UIKit
-
-protocol TagApplicationChangeDelegate: class {
-    func didChangeTagApplication(_: Bool, sender: UITableViewCell)
-}
 
 class TagAddRemoveTableViewCell: UITableViewCell {
     
@@ -19,7 +16,8 @@ class TagAddRemoveTableViewCell: UITableViewCell {
     @IBOutlet weak var tagNameLabel: UILabel?
     @IBOutlet weak var tagSwitch: UISwitch?
     
-    weak var delegate: TagApplicationChangeDelegate?
+    var index: Int = -1
+    weak var delegate: TagAssignmentChangeDelegate?
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -29,7 +27,7 @@ class TagAddRemoveTableViewCell: UITableViewCell {
     
     @IBAction private func switchTapped(_ sender: NSObject?) {
         guard let sender = sender as? UISwitch else { return }
-        self.delegate?.didChangeTagApplication(sender.isOn, sender: self)
+        self.delegate?.didChangeAssignment(to: sender.isOn, forTagItemAtIndex: self.index)
     }
     
 }

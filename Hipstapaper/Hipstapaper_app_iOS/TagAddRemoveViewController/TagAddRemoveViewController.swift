@@ -128,10 +128,10 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
     }
 }
 
-extension TagAddRemoveViewController: TagApplicationChangeDelegate {
+extension TagAddRemoveViewController: TagAssignmentChangeDelegate {
     
-    func didChangeTagApplication(_ newValue: Bool, sender: UITableViewCell) {
-        guard let indexPath = self.tableView?.indexPath(for: sender), let tagItem = self.tags?[indexPath.row] else { return }
+    func didChangeAssignment(to newValue: Bool, forTagItemAtIndex index: Int) {
+        guard let tagItem = self.tags?[index] else { return }
         switch newValue {
         case true:
             self.realmController?.tag_apply(tag: tagItem, to: self.itemsToTag)
@@ -161,6 +161,7 @@ extension TagAddRemoveViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: TagAddRemoveTableViewCell.nibName, for: indexPath)
         if let cell = cell as? TagAddRemoveTableViewCell, let tagItem = self.tags?[indexPath.row] {
             cell.tagNameLabel?.text = tagItem.name
+            cell.index = indexPath.row
             let state = self.realmController?.tag_applicationState(of: tagItem, on: self.itemsToTag) ?? .mixed
             cell.tagSwitch?.isOn = state.boolValue
             cell.delegate = self

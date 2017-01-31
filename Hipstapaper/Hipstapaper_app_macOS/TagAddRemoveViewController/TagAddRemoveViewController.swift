@@ -132,12 +132,8 @@ extension TagAddRemoveViewController: NSTableViewDataSource {
 
 // MARK: Handle Input from TableViewCells
 
-fileprivate protocol TagAssignmentChangeDelegate: class {
-    func didChangeAssignment(to: Bool, forIndex: Int)
-}
-
 extension TagAddRemoveViewController: TagAssignmentChangeDelegate {
-    func didChangeAssignment(to newValue: Bool, forIndex index: Int) {
+    func didChangeAssignment(to newValue: Bool, forTagItemAtIndex index: Int) {
         guard let tagItem = self.data?[index] else { return }
         switch newValue {
         case true:
@@ -159,7 +155,7 @@ fileprivate class CheckboxStateTableCellBindingObject: NSObject {
             // slow this down a little bit so the checkbox animation is not disrupted
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 guard let newState = CheckboxState(rawValue: self.state) else { return }
-                self.delegate?.didChangeAssignment(to: newState.boolValue, forIndex: self.index)
+                self.delegate?.didChangeAssignment(to: newState.boolValue, forTagItemAtIndex: self.index)
             }
         }
     }
