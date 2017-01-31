@@ -125,6 +125,57 @@ extension RealmController {
     
     // MARK: Query / Apply / Remove Tags from URLItems
     
+    public func tag_applicationState(of tagItem: TagItem, on itemIDs: [URLItem.UIIdentifier]) -> CheckboxState {
+        let items = self.url_existingItems(itemIDs: itemIDs)
+        guard items.isEmpty == false else { return .off }
+        let matches = items.map({ $0.tags.index(of: tagItem) }).flatMap({ $0 })
+        if matches.count == items.count {
+            // this means all items have this tag
+            return .on
+        } else {
+            if matches.isEmpty {
+                // this means that none of the items have this tag
+                return .off
+            } else {
+                // this means we're mixed. Some items have the tag and some don't
+                return .mixed
+            }
+        }
+    }
+    
+    public func tag_apply(tag tagItem: TagItem, to itemIDs: [URLItem.UIIdentifier]) {
+        let items = self.url_existingItems(itemIDs: itemIDs)
+        guard items.isEmpty == false else { return }
+        let realm = self.realm
+        realm.beginWrite()
+        let newDate = Date()
+        for urlItem in items {
+            guard urlItem.tags.index(of: tagItem) == nil else { continue }
+            urlItem.tags.append(tagItem)
+            urlItem.modificationDate = newDate
+            let tagItemName = tagItem.name
+            tagItem.name = tagItemName // hack to trigger change notification on the TagItem so tables reload in the UI
+        }
+        try! realm.commitWrite()
+    }
+    
+    public func tag_remove(tag tagItem: TagItem, from itemIDs: [URLItem.UIIdentifier]) {
+        let items = self.url_existingItems(itemIDs: itemIDs)
+        guard items.isEmpty == false else { return }
+        let realm = self.realm
+        realm.beginWrite()
+        let newDate = Date()
+        for urlItem in items {
+            guard let index = urlItem.tags.index(of: tagItem) else { continue }
+            urlItem.tags.remove(objectAtIndex: index)
+            urlItem.modificationDate = newDate
+            let tagItemName = tagItem.name
+            tagItem.name = tagItemName // hack to trigger change notification on the TagItem so tables reload in the UI
+        }
+        try! realm.commitWrite()
+    }
+    
+    /* Need to delete */
     public func tag_applicationState(of tagItem: TagItem, on items: [URLItem]) -> CheckboxState {
         guard items.isEmpty == false else { return .off }
         let matches = items.map({ $0.tags.index(of: tagItem) }).flatMap({ $0 })
@@ -142,6 +193,7 @@ extension RealmController {
         }
     }
     
+    /* Need to delete */
     public func tag_apply(tag tagItem: TagItem, to items: [URLItem]) {
         let realm = self.realm
         realm.beginWrite()
@@ -156,6 +208,7 @@ extension RealmController {
         try! realm.commitWrite()
     }
     
+    /* Need to delete */
     public func tag_remove(tag tagItem: TagItem, from items: [URLItem]) {
         let realm = self.realm
         realm.beginWrite()
@@ -179,6 +232,12 @@ extension RealmController {
         let realm = self.realm
         let item = realm.object(ofType: URLItem.self, forPrimaryKey: itemID.uuid)
         return item
+    }
+    
+    public func url_existingItems(itemIDs: [URLItem.UIIdentifier]) -> [URLItem] {
+        let realm = self.realm
+        let items = itemIDs.map({ realm.object(ofType: URLItem.self, forPrimaryKey: $0.uuid) }).flatMap({ $0 })
+        return items
     }
     
     public func url_loadAll(for itemsToLoad: URLItem.ItemsToLoad, sortedBy sortOrder: URLItem.SortOrder, filteredBy filter: URLItem.ArchiveFilter) -> Results<URLItem>? {

@@ -343,10 +343,10 @@ extension ContentListViewController /* Handle BarButtonItems */ {
     @objc fileprivate func tagBBITapped(_ sender: NSObject?) {
         guard
             let bbi = sender as? UIBBI,
-            let items = self.selectedURLItems,
-            let realmController = self.realmController
+            let realmController = self.realmController,
+            let itemIDs = self.selectedURLItems?.map({ URLItem.UIIdentifier(uuid: $0.uuid, urlString: $0.urlString, archived: $0.archived) })
         else { return }
-        let tagVC = TagAddRemoveViewController.viewController(style: .popBBI(bbi), selectedItems: items, controller: realmController)
+        let tagVC = TagAddRemoveViewController.viewController(style: .popBBI(bbi), selectedItems: itemIDs, controller: realmController)
         self.present(tagVC, animated: true, completion: .none)
     }
     
@@ -403,7 +403,8 @@ extension ContentListViewController: UIViewControllerPreviewingDelegate {
         }
         let tagAction = UIPreviewAction(title: "🏷 Tag", style: .default) { [weak self] _ in
             let presentation = TagAddRemoveViewController.PresentationStyle.popCustom(rect: cellView.bounds, view: cellView)
-            let tagVC = TagAddRemoveViewController.viewController(style: presentation, selectedItems: [item], controller: realmController)
+            let itemID = URLItem.UIIdentifier(uuid: item.uuid, urlString: item.urlString, archived: item.archived)
+            let tagVC = TagAddRemoveViewController.viewController(style: presentation, selectedItems: [itemID], controller: realmController)
             self?.present(tagVC, animated: true, completion: nil)
         }
         // use my special preview action injection SafariViewController
@@ -476,7 +477,8 @@ extension ContentListViewController: UITableViewDelegate {
                 popoverView = cellView
             }
             let presentation = TagAddRemoveViewController.PresentationStyle.popCustom(rect: popoverView.bounds, view: popoverView)
-            let tagVC = TagAddRemoveViewController.viewController(style: presentation, selectedItems: [item], controller: realmController)
+            let itemID = URLItem.UIIdentifier(uuid: item.uuid, urlString: item.urlString, archived: item.archived)
+            let tagVC = TagAddRemoveViewController.viewController(style: presentation, selectedItems: [itemID], controller: realmController)
             self?.present(tagVC, animated: true, completion: nil)
         }
         return [archiveToggleAction, tagAction]

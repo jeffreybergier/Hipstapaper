@@ -18,7 +18,7 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
         case formSheet
     }
     
-    class func viewController(style: PresentationStyle, selectedItems: [URLItem], controller: RealmController) -> UIViewController {
+    class func viewController(style: PresentationStyle, selectedItems: [URLItem.UIIdentifier], controller: RealmController) -> UIViewController {
         let tagVC = TagAddRemoveViewController(selectedItems: selectedItems, controller: controller)
         let navVC = UINavigationController(rootViewController: tagVC)
         tagVC.restorationIdentifier = StateRestorationIdentifier.tertiaryPopOverViewController.rawValue
@@ -47,7 +47,7 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
     }
     
     fileprivate var tags: Results<TagItem>?
-    fileprivate var selectedItems = [URLItem]()
+    fileprivate var itemsToTag: [URLItem.UIIdentifier] = []
     fileprivate private(set) var presentationStyle = PresentationStyle.formSheet
     weak var realmController: RealmController? {
         didSet {
@@ -55,9 +55,9 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
         }
     }
     
-    convenience init(selectedItems: [URLItem], controller: RealmController) {
+    convenience init(selectedItems: [URLItem.UIIdentifier], controller: RealmController) {
         self.init()
-        self.selectedItems = selectedItems
+        self.itemsToTag = selectedItems
         self.realmController = controller
     }
 
@@ -114,7 +114,7 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
             guard let realmController = self.realmController else { return }
             let newName = alertVC.textFields?.map({ $0.text }).flatMap({ $0 }).first ?? ""
             let tag = realmController.tag_uniqueTag(named: newName)
-            realmController.tag_apply(tag: tag, to: self.selectedItems)
+            realmController.tag_apply(tag: tag, to: self.itemsToTag)
         }
         alertVC.addAction(cancelAction)
         alertVC.addAction(addAction)
@@ -134,9 +134,9 @@ extension TagAddRemoveViewController: TagApplicationChangeDelegate {
         guard let indexPath = self.tableView?.indexPath(for: sender), let tagItem = self.tags?[indexPath.row] else { return }
         switch newValue {
         case true:
-            self.realmController?.tag_apply(tag: tagItem, to: self.selectedItems)
+            self.realmController?.tag_apply(tag: tagItem, to: self.itemsToTag)
         case false:
-            self.realmController?.tag_remove(tag: tagItem, from: self.selectedItems)
+            self.realmController?.tag_remove(tag: tagItem, from: self.itemsToTag)
         }
     }
 }
@@ -146,7 +146,7 @@ extension TagAddRemoveViewController: UITableViewDelegate {
         if self.tableView(tableView, numberOfRowsInSection: section) == 0 {
             return "No Tags Available"
         } else {
-            return "\(self.selectedItems.count) Item(s) Selected"
+            return "\(self.itemsToTag.count) Item(s) Selected"
         }
     }
 }
@@ -161,7 +161,7 @@ extension TagAddRemoveViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: TagAddRemoveTableViewCell.nibName, for: indexPath)
         if let cell = cell as? TagAddRemoveTableViewCell, let tagItem = self.tags?[indexPath.row] {
             cell.tagNameLabel?.text = tagItem.name
-            let state = self.realmController?.tag_applicationState(of: tagItem, on: self.selectedItems) ?? .mixed
+            let state = self.realmController?.tag_applicationState(of: tagItem, on: self.itemsToTag) ?? .mixed
             cell.tagSwitch?.isOn = state.boolValue
             cell.delegate = self
         }
