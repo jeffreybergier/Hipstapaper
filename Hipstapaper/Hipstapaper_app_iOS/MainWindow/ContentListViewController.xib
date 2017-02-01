@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ContentListViewController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
+                <outlet property="loadingIndicatorViewController" destination="A4P-1n-1BV" id="3AZ-eY-tJo"/>
                 <outlet property="tableView" destination="Zpg-R3-Bgp" id="1pN-ct-hTb"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -27,14 +28,61 @@
                         <outlet property="delegate" destination="-1" id="lXM-Pc-hdQ"/>
                     </connections>
                 </tableView>
+                <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="joc-By-FvG">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="36"/>
+                    <subviews>
+                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hcO-oX-2qT">
+                            <rect key="frame" x="82" y="0.0" width="157" height="36"/>
+                            <subviews>
+                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="wfX-Gy-vNv">
+                                    <rect key="frame" x="20" y="8" width="117" height="20"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Syncronizing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yrK-hM-Fxq">
+                                            <rect key="frame" x="0.0" y="1" width="89" height="18"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="cth-rn-5b9">
+                                            <rect key="frame" x="97" y="0.0" width="20" height="20"/>
+                                        </activityIndicatorView>
+                                    </subviews>
+                                </stackView>
+                            </subviews>
+                            <color key="backgroundColor" red="0.53176540798611116" green="1" blue="0.88688714912024036" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstItem="wfX-Gy-vNv" firstAttribute="top" secondItem="hcO-oX-2qT" secondAttribute="top" constant="8" id="6ZE-sQ-X9e"/>
+                                <constraint firstItem="wfX-Gy-vNv" firstAttribute="leading" secondItem="hcO-oX-2qT" secondAttribute="leading" constant="20" symbolic="YES" id="6o4-mP-fBv"/>
+                                <constraint firstAttribute="bottom" secondItem="wfX-Gy-vNv" secondAttribute="bottom" constant="8" id="9n5-dx-lvd"/>
+                                <constraint firstAttribute="trailing" secondItem="wfX-Gy-vNv" secondAttribute="trailing" constant="20" symbolic="YES" id="Wzw-mT-jm6"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="hcO-oX-2qT" firstAttribute="top" secondItem="joc-By-FvG" secondAttribute="top" id="0pJ-sy-NOh"/>
+                        <constraint firstItem="hcO-oX-2qT" firstAttribute="centerX" secondItem="joc-By-FvG" secondAttribute="centerX" id="VJn-2F-NDj"/>
+                        <constraint firstItem="hcO-oX-2qT" firstAttribute="height" secondItem="joc-By-FvG" secondAttribute="height" id="k45-cg-XbE"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="joc-By-FvG" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" placeholder="YES" id="Oxv-oI-KPQ"/>
+                <constraint firstItem="joc-By-FvG" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="PTa-e2-34z"/>
                 <constraint firstItem="Zpg-R3-Bgp" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" id="PiM-1s-FIa"/>
+                <constraint firstAttribute="trailing" secondItem="joc-By-FvG" secondAttribute="trailing" id="RSs-Q5-C58"/>
                 <constraint firstItem="Zpg-R3-Bgp" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="XP9-bF-Pw0"/>
                 <constraint firstItem="Zpg-R3-Bgp" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="kQo-PR-bYd"/>
                 <constraint firstItem="Zpg-R3-Bgp" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="xG8-jM-4pd"/>
             </constraints>
         </view>
+        <customObject id="A4P-1n-1BV" customClass="LoadingIndicatorViewController" customModule="Hipstapaper" customModuleProvider="target">
+            <connections>
+                <outlet property="loadingView" destination="hcO-oX-2qT" id="jbh-Ym-dNk"/>
+                <outlet property="spinner" destination="cth-rn-5b9" id="J8z-vm-kBQ"/>
+                <outlet property="topConstraint" destination="0pJ-sy-NOh" id="Jzj-sg-UI2"/>
+                <outlet property="view" destination="joc-By-FvG" id="ZMD-m5-xUj"/>
+            </connections>
+        </customObject>
     </objects>
 </document>

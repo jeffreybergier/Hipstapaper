@@ -21,6 +21,12 @@ public class RealmController {
         return realm
     }
     
+    public var session: SyncSession {
+        let session = self.user.session(for: self.realmURL)!
+        return session
+    }
+    
+    
     private static func realmURL(for user: SyncUser) -> URL {
         var components = URLComponents(url: user.authenticationServer!, resolvingAgainstBaseURL: false)!
         components.scheme = "realm"
@@ -54,7 +60,7 @@ public class RealmController {
 // MARK: Object Agnostic Helper Methods
 
 extension RealmController {
-    
+
     public func add(_ item: Object) {
         let realm = self.realm
         realm.beginWrite()

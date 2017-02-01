@@ -13,6 +13,7 @@ import UIKit
 
 class ContentListViewController: UIViewController, RealmControllable {
     
+    @IBOutlet private weak var loadingIndicatorViewController: LoadingIndicatorViewController?
     @IBOutlet fileprivate weak var tableView: UITableView? {
         didSet {
             let imageNib = UINib(nibName: ContentTableViewCell.withImageNIBName, bundle: Bundle(for: ContentTableViewCell.self))
@@ -58,6 +59,7 @@ class ContentListViewController: UIViewController, RealmControllable {
             // forward the message to any presented view controllers
             let addRemoveTagPopoverVC = (self.presentedViewController as? UINavigationController)?.viewControllers.first as? RealmControllable
             addRemoveTagPopoverVC?.realmController = self.realmController
+            self.loadingIndicatorViewController?.realmController = self.realmController
             
             // reload the data
             self.hardReloadData()
@@ -82,6 +84,14 @@ class ContentListViewController: UIViewController, RealmControllable {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // set the top constraint on the LoadingIndicatorViewController
+        // this can't be done in the XIB
+        if let loadingIndicatorViewController = self.loadingIndicatorViewController {
+            loadingIndicatorViewController.realmController = self.realmController
+            loadingIndicatorViewController.view.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 10).isActive = true
+            self.addChildViewController(loadingIndicatorViewController)
+        }
         
         // register for 3d touch events
         if case .available = self.traitCollection.forceTouchCapability {
