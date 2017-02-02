@@ -45,7 +45,13 @@ class ContentListViewController: NSViewController, RealmControllable {
     
     @IBOutlet private weak var tableView: NSTableView?
     @IBOutlet private weak var scrollView: NSScrollView?
-    private let sortVC = SortSelectingViewController()
+    @IBOutlet private weak var sortVC: SortSelectingViewController? {
+        didSet {
+            guard let sortVC = self.sortVC else { return }
+            sortVC.delegate = self
+            self.addChildViewController(sortVC)
+        }
+    }
     
     // MARK: Manage Open Child Windows
     
@@ -57,30 +63,16 @@ class ContentListViewController: NSViewController, RealmControllable {
         super.viewDidLoad()
         self.windowLoader.windowControllerDelegate = self
     }
-
-    override func viewWillAppear() {
-        super.viewWillAppear()
-        
-        if self.childViewControllers.filter({ $0 === self.sortVC }).isEmpty == true {
-            // this needs to be done in view will appear because the window property is not set in viewdidload but it needs to only happen once.
-            // I am trying to avoid state to check if its done, so I'm using the childViewControllers property thats already there
-            self.addChildViewController(self.sortVC)
-            self.view.addSubview(self.sortVC.view)
-            
-            // configure autolayout
-            self.sortVC.view.translatesAutoresizingMaskIntoConstraints = false
-            self.sortVC.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
-            self.sortVC.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0).isActive = true
-            let topLayoutGuide = self.view.window!.contentLayoutGuide as! NSLayoutGuide
-            self.sortVC.view.topAnchor.constraint(equalTo: topLayoutGuide.topAnchor, constant: 0).isActive = true
-            
-            // stop the scrollview from autoupdating so I can control the top inset
-            self.scrollView?.automaticallyAdjustsContentInsets = false
-            // adjust the inset to allow for the sort selecting view
-            self.scrollView?.contentInsets.top += self.sortVC.view.frame.height
-            // get ready to know when the user changes the selection
-            self.sortVC.delegate = self
+    
+    func sortSelectingViewDidMoveToWindow() {
+        if let layoutGuide = self.view.window?.contentLayoutGuide as? NSLayoutGuide {
+            self.sortVC?.view.topAnchor.constraint(equalTo: layoutGuide.topAnchor, constant: 0).isActive = true
+        } else {
+            self.sortVC?.view.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
         }
+        let height = (self.scrollView?.contentInsets.top ?? 0) + (self.sortVC?.view.bounds.height ?? 0)
+        self.scrollView?.automaticallyAdjustsContentInsets = false
+        self.scrollView?.contentInsets.top = height
     }
     
     // MARK: Reload Data
@@ -106,26 +98,26 @@ class ContentListViewController: NSViewController, RealmControllable {
         }
         
         // update the filter vc
-        self.sortVC.sortOrder = sortOrder
-        self.sortVC.filter = filter
+        self.sortVC?.sortOrder = sortOrder
+        self.sortVC?.filter = filter
         
         // load the data
         self.data = self.realmController?.url_loadAll(for: itemsToLoad, sortedBy: sortOrder, filteredBy: filter)
-        self.notificationToken = self.data?.addNotificationBlock(self.realmResultsChangeClosure)
+        self.notificationToken = self.data?.addNotificationBlock({ self.realmResultsChanged($0) })
     }
     
-    private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<URLItem>>) -> Void) = { [weak self] changes in
+    private func realmResultsChanged(_ changes: RealmCollectionChange<Results<URLItem>>) {
         switch changes {
         case .initial:
-            self?.tableView?.reloadData()
+            self.tableView?.reloadData()
         case .update(_, let deletions, let insertions, let modifications):
-            self?.tableView?.beginUpdates()
-            self?.tableView?.removeRows(at: IndexSet(deletions), withAnimation: .slideLeft)
-            self?.tableView?.insertRows(at: IndexSet(insertions), withAnimation: .slideRight)
-            self?.tableView?.reloadData(forRowIndexes: IndexSet(modifications), columnIndexes: IndexSet([0]))
-            self?.tableView?.endUpdates()
+            self.tableView?.beginUpdates()
+            self.tableView?.removeRows(at: IndexSet(deletions), withAnimation: .slideLeft)
+            self.tableView?.insertRows(at: IndexSet(insertions), withAnimation: .slideRight)
+            self.tableView?.reloadData(forRowIndexes: IndexSet(modifications), columnIndexes: IndexSet([0]))
+            self.tableView?.endUpdates()
         case .error(let error):
-            guard let window = self?.view.window else { break }
+            guard let window = self.view.window else { break }
             let alert = NSAlert(error: error)
             alert.beginSheetModal(for: window, completionHandler: .none)
         }

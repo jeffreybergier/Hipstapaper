@@ -18,9 +18,7 @@ final class MainWindowCreator: NSObject, NSWindowRestoration {
     }
     
     static func newMainWindowController() -> MainWindowController {
-        let storyboard = NSStoryboard(name: "MainWindow", bundle: Bundle(for: self))
-        let initial = storyboard.instantiateInitialController()!
-        let wc = initial as! MainWindowController
+        let wc = MainWindowController(windowNibName: "MainWindowController")
         wc.window?.isRestorable = true
         wc.window?.restorationClass = self
         wc.window?.identifier = "MainHipstapaperWindow"

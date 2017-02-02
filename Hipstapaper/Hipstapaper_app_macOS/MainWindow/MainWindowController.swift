@@ -21,8 +21,9 @@ class MainWindowController: NSWindowController, RealmControllable {
     
     // MARK: References to child view controllers
     
-    /*@IBOutlet*/ fileprivate weak var sourceListViewController: SourceListViewController?
-    /*@IBOutlet*/ internal fileprivate(set) weak var contentListViewController: ContentListViewController?
+    private let splitViewController = NSSplitViewController()
+    let contentListViewController = ContentListViewController()
+    fileprivate let sourceListViewController = SourceListViewController()
     
     private lazy var appearanceSwitcher: AppleInterfaceStyleWindowAppearanceSwitcher = AppleInterfaceStyleWindowAppearanceSwitcher(window: self.window!)
     
@@ -30,8 +31,8 @@ class MainWindowController: NSWindowController, RealmControllable {
     
     var realmController = RealmController() {
         didSet {
-            self.sourceListViewController?.realmController = self.realmController
-            self.contentListViewController?.realmController = self.realmController
+            self.sourceListViewController.realmController = self.realmController
+            self.contentListViewController.realmController = self.realmController
         }
     }
     
@@ -44,29 +45,30 @@ class MainWindowController: NSWindowController, RealmControllable {
         self.window?.titleVisibility = .hidden
         let _ = self.appearanceSwitcher
         
-        // Populate the child VC's
-        // This should be done in IB, but storyboards don't seem to allow it
-        for childVC in self.window?.contentViewController?.childViewControllers ?? [] {
-            if let sidebarVC = childVC as? SourceListViewController {
-                self.sourceListViewController = sidebarVC
-            } else if let mainVC = childVC as? ContentListViewController {
-                self.contentListViewController = mainVC
-            }
-        }
+        // configure the splitview within the window
+        self.splitViewController.view.wantsLayer = true
+        self.window!.contentView = self.splitViewController.view
+        self.window!.contentViewController = self.splitViewController
+        
+        // configure the splitview
+        let sourceListItem = NSSplitViewItem(sidebarWithViewController: self.sourceListViewController)
+        let contentListItem = NSSplitViewItem(contentListWithViewController: self.contentListViewController)
+        self.splitViewController.addSplitViewItem(sourceListItem)
+        self.splitViewController.addSplitViewItem(contentListItem)
         
         // Become the selection delegate for the sidebar
         // This lets us update the content view controller when the selection changes in the sidebar
-        self.sourceListViewController?.selectionDelegate = self
+        self.sourceListViewController.selectionDelegate = self
         
         // Become the selection delegate for the contentVC
         // This lets us update the sourceListVC when the user changes selection settings in the contentVC
-        self.contentListViewController?.selectionDelegate = self
+        self.contentListViewController.selectionDelegate = self
         
         // check to see if the realm controller loaded
         // if it didn't load, then we're not logged in
         if let realmController = self.realmController {
-            self.sourceListViewController?.realmController = realmController
-            self.contentListViewController?.realmController = realmController
+            self.sourceListViewController.realmController = realmController
+            self.contentListViewController.realmController = realmController
         }
     }
     
@@ -111,13 +113,13 @@ class MainWindowController: NSWindowController, RealmControllable {
 
 extension MainWindowController: URLItemsToLoadChangeDelegate {
     var itemsToLoad: URLItem.ItemsToLoad {
-        return self.contentListViewController?.itemsToLoad ?? .all
+        return self.contentListViewController.itemsToLoad
     }
     var filter: URLItem.ArchiveFilter {
-        return self.contentListViewController?.filter ?? .unarchived
+        return self.contentListViewController.filter
     }
     var sortOrder: URLItem.SortOrder {
-        return self.contentListViewController?.sortOrder ?? .recentlyAddedOnTop
+        return self.contentListViewController.sortOrder
     }
     
     func didChange(itemsToLoad: URLItem.ItemsToLoad?, sortOrder: URLItem.SortOrder?, filter: URLItem.ArchiveFilter?, sender: ViewControllerSender) {
@@ -126,7 +128,7 @@ extension MainWindowController: URLItemsToLoadChangeDelegate {
         case .tertiaryVC:
             fatalError()
         case .contentVC:
-            self.sourceListViewController?.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
+            self.sourceListViewController.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
             // save the changes in NSUserDefaults
             UserDefaults.standard.userSelection = (itemsToLoad: itemsToLoad ?? self.itemsToLoad,
                                                    sortOrder: sortOrder ?? self.sortOrder,
@@ -144,7 +146,7 @@ extension MainWindowController: URLItemsToLoadChangeDelegate {
                 (filter ?? self.filter) != self.filter ||
                 (sortOrder ?? self.sortOrder) != self.sortOrder
             else { return }
-            self.contentListViewController?.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
+            self.contentListViewController.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
         }
     }
 }

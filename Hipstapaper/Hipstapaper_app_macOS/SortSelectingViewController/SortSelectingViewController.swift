@@ -113,3 +113,11 @@ class SortSelectingViewController: NSViewController {
         self.delegate?.didChange(itemsToLoad: .none, sortOrder: .none, filter: self.filter, sender: .tertiaryVC)
     }
 }
+
+class WindowObservingView: NSView {
+    override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        let selector = #selector(ContentListViewController.sortSelectingViewDidMoveToWindow)
+        self.nextResponder?.try(toPerform: selector, with: .none)
+    }
+}

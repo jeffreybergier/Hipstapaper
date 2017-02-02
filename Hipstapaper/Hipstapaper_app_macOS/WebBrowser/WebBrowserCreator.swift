@@ -88,7 +88,7 @@ extension WebBrowserCreator: NSWindowRestoration {
         let wc = self.windowController(for: itemID) // the state should be restored on its own
         
         // save the windowcontroller in the instance of myself
-        appDelegate.rootWindowController.contentListViewController?.windowLoader[itemID] = wc
+        appDelegate.rootWindowController.contentListViewController.windowLoader[itemID] = wc
         
         // call the completion handler
         completionHandler(wc.window, .none)

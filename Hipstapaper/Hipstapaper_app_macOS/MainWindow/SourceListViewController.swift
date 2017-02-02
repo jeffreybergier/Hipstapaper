@@ -52,44 +52,44 @@ class SourceListViewController: NSViewController {
         
         // refresh the content with new data
         self.data = self.realmController?.tag_loadAll()
-        self.notificationToken = self.data?.addNotificationBlock(self.realmResultsChangeClosure)
+        self.notificationToken = self.data?.addNotificationBlock({ [weak self] in self?.realmResultsChanged($0) })
     }
     
     fileprivate var changingSelectionProgrammaticaly = false // refer to MARK Selection Super Hack
     
-    private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<TagItem>>) -> Void) = { [weak self] changes in
+    private func realmResultsChanged(_ changes: RealmCollectionChange<Results<TagItem>>) {
         switch changes {
         case .initial:
             // manually update the child count of the tag parent
-            self?.tagParent.childCount = self?.data?.count ?? 0
+            self.tagParent.childCount = self.data?.count ?? 0
             // hard reload the data
-            self?.outlineView?.reloadData()
+            self.outlineView?.reloadData()
             // expand all items in the outline
-            self?.outlineView?.expandItem(.none, expandChildren: true)
+            self.outlineView?.expandItem(.none, expandChildren: true)
             // select the item after that row... the unread row
-            self?.didChange(itemsToLoad: self?.selectionDelegate?.itemsToLoad,
-                           sortOrder: self?.selectionDelegate?.sortOrder,
-                           filter: self?.selectionDelegate?.filter,
+            self.didChange(itemsToLoad: self.selectionDelegate?.itemsToLoad,
+                           sortOrder: self.selectionDelegate?.sortOrder,
+                           filter: self.selectionDelegate?.filter,
                            sender: .sourceListVC)
         case .update(_, let deletions, let insertions, let modifications):
             // manually update the child count of the tag parent
-            self?.tagParent.childCount = self?.data?.count ?? 0
+            self.tagParent.childCount = self.data?.count ?? 0
             // add and remove changed rows
-            self?.outlineView?.beginUpdates()
-            self?.outlineView?.removeItems(at: IndexSet(deletions), inParent: self?.tagParent, withAnimation: .slideLeft)
-            self?.outlineView?.insertItems(at: IndexSet(insertions), inParent: self?.tagParent, withAnimation: .slideRight)
+            self.outlineView?.beginUpdates()
+            self.outlineView?.removeItems(at: IndexSet(deletions), inParent: self.tagParent, withAnimation: .slideLeft)
+            self.outlineView?.insertItems(at: IndexSet(insertions), inParent: self.tagParent, withAnimation: .slideRight)
             // updating rows is different, there is no bulk method
             modifications.forEach() { childIndex in
                 // no good way to find the parentRowindex... should always be 3
                 let parentIndex = 3
                 // get the item that needs to be updated.
-                let childObject = self?.outlineView?.item(atRow: parentIndex + childIndex + 1)
+                let childObject = self.outlineView?.item(atRow: parentIndex + childIndex + 1)
                 // tell the outline view to update that object
-                self?.outlineView?.reloadItem(childObject, reloadChildren: false)
+                self.outlineView?.reloadItem(childObject, reloadChildren: false)
             }
-            self?.outlineView?.endUpdates()
+            self.outlineView?.endUpdates()
         case .error(let error):
-            guard let window = self?.view.window else { break }
+            guard let window = self.view.window else { break }
             let alert = NSAlert(error: error)
             alert.beginSheetModal(for: window, completionHandler: .none)
         }
