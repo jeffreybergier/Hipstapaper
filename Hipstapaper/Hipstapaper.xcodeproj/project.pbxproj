@@ -19,7 +19,6 @@
 		504A3A3B1DF924D300EA46A9 /* ShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504A3A391DF924D300EA46A9 /* ShareViewController.xib */; };
 		5055515F1E1AD8BC006E2A3B /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5055515E1E1AD8BC006E2A3B /* FrameworkExtensions.swift */; };
 		505B79BF1E0B924C007BB364 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B79BE1E0B924C007BB364 /* ShareViewController.swift */; };
-		5068AC6C1E417ED800F1D802 /* LoadingIndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5068AC6B1E417ED800F1D802 /* LoadingIndicatorViewController.swift */; };
 		506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506A3F071DD6C10C00A5656E /* AppDelegate.swift */; };
 		506A3F0A1DD6C10D00A5656E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F091DD6C10D00A5656E /* Assets.xcassets */; };
 		506A3F0D1DD6C10D00A5656E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F0B1DD6C10D00A5656E /* MainMenu.xib */; };
@@ -156,7 +155,6 @@
 		504A3A391DF924D300EA46A9 /* ShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShareViewController.xib; sourceTree = "<group>"; };
 		5055515E1E1AD8BC006E2A3B /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		505B79BE1E0B924C007BB364 /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
-		5068AC6B1E417ED800F1D802 /* LoadingIndicatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorViewController.swift; sourceTree = "<group>"; };
 		506A3F041DD6C10C00A5656E /* Hipstapaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hipstapaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		506A3F071DD6C10C00A5656E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		506A3F091DD6C10D00A5656E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -434,7 +432,6 @@
 				50F832B51E371E720008921B /* ContentTableViewCell.swift */,
 				50F832B61E371E720008921B /* ContentTableViewCellImage.xib */,
 				50F832B71E371E720008921B /* ContentTableViewCellNoImage.xib */,
-				5068AC6B1E417ED800F1D802 /* LoadingIndicatorViewController.swift */,
 			);
 			path = MainWindow;
 			sourceTree = "<group>";
@@ -914,7 +911,6 @@
 				50F8329C1E371D4D0008921B /* LoggedInViewController.swift in Sources */,
 				50F832A81E371D900008921B /* SourceListViewController.swift in Sources */,
 				50F832B31E371E360008921B /* SortSelectingViewController.swift in Sources */,
-				5068AC6C1E417ED800F1D802 /* LoadingIndicatorViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

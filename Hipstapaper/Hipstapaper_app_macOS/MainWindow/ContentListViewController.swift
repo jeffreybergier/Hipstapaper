@@ -37,6 +37,7 @@ class ContentListViewController: NSViewController, RealmControllable {
     
     weak var realmController: RealmController? {
         didSet {
+            self.loadingIndicatorViewController?.realmController = self.realmController
             self.hardReloadData()
         }
     }
@@ -45,6 +46,7 @@ class ContentListViewController: NSViewController, RealmControllable {
     
     @IBOutlet private weak var tableView: NSTableView?
     @IBOutlet private weak var scrollView: NSScrollView?
+    @IBOutlet private weak var loadingIndicatorViewController: LoadingIndicatorViewController?
     @IBOutlet private weak var sortVC: SortSelectingViewController? {
         didSet {
             guard let sortVC = self.sortVC else { return }

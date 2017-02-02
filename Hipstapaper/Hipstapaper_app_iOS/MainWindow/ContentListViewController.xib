@@ -32,24 +32,24 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="36"/>
                     <subviews>
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hcO-oX-2qT">
-                            <rect key="frame" x="82" y="0.0" width="157" height="36"/>
+                            <rect key="frame" x="78" y="0.0" width="165.5" height="36"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="wfX-Gy-vNv">
-                                    <rect key="frame" x="20" y="8" width="117" height="20"/>
+                                    <rect key="frame" x="20" y="8" width="125.5" height="20"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Syncronizing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yrK-hM-Fxq">
-                                            <rect key="frame" x="0.0" y="1" width="89" height="18"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Synchronizing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yrK-hM-Fxq">
+                                            <rect key="frame" x="0.0" y="1" width="97.5" height="18"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="cth-rn-5b9">
-                                            <rect key="frame" x="97" y="0.0" width="20" height="20"/>
+                                            <rect key="frame" x="105.5" y="0.0" width="20" height="20"/>
                                         </activityIndicatorView>
                                     </subviews>
                                 </stackView>
                             </subviews>
-                            <color key="backgroundColor" red="0.53176540798611116" green="1" blue="0.88688714912024036" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" red="1" green="0.76542426819999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstItem="wfX-Gy-vNv" firstAttribute="top" secondItem="hcO-oX-2qT" secondAttribute="top" constant="8" id="6ZE-sQ-X9e"/>
                                 <constraint firstItem="wfX-Gy-vNv" firstAttribute="leading" secondItem="hcO-oX-2qT" secondAttribute="leading" constant="20" symbolic="YES" id="6o4-mP-fBv"/>
@@ -76,7 +76,7 @@
                 <constraint firstItem="Zpg-R3-Bgp" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="xG8-jM-4pd"/>
             </constraints>
         </view>
-        <customObject id="A4P-1n-1BV" customClass="LoadingIndicatorViewController" customModule="Hipstapaper" customModuleProvider="target">
+        <customObject id="A4P-1n-1BV" customClass="LoadingIndicatorViewController" customModule="Common">
             <connections>
                 <outlet property="loadingView" destination="hcO-oX-2qT" id="jbh-Ym-dNk"/>
                 <outlet property="spinner" destination="cth-rn-5b9" id="J8z-vm-kBQ"/>

@@ -6,13 +6,6 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
-#if os(OSX)
-    import AppKit
-    public typealias XPViewController = NSViewController
-#else
-    import UIKit
-    public typealias XPViewController = UIViewController
-#endif
 import WebKit
 
 extension WKWebView: KVOCapable {}
@@ -94,13 +87,6 @@ open class XPURLShareViewController: XPViewController {
     #endif
 }
 
-#if os(OSX)
-    fileprivate typealias XPImage = NSImage
-    fileprivate typealias XPView = NSView
-#else
-    fileprivate typealias XPImage = UIImage
-    fileprivate typealias XPView = UIView
-#endif
 fileprivate extension XPURLShareViewController {
     fileprivate class func xpSnapshot(of view: XPView) -> XPImage? {
         #if os(OSX)

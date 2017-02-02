@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window = UIWindow(frame: UIScreen.main.bounds)
         }
         
-        UIView.appearance().tintColor = UIColor(red: 0, green: 204/255.0, blue: 197/255.0, alpha: 1)
+        UIView.appearance().tintColor = Color.tintColor
         
         self.window?.rootViewController = rootViewController
         self.window?.backgroundColor = .white
