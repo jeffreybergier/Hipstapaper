@@ -17,8 +17,11 @@ extension SerializableURLItem {
         // create the object to return
         let outputItem = SerializableURLItem()
         
-        // get the title
-        outputItem.pageTitle = extensionItem.attributedContentText?.string
+        // get the title and the content
+        // afterward we might overwrite the things with the attachments
+        // the attachments are more precise, but not always there
+        outputItem.pageTitle = extensionItem.attributedTitle?.string
+        outputItem.urlString = URL(string: extensionItem.attributedContentText?.string ?? "A Z A")?.absoluteString
         
         // since this is all async, we need to make sure we return only when the object is full
         // hitcount goes from 0 to 2, because there are 3 properties of this object
@@ -45,38 +48,69 @@ extension SerializableURLItem {
         guard let attachments = extensionItem.attachments as? [NSItemProvider] else { handler(.error); return; }
         for attachment in attachments.reversed() {
             // load the URL for the object
-            attachment.loadItem(forTypeIdentifier: kUTTypeURL as String, options: .none) { secureCoding, error in
-                //https://developer.apple.com/library/content/documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html
-                // public.url (kUTTypeURL) public.data 'url'   Uniform Resource Locator.
-                //      this one finds File and Web Page URLs
-                // public.file-url (kUTTypeFileURL)    public.url  'furl'  File URL.
-                //      this one finds only File URLs and not web pages
-                // public.url-name -   'urln'  URL name.
-                //      not sure what this one does, it didn't find either
-                
-                let url = secureCoding as? URL
+            attachment.loadURL() { url in
                 if let urlString = url?.absoluteString {
                     outputItem.urlString = urlString
+                    hitCount += 1 // only do this hitcount if we found the url
+                } else {
+                    // sometimes the extension only provides the URL as a plain text object
+                    // if we don't find a real URL, we will fall back to the plain text
+                    attachment.loadURLString() { urlString in
+                        let urlString = urlString
+                        if let urlString = urlString {
+                            outputItem.urlString = urlString
+                            outputItem.pageTitle = .none // in this case the page title was actually the URL, so clear it out
+                        }
+                        hitCount += 1 // always do this hitcount because if we fail we need to move on
+                    }
                 }
-                hitCount += 1
             }
             
             // load a preview image for the object
-            #if os(OSX)
-                let desiredImageSize = NSValue(size: NSSize(width: 512, height: 512))
-            #else
-                let desiredImageSize = NSValue(cgSize: CGSize(width: 512, height: 512))
-            #endif
-            attachment.loadPreviewImage(options: [NSItemProviderPreferredImageSizeKey : desiredImageSize]) { secureCoding, error in
-                #if os(OSX)
-                    let discoveredImage = secureCoding as? NSImage
-                #else
-                    let discoveredImage = secureCoding as? UIImage
-                #endif
-                if let discoveredImage = discoveredImage {
-                    outputItem.image = discoveredImage
+            attachment.loadImage() { image in
+                if let image = image {
+                    outputItem.image = image
                 }
                 hitCount += 1
+            }
+        }
+    }
+}
+
+fileprivate extension NSItemProvider {
+    fileprivate func loadURL(_ completion: @escaping (URL?) -> Void) {
+        //https://developer.apple.com/library/content/documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html
+        // public.url (kUTTypeURL) public.data 'url'   Uniform Resource Locator.
+        //      this one finds File and Web Page URLs
+        // public.file-url (kUTTypeFileURL)    public.url  'furl'  File URL.
+        //      this one finds only File URLs and not web pages
+        // public.url-name -   'urln'  URL name.
+        //      not sure what this one does, it didn't find either
+        self.loadItem(forTypeIdentifier: kUTTypeURL as String, options: .none) { secureCoding, error in
+            let url = secureCoding as? URL
+            DispatchQueue.main.async {
+                completion(url)
+            }
+        }
+    }
+    
+    fileprivate func loadURLString(_ completion: @escaping (String?) -> Void) {
+        self.loadItem(forTypeIdentifier: kUTTypePlainText as String, options: .none) { secureCoding, error in
+            let urlString = (secureCoding as? String) ?? "z   A  z A" //fallback to non URL compatible string
+            let url = URL(string: urlString)
+            DispatchQueue.main.async {
+                completion(url?.absoluteString)
+            }
+        }
+    }
+    
+    fileprivate func loadImage(_ completion: @escaping (XPImage?) -> Void) {
+        // load a preview image for the object
+        let desiredImageSize = NSValue(xpSizeWidth: 512, xpSizeHeight: 512)
+        self.loadPreviewImage(options: [NSItemProviderPreferredImageSizeKey : desiredImageSize]) { secureCoding, error in
+            let discoveredImage = secureCoding as? XPImage
+            DispatchQueue.main.async {
+                completion(discoveredImage)
             }
         }
     }

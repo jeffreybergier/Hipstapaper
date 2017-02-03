@@ -25,6 +25,11 @@ import Foundation
 #endif
 
 #if os(OSX)
+    extension NSValue {
+        convenience init(xpSizeWidth: CGFloat, xpSizeHeight: CGFloat) {
+            self.init(size: NSSize(width: xpSizeWidth, height: xpSizeHeight))
+        }
+    }
     extension XPView {
         var xpLayer: CALayer? {
             if self.layer == .none {
@@ -34,6 +39,11 @@ import Foundation
         }
     }
 #else
+    extension NSValue {
+        convenience init(xpSizeWidth: CGFloat, xpSizeHeight: CGFloat) {
+            self.init(cgSize: CGSize(width: 512, height: 512))
+        }
+    }
     extension XPView {
         var xpLayer: CALayer? {
             return self.layer
