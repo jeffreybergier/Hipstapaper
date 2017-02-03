@@ -143,28 +143,33 @@ class ContentListViewController: UIViewController, RealmControllable {
         
         // configure data source
         self.data = self.realmController?.url_loadAll(for: itemsToLoad, sortedBy: sortOrder, filteredBy: filter)
-        self.notificationToken = self.data?.addNotificationBlock(self.realmResultsChangeClosure)
+        self.notificationToken = self.data?.addNotificationBlock({ [weak self] in self?.realmResultsChanged($0) })
     }
     
-    private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<URLItem>>) -> Void) = { [weak self] changes in
+    private func realmResultsChanged(_ changes: RealmCollectionChange<Results<URLItem>>) {
         switch changes {
         case .initial:
-            self?.tableView?.reloadData()
+            self.tableView?.reloadData()
+            if (self.tableView?.isEditing ?? false) == true {
+                let previousSelectionPredicates = UserDefaults.standard.selectedURLItemUUIDStrings?.map({ "\(#keyPath(URLItem.uuid)) = '\($0)'" })
+                let previousSelectionIndexes = self.data?.indexes(matchingPredicates: previousSelectionPredicates ?? [])
+                previousSelectionIndexes?.forEach({ self.tableView?.selectRow(at: IndexPath(row: $0, section: 0), animated: false, scrollPosition: .none) })
+            }
         case .update(_, let deletions, let insertions, let modifications):
-            self?.tableView?.beginUpdates()
-            self?.tableView?.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .left)
-            self?.tableView?.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }), with: .right)
-            self?.tableView?.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
-            self?.tableView?.endUpdates()
-            let itemsSelectedAfterUpdate = self?.selectedURLItems ?? []
-            self?.updateBBI(with: itemsSelectedAfterUpdate)
+            self.tableView?.beginUpdates()
+            self.tableView?.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .left)
+            self.tableView?.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }), with: .right)
+            self.tableView?.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
+            self.tableView?.endUpdates()
+            let itemsSelectedAfterUpdate = self.selectedURLItems ?? []
+            self.updateBBI(with: itemsSelectedAfterUpdate)
         case .error(let error):
             let alert = UIAlertController(title: "Error Loading Reading List", message: error.localizedDescription, preferredStyle: .alert)
             let action = UIAlertAction(title: "Dismiss", style: .cancel, handler: .none)
             alert.addAction(action)
-            self?.present(alert, animated: true, completion: .none)
-            self?.data = .none
-            self?.tableView?.reloadData()
+            self.present(alert, animated: true, completion: .none)
+            self.data = .none
+            self.tableView?.reloadData()
         }
     }
     
@@ -321,6 +326,7 @@ extension ContentListViewController /* Handle BarButtonItems */ {
     
     @objc fileprivate func doneBBITapped(_ sender: NSObject?) {
         self.emergencyDismiss() { // dismisses any popovers and then does the action
+            UserDefaults.standard.selectedURLItemUUIDStrings = .none
             self.tableView?.setEditing(false, animated: true)
             let items = [
                 self.sortBBI,
@@ -381,6 +387,7 @@ extension ContentListViewController /* Handle BarButtonItems */ {
     }
     
     fileprivate func updateBBI(with items: [URLItem]) {
+        UserDefaults.standard.selectedURLItemUUIDStrings = items.map({ $0.uuid })
         if items.isEmpty {
             self.disableAllBBI()
         } else {
@@ -446,6 +453,7 @@ extension ContentListViewController: UITableViewDelegate {
         if tableView.isEditing {
             self.updateBBI(with: selectedItems)
         } else {
+            UserDefaults.standard.selectedURLItemUUIDStrings = .none
             guard let selectedItem = selectedItems.first, let url = URL(string: selectedItem.urlString) else { return }
             let sfVC = WebBrowserViewController(url: url, previewActions: .none)
             self.present(sfVC, animated: true, completion: .none)

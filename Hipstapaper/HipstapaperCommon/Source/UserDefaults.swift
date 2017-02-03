@@ -15,6 +15,18 @@ public extension UserDefaults {
         fileprivate static let filter = "kFilterKey"
         fileprivate static let tagDisplayName = "kTagDisplayNameKey"
         fileprivate static let tagUniqueName = "kTagUniqueNameKey"
+        fileprivate static let selectedItems = "kSelectedItemsKeys"
+    }
+    
+    public var selectedURLItemUUIDStrings: [String]? {
+        get {
+            let untyped = self.object(forKey: Keys.selectedItems) as? NSArray
+            let typed = untyped?.map({ $0 as? String }).flatMap({ $0 })
+            if typed?.isEmpty == true { return .none } else { return typed }
+        }
+        set {
+            self.set(newValue, forKey: Keys.selectedItems)
+        }
     }
     
     public var userSelection: (itemsToLoad: URLItem.ItemsToLoad, sortOrder: URLItem.SortOrder, filter: URLItem.ArchiveFilter) {

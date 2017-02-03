@@ -6,7 +6,21 @@
 //
 //
 
-//import Foundation
+import RealmSwift
+
+public extension Results {
+    public func indexes(matchingPredicates predicates: [String]) -> [Int]? {
+        let matches = predicates.map({ self.filter($0).first }).flatMap({ $0 })
+        let indexes = matches.map({ self.index(of: $0) }).flatMap({ $0 })
+        if indexes.isEmpty == true { return .none } else { return indexes }
+    }
+    
+    public func index(matchingPredicate predicate: String) -> Int? {
+        guard let match = self.filter(predicate).first else { return .none }
+        let index = self.index(of: match)
+        return index
+    }
+}
 
 public enum XPBackgroundFetchResult: UInt {
     case newData = 0, noData, failed

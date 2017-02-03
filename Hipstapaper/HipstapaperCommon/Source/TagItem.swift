@@ -29,10 +29,9 @@ final public class TagItem: Object {
     
     public internal(set) dynamic var name = "Untitled Tag"
     public internal(set) dynamic var normalizedNameHash: String = TagItem.normalize("Untitled Tag")
-    public let items = LinkingObjects(fromType: URLItem.self, property: "tags")
+    public let items = LinkingObjects(fromType: URLItem.self, property: "tags") // Argument of '#keyPath' refers to non-'@objc' property 'tags'
     
     override public static func primaryKey() -> String {
-        // return #keyPath(self.normalizedNameHash) // Argument of '#keyPath' refers to non-'@objc' property 'self'
-        return "normalizedNameHash"
+        return #keyPath(TagItem.normalizedNameHash)
     }
 }

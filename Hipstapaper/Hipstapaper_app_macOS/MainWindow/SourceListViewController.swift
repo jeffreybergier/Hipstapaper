@@ -174,11 +174,12 @@ extension SourceListViewController: URLItemsToLoadChangeDelegate {
                     self.outlineView?.selectRowIndexes(IndexSet([parentIndex + 2]), byExtendingSelection: false)
                 }
             case .tag(let tagID):
+                let predicate = "\(#keyPath(TagItem.normalizedNameHash)) = '\(tagID.idName)'"
                 guard
                     let parentIndex = self.outlineView?.row(forItem: self.tagParent),
-                    let matchingTagIndex = self.data?.enumerated().filter({ $0.element.normalizedNameHash == tagID.idName }).map({ $0.offset }).first
-                else { break }
-                self.outlineView?.selectRowIndexes(IndexSet([parentIndex + matchingTagIndex + 1]), byExtendingSelection: false)
+                    let index = self.data?.index(matchingPredicate: predicate)
+                else { return }
+                self.outlineView?.selectRowIndexes(IndexSet([parentIndex + index + 1]), byExtendingSelection: false)
             }
         }
     }

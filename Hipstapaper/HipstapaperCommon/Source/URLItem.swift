@@ -21,8 +21,7 @@ final public class URLItem: Object {
     public internal(set) dynamic var modificationDate = Date()
     
     override public static func primaryKey() -> String {
-        //return #keyPath(self.uuid) // Argument of '#keyPath' refers to non-'@objc' property 'self'
-        return "uuid"
+        return #keyPath(URLItem.uuid)
     }
     
 }

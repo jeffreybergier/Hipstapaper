@@ -17,7 +17,7 @@ class SourceListViewController: UIViewController, RealmControllable {
     }
     
     @IBOutlet private weak var tableView: UITableView?
-    fileprivate var tags: Results<TagItem>?
+    fileprivate var data: Results<TagItem>?
     
     fileprivate weak var selectionDelegate: URLItemsToLoadChangeDelegate?
     
@@ -51,12 +51,12 @@ class SourceListViewController: UIViewController, RealmControllable {
         // reset everything
         self.notificationToken?.stop()
         self.notificationToken = .none
-        self.tags = .none
+        self.data = .none
         if self.tableView?.numberOfRows(inSection: 0) != 0 { self.tableView?.reloadData() } // helps reduce flickering the tableview is already empty
         
         // reload everything
-        self.tags = self.realmController?.tag_loadAll()
-        self.notificationToken = self.tags?.addNotificationBlock(self.tableUpdateClosure)
+        self.data = self.realmController?.tag_loadAll()
+        self.notificationToken = self.data?.addNotificationBlock(self.tableUpdateClosure)
     }
     
     private lazy var tableUpdateClosure: ((RealmCollectionChange<Results<TagItem>>) -> Void) = { [weak self] changes in
@@ -93,7 +93,7 @@ class SourceListViewController: UIViewController, RealmControllable {
             let action = UIAlertAction(title: "Dismiss", style: .cancel, handler: .none)
             alert.addAction(action)
             self?.present(alert, animated: true, completion: .none)
-            self?.tags = .none
+            self?.data = .none
             self?.tableView?.reloadData()
         }
     }
@@ -128,7 +128,8 @@ class SourceListViewController: UIViewController, RealmControllable {
                 self.tableView?.selectRow(at: IndexPath(row: 0, section: Section.readingList.rawValue), animated: animated, scrollPosition: .top)
             }
         case .tag(let tagID):
-            guard let index = self.tags?.enumerated().filter({ $0.element.normalizedNameHash == tagID.idName }).map({ $0.offset }).first else { return }
+            let predicate = "\(#keyPath(TagItem.normalizedNameHash)) = '\(tagID.idName)'"
+            guard let index = self.data?.index(matchingPredicate: predicate) else { return }
             self.tableView?.selectRow(at: IndexPath(row: index, section: Section.tags.rawValue), animated: animated, scrollPosition: .top)
         }
     }
@@ -184,7 +185,7 @@ extension SourceListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        guard let section = Section(rawValue: indexPath.section), section == .tags, editingStyle == .delete, let tagItem = self.tags?[indexPath.row] else { return }
+        guard let section = Section(rawValue: indexPath.section), section == .tags, editingStyle == .delete, let tagItem = self.data?[indexPath.row] else { return }
         self.realmController?.delete(tagItem)
     }
     
@@ -197,7 +198,7 @@ extension SourceListViewController: UITableViewDelegate {
             itemsToLoad = .all
             filter = indexPath.row == 0 ? .unarchived : .all
         case .tags:
-            guard let tagItem = self.tags?[indexPath.row] else { fatalError() }
+            guard let tagItem = self.data?[indexPath.row] else { fatalError() }
             itemsToLoad = .tag(TagItem.UIIdentifier(idName: tagItem.normalizedNameHash, displayName: tagItem.name))
             filter = .all
         }
@@ -215,7 +216,7 @@ extension SourceListViewController: UITableViewDataSource {
         case .readingList:
             return 2
         case .tags:
-            return self.tags?.count ?? 0
+            return self.data?.count ?? 0
         }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -227,7 +228,7 @@ extension SourceListViewController: UITableViewDataSource {
         case .readingList:
             cell.textLabel?.text = indexPath.row == 0 ? "Unread Items" : "All Items"
         case .tags:
-            guard let tagItem = self.tags?[indexPath.row] else { return cell }
+            guard let tagItem = self.data?[indexPath.row] else { return cell }
             cell.textLabel?.text = tagItem.name
             cell.detailTextLabel?.text = "\(tagItem.items.count)"
         }

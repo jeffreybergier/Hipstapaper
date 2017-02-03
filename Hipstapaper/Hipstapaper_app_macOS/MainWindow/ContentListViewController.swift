@@ -29,7 +29,7 @@ class ContentListViewController: NSViewController, RealmControllable {
     
     // MARK: Data
     
-    fileprivate var data: Results<URLItem>?
+    private(set) fileprivate var data: Results<URLItem>?
     
     fileprivate var selectedURLItems: [URLItem]? {
         let items = self.tableView?.selectedRowIndexes.map({ self.data?[$0] }).flatMap({ $0 }) ?? []
@@ -45,7 +45,7 @@ class ContentListViewController: NSViewController, RealmControllable {
     
     // MARK Outlets
     
-    @IBOutlet private weak var tableView: NSTableView?
+    @IBOutlet private(set) fileprivate weak var tableView: NSTableView?
     @IBOutlet private weak var scrollView: NSScrollView?
     @IBOutlet private weak var loadingIndicatorViewController: LoadingIndicatorViewController?
     @IBOutlet private weak var sortVC: SortSelectingViewController? {
@@ -117,7 +117,10 @@ class ContentListViewController: NSViewController, RealmControllable {
     private func realmResultsChanged(_ changes: RealmCollectionChange<Results<URLItem>>) {
         switch changes {
         case .initial:
+            let previousSelectionPredicates = UserDefaults.standard.selectedURLItemUUIDStrings?.map({ "\(#keyPath(URLItem.uuid)) = '\($0)'" })
+            let previousSelectionIndexes = self.data?.indexes(matchingPredicates: previousSelectionPredicates ?? [])
             self.tableView?.reloadData()
+            self.tableView?.selectRowIndexes(IndexSet(previousSelectionIndexes ?? []), byExtendingSelection: false)
         case .update(_, let deletions, let insertions, let modifications):
             self.tableView?.beginUpdates()
             self.tableView?.removeRows(at: IndexSet(deletions), withAnimation: .slideLeft)
@@ -318,6 +321,12 @@ extension ContentListViewController: URLItemsToLoadChangeDelegate {
                 changedSomething = true
             }
             if changedSomething {
+                if sender == .sourceListVC {
+                    // double check this.
+                    // during fallthrough from tertiaryvc
+                    // we don't want the selection to be cleared
+                    self.tableView?.deselectAll(self)
+                }
                 self.hardReloadData()
             }
         }
@@ -361,6 +370,10 @@ extension ContentListViewController: NSTableViewDelegate {
         archiveToggleAction.backgroundColor = Color.tintColor
         
         return [tagAction, archiveToggleAction]
+    }
+    
+    func tableViewSelectionDidChange(_ notification: Notification) {
+        UserDefaults.standard.selectedURLItemUUIDStrings = self.selectedURLItems?.map({ $0.uuid })
     }
 }
 
