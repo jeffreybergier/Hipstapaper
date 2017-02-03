@@ -116,6 +116,9 @@
                     <toolbarItem reference="atn-DW-fwA"/>
                     <toolbarItem reference="4LT-qX-wd9"/>
                 </defaultToolbarItems>
+                <connections>
+                    <outlet property="window" destination="QvC-M9-y7g" id="sHC-qN-Hr9"/>
+                </connections>
             </toolbar>
             <connections>
                 <outlet property="delegate" destination="-2" id="A2v-y2-Zpu"/>

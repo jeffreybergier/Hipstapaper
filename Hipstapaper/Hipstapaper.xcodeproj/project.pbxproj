@@ -25,7 +25,7 @@
 		5078B8131E43FE9400AA35E6 /* LoadingIndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5078B8121E43FE9400AA35E6 /* LoadingIndicatorViewController.swift */; };
 		50841AFC1E21B7AC008621BB /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50841AFB1E21B7AC008621BB /* FrameworkExtensions.swift */; };
 		5085A15E1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A15C1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift */; };
-		5085A15F1E3429D800F8EC34 /* ValidatingToolbarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A15D1E3429D800F8EC34 /* ValidatingToolbarItem.swift */; };
+		5085A15F1E3429D800F8EC34 /* ValidatingToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A15D1E3429D800F8EC34 /* ValidatingToolbar.swift */; };
 		5085A1661E342A4700F8EC34 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A1621E342A4700F8EC34 /* MainWindowController.swift */; };
 		5085A1671E342A4700F8EC34 /* ContentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A1631E342A4700F8EC34 /* ContentListViewController.swift */; };
 		5085A1681E342A4700F8EC34 /* SourceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A1641E342A4700F8EC34 /* SourceListViewController.swift */; };
@@ -165,7 +165,7 @@
 		5078B8121E43FE9400AA35E6 /* LoadingIndicatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorViewController.swift; sourceTree = "<group>"; };
 		50841AFB1E21B7AC008621BB /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		5085A15C1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleInterfaceStyleWindowAppearanceSwitcher.swift; sourceTree = "<group>"; };
-		5085A15D1E3429D800F8EC34 /* ValidatingToolbarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidatingToolbarItem.swift; sourceTree = "<group>"; };
+		5085A15D1E3429D800F8EC34 /* ValidatingToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidatingToolbar.swift; sourceTree = "<group>"; };
 		5085A1621E342A4700F8EC34 /* MainWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		5085A1631E342A4700F8EC34 /* ContentListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentListViewController.swift; sourceTree = "<group>"; };
 		5085A1641E342A4700F8EC34 /* SourceListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceListViewController.swift; sourceTree = "<group>"; };
@@ -382,7 +382,7 @@
 			isa = PBXGroup;
 			children = (
 				5085A15C1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift */,
-				5085A15D1E3429D800F8EC34 /* ValidatingToolbarItem.swift */,
+				5085A15D1E3429D800F8EC34 /* ValidatingToolbar.swift */,
 				5097167A1E3EDAB600FC12A2 /* MenuController.swift */,
 			);
 			path = HelperClasses;
@@ -943,7 +943,7 @@
 				5085A1661E342A4700F8EC34 /* MainWindowController.swift in Sources */,
 				509716651E3ED2DE00FC12A2 /* LoggedInViewController.swift in Sources */,
 				509716761E3ED78700FC12A2 /* WebBrowserCreator.swift in Sources */,
-				5085A15F1E3429D800F8EC34 /* ValidatingToolbarItem.swift in Sources */,
+				5085A15F1E3429D800F8EC34 /* ValidatingToolbar.swift in Sources */,
 				5097167B1E3EDAB600FC12A2 /* MenuController.swift in Sources */,
 				5085A15E1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift in Sources */,
 				509716741E3ED78700FC12A2 /* WebBrowserWindowController.swift in Sources */,
