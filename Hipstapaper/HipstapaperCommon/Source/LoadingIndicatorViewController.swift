@@ -6,7 +6,6 @@
 //  Copyright © 2017 Jeffrey Bergier. All rights reserved.
 //
 
-import Common
 import RealmSwift
 #if os(OSX)
     import AppKit
@@ -14,7 +13,7 @@ import RealmSwift
     import UIKit
 #endif
 
-final public class LoadingIndicatorViewController: XPViewController, RealmControllable {
+open class LoadingIndicatorViewController: XPViewController, RealmControllable {
     
     // MARK: Custom Type
     
@@ -73,20 +72,20 @@ final public class LoadingIndicatorViewController: XPViewController, RealmContro
     
     // MARK: View Controller Lifecycle
     
-    override public func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
-        self.loadingView?.xpLayer?.backgroundColor = Color.iconColor.cgColor
+        self.setBackgroundColor(Color.iconColor)
         self.configureShadow()
         self.state = .synchronizing
     }
     
     #if os(OSX)
-    override public func viewDidLayout() {
+    override open func viewDidLayout() {
         super.viewDidLayout()
         self.updatePillShapeOnLoadingView()
     }
     #else
-    override public func viewDidLayoutSubviews() {
+    override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.updatePillShapeOnLoadingView()
     }
@@ -99,6 +98,10 @@ final public class LoadingIndicatorViewController: XPViewController, RealmContro
     // MARK: Appearance
     
     #if os(OSX)
+    open func setBackgroundColor(_ newValue: NSColor) {
+        self.loadingView?.xpLayer?.backgroundColor = newValue.cgColor
+    }
+    
     private func configureShadow() {
         let shadow = NSShadow()
         shadow.shadowOffset = NSSize(width: 0, height: -1)
@@ -107,6 +110,10 @@ final public class LoadingIndicatorViewController: XPViewController, RealmContro
         self.loadingView?.shadow = shadow
     }
     #else
+    open func setBackgroundColor(_ newValue: UIColor) {
+        self.loadingView?.xpLayer?.backgroundColor = newValue.cgColor
+    }
+    
     private func configureShadow() {
         self.loadingView?.xpLayer?.masksToBounds = false
         self.loadingView?.xpLayer?.shadowOffset = CGSize(width: 0, height: 1)

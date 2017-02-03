@@ -12,10 +12,22 @@ class AppleInterfaceStyleWindowAppearanceSwitcher {
     
     enum Style: String {
         case light, dark
+        
         static var system: Style {
             let styleString = UserDefaults.standard.string(forKey: "AppleInterfaceStyle") ?? "Light"
             let style = Style(rawValue: styleString.lowercased())
             return style ?? .light
+        }
+        
+        init(appearance: NSAppearance) {
+            switch appearance.name {
+            case NSAppearanceNameVibrantLight:
+                self = .light
+            case NSAppearanceNameVibrantDark:
+                self = .dark
+            default:
+                self = .light
+            }
         }
     }
     

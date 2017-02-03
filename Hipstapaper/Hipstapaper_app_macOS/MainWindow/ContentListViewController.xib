@@ -6,7 +6,6 @@
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
         <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
-        <capability name="system font weights other than Regular or Bold" minToolsVersion="7.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="ContentListViewController" customModule="Hipstapaper" customModuleProvider="target">
@@ -158,24 +157,24 @@
                     </scroller>
                 </scrollView>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="ypa-lH-hHy">
-                    <rect key="frame" x="0.0" y="558" width="736" height="140"/>
+                    <rect key="frame" x="0.0" y="559" width="736" height="139"/>
                     <subviews>
                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="6bz-7g-bVy">
-                            <rect key="frame" x="288.5" y="12" width="159" height="34"/>
+                            <rect key="frame" x="292.5" y="12" width="150" height="33"/>
                             <subviews>
                                 <stackView distribution="fill" orientation="horizontal" alignment="bottom" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ly7-h7-ZBH">
-                                    <rect key="frame" x="20" y="8" width="119" height="18"/>
+                                    <rect key="frame" x="20" y="8" width="110" height="17"/>
                                     <subviews>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TFr-h3-mM6">
-                                            <rect key="frame" x="-2" y="0.0" width="99" height="18"/>
+                                            <rect key="frame" x="-2" y="0.0" width="90" height="17"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Synchronizing" id="JhD-Lt-2H5">
-                                                <font key="font" metaFont="systemMedium" size="14"/>
-                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="windowFrameTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
                                         <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="o2W-0k-s8r">
-                                            <rect key="frame" x="103" y="0.0" width="16" height="16"/>
+                                            <rect key="frame" x="94" y="0.0" width="16" height="16"/>
                                         </progressIndicator>
                                     </subviews>
                                     <visibilityPriorities>
@@ -306,7 +305,7 @@ CA
                 <outlet property="view" destination="QFk-hp-bft" id="zHD-BH-ulQ"/>
             </connections>
         </customObject>
-        <customObject id="ngn-gp-2qd" customClass="LoadingIndicatorViewController" customModule="Common">
+        <customObject id="ngn-gp-2qd" customClass="AppearanceObservingLoadingIndicatorViewController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
                 <outlet property="loadingView" destination="6bz-7g-bVy" id="tyr-it-cGQ"/>
                 <outlet property="spinner" destination="o2W-0k-s8r" id="Oru-ms-otD"/>

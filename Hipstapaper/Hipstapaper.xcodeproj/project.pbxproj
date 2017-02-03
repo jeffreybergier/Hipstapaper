@@ -22,6 +22,7 @@
 		506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506A3F071DD6C10C00A5656E /* AppDelegate.swift */; };
 		506A3F0A1DD6C10D00A5656E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F091DD6C10D00A5656E /* Assets.xcassets */; };
 		506A3F0D1DD6C10D00A5656E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F0B1DD6C10D00A5656E /* MainMenu.xib */; };
+		5078B8131E43FE9400AA35E6 /* LoadingIndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5078B8121E43FE9400AA35E6 /* LoadingIndicatorViewController.swift */; };
 		50841AFC1E21B7AC008621BB /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50841AFB1E21B7AC008621BB /* FrameworkExtensions.swift */; };
 		5085A15E1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A15C1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift */; };
 		5085A15F1E3429D800F8EC34 /* ValidatingToolbarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A15D1E3429D800F8EC34 /* ValidatingToolbarItem.swift */; };
@@ -161,6 +162,7 @@
 		506A3F0C1DD6C10D00A5656E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		506A3F0E1DD6C10D00A5656E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		506D98121DD6CFFB002E4F54 /* Hipstapaper_app_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper_app_macOS.entitlements; sourceTree = "<group>"; };
+		5078B8121E43FE9400AA35E6 /* LoadingIndicatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorViewController.swift; sourceTree = "<group>"; };
 		50841AFB1E21B7AC008621BB /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		5085A15C1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleInterfaceStyleWindowAppearanceSwitcher.swift; sourceTree = "<group>"; };
 		5085A15D1E3429D800F8EC34 /* ValidatingToolbarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidatingToolbarItem.swift; sourceTree = "<group>"; };
@@ -397,6 +399,7 @@
 				509E02791E42C2E300B4D08D /* SourceListViewController.xib */,
 				5085A1631E342A4700F8EC34 /* ContentListViewController.swift */,
 				509E027B1E42C30800B4D08D /* ContentListViewController.xib */,
+				5078B8121E43FE9400AA35E6 /* LoadingIndicatorViewController.swift */,
 				5085A1611E342A4700F8EC34 /* MainWindow.storyboard */,
 			);
 			path = MainWindow;
@@ -935,6 +938,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */,
+				5078B8131E43FE9400AA35E6 /* LoadingIndicatorViewController.swift in Sources */,
 				509716661E3ED2DE00FC12A2 /* LoginViewController.swift in Sources */,
 				5097166E1E3ED5AC00FC12A2 /* TagCreateViewController.swift in Sources */,
 				5085A1671E342A4700F8EC34 /* ContentListViewController.swift in Sources */,
