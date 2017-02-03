@@ -21,7 +21,7 @@ public extension UserDefaults {
     public var selectedURLItemUUIDStrings: [String]? {
         get {
             let untyped = self.object(forKey: Keys.selectedItems) as? NSArray
-            let typed = untyped?.map({ $0 as? String }).flatMap({ $0 })
+            let typed = untyped?.flatMap({ $0 as? String })
             if typed?.isEmpty == true { return .none } else { return typed }
         }
         set {

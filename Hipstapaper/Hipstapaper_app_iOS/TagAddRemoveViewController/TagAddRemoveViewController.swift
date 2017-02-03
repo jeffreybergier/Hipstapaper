@@ -112,7 +112,7 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: .none)
         let addAction = UIAlertAction(title: "Add", style: .default) { action in
             guard let realmController = self.realmController else { return }
-            let newName = alertVC.textFields?.map({ $0.text }).flatMap({ $0 }).first ?? ""
+            let newName = alertVC.textFields?.flatMap({ $0.text }).first ?? ""
             let tag = realmController.tag_uniqueTag(named: newName)
             realmController.tag_apply(tag: tag, to: self.itemsToTag)
         }

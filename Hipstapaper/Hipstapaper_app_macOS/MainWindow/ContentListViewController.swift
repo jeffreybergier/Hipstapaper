@@ -32,7 +32,7 @@ class ContentListViewController: NSViewController, RealmControllable {
     private(set) fileprivate var data: Results<URLItem>?
     
     fileprivate var selectedURLItems: [URLItem]? {
-        let items = self.tableView?.selectedRowIndexes.map({ self.data?[$0] }).flatMap({ $0 }) ?? []
+        let items = self.tableView?.selectedRowIndexes.flatMap({ self.data?[$0] }) ?? []
         if items.isEmpty { return .none } else { return items }
     }
     
@@ -161,7 +161,7 @@ class ContentListViewController: NSViewController, RealmControllable {
         case .open:
             return true
         case .share:
-            let items = selectedItems.map({ URL(string: $0.urlString) }).flatMap({ $0 })
+            let items = selectedItems.flatMap({ URL(string: $0.urlString) })
             guard items.isEmpty == false else { return false }
             menuItem.submenu = NSMenu(shareMenuWithItems: items)
             return true
@@ -240,14 +240,14 @@ class ContentListViewController: NSViewController, RealmControllable {
     @objc private func share(_ sender: NSObject?) {
         guard
             let button = sender as? NSButton,
-            let urls = self.selectedURLItems?.map({ URL(string: $0.urlString) }).flatMap({ $0 }),
+            let urls = self.selectedURLItems?.flatMap({ URL(string: $0.urlString) }),
             urls.isEmpty == false
         else { return }
         NSSharingServicePicker(items: urls).show(relativeTo: .zero, of: button, preferredEdge: .minY)
     }
     
     @objc func shareMenu(_ sender: NSObject?) {
-        guard let urls = self.selectedURLItems?.map({ URL(string: $0.urlString) }).flatMap({ $0 }), urls.isEmpty == false else { return }
+        guard let urls = self.selectedURLItems?.flatMap({ URL(string: $0.urlString) }), urls.isEmpty == false else { return }
         ((sender as? NSMenuItem)?.representedObject as? NSSharingService)?.perform(withItems: urls)
     }
     

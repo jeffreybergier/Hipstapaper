@@ -98,7 +98,7 @@ class SourceListViewController: NSViewController {
     // MARK: Handle NSOutlineView Menus
     
     fileprivate var selection: TreeBindingObject.Selection? {
-        let tree = self.outlineView?.selectedRowIndexes.map({ self.outlineView?.item(atRow: $0) as? TreeBindingObject }).flatMap({ $0 }).first
+        let tree = self.outlineView?.selectedRowIndexes.flatMap({ self.outlineView?.item(atRow: $0) as? TreeBindingObject }).first
         guard let item = tree else { return .none }
         if case .selectable(let selection) = item.kind {
             return selection

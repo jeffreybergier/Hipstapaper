@@ -134,7 +134,7 @@ extension RealmController {
     public func tag_applicationState(of tagItem: TagItem, on itemIDs: [URLItem.UIIdentifier]) -> CheckboxState {
         let items = self.url_existingItems(itemIDs: itemIDs)
         guard items.isEmpty == false else { return .off }
-        let matches = items.map({ $0.tags.index(of: tagItem) }).flatMap({ $0 })
+        let matches = items.flatMap({ $0.tags.index(of: tagItem) })
         if matches.count == items.count {
             // this means all items have this tag
             return .on
@@ -194,7 +194,7 @@ extension RealmController {
     
     public func url_existingItems(itemIDs: [URLItem.UIIdentifier]) -> [URLItem] {
         let realm = self.realm
-        let items = itemIDs.map({ realm.object(ofType: URLItem.self, forPrimaryKey: $0.uuid) }).flatMap({ $0 })
+        let items = itemIDs.flatMap({ realm.object(ofType: URLItem.self, forPrimaryKey: $0.uuid) })
         return items
     }
     

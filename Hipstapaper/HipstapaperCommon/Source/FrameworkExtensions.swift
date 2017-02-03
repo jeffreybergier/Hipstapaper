@@ -10,8 +10,8 @@ import RealmSwift
 
 public extension Results {
     public func indexes(matchingPredicates predicates: [String]) -> [Int]? {
-        let matches = predicates.map({ self.filter($0).first }).flatMap({ $0 })
-        let indexes = matches.map({ self.index(of: $0) }).flatMap({ $0 })
+        let matches = predicates.flatMap({ self.filter($0).first })
+        let indexes = matches.flatMap({ self.index(of: $0) })
         if indexes.isEmpty == true { return .none } else { return indexes }
     }
     
