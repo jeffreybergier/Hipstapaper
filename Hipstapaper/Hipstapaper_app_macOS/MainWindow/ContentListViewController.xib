@@ -147,8 +147,8 @@
                             </tableView>
                         </subviews>
                     </clipView>
-                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="QJV-bq-bH0">
-                        <rect key="frame" x="0.0" y="684" width="550" height="16"/>
+                    <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="QJV-bq-bH0">
+                        <rect key="frame" x="0.0" y="682" width="736" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                     <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="A3D-KQ-Avl">
@@ -200,7 +200,7 @@
                         <constraint firstAttribute="bottom" secondItem="6bz-7g-bVy" secondAttribute="bottom" constant="12" id="XbT-Bu-lZg"/>
                     </constraints>
                 </customView>
-                <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QFk-hp-bft" customClass="WindowObservingView" customModule="Hipstapaper" customModuleProvider="target">
+                <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QFk-hp-bft">
                     <rect key="frame" x="0.0" y="616" width="736" height="32"/>
                     <subviews>
                         <visualEffectView blendingMode="withinWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="hW4-zY-Xat">

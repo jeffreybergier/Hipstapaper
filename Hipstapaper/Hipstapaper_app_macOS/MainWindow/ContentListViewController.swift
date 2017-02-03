@@ -6,6 +6,7 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
+import Aspects
 import RealmSwift
 import Common
 import Social
@@ -64,6 +65,11 @@ class ContentListViewController: NSViewController, RealmControllable {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.windowLoader.windowControllerDelegate = self
+        
+        if let sortVC = self.sortVC {
+            let sortVCMovedToWindow: @convention(block) (Void) -> Void = { [weak self] in self?.sortSelectingViewDidMoveToWindow() }
+            self.sortVCMoveToWindowToken = try? sortVC.view.aspect_hook(#selector(NSView.viewDidMoveToWindow), with: [], usingBlock: sortVCMovedToWindow)
+        }
     }
     
     func sortSelectingViewDidMoveToWindow() {
@@ -275,9 +281,11 @@ class ContentListViewController: NSViewController, RealmControllable {
     
     // MARK: Handle Going Away
     
+    private var sortVCMoveToWindowToken: AspectToken?
     private var notificationToken: NotificationToken?
 
     deinit {
+        self.sortVCMoveToWindowToken?.remove()
         self.notificationToken?.stop()
     }
 }
@@ -348,7 +356,10 @@ extension ContentListViewController: NSTableViewDelegate {
             let tagVC = TagAddRemoveViewController(itemsToTag: [itemID], controller: realmController)
             self.presentViewController(tagVC, asPopoverRelativeTo: .zero, of: actionButtonView, preferredEdge: .minY, behavior: .transient)
         }
+        
         tagAction.backgroundColor = NSColor.lightGray
+        archiveToggleAction.backgroundColor = Color.tintColor
+        
         return [tagAction, archiveToggleAction]
     }
 }

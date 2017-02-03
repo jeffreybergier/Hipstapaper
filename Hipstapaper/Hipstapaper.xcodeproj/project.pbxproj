@@ -166,7 +166,6 @@
 		50841AFB1E21B7AC008621BB /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		5085A15C1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleInterfaceStyleWindowAppearanceSwitcher.swift; sourceTree = "<group>"; };
 		5085A15D1E3429D800F8EC34 /* ValidatingToolbarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidatingToolbarItem.swift; sourceTree = "<group>"; };
-		5085A1611E342A4700F8EC34 /* MainWindow.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainWindow.storyboard; sourceTree = "<group>"; };
 		5085A1621E342A4700F8EC34 /* MainWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		5085A1631E342A4700F8EC34 /* ContentListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentListViewController.swift; sourceTree = "<group>"; };
 		5085A1641E342A4700F8EC34 /* SourceListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourceListViewController.swift; sourceTree = "<group>"; };
@@ -400,7 +399,6 @@
 				5085A1631E342A4700F8EC34 /* ContentListViewController.swift */,
 				509E027B1E42C30800B4D08D /* ContentListViewController.xib */,
 				5078B8121E43FE9400AA35E6 /* LoadingIndicatorViewController.swift */,
-				5085A1611E342A4700F8EC34 /* MainWindow.storyboard */,
 			);
 			path = MainWindow;
 			sourceTree = "<group>";

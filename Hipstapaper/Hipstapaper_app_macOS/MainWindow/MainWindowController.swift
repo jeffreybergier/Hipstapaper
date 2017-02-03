@@ -21,7 +21,6 @@ class MainWindowController: NSWindowController, RealmControllable {
     
     // MARK: References to child view controllers
     
-    private let splitViewController = NSSplitViewController()
     let contentListViewController = ContentListViewController()
     fileprivate let sourceListViewController = SourceListViewController()
     
@@ -46,15 +45,16 @@ class MainWindowController: NSWindowController, RealmControllable {
         let _ = self.appearanceSwitcher
         
         // configure the splitview within the window
-        self.splitViewController.view.wantsLayer = true
-        self.window!.contentView = self.splitViewController.view
-        self.window!.contentViewController = self.splitViewController
+        let splitViewController = NSSplitViewController()
+        splitViewController.view.wantsLayer = true
+        self.window!.contentView = splitViewController.view
+        self.window!.contentViewController = splitViewController
         
         // configure the splitview
         let sourceListItem = NSSplitViewItem(sidebarWithViewController: self.sourceListViewController)
         let contentListItem = NSSplitViewItem(contentListWithViewController: self.contentListViewController)
-        self.splitViewController.addSplitViewItem(sourceListItem)
-        self.splitViewController.addSplitViewItem(contentListItem)
+        splitViewController.addSplitViewItem(sourceListItem)
+        splitViewController.addSplitViewItem(contentListItem)
         
         // Become the selection delegate for the sidebar
         // This lets us update the content view controller when the selection changes in the sidebar
