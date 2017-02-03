@@ -88,9 +88,9 @@ class ContentListViewController: UIViewController, RealmControllable {
         // set the top constraint on the LoadingIndicatorViewController
         // this can't be done in the XIB
         if let loadingIndicatorViewController = self.loadingIndicatorViewController {
+            self.addChildViewController(loadingIndicatorViewController)
             loadingIndicatorViewController.realmController = self.realmController
             loadingIndicatorViewController.view.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 10).isActive = true
-            self.addChildViewController(loadingIndicatorViewController)
         }
         
         // register for 3d touch events

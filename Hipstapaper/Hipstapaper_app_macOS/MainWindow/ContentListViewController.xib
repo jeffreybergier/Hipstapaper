@@ -12,7 +12,7 @@
             <connections>
                 <outlet property="loadingIndicatorViewController" destination="ngn-gp-2qd" id="wnP-By-Al4"/>
                 <outlet property="scrollView" destination="wdQ-7y-e9P" id="dXp-EO-jTD"/>
-                <outlet property="sortVC" destination="4aR-Sl-3Up" id="WCS-FL-4kn"/>
+                <outlet property="sortSelectingViewController" destination="4aR-Sl-3Up" id="xVk-cv-79d"/>
                 <outlet property="tableView" destination="ktT-xD-n7o" id="tZb-XJ-FPl"/>
                 <outlet property="view" destination="c22-O7-iKe" id="zbr-8I-cFo"/>
             </connections>
@@ -147,7 +147,7 @@
                             </tableView>
                         </subviews>
                     </clipView>
-                    <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="QJV-bq-bH0">
+                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="QJV-bq-bH0">
                         <rect key="frame" x="0.0" y="682" width="736" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
@@ -160,7 +160,7 @@
                     <rect key="frame" x="0.0" y="559" width="736" height="139"/>
                     <subviews>
                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="6bz-7g-bVy">
-                            <rect key="frame" x="292.5" y="12" width="150" height="33"/>
+                            <rect key="frame" x="293" y="12" width="150" height="33"/>
                             <subviews>
                                 <stackView distribution="fill" orientation="horizontal" alignment="bottom" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ly7-h7-ZBH">
                                     <rect key="frame" x="20" y="8" width="110" height="17"/>

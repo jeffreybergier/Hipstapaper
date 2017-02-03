@@ -31,6 +31,8 @@ open class LoadingIndicatorViewController: XPViewController, RealmControllable {
     
     public weak var realmController: RealmController? {
         didSet {
+            self.state = .notSynchronizing
+            
             self.downloadToken?.stop()
             self.uploadToken?.stop()
             
@@ -58,7 +60,7 @@ open class LoadingIndicatorViewController: XPViewController, RealmControllable {
     
     private var timer: Timer?
     
-    private var state = State.notSynchronizing {
+    private var state = State.synchronizing {
         didSet {
             guard self.state != oldValue else { return }
             switch self.state {
@@ -76,7 +78,7 @@ open class LoadingIndicatorViewController: XPViewController, RealmControllable {
         super.viewDidLoad()
         self.setBackgroundColor(Color.iconColor)
         self.configureShadow()
-        self.state = .synchronizing
+        self.state = .notSynchronizing
     }
     
     #if os(OSX)

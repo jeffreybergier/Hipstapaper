@@ -48,13 +48,7 @@ class ContentListViewController: NSViewController, RealmControllable {
     @IBOutlet private(set) fileprivate weak var tableView: NSTableView?
     @IBOutlet private weak var scrollView: NSScrollView?
     @IBOutlet private weak var loadingIndicatorViewController: LoadingIndicatorViewController?
-    @IBOutlet private weak var sortVC: SortSelectingViewController? {
-        didSet {
-            guard let sortVC = self.sortVC else { return }
-            sortVC.delegate = self
-            self.addChildViewController(sortVC)
-        }
-    }
+    @IBOutlet private weak var sortSelectingViewController: SortSelectingViewController?
     
     // MARK: Manage Open Child Windows
     
@@ -66,19 +60,27 @@ class ContentListViewController: NSViewController, RealmControllable {
         super.viewDidLoad()
         self.windowLoader.windowControllerDelegate = self
         
-        if let sortVC = self.sortVC {
+        // configure the sortvc
+        if let sortVC = self.sortSelectingViewController {
+            sortVC.delegate = self
+            self.addChildViewController(sortVC)
             let sortVCMovedToWindow: @convention(block) (Void) -> Void = { [weak self] in self?.sortSelectingViewDidMoveToWindow() }
             self.sortVCMoveToWindowToken = try? sortVC.view.aspect_hook(#selector(NSView.viewDidMoveToWindow), with: [], usingBlock: sortVCMovedToWindow)
+        }
+        
+        // configure the loadingVC
+        if let loadingVC = self.loadingIndicatorViewController {
+            self.addChildViewController(loadingVC)
         }
     }
     
     func sortSelectingViewDidMoveToWindow() {
         if let layoutGuide = self.view.window?.contentLayoutGuide as? NSLayoutGuide {
-            self.sortVC?.view.topAnchor.constraint(equalTo: layoutGuide.topAnchor, constant: 0).isActive = true
+            self.sortSelectingViewController?.view.topAnchor.constraint(equalTo: layoutGuide.topAnchor, constant: 0).isActive = true
         } else {
-            self.sortVC?.view.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+            self.sortSelectingViewController?.view.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
         }
-        let height = (self.scrollView?.contentInsets.top ?? 0) + (self.sortVC?.view.bounds.height ?? 0)
+        let height = (self.scrollView?.contentInsets.top ?? 0) + (self.sortSelectingViewController?.view.bounds.height ?? 0)
         self.scrollView?.automaticallyAdjustsContentInsets = false
         self.scrollView?.contentInsets.top = height
     }
@@ -106,8 +108,8 @@ class ContentListViewController: NSViewController, RealmControllable {
         }
         
         // update the filter vc
-        self.sortVC?.sortOrder = sortOrder
-        self.sortVC?.filter = filter
+        self.sortSelectingViewController?.sortOrder = sortOrder
+        self.sortSelectingViewController?.filter = filter
         
         // load the data
         self.data = self.realmController?.url_loadAll(for: itemsToLoad, sortedBy: sortOrder, filteredBy: filter)
