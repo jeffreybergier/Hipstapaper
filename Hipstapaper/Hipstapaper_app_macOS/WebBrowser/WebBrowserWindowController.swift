@@ -60,6 +60,8 @@ class WebBrowserWindowController: NSWindowController {
         return webView
     }()
     
+    private let webViewDelegate = WebBrowserDelegate()
+    
     // MARK: Initialization
     
     convenience init(itemID: URLItem.UIIdentifier?) {
@@ -82,6 +84,8 @@ class WebBrowserWindowController: NSWindowController {
         // Get the URL loading - could probably use a bail out here if this unwrapping fails
         if let itemID = self.itemID, let url = URL(string: itemID.urlString) {
             self.window?.title = "Hipstapaper: " + itemID.urlString
+            self.webView.uiDelegate = self.webViewDelegate
+            self.webView.navigationDelegate = self.webViewDelegate
             self.webView.load(URLRequest(url: url))
         } else {
             self.webView.load(URLRequest(url: URL(string: "https://github.com/404")!))

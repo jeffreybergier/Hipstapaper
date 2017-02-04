@@ -12,6 +12,7 @@
 		5005E1281DF4CB8300BA38E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5005E1261DF4CB8300BA38E6 /* LaunchScreen.storyboard */; };
 		5005E1491DF4CC2600BA38E6 /* Hipstapaper_share_iOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 5005E13F1DF4CC2600BA38E6 /* Hipstapaper_share_iOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		50088A4D1E062A2500D6AAED /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50088A4C1E062A2500D6AAED /* ShareViewController.swift */; };
+		501B332C1E4595150073A8AC /* WebBrowserDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501B332B1E4595150073A8AC /* WebBrowserDelegate.swift */; };
 		502C7F4E1DF0E4D5004E70AB /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 502C7F4D1DF0E4D5004E70AB /* icon.icns */; };
 		502C7F541DF0E4D5004E70AB /* ShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502C7F521DF0E4D5004E70AB /* ShareViewController.xib */; };
 		502C7F581DF0E4D5004E70AB /* Hipstapaper_share_macOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 502C7F4A1DF0E4D5004E70AB /* Hipstapaper_share_macOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -145,6 +146,7 @@
 		5005E13F1DF4CC2600BA38E6 /* Hipstapaper_share_iOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Hipstapaper_share_iOS.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		5005E1461DF4CC2600BA38E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50088A4C1E062A2500D6AAED /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		501B332B1E4595150073A8AC /* WebBrowserDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebBrowserDelegate.swift; sourceTree = "<group>"; };
 		501EC2591DF4E71D003577DA /* Hipstapaper_share_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper_share_iOS.entitlements; sourceTree = "<group>"; };
 		502C7F4A1DF0E4D5004E70AB /* Hipstapaper_share_macOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Hipstapaper_share_macOS.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		502C7F4D1DF0E4D5004E70AB /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
@@ -331,6 +333,7 @@
 				509716711E3ED78700FC12A2 /* WebBrowserWindowController.swift */,
 				509716721E3ED78700FC12A2 /* WebBrowserWindowController.xib */,
 				509716731E3ED78700FC12A2 /* WebBrowserCreator.swift */,
+				501B332B1E4595150073A8AC /* WebBrowserDelegate.swift */,
 			);
 			path = WebBrowser;
 			sourceTree = "<group>";
@@ -949,6 +952,7 @@
 				509716741E3ED78700FC12A2 /* WebBrowserWindowController.swift in Sources */,
 				5055515F1E1AD8BC006E2A3B /* FrameworkExtensions.swift in Sources */,
 				5085A1681E342A4700F8EC34 /* SourceListViewController.swift in Sources */,
+				501B332C1E4595150073A8AC /* WebBrowserDelegate.swift in Sources */,
 				509716671E3ED2DE00FC12A2 /* PreferencesWindowController.swift in Sources */,
 				5097167D1E3EDADE00FC12A2 /* MainWindowCreator.swift in Sources */,
 				5097166D1E3ED5AC00FC12A2 /* TagAddRemoveViewController.swift in Sources */,
