@@ -39,6 +39,8 @@ open class LoadingIndicatorViewController: XPViewController, RealmControllable {
             self.downloadToken = .none
             self.uploadToken = .none
             
+            guard self.allowedToAnimate else { return }
+            
             self.uploadToken = self.realmController?.session.addProgressNotification(
                 for: .upload,
                 mode: .reportIndefinitely,
@@ -47,6 +49,19 @@ open class LoadingIndicatorViewController: XPViewController, RealmControllable {
                 for: .download,
                 mode: .reportIndefinitely,
                 block: { [weak self] in self?.synchronizationActivityChanged($0) })
+        }
+    }
+    
+    // MARK: Internal State
+    
+    // this property stops views from animating before we have appeared on the screen
+    // it also stops the realm controller from getting updates when we're not allowed to animate.
+    private var allowedToAnimate = false {
+        didSet {
+            guard self.allowedToAnimate != oldValue else { return }
+            // when this is updated, trigger the didSet on realmController
+            let realmController = self.realmController
+            self.realmController = realmController
         }
     }
     
@@ -76,17 +91,26 @@ open class LoadingIndicatorViewController: XPViewController, RealmControllable {
     
     override open func viewDidLoad() {
         super.viewDidLoad()
+        self.configureShadow() // configures the shadow on iOS
         self.setBackgroundColor(Color.iconColor)
-        self.configureShadow()
         self.state = .notSynchronizing
     }
     
     #if os(OSX)
+    open override func viewDidAppear() {
+        super.viewDidAppear()
+        self.configureShadow() // on OSX this wasn't drawing a shadow if in viewdidload
+        self.allowedToAnimate = true
+    }
     override open func viewDidLayout() {
         super.viewDidLayout()
         self.updatePillShapeOnLoadingView()
     }
     #else
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.allowedToAnimate = true
+    }
     override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.updatePillShapeOnLoadingView()
@@ -99,28 +123,21 @@ open class LoadingIndicatorViewController: XPViewController, RealmControllable {
     
     // MARK: Appearance
     
+    private func configureShadow() {
+        let upsidedownMultiplier = (self.loadingView?.isFlipped ?? true) ? 1 : -1
+        self.loadingView?.xpLayer?.masksToBounds = false
+        self.loadingView?.xpLayer?.shadowOffset = CGSize(width: 0, height: 1 * upsidedownMultiplier)
+        self.loadingView?.xpLayer?.shadowRadius = 1
+        self.loadingView?.xpLayer?.shadowOpacity = 0.2
+    }
+    
     #if os(OSX)
     open func setBackgroundColor(_ newValue: NSColor) {
         self.loadingView?.xpLayer?.backgroundColor = newValue.cgColor
     }
-    
-    private func configureShadow() {
-        let shadow = NSShadow()
-        shadow.shadowOffset = NSSize(width: 0, height: -1)
-        shadow.shadowBlurRadius = 1.0
-        shadow.shadowColor = NSColor.black.withAlphaComponent(0.4)
-        self.loadingView?.shadow = shadow
-    }
     #else
     open func setBackgroundColor(_ newValue: UIColor) {
         self.loadingView?.xpLayer?.backgroundColor = newValue.cgColor
-    }
-    
-    private func configureShadow() {
-        self.loadingView?.xpLayer?.masksToBounds = false
-        self.loadingView?.xpLayer?.shadowOffset = CGSize(width: 0, height: 1)
-        self.loadingView?.xpLayer?.shadowRadius = 1
-        self.loadingView?.xpLayer?.shadowOpacity = 0.2
     }
     #endif
     
@@ -130,7 +147,7 @@ open class LoadingIndicatorViewController: XPViewController, RealmControllable {
         self.timer?.invalidate()
         self.timer = .none
         self.state = .synchronizing
-        self.timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(self.timerFired(_:)), userInfo: .none, repeats: false)
+        self.timer = Timer.scheduledTimer(timeInterval: self.duration * 3, target: self, selector: #selector(self.timerFired(_:)), userInfo: .none, repeats: false)
     }
     
     @objc private func timerFired(_ timer: Timer?) {
@@ -144,56 +161,143 @@ open class LoadingIndicatorViewController: XPViewController, RealmControllable {
     
     #if os(OSX)
     private func animateIn() {
+        // 1) Start the spinner animation immediately
+        // 2) Animate the Opacity in
+            // Quickly with a linear curve (so its fully opaque before it comes out of the nav/toolbar
+        // 3) (Simultaneously) Animate in the loading view
+            // Would like a spring curve, but now its easeIn
+        
         self.spinner?.startAnimation(self)
-        NSAnimationContext.runAnimationGroup({ context in
-            context.duration = self.duration / 2
-            context.allowsImplicitAnimation = true
+        let opacityFinalState: (NSAnimationContext?) -> Void = { context in
+            context?.duration = self.duration / 3
+            context?.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+            context?.allowsImplicitAnimation = true
             self.loadingView?.xpLayer?.opacity = 1
-        }, completionHandler: .none)
-        NSAnimationContext.runAnimationGroup({ context in
-            context.duration = self.duration
-            context.allowsImplicitAnimation = true
+        }
+        let locationFinalState: (NSAnimationContext?) -> Void = { context in
+            context?.duration = self.duration
+            context?.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+            context?.allowsImplicitAnimation = true
             self.topConstraint?.constant = 12
             self.view.layoutSubtreeIfNeeded()
-        }, completionHandler: {
-        })
+        }
+        
+        if self.allowedToAnimate {
+            NSAnimationContext.runAnimationGroup(opacityFinalState, completionHandler: .none)
+            NSAnimationContext.runAnimationGroup(locationFinalState, completionHandler: .none)
+
+        } else {
+            // if not allowed to animate (view has not appeared once)
+            // then just move everything without animating
+            opacityFinalState(.none)
+            locationFinalState(.none)
+        }
     }
     private func animateOut() {
-        NSAnimationContext.runAnimationGroup({ context in
-            context.duration = self.duration * 2
-            context.allowsImplicitAnimation = true
+        // 1) Animate the Opacity out
+            // Very slowly with a linear curve (so it doesn't disappear until its under the nav/toolbar)
+        // 2) (Simultaneously) Animate out the loading view
+            // With a curveEaseOut because we can't see it finish the animation
+        // 3) After thats done, stop the spinner
+        
+        let opacityFinalState: (NSAnimationContext?) -> Void = { context in
+            context?.duration = self.duration * 3
+            context?.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+            context?.allowsImplicitAnimation = true
             self.loadingView?.xpLayer?.opacity = 0
-        }, completionHandler: .none)
-        NSAnimationContext.runAnimationGroup({ context in
-            context.duration = self.duration
-            context.allowsImplicitAnimation = true
+        }
+        let locationFinalState: (NSAnimationContext?) -> Void = { context in
+            context?.duration = self.duration
+            context?.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+            context?.allowsImplicitAnimation = true
             self.topConstraint?.constant = -50
             self.view.layoutSubtreeIfNeeded()
-        }, completionHandler: {
+        }
+        let completionState: () -> Void = {
             self.spinner?.stopAnimation(self)
-        })
+        }
+        
+        if self.allowedToAnimate {
+            NSAnimationContext.runAnimationGroup(opacityFinalState, completionHandler: .none)
+            NSAnimationContext.runAnimationGroup(locationFinalState, completionHandler: completionState)
+        } else {
+            opacityFinalState(.none)
+            locationFinalState(.none)
+            completionState()
+        }
     }
     #else
     private func animateIn() {
+        // 1) Start the spinner animation immediately
+        // 2) Animate the Opacity in
+            // Quickly with a linear curve (so its fully opaque before it comes out of the nav/toolbar
+        // 3) (Simultaneously) Animate in the loading view
+            // Would like a spring curve, but now its easeInOut
+        
         self.spinner?.startAnimating()
-        UIView.animate(withDuration: self.duration * 2, delay: 0.0, usingSpringWithDamping: self.damping, initialSpringVelocity: self.velocity, options: [], animations: {
-            self.topConstraint?.constant = 0
-            self.view.layoutIfNeeded()
-        }, completion: .none)
-        UIView.animate(withDuration: self.duration / 2) {
+        let opacityFinalState: () -> Void = {
             self.loadingView?.alpha = 1
         }
+        let locationFinalState: () -> Void = {
+            self.topConstraint?.constant = 0
+            self.view.layoutIfNeeded()
+        }
+        
+        if self.allowedToAnimate {
+            UIView.animate(withDuration: self.duration / 3,
+                           delay: 0.0,
+                           options: [.curveLinear],
+                           animations: opacityFinalState,
+                           completion: .none)
+            UIView.animate(withDuration: self.duration * 2,
+                           delay: 0.0,
+                           usingSpringWithDamping: self.damping,
+                           initialSpringVelocity: self.velocity,
+                           options: [],
+                           animations: locationFinalState,
+                           completion: .none)
+        } else {
+            // if not allowed to animate (view has not appeared once)
+            // then just move everything without animating
+            opacityFinalState()
+            locationFinalState()
+        }
     }
-    
     private func animateOut() {
-        UIView.animate(withDuration: self.duration, delay: 0.0, options: [.curveEaseInOut], animations: {
+        // 1) Animate the Opacity out
+            // Very slowly with a linear curve (so it doesn't disappear until its under the nav/toolbar)
+        // 2) (Simultaneously) Animate out the loading view
+            // With a curveEaseOut because we can't see it finish the animation
+        // 3) After thats done, stop the spinner
+        
+        let opacityFinalState: () -> Void = {
+            self.loadingView?.alpha = 0
+        }
+        let locationFinalState: () -> Void = {
             self.topConstraint?.constant = -70
             self.view.layoutIfNeeded()
-        }, completion: { _ in
+        }
+        let completionState: (Bool) -> Void = { _ in
             self.spinner?.stopAnimating()
-        })
-        UIView.animate(withDuration: duration * 2) {
-            self.loadingView?.alpha = 0
+        }
+        
+        if self.allowedToAnimate {
+            UIView.animate(withDuration: self.duration * 3,
+                           delay: 0.0,
+                           options: [.curveLinear],
+                           animations: opacityFinalState,
+                           completion: .none)
+            UIView.animate(withDuration: self.duration,
+                           delay: 0.0,
+                           options: [.curveEaseIn],
+                           animations: locationFinalState,
+                           completion: completionState)
+        } else {
+            // if not allowed to animate (view has not appeared once)
+            // then just move everything without animating
+            opacityFinalState()
+            locationFinalState()
+            completionState(false)
         }
     }
     #endif

@@ -32,9 +32,6 @@ import Foundation
     }
     extension XPView {
         var xpLayer: CALayer? {
-            if self.layer == .none {
-                self.wantsLayer = true
-            }
             return self.layer
         }
     }
@@ -45,9 +42,8 @@ import Foundation
         }
     }
     extension XPView {
-        var xpLayer: CALayer? {
-            return self.layer
-        }
+        var xpLayer: CALayer? { return self.layer }
+        var isFlipped: Bool { return true }
     }
 #endif
 

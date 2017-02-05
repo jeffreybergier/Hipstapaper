@@ -156,10 +156,10 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                 </scrollView>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="ypa-lH-hHy">
-                    <rect key="frame" x="0.0" y="559" width="736" height="139"/>
+                <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ypa-lH-hHy">
+                    <rect key="frame" x="0.0" y="609" width="736" height="89"/>
                     <subviews>
-                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="6bz-7g-bVy">
+                        <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6bz-7g-bVy">
                             <rect key="frame" x="293" y="12" width="150" height="33"/>
                             <subviews>
                                 <stackView distribution="fill" orientation="horizontal" alignment="bottom" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ly7-h7-ZBH">
@@ -173,7 +173,7 @@
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
-                                        <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="o2W-0k-s8r">
+                                        <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="o2W-0k-s8r">
                                             <rect key="frame" x="94" y="0.0" width="16" height="16"/>
                                         </progressIndicator>
                                     </subviews>
@@ -201,7 +201,7 @@
                     </constraints>
                 </customView>
                 <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QFk-hp-bft">
-                    <rect key="frame" x="0.0" y="616" width="736" height="32"/>
+                    <rect key="frame" x="0.0" y="666" width="736" height="32"/>
                     <subviews>
                         <visualEffectView blendingMode="withinWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="hW4-zY-Xat">
                             <rect key="frame" x="0.0" y="0.0" width="736" height="32"/>
@@ -261,7 +261,7 @@
                 <constraint firstAttribute="trailing" secondItem="QFk-hp-bft" secondAttribute="trailing" id="Sni-p0-UqP"/>
                 <constraint firstItem="6bz-7g-bVy" firstAttribute="top" secondItem="QFk-hp-bft" secondAttribute="bottom" constant="12" id="fOq-ue-A2D"/>
                 <constraint firstItem="ypa-lH-hHy" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="niV-KN-bd0"/>
-                <constraint firstItem="QFk-hp-bft" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="50" placeholder="YES" id="nkZ-0N-BPx"/>
+                <constraint firstItem="QFk-hp-bft" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" priority="250" id="nkZ-0N-BPx"/>
                 <constraint firstAttribute="bottom" secondItem="wdQ-7y-e9P" secondAttribute="bottom" id="nqC-IL-Yv6"/>
                 <constraint firstItem="wdQ-7y-e9P" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" id="qRf-Pm-7y8"/>
                 <constraint firstItem="wdQ-7y-e9P" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" id="qu2-JF-roQ"/>
