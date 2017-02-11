@@ -429,10 +429,10 @@
 			isa = PBXGroup;
 			children = (
 				50F832A51E371D900008921B /* MainSplitViewController.swift */,
-				50F832A11E371D900008921B /* ContentListViewController.swift */,
-				50F832A21E371D900008921B /* ContentListViewController.xib */,
 				50F832A31E371D900008921B /* SourceListViewController.swift */,
 				50F832A41E371D900008921B /* SourceListViewController.xib */,
+				50F832A11E371D900008921B /* ContentListViewController.swift */,
+				50F832A21E371D900008921B /* ContentListViewController.xib */,
 				50F832B51E371E720008921B /* ContentTableViewCell.swift */,
 				50F832B61E371E720008921B /* ContentTableViewCellImage.xib */,
 				50F832B71E371E720008921B /* ContentTableViewCellNoImage.xib */,
