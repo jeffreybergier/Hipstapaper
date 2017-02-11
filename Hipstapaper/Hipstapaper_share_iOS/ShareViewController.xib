@@ -12,7 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ShareViewController" customModule="Hipstapaper_share_iOS" customModuleProvider="target">
             <connections>
                 <outlet property="cardView" destination="Yay-BC-f0K" id="bXD-RT-jhC"/>
-                <outlet property="cardViewCenterYConstraint" destination="3nt-Tu-p9w" id="5HW-QJ-mG0"/>
+                <outlet property="cardViewTopConstraint" destination="4sG-aW-aBo" id="kvF-Dt-eRS"/>
                 <outlet property="loadingSpinner" destination="es4-Jb-DxZ" id="1yw-IH-gd7"/>
                 <outlet property="modalGrayView" destination="O2b-Ml-hsJ" id="5OK-0D-e1J"/>
                 <outlet property="pageDateLabel" destination="jGS-GH-pQk" id="1QU-fT-gum"/>
@@ -92,7 +92,7 @@
             </subviews>
             <constraints>
                 <constraint firstItem="O2b-Ml-hsJ" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" id="0yA-px-3VM"/>
-                <constraint firstItem="Yay-BC-f0K" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="3nt-Tu-p9w"/>
+                <constraint firstItem="Yay-BC-f0K" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="154.5" id="4sG-aW-aBo"/>
                 <constraint firstItem="O2b-Ml-hsJ" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="7WZ-Be-nTT"/>
                 <constraint firstItem="O2b-Ml-hsJ" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="JTs-L2-h1X"/>
                 <constraint firstItem="Yay-BC-f0K" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="JbZ-G7-7dk"/>

@@ -27,7 +27,7 @@ class ShareViewController: XPURLShareViewController {
     @IBOutlet private var loadingSpinner: UIActivityIndicatorView?
     @IBOutlet private var webImageViewParentView: UIView?
     @IBOutlet private var modalGrayView: UIView?
-    @IBOutlet private var cardViewCenterYConstraint: NSLayoutConstraint?
+    @IBOutlet private var cardViewTopConstraint: NSLayoutConstraint?
     @IBOutlet private var cardView: UIView? {
         didSet {
             self.cardView?.clipsToBounds = true
@@ -70,13 +70,15 @@ class ShareViewController: XPURLShareViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.cardViewCenterYConstraint?.constant = floor(UIScreen.main.bounds.height / 2) + 150
+        self.cardViewTopConstraint?.constant = UIScreen.main.bounds.height
         self.modalGrayView?.alpha = 0
     }
     
     private func slideIntoFrame() {
         UIView.animate(withDuration: 0.6, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.8, options: [], animations: {
-            self.cardViewCenterYConstraint?.constant = 0
+            let halfViewHeight = floor(UIScreen.main.bounds.height / 2)
+            let halfCardHeight = floor((self.cardView?.bounds.height ?? 350) / 2)
+            self.cardViewTopConstraint?.constant = halfViewHeight - halfCardHeight
             self.modalGrayView?.alpha = 0.5
             self.view.layoutIfNeeded()
         }, completion: .none)
@@ -203,8 +205,8 @@ class ShareViewController: XPURLShareViewController {
     private func slideOutOfFrame(animationCompletion: @escaping (Bool) -> Void) {
         self.view.setNeedsLayout()
         UIView.animate(withDuration: 0.3, delay: 0.0, options: [.curveEaseInOut], animations: {
-            let cardViewHeightOffset = floor((self.cardView?.bounds.height ?? 353) / 2)
-            self.cardViewCenterYConstraint?.constant = -1 * (floor(UIScreen.main.bounds.height / 2) + cardViewHeightOffset + 10) //10 extra for the shadow
+            let cardViewHeight = self.cardView?.bounds.height ?? 350
+            self.cardViewTopConstraint?.constant = -1 * cardViewHeight + 10 // add 10 for the shadow
             self.modalGrayView?.alpha = 0.0
             self.view.layoutIfNeeded()
         }, completion: animationCompletion)
