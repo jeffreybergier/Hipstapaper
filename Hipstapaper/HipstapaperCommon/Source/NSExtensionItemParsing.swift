@@ -20,8 +20,8 @@ extension SerializableURLItem {
         // get the title and the content
         // afterward we might overwrite the things with the attachments
         // the attachments are more precise, but not always there
-        outputItem.pageTitle = extensionItem.attributedTitle?.string
-        outputItem.urlString = URL(string: extensionItem.attributedContentText?.string ?? "A Z A")?.absoluteString
+        outputItem.pageTitle = extensionItem.attributedTitle?.string ?? extensionItem.attributedContentText?.string
+        outputItem.urlString = URL.webURL(fromURLString: extensionItem.attributedContentText?.string)?.absoluteString
         
         // since this is all async, we need to make sure we return only when the object is full
         // hitcount goes from 0 to 2, because there are 3 properties of this object
@@ -73,6 +73,22 @@ extension SerializableURLItem {
                 }
                 hitCount += 1
             }
+        }
+    }
+}
+
+fileprivate extension URL {
+    fileprivate static func webURL(fromURLString urlString: String?) -> URL? {
+        let urlString = urlString ?? "A Z A"
+        guard let components = URLComponents(string: urlString) else { return URL(string: urlString) }
+        if let _ = components.host {
+            // if we have a host then the URLString was properly formatted
+            return components.url
+        } else {
+            // otherwise we need to add http to the beginning and try again
+            let newString = "http://" + urlString
+            let url = URL(string: newString)
+            return url
         }
     }
 }

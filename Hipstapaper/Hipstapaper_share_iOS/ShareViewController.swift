@@ -179,12 +179,8 @@ class ShareViewController: XPURLShareViewController {
             // we have an item
             if let webView = self.webView {
                 // if we have  webview that means we need to take a snopshot
-                if item.pageTitle == nil {
-                    item.pageTitle = webView.title
-                }
-                if item.image == nil {
-                    item.image = type(of: self).snapshot(of: webView)
-                }
+                item.pageTitle = webView.title
+                item.image = type(of: self).snapshot(of: webView)
                 self.save(item: item)
                 self.slideOutOfFrame() { _ in
                     self.extensionContext?.completeRequest(returningItems: .none, completionHandler: .none)
