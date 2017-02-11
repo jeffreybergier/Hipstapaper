@@ -9,7 +9,7 @@
 import WebKit
 
 fileprivate extension NSAlert {
-    fileprivate static func showAlert(forWebView webView: WKWebView, withError error: Error?) {
+    fileprivate static func showAlert(for webView: WKWebView, with error: Error?) {
         // we need a window to show this in
         guard let window = webView.window else { return }
         
@@ -52,37 +52,48 @@ fileprivate extension NSAlert {
 class WebBrowserDelegate: NSObject { }
 
 extension WebBrowserDelegate: WKUIDelegate {
+    
+    func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+        
+        // the webview tried to open a new window. We're not going to do this.
+        // if there is a good URL, just open it in the default browser
+        if let url = navigationAction.request.url {
+            NSWorkspace.shared().open(url)
+        }
+        
+        return nil
+    }
 
     func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Swift.Void) {
         completionHandler()
-        NSAlert.showAlert(forWebView: webView, withError: .none)
+        NSAlert.showAlert(for: webView, with: .none)
     }
     
     func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Swift.Void) {
         completionHandler(false)
-        NSAlert.showAlert(forWebView: webView, withError: .none)
+        NSAlert.showAlert(for: webView, with: .none)
     }
     
     func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Swift.Void) {
         completionHandler(.none)
-        NSAlert.showAlert(forWebView: webView, withError: .none)
+        NSAlert.showAlert(for: webView, with: .none)
     }
     
     @available(OSX 10.12, *)
     func webView(_ webView: WKWebView, runOpenPanelWith parameters: WKOpenPanelParameters, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping ([URL]?) -> Swift.Void) {
         completionHandler(.none)
-        NSAlert.showAlert(forWebView: webView, withError: .none)
+        NSAlert.showAlert(for: webView, with: .none)
     }
 }
 
 extension WebBrowserDelegate: WKNavigationDelegate {
-    
+
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        NSAlert.showAlert(forWebView: webView, withError: error)
+        NSAlert.showAlert(for: webView, with: error)
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        NSAlert.showAlert(forWebView: webView, withError: error)
+        NSAlert.showAlert(for: webView, with: error)
     }
     
 }
