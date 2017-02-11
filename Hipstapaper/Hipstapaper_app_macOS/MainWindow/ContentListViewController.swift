@@ -53,12 +53,22 @@ class ContentListViewController: NSViewController, RealmControllable {
     // MARK: Manage Open Child Windows
     
     let windowLoader = WebBrowserCreator()
+    fileprivate let quickLookPanelController = QuickLookPanelController()
     
     // MARK: View Loading
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // configure the web browser window loader
         self.windowLoader.windowControllerDelegate = self
+        
+        // insert quicklook controller into the responder chain, when we land in the window
+        let viewMovedToWindow: @convention(block) (Void) -> Void = {
+            self.quickLookPanelController.nextResponder = self.nextResponder
+            self.nextResponder = self.quickLookPanelController
+        }
+        self.viewMoveToWindowToken = try? self.view.aspect_hook(#selector(NSView.viewDidMoveToWindow), with: [], usingBlock: viewMovedToWindow)
         
         // configure the sortvc
         if let sortVC = self.sortSelectingViewController {
@@ -175,16 +185,19 @@ class ContentListViewController: NSViewController, RealmControllable {
             return false
         case .tags:
             return true
+        case .quickLook:
+            guard self.nextResponder === self.quickLookPanelController else { return false }
+            return true
         }
     }
     
     @objc private func open(_ sender: NSObject?) {
-        guard let selectedItems = self.selectedURLItems else { return }
+        guard let selectedItems = self.selectedURLItems else { NSBeep(); return; }
         self.openOrBringFrontWindowControllers(for: selectedItems)
     }
     
     @objc private func delete(_ sender: NSObject?) {
-        guard let selectedItems = self.selectedURLItems else { return }
+        guard let selectedItems = self.selectedURLItems else { NSBeep(); return; }
         self.realmController?.delete(selectedItems)
     }
     
@@ -194,6 +207,13 @@ class ContentListViewController: NSViewController, RealmControllable {
         NSPasteboard.general().setString(item.urlString, forType: NSStringPboardType)
     }
     
+    // MARK: Handle Quicklook
+    
+    @objc private func toggleQuickLookPreviewPanel(_ sender: NSObject?) {
+        guard self.nextResponder === self.quickLookPanelController else { NSBeep(); return; }
+        self.quickLookPanelController.togglePanel(sender)
+    }
+    
     // MARK: Handle Key Events
     
     override func keyDown(with event: NSEvent) {
@@ -201,6 +221,8 @@ class ContentListViewController: NSViewController, RealmControllable {
         case 36, 76: // enter keys
             break
         case 53: // escape key
+            break
+        case 49: // space bar - quicklook
             break
         default:
             super.keyDown(with: event)
@@ -214,6 +236,8 @@ class ContentListViewController: NSViewController, RealmControllable {
         case 53: // escape key
             self.view.window?.firstResponder.try(toPerform: #selector(NSTableView.deselectAll(_:)), with: event)
             self.view.window?.toolbar?.validateVisibleItems() // it was taking almost a full second to re-validate toolbar items without forcing it manually
+        case 49: // space bar - quicklook
+            self.toggleQuickLookPreviewPanel(event)
         default:
             super.keyUp(with: event)
         }
@@ -273,6 +297,9 @@ class ContentListViewController: NSViewController, RealmControllable {
             return !selectedItems.isEmpty
         case .jsToggle:
             return false
+        case .quickLook:
+            guard self.nextResponder === self.quickLookPanelController else { return false }
+            return true
         }
     }
     
@@ -289,9 +316,11 @@ class ContentListViewController: NSViewController, RealmControllable {
     // MARK: Handle Going Away
     
     private var sortVCMoveToWindowToken: AspectToken?
+    private var viewMoveToWindowToken: AspectToken?
     private var notificationToken: NotificationToken?
 
     deinit {
+        self.viewMoveToWindowToken?.remove()
         self.sortVCMoveToWindowToken?.remove()
         self.notificationToken?.stop()
     }
@@ -377,6 +406,7 @@ extension ContentListViewController: NSTableViewDelegate {
     }
     
     func tableViewSelectionDidChange(_ notification: Notification) {
+        self.quickLookPanelController.previewItems = self.selectedURLItems?.flatMap({ NSURL(string: $0.urlString) }) ?? []
         UserDefaults.standard.selectedURLItemUUIDStrings = self.selectedURLItems?.map({ $0.uuid })
     }
 }

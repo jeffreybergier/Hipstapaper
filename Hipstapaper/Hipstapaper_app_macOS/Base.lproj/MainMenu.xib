@@ -79,6 +79,12 @@
                                     <action selector="open:" target="-1" id="1Ly-kq-ZGY"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Quicklook Selected" tag="764" keyEquivalent="y" id="ond-6F-XyW">
+                                <connections>
+                                    <action selector="toggleQuickLookPreviewPanel:" target="-1" id="MkU-tO-aXi"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="dh3-Tm-KS4"/>
                             <menuItem title="Archive" tag="555" id="cjl-1l-c39">
                                 <string key="keyEquivalent" base64-UTF8="YES">
 CA

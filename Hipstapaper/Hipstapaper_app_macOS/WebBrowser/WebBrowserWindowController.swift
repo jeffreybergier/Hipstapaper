@@ -151,6 +151,8 @@ class WebBrowserWindowController: NSWindowController {
             guard let button = toolbarItem.view as? NSButton else { return false }
             button.state = self.webView.configuration.preferences.javaScriptEnabled ? 1 : 0
             return true
+        case .quickLook:
+            return false
         }
     }
     
@@ -185,6 +187,8 @@ class WebBrowserWindowController: NSWindowController {
         case .copy, .open, .delete, .showMainWindow:
             return false
         case .tags:
+            return false
+        case .quickLook:
             return false
         }
     }

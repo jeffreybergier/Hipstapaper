@@ -16,13 +16,13 @@ extension NSTextField {
 
 extension NSToolbarItem {
     enum Kind: Int {
-        case unarchive = 544, archive = 555, tag = 222, share = 233, jsToggle = 766
+        case unarchive = 544, archive = 555, tag = 222, share = 233, jsToggle = 766, quickLook = 764
     }
 }
 
 extension NSMenuItem {
     enum Kind: Int {
-        case open = 999, copy = 444, archive = 555, unarchive = 544, delete = 666, share = 898, shareSubmenu = 897, javascript = 433, showMainWindow = 374, tags = 909
+        case open = 999, copy = 444, archive = 555, unarchive = 544, delete = 666, share = 898, shareSubmenu = 897, javascript = 433, showMainWindow = 374, tags = 909, quickLook = 764
     }
 }
 

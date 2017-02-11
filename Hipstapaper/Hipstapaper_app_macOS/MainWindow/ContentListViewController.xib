@@ -270,6 +270,17 @@
         </customView>
         <menu id="OSU-Tg-trR">
             <items>
+                <menuItem title="Open" tag="999" keyEquivalent="o" id="ivv-zK-aND">
+                    <connections>
+                        <action selector="open:" target="-1" id="7fX-jP-2vS"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Quicklook" tag="764" keyEquivalent="y" id="qod-bO-b1T">
+                    <connections>
+                        <action selector="toggleQuickLookPreviewPanel:" target="-1" id="jzy-e0-lKK"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="EKp-z8-PNr"/>
                 <menuItem title="Copy Link" tag="444" keyEquivalent="c" id="jVD-es-AGt">
                     <connections>
                         <action selector="copy:" target="-1" id="sXD-JG-ctx"/>
@@ -316,6 +327,7 @@ CA
                     </connections>
                 </menuItem>
             </items>
+            <point key="canvasLocation" x="42" y="-116"/>
         </menu>
         <customObject id="4aR-Sl-3Up" customClass="SortSelectingViewController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>

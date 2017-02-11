@@ -23,6 +23,7 @@
 		506A3F081DD6C10C00A5656E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506A3F071DD6C10C00A5656E /* AppDelegate.swift */; };
 		506A3F0A1DD6C10D00A5656E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F091DD6C10D00A5656E /* Assets.xcassets */; };
 		506A3F0D1DD6C10D00A5656E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F0B1DD6C10D00A5656E /* MainMenu.xib */; };
+		506AD7E31E4F9F9400537F61 /* QuickLookPanelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506AD7E21E4F9F9400537F61 /* QuickLookPanelController.swift */; };
 		5078B8131E43FE9400AA35E6 /* LoadingIndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5078B8121E43FE9400AA35E6 /* LoadingIndicatorViewController.swift */; };
 		50841AFC1E21B7AC008621BB /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50841AFB1E21B7AC008621BB /* FrameworkExtensions.swift */; };
 		5085A15E1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A15C1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift */; };
@@ -163,6 +164,7 @@
 		506A3F091DD6C10D00A5656E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		506A3F0C1DD6C10D00A5656E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		506A3F0E1DD6C10D00A5656E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		506AD7E21E4F9F9400537F61 /* QuickLookPanelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickLookPanelController.swift; sourceTree = "<group>"; };
 		506D98121DD6CFFB002E4F54 /* Hipstapaper_app_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper_app_macOS.entitlements; sourceTree = "<group>"; };
 		5078B8121E43FE9400AA35E6 /* LoadingIndicatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorViewController.swift; sourceTree = "<group>"; };
 		50841AFB1E21B7AC008621BB /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
@@ -387,6 +389,7 @@
 				5085A15C1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift */,
 				5085A15D1E3429D800F8EC34 /* ValidatingToolbar.swift */,
 				5097167A1E3EDAB600FC12A2 /* MenuController.swift */,
+				506AD7E21E4F9F9400537F61 /* QuickLookPanelController.swift */,
 			);
 			path = HelperClasses;
 			sourceTree = "<group>";
@@ -953,6 +956,7 @@
 				5055515F1E1AD8BC006E2A3B /* FrameworkExtensions.swift in Sources */,
 				5085A1681E342A4700F8EC34 /* SourceListViewController.swift in Sources */,
 				501B332C1E4595150073A8AC /* WebBrowserDelegate.swift in Sources */,
+				506AD7E31E4F9F9400537F61 /* QuickLookPanelController.swift in Sources */,
 				509716671E3ED2DE00FC12A2 /* PreferencesWindowController.swift in Sources */,
 				5097167D1E3EDADE00FC12A2 /* MainWindowCreator.swift in Sources */,
 				5097166D1E3ED5AC00FC12A2 /* TagAddRemoveViewController.swift in Sources */,

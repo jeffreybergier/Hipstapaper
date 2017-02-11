@@ -104,6 +104,22 @@
                             <action selector="share:" target="-1" id="tYO-qh-7VF"/>
                         </connections>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="CDBF01A4-1560-4D94-901E-39EE824CB227" label="QuickLook" paletteLabel="QuickLook" tag="764" image="NSQuickLookTemplate" id="wkE-iu-vuj">
+                        <nil key="toolTip"/>
+                        <size key="minSize" width="65" height="43"/>
+                        <size key="maxSize" width="88" height="44"/>
+                        <button key="view" verticalHuggingPriority="750" tag="764" id="VDX-ZV-6LX">
+                            <rect key="frame" x="0.0" y="14" width="65" height="43"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSQuickLookTemplate" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Fo2-UN-pBV">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
+                        <connections>
+                            <action selector="toggleQuickLookPreviewPanel:" target="-1" id="Txe-TX-cOq"/>
+                        </connections>
+                    </toolbarItem>
                     <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="IgY-qy-EBe"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="atn-DW-fwA"/>
                 </allowedToolbarItems>
@@ -127,6 +143,7 @@
         </window>
     </objects>
     <resources>
+        <image name="NSQuickLookTemplate" width="19" height="12"/>
         <image name="NSShareTemplate" width="11" height="16"/>
         <image name="NSSidebarTemplate" width="15" height="12"/>
     </resources>
