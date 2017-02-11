@@ -270,6 +270,12 @@
         </customView>
         <menu id="OSU-Tg-trR">
             <items>
+                <menuItem title="Copy Link" tag="444" keyEquivalent="c" id="jVD-es-AGt">
+                    <connections>
+                        <action selector="copy:" target="-1" id="sXD-JG-ctx"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="6Nj-Dl-ag7"/>
                 <menuItem title="Archive" tag="555" id="jQQ-Px-TFP">
                     <string key="keyEquivalent" base64-UTF8="YES">
 CA
@@ -294,6 +300,19 @@ CA
 </string>
                     <connections>
                         <action selector="delete:" target="-1" id="4cD-EP-3JZ"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="3xS-p1-wTk"/>
+                <menuItem title="Tags…" tag="909" id="wKO-bK-tDk">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="tag:" target="-1" id="g2S-V3-Gt4"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Share" tag="898" id="k7x-Cf-aFT">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="share:" target="-1" id="3DX-D8-3or"/>
                     </connections>
                 </menuItem>
             </items>

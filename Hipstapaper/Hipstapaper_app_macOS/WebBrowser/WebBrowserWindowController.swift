@@ -184,6 +184,8 @@ class WebBrowserWindowController: NSWindowController {
             return true
         case .copy, .open, .delete, .showMainWindow:
             return false
+        case .tags:
+            return false
         }
     }
     

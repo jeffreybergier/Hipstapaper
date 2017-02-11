@@ -173,6 +173,8 @@ class ContentListViewController: NSViewController, RealmControllable {
             return false
         case .showMainWindow:
             return false
+        case .tags:
+            return true
         }
     }
     
@@ -231,21 +233,21 @@ class ContentListViewController: NSViewController, RealmControllable {
     
     @objc private func tag(_ sender: NSObject?) {
         guard
-            let item = sender as? NSButton,
             let realmController = self.realmController,
             let itemIDs = self.selectedURLItems?.map({ URLItem.UIIdentifier(uuid: $0.uuid, urlString: $0.urlString, archived: $0.archived) })
         else { return }
         let tagVC = TagAddRemoveViewController(itemsToTag: itemIDs, controller: realmController)
-        self.presentViewController(tagVC, asPopoverRelativeTo: .zero, of: item, preferredEdge: .maxY, behavior: .semitransient)
+        let view = (sender as? NSView) ?? self.view
+        self.presentViewController(tagVC, asPopoverRelativeTo: .zero, of: view, preferredEdge: .maxY, behavior: .semitransient)
     }
     
     @objc private func share(_ sender: NSObject?) {
         guard
-            let button = sender as? NSButton,
             let urls = self.selectedURLItems?.flatMap({ URL(string: $0.urlString) }),
             urls.isEmpty == false
         else { return }
-        NSSharingServicePicker(items: urls).show(relativeTo: .zero, of: button, preferredEdge: .minY)
+        let view = (sender as? NSView) ?? self.view
+        NSSharingServicePicker(items: urls).show(relativeTo: .zero, of: view, preferredEdge: .minY)
     }
     
     @objc func shareMenu(_ sender: NSObject?) {
