@@ -24,27 +24,6 @@ fileprivate extension NSToolbarItem {
 
 class ValidatingToolbar: NSToolbar {
     
-    private let flexibleSpaceClass: AnyObject.Type? = NSClassFromString("NSToolbarFlexibleSpaceItem")
-    private let fixedSpaceClass: AnyObject.Type? = NSClassFromString("NSToolbarSpaceItem")
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-
-        // configuring the size of these in IB is really impossible
-        // just overriding it in code
-        for toolbarItem in self.items {
-            guard
-                toolbarItem.isKind(of: self.flexibleSpaceClass ?? NSTableView.self) == false &&
-                toolbarItem.isKind(of: self.fixedSpaceClass ?? NSTableView.self) == false &&
-                toolbarItem.itemIdentifier != NSToolbarFlexibleSpaceItemIdentifier &&
-                toolbarItem.itemIdentifier != NSToolbarSpaceItemIdentifier &&
-                toolbarItem.itemIdentifier.contains("NORESIZE-") == false
-            else { continue }
-            toolbarItem.minSize = NSSize(width: 56, height: 34)
-            toolbarItem.maxSize = NSSize(width: 56, height: 34)
-        }
-    }
-    
     @IBOutlet private weak var window: NSWindow?
     
     private var firstResponder: NSResponder? {
@@ -54,7 +33,7 @@ class ValidatingToolbar: NSToolbar {
     override func validateVisibleItems() {
         super.validateVisibleItems()
         
-        for toolbarItem in self.visibleItems ?? [] {
+        for toolbarItem in self.items {
             // only change toolbar items if they claim to self validate
             guard toolbarItem.autovalidates == true else { continue }
             // disable it pre-emptively, we only re-enable under special circumstances
@@ -83,5 +62,4 @@ class ValidatingToolbar: NSToolbar {
             }
         }
     }
-    
 }

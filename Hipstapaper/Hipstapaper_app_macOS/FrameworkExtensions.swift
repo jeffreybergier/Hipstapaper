@@ -8,6 +8,26 @@
 
 import AppKit
 
+extension NSToolbarItem {
+    
+    // Load some types from the run time. We will use these to compare the type of toolbar item we are later
+    // if we can't load these types from the runtime, then just set them to a class that a toolbar could never be (NSSet)
+    private static let flexibleSpaceClass: AnyObject.Type = NSClassFromString("NSToolbarFlexibleSpaceItem") ?? NSSet.self
+    private static let fixedSpaceClass: AnyObject.Type = NSClassFromString("NSToolbarSpaceItem") ?? NSSet.self
+    
+    func resizeIfNeeded() {
+        guard
+            self.isKind(of: type(of: self).flexibleSpaceClass) == false &&
+            self.isKind(of: type(of: self).fixedSpaceClass) == false &&
+            self.itemIdentifier != NSToolbarFlexibleSpaceItemIdentifier &&
+            self.itemIdentifier != NSToolbarSpaceItemIdentifier &&
+            self.itemIdentifier.contains("NORESIZE-") == false
+        else { return }
+        self.minSize = NSSize(width: 56, height: 34)
+        self.maxSize = NSSize(width: 56, height: 34)
+    }
+}
+
 extension NSTextField {
     enum Kind: Int {
         case backgroundStyleAdaptable = 756

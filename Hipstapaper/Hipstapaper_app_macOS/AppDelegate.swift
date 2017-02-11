@@ -6,6 +6,7 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
+import Aspects
 import AppKit
 import Common
 
@@ -51,6 +52,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidResignActive(_ notification: Notification) {
         self.extensionFileProcessor.processFiles(with: self.rootWindowController.realmController)
+    }
+    
+    // MARK: Tell Toolbar Items to resize themselves
+    
+    func applicationWillFinishLaunching(_ notification: Notification) {
+        let toolbarAwake: @convention(block) (AspectInfo) -> Void = { info in
+            guard let toolbarItem = info.instance() as? NSToolbarItem else { return }
+            toolbarItem.resizeIfNeeded()
+        }
+        let _ = try? NSToolbarItem.aspect_hook(#selector(NSToolbarItem.awakeFromNib), with: [], usingBlock: toolbarAwake)
     }
 }
 
