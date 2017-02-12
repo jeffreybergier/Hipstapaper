@@ -10,6 +10,7 @@ import Aspects
 import RealmSwift
 import Common
 import Social
+import Quartz
 import AppKit
 
 class ContentListViewController: NSViewController, RealmControllable {
@@ -65,6 +66,7 @@ class ContentListViewController: NSViewController, RealmControllable {
         
         // insert quicklook controller into the responder chain, when we land in the window
         let viewMovedToWindow: @convention(block) (Void) -> Void = {
+            self.quickLookPanelController.delegate = self
             self.quickLookPanelController.nextResponder = self.nextResponder
             self.nextResponder = self.quickLookPanelController
         }
@@ -216,17 +218,22 @@ class ContentListViewController: NSViewController, RealmControllable {
     
     // MARK: Handle Key Events
     
-    override func keyDown(with event: NSEvent) {
+    fileprivate func shouldHandle(keyEvent event: NSEvent) -> Bool {
         switch event.keyCode {
         case 36, 76: // enter keys
-            break
+            return true
         case 53: // escape key
-            break
+            return true
         case 49: // space bar - quicklook
-            break
+            return true
         default:
-            super.keyDown(with: event)
+            return false
         }
+    }
+    
+    override func keyDown(with event: NSEvent) {
+        guard shouldHandle(keyEvent: event) == false else { return }
+        super.keyDown(with: event)
     }
     
     override func keyUp(with event: NSEvent) {
@@ -366,6 +373,21 @@ extension ContentListViewController: URLItemsToLoadChangeDelegate {
     }
 }
 
+extension ContentListViewController: QLPreviewPanelDelegate {
+    func previewPanel(_ panel: QLPreviewPanel?, sourceFrameOnScreenFor item: QLPreviewItem?) -> NSRect {
+        guard
+            let urlString = (item as? NSURL)?.absoluteString,
+            let window = self.view.window,
+            let windowView = window.contentView,
+            let index = self.data?.index(matching: "\(#keyPath(URLItem.urlString)) = '\(urlString)'"),
+            let rowView = self.tableView?.rowView(atRow: index, makeIfNecessary: false)
+        else { return NSRect.zero }
+        let windowRect = rowView.convert(rowView.bounds, to: windowView)
+        let screenRect = window.convertToScreen(windowRect)
+        return screenRect
+    }
+}
+
 extension ContentListViewController: NSTableViewDataSource {
     
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -408,6 +430,15 @@ extension ContentListViewController: NSTableViewDelegate {
     func tableViewSelectionDidChange(_ notification: Notification) {
         self.quickLookPanelController.previewItems = self.selectedURLItems?.flatMap({ NSURL(string: $0.urlString) }) ?? []
         UserDefaults.standard.selectedURLItemUUIDStrings = self.selectedURLItems?.map({ $0.uuid })
+    }
+    
+    func tableView(_ tableView: NSTableView, shouldTypeSelectFor event: NSEvent, withCurrentSearch searchString: String?) -> Bool {
+        // makes it so we don't try to search the table when doing a key event that the view controller controls anyway
+        if case .none = searchString, self.shouldHandle(keyEvent: event) == true {
+            return false
+        } else {
+            return true
+        }
     }
 }
 

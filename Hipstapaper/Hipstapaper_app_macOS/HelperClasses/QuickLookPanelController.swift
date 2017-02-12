@@ -18,6 +18,9 @@ class QuickLookPanelController: NSResponder {
         }
     }
     
+    weak var delegate: QLPreviewPanelDelegate?
+    weak var dataSource: QLPreviewPanelDataSource?
+    
     func togglePanel(_ sender: Any?) {
         guard let panel = QLPreviewPanel.shared() else { return }
         if panel.isVisible == true {
@@ -36,8 +39,8 @@ extension QuickLookPanelController /*:  QLPreviewPanelController*/ {
     }
     
     override func beginPreviewPanelControl(_ panel: QLPreviewPanel?) {
-        panel?.dataSource = self
-        panel?.delegate = self
+        panel?.dataSource = self.dataSource ?? self
+        panel?.delegate = self.delegate ?? self
     }
     
     override func endPreviewPanelControl(_ panel: QLPreviewPanel?) {
@@ -58,7 +61,5 @@ extension QuickLookPanelController: QLPreviewPanelDataSource {
 }
 
 extension QuickLookPanelController: QLPreviewPanelDelegate {
-//    func previewPanel(_ panel: QLPreviewPanel?, sourceFrameOnScreenFor item: QLPreviewItem?) -> NSRect {
-//        
-//    }
+    
 }
