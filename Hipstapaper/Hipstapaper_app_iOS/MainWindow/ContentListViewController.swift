@@ -227,12 +227,14 @@ class ContentListViewController: UIViewController, RealmControllable {
             self.navigationController?.hidesBarsOnSwipe = true
         case .regular, .unspecified:
             self.navigationController?.hidesBarsOnSwipe = false
+            self.navigationController?.setNavigationBarHidden(false, animated: true)
+            self.navigationController?.setToolbarHidden(false, animated: true)
         }
     }
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        self.updateNavBarHiding(basedOn: newCollection)
         super.willTransition(to: newCollection, with: coordinator)
+        self.updateNavBarHiding(basedOn: newCollection)
     }
     
     // MARK: State Restoration
