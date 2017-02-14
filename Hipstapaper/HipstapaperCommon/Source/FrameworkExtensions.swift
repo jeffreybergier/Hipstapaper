@@ -7,6 +7,9 @@
 //
 
 import RealmSwift
+import WebKit
+
+extension WKWebView: KVOCapable {}
 
 public extension Results {
     public func indexes(matchingPredicates predicates: [String]) -> [Int]? {

@@ -8,8 +8,6 @@
 
 import WebKit
 
-extension WKWebView: KVOCapable {}
-
 open class XPURLShareViewController: XPViewController {
     
     open var item: SerializableURLItem.Result?

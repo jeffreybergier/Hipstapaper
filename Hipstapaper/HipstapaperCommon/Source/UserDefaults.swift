@@ -15,7 +15,8 @@ public extension UserDefaults {
         fileprivate static let filter = "kFilterKey"
         fileprivate static let tagDisplayName = "kTagDisplayNameKey"
         fileprivate static let tagUniqueName = "kTagUniqueNameKey"
-        fileprivate static let selectedItems = "kSelectedItemsKeys"
+        fileprivate static let selectedItems = "kSelectedItemsKey"
+        fileprivate static let sourceListShown = "kSourceListShownKey"
     }
     
     public var selectedURLItemUUIDStrings: [String]? {
@@ -57,6 +58,19 @@ public extension UserDefaults {
                 self.set(nil, forKey: Keys.tagDisplayName)
                 self.set(nil, forKey: Keys.tagUniqueName)
             }
+        }
+    }
+    
+    public var wasSourceListOpen: Bool {
+        get {
+            let number = self.object(forKey: Keys.sourceListShown) as? NSNumber
+            let previousValue = number?.boolValue
+            let defaultValue = true
+            return previousValue ?? defaultValue
+        }
+        set {
+            let number = NSNumber(value: newValue)
+            self.set(number, forKey: Keys.sourceListShown)
         }
     }
 }

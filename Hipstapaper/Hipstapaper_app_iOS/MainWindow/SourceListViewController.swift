@@ -52,7 +52,7 @@ class SourceListViewController: UIViewController, RealmControllable {
         self.notificationToken?.stop()
         self.notificationToken = .none
         self.data = .none
-        if self.tableView?.numberOfRows(inSection: 0) != 0 { self.tableView?.reloadData() } // helps reduce flickering the tableview is already empty
+        self.tableView?.reloadData()
         
         // reload everything
         self.data = self.realmController?.tag_loadAll()
@@ -67,8 +67,15 @@ class SourceListViewController: UIViewController, RealmControllable {
             
             // after that, select the currently selected row
             // here we should always select the row because we want the row to be able to deselect itself when the view appears later
-            if let itemsToLoad = self?.selectionDelegate?.itemsToLoad, let filter = self?.selectionDelegate?.filter {
+            // note, we do not want to automatically select the table row if only the the sourceListWasOpen last time the app was closed
+            let wasSourceListOpen = UserDefaults.standard.wasSourceListOpen
+            if
+                let itemsToLoad = self?.selectionDelegate?.itemsToLoad,
+                let filter = self?.selectionDelegate?.filter,
+                wasSourceListOpen == false
+            {
                 self?.selectTableViewRows(for: itemsToLoad, filter: filter, animated: false)
+                UserDefaults.standard.wasSourceListOpen = !wasSourceListOpen
             }
         case .update(_, let deletions, let insertions, let modifications):
             // when there are changes from realm, update the table view with sweet animations

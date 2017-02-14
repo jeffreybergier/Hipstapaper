@@ -9,8 +9,6 @@
 import Common
 import Aspects
 
-extension NSWindow: KVOCapable {}
-
 class AppearanceObservingLoadingIndicatorViewController: LoadingIndicatorViewController {
     
     private lazy var appearanceObserver: KeyValueObserver<NSAppearance> = KeyValueObserver(target: self.view.window!, keyPath: #keyPath(NSWindow.appearance))

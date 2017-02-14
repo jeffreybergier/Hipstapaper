@@ -148,6 +148,28 @@ class MainSplitViewController: UISplitViewController, RealmControllable {
         navVC.modalPresentationStyle = .formSheet
         self.present(navVC, animated: animated, completion: .none)
     }
+    
+    // MARK: Handle State Restoration
+    
+    override func encodeRestorableState(with coder: NSCoder) {
+        // if the contentListView is not visible then that means only the source list is
+        // so when we wake next time we want only the source list to be shown
+        let wasSourceListOpen: Bool
+        if let _ = self.contentListViewController.view.window {
+            wasSourceListOpen = false
+        } else {
+            wasSourceListOpen = true
+        }
+        
+        // we need to save this in NSUserDefaults, not in the coder
+        // this is because the appropriate UISplitViewControllerDelegate method is called before
+        // the state is decoded from the decoder.
+        // This requires reading the setting off disk
+        UserDefaults.standard.wasSourceListOpen = wasSourceListOpen
+        
+        // call super to continue saving state
+        super.encodeRestorableState(with: coder)
+    }
 }
 
 extension MainSplitViewController: URLItemsToLoadChangeDelegate {
@@ -206,6 +228,11 @@ extension MainSplitViewController: UISplitViewControllerDelegate {
     // This primarily happens on the Plus sized iPhones
     
     // We basically just always return the SourceListVC for the master panel and the contentListVC for the detail panel
+    
+    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+        let wasSourceListOpen = UserDefaults.standard.wasSourceListOpen
+        return wasSourceListOpen
+    }
     
     func primaryViewController(forCollapsing splitViewController: UISplitViewController) -> UIViewController? {
         return self.sourceListNavigationController

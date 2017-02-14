@@ -35,6 +35,10 @@ class MainWindowController: NSWindowController, RealmControllable {
         }
     }
     
+    // MARK: KVO SourceList Collapsed
+    
+    private var sourceListCallapsedObserver: KeyValueObserver<Bool>?
+    
     // MARK: Configure the window
     
     override func windowDidLoad() {
@@ -52,9 +56,17 @@ class MainWindowController: NSWindowController, RealmControllable {
         
         // configure the splitview
         let sourceListItem = NSSplitViewItem(sidebarWithViewController: self.sourceListViewController)
+        sourceListItem.isCollapsed = !UserDefaults.standard.wasSourceListOpen
         let contentListItem = NSSplitViewItem(contentListWithViewController: self.contentListViewController)
         splitViewController.addSplitViewItem(sourceListItem)
         splitViewController.addSplitViewItem(contentListItem)
+        
+        // KVO the sourceListItem Collapsed
+        self.sourceListCallapsedObserver = KeyValueObserver(target: sourceListItem, keyPath: "collapsed") // #keyPath(NSSplitViewItem.isCollapsed)
+        self.sourceListCallapsedObserver?.startObserving() { isCollapsed -> Bool? in
+            UserDefaults.standard.wasSourceListOpen = !isCollapsed
+            return .none
+        }
         
         // Become the selection delegate for the sidebar
         // This lets us update the content view controller when the selection changes in the sidebar
