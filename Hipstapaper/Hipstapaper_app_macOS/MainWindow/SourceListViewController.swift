@@ -37,6 +37,11 @@ class SourceListViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // restore the saved width
+        self.view.frame.size.width = UserDefaults.standard.sourceListWidth
+        
+        // load tags
         self.hardReloadData()
     }
     

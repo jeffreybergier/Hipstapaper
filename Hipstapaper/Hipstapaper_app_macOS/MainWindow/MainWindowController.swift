@@ -61,6 +61,13 @@ class MainWindowController: NSWindowController, RealmControllable {
         splitViewController.addSplitViewItem(sourceListItem)
         splitViewController.addSplitViewItem(contentListItem)
         
+        // Register to save SourceListView Width when the SplitView is Resized
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(type(of: self).splitViewDidResizeSubviews(_:)),
+            name: .NSSplitViewDidResizeSubviews,
+            object: splitViewController.splitView
+        )
+        
         // KVO the sourceListItem Collapsed
         self.sourceListCallapsedObserver = KeyValueObserver(target: sourceListItem, keyPath: "collapsed") // #keyPath(NSSplitViewItem.isCollapsed)
         self.sourceListCallapsedObserver?.startObserving() { isCollapsed -> Bool? in
@@ -121,6 +128,10 @@ class MainWindowController: NSWindowController, RealmControllable {
             return false
         }
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .NSSplitViewDidResizeSubviews, object: .none)
+    }
 }
 
 extension MainWindowController: URLItemsToLoadChangeDelegate {
@@ -160,5 +171,11 @@ extension MainWindowController: URLItemsToLoadChangeDelegate {
             else { return }
             self.contentListViewController.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
         }
+    }
+}
+
+fileprivate extension MainWindowController /*: NSSplitViewDelegate */ {
+    @objc fileprivate func splitViewDidResizeSubviews(_ notification: Notification) {
+        UserDefaults.standard.sourceListWidth = self.sourceListViewController.view.frame.width
     }
 }

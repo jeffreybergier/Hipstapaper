@@ -17,6 +17,7 @@ public extension UserDefaults {
         fileprivate static let tagUniqueName = "kTagUniqueNameKey"
         fileprivate static let selectedItems = "kSelectedItemsKey"
         fileprivate static let sourceListShown = "kSourceListShownKey"
+        fileprivate static let sourceListWidth = "kSourceListWidthKey"
     }
     
     public var selectedURLItemUUIDStrings: [String]? {
@@ -65,12 +66,25 @@ public extension UserDefaults {
         get {
             let number = self.object(forKey: Keys.sourceListShown) as? NSNumber
             let previousValue = number?.boolValue
-            let defaultValue = true
+            let defaultValue = false
             return previousValue ?? defaultValue
         }
         set {
             let number = NSNumber(value: newValue)
             self.set(number, forKey: Keys.sourceListShown)
+        }
+    }
+    
+    public var sourceListWidth: CGFloat {
+        get {
+            let number = self.object(forKey: Keys.sourceListWidth) as? NSNumber
+            let previousValue = number?.floatValue
+            let defaultValue: Float = 250
+            return floor(CGFloat(previousValue ?? defaultValue))
+        }
+        set {
+            let number = NSNumber(value: floor(Float(newValue)))
+            self.set(number, forKey: Keys.sourceListWidth)
         }
     }
 }

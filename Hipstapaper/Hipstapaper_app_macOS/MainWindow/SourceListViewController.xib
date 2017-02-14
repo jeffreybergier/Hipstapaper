@@ -172,9 +172,6 @@
                         </subviews>
                         <nil key="backgroundColor"/>
                     </clipView>
-                    <constraints>
-                        <constraint firstAttribute="width" priority="250" constant="250" id="087-t4-a3J"/>
-                    </constraints>
                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="M19-oP-T5F">
                         <rect key="frame" x="0.0" y="644" width="200" height="16"/>
                         <autoresizingMask key="autoresizingMask"/>
