@@ -66,7 +66,11 @@ public extension UserDefaults {
         get {
             let number = self.object(forKey: Keys.sourceListShown) as? NSNumber
             let previousValue = number?.boolValue
-            let defaultValue = false
+            #if os(OSX)
+                let defaultValue = true
+            #else
+                let defaultValue = false
+            #endif
             return previousValue ?? defaultValue
         }
         set {
