@@ -131,6 +131,11 @@ class WebBrowserWindowController: NSWindowController {
         self.invalidateRestorableState()
     }
     
+    @objc private func openInBrowser(_ sender: NSObject?) {
+        guard let urlString = self.itemID?.urlString, let url = URL(string: urlString) else { return }
+        NSWorkspace.shared().open(url)
+    }
+    
     override func validateToolbarItem(_ sender: NSObject?) -> Bool {
         guard
             let toolbarItem = sender as? NSToolbarItem,
@@ -190,6 +195,8 @@ class WebBrowserWindowController: NSWindowController {
             return false
         case .quickLook:
             return false
+        case .openInBrowser:
+            return true
         }
     }
     

@@ -190,12 +190,19 @@ class ContentListViewController: NSViewController, RealmControllable {
         case .quickLook:
             guard self.nextResponder === self.quickLookPanelController else { return false }
             return true
+        case .openInBrowser:
+            return true
         }
     }
     
     @objc private func open(_ sender: NSObject?) {
         guard let selectedItems = self.selectedURLItems else { NSBeep(); return; }
         self.openOrBringFrontWindowControllers(for: selectedItems)
+    }
+    
+    @objc private func openInBrowser(_ sender: NSObject?) {
+        guard let items = self.selectedURLItems?.flatMap({ URL(string: $0.urlString) }) else { return }
+        NSWorkspace.shared().open(items, withAppBundleIdentifier: .none, options: [], additionalEventParamDescriptor: .none, launchIdentifiers: .none)
     }
     
     @objc private func delete(_ sender: NSObject?) {

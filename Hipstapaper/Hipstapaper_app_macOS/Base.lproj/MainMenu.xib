@@ -79,6 +79,11 @@
                                     <action selector="open:" target="-1" id="1Ly-kq-ZGY"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Open in Browser" tag="998" alternate="YES" keyEquivalent="O" id="FcV-VR-5GD">
+                                <connections>
+                                    <action selector="openInBrowser:" target="-1" id="yYd-2L-5ZF"/>
+                                </connections>
+                            </menuItem>
                             <menuItem title="Quicklook Selected" tag="764" keyEquivalent="y" id="ond-6F-XyW">
                                 <connections>
                                     <action selector="toggleQuickLookPreviewPanel:" target="-1" id="MkU-tO-aXi"/>
