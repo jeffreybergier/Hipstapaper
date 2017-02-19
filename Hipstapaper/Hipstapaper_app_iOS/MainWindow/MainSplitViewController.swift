@@ -113,7 +113,7 @@ class MainSplitViewController: UISplitViewController, RealmControllable {
     // Only try on the first time we show up
     // Doing this work in ViewDidLoad led to errors
     // The view controller was not yet in the view hierarchy
-    private var viewDidAppearOnce = false
+    fileprivate var viewDidAppearOnce = false
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -230,8 +230,16 @@ extension MainSplitViewController: UISplitViewControllerDelegate {
     // We basically just always return the SourceListVC for the master panel and the contentListVC for the detail panel
     
     func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
-        let wasSourceListOpen = UserDefaults.standard.wasSourceListOpen
-        return wasSourceListOpen
+        // this is a state restoration feature
+        // but this delegate is called before state restoration happens
+        // so if the view has never appeared once
+        // we can assume the state restoration value can be used
+        if self.viewDidAppearOnce == false {
+            return UserDefaults.standard.wasSourceListOpen
+        } else {
+            // otherwise, just always return the desired value
+            return false
+        }
     }
     
     func primaryViewController(forCollapsing splitViewController: UISplitViewController) -> UIViewController? {
