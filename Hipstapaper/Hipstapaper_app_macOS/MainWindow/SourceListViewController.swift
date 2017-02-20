@@ -24,7 +24,7 @@ class SourceListViewController: NSViewController {
     
     // MARK: Tag Data
     
-    fileprivate var data: Results<TagItem>?
+    fileprivate var data: AnyRealmCollection<TagItem>?
     
     // this property needs to be permanent to help with dynamically refreshing the outline view
     fileprivate let tagParent = TreeBindingObject(title: "Tags  🏷", kind: .notSelectable(.tags))
@@ -62,7 +62,7 @@ class SourceListViewController: NSViewController {
     
     fileprivate var changingSelectionProgrammaticaly = false // refer to MARK Selection Super Hack
     
-    private func realmResultsChanged(_ changes: RealmCollectionChange<Results<TagItem>>) {
+    private func realmResultsChanged(_ changes: RealmCollectionChange<AnyRealmCollection<TagItem>>) {
         switch changes {
         case .initial:
             // manually update the child count of the tag parent

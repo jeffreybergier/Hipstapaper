@@ -20,7 +20,7 @@ class TagAddRemoveViewController: NSViewController {
     
     // MARK: Data
     
-    fileprivate var data: Results<TagItem>?
+    fileprivate var data: AnyRealmCollection<TagItem>?
     fileprivate var itemsToTag: [URLItem.UIIdentifier] = []
     
     // MARK: Outlets
@@ -57,21 +57,21 @@ class TagAddRemoveViewController: NSViewController {
         self.notificationToken = .none
         
         self.data = self.realmController?.tag_loadAll()
-        self.notificationToken = self.data?.addNotificationBlock(self.realmResultsChangeClosure)
+        self.notificationToken = self.data?.addNotificationBlock({ [weak self] in self?.realmResultsChanged($0) })
     }
     
-    private lazy var realmResultsChangeClosure: ((RealmCollectionChange<Results<TagItem>>) -> Void) = { [weak self] changes in
+    private func realmResultsChanged(_ changes: RealmCollectionChange<AnyRealmCollection<TagItem>>) {
         switch changes {
         case .initial:
-            self?.tableView?.reloadData()
+            self.tableView?.reloadData()
         case .update(_, let deletions, let insertions, let modifications):
-            self?.tableView?.beginUpdates()
-            self?.tableView?.insertRows(at: IndexSet(insertions), withAnimation: .slideRight)
-            self?.tableView?.removeRows(at: IndexSet(deletions), withAnimation: .slideLeft)
-            self?.tableView?.reloadData(forRowIndexes: IndexSet(modifications), columnIndexes: IndexSet([0]))
-            self?.tableView?.endUpdates()
+            self.tableView?.beginUpdates()
+            self.tableView?.insertRows(at: IndexSet(insertions), withAnimation: .slideRight)
+            self.tableView?.removeRows(at: IndexSet(deletions), withAnimation: .slideLeft)
+            self.tableView?.reloadData(forRowIndexes: IndexSet(modifications), columnIndexes: IndexSet([0]))
+            self.tableView?.endUpdates()
         case .error(let error):
-            guard let window = self?.view.window else { break }
+            guard let window = self.view.window else { break }
             let alert = NSAlert(error: error)
             alert.beginSheetModal(for: window, completionHandler: .none)
         }

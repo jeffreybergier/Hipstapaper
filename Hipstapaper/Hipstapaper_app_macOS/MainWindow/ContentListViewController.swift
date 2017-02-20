@@ -30,7 +30,7 @@ class ContentListViewController: NSViewController, RealmControllable {
     
     // MARK: Data
     
-    private(set) fileprivate var data: Results<URLItem>?
+    private(set) fileprivate var data: AnyRealmCollection<URLItem>?
     
     fileprivate var selectedURLItems: [URLItem]? {
         let items = self.tableView?.selectedRowIndexes.flatMap({ self.data?[$0] }) ?? []
@@ -125,10 +125,10 @@ class ContentListViewController: NSViewController, RealmControllable {
         
         // load the data
         self.data = self.realmController?.url_loadAll(for: itemsToLoad, sortedBy: sortOrder, filteredBy: filter)
-        self.notificationToken = self.data?.addNotificationBlock({ self.realmResultsChanged($0) })
+        self.notificationToken = self.data?.addNotificationBlock({ [weak self] in self?.realmResultsChanged($0) })
     }
     
-    private func realmResultsChanged(_ changes: RealmCollectionChange<Results<URLItem>>) {
+    private func realmResultsChanged(_ changes: RealmCollectionChange<AnyRealmCollection<URLItem>>) {
         switch changes {
         case .initial:
             let previousSelectionPredicates = UserDefaults.standard.selectedURLItemUUIDStrings?.map({ "\(#keyPath(URLItem.uuid)) = '\($0)'" })
