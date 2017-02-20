@@ -11,7 +11,7 @@ import WebKit
 
 extension WKWebView: KVOCapable {}
 
-public extension Results {
+public extension AnyRealmCollection {
     public func indexes(matchingPredicates predicates: [String]) -> [Int]? {
         let matches = predicates.flatMap({ self.filter($0).first })
         let indexes = matches.flatMap({ self.index(of: $0) })

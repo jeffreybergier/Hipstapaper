@@ -60,7 +60,7 @@ class ContentListViewController: UIViewController, RealmControllable {
     
     // MARK: Data
     
-    fileprivate var data: Results<URLItem>?
+    fileprivate var data: AnyRealmCollection<URLItem>?
     
     weak var realmController: RealmController? {
         didSet {
@@ -161,7 +161,7 @@ class ContentListViewController: UIViewController, RealmControllable {
         self.notificationToken = self.data?.addNotificationBlock({ [weak self] in self?.realmResultsChanged($0) })
     }
     
-    private func realmResultsChanged(_ changes: RealmCollectionChange<Results<URLItem>>) {
+    private func realmResultsChanged(_ changes: RealmCollectionChange<AnyRealmCollection<URLItem>>) {
         switch changes {
         case .initial:
             self.tableView?.reloadData()

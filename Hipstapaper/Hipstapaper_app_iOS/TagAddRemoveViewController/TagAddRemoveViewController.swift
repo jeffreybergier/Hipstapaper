@@ -46,7 +46,7 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
         }
     }
     
-    fileprivate var tags: Results<TagItem>?
+    fileprivate var data: AnyRealmCollection<TagItem>?
     fileprivate var itemsToTag: [URLItem.UIIdentifier] = []
     fileprivate private(set) var presentationStyle = PresentationStyle.formSheet
     weak var realmController: RealmController? {
@@ -79,24 +79,24 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
         // reset everything
         self.notificationToken?.stop()
         self.notificationToken = .none
-        self.tags = .none
+        self.data = .none
         self.tableView?.reloadData()
         
         // reload everything
-        self.tags = self.realmController?.tag_loadAll()
-        self.notificationToken = self.tags?.addNotificationBlock(self.tableUpdateClosure)
+        self.data = self.realmController?.tag_loadAll()
+        self.notificationToken = self.data?.addNotificationBlock({ [weak self] in self?.realmResultsChanged($0) })
     }
     
-    private lazy var tableUpdateClosure: ((RealmCollectionChange<Results<TagItem>>) -> Void) = { [weak self] changes in
+    private func realmResultsChanged(_ changes: RealmCollectionChange<AnyRealmCollection<TagItem>>) {
         switch changes {
         case .initial:
-            self?.tableView?.reloadData()
+            self.tableView?.reloadData()
         case .update(_, let deletions, let insertions, let modifications):
-            self?.tableView?.beginUpdates()
-            self?.tableView?.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }), with: .right)
-            self?.tableView?.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .left)
-            self?.tableView?.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
-            self?.tableView?.endUpdates()
+            self.tableView?.beginUpdates()
+            self.tableView?.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }), with: .right)
+            self.tableView?.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .left)
+            self.tableView?.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
+            self.tableView?.endUpdates()
         case .error(let error):
             fatalError("\(error)")
         }
@@ -131,7 +131,7 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
 extension TagAddRemoveViewController: TagAssignmentChangeDelegate {
     
     func didChangeAssignment(to newValue: Bool, forTagItemAtIndex index: Int) {
-        guard let tagItem = self.tags?[index] else { return }
+        guard let tagItem = self.data?[index] else { return }
         switch newValue {
         case true:
             self.realmController?.tag_apply(tag: tagItem, to: self.itemsToTag)
@@ -154,12 +154,12 @@ extension TagAddRemoveViewController: UITableViewDelegate {
 extension TagAddRemoveViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.tags?.count ?? 0
+        return self.data?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TagAddRemoveTableViewCell.nibName, for: indexPath)
-        if let cell = cell as? TagAddRemoveTableViewCell, let tagItem = self.tags?[indexPath.row] {
+        if let cell = cell as? TagAddRemoveTableViewCell, let tagItem = self.data?[indexPath.row] {
             cell.tagNameLabel?.text = tagItem.name
             cell.index = indexPath.row
             let state = self.realmController?.tag_applicationState(of: tagItem, on: self.itemsToTag) ?? .mixed
@@ -172,7 +172,7 @@ extension TagAddRemoveViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         switch editingStyle {
         case .delete:
-            guard let tagItem = self.tags?[indexPath.row] else { return }
+            guard let tagItem = self.data?[indexPath.row] else { return }
             self.realmController?.delete([tagItem])
         case .insert, .none:
             break

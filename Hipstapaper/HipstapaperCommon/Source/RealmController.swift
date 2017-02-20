@@ -98,9 +98,9 @@ extension RealmController {
     
     // MARK: Create / Load / Delete Tags
     
-    public func tag_loadAll() -> Results<TagItem> {
+    public func tag_loadAll() -> AnyRealmCollection<TagItem> {
         let realm = self.realm
-        let tags = realm.objects(TagItem.self).sorted(byKeyPath: #keyPath(TagItem.name))
+        let tags = AnyRealmCollection(realm.objects(TagItem.self).sorted(byKeyPath: #keyPath(TagItem.name)))
         return tags
     }
     
@@ -198,7 +198,7 @@ extension RealmController {
         return items
     }
     
-    public func url_loadAll(for itemsToLoad: URLItem.ItemsToLoad, sortedBy sortOrder: URLItem.SortOrder, filteredBy filter: URLItem.ArchiveFilter, searchFilter: String? = nil) -> Results<URLItem>? {
+    public func url_loadAll(for itemsToLoad: URLItem.ItemsToLoad, sortedBy sortOrder: URLItem.SortOrder, filteredBy filter: URLItem.ArchiveFilter, searchFilter: String? = nil) -> AnyRealmCollection<URLItem>? {
         
         // configure my filters
         var filters = [String]()
@@ -218,22 +218,20 @@ extension RealmController {
         }
         
         // query for the correct object
-        let unsortedUnfiltered: Results<URLItem>
+        let unsortedUnfiltered: AnyRealmCollection<URLItem>
         switch itemsToLoad {
         case .all:
-            unsortedUnfiltered = realm.objects(URLItem.self)
+            unsortedUnfiltered = AnyRealmCollection(realm.objects(URLItem.self))
         case .tag(let tagID):
             guard let tag = realm.object(ofType: TagItem.self, forPrimaryKey: tagID.idName) else { return nil }
-            unsortedUnfiltered = tag.items.filter("TRUEPREDICATE") // converts `LinkingObjects<T>` to `Results<T>`
-            // could use AnyRealmCollection<URLItem> but that messed up the reduce function below
-            // because the q is a different type the first time then all other times during the reduce function
+            unsortedUnfiltered = AnyRealmCollection(tag.items)
         }
         
         // perform filters on the query
-        let unsortedFiltered = filters.reduce(unsortedUnfiltered) { q, f in q.filter(f) }
+        let unsortedFiltered = filters.reduce(unsortedUnfiltered) { q, f in AnyRealmCollection(q.filter(f)) }
         
         // sort the filtered items
-        let sortedFiltered = unsortedFiltered.sorted(byKeyPath: sortOrder.keyPath, ascending: sortOrder.ascending)
+        let sortedFiltered = AnyRealmCollection(unsortedFiltered.sorted(byKeyPath: sortOrder.keyPath, ascending: sortOrder.ascending))
         
         // return the result
         return sortedFiltered

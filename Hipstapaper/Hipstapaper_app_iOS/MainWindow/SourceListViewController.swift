@@ -17,7 +17,7 @@ class SourceListViewController: UIViewController, RealmControllable {
     }
     
     @IBOutlet private weak var tableView: UITableView?
-    fileprivate var data: Results<TagItem>?
+    fileprivate var data: AnyRealmCollection<TagItem>?
     
     fileprivate weak var selectionDelegate: URLItemsToLoadChangeDelegate?
     
@@ -56,52 +56,52 @@ class SourceListViewController: UIViewController, RealmControllable {
         
         // reload everything
         self.data = self.realmController?.tag_loadAll()
-        self.notificationToken = self.data?.addNotificationBlock(self.tableUpdateClosure)
+        self.notificationToken = self.data?.addNotificationBlock({ [weak self] in self?.realmResultsChanged($0) })
     }
     
-    private lazy var tableUpdateClosure: ((RealmCollectionChange<Results<TagItem>>) -> Void) = { [weak self] changes in
+    private func realmResultsChanged(_ changes: RealmCollectionChange<AnyRealmCollection<TagItem>>) {
         switch changes {
         case .initial:
             // when the data is ready, relad the tableview
-            self?.tableView?.reloadData()
+            self.tableView?.reloadData()
             
             // after that, select the currently selected row
             // here we should always select the row because we want the row to be able to deselect itself when the view appears later
             // note, we do not want to automatically select the table row if only the the sourceListWasOpen last time the app was closed
             let wasSourceListOpen = UserDefaults.standard.wasSourceListOpen
             if
-                let itemsToLoad = self?.selectionDelegate?.itemsToLoad,
-                let filter = self?.selectionDelegate?.filter,
+                let itemsToLoad = self.selectionDelegate?.itemsToLoad,
+                let filter = self.selectionDelegate?.filter,
                 wasSourceListOpen == false
             {
-                self?.selectTableViewRows(for: itemsToLoad, filter: filter, animated: false)
+                self.selectTableViewRows(for: itemsToLoad, filter: filter, animated: false)
                 UserDefaults.standard.wasSourceListOpen = !wasSourceListOpen
             }
         case .update(_, let deletions, let insertions, let modifications):
             // when there are changes from realm, update the table view with sweet animations
-            self?.tableView?.beginUpdates()
-            self?.tableView?.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 1)}), with: .left)
-            self?.tableView?.insertRows(at: insertions.map({ IndexPath(row: $0, section: 1) }), with: .right)
-            self?.tableView?.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 1) }), with: .left)
-            self?.tableView?.endUpdates()
+            self.tableView?.beginUpdates()
+            self.tableView?.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 1)}), with: .left)
+            self.tableView?.insertRows(at: insertions.map({ IndexPath(row: $0, section: 1) }), with: .right)
+            self.tableView?.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 1) }), with: .left)
+            self.tableView?.endUpdates()
             
             // if a tag is the current selection, things may have changed out from underneath us, so we should update the current selections
             // we should also only do this if we're in collapsed mode. Otherwise the user could just be sitting on the Tag page on their iphone and something becomes selected
             guard
-                let itemsToLoad = self?.selectionDelegate?.itemsToLoad,
-                let filter = self?.selectionDelegate?.filter,
-                self?.splitViewController?.isCollapsed == false,
+                let itemsToLoad = self.selectionDelegate?.itemsToLoad,
+                let filter = self.selectionDelegate?.filter,
+                self.splitViewController?.isCollapsed == false,
                 case .tag = itemsToLoad
             else { return }
             
-            self?.selectTableViewRows(for: itemsToLoad, filter: filter, animated: true)
+            self.selectTableViewRows(for: itemsToLoad, filter: filter, animated: true)
         case .error(let error):
             let alert = UIAlertController(title: "Error Loading Tags", message: error.localizedDescription, preferredStyle: .alert)
             let action = UIAlertAction(title: "Dismiss", style: .cancel, handler: .none)
             alert.addAction(action)
-            self?.present(alert, animated: true, completion: .none)
-            self?.data = .none
-            self?.tableView?.reloadData()
+            self.present(alert, animated: true, completion: .none)
+            self.data = .none
+            self.tableView?.reloadData()
         }
     }
     
