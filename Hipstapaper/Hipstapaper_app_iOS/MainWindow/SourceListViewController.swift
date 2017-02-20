@@ -130,14 +130,14 @@ class SourceListViewController: UIViewController, RealmControllable {
         case .all:
             switch filter {
             case .all:
-                self.tableView?.selectRow(at: IndexPath(row: 1, section: Section.readingList.rawValue), animated: animated, scrollPosition: .top)
+                self.tableView?.selectRow(at: IndexPath(row: 1, section: Section.readingList.rawValue), animated: animated, scrollPosition: .bottom)
             case .unarchived:
-                self.tableView?.selectRow(at: IndexPath(row: 0, section: Section.readingList.rawValue), animated: animated, scrollPosition: .top)
+                self.tableView?.selectRow(at: IndexPath(row: 0, section: Section.readingList.rawValue), animated: animated, scrollPosition: .bottom)
             }
         case .tag(let tagID):
             let predicate = "\(#keyPath(TagItem.normalizedNameHash)) = '\(tagID.idName)'"
             guard let index = self.data?.index(matchingPredicate: predicate) else { return }
-            self.tableView?.selectRow(at: IndexPath(row: index, section: Section.tags.rawValue), animated: animated, scrollPosition: .top)
+            self.tableView?.selectRow(at: IndexPath(row: index, section: Section.tags.rawValue), animated: animated, scrollPosition: .bottom)
         }
     }
     
