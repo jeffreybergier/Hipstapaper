@@ -26,7 +26,9 @@ class ContentListViewController: UIViewController, RealmControllable {
             self.tableView?.tableHeaderView = self.searchController.searchBar
         }
     }
-    fileprivate let searchController: UISearchController = {
+    fileprivate lazy var searchController: UISearchController = {
+        // lazy vs let fixes a bug where the searchBar icon was pixelated
+        // probably caused by initializing before the screen is all configured
         let sc = UISearchController(searchResultsController: .none)
         sc.dimsBackgroundDuringPresentation = false
         return sc
@@ -93,6 +95,8 @@ class ContentListViewController: UIViewController, RealmControllable {
         
         // configure the search delegate
         self.searchController.searchResultsUpdater = self
+        
+        // needed for the search delegate so it presents correctly
         self.definesPresentationContext = true
         
         // set the top constraint on the LoadingIndicatorViewController

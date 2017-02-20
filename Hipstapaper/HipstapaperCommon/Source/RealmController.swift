@@ -218,26 +218,25 @@ extension RealmController {
         }
         
         // query for the correct object
-        let unfiltered: Results<URLItem>?
+        let unsortedUnfiltered: Results<URLItem>
         switch itemsToLoad {
         case .all:
-            unfiltered = realm.objects(URLItem.self)
+            unsortedUnfiltered = realm.objects(URLItem.self)
         case .tag(let tagID):
             guard let tag = realm.object(ofType: TagItem.self, forPrimaryKey: tagID.idName) else { return nil }
-            unfiltered = tag.items.filter("TRUEPREDICATE") // converts `LinkingObjects<T>` to `Results<T>`
+            unsortedUnfiltered = tag.items.filter("TRUEPREDICATE") // converts `LinkingObjects<T>` to `Results<T>`
             // could use AnyRealmCollection<URLItem> but that messed up the reduce function below
             // because the q is a different type the first time then all other times during the reduce function
         }
         
         // perform filters on the query
-        guard let query = unfiltered else { return nil }
-        let unsorted = filters.reduce(query) { q, f in q.filter(f) }
+        let unsortedFiltered = filters.reduce(unsortedUnfiltered) { q, f in q.filter(f) }
         
         // sort the filtered items
-        let sorted = unsorted.sorted(byKeyPath: sortOrder.keyPath, ascending: sortOrder.ascending)
+        let sortedFiltered = unsortedFiltered.sorted(byKeyPath: sortOrder.keyPath, ascending: sortOrder.ascending)
         
         // return the result
-        return sorted
+        return sortedFiltered
     }
     
     public func url_setArchived(to archived: Bool, on items: [URLItem]) {
