@@ -47,7 +47,7 @@ public extension URLItem {
             }
         }
         
-        var keyPath: String {
+        internal var keyPath: String {
             switch self {
             case .recentlyAddedOnTop, .recentlyAddedOnBottom:
                 return #keyPath(URLItem.creationDate)
@@ -62,27 +62,13 @@ public extension URLItem {
             }
         }
         
-        private var ascending: Bool {
+        internal var ascending: Bool {
             switch self {
             case .recentlyAddedOnTop, .recentlyModifiedOnTop, .urlZOnTop, .archivedOnTop, .pageTitleZOnTop:
                 return false
             case .recentlyAddedOnBottom, .recentlyModifiedOnBottom, .urlAOnTop, .unarchivedOnTop, .pageTitleAOnTop:
                 return true
             }
-        }
-        
-        func sort(results input: Results<URLItem>) -> Results<URLItem> {
-            let keyPath = self.keyPath
-            let ascending = self.ascending
-            let output = input.sorted(byKeyPath: keyPath, ascending: ascending)
-            return output
-        }
-        
-        func sort(results input: LinkingObjects<URLItem>) -> Results<URLItem> {
-            let keyPath = self.keyPath
-            let ascending = self.ascending
-            let output = input.sorted(byKeyPath: keyPath, ascending: ascending)
-            return output
         }
     }
 }

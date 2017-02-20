@@ -27,16 +27,18 @@ extension UISearchController {
             if let newValue = newValue {
                 self.searchBar.text = newValue
                 self.isActive = true
+                self.searchBar.becomeFirstResponder()
             } else {
                 self.searchBar.text = nil
                 self.isActive = false
+                self.searchBar.resignFirstResponder()
             }
         }
     }
 }
 
 extension UIViewController {
-    func emergencyDismiss(animated animatedDismiss: Bool = false,
+    func emergencyDismissPopover(animated animatedDismiss: Bool = false,
                           thenPresentViewController vc: UIViewController,
                           animated animatedPresent: Bool = true,
                           completion: (() -> Void)? = nil)
@@ -44,15 +46,15 @@ extension UIViewController {
         let presentVC = {
             self.present(vc, animated: animatedPresent, completion: completion)
         }
-        self.emergencyDismiss(animated: animatedDismiss, thenDo: presentVC)
+        self.emergencyDismissPopover(animated: animatedDismiss, thenDo: presentVC)
     }
     
-    func emergencyDismiss(animated: Bool = false,
+    func emergencyDismissPopover(animated: Bool = false,
                           thenDo completion: @escaping (() -> Void))
     {
-        if let presentedVC = self.presentedViewController {
+        if self.presentedViewController?.modalPresentationStyle == .popover {
             // false makes the emergency dismissal feel more responsive
-            presentedVC.dismiss(animated: animated, completion: { completion() })
+            self.presentedViewController?.dismiss(animated: animated, completion: { completion() })
         } else {
             completion()
         }

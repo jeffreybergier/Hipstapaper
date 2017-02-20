@@ -29,7 +29,6 @@ class ContentListViewController: UIViewController, RealmControllable {
     fileprivate let searchController: UISearchController = {
         let sc = UISearchController(searchResultsController: .none)
         sc.dimsBackgroundDuringPresentation = false
-        sc.hidesNavigationBarDuringPresentation = false // fixes a bunch of visual bugs but is not as nice
         return sc
     }()
     
@@ -94,6 +93,7 @@ class ContentListViewController: UIViewController, RealmControllable {
         
         // configure the search delegate
         self.searchController.searchResultsUpdater = self
+        self.definesPresentationContext = true
         
         // set the top constraint on the LoadingIndicatorViewController
         // this can't be done in the XIB
@@ -224,7 +224,7 @@ class ContentListViewController: UIViewController, RealmControllable {
         }
         alert.addAction(cancel)
         alert.addAction(delete)
-        self.emergencyDismiss(thenPresentViewController: alert)
+        self.emergencyDismissPopover(thenPresentViewController: alert)
     }
     
     override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
@@ -315,7 +315,7 @@ extension ContentListViewController: URLItemsToLoadChangeDelegate {
                 changedSomething = true
             }
             if changedSomething {
-                self.searchController.searchString = nil
+                if sender == .sourceListVC { self.searchController.searchString = nil } // only clear the search if this did not come from a tertiaryVC
                 self.hardReloadData()
             }
         }
@@ -347,11 +347,11 @@ extension ContentListViewController /* Handle BarButtonItems */ {
         }
         
         // HIG states that a popover should be dismissiable and a new one presentable in one tap
-        self.emergencyDismiss(thenDo: enterEditMode)
+        self.emergencyDismissPopover(thenDo: enterEditMode)
     }
     
     @objc fileprivate func doneBBITapped(_ sender: NSObject?) {
-        self.emergencyDismiss() { // dismisses any popovers and then does the action
+        self.emergencyDismissPopover() { // dismisses any popovers and then does the action
             self.resetTableViewAndToolbar()
         }
     }
@@ -371,7 +371,7 @@ extension ContentListViewController /* Handle BarButtonItems */ {
     }
     
     @objc fileprivate func archiveBBITapped(_ sender: NSObject?) {
-        self.emergencyDismiss() { // dismisses any popovers and then does the action
+        self.emergencyDismissPopover() { // dismisses any popovers and then does the action
             guard let items = self.selectedURLItems else { return }
             self.realmController?.url_setArchived(to: true, on: items)
             self.disableAllBBI()
@@ -379,7 +379,7 @@ extension ContentListViewController /* Handle BarButtonItems */ {
     }
     
     @objc fileprivate func unarchiveBBITapped(_ sender: NSObject?) {
-        self.emergencyDismiss() { // dismisses any popovers and then does the action
+        self.emergencyDismissPopover() { // dismisses any popovers and then does the action
             guard let items = self.selectedURLItems else { return }
             self.realmController?.url_setArchived(to: false, on: items)
             self.disableAllBBI()
@@ -400,14 +400,14 @@ extension ContentListViewController /* Handle BarButtonItems */ {
         guard let bbi = sender as? UIBBI else { return }
         let vc = SortSelectingViewController.newPopover(kind: .sort(currentSort: self.sortOrder), delegate: self, from: bbi)
         // HIG states that a popover should be dismissiable and a new one presentable in one tap
-        self.emergencyDismiss(thenPresentViewController: vc)
+        self.emergencyDismissPopover(thenPresentViewController: vc)
     }
     
     @objc fileprivate func filterBBITapped(_ sender: NSObject?) {
         guard let bbi = sender as? UIBBI else { return }
         let vc = SortSelectingViewController.newPopover(kind: .filter(currentFilter: self.filter), delegate: self, from: bbi)
         // HIG states that a popover should be dismissiable and a new one presentable in one tap
-        self.emergencyDismiss(thenPresentViewController: vc)
+        self.emergencyDismissPopover(thenPresentViewController: vc)
     }
     
     fileprivate func disableAllBBI() {
@@ -533,7 +533,7 @@ extension ContentListViewController: UITableViewDelegate {
         archiveToggleAction.backgroundColor = tableView.tintColor
         
         let tagAction = UITableViewRowAction(style: .normal, title: "🏷Tag") { [weak self] action, indexPath in
-            let selector: Selector = "_button"
+            let selector = Selector(("_button"))
             let popoverView: UIView
             if action.responds(to: selector), let actionButton = action.perform(selector)?.takeUnretainedValue() as? UIView {
                 // use 'private' api to get the actual rect and view of the button the user clicked on

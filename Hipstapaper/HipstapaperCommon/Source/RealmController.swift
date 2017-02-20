@@ -199,41 +199,45 @@ extension RealmController {
     }
     
     public func url_loadAll(for itemsToLoad: URLItem.ItemsToLoad, sortedBy sortOrder: URLItem.SortOrder, filteredBy filter: URLItem.ArchiveFilter, searchFilter: String? = nil) -> Results<URLItem>? {
-        let results: Results<URLItem>?
+        
+        // configure my filters
+        var filters = [String]()
+        
+        // filter for archived or not all
+        switch filter {
+        case .unarchived:
+            filters.append("\(filter.keyPath) = NO")
+        case .all:
+            break // don't add anything to the filter array
+        }
+
+        // filter for the users search
+        if let searchFilter = searchFilter {
+            let predicate = "\(#keyPath(URLItem.urlString)) CONTAINS[c] '\(searchFilter)' OR \(#keyPath(URLItem.extras.pageTitle)) CONTAINS[c] '\(searchFilter)'"
+            filters.append(predicate)
+        }
+        
+        // query for the correct object
+        let unfiltered: Results<URLItem>?
         switch itemsToLoad {
         case .all:
-            switch filter {
-            case .all:
-                if let searchFilter = searchFilter {
-                    results = sortOrder.sort(results: realm.objects(URLItem.self)).filter(URLItem.searchPredicate(for: searchFilter))
-                } else {
-                    results = sortOrder.sort(results: realm.objects(URLItem.self))
-                }
-            case .unarchived:
-                if let searchFilter = searchFilter {
-                    results = sortOrder.sort(results: realm.objects(URLItem.self).filter("\(filter.keyPath) = NO").filter(URLItem.searchPredicate(for: searchFilter)))
-                } else {
-                    results = sortOrder.sort(results: realm.objects(URLItem.self).filter("\(filter.keyPath) = NO"))
-                }
-            }
+            unfiltered = realm.objects(URLItem.self)
         case .tag(let tagID):
             guard let tag = realm.object(ofType: TagItem.self, forPrimaryKey: tagID.idName) else { return nil }
-            switch filter {
-            case .all:
-                if let searchFilter = searchFilter {
-                    results = sortOrder.sort(results: tag.items).filter(URLItem.searchPredicate(for: searchFilter))
-                } else {
-                    results = sortOrder.sort(results: tag.items)
-                }
-            case .unarchived:
-                if let searchFilter = searchFilter {
-                    results = sortOrder.sort(results: tag.items.filter("\(filter.keyPath) = NO")).filter(URLItem.searchPredicate(for: searchFilter))
-                } else {
-                    results = sortOrder.sort(results: tag.items.filter("\(filter.keyPath) = NO"))
-                }
-            }
+            unfiltered = tag.items.filter("TRUEPREDICATE") // converts `LinkingObjects<T>` to `Results<T>`
+            // could use AnyRealmCollection<URLItem> but that messed up the reduce function below
+            // because the q is a different type the first time then all other times during the reduce function
         }
-        return results
+        
+        // perform filters on the query
+        guard let query = unfiltered else { return nil }
+        let unsorted = filters.reduce(query) { q, f in q.filter(f) }
+        
+        // sort the filtered items
+        let sorted = unsorted.sorted(byKeyPath: sortOrder.keyPath, ascending: sortOrder.ascending)
+        
+        // return the result
+        return sorted
     }
     
     public func url_setArchived(to archived: Bool, on items: [URLItem]) {
