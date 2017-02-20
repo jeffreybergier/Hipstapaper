@@ -13,7 +13,7 @@ import UIKit
 
 class ContentListViewController: UIViewController, RealmControllable {
     
-    @IBOutlet private weak var loadingIndicatorViewController: LoadingIndicatorViewController?
+    @IBOutlet fileprivate weak var loadingIndicatorViewController: LoadingIndicatorViewController?
     @IBOutlet fileprivate weak var tableView: UITableView? {
         didSet {
             let imageNib = UINib(nibName: ContentTableViewCell.withImageNIBName, bundle: Bundle(for: ContentTableViewCell.self))
@@ -23,8 +23,15 @@ class ContentListViewController: UIViewController, RealmControllable {
             self.tableView?.allowsMultipleSelectionDuringEditing = true
             self.tableView?.rowHeight = ContentTableViewCell.cellHeight
             self.tableView?.estimatedRowHeight = ContentTableViewCell.cellHeight
+            self.tableView?.tableHeaderView = self.searchController.searchBar
         }
     }
+    fileprivate let searchController: UISearchController = {
+        let sc = UISearchController(searchResultsController: .none)
+        sc.dimsBackgroundDuringPresentation = false
+        sc.hidesNavigationBarDuringPresentation = false // fixes a bunch of visual bugs but is not as nice
+        return sc
+    }()
     
     fileprivate typealias UIBBI = UIBarButtonItem
     fileprivate lazy var editBBI: UIBBI = UIBBI(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: #selector(self.editBBITapped(_:)))
@@ -85,6 +92,9 @@ class ContentListViewController: UIViewController, RealmControllable {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // configure the search delegate
+        self.searchController.searchResultsUpdater = self
+        
         // set the top constraint on the LoadingIndicatorViewController
         // this can't be done in the XIB
         if let loadingIndicatorViewController = self.loadingIndicatorViewController {
@@ -120,6 +130,7 @@ class ContentListViewController: UIViewController, RealmControllable {
         let itemsToLoad = self.itemsToLoad
         let filter = self.filter
         let sortOrder = self.sortOrder
+        let searchFilter = self.searchController.searchString
         
         // set title
         switch itemsToLoad {
@@ -138,11 +149,11 @@ class ContentListViewController: UIViewController, RealmControllable {
         self.notificationToken?.stop()
         self.notificationToken = .none
         self.data = .none
-        if self.tableView?.numberOfRows(inSection: 0) != 0 { self.tableView?.reloadData() } // helps reduce flickering the tableview is already empty
-        self.doneBBITapped(.none)
+        self.tableView?.reloadData()
+        self.resetTableViewAndToolbar()
         
         // configure data source
-        self.data = self.realmController?.url_loadAll(for: itemsToLoad, sortedBy: sortOrder, filteredBy: filter)
+        self.data = self.realmController?.url_loadAll(for: itemsToLoad, sortedBy: sortOrder, filteredBy: filter, searchFilter: searchFilter)
         self.notificationToken = self.data?.addNotificationBlock({ [weak self] in self?.realmResultsChanged($0) })
     }
     
@@ -150,7 +161,7 @@ class ContentListViewController: UIViewController, RealmControllable {
         switch changes {
         case .initial:
             self.tableView?.reloadData()
-            if (self.tableView?.isEditing ?? false) == true {
+            if self.tableView?.isEditing == true {
                 let previousSelectionPredicates = UserDefaults.standard.selectedURLItemUUIDStrings?.map({ "\(#keyPath(URLItem.uuid)) = '\($0)'" })
                 let previousSelectionIndexes = self.data?.indexes(matchingPredicates: previousSelectionPredicates ?? [])
                 previousSelectionIndexes?.forEach({ self.tableView?.selectRow(at: IndexPath(row: $0, section: 0), animated: false, scrollPosition: .none) })
@@ -175,7 +186,6 @@ class ContentListViewController: UIViewController, RealmControllable {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.updateNavBarHiding(basedOn: self.view.traitCollection)
         self.tableView?.flashScrollIndicators()
         let isEditing = self.tableView?.isEditing ?? false
         if isEditing == false {
@@ -187,6 +197,14 @@ class ContentListViewController: UIViewController, RealmControllable {
             // if so we need to update the BBI so that the user can tap the appropriate ones.
             let selectedItems = self.selectedURLItems ?? []
             self.updateBBI(with: selectedItems)
+        }
+        
+        // Hack to reload UISearchController
+        // See DecodeStateRestoration for more info
+        if let searchControllerStateRestoration = self.searchControllerStateRestoration {
+            self.hideLoadingView(searchControllerStateRestoration.wasActive)
+            self.searchController.searchString = searchControllerStateRestoration.searchFilter
+            self.searchControllerStateRestoration = nil
         }
     }
     
@@ -219,39 +237,44 @@ class ContentListViewController: UIViewController, RealmControllable {
         }
     }
     
-    // MARK: Change Bar Hiding on Compact Vertical Size Class Change
-    
-    private func updateNavBarHiding(basedOn traitCollection: UITraitCollection) {
-        switch traitCollection.verticalSizeClass {
-        case .compact:
-            self.navigationController?.hidesBarsOnSwipe = true
-        case .regular, .unspecified:
-            self.navigationController?.hidesBarsOnSwipe = false
-            self.navigationController?.setNavigationBarHidden(false, animated: true)
-            self.navigationController?.setToolbarHidden(false, animated: true)
-        }
-    }
-    
-    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.willTransition(to: newCollection, with: coordinator)
-        self.updateNavBarHiding(basedOn: newCollection)
-    }
-    
     // MARK: State Restoration
     
-    private static let kTableViewWasEditing = "kTableViewWasEditingKey"
+    private enum StateRestoration {
+        fileprivate static let kTableViewWasEditing = "kTableViewWasEditingKey"
+        fileprivate static let kSearchWasActive = "kSearchWasActiveKey"
+        fileprivate static let kSearchString = "kSearchStringKey"
+    }
+    
+    // Horrible Hack
+    // Apple's Code Sample shows repopulating the SearchController in ViewDidAppear
+    // Not in DecodeStateRestoration
+    // This Struct and this propery make that possible
+    // https://developer.apple.com/library/content/samplecode/TableSearch_UISearchController/Listings/Swift_TableSearch_MainTableViewController_swift.html
+    
+    private struct SearchControllerRestoration {
+        fileprivate var wasActive: Bool
+        fileprivate var searchFilter: String?
+    }
+    
+    private var searchControllerStateRestoration: SearchControllerRestoration?
     
     override func decodeRestorableState(with coder: NSCoder) {
-        let wasEditing = coder.decodeBool(forKey: type(of: self).kTableViewWasEditing)
+        let wasEditing = coder.decodeBool(forKey: StateRestoration.kTableViewWasEditing)
         if wasEditing == true {
             self.editBBITapped(self)
+        }
+        let wasActive = coder.decodeBool(forKey: StateRestoration.kSearchWasActive)
+        if wasActive == true {
+            let searchString = coder.decodeObject(forKey: StateRestoration.kSearchString) as? String
+            self.searchControllerStateRestoration = SearchControllerRestoration(wasActive: wasActive, searchFilter: searchString)
         }
         super.decodeRestorableState(with: coder)
     }
     
     override func encodeRestorableState(with coder: NSCoder) {
-        let wasEditing = self.tableView?.isEditing ?? false
-        coder.encode(wasEditing, forKey: type(of: self).kTableViewWasEditing)
+        coder.encode(self.tableView?.isEditing ?? false, forKey: StateRestoration.kTableViewWasEditing)
+        coder.encode(self.searchController.isActive, forKey: StateRestoration.kSearchWasActive)
+        coder.encode(self.searchController.searchBar.text, forKey: StateRestoration.kSearchString)
         super.encodeRestorableState(with: coder)
     }
     
@@ -292,6 +315,7 @@ extension ContentListViewController: URLItemsToLoadChangeDelegate {
                 changedSomething = true
             }
             if changedSomething {
+                self.searchController.searchString = nil
                 self.hardReloadData()
             }
         }
@@ -328,18 +352,22 @@ extension ContentListViewController /* Handle BarButtonItems */ {
     
     @objc fileprivate func doneBBITapped(_ sender: NSObject?) {
         self.emergencyDismiss() { // dismisses any popovers and then does the action
-            UserDefaults.standard.selectedURLItemUUIDStrings = .none
-            self.tableView?.setEditing(false, animated: true)
-            let items = [
-                self.sortBBI,
-                self.verticalBarSpaceBBI,
-                self.filterBBI,
-                self.flexibleSpaceBBI,
-                self.editBBI
-            ]
-            self.disableAllBBI()
-            self.setToolbarItems(items, animated: true)
+            self.resetTableViewAndToolbar()
         }
+    }
+    
+    fileprivate func resetTableViewAndToolbar() {
+        UserDefaults.standard.selectedURLItemUUIDStrings = .none
+        self.tableView?.setEditing(false, animated: true)
+        let items = [
+            self.sortBBI,
+            self.verticalBarSpaceBBI,
+            self.filterBBI,
+            self.flexibleSpaceBBI,
+            self.editBBI
+        ]
+        self.disableAllBBI()
+        self.setToolbarItems(items, animated: true)
     }
     
     @objc fileprivate func archiveBBITapped(_ sender: NSObject?) {
@@ -445,6 +473,25 @@ extension ContentListViewController: UIViewControllerPreviewingDelegate {
         // then present
         guard viewControllerToCommit is SFSafariViewController else { return }
         self.present(viewControllerToCommit, animated: true, completion: .none)
+    }
+}
+
+extension ContentListViewController: UISearchResultsUpdating {
+    
+    fileprivate func hideLoadingView(_ hide: Bool) {
+        // hide the syncronization view if searching is active
+        // this is needed because the search VC appears above the sync view
+        // it looks weird if syncronizing shows when searces are happening
+        if hide == true  {
+            self.loadingIndicatorViewController?.view?.alpha = 0
+        } else {
+            self.loadingIndicatorViewController?.view?.alpha = 1
+        }
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        self.hideLoadingView(searchController.isActive)
+        self.hardReloadData()
     }
 }
 

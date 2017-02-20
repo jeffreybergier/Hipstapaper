@@ -16,6 +16,25 @@ extension UITableView {
     }
 }
 
+extension UISearchController {
+    var searchString: String? {
+        get {
+            guard self.isActive == true else { return nil }
+            let trimmed = self.searchBar.text?.trimmingCharacters(in: .whitespacesAndNewlines)
+            if trimmed == "" { return nil } else { return trimmed }
+        }
+        set {
+            if let newValue = newValue {
+                self.searchBar.text = newValue
+                self.isActive = true
+            } else {
+                self.searchBar.text = nil
+                self.isActive = false
+            }
+        }
+    }
+}
+
 extension UIViewController {
     func emergencyDismiss(animated animatedDismiss: Bool = false,
                           thenPresentViewController vc: UIViewController,

@@ -26,6 +26,15 @@ final public class URLItem: Object {
     
 }
 
+internal extension URLItem {
+    internal class func searchPredicate(for searchFilter: String) -> String {
+        let urlString = #keyPath(URLItem.urlString)
+        let pageTitle = #keyPath(URLItem.extras.pageTitle)
+        let predicate = "\(urlString) CONTAINS[c] '\(searchFilter)' OR \(pageTitle) CONTAINS[c] '\(searchFilter)'"
+        return predicate
+    }
+}
+
 
 
 

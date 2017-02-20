@@ -198,28 +198,42 @@ extension RealmController {
         return items
     }
     
-    public func url_loadAll(for itemsToLoad: URLItem.ItemsToLoad, sortedBy sortOrder: URLItem.SortOrder, filteredBy filter: URLItem.ArchiveFilter) -> Results<URLItem>? {
+    public func url_loadAll(for itemsToLoad: URLItem.ItemsToLoad, sortedBy sortOrder: URLItem.SortOrder, filteredBy filter: URLItem.ArchiveFilter, searchFilter: String? = nil) -> Results<URLItem>? {
+        let results: Results<URLItem>?
         switch itemsToLoad {
         case .all:
             switch filter {
             case .all:
-                let results = sortOrder.sort(results: realm.objects(URLItem.self))
-                return results
+                if let searchFilter = searchFilter {
+                    results = sortOrder.sort(results: realm.objects(URLItem.self)).filter(URLItem.searchPredicate(for: searchFilter))
+                } else {
+                    results = sortOrder.sort(results: realm.objects(URLItem.self))
+                }
             case .unarchived:
-                let results = sortOrder.sort(results: realm.objects(URLItem.self).filter("\(filter.keyPath) = NO"))
-                return results
+                if let searchFilter = searchFilter {
+                    results = sortOrder.sort(results: realm.objects(URLItem.self).filter("\(filter.keyPath) = NO").filter(URLItem.searchPredicate(for: searchFilter)))
+                } else {
+                    results = sortOrder.sort(results: realm.objects(URLItem.self).filter("\(filter.keyPath) = NO"))
+                }
             }
         case .tag(let tagID):
             guard let tag = realm.object(ofType: TagItem.self, forPrimaryKey: tagID.idName) else { return nil }
             switch filter {
             case .all:
-                let results = sortOrder.sort(results: tag.items)
-                return results
+                if let searchFilter = searchFilter {
+                    results = sortOrder.sort(results: tag.items).filter(URLItem.searchPredicate(for: searchFilter))
+                } else {
+                    results = sortOrder.sort(results: tag.items)
+                }
             case .unarchived:
-                let results = sortOrder.sort(results: tag.items.filter("\(filter.keyPath) = NO"))
-                return results
+                if let searchFilter = searchFilter {
+                    results = sortOrder.sort(results: tag.items.filter("\(filter.keyPath) = NO")).filter(URLItem.searchPredicate(for: searchFilter))
+                } else {
+                    results = sortOrder.sort(results: tag.items.filter("\(filter.keyPath) = NO"))
+                }
             }
         }
+        return results
     }
     
     public func url_setArchived(to archived: Bool, on items: [URLItem]) {
