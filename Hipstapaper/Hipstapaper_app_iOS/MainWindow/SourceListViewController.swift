@@ -75,7 +75,6 @@ class SourceListViewController: UIViewController, RealmControllable {
                 wasSourceListOpen == false
             {
                 self.selectTableViewRows(for: itemsToLoad, filter: filter, animated: false)
-                UserDefaults.standard.wasSourceListOpen = !wasSourceListOpen
             }
         case .update(_, let deletions, let insertions, let modifications):
             // when there are changes from realm, update the table view with sweet animations

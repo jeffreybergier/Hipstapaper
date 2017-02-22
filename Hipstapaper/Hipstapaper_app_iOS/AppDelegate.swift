@@ -74,7 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case .tagListNavVC, .urlListNavVC:
             // state restoration added to these, just so it gets added to their children
             return .none
-        case .tertiaryPopOverViewController, .tertiaryPopOverNavVC:
+        case .tertiaryPopOverViewController, .tertiaryPopOverNavVC, .searchController:
             // state restoration added to these just so the screenshot gets taken.
             // I don't actually want to restore state
             return .none

@@ -119,11 +119,9 @@ class MainSplitViewController: UISplitViewController, RealmControllable {
         super.viewDidAppear(animated)
         
         if self.viewDidAppearOnce == false {
-            
             // check to see if the realm controller could not be initialized
             // this happens when there is no signed in user
             if self.realmController == nil {
-                
                 // if thats the case, present the login screen
                 self.presentAccountsVC(animated: true)
             }
@@ -152,14 +150,8 @@ class MainSplitViewController: UISplitViewController, RealmControllable {
     // MARK: Handle State Restoration
     
     override func encodeRestorableState(with coder: NSCoder) {
-        // if the contentListView is not visible then that means only the source list is
-        // so when we wake next time we want only the source list to be shown
-        let wasSourceListOpen: Bool
-        if let _ = self.contentListViewController.view.window {
-            wasSourceListOpen = false
-        } else {
-            wasSourceListOpen = true
-        }
+        // if the sourceListVC is visible then its window is not NIL
+        let wasSourceListOpen = self.sourceListViewController.view.window != nil
         
         // we need to save this in NSUserDefaults, not in the coder
         // this is because the appropriate UISplitViewControllerDelegate method is called before

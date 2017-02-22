@@ -31,6 +31,7 @@ class ContentListViewController: UIViewController, RealmControllable {
         // probably caused by initializing before the screen is all configured
         let sc = UISearchController(searchResultsController: .none)
         sc.dimsBackgroundDuringPresentation = false
+        sc.restorationIdentifier = StateRestorationIdentifier.searchController.rawValue
         return sc
     }()
     
@@ -122,14 +123,14 @@ class ContentListViewController: UIViewController, RealmControllable {
         self.navigationItem.leftItemsSupplementBackButton = true
         
         // put us into non-edit mode
-        self.doneBBITapped(.none)
+        self.doneBBITapped(nil)
         self.disableAllBBI()
         
         // load the data
         self.hardReloadData()
     }
     
-    fileprivate func hardReloadData() {
+    fileprivate func hardReloadData(resetSelection: Bool = false) {
         // get values in case things change
         let itemsToLoad = self.itemsToLoad
         let filter = self.filter
@@ -154,7 +155,8 @@ class ContentListViewController: UIViewController, RealmControllable {
         self.notificationToken = .none
         self.data = .none
         self.tableView?.reloadData()
-        self.resetTableViewAndToolbar()
+        self.doneBBITapped(nil)
+        if resetSelection { UserDefaults.standard.selectedURLItemUUIDStrings = nil }
         
         // configure data source
         self.data = self.realmController?.url_loadAll(for: itemsToLoad, sortedBy: sortOrder, filteredBy: filter, searchFilter: searchFilter)
@@ -165,10 +167,12 @@ class ContentListViewController: UIViewController, RealmControllable {
         switch changes {
         case .initial:
             self.tableView?.reloadData()
-            if self.tableView?.isEditing == true {
-                let previousSelectionPredicates = UserDefaults.standard.selectedURLItemUUIDStrings?.map({ "\(#keyPath(URLItem.uuid)) = '\($0)'" })
-                let previousSelectionIndexes = self.data?.indexes(matchingPredicates: previousSelectionPredicates ?? [])
+            if let previousSelectionUUIDs = UserDefaults.standard.selectedURLItemUUIDStrings {
+                let previousSelectionPredicates = previousSelectionUUIDs.map({ "\(#keyPath(URLItem.uuid)) = '\($0)'" })
+                let previousSelectionIndexes = self.data?.indexes(matchingPredicates: previousSelectionPredicates)
                 previousSelectionIndexes?.forEach({ self.tableView?.selectRow(at: IndexPath(row: $0, section: 0), animated: false, scrollPosition: .none) })
+                let selectedItems = self.selectedURLItems ?? []
+                self.updateBBI(with: selectedItems)
             }
         case .update(_, let deletions, let insertions, let modifications):
             self.tableView?.beginUpdates()
@@ -196,11 +200,6 @@ class ContentListViewController: UIViewController, RealmControllable {
             // if we're not editing when we appear its probably because of fresh launch or because the user dismissed SafariVC
             // so we need to deselect the row
             self.tableView?.deselectAllRows(animated: true)
-        } else {
-            // if we are editing when we appear, we probably restored from state restoration
-            // if so we need to update the BBI so that the user can tap the appropriate ones.
-            let selectedItems = self.selectedURLItems ?? []
-            self.updateBBI(with: selectedItems)
         }
         
         // Hack to reload UISearchController
@@ -320,7 +319,7 @@ extension ContentListViewController: URLItemsToLoadChangeDelegate {
             }
             if changedSomething {
                 if sender == .sourceListVC { self.searchController.searchString = nil } // only clear the search if this did not come from a tertiaryVC
-                self.hardReloadData()
+                self.hardReloadData(resetSelection: true)
             }
         }
     }
@@ -356,13 +355,12 @@ extension ContentListViewController /* Handle BarButtonItems */ {
     
     @objc fileprivate func doneBBITapped(_ sender: NSObject?) {
         self.emergencyDismissPopover() { // dismisses any popovers and then does the action
-            self.resetTableViewAndToolbar()
+            self.tableView?.setEditing(false, animated: true)
+            self.resetToolbar()
         }
     }
     
-    fileprivate func resetTableViewAndToolbar() {
-        UserDefaults.standard.selectedURLItemUUIDStrings = .none
-        self.tableView?.setEditing(false, animated: true)
+    fileprivate func resetToolbar() {
         let items = [
             self.sortBBI,
             self.verticalBarSpaceBBI,
@@ -421,13 +419,16 @@ extension ContentListViewController /* Handle BarButtonItems */ {
     }
     
     fileprivate func updateBBI(with items: [URLItem]) {
-        UserDefaults.standard.selectedURLItemUUIDStrings = items.map({ $0.uuid })
-        if items.isEmpty {
-            self.disableAllBBI()
+        if self.tableView?.isEditing == true {
+            if items.isEmpty {
+                self.disableAllBBI()
+            } else {
+                self.tagBBI.isEnabled = true
+                self.archiveBBI.isEnabled = !items.filter({ $0.archived == false }).isEmpty
+                self.unarchiveBBI.isEnabled = !items.filter({ $0.archived == true }).isEmpty
+            }
         } else {
-            self.tagBBI.isEnabled = true
-            self.archiveBBI.isEnabled = !items.filter({ $0.archived == false }).isEmpty
-            self.unarchiveBBI.isEnabled = !items.filter({ $0.archived == true }).isEmpty
+            self.resetToolbar()
         }
     }
 }
@@ -503,10 +504,10 @@ extension ContentListViewController: UITableViewDelegate {
  
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedItems = self.selectedURLItems ?? []
+        UserDefaults.standard.selectedURLItemUUIDStrings = selectedItems.map({ $0.uuid })
         if tableView.isEditing {
             self.updateBBI(with: selectedItems)
         } else {
-            UserDefaults.standard.selectedURLItemUUIDStrings = .none
             guard let selectedItem = selectedItems.first, let url = URL(string: selectedItem.urlString) else { return }
             let sfVC = WebBrowserViewController(url: url, previewActions: .none)
             self.present(sfVC, animated: true, completion: .none)
@@ -516,6 +517,7 @@ extension ContentListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let selectedItems = self.selectedURLItems ?? []
         self.updateBBI(with: selectedItems)
+        UserDefaults.standard.selectedURLItemUUIDStrings = selectedItems.map({ $0.uuid })
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
