@@ -150,8 +150,8 @@ class MainSplitViewController: UISplitViewController, RealmControllable {
     // MARK: Handle State Restoration
     
     override func encodeRestorableState(with coder: NSCoder) {
-        // if the sourceListVC is visible then its window is not NIL
-        let wasSourceListOpen = self.sourceListViewController.view.window != nil
+        // if the source list was uniquely visible we want to save that
+        let wasSourceListOpen = self.sourceListViewController.isUniquelyVisibleWithinSplitViewController
         
         // we need to save this in NSUserDefaults, not in the coder
         // this is because the appropriate UISplitViewControllerDelegate method is called before

@@ -8,6 +8,17 @@
 
 import UIKit
 
+extension UIViewController {
+    var isVisible: Bool {
+        return self.view.window != nil
+    }
+    
+    var isUniquelyVisibleWithinSplitViewController: Bool {
+        let isCollapsed = self.splitViewController?.isCollapsed ?? true
+        return isCollapsed && self.isVisible
+    }
+}
+
 extension UITableView {
     func deselectAllRows(animated: Bool) {
         for indexPath in self.indexPathsForSelectedRows ?? [] {

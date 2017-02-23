@@ -65,14 +65,15 @@ class SourceListViewController: UIViewController, RealmControllable {
             // when the data is ready, relad the tableview
             self.tableView?.reloadData()
             
-            // after that, select the currently selected row
-            // here we should always select the row because we want the row to be able to deselect itself when the view appears later
-            // note, we do not want to automatically select the table row if only the the sourceListWasOpen last time the app was closed
-            let wasSourceListOpen = UserDefaults.standard.wasSourceListOpen
+            // if we are invisible then we want to select the row so that when we get popped onto, we can deselect it
+            // if we are visible in a splitview that is showing both views we want to show the selection 
+                // so the user can see what content corresponds to what selection
+            // if we are uniquely visible we do not want to select the row 
+                // because it looks broken to have a selected row just sitting there
             if
                 let itemsToLoad = self.selectionDelegate?.itemsToLoad,
                 let filter = self.selectionDelegate?.filter,
-                wasSourceListOpen == false
+                self.isUniquelyVisibleWithinSplitViewController == false
             {
                 self.selectTableViewRows(for: itemsToLoad, filter: filter, animated: false)
             }
