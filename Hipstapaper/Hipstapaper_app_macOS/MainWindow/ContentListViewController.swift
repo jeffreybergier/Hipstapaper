@@ -50,6 +50,12 @@ class ContentListViewController: NSViewController, RealmControllable {
     @IBOutlet private weak var scrollView: NSScrollView?
     @IBOutlet private weak var loadingIndicatorViewController: LoadingIndicatorViewController?
     @IBOutlet private weak var sortSelectingViewController: SortSelectingViewController?
+    /*@IBOutlet*/ weak var searchField: NSSearchField? {
+        didSet {
+            self.searchField?.action = #selector(ContentListViewController.textFieldChanged(_:))
+            self.searchField?.target = self
+        }
+    }
     
     // MARK: Manage Open Child Windows
     
@@ -104,6 +110,7 @@ class ContentListViewController: NSViewController, RealmControllable {
         let itemsToLoad = self.itemsToLoad
         let sortOrder = self.sortOrder
         let filter = self.filter
+        let searchFilter = self.searchField?.searchString
         
         // clear out all previous update tokens and tableview
         self.data = .none
@@ -124,7 +131,7 @@ class ContentListViewController: NSViewController, RealmControllable {
         self.sortSelectingViewController?.filter = filter
         
         // load the data
-        self.data = self.realmController?.url_loadAll(for: itemsToLoad, sortedBy: sortOrder, filteredBy: filter)
+        self.data = self.realmController?.url_loadAll(for: itemsToLoad, sortedBy: sortOrder, filteredBy: filter, searchFilter: searchFilter)
         self.notificationToken = self.data?.addNotificationBlock({ [weak self] in self?.realmResultsChanged($0) })
     }
     
@@ -377,6 +384,13 @@ extension ContentListViewController: URLItemsToLoadChangeDelegate {
                 self.hardReloadData()
             }
         }
+    }
+}
+
+extension ContentListViewController /*: NSSearchFieldDelegate */ {
+    @objc fileprivate func textFieldChanged(_ sender: NSObject?) {
+        guard sender === self.searchField else { return }
+        self.hardReloadData()
     }
 }
 

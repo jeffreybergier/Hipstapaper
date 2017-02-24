@@ -12,6 +12,25 @@ import AppKit
 extension NSWindow: KVOCapable {}
 extension NSSplitViewItem: KVOCapable {}
 
+extension NSSearchField {
+    var searchString: String? {
+        get {
+            guard self.window?.firstResponder !== self else { return nil }
+            let trimmed = self.stringValue.trimmingCharacters(in: .whitespacesAndNewlines)
+            if trimmed == "" { return nil } else { return trimmed }
+        }
+        set {
+            if let newValue = newValue {
+                self.objectValue = newValue
+                self.becomeFirstResponder()
+            } else {
+                self.objectValue = nil
+                self.resignFirstResponder()
+            }
+        }
+    }
+}
+
 
 extension NSToolbarItem {
     
@@ -23,15 +42,20 @@ extension NSToolbarItem {
     static let validateToolbarItemSelector = #selector(NSObject.validateToolbarItem(_:))
     
     func resizeIfNeeded() {
-        guard
+        if
             self.isKind(of: type(of: self).flexibleSpaceClass) == false &&
             self.isKind(of: type(of: self).fixedSpaceClass) == false &&
             self.itemIdentifier != NSToolbarFlexibleSpaceItemIdentifier &&
             self.itemIdentifier != NSToolbarSpaceItemIdentifier &&
             self.itemIdentifier.contains("NORESIZE-") == false
-        else { return }
-        self.minSize = NSSize(width: 56, height: 34)
-        self.maxSize = NSSize(width: 56, height: 34)
+        {
+            self.minSize = NSSize(width: 56, height: 34)
+            self.maxSize = NSSize(width: 56, height: 34)
+        } else {
+            let width = self.maxSize.width
+            self.minSize = NSSize(width: width, height: 34)
+            self.maxSize = NSSize(width: width, height: 34)
+        }
     }
     
     func isValid(for object: NSObject?) -> Bool {

@@ -12,6 +12,11 @@ import AppKit
 
 class MainWindowController: NSWindowController, RealmControllable {
     
+    @IBOutlet private(set) weak var searchField: NSSearchField? {
+        didSet {
+            self.contentListViewController.searchField = self.searchField
+        }
+    }
     @IBOutlet private weak var shareToolbarButton: NSButton? {
         didSet {
             // configure the share button to send its action on mousedown
