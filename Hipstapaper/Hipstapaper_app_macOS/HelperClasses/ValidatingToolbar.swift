@@ -26,12 +26,44 @@ class ValidatingToolbar: NSToolbar {
     
     @IBOutlet private weak var window: NSWindow?
     
+    private var splitView: NSSplitView? {
+        return self.window?.contentView?.subviews.first as? NSSplitView
+    }
+    
     private var firstResponder: NSResponder? {
         return self.window?.firstResponder
     }
     
+    private func setLeadingFlexibleSpaceToolbarItemTrackedSplitView() {
+        let items = self.items
+        items.forEach({ self.removeSplitView(from: $0) })
+        let flexibleItems = items.filter({ $0.isKind(of: NSToolbarItem.flexibleSpaceClass) })
+        guard let item = flexibleItems.first else { return }
+        self.setSplitView(on: item)
+    }
+    
+    private func setSplitView(on item: NSToolbarItem) {
+        guard item.isKind(of: NSToolbarItem.flexibleSpaceClass) == true, let splitView = self.splitView else { return }
+        let selector = NSToolbarItem.setTrackedSplitViewSelector
+        let responds = item.responds(to: selector)
+        if responds {
+            item.perform(selector, with: splitView)
+        }
+    }
+    
+    private func removeSplitView(from item: NSToolbarItem) {
+        guard item.isKind(of: NSToolbarItem.flexibleSpaceClass) == true else { return }
+        let selector = NSToolbarItem.setTrackedSplitViewSelector
+        let responds = item.responds(to: selector)
+        if responds {
+            item.perform(selector, with: nil)
+        }
+    }
+    
     override func validateVisibleItems() {
         super.validateVisibleItems()
+        
+        self.setLeadingFlexibleSpaceToolbarItemTrackedSplitView()
         
         for toolbarItem in self.items {
             // only change toolbar items if they claim to self validate

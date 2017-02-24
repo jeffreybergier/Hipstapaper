@@ -17,8 +17,10 @@ extension NSToolbarItem {
     
     // Load some types from the run time. We will use these to compare the type of toolbar item we are later
     // if we can't load these types from the runtime, then just set them to a class that a toolbar could never be (NSSet)
-    private static let flexibleSpaceClass: AnyObject.Type = NSClassFromString("NSToolbarFlexibleSpaceItem") ?? NSSet.self
-    private static let fixedSpaceClass: AnyObject.Type = NSClassFromString("NSToolbarSpaceItem") ?? NSSet.self
+    static let flexibleSpaceClass: AnyObject.Type = NSClassFromString("NSToolbarFlexibleSpaceItem") ?? NSSet.self
+    static let fixedSpaceClass: AnyObject.Type = NSClassFromString("NSToolbarSpaceItem") ?? NSSet.self
+    static let setTrackedSplitViewSelector = Selector(("setTrackedSplitView:"))
+
     
     func resizeIfNeeded() {
         guard
