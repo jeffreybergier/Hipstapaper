@@ -99,11 +99,16 @@ open class LoadingIndicatorViewController: XPViewController, RealmControllable {
     #if os(OSX)
     open override func viewDidAppear() {
         super.viewDidAppear()
-        self.configureShadow() // on OSX this wasn't drawing a shadow if in viewdidload
         self.allowedToAnimate = true
     }
     override open func viewDidLayout() {
         super.viewDidLayout()
+        
+        // OSX is really finiccky with this shadow. I can't find a good hook in point that only happens once
+        // I tried viewDidLoad, viewDidAppear, viewDidMoveToWindow. None of them reliably created a shadow all the time
+        self.configureShadow()
+        
+        // update the rounded rect of the pill shape
         self.updatePillShapeOnLoadingView()
     }
     #else
@@ -113,6 +118,8 @@ open class LoadingIndicatorViewController: XPViewController, RealmControllable {
     }
     override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+    
+        // update the rounded rect of the pill shape
         self.updatePillShapeOnLoadingView()
     }
     #endif
