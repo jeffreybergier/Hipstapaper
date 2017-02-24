@@ -539,7 +539,7 @@ extension ContentListViewController: UITableViewDelegate {
         archiveToggleAction.backgroundColor = tableView.tintColor
         
         let tagAction = UITableViewRowAction(style: .normal, title: "🏷Tag") { [weak self] action, indexPath in
-            let selector = Selector(("_button"))
+            let selector = Selector("_button")
             let popoverView: UIView
             if action.responds(to: selector), let actionButton = action.perform(selector)?.takeUnretainedValue() as? UIView {
                 // use 'private' api to get the actual rect and view of the button the user clicked on
