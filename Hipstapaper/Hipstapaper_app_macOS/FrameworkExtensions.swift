@@ -20,7 +20,7 @@ extension NSToolbarItem {
     static let flexibleSpaceClass: AnyObject.Type = NSClassFromString("NSToolbarFlexibleSpaceItem") ?? NSSet.self
     static let fixedSpaceClass: AnyObject.Type = NSClassFromString("NSToolbarSpaceItem") ?? NSSet.self
     static let setTrackedSplitViewSelector = Selector(("setTrackedSplitView:"))
-
+    static let validateToolbarItemSelector = #selector(NSObject.validateToolbarItem(_:))
     
     func resizeIfNeeded() {
         guard
@@ -32,6 +32,15 @@ extension NSToolbarItem {
         else { return }
         self.minSize = NSSize(width: 56, height: 34)
         self.maxSize = NSSize(width: 56, height: 34)
+    }
+    
+    func isValid(for object: NSObject?) -> Bool {
+        // returns NSAtom when returning Bool.true
+        if let _ = object?.perform(type(of: self).validateToolbarItemSelector, with: self)?.takeUnretainedValue() { // as? NSAtom
+            return true
+        } else {
+            return false // returns nil when selector returns Bool.false
+        }
     }
 }
 

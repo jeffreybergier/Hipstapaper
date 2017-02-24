@@ -8,61 +8,18 @@
 
 import AppKit
 
-fileprivate extension NSToolbarItem {
-    
-    static fileprivate let validateToolbarItemSelector = #selector(NSObject.validateToolbarItem(_:))
-
-    fileprivate func isValid(for object: NSObject?) -> Bool {
-        // returns NSAtom when returning Bool.true
-        if let _ = object?.perform(type(of: self).validateToolbarItemSelector, with: self)?.takeUnretainedValue() { // as? NSAtom
-            return true
-        } else {
-            return false // returns nil when selector returns Bool.false
-        }
-    }
-}
-
 class ValidatingToolbar: NSToolbar {
     
-    @IBOutlet private weak var window: NSWindow?
-    
-    private var splitView: NSSplitView? {
-        return self.window?.contentView?.subviews.first as? NSSplitView
-    }
+    @IBOutlet fileprivate weak var window: NSWindow?
     
     private var firstResponder: NSResponder? {
         return self.window?.firstResponder
     }
     
-    private func setLeadingFlexibleSpaceToolbarItemTrackedSplitView() {
-        let items = self.items
-        items.forEach({ self.removeSplitView(from: $0) })
-        let flexibleItems = items.filter({ $0.isKind(of: NSToolbarItem.flexibleSpaceClass) })
-        guard let item = flexibleItems.first else { return }
-        self.setSplitView(on: item)
-    }
-    
-    private func setSplitView(on item: NSToolbarItem) {
-        guard item.isKind(of: NSToolbarItem.flexibleSpaceClass) == true, let splitView = self.splitView else { return }
-        let selector = NSToolbarItem.setTrackedSplitViewSelector
-        let responds = item.responds(to: selector)
-        if responds {
-            item.perform(selector, with: splitView)
-        }
-    }
-    
-    private func removeSplitView(from item: NSToolbarItem) {
-        guard item.isKind(of: NSToolbarItem.flexibleSpaceClass) == true else { return }
-        let selector = NSToolbarItem.setTrackedSplitViewSelector
-        let responds = item.responds(to: selector)
-        if responds {
-            item.perform(selector, with: nil)
-        }
-    }
-    
     override func validateVisibleItems() {
         super.validateVisibleItems()
         
+        // update which toolbar item should adjust with the SplitView
         self.setLeadingFlexibleSpaceToolbarItemTrackedSplitView()
         
         for toolbarItem in self.items {
@@ -92,6 +49,39 @@ class ValidatingToolbar: NSToolbar {
                 }
                 currentResponder = currentResponder?.nextResponder
             }
+        }
+    }
+}
+
+extension ValidatingToolbar { // hack to enable ToolbarItems to move with the SplitView
+    
+    private var splitView: NSSplitView? {
+        return self.window?.contentView?.subviews.first as? NSSplitView
+    }
+    
+    fileprivate func setLeadingFlexibleSpaceToolbarItemTrackedSplitView() {
+        let items = self.items
+        items.forEach({ self.removeSplitView(from: $0) })
+        let flexibleItems = items.filter({ $0.isKind(of: NSToolbarItem.flexibleSpaceClass) })
+        guard let item = flexibleItems.first else { return }
+        self.setSplitView(on: item)
+    }
+    
+    private func setSplitView(on item: NSToolbarItem) {
+        guard item.isKind(of: NSToolbarItem.flexibleSpaceClass) == true, let splitView = self.splitView else { return }
+        let selector = NSToolbarItem.setTrackedSplitViewSelector
+        let responds = item.responds(to: selector)
+        if responds {
+            item.perform(selector, with: splitView)
+        }
+    }
+    
+    private func removeSplitView(from item: NSToolbarItem) {
+        guard item.isKind(of: NSToolbarItem.flexibleSpaceClass) == true else { return }
+        let selector = NSToolbarItem.setTrackedSplitViewSelector
+        let responds = item.responds(to: selector)
+        if responds {
+            item.perform(selector, with: nil)
         }
     }
 }
