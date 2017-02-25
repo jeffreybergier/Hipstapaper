@@ -105,7 +105,7 @@ class ContentListViewController: NSViewController, RealmControllable {
     
     // MARK: Reload Data
     
-    fileprivate func hardReloadData() {
+    func hardReloadData() {
         // grab these values in case things change before we get to the end
         let itemsToLoad = self.itemsToLoad
         let sortOrder = self.sortOrder
@@ -129,7 +129,7 @@ class ContentListViewController: NSViewController, RealmControllable {
         // update the filter vc
         self.sortSelectingViewController?.sortOrder = sortOrder
         self.sortSelectingViewController?.filter = filter
-        
+                
         // load the data
         self.data = self.realmController?.url_loadAll(for: itemsToLoad, sortedBy: sortOrder, filteredBy: filter, searchFilter: searchFilter)
         self.notificationToken = self.data?.addNotificationBlock({ [weak self] in self?.realmResultsChanged($0) })
@@ -388,6 +388,7 @@ extension ContentListViewController: URLItemsToLoadChangeDelegate {
                     // during fallthrough from tertiaryvc
                     // we don't want the selection to be cleared
                     self.tableView?.deselectAll(self)
+                    self.searchField?.searchString = nil
                 }
                 self.hardReloadData()
             }
@@ -398,6 +399,12 @@ extension ContentListViewController: URLItemsToLoadChangeDelegate {
 extension ContentListViewController /*: NSSearchFieldDelegate */ {
     @objc fileprivate func textFieldChanged(_ sender: NSObject?) {
         guard sender === self.searchField else { return }
+        
+        // ugh. annoyingly, calling InvalidateRestorable State only works on the WindowController, not the ViewController
+        // need to call this to save the current search
+        (self.view.window?.delegate as? NSWindowController)?.invalidateRestorableState()
+        
+        // now need to reload the data
         self.hardReloadData()
     }
 }

@@ -134,6 +134,34 @@ class MainWindowController: NSWindowController, RealmControllable {
         }
     }
     
+    // MARK: State Restoration
+    
+    enum StateRestorationConstants {
+        static let kSearchString = "kSearchStringKey"
+    }
+    
+    override func encodeRestorableState(with coder: NSCoder) {
+        // save all the state
+        coder.encode(self.searchField?.searchString, forKey: StateRestorationConstants.kSearchString)
+        super.encodeRestorableState(with: coder)
+    }
+    
+    override func restoreState(with coder: NSCoder) {
+        // only restore the javascript state
+        if let searchString = coder.decodeObject(forKey: StateRestorationConstants.kSearchString) as? String {
+            // only reload the data if we got a valid search back
+            // this is needed because this method is called too late and the data has already loaded
+            self.searchField?.searchString = searchString
+            self.contentListViewController.hardReloadData()
+            
+            // invalidate the state again, otherwise if launched over and over the state is lost
+            self.invalidateRestorableState()
+        }
+        super.restoreState(with: coder)
+    }
+    
+    // MARK: Handle Going Away
+    
     deinit {
         NotificationCenter.default.removeObserver(self, name: .NSSplitViewDidResizeSubviews, object: .none)
     }

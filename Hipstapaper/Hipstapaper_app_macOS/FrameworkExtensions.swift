@@ -15,7 +15,6 @@ extension NSSplitViewItem: KVOCapable {}
 extension NSSearchField {
     var searchString: String? {
         get {
-            guard self.window?.firstResponder !== self else { return nil }
             let trimmed = self.stringValue.trimmingCharacters(in: .whitespacesAndNewlines)
             if trimmed == "" { return nil } else { return trimmed }
         }

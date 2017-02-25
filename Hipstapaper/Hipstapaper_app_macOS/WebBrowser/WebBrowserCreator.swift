@@ -81,7 +81,7 @@ extension WebBrowserCreator: NSWindowRestoration {
             let itemUUID = state.decodeObject(forKey: WebBrowserWindowController.StateRestorationConstants.kURLItemUUID) as? String,
             let itemURLString = state.decodeObject(forKey: WebBrowserWindowController.StateRestorationConstants.kURLItemURLString) as? String,
             let itemArchived = state.decodeObject(forKey: WebBrowserWindowController.StateRestorationConstants.kURLItemArchived) as? NSNumber
-            else { completionHandler(.none, .none); return; }
+        else { completionHandler(.none, .none); return; }
         
         // create the window controller
         let itemID = URLItem.UIIdentifier(uuid: itemUUID, urlString: itemURLString, archived: itemArchived.boolValue)
