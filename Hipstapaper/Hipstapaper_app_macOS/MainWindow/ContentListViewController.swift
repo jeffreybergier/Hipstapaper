@@ -137,12 +137,20 @@ class ContentListViewController: NSViewController, RealmControllable {
     
     private func realmResultsChanged(_ changes: RealmCollectionChange<AnyRealmCollection<URLItem>>) {
         switch changes {
-        case .initial:
-            let previousSelectionPredicates = UserDefaults.standard.selectedURLItemUUIDStrings?.map({ "\(#keyPath(URLItem.uuid)) = '\($0)'" })
-            let previousSelectionIndexes = self.data?.indexes(matchingPredicates: previousSelectionPredicates ?? [])
+        case .initial(let newData):
+            // find the previously selected items
+            let previousSelectionIndexes = RealmController.indexesOfUserDefaultsSelectedItems(within: newData)
+
+            // hard reload the data
             self.tableView?.reloadData()
-            self.tableView?.selectRowIndexes(IndexSet(previousSelectionIndexes ?? []), byExtendingSelection: false)
+            
+            // select the needed rows
+            self.tableView?.selectRowIndexes(IndexSet(previousSelectionIndexes), byExtendingSelection: false)
         case .update(_, let deletions, let insertions, let modifications):
+            // NSTableView doesn't require manually re-selecting all the selected rows like UITableView does
+            // So I can save some code here
+            
+            // update the table
             self.tableView?.beginUpdates()
             self.tableView?.removeRows(at: IndexSet(deletions), withAnimation: .slideLeft)
             self.tableView?.insertRows(at: IndexSet(insertions), withAnimation: .slideRight)

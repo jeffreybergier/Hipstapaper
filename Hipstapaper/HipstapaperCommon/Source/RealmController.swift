@@ -96,6 +96,14 @@ extension RealmController {
 
 extension RealmController {
     
+    // MARK: Class Funcs for Common Operations
+    
+    public class func indexesOfUserDefaultsSelectedItems(within newData: AnyRealmCollection<URLItem>) -> [Int] {
+        let predicates = UserDefaults.standard.selectedURLItemUUIDStrings?.map({ "\(#keyPath(URLItem.uuid)) = '\($0)'" }) ?? []
+        let indexes = newData.indexes(matchingPredicates: predicates)
+        return indexes ?? []
+    }
+    
     // MARK: Create / Load / Delete Tags
     
     public func tag_loadAll() -> AnyRealmCollection<TagItem> {

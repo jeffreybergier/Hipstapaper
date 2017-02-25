@@ -20,7 +20,6 @@ class ContentListViewController: UIViewController, RealmControllable {
             let noImageNib = UINib(nibName: ContentTableViewCell.withOutImageNIBName, bundle: Bundle(for: ContentTableViewCell.self))
             self.tableView?.register(imageNib, forCellReuseIdentifier: ContentTableViewCell.withImageNIBName)
             self.tableView?.register(noImageNib, forCellReuseIdentifier: ContentTableViewCell.withOutImageNIBName)
-            self.tableView?.allowsMultipleSelectionDuringEditing = true
             self.tableView?.rowHeight = ContentTableViewCell.cellHeight
             self.tableView?.estimatedRowHeight = ContentTableViewCell.cellHeight
             self.tableView?.tableHeaderView = self.searchController.searchBar
@@ -123,14 +122,14 @@ class ContentListViewController: UIViewController, RealmControllable {
         self.navigationItem.leftItemsSupplementBackButton = true
         
         // put us into non-edit mode
-        self.doneBBITapped(nil)
+        self.resetToolbar()
         self.disableAllBBI()
         
         // load the data
         self.hardReloadData()
     }
     
-    fileprivate func hardReloadData(resetSelection: Bool = false) {
+    fileprivate func hardReloadData() {
         // get values in case things change
         let itemsToLoad = self.itemsToLoad
         let filter = self.filter
@@ -155,8 +154,6 @@ class ContentListViewController: UIViewController, RealmControllable {
         self.notificationToken = .none
         self.data = .none
         self.tableView?.reloadData()
-        self.doneBBITapped(nil)
-        if resetSelection { UserDefaults.standard.selectedURLItemUUIDStrings = nil }
         
         // configure data source
         self.data = self.realmController?.url_loadAll(for: itemsToLoad, sortedBy: sortOrder, filteredBy: filter, searchFilter: searchFilter)
@@ -165,23 +162,31 @@ class ContentListViewController: UIViewController, RealmControllable {
     
     private func realmResultsChanged(_ changes: RealmCollectionChange<AnyRealmCollection<URLItem>>) {
         switch changes {
-        case .initial:
+        case .initial(let newData):
+            // find the previously selected items
+            let previousSelectionIndexes = RealmController.indexesOfUserDefaultsSelectedItems(within: newData)
+            
+            // hard reload the data
             self.tableView?.reloadData()
-            if let previousSelectionUUIDs = UserDefaults.standard.selectedURLItemUUIDStrings {
-                let previousSelectionPredicates = previousSelectionUUIDs.map({ "\(#keyPath(URLItem.uuid)) = '\($0)'" })
-                let previousSelectionIndexes = self.data?.indexes(matchingPredicates: previousSelectionPredicates)
-                previousSelectionIndexes?.forEach({ self.tableView?.selectRow(at: IndexPath(row: $0, section: 0), animated: false, scrollPosition: .none) })
-                let selectedItems = self.selectedURLItems ?? []
-                self.updateBBI(with: selectedItems)
-            }
-        case .update(_, let deletions, let insertions, let modifications):
+            
+            // select the items found after updating the table
+            self.selectRowsAfterHardRefresh(atIndexes: previousSelectionIndexes)
+        case .update(let newData, let deletions, let insertions, let modifications):
+            // UITableView does not automatically reselect updated rows like NSTableView does
+            // So I need manual selection code here
+            
+            // find the previously selected items
+            let previousSelectionIndexes = RealmController.indexesOfUserDefaultsSelectedItems(within: newData)
+            
+            // update the table
             self.tableView?.beginUpdates()
             self.tableView?.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .left)
             self.tableView?.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }), with: .right)
             self.tableView?.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
             self.tableView?.endUpdates()
-            let itemsSelectedAfterUpdate = self.selectedURLItems ?? []
-            self.updateBBI(with: itemsSelectedAfterUpdate)
+            
+            // select the items found after updating the table
+            self.selectRowsAfterHardRefresh(atIndexes: previousSelectionIndexes)
         case .error(let error):
             let alert = UIAlertController(title: "Error Loading Reading List", message: error.localizedDescription, preferredStyle: .alert)
             let action = UIAlertAction(title: "Dismiss", style: .cancel, handler: .none)
@@ -192,6 +197,12 @@ class ContentListViewController: UIViewController, RealmControllable {
         }
     }
     
+    private func selectRowsAfterHardRefresh(atIndexes indexes: [Int]) {
+        indexes.forEach({ self.tableView?.selectRow(at: IndexPath(row: $0, section: 0), animated: false, scrollPosition: .none) })
+        let selectedItems = self.selectedURLItems ?? []
+        self.updateBBI(with: selectedItems)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.tableView?.flashScrollIndicators()
@@ -200,6 +211,7 @@ class ContentListViewController: UIViewController, RealmControllable {
             // if we're not editing when we appear its probably because of fresh launch or because the user dismissed SafariVC
             // so we need to deselect the row
             self.tableView?.deselectAllRows(animated: true)
+            UserDefaults.standard.selectedURLItemUUIDStrings = nil
         }
         
         // Hack to reload UISearchController
@@ -318,8 +330,12 @@ extension ContentListViewController: URLItemsToLoadChangeDelegate {
                 changedSomething = true
             }
             if changedSomething {
-                if sender == .sourceListVC { self.searchController.searchString = nil } // only clear the search if this did not come from a tertiaryVC
-                self.hardReloadData(resetSelection: true)
+                // only clear the search if this did not come from a tertiaryVC
+                if sender == .sourceListVC {
+                    self.searchController.searchString = nil
+                    self.doneBBITapped(nil)
+                }
+                self.hardReloadData()
             }
         }
     }
@@ -356,6 +372,7 @@ extension ContentListViewController /* Handle BarButtonItems */ {
     @objc fileprivate func doneBBITapped(_ sender: NSObject?) {
         self.emergencyDismissPopover() { // dismisses any popovers and then does the action
             self.tableView?.setEditing(false, animated: true)
+            UserDefaults.standard.selectedURLItemUUIDStrings = nil
             self.resetToolbar()
         }
     }
