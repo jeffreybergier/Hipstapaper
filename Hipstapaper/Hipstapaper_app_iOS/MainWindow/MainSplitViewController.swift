@@ -68,10 +68,12 @@ class MainSplitViewController: UISplitViewController, RealmControllable {
     // These instances are recycled rather than being re-created every time the selection changes.
     
     internal var sourceListViewController: SourceListViewController {
+        //swiftlint:disable:next force_cast
         return self.sourceListNavigationController.viewControllers.first as! SourceListViewController
     }
     
     internal var contentListViewController: ContentListViewController {
+        //swiftlint:disable:next force_cast
         return self.contentListNavigationController.viewControllers.first as! ContentListViewController
     }
     

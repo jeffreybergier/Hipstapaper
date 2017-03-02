@@ -30,7 +30,6 @@ extension NSSearchField {
     }
 }
 
-
 extension NSToolbarItem {
     
     // Load some types from the run time. We will use these to compare the type of toolbar item we are later
@@ -89,7 +88,7 @@ extension NSMenu {
     convenience init(shareMenuWithItems items: [URL]) {
         self.init()
         let compatibleServices = NSSharingService.sharingServices(forItems: items)
-        compatibleServices.forEach() { service in
+        compatibleServices.forEach { service in
             let title = service.title
             let image = service.image
             let newMenuItem = NSMenuItem(title: title, action: #selector(ContentListViewController.shareMenu(_:)), keyEquivalent: "")
