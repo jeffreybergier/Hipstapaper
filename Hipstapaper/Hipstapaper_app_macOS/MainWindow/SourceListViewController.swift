@@ -27,7 +27,7 @@ class SourceListViewController: NSViewController {
     fileprivate var data: AnyRealmCollection<TagItem>?
     
     // this property needs to be permanent to help with dynamically refreshing the outline view
-    fileprivate let tagParent = TreeBindingObject(title: "Tags  🏷", kind: .notSelectable(.tags))
+    fileprivate let tagParent = TreeBindingObject(title: "Tags", kind: .notSelectable(.tags))
     
     // MARK: Outlets
     
@@ -226,7 +226,7 @@ extension SourceListViewController: NSOutlineViewDataSource {
         } else {
             switch index {
             case 0:
-                return TreeBindingObject(title: "Reading List  🎁", kind: .notSelectable(.main), childCount: 2)
+                return TreeBindingObject(title: "Reading List", kind: .notSelectable(.main), childCount: 2)
             case 1:
                 return self.tagParent
             default:

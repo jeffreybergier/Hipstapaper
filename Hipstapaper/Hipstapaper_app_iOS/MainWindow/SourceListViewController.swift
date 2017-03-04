@@ -180,9 +180,9 @@ extension SourceListViewController: UITableViewDelegate {
         guard let section = Section(rawValue: section) else { return nil }
         switch section {
         case .readingList:
-            return "Reading List  🎁"
+            return "Reading List"
         case .tags:
-            return "Tags  🏷"
+            return "Tags"
         }
     }
     
