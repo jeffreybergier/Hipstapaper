@@ -146,7 +146,7 @@ class MainSplitViewController: UISplitViewController, RealmControllable {
         let newVC = LoggedInViewController(delegate: self)
         let navVC = UINavigationController(rootViewController: newVC)
         navVC.modalPresentationStyle = .formSheet
-        self.present(navVC, animated: animated, completion: .none)
+        self.present(navVC, animated: animated, completion: nil)
     }
     
     // MARK: Handle State Restoration

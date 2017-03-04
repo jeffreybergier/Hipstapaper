@@ -36,7 +36,7 @@ open class KeyValueObserver<T: Equatable>: NSObject {
     }
     
     public func endObserving() {
-        self.callback = .none
+        self.callback = nil
         self.endObserving(keyPath: self.keyPath)
     }
     

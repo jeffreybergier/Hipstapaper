@@ -15,7 +15,7 @@ class MenuController: NSObject {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyWindowChanged(_:)), name: .NSWindowDidBecomeKey, object: .none)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyWindowChanged(_:)), name: .NSWindowDidBecomeKey, object: nil)
     }
     
     @objc private func keyWindowChanged(_ notification: Notification?) {

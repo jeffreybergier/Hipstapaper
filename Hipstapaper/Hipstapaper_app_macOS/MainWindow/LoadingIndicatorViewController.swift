@@ -25,7 +25,7 @@ class AppearanceObservingLoadingIndicatorViewController: LoadingIndicatorViewCon
             // also start observing for changes
             self?.appearanceObserver.startObserving() { _ -> NSAppearance? in
                 self?.updateAppearance()
-                return .none
+                return nil
             }
         }
         

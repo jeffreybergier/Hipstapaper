@@ -50,8 +50,8 @@ class SourceListViewController: UIViewController, RealmControllable {
     private func hardReloadData() {
         // reset everything
         self.notificationToken?.stop()
-        self.notificationToken = .none
-        self.data = .none
+        self.notificationToken = nil
+        self.data = nil
         self.tableView?.reloadData()
         
         // reload everything
@@ -96,11 +96,16 @@ class SourceListViewController: UIViewController, RealmControllable {
             
             self.selectTableViewRows(for: itemsToLoad, filter: filter, animated: true)
         case .error(let error):
+            // present the error
             let alert = UIAlertController(title: "Error Loading Tags", message: error.localizedDescription, preferredStyle: .alert)
-            let action = UIAlertAction(title: "Dismiss", style: .cancel, handler: .none)
+            let action = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
             alert.addAction(action)
-            self.present(alert, animated: true, completion: .none)
-            self.data = .none
+            self.present(alert, animated: true, completion: nil)
+            
+            // clear the data
+            self.notificationToken?.stop()
+            self.notificationToken = nil
+            self.data = nil
             self.tableView?.reloadData()
         }
     }
@@ -172,7 +177,7 @@ extension SourceListViewController: URLItemsToLoadChangeDelegate {
 
 extension SourceListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let section = Section(rawValue: section) else { return .none }
+        guard let section = Section(rawValue: section) else { return nil }
         switch section {
         case .readingList:
             return "Reading List  🎁"
@@ -209,7 +214,7 @@ extension SourceListViewController: UITableViewDelegate {
             itemsToLoad = .tag(TagItem.UIIdentifier(idName: tagItem.normalizedNameHash, displayName: tagItem.name))
             filter = .all
         }
-        self.selectionDelegate?.didChange(itemsToLoad: itemsToLoad, sortOrder: .none, filter: filter, sender: .sourceListVC)
+        self.selectionDelegate?.didChange(itemsToLoad: itemsToLoad, sortOrder: nil, filter: filter, sender: .sourceListVC)
     }
 }
 

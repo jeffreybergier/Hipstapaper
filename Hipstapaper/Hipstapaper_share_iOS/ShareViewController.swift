@@ -62,7 +62,7 @@ class ShareViewController: XPURLShareViewController {
                 self.configureError()
             }
             // all the missing information is filled in the timerFired method and the view is dismissed from there
-            self.timer = Timer.scheduledTimer(timeInterval: duration, target: self, selector: #selector(self.timerFired(_:)), userInfo: .none, repeats: false)
+            self.timer = Timer.scheduledTimer(timeInterval: duration, target: self, selector: #selector(self.timerFired(_:)), userInfo: nil, repeats: false)
         }
     }
     
@@ -81,7 +81,7 @@ class ShareViewController: XPURLShareViewController {
             self.cardViewTopConstraint?.constant = halfViewHeight - halfCardHeight
             self.modalGrayView?.alpha = 0.5
             self.view.layoutIfNeeded()
-        }, completion: .none)
+        }, completion: nil)
     }
     
     // MARK: Stage 2 - Animate Card into View
@@ -118,17 +118,17 @@ class ShareViewController: XPURLShareViewController {
         self.webViewTitleObserver = KeyValueObserver<String>(target: webView, keyPath: #keyPath(WKWebView.title))
         self.webViewTitleObserver?.startObserving() { [weak self] newTitle -> String? in
             self?.pageTitleLabel?.text = newTitle
-            return .none
+            return nil
         }
         self.webViewDoneObserver = KeyValueObserver<Bool>(target: webView, keyPath: "loading") // #keyPath(WKWebView.isLoading) not working
         self.webViewDoneObserver?.startObserving() { [weak self] loading -> Bool? in
-            guard loading == false else { return .none }
+            guard loading == false else { return nil }
             self?.loadingSpinner?.stopAnimating()
             self?.timer?.invalidate()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self?.timerFired(.none) // believe it or not, even when duck out early because the webview finished, we still need a delay to make it feel good
+                self?.timerFired(nil) // believe it or not, even when duck out early because the webview finished, we still need a delay to make it feel good
             }
-            return .none
+            return nil
         }
         
         // add the webview to the view hierarchy
@@ -154,10 +154,10 @@ class ShareViewController: XPURLShareViewController {
     
     private func configureError() {
         self.loadingSpinner?.stopAnimating()
-        self.providedImageView?.image = .none
+        self.providedImageView?.image = nil
         self.webView?.removeFromSuperview()
-        self.webView = .none
-        self.pageDateLabel?.text = .none
+        self.webView = nil
+        self.pageDateLabel?.text = nil
         self.pageTitleLabel?.text = "Error 😔"
     }
     
@@ -168,11 +168,11 @@ class ShareViewController: XPURLShareViewController {
         // clear all the time shit
         timer?.invalidate()
         self.timer?.invalidate()
-        self.timer = .none
+        self.timer = nil
         
         // stop KVO
-        self.webViewDoneObserver = .none
-        self.webViewTitleObserver = .none
+        self.webViewDoneObserver = nil
+        self.webViewTitleObserver = nil
         
         // stop the spinner
         self.loadingSpinner?.stopAnimating()
@@ -185,19 +185,19 @@ class ShareViewController: XPURLShareViewController {
                 item.image = type(of: self).snapshot(of: webView)
                 self.save(item: item)
                 self.slideOutOfFrame() { _ in
-                    self.extensionContext?.completeRequest(returningItems: .none, completionHandler: .none)
+                    self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
                 }
             } else {
                 // if we don't we can just save and exit
                 self.save(item: item)
                 self.slideOutOfFrame() { _ in
-                    self.extensionContext?.completeRequest(returningItems: .none, completionHandler: .none)
+                    self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
                 }
             }
         } else {
             // if we have nothing we need to slide out can cancel with error
             self.slideOutOfFrame() { _ in
-                self.extensionContext?.cancelRequest(withError: NSError(domain: "", code: 0, userInfo: .none))
+                self.extensionContext?.cancelRequest(withError: NSError(domain: "", code: 0, userInfo: nil))
             }
         }
     }

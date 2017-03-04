@@ -93,7 +93,7 @@ class LoginViewController: UITableViewController {
                         self.updateUI(networkActivity: false)
                         let newController = RealmController(user: user)
                         self.delegate?.realmController = newController
-                        self.dismiss(animated: true, completion: .none)
+                        self.dismiss(animated: true, completion: nil)
                     } else {
                         let message = error?.localizedDescription ?? "Unknown Error"
                         let alert = UIAlertController(title: "Login Error", message: message, preferredStyle: .alert)
@@ -101,21 +101,21 @@ class LoginViewController: UITableViewController {
                             self.updateUI(networkActivity: false)
                         }
                         alert.addAction(action)
-                        self.present(alert, animated: true, completion: .none)
+                        self.present(alert, animated: true, completion: nil)
                     }
                 }
             }
         case .invalid(let message):
             let alert = UIAlertController(title: "Login Error", message: message, preferredStyle: .alert)
-            let action = UIAlertAction(title: "Dismiss", style: .cancel, handler: .none)
+            let action = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
             alert.addAction(action)
-            self.present(alert, animated: true, completion: .none)
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
     @objc private func cancelBBITapped(_ sender: NSObject?) {
         self.view.endEditing(false)
-        self.dismiss(animated: true, completion: .none)
+        self.dismiss(animated: true, completion: nil)
     }
     
     // MARK: Network Activity
@@ -145,7 +145,7 @@ class LoginViewController: UITableViewController {
     private func validateModel() -> Model.Validation {
         let model = self.model
         
-        if URL(string: model.server ?? " ") == .none {
+        if URL(string: model.server ?? " ") == nil {
             return .invalid(message: "Server Address is Invalid")
         }
         
@@ -186,7 +186,7 @@ class LoginViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let cellKind = CellKind(rawValue: section) else { return .none }
+        guard let cellKind = CellKind(rawValue: section) else { return nil }
         switch cellKind {
         case .server:
             return "Server Address"

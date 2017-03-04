@@ -11,10 +11,10 @@ import AppKit
 final class MainWindowCreator: NSObject, NSWindowRestoration {
     
     static func restoreWindow(withIdentifier identifier: String, state: NSCoder, completionHandler: @escaping (NSWindow?, Error?) -> Swift.Void) {
-        guard let appDelegate = NSApp.delegate as? AppDelegate else { completionHandler(.none, .none); return; }
+        guard let appDelegate = NSApp.delegate as? AppDelegate else { completionHandler(nil, nil); return; }
         let wc = self.newMainWindowController()
         appDelegate.rootWindowController = wc
-        completionHandler(wc.window, .none)
+        completionHandler(wc.window, nil)
     }
     
     static func newMainWindowController() -> MainWindowController {

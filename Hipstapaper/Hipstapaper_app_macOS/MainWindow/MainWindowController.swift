@@ -77,7 +77,7 @@ class MainWindowController: NSWindowController, RealmControllable {
         self.sourceListCallapsedObserver = KeyValueObserver(target: sourceListItem, keyPath: "collapsed") // #keyPath(NSSplitViewItem.isCollapsed)
         self.sourceListCallapsedObserver?.startObserving() { isCollapsed -> Bool? in
             UserDefaults.standard.wasSourceListOpen = !isCollapsed
-            return .none
+            return nil
         }
         
         // Become the selection delegate for the sidebar
@@ -163,7 +163,7 @@ class MainWindowController: NSWindowController, RealmControllable {
     // MARK: Handle Going Away
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: .NSSplitViewDidResizeSubviews, object: .none)
+        NotificationCenter.default.removeObserver(self, name: .NSSplitViewDidResizeSubviews, object: nil)
     }
 }
 

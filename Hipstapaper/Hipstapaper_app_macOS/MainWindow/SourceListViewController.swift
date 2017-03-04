@@ -50,8 +50,8 @@ class SourceListViewController: NSViewController {
     private func hardReloadData() {
         // clear out all previous update tokens and tableview
         self.notificationToken?.stop()
-        self.notificationToken = .none
-        self.data = .none
+        self.notificationToken = nil
+        self.data = nil
         self.tagParent.childCount = 0
         self.outlineView?.reloadData()
         
@@ -70,7 +70,7 @@ class SourceListViewController: NSViewController {
             // hard reload the data
             self.outlineView?.reloadData()
             // expand all items in the outline
-            self.outlineView?.expandItem(.none, expandChildren: true)
+            self.outlineView?.expandItem(nil, expandChildren: true)
             // select the item after that row... the unread row
             self.didChange(itemsToLoad: self.selectionDelegate?.itemsToLoad,
                            sortOrder: self.selectionDelegate?.sortOrder,
@@ -94,9 +94,16 @@ class SourceListViewController: NSViewController {
             }
             self.outlineView?.endUpdates()
         case .error(let error):
-            guard let window = self.view.window else { break }
+            // present the error
             let alert = NSAlert(error: error)
-            alert.beginSheetModal(for: window, completionHandler: .none)
+            alert.beginSheetModal(for: self.view.window!, completionHandler: nil)
+            
+            // clear out all previous update tokens and tableview
+            self.notificationToken?.stop()
+            self.notificationToken = nil
+            self.data = nil
+            self.tagParent.childCount = 0
+            self.outlineView?.reloadData()
         }
     }
     
@@ -104,19 +111,19 @@ class SourceListViewController: NSViewController {
     
     fileprivate var selection: TreeBindingObject.Selection? {
         let tree = self.outlineView?.selectedRowIndexes.flatMap({ self.outlineView?.item(atRow: $0) as? TreeBindingObject }).first
-        guard let item = tree else { return .none }
+        guard let item = tree else { return nil }
         if case .selectable(let selection) = item.kind {
             return selection
         }
-        return .none
+        return nil
     }
     
     private var selectedTags: TagItem.UIIdentifier? {
-        guard let selection = self.selection else { return .none }
+        guard let selection = self.selection else { return nil }
         if case .tag(let tag) = selection.itemsToLoad {
             return tag
         }
-        return .none
+        return nil
     }
     
     @objc private func delete(_ menuItem: NSMenuItem) {
@@ -202,10 +209,10 @@ extension SourceListViewController: NSOutlineViewDataSource {
                 switch index {
                 case 0:
                     title = "Unread Items"
-                    selection = TreeBindingObject.Selection(itemsToLoad: .all, filter: .unarchived, sortOrder: .none)
+                    selection = TreeBindingObject.Selection(itemsToLoad: .all, filter: .unarchived, sortOrder: nil)
                 case 1:
                     title = "All Items"
-                    selection = TreeBindingObject.Selection(itemsToLoad: .all, filter: .all, sortOrder: .none)
+                    selection = TreeBindingObject.Selection(itemsToLoad: .all, filter: .all, sortOrder: nil)
                 default:
                     fatalError("There shouldn't be more than 2 children under the main section")
                 }
@@ -213,7 +220,7 @@ extension SourceListViewController: NSOutlineViewDataSource {
             case .tags:
                 let tagItem = self.data?[index]
                 let tagID = TagItem.UIIdentifier(idName: tagItem?.normalizedNameHash ?? "ErrorLoadingTag", displayName: tagItem?.name ?? "Error Loading Tag")
-                let selection = TreeBindingObject.Selection(itemsToLoad: .tag(tagID), filter: .all, sortOrder: .none)
+                let selection = TreeBindingObject.Selection(itemsToLoad: .tag(tagID), filter: .all, sortOrder: nil)
                 return TreeBindingObject(title: tagID.displayName, kind: .selectable(selection), itemCount: tagItem?.items.count ?? 0)
             }
         } else {
@@ -250,7 +257,7 @@ extension SourceListViewController: NSOutlineViewDataSource {
 
 extension SourceListViewController: NSOutlineViewDelegate {
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
-        guard let item = item as? TreeBindingObject else { return .none }
+        guard let item = item as? TreeBindingObject else { return nil }
         let identifier: String
         switch item.kind {
         case .notSelectable:

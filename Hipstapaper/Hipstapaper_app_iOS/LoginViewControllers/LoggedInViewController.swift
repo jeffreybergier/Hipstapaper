@@ -44,7 +44,7 @@ class LoggedInViewController: UIViewController, RealmControllable {
     }
     
     @objc private func doneBBITapped(_ sender: NSObject?) {
-        self.dismiss(animated: true, completion: .none)
+        self.dismiss(animated: true, completion: nil)
     }
 
     private func updateUILabels() {
@@ -75,11 +75,11 @@ class LoggedInViewController: UIViewController, RealmControllable {
     }
     
     @IBAction private func createButtonTapped(_ sender: NSObject?) {
-        self.present(self.newLoginVC(createAccount: true), animated: true, completion: .none)
+        self.present(self.newLoginVC(createAccount: true), animated: true, completion: nil)
     }
     
     @IBAction private func loginButtonTapped(_ sender: NSObject?) {
-        self.present(self.newLoginVC(createAccount: false), animated: true, completion: .none)
+        self.present(self.newLoginVC(createAccount: false), animated: true, completion: nil)
     }
     
     @IBAction private func logoutButtonTapped(_ sender: NSObject?) {

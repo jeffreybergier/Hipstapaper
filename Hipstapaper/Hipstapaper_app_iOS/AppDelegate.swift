@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalNever)
 //        UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
         
-        if self.window == .none {
+        if self.window == nil {
             self.window = UIWindow(frame: UIScreen.main.bounds)
         }
         
@@ -63,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, viewControllerWithRestorationIdentifierPath identifierComponents: [Any], coder: NSCoder) -> UIViewController? {
-        guard let id = identifierComponents.last as? String, let identifier = StateRestorationIdentifier(rawValue: id) else { return .none }
+        guard let id = identifierComponents.last as? String, let identifier = StateRestorationIdentifier(rawValue: id) else { return nil }
         switch identifier {
         case .mainSplitViewController:
             return self.rootViewController
@@ -73,11 +73,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return self.rootViewController.contentListViewController
         case .tagListNavVC, .urlListNavVC:
             // state restoration added to these, just so it gets added to their children
-            return .none
+            return nil
         case .tertiaryPopOverViewController, .tertiaryPopOverNavVC, .searchController:
             // state restoration added to these just so the screenshot gets taken.
             // I don't actually want to restore state
-            return .none
+            return nil
         case .safariViewController:
             fatalError() // should never be called. SafariViewController handles its own restoration
         }

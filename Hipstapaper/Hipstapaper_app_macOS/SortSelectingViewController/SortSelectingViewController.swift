@@ -64,7 +64,7 @@ class SortSelectingViewController: NSViewController {
     private func configureSortOrderPopupButton() {
         for i in 0 ..< URLItem.SortOrder.count {
             guard let sort = URLItem.SortOrder(rawValue: i) else { continue }
-            let item = NSMenuItem(title: sort.displayName, action: .none, keyEquivalent: "")
+            let item = NSMenuItem(title: sort.displayName, action: nil, keyEquivalent: "")
             item.tag = sort.rawValue
             self.sortOrderPopupButton?.menu?.addItem(item)
         }
@@ -73,7 +73,7 @@ class SortSelectingViewController: NSViewController {
     private func configureFilterPopupButton() {
         for i in 0 ..< URLItem.ArchiveFilter.count {
             guard let filter = URLItem.ArchiveFilter(rawValue: i) else { continue }
-            let item = NSMenuItem(title: filter.displayName, action: .none, keyEquivalent: "")
+            let item = NSMenuItem(title: filter.displayName, action: nil, keyEquivalent: "")
             item.tag = filter.rawValue
             self.filterPopupButton?.menu?.addItem(item)
         }
@@ -85,7 +85,7 @@ class SortSelectingViewController: NSViewController {
         guard
             let button = self.filterPopupButton,
             let selection = URLItem.ArchiveFilter(rawValue: button.selectedItem?.tag ?? 55)
-        else { return .none }
+        else { return nil }
         return selection
     }
     
@@ -93,7 +93,7 @@ class SortSelectingViewController: NSViewController {
         guard
             let button = self.sortOrderPopupButton,
             let selection = URLItem.SortOrder(rawValue: button.selectedItem?.tag ?? 55)
-        else { return .none }
+        else { return nil }
         return selection
     }
     
@@ -103,13 +103,13 @@ class SortSelectingViewController: NSViewController {
         // check if the new selection is different before notifying the delegate
         guard let newValue = self.sortOrderFromUI(), newValue != _sortOrder else { return }
         _sortOrder = newValue
-        self.delegate?.didChange(itemsToLoad: .none, sortOrder: self.sortOrder, filter: .none, sender: .tertiaryVC)
+        self.delegate?.didChange(itemsToLoad: nil, sortOrder: self.sortOrder, filter: nil, sender: .tertiaryVC)
     }
     
     @IBAction func filterChosen(_ sender: NSObject?) {
         // check if the new selection is different before notifying the delegate
         guard let newValue = self.filterFromUI(), newValue != _filter else { return }
         _filter = newValue
-        self.delegate?.didChange(itemsToLoad: .none, sortOrder: .none, filter: self.filter, sender: .tertiaryVC)
+        self.delegate?.didChange(itemsToLoad: nil, sortOrder: nil, filter: self.filter, sender: .tertiaryVC)
     }
 }

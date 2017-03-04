@@ -59,7 +59,7 @@ extension SerializableURLItem {
                         let urlString = urlString
                         if let urlString = urlString {
                             outputItem.urlString = urlString
-                            outputItem.pageTitle = .none // in this case the page title was actually the URL, so clear it out
+                            outputItem.pageTitle = nil // in this case the page title was actually the URL, so clear it out
                         }
                         hitCount += 1 // always do this hitcount because if we fail we need to move on
                     }
@@ -102,7 +102,7 @@ fileprivate extension NSItemProvider {
         //      this one finds only File URLs and not web pages
         // public.url-name -   'urln'  URL name.
         //      not sure what this one does, it didn't find either
-        self.loadItem(forTypeIdentifier: kUTTypeURL as String, options: .none) { secureCoding, _ in
+        self.loadItem(forTypeIdentifier: kUTTypeURL as String, options: nil) { secureCoding, _ in
             let url = secureCoding as? URL
             DispatchQueue.main.async {
                 completion(url)
@@ -111,7 +111,7 @@ fileprivate extension NSItemProvider {
     }
     
     fileprivate func loadURLString(_ completion: @escaping (String?) -> Void) {
-        self.loadItem(forTypeIdentifier: kUTTypePlainText as String, options: .none) { secureCoding, _ in
+        self.loadItem(forTypeIdentifier: kUTTypePlainText as String, options: nil) { secureCoding, _ in
             let urlString = (secureCoding as? String) ?? "z   A  z A" //fallback to non URL compatible string
             let url = URL(string: urlString)
             DispatchQueue.main.async {

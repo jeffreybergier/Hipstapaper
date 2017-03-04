@@ -34,9 +34,9 @@ class ContentTableViewCell: UITableViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        self.titleLabel?.text = .none
-        self.urlImageView?.image = .none
-        self.dateLabel?.text = .none
+        self.titleLabel?.text = nil
+        self.urlImageView?.image = nil
+        self.dateLabel?.text = nil
     }
     
 }

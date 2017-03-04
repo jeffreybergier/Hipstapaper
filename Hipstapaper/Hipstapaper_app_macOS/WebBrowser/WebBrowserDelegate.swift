@@ -66,23 +66,23 @@ extension WebBrowserDelegate: WKUIDelegate {
 
     func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Swift.Void) {
         completionHandler()
-        NSAlert.showAlert(for: webView, with: .none)
+        NSAlert.showAlert(for: webView, with: nil)
     }
     
     func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Swift.Void) {
         completionHandler(false)
-        NSAlert.showAlert(for: webView, with: .none)
+        NSAlert.showAlert(for: webView, with: nil)
     }
     
     func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Swift.Void) {
-        completionHandler(.none)
-        NSAlert.showAlert(for: webView, with: .none)
+        completionHandler(nil)
+        NSAlert.showAlert(for: webView, with: nil)
     }
     
     @available(OSX 10.12, *)
     func webView(_ webView: WKWebView, runOpenPanelWith parameters: WKOpenPanelParameters, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping ([URL]?) -> Swift.Void) {
-        completionHandler(.none)
-        NSAlert.showAlert(for: webView, with: .none)
+        completionHandler(nil)
+        NSAlert.showAlert(for: webView, with: nil)
     }
 }
 

@@ -37,12 +37,12 @@ final public class URLItemExtras: Object {
         
         public internal(set) var image: NSImage? {
             get {
-                guard let data = self.imageData else { return .none }
+                guard let data = self.imageData else { return nil }
                 let image = NSImage(data: data)
                 return image
             }
             set {
-                guard let image = newValue else { self.imageData = .none; return }
+                guard let image = newValue else { self.imageData = nil; return }
                 let data = image.tiffRepresentation
                 self.imageData = data
             }
@@ -61,12 +61,12 @@ final public class URLItemExtras: Object {
         
         public internal(set) var image: UIImage? {
             get {
-                guard let data = self.imageData else { return .none }
+                guard let data = self.imageData else { return nil }
                 let image = UIImage(data: data)
                 return image
             }
             set {
-                guard let image = newValue else { self.imageData = .none; return }
+                guard let image = newValue else { self.imageData = nil; return }
                 let data = UIImagePNGRepresentation(image)
                 self.imageData = data
             }

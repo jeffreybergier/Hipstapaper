@@ -66,16 +66,16 @@ class SortSelectingViewController: UIViewController {
         switch self.kind {
         case .filter(let current):
             guard let new = URLItem.ArchiveFilter(rawValue: selection), new != current else { break }
-            self.selectionDelegate?.didChange(itemsToLoad: .none, sortOrder: .none, filter: new, sender: .tertiaryVC)
+            self.selectionDelegate?.didChange(itemsToLoad: nil, sortOrder: nil, filter: new, sender: .tertiaryVC)
         case .sort(let current):
             guard let new = URLItem.SortOrder(rawValue: selection), new != current else { break }
-            self.selectionDelegate?.didChange(itemsToLoad: .none, sortOrder: new, filter: .none, sender: .tertiaryVC)
+            self.selectionDelegate?.didChange(itemsToLoad: nil, sortOrder: new, filter: nil, sender: .tertiaryVC)
         }
-        self.dismiss(animated: true, completion: .none)
+        self.dismiss(animated: true, completion: nil)
     }
     
     @objc private func cancelBBITapped(_ sender: NSObject?) {
-        self.dismiss(animated: true, completion: .none)
+        self.dismiss(animated: true, completion: nil)
     }
     
     override var preferredContentSize: CGSize {
@@ -131,6 +131,7 @@ extension SortSelectingViewController: UIPopoverPresentationControllerDelegate {
 }
 extension SortSelectingViewController: UIAdaptivePresentationControllerDelegate {
     func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        // returning .none tells the system DO NOT adapt, so it stays as a popover
         return .none
     }
 }

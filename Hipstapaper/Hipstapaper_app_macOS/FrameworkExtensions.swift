@@ -136,6 +136,28 @@ extension NSTextField {
     }
 }
 
+extension NSView {
+    
+    private static let actionButtonClass: AnyObject.Type = NSClassFromString("NSTableViewActionButton") ?? NSSet.self
+    
+    var tableViewActionButtons: [NSView] {
+        let type: AnyObject.Type = type(of: self).actionButtonClass
+        let matches = self.subviews(matchingType: type)
+        return matches
+    }
+    
+    private func subviews(matchingType type: AnyClass) -> [NSView] {
+        var matches = [NSView]()
+        if self.classForCoder == type {
+            matches.append(self)
+        }
+        for subview in self.subviews {
+            matches += subview.subviews(matchingType: type)
+        }
+        return matches
+    }
+}
+
 /*
 extension NSBackgroundStyle: CustomStringConvertible {
     public var description: String {

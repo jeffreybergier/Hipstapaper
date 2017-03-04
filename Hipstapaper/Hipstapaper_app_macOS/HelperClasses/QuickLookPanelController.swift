@@ -44,8 +44,8 @@ extension QuickLookPanelController /*:  QLPreviewPanelController*/ {
     }
     
     override func endPreviewPanelControl(_ panel: QLPreviewPanel?) {
-        panel?.dataSource = .none
-        panel?.delegate = .none
+        panel?.dataSource = nil
+        panel?.delegate = nil
     }
 }
 

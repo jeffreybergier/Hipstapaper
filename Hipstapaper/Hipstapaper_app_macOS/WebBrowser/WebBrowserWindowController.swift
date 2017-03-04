@@ -171,7 +171,7 @@ class WebBrowserWindowController: NSWindowController {
             let url = URL(string: item.urlString)
         else { return }
         ((sender as? NSMenuItem)?.representedObject as? NSSharingService)?.perform(withItems: [url])
-        (sender as? NSMenuItem)?.representedObject = .none
+        (sender as? NSMenuItem)?.representedObject = nil
     }
     
     // swiftlint:disable:next cyclomatic_complexity

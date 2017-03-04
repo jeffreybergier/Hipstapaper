@@ -66,7 +66,7 @@ extension WebBrowserCreator /*NSWindowDelegate*/ {
         else { return }
         
         NotificationCenter.default.removeObserver(self, name: .NSWindowWillClose, object: window)
-        self[item] = .none
+        self[item] = nil
     }
 }
 
@@ -81,7 +81,7 @@ extension WebBrowserCreator: NSWindowRestoration {
             let itemUUID = state.decodeObject(forKey: WebBrowserWindowController.StateRestorationConstants.kURLItemUUID) as? String,
             let itemURLString = state.decodeObject(forKey: WebBrowserWindowController.StateRestorationConstants.kURLItemURLString) as? String,
             let itemArchived = state.decodeObject(forKey: WebBrowserWindowController.StateRestorationConstants.kURLItemArchived) as? NSNumber
-        else { completionHandler(.none, .none); return; }
+        else { completionHandler(nil, nil); return; }
         
         // create the window controller
         let itemID = URLItem.UIIdentifier(uuid: itemUUID, urlString: itemURLString, archived: itemArchived.boolValue)
@@ -91,7 +91,7 @@ extension WebBrowserCreator: NSWindowRestoration {
         appDelegate.rootWindowController.contentListViewController.windowLoader[itemID] = wc
         
         // call the completion handler
-        completionHandler(wc.window, .none)
+        completionHandler(wc.window, nil)
     }
     
     // MARK: Generic New Window Static Function

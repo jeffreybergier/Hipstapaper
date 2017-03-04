@@ -49,10 +49,10 @@ class AppleInterfaceStyleWindowAppearanceSwitcher {
         }
         
         // store the token return by notificationcenter so we can stop observing later
-        self.token = NotificationCenter.default.addObserver(forName: .NSApplicationDidChangeScreenParameters, object: .none, queue: .none, using: changeClosure)
+        self.token = NotificationCenter.default.addObserver(forName: .NSApplicationDidChangeScreenParameters, object: nil, queue: nil, using: changeClosure)
         
         // execute the closure just once so our window is the correct style right now
-        changeClosure(.none)
+        changeClosure(nil)
     }
     
     deinit {

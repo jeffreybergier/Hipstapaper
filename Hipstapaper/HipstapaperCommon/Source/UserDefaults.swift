@@ -20,14 +20,18 @@ public extension UserDefaults {
         fileprivate static let sourceListWidth = "kSourceListWidthKey"
     }
     
-    public var selectedURLItemUUIDStrings: [String]? {
+    public var selectedURLItemUUIDStrings: [String] {
         get {
             let untyped = self.object(forKey: Keys.selectedItems) as? NSArray
             let typed = untyped?.flatMap({ $0 as? String })
-            if typed?.isEmpty == true { return .none } else { return typed }
+            return typed ?? []
         }
         set {
-            self.set(newValue, forKey: Keys.selectedItems)
+            if newValue.isEmpty == false {
+                self.set(newValue, forKey: Keys.selectedItems)
+            } else {
+                self.removeObject(forKey: Keys.selectedItems)
+            }
         }
     }
     

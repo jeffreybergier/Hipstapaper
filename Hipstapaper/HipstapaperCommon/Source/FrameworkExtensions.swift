@@ -12,14 +12,14 @@ import WebKit
 extension WKWebView: KVOCapable {}
 
 public extension AnyRealmCollection {
-    public func indexes(matchingPredicates predicates: [String]) -> [Int]? {
+    public func indexes(matchingPredicates predicates: [String]) -> [Int] {
         let matches = predicates.flatMap({ self.filter($0).first })
         let indexes = matches.flatMap({ self.index(of: $0) })
-        if indexes.isEmpty == true { return .none } else { return indexes }
+        return indexes
     }
     
     public func index(matchingPredicate predicate: String) -> Int? {
-        guard let match = self.filter(predicate).first else { return .none }
+        guard let match = self.filter(predicate).first else { return nil }
         let index = self.index(of: match)
         return index
     }

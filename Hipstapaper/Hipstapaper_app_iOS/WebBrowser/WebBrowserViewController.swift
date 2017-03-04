@@ -17,7 +17,7 @@ class WebBrowserViewController: SFSafariViewController, UIViewControllerRestorat
         guard
             let urlString = coder.decodeObject(forKey: self.kOriginalURLString) as? String,
             let url = URL(string: urlString)
-        else { return .none }
+        else { return nil }
         let vc = WebBrowserViewController(url: url, previewActions: nil)
         return vc
     }

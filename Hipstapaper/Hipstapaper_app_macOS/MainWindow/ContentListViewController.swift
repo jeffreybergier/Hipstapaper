@@ -32,9 +32,9 @@ class ContentListViewController: NSViewController, RealmControllable {
     
     private(set) fileprivate var data: AnyRealmCollection<URLItem>?
     
-    fileprivate var selectedURLItems: [URLItem]? {
-        let items = self.tableView?.selectedRowIndexes.flatMap({ self.data?[$0] }) ?? []
-        if items.isEmpty { return .none } else { return items }
+    fileprivate var selectedURLItems: [URLItem] {
+        let items = self.tableView?.selectedRowIndexes.flatMap({ self.data?[$0] })
+        return items ?? []
     }
     
     weak var realmController: RealmController? {
@@ -113,9 +113,9 @@ class ContentListViewController: NSViewController, RealmControllable {
         let searchFilter = self.searchField?.searchString
         
         // clear out all previous update tokens and tableview
-        self.data = .none
         self.notificationToken?.stop()
-        self.notificationToken = .none
+        self.notificationToken = nil
+        self.data = nil
         self.tableView?.reloadData()
         
         // now ask realm for new data and give it our closure to get updates
@@ -159,14 +159,15 @@ class ContentListViewController: NSViewController, RealmControllable {
         case .error(let error):
             guard let window = self.view.window else { break }
             let alert = NSAlert(error: error)
-            alert.beginSheetModal(for: window, completionHandler: .none)
+            alert.beginSheetModal(for: window, completionHandler: nil)
         }
     }
     
     // MARK: Handle Double click on TableView
     
     @IBAction func tableViewDoubleClicked(_ sender: NSObject?) {
-        guard let selectedItems = self.selectedURLItems else { return }
+        let selectedItems = self.selectedURLItems
+        guard selectedItems.isEmpty == false else { return }
         self.openOrBringFrontWindowControllers(for: selectedItems)
     }
     
@@ -174,9 +175,10 @@ class ContentListViewController: NSViewController, RealmControllable {
     
     // swiftlint:disable:next cyclomatic_complexity
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        let selectedItems = self.selectedURLItems
         guard
             let kind = NSMenuItem.Kind(rawValue: menuItem.tag),
-            let selectedItems = self.selectedURLItems
+            selectedItems.isEmpty == false
         else { return false }
         
         switch kind {
@@ -212,22 +214,25 @@ class ContentListViewController: NSViewController, RealmControllable {
     }
     
     @objc private func open(_ sender: NSObject?) {
-        guard let selectedItems = self.selectedURLItems else { NSBeep(); return; }
+        let selectedItems = self.selectedURLItems
+        guard selectedItems.isEmpty == false else { NSBeep(); return; }
         self.openOrBringFrontWindowControllers(for: selectedItems)
     }
     
     @objc private func openInBrowser(_ sender: NSObject?) {
-        guard let items = self.selectedURLItems?.flatMap({ URL(string: $0.urlString) }) else { return }
-        NSWorkspace.shared().open(items, withAppBundleIdentifier: .none, options: [], additionalEventParamDescriptor: .none, launchIdentifiers: .none)
+        let urls = self.selectedURLItems.flatMap({ URL(string: $0.urlString) })
+        guard urls.isEmpty == false else { return }
+        NSWorkspace.shared().open(urls, withAppBundleIdentifier: nil, options: [], additionalEventParamDescriptor: nil, launchIdentifiers: nil)
     }
     
     @objc private func delete(_ sender: NSObject?) {
-        guard let selectedItems = self.selectedURLItems else { NSBeep(); return; }
+        let selectedItems = self.selectedURLItems
+        guard selectedItems.isEmpty == false else { NSBeep(); return; }
         self.realmController?.delete(selectedItems)
     }
     
     @objc private func copy(_ sender: NSObject?) {
-        guard let selectedItems = self.selectedURLItems, let item = selectedItems.first else { NSBeep(); return; }
+        guard let item = self.selectedURLItems.first else { NSBeep(); return; }
         NSPasteboard.general().declareTypes([NSStringPboardType], owner: self)
         NSPasteboard.general().setString(item.urlString, forType: NSStringPboardType)
     }
@@ -276,45 +281,48 @@ class ContentListViewController: NSViewController, RealmControllable {
     // MARK: Handle Toolbar Items
     
     @objc private func archive(_ sender: NSObject?) {
-        guard let selectedItems = self.selectedURLItems else { return }
+        let selectedItems = self.selectedURLItems
+        guard selectedItems.isEmpty == false else { return }
         self.realmController?.url_setArchived(to: true, on: selectedItems)
     }
     
     @objc private func unarchive(_ sender: NSObject?) {
-        guard let selectedItems = self.selectedURLItems else { return }
+        let selectedItems = self.selectedURLItems
+        guard selectedItems.isEmpty == false else { return }
         self.realmController?.url_setArchived(to: false, on: selectedItems)
     }
     
     @objc private func tag(_ sender: NSObject?) {
+        let itemIDs = self.selectedURLItems.map({ URLItem.UIIdentifier(uuid: $0.uuid, urlString: $0.urlString, archived: $0.archived) })
         guard
             let realmController = self.realmController,
-            let itemIDs = self.selectedURLItems?.map({ URLItem.UIIdentifier(uuid: $0.uuid, urlString: $0.urlString, archived: $0.archived) })
-        else { return }
+            itemIDs.isEmpty == false
+        else { NSBeep(); return; }
         let tagVC = TagAddRemoveViewController(itemsToTag: itemIDs, controller: realmController)
         let view = (sender as? NSView) ?? self.view
         self.presentViewController(tagVC, asPopoverRelativeTo: .zero, of: view, preferredEdge: .maxY, behavior: .semitransient)
     }
     
     @objc private func share(_ sender: NSObject?) {
-        guard
-            let urls = self.selectedURLItems?.flatMap({ URL(string: $0.urlString) }),
-            urls.isEmpty == false
-        else { return }
+        let urls = self.selectedURLItems.flatMap({ URL(string: $0.urlString) })
+        guard urls.isEmpty == false else { NSBeep(); return; }
         let view = (sender as? NSView) ?? self.view
         NSSharingServicePicker(items: urls).show(relativeTo: .zero, of: view, preferredEdge: .minY)
     }
     
     @objc func shareMenu(_ sender: NSObject?) {
-        guard let urls = self.selectedURLItems?.flatMap({ URL(string: $0.urlString) }), urls.isEmpty == false else { return }
+        let urls = self.selectedURLItems.flatMap({ URL(string: $0.urlString) })
+        guard urls.isEmpty == false else { NSBeep(); return; }
         ((sender as? NSMenuItem)?.representedObject as? NSSharingService)?.perform(withItems: urls)
     }
     
     override func validateToolbarItem(_ item: NSObject?) -> Bool {
+        let selectedItems = self.selectedURLItems
         guard
             let item = item as? NSToolbarItem,
             let kind = NSToolbarItem.Kind(rawValue: item.tag),
             let _ = self.realmController,
-            let selectedItems = self.selectedURLItems
+            selectedItems.isEmpty == false
         else { return false }
         switch kind {
         case .unarchive:
@@ -452,7 +460,7 @@ extension ContentListViewController: NSTableViewDelegate {
             realmController.url_setArchived(to: newArchiveValue, on: [item])
         }
         let tagAction = NSTableViewRowAction(style: .regular, title: "🏷Tag") { _ in
-            let actionButtonView = tableView.tableViewActionButtons?.first ?? rowView
+            let actionButtonView = tableView.tableViewActionButtons.first ?? rowView
             let itemID = URLItem.UIIdentifier(uuid: item.uuid, urlString: item.urlString, archived: item.archived)
             let tagVC = TagAddRemoveViewController(itemsToTag: [itemID], controller: realmController)
             self.presentViewController(tagVC, asPopoverRelativeTo: .zero, of: actionButtonView, preferredEdge: .minY, behavior: .transient)
@@ -465,37 +473,17 @@ extension ContentListViewController: NSTableViewDelegate {
     }
     
     func tableViewSelectionDidChange(_ notification: Notification) {
-        self.quickLookPanelController.previewItems = self.selectedURLItems?.flatMap({ NSURL(string: $0.urlString) }) ?? []
-        UserDefaults.standard.selectedURLItemUUIDStrings = self.selectedURLItems?.map({ $0.uuid })
+        self.quickLookPanelController.previewItems = self.selectedURLItems.flatMap({ NSURL(string: $0.urlString) })
+        UserDefaults.standard.selectedURLItemUUIDStrings = self.selectedURLItems.map({ $0.uuid })
     }
     
     func tableView(_ tableView: NSTableView, shouldTypeSelectFor event: NSEvent, withCurrentSearch searchString: String?) -> Bool {
         // makes it so we don't try to search the table when doing a key event that the view controller controls anyway
-        if case .none = searchString, self.shouldHandle(keyEvent: event) == true {
+        if searchString == nil && self.shouldHandle(keyEvent: event) == true {
             return false
         } else {
             return true
         }
-    }
-}
-
-fileprivate extension NSView {
-    
-    fileprivate var tableViewActionButtons: [NSView]? {
-        guard let type = NSClassFromString("NSTableViewActionButton") else { return .none }
-        let matches = self.subviews(matchingType: type)
-        if matches.isEmpty { return .none } else { return matches }
-    }
-    
-    private func subviews(matchingType type: AnyClass) -> [NSView] {
-        var matches = [NSView]()
-        if self.classForCoder == type {
-            matches.append(self)
-        }
-        for subview in self.subviews {
-            matches += subview.subviews(matchingType: type)
-        }
-        return matches
     }
 }
 

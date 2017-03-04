@@ -78,8 +78,8 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
     private func hardReloadData() {
         // reset everything
         self.notificationToken?.stop()
-        self.notificationToken = .none
-        self.data = .none
+        self.notificationToken = nil
+        self.data = nil
         self.tableView?.reloadData()
         
         // reload everything
@@ -98,18 +98,19 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
             self.tableView?.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
             self.tableView?.endUpdates()
         case .error(let error):
-            fatalError("\(error)")
+            assert(true != true, "\(error)")
+            break
         }
     }
     
     @objc private func doneBBITapped(_ sender: NSObject?) {
-        self.dismiss(animated: true, completion: .none)
+        self.dismiss(animated: true, completion: nil)
     }
     
     @objc private func addBBITapped(_ sender: NSObject?) {
-        let alertVC = UIAlertController(title: "New Tag", message: .none, preferredStyle: .alert)
+        let alertVC = UIAlertController(title: "New Tag", message: nil, preferredStyle: .alert)
         alertVC.addTextField(configurationHandler: { $0.placeholder = "tag name" })
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: .none)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         let addAction = UIAlertAction(title: "Add", style: .default) { _ in
             guard let realmController = self.realmController else { return }
             let newName = alertVC.textFields?.flatMap({ $0.text }).first ?? ""
@@ -118,7 +119,7 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
         }
         alertVC.addAction(cancelAction)
         alertVC.addAction(addAction)
-        self.present(alertVC, animated: true, completion: .none)
+        self.present(alertVC, animated: true, completion: nil)
     }
     
     private var notificationToken: NotificationToken?

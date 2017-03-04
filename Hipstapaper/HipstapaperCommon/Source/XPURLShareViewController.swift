@@ -91,11 +91,11 @@ fileprivate extension XPURLShareViewController {
             // the sublayer shows the pure transform. so try and grab that
             // the primary layer works but it shows a bunch of empty space where there is a view but nothing rendered because of the transform
             let _layer = view.layer?.sublayers?.first
-            guard let theLayer = _layer else { return .none }
+            guard let theLayer = _layer else { return nil }
         #else
             let theLayer = view.layer
         #endif
-        guard let colorSpace = CGColorSpace(name: CGColorSpace.sRGB) else { return .none }
+        guard let colorSpace = CGColorSpace(name: CGColorSpace.sRGB) else { return nil }
         let theBounds = theLayer.bounds
         
         let pixelsHigh = Int(floor(theBounds.size.height))
@@ -109,14 +109,14 @@ fileprivate extension XPURLShareViewController {
                                  space: colorSpace,
                                  bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
         
-        guard let context = _context else { return .none }
+        guard let context = _context else { return nil }
         #if os(iOS)
             let iOSFlip = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: theBounds.size.height)
             context.concatenate(iOSFlip)
         #endif
         theLayer.render(in: context)
         
-        guard let _image = context.makeImage() else { return .none }
+        guard let _image = context.makeImage() else { return nil }
         #if os(OSX)
             let image = NSImage(cgImage: _image, size: NSSize.zero)
         #else

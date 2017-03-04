@@ -52,9 +52,9 @@ class TagAddRemoveViewController: NSViewController {
     // MARK: Reload Data
     
     private func hardReloadData() {
-        self.data = .none
         self.notificationToken?.stop()
-        self.notificationToken = .none
+        self.notificationToken = nil
+        self.data = nil
         
         self.data = self.realmController?.tag_loadAll()
         self.notificationToken = self.data?.addNotificationBlock({ [weak self] in self?.realmResultsChanged($0) })
@@ -73,7 +73,7 @@ class TagAddRemoveViewController: NSViewController {
         case .error(let error):
             guard let window = self.view.window else { break }
             let alert = NSAlert(error: error)
-            alert.beginSheetModal(for: window, completionHandler: .none)
+            alert.beginSheetModal(for: window, completionHandler: nil)
         }
     }
     
@@ -121,7 +121,7 @@ extension TagAddRemoveViewController: NSTableViewDataSource {
     }
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        guard let tagItem = self.data?[row], let realmController = self.realmController else { return .none }
+        guard let tagItem = self.data?[row], let realmController = self.realmController else { return nil }
         let state = realmController.tag_applicationState(of: tagItem, on: self.itemsToTag)
         let object = CheckboxStateTableCellBindingObject(displayName: tagItem.name, state: state.rawValue, index: row)
         object.delegate = self

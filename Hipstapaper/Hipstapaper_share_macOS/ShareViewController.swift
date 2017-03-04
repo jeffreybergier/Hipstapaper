@@ -47,7 +47,7 @@ class ShareViewController: XPURLShareViewController {
                 self.configureError()
             }
             // all the missing information is filled in the timerFired method and the view is dismissed from there
-            self.timer = Timer.scheduledTimer(timeInterval: duration, target: self, selector: #selector(self.timerFired(_:)), userInfo: .none, repeats: false)
+            self.timer = Timer.scheduledTimer(timeInterval: duration, target: self, selector: #selector(self.timerFired(_:)), userInfo: nil, repeats: false)
         }
     }
     
@@ -91,11 +91,11 @@ class ShareViewController: XPURLShareViewController {
         self.webViewTitleObserver = KeyValueObserver<String>(target: webView, keyPath: #keyPath(WebView.mainFrameTitle))
         self.webViewTitleObserver?.startObserving() { [weak self] newTitle -> String? in
             self?.pageTitleLabel?.stringValue = newTitle
-            return .none
+            return nil
         }
         
         // start observing for finished loading
-        NotificationCenter.default.addObserver(forName: .WebViewProgressFinished, object: webView, queue: .none) { _ in
+        NotificationCenter.default.addObserver(forName: .WebViewProgressFinished, object: webView, queue: nil) { _ in
             self.loadingSpinner?.stopAnimation(self)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 self.timer?.fire() // believe it or not, even when duck out early because the webview finished, we still need a delay to make it feel good
@@ -128,10 +128,10 @@ class ShareViewController: XPURLShareViewController {
     
     private func configureError() {
         self.loadingSpinner?.stopAnimation(self)
-        self.providedImageView?.image = .none
+        self.providedImageView?.image = nil
         self.webView?.removeFromSuperview()
-        self.webView = .none
-        self.pageDateLabel?.objectValue = .none
+        self.webView = nil
+        self.pageDateLabel?.objectValue = nil
         self.pageTitleLabel?.stringValue = "Error 😔"
     }
     
@@ -140,10 +140,10 @@ class ShareViewController: XPURLShareViewController {
     @objc private func timerFired(_ timer: Timer?) {
         // clear all the time shit
         timer?.invalidate()
-        self.timer = .none
+        self.timer = nil
         
         // stop KVO
-        self.webViewTitleObserver = .none
+        self.webViewTitleObserver = nil
         
         // de-register observer
         NotificationCenter.default.removeObserver(self, name: .WebViewProgressFinished, object: self.webView)
@@ -158,15 +158,15 @@ class ShareViewController: XPURLShareViewController {
                 item.pageTitle = webView.mainFrameTitle
                 item.image = type(of: self).snapshot(of: webView)
                 self.save(item: item)
-                self.extensionContext?.completeRequest(returningItems: .none, completionHandler: .none)
+                self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
             } else {
                 // if we don't we can just save and exit
                 self.save(item: item)
-                self.extensionContext?.completeRequest(returningItems: .none, completionHandler: .none)
+                self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
             }
         } else {
             // if we have nothing we need to slide out can cancel with error
-            self.extensionContext?.cancelRequest(withError: NSError(domain: "", code: 0, userInfo: .none))
+            self.extensionContext?.cancelRequest(withError: NSError(domain: "", code: 0, userInfo: nil))
         }
     }
 }

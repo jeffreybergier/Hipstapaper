@@ -36,8 +36,8 @@ open class LoadingIndicatorViewController: XPViewController, RealmControllable {
             self.downloadToken?.stop()
             self.uploadToken?.stop()
             
-            self.downloadToken = .none
-            self.uploadToken = .none
+            self.downloadToken = nil
+            self.uploadToken = nil
             
             guard self.allowedToAnimate else { return }
             
@@ -152,15 +152,15 @@ open class LoadingIndicatorViewController: XPViewController, RealmControllable {
     
     private func synchronizationActivityChanged(_ progress: SyncSession.Progress) {
         self.timer?.invalidate()
-        self.timer = .none
+        self.timer = nil
         self.state = .synchronizing
-        self.timer = Timer.scheduledTimer(timeInterval: self.duration * 3, target: self, selector: #selector(self.timerFired(_:)), userInfo: .none, repeats: false)
+        self.timer = Timer.scheduledTimer(timeInterval: self.duration * 3, target: self, selector: #selector(self.timerFired(_:)), userInfo: nil, repeats: false)
     }
     
     @objc private func timerFired(_ timer: Timer?) {
         timer?.invalidate()
         self.timer?.invalidate()
-        self.timer = .none
+        self.timer = nil
         self.state = .notSynchronizing
     }
     
@@ -190,14 +190,14 @@ open class LoadingIndicatorViewController: XPViewController, RealmControllable {
         }
         
         if self.allowedToAnimate {
-            NSAnimationContext.runAnimationGroup(opacityFinalState, completionHandler: .none)
-            NSAnimationContext.runAnimationGroup(locationFinalState, completionHandler: .none)
+            NSAnimationContext.runAnimationGroup(opacityFinalState, completionHandler: nil)
+            NSAnimationContext.runAnimationGroup(locationFinalState, completionHandler: nil)
 
         } else {
             // if not allowed to animate (view has not appeared once)
             // then just move everything without animating
-            opacityFinalState(.none)
-            locationFinalState(.none)
+            opacityFinalState(nil)
+            locationFinalState(nil)
         }
     }
     private func animateOut() {
@@ -225,11 +225,11 @@ open class LoadingIndicatorViewController: XPViewController, RealmControllable {
         }
         
         if self.allowedToAnimate {
-            NSAnimationContext.runAnimationGroup(opacityFinalState, completionHandler: .none)
+            NSAnimationContext.runAnimationGroup(opacityFinalState, completionHandler: nil)
             NSAnimationContext.runAnimationGroup(locationFinalState, completionHandler: completionState)
         } else {
-            opacityFinalState(.none)
-            locationFinalState(.none)
+            opacityFinalState(nil)
+            locationFinalState(nil)
             completionState()
         }
     }
@@ -255,14 +255,14 @@ open class LoadingIndicatorViewController: XPViewController, RealmControllable {
                            delay: 0.0,
                            options: [.curveLinear],
                            animations: opacityFinalState,
-                           completion: .none)
+                           completion: nil)
             UIView.animate(withDuration: self.duration * 2,
                            delay: 0.0,
                            usingSpringWithDamping: self.damping,
                            initialSpringVelocity: self.velocity,
                            options: [],
                            animations: locationFinalState,
-                           completion: .none)
+                           completion: nil)
         } else {
             // if not allowed to animate (view has not appeared once)
             // then just move everything without animating
@@ -293,7 +293,7 @@ open class LoadingIndicatorViewController: XPViewController, RealmControllable {
                            delay: 0.0,
                            options: [.curveLinear],
                            animations: opacityFinalState,
-                           completion: .none)
+                           completion: nil)
             UIView.animate(withDuration: self.duration,
                            delay: 0.0,
                            options: [.curveEaseIn],

@@ -506,7 +506,6 @@
 			buildConfigurationList = 5005E1391DF4CB8300BA38E6 /* Build configuration list for PBXNativeTarget "Hipstapaper_app_iOS" */;
 			buildPhases = (
 				024683F387A129D5EA4C40F2 /* [CP] Check Pods Manifest.lock */,
-				50A22B301E68D43E005C9733 /* Swift Lint */,
 				5005E1171DF4CB8300BA38E6 /* Sources */,
 				5005E1181DF4CB8300BA38E6 /* Frameworks */,
 				5005E1191DF4CB8300BA38E6 /* Resources */,
@@ -530,7 +529,6 @@
 			buildConfigurationList = 5005E14A1DF4CC2600BA38E6 /* Build configuration list for PBXNativeTarget "Hipstapaper_share_iOS" */;
 			buildPhases = (
 				61647C069520BF1D30044FEC /* [CP] Check Pods Manifest.lock */,
-				50A22B311E68D452005C9733 /* Swift Lint */,
 				5005E13B1DF4CC2600BA38E6 /* Sources */,
 				5005E13C1DF4CC2600BA38E6 /* Frameworks */,
 				5005E13D1DF4CC2600BA38E6 /* Resources */,
@@ -550,7 +548,6 @@
 			buildConfigurationList = 502C7F5B1DF0E4D5004E70AB /* Build configuration list for PBXNativeTarget "Hipstapaper_share_macOS" */;
 			buildPhases = (
 				F15F8C1F15B429C042964E02 /* [CP] Check Pods Manifest.lock */,
-				50A22B2F1E68D41E005C9733 /* Swift Lint */,
 				502C7F461DF0E4D5004E70AB /* Sources */,
 				502C7F471DF0E4D5004E70AB /* Frameworks */,
 				502C7F481DF0E4D5004E70AB /* Resources */,
@@ -813,48 +810,6 @@
 			showEnvVarsInLog = 0;
 		};
 		50A22B2E1E688896005C9733 /* Swift Lint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Swift Lint";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, 'brew install swiftlint', download from https://github.com/realm/SwiftLint\"\nfi";
-		};
-		50A22B2F1E68D41E005C9733 /* Swift Lint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Swift Lint";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, 'brew install swiftlint', download from https://github.com/realm/SwiftLint\"\nfi";
-		};
-		50A22B301E68D43E005C9733 /* Swift Lint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Swift Lint";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, 'brew install swiftlint', download from https://github.com/realm/SwiftLint\"\nfi";
-		};
-		50A22B311E68D452005C9733 /* Swift Lint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (

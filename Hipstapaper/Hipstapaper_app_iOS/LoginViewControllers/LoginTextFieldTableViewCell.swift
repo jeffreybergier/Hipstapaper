@@ -25,12 +25,12 @@ class LoginTextFieldTableViewCell: UITableViewCell {
                 self.textField?.isSecureTextEntry = false
                 self.textField?.keyboardType = .emailAddress
                 self.textField?.keyboardAppearance = .default
-                self.textField?.placeholder = .none
+                self.textField?.placeholder = nil
             case .password1, .password2:
                 self.textField?.isSecureTextEntry = true
                 self.textField?.keyboardType = .default
                 self.textField?.keyboardAppearance = .dark
-                self.textField?.placeholder = .none
+                self.textField?.placeholder = nil
             }
         }
     }
