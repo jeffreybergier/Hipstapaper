@@ -130,7 +130,7 @@ extension NSTextField {
             case .dark:
                 self.textColor = NSColor.controlLightHighlightColor
             case .light, .lowered, .raised:
-                self.textColor = NSColor.labelColor
+                self.textColor = NSColor.controlTextColor
             }
         }
     }
