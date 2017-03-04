@@ -13,6 +13,7 @@ extension UIViewController {
         return self.view.window != nil
     }
     
+    // swiftlint:disable:next variable_name
     var isUniquelyVisibleWithinSplitViewController: Bool {
         let isCollapsed = self.splitViewController?.isCollapsed ?? true
         return isCollapsed && self.isVisible
@@ -32,7 +33,8 @@ extension UISearchController {
         get {
             guard self.isActive == true else { return nil }
             let trimmed = self.searchBar.text?.trimmingCharacters(in: .whitespacesAndNewlines)
-            if trimmed == "" { return nil } else { return trimmed }
+            guard trimmed != "" else { return nil }
+            return trimmed
         }
         set {
             if let newValue = newValue {
@@ -49,10 +51,12 @@ extension UISearchController {
 }
 
 extension UIViewController {
+    
+    // swiftlint:disable:next opening_brace
     func emergencyDismissPopover(animated animatedDismiss: Bool = false,
-                          thenPresentViewController vc: UIViewController,
-                          animated animatedPresent: Bool = true,
-                          completion: (() -> Void)? = nil)
+                                 thenPresentViewController vc: UIViewController,
+                                 animated animatedPresent: Bool = true,
+                                 completion: (() -> Void)? = nil)
     {
         let presentVC = {
             self.present(vc, animated: animatedPresent, completion: completion)
@@ -60,9 +64,7 @@ extension UIViewController {
         self.emergencyDismissPopover(animated: animatedDismiss, thenDo: presentVC)
     }
     
-    func emergencyDismissPopover(animated: Bool = false,
-                          thenDo completion: @escaping (() -> Void))
-    {
+    func emergencyDismissPopover(animated: Bool = false, thenDo completion: @escaping (() -> Void)) {
         if self.presentedViewController?.modalPresentationStyle == .popover {
             // false makes the emergency dismissal feel more responsive
             self.presentedViewController?.dismiss(animated: animated, completion: { completion() })

@@ -26,7 +26,6 @@ public class RealmController {
         return session
     }
     
-    
     private static func realmURL(for user: SyncUser) -> URL {
         var components = URLComponents(url: user.authenticationServer!, resolvingAgainstBaseURL: false)!
         components.scheme = "realm"

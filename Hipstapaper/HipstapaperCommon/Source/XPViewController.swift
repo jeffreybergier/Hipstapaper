@@ -47,6 +47,7 @@ import Foundation
     }
 #endif
 
+// swiftlint:disable operator_usage_whitespace
 public enum Color {
     #if os(OSX)
     public static let tintColor = NSColor(red: 0, green: 204/255.0, blue: 197/255.0, alpha: 1)
@@ -56,4 +57,4 @@ public enum Color {
     public static let iconColor = UIColor(red: 136/255.0, green: 255/255.0, blue: 226/255.0, alpha: 1)
     #endif
 }
-
+// swiftlint:enable operator_usage_whitespace

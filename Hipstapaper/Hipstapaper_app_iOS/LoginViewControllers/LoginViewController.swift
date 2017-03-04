@@ -24,7 +24,7 @@ class LoginViewController: UITableViewController {
         var password1: String?
         var password2: String?
         
-        enum Validation {
+        fileprivate enum Validation {
             case valid, invalid(message: String)
         }
     }
@@ -97,7 +97,7 @@ class LoginViewController: UITableViewController {
                     } else {
                         let message = error?.localizedDescription ?? "Unknown Error"
                         let alert = UIAlertController(title: "Login Error", message: message, preferredStyle: .alert)
-                        let action = UIAlertAction(title: "Dismiss", style: .cancel) { action in
+                        let action = UIAlertAction(title: "Dismiss", style: .cancel) { _ in
                             self.updateUI(networkActivity: false)
                         }
                         alert.addAction(action)
@@ -158,7 +158,8 @@ class LoginViewController: UITableViewController {
         }
         
         if self.createNewAccount == true {
-            if model.password2 == nil ||
+            if
+                model.password2 == nil ||
                 model.password2 == "" ||
                 model.password2 != model.password1
             {

@@ -26,6 +26,6 @@ extension URLItem.UIIdentifier: Hashable {
     }
 }
 
-public func ==(lhs: URLItem.UIIdentifier, rhs: URLItem.UIIdentifier) -> Bool {
+public func == (lhs: URLItem.UIIdentifier, rhs: URLItem.UIIdentifier) -> Bool {
     return lhs.hashValue == rhs.hashValue
 }

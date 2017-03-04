@@ -45,7 +45,6 @@ public enum XPBackgroundFetchResult: UInt {
     #endif
 }
 
-
 // used to show the relationship between URLItems and TagItems in the UI
 public enum CheckboxState: Int {
     case mixed = -1

@@ -64,4 +64,3 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let _ = try? NSToolbarItem.aspect_hook(#selector(NSToolbarItem.awakeFromNib), with: [], usingBlock: toolbarAwake)
     }
 }
-

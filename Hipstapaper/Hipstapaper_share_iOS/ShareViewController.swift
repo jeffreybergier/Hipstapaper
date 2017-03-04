@@ -225,4 +225,3 @@ class ShareViewController: XPURLShareViewController {
         return whitelisted
     }
 }
-

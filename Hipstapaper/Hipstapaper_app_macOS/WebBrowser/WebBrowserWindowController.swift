@@ -60,6 +60,8 @@ class WebBrowserWindowController: NSWindowController {
         return webView
     }()
     
+    // owning a strong reference to the webview and its delegate does not create a retain cycle
+    // swiftlint:disable:next weak_delegate
     private let webViewDelegate = WebBrowserDelegate()
     
     // MARK: Initialization
@@ -172,6 +174,7 @@ class WebBrowserWindowController: NSWindowController {
         (sender as? NSMenuItem)?.representedObject = .none
     }
     
+    // swiftlint:disable:next cyclomatic_complexity
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         guard let itemID = self.itemID, let kind = NSMenuItem.Kind(rawValue: menuItem.tag), let _ = self.delegate?.realmController else { return false }
         switch kind {

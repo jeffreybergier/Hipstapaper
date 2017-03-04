@@ -102,7 +102,7 @@ fileprivate extension NSItemProvider {
         //      this one finds only File URLs and not web pages
         // public.url-name -   'urln'  URL name.
         //      not sure what this one does, it didn't find either
-        self.loadItem(forTypeIdentifier: kUTTypeURL as String, options: .none) { secureCoding, error in
+        self.loadItem(forTypeIdentifier: kUTTypeURL as String, options: .none) { secureCoding, _ in
             let url = secureCoding as? URL
             DispatchQueue.main.async {
                 completion(url)
@@ -111,7 +111,7 @@ fileprivate extension NSItemProvider {
     }
     
     fileprivate func loadURLString(_ completion: @escaping (String?) -> Void) {
-        self.loadItem(forTypeIdentifier: kUTTypePlainText as String, options: .none) { secureCoding, error in
+        self.loadItem(forTypeIdentifier: kUTTypePlainText as String, options: .none) { secureCoding, _ in
             let urlString = (secureCoding as? String) ?? "z   A  z A" //fallback to non URL compatible string
             let url = URL(string: urlString)
             DispatchQueue.main.async {
@@ -123,7 +123,7 @@ fileprivate extension NSItemProvider {
     fileprivate func loadImage(_ completion: @escaping (XPImage?) -> Void) {
         // load a preview image for the object
         let desiredImageSize = NSValue(xpSizeWidth: 512, xpSizeHeight: 512)
-        self.loadPreviewImage(options: [NSItemProviderPreferredImageSizeKey : desiredImageSize]) { secureCoding, error in
+        self.loadPreviewImage(options: [NSItemProviderPreferredImageSizeKey : desiredImageSize]) { secureCoding, _ in
             let discoveredImage = secureCoding as? XPImage
             DispatchQueue.main.async {
                 completion(discoveredImage)

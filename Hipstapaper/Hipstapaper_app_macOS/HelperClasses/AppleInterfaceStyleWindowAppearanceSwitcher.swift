@@ -8,6 +8,7 @@
 
 import AppKit
 
+// swiftlint:disable:next type_name
 class AppleInterfaceStyleWindowAppearanceSwitcher {
     
     enum Style: String {

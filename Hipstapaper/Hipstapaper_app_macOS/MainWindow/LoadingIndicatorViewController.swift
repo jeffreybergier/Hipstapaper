@@ -9,6 +9,7 @@
 import Common
 import Aspects
 
+// swiftlint:disable:next type_name
 class AppearanceObservingLoadingIndicatorViewController: LoadingIndicatorViewController {
     
     private lazy var appearanceObserver: KeyValueObserver<NSAppearance> = KeyValueObserver(target: self.view.window!, keyPath: #keyPath(NSWindow.appearance))
@@ -32,7 +33,8 @@ class AppearanceObservingLoadingIndicatorViewController: LoadingIndicatorViewCon
     }
     
     private func updateAppearance() {
-        if let appearance = self.view.window?.appearance,
+        if
+            let appearance = self.view.window?.appearance,
             AppleInterfaceStyleWindowAppearanceSwitcher.Style(appearance: appearance) == .dark
         {
             // if we have a valid appearance and that appearance is dark, set the background color accordingly.

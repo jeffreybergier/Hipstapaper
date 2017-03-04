@@ -244,6 +244,3 @@ extension SourceListViewController: UITableViewDataSource {
         return cell
     }
 }
-
-
-

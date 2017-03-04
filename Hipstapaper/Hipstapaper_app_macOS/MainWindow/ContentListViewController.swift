@@ -172,6 +172,7 @@ class ContentListViewController: NSViewController, RealmControllable {
     
     // MARK: Handle Menu Bar Items
     
+    // swiftlint:disable:next cyclomatic_complexity
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         guard
             let kind = NSMenuItem.Kind(rawValue: menuItem.tag),
@@ -450,7 +451,7 @@ extension ContentListViewController: NSTableViewDelegate {
             let newArchiveValue = !item.archived
             realmController.url_setArchived(to: newArchiveValue, on: [item])
         }
-        let tagAction = NSTableViewRowAction(style: .regular, title: "🏷Tag") { action, index in
+        let tagAction = NSTableViewRowAction(style: .regular, title: "🏷Tag") { _ in
             let actionButtonView = tableView.tableViewActionButtons?.first ?? rowView
             let itemID = URLItem.UIIdentifier(uuid: item.uuid, urlString: item.urlString, archived: item.archived)
             let tagVC = TagAddRemoveViewController(itemsToTag: [itemID], controller: realmController)

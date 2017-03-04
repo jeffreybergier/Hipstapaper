@@ -6,7 +6,6 @@
 //
 //
 
-
 public extension URLItem {
     public enum ItemsToLoad {
         case all, tag(TagItem.UIIdentifier)
@@ -15,7 +14,7 @@ public extension URLItem {
 
 extension URLItem.ItemsToLoad: Equatable { }
 
-public func ==(lhs: URLItem.ItemsToLoad, rhs: URLItem.ItemsToLoad) -> Bool {
+public func == (lhs: URLItem.ItemsToLoad, rhs: URLItem.ItemsToLoad) -> Bool {
     switch lhs {
     case .all:
         if case .all = rhs { return true }

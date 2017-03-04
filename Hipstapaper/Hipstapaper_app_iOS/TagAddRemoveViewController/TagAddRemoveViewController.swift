@@ -110,7 +110,7 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
         let alertVC = UIAlertController(title: "New Tag", message: .none, preferredStyle: .alert)
         alertVC.addTextField(configurationHandler: { $0.placeholder = "tag name" })
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: .none)
-        let addAction = UIAlertAction(title: "Add", style: .default) { action in
+        let addAction = UIAlertAction(title: "Add", style: .default) { _ in
             guard let realmController = self.realmController else { return }
             let newName = alertVC.textFields?.flatMap({ $0.text }).first ?? ""
             let tag = realmController.tag_uniqueTag(named: newName)
@@ -201,5 +201,3 @@ extension TagAddRemoveViewController: UIAdaptivePresentationControllerDelegate {
     }
 
 }
-
-

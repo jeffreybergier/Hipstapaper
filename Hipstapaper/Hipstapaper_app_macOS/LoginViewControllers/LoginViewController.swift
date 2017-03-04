@@ -78,7 +78,8 @@ class LoginViewController: NSViewController {
         
         let password2Valid: Bool
         if case .create = self.purpose {
-            if self.password2TextField?.stringValue != nil &&
+            if
+                self.password2TextField?.stringValue != nil &&
                 self.password2TextField?.stringValue != "" &&
                 self.password2TextField?.stringValue == self.password1TextField?.stringValue
             {

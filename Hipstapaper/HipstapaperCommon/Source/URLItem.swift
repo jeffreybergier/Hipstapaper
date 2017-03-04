@@ -23,14 +23,4 @@ final public class URLItem: Object {
     override public static func primaryKey() -> String {
         return #keyPath(URLItem.uuid)
     }
-    
 }
-
-
-
-
-
-
-
-
-

@@ -69,6 +69,4 @@ final public class SerializableURLItem: NSObject, NSCoding {
         coder.encode(self.pageTitle, forKey: Constants.kPageTitle)
         coder.encode(self.image, forKey: Constants.kImage)
     }
-    
-    
 }

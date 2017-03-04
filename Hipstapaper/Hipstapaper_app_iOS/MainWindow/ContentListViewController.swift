@@ -49,7 +49,6 @@ class ContentListViewController: UIViewController, RealmControllable {
         return bbi
     }()
     
-    
     // MARK: Selection
     
     var itemsToLoad = UserDefaults.standard.userSelection.itemsToLoad
@@ -234,7 +233,7 @@ class ContentListViewController: UIViewController, RealmControllable {
         guard let realmController = self.realmController, let items = self.selectedURLItems, items.isEmpty == false else { return }
         let alert = UIAlertController(title: "Delete \(items.count) Item(s)?", message: "This action cannot be undone.", preferredStyle: .actionSheet)
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: .none)
-        let delete = UIAlertAction(title: "Delete", style: .destructive) { action in
+        let delete = UIAlertAction(title: "Delete", style: .destructive) { _ in
             realmController.delete(items)
         }
         alert.addAction(cancel)
@@ -504,7 +503,7 @@ extension ContentListViewController: UISearchResultsUpdating {
         // hide the syncronization view if searching is active
         // this is needed because the search VC appears above the sync view
         // it looks weird if syncronizing shows when searces are happening
-        if hide == true  {
+        if hide == true {
             self.loadingIndicatorViewController?.view?.alpha = 0
         } else {
             self.loadingIndicatorViewController?.view?.alpha = 1
@@ -549,13 +548,13 @@ extension ContentListViewController: UITableViewDelegate {
         else { return .none }
         
         let archiveActionTitle = item.archived ? "📤Unarchive" : "📥Archive"
-        let archiveToggleAction = UITableViewRowAction(style: .normal, title: archiveActionTitle) { action, indexPath in
+        let archiveToggleAction = UITableViewRowAction(style: .normal, title: archiveActionTitle) { _ in
             let newArchiveValue = !item.archived
             self.realmController?.url_setArchived(to: newArchiveValue, on: [item])
         }
         archiveToggleAction.backgroundColor = tableView.tintColor
         
-        let tagAction = UITableViewRowAction(style: .normal, title: "🏷Tag") { [weak self] action, indexPath in
+        let tagAction = UITableViewRowAction(style: .normal, title: "🏷Tag") { action, _ in
             let selector = Selector("_button")
             let popoverView: UIView
             if action.responds(to: selector), let actionButton = action.perform(selector)?.takeUnretainedValue() as? UIView {
@@ -569,7 +568,7 @@ extension ContentListViewController: UITableViewDelegate {
             let presentation = TagAddRemoveViewController.PresentationStyle.popCustom(rect: popoverView.bounds, view: popoverView)
             let itemID = URLItem.UIIdentifier(uuid: item.uuid, urlString: item.urlString, archived: item.archived)
             let tagVC = TagAddRemoveViewController.viewController(style: presentation, selectedItems: [itemID], controller: realmController)
-            self?.present(tagVC, animated: true, completion: nil)
+            self.present(tagVC, animated: true, completion: nil)
         }
         return [archiveToggleAction, tagAction]
     }
@@ -590,4 +589,3 @@ extension ContentListViewController: UITableViewDataSource {
         return cell
     }
 }
-

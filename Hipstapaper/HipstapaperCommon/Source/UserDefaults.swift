@@ -48,8 +48,8 @@ public extension UserDefaults {
             return (itemsToLoad: itemsToLoad, sortOrder: sort ?? .recentlyAddedOnTop, filter: filter ?? .unarchived)
         }
         set {
-            let sortNumber = NSNumber(integerLiteral: newValue.sortOrder.rawValue)
-            let filterNumber = NSNumber(integerLiteral: newValue.filter.rawValue)
+            let sortNumber = NSNumber(value: newValue.sortOrder.rawValue)
+            let filterNumber = NSNumber(value: newValue.filter.rawValue)
             self.set(sortNumber, forKey: Keys.sortOrder)
             self.set(filterNumber, forKey: Keys.filter)
             if case .tag(let tagID) = newValue.itemsToLoad {
