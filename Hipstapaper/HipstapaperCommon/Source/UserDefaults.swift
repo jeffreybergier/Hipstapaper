@@ -35,6 +35,7 @@ public extension UserDefaults {
         }
     }
     
+    // swiftlint:disable:next large_tuple
     public var userSelection: (itemsToLoad: URLItem.ItemsToLoad, sortOrder: URLItem.SortOrder, filter: URLItem.ArchiveFilter) {
         get {
             let sortValue = (self.value(forKey: Keys.sortOrder) as? NSNumber)?.intValue ?? -1

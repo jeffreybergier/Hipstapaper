@@ -24,7 +24,7 @@ class TagCreateViewController: NSViewController {
     
     override func viewDidAppear() {
         super.viewDidAppear()
-        let _ = self.appearanceSwitcher
+        _ = self.appearanceSwitcher
     }
     
 }

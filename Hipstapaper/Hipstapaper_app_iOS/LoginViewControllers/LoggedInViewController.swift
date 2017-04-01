@@ -48,7 +48,7 @@ class LoggedInViewController: UIViewController, RealmControllable {
     }
 
     private func updateUILabels() {
-        if let _ = realmController {
+        if realmController != nil {
             self.primaryTextLabel?.text = "You're logged in. ☺️"
             self.logoutButton?.setTitle("Logout", for: .normal)
             self.createButton?.setTitle("Create Account", for: .normal)

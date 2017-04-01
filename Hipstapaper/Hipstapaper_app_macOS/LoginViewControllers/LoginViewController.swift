@@ -28,7 +28,7 @@ class LoginViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let _ = self.password2TextField {
+        if self.password2TextField != nil {
             self.purpose = .create
         } else {
             self.purpose = .login
@@ -56,7 +56,7 @@ class LoginViewController: NSViewController {
     
     @IBAction private func textFieldChanged(_ sender: NSObject?) {
         let serverValid: Bool
-        if let _ = URL(string: self.serverTextField?.stringValue ?? " ") {
+        if URL(string: self.serverTextField?.stringValue ?? " ") != nil {
             serverValid = true
         } else {
             serverValid = false

@@ -61,6 +61,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             guard let toolbarItem = info.instance() as? NSToolbarItem else { return }
             toolbarItem.resizeIfNeeded()
         }
-        let _ = try? NSToolbarItem.aspect_hook(#selector(NSToolbarItem.awakeFromNib), with: [], usingBlock: toolbarAwake)
+        _ = try? NSToolbarItem.aspect_hook(#selector(NSToolbarItem.awakeFromNib), with: [], usingBlock: toolbarAwake)
     }
 }

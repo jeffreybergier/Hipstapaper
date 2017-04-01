@@ -51,7 +51,7 @@ class MainWindowController: NSWindowController, RealmControllable {
         
         // Get that OSX Yosemite 'look'
         self.window?.titleVisibility = .hidden
-        let _ = self.appearanceSwitcher
+        _ = self.appearanceSwitcher
         
         // configure the splitview within the window
         let splitViewController = NSSplitViewController()

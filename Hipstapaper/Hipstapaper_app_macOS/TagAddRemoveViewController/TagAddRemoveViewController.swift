@@ -46,7 +46,7 @@ class TagAddRemoveViewController: NSViewController {
     
     override func viewDidAppear() {
         super.viewDidAppear()
-        let _ = self.appearanceSwitcher
+        _ = self.appearanceSwitcher
     }
     
     // MARK: Reload Data

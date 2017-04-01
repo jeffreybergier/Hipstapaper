@@ -143,7 +143,7 @@ class SourceListViewController: NSViewController {
     }
     
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        guard let _ = self.realmController, menuItem.tag == 666, let _ = self.selectedTags else { return false }
+        guard self.realmController != nil, menuItem.tag == 666, self.selectedTags != nil else { return false }
         return true
     }
     

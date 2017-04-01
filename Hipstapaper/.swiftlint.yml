@@ -14,6 +14,7 @@ disabled_rules:
 opt_in_rules:
   - vertical_whitespace
   - operator_usage_whitespace
+  - outlet_setter
 
 # configurable rules can be customized from this configuration file
 # binary rules can set their severity level
@@ -22,7 +23,7 @@ force_try:
   severity: warning # explicitly
 type_name:
     min_length: 2
-variable_name:
+identifier_name:
     min_length: 2
 trailing_comma:
     mandatory_comma: false

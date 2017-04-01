@@ -27,7 +27,7 @@ fileprivate extension NSAlert {
         // add buttons
         alert.addButton(withTitle: "Dismiss")
         // only add other buttons if we have a valid URL
-        if let _ = webView.url {
+        if webView.url != nil {
             alert.addButton(withTitle: "Copy URL")
             alert.addButton(withTitle: "Open in Browser")
         }

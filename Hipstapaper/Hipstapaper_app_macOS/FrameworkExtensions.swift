@@ -58,7 +58,7 @@ extension NSToolbarItem {
     
     func isValid(for object: NSObject?) -> Bool {
         // returns NSAtom when returning Bool.true
-        if let _ = object?.perform(type(of: self).validateToolbarItemSelector, with: self)?.takeUnretainedValue() { // as? NSAtom
+        if object?.perform(type(of: self).validateToolbarItemSelector, with: self)?.takeUnretainedValue() != nil { // as? NSAtom
             return true
         } else {
             return false // returns nil when selector returns Bool.false

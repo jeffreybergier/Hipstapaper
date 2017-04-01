@@ -35,7 +35,7 @@ class PreferencesWindowController: NSWindowController, RealmControllable {
     override func windowDidLoad() {
         super.windowDidLoad()
         self.allTabViewItems = self.tabView?.tabViewItems ?? []
-        let _ = self.appearanceSwitcher
+        _ = self.appearanceSwitcher
     }
     
     override func showWindow(_ sender: Any?) {
@@ -46,7 +46,7 @@ class PreferencesWindowController: NSWindowController, RealmControllable {
         }
         
         let items: [NSTabViewItem]
-        if let _ = self.realmController {
+        if self.realmController != nil {
             items = self.allTabViewItems.filter({ ($0.identifier as? String) == "loggedin" })
         } else {
             items = self.allTabViewItems.filter({ ($0.identifier as? String) == "login" || ($0.identifier as? String) == "create" })

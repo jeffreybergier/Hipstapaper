@@ -98,9 +98,9 @@ extension RealmController {
     // MARK: Class Funcs for Common Operations
     
     public class func indexesOfUserDefaultsSelectedItems(within newData: AnyRealmCollection<URLItem>) -> [Int] {
-        let predicates = UserDefaults.standard.selectedURLItemUUIDStrings.map({ "\(#keyPath(URLItem.uuid)) = '\($0)'" }) ?? []
+        let predicates = UserDefaults.standard.selectedURLItemUUIDStrings.map({ "\(#keyPath(URLItem.uuid)) = '\($0)'" })
         let indexes = newData.indexes(matchingPredicates: predicates)
-        return indexes ?? []
+        return indexes
     }
     
     // MARK: Create / Load / Delete Tags
@@ -235,7 +235,9 @@ extension RealmController {
         }
         
         // perform filters on the query
-        let unsortedFiltered = filters.reduce(unsortedUnfiltered) { q, f in AnyRealmCollection(q.filter(f)) }
+        let unsortedFiltered = filters.reduce(unsortedUnfiltered) { collectionSoFar, nextFilterString in
+            return AnyRealmCollection(collectionSoFar.filter(nextFilterString))
+        }
         
         // sort the filtered items
         let sortedFiltered = AnyRealmCollection(unsortedFiltered.sorted(byKeyPath: sortOrder.keyPath, ascending: sortOrder.ascending))

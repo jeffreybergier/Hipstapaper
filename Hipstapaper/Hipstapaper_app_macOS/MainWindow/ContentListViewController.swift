@@ -321,7 +321,7 @@ class ContentListViewController: NSViewController, RealmControllable {
         guard
             let item = item as? NSToolbarItem,
             let kind = NSToolbarItem.Kind(rawValue: item.tag),
-            let _ = self.realmController,
+            self.realmController != nil,
             selectedItems.isEmpty == false
         else { return false }
         switch kind {
