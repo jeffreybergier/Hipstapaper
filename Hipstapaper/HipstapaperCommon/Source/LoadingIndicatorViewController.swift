@@ -41,14 +41,14 @@ open class LoadingIndicatorViewController: XPViewController, RealmControllable {
             
             guard self.allowedToAnimate else { return }
             
-            self.uploadToken = self.realmController?.session.addProgressNotification(
-                for: .upload,
-                mode: .reportIndefinitely,
-                block: { [weak self] in self?.synchronizationActivityChanged($0) })
-            self.downloadToken = self.realmController?.session.addProgressNotification(
-                for: .download,
-                mode: .reportIndefinitely,
-                block: { [weak self] in self?.synchronizationActivityChanged($0) })
+            self.uploadToken = self.realmController?.session.addProgressNotification(for: .upload, mode: .reportIndefinitely)
+            { [weak self] progress in
+                DispatchQueue.main.async(execute: { self?.synchronizationActivityChanged(progress) })
+            }
+            self.downloadToken = self.realmController?.session.addProgressNotification(for: .download, mode: .reportIndefinitely)
+            { [weak self] progress in
+                DispatchQueue.main.async(execute: { self?.synchronizationActivityChanged(progress) })
+            }
         }
     }
     

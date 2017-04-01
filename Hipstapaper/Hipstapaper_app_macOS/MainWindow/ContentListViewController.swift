@@ -131,15 +131,18 @@ class ContentListViewController: NSViewController, RealmControllable {
         self.sortSelectingViewController?.filter = filter
                 
         // load the data
-        self.data = self.realmController?.url_loadAll(for: itemsToLoad, sortedBy: sortOrder, filteredBy: filter, searchFilter: searchFilter)
-        self.notificationToken = self.data?.addNotificationBlock({ [weak self] in self?.realmResultsChanged($0) })
+        let data = self.realmController?.url_loadAll(for: itemsToLoad, sortedBy: sortOrder, filteredBy: filter, searchFilter: searchFilter)
+        self.notificationToken = data?.addNotificationBlock({ [weak self] in self?.realmResultsChanged($0) })
     }
     
     private func realmResultsChanged(_ changes: RealmCollectionChange<AnyRealmCollection<URLItem>>) {
         switch changes {
-        case .initial(let newData):
+        case .initial(let data):
+            // set the data
+            self.data = data
+            
             // find the previously selected items
-            let previousSelectionIndexes = RealmController.indexesOfUserDefaultsSelectedItems(within: newData)
+            let previousSelectionIndexes = RealmController.indexesOfUserDefaultsSelectedItems(within: data)
 
             // hard reload the data
             self.tableView?.reloadData()
@@ -152,8 +155,8 @@ class ContentListViewController: NSViewController, RealmControllable {
             
             // update the table
             self.tableView?.beginUpdates()
-            self.tableView?.removeRows(at: IndexSet(deletions), withAnimation: .slideLeft)
             self.tableView?.insertRows(at: IndexSet(insertions), withAnimation: .slideRight)
+            self.tableView?.removeRows(at: IndexSet(deletions), withAnimation: .slideLeft)
             self.tableView?.reloadData(forRowIndexes: IndexSet(modifications), columnIndexes: IndexSet([0]))
             self.tableView?.endUpdates()
         case .error(let error):

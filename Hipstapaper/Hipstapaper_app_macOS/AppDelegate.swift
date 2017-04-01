@@ -21,7 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     // open the main window when the app launches
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        if (self.rootWindowController.window?.isVisible ?? false) == false {
+        if self.rootWindowController.window?.isVisible == false {
             self.rootWindowController.showWindow(self)
         }
     }

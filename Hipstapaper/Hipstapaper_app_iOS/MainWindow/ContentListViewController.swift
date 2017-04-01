@@ -152,32 +152,34 @@ class ContentListViewController: UIViewController, RealmControllable {
         self.tableView?.reloadData()
         
         // configure data source
-        self.data = self.realmController?.url_loadAll(for: itemsToLoad, sortedBy: sortOrder, filteredBy: filter, searchFilter: searchFilter)
-        self.notificationToken = self.data?.addNotificationBlock({ [weak self] in self?.realmResultsChanged($0) })
+        let data = self.realmController?.url_loadAll(for: itemsToLoad, sortedBy: sortOrder, filteredBy: filter, searchFilter: searchFilter)
+        self.notificationToken = data?.addNotificationBlock({ [weak self] in self?.realmResultsChanged($0) })
     }
     
     private func realmResultsChanged(_ changes: RealmCollectionChange<AnyRealmCollection<URLItem>>) {
         switch changes {
-        case .initial(let newData):
+        case .initial(let data):
+            // set the data
+            self.data = data
+            
             // find the previously selected items
-            let previousSelectionIndexes = RealmController.indexesOfUserDefaultsSelectedItems(within: newData)
+            let previousSelectionIndexes = RealmController.indexesOfUserDefaultsSelectedItems(within: data)
             
             // hard reload the data
             self.tableView?.reloadData()
             
             // select the items found after updating the table
             self.selectRowsAfterHardRefresh(atIndexes: previousSelectionIndexes)
-        case .update(let newData, let deletions, let insertions, let modifications):
+        case .update(let data, let deletions, let insertions, let modifications):
             // UITableView does not automatically reselect updated rows like NSTableView does
             // So I need manual selection code here
-            
             // find the previously selected items
-            let previousSelectionIndexes = RealmController.indexesOfUserDefaultsSelectedItems(within: newData)
+            let previousSelectionIndexes = RealmController.indexesOfUserDefaultsSelectedItems(within: data)
             
             // update the table
             self.tableView?.beginUpdates()
-            self.tableView?.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .left)
             self.tableView?.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0) }), with: .right)
+            self.tableView?.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .left)
             self.tableView?.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 0) }), with: .automatic)
             self.tableView?.endUpdates()
             

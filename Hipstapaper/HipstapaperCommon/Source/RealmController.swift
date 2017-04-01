@@ -40,14 +40,9 @@ public class RealmController {
         self.realmURL = RealmController.realmURL(for: user)
     }
     
-    public init?() {
-        if let user = SyncUser.current {
-            SyncManager.shared.logLevel = .error
-            self.user = user
-            self.realmURL = RealmController.realmURL(for: user)
-        } else {
-            return nil
-        }
+    public convenience init?() {
+        guard let user = SyncUser.current else { return nil }
+        self.init(user: user)
     }
     
     public func logOut() {
