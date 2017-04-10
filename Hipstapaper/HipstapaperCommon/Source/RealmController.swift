@@ -8,6 +8,53 @@
 
 import RealmSwift
 
+/*
+// hack to copy things over
+if let vanadumRealmController = self.realmController {
+    let server = URL(string: )!
+    let username =
+    let password =
+    
+    let credentials = SyncCredentials.usernamePassword(username: username, password: password, register: false)
+    SyncUser.logIn(with: credentials, server: server) { user, error in
+        DispatchQueue.main.async {
+            let digitalOceanRealmController = RealmController(user: user!)
+            let allOldObjects = vanadumRealmController.url_loadAll(for: .all, sortedBy: .recentlyAddedOnBottom, filteredBy: .all)
+            self.noti = allOldObjects?.addNotificationBlock { changes in
+                switch changes {
+                case .initial(let oldData):
+                    let realm = digitalOceanRealmController.realm
+                    for (i, oldItem) in oldData.enumerated() {
+                        let newObject = URLItem()
+                        newObject.archived = oldItem.archived
+                        newObject.urlString = oldItem.urlString
+                        newObject.creationDate = oldItem.creationDate
+                        newObject.modificationDate = oldItem.modificationDate
+                        for oldTag in oldItem.tags {
+                            let newTag = digitalOceanRealmController.tag_uniqueTag(named: oldTag.name)
+                            newObject.tags.append(newTag)
+                        }
+                        if let oldExtras = oldItem.extras {
+                            let newExtras = URLItemExtras()
+                            newExtras.pageTitle = oldExtras.pageTitle
+                            newExtras.imageData = oldExtras.imageData
+                            newObject.extras = newExtras
+                        }
+                        realm.beginWrite()
+                        realm.add(newObject)
+                        try! realm.commitWrite()
+                    }
+                    print("DONE")
+                default:
+                    break
+                }
+            }
+        }
+    }
+}
+
+*/
+
 // MARK: Initialization
 
 public class RealmController {
@@ -15,7 +62,7 @@ public class RealmController {
     private let user: SyncUser
     private let realmURL: URL
     
-    fileprivate var realm: Realm {
+    public var realm: Realm {
         let config = Realm.Configuration(syncConfiguration: SyncConfiguration(user: self.user, realmURL: self.realmURL))
         let realm = try! Realm(configuration: config)
         return realm
