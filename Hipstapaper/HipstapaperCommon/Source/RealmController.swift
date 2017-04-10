@@ -28,14 +28,22 @@ public class RealmController {
     
     private static func realmURL(for user: SyncUser) -> URL {
         var components = URLComponents(url: user.authenticationServer!, resolvingAgainstBaseURL: false)!
-        components.scheme = "realm"
-        components.path = "/~/Hipstapaper"
+        if components.scheme == "https" {
+            components.scheme = "realms"
+        } else {
+            components.scheme = "realm"
+        }
+        if components.path.characters.last == "/" {
+            components.path += "~/Hipstapaper"
+        } else {
+            components.path += "/~/Hipstapaper"
+        }
         let url = components.url!
         return url
     }
     
     public init(user: SyncUser) {
-        SyncManager.shared.logLevel = .error
+        SyncManager.shared.logLevel = .info
         self.user = user
         self.realmURL = RealmController.realmURL(for: user)
     }
