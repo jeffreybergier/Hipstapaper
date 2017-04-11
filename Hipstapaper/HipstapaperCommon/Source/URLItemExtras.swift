@@ -11,7 +11,7 @@ import RealmSwift
 final public class URLItemExtras: Object {
     
     public internal(set) dynamic var pageTitle: String?
-    public fileprivate(set) dynamic var imageData: Data?
+    public internal(set) dynamic var imageData: Data?
         
     public convenience init(title: String?, imageData: Data?) {
         self.init()

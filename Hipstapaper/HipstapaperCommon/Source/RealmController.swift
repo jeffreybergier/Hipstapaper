@@ -8,53 +8,6 @@
 
 import RealmSwift
 
-/*
-// hack to copy things over
-if let vanadumRealmController = self.realmController {
-    let server = URL(string: )!
-    let username =
-    let password =
-    
-    let credentials = SyncCredentials.usernamePassword(username: username, password: password, register: false)
-    SyncUser.logIn(with: credentials, server: server) { user, error in
-        DispatchQueue.main.async {
-            let digitalOceanRealmController = RealmController(user: user!)
-            let allOldObjects = vanadumRealmController.url_loadAll(for: .all, sortedBy: .recentlyAddedOnBottom, filteredBy: .all)
-            self.noti = allOldObjects?.addNotificationBlock { changes in
-                switch changes {
-                case .initial(let oldData):
-                    let realm = digitalOceanRealmController.realm
-                    for (i, oldItem) in oldData.enumerated() {
-                        let newObject = URLItem()
-                        newObject.archived = oldItem.archived
-                        newObject.urlString = oldItem.urlString
-                        newObject.creationDate = oldItem.creationDate
-                        newObject.modificationDate = oldItem.modificationDate
-                        for oldTag in oldItem.tags {
-                            let newTag = digitalOceanRealmController.tag_uniqueTag(named: oldTag.name)
-                            newObject.tags.append(newTag)
-                        }
-                        if let oldExtras = oldItem.extras {
-                            let newExtras = URLItemExtras()
-                            newExtras.pageTitle = oldExtras.pageTitle
-                            newExtras.imageData = oldExtras.imageData
-                            newObject.extras = newExtras
-                        }
-                        realm.beginWrite()
-                        realm.add(newObject)
-                        try! realm.commitWrite()
-                    }
-                    print("DONE")
-                default:
-                    break
-                }
-            }
-        }
-    }
-}
-
-*/
-
 // MARK: Initialization
 
 public class RealmController {
@@ -136,6 +89,29 @@ extension RealmController {
             }
             realm.delete(item)
         }
+        try! realm.commitWrite()
+    }
+    
+    public func duplicate(_ oldURLItem: URLItem, in rc: RealmController? = nil) {
+        let rc = rc ?? self
+        let newURLItem = URLItem()
+        newURLItem.archived = oldURLItem.archived
+        newURLItem.urlString = oldURLItem.urlString
+        newURLItem.creationDate = oldURLItem.creationDate
+        newURLItem.modificationDate = oldURLItem.modificationDate
+        for oldTag in oldURLItem.tags {
+            let newTag = rc.tag_uniqueTag(named: oldTag.name)
+            newURLItem.tags.append(newTag)
+        }
+        if let oldExtras = oldURLItem.extras {
+            let newExtras = URLItemExtras()
+            newExtras.pageTitle = oldExtras.pageTitle
+            newExtras.imageData = oldExtras.imageData
+            newURLItem.extras = newExtras
+        }
+        let realm = self.realm
+        realm.beginWrite()
+        realm.add(newURLItem)
         try! realm.commitWrite()
     }
     
