@@ -95,7 +95,7 @@ class ShareViewController: XPURLShareViewController {
         }
         
         // start observing for finished loading
-        NotificationCenter.default.addObserver(forName: .WebViewProgressFinished, object: webView, queue: nil) { _ in
+        self.notificationToken = NotificationCenter.default.addObserver(forName: .WebViewProgressFinished, object: webView, queue: nil) { _ in
             self.loadingSpinner?.stopAnimation(self)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 self.timer?.fire() // believe it or not, even when duck out early because the webview finished, we still need a delay to make it feel good
@@ -168,5 +168,13 @@ class ShareViewController: XPURLShareViewController {
             // if we have nothing we need to slide out can cancel with error
             self.extensionContext?.cancelRequest(withError: NSError(domain: "", code: 0, userInfo: nil))
         }
+    }
+    
+    // MARK: Going Away
+    
+    private var notificationToken: NSObjectProtocol?
+    
+    deinit {
+        self.notificationToken.map({ NotificationCenter.default.removeObserver($0) })
     }
 }

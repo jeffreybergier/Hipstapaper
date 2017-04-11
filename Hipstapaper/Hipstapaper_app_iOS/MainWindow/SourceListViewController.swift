@@ -55,13 +55,16 @@ class SourceListViewController: UIViewController, RealmControllable {
         self.tableView?.reloadData()
         
         // reload everything
-        self.data = self.realmController?.tag_loadAll()
-        self.notificationToken = self.data?.addNotificationBlock({ [weak self] in self?.realmResultsChanged($0) })
+        let data = self.realmController?.tag_loadAll()
+        self.notificationToken = data?.addNotificationBlock({ [weak self] in self?.realmResultsChanged($0) })
     }
     
     private func realmResultsChanged(_ changes: RealmCollectionChange<AnyRealmCollection<TagItem>>) {
         switch changes {
-        case .initial:
+        case .initial(let data):
+            // set the data
+            self.data = data
+            
             // when the data is ready, relad the tableview
             self.tableView?.reloadData()
             
@@ -80,8 +83,8 @@ class SourceListViewController: UIViewController, RealmControllable {
         case .update(_, let deletions, let insertions, let modifications):
             // when there are changes from realm, update the table view with sweet animations
             self.tableView?.beginUpdates()
-            self.tableView?.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 1)}), with: .left)
             self.tableView?.insertRows(at: insertions.map({ IndexPath(row: $0, section: 1) }), with: .right)
+            self.tableView?.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 1)}), with: .left)
             self.tableView?.reloadRows(at: modifications.map({ IndexPath(row: $0, section: 1) }), with: .left)
             self.tableView?.endUpdates()
             

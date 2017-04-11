@@ -56,15 +56,17 @@ class SourceListViewController: NSViewController {
         self.outlineView?.reloadData()
         
         // refresh the content with new data
-        self.data = self.realmController?.tag_loadAll()
-        self.notificationToken = self.data?.addNotificationBlock({ [weak self] in self?.realmResultsChanged($0) })
+        let data = self.realmController?.tag_loadAll()
+        self.notificationToken = data?.addNotificationBlock({ [weak self] in self?.realmResultsChanged($0) })
     }
     
     fileprivate var changingSelectionProgrammaticaly = false // refer to MARK Selection Super Hack
     
     private func realmResultsChanged(_ changes: RealmCollectionChange<AnyRealmCollection<TagItem>>) {
         switch changes {
-        case .initial:
+        case .initial(let data):
+            // set the data
+            self.data = data
             // manually update the child count of the tag parent
             self.tagParent.childCount = self.data?.count ?? 0
             // hard reload the data
@@ -81,8 +83,8 @@ class SourceListViewController: NSViewController {
             self.tagParent.childCount = self.data?.count ?? 0
             // add and remove changed rows
             self.outlineView?.beginUpdates()
-            self.outlineView?.removeItems(at: IndexSet(deletions), inParent: self.tagParent, withAnimation: .slideLeft)
             self.outlineView?.insertItems(at: IndexSet(insertions), inParent: self.tagParent, withAnimation: .slideRight)
+            self.outlineView?.removeItems(at: IndexSet(deletions), inParent: self.tagParent, withAnimation: .slideLeft)
             // updating rows is different, there is no bulk method
             modifications.forEach() { childIndex in
                 // no good way to find the parentRowindex... should always be 3
@@ -143,7 +145,7 @@ class SourceListViewController: NSViewController {
     }
     
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        guard let _ = self.realmController, menuItem.tag == 666, let _ = self.selectedTags else { return false }
+        guard self.realmController != nil, menuItem.tag == 666, self.selectedTags != nil else { return false }
         return true
     }
     

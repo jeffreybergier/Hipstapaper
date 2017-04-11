@@ -83,13 +83,14 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
         self.tableView?.reloadData()
         
         // reload everything
-        self.data = self.realmController?.tag_loadAll()
-        self.notificationToken = self.data?.addNotificationBlock({ [weak self] in self?.realmResultsChanged($0) })
+        let data = self.realmController?.tag_loadAll()
+        self.notificationToken = data?.addNotificationBlock({ [weak self] in self?.realmResultsChanged($0) })
     }
     
     private func realmResultsChanged(_ changes: RealmCollectionChange<AnyRealmCollection<TagItem>>) {
         switch changes {
-        case .initial:
+        case .initial(let data):
+            self.data = data
             self.tableView?.reloadData()
         case .update(_, let deletions, let insertions, let modifications):
             self.tableView?.beginUpdates()

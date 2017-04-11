@@ -19,7 +19,7 @@ class AppearanceObservingLoadingIndicatorViewController: LoadingIndicatorViewCon
         super.viewDidLoad()
         
         let viewDidMoveToWindowClosure: @convention(block) (Void) -> Void = { [weak self] in
-            guard let _ = self?.view.window else { return }
+            guard self?.view.window != nil else { return }
             // update the appearance immeditately
             self?.updateAppearance()
             // also start observing for changes

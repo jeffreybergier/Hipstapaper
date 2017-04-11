@@ -21,7 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     // open the main window when the app launches
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        if (self.rootWindowController.window?.isVisible ?? false) == false {
+        if self.rootWindowController.window?.isVisible == false {
             self.rootWindowController.showWindow(self)
         }
     }
@@ -61,6 +61,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             guard let toolbarItem = info.instance() as? NSToolbarItem else { return }
             toolbarItem.resizeIfNeeded()
         }
-        let _ = try? NSToolbarItem.aspect_hook(#selector(NSToolbarItem.awakeFromNib), with: [], usingBlock: toolbarAwake)
+        _ = try? NSToolbarItem.aspect_hook(#selector(NSToolbarItem.awakeFromNib), with: [], usingBlock: toolbarAwake)
     }
 }

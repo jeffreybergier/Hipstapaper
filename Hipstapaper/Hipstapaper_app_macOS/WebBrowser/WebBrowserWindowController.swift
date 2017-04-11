@@ -77,7 +77,7 @@ class WebBrowserWindowController: NSWindowController {
         
         // make the titlebar skinny and sexy
         self.window?.titleVisibility = .hidden
-        let _ = self.appearanceSwitcher
+        _ = self.appearanceSwitcher
         
         // hack to force the toolbar to lay itself out
         let existingToolBar = self.window?.toolbar
@@ -142,7 +142,7 @@ class WebBrowserWindowController: NSWindowController {
         guard
             let toolbarItem = sender as? NSToolbarItem,
             let kind = NSToolbarItem.Kind(rawValue: toolbarItem.tag),
-            let _ = self.delegate?.realmController,
+            self.delegate?.realmController != nil,
             let itemID = self.itemID
         else { return false }
         switch kind {
@@ -176,7 +176,7 @@ class WebBrowserWindowController: NSWindowController {
     
     // swiftlint:disable:next cyclomatic_complexity
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        guard let itemID = self.itemID, let kind = NSMenuItem.Kind(rawValue: menuItem.tag), let _ = self.delegate?.realmController else { return false }
+        guard let itemID = self.itemID, let kind = NSMenuItem.Kind(rawValue: menuItem.tag), self.delegate?.realmController != nil else { return false }
         switch kind {
         case .javascript:
             let value = NSNumber(value: self.webView.configuration.preferences.javaScriptEnabled)

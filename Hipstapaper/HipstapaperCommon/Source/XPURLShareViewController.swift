@@ -86,15 +86,13 @@ open class XPURLShareViewController: XPViewController {
 }
 
 fileprivate extension XPURLShareViewController {
-    fileprivate class func xpSnapshot(of view: XPView) -> XPImage? {
-        #if os(OSX)
-            // the sublayer shows the pure transform. so try and grab that
-            // the primary layer works but it shows a bunch of empty space where there is a view but nothing rendered because of the transform
-            let _layer = view.layer?.sublayers?.first
-            guard let theLayer = _layer else { return nil }
-        #else
-            let theLayer = view.layer
-        #endif
+    
+    #if os(OSX)
+    private class func macOS_render(view: XPView) -> XPImage? {
+        // the sublayer shows the pure transform. so try and grab that
+        // the primary layer works but it shows a bunch of empty space where there is a view but nothing rendered because of the transform
+        let _layer = view.layer?.sublayers?.first
+        guard let theLayer = _layer else { return nil }
         guard let colorSpace = CGColorSpace(name: CGColorSpace.sRGB) else { return nil }
         let theBounds = theLayer.bounds
         
@@ -110,18 +108,34 @@ fileprivate extension XPURLShareViewController {
                                  bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
         
         guard let context = _context else { return nil }
-        #if os(iOS)
-            let iOSFlip = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: theBounds.size.height)
-            context.concatenate(iOSFlip)
-        #endif
         theLayer.render(in: context)
-        
+    
         guard let _image = context.makeImage() else { return nil }
-        #if os(OSX)
-            let image = NSImage(cgImage: _image, size: NSSize.zero)
-        #else
-            let image = UIImage(cgImage: _image, scale: 1.0, orientation: .up)
-        #endif
+        let image = NSImage(cgImage: _image, size: NSSize.zero)
         return image
+    }
+    #else
+    private class func iOS_render(view: XPView) -> XPImage? {
+        let bounds = view.bounds
+        if #available(iOSApplicationExtension 10.0, *) {
+            let renderer = UIGraphicsImageRenderer(size: bounds.size)
+            let image = renderer.image { _ in view.drawHierarchy(in: bounds, afterScreenUpdates: true) }
+            return image
+        } else {
+            UIGraphicsBeginImageContext(bounds.size)
+            view.drawHierarchy(in: bounds, afterScreenUpdates: true)
+            let img = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            return img
+        }
+    }
+    #endif
+    
+    fileprivate class func xpSnapshot(of view: XPView) -> XPImage? {
+        #if os(OSX)
+            return self.macOS_render(view: view)
+        #else
+            return self.iOS_render(view: view)
+        #endif
     }
 }

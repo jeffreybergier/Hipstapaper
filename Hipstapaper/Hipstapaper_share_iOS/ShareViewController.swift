@@ -123,10 +123,11 @@ class ShareViewController: XPURLShareViewController {
         self.webViewDoneObserver = KeyValueObserver<Bool>(target: webView, keyPath: "loading") // #keyPath(WKWebView.isLoading) not working
         self.webViewDoneObserver?.startObserving() { [weak self] loading -> Bool? in
             guard loading == false else { return nil }
-            self?.loadingSpinner?.stopAnimating()
             self?.timer?.invalidate()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self?.timerFired(nil) // believe it or not, even when duck out early because the webview finished, we still need a delay to make it feel good
+            // believe it or not, even when duck out early because the webview finished, we still need a delay to make it feel good
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                self?.loadingSpinner?.stopAnimating()
+                self?.timerFired(nil)
             }
             return nil
         }
@@ -136,10 +137,12 @@ class ShareViewController: XPURLShareViewController {
         // then shrinks it down via a transform
         // this is so a 'normal' size page is what loads.
         self.webImageViewParentView?.addSubview(webView)
-        self.webImageViewParentView?.centerYAnchor.constraint(equalTo: webView.centerYAnchor, constant: 0).isActive = true
-        self.webImageViewParentView?.centerXAnchor.constraint(equalTo: webView.centerXAnchor, constant: 0).isActive = true
-        self.webImageViewParentView?.widthAnchor.constraint(equalTo: webView.widthAnchor, multiplier: 0.5, constant: 0).isActive = true
-        self.webImageViewParentView?.heightAnchor.constraint(equalTo: webView.heightAnchor, multiplier: 0.5, constant: 0).isActive = true
+        NSLayoutConstraint.activate([
+            self.webImageViewParentView?.centerYAnchor.constraint(equalTo: webView.centerYAnchor, constant: 0),
+            self.webImageViewParentView?.centerXAnchor.constraint(equalTo: webView.centerXAnchor, constant: 0),
+            self.webImageViewParentView?.widthAnchor.constraint(equalTo: webView.widthAnchor, multiplier: 0.5, constant: 0),
+            self.webImageViewParentView?.heightAnchor.constraint(equalTo: webView.heightAnchor, multiplier: 0.5, constant: 0)
+        ].flatMap({$0}))
         webView.transform = webView.transform.scaledBy(x: 0.5, y: 0.5)
         
         // load the url in the webview
@@ -221,7 +224,6 @@ class ShareViewController: XPURLShareViewController {
             host.contains("youtu.be") ||
             host.contains("instagram.") ||
             host.contains("instagr.am")
-//            host.contains("theverge.com")
         return whitelisted
     }
 }

@@ -31,7 +31,7 @@ extension SerializableURLItem {
                 guard hitCount == itemCount * 2 else { return }
                 DispatchQueue.main.async {
                     // our object is valid
-                    if let urlString = outputItem.urlString, let _ = URL(string: urlString) {
+                    if let urlString = outputItem.urlString, URL(string: urlString) != nil {
                         handler(.success(outputItem))
                     } else {
                         handler(.error)
@@ -81,7 +81,7 @@ fileprivate extension URL {
     fileprivate static func webURL(fromURLString urlString: String?) -> URL? {
         let urlString = urlString ?? "A Z A"
         guard let components = URLComponents(string: urlString) else { return URL(string: urlString) }
-        if let _ = components.host {
+        if components.host != nil {
             // if we have a host then the URLString was properly formatted
             return components.url
         } else {
@@ -123,7 +123,7 @@ fileprivate extension NSItemProvider {
     fileprivate func loadImage(_ completion: @escaping (XPImage?) -> Void) {
         // load a preview image for the object
         let desiredImageSize = NSValue(xpSizeWidth: 512, xpSizeHeight: 512)
-        self.loadPreviewImage(options: [NSItemProviderPreferredImageSizeKey : desiredImageSize]) { secureCoding, _ in
+        self.loadPreviewImage(options: [NSItemProviderPreferredImageSizeKey: desiredImageSize]) { secureCoding, _ in
             let discoveredImage = secureCoding as? XPImage
             DispatchQueue.main.async {
                 completion(discoveredImage)

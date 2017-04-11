@@ -15,7 +15,7 @@ public class RealmController {
     private let user: SyncUser
     private let realmURL: URL
     
-    fileprivate var realm: Realm {
+    public var realm: Realm {
         let config = Realm.Configuration(syncConfiguration: SyncConfiguration(user: self.user, realmURL: self.realmURL))
         let realm = try! Realm(configuration: config)
         return realm
@@ -28,26 +28,29 @@ public class RealmController {
     
     private static func realmURL(for user: SyncUser) -> URL {
         var components = URLComponents(url: user.authenticationServer!, resolvingAgainstBaseURL: false)!
-        components.scheme = "realm"
-        components.path = "/~/Hipstapaper"
+        if components.scheme == "https" {
+            components.scheme = "realms"
+        } else {
+            components.scheme = "realm"
+        }
+        if components.path.characters.last == "/" {
+            components.path += "~/Hipstapaper"
+        } else {
+            components.path += "/~/Hipstapaper"
+        }
         let url = components.url!
         return url
     }
     
     public init(user: SyncUser) {
-        SyncManager.shared.logLevel = .error
+        SyncManager.shared.logLevel = .warn
         self.user = user
         self.realmURL = RealmController.realmURL(for: user)
     }
     
-    public init?() {
-        if let user = SyncUser.current {
-            SyncManager.shared.logLevel = .error
-            self.user = user
-            self.realmURL = RealmController.realmURL(for: user)
-        } else {
-            return nil
-        }
+    public convenience init?() {
+        guard let user = SyncUser.current else { return nil }
+        self.init(user: user)
     }
     
     public func logOut() {
@@ -89,6 +92,29 @@ extension RealmController {
         try! realm.commitWrite()
     }
     
+    public func duplicate(_ oldURLItem: URLItem, in rc: RealmController? = nil) {
+        let rc = rc ?? self
+        let newURLItem = URLItem()
+        newURLItem.archived = oldURLItem.archived
+        newURLItem.urlString = oldURLItem.urlString
+        newURLItem.creationDate = oldURLItem.creationDate
+        newURLItem.modificationDate = oldURLItem.modificationDate
+        for oldTag in oldURLItem.tags {
+            let newTag = rc.tag_uniqueTag(named: oldTag.name)
+            newURLItem.tags.append(newTag)
+        }
+        if let oldExtras = oldURLItem.extras {
+            let newExtras = URLItemExtras()
+            newExtras.pageTitle = oldExtras.pageTitle
+            newExtras.imageData = oldExtras.imageData
+            newURLItem.extras = newExtras
+        }
+        let realm = self.realm
+        realm.beginWrite()
+        realm.add(newURLItem)
+        try! realm.commitWrite()
+    }
+    
 }
 
 // MARK: Tag Helper Methods
@@ -98,9 +124,9 @@ extension RealmController {
     // MARK: Class Funcs for Common Operations
     
     public class func indexesOfUserDefaultsSelectedItems(within newData: AnyRealmCollection<URLItem>) -> [Int] {
-        let predicates = UserDefaults.standard.selectedURLItemUUIDStrings.map({ "\(#keyPath(URLItem.uuid)) = '\($0)'" }) ?? []
+        let predicates = UserDefaults.standard.selectedURLItemUUIDStrings.map({ "\(#keyPath(URLItem.uuid)) = '\($0)'" })
         let indexes = newData.indexes(matchingPredicates: predicates)
-        return indexes ?? []
+        return indexes
     }
     
     // MARK: Create / Load / Delete Tags
@@ -235,7 +261,9 @@ extension RealmController {
         }
         
         // perform filters on the query
-        let unsortedFiltered = filters.reduce(unsortedUnfiltered) { q, f in AnyRealmCollection(q.filter(f)) }
+        let unsortedFiltered = filters.reduce(unsortedUnfiltered) { collectionSoFar, nextFilterString in
+            return AnyRealmCollection(collectionSoFar.filter(nextFilterString))
+        }
         
         // sort the filtered items
         let sortedFiltered = AnyRealmCollection(unsortedFiltered.sorted(byKeyPath: sortOrder.keyPath, ascending: sortOrder.ascending))
