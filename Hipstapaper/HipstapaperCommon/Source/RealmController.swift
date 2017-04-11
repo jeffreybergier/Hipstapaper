@@ -90,7 +90,7 @@ public class RealmController {
     }
     
     public init(user: SyncUser) {
-        SyncManager.shared.logLevel = .info
+        SyncManager.shared.logLevel = .warn
         self.user = user
         self.realmURL = RealmController.realmURL(for: user)
     }
