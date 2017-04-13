@@ -242,6 +242,7 @@ extension SourceListViewController: UITableViewDataSource {
         switch section {
         case .readingList:
             cell.textLabel?.text = indexPath.row == 0 ? "Unread Items" : "All Items"
+            cell.detailTextLabel?.text = nil
         case .tags:
             guard let tagItem = self.data?[indexPath.row] else { return cell }
             cell.textLabel?.text = tagItem.name
