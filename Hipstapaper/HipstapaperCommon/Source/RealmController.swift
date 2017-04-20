@@ -106,10 +106,15 @@ extension RealmController {
         if let oldExtras = oldURLItem.extras {
             let newExtras = URLItemExtras()
             newExtras.pageTitle = oldExtras.pageTitle
-            newExtras.imageData = oldExtras.imageData
+            if let oldData = oldExtras.imageData, oldData.count > XPImageProcessor.maxFileSize {
+                let compressedData = XPImageProcessor.compressedJPEGImageData(fromAnyImageData: oldData)
+                newExtras.imageData = compressedData
+            } else {
+                newExtras.imageData = oldExtras.imageData
+            }
             newURLItem.extras = newExtras
         }
-        let realm = self.realm
+        let realm = rc.realm
         realm.beginWrite()
         realm.add(newURLItem)
         try! realm.commitWrite()
