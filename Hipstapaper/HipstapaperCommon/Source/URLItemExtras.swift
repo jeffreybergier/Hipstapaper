@@ -38,6 +38,9 @@ final public class URLItemExtras: Object {
         public internal(set) var image: NSImage? {
             get {
                 guard let data = self.imageData else { return nil }
+                if data.count > XPImageProcessor.maxFileSize {
+                    NSLog("Image Data Size: \(Double(data.count) / 1000) kb Exceeds Max Site: \(Double(XPImageProcessor.maxFileSize) / 1000) kb")
+                }
                 let image = NSImage(data: data)
                 return image
             }
@@ -62,6 +65,9 @@ final public class URLItemExtras: Object {
         public internal(set) var image: UIImage? {
             get {
                 guard let data = self.imageData else { return nil }
+                if data.count > XPImageProcessor.maxFileSize {
+                    NSLog("Image Data Size: \(Double(data.count) / 1000) kb Exceeds Max Site: \(Double(XPImageProcessor.maxFileSize) / 1000) kb")
+                }
                 let image = UIImage(data: data)
                 return image
             }
