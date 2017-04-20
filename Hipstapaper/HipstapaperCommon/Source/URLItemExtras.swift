@@ -43,7 +43,7 @@ final public class URLItemExtras: Object {
             }
             set {
                 guard let image = newValue else { self.imageData = nil; return }
-                let data = image.tiffRepresentation
+                let data = XPImageProcessor.compressedJPEGImageData(from: image)
                 self.imageData = data
             }
         }
@@ -66,8 +66,8 @@ final public class URLItemExtras: Object {
                 return image
             }
             set {
-                guard let image = newValue else { self.imageData = nil; return }
-                let data = UIImagePNGRepresentation(image)
+                guard let image = newValue else { self.imageData = nil; return; }
+                let data = XPImageProcessor.compressedJPEGImageData(from: image)
                 self.imageData = data
             }
         }

@@ -111,23 +111,24 @@ fileprivate extension XPURLShareViewController {
         theLayer.render(in: context)
     
         guard let _image = context.makeImage() else { return nil }
-        let image = NSImage(cgImage: _image, size: NSSize.zero)
+        let maxDimension = XPImageProcessor.maxDimensionSize
+        let image = NSImage(cgImage: _image, size: NSSize(width: maxDimension, height: maxDimension))
         return image
     }
     #else
     private class func iOS_render(view: XPView) -> XPImage? {
         let bounds = view.bounds
-        if #available(iOSApplicationExtension 10.0, *) {
-            let renderer = UIGraphicsImageRenderer(size: bounds.size)
-            let image = renderer.image { _ in view.drawHierarchy(in: bounds, afterScreenUpdates: true) }
-            return image
-        } else {
-            UIGraphicsBeginImageContext(bounds.size)
-            view.drawHierarchy(in: bounds, afterScreenUpdates: true)
-            let img = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            return img
-        }
+        let maxDimension = XPImageProcessor.maxDimensionSize
+        let maxRect = CGRect(x: 0, y: 0, width: maxDimension, height: maxDimension)
+        UIGraphicsBeginImageContext(bounds.size)
+        view.drawHierarchy(in: bounds, afterScreenUpdates: true)
+        let img = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        UIGraphicsBeginImageContext(maxRect.size)
+        img?.draw(in: maxRect)
+        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return scaledImage
     }
     #endif
     
