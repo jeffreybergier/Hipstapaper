@@ -15,33 +15,36 @@
 public struct XPImageProcessor {
     
     public static let maxDimensionSize: Int = 260
-    public static let maxFileSize: Int = 10240
-//    public static let maxFileSize: Int = 20480
+    public static let maxFileSize: Int = 15000
     private static let startJPEGQuality: Int = 6
     
     #if os(OSX)
     public static func compressedJPEGImageData(fromAnyImageData data: Data) -> Data? {
-        let _bmp = NSBitmapImageRep(data: data)
-        guard let bmp = _bmp else { return nil }
+        // bail out early if the data is already small enough
+        guard data.count > self.maxFileSize else { return data }
+        guard let bmp = NSBitmapImageRep(data: data) else { return nil }
         let data = self.compressedJPEGImageData(from: bmp)
         return data
     }
     
-    public static func compressedJPEGImageData(from image: NSImage) -> Data? {
-        var rect = NSRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
-        let _cgImage = image.cgImage(forProposedRect: &rect, context: nil, hints: nil)
-        guard let cgImage = _cgImage else { return nil }
+    public static func compressedJPEGImageData(from inputImage: NSImage) -> Data? {
+        let image = inputImage
+        guard let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) else { return nil }
         let bmp = NSBitmapImageRep(cgImage: cgImage)
         let data = self.compressedJPEGImageData(from: bmp)
         return data
     }
     
     private static func compressedJPEGImageData(from bmp: NSBitmapImageRep) -> Data? {
+        let size = NSSize(width: self.maxDimensionSize, height: self.maxDimensionSize)
+        if bmp.size.width > size.width || bmp.size.height > size.height {
+            bmp.size = size
+        }
         var data: Data?
         var quality = self.startJPEGQuality
         while data == nil && quality >= 0 {
             let jpegQuality = NSNumber(value: Float(quality) / 10)
-            let newData = bmp.representation(using: NSBitmapImageFileType.JPEG, properties: [NSImageCompressionFactor:jpegQuality])
+            let newData = bmp.representation(using: NSBitmapImageFileType.JPEG, properties: [NSImageCompressionFactor: jpegQuality])
             if let newData = newData, newData.count <= self.maxFileSize {
                 data = newData
                 break
@@ -52,12 +55,24 @@ public struct XPImageProcessor {
     }
     #else
     public static func compressedJPEGImageData(fromAnyImageData data: Data) -> Data? {
-        let _image = UIImage(data: data)
-        guard let image = _image else { return nil }
+        // bail out early if the data is already small enough
+        guard data.count > self.maxFileSize else { return data }
+        guard let image = UIImage(data: data) else { return nil }
         let data = self.compressedJPEGImageData(from: image)
         return data
     }
-    public static func compressedJPEGImageData(from image: UIImage) -> Data? {
+    public static func compressedJPEGImageData(from inputImage: UIImage) -> Data? {
+        let image: UIImage
+        let size = CGSize(width: self.maxDimensionSize, height: self.maxDimensionSize)
+        if inputImage.size.width > size.width || inputImage.size.height > size.height {
+            UIGraphicsBeginImageContext(size)
+            inputImage.draw(in: CGRect(origin: CGPoint.zero, size: size))
+            guard let scaledImage = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
+            UIGraphicsEndImageContext()
+            image = scaledImage
+        } else {
+            image = inputImage
+        }
         var data: Data?
         var quality = self.startJPEGQuality
         while data == nil && quality >= 0 {
