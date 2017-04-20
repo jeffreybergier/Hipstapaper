@@ -16,6 +16,7 @@ public struct XPImageProcessor {
     
     public static let maxDimensionSize: Int = 260
     public static let maxFileSize: Int = 10240
+//    public static let maxFileSize: Int = 20480
     private static let startJPEGQuality: Int = 6
     
     #if os(OSX)
@@ -40,9 +41,10 @@ public struct XPImageProcessor {
         var quality = self.startJPEGQuality
         while data == nil && quality >= 0 {
             let jpegQuality = NSNumber(value: Float(quality) / 10)
-            let newData = bmp.representation(using: NSBitmapImageFileType.JPEG, properties: [NSImageCompressionFactor : jpegQuality])
+            let newData = bmp.representation(using: NSBitmapImageFileType.JPEG, properties: [NSImageCompressionFactor:jpegQuality])
             if let newData = newData, newData.count <= self.maxFileSize {
                 data = newData
+                break
             }
             quality -= 1
         }
@@ -60,11 +62,10 @@ public struct XPImageProcessor {
         var quality = self.startJPEGQuality
         while data == nil && quality >= 0 {
             let jpegQuality = CGFloat(quality) / 10
-            print(jpegQuality)
             let newData = UIImageJPEGRepresentation(image, jpegQuality)
             if let newData = newData, newData.count <= self.maxFileSize {
-                print(newData.count)
                 data = newData
+                break
             }
             quality -= 1
         }
