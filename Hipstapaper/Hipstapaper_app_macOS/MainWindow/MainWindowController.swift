@@ -6,7 +6,6 @@
 //  Copyright © 2016 Jeffrey Bergier. All rights reserved.
 //
 
-import RealmSwift
 import Common
 import AppKit
 
@@ -67,11 +66,9 @@ class MainWindowController: NSWindowController, RealmControllable {
         splitViewController.addSplitViewItem(contentListItem)
         
         // Register to save SourceListView Width when the SplitView is Resized
-        NotificationCenter.default.addObserver(
-            self, selector: #selector(type(of: self).splitViewDidResizeSubviews(_:)),
-            name: .NSSplitViewDidResizeSubviews,
-            object: splitViewController.splitView
-        )
+        self.splitViewDidResizeNotificationToken = NotificationCenter.default.addObserver(forName: .NSSplitViewDidResizeSubviews, object: splitViewController.splitView, queue: nil) { _ in
+            UserDefaults.standard.sourceListWidth = self.sourceListViewController.view.frame.width
+        }
         
         // KVO the sourceListItem Collapsed
         self.sourceListCallapsedObserver = KeyValueObserver(target: sourceListItem, keyPath: "collapsed") // #keyPath(NSSplitViewItem.isCollapsed)
@@ -94,22 +91,25 @@ class MainWindowController: NSWindowController, RealmControllable {
             self.sourceListViewController.realmController = realmController
             self.contentListViewController.realmController = realmController
         }
-    }
-    
-    override func showWindow(_ sender: Any?) {
-        super.showWindow(sender)
         
-        // check to see if the realm controller loaded
-        // if it didn't load, then we're not logged in
-        // if we're not logged in, show an alert
-        if self.realmController == nil {
-            let loginAlert = NSAlert()
-            loginAlert.messageText = "You need to login. 😱"
-            loginAlert.informativeText = "Hipstapaper uses a Realm Mobile Platform server to synchronize your Reading list between all of your devices."
-            loginAlert.addButton(withTitle: "Open Preferences")
-            loginAlert.addButton(withTitle: "Dismiss")
-            loginAlert.beginSheetModal(for: self.window!) { finished in
-                if finished == 1000 { self.showPreferencesWindow(loginAlert) }
+        self.windowDidBecomeMainNotificationToken = NotificationCenter.default.addObserver(forName: NSNotification.Name.NSWindowDidBecomeMain, object: self.window!, queue: nil) { [unowned self] _ in
+            // check to see if the realm controller loaded
+            // if it didn't load, then we're not logged in
+            // if we're not logged in, show an alert
+            if self.realmController == nil {
+                let loginAlert = NSAlert()
+                loginAlert.messageText = "You need to login. 😱"
+                loginAlert.informativeText = "Hipstapaper uses a Realm Mobile Platform server to synchronize your Reading list between all of your devices."
+                loginAlert.addButton(withTitle: "Open Preferences")
+                loginAlert.addButton(withTitle: "Dismiss")
+                loginAlert.beginSheetModal(for: self.window!) { finished in
+                    if finished == 1000 { self.showPreferencesWindow(loginAlert) }
+                }
+            }
+            // we only want it to do this once, so lets clear it out once we do it
+            if let token = self.windowDidBecomeMainNotificationToken {
+                NotificationCenter.default.removeObserver(token)
+                self.windowDidBecomeMainNotificationToken = nil
             }
         }
     }
@@ -162,8 +162,16 @@ class MainWindowController: NSWindowController, RealmControllable {
     
     // MARK: Handle Going Away
     
+    private var splitViewDidResizeNotificationToken: NSObjectProtocol?
+    private var windowDidBecomeMainNotificationToken: NSObjectProtocol?
+    
     deinit {
-        NotificationCenter.default.removeObserver(self, name: .NSSplitViewDidResizeSubviews, object: nil)
+        if let token = self.splitViewDidResizeNotificationToken {
+            NotificationCenter.default.removeObserver(token)
+        }
+        if let token = self.windowDidBecomeMainNotificationToken {
+            NotificationCenter.default.removeObserver(token)
+        }
     }
 }
 
@@ -204,11 +212,5 @@ extension MainWindowController: URLItemsToLoadChangeDelegate {
             else { return }
             self.contentListViewController.didChange(itemsToLoad: itemsToLoad, sortOrder: sortOrder, filter: filter, sender: sender)
         }
-    }
-}
-
-fileprivate extension MainWindowController /*: NSSplitViewDelegate */ {
-    @objc fileprivate func splitViewDidResizeSubviews(_ notification: Notification) {
-        UserDefaults.standard.sourceListWidth = self.sourceListViewController.view.frame.width
     }
 }

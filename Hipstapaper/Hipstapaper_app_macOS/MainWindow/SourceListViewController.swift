@@ -54,6 +54,7 @@ class SourceListViewController: NSViewController {
         self.data = nil
         self.tagParent.childCount = 0
         self.outlineView?.reloadData()
+        self.outlineView?.expandItem(nil, expandChildren: true)
         
         // refresh the content with new data
         let data = self.realmController?.tag_loadAll()
