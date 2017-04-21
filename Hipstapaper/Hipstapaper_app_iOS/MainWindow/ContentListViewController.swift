@@ -167,7 +167,13 @@ class ContentListViewController: UIViewController, RealmControllable {
             
             // hard reload the data
             self.tableView?.reloadData()
-            
+            if let topVisibleRow = self.tableView?.indexPathsForVisibleRows?.first,
+                self.searchController.isActive == false, // if the search controller is active, don't hijack scrolling
+                self.searchController.isVisible == false // if the search controller is visible, don't hijack scrolling (this fixes a bug that caused it to scroll when cancelling the search controller
+            {
+                self.tableView?.scrollToRow(at: topVisibleRow, at: .top, animated: true)
+            }
+        
             // select the items found after updating the table
             self.selectRowsAfterHardRefresh(atIndexes: previousSelectionIndexes)
         case .update(let data, let deletions, let insertions, let modifications):
