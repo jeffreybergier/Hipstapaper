@@ -10,6 +10,7 @@ import UIKit
 
 extension UIViewController {
     var isVisible: Bool {
+        guard self.isViewLoaded == true else { return false }
         return self.view.window != nil
     }
     
