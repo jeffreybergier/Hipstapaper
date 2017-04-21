@@ -16,6 +16,7 @@ public extension UserDefaults {
         fileprivate static let tagDisplayName = "kTagDisplayNameKey"
         fileprivate static let tagUniqueName = "kTagUniqueNameKey"
         fileprivate static let selectedItems = "kSelectedItemsKey"
+        fileprivate static let visibleItems = "kVisibleItemsKey"
         fileprivate static let sourceListShown = "kSourceListShownKey"
         fileprivate static let sourceListWidth = "kSourceListWidthKey"
     }
@@ -31,6 +32,21 @@ public extension UserDefaults {
                 self.set(newValue, forKey: Keys.selectedItems)
             } else {
                 self.removeObject(forKey: Keys.selectedItems)
+            }
+        }
+    }
+    
+    public var visibleURLItemUUIDStrings: [String] {
+        get {
+            let untyped = self.object(forKey: Keys.visibleItems) as? NSArray
+            let typed = untyped?.flatMap({ $0 as? String })
+            return typed ?? []
+        }
+        set {
+            if newValue.isEmpty == false {
+                self.set(newValue, forKey: Keys.visibleItems)
+            } else {
+                self.removeObject(forKey: Keys.visibleItems)
             }
         }
     }

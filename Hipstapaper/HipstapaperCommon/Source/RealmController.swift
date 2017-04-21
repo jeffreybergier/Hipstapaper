@@ -134,6 +134,12 @@ extension RealmController {
         return indexes
     }
     
+    public class func firstIndexOfUserDefaultVisibleItems(within newData: AnyRealmCollection<URLItem>) -> Int? {
+        let predicates = UserDefaults.standard.visibleURLItemUUIDStrings.map({ "\(#keyPath(URLItem.uuid)) = '\($0)'" })
+        let indexes = newData.indexes(matchingPredicates: predicates)
+        return indexes.first
+    }
+    
     // MARK: Create / Load / Delete Tags
     
     public func tag_loadAll() -> AnyRealmCollection<TagItem> {

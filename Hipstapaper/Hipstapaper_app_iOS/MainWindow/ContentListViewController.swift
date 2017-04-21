@@ -161,13 +161,19 @@ class ContentListViewController: UIViewController, RealmControllable {
         case .initial(let data):
             // set the data
             self.data = data
-            
             // find the previously selected items
             let previousSelectionIndexes = RealmController.indexesOfUserDefaultsSelectedItems(within: data)
-            
+            // find previously visible index
+            let previouslyVisibleIndex = RealmController.firstIndexOfUserDefaultVisibleItems(within: data)
             // hard reload the data
             self.tableView?.reloadData()
-            if let topVisibleRow = self.tableView?.indexPathsForVisibleRows?.first,
+            
+            // check if state restoration left us a scroll position
+            if let index = previouslyVisibleIndex {
+                UserDefaults.standard.visibleURLItemUUIDStrings = [] // reset this so we don't do this on next refresh
+                self.tableView?.scrollToRow(at: IndexPath(row: index, section: 0), at: .top, animated: false)
+            // otherwise we can check for conditions where we might want to hide the search bar
+            } else if let topVisibleRow = self.tableView?.indexPathsForVisibleRows?.first, // there is a visible row
                 self.searchController.isActive == false, // if the search controller is active, don't hijack scrolling
                 self.searchController.isVisible == false // if the search controller is visible, don't hijack scrolling (this fixes a bug that caused it to scroll when cancelling the search controller
             {
@@ -202,6 +208,8 @@ class ContentListViewController: UIViewController, RealmControllable {
     }
     
     private func selectRowsAfterHardRefresh(atIndexes indexes: [Int]) {
+        guard indexes.isEmpty == false else { return }
+        self.editBBITapped(nil)
         indexes.forEach({ self.tableView?.selectRow(at: IndexPath(row: $0, section: 0), animated: false, scrollPosition: .none) })
         let selectedItems = self.selectedURLItems
         self.updateBBI(with: selectedItems)
@@ -263,6 +271,7 @@ class ContentListViewController: UIViewController, RealmControllable {
         fileprivate static let kTableViewWasEditing = "kTableViewWasEditingKey"
         fileprivate static let kSearchWasActive = "kSearchWasActiveKey"
         fileprivate static let kSearchString = "kSearchStringKey"
+        fileprivate static let kVisibleItems = "kVisibleItemsKey"
     }
     
     // Horrible Hack
@@ -288,6 +297,10 @@ class ContentListViewController: UIViewController, RealmControllable {
             let searchString = coder.decodeObject(forKey: StateRestoration.kSearchString) as? String
             self.searchControllerStateRestoration = SearchControllerRestoration(wasActive: wasActive, searchFilter: searchString)
         }
+        if let visibleUUIDs = coder.decodeObject(forKey: StateRestoration.kVisibleItems) as? [String] {
+            // save these in user defaults to be used later.
+            UserDefaults.standard.visibleURLItemUUIDStrings = visibleUUIDs
+        }
         super.decodeRestorableState(with: coder)
     }
     
@@ -295,6 +308,8 @@ class ContentListViewController: UIViewController, RealmControllable {
         coder.encode(self.tableView?.isEditing ?? false, forKey: StateRestoration.kTableViewWasEditing)
         coder.encode(self.searchController.isActive, forKey: StateRestoration.kSearchWasActive)
         coder.encode(self.searchController.searchBar.text, forKey: StateRestoration.kSearchString)
+        let visibleUUIDs = self.tableView?.indexPathsForVisibleRows?.flatMap({ self.data?[$0.row].uuid }) ?? []
+        coder.encode(visibleUUIDs, forKey: StateRestoration.kVisibleItems)
         super.encodeRestorableState(with: coder)
     }
     
