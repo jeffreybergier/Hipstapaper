@@ -176,8 +176,8 @@ class ContentListViewController: UIViewController, RealmControllable {
             self.tableView?.reloadData()
             
             // check if state restoration left us a scroll position
-            if let index = previouslyVisibleIndex.first {
-                self.tableView?.scrollToRow(at: IndexPath(row: index, section: 0), at: .top, animated: false)
+            if let index = previouslyVisibleIndex.last {
+                self.tableView?.scrollToRow(at: IndexPath(row: index, section: 0), at: .bottom, animated: false)
             // otherwise we can check for conditions where we might want to hide the search bar
             } else if let topVisibleRow = self.tableView?.indexPathsForVisibleRows?.first, // there is a visible row
                 self.searchController.isActive == false, // if the search controller is active, don't hijack scrolling
@@ -314,10 +314,15 @@ class ContentListViewController: UIViewController, RealmControllable {
         coder.encode(self.tableView?.isEditing ?? false, forKey: StateRestoration.kTableViewWasEditing)
         coder.encode(self.searchController.isActive, forKey: StateRestoration.kSearchWasActive)
         coder.encode(self.searchController.searchBar.text, forKey: StateRestoration.kSearchString)
-        let visibleUUIDs = self.tableView?.indexPathsForVisibleRows?.flatMap({ self.data?[$0.row].uuid }) ?? []
-        coder.encode(visibleUUIDs, forKey: StateRestoration.kVisibleItems)
         let selectedUUIDs = self.selectedURLItems.map({ $0.uuid })
         coder.encode(selectedUUIDs, forKey: StateRestoration.kSelectedItems)
+        if let visibleIndexPaths = self.tableView?.indexPathsForVisibleRows,
+            visibleIndexPaths.first != IndexPath(row: 0, section: 0) // don't save anything if we're scrolled at the top
+        {
+            let visibleUUIDs = visibleIndexPaths.flatMap({ self.data?[$0.row].uuid })
+            coder.encode(visibleUUIDs, forKey: StateRestoration.kVisibleItems)
+        }
+        
         super.encodeRestorableState(with: coder)
     }
     
