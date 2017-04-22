@@ -32,7 +32,7 @@ class ContentListViewController: NSViewController, RealmControllable {
     
     private(set) fileprivate var data: AnyRealmCollection<URLItem>?
     
-    fileprivate var selectedURLItems: [URLItem] {
+    internal var selectedURLItems: [URLItem] {
         let items = self.tableView?.selectedRowIndexes.flatMap({ self.data?[$0] })
         return items ?? []
     }
@@ -46,7 +46,7 @@ class ContentListViewController: NSViewController, RealmControllable {
     
     // MARK Outlets
     
-    @IBOutlet private(set) fileprivate weak var tableView: NSTableView?
+    @IBOutlet private(set) weak var tableView: NSTableView?
     @IBOutlet private weak var scrollView: NSScrollView?
     @IBOutlet private weak var loadingIndicatorViewController: LoadingIndicatorViewController?
     @IBOutlet private weak var sortSelectingViewController: SortSelectingViewController?
@@ -105,12 +105,20 @@ class ContentListViewController: NSViewController, RealmControllable {
     
     // MARK: Reload Data
     
+    var visibleUUIDsStateRestoration: [String]?
+    var selectedUUIDsStateRestoration: [String]?
+    
     func hardReloadData() {
         // grab these values in case things change before we get to the end
         let itemsToLoad = self.itemsToLoad
         let sortOrder = self.sortOrder
         let filter = self.filter
         let searchFilter = self.searchField?.searchString
+        
+        // preserve any selection
+        if self.selectedUUIDsStateRestoration == nil {
+            self.selectedUUIDsStateRestoration = self.selectedURLItems.map({ $0.uuid })
+        }
         
         // clear out all previous update tokens and tableview
         self.notificationToken?.stop()
@@ -142,7 +150,8 @@ class ContentListViewController: NSViewController, RealmControllable {
             self.data = data
             
             // find the previously selected items
-            let previousSelectionIndexes = RealmController.indexesOfUserDefaultsSelectedItems(within: data)
+            let previousSelectionIndexes = RealmController.indexes(ofItemUUIDs: self.selectedUUIDsStateRestoration ?? [], within: data)
+            self.selectedUUIDsStateRestoration = nil // reset this so we don't do this on next refresh
 
             // hard reload the data
             self.tableView?.reloadData()
@@ -477,7 +486,6 @@ extension ContentListViewController: NSTableViewDelegate {
     
     func tableViewSelectionDidChange(_ notification: Notification) {
         self.quickLookPanelController.previewItems = self.selectedURLItems.flatMap({ NSURL(string: $0.urlString) })
-        UserDefaults.standard.selectedURLItemUUIDStrings = self.selectedURLItems.map({ $0.uuid })
     }
     
     func tableView(_ tableView: NSTableView, shouldTypeSelectFor event: NSEvent, withCurrentSearch searchString: String?) -> Bool {

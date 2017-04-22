@@ -92,7 +92,7 @@ class MainWindowController: NSWindowController, RealmControllable {
             self.contentListViewController.realmController = realmController
         }
         
-        self.windowDidBecomeMainNotificationToken = NotificationCenter.default.addObserver(forName: NSNotification.Name.NSWindowDidBecomeMain, object: self.window!, queue: nil) { [unowned self] _ in
+        self.windowDidBecomeMainNotificationToken = NotificationCenter.default.addObserver(forName: .NSWindowDidBecomeMain, object: self.window!, queue: nil) { [unowned self] _ in
             // check to see if the realm controller loaded
             // if it didn't load, then we're not logged in
             // if we're not logged in, show an alert
@@ -111,6 +111,10 @@ class MainWindowController: NSWindowController, RealmControllable {
                 NotificationCenter.default.removeObserver(token)
                 self.windowDidBecomeMainNotificationToken = nil
             }
+        }
+        
+        self.tableViewDidChangeSelectionNotificationToken = NotificationCenter.default.addObserver(forName: .NSTableViewSelectionDidChange, object: self.contentListViewController.tableView!, queue: nil) { [unowned self] _ in
+            self.invalidateRestorableState()
         }
     }
     
@@ -136,19 +140,23 @@ class MainWindowController: NSWindowController, RealmControllable {
     
     // MARK: State Restoration
     
-    enum StateRestorationConstants {
+    enum StateRestoration {
         static let kSearchString = "kSearchStringKey"
+        static let kSelectedItems = "kSelectedItemsKey"
+        static let kVisibleItems = "kVisibleItemsKey"
     }
     
     override func encodeRestorableState(with coder: NSCoder) {
         // save all the state
-        coder.encode(self.searchField?.searchString, forKey: StateRestorationConstants.kSearchString)
+        coder.encode(self.searchField?.searchString, forKey: StateRestoration.kSearchString)
+        let selectedUUIDs = self.contentListViewController.selectedURLItems.map({ $0.uuid })
+        coder.encode(selectedUUIDs, forKey: StateRestoration.kSelectedItems)
         super.encodeRestorableState(with: coder)
     }
     
     override func restoreState(with coder: NSCoder) {
         // only restore the javascript state
-        if let searchString = coder.decodeObject(forKey: StateRestorationConstants.kSearchString) as? String {
+        if let searchString = coder.decodeObject(forKey: StateRestoration.kSearchString) as? String {
             // only reload the data if we got a valid search back
             // this is needed because this method is called too late and the data has already loaded
             self.searchField?.searchString = searchString
@@ -157,6 +165,10 @@ class MainWindowController: NSWindowController, RealmControllable {
             // invalidate the state again, otherwise if launched over and over the state is lost
             self.invalidateRestorableState()
         }
+        
+        self.contentListViewController.visibleUUIDsStateRestoration = coder.decodeObject(forKey: StateRestoration.kVisibleItems) as? [String]
+        self.contentListViewController.selectedUUIDsStateRestoration = coder.decodeObject(forKey: StateRestoration.kSelectedItems) as? [String]
+        
         super.restoreState(with: coder)
     }
     
@@ -164,8 +176,12 @@ class MainWindowController: NSWindowController, RealmControllable {
     
     private var splitViewDidResizeNotificationToken: NSObjectProtocol?
     private var windowDidBecomeMainNotificationToken: NSObjectProtocol?
+    private var tableViewDidChangeSelectionNotificationToken: NSObjectProtocol?
     
     deinit {
+        if let token = self.tableViewDidChangeSelectionNotificationToken {
+            NotificationCenter.default.removeObserver(token)
+        }
         if let token = self.splitViewDidResizeNotificationToken {
             NotificationCenter.default.removeObserver(token)
         }
