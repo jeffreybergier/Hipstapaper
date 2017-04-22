@@ -66,7 +66,7 @@ class MainWindowController: NSWindowController, RealmControllable {
         splitViewController.addSplitViewItem(contentListItem)
         
         // Register to save SourceListView Width when the SplitView is Resized
-        self.splitViewDidResizeNotificationToken = NotificationCenter.default.addObserver(forName: .NSSplitViewDidResizeSubviews, object: splitViewController.splitView, queue: nil) { _ in
+        let token1 = NotificationCenter.default.addObserver(forName: .NSSplitViewDidResizeSubviews, object: splitViewController.splitView, queue: nil) { _ in
             UserDefaults.standard.sourceListWidth = self.sourceListViewController.view.frame.width
         }
         
@@ -92,7 +92,8 @@ class MainWindowController: NSWindowController, RealmControllable {
             self.contentListViewController.realmController = realmController
         }
         
-        self.windowDidBecomeMainNotificationToken = NotificationCenter.default.addObserver(forName: .NSWindowDidBecomeMain, object: self.window!, queue: nil) { [unowned self] _ in
+        var token2: NSObjectProtocol!
+        token2 = NotificationCenter.default.addObserver(forName: .NSWindowDidBecomeMain, object: self.window!, queue: nil) { [unowned self] _ in
             // check to see if the realm controller loaded
             // if it didn't load, then we're not logged in
             // if we're not logged in, show an alert
@@ -107,15 +108,16 @@ class MainWindowController: NSWindowController, RealmControllable {
                 }
             }
             // we only want it to do this once, so lets clear it out once we do it
-            if let token = self.windowDidBecomeMainNotificationToken {
-                NotificationCenter.default.removeObserver(token)
-                self.windowDidBecomeMainNotificationToken = nil
-            }
+            NotificationCenter.default.removeObserver(token2)
         }
         
-        self.tableViewDidChangeSelectionNotificationToken = NotificationCenter.default.addObserver(forName: .NSTableViewSelectionDidChange, object: self.contentListViewController.tableView!, queue: nil) { [unowned self] _ in
-            self.invalidateRestorableState()
+        let invalidateBlock: (Notification) -> Void = { [weak self] _ in
+            self?.invalidateRestorableState()
         }
+        let token3 = NotificationCenter.default.addObserver(forName: .NSTableViewSelectionDidChange, object: self.contentListViewController.tableView!, queue: nil, using: invalidateBlock)
+        let token4 = NotificationCenter.default.addObserver(forName: .NSScrollViewDidEndLiveScroll, object: self.contentListViewController.scrollView, queue: nil, using: invalidateBlock)
+        
+        self.tokens += [token1, token2, token3, token4]
     }
     
     // MARK: Ownership of the preferences window
@@ -151,10 +153,23 @@ class MainWindowController: NSWindowController, RealmControllable {
         coder.encode(self.searchField?.searchString, forKey: StateRestoration.kSearchString)
         let selectedUUIDs = self.contentListViewController.selectedURLItems.map({ $0.uuid })
         coder.encode(selectedUUIDs, forKey: StateRestoration.kSelectedItems)
+        if
+            let rect = self.contentListViewController.scrollView?.documentVisibleRect,
+            let range = self.contentListViewController.tableView?.rows(in: rect),
+            rect.origin.y > 0 // don't save anything if we're scrolled at the top
+        {
+            let indexes = (0..<range.length).map({ range.location + $0 })
+            let visibleUUIDs = self.contentListViewController.uuidStrings(for: indexes)
+            coder.encode(visibleUUIDs, forKey: StateRestoration.kVisibleItems)
+        }
         super.encodeRestorableState(with: coder)
     }
     
     override func restoreState(with coder: NSCoder) {
+        // restore selection and visible rows
+        self.contentListViewController.visibleUUIDsStateRestoration = coder.decodeObject(forKey: StateRestoration.kVisibleItems) as? [String]
+        self.contentListViewController.selectedUUIDsStateRestoration = coder.decodeObject(forKey: StateRestoration.kSelectedItems) as? [String]
+        
         // only restore the javascript state
         if let searchString = coder.decodeObject(forKey: StateRestoration.kSearchString) as? String {
             // only reload the data if we got a valid search back
@@ -166,26 +181,15 @@ class MainWindowController: NSWindowController, RealmControllable {
             self.invalidateRestorableState()
         }
         
-        self.contentListViewController.visibleUUIDsStateRestoration = coder.decodeObject(forKey: StateRestoration.kVisibleItems) as? [String]
-        self.contentListViewController.selectedUUIDsStateRestoration = coder.decodeObject(forKey: StateRestoration.kSelectedItems) as? [String]
-        
         super.restoreState(with: coder)
     }
     
     // MARK: Handle Going Away
     
-    private var splitViewDidResizeNotificationToken: NSObjectProtocol?
-    private var windowDidBecomeMainNotificationToken: NSObjectProtocol?
-    private var tableViewDidChangeSelectionNotificationToken: NSObjectProtocol?
+    private var tokens = [NSObjectProtocol]()
     
     deinit {
-        if let token = self.tableViewDidChangeSelectionNotificationToken {
-            NotificationCenter.default.removeObserver(token)
-        }
-        if let token = self.splitViewDidResizeNotificationToken {
-            NotificationCenter.default.removeObserver(token)
-        }
-        if let token = self.windowDidBecomeMainNotificationToken {
+        for token in self.tokens {
             NotificationCenter.default.removeObserver(token)
         }
     }

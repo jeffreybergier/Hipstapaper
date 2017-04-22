@@ -47,7 +47,6 @@ class ContentListViewController: NSViewController, RealmControllable {
     // MARK Outlets
     
     @IBOutlet private(set) weak var tableView: NSTableView?
-    @IBOutlet private weak var scrollView: NSScrollView?
     @IBOutlet private weak var loadingIndicatorViewController: LoadingIndicatorViewController?
     @IBOutlet private weak var sortSelectingViewController: SortSelectingViewController?
     /*@IBOutlet*/ weak var searchField: NSSearchField? {
@@ -55,6 +54,9 @@ class ContentListViewController: NSViewController, RealmControllable {
             self.searchField?.action = #selector(ContentListViewController.textFieldChanged(_:))
             self.searchField?.target = self
         }
+    }
+    var scrollView: NSScrollView? {
+        return self.tableView?.enclosingScrollView
     }
     
     // MARK: Manage Open Child Windows
@@ -148,13 +150,20 @@ class ContentListViewController: NSViewController, RealmControllable {
         case .initial(let data):
             // set the data
             self.data = data
-            
             // find the previously selected items
             let previousSelectionIndexes = RealmController.indexes(ofItemUUIDs: self.selectedUUIDsStateRestoration ?? [], within: data)
             self.selectedUUIDsStateRestoration = nil // reset this so we don't do this on next refresh
-
+            // find previously visible index
+            let previouslyVisibleIndex = RealmController.indexes(ofItemUUIDs: self.visibleUUIDsStateRestoration ?? [], within: data)
+            self.visibleUUIDsStateRestoration = nil // reset this so we don't do this on next refresh
+            
             // hard reload the data
             self.tableView?.reloadData()
+            
+            // scroll the tableview to the previous scroll point if needed
+            if let index = previouslyVisibleIndex.last {
+                self.tableView?.scrollRowToVisible(index)
+            }
             
             // select the needed rows
             self.tableView?.selectRowIndexes(IndexSet(previousSelectionIndexes), byExtendingSelection: false)
@@ -173,6 +182,10 @@ class ContentListViewController: NSViewController, RealmControllable {
             let alert = NSAlert(error: error)
             alert.beginSheetModal(for: window, completionHandler: nil)
         }
+    }
+    
+    func uuidStrings(for indexes: [Int]) -> [String] {
+        return indexes.flatMap({ self.data?[$0].uuid })
     }
     
     // MARK: Handle Double click on TableView
