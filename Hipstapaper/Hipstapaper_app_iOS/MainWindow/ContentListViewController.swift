@@ -145,6 +145,11 @@ class ContentListViewController: UIViewController, RealmControllable {
             self.title = "🏷 \(tagID.displayName)"
         }
         
+        // preserve any selection
+        if self.selectedUUIDsStateRestoration == nil {
+            self.selectedUUIDsStateRestoration = self.selectedURLItems.map({ $0.uuid })
+        }
+        
         // clear things out
         self.notificationToken?.stop()
         self.notificationToken = nil
@@ -162,15 +167,16 @@ class ContentListViewController: UIViewController, RealmControllable {
             // set the data
             self.data = data
             // find the previously selected items
-            let previousSelectionIndexes = RealmController.indexesOfUserDefaultsSelectedItems(within: data)
+            let previousSelectionIndexes = RealmController.indexes(ofItemUUIDs: self.selectedUUIDsStateRestoration ?? [], within: data)
+            self.selectedUUIDsStateRestoration = nil // reset this so we don't do this on next refresh
             // find previously visible index
             let previouslyVisibleIndex = RealmController.indexes(ofItemUUIDs: self.visibleUUIDsStateRestoration ?? [], within: data)
+            self.visibleUUIDsStateRestoration = nil // reset this so we don't do this on next refresh
             // hard reload the data
             self.tableView?.reloadData()
             
             // check if state restoration left us a scroll position
             if let index = previouslyVisibleIndex.first {
-                self.visibleUUIDsStateRestoration = nil // reset this so we don't do this on next refresh
                 self.tableView?.scrollToRow(at: IndexPath(row: index, section: 0), at: .top, animated: false)
             // otherwise we can check for conditions where we might want to hide the search bar
             } else if let topVisibleRow = self.tableView?.indexPathsForVisibleRows?.first, // there is a visible row
@@ -186,7 +192,7 @@ class ContentListViewController: UIViewController, RealmControllable {
             // UITableView does not automatically reselect updated rows like NSTableView does
             // So I need manual selection code here
             // find the previously selected items
-            let previousSelectionIndexes = RealmController.indexesOfUserDefaultsSelectedItems(within: data)
+            let previousSelectionIndexes = RealmController.indexes(ofItemUUIDs: self.selectedURLItems.map({ $0.uuid }), within: data)
             
             // update the table
             self.tableView?.beginUpdates()
@@ -222,7 +228,6 @@ class ContentListViewController: UIViewController, RealmControllable {
             // if we're not editing when we appear its probably because of fresh launch or because the user dismissed SafariVC
             // so we need to deselect the row
             self.tableView?.deselectAllRows(animated: true)
-            UserDefaults.standard.selectedURLItemUUIDStrings = []
         }
         
         // Hack to reload UISearchController
@@ -271,6 +276,7 @@ class ContentListViewController: UIViewController, RealmControllable {
         fileprivate static let kSearchWasActive = "kSearchWasActiveKey"
         fileprivate static let kSearchString = "kSearchStringKey"
         fileprivate static let kVisibleItems = "kVisibleItemsKey"
+        fileprivate static let kSelectedItems = "kSelectedItemsKey"
     }
     
     // Horrible Hack
@@ -286,6 +292,7 @@ class ContentListViewController: UIViewController, RealmControllable {
     
     private var searchControllerStateRestoration: SearchControllerRestoration?
     private var visibleUUIDsStateRestoration: [String]?
+    private var selectedUUIDsStateRestoration: [String]?
     
     override func decodeRestorableState(with coder: NSCoder) {
         let wasEditing = coder.decodeBool(forKey: StateRestoration.kTableViewWasEditing)
@@ -298,6 +305,7 @@ class ContentListViewController: UIViewController, RealmControllable {
             self.searchControllerStateRestoration = SearchControllerRestoration(wasActive: wasActive, searchFilter: searchString)
         }
         self.visibleUUIDsStateRestoration = coder.decodeObject(forKey: StateRestoration.kVisibleItems) as? [String]
+        self.selectedUUIDsStateRestoration = coder.decodeObject(forKey: StateRestoration.kSelectedItems) as? [String]
         
         super.decodeRestorableState(with: coder)
     }
@@ -308,6 +316,8 @@ class ContentListViewController: UIViewController, RealmControllable {
         coder.encode(self.searchController.searchBar.text, forKey: StateRestoration.kSearchString)
         let visibleUUIDs = self.tableView?.indexPathsForVisibleRows?.flatMap({ self.data?[$0.row].uuid }) ?? []
         coder.encode(visibleUUIDs, forKey: StateRestoration.kVisibleItems)
+        let selectedUUIDs = self.selectedURLItems.map({ $0.uuid })
+        coder.encode(selectedUUIDs, forKey: StateRestoration.kSelectedItems)
         super.encodeRestorableState(with: coder)
     }
     
@@ -390,7 +400,6 @@ extension ContentListViewController /* Handle BarButtonItems */ {
     @objc fileprivate func doneBBITapped(_ sender: NSObject?) {
         self.emergencyDismissPopover() { // dismisses any popovers and then does the action
             self.tableView?.setEditing(false, animated: true)
-            UserDefaults.standard.selectedURLItemUUIDStrings = []
             self.resetToolbar()
         }
     }
@@ -543,7 +552,6 @@ extension ContentListViewController: UITableViewDelegate {
  
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedItems = self.selectedURLItems
-        UserDefaults.standard.selectedURLItemUUIDStrings = selectedItems.map({ $0.uuid })
         if tableView.isEditing {
             self.updateBBI(with: selectedItems)
         } else {
@@ -554,9 +562,7 @@ extension ContentListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        let selectedItems = self.selectedURLItems
-        self.updateBBI(with: selectedItems)
-        UserDefaults.standard.selectedURLItemUUIDStrings = selectedItems.map({ $0.uuid })
+        self.updateBBI(with: self.selectedURLItems)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
