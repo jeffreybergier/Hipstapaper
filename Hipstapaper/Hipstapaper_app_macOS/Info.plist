@@ -33,7 +33,14 @@
 				<key>NSIncludesSubdomains</key>
 				<false/>
 				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
+				<false/>
+			</dict>
+			<key>personal.jeffburg.com</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<false/>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+				<false/>
 			</dict>
 		</dict>
 	</dict>
