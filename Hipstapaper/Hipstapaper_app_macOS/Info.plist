@@ -19,7 +19,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>100002</string>
+	<string>100003</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSAppTransportSecurity</key>
@@ -28,14 +28,14 @@
 		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>vanadum.jeffburg.com</key>
+			<key>personal.jeffburg.com</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>
 				<false/>
 				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
 				<false/>
 			</dict>
-			<key>personal.jeffburg.com</key>
+			<key>vanadum.jeffburg.com</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>
 				<false/>

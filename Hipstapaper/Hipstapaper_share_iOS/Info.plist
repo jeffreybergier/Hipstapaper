@@ -19,7 +19,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>100002</string>
+	<string>100003</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoadsInWebContent</key>
@@ -31,14 +31,14 @@
 		<dict>
 			<key>NSExtensionActivationRule</key>
 			<dict>
-				<key>NSExtensionActivationSupportsWebPageWithMaxCount</key>
-				<integer>10</integer>
-				<key>NSExtensionActivationSupportsWebURLWithMaxCount</key>
-				<integer>10</integer>
 				<key>NSExtensionActivationSupportsAttachmentsWithMinCount</key>
 				<integer>1</integer>
 				<key>NSExtensionActivationSupportsText</key>
 				<true/>
+				<key>NSExtensionActivationSupportsWebPageWithMaxCount</key>
+				<integer>10</integer>
+				<key>NSExtensionActivationSupportsWebURLWithMaxCount</key>
+				<integer>10</integer>
 			</dict>
 		</dict>
 		<key>NSExtensionPointIdentifier</key>
