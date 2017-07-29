@@ -12,18 +12,25 @@ import RealmSwift
 
 public class RealmController {
     
-    private let user: SyncUser
-    private let realmURL: URL
+    public enum Kind {
+        case sync(SyncUser), local
+    }
+    
+    private let kind: Kind
+    private let configuration: Realm.Configuration
     
     public var realm: Realm {
-        let config = Realm.Configuration(syncConfiguration: SyncConfiguration(user: self.user, realmURL: self.realmURL))
-        let realm = try! Realm(configuration: config)
+        let realm = try! Realm(configuration: self.configuration)
         return realm
     }
     
-    public var session: SyncSession {
-        let session = self.user.session(for: self.realmURL)!
-        return session
+    public var session: SyncSession? {
+        switch self.kind {
+        case .sync(let user):
+            return user.session(for: self.configuration.syncConfiguration!.realmURL)!
+        case .local:
+            return nil
+        }
     }
     
     private static func realmURL(for user: SyncUser) -> URL {
@@ -42,19 +49,38 @@ public class RealmController {
         return url
     }
     
-    public init(user: SyncUser) {
+    public init(kind: Kind) {
         SyncManager.shared.logLevel = .warn
-        self.user = user
-        self.realmURL = RealmController.realmURL(for: user)
+        self.kind = kind
+        let config: Realm.Configuration
+        switch kind {
+        case .local:
+            try? RealmController.createRealmDir()
+            let fileURL = RealmController.realmDir.appendingPathComponent("Realm.realm")
+            config = Realm.Configuration(fileURL: fileURL)
+        case .sync(let user):
+            config = Realm.Configuration(syncConfiguration: SyncConfiguration(user: user, realmURL: RealmController.realmURL(for: user)))
+        }
+        self.configuration = config
     }
     
     public convenience init?() {
-        guard let user = SyncUser.current else { return nil }
-        self.init(user: user)
+        if let user = SyncUser.current {
+            self.init(kind: .sync(user))
+        } else if RealmController.realmDirExists {
+            self.init(kind: .local)
+        } else {
+            return nil
+        }
     }
     
     public func logOut() {
-        self.user.logOut()
+        switch self.kind {
+        case .local:
+            try? type(of: self).deleteRealmDir()
+        case .sync(let user):
+            user.logOut()
+        }
     }
     
 }
@@ -288,5 +314,32 @@ extension RealmController {
         }
         try! realm.commitWrite()
     }
+}
+
+fileprivate extension RealmController {
+    fileprivate static let realmDir: URL = {
+        let fm = FileManager.default
+        let appSupport = fm.urls(for: .applicationSupportDirectory, in: .userDomainMask).last!
+        let bundleID = Bundle.main.bundleIdentifier ?? "com.unknown.app"
+        let realmDir = appSupport.appendingPathComponent(bundleID, isDirectory: true)
+        return realmDir
+    }()
     
+    fileprivate static func createRealmDir() throws {
+        let realmDir = self.realmDir
+        let fm = FileManager.default
+        try fm.createDirectory(at: realmDir, withIntermediateDirectories: true)
+    }
+    
+    fileprivate static func deleteRealmDir() throws {
+        let realmDir = self.realmDir
+        let fm = FileManager.default
+        try fm.removeItem(at: realmDir)
+    }
+    
+    fileprivate static var realmDirExists: Bool {
+        let realmDir = self.realmDir
+        let fm = FileManager.default
+        return fm.fileExists(atPath: realmDir.path, isDirectory: nil)
+    }
 }

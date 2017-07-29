@@ -49,7 +49,9 @@ class PreferencesWindowController: NSWindowController, RealmControllable {
         if self.realmController != nil {
             items = self.allTabViewItems.filter({ ($0.identifier as? String) == "loggedin" })
         } else {
-            items = self.allTabViewItems.filter({ ($0.identifier as? String) == "login" || ($0.identifier as? String) == "create" })
+            items = self.allTabViewItems.filter({
+                ($0.identifier as? String) == "login" || ($0.identifier as? String) == "create" || ($0.identifier as? String) == "local"
+            })
         }
         
         items.enumerated().forEach() { index, item in

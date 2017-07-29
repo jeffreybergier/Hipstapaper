@@ -41,11 +41,11 @@ open class LoadingIndicatorViewController: XPViewController, RealmControllable {
             
             guard self.allowedToAnimate else { return }
             
-            self.uploadToken = self.realmController?.session.addProgressNotification(for: .upload, mode: .reportIndefinitely)
+            self.uploadToken = self.realmController?.session?.addProgressNotification(for: .upload, mode: .reportIndefinitely)
             { [weak self] progress in
                 DispatchQueue.main.async(execute: { self?.synchronizationActivityChanged(progress) })
             }
-            self.downloadToken = self.realmController?.session.addProgressNotification(for: .download, mode: .reportIndefinitely)
+            self.downloadToken = self.realmController?.session?.addProgressNotification(for: .download, mode: .reportIndefinitely)
             { [weak self] progress in
                 DispatchQueue.main.async(execute: { self?.synchronizationActivityChanged(progress) })
             }
@@ -99,12 +99,13 @@ open class LoadingIndicatorViewController: XPViewController, RealmControllable {
     #if os(OSX)
     open override func viewDidAppear() {
         super.viewDidAppear()
+        self.loadingView?.layer?.opacity = 0 // set the alpha of the loading view to 0 until it starts animating, then the animation takes over alpha
         self.allowedToAnimate = true
     }
     override open func viewDidLayout() {
         super.viewDidLayout()
         
-        // OSX is really finiccky with this shadow. I can't find a good hook in point that only happens once
+        // OSX is really finicky with this shadow. I can't find a good hook in point that only happens once
         // I tried viewDidLoad, viewDidAppear, viewDidMoveToWindow. None of them reliably created a shadow all the time
         self.configureShadow()
         

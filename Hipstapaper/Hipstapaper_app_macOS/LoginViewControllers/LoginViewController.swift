@@ -113,7 +113,7 @@ class LoginViewController: NSViewController {
         SyncUser.logIn(with: credentials, server: server) { user, error in
             DispatchQueue.main.async {
                 if let user = user {
-                    self.parentWindowController?.realmController = RealmController(user: user)
+                    self.parentWindowController?.realmController = RealmController(kind: .sync(user))
                     self.parentWindowController?.showWindow(sender)
                     self.networkActivity(ocurring: false)
                 } else {

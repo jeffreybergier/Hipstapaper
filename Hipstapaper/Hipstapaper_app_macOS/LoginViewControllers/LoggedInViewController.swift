@@ -13,7 +13,6 @@ class LoggedInViewController: NSViewController {
     @IBOutlet private weak var parentWindowController: PreferencesWindowController?
     
     @IBAction private func logoutButtonClicked(_ sender: NSObject?) {
-        print("logged out button clicked")
         self.parentWindowController?.realmController?.logOut()
         self.parentWindowController?.realmController = nil
         self.parentWindowController?.showWindow(sender)

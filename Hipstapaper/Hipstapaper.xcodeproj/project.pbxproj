@@ -25,6 +25,7 @@
 		506A3F0D1DD6C10D00A5656E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 506A3F0B1DD6C10D00A5656E /* MainMenu.xib */; };
 		506AD7E31E4F9F9400537F61 /* QuickLookPanelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506AD7E21E4F9F9400537F61 /* QuickLookPanelController.swift */; };
 		5078B8131E43FE9400AA35E6 /* LoadingIndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5078B8121E43FE9400AA35E6 /* LoadingIndicatorViewController.swift */; };
+		507C49C71F2CF8B200931269 /* LocalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507C49C61F2CF8B200931269 /* LocalViewController.swift */; };
 		50841AFC1E21B7AC008621BB /* FrameworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50841AFB1E21B7AC008621BB /* FrameworkExtensions.swift */; };
 		5085A15E1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A15C1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift */; };
 		5085A15F1E3429D800F8EC34 /* ValidatingToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5085A15D1E3429D800F8EC34 /* ValidatingToolbar.swift */; };
@@ -167,6 +168,7 @@
 		506AD7E21E4F9F9400537F61 /* QuickLookPanelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickLookPanelController.swift; sourceTree = "<group>"; };
 		506D98121DD6CFFB002E4F54 /* Hipstapaper_app_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper_app_macOS.entitlements; sourceTree = "<group>"; };
 		5078B8121E43FE9400AA35E6 /* LoadingIndicatorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorViewController.swift; sourceTree = "<group>"; };
+		507C49C61F2CF8B200931269 /* LocalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalViewController.swift; sourceTree = "<group>"; };
 		50841AFB1E21B7AC008621BB /* FrameworkExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkExtensions.swift; sourceTree = "<group>"; };
 		5085A15C1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleInterfaceStyleWindowAppearanceSwitcher.swift; sourceTree = "<group>"; };
 		5085A15D1E3429D800F8EC34 /* ValidatingToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidatingToolbar.swift; sourceTree = "<group>"; };
@@ -414,6 +416,7 @@
 			children = (
 				509716611E3ED2DE00FC12A2 /* LoggedInViewController.swift */,
 				509716621E3ED2DE00FC12A2 /* LoginViewController.swift */,
+				507C49C61F2CF8B200931269 /* LocalViewController.swift */,
 				509716631E3ED2DE00FC12A2 /* PreferencesWindowController.swift */,
 				509716641E3ED2DE00FC12A2 /* PreferencesWindowController.xib */,
 			);
@@ -974,6 +977,7 @@
 				506AD7E31E4F9F9400537F61 /* QuickLookPanelController.swift in Sources */,
 				509716671E3ED2DE00FC12A2 /* PreferencesWindowController.swift in Sources */,
 				5097167D1E3EDADE00FC12A2 /* MainWindowCreator.swift in Sources */,
+				507C49C71F2CF8B200931269 /* LocalViewController.swift in Sources */,
 				5097166D1E3ED5AC00FC12A2 /* TagAddRemoveViewController.swift in Sources */,
 				50F832AE1E371DFE0008921B /* SortSelectingViewController.swift in Sources */,
 			);

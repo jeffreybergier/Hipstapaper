@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F2073" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoggedInViewController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
                 <outlet property="createButton" destination="F08-sJ-8aT" id="f5h-0B-uf4"/>
+                <outlet property="localButton" destination="1ST-ic-5vS" id="eVR-K9-WzX"/>
                 <outlet property="loginButton" destination="klM-XI-eFL" id="tNt-Cb-Wzz"/>
                 <outlet property="logoutButton" destination="RrW-ou-oVQ" id="0NC-Ji-8E6"/>
                 <outlet property="primaryTextLabel" destination="2Ar-aW-rb1" id="v2b-IX-FPE"/>
@@ -22,17 +23,25 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You're already logged in." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ar-aW-rb1">
-                    <rect key="frame" x="93" y="246.5" width="188" height="20.5"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose a Sync Option" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ar-aW-rb1">
+                    <rect key="frame" x="102" y="223" width="170.5" height="20.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="9qF-5Q-MN2">
-                    <rect key="frame" x="111" y="291" width="153" height="86"/>
+                    <rect key="frame" x="110" y="267.5" width="155" height="133"/>
                     <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ST-ic-5vS">
+                            <rect key="frame" x="0.0" y="0.0" width="155" height="39"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                            <state key="normal" title="Local (No Sync)"/>
+                            <connections>
+                                <action selector="localButtonTapped:" destination="-1" eventType="touchUpInside" id="7Jp-7V-ISB"/>
+                            </connections>
+                        </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="klM-XI-eFL">
-                            <rect key="frame" x="0.0" y="0.0" width="153" height="39"/>
+                            <rect key="frame" x="0.0" y="47" width="155" height="39"/>
                             <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                             <state key="normal" title="Login"/>
                             <connections>
@@ -40,7 +49,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F08-sJ-8aT">
-                            <rect key="frame" x="0.0" y="47" width="153" height="39"/>
+                            <rect key="frame" x="0.0" y="94" width="155" height="39"/>
                             <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                             <state key="normal" title="Create Account"/>
                             <connections>

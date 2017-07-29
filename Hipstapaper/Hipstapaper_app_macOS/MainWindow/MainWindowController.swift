@@ -99,7 +99,7 @@ class MainWindowController: NSWindowController, RealmControllable {
             // if we're not logged in, show an alert
             if self.realmController == nil {
                 let loginAlert = NSAlert()
-                loginAlert.messageText = "You need to login. 😱"
+                loginAlert.messageText = "Choose a sync option"
                 loginAlert.informativeText = "Hipstapaper uses a Realm Mobile Platform server to synchronize your Reading list between all of your devices."
                 loginAlert.addButton(withTitle: "Open Preferences")
                 loginAlert.addButton(withTitle: "Dismiss")

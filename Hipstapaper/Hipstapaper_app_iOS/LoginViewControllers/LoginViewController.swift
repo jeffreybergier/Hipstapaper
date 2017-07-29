@@ -91,7 +91,7 @@ class LoginViewController: UITableViewController {
                 DispatchQueue.main.async {
                     if let user = user {
                         self.updateUI(networkActivity: false)
-                        let newController = RealmController(user: user)
+                        let newController = RealmController(kind: .sync(user))
                         self.delegate?.realmController = newController
                         self.dismiss(animated: true, completion: nil)
                     } else {
