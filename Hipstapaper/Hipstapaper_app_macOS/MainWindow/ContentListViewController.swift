@@ -294,7 +294,7 @@ class ContentListViewController: NSViewController, RealmControllable {
         case 36, 76: // enter keys
             self.open(event)
         case 53: // escape key
-            self.view.window?.firstResponder.try(toPerform: #selector(NSTableView.deselectAll(_:)), with: event)
+            self.view.window?.firstResponder?.try(toPerform: #selector(NSTableView.deselectAll(_:)), with: event)
             self.view.window?.toolbar?.validateVisibleItems() // it was taking almost a full second to re-validate toolbar items without forcing it manually
         case 49: // space bar - quicklook
             self.toggleQuickLookPreviewPanel(event)
