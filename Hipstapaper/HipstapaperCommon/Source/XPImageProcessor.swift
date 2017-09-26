@@ -44,7 +44,7 @@ public struct XPImageProcessor {
         var quality = self.startJPEGQuality
         while data == nil && quality >= 0 {
             let jpegQuality = NSNumber(value: Float(quality) / 10)
-            let newData = bmp.representation(using: NSBitmapImageFileType.JPEG, properties: [NSImageCompressionFactor: jpegQuality])
+            let newData = bmp.representation(using: .jpeg, properties: [.compressionFactor : jpegQuality])
             if let newData = newData, newData.count <= self.maxFileSize {
                 data = newData
                 break

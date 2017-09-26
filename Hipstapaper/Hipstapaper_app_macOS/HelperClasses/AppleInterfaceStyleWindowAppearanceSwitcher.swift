@@ -22,9 +22,9 @@ class AppleInterfaceStyleWindowAppearanceSwitcher {
         
         init(appearance: NSAppearance) {
             switch appearance.name {
-            case NSAppearanceNameVibrantLight:
+            case .vibrantLight:
                 self = .light
-            case NSAppearanceNameVibrantDark:
+            case .vibrantDark:
                 self = .dark
             default:
                 self = .light
@@ -42,14 +42,14 @@ class AppleInterfaceStyleWindowAppearanceSwitcher {
             let style = Style.system
             switch style {
             case .light:
-                window?.appearance = NSAppearance(named: NSAppearanceNameVibrantLight)
+                window?.appearance = NSAppearance(named: .vibrantLight)
             case .dark:
-                window?.appearance = NSAppearance(named: NSAppearanceNameVibrantDark)
+                window?.appearance = NSAppearance(named: .vibrantDark)
             }
         }
         
         // store the token return by notificationcenter so we can stop observing later
-        self.token = NotificationCenter.default.addObserver(forName: .NSApplicationDidChangeScreenParameters, object: nil, queue: nil, using: changeClosure)
+        self.token = NotificationCenter.default.addObserver(forName: NSApplication.didChangeScreenParametersNotification, object: nil, queue: nil, using: changeClosure)
         
         // execute the closure just once so our window is the correct style right now
         changeClosure(nil)

@@ -137,7 +137,7 @@ class SourceListViewController: NSViewController {
         alert.addButton(withTitle: "Delete")
         alert.addButton(withTitle: "Cancel")
         alert.beginSheetModal(for: self.view.window!) { [weak self] buttonNumber in
-            guard buttonNumber == 1000 else { return }
+            guard buttonNumber == .`continue` else { return }
             realmController.tag_deleteTag(with: selectedTag)
             // MARK: HACK, reload data in the table because the callback is not being called
             Thread.sleep(forTimeInterval: 0.2)
@@ -273,7 +273,7 @@ extension SourceListViewController: NSOutlineViewDelegate {
                 identifier = "DataCellWithNumber"
             }
         }
-        let view = outlineView.make(withIdentifier: identifier, owner: outlineView)
+        let view = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: identifier), owner: outlineView)
         return view
     }
     

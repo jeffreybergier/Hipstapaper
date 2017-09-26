@@ -67,7 +67,7 @@ class WebBrowserWindowController: NSWindowController {
     // MARK: Initialization
     
     convenience init(itemID: URLItem.UIIdentifier?) {
-        self.init(windowNibName: "WebBrowserWindowController")
+        self.init(windowNibName: NSNib.Name(rawValue: "WebBrowserWindowController"))
         self.itemID = itemID
         self.invalidateRestorableState()
     }
@@ -135,7 +135,7 @@ class WebBrowserWindowController: NSWindowController {
     
     @objc private func openInBrowser(_ sender: NSObject?) {
         guard let urlString = self.itemID?.urlString, let url = URL(string: urlString) else { return }
-        NSWorkspace.shared().open(url)
+        NSWorkspace.shared.open(url)
     }
     
     override func validateToolbarItem(_ sender: NSObject?) -> Bool {
@@ -156,7 +156,7 @@ class WebBrowserWindowController: NSWindowController {
             return true
         case .jsToggle:
             guard let button = toolbarItem.view as? NSButton else { return false }
-            button.state = self.webView.configuration.preferences.javaScriptEnabled ? 1 : 0
+            button.state = self.webView.configuration.preferences.javaScriptEnabled ? .on : .off
             return true
         case .quickLook:
             return false
@@ -180,7 +180,7 @@ class WebBrowserWindowController: NSWindowController {
         switch kind {
         case .javascript:
             let value = NSNumber(value: self.webView.configuration.preferences.javaScriptEnabled)
-            menuItem.state = value.intValue
+            menuItem.state = NSControl.StateValue(rawValue: value.intValue)
             return true
         case .archive:
             return !itemID.archived

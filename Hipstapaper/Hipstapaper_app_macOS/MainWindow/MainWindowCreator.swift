@@ -10,7 +10,7 @@ import AppKit
 
 final class MainWindowCreator: NSObject, NSWindowRestoration {
     
-    static func restoreWindow(withIdentifier identifier: String, state: NSCoder, completionHandler: @escaping (NSWindow?, Error?) -> Swift.Void) {
+    static func restoreWindow(withIdentifier identifier: NSUserInterfaceItemIdentifier, state: NSCoder, completionHandler: @escaping (NSWindow?, Error?) -> Swift.Void) {
         guard let appDelegate = NSApp.delegate as? AppDelegate else { completionHandler(nil, nil); return; }
         let wc = self.newMainWindowController()
         appDelegate.rootWindowController = wc
@@ -18,11 +18,11 @@ final class MainWindowCreator: NSObject, NSWindowRestoration {
     }
     
     static func newMainWindowController() -> MainWindowController {
-        let wc = MainWindowController(windowNibName: "MainWindowController")
+        let wc = MainWindowController(windowNibName: NSNib.Name(rawValue: "MainWindowController"))
         wc.window?.isRestorable = true
         wc.window?.restorationClass = self
-        wc.window?.identifier = "MainHipstapaperWindow"
-        wc.windowFrameAutosaveName = "MainHipstapaperWindow"
+        wc.window?.identifier = NSUserInterfaceItemIdentifier(rawValue: "MainHipstapaperWindow")
+        wc.windowFrameAutosaveName = NSWindow.FrameAutosaveName(rawValue: "MainHipstapaperWindow")
         return wc
     }
 }

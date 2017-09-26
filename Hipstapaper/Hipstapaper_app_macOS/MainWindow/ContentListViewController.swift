@@ -73,7 +73,7 @@ class ContentListViewController: NSViewController, RealmControllable {
         self.windowLoader.windowControllerDelegate = self
         
         // insert quicklook controller into the responder chain, when we land in the window
-        let viewMovedToWindow: @convention(block) (Void) -> Void = {
+        let viewMovedToWindow: @convention(block) () -> Void = {
             self.quickLookPanelController.delegate = self
             self.quickLookPanelController.nextResponder = self.nextResponder
             self.nextResponder = self.quickLookPanelController
@@ -84,7 +84,7 @@ class ContentListViewController: NSViewController, RealmControllable {
         if let sortVC = self.sortSelectingViewController {
             sortVC.delegate = self
             self.addChildViewController(sortVC)
-            let sortVCMovedToWindow: @convention(block) (Void) -> Void = { [weak self] in self?.sortSelectingViewDidMoveToWindow() }
+            let sortVCMovedToWindow: @convention(block) () -> Void = { [weak self] in self?.sortSelectingViewDidMoveToWindow() }
             self.sortVCMoveToWindowToken = try? sortVC.view.aspect_hook(#selector(NSView.viewDidMoveToWindow), with: [], usingBlock: sortVCMovedToWindow)
         }
         
@@ -240,32 +240,32 @@ class ContentListViewController: NSViewController, RealmControllable {
     
     @objc private func open(_ sender: NSObject?) {
         let selectedItems = self.selectedURLItems
-        guard selectedItems.isEmpty == false else { NSBeep(); return; }
+        guard selectedItems.isEmpty == false else { __NSBeep(); return; }
         self.openOrBringFrontWindowControllers(for: selectedItems)
     }
     
     @objc private func openInBrowser(_ sender: NSObject?) {
         let urls = self.selectedURLItems.flatMap({ URL(string: $0.urlString) })
         guard urls.isEmpty == false else { return }
-        NSWorkspace.shared().open(urls, withAppBundleIdentifier: nil, options: [], additionalEventParamDescriptor: nil, launchIdentifiers: nil)
+        NSWorkspace.shared.open(urls, withAppBundleIdentifier: nil, options: [], additionalEventParamDescriptor: nil, launchIdentifiers: nil)
     }
     
     @objc private func delete(_ sender: NSObject?) {
         let selectedItems = self.selectedURLItems
-        guard selectedItems.isEmpty == false else { NSBeep(); return; }
+        guard selectedItems.isEmpty == false else { __NSBeep(); return; }
         self.realmController?.delete(selectedItems)
     }
     
     @objc private func copy(_ sender: NSObject?) {
-        guard let item = self.selectedURLItems.first else { NSBeep(); return; }
-        NSPasteboard.general().declareTypes([NSStringPboardType], owner: self)
-        NSPasteboard.general().setString(item.urlString, forType: NSStringPboardType)
+        guard let item = self.selectedURLItems.first else { __NSBeep(); return; }
+        NSPasteboard.general.declareTypes([NSPasteboard.PasteboardType.string], owner: self)
+        NSPasteboard.general.setString(item.urlString, forType: NSPasteboard.PasteboardType.string)
     }
     
     // MARK: Handle Quicklook
     
     @objc private func toggleQuickLookPreviewPanel(_ sender: NSObject?) {
-        guard self.nextResponder === self.quickLookPanelController else { NSBeep(); return; }
+        guard self.nextResponder === self.quickLookPanelController else { __NSBeep(); return; }
         self.quickLookPanelController.togglePanel(sender)
     }
     
@@ -322,7 +322,7 @@ class ContentListViewController: NSViewController, RealmControllable {
         guard
             let realmController = self.realmController,
             itemIDs.isEmpty == false
-        else { NSBeep(); return; }
+        else { __NSBeep(); return; }
         let tagVC = TagAddRemoveViewController(itemsToTag: itemIDs, controller: realmController)
         let view = (sender as? NSView) ?? self.view
         self.presentViewController(tagVC, asPopoverRelativeTo: .zero, of: view, preferredEdge: .maxY, behavior: .semitransient)
@@ -330,14 +330,14 @@ class ContentListViewController: NSViewController, RealmControllable {
     
     @objc private func share(_ sender: NSObject?) {
         let urls = self.selectedURLItems.flatMap({ URL(string: $0.urlString) })
-        guard urls.isEmpty == false else { NSBeep(); return; }
+        guard urls.isEmpty == false else { __NSBeep(); return; }
         let view = (sender as? NSView) ?? self.view
         NSSharingServicePicker(items: urls).show(relativeTo: .zero, of: view, preferredEdge: .minY)
     }
     
     @objc func shareMenu(_ sender: NSObject?) {
         let urls = self.selectedURLItems.flatMap({ URL(string: $0.urlString) })
-        guard urls.isEmpty == false else { NSBeep(); return; }
+        guard urls.isEmpty == false else { __NSBeep(); return; }
         ((sender as? NSMenuItem)?.representedObject as? NSSharingService)?.perform(withItems: urls)
     }
     
@@ -471,7 +471,7 @@ extension ContentListViewController: NSTableViewDataSource {
 }
 
 extension ContentListViewController: NSTableViewDelegate {
-    func tableView(_ tableView: NSTableView, rowActionsForRow row: Int, edge: NSTableRowActionEdge) -> [NSTableViewRowAction] {
+    func tableView(_ tableView: NSTableView, rowActionsForRow row: Int, edge: NSTableView.RowActionEdge) -> [NSTableViewRowAction] {
         guard
             edge == .trailing,
             let rowView = tableView.rowView(atRow: row, makeIfNecessary: false),
@@ -480,11 +480,11 @@ extension ContentListViewController: NSTableViewDelegate {
         else { return [] }
         
         let archiveActionTitle = item.archived ? "📤Unarchive" : "📥Archive"
-        let archiveToggleAction = NSTableViewRowAction(style: .regular, title: archiveActionTitle) { _ in
+        let archiveToggleAction = NSTableViewRowAction(style: .regular, title: archiveActionTitle) { _, _ in
             let newArchiveValue = !item.archived
             realmController.url_setArchived(to: newArchiveValue, on: [item])
         }
-        let tagAction = NSTableViewRowAction(style: .regular, title: "🏷Tag") { _ in
+        let tagAction = NSTableViewRowAction(style: .regular, title: "🏷Tag") { _, _ in
             let actionButtonView = tableView.tableViewActionButtons.first ?? rowView
             let itemID = URLItem.UIIdentifier(uuid: item.uuid, urlString: item.urlString, archived: item.archived)
             let tagVC = TagAddRemoveViewController(itemsToTag: [itemID], controller: realmController)

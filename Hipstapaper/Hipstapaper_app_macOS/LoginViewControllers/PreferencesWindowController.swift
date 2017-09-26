@@ -29,7 +29,7 @@ class PreferencesWindowController: NSWindowController, RealmControllable {
     weak var delegate: RealmControllable?
     
     convenience init() {
-        self.init(windowNibName: "PreferencesWindowController")
+        self.init(windowNibName: NSNib.Name(rawValue: "PreferencesWindowController"))
     }
     
     override func windowDidLoad() {

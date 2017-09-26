@@ -66,7 +66,7 @@ class MainWindowController: NSWindowController, RealmControllable {
         splitViewController.addSplitViewItem(contentListItem)
         
         // Register to save SourceListView Width when the SplitView is Resized
-        let token1 = NotificationCenter.default.addObserver(forName: .NSSplitViewDidResizeSubviews, object: splitViewController.splitView, queue: nil) { _ in
+        let token1 = NotificationCenter.default.addObserver(forName: NSSplitView.didResizeSubviewsNotification, object: splitViewController.splitView, queue: nil) { _ in
             UserDefaults.standard.sourceListWidth = self.sourceListViewController.view.frame.width
         }
         
@@ -93,7 +93,7 @@ class MainWindowController: NSWindowController, RealmControllable {
         }
         
         var token2: NSObjectProtocol!
-        token2 = NotificationCenter.default.addObserver(forName: .NSWindowDidBecomeMain, object: self.window!, queue: nil) { [unowned self] _ in
+        token2 = NotificationCenter.default.addObserver(forName: NSWindow.didBecomeMainNotification, object: self.window!, queue: nil) { [unowned self] _ in
             // check to see if the realm controller loaded
             // if it didn't load, then we're not logged in
             // if we're not logged in, show an alert
@@ -104,7 +104,7 @@ class MainWindowController: NSWindowController, RealmControllable {
                 loginAlert.addButton(withTitle: "Open Preferences")
                 loginAlert.addButton(withTitle: "Dismiss")
                 loginAlert.beginSheetModal(for: self.window!) { finished in
-                    if finished == 1000 { self.showPreferencesWindow(loginAlert) }
+                    if finished == .`continue` { self.showPreferencesWindow(loginAlert) }
                 }
             }
             // we only want it to do this once, so lets clear it out once we do it
@@ -114,8 +114,8 @@ class MainWindowController: NSWindowController, RealmControllable {
         let invalidateBlock: (Notification) -> Void = { [weak self] _ in
             self?.invalidateRestorableState()
         }
-        let token3 = NotificationCenter.default.addObserver(forName: .NSTableViewSelectionDidChange, object: self.contentListViewController.tableView!, queue: nil, using: invalidateBlock)
-        let token4 = NotificationCenter.default.addObserver(forName: .NSScrollViewDidEndLiveScroll, object: self.contentListViewController.scrollView, queue: nil, using: invalidateBlock)
+        let token3 = NotificationCenter.default.addObserver(forName: NSTableView.selectionDidChangeNotification, object: self.contentListViewController.tableView!, queue: nil, using: invalidateBlock)
+        let token4 = NotificationCenter.default.addObserver(forName: NSScrollView.didEndLiveScrollNotification, object: self.contentListViewController.scrollView, queue: nil, using: invalidateBlock)
         
         self.tokens += [token1, token2, token3, token4]
     }

@@ -12,13 +12,13 @@ final public class URLItem: Object {
     
     // MARK: All the Properties
     
-    public internal(set) dynamic var uuid = UUID().uuidString
-    public internal(set) dynamic var urlString = "http://www.url.com"
-    public internal(set) dynamic var archived = false
-    public internal(set) dynamic var extras: URLItemExtras?
+    @objc public internal(set) dynamic var uuid = UUID().uuidString
+    @objc public internal(set) dynamic var urlString = "http://www.url.com"
+    @objc public internal(set) dynamic var archived = false
+    @objc public internal(set) dynamic var extras: URLItemExtras?
+    @objc public internal(set) dynamic var creationDate = Date()
+    @objc public internal(set) dynamic var modificationDate = Date()
     public internal(set) var tags = List<TagItem>()
-    public internal(set) dynamic var creationDate = Date()
-    public internal(set) dynamic var modificationDate = Date()
     
     override public static func primaryKey() -> String {
         return #keyPath(URLItem.uuid)

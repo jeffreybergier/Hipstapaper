@@ -88,7 +88,11 @@ class TagAddRemoveViewController: NSViewController {
         }
         // create the tag naming VC
         let newVC = TagCreateViewController()
-        newVC.confirmTagActionHandler = { [weak self] newName, sender, presentedVC in
+        newVC.confirmTagActionHandler = { [weak self] tuple in
+            let newName = tuple.newName
+            let sender = tuple.sender
+            let presentedVC = tuple.presentedVC
+
             // create the tag
             let tag = realmController.tag_uniqueTag(named: newName)
             // add it to the selected items
@@ -124,7 +128,7 @@ extension TagAddRemoveViewController: NSTableViewDataSource {
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         guard let tagItem = self.data?[row], let realmController = self.realmController else { return nil }
         let state = realmController.tag_applicationState(of: tagItem, on: self.itemsToTag)
-        let object = CheckboxStateTableCellBindingObject(displayName: tagItem.name, state: state.rawValue, index: row)
+        let object = CheckboxStateTableCellBindingObject(displayName: tagItem.name, state: state.cellStateValue, index: row)
         object.delegate = self
         return object
     }
@@ -151,19 +155,25 @@ fileprivate class CheckboxStateTableCellBindingObject: NSObject {
     weak var delegate: TagAssignmentChangeDelegate?
     let index: Int
     let displayName: String
-    var state: NSCellStateValue {
+    var state: NSCell.StateValue {
         didSet {
             // slow this down a little bit so the checkbox animation is not disrupted
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                guard let newState = CheckboxState(rawValue: self.state) else { return }
+                guard let newState = CheckboxState(rawValue: self.state.rawValue) else { return }
                 self.delegate?.didChangeAssignment(to: newState.boolValue, forTagItemAtIndex: self.index)
             }
         }
     }
-    init(displayName: String, state: NSCellStateValue, index: Int) {
+    init(displayName: String, state: NSCell.StateValue, index: Int) {
         self.state = state
         self.displayName = displayName
         self.index = index
         super.init()
+    }
+}
+
+extension CheckboxState {
+    public var cellStateValue: NSCell.StateValue {
+        return NSCell.StateValue(rawValue: self.rawValue)
     }
 }

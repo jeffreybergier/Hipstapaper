@@ -27,8 +27,8 @@ final public class TagItem: Object {
         if trimmed == "" { return "untitledtag" } else { return trimmed }
     }
     
-    public internal(set) dynamic var name = "Untitled Tag"
-    public internal(set) dynamic var normalizedNameHash: String = TagItem.normalize("Untitled Tag")
+    @objc public internal(set) dynamic var name = "Untitled Tag"
+    @objc public internal(set) dynamic var normalizedNameHash: String = TagItem.normalize("Untitled Tag")
     public let items = LinkingObjects(fromType: URLItem.self, property: "tags") // Argument of '#keyPath' refers to non-'@objc' property 'tags'
     
     override public static func primaryKey() -> String {

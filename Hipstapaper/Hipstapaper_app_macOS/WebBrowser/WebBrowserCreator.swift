@@ -37,7 +37,7 @@ class WebBrowserCreator: NSObject {
             // be told when the window closes so we can release it
             NotificationCenter.default.addObserver(self,
                                                    selector: #selector(self.itemWindowWillClose(_:)),
-                                                   name: .NSWindowWillClose,
+                                                   name: NSWindow.willCloseNotification,
                                                    object: wc.window!)
             // configure the window delegate
             // this can't be done when the window is created because its a static function
@@ -65,7 +65,7 @@ extension WebBrowserCreator /*NSWindowDelegate*/ {
             let item = itemWindowController.itemID
         else { return }
         
-        NotificationCenter.default.removeObserver(self, name: .NSWindowWillClose, object: window)
+        NotificationCenter.default.removeObserver(self, name: NSWindow.willCloseNotification, object: window)
         self[item] = nil
     }
 }
@@ -74,7 +74,7 @@ extension WebBrowserCreator: NSWindowRestoration {
     
     // MARK: State Restoration
     
-    static func restoreWindow(withIdentifier identifier: String, state: NSCoder, completionHandler: @escaping (NSWindow?, Error?) -> Swift.Void) {
+    static func restoreWindow(withIdentifier identifier: NSUserInterfaceItemIdentifier, state: NSCoder, completionHandler: @escaping (NSWindow?, Error?) -> Swift.Void) {
         // restore the needed state
         guard
             let appDelegate = NSApp.delegate as? AppDelegate,
@@ -102,8 +102,8 @@ extension WebBrowserCreator: NSWindowRestoration {
         let newWC = WebBrowserWindowController(itemID: itemID)
         newWC.window?.isRestorable = true
         newWC.window?.restorationClass = self
-        newWC.window?.identifier = "URLItemWebViewWindow"
-        newWC.windowFrameAutosaveName = itemID.uuid
+        newWC.window?.identifier = NSUserInterfaceItemIdentifier(rawValue: "URLItemWebViewWindow")
+        newWC.windowFrameAutosaveName = NSWindow.FrameAutosaveName(rawValue: itemID.uuid)
         return newWC
     }
 }

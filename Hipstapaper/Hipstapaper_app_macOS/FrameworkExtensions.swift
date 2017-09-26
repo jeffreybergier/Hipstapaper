@@ -43,9 +43,9 @@ extension NSToolbarItem {
         if
             self.isKind(of: type(of: self).flexibleSpaceClass) == false &&
             self.isKind(of: type(of: self).fixedSpaceClass) == false &&
-            self.itemIdentifier != NSToolbarFlexibleSpaceItemIdentifier &&
-            self.itemIdentifier != NSToolbarSpaceItemIdentifier &&
-            self.itemIdentifier.contains("NORESIZE-") == false
+            self.itemIdentifier != .flexibleSpace &&
+            self.itemIdentifier != .space &&
+            self.itemIdentifier.rawValue.contains("NORESIZE-") == false
         {
             self.minSize = NSSize(width: 56, height: 34)
             self.maxSize = NSSize(width: 56, height: 34)
@@ -109,7 +109,7 @@ extension NSMenu {
 // Below there is an NSView extension that always forwards the message on to all subviews
 
 extension NSView {
-    func setBackgroundStyle(_ newValue: NSBackgroundStyle) {
+    func setBackgroundStyle(_ newValue: NSView.BackgroundStyle) {
         for view in self.subviews {
             view.setBackgroundStyle(newValue)
         }
@@ -117,7 +117,8 @@ extension NSView {
 }
 
 extension NSTextField {
-    override func setBackgroundStyle(_ newValue: NSBackgroundStyle) {
+    // FIXME: This is no longer allowed in Swift
+    /*override*/ func setBackgroundStyle2(_ newValue: NSView.BackgroundStyle) {
         defer {
             super.setBackgroundStyle(newValue)
         }
@@ -141,8 +142,8 @@ extension NSView {
     private static let actionButtonClass: AnyObject.Type = NSClassFromString("NSTableViewActionButton") ?? NSSet.self
     
     var tableViewActionButtons: [NSView] {
-        let type: AnyObject.Type = type(of: self).actionButtonClass
-        let matches = self.subviews(matchingType: type)
+        let aType: AnyObject.Type = type(of: self).actionButtonClass
+        let matches = self.subviews(matchingType: aType)
         return matches
     }
     

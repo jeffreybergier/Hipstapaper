@@ -18,7 +18,7 @@ class AppearanceObservingLoadingIndicatorViewController: LoadingIndicatorViewCon
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let viewDidMoveToWindowClosure: @convention(block) (Void) -> Void = { [weak self] in
+        let viewDidMoveToWindowClosure: @convention(block) () -> Void = { [weak self] in
             guard self?.view.window != nil else { return }
             // update the appearance immeditately
             self?.updateAppearance()

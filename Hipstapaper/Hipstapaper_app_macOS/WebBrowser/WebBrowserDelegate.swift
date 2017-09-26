@@ -35,13 +35,13 @@ fileprivate extension NSAlert {
         // show the sheet and handle the user action
         alert.beginSheetModal(for: window) { response in
             switch response {
-            case 1001: // copy url
+            case .stop: // copy url
                 guard let url = webView.url else { break }
-                NSPasteboard.general().declareTypes([NSStringPboardType], owner: self)
-                NSPasteboard.general().setString(url.absoluteString, forType: NSStringPboardType)
-            case 1002: // open in browser
+                NSPasteboard.general.declareTypes([NSPasteboard.PasteboardType.string], owner: self)
+                NSPasteboard.general.setString(url.absoluteString, forType: NSPasteboard.PasteboardType.string)
+            case .abort: // open in browser
                 guard let url = webView.url else { break }
-                NSWorkspace.shared().open(url)
+                NSWorkspace.shared.open(url)
             default: // do nothing
                 break
             }
@@ -58,7 +58,7 @@ extension WebBrowserDelegate: WKUIDelegate {
         // the webview tried to open a new window. We're not going to do this.
         // if there is a good URL, just open it in the default browser
         if let url = navigationAction.request.url {
-            NSWorkspace.shared().open(url)
+            NSWorkspace.shared.open(url)
         }
         
         return nil

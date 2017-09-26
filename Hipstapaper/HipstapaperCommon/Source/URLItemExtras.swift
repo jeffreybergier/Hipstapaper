@@ -10,8 +10,8 @@ import RealmSwift
 
 final public class URLItemExtras: Object {
     
-    public internal(set) dynamic var pageTitle: String?
-    public internal(set) dynamic var imageData: Data?
+    @objc public internal(set) dynamic var pageTitle: String?
+    @objc public internal(set) dynamic var imageData: Data?
         
     public convenience init(title: String?, imageData: Data?) {
         self.init()
