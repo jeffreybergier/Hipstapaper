@@ -35,7 +35,8 @@ final public class URLItemExtras: Object {
             self.image = image
         }
         
-        public internal(set) var image: NSImage? {
+        // @objc dynamic required for AppKit bindings
+        @objc dynamic public internal(set) var image: NSImage? {
             get {
                 guard let data = self.imageData else { return nil }
                 if data.count > XPImageProcessor.maxFileSize {
