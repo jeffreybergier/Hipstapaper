@@ -109,22 +109,18 @@ extension NSMenu {
 // Below there is an NSView extension that always forwards the message on to all subviews
 
 extension NSView {
-    func setBackgroundStyle(_ newValue: NSView.BackgroundStyle) {
+    func setBackgroundStyleOnSubviews(_ newValue: NSView.BackgroundStyle) {
         for view in self.subviews {
-            view.setBackgroundStyle(newValue)
+            view.setBackgroundStyleOnSubviews(newValue)
         }
+        guard let textField = self as? NSTextField else { return }
+        textField.setBackgroundStlyeIfNeeded(newValue)
     }
 }
 
-extension NSTextField {
-    // FIXME: This is no longer allowed in Swift
-    /*override*/ func setBackgroundStyle2(_ newValue: NSView.BackgroundStyle) {
-        defer {
-            super.setBackgroundStyle(newValue)
-        }
-        
+fileprivate extension NSTextField {
+    fileprivate func setBackgroundStlyeIfNeeded(_ newValue: NSView.BackgroundStyle) {
         guard let kind = Kind(rawValue: self.tag) else { return }
-        
         switch kind {
         case .backgroundStyleAdaptable:
             switch newValue {

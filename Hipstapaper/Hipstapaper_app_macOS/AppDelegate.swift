@@ -57,10 +57,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: Tell Toolbar Items to resize themselves
     
     func applicationWillFinishLaunching(_ notification: Notification) {
+        // hack to get toolbaritems to resize automatically after they wake from NIB
         let toolbarAwake: @convention(block) (AspectInfo) -> Void = { info in
             guard let toolbarItem = info.instance() as? NSToolbarItem else { return }
             toolbarItem.resizeIfNeeded()
         }
         _ = try? NSToolbarItem.aspect_hook(#selector(NSToolbarItem.awakeFromNib), with: [], usingBlock: toolbarAwake)
+        
+        // textfield text color update automatically in cells based on cell background color
+        let backgroundSet: @convention(block) (AspectInfo) -> Void = { info in
+            guard
+                let view = info.instance() as? NSTableCellView,
+                let styleNumber = info.arguments().first as? NSNumber,
+                let style = NSView.BackgroundStyle(rawValue: styleNumber.intValue)
+            else { return }
+            view.setBackgroundStyleOnSubviews(style)
+        }
+        _ = try? NSTableCellView.aspect_hook(#selector(setter: NSTableCellView.backgroundStyle), with: [], usingBlock: backgroundSet)
     }
 }
