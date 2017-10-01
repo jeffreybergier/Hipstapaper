@@ -100,7 +100,7 @@ class ContentListViewController: UIViewController, RealmControllable {
         if let loadingIndicatorViewController = self.loadingIndicatorViewController {
             self.addChildViewController(loadingIndicatorViewController)
             loadingIndicatorViewController.realmController = self.realmController
-            loadingIndicatorViewController.view.topAnchor.constraint(equalTo: self.topLayoutGuide.bottomAnchor, constant: 10).isActive = true
+            loadingIndicatorViewController.view.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         }
         
         // register for 3d touch events

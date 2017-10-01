@@ -30,7 +30,7 @@ class WebBrowserViewController: SFSafariViewController, UIViewControllerRestorat
     private var originalURL: URL?
     
     convenience init(url URL: URL, previewActions: [UIPreviewActionItem]?) {
-        self.init(url: URL, entersReaderIfAvailable: false)
+        self.init(url: URL)
         self.originalURL = URL
         self.myPreviewActions = previewActions ?? []
     }
