@@ -502,11 +502,11 @@ extension ContentListViewController: UIViewControllerPreviewingDelegate {
         // but ever so slightly different
         // might be able to abstract later, but for now, it works
         let archiveActionTitle = item.archived ? "📤 Unarchive" : "📥 Archive"
-        let archiveAction = UIPreviewAction(title: archiveActionTitle, style: .default) { _ in
+        let archiveAction = UIPreviewAction(title: archiveActionTitle, style: .default) { _, _ in
             let newArchiveValue = !item.archived
             realmController.url_setArchived(to: newArchiveValue, on: [item])
         }
-        let tagAction = UIPreviewAction(title: "🏷 Tag", style: .default) { [weak self] _ in
+        let tagAction = UIPreviewAction(title: "🏷 Tag", style: .default) { [weak self] _, _ in
             let presentation = TagAddRemoveViewController.PresentationStyle.popCustom(rect: cellView.bounds, view: cellView)
             let itemID = URLItem.UIIdentifier(uuid: item.uuid, urlString: item.urlString, archived: item.archived)
             let tagVC = TagAddRemoveViewController.viewController(style: presentation, selectedItems: [itemID], controller: realmController)
@@ -582,7 +582,7 @@ extension ContentListViewController: UITableViewDelegate {
         else { return nil }
         
         let archiveActionTitle = item.archived ? "📤Unarchive" : "📥Archive"
-        let archiveToggleAction = UITableViewRowAction(style: .normal, title: archiveActionTitle) { _ in
+        let archiveToggleAction = UITableViewRowAction(style: .normal, title: archiveActionTitle) { _, _ in
             let newArchiveValue = !item.archived
             self.realmController?.url_setArchived(to: newArchiveValue, on: [item])
         }
