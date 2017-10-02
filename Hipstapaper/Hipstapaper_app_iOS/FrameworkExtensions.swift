@@ -38,14 +38,24 @@ extension UISearchController {
             return trimmed
         }
         set {
+            // setting the text value and isActive value causes the delegate method to be fired
+            // so I wanted to temporarily take away the delegate while that happens
+            let searchResultsUpdater = self.searchResultsUpdater
+            self.searchResultsUpdater = nil
             if let newValue = newValue {
                 self.searchBar.text = newValue
                 self.isActive = true
                 self.searchBar.becomeFirstResponder()
+                // then after doing all my updates, set the delegate again
+                // and call the delegate method so things update only once
+                self.searchResultsUpdater = searchResultsUpdater
+                self.searchResultsUpdater?.updateSearchResults(for: self)
             } else {
                 self.searchBar.text = nil
                 self.isActive = false
                 self.searchBar.resignFirstResponder()
+                // when setting to nil, don't call the delegate method
+                self.searchResultsUpdater = searchResultsUpdater
             }
         }
     }

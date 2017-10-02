@@ -38,6 +38,7 @@ class SourceListViewController: UIViewController, RealmControllable {
         
         // title
         self.title = "Tags"
+        self.navigationItem.largeTitleDisplayMode = .never
         
         // accounts button
         // set target to nil so it goes down the responder chain to the parent splitview controller

@@ -44,6 +44,7 @@ class MainSplitViewController: UISplitViewController, RealmControllable {
     fileprivate lazy var sourceListNavigationController: UINavigationController = {
         let tagVC = SourceListViewController(selectionDelegate: self, controller: self.realmController)
         let navVC = UINavigationController(rootViewController: tagVC)
+        navVC.navigationBar.prefersLargeTitles = true
         
         // register for state restoration
         tagVC.restorationIdentifier = StateRestorationIdentifier.tagListViewController.rawValue
@@ -55,6 +56,7 @@ class MainSplitViewController: UISplitViewController, RealmControllable {
     fileprivate lazy var contentListNavigationController: UINavigationController = {
         let urlVC = ContentListViewController(selectionDelegate: self, controller: self.realmController)
         let navVC = UINavigationController(rootViewController: urlVC)
+        navVC.navigationBar.prefersLargeTitles = true
         
         // register for state restoration
         urlVC.restorationIdentifier = StateRestorationIdentifier.urlListViewController.rawValue

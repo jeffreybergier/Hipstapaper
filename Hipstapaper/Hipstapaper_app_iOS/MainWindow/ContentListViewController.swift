@@ -22,7 +22,6 @@ class ContentListViewController: UIViewController, RealmControllable {
             self.tableView?.register(noImageNib, forCellReuseIdentifier: ContentTableViewCell.withOutImageNIBName)
             self.tableView?.rowHeight = ContentTableViewCell.cellHeight
             self.tableView?.estimatedRowHeight = ContentTableViewCell.cellHeight
-            self.tableView?.tableHeaderView = self.searchController.searchBar
         }
     }
     fileprivate lazy var searchController: UISearchController = {
@@ -137,11 +136,14 @@ class ContentListViewController: UIViewController, RealmControllable {
         case .all:
             switch self.filter {
             case .all:
+                self.navigationItem.largeTitleDisplayMode = .never
                 self.title = "All Items"
             case .unarchived:
+                self.navigationItem.largeTitleDisplayMode = .always
                 self.title = "Hipstapaper"
             }
         case .tag(let tagID):
+            self.navigationItem.largeTitleDisplayMode = .never
             self.title = "🏷 \(tagID.displayName)"
         }
         
@@ -178,12 +180,6 @@ class ContentListViewController: UIViewController, RealmControllable {
             // check if state restoration left us a scroll position
             if let index = previouslyVisibleIndex.last {
                 self.tableView?.scrollToRow(at: IndexPath(row: index, section: 0), at: .bottom, animated: false)
-            // otherwise we can check for conditions where we might want to hide the search bar
-            } else if let topVisibleRow = self.tableView?.indexPathsForVisibleRows?.first, // there is a visible row
-                self.searchController.isActive == false, // if the search controller is active, don't hijack scrolling
-                self.searchController.isVisible == false // if the search controller is visible, don't hijack scrolling (this fixes a bug that caused it to scroll when cancelling the search controller
-            {
-                self.tableView?.scrollToRow(at: topVisibleRow, at: .top, animated: true)
             }
         
             // select the items found after updating the table
@@ -220,8 +216,18 @@ class ContentListViewController: UIViewController, RealmControllable {
         self.updateBBI(with: selectedItems)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // configure the search controller
+        // putting this in view will appear because it doesn't work on launch when in viewDidLoad 😤
+        self.navigationItem.searchController = self.searchController
+        self.navigationItem.hidesSearchBarWhenScrolling = true
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         self.tableView?.flashScrollIndicators()
         let isEditing = self.tableView?.isEditing ?? false
         if isEditing == false {
@@ -233,7 +239,6 @@ class ContentListViewController: UIViewController, RealmControllable {
         // Hack to reload UISearchController
         // See DecodeStateRestoration for more info
         if let searchControllerStateRestoration = self.searchControllerStateRestoration {
-            self.hideLoadingView(searchControllerStateRestoration.wasActive)
             self.searchController.searchString = searchControllerStateRestoration.searchFilter
             self.searchControllerStateRestoration = nil
         }
@@ -535,20 +540,7 @@ extension ContentListViewController: UIViewControllerPreviewingDelegate {
 }
 
 extension ContentListViewController: UISearchResultsUpdating {
-    
-    fileprivate func hideLoadingView(_ hide: Bool) {
-        // hide the syncronization view if searching is active
-        // this is needed because the search VC appears above the sync view
-        // it looks weird if syncronizing shows when searces are happening
-        if hide == true {
-            self.loadingIndicatorViewController?.view?.alpha = 0
-        } else {
-            self.loadingIndicatorViewController?.view?.alpha = 1
-        }
-    }
-    
     func updateSearchResults(for searchController: UISearchController) {
-        self.hideLoadingView(searchController.isActive)
         self.hardReloadData()
     }
 }
