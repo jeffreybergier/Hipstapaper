@@ -452,7 +452,10 @@ extension ContentListViewController /* Handle BarButtonItems */ {
             selectedItems.isEmpty == false
         else { return }
         let itemIDs = selectedItems.map({ URLItem.UIIdentifier(uuid: $0.uuid, urlString: $0.urlString, archived: $0.archived) })
-        let tagVC = TagAddRemoveViewController.viewController(style: .popBBI(bbi), selectedItems: itemIDs, controller: realmController)
+        let tagVC = TagAddRemoveViewController.viewController(style: .popBBI(bbi),
+                                                              selectedItems: itemIDs,
+                                                              controller: realmController,
+                                                              completionHandler: { $0.dismiss(animated: true, completion: nil) })
         self.present(tagVC, animated: true, completion: nil)
     }
     
@@ -511,11 +514,14 @@ extension ContentListViewController: UIViewControllerPreviewingDelegate {
             let newArchiveValue = !item.archived
             realmController.url_setArchived(to: newArchiveValue, on: [item])
         }
-        let tagAction = UIPreviewAction(title: "🏷 Tag", style: .default) { [weak self] _, _ in
+        let tagAction = UIPreviewAction(title: "🏷 Tag", style: .default) { _, _ in
             let presentation = TagAddRemoveViewController.PresentationStyle.popCustom(rect: cellView.bounds, view: cellView)
             let itemID = URLItem.UIIdentifier(uuid: item.uuid, urlString: item.urlString, archived: item.archived)
-            let tagVC = TagAddRemoveViewController.viewController(style: presentation, selectedItems: [itemID], controller: realmController)
-            self?.present(tagVC, animated: true, completion: nil)
+            let tagVC = TagAddRemoveViewController.viewController(style: presentation,
+                                                                  selectedItems: [itemID],
+                                                                  controller: realmController,
+                                                                  completionHandler: { $0.dismiss(animated: true, completion: nil) })
+            self.present(tagVC, animated: true, completion: nil)
         }
         // use my special preview action injection SafariViewController
         // the actions are queried for on the presented view controller
@@ -566,37 +572,32 @@ extension ContentListViewController: UITableViewDelegate {
         return ContentTableViewCell.cellHeight
     }
     
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        guard
-            let item = self.data?[indexPath.row],
-            let cellView = tableView.cellForRow(at: indexPath),
-            let realmController = self.realmController
-        else { return nil }
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard let item = self.data?[indexPath.row], let realmController = self.realmController else { return nil }
         
+        // archive action
         let archiveActionTitle = item.archived ? "📤Unarchive" : "📥Archive"
-        let archiveToggleAction = UITableViewRowAction(style: .normal, title: archiveActionTitle) { _, _ in
-            let newArchiveValue = !item.archived
-            self.realmController?.url_setArchived(to: newArchiveValue, on: [item])
+        let archiveAction = UIContextualAction(style: .normal, title: archiveActionTitle) { action, view, success in
+            self.realmController?.url_setArchived(to: !item.archived, on: [item])
+            success(true)
         }
-        archiveToggleAction.backgroundColor = tableView.tintColor
+        archiveAction.backgroundColor = tableView.tintColor
         
-        let tagAction = UITableViewRowAction(style: .normal, title: "🏷Tag") { action, _ in
-            let selector = Selector("_button")
-            let popoverView: UIView
-            if action.responds(to: selector), let actionButton = action.perform(selector)?.takeUnretainedValue() as? UIView {
-                // use 'private' api to get the actual rect and view of the button the user clicked on
-                // then present the popover from that view
-                popoverView = actionButton
-            } else {
-                // if we can't get that button, then just popover on the cell view
-                popoverView = cellView
-            }
-            let presentation = TagAddRemoveViewController.PresentationStyle.popCustom(rect: popoverView.bounds, view: popoverView)
+        // tag action
+        let tagAction = UIContextualAction(style: .normal, title: "🏷Tag") { action, view, success in
+            let presentation = TagAddRemoveViewController.PresentationStyle.popCustom(rect: view.bounds, view: view)
             let itemID = URLItem.UIIdentifier(uuid: item.uuid, urlString: item.urlString, archived: item.archived)
-            let tagVC = TagAddRemoveViewController.viewController(style: presentation, selectedItems: [itemID], controller: realmController)
+            let tagVC = TagAddRemoveViewController.viewController(style: presentation,
+                                                                  selectedItems: [itemID],
+                                                                  controller: realmController)
+            { presentedVC in
+                presentedVC.dismiss(animated: true, completion: nil)
+                success(true)
+            }
             self.present(tagVC, animated: true, completion: nil)
         }
-        return [archiveToggleAction, tagAction]
+        
+        return UISwipeActionsConfiguration(actions: [archiveAction, tagAction])
     }
 }
 

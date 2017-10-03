@@ -18,12 +18,17 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
         case formSheet
     }
     
-    class func viewController(style: PresentationStyle, selectedItems: [URLItem.UIIdentifier], controller: RealmController) -> UIViewController {
+    class func viewController(style: PresentationStyle,
+                              selectedItems: [URLItem.UIIdentifier],
+                              controller: RealmController,
+                              completionHandler:  @escaping (UIViewController) -> Void) -> UIViewController
+    {
         let tagVC = TagAddRemoveViewController(selectedItems: selectedItems, controller: controller)
         let navVC = UINavigationController(rootViewController: tagVC)
         tagVC.restorationIdentifier = StateRestorationIdentifier.tertiaryPopOverViewController.rawValue
         navVC.restorationIdentifier = StateRestorationIdentifier.tertiaryPopOverNavVC.rawValue
         tagVC.presentationStyle = style
+        tagVC.completionHandler = completionHandler
         switch style {
         case .popBBI(let bbi):
             navVC.modalPresentationStyle = .popover
@@ -49,13 +54,14 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
     fileprivate var data: AnyRealmCollection<TagItem>?
     fileprivate var itemsToTag: [URLItem.UIIdentifier] = []
     fileprivate private(set) var presentationStyle = PresentationStyle.formSheet
+    fileprivate var completionHandler: ((UIViewController) -> Void)!
     weak var realmController: RealmController? {
         didSet {
             self.hardReloadData()
         }
     }
     
-    convenience init(selectedItems: [URLItem.UIIdentifier], controller: RealmController) {
+    private convenience init(selectedItems: [URLItem.UIIdentifier], controller: RealmController) {
         self.init()
         self.itemsToTag = selectedItems
         self.realmController = controller
@@ -105,7 +111,7 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
     }
     
     @objc private func doneBBITapped(_ sender: NSObject?) {
-        self.dismiss(animated: true, completion: nil)
+        self.completionHandler(self)
     }
     
     @objc private func addBBITapped(_ sender: NSObject?) {
@@ -184,7 +190,8 @@ extension TagAddRemoveViewController: UITableViewDataSource {
 
 extension TagAddRemoveViewController: UIPopoverPresentationControllerDelegate {
     func popoverPresentationControllerShouldDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) -> Bool {
-        return true
+        self.completionHandler(self)
+        return false
     }
 }
 extension TagAddRemoveViewController: UIAdaptivePresentationControllerDelegate {
