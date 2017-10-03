@@ -592,9 +592,12 @@ extension ContentListViewController: UITableViewDelegate {
             let itemID = URLItem.UIIdentifier(uuid: item.uuid, urlString: item.urlString, archived: item.archived)
             let tagVC = TagAddRemoveViewController.viewController(style: presentation,
                                                                   selectedItems: [itemID],
-                                                                  controller: realmController,
-                                                                  completionHandler: { $0.dismiss(animated: true, completion: nil) })
-            self.present(tagVC, animated: true, completion: { success(true) })
+                                                                  controller: realmController)
+            { vc in
+                vc.dismiss(animated: true, completion: nil)
+                success(true)
+            }
+            self.present(tagVC, animated: true, completion: nil)
         }
         
         return UISwipeActionsConfiguration(actions: [archiveAction, tagAction])

@@ -40,6 +40,7 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
         case .formSheet:
             navVC.modalPresentationStyle = .formSheet
         }
+        navVC.popoverPresentationController?.permittedArrowDirections = [.up, .down]
         navVC.presentationController?.delegate = tagVC
         return navVC
     }
