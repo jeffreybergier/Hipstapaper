@@ -573,28 +573,28 @@ extension ContentListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        guard let item = self.data?[indexPath.row], let realmController = self.realmController else { return nil }
+        guard
+            let item = self.data?[indexPath.row],
+            let realmController = self.realmController
+        else { return nil }
         
         // archive action
         let archiveActionTitle = item.archived ? "📤Unarchive" : "📥Archive"
-        let archiveAction = UIContextualAction(style: .normal, title: archiveActionTitle) { action, view, success in
+        let archiveAction = UIContextualAction(style: .normal, title: archiveActionTitle) { _, _, success in
             self.realmController?.url_setArchived(to: !item.archived, on: [item])
             success(true)
         }
         archiveAction.backgroundColor = tableView.tintColor
         
         // tag action
-        let tagAction = UIContextualAction(style: .normal, title: "🏷Tag") { action, view, success in
+        let tagAction = UIContextualAction(style: .normal, title: "🏷Tag") { _, view, success in
             let presentation = TagAddRemoveViewController.PresentationStyle.popCustom(rect: view.bounds, view: view)
             let itemID = URLItem.UIIdentifier(uuid: item.uuid, urlString: item.urlString, archived: item.archived)
             let tagVC = TagAddRemoveViewController.viewController(style: presentation,
                                                                   selectedItems: [itemID],
-                                                                  controller: realmController)
-            { presentedVC in
-                presentedVC.dismiss(animated: true, completion: nil)
-                success(true)
-            }
-            self.present(tagVC, animated: true, completion: nil)
+                                                                  controller: realmController,
+                                                                  completionHandler: { $0.dismiss(animated: true, completion: nil) })
+            self.present(tagVC, animated: true, completion: { success(true) })
         }
         
         return UISwipeActionsConfiguration(actions: [archiveAction, tagAction])

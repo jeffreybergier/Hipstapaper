@@ -27,6 +27,8 @@ identifier_name:
     min_length: 2
 trailing_comma:
     mandatory_comma: false
+nesting:
+    type_level: 2
 excluded:
   - Pods
   - HipstapaperCommon/Tests

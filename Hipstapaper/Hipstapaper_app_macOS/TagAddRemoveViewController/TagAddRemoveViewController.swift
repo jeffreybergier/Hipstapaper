@@ -151,7 +151,7 @@ extension TagAddRemoveViewController: TagAssignmentChangeDelegate {
 
 // MARK: Bindings Class for TableViewCells Display/Input
 
-fileprivate class CheckboxStateTableCellBindingObject: NSObject {
+private class CheckboxStateTableCellBindingObject: NSObject {
     weak var delegate: TagAssignmentChangeDelegate?
     let index: Int
     @objc let displayName: String
@@ -173,7 +173,7 @@ fileprivate class CheckboxStateTableCellBindingObject: NSObject {
 }
 
 extension CheckboxState {
-    public var cellStateValue: NSCell.StateValue {
+    fileprivate var cellStateValue: NSCell.StateValue {
         return NSCell.StateValue(rawValue: self.rawValue)
     }
 }

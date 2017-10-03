@@ -44,7 +44,7 @@ class ContentListViewController: NSViewController, RealmControllable {
         }
     }
     
-    // MARK Outlets
+    // MARK: Outlets
     
     @IBOutlet private(set) weak var tableView: NSTableView?
     @IBOutlet private weak var loadingIndicatorViewController: LoadingIndicatorViewController?

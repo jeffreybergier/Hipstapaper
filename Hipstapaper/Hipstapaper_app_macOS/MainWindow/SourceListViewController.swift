@@ -33,7 +33,7 @@ class SourceListViewController: NSViewController {
     
     @IBOutlet fileprivate weak var outlineView: NSOutlineView?
     
-    // MARK View Loading
+    // MARK: View Loading
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -309,7 +309,7 @@ extension SourceListViewController: NSOutlineViewDelegate {
     }
 }
 
-@objc fileprivate class TreeBindingObject: NSObject {
+@objc private class TreeBindingObject: NSObject {
     
     // MARK: Bindings Properties for Cell View
     @objc fileprivate let title: String
