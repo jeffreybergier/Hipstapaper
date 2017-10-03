@@ -154,8 +154,8 @@ extension TagAddRemoveViewController: TagAssignmentChangeDelegate {
 fileprivate class CheckboxStateTableCellBindingObject: NSObject {
     weak var delegate: TagAssignmentChangeDelegate?
     let index: Int
-    let displayName: String
-    var state: NSCell.StateValue {
+    @objc let displayName: String
+    @objc var state: NSCell.StateValue {
         didSet {
             // slow this down a little bit so the checkbox animation is not disrupted
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
