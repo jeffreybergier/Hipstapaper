@@ -2,16 +2,16 @@ PODS:
   - Aspects (1.4.1)
   - Common (0.0.1):
     - RealmSwift
-  - Realm (2.10.1):
-    - Realm/Headers (= 2.10.1)
-  - Realm/Headers (2.10.1)
-  - RealmSwift (2.10.1):
-    - Realm (= 2.10.1)
+  - Realm (2.10.2):
+    - Realm/Headers (= 2.10.2)
+  - Realm/Headers (2.10.2)
+  - RealmSwift (2.10.2):
+    - Realm (= 2.10.2)
 
 DEPENDENCIES:
   - Aspects
   - Common (from `HipstapaperCommon`)
-  - RealmSwift
+  - RealmSwift (~> 2.10.1)
 
 EXTERNAL SOURCES:
   Common:
@@ -19,10 +19,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Aspects: 7595ba96a6727a58ebcbfc954497fc5d2fdde546
-  Common: 1eed912a48fe51966a868ddb1b045ffe9942008f
-  Realm: fc7a317a5c2c9ba91f5f235ede4e2ea76e9eba0c
-  RealmSwift: 505ed6c15942a2e76f5cfa78a8667cfa997ee75b
+  Common: f14d9e3110e4caba461bfb210902a0eaa7453056
+  Realm: 0ef72b837fb67e9f4b098bac771ddd72c7fdbb69
+  RealmSwift: 07a9ae0505091eda6b2ee7c190c3786d6e90a7b0
 
-PODFILE CHECKSUM: 9bc640692133ab83292f009a124347c8b1498cda
+PODFILE CHECKSUM: 6df15aa6478103eac5ba21ed127e3f4d03701ac9
 
-COCOAPODS: 1.4.0.beta.1
+COCOAPODS: 1.4.0.rc.1

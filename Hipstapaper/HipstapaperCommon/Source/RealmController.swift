@@ -40,7 +40,7 @@ public class RealmController {
         } else {
             components.scheme = "realm"
         }
-        if components.path.characters.last == "/" {
+        if components.path.last == "/" {
             components.path += "~/Hipstapaper"
         } else {
             components.path += "/~/Hipstapaper"
