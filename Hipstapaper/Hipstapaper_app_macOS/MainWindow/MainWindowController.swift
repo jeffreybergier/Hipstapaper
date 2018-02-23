@@ -94,21 +94,22 @@ class MainWindowController: NSWindowController, RealmControllable {
         
         var token2: NSObjectProtocol!
         token2 = NotificationCenter.default.addObserver(forName: NSWindow.didBecomeMainNotification, object: self.window!, queue: nil) { [unowned self] _ in
+            // we only want it to do this once, so lets clear it out once we do it
+            NotificationCenter.default.removeObserver(token2)
+
             // check to see if the realm controller loaded
             // if it didn't load, then we're not logged in
             // if we're not logged in, show an alert
-            if self.realmController == nil {
-                let loginAlert = NSAlert()
-                loginAlert.messageText = "Choose a sync option"
-                loginAlert.informativeText = "Hipstapaper uses a Realm Mobile Platform server to synchronize your Reading list between all of your devices."
-                loginAlert.addButton(withTitle: "Open Preferences")
-                loginAlert.addButton(withTitle: "Dismiss")
-                loginAlert.beginSheetModal(for: self.window!) { finished in
-                    if finished == .`continue` { self.showPreferencesWindow(loginAlert) }
-                }
+            guard self.realmController == nil else { return }
+            let loginAlert = NSAlert()
+            loginAlert.messageText = "Choose a sync option"
+            loginAlert.informativeText = "Hipstapaper uses a Realm Mobile Platform server to synchronize your Reading list between all of your devices."
+            loginAlert.addButton(withTitle: "Open Preferences")
+            loginAlert.addButton(withTitle: "Dismiss")
+            loginAlert.beginSheetModal(for: self.window!) { finished in
+                guard finished == .alertFirstButtonReturn else { return }
+                self.showPreferencesWindow(loginAlert)
             }
-            // we only want it to do this once, so lets clear it out once we do it
-            NotificationCenter.default.removeObserver(token2)
         }
         
         let invalidateBlock: (Notification) -> Void = { [weak self] _ in
