@@ -30,4 +30,32 @@ Hipstapaper is not available on the App Store. Its not broadly usable in its cur
 - I wanted to learn how to use the Realm Object Server.
 - I wanted to learn how to make share extensions on macOS and iOS.
 
+## Contribution Guidelines
+I'm so happy you're interested in contributing. However, I am not accepting any contributions to this project right now. I plan on replacing this app with a replacement where I want to learn some new concepts for the data management. When I start on that new project, I'll add a link here.
+
+## How to Clone and Run
+
+### Requirements
+
+- Xcode 9.3 or higher
+- Cocoapods
+
+### Instructions
+
+1. Clone the Repo: 
+    ```
+    git clone 'https://github.com/jeffreybergier/Hipstapaper.git'
+    ```
+1. Install Cocoapods
+    ```
+    cd Hipstapaper/Hipstapaper/
+    pod install
+    ```
+1. Change Team to your AppleID (needed to run on your physical device)
+    1. Open `Hipstapaper.xcworkspace` in Xcode.
+    1. Go through both macOS targets and both iOS targets and…
+    1. Under Signing, change the team from its current setting to your AppleID.
+1. Build and Run
+    - Hipstapaper works in the simulator and on physical devices
+
 
