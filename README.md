@@ -33,6 +33,10 @@ Hipstapaper is not available on the App Store. Its not broadly usable in its cur
 ## Contribution Guidelines
 I'm so happy you're interested in contributing. However, I am not accepting any contributions to this project right now. I plan on replacing this app with a replacement where I want to learn some new concepts for the data management. When I start on that new project, I'll add a link here.
 
+## Top Issues
+- [Improve how TableView selection works on iOS](/jeffreybergier/Hipstapaper/issues/3)
+- [Improve Saving Pages That Don't Load](/jeffreybergier/Hipstapaper/issues/2)
+
 ## How to Clone and Run
 
 ### Requirements
