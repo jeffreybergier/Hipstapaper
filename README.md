@@ -5,6 +5,13 @@
 # Hipstapaper - iOS and Mac Reading List App
 A native cross platform reading list app that I use for prototyping and learning.
 
+## How to Get the App
+Hipstapaper is not available on the App Store. Its not broadly usable in its current state because it requires the user to provide their own Realm Object Server to start syncing. I use a TestFlight build to use the app on my own iOS devices and I have a developer signed and self-hosted binary for macOS.
+- iOS:
+    - [Comment on this TestFlight Issue](/jeffreybergier/Hipstapaper/issues/1)
+- macOS:
+    - [Download](http://www.jeffburg.com/zzNotPortfolio/Hipstapaper/current/Hipstapaper.zip)
+
 ## Summary of Capabilities
 - All features implemented separately in UIKit and AppKit.
 - Add URL's into the application by using macOS and iOS system share sheet.
@@ -13,3 +20,14 @@ A native cross platform reading list app that I use for prototyping and learning
 - Syncronize list between devices using Ream Object Server
     - Realm Object server is user provided currently.
 - Restore application state
+
+## Why Did I Write This?
+- I wanted to learn how to make a Source-List / Splitview style app in both UIKit and AppKit.
+- I wanted to learn how to make a CRUD style application.
+- I wanted to learn how to provide search, filter, and sorting capabilities in an application.
+- I wanted to learn how to use Mac specific features like drag and drop, menus, contextual menus, etc.
+- I wanted to learn how to use Realm.
+- I wanted to learn how to use the Realm Object Server.
+- I wanted to learn how to make share extensions on macOS and iOS.
+
+
