@@ -13,6 +13,12 @@ DEPENDENCIES:
   - Common (from `HipstapaperCommon`)
   - RealmSwift (~> 2.10.1)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Aspects
+    - Realm
+    - RealmSwift
+
 EXTERNAL SOURCES:
   Common:
     :path: HipstapaperCommon
@@ -23,6 +29,6 @@ SPEC CHECKSUMS:
   Realm: 0ef72b837fb67e9f4b098bac771ddd72c7fdbb69
   RealmSwift: 07a9ae0505091eda6b2ee7c190c3786d6e90a7b0
 
-PODFILE CHECKSUM: 6df15aa6478103eac5ba21ed127e3f4d03701ac9
+PODFILE CHECKSUM: ab9f64c8025d9069c690322853b408f42bfb6d9e
 
-COCOAPODS: 1.4.0.rc.1
+COCOAPODS: 1.5.3
