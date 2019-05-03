@@ -77,7 +77,7 @@ public struct XPImageProcessor {
         var quality = self.startJPEGQuality
         while data == nil && quality >= 0 {
             let jpegQuality = CGFloat(quality) / 10
-            let newData = UIImageJPEGRepresentation(image, jpegQuality)
+            let newData = image.jpegData(compressionQuality: jpegQuality)
             if let newData = newData, newData.count <= self.maxFileSize {
                 data = newData
                 break

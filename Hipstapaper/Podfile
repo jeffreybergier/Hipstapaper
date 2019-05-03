@@ -3,7 +3,7 @@ project 'Hipstapaper.xcodeproj'
 target 'Hipstapaper_app_macOS' do
   platform :osx, '10.11'
   use_frameworks!
-  pod 'RealmSwift', '~> 2.10.1'
+  pod 'RealmSwift', '~> 2.10.2'
   pod 'Aspects'
   pod 'Common', :path => 'HipstapaperCommon'
 end
@@ -17,7 +17,7 @@ end
 target 'Hipstapaper_app_iOS' do
   platform :ios, '9.0'
   use_frameworks!
-  pod 'RealmSwift', '~> 2.10.1'
+  pod 'RealmSwift', '~> 2.10.2'
   pod 'Common', :path => 'HipstapaperCommon'
 end
 
@@ -27,10 +27,22 @@ target 'Hipstapaper_share_iOS' do
   pod 'Common', :path => 'HipstapaperCommon'
 end
 
+
+## Found this snippet at:
+## https://www.cerebralgardens.com/blog/entry/2017/10/04/mix-and-match-swift-3-swift-4-libraries-with-cocoapods
 post_install do |installer|
-  installer.pods_project.targets.each do |target|
-    target.build_configurations.each do |config|
-      config.build_settings['SWIFT_VERSION'] = '4.1.2'
+    installer.pods_project.build_configurations.each do |config|
+        config.build_settings['SWIFT_VERSION'] = '5.0'
     end
-  end
+    installer.pods_project.targets.each do |target|
+        if ['RealmSwift-iOS', 'RealmSwift-macOS'].include? "#{target}"
+            target.build_configurations.each do |config|
+                config.build_settings['SWIFT_VERSION'] = '4.2'
+            end
+        else
+            target.build_configurations.each do |config|
+                config.build_settings.delete('SWIFT_VERSION')
+            end
+        end
+    end
 end

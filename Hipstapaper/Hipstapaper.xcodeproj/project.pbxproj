@@ -772,7 +772,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Hipstapaper_app_macOS/Pods-Hipstapaper_app_macOS-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Hipstapaper_app_macOS/Pods-Hipstapaper_app_macOS-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Aspects/Aspects.framework",
 				"${BUILT_PRODUCTS_DIR}/Common-macOS/Common.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm-macOS/Realm.framework",
@@ -787,7 +787,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Hipstapaper_app_macOS/Pods-Hipstapaper_app_macOS-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hipstapaper_app_macOS/Pods-Hipstapaper_app_macOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		50A22B2E1E688896005C9733 /* Swift Lint */ = {
@@ -828,7 +828,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Hipstapaper_app_iOS/Pods-Hipstapaper_app_iOS-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Hipstapaper_app_iOS/Pods-Hipstapaper_app_iOS-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Common-iOS/Common.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm-iOS/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift-iOS/RealmSwift.framework",
@@ -841,7 +841,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Hipstapaper_app_iOS/Pods-Hipstapaper_app_iOS-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hipstapaper_app_iOS/Pods-Hipstapaper_app_iOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9D9E09560BCBC44421F10655 /* [CP] Check Pods Manifest.lock */ = {
