@@ -133,7 +133,7 @@ class MainWindowController: NSWindowController, RealmControllable {
         self.preferencesWindowController.showWindow(sender)
     }
     
-    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+    @objc private func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         if menuItem.tag == 333 {
             return true
         } else {

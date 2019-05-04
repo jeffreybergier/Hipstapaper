@@ -178,13 +178,13 @@ open class LoadingIndicatorViewController: XPViewController, RealmControllable {
         self.spinner?.startAnimation(self)
         let opacityFinalState: (NSAnimationContext?) -> Void = { context in
             context?.duration = self.duration / 3
-            context?.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+            context?.timingFunction = CAMediaTimingFunction(name: .linear)
             context?.allowsImplicitAnimation = true
             self.loadingView?.xpLayer?.opacity = 1
         }
         let locationFinalState: (NSAnimationContext?) -> Void = { context in
             context?.duration = self.duration
-            context?.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+            context?.timingFunction = CAMediaTimingFunction(name: .easeOut)
             context?.allowsImplicitAnimation = true
             self.topConstraint?.constant = 12
             self.view.layoutSubtreeIfNeeded()
@@ -210,13 +210,13 @@ open class LoadingIndicatorViewController: XPViewController, RealmControllable {
         
         let opacityFinalState: (NSAnimationContext?) -> Void = { context in
             context?.duration = self.duration * 3
-            context?.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+            context?.timingFunction = CAMediaTimingFunction(name: .linear)
             context?.allowsImplicitAnimation = true
             self.loadingView?.xpLayer?.opacity = 0
         }
         let locationFinalState: (NSAnimationContext?) -> Void = { context in
             context?.duration = self.duration
-            context?.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+            context?.timingFunction = CAMediaTimingFunction(name: .easeIn)
             context?.allowsImplicitAnimation = true
             self.topConstraint?.constant = -50
             self.view.layoutSubtreeIfNeeded()

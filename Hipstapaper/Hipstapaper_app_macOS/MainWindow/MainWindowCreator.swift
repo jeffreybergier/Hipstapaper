@@ -18,11 +18,11 @@ final class MainWindowCreator: NSObject, NSWindowRestoration {
     }
     
     static func newMainWindowController() -> MainWindowController {
-        let wc = MainWindowController(windowNibName: NSNib.Name(rawValue: "MainWindowController"))
+        let wc = MainWindowController(windowNibName: "MainWindowController")
         wc.window?.isRestorable = true
         wc.window?.restorationClass = self
         wc.window?.identifier = NSUserInterfaceItemIdentifier(rawValue: "MainHipstapaperWindow")
-        wc.windowFrameAutosaveName = NSWindow.FrameAutosaveName(rawValue: "MainHipstapaperWindow")
+        wc.windowFrameAutosaveName = "MainHipstapaperWindow"
         return wc
     }
 }

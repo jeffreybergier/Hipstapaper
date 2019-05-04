@@ -33,7 +33,7 @@ class ContentListViewController: NSViewController, RealmControllable {
     private(set) fileprivate var data: AnyRealmCollection<URLItem>?
     
     internal var selectedURLItems: [URLItem] {
-        let items = self.tableView?.selectedRowIndexes.flatMap({ self.data?[$0] })
+        let items = self.tableView?.selectedRowIndexes.compactMap({ self.data?[$0] })
         return items ?? []
     }
     
@@ -83,14 +83,14 @@ class ContentListViewController: NSViewController, RealmControllable {
         // configure the sortvc
         if let sortVC = self.sortSelectingViewController {
             sortVC.delegate = self
-            self.addChildViewController(sortVC)
+            self.addChild(sortVC)
             let sortVCMovedToWindow: @convention(block) () -> Void = { [weak self] in self?.sortSelectingViewDidMoveToWindow() }
             self.sortVCMoveToWindowToken = try? sortVC.view.aspect_hook(#selector(NSView.viewDidMoveToWindow), with: [], usingBlock: sortVCMovedToWindow)
         }
         
         // configure the loadingVC
         if let loadingVC = self.loadingIndicatorViewController {
-            self.addChildViewController(loadingVC)
+            self.addChild(loadingVC)
         }
     }
     
@@ -185,7 +185,7 @@ class ContentListViewController: NSViewController, RealmControllable {
     }
     
     func uuidStrings(for indexes: [Int]) -> [String] {
-        return indexes.flatMap({ self.data?[$0].uuid })
+        return indexes.compactMap({ self.data?[$0].uuid })
     }
     
     // MARK: Handle Double click on TableView
@@ -199,7 +199,7 @@ class ContentListViewController: NSViewController, RealmControllable {
     // MARK: Handle Menu Bar Items
     
     // swiftlint:disable:next cyclomatic_complexity
-    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+    @objc private func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         let selectedItems = self.selectedURLItems
         guard
             let kind = NSMenuItem.Kind(rawValue: menuItem.tag),
@@ -218,7 +218,7 @@ class ContentListViewController: NSViewController, RealmControllable {
         case .open:
             return true
         case .share:
-            let items = selectedItems.flatMap({ URL(string: $0.urlString) })
+            let items = selectedItems.compactMap({ URL(string: $0.urlString) })
             guard items.isEmpty == false else { return false }
             menuItem.submenu = NSMenu(shareMenuWithItems: items)
             return true
@@ -245,7 +245,7 @@ class ContentListViewController: NSViewController, RealmControllable {
     }
     
     @objc private func openInBrowser(_ sender: NSObject?) {
-        let urls = self.selectedURLItems.flatMap({ URL(string: $0.urlString) })
+        let urls = self.selectedURLItems.compactMap({ URL(string: $0.urlString) })
         guard urls.isEmpty == false else { return }
         NSWorkspace.shared.open(urls, withAppBundleIdentifier: nil, options: [], additionalEventParamDescriptor: nil, launchIdentifiers: nil)
     }
@@ -294,7 +294,7 @@ class ContentListViewController: NSViewController, RealmControllable {
         case 36, 76: // enter keys
             self.open(event)
         case 53: // escape key
-            self.view.window?.firstResponder?.try(toPerform: #selector(NSTableView.deselectAll(_:)), with: event)
+            self.view.window?.firstResponder?.tryToPerform(#selector(NSTableView.deselectAll(_:)), with: event)
             self.view.window?.toolbar?.validateVisibleItems() // it was taking almost a full second to re-validate toolbar items without forcing it manually
         case 49: // space bar - quicklook
             self.toggleQuickLookPreviewPanel(event)
@@ -325,23 +325,23 @@ class ContentListViewController: NSViewController, RealmControllable {
         else { __NSBeep(); return; }
         let tagVC = TagAddRemoveViewController(itemsToTag: itemIDs, controller: realmController)
         let view = (sender as? NSView) ?? self.view
-        self.presentViewController(tagVC, asPopoverRelativeTo: .zero, of: view, preferredEdge: .maxY, behavior: .semitransient)
+        self.present(tagVC, asPopoverRelativeTo: .zero, of: view, preferredEdge: .maxY, behavior: .semitransient)
     }
     
     @objc private func share(_ sender: NSObject?) {
-        let urls = self.selectedURLItems.flatMap({ URL(string: $0.urlString) })
+        let urls = self.selectedURLItems.compactMap({ URL(string: $0.urlString) })
         guard urls.isEmpty == false else { __NSBeep(); return; }
         let view = (sender as? NSView) ?? self.view
         NSSharingServicePicker(items: urls).show(relativeTo: .zero, of: view, preferredEdge: .minY)
     }
     
     @objc func shareMenu(_ sender: NSObject?) {
-        let urls = self.selectedURLItems.flatMap({ URL(string: $0.urlString) })
+        let urls = self.selectedURLItems.compactMap({ URL(string: $0.urlString) })
         guard urls.isEmpty == false else { __NSBeep(); return; }
         ((sender as? NSMenuItem)?.representedObject as? NSSharingService)?.perform(withItems: urls)
     }
     
-    override func validateToolbarItem(_ item: NSObject?) -> Bool {
+    @objc private func validateToolbarItem(_ item: NSObject?) -> Bool {
         let selectedItems = self.selectedURLItems
         guard
             let item = item as? NSToolbarItem,
@@ -488,7 +488,7 @@ extension ContentListViewController: NSTableViewDelegate {
             let actionButtonView = tableView.tableViewActionButtons.first ?? rowView
             let itemID = URLItem.UIIdentifier(uuid: item.uuid, urlString: item.urlString, archived: item.archived)
             let tagVC = TagAddRemoveViewController(itemsToTag: [itemID], controller: realmController)
-            self.presentViewController(tagVC, asPopoverRelativeTo: .zero, of: actionButtonView, preferredEdge: .minY, behavior: .transient)
+            self.present(tagVC, asPopoverRelativeTo: .zero, of: actionButtonView, preferredEdge: .minY, behavior: .transient)
         }
         
         tagAction.backgroundColor = NSColor.lightGray
@@ -498,7 +498,7 @@ extension ContentListViewController: NSTableViewDelegate {
     }
     
     func tableViewSelectionDidChange(_ notification: Notification) {
-        self.quickLookPanelController.previewItems = self.selectedURLItems.flatMap({ NSURL(string: $0.urlString) })
+        self.quickLookPanelController.previewItems = self.selectedURLItems.compactMap({ NSURL(string: $0.urlString) })
     }
     
     func tableView(_ tableView: NSTableView, shouldTypeSelectFor event: NSEvent, withCurrentSearch searchString: String?) -> Bool {

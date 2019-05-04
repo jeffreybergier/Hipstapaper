@@ -103,7 +103,7 @@ extension WebBrowserCreator: NSWindowRestoration {
         newWC.window?.isRestorable = true
         newWC.window?.restorationClass = self
         newWC.window?.identifier = NSUserInterfaceItemIdentifier(rawValue: "URLItemWebViewWindow")
-        newWC.windowFrameAutosaveName = NSWindow.FrameAutosaveName(rawValue: itemID.uuid)
+        newWC.windowFrameAutosaveName = itemID.uuid
         return newWC
     }
 }

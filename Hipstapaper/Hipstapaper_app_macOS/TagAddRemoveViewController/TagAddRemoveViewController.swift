@@ -83,7 +83,7 @@ class TagAddRemoveViewController: NSViewController {
     @objc private func createNewTag(_ sender: NSObject?) {
         guard let button = sender as? NSButton, let realmController = self.realmController else {
             // if we can't respond, just pass it on
-            self.nextResponder?.try(toPerform: #selector(self.createNewTag(_:)), with: sender)
+            self.nextResponder?.tryToPerform(#selector(self.createNewTag(_:)), with: sender)
             return
         }
         // create the tag naming VC
@@ -105,7 +105,7 @@ class TagAddRemoveViewController: NSViewController {
             presentedVC.dismiss(sender)
         }
         // present the vc
-        self.presentViewController(newVC, asPopoverRelativeTo: .zero, of: button, preferredEdge: .minY, behavior: .transient)
+        self.present(newVC, asPopoverRelativeTo: .zero, of: button, preferredEdge: .minY, behavior: .transient)
     }
     
     // MARK: Handle Going Away

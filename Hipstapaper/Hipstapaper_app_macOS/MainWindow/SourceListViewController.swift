@@ -113,7 +113,7 @@ class SourceListViewController: NSViewController {
     // MARK: Handle NSOutlineView Menus
     
     fileprivate var selection: TreeBindingObject.Selection? {
-        let tree = self.outlineView?.selectedRowIndexes.flatMap({ self.outlineView?.item(atRow: $0) as? TreeBindingObject }).first
+        let tree = self.outlineView?.selectedRowIndexes.compactMap({ self.outlineView?.item(atRow: $0) as? TreeBindingObject }).first
         guard let item = tree else { return nil }
         if case .selectable(let selection) = item.kind {
             return selection
@@ -145,7 +145,7 @@ class SourceListViewController: NSViewController {
         }
     }
     
-    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+    @objc private func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         guard self.realmController != nil, menuItem.tag == 666, self.selectedTags != nil else { return false }
         return true
     }

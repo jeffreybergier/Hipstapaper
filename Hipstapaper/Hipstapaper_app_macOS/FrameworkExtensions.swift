@@ -37,7 +37,7 @@ extension NSToolbarItem {
     static let flexibleSpaceClass: AnyObject.Type = NSClassFromString("NSToolbarFlexibleSpaceItem") ?? NSSet.self
     static let fixedSpaceClass: AnyObject.Type = NSClassFromString("NSToolbarSpaceItem") ?? NSSet.self
     static let setTrackedSplitViewSelector = Selector("setTrackedSplitView:")
-    static let validateToolbarItemSelector = #selector(NSObject.validateToolbarItem(_:))
+    static let validateToolbarItemSelector = Selector("validateToolbarItem:")
     
     func resizeIfNeeded() {
         if
@@ -128,6 +128,8 @@ fileprivate extension NSTextField {
                 self.textColor = NSColor.controlLightHighlightColor
             case .light, .lowered, .raised:
                 self.textColor = NSColor.controlTextColor
+            default:
+                break
             }
         }
     }

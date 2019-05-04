@@ -67,7 +67,7 @@ class WebBrowserWindowController: NSWindowController {
     // MARK: Initialization
     
     convenience init(itemID: URLItem.UIIdentifier?) {
-        self.init(windowNibName: NSNib.Name(rawValue: "WebBrowserWindowController"))
+        self.init(windowNibName: "WebBrowserWindowController")
         self.itemID = itemID
         self.invalidateRestorableState()
     }
@@ -138,7 +138,7 @@ class WebBrowserWindowController: NSWindowController {
         NSWorkspace.shared.open(url)
     }
     
-    override func validateToolbarItem(_ sender: NSObject?) -> Bool {
+    @objc private func validateToolbarItem(_ sender: NSObject?) -> Bool {
         guard
             let toolbarItem = sender as? NSToolbarItem,
             let kind = NSToolbarItem.Kind(rawValue: toolbarItem.tag),
@@ -175,7 +175,7 @@ class WebBrowserWindowController: NSWindowController {
     }
     
     // swiftlint:disable:next cyclomatic_complexity
-    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+    @objc private func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         guard let itemID = self.itemID, let kind = NSMenuItem.Kind(rawValue: menuItem.tag), self.delegate?.realmController != nil else { return false }
         switch kind {
         case .javascript:
