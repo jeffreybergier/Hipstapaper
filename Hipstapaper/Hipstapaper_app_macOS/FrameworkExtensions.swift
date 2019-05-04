@@ -118,7 +118,7 @@ extension NSView {
     }
 }
 
-fileprivate extension NSTextField {
+extension NSTextField {
     fileprivate func setBackgroundStlyeIfNeeded(_ newValue: NSView.BackgroundStyle) {
         guard let kind = Kind(rawValue: self.tag) else { return }
         switch kind {
@@ -126,10 +126,11 @@ fileprivate extension NSTextField {
             switch newValue {
             case .dark:
                 self.textColor = NSColor.controlLightHighlightColor
-            case .light, .lowered, .raised:
+            case .light, .lowered, .raised, .emphasized, .normal:
                 self.textColor = NSColor.controlTextColor
-            default:
-                break
+            @unknown default:
+                assertionFailure()
+                self.textColor = NSColor.controlTextColor
             }
         }
     }

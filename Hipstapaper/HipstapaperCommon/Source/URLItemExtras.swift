@@ -27,7 +27,7 @@ final public class URLItemExtras: Object {
 #if os(OSX)
     import AppKit
     
-    public extension URLItemExtras {
+    extension URLItemExtras {
         
         public convenience init(title: String?, image: NSImage?) {
             self.init()

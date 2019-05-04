@@ -14,7 +14,7 @@ class WebBrowserCreator: NSObject {
     // MARK: Internal State
     
     // internal state to strongly reference windows
-    private var openWindowsControllers: [URLItem.UIIdentifier : WebBrowserWindowController] = [:]
+    private var openWindowsControllers: [URLItem.UIIdentifier: WebBrowserWindowController] = [:]
     
     // MARK: Public API
     

@@ -40,7 +40,7 @@ open class KeyValueObserver<T: Equatable>: NSObject {
         self.endObserving(keyPath: self.keyPath)
     }
     
-    override open func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    override open func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         
         // make sure the context is my own objects context
         // otherwise it might be a system or other KVO context and I don't want to step on it

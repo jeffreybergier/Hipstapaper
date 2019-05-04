@@ -95,7 +95,7 @@ class MainWindowController: NSWindowController, RealmControllable {
         var token2: NSObjectProtocol!
         token2 = NotificationCenter.default.addObserver(forName: NSWindow.didBecomeMainNotification, object: self.window!, queue: nil) { [unowned self] _ in
             // we only want it to do this once, so lets clear it out once we do it
-            NotificationCenter.default.removeObserver(token2)
+            NotificationCenter.default.removeObserver(token2!)
 
             // check to see if the realm controller loaded
             // if it didn't load, then we're not logged in

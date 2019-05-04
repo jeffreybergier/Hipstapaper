@@ -8,7 +8,7 @@
 
 import WebKit
 
-fileprivate extension NSAlert {
+extension NSAlert {
     fileprivate static func showAlert(for webView: WKWebView, with error: Error?) {
         // we need a window to show this in
         guard let window = webView.window else { return }
@@ -21,7 +21,7 @@ fileprivate extension NSAlert {
         } else {
             alert = NSAlert()
             alert.messageText = "Page Error"
-            alert.informativeText = "This page tried to do someting Hipstapaper can't do."
+            alert.informativeText = "This page tried to do something Hipstapaper can't do."
         }
         
         // add buttons

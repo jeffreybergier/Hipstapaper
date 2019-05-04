@@ -107,7 +107,6 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
             self.tableView?.endUpdates()
         case .error(let error):
             assert(true != true, "\(error)")
-            break
         }
     }
     
