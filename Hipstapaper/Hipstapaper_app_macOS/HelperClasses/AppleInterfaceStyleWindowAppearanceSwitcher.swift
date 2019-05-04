@@ -8,29 +8,26 @@
 
 import AppKit
 
-// swiftlint:disable:next type_name
-class AppleInterfaceStyleWindowAppearanceSwitcher {
-    
-    enum Style: String {
-        case light, dark
-        
-        static var system: Style {
+extension NSWindow {
+    var currentAppearance: NSAppearance {
+        return self.appearance ?? .current
+    }
+}
+
+extension NSAppearance {
+    var isNormal: Bool {
+        if #available(OSX 10.14, *) {
+            guard let bestMatch = self.bestMatch(from: [.aqua, .darkAqua]) else { return true }
+            return bestMatch != NSAppearance.Name.aqua
+        } else {
             let styleString = UserDefaults.standard.string(forKey: "AppleInterfaceStyle") ?? "Light"
-            let style = Style(rawValue: styleString.lowercased())
-            return style ?? .light
-        }
-        
-        init(appearance: NSAppearance) {
-            switch appearance.name {
-            case .vibrantLight:
-                self = .light
-            case .vibrantDark:
-                self = .dark
-            default:
-                self = .light
-            }
+            return styleString.lowercased() != "dark"
         }
     }
+}
+
+// swiftlint:disable:next type_name
+class AppleInterfaceStyleWindowAppearanceSwitcher {
     
     private let token: NSObjectProtocol
 
@@ -45,11 +42,11 @@ class AppleInterfaceStyleWindowAppearanceSwitcher {
         // create the closure to execute when the notification is fired
         // capture the window weakly so it can be release as normal
         let changeClosure: (Notification?) -> Void = { [weak window] _ in
-            let style = Style.system
-            switch style {
-            case .light:
+            let isLightMode = window?.currentAppearance.isNormal ?? true
+            switch isLightMode {
+            case true:
                 window?.appearance = NSAppearance(named: .vibrantLight)
-            case .dark:
+            case false:
                 window?.appearance = NSAppearance(named: .vibrantDark)
             }
         }

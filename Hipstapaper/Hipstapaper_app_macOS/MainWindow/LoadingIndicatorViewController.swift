@@ -9,45 +9,66 @@
 import Common
 import Aspects
 
+//
+////
+////// Ok, this is a pile of hacks, so lets get started
+////
+//
+
 // swiftlint:disable:next type_name
 class AppearanceObservingLoadingIndicatorViewController: LoadingIndicatorViewController {
-    
-    private lazy var appearanceObserver: KeyValueObserver<NSAppearance> = KeyValueObserver(target: self.view.window!, keyPath: #keyPath(NSWindow.appearance))
-    private var aspectToken: AspectToken?
-    
+
+    private var token: Any?
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let viewDidMoveToWindowClosure: @convention(block) () -> Void = { [weak self] in
-            guard self?.view.window != nil else { return }
-            // update the appearance immeditately
-            self?.updateAppearance()
-            // also start observing for changes
-            self?.appearanceObserver.startObserving() { _ -> NSAppearance? in
-                self?.updateAppearance()
-                return nil
-            }
-        }
-        
-        self.aspectToken = try? self.view.aspect_hook(#selector(self.view.viewDidMoveToWindow), with: [], usingBlock: viewDidMoveToWindowClosure)
+        //
+        // First, force our own view to always be in light appearance.
+        // This tells the system to always draw our text as if it has a light background.
+        // Which it does
+        //
+        self.view.appearance = NSAppearance(named: .aqua)
+
+        //
+        // Observe when the notification fires for changing appearance (Private API 🙄)
+        // NSViewController does not have an override point like NSView does 🙄
+        // And even then, it wouldn't work on older systems
+        //
+        self.token = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "HIMenuBarAppearanceDidChangeNotification"),
+                                                            object: nil,
+                                                            queue: nil,
+                                                            using: { [weak self] _ in
+                                                                //
+                                                                // Delay things because the appearance changes after the notification
+                                                                // 🙄🙄🙄🙄
+                                                                //
+                                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                                                    self?.updateAppearance()
+                                                                }
+                                                            })
+        self.updateAppearance()
     }
     
     private func updateAppearance() {
-        if
-            let appearance = self.view.window?.appearance,
-            AppleInterfaceStyleWindowAppearanceSwitcher.Style(appearance: appearance) == .dark
-        {
-            // if we have a valid appearance and that appearance is dark, set the background color accordingly.
-            self.setBackgroundColor(NSColor.windowBackgroundColor)
-        } else {
+        //
+        // Change the background based on the appearance of our window.
+        // Remember that we forcefully set it on our view, so using that one
+        // doesn't help.
+        //
+        let isLightAppearance = self.view.window?.currentAppearance.isNormal ?? true
+        switch isLightAppearance {
+        case true:
             // icon color is the default
             // unless we have a valid appearance and that appearance is dark, we want to set it to icon color
             self.setBackgroundColor(Color.iconColor)
+        case false:
+            // if we have a valid appearance and that appearance is dark, set the background color accordingly.
+            self.setBackgroundColor(NSColor.windowBackgroundColor)
         }
     }
     
     deinit {
-        self.aspectToken?.remove()
+        NotificationCenter.default.removeObserver(self.token as Any)
     }
     
 }
