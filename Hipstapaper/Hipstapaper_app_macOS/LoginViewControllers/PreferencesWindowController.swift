@@ -13,7 +13,7 @@ class PreferencesWindowController: NSWindowController, RealmControllable {
     
     @IBOutlet private weak var tabView: NSTabView?
     
-    private lazy var appearanceSwitcher: AppleInterfaceStyleWindowAppearanceSwitcher = AppleInterfaceStyleWindowAppearanceSwitcher(window: self.window!)
+    private lazy var appearanceSwitcher = AppleInterfaceStyleWindowAppearanceSwitcher(window: self.window!)
     
     private var allTabViewItems = [NSTabViewItem]()
     

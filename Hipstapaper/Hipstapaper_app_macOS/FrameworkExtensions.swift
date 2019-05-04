@@ -109,7 +109,14 @@ extension NSMenu {
 // Below there is an NSView extension that always forwards the message on to all subviews
 
 extension NSView {
+    @available(*, deprecated, message:"Only useful for macOS 10.10 to 10.13. Has no effect on 10.14 and higher.")
     func setBackgroundStyleOnSubviews(_ newValue: NSView.BackgroundStyle) {
+
+        // return if on 10.14 where the system handles dark mode for us
+        if #available(macOS 10.14, *) {
+            return
+        }
+
         for view in self.subviews {
             view.setBackgroundStyleOnSubviews(newValue)
         }
@@ -123,11 +130,14 @@ extension NSTextField {
         guard let kind = Kind(rawValue: self.tag) else { return }
         switch kind {
         case .backgroundStyleAdaptable:
+            print(newValue)
             switch newValue {
             case .dark:
                 self.textColor = NSColor.controlLightHighlightColor
-            case .light, .lowered, .raised, .emphasized, .normal:
+            case .light:
                 self.textColor = NSColor.controlTextColor
+            case .lowered, .raised, .emphasized, .normal:
+                fallthrough
             @unknown default:
                 assertionFailure()
                 self.textColor = NSColor.controlTextColor
@@ -159,7 +169,7 @@ extension NSView {
 }
 
 /*
-extension NSBackgroundStyle: CustomStringConvertible {
+extension NSView.BackgroundStyle: CustomStringConvertible {
     public var description: String {
         switch self {
         case .dark:
@@ -170,7 +180,11 @@ extension NSBackgroundStyle: CustomStringConvertible {
             return ".lowered"
         case .raised:
             return ".raised"
+        case .normal:
+            return ".normal"
+        case .emphasized:
+            return ".emphasized"
         }
     }
 }
- */
+*/

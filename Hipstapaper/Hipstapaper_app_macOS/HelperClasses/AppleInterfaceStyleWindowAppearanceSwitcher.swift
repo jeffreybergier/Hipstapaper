@@ -33,12 +33,18 @@ class AppleInterfaceStyleWindowAppearanceSwitcher {
     }
     
     private let token: NSObjectProtocol
-    
-    init(window: NSWindow) {
+
+    @available(*, deprecated, message:"Only useful for macOS 10.10 to 10.13. Returns NIL on 10.14 and higher.")
+    init?(window: NSWindow) {
+
+        // return nil if running on a system that supports dark mode officially
+        if #available(macOS 10.14, *) {
+            return nil
+        }
         
         // create the closure to execute when the notification is fired
         // capture the window weakly so it can be release as normal
-        let changeClosure: (Notification?) -> Void = { [weak window] notification in
+        let changeClosure: (Notification?) -> Void = { [weak window] _ in
             let style = Style.system
             switch style {
             case .light:
@@ -49,7 +55,10 @@ class AppleInterfaceStyleWindowAppearanceSwitcher {
         }
         
         // store the token return by notificationcenter so we can stop observing later
-        self.token = NotificationCenter.default.addObserver(forName: NSApplication.didChangeScreenParametersNotification, object: nil, queue: nil, using: changeClosure)
+        self.token = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "HIMenuBarAppearanceDidChangeNotification"),
+                                                            object: nil,
+                                                            queue: nil,
+                                                            using: changeClosure)
         
         // execute the closure just once so our window is the correct style right now
         changeClosure(nil)

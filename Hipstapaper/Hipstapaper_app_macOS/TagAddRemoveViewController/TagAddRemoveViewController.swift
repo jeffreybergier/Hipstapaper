@@ -29,7 +29,7 @@ class TagAddRemoveViewController: NSViewController {
     
     // MARK: Appearance
     
-    private lazy var appearanceSwitcher: AppleInterfaceStyleWindowAppearanceSwitcher = AppleInterfaceStyleWindowAppearanceSwitcher(window: self.view.window!)
+    private lazy var appearanceSwitcher = AppleInterfaceStyleWindowAppearanceSwitcher(window: self.view.window!)
     
     // MARK: Loading
     

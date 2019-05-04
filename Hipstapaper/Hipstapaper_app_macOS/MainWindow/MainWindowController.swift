@@ -28,7 +28,7 @@ class MainWindowController: NSWindowController, RealmControllable {
     let contentListViewController = ContentListViewController()
     fileprivate let sourceListViewController = SourceListViewController()
     
-    private lazy var appearanceSwitcher: AppleInterfaceStyleWindowAppearanceSwitcher = AppleInterfaceStyleWindowAppearanceSwitcher(window: self.window!)
+    private lazy var appearanceSwitcher = AppleInterfaceStyleWindowAppearanceSwitcher(window: self.window!)
     
     // MARK: Realm Controller Owner
     

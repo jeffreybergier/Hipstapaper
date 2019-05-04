@@ -10,7 +10,7 @@ import Cocoa
 
 class TagCreateViewController: NSViewController {
     
-    private lazy var appearanceSwitcher: AppleInterfaceStyleWindowAppearanceSwitcher = AppleInterfaceStyleWindowAppearanceSwitcher(window: self.view.window!)
+    private lazy var appearanceSwitcher = AppleInterfaceStyleWindowAppearanceSwitcher(window: self.view.window!)
     
     typealias ConfirmTuple = (newName: String, sender: NSObject?, presentedVC: NSViewController)
     var confirmTagActionHandler: ((ConfirmTuple) -> Void)?

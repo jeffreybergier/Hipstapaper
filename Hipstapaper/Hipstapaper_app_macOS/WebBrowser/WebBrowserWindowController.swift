@@ -14,7 +14,7 @@ class WebBrowserWindowController: NSWindowController {
     
     // MARK: Appearance
     
-    private lazy var appearanceSwitcher: AppleInterfaceStyleWindowAppearanceSwitcher = AppleInterfaceStyleWindowAppearanceSwitcher(window: self.window!)
+    private lazy var appearanceSwitcher = AppleInterfaceStyleWindowAppearanceSwitcher(window: self.window!)
     
     // MARK: Model Item
     
