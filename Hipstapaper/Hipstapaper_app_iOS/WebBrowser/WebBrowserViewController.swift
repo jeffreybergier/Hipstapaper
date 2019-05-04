@@ -13,7 +13,7 @@ class WebBrowserViewController: SFSafariViewController, UIViewControllerRestorat
     
     private static let kOriginalURLString = "kOriginalURLStringKey"
     
-    class func viewController(withRestorationIdentifierPath identifierComponents: [Any], coder: NSCoder) -> UIViewController? {
+    class func viewController(withRestorationIdentifierPath identifierComponents: [String], coder: NSCoder) -> UIViewController? {
         guard
             let urlString = coder.decodeObject(forKey: self.kOriginalURLString) as? String,
             let url = URL(string: urlString)

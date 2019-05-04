@@ -6,7 +6,7 @@
 //
 //
 
-public extension URLItem {
+extension URLItem {
     public struct UIIdentifier {
         public var uuid: String
         public var urlString: String

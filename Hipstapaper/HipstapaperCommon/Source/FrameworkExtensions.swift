@@ -11,10 +11,10 @@ import WebKit
 
 extension WKWebView: KVOCapable {}
 
-public extension AnyRealmCollection {
+extension AnyRealmCollection {
     public func indexes(matchingPredicates predicates: [String]) -> [Int] {
-        let matches = predicates.flatMap({ self.filter($0).first })
-        let indexes = matches.flatMap({ self.index(of: $0) })
+        let matches = predicates.compactMap({ self.filter($0).first })
+        let indexes = matches.compactMap({ self.index(of: $0) })
         return indexes
     }
     
@@ -40,6 +40,9 @@ public enum XPBackgroundFetchResult: UInt {
             self = .failed
         case .newData:
             self = .newData
+        @unknown default:
+            assertionFailure()
+            self = .noData
         }
     }
     #endif

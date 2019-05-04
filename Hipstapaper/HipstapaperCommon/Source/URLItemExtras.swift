@@ -55,7 +55,7 @@ final public class URLItemExtras: Object {
 #else
     import UIKit
     
-    public extension URLItemExtras {
+    extension URLItemExtras {
         
         public convenience init(title: String?, image: UIImage?) {
             self.init()

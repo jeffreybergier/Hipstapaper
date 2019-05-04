@@ -200,7 +200,7 @@ extension SourceListViewController: UITableViewDelegate {
         }
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard let section = Section(rawValue: indexPath.section), section == .tags, editingStyle == .delete, let tagItem = self.data?[indexPath.row] else { return }
         self.realmController?.delete(tagItem)
     }

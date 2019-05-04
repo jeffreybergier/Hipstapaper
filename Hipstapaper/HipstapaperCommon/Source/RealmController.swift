@@ -199,7 +199,7 @@ extension RealmController {
     public func tag_applicationState(of tagItem: TagItem, on itemIDs: [URLItem.UIIdentifier]) -> CheckboxState {
         let items = self.url_existingItems(itemIDs: itemIDs)
         guard items.isEmpty == false else { return .off }
-        let matches = items.flatMap({ $0.tags.index(of: tagItem) })
+        let matches = items.compactMap({ $0.tags.index(of: tagItem) })
         if matches.count == items.count {
             // this means all items have this tag
             return .on
@@ -259,7 +259,7 @@ extension RealmController {
     
     public func url_existingItems(itemIDs: [URLItem.UIIdentifier]) -> [URLItem] {
         let realm = self.realm
-        let items = itemIDs.flatMap({ realm.object(ofType: URLItem.self, forPrimaryKey: $0.uuid) })
+        let items = itemIDs.compactMap({ realm.object(ofType: URLItem.self, forPrimaryKey: $0.uuid) })
         return items
     }
     
@@ -316,8 +316,8 @@ extension RealmController {
     }
 }
 
-fileprivate extension RealmController {
-    fileprivate static let realmDir: URL = {
+extension RealmController {
+    private static let realmDir: URL = {
         let fm = FileManager.default
         let appSupport = fm.urls(for: .applicationSupportDirectory, in: .userDomainMask).last!
         let bundleID = Bundle.main.bundleIdentifier ?? "com.unknown.app"
@@ -325,19 +325,19 @@ fileprivate extension RealmController {
         return realmDir
     }()
     
-    fileprivate static func createRealmDir() throws {
+    private static func createRealmDir() throws {
         let realmDir = self.realmDir
         let fm = FileManager.default
         try fm.createDirectory(at: realmDir, withIntermediateDirectories: true)
     }
     
-    fileprivate static func deleteRealmDir() throws {
+    private static func deleteRealmDir() throws {
         let realmDir = self.realmDir
         let fm = FileManager.default
         try fm.removeItem(at: realmDir)
     }
     
-    fileprivate static var realmDirExists: Bool {
+    private static var realmDirExists: Bool {
         let realmDir = self.realmDir
         let fm = FileManager.default
         return fm.fileExists(atPath: realmDir.path, isDirectory: nil)

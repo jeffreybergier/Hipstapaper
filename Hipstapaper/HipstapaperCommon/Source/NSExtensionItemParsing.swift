@@ -45,7 +45,13 @@ extension SerializableURLItem {
         
         // make sure we have an attachment
         // if not, return nil
-        guard let attachments = extensionItem.attachments as? [NSItemProvider] else { handler(.error); return; }
+        guard
+            let attachments = extensionItem.attachments,
+            attachments.isEmpty == false
+        else {
+            handler(.error)
+            return
+        }
         for attachment in attachments.reversed() {
             // load the URL for the object
             attachment.loadURL() { url in
@@ -77,7 +83,7 @@ extension SerializableURLItem {
     }
 }
 
-fileprivate extension URL {
+extension URL {
     fileprivate static func webURL(fromURLString urlString: String?) -> URL? {
         let urlString = urlString ?? "A Z A"
         guard let components = URLComponents(string: urlString) else { return URL(string: urlString) }
@@ -93,7 +99,7 @@ fileprivate extension URL {
     }
 }
 
-fileprivate extension NSItemProvider {
+extension NSItemProvider {
     fileprivate func loadURL(_ completion: @escaping (URL?) -> Void) {
         //https://developer.apple.com/library/content/documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html
         // public.url (kUTTypeURL) public.data 'url'   Uniform Resource Locator.

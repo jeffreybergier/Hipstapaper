@@ -85,7 +85,7 @@ open class XPURLShareViewController: XPViewController {
     #endif
 }
 
-fileprivate extension XPURLShareViewController {
+extension XPURLShareViewController {
     
     #if os(OSX)
     private class func macOS_render(view: XPView) -> XPImage? {

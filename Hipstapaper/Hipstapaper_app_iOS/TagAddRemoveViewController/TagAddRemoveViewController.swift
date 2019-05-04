@@ -121,7 +121,7 @@ class TagAddRemoveViewController: UIViewController, RealmControllable {
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         let addAction = UIAlertAction(title: "Add", style: .default) { _ in
             guard let realmController = self.realmController else { return }
-            let newName = alertVC.textFields?.flatMap({ $0.text }).first ?? ""
+            let newName = alertVC.textFields?.compactMap({ $0.text }).first ?? ""
             let tag = realmController.tag_uniqueTag(named: newName)
             realmController.tag_apply(tag: tag, to: self.itemsToTag)
         }
@@ -178,12 +178,14 @@ extension TagAddRemoveViewController: UITableViewDataSource {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         switch editingStyle {
         case .delete:
             guard let tagItem = self.data?[indexPath.row] else { return }
             self.realmController?.delete([tagItem])
         case .insert, .none:
+            break
+        @unknown default:
             break
         }
     }

@@ -41,7 +41,7 @@ class LoginViewController: UITableViewController {
     private lazy var doneBBI: UIBBI = UIBBI(barButtonSystemItem: .done, target: self, action: #selector(self.doneBBITapped(_:)))
     private lazy var cancelBBI: UIBBI = UIBBI(barButtonSystemItem: .cancel, target: self, action: #selector(self.cancelBBITapped(_:)))
     private let loadBBI: UIBBI = {
-        let spinner = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+        let spinner = UIActivityIndicatorView(style: .gray)
         spinner.startAnimating()
         let bbi = UIBBI(customView: spinner)
         return bbi

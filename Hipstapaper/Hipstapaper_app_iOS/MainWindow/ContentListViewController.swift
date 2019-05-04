@@ -34,8 +34,8 @@ class ContentListViewController: UIViewController, RealmControllable {
     }()
     
     fileprivate typealias UIBBI = UIBarButtonItem
-    fileprivate lazy var editBBI: UIBBI = UIBBI(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: #selector(self.editBBITapped(_:)))
-    fileprivate lazy var doneBBI: UIBBI = UIBBI(barButtonSystemItem: UIBarButtonSystemItem.done, target: self, action: #selector(self.doneBBITapped(_:)))
+    fileprivate lazy var editBBI: UIBBI = UIBBI(barButtonSystemItem: .edit, target: self, action: #selector(self.editBBITapped(_:)))
+    fileprivate lazy var doneBBI: UIBBI = UIBBI(barButtonSystemItem: .done, target: self, action: #selector(self.doneBBITapped(_:)))
     fileprivate lazy var archiveBBI: UIBBI = UIBBI(title: "📥Archive", style: .plain, target: self, action: #selector(self.archiveBBITapped(_:)))
     fileprivate lazy var unarchiveBBI: UIBBI = UIBBI(title: "📤Unarchive", style: .plain, target: self, action: #selector(self.unarchiveBBITapped(_:)))
     fileprivate lazy var tagBBI: UIBBI = UIBBI(title: "🏷Tag", style: .plain, target: self, action: #selector(self.tagBBITapped(_:)))
@@ -75,7 +75,7 @@ class ContentListViewController: UIViewController, RealmControllable {
     fileprivate var selectedURLItems: [URLItem] {
         let data = self.data
         let indexPaths = self.tableView?.indexPathsForSelectedRows
-        let items = indexPaths?.flatMap({ data?[$0.row] })
+        let items = indexPaths?.compactMap({ data?[$0.row] })
         return items ?? []
     }
     
@@ -97,7 +97,7 @@ class ContentListViewController: UIViewController, RealmControllable {
         // set the top constraint on the LoadingIndicatorViewController
         // this can't be done in the XIB
         if let loadingIndicatorViewController = self.loadingIndicatorViewController {
-            self.addChildViewController(loadingIndicatorViewController)
+            self.addChild(loadingIndicatorViewController)
             loadingIndicatorViewController.realmController = self.realmController
             loadingIndicatorViewController.view.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         }
@@ -264,7 +264,7 @@ class ContentListViewController: UIViewController, RealmControllable {
         self.emergencyDismissPopover(thenPresentViewController: alert)
     }
     
-    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         switch motion {
         case .motionShake:
             guard self.validateDelete() else { super.motionEnded(motion, with: event); return; }
@@ -324,7 +324,7 @@ class ContentListViewController: UIViewController, RealmControllable {
         if let visibleIndexPaths = self.tableView?.indexPathsForVisibleRows,
             visibleIndexPaths.first != IndexPath(row: 0, section: 0) // don't save anything if we're scrolled at the top
         {
-            let visibleUUIDs = visibleIndexPaths.flatMap({ self.data?[$0.row].uuid })
+            let visibleUUIDs = visibleIndexPaths.compactMap({ self.data?[$0.row].uuid })
             coder.encode(visibleUUIDs, forKey: StateRestoration.kVisibleItems)
         }
         

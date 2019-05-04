@@ -142,7 +142,7 @@ class ShareViewController: XPURLShareViewController {
             self.webImageViewParentView?.centerXAnchor.constraint(equalTo: webView.centerXAnchor, constant: 0),
             self.webImageViewParentView?.widthAnchor.constraint(equalTo: webView.widthAnchor, multiplier: 0.5, constant: 0),
             self.webImageViewParentView?.heightAnchor.constraint(equalTo: webView.heightAnchor, multiplier: 0.5, constant: 0)
-        ].flatMap({$0}))
+        ].compactMap({$0}))
         webView.transform = webView.transform.scaledBy(x: 0.5, y: 0.5)
         
         // load the url in the webview

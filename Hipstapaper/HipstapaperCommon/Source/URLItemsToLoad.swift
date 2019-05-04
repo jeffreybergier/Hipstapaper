@@ -6,7 +6,7 @@
 //
 //
 
-public extension URLItem {
+extension URLItem {
     public enum ItemsToLoad {
         case all, tag(TagItem.UIIdentifier)
     }

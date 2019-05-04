@@ -6,7 +6,7 @@
 //
 //
 
-public extension URLItem {
+extension URLItem {
     
     public enum ArchiveFilter: Int {
         case unarchived = 0, all

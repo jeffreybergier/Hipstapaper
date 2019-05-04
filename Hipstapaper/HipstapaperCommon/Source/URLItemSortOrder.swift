@@ -8,7 +8,7 @@
 
 import RealmSwift
 
-public extension URLItem {
+extension URLItem {
     
     public enum SortOrder: Int {
         

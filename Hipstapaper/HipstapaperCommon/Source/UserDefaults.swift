@@ -8,7 +8,7 @@
 
 import Foundation
 
-public extension UserDefaults {
+extension UserDefaults {
     
     private enum Keys {
         fileprivate static let sortOrder = "kSortOrderKey"
