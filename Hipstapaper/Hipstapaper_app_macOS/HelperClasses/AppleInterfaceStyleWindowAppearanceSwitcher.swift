@@ -8,17 +8,11 @@
 
 import AppKit
 
-extension NSWindow {
-    var currentAppearance: NSAppearance {
-        return self.appearance ?? .current
-    }
-}
-
 extension NSAppearance {
     var isNormal: Bool {
         if #available(OSX 10.14, *) {
             guard let bestMatch = self.bestMatch(from: [.aqua, .darkAqua]) else { return true }
-            return bestMatch != NSAppearance.Name.aqua
+            return bestMatch == NSAppearance.Name.aqua
         } else {
             let styleString = UserDefaults.standard.string(forKey: "AppleInterfaceStyle") ?? "Light"
             return styleString.lowercased() != "dark"
@@ -42,7 +36,7 @@ class AppleInterfaceStyleWindowAppearanceSwitcher {
         // create the closure to execute when the notification is fired
         // capture the window weakly so it can be release as normal
         let changeClosure: (Notification?) -> Void = { [weak window] _ in
-            let isLightMode = window?.currentAppearance.isNormal ?? true
+            let isLightMode = window?.effectiveAppearance.isNormal ?? true
             switch isLightMode {
             case true:
                 window?.appearance = NSAppearance(named: .vibrantLight)
