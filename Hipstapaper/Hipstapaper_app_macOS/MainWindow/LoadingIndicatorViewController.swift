@@ -23,7 +23,7 @@ class AppearanceObservingLoadingIndicatorViewController: LoadingIndicatorViewCon
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         //
         // We need to wait for the view to move into the window.
         // NSViewController has no override for this but NSView does 🙄.
@@ -48,8 +48,18 @@ class AppearanceObservingLoadingIndicatorViewController: LoadingIndicatorViewCon
             // Now we observe whenever the effective appearance changes
             // When that happens, we can update the appearance
             //
-            self.appearanceKVOToken = window.observe(\.effectiveAppearance) { _, _ in
-                self.updateAppearance()
+            // For some reason, on old macOS regular `appearance`
+            // fires the KVO when changing.
+            // But on 10.14, `effectiveAppearance` fires the KVO instead.
+            //
+            if #available(macOS 10.14, *) {
+                self.appearanceKVOToken
+                    = window.observe(\.effectiveAppearance)
+                    { _, _ in self.updateAppearance() }
+            } else {
+                self.appearanceKVOToken
+                    = window.observe(\.appearance)
+                    { _, _ in self.updateAppearance() }
             }
         }
 
