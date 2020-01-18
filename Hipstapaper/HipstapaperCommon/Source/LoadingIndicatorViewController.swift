@@ -23,9 +23,9 @@ open class LoadingIndicatorViewController: XPViewController, RealmControllable {
     
     // MARK: Animation Constants
     
-    private let duration = TimeInterval(0.2)
+    private let duration = TimeInterval(0.3)
     private let damping = CGFloat(0.5)
-    private let velocity = CGFloat(3.0)
+    private let velocity = CGFloat(2.0)
     
     // MARK: Realm Controller
     
@@ -281,8 +281,11 @@ open class LoadingIndicatorViewController: XPViewController, RealmControllable {
         let opacityFinalState: () -> Void = {
             self.loadingView?.alpha = 0
         }
+        let verticalDistanceToTop = self.view.convert(CGPoint.zero, to: nil).y
+        let height = self.loadingView?.bounds.height ?? 0
+        let verticalMoveDistance = verticalDistanceToTop + height
         let locationFinalState: () -> Void = {
-            self.topConstraint?.constant = -70
+            self.topConstraint?.constant = -1 * verticalMoveDistance
             self.view.layoutIfNeeded()
         }
         let completionState: (Bool) -> Void = { _ in
@@ -290,7 +293,7 @@ open class LoadingIndicatorViewController: XPViewController, RealmControllable {
         }
         
         if self.allowedToAnimate {
-            UIView.animate(withDuration: self.duration * 3,
+            UIView.animate(withDuration: self.duration,
                            delay: 0.0,
                            options: [.curveLinear],
                            animations: opacityFinalState,
