@@ -28,7 +28,7 @@
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="upD-IT-X4c" firstAttribute="centerX" secondItem="kn7-Nq-SYy" secondAttribute="centerX" id="YyS-BY-dat"/>
                             <constraint firstItem="upD-IT-X4c" firstAttribute="centerY" secondItem="kn7-Nq-SYy" secondAttribute="centerY" id="b6m-t0-mVD"/>

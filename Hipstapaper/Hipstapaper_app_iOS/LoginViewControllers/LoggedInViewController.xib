@@ -67,7 +67,7 @@
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="RrW-ou-oVQ" secondAttribute="bottom" constant="20" symbolic="YES" id="1Uy-gF-hgR"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="RrW-ou-oVQ" secondAttribute="trailing" constant="20" symbolic="YES" id="4aa-Wk-XVN"/>

@@ -57,6 +57,10 @@ class LoginViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        if #available(iOS 13.0, *) {
+            self.tableView.backgroundColor = .systemBackground
+        }
         
         // load the custom cell nib
         let nib = UINib(nibName: LoginTextFieldTableViewCell.nibName, bundle: Bundle(for: LoginTextFieldTableViewCell.self))

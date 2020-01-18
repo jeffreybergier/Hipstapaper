@@ -27,7 +27,7 @@
                     </connections>
                 </pickerView>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
             <constraints>
                 <constraint firstItem="TdK-LX-6hU" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" id="5eV-0S-VUX"/>
                 <constraint firstItem="TdK-LX-6hU" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="BLg-ht-88z"/>
