@@ -48,10 +48,10 @@
                     </imageView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="topMargin" secondItem="trg-dg-oVQ" secondAttribute="top" id="1NF-qU-hxK"/>
+                    <constraint firstItem="QAn-01-9rj" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Hqu-kt-zNe"/>
                     <constraint firstItem="QAn-01-9rj" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="MfK-bo-8f2"/>
-                    <constraint firstItem="QAn-01-9rj" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="a0P-bR-ID1"/>
                     <constraint firstItem="trg-dg-oVQ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="QAn-01-9rj" secondAttribute="trailing" constant="8" symbolic="YES" id="orc-R6-54r"/>
+                    <constraint firstItem="trg-dg-oVQ" firstAttribute="centerY" secondItem="QAn-01-9rj" secondAttribute="centerY" id="r24-N7-8se"/>
                     <constraint firstAttribute="trailingMargin" secondItem="trg-dg-oVQ" secondAttribute="trailing" id="vR8-Vi-BBv"/>
                 </constraints>
             </tableViewCellContentView>
