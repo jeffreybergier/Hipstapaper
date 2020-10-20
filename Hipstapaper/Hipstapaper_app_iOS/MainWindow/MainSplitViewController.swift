@@ -17,9 +17,17 @@ import UIKit
 //
 
 class MainSplitViewController: UISplitViewController, RealmControllable {
-    
+
     // MARK: Overriding Inits to configure oneself
-    
+
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        // configure my delegate
+        self.delegate = self
+        // configure our view controllers for master / detail
+        self.viewControllers = [self.sourceListNavigationController, self.contentListNavigationController]
+    }
+
     override init(nibName: String?, bundle: Bundle?) {
         super.init(nibName: nibName, bundle: bundle)
         // configure my delegate
