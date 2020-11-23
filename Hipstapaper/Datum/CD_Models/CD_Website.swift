@@ -19,15 +19,18 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import SwiftUI
-import Datum
+import CoreData
 
-@main
-struct HipstapaperApp: App {
+@objc internal class CD_Website: CD_Base {
 
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
+    internal class override var entityName: String { "CD_Website" }
+    internal class var request: NSFetchRequest<CD_Website> {
+        NSFetchRequest<CD_Website>(entityName: self.entityName)
     }
+
+    @NSManaged internal var originalURL: URL?
+    @NSManaged internal var resolvedURL: URL?
+    @NSManaged internal var title: URL?
+    @NSManaged internal var thumbnail: Data?
+    @NSManaged internal var tags: NSSet?
 }
