@@ -23,6 +23,7 @@
 		DBDCB3B0256BEC6400D005F6 /* Datum.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBDCB382256BEBE700D005F6 /* Datum.framework */; };
 		DBDCB3B1256BEC6400D005F6 /* Datum.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DBDCB382256BEBE700D005F6 /* Datum.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DBDCB3BB256BEE3800D005F6 /* CD_MOM.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DBDCB3B9256BEE3800D005F6 /* CD_MOM.xcdatamodeld */; };
+		DBDCB3CB256BF5A900D005F6 /* CD_Models in Resources */ = {isa = PBXBuildFile; fileRef = DBDCB3CA256BF5A900D005F6 /* CD_Models */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,6 +111,7 @@
 		DBDCB38F256BEBE700D005F6 /* DatumTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatumTests.swift; sourceTree = "<group>"; };
 		DBDCB391256BEBE700D005F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DBDCB3BA256BEE3800D005F6 /* CD_MOM.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CD_MOM.xcdatamodel; sourceTree = "<group>"; };
+		DBDCB3CA256BF5A900D005F6 /* CD_Models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = CD_Models; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -240,6 +242,7 @@
 				DBDCB384256BEBE700D005F6 /* Datum.h */,
 				DBDCB385256BEBE700D005F6 /* Info.plist */,
 				DBDCB3B9256BEE3800D005F6 /* CD_MOM.xcdatamodeld */,
+				DBDCB3CA256BF5A900D005F6 /* CD_Models */,
 			);
 			path = Datum;
 			sourceTree = "<group>";
@@ -409,6 +412,7 @@
 					};
 					DBDCB381256BEBE700D005F6 = {
 						CreatedOnToolsVersion = 12.2;
+						LastSwiftMigration = 1220;
 					};
 					DBDCB389256BEBE700D005F6 = {
 						CreatedOnToolsVersion = 12.2;
@@ -473,6 +477,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DBDCB3CB256BF5A900D005F6 /* CD_Models in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -853,6 +858,7 @@
 		DBDCB394256BEBE800D005F6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -872,6 +878,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos watchsimulator watchos appletvsimulator appletvos macosx";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -882,6 +889,7 @@
 		DBDCB395256BEBE800D005F6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
