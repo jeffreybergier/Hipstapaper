@@ -22,25 +22,29 @@
 import CoreData
 import Combine
 
-public class CD_ObservableCollection<Item: NSManagedObject>: NSObject, ObservableObject, NSFetchedResultsControllerDelegate {
+internal class CD_ObservableCollection<Item: NSManagedObject>: NSObject,
+                                                             ObservableObject,
+                                                             NSFetchedResultsControllerDelegate
+{
 
-    public let objectWillChange = ObservableObjectPublisher()
+    internal let objectWillChange = ObservableObjectPublisher()
     private let fetchedResultsController: NSFetchedResultsController<Item>
 
     /// Init with `NSFetchedResultsController`
     /// This class does not call `performFetch` on its own.
     /// Call `performFetch()` yourself before this is used.
-    init(fetchedResultsController: NSFetchedResultsController<Item>) {
+    internal init(fetchedResultsController: NSFetchedResultsController<Item>) {
         self.fetchedResultsController = fetchedResultsController
         super.init()
         fetchedResultsController.delegate = self
     }
 
-    public var collection: [Item] {
-        return self.fetchedResultsController.fetchedObjects ?? []
+    internal var collection: [CD_ObjectWrapper<Item>] {
+        let original = self.fetchedResultsController.fetchedObjects ?? []
+        return original.lazy.map { CD_ObjectWrapper<Item>($0) }
     }
 
-    public func controller(_ controller: AnyObject, didChangeContentWith snapshot: AnyObject) {
+    internal func controller(_ controller: AnyObject, didChangeContentWith snapshot: AnyObject) {
         self.objectWillChange.send()
     }
 }
