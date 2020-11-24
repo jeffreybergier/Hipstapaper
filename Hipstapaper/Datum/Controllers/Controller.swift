@@ -27,6 +27,9 @@ import SwiftUI
 
 public protocol Controller {
 
+    static var storeDirectoryURL: URL { get }
+    static var storeExists: Bool { get }
+
     func create(title: String?,
                 originalURL: URL?,
                 resolvedURL: URL?,

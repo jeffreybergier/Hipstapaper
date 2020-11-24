@@ -24,6 +24,41 @@ import SwiftUI
 
 internal class CD_Controller: Controller {
 
+    static let storeDirectoryURL: URL = {
+        return FileManager
+            .default
+            .urls(for: .applicationSupportDirectory, in: .userDomainMask)
+            .first!
+            .appendingPathComponent("Hipstapaper", isDirectory: true)
+            .appendingPathComponent("CoreData", isDirectory: true)
+    }()
+
+    static var storeExists: Bool {
+        return FileManager.default.fileExists(
+            atPath: self.storeDirectoryURL.appendingPathComponent("Store.sqlite").path
+        )
+    }
+
+    let container: NSPersistentContainer
+
+    init(isTesting: Bool) throws {
+        // debug only sanity checks
+        assert(Thread.isMainThread)
+
+        guard let container = CD_Controller.container(isTesting: isTesting)
+            else { throw Error.unknown }
+        let lock = DispatchSemaphore(value: 0)
+        var error: Swift.Error?
+        container.loadPersistentStores() { _, _error in
+            error = _error
+            lock.signal()
+        }
+        lock.wait()
+        guard error == nil else { throw error! }
+        container.viewContext.automaticallyMergesChangesFromParent = true
+        self.container = container
+    }
+
     func create(title: String?, originalURL: URL?, resolvedURL: URL?, thumbnailData: Data?) -> Result<Void, Error> {
         // TODO
         return .failure(.unknown)
@@ -39,4 +74,37 @@ internal class CD_Controller: Controller {
         return .failure(.unknown)
     }
 
+}
+
+extension CD_Controller {
+
+    private class func container(isTesting: Bool) -> NSPersistentContainer? {
+        // debug only sanity checks
+        assert(Thread.isMainThread)
+
+        guard
+            let url = Bundle(for: CD_Controller.self)
+                            .url(forResource: "CD_MOM", withExtension: "momd"),
+            let mom = NSManagedObjectModel(contentsOf: url)
+        else { return nil }
+
+        // when not testing, return normal persistent container
+        guard isTesting else {
+            return Datum_PersistentContainer(name: "Store", managedObjectModel: mom)
+        }
+
+        // when testing make in-memory container
+        let randomName = String(Int.random(in: 100_000...1_000_000))
+        let container = Datum_PersistentContainer(name: randomName, managedObjectModel: mom)
+        let description = NSPersistentStoreDescription()
+        description.type = NSInMemoryStoreType
+        container.persistentStoreDescriptions = [description]
+        return container
+    }
+}
+
+private class Datum_PersistentContainer: NSPersistentContainer {
+    override class func defaultDirectoryURL() -> URL {
+        return CD_Controller.storeDirectoryURL
+    }
 }
