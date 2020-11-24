@@ -19,19 +19,24 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import CoreData
 import SwiftUI
 
-// Read more about FetchedResults type
-// https://developer.apple.com/documentation/swiftui/fetchedresults
-// https://www.raywenderlich.com/9335365-core-data-with-swiftui-tutorial-getting-started
+internal class CD_Controller: Controller {
 
-public protocol Controller {
+    func create(title: String?, originalURL: URL?, resolvedURL: URL?, thumbnailData: Data?) -> Result<Void, Error> {
+        // TODO
+        return .failure(.unknown)
+    }
 
-    func create(title: String?,
-                originalURL: URL?,
-                resolvedURL: URL?,
-                thumbnailData: Data?) -> Result<Void, Error>
-    func readWebsites() -> Result<FetchedResults<Website>, Error>
-    func readTags() -> Result<FetchedResults<Tag>, Error>
+    func readWebsites() -> Result<FetchedResults<Website>, Error> {
+        // TODO
+        return .failure(.unknown)
+    }
+
+    func readTags() -> Result<FetchedResults<Tag>, Error> {
+        // TODO
+        return .failure(.unknown)
+    }
 
 }

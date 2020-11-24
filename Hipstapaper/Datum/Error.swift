@@ -19,19 +19,9 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import SwiftUI
+import Foundation
 
-// Read more about FetchedResults type
-// https://developer.apple.com/documentation/swiftui/fetchedresults
-// https://www.raywenderlich.com/9335365-core-data-with-swiftui-tutorial-getting-started
-
-public protocol Controller {
-
-    func create(title: String?,
-                originalURL: URL?,
-                resolvedURL: URL?,
-                thumbnailData: Data?) -> Result<Void, Error>
-    func readWebsites() -> Result<FetchedResults<Website>, Error>
-    func readTags() -> Result<FetchedResults<Tag>, Error>
-
+// TODO: Conform to NSError Protocols
+public enum Error: Swift.Error {
+    case unknown
 }

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		DB21C1FC256C8DC500DF6AE7 /* CD_Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB21C1FB256C8DC500DF6AE7 /* CD_Tag.swift */; };
 		DB21C203256C8F9100DF6AE7 /* Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB21C202256C8F9100DF6AE7 /* Controller.swift */; };
+		DBAA7730256C999B005126C3 /* CD_Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAA772F256C999B005126C3 /* CD_Controller.swift */; };
+		DBAA7736256C9A17005126C3 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAA7735256C9A17005126C3 /* Error.swift */; };
 		DBDCB358256BE8E700D005F6 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDCB357256BE8E700D005F6 /* Tests_iOS.swift */; };
 		DBDCB363256BE8E800D005F6 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDCB362256BE8E800D005F6 /* Tests_macOS.swift */; };
 		DBDCB365256BE8E800D005F6 /* HipstapaperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDCB33C256BE8E600D005F6 /* HipstapaperApp.swift */; };
@@ -95,6 +97,8 @@
 /* Begin PBXFileReference section */
 		DB21C1FB256C8DC500DF6AE7 /* CD_Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_Tag.swift; sourceTree = "<group>"; };
 		DB21C202256C8F9100DF6AE7 /* Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controller.swift; sourceTree = "<group>"; };
+		DBAA772F256C999B005126C3 /* CD_Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_Controller.swift; sourceTree = "<group>"; };
+		DBAA7735256C9A17005126C3 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		DBDCB33C256BE8E600D005F6 /* HipstapaperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HipstapaperApp.swift; sourceTree = "<group>"; };
 		DBDCB33D256BE8E600D005F6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		DBDCB33E256BE8E700D005F6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -173,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				DB21C202256C8F9100DF6AE7 /* Controller.swift */,
+				DBAA772F256C999B005126C3 /* CD_Controller.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -255,6 +260,7 @@
 			children = (
 				DBDCB384256BEBE700D005F6 /* Datum.h */,
 				DBDCB385256BEBE700D005F6 /* Info.plist */,
+				DBAA7735256C9A17005126C3 /* Error.swift */,
 				DB21C201256C8F6F00DF6AE7 /* Controllers */,
 				DBDCB3F7256C864E00D005F6 /* CD_Models */,
 			);
@@ -553,10 +559,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DBAA7730256C999B005126C3 /* CD_Controller.swift in Sources */,
 				DB21C203256C8F9100DF6AE7 /* Controller.swift in Sources */,
 				DBDCB3BB256BEE3800D005F6 /* CD_MOM.xcdatamodeld in Sources */,
 				DB21C1FC256C8DC500DF6AE7 /* CD_Tag.swift in Sources */,
 				DBDCB3FA256C866200D005F6 /* CD_Base.swift in Sources */,
+				DBAA7736256C9A17005126C3 /* Error.swift in Sources */,
 				DBDCB3FB256C866200D005F6 /* CD_Website.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
