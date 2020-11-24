@@ -21,17 +21,16 @@
 
 import CoreData
 
-public typealias Tag = CD_Tag
-@objc public class CD_Tag: CD_Base {
+@objc internal class CD_Tag: CD_Base {
 
     internal class override var entityName: String { "CD_Tag" }
     internal class var request: NSFetchRequest<CD_Tag> {
         NSFetchRequest<CD_Tag>(entityName: self.entityName)
     }
 
-    @NSManaged public internal(set) var websitesCount: Int32
-    @NSManaged public internal(set) var name: String?
-    @NSManaged public internal(set) var websites: NSSet?
+    @NSManaged internal var websitesCount: Int32
+    @NSManaged internal var name: String?
+    @NSManaged internal var websites: NSSet?
 
     internal override func performPropertyValidation() {
         super.performPropertyValidation()

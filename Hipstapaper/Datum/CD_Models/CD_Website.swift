@@ -21,20 +21,19 @@
 
 import CoreData
 
-public typealias Website = CD_Website
-@objc public class CD_Website: CD_Base {
+@objc internal class CD_Website: CD_Base {
 
     internal class override var entityName: String { "CD_Website" }
     internal class var request: NSFetchRequest<CD_Website> {
         NSFetchRequest<CD_Website>(entityName: self.entityName)
     }
 
-    @NSManaged public internal(set) var isArchived: Bool
-    @NSManaged public internal(set) var originalURL: URL?
-    @NSManaged public internal(set) var resolvedURL: URL?
-    @NSManaged public internal(set) var title: URL?
-    @NSManaged public internal(set) var thumbnail: Data?
-    @NSManaged public internal(set) var tags: NSSet?
+    @NSManaged internal var isArchived: Bool
+    @NSManaged internal var originalURL: URL?
+    @NSManaged internal var resolvedURL: URL?
+    @NSManaged internal var title: URL?
+    @NSManaged internal var thumbnail: Data?
+    @NSManaged internal var tags: NSSet?
 
     internal override func performPropertyValidation() {
         super.performPropertyValidation()

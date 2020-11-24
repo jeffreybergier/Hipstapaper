@@ -22,7 +22,21 @@
 import CoreData
 import SwiftUI
 
-internal class CD_Controller: Controller {
+extension CD_Controller: Controller {
+    func create(title: String?, originalURL: URL?, resolvedURL: URL?, thumbnailData: Data?) -> Result<Void, Error> {
+        return .failure(.unknown)
+    }
+
+    func readWebsites() -> Result<Void, Error> {
+        return .failure(.unknown)
+    }
+
+    func readTags() -> Result<Void, Error> {
+        return .failure(.unknown)
+    }
+}
+
+internal class CD_Controller {
 
     static let storeDirectoryURL: URL = {
         return FileManager
@@ -58,27 +72,6 @@ internal class CD_Controller: Controller {
         container.viewContext.automaticallyMergesChangesFromParent = true
         self.container = container
     }
-
-    func create(title: String?, originalURL: URL?, resolvedURL: URL?, thumbnailData: Data?) -> Result<Void, Error> {
-        // TODO
-        return .failure(.unknown)
-    }
-
-    func readWebsites() -> Result<FetchedResults<Website>, Error> {
-        // TODO
-        let request = FetchRequest<CD_Website>(
-            entity: CD_Website.entity(),
-            sortDescriptors: [.init(keyPath: \CD_Website.dateCreated, ascending: true)]
-        )
-
-        return .failure(.unknown)
-    }
-
-    func readTags() -> Result<FetchedResults<Tag>, Error> {
-        // TODO
-        return .failure(.unknown)
-    }
-
 }
 
 extension CD_Controller {
