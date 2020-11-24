@@ -31,4 +31,10 @@ import CoreData
     @NSManaged internal var websitesCount: Int32
     @NSManaged internal var name: String?
     @NSManaged internal var websites: NSSet?
+
+    internal override func performPropertyValidation() {
+        super.performPropertyValidation()
+
+        // validate name
+    }
 }

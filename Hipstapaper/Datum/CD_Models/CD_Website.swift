@@ -33,4 +33,12 @@ import CoreData
     @NSManaged internal var title: URL?
     @NSManaged internal var thumbnail: Data?
     @NSManaged internal var tags: NSSet?
+
+    internal override func performPropertyValidation() {
+        super.performPropertyValidation()
+
+        // validate title
+
+        // validate thumbnail size
+    }
 }
