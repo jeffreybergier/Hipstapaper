@@ -10,6 +10,7 @@
         <relationship name="websites" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CD_Website" inverseName="tags" inverseEntity="CD_Website"/>
     </entity>
     <entity name="CD_Website" representedClassName="CD_Website" parentEntity="CD_Base" syncable="YES">
+        <attribute name="isArchived" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="originalURL" optional="YES" attributeType="URI"/>
         <attribute name="resolvedURL" optional="YES" attributeType="URI"/>
         <attribute name="thumbnail" optional="YES" attributeType="Binary"/>
@@ -19,6 +20,6 @@
     <elements>
         <element name="CD_Base" positionX="-192.15234375" positionY="-218.01953125" width="128" height="73"/>
         <element name="CD_Tag" positionX="-36" positionY="45" width="128" height="88"/>
-        <element name="CD_Website" positionX="-334.19921875" positionY="52.45703125" width="128" height="118"/>
+        <element name="CD_Website" positionX="-334.19921875" positionY="52.45703125" width="128" height="133"/>
     </elements>
 </model>

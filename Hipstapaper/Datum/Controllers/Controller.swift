@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/23.
+//  Created by Jeffrey Bergier on 2020/11/24.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -20,26 +20,18 @@
 //
 
 import CoreData
+import SwiftUI
 
-@objc internal class CD_Website: CD_Base {
+// Read more about FetchedResults type
+// https://developer.apple.com/documentation/swiftui/fetchedresults
+// https://www.raywenderlich.com/9335365-core-data-with-swiftui-tutorial-getting-started
 
-    internal class override var entityName: String { "CD_Website" }
-    internal class var request: NSFetchRequest<CD_Website> {
-        NSFetchRequest<CD_Website>(entityName: self.entityName)
-    }
+internal protocol Controller {
 
-    @NSManaged internal var isArchived: Bool
-    @NSManaged internal var originalURL: URL?
-    @NSManaged internal var resolvedURL: URL?
-    @NSManaged internal var title: URL?
-    @NSManaged internal var thumbnail: Data?
-    @NSManaged internal var tags: NSSet?
+    func create(title: String?,
+                originalURL: URL?,
+                resolvedURL: URL?,
+                thumbnailData: Data?) -> Result<Void, Error>
+    func read() -> FetchedResults<CD_Website>
 
-    internal override func performPropertyValidation() {
-        super.performPropertyValidation()
-
-        // validate title
-
-        // validate thumbnail size
-    }
 }
