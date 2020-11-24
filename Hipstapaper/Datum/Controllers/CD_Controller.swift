@@ -66,6 +66,11 @@ internal class CD_Controller: Controller {
 
     func readWebsites() -> Result<FetchedResults<Website>, Error> {
         // TODO
+        let request = FetchRequest<CD_Website>(
+            entity: CD_Website.entity(),
+            sortDescriptors: [.init(keyPath: \CD_Website.dateCreated, ascending: true)]
+        )
+
         return .failure(.unknown)
     }
 
