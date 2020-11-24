@@ -21,7 +21,7 @@
 
 import CoreData
 
-@objc internal class CD_Base: NSManagedObject {
+@objc public class CD_Base: NSManagedObject {
 
     /// Template for fetch request in subclasses
     internal class var entityName: String { "CD_Base" }
@@ -29,10 +29,10 @@ import CoreData
         NSFetchRequest<CD_Base>(entityName: self.entityName)
     }
 
-    @NSManaged internal var dateCreated: Date
-    @NSManaged internal var dateModified: Date
+    @NSManaged public internal(set) var dateCreated: Date
+    @NSManaged public internal(set) var dateModified: Date
 
-    override internal func awakeFromInsert() {
+    override public func awakeFromInsert() {
         super.awakeFromInsert()
         let date = Date()
         self.dateModified = date

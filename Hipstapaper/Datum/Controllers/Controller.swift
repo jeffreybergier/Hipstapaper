@@ -26,12 +26,13 @@ import SwiftUI
 // https://developer.apple.com/documentation/swiftui/fetchedresults
 // https://www.raywenderlich.com/9335365-core-data-with-swiftui-tutorial-getting-started
 
-internal protocol Controller {
+public protocol Controller {
 
     func create(title: String?,
                 originalURL: URL?,
                 resolvedURL: URL?,
                 thumbnailData: Data?) -> Result<Void, Error>
-    func read() -> FetchedResults<CD_Website>
+    func readWebsites() -> FetchedResults<Website>
+    func readTags() -> FetchedResults<Tag>
 
 }
