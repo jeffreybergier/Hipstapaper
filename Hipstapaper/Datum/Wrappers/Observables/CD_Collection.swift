@@ -28,23 +28,31 @@ internal class CD_Collection<
 >: NSObject, Collection, NSFetchedResultsControllerDelegate
 {
 
-    internal let objectWillChange = ObservableObjectPublisher()
-    private let fetchedResultsController: NSFetchedResultsController<Input>
+    public typealias Index = Int
+    public typealias Element = Output
+
+    private let frc: NSFetchedResultsController<Input>
+    private let transform: (Input) -> Output
 
     /// Init with `NSFetchedResultsController`
     /// This class does not call `performFetch` on its own.
     /// Call `performFetch()` yourself before this is used.
-    internal init(fetchedResultsController: NSFetchedResultsController<Input>) {
-        self.fetchedResultsController = fetchedResultsController
+    internal init(_ frc: NSFetchedResultsController<Input>, _ transform: @escaping (Input) -> Output) {
+        self.frc = frc
+        self.transform = transform
         super.init()
-        fetchedResultsController.delegate = self
+        frc.delegate = self
     }
 
-    internal var data: [Output] {
-        return []
-    }
+    // MARK: Swift.Collection Boilerplate
+    public var startIndex: Index { self.frc.fetchedObjects?.startIndex ?? 0 }
+    public var endIndex: Index { self.frc.fetchedObjects?.endIndex ?? 0 }
+    public subscript(index: Index) -> Iterator.Element { transform(frc.fetchedObjects![index]) }
+    public func index(after index: Index) -> Index { frc.fetchedObjects?.index(after: index) ?? 0 }
 
+    // MARK: NSFetchedResultsControllerDelegate
     internal func controller(_ controller: AnyObject, didChangeContentWith snapshot: AnyObject) {
         self.objectWillChange.send()
     }
+
 }

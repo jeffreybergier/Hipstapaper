@@ -21,7 +21,6 @@
 
 import Combine
 
-public protocol Collection: ObservableObject {
+public protocol Collection: Swift.Collection, ObservableObject {
     associatedtype Element
-    var data: [Element] { get }
 }

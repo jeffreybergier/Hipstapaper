@@ -23,14 +23,31 @@ import Combine
 
 public class AnyCollection<Element>: Collection {
 
-    private let _data: () -> [Element]
+    public typealias Index = Int
+    public typealias Element = Element
 
-    init<T: Collection>(_ collection: T) where T.Element == Element {
-        _data = { collection.data }
+    private let _startIndex: () -> Index
+    private let _endIndex: () -> Index
+    private let _subscript: (Index) -> Element
+    private let _indexAfter: (Index) -> Index
+
+    init<T: Collection>(_ collection: T)
+    where T.Element == Element,
+          T.Index == Int,
+          T.ObjectWillChangePublisher == ObservableObjectPublisher
+    {
+        _startIndex = { collection.startIndex }
+        _endIndex = { collection.endIndex }
+        _subscript = { collection[$0] }
+        _indexAfter = { collection.index(after: $0) }
+        // TODO: Doublecheck if this works
+        self.objectWillChange.combineLatest(collection.objectWillChange)
     }
 
-    public var data: [Element] {
-        return _data()
-    }
+    // MARK: Swift.Collection Boilerplate
+    public var startIndex: Index { _startIndex() }
+    public var endIndex: Index { _endIndex() }
+    public subscript(index: Index) -> Element { _subscript(index) }
+    public func index(after index: Index) -> Index { _indexAfter(index) }
 
 }
