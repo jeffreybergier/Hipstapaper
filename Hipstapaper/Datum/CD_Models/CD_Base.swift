@@ -29,8 +29,8 @@ import CoreData
         NSFetchRequest<CD_Base>(entityName: self.entityName)
     }
 
-    @NSManaged internal(set) var dateCreated: Date
-    @NSManaged internal(set) var dateModified: Date
+    @NSManaged internal var dateCreated: Date
+    @NSManaged internal var dateModified: Date
 
     override internal func awakeFromInsert() {
         super.awakeFromInsert()
