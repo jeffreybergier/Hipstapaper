@@ -31,7 +31,7 @@ extension CD_Controller: Controller {
         return .failure(.unknown)
     }
 
-    func readTags() -> Result<Void, Error> {
+    func readTags() -> Result<AnyCollection<Tag>, Error> {
         return .failure(.unknown)
     }
 }

@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/24.
+//  Created by Jeffrey Bergier on 2020/11/25.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,14 +19,18 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import CoreData
+import Combine
 
-internal struct CD_ObjectWrapper<Item: NSManagedObject> {
+public class AnyCollection<Element>: Collection {
 
-    internal let item: Item
+    private let _data: () -> [Element]
 
-    internal init(_ item: Item) {
-        self.item = item
+    init<T: Collection>(_ collection: T) where T.Element == Element {
+        _data = { collection.data }
+    }
+
+    public var data: [Element] {
+        return _data()
     }
 
 }

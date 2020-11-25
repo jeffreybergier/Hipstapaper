@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5031AF03256E894F00AC98AA /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5031AF02256E894F00AC98AA /* Tag.swift */; };
+		5031AF0E256E8AE100AC98AA /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5031AF0D256E8AE100AC98AA /* Collection.swift */; };
+		5031AF24256E8DEC00AC98AA /* AnyCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5031AF23256E8DEC00AC98AA /* AnyCollection.swift */; };
 		DB21C1FC256C8DC500DF6AE7 /* CD_Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB21C1FB256C8DC500DF6AE7 /* CD_Tag.swift */; };
 		DB21C203256C8F9100DF6AE7 /* Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB21C202256C8F9100DF6AE7 /* Controller.swift */; };
-		DBA1993E256D452C00383EB1 /* CD_ObservableCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA1993D256D452C00383EB1 /* CD_ObservableCollection.swift */; };
-		DBA19948256D4A2300383EB1 /* CD_ObjectWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA19947256D4A2300383EB1 /* CD_ObjectWrapper.swift */; };
+		DBA1993E256D452C00383EB1 /* CD_Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA1993D256D452C00383EB1 /* CD_Collection.swift */; };
 		DBAA7730256C999B005126C3 /* CD_Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAA772F256C999B005126C3 /* CD_Controller.swift */; };
 		DBAA7736256C9A17005126C3 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAA7735256C9A17005126C3 /* Error.swift */; };
 		DBDCB358256BE8E700D005F6 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDCB357256BE8E700D005F6 /* Tests_iOS.swift */; };
@@ -97,10 +99,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5031AF02256E894F00AC98AA /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		5031AF0D256E8AE100AC98AA /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
+		5031AF23256E8DEC00AC98AA /* AnyCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyCollection.swift; sourceTree = "<group>"; };
 		DB21C1FB256C8DC500DF6AE7 /* CD_Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_Tag.swift; sourceTree = "<group>"; };
 		DB21C202256C8F9100DF6AE7 /* Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controller.swift; sourceTree = "<group>"; };
-		DBA1993D256D452C00383EB1 /* CD_ObservableCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_ObservableCollection.swift; sourceTree = "<group>"; };
-		DBA19947256D4A2300383EB1 /* CD_ObjectWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_ObjectWrapper.swift; sourceTree = "<group>"; };
+		DBA1993D256D452C00383EB1 /* CD_Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_Collection.swift; sourceTree = "<group>"; };
 		DBAA772F256C999B005126C3 /* CD_Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_Controller.swift; sourceTree = "<group>"; };
 		DBAA7735256C9A17005126C3 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		DBDCB33C256BE8E600D005F6 /* HipstapaperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HipstapaperApp.swift; sourceTree = "<group>"; };
@@ -177,6 +181,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5031AF01256E893B00AC98AA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5031AF02256E894F00AC98AA /* Tag.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		5031AF0C256E8AC000AC98AA /* Observables */ = {
+			isa = PBXGroup;
+			children = (
+				5031AF0D256E8AE100AC98AA /* Collection.swift */,
+				5031AF23256E8DEC00AC98AA /* AnyCollection.swift */,
+				DBA1993D256D452C00383EB1 /* CD_Collection.swift */,
+			);
+			path = Observables;
+			sourceTree = "<group>";
+		};
 		DB21C201256C8F6F00DF6AE7 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -189,8 +211,8 @@
 		DBA1993C256D446E00383EB1 /* Wrappers */ = {
 			isa = PBXGroup;
 			children = (
-				DBA19947256D4A2300383EB1 /* CD_ObjectWrapper.swift */,
-				DBA1993D256D452C00383EB1 /* CD_ObservableCollection.swift */,
+				5031AF0C256E8AC000AC98AA /* Observables */,
+				5031AF01256E893B00AC98AA /* Models */,
 			);
 			path = Wrappers;
 			sourceTree = "<group>";
@@ -274,8 +296,8 @@
 				DBDCB384256BEBE700D005F6 /* Datum.h */,
 				DBDCB385256BEBE700D005F6 /* Info.plist */,
 				DBAA7735256C9A17005126C3 /* Error.swift */,
-				DBA1993C256D446E00383EB1 /* Wrappers */,
 				DB21C201256C8F6F00DF6AE7 /* Controllers */,
+				DBA1993C256D446E00383EB1 /* Wrappers */,
 				DBDCB3F7256C864E00D005F6 /* CD_Models */,
 			);
 			path = Datum;
@@ -574,13 +596,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				DBAA7730256C999B005126C3 /* CD_Controller.swift in Sources */,
-				DBA19948256D4A2300383EB1 /* CD_ObjectWrapper.swift in Sources */,
+				5031AF03256E894F00AC98AA /* Tag.swift in Sources */,
+				5031AF24256E8DEC00AC98AA /* AnyCollection.swift in Sources */,
 				DB21C203256C8F9100DF6AE7 /* Controller.swift in Sources */,
 				DBDCB3BB256BEE3800D005F6 /* CD_MOM.xcdatamodeld in Sources */,
 				DB21C1FC256C8DC500DF6AE7 /* CD_Tag.swift in Sources */,
 				DBDCB3FA256C866200D005F6 /* CD_Base.swift in Sources */,
+				5031AF0E256E8AE100AC98AA /* Collection.swift in Sources */,
 				DBAA7736256C9A17005126C3 /* Error.swift in Sources */,
-				DBA1993E256D452C00383EB1 /* CD_ObservableCollection.swift in Sources */,
+				DBA1993E256D452C00383EB1 /* CD_Collection.swift in Sources */,
 				DBDCB3FB256C866200D005F6 /* CD_Website.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

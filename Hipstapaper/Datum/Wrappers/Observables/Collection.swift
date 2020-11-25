@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/24.
+//  Created by Jeffrey Bergier on 2020/11/25.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,20 +19,9 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-// Read more about FetchedResults type
-// https://developer.apple.com/documentation/swiftui/fetchedresults
-// https://www.raywenderlich.com/9335365-core-data-with-swiftui-tutorial-getting-started
+import Combine
 
-public protocol Controller {
-
-    static var storeDirectoryURL: URL { get }
-    static var storeExists: Bool { get }
-
-    func create(title: String?,
-                originalURL: URL?,
-                resolvedURL: URL?,
-                thumbnailData: Data?) -> Result<Void, Error>
-    func readWebsites() -> Result<Void, Error>
-    func readTags() -> Result<AnyCollection<Tag>, Error>
-
+public protocol Collection: ObservableObject {
+    associatedtype Element
+    var data: [Element] { get }
 }
