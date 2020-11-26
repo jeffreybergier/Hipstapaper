@@ -24,7 +24,7 @@
 		DBDCB369256BE8E800D005F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBDCB33E256BE8E700D005F6 /* Assets.xcassets */; };
 		DBDCB36A256BE8E800D005F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBDCB33E256BE8E700D005F6 /* Assets.xcassets */; };
 		DBDCB38B256BEBE700D005F6 /* Datum.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBDCB382256BEBE700D005F6 /* Datum.framework */; };
-		DBDCB390256BEBE700D005F6 /* DatumTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDCB38F256BEBE700D005F6 /* DatumTests.swift */; };
+		DBDCB390256BEBE700D005F6 /* ParentTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDCB38F256BEBE700D005F6 /* ParentTestCase.swift */; };
 		DBDCB392256BEBE800D005F6 /* Datum.h in Headers */ = {isa = PBXBuildFile; fileRef = DBDCB384256BEBE700D005F6 /* Datum.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DBDCB3A6256BEC5B00D005F6 /* Datum.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBDCB382256BEBE700D005F6 /* Datum.framework */; };
 		DBDCB3A7256BEC5B00D005F6 /* Datum.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DBDCB382256BEBE700D005F6 /* Datum.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -36,6 +36,7 @@
 		DBFE5D16256F463C00A23555 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFE5D15256F463C00A23555 /* Element.swift */; };
 		DBFE5D20256F46DD00A23555 /* AnyElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFE5D1F256F46DD00A23555 /* AnyElement.swift */; };
 		DBFE5D26256F47EB00A23555 /* CD_Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFE5D25256F47EB00A23555 /* CD_Element.swift */; };
+		DBFE5D2C256F567C00A23555 /* AsyncTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFE5D2B256F567C00A23555 /* AsyncTestCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -128,7 +129,7 @@
 		DBDCB384256BEBE700D005F6 /* Datum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Datum.h; sourceTree = "<group>"; };
 		DBDCB385256BEBE700D005F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DBDCB38A256BEBE700D005F6 /* DatumTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DatumTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DBDCB38F256BEBE700D005F6 /* DatumTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatumTests.swift; sourceTree = "<group>"; };
+		DBDCB38F256BEBE700D005F6 /* ParentTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentTestCase.swift; sourceTree = "<group>"; };
 		DBDCB391256BEBE700D005F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DBDCB3BA256BEE3800D005F6 /* CD_MOM.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CD_MOM.xcdatamodel; sourceTree = "<group>"; };
 		DBDCB3F8256C866200D005F6 /* CD_Base.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CD_Base.swift; sourceTree = "<group>"; };
@@ -136,6 +137,7 @@
 		DBFE5D15256F463C00A23555 /* Element.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
 		DBFE5D1F256F46DD00A23555 /* AnyElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyElement.swift; sourceTree = "<group>"; };
 		DBFE5D25256F47EB00A23555 /* CD_Element.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_Element.swift; sourceTree = "<group>"; };
+		DBFE5D2B256F567C00A23555 /* AsyncTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncTestCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -315,7 +317,8 @@
 		DBDCB38E256BEBE700D005F6 /* DatumTests */ = {
 			isa = PBXGroup;
 			children = (
-				DBDCB38F256BEBE700D005F6 /* DatumTests.swift */,
+				DBFE5D2B256F567C00A23555 /* AsyncTestCase.swift */,
+				DBDCB38F256BEBE700D005F6 /* ParentTestCase.swift */,
 				DBDCB391256BEBE700D005F6 /* Info.plist */,
 			);
 			path = DatumTests;
@@ -625,7 +628,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DBDCB390256BEBE700D005F6 /* DatumTests.swift in Sources */,
+				DBFE5D2C256F567C00A23555 /* AsyncTestCase.swift in Sources */,
+				DBDCB390256BEBE700D005F6 /* ParentTestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

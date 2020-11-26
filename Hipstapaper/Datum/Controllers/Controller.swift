@@ -23,6 +23,12 @@
 // https://developer.apple.com/documentation/swiftui/fetchedresults
 // https://www.raywenderlich.com/9335365-core-data-with-swiftui-tutorial-getting-started
 
+extension Controller {
+    public func new(isTesting: Bool = false) throws -> Controller {
+        return try CD_Controller(isTesting: isTesting)
+    }
+}
+
 public protocol Controller {
 
     static var storeDirectoryURL: URL { get }
