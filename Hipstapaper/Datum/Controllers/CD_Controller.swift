@@ -58,6 +58,17 @@ extension CD_Controller: Controller {
             return .failure(.unknown)
         }
     }
+
+    func update(tag: AnyElement<Tag>, name: PropertyUpdate<String?>) -> Result<Void, Error> {
+        assert(Thread.isMainThread)
+        guard let tag = tag.value as? CD_Tag else { return .failure(.unknown) }
+        let context = self.container.viewContext
+        if case .some(let newName) = name {
+            tag.name = newName
+        }
+        // TODO: Check if there were actual changes
+        return context.datum_save()
+    }
 }
 
 internal class CD_Controller {

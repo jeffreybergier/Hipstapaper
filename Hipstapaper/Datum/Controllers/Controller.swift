@@ -27,18 +27,26 @@ public func ControllerNew(isTesting: Bool = false) throws -> Controller {
     return try CD_Controller(isTesting: isTesting)
 }
 
+public enum PropertyUpdate<T> {
+    case none
+    case some(T)
+}
 
 public protocol Controller {
 
     static var storeDirectoryURL: URL { get }
     static var storeExists: Bool { get }
 
+    // MARK: Websites CRUD
     func createWebsite(title: String?,
                        originalURL: URL?,
                        resolvedURL: URL?,
                        thumbnailData: Data?) -> Result<Void, Error>
-    func createTag(name: String?) -> Result<Void, Error>
     func readWebsites() -> Result<Void, Error>
+
+    // MARK: Tags CRUD
+    func createTag(name: String?) -> Result<Void, Error>
     func readTags() -> Result<AnyCollection<AnyElement<Tag>>, Error>
+    func update(tag: AnyElement<Tag>, name: PropertyUpdate<String?>) -> Result<Void, Error>
 
 }

@@ -36,7 +36,9 @@ class TagCollectionTests: ParentTestCase {
         try self.controller.createTag(name: nil).get()
     }
 
-    func test_collection_load() throws {
+    // MARK: Read
+
+    func test_collection_read() throws {
         let tags = try self.controller.readTags().get()
         XCTAssertEqual(tags.count, 4)
         XCTAssertEqual(tags[0].value.name, nil)
@@ -45,14 +47,16 @@ class TagCollectionTests: ParentTestCase {
         XCTAssertEqual(tags[3].value.name, "C")
     }
 
-    func test_collection_update() throws {
+    // MARK: Create
+
+    func test_collection_create() throws {
         let tags = try self.controller.readTags().get()
         XCTAssertEqual(tags.count, 4)
         try self.controller.createTag(name: "New").get()
         XCTAssertEqual(tags.count, 5)
     }
 
-    func test_collection_update_observation() throws {
+    func test_collection_create_observation() throws {
         let tags = try self.controller.readTags().get()
         XCTAssertEqual(tags.count, 4)
         self.do(after: .short) {
@@ -65,6 +69,46 @@ class TagCollectionTests: ParentTestCase {
         let wait = self.newWait()
         self.token = tags.objectWillChange.sink() {
             wait() { XCTAssertEqual(tags.count, 5) }
+        }
+        self.wait(for: .long)
+    }
+
+    // MARK: Update
+
+    func test_collection_update() throws {
+        let tags = try self.controller.readTags().get()
+        XCTAssertEqual(tags[0].value.name, nil)
+        XCTAssertEqual(tags[1].value.name, "A")
+        XCTAssertEqual(tags[2].value.name, "B")
+        XCTAssertEqual(tags[3].value.name, "C")
+        try self.controller.update(tag: tags[2], name: .some("Z")).get()
+        XCTAssertEqual(tags[0].value.name, nil)
+        XCTAssertEqual(tags[1].value.name, "A")
+        XCTAssertEqual(tags[2].value.name, "C")
+        XCTAssertEqual(tags[3].value.name, "Z")
+    }
+
+    func test_collection_update_observation() throws {
+        let tags = try self.controller.readTags().get()
+        XCTAssertEqual(tags[0].value.name, nil)
+        XCTAssertEqual(tags[1].value.name, "A")
+        XCTAssertEqual(tags[2].value.name, "B")
+        XCTAssertEqual(tags[3].value.name, "C")
+        self.do(after: .short) {
+            do {
+                try self.controller.update(tag: tags[2], name: .some("Z")).get()
+            } catch {
+                XCTFail(String(describing: error))
+            }
+        }
+        let wait = self.newWait()
+        self.token = tags.objectWillChange.sink() {
+            wait() {
+                XCTAssertEqual(tags[0].value.name, nil)
+                XCTAssertEqual(tags[1].value.name, "A")
+                XCTAssertEqual(tags[2].value.name, "C")
+                XCTAssertEqual(tags[3].value.name, "Z")
+            }
         }
         self.wait(for: .long)
     }
