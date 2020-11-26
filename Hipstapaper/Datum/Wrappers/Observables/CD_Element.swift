@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/24.
+//  Created by Jeffrey Bergier on 2020/11/26.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,20 +19,19 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-// Read more about FetchedResults type
-// https://developer.apple.com/documentation/swiftui/fetchedresults
-// https://www.raywenderlich.com/9335365-core-data-with-swiftui-tutorial-getting-started
+import CoreData
 
-public protocol Controller {
+internal class CD_Element<Output, Input: NSManagedObject>: Element {
 
-    static var storeDirectoryURL: URL { get }
-    static var storeExists: Bool { get }
+    internal var item: Output { fatalError() }
+    private let _item: Input
+    private let transform: (Input) -> Output
 
-    func create(title: String?,
-                originalURL: URL?,
-                resolvedURL: URL?,
-                thumbnailData: Data?) -> Result<Void, Error>
-    func readWebsites() -> Result<Void, Error>
-    func readTags() -> Result<AnyCollection<AnyElement<Tag>>, Error>
+    internal init(_ input: Input, _ transform: @escaping (Input) -> Output) {
+        self._item = input
+        self.transform = transform
+        // TODO: Doublecheck if this works
+        self.objectWillChange.combineLatest(input.objectWillChange)
+    }
 
 }

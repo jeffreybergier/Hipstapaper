@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/24.
+//  Created by Jeffrey Bergier on 2020/11/26.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,20 +19,19 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-// Read more about FetchedResults type
-// https://developer.apple.com/documentation/swiftui/fetchedresults
-// https://www.raywenderlich.com/9335365-core-data-with-swiftui-tutorial-getting-started
+import Combine
 
-public protocol Controller {
-
-    static var storeDirectoryURL: URL { get }
-    static var storeExists: Bool { get }
-
-    func create(title: String?,
-                originalURL: URL?,
-                resolvedURL: URL?,
-                thumbnailData: Data?) -> Result<Void, Error>
-    func readWebsites() -> Result<Void, Error>
-    func readTags() -> Result<AnyCollection<AnyElement<Tag>>, Error>
-
+public class AnyElement<Item>: Element {
+    
+    private var _item: () -> Item
+    public var item: Item { _item() }
+    
+    public init<T: Element>(_ element: T)
+    where T.Item == Item,
+          T.ObjectWillChangePublisher == ObservableObjectPublisher
+    {
+        _item = { element.item }
+        // TODO: Doublecheck if this works
+        self.objectWillChange.combineLatest(element.objectWillChange)
+    }
 }
