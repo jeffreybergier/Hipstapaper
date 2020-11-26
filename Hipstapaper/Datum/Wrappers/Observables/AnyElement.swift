@@ -36,3 +36,8 @@ public class AnyElement<Value>: Element {
         self.objectWillChange = element.objectWillChange
     }
 }
+
+extension AnyElement: Identifiable where Value: Identifiable {
+    public typealias ID = Value.ID
+    public var id: Value.ID { _value().id }
+}
