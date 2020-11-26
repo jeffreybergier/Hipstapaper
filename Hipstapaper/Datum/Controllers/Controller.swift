@@ -33,10 +33,11 @@ public protocol Controller {
     static var storeDirectoryURL: URL { get }
     static var storeExists: Bool { get }
 
-    func create(title: String?,
-                originalURL: URL?,
-                resolvedURL: URL?,
-                thumbnailData: Data?) -> Result<Void, Error>
+    func createWebsite(title: String?,
+                       originalURL: URL?,
+                       resolvedURL: URL?,
+                       thumbnailData: Data?) -> Result<Void, Error>
+    func createTag(name: String?) -> Result<Void, Error>
     func readWebsites() -> Result<Void, Error>
     func readTags() -> Result<AnyCollection<AnyElement<Tag>>, Error>
 

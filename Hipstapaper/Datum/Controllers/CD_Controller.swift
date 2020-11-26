@@ -23,8 +23,17 @@ import CoreData
 import SwiftUI
 
 extension CD_Controller: Controller {
-    func create(title: String?, originalURL: URL?, resolvedURL: URL?, thumbnailData: Data?) -> Result<Void, Error> {
+
+    func createWebsite(title: String?, originalURL: URL?, resolvedURL: URL?, thumbnailData: Data?) -> Result<Void, Error> {
         return .failure(.unknown)
+    }
+
+    func createTag(name: String?) -> Result<Void, Error> {
+        assert(Thread.isMainThread)
+        let context = self.container.viewContext
+        let tag = CD_Tag(context: context)
+        tag.name = name
+        return context.datum_save()
     }
 
     func readWebsites() -> Result<Void, Error> {
@@ -34,7 +43,11 @@ extension CD_Controller: Controller {
     func readTags() -> Result<AnyCollection<AnyElement<Tag>>, Error> {
         assert(Thread.isMainThread)
         let context = self.container.viewContext
-        let controller = NSFetchedResultsController(fetchRequest: CD_Tag.request,
+        let request = CD_Tag.request
+        request.sortDescriptors = [
+            .init(key: #keyPath(CD_Tag.name), ascending: true)
+        ]
+        let controller = NSFetchedResultsController(fetchRequest: request,
                                                     managedObjectContext: context,
                                                     sectionNameKeyPath: nil,
                                                     cacheName: nil)
@@ -115,5 +128,17 @@ extension CD_Controller {
 private class Datum_PersistentContainer: NSPersistentContainer {
     override class func defaultDirectoryURL() -> URL {
         return CD_Controller.storeDirectoryURL
+    }
+}
+
+extension NSManagedObjectContext {
+    fileprivate func datum_save() -> Result<Void, Error> {
+        do {
+            try self.save()
+            return .success(())
+        } catch {
+            self.rollback()
+            return .failure(.unknown)
+        }
     }
 }

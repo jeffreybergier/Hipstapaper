@@ -23,7 +23,7 @@ import CoreData
 
 internal class CD_Element<Output, Input: NSManagedObject>: Element {
 
-    internal var item: Output { fatalError() }
+    internal var item: Output { transform(_item) }
     private let _item: Input
     private let transform: (Input) -> Output
 

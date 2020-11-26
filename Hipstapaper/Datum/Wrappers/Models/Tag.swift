@@ -20,7 +20,7 @@
 //
 
 public protocol Tag {
-    var websitesCount: Int32 { get }
+    // var websitesCount: Int { get }
     var name: String? { get }
 }
 

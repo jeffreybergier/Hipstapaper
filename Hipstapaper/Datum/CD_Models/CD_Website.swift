@@ -21,7 +21,7 @@
 
 import CoreData
 
-@objc internal class CD_Website: CD_Base {
+@objc(CD_Website) internal class CD_Website: CD_Base {
 
     internal class override var entityName: String { "CD_Website" }
     internal class var request: NSFetchRequest<CD_Website> {

@@ -21,7 +21,7 @@
 
 import CoreData
 
-@objc internal class CD_Base: NSManagedObject {
+@objc(CD_Base) internal class CD_Base: NSManagedObject {
 
     /// Template for fetch request in subclasses
     internal class var entityName: String { "CD_Base" }

@@ -21,14 +21,15 @@
 
 import CoreData
 
-@objc internal class CD_Tag: CD_Base {
+@objc(CD_Tag) internal class CD_Tag: CD_Base {
 
     internal class override var entityName: String { "CD_Tag" }
     internal class var request: NSFetchRequest<CD_Tag> {
         NSFetchRequest<CD_Tag>(entityName: self.entityName)
     }
 
-    @NSManaged internal var websitesCount: Int32
+    // TODO: Fix this
+    // @NSManaged internal var websitesCount: Int
     @NSManaged internal var name: String?
     @NSManaged internal var websites: NSSet?
 

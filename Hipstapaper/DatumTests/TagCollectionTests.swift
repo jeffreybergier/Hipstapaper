@@ -24,9 +24,22 @@ import Datum
 
 class TagCollectionTests: ParentTestCase {
 
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+
+        try self.controller.createTag(name: "B").get()
+        try self.controller.createTag(name: "A").get()
+        try self.controller.createTag(name: "C").get()
+        try self.controller.createTag(name: nil).get()
+    }
+
     func test_collection_load() throws {
         let tags = try self.controller.readTags().get()
-        XCTAssertEqual(tags.count, 0)
+        XCTAssertEqual(tags.count, 4)
+        XCTAssertEqual(tags[0].item.name, nil)
+        XCTAssertEqual(tags[1].item.name, "A")
+        XCTAssertEqual(tags[2].item.name, "B")
+        XCTAssertEqual(tags[3].item.name, "C")
     }
 
 }
