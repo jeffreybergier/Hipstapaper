@@ -31,7 +31,7 @@ public class AnyCollection<Element>: Collection {
     private let _subscript: (Index) -> Element
     private let _indexAfter: (Index) -> Index
 
-    init<T: Collection>(_ collection: T)
+    public init<T: Collection>(_ collection: T)
     where T.Element == Element,
           T.Index == Int,
           T.ObjectWillChangePublisher == ObservableObjectPublisher
