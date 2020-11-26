@@ -37,6 +37,7 @@
 		DBFE5D20256F46DD00A23555 /* AnyElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFE5D1F256F46DD00A23555 /* AnyElement.swift */; };
 		DBFE5D26256F47EB00A23555 /* CD_Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFE5D25256F47EB00A23555 /* CD_Element.swift */; };
 		DBFE5D2C256F567C00A23555 /* AsyncTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFE5D2B256F567C00A23555 /* AsyncTestCase.swift */; };
+		DBFE5D3A256F583200A23555 /* TagCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFE5D39256F583200A23555 /* TagCollectionTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,6 +139,7 @@
 		DBFE5D1F256F46DD00A23555 /* AnyElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyElement.swift; sourceTree = "<group>"; };
 		DBFE5D25256F47EB00A23555 /* CD_Element.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_Element.swift; sourceTree = "<group>"; };
 		DBFE5D2B256F567C00A23555 /* AsyncTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncTestCase.swift; sourceTree = "<group>"; };
+		DBFE5D39256F583200A23555 /* TagCollectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -319,6 +321,7 @@
 			children = (
 				DBFE5D2B256F567C00A23555 /* AsyncTestCase.swift */,
 				DBDCB38F256BEBE700D005F6 /* ParentTestCase.swift */,
+				DBFE5D39256F583200A23555 /* TagCollectionTests.swift */,
 				DBDCB391256BEBE700D005F6 /* Info.plist */,
 			);
 			path = DatumTests;
@@ -629,6 +632,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DBFE5D2C256F567C00A23555 /* AsyncTestCase.swift in Sources */,
+				DBFE5D3A256F583200A23555 /* TagCollectionTests.swift in Sources */,
 				DBDCB390256BEBE700D005F6 /* ParentTestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -963,12 +967,13 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Datum/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.Datum;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
@@ -994,12 +999,13 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Datum/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.Datum;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
@@ -1018,18 +1024,23 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DRIVERKIT_DEPLOYMENT_TARGET = 19.0;
 				INFOPLIST_FILE = DatumTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.DatumTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos appletvos macosx appletvsimulator watchos watchsimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 13.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Debug;
 		};
@@ -1038,19 +1049,24 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DRIVERKIT_DEPLOYMENT_TARGET = 19.0;
 				INFOPLIST_FILE = DatumTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.DatumTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos appletvos macosx appletvsimulator watchos watchsimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 13.0;
 				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Release;
 		};

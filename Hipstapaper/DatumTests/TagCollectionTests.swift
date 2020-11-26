@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/23.
+//  Created by Jeffrey Bergier on 2020/11/26.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,20 +19,14 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import XCTest
 import Datum
 
-class ParentTestCase: AsyncDeprecateTestCase {
+class TagCollectionTests: ParentTestCase {
 
-    var controller: Datum.Controller!
-
-    override func setUpWithError() throws {
-        try super.setUpWithError()
-        self.controller = try ControllerNew(isTesting: true)
-    }
-
-    override func tearDownWithError() throws {
-        self.controller = nil
-        try super.tearDownWithError()
+    func test_collection_load() throws {
+        let tags = try self.controller.readTags().get()
+        XCTAssertEqual(tags.count, 0)
     }
 
 }
