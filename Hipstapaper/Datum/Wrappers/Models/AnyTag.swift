@@ -21,7 +21,24 @@
 
 import Combine
 
-public protocol Element: ObservableObject, Identifiable {
-    associatedtype Value
-    var value: Value { get }
+public struct AnyTag: Tag {
+
+    public typealias ID = ObjectIdentifier
+
+    public var id: ID { _id() }
+    public var name: String? { _name() }
+    public var websitesCount: Int { _websitesCount() }
+
+    private var _id: () -> ID
+    private var _name: () -> String?
+    private var _websitesCount: () -> Int
+
+    internal let wrappedValue: Any
+
+    internal init<T: Tag>(_ tag: T) where T.ID == ID {
+        _id = { tag.id }
+        _name = { tag.name }
+        _websitesCount = { tag.websitesCount }
+        wrappedValue = tag
+    }
 }

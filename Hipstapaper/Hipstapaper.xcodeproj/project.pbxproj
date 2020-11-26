@@ -10,6 +10,9 @@
 		5031AF03256E894F00AC98AA /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5031AF02256E894F00AC98AA /* Tag.swift */; };
 		5031AF0E256E8AE100AC98AA /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5031AF0D256E8AE100AC98AA /* Collection.swift */; };
 		5031AF24256E8DEC00AC98AA /* AnyCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5031AF23256E8DEC00AC98AA /* AnyCollection.swift */; };
+		50D63AA8256FE3BF001C5985 /* AnyTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D63AA7256FE3BF001C5985 /* AnyTag.swift */; };
+		50D63AB5256FE8B6001C5985 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFE5D15256F463C00A23555 /* Element.swift */; };
+		50D63ABA256FE8B9001C5985 /* AnyElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFE5D1F256F46DD00A23555 /* AnyElement.swift */; };
 		DB21C1FC256C8DC500DF6AE7 /* CD_Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB21C1FB256C8DC500DF6AE7 /* CD_Tag.swift */; };
 		DB21C203256C8F9100DF6AE7 /* Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB21C202256C8F9100DF6AE7 /* Controller.swift */; };
 		DBA1993E256D452C00383EB1 /* CD_Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA1993D256D452C00383EB1 /* CD_Collection.swift */; };
@@ -33,8 +36,6 @@
 		DBDCB3BB256BEE3800D005F6 /* CD_MOM.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DBDCB3B9256BEE3800D005F6 /* CD_MOM.xcdatamodeld */; };
 		DBDCB3FA256C866200D005F6 /* CD_Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDCB3F8256C866200D005F6 /* CD_Base.swift */; };
 		DBDCB3FB256C866200D005F6 /* CD_Website.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDCB3F9256C866200D005F6 /* CD_Website.swift */; };
-		DBFE5D16256F463C00A23555 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFE5D15256F463C00A23555 /* Element.swift */; };
-		DBFE5D20256F46DD00A23555 /* AnyElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFE5D1F256F46DD00A23555 /* AnyElement.swift */; };
 		DBFE5D26256F47EB00A23555 /* CD_Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFE5D25256F47EB00A23555 /* CD_Element.swift */; };
 		DBFE5D2C256F567C00A23555 /* AsyncTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFE5D2B256F567C00A23555 /* AsyncTestCase.swift */; };
 		DBFE5D3A256F583200A23555 /* TagCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFE5D39256F583200A23555 /* TagCollectionTests.swift */; };
@@ -107,6 +108,7 @@
 		5031AF02256E894F00AC98AA /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		5031AF0D256E8AE100AC98AA /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
 		5031AF23256E8DEC00AC98AA /* AnyCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyCollection.swift; sourceTree = "<group>"; };
+		50D63AA7256FE3BF001C5985 /* AnyTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyTag.swift; sourceTree = "<group>"; };
 		DB21C1FB256C8DC500DF6AE7 /* CD_Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_Tag.swift; sourceTree = "<group>"; };
 		DB21C202256C8F9100DF6AE7 /* Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controller.swift; sourceTree = "<group>"; };
 		DBA1993D256D452C00383EB1 /* CD_Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_Collection.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 			isa = PBXGroup;
 			children = (
 				5031AF02256E894F00AC98AA /* Tag.swift */,
+				50D63AA7256FE3BF001C5985 /* AnyTag.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -612,18 +615,19 @@
 			files = (
 				DBAA7730256C999B005126C3 /* CD_Controller.swift in Sources */,
 				5031AF03256E894F00AC98AA /* Tag.swift in Sources */,
-				DBFE5D16256F463C00A23555 /* Element.swift in Sources */,
+				50D63AA8256FE3BF001C5985 /* AnyTag.swift in Sources */,
 				DBFE5D26256F47EB00A23555 /* CD_Element.swift in Sources */,
 				5031AF24256E8DEC00AC98AA /* AnyCollection.swift in Sources */,
 				DB21C203256C8F9100DF6AE7 /* Controller.swift in Sources */,
 				DBDCB3BB256BEE3800D005F6 /* CD_MOM.xcdatamodeld in Sources */,
 				DB21C1FC256C8DC500DF6AE7 /* CD_Tag.swift in Sources */,
 				DBDCB3FA256C866200D005F6 /* CD_Base.swift in Sources */,
-				DBFE5D20256F46DD00A23555 /* AnyElement.swift in Sources */,
 				5031AF0E256E8AE100AC98AA /* Collection.swift in Sources */,
 				DBAA7736256C9A17005126C3 /* Error.swift in Sources */,
 				DBA1993E256D452C00383EB1 /* CD_Collection.swift in Sources */,
+				50D63AB5256FE8B6001C5985 /* Element.swift in Sources */,
 				DBDCB3FB256C866200D005F6 /* CD_Website.swift in Sources */,
+				50D63ABA256FE8B9001C5985 /* AnyElement.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -41,8 +41,8 @@ public protocol Controller {
 
     // MARK: Tags CRUD
     func createTag(name: String?) -> Result<Void, Error>
-    func readTags() -> Result<AnyCollection<AnyElement<Tag>>, Error>
-    func update(tag: AnyElement<Tag>, name: Optional<String?>) -> Result<Void, Error>
-    func delete(tag: AnyElement<Tag>) -> Result<Void, Error>
+    func readTags() -> Result<AnyCollection<AnyElement<AnyTag>>, Error>
+    func update(tag: AnyElement<AnyTag>, name: Optional<String?>) -> Result<Void, Error>
+    func delete(tag: AnyElement<AnyTag>) -> Result<Void, Error>
 
 }

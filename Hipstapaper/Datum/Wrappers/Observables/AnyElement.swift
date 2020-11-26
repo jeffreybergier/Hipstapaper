@@ -21,23 +21,20 @@
 
 import Combine
 
-public class AnyElement<Value>: Element {
+public class AnyElement<Value: Identifiable>: Element {
 
     public let objectWillChange: ObservableObjectPublisher
 
     public var value: Value { _value() }
+    public var id: Value.ID { _value().id }
     private var _value: () -> Value
 
     public init<T: Element>(_ element: T)
     where T.Value == Value,
+          T.ID == Value.ID,
           T.ObjectWillChangePublisher == ObservableObjectPublisher
     {
         _value = { element.value }
         self.objectWillChange = element.objectWillChange
     }
-}
-
-extension AnyElement: Identifiable where Value: Identifiable {
-    public typealias ID = Value.ID
-    public var id: Value.ID { _value().id }
 }

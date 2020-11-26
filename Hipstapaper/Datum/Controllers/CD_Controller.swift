@@ -46,7 +46,7 @@ extension CD_Controller: Controller {
         return context.datum_save()
     }
 
-    func readTags() -> Result<AnyCollection<AnyElement<Tag>>, Error> {
+    func readTags() -> Result<AnyCollection<AnyElement<AnyTag>>, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
@@ -60,16 +60,22 @@ extension CD_Controller: Controller {
                                                     cacheName: nil)
         do {
             try controller.performFetch()
-            return .success(AnyCollection(CD_Collection(controller, { AnyElement(CD_Element($0, { $0 as Tag })) })))
+            return .success(
+                AnyCollection(
+                    CD_Collection(controller, {
+                        AnyElement(CD_Element($0, { AnyTag($0) }))
+                    })
+                )
+            )
         } catch {
             return .failure(.unknown)
         }
     }
 
-    func update(tag: AnyElement<Tag>, name: Optional<String?>) -> Result<Void, Error> {
+    func update(tag: AnyElement<AnyTag>, name: Optional<String?>) -> Result<Void, Error> {
         assert(Thread.isMainThread)
 
-        guard let tag = tag.value as? CD_Tag else { return .failure(.unknown) }
+        guard let tag = tag.value.wrappedValue as? CD_Tag else { return .failure(.unknown) }
         let context = self.container.viewContext
         let token = self.willSave(context)
         defer { self.didSave(token) }
@@ -83,10 +89,10 @@ extension CD_Controller: Controller {
         return changesMade ? context.datum_save() : .success(())
     }
 
-    func delete(tag: AnyElement<Tag>) -> Result<Void, Error> {
+    func delete(tag: AnyElement<AnyTag>) -> Result<Void, Error> {
         assert(Thread.isMainThread)
 
-        guard let tag = tag.value as? CD_Tag else { return .failure(.unknown) }
+        guard let tag = tag.value.wrappedValue as? CD_Tag else { return .failure(.unknown) }
         let context = self.container.viewContext
         let token = self.willSave(context)
         defer { self.didSave(token) }
