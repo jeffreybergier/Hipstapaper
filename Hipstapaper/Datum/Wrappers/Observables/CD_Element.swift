@@ -25,8 +25,9 @@ import Combine
 internal class CD_Element<Output, Input: NSManagedObject>: Element {
 
     internal let objectWillChange: ObservableObjectPublisher
-
     internal var value: Output { transform(_value) }
+    internal var isDeleted: Bool { _value.isDeleted }
+
     private let _value: Input
     private let transform: (Input) -> Output
 

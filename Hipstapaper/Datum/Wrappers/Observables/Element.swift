@@ -24,4 +24,5 @@ import Combine
 public protocol Element: ObservableObject, Identifiable {
     associatedtype Value
     var value: Value { get }
+    var isDeleted: Bool { get }
 }

@@ -27,14 +27,17 @@ public class AnyElement<Value: Identifiable>: Element {
 
     public var value: Value { _value() }
     public var id: Value.ID { _value().id }
+    public var isDeleted: Bool { _isDeleted() }
     private var _value: () -> Value
+    private var _isDeleted: () -> Bool
 
     public init<T: Element>(_ element: T)
     where T.Value == Value,
           T.ID == Value.ID,
           T.ObjectWillChangePublisher == ObservableObjectPublisher
     {
-        _value = { element.value }
+        self._value = { element.value }
+        self._isDeleted = { element.isDeleted }
         self.objectWillChange = element.objectWillChange
     }
 }

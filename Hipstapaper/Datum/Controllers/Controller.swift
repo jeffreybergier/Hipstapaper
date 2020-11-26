@@ -40,7 +40,7 @@ public protocol Controller {
     func readWebsites() -> Result<Void, Error>
 
     // MARK: Tags CRUD
-    func createTag(name: String?) -> Result<Void, Error>
+    func createTag(name: String?) -> Result<AnyElement<AnyTag>, Error>
     func readTags() -> Result<AnyCollection<AnyElement<AnyTag>>, Error>
     func update(tag: AnyElement<AnyTag>, name: Optional<String?>) -> Result<Void, Error>
     func delete(tag: AnyElement<AnyTag>) -> Result<Void, Error>

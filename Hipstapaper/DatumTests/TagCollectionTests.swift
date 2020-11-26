@@ -21,19 +21,16 @@
 
 import XCTest
 import Datum
-import Combine
 
 class TagCollectionTests: ParentTestCase {
-
-    private var token: AnyCancellable?
 
     override func setUpWithError() throws {
         try super.setUpWithError()
 
-        try self.controller.createTag(name: "B").get()
-        try self.controller.createTag(name: "A").get()
-        try self.controller.createTag(name: "C").get()
-        try self.controller.createTag(name: nil).get()
+        _ = try self.controller.createTag(name: "B").get()
+        _ = try self.controller.createTag(name: "A").get()
+        _ = try self.controller.createTag(name: "C").get()
+        _ = try self.controller.createTag(name: nil).get()
     }
 
     // MARK: Read
@@ -52,7 +49,7 @@ class TagCollectionTests: ParentTestCase {
     func test_collection_create() throws {
         let tags = try self.controller.readTags().get()
         XCTAssertEqual(tags.count, 4)
-        try self.controller.createTag(name: "New").get()
+        _ = try self.controller.createTag(name: "New").get()
         XCTAssertEqual(tags.count, 5)
     }
 
@@ -61,7 +58,7 @@ class TagCollectionTests: ParentTestCase {
         XCTAssertEqual(tags.count, 4)
         self.do(after: .short) {
             do {
-                try self.controller.createTag(name: "New").get()
+                _ = try self.controller.createTag(name: "New").get()
             } catch {
                 XCTFail(String(describing: error))
             }

@@ -34,7 +34,7 @@ extension CD_Controller: Controller {
 
     // MARK: Tag CRUD
 
-    func createTag(name: String?) -> Result<Void, Error> {
+    func createTag(name: String?) -> Result<AnyElement<AnyTag>, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
@@ -43,7 +43,9 @@ extension CD_Controller: Controller {
 
         let tag = CD_Tag(context: context)
         tag.name = name
-        return context.datum_save()
+        return context.datum_save().map {
+            AnyElement(CD_Element(tag, { AnyTag($0) }))
+        }
     }
 
     func readTags() -> Result<AnyCollection<AnyElement<AnyTag>>, Error> {
@@ -148,7 +150,11 @@ internal class CD_Controller {
             
             context.insertedObjects
                 .union(context.updatedObjects)
-                .forEach { ($0 as? CD_Base)?.datum_willSave() }
+                .forEach { obj in
+                    let obj = obj as? CD_Base
+                    obj?.datum_willSave()
+                    obj?.objectWillChange.send()
+                }
         }
     }
 
