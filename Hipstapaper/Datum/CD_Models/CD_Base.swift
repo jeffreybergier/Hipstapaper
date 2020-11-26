@@ -40,7 +40,7 @@ import CoreData
     }
 
     /// Override to validate your properties before saving
-    internal func performPropertyValidation() {
+    internal func datum_willSave() {
         self.dateModified = Date()
     }
 }

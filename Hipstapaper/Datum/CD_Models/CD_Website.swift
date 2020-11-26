@@ -35,8 +35,8 @@ import CoreData
     @NSManaged internal var thumbnail: Data?
     @NSManaged internal var tags: NSSet?
 
-    internal override func performPropertyValidation() {
-        super.performPropertyValidation()
+    internal override func datum_willSave() {
+        super.datum_willSave()
 
         // validate title
 

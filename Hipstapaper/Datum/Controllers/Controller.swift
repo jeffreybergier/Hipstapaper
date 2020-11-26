@@ -27,11 +27,6 @@ public func ControllerNew(isTesting: Bool = false) throws -> Controller {
     return try CD_Controller(isTesting: isTesting)
 }
 
-public enum PropertyUpdate<T> {
-    case none
-    case some(T)
-}
-
 public protocol Controller {
 
     static var storeDirectoryURL: URL { get }
@@ -47,6 +42,7 @@ public protocol Controller {
     // MARK: Tags CRUD
     func createTag(name: String?) -> Result<Void, Error>
     func readTags() -> Result<AnyCollection<AnyElement<Tag>>, Error>
-    func update(tag: AnyElement<Tag>, name: PropertyUpdate<String?>) -> Result<Void, Error>
+    func update(tag: AnyElement<Tag>, name: Optional<String?>) -> Result<Void, Error>
+    func delete(tag: AnyElement<Tag>) -> Result<Void, Error>
 
 }

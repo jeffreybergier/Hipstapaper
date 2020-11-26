@@ -33,8 +33,8 @@ import CoreData
     @NSManaged internal var name: String?
     @NSManaged internal var websites: NSSet?
 
-    internal override func performPropertyValidation() {
-        super.performPropertyValidation()
+    internal override func datum_willSave() {
+        super.datum_willSave()
 
         // validate name
     }

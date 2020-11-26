@@ -66,7 +66,7 @@ class TagCollectionTests: ParentTestCase {
                 XCTFail(String(describing: error))
             }
         }
-        let wait = self.newWait()
+        let wait = self.newWait(count: 2)
         self.token = tags.objectWillChange.sink() {
             wait() { XCTAssertEqual(tags.count, 5) }
         }
@@ -101,7 +101,7 @@ class TagCollectionTests: ParentTestCase {
                 XCTFail(String(describing: error))
             }
         }
-        let wait = self.newWait()
+        let wait = self.newWait(count: 2)
         self.token = tags.objectWillChange.sink() {
             wait() {
                 XCTAssertEqual(tags[0].value.name, nil)

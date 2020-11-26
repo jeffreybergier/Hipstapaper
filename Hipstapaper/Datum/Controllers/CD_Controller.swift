@@ -28,20 +28,27 @@ extension CD_Controller: Controller {
         return .failure(.unknown)
     }
 
+    func readWebsites() -> Result<Void, Error> {
+        return .failure(.unknown)
+    }
+
+    // MARK: Tag CRUD
+
     func createTag(name: String?) -> Result<Void, Error> {
         assert(Thread.isMainThread)
+
         let context = self.container.viewContext
+        let token = self.willSave(context)
+        defer { self.didSave(token) }
+
         let tag = CD_Tag(context: context)
         tag.name = name
         return context.datum_save()
     }
 
-    func readWebsites() -> Result<Void, Error> {
-        return .failure(.unknown)
-    }
-
     func readTags() -> Result<AnyCollection<AnyElement<Tag>>, Error> {
         assert(Thread.isMainThread)
+
         let context = self.container.viewContext
         let request = CD_Tag.request
         request.sortDescriptors = [
@@ -59,21 +66,31 @@ extension CD_Controller: Controller {
         }
     }
 
-    func update(tag: AnyElement<Tag>, name: PropertyUpdate<String?>) -> Result<Void, Error> {
+    func update(tag: AnyElement<Tag>, name: Optional<String?>) -> Result<Void, Error> {
         assert(Thread.isMainThread)
+
         guard let tag = tag.value as? CD_Tag else { return .failure(.unknown) }
         let context = self.container.viewContext
-        if case .some(let newName) = name {
+        let token = self.willSave(context)
+        defer { self.didSave(token) }
+
+        var changesMade = false
+        if let newName = name {
+            changesMade = true
             tag.name = newName
         }
-        // TODO: Check if there were actual changes
-        return context.datum_save()
+
+        return changesMade ? context.datum_save() : .success(())
+    }
+
+    func delete(tag: AnyElement<Tag>) -> Result<Void, Error> {
+        fatalError()
     }
 }
 
 internal class CD_Controller {
 
-    static let storeDirectoryURL: URL = {
+    static internal let storeDirectoryURL: URL = {
         return FileManager
             .default
             .urls(for: .applicationSupportDirectory, in: .userDomainMask)
@@ -82,15 +99,15 @@ internal class CD_Controller {
             .appendingPathComponent("CoreData", isDirectory: true)
     }()
 
-    static var storeExists: Bool {
+    static internal var storeExists: Bool {
         return FileManager.default.fileExists(
             atPath: self.storeDirectoryURL.appendingPathComponent("Store.sqlite").path
         )
     }
 
-    let container: NSPersistentContainer
+    internal let container: NSPersistentContainer
 
-    init(isTesting: Bool) throws {
+    internal init(isTesting: Bool) throws {
         // debug only sanity checks
         assert(Thread.isMainThread)
 
@@ -106,6 +123,23 @@ internal class CD_Controller {
         guard error == nil else { throw error! }
         container.viewContext.automaticallyMergesChangesFromParent = true
         self.container = container
+    }
+
+    private func willSave(_ context: NSManagedObjectContext) -> Any {
+        return NotificationCenter.default.addObserver(forName: .NSManagedObjectContextWillSave,
+                                                      object: context,
+                                                      queue: nil)
+        { notification in
+            guard let context = notification.object as? NSManagedObjectContext else { return }
+            
+            context.insertedObjects
+                .union(context.updatedObjects)
+                .forEach { ($0 as? CD_Base)?.datum_willSave() }
+        }
+    }
+
+    private func didSave(_ token: Any) {
+        NotificationCenter.default.removeObserver(token)
     }
 }
 
