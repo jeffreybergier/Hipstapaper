@@ -51,7 +51,8 @@ internal class CD_Collection<
     public func index(after index: Index) -> Index { frc.fetchedObjects?.index(after: index) ?? 0 }
 
     // MARK: NSFetchedResultsControllerDelegate
-    internal func controller(_ controller: AnyObject, didChangeContentWith snapshot: AnyObject) {
+    @objc(controller:didChangeContentWithSnapshot:)
+    internal func controller(_: AnyObject, didChangeContentWith _: AnyObject) {
         self.objectWillChange.send()
     }
 

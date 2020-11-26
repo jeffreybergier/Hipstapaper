@@ -20,8 +20,11 @@
 //
 
 import CoreData
+import Combine
 
 internal class CD_Element<Output, Input: NSManagedObject>: Element {
+
+    internal let objectWillChange: ObservableObjectPublisher
 
     internal var item: Output { transform(_item) }
     private let _item: Input
@@ -30,8 +33,7 @@ internal class CD_Element<Output, Input: NSManagedObject>: Element {
     internal init(_ input: Input, _ transform: @escaping (Input) -> Output) {
         self._item = input
         self.transform = transform
-        // TODO: Doublecheck if this works
-        self.objectWillChange.combineLatest(input.objectWillChange)
+        self.objectWillChange = input.objectWillChange
     }
 
 }

@@ -21,8 +21,11 @@
 
 import XCTest
 import Datum
+import Combine
 
 class TagCollectionTests: ParentTestCase {
+
+    private var token: AnyCancellable?
 
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -42,4 +45,27 @@ class TagCollectionTests: ParentTestCase {
         XCTAssertEqual(tags[3].item.name, "C")
     }
 
+    func test_collection_update() throws {
+        let tags = try self.controller.readTags().get()
+        XCTAssertEqual(tags.count, 4)
+        try self.controller.createTag(name: "New").get()
+        XCTAssertEqual(tags.count, 5)
+    }
+
+    func test_collection_update_observation() throws {
+        let tags = try self.controller.readTags().get()
+        XCTAssertEqual(tags.count, 4)
+        self.do(after: .short) {
+            do {
+                try self.controller.createTag(name: "New").get()
+            } catch {
+                XCTFail(String(describing: error))
+            }
+        }
+        let wait = self.newWait()
+        self.token = tags.objectWillChange.sink() {
+            wait() { XCTAssertEqual(tags.count, 5) }
+        }
+        self.wait(for: .long)
+    }
 }

@@ -22,16 +22,17 @@
 import Combine
 
 public class AnyElement<Item>: Element {
-    
-    private var _item: () -> Item
+
+    public let objectWillChange: ObservableObjectPublisher
+
     public var item: Item { _item() }
-    
+    private var _item: () -> Item
+
     public init<T: Element>(_ element: T)
     where T.Item == Item,
           T.ObjectWillChangePublisher == ObservableObjectPublisher
     {
         _item = { element.item }
-        // TODO: Doublecheck if this works
-        self.objectWillChange.combineLatest(element.objectWillChange)
+        self.objectWillChange = element.objectWillChange
     }
 }

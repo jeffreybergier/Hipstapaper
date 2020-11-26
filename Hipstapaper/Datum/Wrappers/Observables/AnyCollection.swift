@@ -23,6 +23,8 @@ import Combine
 
 public class AnyCollection<Element>: Collection {
 
+    public let objectWillChange: ObservableObjectPublisher
+
     public typealias Index = Int
     public typealias Element = Element
 
@@ -40,8 +42,7 @@ public class AnyCollection<Element>: Collection {
         _endIndex = { collection.endIndex }
         _subscript = { collection[$0] }
         _indexAfter = { collection.index(after: $0) }
-        // TODO: Doublecheck if this works
-        self.objectWillChange.combineLatest(collection.objectWillChange)
+        self.objectWillChange = collection.objectWillChange
     }
 
     // MARK: Swift.Collection Boilerplate
