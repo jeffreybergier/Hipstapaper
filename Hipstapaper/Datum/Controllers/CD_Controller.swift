@@ -32,7 +32,18 @@ extension CD_Controller: Controller {
     }
 
     func readTags() -> Result<AnyCollection<AnyElement<Tag>>, Error> {
-        return .failure(.unknown)
+        assert(Thread.isMainThread)
+        let context = self.container.viewContext
+        let controller = NSFetchedResultsController(fetchRequest: CD_Tag.request,
+                                                    managedObjectContext: context,
+                                                    sectionNameKeyPath: nil,
+                                                    cacheName: nil)
+        do {
+            try controller.performFetch()
+            return .success(AnyCollection(CD_Collection(controller, { AnyElement(CD_Element($0, { $0 as Tag })) })))
+        } catch {
+            return .failure(.unknown)
+        }
     }
 }
 

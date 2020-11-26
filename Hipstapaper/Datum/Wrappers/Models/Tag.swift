@@ -23,3 +23,5 @@ public protocol Tag {
     var websitesCount: Int32 { get }
     var name: String? { get }
 }
+
+extension CD_Tag: Tag {}
