@@ -84,7 +84,15 @@ extension CD_Controller: Controller {
     }
 
     func delete(tag: AnyElement<Tag>) -> Result<Void, Error> {
-        fatalError()
+        assert(Thread.isMainThread)
+
+        guard let tag = tag.value as? CD_Tag else { return .failure(.unknown) }
+        let context = self.container.viewContext
+        let token = self.willSave(context)
+        defer { self.didSave(token) }
+
+        context.delete(tag)
+        return context.datum_save()
     }
 }
 

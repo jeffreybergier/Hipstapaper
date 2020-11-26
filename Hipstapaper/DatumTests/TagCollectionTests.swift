@@ -112,4 +112,42 @@ class TagCollectionTests: ParentTestCase {
         }
         self.wait(for: .long)
     }
+
+    // MARK: Delete
+
+    func test_collection_delete() throws {
+        let tags = try self.controller.readTags().get()
+        XCTAssertEqual(tags[0].value.name, nil)
+        XCTAssertEqual(tags[1].value.name, "A")
+        XCTAssertEqual(tags[2].value.name, "B")
+        XCTAssertEqual(tags[3].value.name, "C")
+        try self.controller.delete(tag: tags[2]).get()
+        XCTAssertEqual(tags[0].value.name, nil)
+        XCTAssertEqual(tags[1].value.name, "A")
+        XCTAssertEqual(tags[2].value.name, "C")
+    }
+
+    func test_collection_delete_observation() throws {
+        let tags = try self.controller.readTags().get()
+        XCTAssertEqual(tags[0].value.name, nil)
+        XCTAssertEqual(tags[1].value.name, "A")
+        XCTAssertEqual(tags[2].value.name, "B")
+        XCTAssertEqual(tags[3].value.name, "C")
+        self.do(after: .short) {
+            do {
+                try self.controller.delete(tag: tags[2]).get()
+            } catch {
+                XCTFail(String(describing: error))
+            }
+        }
+        let wait = self.newWait()
+        self.token = tags.objectWillChange.sink() {
+            wait() {
+                XCTAssertEqual(tags[0].value.name, nil)
+                XCTAssertEqual(tags[1].value.name, "A")
+                XCTAssertEqual(tags[2].value.name, "C")
+            }
+        }
+        self.wait(for: .long)
+    }
 }
