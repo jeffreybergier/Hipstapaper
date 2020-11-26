@@ -39,10 +39,10 @@ class TagCollectionTests: ParentTestCase {
     func test_collection_load() throws {
         let tags = try self.controller.readTags().get()
         XCTAssertEqual(tags.count, 4)
-        XCTAssertEqual(tags[0].item.name, nil)
-        XCTAssertEqual(tags[1].item.name, "A")
-        XCTAssertEqual(tags[2].item.name, "B")
-        XCTAssertEqual(tags[3].item.name, "C")
+        XCTAssertEqual(tags[0].value.name, nil)
+        XCTAssertEqual(tags[1].value.name, "A")
+        XCTAssertEqual(tags[2].value.name, "B")
+        XCTAssertEqual(tags[3].value.name, "C")
     }
 
     func test_collection_update() throws {

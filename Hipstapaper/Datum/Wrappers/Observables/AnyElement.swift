@@ -21,18 +21,18 @@
 
 import Combine
 
-public class AnyElement<Item>: Element {
+public class AnyElement<Value>: Element {
 
     public let objectWillChange: ObservableObjectPublisher
 
-    public var item: Item { _item() }
-    private var _item: () -> Item
+    public var value: Value { _value() }
+    private var _value: () -> Value
 
     public init<T: Element>(_ element: T)
-    where T.Item == Item,
+    where T.Value == Value,
           T.ObjectWillChangePublisher == ObservableObjectPublisher
     {
-        _item = { element.item }
+        _value = { element.value }
         self.objectWillChange = element.objectWillChange
     }
 }

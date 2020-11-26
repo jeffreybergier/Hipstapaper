@@ -22,6 +22,6 @@
 import Combine
 
 public protocol Element: ObservableObject {
-    associatedtype Item
-    var item: Item { get }
+    associatedtype Value
+    var value: Value { get }
 }

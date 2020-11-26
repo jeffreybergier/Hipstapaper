@@ -26,12 +26,12 @@ internal class CD_Element<Output, Input: NSManagedObject>: Element {
 
     internal let objectWillChange: ObservableObjectPublisher
 
-    internal var item: Output { transform(_item) }
-    private let _item: Input
+    internal var value: Output { transform(_value) }
+    private let _value: Input
     private let transform: (Input) -> Output
 
     internal init(_ input: Input, _ transform: @escaping (Input) -> Output) {
-        self._item = input
+        self._value = input
         self.transform = transform
         self.objectWillChange = input.objectWillChange
     }
