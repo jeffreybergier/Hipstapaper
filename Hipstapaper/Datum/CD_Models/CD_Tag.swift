@@ -29,13 +29,15 @@ import CoreData
     }
 
     // TODO: Fix this
-    // @NSManaged internal var websitesCount: Int
+    @NSManaged internal var websitesCount: Int
     @NSManaged internal var name: String?
     @NSManaged internal var websites: NSSet?
 
     internal override func datum_willSave() {
         super.datum_willSave()
 
-        // validate name
+        // TODO: validate name
+
+        self.websitesCount = self.websites?.count ?? 0
     }
 }

@@ -20,8 +20,8 @@
 //
 
 public protocol Tag {
-    // var websitesCount: Int { get }
     var name: String? { get }
+    var websitesCount: Int { get }
 }
 
 extension CD_Tag: Tag {}
