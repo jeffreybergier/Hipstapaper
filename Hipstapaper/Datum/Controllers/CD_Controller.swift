@@ -24,11 +24,13 @@ import SwiftUI
 
 extension CD_Controller: Controller {
 
-    func createWebsite(title: String?, originalURL: URL?, resolvedURL: URL?, thumbnailData: Data?) -> Result<Void, Error> {
+    // MARK: Website CRUD
+
+    func createWebsite(title: String?, originalURL: URL?, resolvedURL: URL?, thumbnailData: Data?) -> Result<AnyElement<AnyWebsite>, Error> {
         return .failure(.unknown)
     }
 
-    func readWebsites() -> Result<Void, Error> {
+    func readWebsites() -> Result<AnyCollection<AnyElement<AnyWebsite>>, Error> {
         return .failure(.unknown)
     }
 

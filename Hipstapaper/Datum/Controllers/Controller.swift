@@ -36,8 +36,8 @@ public protocol Controller {
     func createWebsite(title: String?,
                        originalURL: URL?,
                        resolvedURL: URL?,
-                       thumbnailData: Data?) -> Result<Void, Error>
-    func readWebsites() -> Result<Void, Error>
+                       thumbnailData: Data?) -> Result<AnyElement<AnyWebsite>, Error>
+    func readWebsites() -> Result<AnyCollection<AnyElement<AnyWebsite>>, Error>
 
     // MARK: Tags CRUD
     func createTag(name: String?) -> Result<AnyElement<AnyTag>, Error>

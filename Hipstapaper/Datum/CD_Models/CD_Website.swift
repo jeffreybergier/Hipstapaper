@@ -21,6 +21,8 @@
 
 import CoreData
 
+extension CD_Website: Website { }
+
 @objc(CD_Website) internal class CD_Website: CD_Base {
 
     internal class override var entityName: String { "CD_Website" }
@@ -43,3 +45,5 @@ import CoreData
         // validate thumbnail size
     }
 }
+
+
