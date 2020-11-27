@@ -165,15 +165,19 @@ internal class CD_Controller {
 
 extension CD_Controller {
 
+    // If the MOM is loaded more than once, it prints warnings to the console
+    private static let mom: NSManagedObjectModel? = {
+        guard let url = Bundle(for: CD_Controller.self).url(forResource: "CD_MOM",
+                                                            withExtension: "momd")
+        else { return nil }
+        return NSManagedObjectModel(contentsOf: url)
+    }()
+
     private class func container(isTesting: Bool) -> NSPersistentContainer? {
         // debug only sanity checks
         assert(Thread.isMainThread)
 
-        guard
-            let url = Bundle(for: CD_Controller.self)
-                            .url(forResource: "CD_MOM", withExtension: "momd"),
-            let mom = NSManagedObjectModel(contentsOf: url)
-        else { return nil }
+        guard let mom = CD_Controller.mom else { return nil }
 
         // when not testing, return normal persistent container
         guard isTesting else {

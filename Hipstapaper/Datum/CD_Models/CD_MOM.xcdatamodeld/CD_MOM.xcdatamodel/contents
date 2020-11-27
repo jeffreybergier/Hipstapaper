@@ -5,8 +5,8 @@
         <attribute name="dateModified" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
     <entity name="CD_Tag" representedClassName="CD_Tag" parentEntity="CD_Base" syncable="YES">
+        <attribute name="cd_websitesCount" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="websitesCount" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="websites" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CD_Website" inverseName="tags" inverseEntity="CD_Website"/>
     </entity>
     <entity name="CD_Website" representedClassName="CD_Website" parentEntity="CD_Base" syncable="YES">

@@ -1,6 +1,4 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/24.
-//
 //  Copyright © 2020 Saturday Apps.
 //
 //  This file is part of Hipstapaper.
@@ -19,30 +17,6 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import CoreData
-
-extension CD_Tag: Tag {
-    var websitesCount: Int {
-        return Int(self.cd_websitesCount)
-    }
-}
-
-@objc(CD_Tag) internal class CD_Tag: CD_Base {
-
-    internal class override var entityName: String { "CD_Tag" }
-    internal class var request: NSFetchRequest<CD_Tag> {
-        NSFetchRequest<CD_Tag>(entityName: self.entityName)
-    }
-
-    @NSManaged private var cd_websitesCount: Int32
-    @NSManaged internal var name: String?
-    @NSManaged internal var websites: NSSet?
-
-    internal override func datum_willSave() {
-        super.datum_willSave()
-
-        self.cd_websitesCount = Int32(self.websites?.count ?? 0)
-        // TODO: validate name
-    }
+public protocol Website: Identifiable {
 }
 

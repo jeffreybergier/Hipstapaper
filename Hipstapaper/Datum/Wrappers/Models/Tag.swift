@@ -23,5 +23,3 @@ public protocol Tag: Identifiable {
     var name: String? { get }
     var websitesCount: Int { get }
 }
-
-extension CD_Tag: Tag {}
