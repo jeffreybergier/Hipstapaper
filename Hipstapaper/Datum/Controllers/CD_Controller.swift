@@ -26,12 +26,52 @@ extension CD_Controller: Controller {
 
     // MARK: Website CRUD
 
-    func createWebsite(title: String?, originalURL: URL?, resolvedURL: URL?, thumbnailData: Data?) -> Result<AnyElement<AnyWebsite>, Error> {
-        return .failure(.unknown)
+    func createWebsite(title: String?,
+                       originalURL: URL?,
+                       resolvedURL: URL?,
+                       thumbnail: Data?)
+                       -> Result<AnyElement<AnyWebsite>, Error>
+    {
+        assert(Thread.isMainThread)
+
+        let context = self.container.viewContext
+        let token = self.willSave(context)
+        defer { self.didSave(token) }
+
+        let website = CD_Website(context: context)
+        website.title = title
+        website.originalURL = originalURL
+        website.resolvedURL = resolvedURL
+        website.thumbnail = thumbnail
+        return context.datum_save().map {
+            AnyElement(CD_Element(website, { AnyWebsite($0) }))
+        }
     }
 
     func readWebsites() -> Result<AnyCollection<AnyElement<AnyWebsite>>, Error> {
-        return .failure(.unknown)
+        assert(Thread.isMainThread)
+
+        let context = self.container.viewContext
+        let request = CD_Website.request
+        request.sortDescriptors = [
+            .init(key: #keyPath(CD_Website.dateCreated), ascending: true)
+        ]
+        let controller = NSFetchedResultsController(fetchRequest: request,
+                                                    managedObjectContext: context,
+                                                    sectionNameKeyPath: nil,
+                                                    cacheName: nil)
+        do {
+            try controller.performFetch()
+            return .success(
+                AnyCollection(
+                    CD_Collection(controller, {
+                        AnyElement(CD_Element($0, { AnyWebsite($0) }))
+                    })
+                )
+            )
+        } catch {
+            return .failure(.unknown)
+        }
     }
 
     // MARK: Tag CRUD

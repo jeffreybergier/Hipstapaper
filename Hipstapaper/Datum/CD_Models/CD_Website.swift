@@ -30,12 +30,12 @@ extension CD_Website: Website { }
         NSFetchRequest<CD_Website>(entityName: self.entityName)
     }
 
-    @NSManaged internal var isArchived: Bool
+    @NSManaged internal var isArchived:  Bool
     @NSManaged internal var originalURL: URL?
     @NSManaged internal var resolvedURL: URL?
-    @NSManaged internal var title: URL?
-    @NSManaged internal var thumbnail: Data?
-    @NSManaged internal var tags: NSSet?
+    @NSManaged internal var title:       String?
+    @NSManaged internal var thumbnail:   Data?
+    @NSManaged internal var tags:        NSSet?
 
     internal override func datum_willSave() {
         super.datum_willSave()

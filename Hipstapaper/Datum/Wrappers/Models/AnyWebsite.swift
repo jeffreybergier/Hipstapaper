@@ -25,18 +25,18 @@ public struct AnyWebsite: Website {
 
     public typealias ID = ObjectIdentifier
 
-    public var id:          ID    { _id() }
-    public var isArchived:  Bool  { _isArchived() }
-    public var originalURL: URL?  { _originalURL() }
-    public var resolvedURL: URL?  { _resolvedURL() }
-    public var title:       URL?  { _title() }
-    public var thumbnail:   Data? { _thumbnail() }
+    public var id:          ID      { _id() }
+    public var isArchived:  Bool    { _isArchived() }
+    public var originalURL: URL?    { _originalURL() }
+    public var resolvedURL: URL?    { _resolvedURL() }
+    public var title:       String? { _title() }
+    public var thumbnail:   Data?   { _thumbnail() }
 
     private let _id:          () -> ID
     private let _isArchived:  () -> Bool
     private let _originalURL: () -> URL?
     private let _resolvedURL: () -> URL?
-    private let _title:       () -> URL?
+    private let _title:       () -> String?
     private let _thumbnail:   () -> Data?
 
     /// Untyped storage for original database object

@@ -21,7 +21,7 @@ public protocol Website: Identifiable {
     var isArchived: Bool { get }
     var originalURL: URL? { get }
     var resolvedURL: URL? { get }
-    var title: URL? { get }
+    var title: String? { get }
     var thumbnail: Data? { get }
 }
 
