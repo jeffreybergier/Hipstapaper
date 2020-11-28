@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/25.
+//  Created by Jeffrey Bergier on 2020/11/28.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,7 +19,7 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-public protocol Tag: Base {
-    var name: String? { get }
-    var websitesCount: Int { get }
+public protocol Base: Identifiable {
+    var dateCreated: Date { get }
+    var dateModified: Date { get }
 }

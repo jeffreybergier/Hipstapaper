@@ -17,7 +17,7 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-public protocol Website: Identifiable {
+public protocol Website: Base {
     var isArchived: Bool { get }
     var originalURL: URL? { get }
     var resolvedURL: URL? { get }

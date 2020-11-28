@@ -25,20 +25,26 @@ public struct AnyTag: Tag {
 
     public typealias ID = ObjectIdentifier
 
-    public var id: ID { _id() }
-    public var name: String? { _name() }
+    public var id: ID             { _id() }
+    public var name: String?      { _name() }
     public var websitesCount: Int { _websitesCount() }
+    public var dateCreated: Date  { _dateCreated() }
+    public var dateModified: Date { _dateModified() }
 
-    private var _id: () -> ID
-    private var _name: () -> String?
+    private var _id:            () -> ID
+    private var _name:          () -> String?
     private var _websitesCount: () -> Int
+    private var _dateCreated:   () -> Date
+    private var _dateModified:  () -> Date
 
     internal let wrappedValue: Any
 
     internal init<T: Tag>(_ tag: T) where T.ID == ID {
-        _id = { tag.id }
-        _name = { tag.name }
+        _id            = { tag.id }
+        _name          = { tag.name }
         _websitesCount = { tag.websitesCount }
-        wrappedValue = tag
+        _dateCreated   = { tag.dateCreated }
+        _dateModified  = { tag.dateModified }
+        wrappedValue   = tag
     }
 }

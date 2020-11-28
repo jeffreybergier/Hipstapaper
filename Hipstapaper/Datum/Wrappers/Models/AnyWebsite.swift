@@ -31,24 +31,30 @@ public struct AnyWebsite: Website {
     public var resolvedURL: URL?    { _resolvedURL() }
     public var title:       String? { _title() }
     public var thumbnail:   Data?   { _thumbnail() }
+    public var dateCreated: Date    { _dateCreated() }
+    public var dateModified: Date   { _dateModified() }
 
-    private let _id:          () -> ID
-    private let _isArchived:  () -> Bool
-    private let _originalURL: () -> URL?
-    private let _resolvedURL: () -> URL?
-    private let _title:       () -> String?
-    private let _thumbnail:   () -> Data?
+    private let _id:           () -> ID
+    private let _isArchived:   () -> Bool
+    private let _originalURL:  () -> URL?
+    private let _resolvedURL:  () -> URL?
+    private let _title:        () -> String?
+    private let _thumbnail:    () -> Data?
+    private var _dateCreated:  () -> Date
+    private var _dateModified: () -> Date
 
     /// Untyped storage for original database object
     internal let wrappedValue: Any
 
-    internal init<T: Website>(_ tag: T) where T.ID == ID {
-        _id = { tag.id }
-        _isArchived  = { tag.isArchived }
-        _originalURL = { tag.originalURL }
-        _resolvedURL = { tag.resolvedURL }
-        _title       = { tag.title }
-        _thumbnail   = { tag.thumbnail }
-        wrappedValue = tag
+    internal init<T: Website>(_ website: T) where T.ID == ID {
+        _id = { website.id }
+        _isArchived   = { website.isArchived }
+        _originalURL  = { website.originalURL }
+        _resolvedURL  = { website.resolvedURL }
+        _title        = { website.title }
+        _thumbnail    = { website.thumbnail }
+        _dateCreated  = { website.dateCreated }
+        _dateModified = { website.dateModified }
+        wrappedValue  = website
     }
 }
