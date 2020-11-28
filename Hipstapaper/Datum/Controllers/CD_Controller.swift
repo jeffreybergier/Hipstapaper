@@ -51,30 +51,9 @@ extension CD_Controller: Controller {
     func readWebsites(query: Query) -> Result<AnyCollection<AnyElement<AnyWebsite>>, Error> {
         assert(Thread.isMainThread)
 
-        let predicates: [NSPredicate] = [
-            { () -> NSPredicate? in
-                guard case .unarchived = query.isArchived else { return nil }
-                return NSPredicate(format: "%K == NO", #keyPath(CD_Website.isArchived))
-            }(),
-            { () -> NSPredicate? in
-                guard let search = query.search else { return nil }
-                return NSCompoundPredicate(orPredicateWithSubpredicates: [
-                    NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(CD_Website.title), search),
-                    NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(CD_Website.resolvedURL), search),
-                    NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(CD_Website.originalURL), search),
-                ])
-            }(),
-            { () -> NSPredicate? in
-                guard let _tag = query.tag else { return nil }
-                guard let tag = _tag.value.wrappedValue as? CD_Tag
-                else { assertionFailure("Invalid TAG Object"); return nil; }
-                return NSPredicate(format: "%K CONTAINS %@", #keyPath(CD_Website.tags), tag)
-            }(),
-        ].compactMap { $0 }
-
         let context = self.container.viewContext
         let request = CD_Website.request
-        request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+        request.predicate = query.cd_predicate
         request.sortDescriptors = [
             .init(key: #keyPath(CD_Website.dateCreated), ascending: true)
         ]
