@@ -10,6 +10,7 @@
 		5031AF03256E894F00AC98AA /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5031AF02256E894F00AC98AA /* Tag.swift */; };
 		5031AF0E256E8AE100AC98AA /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5031AF0D256E8AE100AC98AA /* Collection.swift */; };
 		5031AF24256E8DEC00AC98AA /* AnyCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5031AF23256E8DEC00AC98AA /* AnyCollection.swift */; };
+		5073F40425720C5F00AC4C6C /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5073F40325720C5F00AC4C6C /* Query.swift */; };
 		50D63AA8256FE3BF001C5985 /* AnyTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D63AA7256FE3BF001C5985 /* AnyTag.swift */; };
 		50D63AB5256FE8B6001C5985 /* Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFE5D15256F463C00A23555 /* Element.swift */; };
 		50D63ABA256FE8B9001C5985 /* AnyElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFE5D1F256F46DD00A23555 /* AnyElement.swift */; };
@@ -111,6 +112,7 @@
 		5031AF02256E894F00AC98AA /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		5031AF0D256E8AE100AC98AA /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
 		5031AF23256E8DEC00AC98AA /* AnyCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyCollection.swift; sourceTree = "<group>"; };
+		5073F40325720C5F00AC4C6C /* Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
 		50D63AA7256FE3BF001C5985 /* AnyTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyTag.swift; sourceTree = "<group>"; };
 		50D63AC3256FEA35001C5985 /* TagObservationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagObservationTests.swift; sourceTree = "<group>"; };
 		DB21C1FB256C8DC500DF6AE7 /* CD_Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_Tag.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 		DB21C201256C8F6F00DF6AE7 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				5073F40325720C5F00AC4C6C /* Query.swift */,
 				DB21C202256C8F9100DF6AE7 /* Controller.swift */,
 				DBAA772F256C999B005126C3 /* CD_Controller.swift */,
 			);
@@ -632,6 +635,7 @@
 				DBDCB3BB256BEE3800D005F6 /* CD_MOM.xcdatamodeld in Sources */,
 				DB21C1FC256C8DC500DF6AE7 /* CD_Tag.swift in Sources */,
 				DBDCB3FA256C866200D005F6 /* CD_Base.swift in Sources */,
+				5073F40425720C5F00AC4C6C /* Query.swift in Sources */,
 				5031AF0E256E8AE100AC98AA /* Collection.swift in Sources */,
 				DBAA7736256C9A17005126C3 /* Error.swift in Sources */,
 				DBA3BE3025709D0A005A2379 /* Website.swift in Sources */,
