@@ -122,10 +122,13 @@ internal class WebsiteCollectionTests : ParentTestCase {
     // MARK: Delete
     
     internal func test_collection_delete() throws {
-        
-    }
-    
-    internal func test_collection_delete_observation() throws {
-        
+        let sites = try self.controller.readWebsites(query: .init(isArchived: .all),
+                                                     sort: .titleA).get()
+        XCTAssertEqual(sites.count, 4)
+        XCTAssertEqual(sites[0].value.title, "A")
+        try self.controller.delete(website: sites[0]).get()
+        XCTAssertEqual(sites.count, 3)
+        XCTAssertEqual(sites[0].value.title, "B")
+        XCTAssertEqual(sites[2].value.title, "D")
     }
 }

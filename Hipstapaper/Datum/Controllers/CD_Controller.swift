@@ -112,6 +112,18 @@ extension CD_Controller: Controller {
         
         return changesMade ? context.datum_save() : .success(())
     }
+    
+    func delete(website: AnyElement<AnyWebsite>) -> Result<Void, Error> {
+        assert(Thread.isMainThread)
+
+        guard let website = website.value.wrappedValue as? CD_Website else { return .failure(.unknown) }
+        let context = self.container.viewContext
+        let token = self.willSave(context)
+        defer { self.didSave(token) }
+
+        context.delete(website)
+        return context.datum_save()
+    }
 
     // MARK: Tag CRUD
 
