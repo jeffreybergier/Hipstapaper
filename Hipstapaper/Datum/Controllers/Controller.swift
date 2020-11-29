@@ -33,15 +33,9 @@ public protocol Controller {
     static var storeExists: Bool { get }
 
     // MARK: Websites CRUD
-    func createWebsite(title: String?,
-                       originalURL: URL?,
-                       resolvedURL: URL?,
-                       isArchived: Bool,
-                       thumbnail: Data?)
-                       -> Result<AnyElement<AnyWebsite>, Error>
-    func readWebsites(query: Query,
-                      sort: Sort)
-                      -> Result<AnyCollection<AnyElement<AnyWebsite>>, Error>
+    func createWebsite(_: AnyWebsite.Raw) -> Result<AnyElement<AnyWebsite>, Error>
+    func readWebsites(query: Query, sort: Sort) -> Result<AnyCollection<AnyElement<AnyWebsite>>, Error>
+    func update(website: AnyElement<AnyWebsite>, with: AnyWebsite.Raw) -> Result<Void, Error>
 
     // MARK: Tags CRUD
     func createTag(name: String?) -> Result<AnyElement<AnyTag>, Error>

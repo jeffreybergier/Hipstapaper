@@ -26,13 +26,7 @@ extension CD_Controller: Controller {
 
     // MARK: Website CRUD
 
-    func createWebsite(title: String?,
-                       originalURL: URL?,
-                       resolvedURL: URL?,
-                       isArchived: Bool,
-                       thumbnail: Data?)
-                       -> Result<AnyElement<AnyWebsite>, Error>
-    {
+    func createWebsite(_ raw: AnyWebsite.Raw) -> Result<AnyElement<AnyWebsite>, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
@@ -40,20 +34,27 @@ extension CD_Controller: Controller {
         defer { self.didSave(token) }
 
         let website = CD_Website(context: context)
-        website.title = title
-        website.originalURL = originalURL
-        website.resolvedURL = resolvedURL
-        website.isArchived = isArchived
-        website.thumbnail = thumbnail
+        if let title = raw.title {
+            website.title = title
+        }
+        if let originalURL = raw.originalURL {
+            website.originalURL = originalURL
+        }
+        if let resolvedURL = raw.resolvedURL {
+            website.resolvedURL = resolvedURL
+        }
+        if let isArchived = raw.isArchived {
+            website.isArchived = isArchived
+        }
+        if let thumbnail = raw.thumbnail {
+            website.thumbnail = thumbnail
+        }
         return context.datum_save().map {
             AnyElement(CD_Element(website, { AnyWebsite($0) }))
         }
     }
 
-    func readWebsites(query: Query,
-                      sort: Sort)
-                      -> Result<AnyCollection<AnyElement<AnyWebsite>>, Error>
-    {
+    func readWebsites(query: Query, sort: Sort) -> Result<AnyCollection<AnyElement<AnyWebsite>>, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
@@ -77,6 +78,39 @@ extension CD_Controller: Controller {
         } catch {
             return .failure(.unknown)
         }
+    }
+    
+    func update(website: AnyElement<AnyWebsite>, with raw: AnyWebsite.Raw) -> Result<Void, Error> {
+        assert(Thread.isMainThread)
+
+        guard let website = website.value.wrappedValue as? CD_Website else { return .failure(.unknown) }
+        let context = self.container.viewContext
+        let token = self.willSave(context)
+        defer { self.didSave(token) }
+        
+        var changesMade = false
+        if let title = raw.title {
+            changesMade = true
+            website.title = title
+        }
+        if let originalURL = raw.originalURL {
+            changesMade = true
+            website.originalURL = originalURL
+        }
+        if let resolvedURL = raw.resolvedURL {
+            changesMade = true
+            website.resolvedURL = resolvedURL
+        }
+        if let isArchived = raw.isArchived {
+            changesMade = true
+            website.isArchived = isArchived
+        }
+        if let thumbnail = raw.thumbnail {
+            changesMade = true
+            website.thumbnail = thumbnail
+        }
+        
+        return changesMade ? context.datum_save() : .success(())
     }
 
     // MARK: Tag CRUD

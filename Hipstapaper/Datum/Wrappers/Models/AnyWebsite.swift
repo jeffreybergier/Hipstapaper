@@ -58,3 +58,26 @@ public struct AnyWebsite: Website {
         wrappedValue  = website
     }
 }
+
+extension AnyWebsite {
+    public struct Raw {
+        public var title: Optional<String?>
+        public var originalURL: Optional<URL?>
+        public var resolvedURL: Optional<URL?>
+        public var isArchived: Optional<Bool>
+        public var thumbnail: Optional<Data?>
+        
+        public init(title: Optional<String?> = nil,
+                    originalURL: Optional<URL?> = nil,
+                    resolvedURL: Optional<URL?> = nil,
+                    isArchived: Optional<Bool> = nil,
+                    thumbnail: Optional<Data?> = nil)
+        {
+            self.title = title
+            self.originalURL = originalURL
+            self.resolvedURL = resolvedURL
+            self.isArchived = isArchived
+            self.thumbnail = thumbnail
+        }
+    }
+}

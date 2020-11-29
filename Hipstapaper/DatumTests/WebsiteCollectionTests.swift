@@ -28,13 +28,13 @@ internal class WebsiteCollectionTests : ParentTestCase {
         try super.setUpWithError()
         
         try Array<String>(["A", "B", "C", "D"]).enumerated().forEach {
-            _ = try self.controller.createWebsite(
+            _ = try self.controller.createWebsite(.init(
                 title: $0.element,
                 originalURL: URL(string: "http://\($0.element).com/original"),
                 resolvedURL: URL(string: "http://\($0.element).com/resolved"),
                 isArchived: $0.offset.isMultiple(of: 2),
                 thumbnail: nil
-            ).get()
+            )).get()
         }
     }
     
@@ -100,22 +100,23 @@ internal class WebsiteCollectionTests : ParentTestCase {
         let sites = try self.controller.readWebsites(query: .init(isArchived: .all),
                                                      sort: .dateCreatedNewest).get()
         XCTAssertEqual(sites.count, 4)
-        _ = try self.controller.createWebsite(title: "Z",
+        _ = try self.controller.createWebsite(.init(title: "Z",
                                               originalURL: nil,
                                               resolvedURL: nil,
                                               isArchived: false,
-                                              thumbnail: nil).get()
+                                              thumbnail: nil)).get()
         XCTAssertEqual(sites.count, 5)
     }
     
     // MARK: Update
     
     internal func test_collection_update() throws {
-        
-    }
-    
-    internal func test_collection_update_observation() throws {
-        
+        let sites = try self.controller.readWebsites(query: .init(isArchived: .all),
+                                                     sort: .titleA).get()
+        XCTAssertEqual(sites[0].value.title, "A")
+        try self.controller.update(website: sites[0], with: .init(title: "Z")).get()
+        XCTAssertEqual(sites[0].value.title, "B")
+        XCTAssertEqual(sites[3].value.title, "Z")
     }
     
     // MARK: Delete
