@@ -36,3 +36,9 @@ public struct Query {
         self.search = search
     }
 }
+
+public enum Sort: CaseIterable {
+    case dateModifiedNewest, dateModifiedOldest
+    case dateCreatedNewest, dateCreatedOldest
+    case titleA, titleZ
+}

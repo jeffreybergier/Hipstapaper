@@ -29,6 +29,7 @@ extension CD_Controller: Controller {
     func createWebsite(title: String?,
                        originalURL: URL?,
                        resolvedURL: URL?,
+                       isArchived: Bool,
                        thumbnail: Data?)
                        -> Result<AnyElement<AnyWebsite>, Error>
     {
@@ -42,21 +43,23 @@ extension CD_Controller: Controller {
         website.title = title
         website.originalURL = originalURL
         website.resolvedURL = resolvedURL
+        website.isArchived = isArchived
         website.thumbnail = thumbnail
         return context.datum_save().map {
             AnyElement(CD_Element(website, { AnyWebsite($0) }))
         }
     }
 
-    func readWebsites(query: Query) -> Result<AnyCollection<AnyElement<AnyWebsite>>, Error> {
+    func readWebsites(query: Query,
+                      sort: Sort)
+                      -> Result<AnyCollection<AnyElement<AnyWebsite>>, Error>
+    {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
         let request = CD_Website.request
         request.predicate = query.cd_predicate
-        request.sortDescriptors = [
-            .init(key: #keyPath(CD_Website.dateCreated), ascending: true)
-        ]
+        request.sortDescriptors = sort.sortDescriptors
 
         let controller = NSFetchedResultsController(fetchRequest: request,
                                                     managedObjectContext: context,
