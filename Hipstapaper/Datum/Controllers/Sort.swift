@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/28.
+//  Created by Jeffrey Bergier on 2020/11/30.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,20 +19,8 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-public struct Query {
-    public enum Archived {
-        case all, unarchived
-    }
-    public var isArchived: Archived
-    public var tag: AnyElement<AnyTag>?
-    public var search: String?
-
-    public init(isArchived: Archived = .unarchived,
-                tag: AnyElement<AnyTag>? = nil,
-                search: String? = nil)
-    {
-        self.isArchived = isArchived
-        self.tag = tag
-        self.search = search
-    }
+public enum Sort: CaseIterable {
+    case dateModifiedNewest, dateModifiedOldest
+    case dateCreatedNewest, dateCreatedOldest
+    case titleA, titleZ
 }

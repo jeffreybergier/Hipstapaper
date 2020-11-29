@@ -47,22 +47,3 @@ extension Query {
         return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
     }
 }
-
-extension Sort {
-    internal var sortDescriptors: [NSSortDescriptor] {
-        switch self {
-        case .dateModifiedNewest:
-            return [.init(key: #keyPath(CD_Website.dateModified), ascending: true)]
-        case .dateModifiedOldest:
-            return [.init(key: #keyPath(CD_Website.dateModified), ascending: false)]
-        case .dateCreatedNewest:
-            return [.init(key: #keyPath(CD_Website.dateCreated), ascending: true)]
-        case .dateCreatedOldest:
-            return [.init(key: #keyPath(CD_Website.dateCreated), ascending: false)]
-        case .titleA:
-            return [.init(key: #keyPath(CD_Website.title), ascending: true)]
-        case .titleZ:
-            return [.init(key: #keyPath(CD_Website.title), ascending: false)]
-        }
-    }
-}

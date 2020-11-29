@@ -80,10 +80,13 @@ extension CD_Controller: Controller {
         }
     }
     
-    func update(website: AnyElement<AnyWebsite>, with raw: AnyWebsite.Raw) -> Result<Void, Error> {
+    func update(website input: AnyElement<AnyWebsite>, with raw: AnyWebsite.Raw) -> Result<Void, Error> {
         assert(Thread.isMainThread)
 
-        guard let website = website.value.wrappedValue as? CD_Website else { return .failure(.unknown) }
+        guard let website = input.value.wrappedValue as? CD_Website else {
+            log.error("Wrong type: \(input.value.wrappedValue)")
+            return .failure(.unknown)
+        }
         let context = self.container.viewContext
         let token = self.willSave(context)
         defer { self.didSave(token) }
@@ -113,10 +116,14 @@ extension CD_Controller: Controller {
         return changesMade ? context.datum_save() : .success(())
     }
     
-    func delete(website: AnyElement<AnyWebsite>) -> Result<Void, Error> {
+    func delete(website input: AnyElement<AnyWebsite>) -> Result<Void, Error> {
         assert(Thread.isMainThread)
 
-        guard let website = website.value.wrappedValue as? CD_Website else { return .failure(.unknown) }
+        guard let website = input.value.wrappedValue as? CD_Website else {
+            log.error("Wrong type: \(input.value.wrappedValue)")
+            return .failure(.unknown)
+        }
+        
         let context = self.container.viewContext
         let token = self.willSave(context)
         defer { self.didSave(token) }
@@ -167,10 +174,13 @@ extension CD_Controller: Controller {
         }
     }
 
-    func update(tag: AnyElement<AnyTag>, name: Optional<String?>) -> Result<Void, Error> {
+    func update(tag input: AnyElement<AnyTag>, name: Optional<String?>) -> Result<Void, Error> {
         assert(Thread.isMainThread)
 
-        guard let tag = tag.value.wrappedValue as? CD_Tag else { return .failure(.unknown) }
+        guard let tag = input.value.wrappedValue as? CD_Tag else {
+            log.error("Wrong type: \(input.value.wrappedValue)")
+            return .failure(.unknown)
+        }
         let context = self.container.viewContext
         let token = self.willSave(context)
         defer { self.didSave(token) }
@@ -184,10 +194,13 @@ extension CD_Controller: Controller {
         return changesMade ? context.datum_save() : .success(())
     }
 
-    func delete(tag: AnyElement<AnyTag>) -> Result<Void, Error> {
+    func delete(tag input: AnyElement<AnyTag>) -> Result<Void, Error> {
         assert(Thread.isMainThread)
 
-        guard let tag = tag.value.wrappedValue as? CD_Tag else { return .failure(.unknown) }
+        guard let tag = input.value.wrappedValue as? CD_Tag else {
+            log.error("Wrong type: \(input.value.wrappedValue)")
+            return .failure(.unknown)
+        }
         let context = self.container.viewContext
         let token = self.willSave(context)
         defer { self.didSave(token) }
@@ -262,7 +275,7 @@ extension CD_Controller {
     private static let mom: NSManagedObjectModel? = {
         guard let url = Bundle(for: CD_Controller.self).url(forResource: "CD_MOM",
                                                             withExtension: "momd")
-        else { return nil }
+        else { log.emergency("Couldn't find MOM"); return nil }
         return NSManagedObjectModel(contentsOf: url)
     }()
 
@@ -270,7 +283,7 @@ extension CD_Controller {
         // debug only sanity checks
         assert(Thread.isMainThread)
 
-        guard let mom = CD_Controller.mom else { return nil }
+        guard let mom = CD_Controller.mom else { log.emergency("Couldn't find MOM"); return nil }
 
         // when not testing, return normal persistent container
         guard isTesting else {
