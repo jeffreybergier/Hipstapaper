@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "ServerlessLogger",
+        "repositoryURL": "https://github.com/jeffreybergier/JSBServerlessLogger.git",
+        "state": {
+          "branch": "master",
+          "revision": "1dbd4243d9c760d577712ad2ca1b540c2f899507",
+          "version": null
+        }
+      },
+      {
+        "package": "XCGLogger",
+        "repositoryURL": "https://github.com/DaveWoodCom/XCGLogger.git",
+        "state": {
+          "branch": null,
+          "revision": "a9c4667b247928a29bdd41be2ec2c8d304215a54",
+          "version": "7.0.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

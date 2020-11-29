@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,8 +18,10 @@
 		50D63AC4256FEA35001C5985 /* TagObservationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D63AC3256FEA35001C5985 /* TagObservationTests.swift */; };
 		7302C8E525739AE700DA6614 /* WebsiteCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7302C8E425739AE700DA6614 /* WebsiteCollectionTests.swift */; };
 		7302C8EB2573A29500DA6614 /* SortTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7302C8EA2573A29500DA6614 /* SortTests.swift */; };
+		7302C8F625745E1F00DA6614 /* ServerlessLogger in Frameworks */ = {isa = PBXBuildFile; productRef = 7302C8F525745E1F00DA6614 /* ServerlessLogger */; };
 		73DC73DA25728B9F00EE72FA /* QueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC73D925728B9F00EE72FA /* QueryTests.swift */; };
 		73DC73E0257290EF00EE72FA /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC73DF257290EF00EE72FA /* Base.swift */; };
+		73F2B03825745EFD009AC2AF /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2B03725745EFD009AC2AF /* Logger.swift */; };
 		DB21C1FC256C8DC500DF6AE7 /* CD_Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB21C1FB256C8DC500DF6AE7 /* CD_Tag.swift */; };
 		DB21C203256C8F9100DF6AE7 /* Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB21C202256C8F9100DF6AE7 /* Controller.swift */; };
 		DBA1993E256D452C00383EB1 /* CD_Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA1993D256D452C00383EB1 /* CD_Collection.swift */; };
@@ -125,6 +127,7 @@
 		7302C8EA2573A29500DA6614 /* SortTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortTests.swift; sourceTree = "<group>"; };
 		73DC73D925728B9F00EE72FA /* QueryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryTests.swift; sourceTree = "<group>"; };
 		73DC73DF257290EF00EE72FA /* Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
+		73F2B03725745EFD009AC2AF /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		DB21C1FB256C8DC500DF6AE7 /* CD_Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_Tag.swift; sourceTree = "<group>"; };
 		DB21C202256C8F9100DF6AE7 /* Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controller.swift; sourceTree = "<group>"; };
 		DBA1993D256D452C00383EB1 /* CD_Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_Collection.swift; sourceTree = "<group>"; };
@@ -197,6 +200,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7302C8F625745E1F00DA6614 /* ServerlessLogger in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,6 +339,7 @@
 				DBDCB384256BEBE700D005F6 /* Datum.h */,
 				DBDCB385256BEBE700D005F6 /* Info.plist */,
 				DBAA7735256C9A17005126C3 /* Error.swift */,
+				73F2B03725745EFD009AC2AF /* Logger.swift */,
 				DB21C201256C8F6F00DF6AE7 /* Controllers */,
 				DBA1993C256D446E00383EB1 /* Wrappers */,
 				DBDCB3F7256C864E00D005F6 /* CD_Models */,
@@ -404,6 +409,8 @@
 				DBDCB3A9256BEC5B00D005F6 /* PBXTargetDependency */,
 			);
 			name = "Hipstapaper (iOS)";
+			packageProductDependencies = (
+			);
 			productName = "Hipstapaper (iOS)";
 			productReference = DBDCB343256BE8E700D005F6 /* Hipstapaper.app */;
 			productType = "com.apple.product-type.application";
@@ -423,6 +430,8 @@
 				DBDCB3B3256BEC6400D005F6 /* PBXTargetDependency */,
 			);
 			name = "Hipstapaper (macOS)";
+			packageProductDependencies = (
+			);
 			productName = "Hipstapaper (macOS)";
 			productReference = DBDCB34B256BE8E700D005F6 /* Hipstapaper.app */;
 			productType = "com.apple.product-type.application";
@@ -477,6 +486,9 @@
 			dependencies = (
 			);
 			name = Datum;
+			packageProductDependencies = (
+				7302C8F525745E1F00DA6614 /* ServerlessLogger */,
+			);
 			productName = Datum;
 			productReference = DBDCB382256BEBE700D005F6 /* Datum.framework */;
 			productType = "com.apple.product-type.framework";
@@ -540,6 +552,9 @@
 				Base,
 			);
 			mainGroup = DBDCB336256BE8E600D005F6;
+			packageReferences = (
+				7302C8F025745E1100DA6614 /* XCRemoteSwiftPackageReference "JSBServerlessLogger" */,
+			);
 			productRefGroup = DBDCB344256BE8E700D005F6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -644,6 +659,7 @@
 				DBAA7730256C999B005126C3 /* CD_Controller.swift in Sources */,
 				5031AF03256E894F00AC98AA /* Tag.swift in Sources */,
 				50D63AA8256FE3BF001C5985 /* AnyTag.swift in Sources */,
+				73F2B03825745EFD009AC2AF /* Logger.swift in Sources */,
 				DBFE5D26256F47EB00A23555 /* CD_Element.swift in Sources */,
 				5031AF24256E8DEC00AC98AA /* AnyCollection.swift in Sources */,
 				DB21C203256C8F9100DF6AE7 /* Controller.swift in Sources */,
@@ -1177,6 +1193,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7302C8F025745E1100DA6614 /* XCRemoteSwiftPackageReference "JSBServerlessLogger" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jeffreybergier/JSBServerlessLogger.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7302C8F525745E1F00DA6614 /* ServerlessLogger */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7302C8F025745E1100DA6614 /* XCRemoteSwiftPackageReference "JSBServerlessLogger" */;
+			productName = ServerlessLogger;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		DBDCB3B9256BEE3800D005F6 /* CD_MOM.xcdatamodeld */ = {
