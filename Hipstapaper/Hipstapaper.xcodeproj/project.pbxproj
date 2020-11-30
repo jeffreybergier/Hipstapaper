@@ -31,8 +31,8 @@
 		734068332574ED5800D4A343 /* TagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734068312574ED5800D4A343 /* TagList.swift */; };
 		735C91C02574F1790033B4E8 /* WebsiteList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C91BF2574F1790033B4E8 /* WebsiteList.swift */; };
 		735C91C12574F1790033B4E8 /* WebsiteList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C91BF2574F1790033B4E8 /* WebsiteList.swift */; };
-		735C91D225754E150033B4E8 /* TagListSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C91D125754E150033B4E8 /* TagListSelection.swift */; };
-		735C91D325754E150033B4E8 /* TagListSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C91D125754E150033B4E8 /* TagListSelection.swift */; };
+		735C91D225754E150033B4E8 /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C91D125754E150033B4E8 /* Query.swift */; };
+		735C91D325754E150033B4E8 /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C91D125754E150033B4E8 /* Query.swift */; };
 		73DC73DA25728B9F00EE72FA /* QueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC73D925728B9F00EE72FA /* QueryTests.swift */; };
 		73DC73E0257290EF00EE72FA /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC73DF257290EF00EE72FA /* Base.swift */; };
 		73F2B03825745EFD009AC2AF /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2B03725745EFD009AC2AF /* Logger.swift */; };
@@ -148,7 +148,7 @@
 		734068262574B5C500D4A343 /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		734068312574ED5800D4A343 /* TagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagList.swift; sourceTree = "<group>"; };
 		735C91BF2574F1790033B4E8 /* WebsiteList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteList.swift; sourceTree = "<group>"; };
-		735C91D125754E150033B4E8 /* TagListSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListSelection.swift; sourceTree = "<group>"; };
+		735C91D125754E150033B4E8 /* Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
 		73DC73D925728B9F00EE72FA /* QueryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryTests.swift; sourceTree = "<group>"; };
 		73DC73DF257290EF00EE72FA /* Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
 		73F2B03725745EFD009AC2AF /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
@@ -310,7 +310,7 @@
 				DBDCB33C256BE8E600D005F6 /* HipstapaperApp.swift */,
 				DBDCB33D256BE8E600D005F6 /* ContentView.swift */,
 				734068312574ED5800D4A343 /* TagList.swift */,
-				735C91D125754E150033B4E8 /* TagListSelection.swift */,
+				735C91D125754E150033B4E8 /* Query.swift */,
 				735C91BF2574F1790033B4E8 /* WebsiteList.swift */,
 				734068182574981200D4A343 /* TagRow.swift */,
 				7340681F2574B56700D4A343 /* WebsiteRow.swift */,
@@ -665,7 +665,7 @@
 				734068202574B56700D4A343 /* WebsiteRow.swift in Sources */,
 				DBDCB367256BE8E800D005F6 /* ContentView.swift in Sources */,
 				DBDCB365256BE8E800D005F6 /* HipstapaperApp.swift in Sources */,
-				735C91D225754E150033B4E8 /* TagListSelection.swift in Sources */,
+				735C91D225754E150033B4E8 /* Query.swift in Sources */,
 				734068192574981200D4A343 /* TagRow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -681,7 +681,7 @@
 				734068212574B56700D4A343 /* WebsiteRow.swift in Sources */,
 				DBDCB368256BE8E800D005F6 /* ContentView.swift in Sources */,
 				DBDCB366256BE8E800D005F6 /* HipstapaperApp.swift in Sources */,
-				735C91D325754E150033B4E8 /* TagListSelection.swift in Sources */,
+				735C91D325754E150033B4E8 /* Query.swift in Sources */,
 				7340681A2574981200D4A343 /* TagRow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

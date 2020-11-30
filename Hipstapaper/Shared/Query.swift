@@ -21,14 +21,15 @@
 
 import Datum
 
-struct TagListSelection {
-    var query = Query(isArchived: .all, tag: nil, search: nil)
+class Query: ObservableObject {
+    var query = Datum.Query(isArchived: .all, tag: nil, search: nil)
     var raw: AnyTag? = nil {
         didSet {
+            self.objectWillChange.send()
             self.query.search = nil
             self.query.tag = nil
             guard let tag = self.raw else { return }
-            if let fakeTag = tag.wrappedValue as? Query.Archived {
+            if let fakeTag = tag.wrappedValue as? Datum.Query.Archived {
                 self.query.isArchived = fakeTag
             } else {
                 self.query.tag = tag
@@ -37,13 +38,13 @@ struct TagListSelection {
     }
 }
 
-extension Query.Archived {
+extension Datum.Query.Archived {
     static var tagCases: [AnyTag] {
         return allCases.map { AnyTag($0) }
     }
 }
 
-extension Query.Archived: Tag {
+extension Datum.Query.Archived: Tag {
     public var name: String? {
         switch self {
         case .unarchived:

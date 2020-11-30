@@ -25,12 +25,12 @@ import Datum
 struct TagList: View {
     
     @ObservedObject var data: AnyCollection<AnyElement<AnyTag>>
-    @State var selection: TagListSelection
+    @ObservedObject var query: Query
 
     var body: some View {
-        List(selection: self.$selection.raw) {
+        List(selection: self.$query.raw) {
             Section(header: SectionTitle("Reading List")) {
-                ForEach(Query.Archived.tagCases, id: \.self) { item in
+                ForEach(Datum.Query.Archived.tagCases, id: \.self) { item in
                     TagRow(item)
                 }
             }
@@ -48,7 +48,7 @@ struct TagList: View {
 #if DEBUG
 struct TagList_Preview: PreviewProvider {
     static var previews: some View {
-        TagList(data: p_tags, selection: p_query)
+        TagList(data: p_tags, query: p_query)
     }
 }
 #endif
