@@ -20,10 +20,11 @@
 //
 
 public struct Query {
-    public enum Archived {
-        case all, unarchived
+    public enum Archived: Int, Identifiable, CaseIterable {
+        case unarchived, all
+        public var id: Int { self.rawValue }
     }
-    public var isArchived: Archived
+    public var isArchived: Archived! // TODO: Hack for SwiftUI - Remove
     public var tag: AnyTag?
     public var search: String?
 

@@ -26,7 +26,7 @@ struct ContentView: View {
     
     @ObservedObject var tags: AnyCollection<AnyElement<AnyTag>>
     @ObservedObject var websites: AnyCollection<AnyElement<AnyWebsite>>
-    @State var query: QueryState
+    @State var query: Query
 
     
     var body: some View {

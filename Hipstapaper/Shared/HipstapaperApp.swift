@@ -25,7 +25,7 @@ import Datum
 @main
 struct HipstapaperApp: App {
     
-    @State var query: QueryState = QueryState()
+    @State var query = Query(isArchived: .unarchived, tag: nil, search: nil)
 
     var body: some Scene {
         WindowGroup {

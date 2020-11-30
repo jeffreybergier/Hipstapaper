@@ -24,10 +24,16 @@ import Datum
 
 struct TagList: View {
     
+    let fixed = Query.Archived.allCases
     @ObservedObject var data: AnyCollection<AnyElement<AnyTag>>
-    @State var query: QueryState
+    @State var query: Query = Query(isArchived: .all, tag: nil, search: nil)
 
     var body: some View {
+        // Convert to OutlineGroup
+        // https://developer.apple.com/forums/thread/127653
+        List(self.fixed, id: \.self, selection: self.$query.isArchived) { item in
+            RowTitle(title: item == .all ? "All Items" : "Unarchived Items")
+        }
         List(self.data, id: \.value, selection: self.$query.tag) { item in
             TagRow(tag: item.value)
         }
