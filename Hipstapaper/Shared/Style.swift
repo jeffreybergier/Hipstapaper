@@ -27,6 +27,19 @@ import AppKit
 import UIKit
 #endif
 
+struct SectionTitle: View {
+    var title: String
+    var body: some View {
+        Text(title)
+            .font(.title3)
+            .frame(height: 30)
+    }
+    
+    init(_ title: String) {
+        self.title = title
+    }
+}
+
 struct RowTitle: View {
     var title: String?
     var body: Text {
@@ -37,6 +50,9 @@ struct RowTitle: View {
             return Text("Untitled")
                 .font(.headline)
         }
+    }
+    init(_ title: String?) {
+        self.title = title
     }
 }
 
@@ -50,9 +66,14 @@ struct DateSubtitle: View {
     }()
     
     var date: Date
+    
     var body: Text {
         return Text(DateSubtitle.formatter.string(from: self.date))
             .font(.subheadline)
+    }
+    
+    init(_ date: Date) {
+        self.date = date
     }
 }
 
@@ -73,4 +94,7 @@ struct Thumbnail: View {
         #endif
     }
     
+    init(_ data: Data?) {
+        self.data = data
+    }
 }

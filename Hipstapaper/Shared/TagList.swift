@@ -29,12 +29,12 @@ struct TagList: View {
 
     var body: some View {
         List(selection: self.$selection.raw) {
-            Section(header: RowTitle(title: "Reading List")) {
+            Section(header: SectionTitle("Reading List")) {
                 ForEach(Query.Archived.tagCases, id: \.self) { item in
                     TagRow(item)
                 }
             }
-            Section(header: RowTitle(title: "Tags")) {
+            Section(header: SectionTitle("Tags")) {
                 ForEach(self.data, id: \.value) { item in
                     TagRow(item.value)
                 }

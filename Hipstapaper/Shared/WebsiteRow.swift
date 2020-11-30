@@ -29,26 +29,30 @@ struct WebsiteRow: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                RowTitle(title: self.website.title)
-                DateSubtitle(date: self.website.dateCreated)
+                RowTitle(self.website.title)
+                DateSubtitle(self.website.dateCreated)
             }
             Spacer()
-            Thumbnail(data: self.website.thumbnail)
+            Thumbnail(self.website.thumbnail)
                 .scaledToFit()
         }
         .frame(height: 60)
+    }
+    
+    init(_ website: AnyWebsite) {
+        self.website = website
     }
 }
 
 #if DEBUG
 struct WebsiteRow_Preview1: PreviewProvider {
     static var previews: some View {
-        WebsiteRow(website: p_sites[0].value)
+        WebsiteRow(p_sites[0].value)
     }
 }
 struct WebsiteRow_Preview2: PreviewProvider {
     static var previews: some View {
-        WebsiteRow(website: p_sites[2].value)
+        WebsiteRow(p_sites[2].value)
     }
 }
 #endif

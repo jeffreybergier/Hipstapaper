@@ -25,17 +25,19 @@ import Datum
 struct TagRow: View {
     
     var title: String?
-    var websitesCount: Int
+    var websitesCount: Int? = nil
     
     var body: some View {
         HStack {
-            RowTitle(title: self.title)
-            Spacer()
-            Text(String(self.websitesCount))
-                .font(.callout)
-                .foregroundColor(.black)
-                .padding(EdgeInsets(top: 3, leading: 8, bottom: 3, trailing: 8))
-                .background(RoundedRectangle(cornerRadius: 15).fill(Color.gray))
+            RowTitle(self.title)
+            if let count = self.websitesCount {
+                Spacer()
+                Text(String(count))
+                    .font(.callout)
+                    .foregroundColor(.black)
+                    .padding(EdgeInsets(top: 3, leading: 8, bottom: 3, trailing: 8))
+                    .background(RoundedRectangle(cornerRadius: 15).fill(Color.gray))
+            }
         }
         .frame(height: 30)
     }
@@ -44,9 +46,10 @@ struct TagRow: View {
         self.title = tag.name
         self.websitesCount = tag.websitesCount
     }
+    
     init(_ title: String) {
         self.title = title
-        self.websitesCount = -1
+        self.websitesCount = nil
     }
 }
 

@@ -28,7 +28,7 @@ struct WebsiteList: View {
     
     var body: some View {
         List(self.data) { item in
-            WebsiteRow(website: item.value)
+            WebsiteRow(item.value)
         }
         .navigationTitle("Hipstapaper")
     }
