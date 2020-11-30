@@ -19,7 +19,7 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-public protocol Tag: Base {
+public protocol Tag: Base, Hashable {
     var name: String? { get }
     var websitesCount: Int { get }
 }

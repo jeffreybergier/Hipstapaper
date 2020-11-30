@@ -19,7 +19,7 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-public protocol Base: Identifiable {
+public protocol Base: Identifiable, Hashable {
     var dateCreated: Date { get }
     var dateModified: Date { get }
 }

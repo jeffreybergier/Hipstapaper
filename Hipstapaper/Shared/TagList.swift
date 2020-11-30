@@ -25,9 +25,10 @@ import Datum
 struct TagList: View {
     
     @ObservedObject var data: AnyCollection<AnyElement<AnyTag>>
+    @State var selection: AnyTag? = nil
     
     var body: some View {
-        List(self.data) { item in
+        List(self.data, id: \.value, selection: self.$selection) { item in
             TagRow(tag: item.value)
         }
         .navigationTitle("Tags")
