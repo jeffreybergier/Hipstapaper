@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/26.
+//  Created by Jeffrey Bergier on 2020/11/30.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -22,42 +22,42 @@
 import XCTest
 import Datum
 
-class TagObservationTests: ParentTestCase {
+class WebsiteObservationTests: ParentTestCase {
 
-    func test_tag_update_observation() throws {
-        let tag = try self.controller.createTag(name: "A").get()
-        XCTAssertEqual(tag.value.name, "A")
+    func test_website_update_observation() throws {
+        let website = try self.controller.createWebsite(.init(title: "A")).get()
+        XCTAssertEqual(website.value.title, "A")
         self.do(after: .instant) {
             do {
-                try self.controller.update(tag: tag, name: "B").get()
+                try self.controller.update(website: website, with: .init(title: "B")).get()
             } catch {
                 XCTFail(String(describing: error))
             }
         }
         let wait = self.newWait(count: 3)
-        self.token = tag.objectWillChange.sink() {
+        self.token = website.objectWillChange.sink() {
             wait() {
-                XCTAssertEqual(tag.value.name, "B")
-                XCTAssertFalse(tag.isDeleted)
+                XCTAssertEqual(website.value.title, "B")
+                XCTAssertFalse(website.isDeleted)
             }
         }
         self.wait(for: .short)
     }
 
-    func test_tag_delete_observation() throws {
-        let tag = try self.controller.createTag(name: "A").get()
-        XCTAssertEqual(tag.value.name, "A")
+    func test_website_delete_observation() throws {
+        let website = try self.controller.createWebsite(.init(title: "A")).get()
+        XCTAssertEqual(website.value.title, "A")
         self.do(after: .instant) {
             do {
-                try self.controller.delete(tag: tag).get()
+                try self.controller.delete(website: website).get()
             } catch {
                 XCTFail(String(describing: error))
             }
         }
         let wait = self.newWait()
-        self.token = tag.objectWillChange.sink() {
+        self.token = website.objectWillChange.sink() {
             wait() {
-                XCTAssertTrue(tag.isDeleted)
+                XCTAssertTrue(website.isDeleted)
             }
         }
         self.wait(for: .short)
