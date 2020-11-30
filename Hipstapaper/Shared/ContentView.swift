@@ -20,16 +20,25 @@
 //
 
 import SwiftUI
+import Datum
 
 struct ContentView: View {
+    
+    @ObservedObject var tags: AnyCollection<AnyElement<AnyTag>>
+    @ObservedObject var websites: AnyCollection<AnyElement<AnyWebsite>>
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        NavigationView {
+            TagList(data: self.tags)
+            WebsiteList(data: self.websites)
+        }
     }
 }
 
+#if DEBUG
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(tags: p_tags, websites: p_sites)
     }
 }
+#endif

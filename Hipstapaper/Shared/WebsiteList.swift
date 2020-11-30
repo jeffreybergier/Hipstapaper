@@ -24,14 +24,13 @@ import Datum
 
 struct WebsiteList: View {
     
-    var data: AnyCollection<AnyElement<AnyWebsite>>
+    @ObservedObject var data: AnyCollection<AnyElement<AnyWebsite>>
     
     var body: some View {
-        LazyVStack() {
-            ForEach(self.data) { item in
-                WebsiteRow(website: item.value)
-            }
+        List(self.data) { item in
+            WebsiteRow(website: item.value)
         }
+        .navigationTitle("Hipstapaper")
     }
 }
 

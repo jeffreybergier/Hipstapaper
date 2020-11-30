@@ -27,7 +27,7 @@ struct HipstapaperApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(tags: p_tags, websites: p_sites)
         }
     }
 }

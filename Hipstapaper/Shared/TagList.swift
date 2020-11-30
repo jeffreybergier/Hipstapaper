@@ -24,14 +24,13 @@ import Datum
 
 struct TagList: View {
     
-    var data: AnyCollection<AnyElement<AnyTag>>
+    @ObservedObject var data: AnyCollection<AnyElement<AnyTag>>
     
     var body: some View {
-        LazyVStack() {
-            ForEach(self.data) { item in
-                TagRow(tag: item.value)
-            }
+        List(self.data) { item in
+            TagRow(tag: item.value)
         }
+        .navigationTitle("Tags")
     }
 }
 
