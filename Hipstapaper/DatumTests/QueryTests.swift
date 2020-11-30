@@ -20,6 +20,7 @@
 //
 
 import XCTest
+import CoreData
 @testable import Datum
 
 class QueryTests: ParentTestCase {
