@@ -46,7 +46,7 @@ public struct AnyWebsite: Website {
     /// Untyped storage for original database object
     internal let wrappedValue: Any
 
-    internal init<T: Website>(_ website: T) where T.ID == ID {
+    public init<T: Website>(_ website: T) where T.ID == ID {
         _id = { website.id }
         _isArchived   = { website.isArchived }
         _originalURL  = { website.originalURL }

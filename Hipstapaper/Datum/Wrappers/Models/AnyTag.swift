@@ -39,7 +39,7 @@ public struct AnyTag: Tag {
 
     internal let wrappedValue: Any
 
-    internal init<T: Tag>(_ tag: T) where T.ID == ID {
+    public init<T: Tag>(_ tag: T) where T.ID == ID {
         _id            = { tag.id }
         _name          = { tag.name }
         _websitesCount = { tag.websitesCount }
