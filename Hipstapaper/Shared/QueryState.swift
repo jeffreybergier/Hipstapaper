@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/28.
+//  Created by Jeffrey Bergier on 2020/11/30.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,20 +19,15 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-public struct Query {
-    public enum Archived {
-        case all, unarchived
-    }
-    public var isArchived: Archived
-    public var tag: AnyTag?
-    public var search: String?
+import SwiftUI
+import Datum
 
-    public init(isArchived: Archived = .unarchived,
-                tag: AnyTag? = nil,
-                search: String? = nil)
-    {
-        self.isArchived = isArchived
-        self.tag = tag
-        self.search = search
+struct QueryState {
+    @State var query = Query(isArchived: .unarchived, tag: nil, search: nil)
+    var tag: AnyTag? = nil {
+        didSet {
+            guard let tag = self.tag else { return }
+            query.tag = tag
+        }
     }
 }

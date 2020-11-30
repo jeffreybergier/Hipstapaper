@@ -24,10 +24,12 @@ import Datum
 
 @main
 struct HipstapaperApp: App {
+    
+    @State var query: QueryState = QueryState()
 
     var body: some Scene {
         WindowGroup {
-            ContentView(tags: p_tags, websites: p_sites)
+            ContentView(tags: p_tags, websites: p_sites, query: self.query)
         }
     }
 }

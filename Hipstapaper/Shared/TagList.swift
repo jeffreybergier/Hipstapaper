@@ -25,10 +25,10 @@ import Datum
 struct TagList: View {
     
     @ObservedObject var data: AnyCollection<AnyElement<AnyTag>>
-    @State var selection: AnyTag? = nil
-    
+    @State var query: QueryState
+
     var body: some View {
-        List(self.data, id: \.value, selection: self.$selection) { item in
+        List(self.data, id: \.value, selection: self.$query.tag) { item in
             TagRow(tag: item.value)
         }
         .navigationTitle("Tags")
@@ -38,7 +38,7 @@ struct TagList: View {
 #if DEBUG
 struct TagList_Preview: PreviewProvider {
     static var previews: some View {
-        TagList(data: p_tags)
+        TagList(data: p_tags, query: p_query)
     }
 }
 #endif

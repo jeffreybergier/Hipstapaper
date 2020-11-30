@@ -56,7 +56,7 @@ class QueryTests: ParentTestCase {
     func test_predicate_all_search_tag() throws {
         let tag = try self.controller.createTag(name: "ATag").get()
         let _tag = tag.value.wrappedValue as! NSManagedObject
-        let query = Query(isArchived: .all, tag: tag, search: "aString")
+        let query = Query(isArchived: .all, tag: tag.value, search: "aString")
         print(query.cd_predicate.debugDescription)
         guard let predicate = query.cd_predicate else { XCTFail(); return }
         print(_tag.objectID)
@@ -67,7 +67,7 @@ class QueryTests: ParentTestCase {
     func test_predicate_unarchived_search_tag() throws {
         let tag = try self.controller.createTag(name: "ATag").get()
         let _tag = tag.value.wrappedValue as! NSManagedObject
-        let query = Query(isArchived: .unarchived, tag: tag, search: "aString")
+        let query = Query(isArchived: .unarchived, tag: tag.value, search: "aString")
         print(query.cd_predicate.debugDescription)
         guard let predicate = query.cd_predicate else { XCTFail(); return }
         print(_tag.objectID)

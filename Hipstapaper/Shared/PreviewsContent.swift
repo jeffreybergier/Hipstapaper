@@ -23,6 +23,8 @@
 
 import Datum
 
+var p_query: QueryState = QueryState()
+
 let p_tags: AnyCollection<AnyElement<AnyTag>> = {
     let date1 = Date(timeIntervalSinceNow: -700)
     let date2 = Date(timeIntervalSinceNow: 0)
