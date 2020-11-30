@@ -28,9 +28,11 @@ let p_tags: AnyCollection<AnyElement<AnyTag>> = {
     let date2 = Date(timeIntervalSinceNow: 0)
     let tag1 = P_Tag(name: "Videos", websitesCount: 3, dateCreated: date1, dateModified: date1, id: .init(NSString("")))
     let tag2 = P_Tag(name: "Japan", websitesCount: 8, dateCreated: date2, dateModified: date2, id: .init(NSString("")))
+    let tag3 = P_Tag(name: nil, websitesCount: 20, dateCreated: date2, dateModified: date2, id: .init(NSString("")))
     let element1 = AnyElement(P_Element(AnyTag(tag1)))
     let element2 = AnyElement(P_Element(AnyTag(tag2)))
-    let collection = P_Collection([element1, element2])
+    let element3 = AnyElement(P_Element(AnyTag(tag3)))
+    let collection = P_Collection([element1, element2, element3])
     return AnyCollection(collection)
 }()
 
