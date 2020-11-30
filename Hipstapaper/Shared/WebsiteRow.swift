@@ -22,32 +22,32 @@
 import SwiftUI
 import Datum
 
-struct TagRow: View {
+struct WebsiteRow: View {
     
-    var tag: AnyTag
+    var website: AnyWebsite
     
     var body: some View {
         HStack {
-            RowTitle(title: self.tag.name)
-            Text(String(tag.websitesCount))
-                .font(.callout)
-                .foregroundColor(.black)
-                .padding(EdgeInsets(top: 3, leading: 8, bottom: 3, trailing: 8))
-                .background(RoundedRectangle(cornerRadius: 15).fill(Color.gray))
+            VStack(alignment: .leading) {
+                RowTitle(title: self.website.title)
+                DateSubtitle(date: self.website.dateCreated)
+            }
+            Thumbnail(data: self.website.thumbnail)
+                .scaledToFit()
         }
+        .frame(height: 60)
     }
 }
 
 #if DEBUG
-struct TagRow_Preview1: PreviewProvider {
+struct WebsiteRow_Preview1: PreviewProvider {
     static var previews: some View {
-        TagRow(tag: p_tags[0].value)
+        WebsiteRow(website: p_sites[0].value)
     }
 }
-struct TagRow_Preview2: PreviewProvider {
+struct WebsiteRow_Preview2: PreviewProvider {
     static var previews: some View {
-        TagRow(tag: p_tags[2].value)
+        WebsiteRow(website: p_sites[2].value)
     }
 }
 #endif
-
