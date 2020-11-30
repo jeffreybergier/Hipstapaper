@@ -24,19 +24,23 @@ import Datum
 
 struct TagList: View {
     
-    let fixed = Query.Archived.allCases
     @ObservedObject var data: AnyCollection<AnyElement<AnyTag>>
-    @State var query: Query = Query(isArchived: .all, tag: nil, search: nil)
+    @State var selection: TagListSelection
 
     var body: some View {
-        // Convert to OutlineGroup
-        // https://developer.apple.com/forums/thread/127653
-        List(self.fixed, id: \.self, selection: self.$query.isArchived) { item in
-            RowTitle(title: item == .all ? "All Items" : "Unarchived Items")
+        List(selection: self.$selection.raw) {
+            Section(header: RowTitle(title: "Reading List")) {
+                ForEach(Query.Archived.tagCases, id: \.self) { item in
+                    TagRow(item)
+                }
+            }
+            Section(header: RowTitle(title: "Tags")) {
+                ForEach(self.data, id: \.value) { item in
+                    TagRow(item.value)
+                }
+            }
         }
-        List(self.data, id: \.value, selection: self.$query.tag) { item in
-            TagRow(tag: item.value)
-        }
+        .listStyle(SidebarListStyle())
         .navigationTitle("Tags")
     }
 }
@@ -44,7 +48,7 @@ struct TagList: View {
 #if DEBUG
 struct TagList_Preview: PreviewProvider {
     static var previews: some View {
-        TagList(data: p_tags, query: p_query)
+        TagList(data: p_tags, selection: p_query)
     }
 }
 #endif

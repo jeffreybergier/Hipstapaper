@@ -25,11 +25,11 @@ import Datum
 @main
 struct HipstapaperApp: App {
     
-    @State var query = Query(isArchived: .unarchived, tag: nil, search: nil)
+    @State var selection = TagListSelection()
 
     var body: some Scene {
         WindowGroup {
-            ContentView(tags: p_tags, websites: p_sites, query: self.query)
+            ContentView(tags: p_tags, websites: p_sites, selection: self.selection)
         }
     }
 }

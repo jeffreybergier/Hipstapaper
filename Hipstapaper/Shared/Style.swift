@@ -33,11 +33,9 @@ struct RowTitle: View {
         if let title = self.title {
             return Text(title)
                 .font(.headline)
-                .foregroundColor(.black)
         } else {
             return Text("Untitled")
                 .font(.headline)
-                .foregroundColor(.gray)
         }
     }
 }
@@ -55,7 +53,6 @@ struct DateSubtitle: View {
     var body: Text {
         return Text(DateSubtitle.formatter.string(from: self.date))
             .font(.subheadline)
-            .foregroundColor(.black)
     }
 }
 

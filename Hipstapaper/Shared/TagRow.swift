@@ -24,13 +24,14 @@ import Datum
 
 struct TagRow: View {
     
-    var tag: AnyTag
+    var title: String?
+    var websitesCount: Int
     
     var body: some View {
         HStack {
-            RowTitle(title: self.tag.name)
+            RowTitle(title: self.title)
             Spacer()
-            Text(String(tag.websitesCount))
+            Text(String(self.websitesCount))
                 .font(.callout)
                 .foregroundColor(.black)
                 .padding(EdgeInsets(top: 3, leading: 8, bottom: 3, trailing: 8))
@@ -38,17 +39,26 @@ struct TagRow: View {
         }
         .frame(height: 30)
     }
+    
+    init(_ tag: AnyTag) {
+        self.title = tag.name
+        self.websitesCount = tag.websitesCount
+    }
+    init(_ title: String) {
+        self.title = title
+        self.websitesCount = -1
+    }
 }
 
 #if DEBUG
 struct TagRow_Preview1: PreviewProvider {
     static var previews: some View {
-        TagRow(tag: p_tags[0].value)
+        TagRow(p_tags[0].value)
     }
 }
 struct TagRow_Preview2: PreviewProvider {
     static var previews: some View {
-        TagRow(tag: p_tags[2].value)
+        TagRow(p_tags[2].value)
     }
 }
 #endif

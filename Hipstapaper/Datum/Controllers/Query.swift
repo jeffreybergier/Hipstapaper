@@ -19,10 +19,12 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import Foundation
+
 public struct Query {
     public enum Archived: Int, Identifiable, CaseIterable {
         case unarchived, all
-        public var id: Int { self.rawValue }
+        public var id: ObjectIdentifier { .init(NSNumber(value: self.rawValue)) }
     }
     public var isArchived: Archived! // TODO: Hack for SwiftUI - Remove
     public var tag: AnyTag?

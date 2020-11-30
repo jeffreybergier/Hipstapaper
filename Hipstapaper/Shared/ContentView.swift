@@ -26,12 +26,12 @@ struct ContentView: View {
     
     @ObservedObject var tags: AnyCollection<AnyElement<AnyTag>>
     @ObservedObject var websites: AnyCollection<AnyElement<AnyWebsite>>
-    @State var query: Query
+    @State var selection: TagListSelection
 
     
     var body: some View {
         NavigationView {
-            TagList(data: self.tags, query: self.query)
+            TagList(data: self.tags, selection: self.selection)
             WebsiteList(data: self.websites)
         }
     }
@@ -40,7 +40,7 @@ struct ContentView: View {
 #if DEBUG
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(tags: p_tags, websites: p_sites, query: p_query)
+        ContentView(tags: p_tags, websites: p_sites, selection: p_query)
     }
 }
 #endif

@@ -23,7 +23,7 @@
 
 import Datum
 
-var p_query = Query(isArchived: .unarchived, tag: nil, search: nil)
+var p_query = TagListSelection()
 
 let p_tags: AnyCollection<AnyElement<AnyTag>> = {
     let date1 = Date(timeIntervalSinceNow: -700)
