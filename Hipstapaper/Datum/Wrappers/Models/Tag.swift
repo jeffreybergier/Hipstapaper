@@ -21,5 +21,5 @@
 
 public protocol Tag: Base, Hashable {
     var name: String? { get }
-    var websitesCount: Int { get }
+    var websitesCount: Int? { get }
 }

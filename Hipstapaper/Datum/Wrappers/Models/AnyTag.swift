@@ -25,16 +25,16 @@ public struct AnyTag: Tag {
 
     public typealias ID = ObjectIdentifier
 
-    public var id: ID             { _id() }
-    public var name: String?      { _name() }
-    public var websitesCount: Int { _websitesCount() }
-    public var dateCreated: Date  { _dateCreated() }
-    public var dateModified: Date { _dateModified() }
-    public var hashValue: Int     { _hashValue() }
+    public var id: ID              { _id() }
+    public var name: String?       { _name() }
+    public var websitesCount: Int? { _websitesCount() }
+    public var dateCreated: Date   { _dateCreated() }
+    public var dateModified: Date  { _dateModified() }
+    public var hashValue: Int      { _hashValue() }
 
     private var _id:            () -> ID
     private var _name:          () -> String?
-    private var _websitesCount: () -> Int
+    private var _websitesCount: () -> Int?
     private var _dateCreated:   () -> Date
     private var _dateModified:  () -> Date
     private var _hashValue:     () -> Int

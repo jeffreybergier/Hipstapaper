@@ -53,7 +53,7 @@ extension Query.Archived: Tag {
         }
     }
     
-    public var websitesCount: Int { return -1 }
+    public var websitesCount: Int? { return nil }
     public var dateCreated: Date { fatalError() }
     public var dateModified: Date { fatalError() }
 }

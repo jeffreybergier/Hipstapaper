@@ -65,7 +65,7 @@ let p_sites: AnyCollection<AnyElement<AnyWebsite>> = {
 
 struct P_Tag: Tag {
     var name: String?
-    var websitesCount: Int
+    var websitesCount: Int?
     var dateCreated: Date
     var dateModified: Date
     var id: ObjectIdentifier

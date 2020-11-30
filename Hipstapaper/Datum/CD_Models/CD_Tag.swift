@@ -22,7 +22,7 @@
 import CoreData
 
 extension CD_Tag: Tag {
-    var websitesCount: Int {
+    var websitesCount: Int? {
         return Int(self.cd_websitesCount)
     }
 }
