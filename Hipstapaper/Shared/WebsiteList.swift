@@ -22,34 +22,23 @@
 import SwiftUI
 import Datum
 
-struct TagRow: View {
+struct WebsiteList: View {
     
-    var tag: AnyTag
+    var data: AnyCollection<AnyElement<AnyWebsite>>
     
     var body: some View {
-        HStack {
-            RowTitle(title: self.tag.name)
-            Spacer()
-            Text(String(tag.websitesCount))
-                .font(.callout)
-                .foregroundColor(.black)
-                .padding(EdgeInsets(top: 3, leading: 8, bottom: 3, trailing: 8))
-                .background(RoundedRectangle(cornerRadius: 15).fill(Color.gray))
+        LazyVStack() {
+            ForEach(self.data) { item in
+                WebsiteRow(website: item.value)
+            }
         }
-        .frame(height: 30)
     }
 }
 
 #if DEBUG
-struct TagRow_Preview1: PreviewProvider {
+struct WebsiteList_Preview: PreviewProvider {
     static var previews: some View {
-        TagRow(tag: p_tags[0].value)
-    }
-}
-struct TagRow_Preview2: PreviewProvider {
-    static var previews: some View {
-        TagRow(tag: p_tags[2].value)
+        WebsiteList(data: p_sites)
     }
 }
 #endif
-

@@ -32,6 +32,7 @@ struct WebsiteRow: View {
                 RowTitle(title: self.website.title)
                 DateSubtitle(date: self.website.dateCreated)
             }
+            Spacer()
             Thumbnail(data: self.website.thumbnail)
                 .scaledToFit()
         }

@@ -26,9 +26,9 @@ import Datum
 let p_tags: AnyCollection<AnyElement<AnyTag>> = {
     let date1 = Date(timeIntervalSinceNow: -700)
     let date2 = Date(timeIntervalSinceNow: 0)
-    let tag1 = P_Tag(name: "Videos", websitesCount: 3, dateCreated: date1, dateModified: date1, id: .init(NSString("")))
-    let tag2 = P_Tag(name: "Japan", websitesCount: 8, dateCreated: date2, dateModified: date2, id: .init(NSString("")))
-    let tag3 = P_Tag(name: nil, websitesCount: 20, dateCreated: date2, dateModified: date2, id: .init(NSString("")))
+    let tag1 = P_Tag(name: "Videos", websitesCount: 3, dateCreated: date1, dateModified: date1, id: .init(NSString("A")))
+    let tag2 = P_Tag(name: "Japan", websitesCount: 8, dateCreated: date2, dateModified: date2, id: .init(NSString("B")))
+    let tag3 = P_Tag(name: nil, websitesCount: 20, dateCreated: date2, dateModified: date2, id: .init(NSString("C")))
     let element1 = AnyElement(P_Element(AnyTag(tag1)))
     let element2 = AnyElement(P_Element(AnyTag(tag2)))
     let element3 = AnyElement(P_Element(AnyTag(tag3)))
@@ -42,15 +42,15 @@ let p_sites: AnyCollection<AnyElement<AnyWebsite>> = {
     let site1 = P_Website(.init(title: "Google.com", resolvedURL: URL(string: "https://www.google.com")!),
                           dateCreated: date1,
                           dateModified: date2,
-                          id: .init(NSString("")))
+                          id: .init(NSString("A")))
     let site2 = P_Website(.init(title: "Apple.com", originalURL: URL(string: "https://www.apple.com")!),
                           dateCreated: date2,
                           dateModified: date1,
-                          id: .init(NSString("")))
+                          id: .init(NSString("B")))
     let site3 = P_Website(.init(originalURL: URL(string: "https://www.microsoft.com")!, thumbnail: fakeImageData),
                           dateCreated: date1,
                           dateModified: date2,
-                          id: .init(NSString("")))
+                          id: .init(NSString("C")))
     let collection = P_Collection(
         [
             AnyElement(P_Element(AnyWebsite(site1))),
