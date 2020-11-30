@@ -78,7 +78,7 @@ class TagCollectionTests: ParentTestCase {
         XCTAssertEqual(tags[1].value.name, "A")
         XCTAssertEqual(tags[2].value.name, "B")
         XCTAssertEqual(tags[3].value.name, "C")
-        try self.controller.update(tag: tags[2], name: .some("Z")).get()
+        try self.controller.update(tags[2], name: "Z").get()
         XCTAssertEqual(tags[0].value.name, nil)
         XCTAssertEqual(tags[1].value.name, "A")
         XCTAssertEqual(tags[2].value.name, "C")
@@ -93,7 +93,7 @@ class TagCollectionTests: ParentTestCase {
         XCTAssertEqual(tags[3].value.name, "C")
         self.do(after: .instant) {
             do {
-                try self.controller.update(tag: tags[2], name: .some("Z")).get()
+                try self.controller.update(tags[2], name: "Z").get()
             } catch {
                 XCTFail(String(describing: error))
             }
@@ -118,7 +118,7 @@ class TagCollectionTests: ParentTestCase {
         XCTAssertEqual(tags[1].value.name, "A")
         XCTAssertEqual(tags[2].value.name, "B")
         XCTAssertEqual(tags[3].value.name, "C")
-        try self.controller.delete(tag: tags[2]).get()
+        try self.controller.delete(tags[2]).get()
         XCTAssertEqual(tags[0].value.name, nil)
         XCTAssertEqual(tags[1].value.name, "A")
         XCTAssertEqual(tags[2].value.name, "C")
@@ -132,7 +132,7 @@ class TagCollectionTests: ParentTestCase {
         XCTAssertEqual(tags[3].value.name, "C")
         self.do(after: .instant) {
             do {
-                try self.controller.delete(tag: tags[2]).get()
+                try self.controller.delete(tags[2]).get()
             } catch {
                 XCTFail(String(describing: error))
             }

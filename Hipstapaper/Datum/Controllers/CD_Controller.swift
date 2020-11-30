@@ -80,7 +80,7 @@ extension CD_Controller: Controller {
         }
     }
     
-    func update(website input: AnyElement<AnyWebsite>, with raw: AnyWebsite.Raw) -> Result<Void, Error> {
+    func update(_ input: AnyElement<AnyWebsite>, _ raw: AnyWebsite.Raw) -> Result<Void, Error> {
         assert(Thread.isMainThread)
 
         guard let website = input.value.wrappedValue as? CD_Website else {
@@ -116,7 +116,7 @@ extension CD_Controller: Controller {
         return changesMade ? context.datum_save() : .success(())
     }
     
-    func delete(website input: AnyElement<AnyWebsite>) -> Result<Void, Error> {
+    func delete(_ input: AnyElement<AnyWebsite>) -> Result<Void, Error> {
         assert(Thread.isMainThread)
 
         guard let website = input.value.wrappedValue as? CD_Website else {
@@ -174,7 +174,7 @@ extension CD_Controller: Controller {
         }
     }
 
-    func update(tag input: AnyElement<AnyTag>, name: Optional<String?>) -> Result<Void, Error> {
+    func update(_ input: AnyElement<AnyTag>, name: Optional<String?>) -> Result<Void, Error> {
         assert(Thread.isMainThread)
 
         guard let tag = input.value.wrappedValue as? CD_Tag else {
@@ -194,7 +194,7 @@ extension CD_Controller: Controller {
         return changesMade ? context.datum_save() : .success(())
     }
 
-    func delete(tag input: AnyElement<AnyTag>) -> Result<Void, Error> {
+    func delete(_ input: AnyElement<AnyTag>) -> Result<Void, Error> {
         assert(Thread.isMainThread)
 
         guard let tag = input.value.wrappedValue as? CD_Tag else {

@@ -29,7 +29,7 @@ class TagObservationTests: ParentTestCase {
         XCTAssertEqual(tag.value.name, "A")
         self.do(after: .instant) {
             do {
-                try self.controller.update(tag: tag, name: "B").get()
+                try self.controller.update(tag, name: "B").get()
             } catch {
                 XCTFail(String(describing: error))
             }
@@ -49,7 +49,7 @@ class TagObservationTests: ParentTestCase {
         XCTAssertEqual(tag.value.name, "A")
         self.do(after: .instant) {
             do {
-                try self.controller.delete(tag: tag).get()
+                try self.controller.delete(tag).get()
             } catch {
                 XCTFail(String(describing: error))
             }
