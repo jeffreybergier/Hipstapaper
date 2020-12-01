@@ -33,6 +33,9 @@
 		735C91C12574F1790033B4E8 /* WebsiteList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C91BF2574F1790033B4E8 /* WebsiteList.swift */; };
 		735C91D225754E150033B4E8 /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C91D125754E150033B4E8 /* Query.swift */; };
 		735C91D325754E150033B4E8 /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C91D125754E150033B4E8 /* Query.swift */; };
+		735C91EC257674F30033B4E8 /* UIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C91EB257674F30033B4E8 /* UIController.swift */; };
+		735C91F2257678070033B4E8 /* AnyUIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C91F1257678070033B4E8 /* AnyUIController.swift */; };
+		735C91F8257678310033B4E8 /* DefaultUIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C91F7257678310033B4E8 /* DefaultUIController.swift */; };
 		73DC73DA25728B9F00EE72FA /* QueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC73D925728B9F00EE72FA /* QueryTests.swift */; };
 		73DC73E0257290EF00EE72FA /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC73DF257290EF00EE72FA /* Base.swift */; };
 		73F2B03825745EFD009AC2AF /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2B03725745EFD009AC2AF /* Logger.swift */; };
@@ -149,6 +152,9 @@
 		734068312574ED5800D4A343 /* TagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagList.swift; sourceTree = "<group>"; };
 		735C91BF2574F1790033B4E8 /* WebsiteList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteList.swift; sourceTree = "<group>"; };
 		735C91D125754E150033B4E8 /* Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
+		735C91EB257674F30033B4E8 /* UIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIController.swift; sourceTree = "<group>"; };
+		735C91F1257678070033B4E8 /* AnyUIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyUIController.swift; sourceTree = "<group>"; };
+		735C91F7257678310033B4E8 /* DefaultUIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultUIController.swift; sourceTree = "<group>"; };
 		73DC73D925728B9F00EE72FA /* QueryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryTests.swift; sourceTree = "<group>"; };
 		73DC73DF257290EF00EE72FA /* Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
 		73F2B03725745EFD009AC2AF /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
@@ -276,6 +282,9 @@
 				73F2B043257460D2009AC2AF /* CD_Sort.swift */,
 				DB21C202256C8F9100DF6AE7 /* Controller.swift */,
 				DBAA772F256C999B005126C3 /* CD_Controller.swift */,
+				735C91EB257674F30033B4E8 /* UIController.swift */,
+				735C91F1257678070033B4E8 /* AnyUIController.swift */,
+				735C91F7257678310033B4E8 /* DefaultUIController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -709,6 +718,7 @@
 				DBA3BE3625709D3D005A2379 /* AnyWebsite.swift in Sources */,
 				DBAA7730256C999B005126C3 /* CD_Controller.swift in Sources */,
 				5031AF03256E894F00AC98AA /* Tag.swift in Sources */,
+				735C91F2257678070033B4E8 /* AnyUIController.swift in Sources */,
 				50D63AA8256FE3BF001C5985 /* AnyTag.swift in Sources */,
 				73F2B03825745EFD009AC2AF /* Logger.swift in Sources */,
 				DBFE5D26256F47EB00A23555 /* CD_Element.swift in Sources */,
@@ -716,6 +726,7 @@
 				5031AF24256E8DEC00AC98AA /* AnyCollection.swift in Sources */,
 				73F2B03E257460AF009AC2AF /* Sort.swift in Sources */,
 				DB21C203256C8F9100DF6AE7 /* Controller.swift in Sources */,
+				735C91F8257678310033B4E8 /* DefaultUIController.swift in Sources */,
 				DBDCB3BB256BEE3800D005F6 /* CD_MOM.xcdatamodeld in Sources */,
 				DB21C1FC256C8DC500DF6AE7 /* CD_Tag.swift in Sources */,
 				DBDCB3FA256C866200D005F6 /* CD_Base.swift in Sources */,
@@ -729,6 +740,7 @@
 				50D63AB5256FE8B6001C5985 /* Element.swift in Sources */,
 				DBDCB3FB256C866200D005F6 /* CD_Website.swift in Sources */,
 				50D63ABA256FE8B9001C5985 /* AnyElement.swift in Sources */,
+				735C91EC257674F30033B4E8 /* UIController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
