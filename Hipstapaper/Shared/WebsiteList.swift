@@ -24,12 +24,13 @@ import Datum
 
 struct WebsiteList: View {
     
-    @ObservedObject var data: AnyCollection<AnyElement<AnyWebsite>>
-    @ObservedObject var query: Query
-    @State var selection: AnyWebsite? = nil
+    @ObservedObject var controller: AnyUIController
     
     var body: some View {
-        return List(self.data, id: \.value, selection: self.$selection) { item in
+        return List(self.controller.websites.value!,
+                    id: \.value,
+                    selection: self.$controller.selectedWebsite)
+        { item in
             WebsiteRow(item.value)
         }
         .navigationTitle("Hipstapaper")
@@ -37,9 +38,11 @@ struct WebsiteList: View {
 }
 
 #if DEBUG
+/*
 struct WebsiteList_Preview: PreviewProvider {
     static var previews: some View {
         WebsiteList(data: p_sites, query: p_query)
     }
 }
+ */
 #endif

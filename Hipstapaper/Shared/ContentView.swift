@@ -24,23 +24,22 @@ import Datum
 
 struct ContentView: View {
     
-    @ObservedObject var tags: AnyCollection<AnyElement<AnyTag>>
-    @ObservedObject var websites: AnyCollection<AnyElement<AnyWebsite>>
-    @ObservedObject var query: Query
-
+    @ObservedObject var controller: AnyUIController
     
     var body: some View {
         NavigationView {
-            TagList(data: self.tags, query: self.query)
-            WebsiteList(data: self.websites, query: self.query)
+            TagList(controller: self.controller)
+            WebsiteList(controller: self.controller)
         }
     }
 }
 
 #if DEBUG
+/*
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView(tags: p_tags, websites: p_sites, query: p_query)
     }
 }
+ */
 #endif

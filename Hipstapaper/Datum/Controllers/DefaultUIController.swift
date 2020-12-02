@@ -25,15 +25,8 @@ internal class DefaultUIController: UIController {
     
     private(set) lazy var fixed: [AnyTag] = Query.Archived.allCases.map { AnyTag($0) }
     
-    private(set) lazy var tags: Result<AnyCollection<AnyElement<AnyTag>>, Error> = {
-        defer { self.mergeStreams() }
-        return self.controller.readTags()
-    }()
-
-    private(set) lazy var websites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error> = {
-        defer { self.mergeStreams() }
-        return self.controller.readWebsites(query: self.currentQuery)
-    }()
+    private(set) var tags: Result<AnyCollection<AnyElement<AnyTag>>, Error>
+    private(set) var websites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error>
 
     internal var selectedWebsite: AnyWebsite? = nil
     internal var selectedTag: AnyTag? = nil {
@@ -62,6 +55,9 @@ internal class DefaultUIController: UIController {
     
     internal init(controller: Controller) {
         self.controller = controller
+        self.tags = self.controller.readTags()
+        self.websites = self.controller.readWebsites(query: self.currentQuery)
+        self.mergeStreams()
     }
 
     private func mergeStreams() {

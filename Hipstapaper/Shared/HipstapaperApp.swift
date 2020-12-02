@@ -24,12 +24,17 @@ import Datum
 
 @main
 struct HipstapaperApp: App {
+
+    @StateObject var controller: AnyUIController
     
-    @ObservedObject var query = Query()
+    init() {
+        let controller = try! ControllerNew()
+        _controller = StateObject(wrappedValue: UIControllerNew(controller: controller))
+    }
 
     var body: some Scene {
         WindowGroup {
-            ContentView(tags: p_tags, websites: p_sites, query: self.query)
+            ContentView(controller: self.controller)
         }
     }
 }
