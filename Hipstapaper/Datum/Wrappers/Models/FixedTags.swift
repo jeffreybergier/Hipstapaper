@@ -21,6 +21,10 @@
 
 extension Query.Archived: Tag {
     
+    public static var anyTag_allCases: [AnyTag] {
+        self.allCases.map { AnyTag($0) }
+    }
+    
     // TODO: See if its possible change type to LocalizedString
     public var localizedDescription: String {
         switch self {

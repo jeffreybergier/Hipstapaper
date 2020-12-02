@@ -50,7 +50,7 @@ public class AnyUIController: UIController {
     private var setSelectedWebsite: (AnyWebsite?) -> Void
 
     
-    init<T: UIController>(_ controller: T) where T.ObjectWillChangePublisher == ObservableObjectPublisher {
+    public init<T: UIController>(_ controller: T) where T.ObjectWillChangePublisher == ObservableObjectPublisher {
         self.getFixed           = { controller.fixed }
         self.getTags            = { controller.tags }
         self.getWebsites        = { controller.websites }

@@ -38,11 +38,9 @@ struct WebsiteList: View {
 }
 
 #if DEBUG
-/*
 struct WebsiteList_Preview: PreviewProvider {
     static var previews: some View {
-        WebsiteList(data: p_sites, query: p_query)
+        WebsiteList(controller: P_UIController.new())
     }
 }
- */
 #endif

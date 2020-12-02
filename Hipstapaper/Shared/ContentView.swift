@@ -35,11 +35,9 @@ struct ContentView: View {
 }
 
 #if DEBUG
-/*
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(tags: p_tags, websites: p_sites, query: p_query)
+        ContentView(controller: P_UIController.new())
     }
 }
- */
 #endif

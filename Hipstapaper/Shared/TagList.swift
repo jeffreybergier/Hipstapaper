@@ -29,7 +29,7 @@ struct TagList: View {
     var body: some View {
         List(selection: self.$controller.selectedTag) {
             Section(header: SectionTitle("Reading List")) {
-                ForEach(Datum.Query.Archived.tagCases, id: \.self) { item in
+                ForEach(self.controller.fixed, id: \.self) { item in
                     TagRow(item)
                 }
             }
@@ -45,11 +45,9 @@ struct TagList: View {
 }
 
 #if DEBUG
-/*
 struct TagList_Preview: PreviewProvider {
     static var previews: some View {
-        TagList(data: p_tags, query: p_query)
+        TagList(controller: P_UIController.new())
     }
 }
-*/
 #endif

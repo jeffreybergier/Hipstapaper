@@ -23,7 +23,7 @@ import Combine
 
 internal class DefaultUIController: UIController {
     
-    private(set) lazy var fixed: [AnyTag] = Query.Archived.allCases.map { AnyTag($0) }
+    private(set) lazy var fixed: [AnyTag] = Query.Archived.anyTag_allCases
     
     private(set) var tags: Result<AnyCollection<AnyElement<AnyTag>>, Error>
     private(set) var websites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error>
