@@ -21,20 +21,57 @@
 
 import Combine
 
+extension AnyUIController {
+    public class func newDefault(controller: Controller) -> AnyUIController {
+        return AnyUIController(DefaultUIController(controller: controller))
+    }
+}
+
 internal class DefaultUIController: UIController {
     
-    public private(set) lazy var tags: Result<AnyCollection<AnyElement<AnyTag>>, Error>
-        = { self.controller.readTags() }()
-    public private(set) lazy var websites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error>
-        = { self.controller.readWebsites(query: self.currentQuery, sort: self.selectedSort ?? .dateCreatedNewest) }()
-    var currentQuery: Query = .init()
-    var selectedTag: AnyTag? = nil
-    var selectedWebsite: AnyWebsite? = nil
-    var selectedSort: Sort? = nil
-    
+    private(set) lazy var tags: Result<AnyCollection<AnyElement<AnyTag>>, Error> = {
+        defer { self.mergeStreams() }
+        return self.controller.readTags()
+    }()
+
+    private(set) lazy var websites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error> = {
+        defer { self.mergeStreams() }
+        return self.controller.readWebsites(query: self.currentQuery)
+    }()
+
+    internal var selectedWebsite: AnyWebsite? = nil
+    internal var selectedTag: AnyTag? = nil {
+        didSet {
+            self.currentQuery.search = nil
+            // TODO: Detect All/Unarchived
+            self.currentQuery.tag = self.selectedTag
+        }
+    }
+
+    private(set) var currentQuery: Query = .init() {
+        didSet {
+            self.websites = self.controller.readWebsites(query: self.currentQuery)
+            self.mergeStreams()
+        }
+    }
+
     private let controller: Controller
+    private var observation: AnyCancellable?
     
-    init(controller: Controller) {
+    internal init(controller: Controller) {
         self.controller = controller
+    }
+
+    private func mergeStreams() {
+        self.observation?.cancel()
+        self.observation = nil
+        let streams = [
+            self.tags.value?.objectWillChange,
+            self.websites.value?.objectWillChange
+        ].compactMap({ $0 })
+        self.observation = Publishers.MergeMany(streams).sink() { [unowned self] in
+            self.objectWillChange.send()
+        }
+        self.objectWillChange.send()
     }
 }

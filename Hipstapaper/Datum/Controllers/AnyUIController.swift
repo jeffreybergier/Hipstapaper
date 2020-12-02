@@ -37,10 +37,6 @@ public class AnyUIController: UIController {
         get { self.getSelectedWebsite() }
         set { self.setSelectedWebsite(newValue) }
     }
-    public var selectedSort: Sort? {
-        get { self.getSelectedSort() }
-        set { self.setSelectedSort(newValue) }
-    }
     
     private var getTags:            () -> Result<AnyCollection<AnyElement<AnyTag>>, Error>
     private var getWebsites:        () -> Result<AnyCollection<AnyElement<AnyWebsite>>, Error>
@@ -49,8 +45,6 @@ public class AnyUIController: UIController {
     private var setSelectedTag:     (AnyTag?) -> Void
     private var getSelectedWebsite: () -> AnyWebsite?
     private var setSelectedWebsite: (AnyWebsite?) -> Void
-    private var getSelectedSort:    () -> Sort?
-    private var setSelectedSort:    (Sort?) -> Void
 
     
     init<T: UIController>(_ controller: T) where T.ObjectWillChangePublisher == ObservableObjectPublisher {
@@ -61,8 +55,6 @@ public class AnyUIController: UIController {
         self.setSelectedTag     = { controller.selectedTag = $0 }
         self.getSelectedWebsite = { controller.selectedWebsite }
         self.setSelectedWebsite = { controller.selectedWebsite = $0 }
-        self.getSelectedSort    = { controller.selectedSort }
-        self.setSelectedSort    = { controller.selectedSort = $0 }
         self.objectWillChange   = controller.objectWillChange
     }
 }

@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/12/01.
+//  Created by Jeffrey Bergier on 2020/12/02.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,13 +19,22 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import Combine
+extension Result {
+    public var value: Success? {
+        switch self {
+        case .success(let value):
+            return value
+        case .failure:
+            return nil
+        }
+    }
 
-public protocol UIController: ObservableObject {
-    var tags: Result<AnyCollection<AnyElement<AnyTag>>, Error> { get }
-    var websites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error> { get }
-    var currentQuery: Query { get }
-
-    var selectedTag: AnyTag? { get set }
-    var selectedWebsite: AnyWebsite? { get set }
+    public var error: Failure? {
+        switch self {
+        case .success:
+            return nil
+        case .failure(let error):
+            return error
+        }
+    }
 }
