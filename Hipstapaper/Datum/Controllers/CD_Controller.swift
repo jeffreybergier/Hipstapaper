@@ -54,13 +54,13 @@ extension CD_Controller: Controller {
         }
     }
 
-    func readWebsites(query: Query, sort: Sort) -> Result<AnyCollection<AnyElement<AnyWebsite>>, Error> {
+    func readWebsites(query: Query) -> Result<AnyCollection<AnyElement<AnyWebsite>>, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
         let request = CD_Website.request
         request.predicate = query.cd_predicate
-        request.sortDescriptors = sort.sortDescriptors
+        request.sortDescriptors = query.cd_sortDescriptors
 
         let controller = NSFetchedResultsController(fetchRequest: request,
                                                     managedObjectContext: context,

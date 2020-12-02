@@ -29,13 +29,16 @@ public struct Query {
     public var isArchived: Archived! // TODO: Hack for SwiftUI - Remove
     public var tag: AnyTag?
     public var search: String?
+    public var sort: Sort
 
     public init(isArchived: Archived = .unarchived,
                 tag: AnyTag? = nil,
-                search: String? = nil)
+                search: String? = nil,
+                sort: Sort = .dateModifiedNewest)
     {
         self.isArchived = isArchived
         self.tag = tag
         self.search = search
+        self.sort = sort
     }
 }

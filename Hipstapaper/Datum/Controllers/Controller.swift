@@ -34,7 +34,7 @@ public protocol Controller {
 
     // MARK: Websites CRUD
     func createWebsite(_: AnyWebsite.Raw) -> Result<AnyElement<AnyWebsite>, Error>
-    func readWebsites(query: Query, sort: Sort) -> Result<AnyCollection<AnyElement<AnyWebsite>>, Error>
+    func readWebsites(query: Query) -> Result<AnyCollection<AnyElement<AnyWebsite>>, Error>
     func update(_: AnyElement<AnyWebsite>, _: AnyWebsite.Raw) -> Result<Void, Error>
     func delete(_: AnyElement<AnyWebsite>) -> Result<Void, Error>
 

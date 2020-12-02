@@ -26,26 +26,26 @@ class SortTests: ParentTestCase {
     
     func test_sort() {
         Sort.allCases.forEach() {
-            XCTAssertEqual($0.sortDescriptors.count, 1)
+            XCTAssertEqual($0.cd_sortDescriptors.count, 1)
             switch $0 {
             case .dateModifiedNewest:
-                XCTAssertEqual($0.sortDescriptors[0].key, #keyPath(CD_Website.dateModified))
-                XCTAssertEqual($0.sortDescriptors[0].ascending, true)
+                XCTAssertEqual($0.cd_sortDescriptors[0].key, #keyPath(CD_Website.dateModified))
+                XCTAssertEqual($0.cd_sortDescriptors[0].ascending, true)
             case .dateModifiedOldest:
-                XCTAssertEqual($0.sortDescriptors[0].key, #keyPath(CD_Website.dateModified))
-                XCTAssertEqual($0.sortDescriptors[0].ascending, false)
+                XCTAssertEqual($0.cd_sortDescriptors[0].key, #keyPath(CD_Website.dateModified))
+                XCTAssertEqual($0.cd_sortDescriptors[0].ascending, false)
             case .dateCreatedNewest:
-                XCTAssertEqual($0.sortDescriptors[0].key, #keyPath(CD_Website.dateCreated))
-                XCTAssertEqual($0.sortDescriptors[0].ascending, true)
+                XCTAssertEqual($0.cd_sortDescriptors[0].key, #keyPath(CD_Website.dateCreated))
+                XCTAssertEqual($0.cd_sortDescriptors[0].ascending, true)
             case .dateCreatedOldest:
-                XCTAssertEqual($0.sortDescriptors[0].key, #keyPath(CD_Website.dateCreated))
-                XCTAssertEqual($0.sortDescriptors[0].ascending, false)
+                XCTAssertEqual($0.cd_sortDescriptors[0].key, #keyPath(CD_Website.dateCreated))
+                XCTAssertEqual($0.cd_sortDescriptors[0].ascending, false)
             case .titleA:
-                XCTAssertEqual($0.sortDescriptors[0].key, #keyPath(CD_Website.title))
-                XCTAssertEqual($0.sortDescriptors[0].ascending, true)
+                XCTAssertEqual($0.cd_sortDescriptors[0].key, #keyPath(CD_Website.title))
+                XCTAssertEqual($0.cd_sortDescriptors[0].ascending, true)
             case .titleZ:
-                XCTAssertEqual($0.sortDescriptors[0].key, #keyPath(CD_Website.title))
-                XCTAssertEqual($0.sortDescriptors[0].ascending, false)
+                XCTAssertEqual($0.cd_sortDescriptors[0].key, #keyPath(CD_Website.title))
+                XCTAssertEqual($0.cd_sortDescriptors[0].ascending, false)
             }
         }
     }

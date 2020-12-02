@@ -22,7 +22,7 @@
 import Foundation
 
 extension Sort {
-    internal var sortDescriptors: [NSSortDescriptor] {
+    internal var cd_sortDescriptors: [NSSortDescriptor] {
         switch self {
         case .dateModifiedNewest:
             return [.init(key: #keyPath(CD_Website.dateModified), ascending: true)]

@@ -41,55 +41,62 @@ internal class WebsiteCollectionTests : ParentTestCase {
     // MARK: Read
     
     internal func test_collection_read_all() throws {
-        let sites = try self.controller.readWebsites(query: .init(isArchived: .all),
-                                                     sort: .dateCreatedNewest).get()
+        let sites = try self.controller.readWebsites(
+            query: .init(isArchived: .all, sort: .dateCreatedNewest)
+        ).get()
         XCTAssertEqual(sites.count, 4)
     }
     
     internal func test_collection_read_unarchived() throws {
-        let sites = try self.controller.readWebsites(query: .init(isArchived: .unarchived),
-                                                     sort: .dateCreatedNewest).get()
+        let sites = try self.controller.readWebsites(
+            query: .init(isArchived: .unarchived, sort: .dateCreatedNewest)
+        ).get()
         XCTAssertEqual(sites.count, 2)
     }
     
     internal func test_collection_read_sort_titleA() throws {
-        let sites = try self.controller.readWebsites(query: .init(isArchived: .all),
-                                                     sort: .titleA).get()
+        let sites = try self.controller.readWebsites(
+            query: .init(isArchived: .all, sort: .titleA)
+        ).get()
         XCTAssertEqual(sites[0].value.title, "A")
         XCTAssertEqual(sites[3].value.title, "D")
     }
     
     internal func test_collection_read_sort_titleZ() throws {
-        let sites = try self.controller.readWebsites(query: .init(isArchived: .all),
-                                                     sort: .titleZ).get()
+        let sites = try self.controller.readWebsites(query: .init(isArchived: .all,
+                                                                  sort: .titleZ)).get()
         XCTAssertEqual(sites[0].value.title, "D")
         XCTAssertEqual(sites[3].value.title, "A")
     }
     
     internal func test_collection_read_sort_modifiedNew() throws {
-        let sites = try self.controller.readWebsites(query: .init(isArchived: .all),
-                                                     sort: .dateModifiedNewest).get()
+        let sites = try self.controller.readWebsites(
+            query: .init(isArchived: .all, sort: .dateModifiedNewest)
+        ).get()
         XCTAssertEqual(sites[0].value.title, "A")
         XCTAssertEqual(sites[3].value.title, "D")
     }
     
     internal func test_collection_read_sort_modifiedOld() throws {
-        let sites = try self.controller.readWebsites(query: .init(isArchived: .all),
-                                                     sort: .dateModifiedOldest).get()
+        let sites = try self.controller.readWebsites(
+            query: .init(isArchived: .all, sort: .dateModifiedOldest)
+        ).get()
         XCTAssertEqual(sites[0].value.title, "D")
         XCTAssertEqual(sites[3].value.title, "A")
     }
     
     internal func test_collection_read_sort_createdNew() throws {
-        let sites = try self.controller.readWebsites(query: .init(isArchived: .all),
-                                                     sort: .dateCreatedNewest).get()
+        let sites = try self.controller.readWebsites(
+            query: .init(isArchived: .all, sort: .dateCreatedNewest)
+        ).get()
         XCTAssertEqual(sites[0].value.title, "A")
         XCTAssertEqual(sites[3].value.title, "D")
     }
     
     internal func test_collection_read_sort_createdOld() throws {
-        let sites = try self.controller.readWebsites(query: .init(isArchived: .all),
-                                                     sort: .dateCreatedOldest).get()
+        let sites = try self.controller.readWebsites(
+            query: .init(isArchived: .all, sort: .dateCreatedOldest)
+        ).get()
         XCTAssertEqual(sites[0].value.title, "D")
         XCTAssertEqual(sites[3].value.title, "A")
     }
@@ -97,8 +104,9 @@ internal class WebsiteCollectionTests : ParentTestCase {
     // MARK: Create
     
     internal func test_collection_create() throws {
-        let sites = try self.controller.readWebsites(query: .init(isArchived: .all),
-                                                     sort: .dateCreatedNewest).get()
+        let sites = try self.controller.readWebsites(
+            query: .init(isArchived: .all, sort: .dateCreatedNewest)
+        ).get()
         XCTAssertEqual(sites.count, 4)
         _ = try self.controller.createWebsite(.init(title: "Z",
                                               originalURL: nil,
@@ -109,8 +117,9 @@ internal class WebsiteCollectionTests : ParentTestCase {
     }
     
     func test_collection_create_observation() throws {
-        let sites = try self.controller.readWebsites(query: .init(isArchived: .all),
-                                                     sort: .dateCreatedNewest).get()
+        let sites = try self.controller.readWebsites(
+            query: .init(isArchived: .all, sort: .dateCreatedNewest)
+        ).get()
         XCTAssertEqual(sites.count, 4)
         self.do(after: .instant) {
             do {
@@ -129,8 +138,9 @@ internal class WebsiteCollectionTests : ParentTestCase {
     // MARK: Update
     
     internal func test_collection_update() throws {
-        let sites = try self.controller.readWebsites(query: .init(isArchived: .all),
-                                                     sort: .titleA).get()
+        let sites = try self.controller.readWebsites(
+            query: .init(isArchived: .all, sort: .titleA)
+        ).get()
         XCTAssertEqual(sites[0].value.title, "A")
         try self.controller.update(sites[0], .init(title: "Z")).get()
         XCTAssertEqual(sites[0].value.title, "B")
@@ -138,8 +148,9 @@ internal class WebsiteCollectionTests : ParentTestCase {
     }
     
     func test_collection_update_observation() throws {
-        let sites = try self.controller.readWebsites(query: .init(isArchived: .all),
-                                                     sort: .titleA).get()
+        let sites = try self.controller.readWebsites(
+            query: .init(isArchived: .all, sort: .titleA)
+        ).get()
         XCTAssertEqual(sites[0].value.title, "A")
         XCTAssertEqual(sites[1].value.title, "B")
         XCTAssertEqual(sites[2].value.title, "C")
@@ -166,8 +177,9 @@ internal class WebsiteCollectionTests : ParentTestCase {
     // MARK: Delete
     
     internal func test_collection_delete() throws {
-        let sites = try self.controller.readWebsites(query: .init(isArchived: .all),
-                                                     sort: .titleA).get()
+        let sites = try self.controller.readWebsites(
+            query: .init(isArchived: .all, sort: .titleA)
+        ).get()
         XCTAssertEqual(sites.count, 4)
         XCTAssertEqual(sites[0].value.title, "A")
         try self.controller.delete(sites[0]).get()
@@ -177,8 +189,9 @@ internal class WebsiteCollectionTests : ParentTestCase {
     }
     
     func test_collection_delete_observation() throws {
-        let sites = try self.controller.readWebsites(query: .init(isArchived: .all),
-                                                     sort: .titleA).get()
+        let sites = try self.controller.readWebsites(
+            query: .init(isArchived: .all, sort: .titleA)
+        ).get()
         XCTAssertEqual(sites[0].value.title, "A")
         XCTAssertEqual(sites[1].value.title, "B")
         XCTAssertEqual(sites[2].value.title, "C")
