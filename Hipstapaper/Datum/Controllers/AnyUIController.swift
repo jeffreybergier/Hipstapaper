@@ -21,10 +21,12 @@
 
 import Combine
 
+/// No magic happens here, It is your responsibility to merge the `objectWillChange` signals
 public class AnyUIController: UIController {
     
     public let objectWillChange: ObservableObjectPublisher
     
+    public var fixed: [AnyTag] { getFixed() }
     public var tags: Result<AnyCollection<AnyElement<AnyTag>>, Error> { getTags() }
     public var websites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error> { getWebsites() }
     public var currentQuery: Query { getQuery() }
@@ -38,6 +40,7 @@ public class AnyUIController: UIController {
         set { self.setSelectedWebsite(newValue) }
     }
     
+    private var getFixed:           () -> [AnyTag]
     private var getTags:            () -> Result<AnyCollection<AnyElement<AnyTag>>, Error>
     private var getWebsites:        () -> Result<AnyCollection<AnyElement<AnyWebsite>>, Error>
     private var getQuery:           () -> Query
@@ -48,6 +51,7 @@ public class AnyUIController: UIController {
 
     
     init<T: UIController>(_ controller: T) where T.ObjectWillChangePublisher == ObservableObjectPublisher {
+        self.getFixed           = { controller.fixed }
         self.getTags            = { controller.tags }
         self.getWebsites        = { controller.websites }
         self.getQuery           = { controller.currentQuery }

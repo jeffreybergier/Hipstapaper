@@ -21,13 +21,9 @@
 
 import Combine
 
-extension AnyUIController {
-    public class func newDefault(controller: Controller) -> AnyUIController {
-        return AnyUIController(DefaultUIController(controller: controller))
-    }
-}
-
 internal class DefaultUIController: UIController {
+    
+    private(set) lazy var fixed: [AnyTag] = Query.Archived.allCases.map { AnyTag($0) }
     
     private(set) lazy var tags: Result<AnyCollection<AnyElement<AnyTag>>, Error> = {
         defer { self.mergeStreams() }
@@ -42,9 +38,15 @@ internal class DefaultUIController: UIController {
     internal var selectedWebsite: AnyWebsite? = nil
     internal var selectedTag: AnyTag? = nil {
         didSet {
-            self.currentQuery.search = nil
-            // TODO: Detect All/Unarchived
-            self.currentQuery.tag = self.selectedTag
+            var query = self.currentQuery
+            defer { self.currentQuery = query }
+            query.search = nil
+            query.tag = nil
+            if let isArchived = self.selectedTag?.wrappedValue as? Query.Archived {
+                query.isArchived = isArchived
+            } else {
+                query.tag = self.selectedTag
+            }
         }
     }
 

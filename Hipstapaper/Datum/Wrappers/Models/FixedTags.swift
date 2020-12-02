@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/12/01.
+//  Created by Jeffrey Bergier on 2020/12/02.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,19 +19,20 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import Combine
-
-public func UIControllerNew(controller: Controller) -> AnyUIController {
-    return AnyUIController(DefaultUIController(controller: controller))
-}
-
-/// No magic happens here, It is your responsibility to merge the `objectWillChange` signals
-public protocol UIController: ObservableObject {
-    var fixed: [AnyTag] { get }
-    var tags: Result<AnyCollection<AnyElement<AnyTag>>, Error> { get }
-    var websites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error> { get }
-    var currentQuery: Query { get }
-
-    var selectedTag: AnyTag? { get set }
-    var selectedWebsite: AnyWebsite? { get set }
+extension Query.Archived: Tag {
+    
+    // TODO: See if its possible change type to LocalizedString
+    public var localizedDescription: String {
+        switch self {
+        case .all:
+            return "All Items"
+        case .unarchived:
+            return "Unread Items"
+        }
+    }
+    
+    public var name: String? { self.localizedDescription }
+    public var websitesCount: Int? { return nil }
+    public var dateCreated: Date { fatalError() }
+    public var dateModified: Date { fatalError() }
 }
