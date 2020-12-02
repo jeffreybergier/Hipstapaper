@@ -40,6 +40,11 @@ struct TagList: View {
             }
         }
         .listStyle(SidebarListStyle())
+        .onAppear() {
+            // TODO: Hack to make initial selection
+            self.controller.selectedTag = self.controller.fixed.first
+            self.controller.objectWillChange.send()
+        }
         .navigationTitle("Tags")
     }
 }
