@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/23.
+//  Created by Jeffrey Bergier on 2020/12/03.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -22,25 +22,38 @@
 import SwiftUI
 import Datum
 
-struct ContentView: View {
+struct Toolbar: View {
     
     @ObservedObject var controller: AnyUIController
     
     var body: some View {
-        NavigationView {
-            TagList(controller: self.controller)
-            WebsiteList(controller: self.controller)
-                .toolbar {
-                    Toolbar(controller: self.controller)
-                }
+        HStack {
+            Button(action: {
+                print("Archive")
+            }, label: {
+                Image(systemName: "tray.and.arrow.down")
+            })
+            Button(action: {
+                print("Unarchive")
+            }, label: {
+                Image(systemName: "tray.and.arrow.up")
+            })
+            Button(action: {
+                print("Tag")
+            }, label: {
+                Image(systemName: "tag")
+            })
+            Button(action: {
+                print("Share")
+            }, label: {
+                Image(systemName: "square.and.arrow.up")
+            })
+            Button(action: {
+                print("Search")
+            }, label: {
+                Image(systemName: "magnifyingglass")
+            })
         }
     }
+    
 }
-
-#if DEBUG
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView(controller: P_UIController.new())
-    }
-}
-#endif
