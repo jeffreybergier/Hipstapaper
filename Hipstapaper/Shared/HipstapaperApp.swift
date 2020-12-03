@@ -29,7 +29,7 @@ struct HipstapaperApp: App {
     
     init() {
         let controller = try! ControllerNew()
-        _controller = StateObject(wrappedValue: UIControllerNew(controller: controller))
+        _controller = StateObject(wrappedValue: P_UIController.new())
     }
 
     var body: some Scene {

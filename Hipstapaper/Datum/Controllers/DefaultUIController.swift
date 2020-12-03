@@ -23,16 +23,15 @@ import Combine
 
 internal class DefaultUIController: UIController {
     
-    private(set) lazy var fixed: [AnyTag] = Query.Archived.anyTag_allCases
-    
-    private(set) var tags: Result<AnyCollection<AnyElement<AnyTag>>, Error>
-    private(set) var websites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error>
+    private(set) lazy var indexFixed: [AnyTag] = Query.Archived.anyTag_allCases
+    private(set) var indexTags: Result<AnyCollection<AnyElement<AnyTag>>, Error>
+    private(set) var detailWebsites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error>
 
     internal var selectedWebsite: AnyWebsite? = nil
     internal var selectedTag: AnyTag? = nil {
         didSet {
-            var query = self.currentQuery
-            defer { self.currentQuery = query }
+            var query = self.detailQuery
+            defer { self.detailQuery = query }
             query.search = nil
             query.tag = nil
             if let isArchived = self.selectedTag?.wrappedValue as? Query.Archived {
@@ -43,9 +42,9 @@ internal class DefaultUIController: UIController {
         }
     }
 
-    private(set) var currentQuery: Query = .init() {
+    private(set) var detailQuery: Query = .init() {
         didSet {
-            self.websites = self.controller.readWebsites(query: self.currentQuery)
+            self.detailWebsites = self.controller.readWebsites(query: self.detailQuery)
             self.mergeStreams()
         }
     }
@@ -55,8 +54,8 @@ internal class DefaultUIController: UIController {
     
     internal init(controller: Controller) {
         self.controller = controller
-        self.tags = self.controller.readTags()
-        self.websites = self.controller.readWebsites(query: self.currentQuery)
+        self.indexTags = self.controller.readTags()
+        self.detailWebsites = self.controller.readWebsites(query: self.detailQuery)
         self.mergeStreams()
     }
 
@@ -64,8 +63,8 @@ internal class DefaultUIController: UIController {
         self.observation?.cancel()
         self.observation = nil
         let streams = [
-            self.tags.value?.objectWillChange,
-            self.websites.value?.objectWillChange
+            self.indexTags.value?.objectWillChange,
+            self.detailWebsites.value?.objectWillChange
         ].compactMap({ $0 })
         self.observation = Publishers.MergeMany(streams).sink() { [unowned self] in
             self.objectWillChange.send()

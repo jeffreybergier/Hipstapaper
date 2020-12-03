@@ -104,10 +104,10 @@ class P_Element<T>: Element {
 
 class P_UIController: UIController {
     class func new() -> AnyUIController { AnyUIController(P_UIController()) }
-    var fixed: [AnyTag] = Query.Archived.anyTag_allCases
-    var tags: Result<AnyCollection<AnyElement<AnyTag>>, Error> = .success(p_tags)
-    var websites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error> = .success(p_sites)
-    var currentQuery: Query = .init()
+    var indexFixed: [AnyTag] = Query.Archived.anyTag_allCases
+    var indexTags: Result<AnyCollection<AnyElement<AnyTag>>, Error> = .success(p_tags)
+    var detailWebsites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error> = .success(p_sites)
+    var detailQuery: Query = .init()
     var selectedTag: AnyTag?
     var selectedWebsite: AnyWebsite?
 }

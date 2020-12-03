@@ -29,12 +29,12 @@ struct TagList: View {
     var body: some View {
         List(selection: self.$controller.selectedTag) {
             Section(header: SectionTitle("Reading List")) {
-                ForEach(self.controller.fixed, id: \.self) { item in
+                ForEach(self.controller.indexFixed, id: \.self) { item in
                     TagRow(item)
                 }
             }
             Section(header: SectionTitle("Tags")) {
-                ForEach(self.controller.tags.value!, id: \.value) { item in
+                ForEach(self.controller.indexTags.value!, id: \.value) { item in
                     TagRow(item.value)
                 }
             }
@@ -42,7 +42,7 @@ struct TagList: View {
         .listStyle(SidebarListStyle())
         .onAppear() {
             // TODO: Hack to make initial selection
-            self.controller.selectedTag = self.controller.fixed.first
+            self.controller.selectedTag = self.controller.indexFixed.first
             self.controller.objectWillChange.send()
         }
         .navigationTitle("Tags")

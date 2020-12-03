@@ -27,7 +27,7 @@ struct WebsiteList: View {
     @ObservedObject var controller: AnyUIController
     
     var body: some View {
-        return List(self.controller.websites.value!,
+        return List(self.controller.detailWebsites.value!,
                     id: \.value,
                     selection: self.$controller.selectedWebsite)
         { item in

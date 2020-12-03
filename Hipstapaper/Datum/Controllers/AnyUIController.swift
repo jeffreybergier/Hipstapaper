@@ -26,10 +26,10 @@ public class AnyUIController: UIController {
     
     public let objectWillChange: ObservableObjectPublisher
     
-    public var fixed: [AnyTag] { getFixed() }
-    public var tags: Result<AnyCollection<AnyElement<AnyTag>>, Error> { getTags() }
-    public var websites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error> { getWebsites() }
-    public var currentQuery: Query { getQuery() }
+    public var indexFixed: [AnyTag] { getIndexFixed() }
+    public var indexTags: Result<AnyCollection<AnyElement<AnyTag>>, Error> { getIndexTags() }
+    public var detailWebsites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error> { getDetailWebsites() }
+    public var detailQuery: Query { getDetailQuery() }
     
     public var selectedTag: AnyTag? {
         get { self.getSelectedTag() }
@@ -40,10 +40,10 @@ public class AnyUIController: UIController {
         set { self.setSelectedWebsite(newValue) }
     }
     
-    private var getFixed:           () -> [AnyTag]
-    private var getTags:            () -> Result<AnyCollection<AnyElement<AnyTag>>, Error>
-    private var getWebsites:        () -> Result<AnyCollection<AnyElement<AnyWebsite>>, Error>
-    private var getQuery:           () -> Query
+    private var getIndexFixed:      () -> [AnyTag]
+    private var getIndexTags:       () -> Result<AnyCollection<AnyElement<AnyTag>>, Error>
+    private var getDetailWebsites:  () -> Result<AnyCollection<AnyElement<AnyWebsite>>, Error>
+    private var getDetailQuery:     () -> Query
     private var getSelectedTag:     () -> AnyTag?
     private var setSelectedTag:     (AnyTag?) -> Void
     private var getSelectedWebsite: () -> AnyWebsite?
@@ -51,10 +51,10 @@ public class AnyUIController: UIController {
 
     
     public init<T: UIController>(_ controller: T) where T.ObjectWillChangePublisher == ObservableObjectPublisher {
-        self.getFixed           = { controller.fixed }
-        self.getTags            = { controller.tags }
-        self.getWebsites        = { controller.websites }
-        self.getQuery           = { controller.currentQuery }
+        self.getIndexFixed      = { controller.indexFixed }
+        self.getIndexTags       = { controller.indexTags }
+        self.getDetailWebsites  = { controller.detailWebsites }
+        self.getDetailQuery     = { controller.detailQuery }
         self.getSelectedTag     = { controller.selectedTag }
         self.setSelectedTag     = { controller.selectedTag = $0 }
         self.getSelectedWebsite = { controller.selectedWebsite }
