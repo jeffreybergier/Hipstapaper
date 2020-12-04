@@ -32,22 +32,22 @@ struct Toolbar: View {
                 print("Archive")
             }, label: {
                 Image(systemName: "tray.and.arrow.down")
-            })
+            }).disabled(self.controller.selectedWebsite?.isArchived ?? true)
             Button(action: {
                 print("Unarchive")
             }, label: {
                 Image(systemName: "tray.and.arrow.up")
-            })
+            }).disabled(!(self.controller.selectedWebsite?.isArchived ?? false))
             Button(action: {
                 print("Tag")
             }, label: {
                 Image(systemName: "tag")
-            })
+            }).disabled(self.controller.selectedWebsite == nil)
             Button(action: {
                 print("Share")
             }, label: {
                 Image(systemName: "square.and.arrow.up")
-            })
+            }).disabled(self.controller.selectedWebsite == nil)
             Button(action: {
                 print("Search")
             }, label: {

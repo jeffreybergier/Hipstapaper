@@ -45,7 +45,7 @@ let p_sites: AnyCollection<AnyElement<AnyWebsite>> = {
                           dateCreated: date1,
                           dateModified: date2,
                           id: .init(NSString("A")))
-    let site2 = P_Website(.init(title: "Apple.com", originalURL: URL(string: "https://www.apple.com")!),
+    let site2 = P_Website(.init(title: "Apple.com", originalURL: URL(string: "https://www.apple.com")!, isArchived: true),
                           dateCreated: date2,
                           dateModified: date1,
                           id: .init(NSString("B")))
@@ -108,8 +108,8 @@ class P_UIController: UIController {
     var indexTags: Result<AnyCollection<AnyElement<AnyTag>>, Error> = .success(p_tags)
     var detailWebsites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error> = .success(p_sites)
     var detailQuery: Query = .init()
-    var selectedTag: AnyTag?
-    var selectedWebsite: AnyWebsite?
+    @Published var selectedTag: AnyTag?
+    @Published var selectedWebsite: AnyWebsite?
 }
 
 class P_Collection<Element>: Collection {

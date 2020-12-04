@@ -27,7 +27,7 @@ internal class DefaultUIController: UIController {
     private(set) var indexTags: Result<AnyCollection<AnyElement<AnyTag>>, Error>
     private(set) var detailWebsites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error>
 
-    internal var selectedWebsite: AnyWebsite? = nil
+    @Published internal var selectedWebsite: AnyWebsite? = nil
     internal var selectedTag: AnyTag? = nil {
         didSet {
             var query = self.detailQuery
