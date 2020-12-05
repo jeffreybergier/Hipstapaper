@@ -25,9 +25,20 @@ import Datum
 struct Toolbar: View {
     
     @ObservedObject var controller: AnyUIController
-    
+    @State var presentation: Presentation.Wrap
+
     var body: some View {
         HStack {
+            Button(action: {
+                // Add
+                self.presentation.value = .add
+            }, label: {
+                Image(systemName: "plus")
+            })
+            .sheet(isPresented: self.$presentation.isAdd, content: {
+                Text("Add!")
+            })
+            
             Button(action: {
                 // Archive
                 guard let site = self.controller.selectedWebsite else { return }
@@ -35,7 +46,9 @@ struct Toolbar: View {
                 try! self.controller.controller.update(element, .init(isArchived: true)).get()
             }, label: {
                 Image(systemName: "tray.and.arrow.down")
-            }).disabled(self.controller.selectedWebsite?.isArchived ?? true)
+            })
+            .disabled(self.controller.selectedWebsite?.isArchived ?? true)
+            
             Button(action: {
                 // Unarchive
                 guard let site = self.controller.selectedWebsite else { return }
@@ -43,21 +56,39 @@ struct Toolbar: View {
                 try! self.controller.controller.update(element, .init(isArchived: false)).get()
             }, label: {
                 Image(systemName: "tray.and.arrow.up")
-            }).disabled(!(self.controller.selectedWebsite?.isArchived ?? false))
+            })
+            .disabled(!(self.controller.selectedWebsite?.isArchived ?? false))
+            
             Button(action: {
                 print("Tag")
+                self.presentation.value = .tagApply
             }, label: {
                 Image(systemName: "tag")
-            }).disabled(self.controller.selectedWebsite == nil)
+            })
+            .disabled(self.controller.selectedWebsite == nil)
+            .popover(isPresented: self.$presentation.isTagApply, content: {
+                Text("Tag!")
+            })
+            
             Button(action: {
                 print("Share")
+                self.presentation.value = .share
             }, label: {
                 Image(systemName: "square.and.arrow.up")
-            }).disabled(self.controller.selectedWebsite == nil)
+            })
+            .disabled(self.controller.selectedWebsite == nil)
+            .sheet(isPresented: self.$presentation.isShare, content: {
+                Text("Share!")
+            })
+            
             Button(action: {
                 print("Search")
+                self.presentation.value = .search
             }, label: {
                 Image(systemName: "magnifyingglass")
+            })
+            .popover(isPresented: self.$presentation.isSearch, content: {
+                Text("Search!")
             })
         }
     }

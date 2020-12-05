@@ -25,13 +25,14 @@ import Datum
 struct ContentView: View {
     
     @ObservedObject var controller: AnyUIController
+    @State var presentation = Presentation.Wrap()
     
     var body: some View {
         NavigationView {
             TagList(controller: self.controller)
             WebsiteList(controller: self.controller)
                 .toolbar {
-                    Toolbar(controller: self.controller)
+                    Toolbar(controller: self.controller, presentation: self.presentation)
                 }
         }
     }
