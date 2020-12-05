@@ -24,7 +24,8 @@ enum Presentation: Int {
     case search
     case tagApply
     case share
-    case add
+    case addWebsite
+    case addTag
     
     struct Wrap {
         var isSearch = false {
@@ -51,10 +52,18 @@ enum Presentation: Int {
             }
         }
         
-        var isAdd = false {
+        var isAddWebsite = false {
             didSet {
                 guard !internalUpdateInProgress else { return }
-                guard !self.isAdd else { return }
+                guard !self.isAddWebsite else { return }
+                self.value = .none
+            }
+        }
+        
+        var isAddTag = false {
+            didSet {
+                guard !internalUpdateInProgress else { return }
+                guard !self.isAddTag else { return }
                 self.value = .none
             }
         }
@@ -64,10 +73,12 @@ enum Presentation: Int {
             didSet {
                 self.internalUpdateInProgress = true
                 defer { self.internalUpdateInProgress = false }
+                
                 self.isSearch = self.value == .search
                 self.isTagApply = self.value == .tagApply
                 self.isShare = self.value == .share
-                self.isAdd = self.value == .add
+                self.isAddWebsite = self.value == .addWebsite
+                self.isAddTag = self.value == .addTag
             }
         }
     }

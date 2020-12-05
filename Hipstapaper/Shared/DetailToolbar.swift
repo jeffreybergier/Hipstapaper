@@ -22,7 +22,7 @@
 import SwiftUI
 import Datum
 
-struct Toolbar: View {
+struct DetailToolbar: View {
     
     @ObservedObject var controller: AnyUIController
     @State var presentation: Presentation.Wrap
@@ -31,11 +31,11 @@ struct Toolbar: View {
         HStack {
             Button(action: {
                 // Add
-                self.presentation.value = .add
+                self.presentation.value = .addWebsite
             }, label: {
                 Image(systemName: "plus")
             })
-            .sheet(isPresented: self.$presentation.isAdd, content: {
+            .sheet(isPresented: self.$presentation.isAddWebsite, content: {
                 Text("Add!")
             })
             

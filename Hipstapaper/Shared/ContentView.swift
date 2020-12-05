@@ -30,10 +30,9 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             TagList(controller: self.controller)
+                .toolbar { IndexToolbar(controller: self.controller, presentation: self.presentation)}
             WebsiteList(controller: self.controller)
-                .toolbar {
-                    Toolbar(controller: self.controller, presentation: self.presentation)
-                }
+                .toolbar { DetailToolbar(controller: self.controller, presentation: self.presentation)}
         }
     }
 }
