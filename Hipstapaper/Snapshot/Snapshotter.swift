@@ -22,9 +22,15 @@
 import SwiftUI
 
 public struct Snapshotter: View {
+    
+    @State var input = WebView.Input(shouldLoad: true, originalURL: URL(string: "https://www.apple.com")!)
+    @ObservedObject var output = WebView.Output()
+    
     public init() { }
     public var body: some View {
-        Text("Snapshotter")
+        VStack {
+            WebView(input: self.$input, output: self.output).frame(width: 300, height: 300)
+        }
     }
 }
     
