@@ -21,6 +21,7 @@
 
 import SwiftUI
 import Datum
+import Snapshot
 
 struct DetailToolbar: View {
     
@@ -36,7 +37,7 @@ struct DetailToolbar: View {
                 Image(systemName: "plus")
             })
             .sheet(isPresented: self.$presentation.isAddWebsite, content: {
-                Text("Add!")
+                Snapshotter()
             })
             
             Button(action: {
