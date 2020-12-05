@@ -26,6 +26,7 @@ internal class DefaultUIController: UIController {
     private(set) lazy var indexFixed: [AnyTag] = Query.Archived.anyTag_allCases
     private(set) var indexTags: Result<AnyCollection<AnyElement<AnyTag>>, Error>
     private(set) var detailWebsites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error>
+    private(set) var controller: Controller
 
     @Published internal var selectedWebsite: AnyWebsite? = nil
     internal var selectedTag: AnyTag? = nil {
@@ -49,7 +50,6 @@ internal class DefaultUIController: UIController {
         }
     }
 
-    private let controller: Controller
     private var observation: AnyCancellable?
     
     internal init(controller: Controller) {

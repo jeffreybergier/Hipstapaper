@@ -29,12 +29,18 @@ struct Toolbar: View {
     var body: some View {
         HStack {
             Button(action: {
-                print("Archive")
+                // Archive
+                guard let site = self.controller.selectedWebsite else { return }
+                let element = AnyElement(StaticElement(site))
+                try! self.controller.controller.update(element, .init(isArchived: true)).get()
             }, label: {
                 Image(systemName: "tray.and.arrow.down")
             }).disabled(self.controller.selectedWebsite?.isArchived ?? true)
             Button(action: {
-                print("Unarchive")
+                // Unarchive
+                guard let site = self.controller.selectedWebsite else { return }
+                let element = AnyElement(StaticElement(site))
+                try! self.controller.controller.update(element, .init(isArchived: false)).get()
             }, label: {
                 Image(systemName: "tray.and.arrow.up")
             }).disabled(!(self.controller.selectedWebsite?.isArchived ?? false))

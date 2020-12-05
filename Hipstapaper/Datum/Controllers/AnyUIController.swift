@@ -27,9 +27,10 @@ public class AnyUIController: UIController {
     public let objectWillChange: ObservableObjectPublisher
     
     public var indexFixed: [AnyTag] { getIndexFixed() }
-    public var indexTags: Result<AnyCollection<AnyElement<AnyTag>>, Error> { getIndexTags() }
-    public var detailWebsites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error> { getDetailWebsites() }
+    public var indexTags: Result<AnyCollection<AnyElement<AnyTag>>, Error> { getController().readTags() }
+    public var detailWebsites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error> { getController().readWebsites(query: self.detailQuery) }
     public var detailQuery: Query { getDetailQuery() }
+    public var controller: Controller { getController() }
     
     public var selectedTag: AnyTag? {
         get { self.getSelectedTag() }
@@ -40,20 +41,17 @@ public class AnyUIController: UIController {
         set { self.setSelectedWebsite(newValue) }
     }
     
+    private var getController:      () -> Controller
     private var getIndexFixed:      () -> [AnyTag]
-    private var getIndexTags:       () -> Result<AnyCollection<AnyElement<AnyTag>>, Error>
-    private var getDetailWebsites:  () -> Result<AnyCollection<AnyElement<AnyWebsite>>, Error>
     private var getDetailQuery:     () -> Query
     private var getSelectedTag:     () -> AnyTag?
     private var setSelectedTag:     (AnyTag?) -> Void
     private var getSelectedWebsite: () -> AnyWebsite?
     private var setSelectedWebsite: (AnyWebsite?) -> Void
-
     
     public init<T: UIController>(_ controller: T) where T.ObjectWillChangePublisher == ObservableObjectPublisher {
+        self.getController      = { controller.controller }
         self.getIndexFixed      = { controller.indexFixed }
-        self.getIndexTags       = { controller.indexTags }
-        self.getDetailWebsites  = { controller.detailWebsites }
         self.getDetailQuery     = { controller.detailQuery }
         self.getSelectedTag     = { controller.selectedTag }
         self.setSelectedTag     = { controller.selectedTag = $0 }

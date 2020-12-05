@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/23.
+//  Created by Jeffrey Bergier on 2020/12/05.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,27 +19,11 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import SwiftUI
-import XCGLogger
-import Datum
-
-internal let log: XCGLogger = {
-    XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
-}()
-
-@main
-struct HipstapaperApp: App {
-
-    @StateObject var controller: AnyUIController
-    
-    init() {
-        let controller = try! ControllerNew()
-        _controller = StateObject(wrappedValue: P_UIController.new())
-    }
-
-    var body: some Scene {
-        WindowGroup {
-            ContentView(controller: self.controller)
-        }
+/// Element that does not properly observe its Value
+public class StaticElement<T>: Element {
+    public var value: T
+    public var isDeleted: Bool { fatalError("StaticElement does not know this") }
+    public init(_ value: T) {
+        self.value = value
     }
 }

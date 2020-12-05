@@ -102,12 +102,34 @@ class P_Element<T>: Element {
     }
 }
 
+class P_Controller: Controller {
+    static var storeDirectoryURL: URL { fatalError() }
+    static var storeExists: Bool = true
+    func createWebsite(_ raw: AnyWebsite.Raw) -> Result<AnyElement<AnyWebsite>, Error>
+    { log.debug("Create Site: \(raw)"); return .success(p_sites.first!) }
+    func readWebsites(query: Query) -> Result<AnyCollection<AnyElement<AnyWebsite>>, Error>
+    { log.debug("Read Websites, with: \(query)"); return .success(p_sites) }
+    func update(_ site: AnyElement<AnyWebsite>, _ raw: AnyWebsite.Raw) -> Result<Void, Error>
+    { log.debug("Update: \(site), with: \(raw)"); return .success(()) }
+    func delete(_ site: AnyElement<AnyWebsite>) -> Result<Void, Error>
+    { log.debug("Delete: \(site)"); return .success(()) }
+    func createTag(name: String?) -> Result<AnyElement<AnyTag>, Error>
+    { log.debug("Create Tag: \(name)"); return .success(p_tags.first!) }
+    func readTags() -> Result<AnyCollection<AnyElement<AnyTag>>, Error>
+    { log.debug("Read Tags"); return .success(p_tags) }
+    func update(_ tag: AnyElement<AnyTag>, name: Optional<String?>) -> Result<Void, Error>
+    { log.debug("Update: \(tag) with: \(name)"); return .success(()) }
+    func delete(_ tag: AnyElement<AnyTag>) -> Result<Void, Error>
+    { log.debug("Delete: \(tag)"); return .success(()) }
+}
+
 class P_UIController: UIController {
     class func new() -> AnyUIController { AnyUIController(P_UIController()) }
     var indexFixed: [AnyTag] = Query.Archived.anyTag_allCases
     var indexTags: Result<AnyCollection<AnyElement<AnyTag>>, Error> = .success(p_tags)
     var detailWebsites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error> = .success(p_sites)
     var detailQuery: Query = .init()
+    var controller: Controller = P_Controller()
     @Published var selectedTag: AnyTag?
     @Published var selectedWebsite: AnyWebsite?
 }
