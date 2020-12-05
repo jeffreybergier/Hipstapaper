@@ -42,6 +42,9 @@
 		73A3DE8A257B6918002EDEB4 /* Presentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DE88257B6918002EDEB4 /* Presentation.swift */; };
 		73A3DE94257B77C8002EDEB4 /* IndexToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DE93257B77C8002EDEB4 /* IndexToolbar.swift */; };
 		73A3DE95257B77C8002EDEB4 /* IndexToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DE93257B77C8002EDEB4 /* IndexToolbar.swift */; };
+		73A3DEB0257B9351002EDEB4 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DEAF257B9351002EDEB4 /* Search.swift */; };
+		73A3DEB1257B9351002EDEB4 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DEAF257B9351002EDEB4 /* Search.swift */; };
+		73A3DEB7257B97E8002EDEB4 /* String+Datum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DEB6257B97E8002EDEB4 /* String+Datum.swift */; };
 		73DC73DA25728B9F00EE72FA /* QueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC73D925728B9F00EE72FA /* QueryTests.swift */; };
 		73DC73E0257290EF00EE72FA /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC73DF257290EF00EE72FA /* Base.swift */; };
 		73F2B03825745EFD009AC2AF /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2B03725745EFD009AC2AF /* Logger.swift */; };
@@ -166,6 +169,8 @@
 		73A3DE7E257B36C8002EDEB4 /* StaticElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticElement.swift; sourceTree = "<group>"; };
 		73A3DE88257B6918002EDEB4 /* Presentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presentation.swift; sourceTree = "<group>"; };
 		73A3DE93257B77C8002EDEB4 /* IndexToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexToolbar.swift; sourceTree = "<group>"; };
+		73A3DEAF257B9351002EDEB4 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
+		73A3DEB6257B97E8002EDEB4 /* String+Datum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Datum.swift"; sourceTree = "<group>"; };
 		73DC73D925728B9F00EE72FA /* QueryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryTests.swift; sourceTree = "<group>"; };
 		73DC73DF257290EF00EE72FA /* Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
 		73F2B03725745EFD009AC2AF /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
@@ -330,6 +335,7 @@
 			isa = PBXGroup;
 			children = (
 				73A3DE88257B6918002EDEB4 /* Presentation.swift */,
+				73A3DEAF257B9351002EDEB4 /* Search.swift */,
 			);
 			path = Presentations;
 			sourceTree = "<group>";
@@ -442,6 +448,7 @@
 				DBAA7735256C9A17005126C3 /* Error.swift */,
 				73F2B03725745EFD009AC2AF /* Logger.swift */,
 				DB111DA825772D5800365BEA /* Result.swift */,
+				73A3DEB6257B97E8002EDEB4 /* String+Datum.swift */,
 				DB21C201256C8F6F00DF6AE7 /* Controllers */,
 				DBA1993C256D446E00383EB1 /* Wrappers */,
 				DBDCB3F7256C864E00D005F6 /* CD_Models */,
@@ -733,6 +740,7 @@
 				73A3DE94257B77C8002EDEB4 /* IndexToolbar.swift in Sources */,
 				734068202574B56700D4A343 /* WebsiteRow.swift in Sources */,
 				DBDCB367256BE8E800D005F6 /* Main.swift in Sources */,
+				73A3DEB0257B9351002EDEB4 /* Search.swift in Sources */,
 				DBDCB365256BE8E800D005F6 /* HipstapaperApp.swift in Sources */,
 				734068192574981200D4A343 /* TagRow.swift in Sources */,
 			);
@@ -751,6 +759,7 @@
 				73A3DE95257B77C8002EDEB4 /* IndexToolbar.swift in Sources */,
 				734068212574B56700D4A343 /* WebsiteRow.swift in Sources */,
 				DBDCB368256BE8E800D005F6 /* Main.swift in Sources */,
+				73A3DEB1257B9351002EDEB4 /* Search.swift in Sources */,
 				DBDCB366256BE8E800D005F6 /* HipstapaperApp.swift in Sources */,
 				7340681A2574981200D4A343 /* TagRow.swift in Sources */,
 			);
@@ -794,6 +803,7 @@
 				DBDCB3FA256C866200D005F6 /* CD_Base.swift in Sources */,
 				73A3DE7F257B36C8002EDEB4 /* StaticElement.swift in Sources */,
 				5073F40425720C5F00AC4C6C /* Query.swift in Sources */,
+				73A3DEB7257B97E8002EDEB4 /* String+Datum.swift in Sources */,
 				735C92022577C0260033B4E8 /* FixedTags.swift in Sources */,
 				5031AF0E256E8AE100AC98AA /* Collection.swift in Sources */,
 				73DC73E0257290EF00EE72FA /* Base.swift in Sources */,

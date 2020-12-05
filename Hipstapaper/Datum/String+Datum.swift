@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/28.
+//  Created by Jeffrey Bergier on 2020/12/05.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -21,28 +21,9 @@
 
 import Foundation
 
-public struct Query {
-    public enum Archived: Int, Identifiable, CaseIterable {
-        case unarchived, all
-        public var id: ObjectIdentifier { .init(NSNumber(value: self.rawValue)) }
-    }
-    public var isArchived: Archived! // TODO: Hack for SwiftUI - Remove
-    public var tag: AnyTag?
-    public var search: String {
-        didSet {
-            print(self.search)
-        }
-    }
-    public var sort: Sort
-
-    public init(isArchived: Archived = .unarchived,
-                tag: AnyTag? = nil,
-                search: String = "",
-                sort: Sort = .dateModifiedNewest)
-    {
-        self.isArchived = isArchived
-        self.tag = tag
-        self.search = search
-        self.sort = sort
+extension String {
+    public var nonEmptyString: String? {
+        let trimmed = self.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmed.isEmpty ? nil : trimmed
     }
 }

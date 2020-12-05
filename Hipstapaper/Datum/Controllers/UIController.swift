@@ -30,10 +30,10 @@ public protocol UIController: ObservableObject {
     var indexFixed: [AnyTag] { get }
     var indexTags: Result<AnyCollection<AnyElement<AnyTag>>, Error> { get }
     var detailWebsites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error> { get }
-    var detailQuery: Query { get }
     var controller: Controller { get }
 
     /// These properties are separate because SwiftUI is not smart enough to update a complex property
+    var detailQuery: Query { get set }
     var selectedTag: AnyTag? { get set }
     var selectedWebsite: AnyWebsite? { get set }
 }

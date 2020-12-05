@@ -27,6 +27,7 @@ enum Presentation: Int {
     case addWebsite
     case addTag
     
+    // TODO: Remove this one SwiftUI doesn't suck at modals
     struct Wrap {
         var isSearch = false {
             didSet {

@@ -29,9 +29,12 @@ public class AnyUIController: UIController {
     public var indexFixed: [AnyTag] { getIndexFixed() }
     public var indexTags: Result<AnyCollection<AnyElement<AnyTag>>, Error> { getController().readTags() }
     public var detailWebsites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error> { getController().readWebsites(query: self.detailQuery) }
-    public var detailQuery: Query { getDetailQuery() }
     public var controller: Controller { getController() }
     
+    public var detailQuery: Query {
+        get { getDetailQuery() }
+        set { setDetailQuery(newValue) }
+    }
     public var selectedTag: AnyTag? {
         get { self.getSelectedTag() }
         set { self.setSelectedTag(newValue) }
@@ -44,6 +47,7 @@ public class AnyUIController: UIController {
     private var getController:      () -> Controller
     private var getIndexFixed:      () -> [AnyTag]
     private var getDetailQuery:     () -> Query
+    private var setDetailQuery:     (Query) -> Void
     private var getSelectedTag:     () -> AnyTag?
     private var setSelectedTag:     (AnyTag?) -> Void
     private var getSelectedWebsite: () -> AnyWebsite?
@@ -53,6 +57,7 @@ public class AnyUIController: UIController {
         self.getController      = { controller.controller }
         self.getIndexFixed      = { controller.indexFixed }
         self.getDetailQuery     = { controller.detailQuery }
+        self.setDetailQuery     = { controller.detailQuery = $0 }
         self.getSelectedTag     = { controller.selectedTag }
         self.setSelectedTag     = { controller.selectedTag = $0 }
         self.getSelectedWebsite = { controller.selectedWebsite }

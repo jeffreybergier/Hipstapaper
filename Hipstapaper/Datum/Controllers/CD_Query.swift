@@ -30,7 +30,7 @@ extension Query {
                 return NSPredicate(format: "%K == NO", #keyPath(CD_Website.isArchived))
             }(),
             {
-                guard let search = self.search else { return nil }
+                guard let search = self.search.nonEmptyString else { return nil }
                 return NSCompoundPredicate(orPredicateWithSubpredicates: [
                     NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(CD_Website.title), search),
                     NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(CD_Website.resolvedURL), search),

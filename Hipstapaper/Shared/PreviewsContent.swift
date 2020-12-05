@@ -128,8 +128,8 @@ class P_UIController: UIController {
     var indexFixed: [AnyTag] = Query.Archived.anyTag_allCases
     var indexTags: Result<AnyCollection<AnyElement<AnyTag>>, Error> = .success(p_tags)
     var detailWebsites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error> = .success(p_sites)
-    var detailQuery: Query = .init()
     var controller: Controller = P_Controller()
+    @Published var detailQuery: Query = .init()
     @Published var selectedTag: AnyTag?
     @Published var selectedWebsite: AnyWebsite?
 }

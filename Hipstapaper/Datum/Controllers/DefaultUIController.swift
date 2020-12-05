@@ -33,7 +33,7 @@ internal class DefaultUIController: UIController {
         didSet {
             var query = self.detailQuery
             defer { self.detailQuery = query }
-            query.search = nil
+            query.search = ""
             query.tag = nil
             if let isArchived = self.selectedTag?.wrappedValue as? Query.Archived {
                 query.isArchived = isArchived
@@ -43,7 +43,7 @@ internal class DefaultUIController: UIController {
         }
     }
 
-    private(set) var detailQuery: Query = .init() {
+    internal var detailQuery: Query = .init() {
         didSet {
             self.detailWebsites = self.controller.readWebsites(query: self.detailQuery)
             self.mergeStreams()

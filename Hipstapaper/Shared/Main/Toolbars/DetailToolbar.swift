@@ -85,10 +85,12 @@ struct DetailToolbar: View {
                 print("Search")
                 self.presentation.value = .search
             }, label: {
+                // TODO: Make search look different when a search is in effect
+                // self.controller.detailQuery.search.nonEmptyString == nil
                 Image(systemName: "magnifyingglass")
             })
             .popover(isPresented: self.$presentation.isSearch, content: {
-                Text("Search!")
+                Search(search: self.$controller.detailQuery.search)
             })
         }
     }
