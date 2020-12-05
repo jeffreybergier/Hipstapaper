@@ -22,7 +22,7 @@
 import SwiftUI
 import Datum
 
-struct ContentView: View {
+struct Main: View {
     
     @ObservedObject var controller: AnyUIController
     @State var presentation = Presentation.Wrap()
@@ -38,9 +38,9 @@ struct ContentView: View {
 }
 
 #if DEBUG
-struct ContentView_Previews: PreviewProvider {
+struct Main_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(controller: P_UIController.new())
+        Main(controller: P_UIController.new())
     }
 }
 #endif

@@ -39,7 +39,7 @@ struct HipstapaperApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView(controller: self.controller)
+            Main(controller: self.controller)
         }
     }
 }

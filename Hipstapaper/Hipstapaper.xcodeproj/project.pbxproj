@@ -60,8 +60,8 @@
 		DBDCB363256BE8E800D005F6 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDCB362256BE8E800D005F6 /* Tests_macOS.swift */; };
 		DBDCB365256BE8E800D005F6 /* HipstapaperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDCB33C256BE8E600D005F6 /* HipstapaperApp.swift */; };
 		DBDCB366256BE8E800D005F6 /* HipstapaperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDCB33C256BE8E600D005F6 /* HipstapaperApp.swift */; };
-		DBDCB367256BE8E800D005F6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDCB33D256BE8E600D005F6 /* ContentView.swift */; };
-		DBDCB368256BE8E800D005F6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDCB33D256BE8E600D005F6 /* ContentView.swift */; };
+		DBDCB367256BE8E800D005F6 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDCB33D256BE8E600D005F6 /* Main.swift */; };
+		DBDCB368256BE8E800D005F6 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDCB33D256BE8E600D005F6 /* Main.swift */; };
 		DBDCB369256BE8E800D005F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBDCB33E256BE8E700D005F6 /* Assets.xcassets */; };
 		DBDCB36A256BE8E800D005F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBDCB33E256BE8E700D005F6 /* Assets.xcassets */; };
 		DBDCB38B256BEBE700D005F6 /* Datum.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBDCB382256BEBE700D005F6 /* Datum.framework */; };
@@ -181,7 +181,7 @@
 		DBAA772F256C999B005126C3 /* CD_Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_Controller.swift; sourceTree = "<group>"; };
 		DBAA7735256C9A17005126C3 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		DBDCB33C256BE8E600D005F6 /* HipstapaperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HipstapaperApp.swift; sourceTree = "<group>"; };
-		DBDCB33D256BE8E600D005F6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		DBDCB33D256BE8E600D005F6 /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		DBDCB33E256BE8E700D005F6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DBDCB343256BE8E700D005F6 /* Hipstapaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hipstapaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBDCB346256BE8E700D005F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -287,6 +287,53 @@
 			path = Observables;
 			sourceTree = "<group>";
 		};
+		73A3DEA2257B9217002EDEB4 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				DBDCB33D256BE8E600D005F6 /* Main.swift */,
+				73A3DEAA257B924F002EDEB4 /* Presentations */,
+				73A3DEA9257B9249002EDEB4 /* Toolbars */,
+				73A3DEA8257B9242002EDEB4 /* Detail */,
+				73A3DEA7257B923C002EDEB4 /* Index */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		73A3DEA7257B923C002EDEB4 /* Index */ = {
+			isa = PBXGroup;
+			children = (
+				734068312574ED5800D4A343 /* TagList.swift */,
+				734068182574981200D4A343 /* TagRow.swift */,
+			);
+			path = Index;
+			sourceTree = "<group>";
+		};
+		73A3DEA8257B9242002EDEB4 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				735C91BF2574F1790033B4E8 /* WebsiteList.swift */,
+				7340681F2574B56700D4A343 /* WebsiteRow.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		73A3DEA9257B9249002EDEB4 /* Toolbars */ = {
+			isa = PBXGroup;
+			children = (
+				73A3DE7725792604002EDEB4 /* DetailToolbar.swift */,
+				73A3DE93257B77C8002EDEB4 /* IndexToolbar.swift */,
+			);
+			path = Toolbars;
+			sourceTree = "<group>";
+		};
+		73A3DEAA257B924F002EDEB4 /* Presentations */ = {
+			isa = PBXGroup;
+			children = (
+				73A3DE88257B6918002EDEB4 /* Presentation.swift */,
+			);
+			path = Presentations;
+			sourceTree = "<group>";
+		};
 		DB21C201256C8F6F00DF6AE7 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -331,14 +378,7 @@
 			isa = PBXGroup;
 			children = (
 				DBDCB33C256BE8E600D005F6 /* HipstapaperApp.swift */,
-				DBDCB33D256BE8E600D005F6 /* ContentView.swift */,
-				73A3DE88257B6918002EDEB4 /* Presentation.swift */,
-				73A3DE7725792604002EDEB4 /* DetailToolbar.swift */,
-				73A3DE93257B77C8002EDEB4 /* IndexToolbar.swift */,
-				734068312574ED5800D4A343 /* TagList.swift */,
-				735C91BF2574F1790033B4E8 /* WebsiteList.swift */,
-				734068182574981200D4A343 /* TagRow.swift */,
-				7340681F2574B56700D4A343 /* WebsiteRow.swift */,
+				73A3DEA2257B9217002EDEB4 /* Main */,
 				734068262574B5C500D4A343 /* Style.swift */,
 				73406811257491E600D4A343 /* PreviewsContent.swift */,
 				DBDCB33E256BE8E700D005F6 /* Assets.xcassets */,
@@ -692,7 +732,7 @@
 				735C91C02574F1790033B4E8 /* WebsiteList.swift in Sources */,
 				73A3DE94257B77C8002EDEB4 /* IndexToolbar.swift in Sources */,
 				734068202574B56700D4A343 /* WebsiteRow.swift in Sources */,
-				DBDCB367256BE8E800D005F6 /* ContentView.swift in Sources */,
+				DBDCB367256BE8E800D005F6 /* Main.swift in Sources */,
 				DBDCB365256BE8E800D005F6 /* HipstapaperApp.swift in Sources */,
 				734068192574981200D4A343 /* TagRow.swift in Sources */,
 			);
@@ -710,7 +750,7 @@
 				735C91C12574F1790033B4E8 /* WebsiteList.swift in Sources */,
 				73A3DE95257B77C8002EDEB4 /* IndexToolbar.swift in Sources */,
 				734068212574B56700D4A343 /* WebsiteRow.swift in Sources */,
-				DBDCB368256BE8E800D005F6 /* ContentView.swift in Sources */,
+				DBDCB368256BE8E800D005F6 /* Main.swift in Sources */,
 				DBDCB366256BE8E800D005F6 /* HipstapaperApp.swift in Sources */,
 				7340681A2574981200D4A343 /* TagRow.swift in Sources */,
 			);
