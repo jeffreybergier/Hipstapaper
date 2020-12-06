@@ -23,14 +23,42 @@ import SwiftUI
 
 public struct Snapshotter: View {
     
-    @State var input = WebView.Input(shouldLoad: true, originalURL: URL(string: "https://www.apple.com")!)
-    @ObservedObject var output = WebView.Output()
+    class ViewModel: ObservableObject {
+        @Published var input = WebView.Input()
+        @Published var output = WebView.Output()
+        var formState: Form.Which {
+            switch (self.input.shouldLoad, self.output.isLoading) {
+            case (false, _):
+                return .load
+            case (true, true):
+                return .loading
+            case (true, false):
+                return .loaded
+            }
+        }
+    }
+    
+    @ObservedObject var viewModel = ViewModel()
     
     public init() { }
     public var body: some View {
         VStack {
-            WebView(input: self.$input, output: self.output).frame(width: 300, height: 300)
+            Form(viewModel: self.viewModel)
+                .padding()
+            ZStack {
+                WebView(input: self.$viewModel.input,
+                        output: self.viewModel.output)
+                switch self.viewModel.formState {
+                case .load:
+                    Image(systemName: "globe")
+                case .loading:
+                    // show nothing
+                    Spacer().hidden()
+                case .loaded:
+                    Thumbnail(self.$viewModel.output.thumbnail)
+                }
+            }
+            .frame(width: 300, height: 300)
         }
     }
 }
-    

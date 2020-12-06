@@ -27,7 +27,7 @@ struct WebView: View {
     
     struct Input {
         var shouldLoad: Bool = false
-        var originalURL: URL?
+        var originalURLString: String = ""
         var maxThumbSize: Int = 100_000
         var snapConfig: WKSnapshotConfiguration = {
             let config = WKSnapshotConfiguration()
@@ -38,26 +38,10 @@ struct WebView: View {
     }
     
     class Output: ObservableObject {
-        @Published var isLoading: Bool = false {
-            didSet {
-                print("isLoading: \(isLoading)")
-            }
-        }
-        @Published var resolvedURL: URL? {
-            didSet {
-                print("resolvedURL: \(resolvedURL)")
-            }
-        }
-        @Published var title: String? {
-            didSet {
-                print("title: \(title)")
-            }
-        }
-        @Published var thumbnail: Result<Data, Error>? {
-            didSet {
-                print("thumbnail: \(thumbnail)")
-            }
-        }
+        @Published var isLoading: Bool = false
+        @Published var resolvedURLString: String = ""
+        @Published var title: String = ""
+        @Published var thumbnail: Result<Data, Error>?
         var kvo = [NSKeyValueObservation]()
     }
 
@@ -75,7 +59,7 @@ struct WebView: View {
             wv.stopLoading()
             return
         }
-        guard let originalURL = self.input.originalURL else { return }
+        guard let originalURL = URL(string: self.input.originalURLString) else { return }
         let request = URLRequest(url: originalURL)
         wv.load(request)
     }
@@ -90,10 +74,10 @@ struct WebView: View {
             self.output.isLoading = wv.isLoading
         }
         let token2 = wv.observe(\.url) { _, _ in
-            self.output.resolvedURL = wv.url
+            self.output.resolvedURLString = wv.url?.absoluteString ?? ""
         }
         let token3 = wv.observe(\.title) { _, _ in
-            self.output.title = wv.title
+            self.output.title = wv.title ?? ""
         }
         self.output.kvo = [token1, token2, token3]
         return wv
