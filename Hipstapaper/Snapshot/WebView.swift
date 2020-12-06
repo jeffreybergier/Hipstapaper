@@ -28,6 +28,13 @@ struct WebView: View {
     struct Input {
         var shouldLoad: Bool = false
         var originalURL: URL?
+        var maxThumbSize: Int = 100_000
+        var snapConfig: WKSnapshotConfiguration = {
+            let config = WKSnapshotConfiguration()
+            config.afterScreenUpdates = true
+            config.snapshotWidth = NSNumber(value: 300.0)
+            return config
+        }()
     }
     
     class Output: ObservableObject {
@@ -44,6 +51,11 @@ struct WebView: View {
         @Published var title: String? {
             didSet {
                 print("title: \(title)")
+            }
+        }
+        @Published var thumbnail: Result<Data, Error>? {
+            didSet {
+                print("thumbnail: \(thumbnail)")
             }
         }
         var kvo = [NSKeyValueObservation]()
@@ -72,6 +84,9 @@ struct WebView: View {
         let config = WKWebViewConfiguration()
         let wv = WKWebView(frame: .zero, configuration: config)
         let token1 = wv.observe(\.isLoading) { _, _ in
+            if wv.isLoading == false {
+                wv.snap_takeSnapshot(with: self.input) { self.output.thumbnail = $0 }
+            }
             self.output.isLoading = wv.isLoading
         }
         let token2 = wv.observe(\.url) { _, _ in
@@ -86,7 +101,9 @@ struct WebView: View {
 }
 
 #if canImport(AppKit)
+
 import AppKit
+
 extension WebView: NSViewRepresentable {
     func updateNSView(_ wv: WKWebView, context: Context) {
         self.update(wv, context: context)
@@ -98,9 +115,38 @@ extension WebView: NSViewRepresentable {
         return wv
     }
 }
+
+extension WKWebView {
+    fileprivate func snap_takeSnapshot(with input: WebView.Input,
+                                       completion: @escaping (Result<Data, Error>) -> Void)
+    {
+        self.takeSnapshot(with: input.snapConfig) { image, error in
+            if let error = error {
+                completion(.failure(.take(error)))
+                return
+            }
+            guard
+                let tiff = image?.tiffRepresentation,
+                let rep = NSBitmapImageRep(data: tiff),
+                let data = rep.representation(using: NSBitmapImageRep.FileType.png, properties: [:])
+            else {
+                completion(.failure(.convert))
+                return
+            }
+            guard data.count <= input.maxThumbSize else {
+                completion(.failure(.size(data.count)))
+                return
+            }
+            completion(.success(data))
+        }
+    }
+}
 #endif
+
 #if canImport(UIKit)
+
 import UIKit
+
 extension WebView: UIViewRepresentable {
     func updateUIView(_ wv: WKWebView, context: Context) {
         self.update(wv, context: context)
@@ -111,6 +157,28 @@ extension WebView: UIViewRepresentable {
         wv.transform = .init(scaleX: 0.7, y: 0.7)
         wv.isUserInteractionEnabled = false
         return wv
+    }
+}
+
+extension WKWebView {
+    fileprivate func snap_takeSnapshot(with input: WebView.Input,
+                                       completion: @escaping (Result<Data, Error>) -> Void)
+    {
+        self.takeSnapshot(with: input.snapConfig) { image, error in
+            if let error = error {
+                completion(.failure(.take(error)))
+                return
+            }
+            guard let data = image?.pngData() else {
+                completion(.failure(.convert))
+                return
+            }
+            guard data.count <= input.maxThumbSize else {
+                completion(.failure(.size(data.count)))
+                return
+            }
+            completion(.success(data))
+        }
     }
 }
 #endif
