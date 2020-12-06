@@ -77,13 +77,17 @@ public struct Snapshotter: View {
         VStack {
             Form(viewModel: self.viewModel) { result in
                 self.completion(
-                    result.map {
-                        let originalURL = URL(string: self.viewModel.input.originalURLString)!
-                        let resolvedURL = URL(string: self.viewModel.output.resolvedURLString)!
-                        return Snapshotter.Output(originalURL: originalURL,
-                                                  resolvedURL: resolvedURL,
-                                                  title: self.viewModel.output.title,
-                                                  thumbnail: self.viewModel.output.thumbnail?.value)
+                    result.flatMap {
+                        guard
+                            let originalURL = URL(string: self.viewModel.input.originalURLString),
+                            let resolvedURL = URL(string: self.viewModel.output.resolvedURLString)
+                        else { return .failure(.convertURL) }
+                        return .success(
+                            Snapshotter.Output(originalURL: originalURL,
+                                               resolvedURL: resolvedURL,
+                                               title: self.viewModel.output.title,
+                                               thumbnail: self.viewModel.output.thumbnail?.value)
+                        )
                     }
                 )
             }

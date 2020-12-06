@@ -21,7 +21,8 @@
 
 public enum Error: Swift.Error {
     case take(Swift.Error)
-    case convert
+    case convertImage
+    case convertURL
     case size(Int)
     case userCancelled
 }

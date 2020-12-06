@@ -118,7 +118,7 @@ extension WKWebView {
                 let rep = NSBitmapImageRep(data: tiff),
                 let data = rep.representation(using: NSBitmapImageRep.FileType.png, properties: [:])
             else {
-                completion(.failure(.convert))
+                completion(.failure(.convertImage))
                 return
             }
             guard data.count <= input.maxThumbSize else {
