@@ -71,6 +71,7 @@ struct WebView: View {
     private func makeWebView(context: Context) -> WKWebView {
         let config = WKWebViewConfiguration()
         let wv = WKWebView(frame: .zero, configuration: config)
+        wv.allowsBackForwardNavigationGestures = false
         let token1 = wv.observe(\.isLoading) { _, _ in
             if wv.isLoading == false {
                 wv.snap_takeSnapshot(with: self.input) { self.output.thumbnail = $0 }
@@ -100,6 +101,7 @@ extension WebView: NSViewRepresentable {
     func makeNSView(context: Context) -> WKWebView {
         let wv = self.makeWebView(context: context)
         wv.pageZoom = 0.7
+        wv.allowsMagnification = false
         return wv
     }
 }
@@ -158,7 +160,7 @@ extension WKWebView {
                 return
             }
             guard let data = image?.pngData() else {
-                completion(.failure(.convert))
+                completion(.failure(.convertURL))
                 return
             }
             guard data.count <= input.maxThumbSize else {
