@@ -19,35 +19,22 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import SwiftUI
-import Foundation
-#if canImport(AppKit)
-import AppKit
-#endif
-#if canImport(UIKit)
-import UIKit
-#endif
-
-public struct Thumbnail: View {
-    
-    public typealias Input = Data
-    
-    public let input: Input?
-    
-    public var body: Image? {
-        guard let data = self.input else { return nil }
-        #if canImport(AppKit)
-        guard let image = NSImage(data: data) else { return nil }
-        return Image(nsImage: image).resizable()
-        #elseif canImport(UIKit)
-        guard let image = UIImage(data: data) else { return nil }
-        return Image(uiImage: image).resizable()
-        #else
-        fatalError()
-        #endif
+extension Result {
+    internal var value: Success? {
+        switch self {
+        case .success(let value):
+            return value
+        case .failure:
+            return nil
+        }
     }
-    
-    public init(_ input: Input?) {
-        self.input = input
+
+    internal var error: Failure? {
+        switch self {
+        case .success:
+            return nil
+        case .failure(let error):
+            return error
+        }
     }
 }

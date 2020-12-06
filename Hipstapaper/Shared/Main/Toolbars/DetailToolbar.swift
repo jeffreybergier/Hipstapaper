@@ -37,7 +37,9 @@ struct DetailToolbar: View {
                 Image(systemName: "plus")
             })
             .sheet(isPresented: self.$presentation.isAddWebsite, content: {
-                Snapshotter()
+                Snapshotter() { result in
+                    print(result)
+                }
             })
             
             Button(action: {

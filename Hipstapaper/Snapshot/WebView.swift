@@ -47,7 +47,7 @@ struct WebView: View {
 
     
     @Binding var input: Input
-    var output: Output
+    @ObservedObject var output: Output
     
     init(input: Binding<Input>, output: Output) {
         _input = input
@@ -59,7 +59,11 @@ struct WebView: View {
             wv.stopLoading()
             return
         }
-        guard let originalURL = URL(string: self.input.originalURLString) else { return }
+        guard
+            !wv.isLoading,
+            URL(string: self.output.resolvedURLString) == nil,
+            let originalURL = URL(string: self.input.originalURLString)
+        else { return }
         let request = URLRequest(url: originalURL)
         wv.load(request)
     }

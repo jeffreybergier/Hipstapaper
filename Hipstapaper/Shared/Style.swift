@@ -76,25 +76,3 @@ struct DateSubtitle: View {
         self.date = date
     }
 }
-
-struct Thumbnail: View {
-    
-    var data: Data?
-    
-    var body: Image? {
-        guard let data = self.data else { return nil }
-        #if canImport(AppKit)
-        guard let image = NSImage(data: data) else { return nil }
-        return Image(nsImage: image).resizable()
-        #elseif canImport(UIKit)
-        guard let image = UIImage(data: data) else { return nil }
-        return Image(uiImage: image).resizable()
-        #else
-        return nil
-        #endif
-    }
-    
-    init(_ data: Data?) {
-        self.data = data
-    }
-}

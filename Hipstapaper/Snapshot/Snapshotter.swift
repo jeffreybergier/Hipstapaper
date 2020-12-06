@@ -20,8 +20,24 @@
 //
 
 import SwiftUI
+import Combine
 
 public struct Snapshotter: View {
+    
+    public struct Input {
+        var loadURL: URL?
+        public init(loadURL: URL? = nil) {
+            self.loadURL = loadURL
+        }
+    }
+    
+    public struct Output: Codable {
+        var originalURL: URL
+        var resolvedURL: URL
+        var title: String
+        var thumbnail: Data?
+        var date: Date = Date()
+    }
     
     class ViewModel: ObservableObject {
         @Published var input = WebView.Input()
@@ -36,11 +52,23 @@ public struct Snapshotter: View {
                 return .loaded
             }
         }
+        
+        init(_ input: Input) {
+            var wvInput = WebView.Input()
+            if let url = input.loadURL {
+                wvInput.shouldLoad = true
+                wvInput.originalURLString = url.absoluteString
+            }
+            self.input = wvInput
+        }
     }
     
-    @ObservedObject var viewModel = ViewModel()
+    @ObservedObject var viewModel: ViewModel
     
-    public init() { }
+    public init(_ input: Input = .init(), completion: @escaping (Result<Output, Error>) -> Void) {
+        _viewModel = ObservedObject(wrappedValue: ViewModel(input))
+    }
+    
     public var body: some View {
         VStack {
             Form(viewModel: self.viewModel)
@@ -48,17 +76,30 @@ public struct Snapshotter: View {
             ZStack {
                 WebView(input: self.$viewModel.input,
                         output: self.viewModel.output)
-                switch self.viewModel.formState {
-                case .load:
-                    Image(systemName: "globe")
-                case .loading:
-                    // show nothing
-                    Spacer().hidden()
-                case .loaded:
-                    Thumbnail(self.$viewModel.output.thumbnail)
-                }
+                WebThumbnail(viewModel: self.viewModel)
             }
             .frame(width: 300, height: 300)
         }
     }
+}
+
+internal struct WebThumbnail: View {
+    
+    @ObservedObject var viewModel: Snapshotter.ViewModel
+
+    var body: some View {
+        switch self.viewModel.formState {
+        case .load:
+            return AnyView(Image(systemName: "globe"))
+        case .loading:
+            return AnyView(Spacer().hidden()) // show nothing
+        case .loaded:
+            if let data = self.viewModel.output.thumbnail?.value {
+                return AnyView(Thumbnail(data))
+            } else {
+                return AnyView(Image(systemName: "exclamationmark.icloud"))
+            }
+        }
+    }
+    
 }
