@@ -30,10 +30,12 @@ import SwiftUI
                 TextField("Website URL", text: self.$input.originalURLString)
                 Button(
                     action: { self.input.shouldLoad.toggle() },
-                    label: { Image(systemName: "return") }
+                    label: { Text("Go") }
                 )
+                .keyboardShortcut(.defaultAction)
                 .disabled(URL(string: self.input.originalURLString) == nil)
             }
+            .textFieldStyle(RoundedBorderTextFieldStyle())
         }
     }
 

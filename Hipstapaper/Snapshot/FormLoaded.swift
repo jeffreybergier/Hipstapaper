@@ -29,18 +29,20 @@ struct FormLoaded: View {
     var body: some View {
         VStack {
             TextField("Website Title", text: self.$output.title)
-            HStack() {
-                TextField("Website URL", text: self.$output.resolvedURLString)
+            TextField("Website URL", text: self.$output.resolvedURLString)
+            HStack {
+                Spacer()
                 Button(
                     action: { self.completion(.failure(.userCancelled)) },
-                    label: { Image(systemName: "xmark.circle") }
+                    label: { Text("Cancel") }
                 )
                 Button(
                     action: { self.completion(.success(())) },
-                    label: { Image(systemName: "plus.app") }
-                )
+                    label: { Text("Add Website") }
+                ).keyboardShortcut(.defaultAction)
             }
         }
+        .textFieldStyle(RoundedBorderTextFieldStyle())
     }
 }
 

@@ -32,13 +32,10 @@ import SwiftUI
                 HStack() {
                     TextField("Website URL", text: self.$output.resolvedURLString)
                         .disabled(true)
-                    Button(
-                        action: { /* Always Disabled */ },
-                        label: { ProgressView() }
-                    )
-                    .disabled(true)
+                    ProgressView()
                 }
             }
+            .textFieldStyle(RoundedBorderTextFieldStyle())
         }
     }
 
@@ -48,6 +45,7 @@ struct FormLoading_Preview: PreviewProvider {
     static var output = WebView.Output()
     static var previews: some View {
         FormLoading(output: self.output)
+            .environment(\.sizeCategory, .accessibilityLarge)
             .previewLayout(.fixed(width: 300, height: 100.0))
     }
 }
