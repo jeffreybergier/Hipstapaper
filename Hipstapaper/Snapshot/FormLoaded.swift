@@ -21,27 +21,36 @@
 
 import SwiftUI
 
-extension Form {
-    struct Loaded: View {
-        
-        @ObservedObject var output: WebView.Output
-        let completion: Completion
-        
-        var body: some View {
-            VStack {
-                TextField("Website Title", text: self.$output.title)
-                HStack() {
-                    TextField("Website URL", text: self.$output.resolvedURLString)
-                    Button(
-                        action: { self.completion(.failure(.userCancelled)) },
-                        label: { Image(systemName: "xmark.circle") }
-                    )
-                    Button(
-                        action: { self.completion(.success(())) },
-                        label: { Image(systemName: "plus.app") }
-                    )
-                }
+struct FormLoaded: View {
+    
+    @ObservedObject var output: WebView.Output
+    let completion: Form.Completion
+    
+    var body: some View {
+        VStack {
+            TextField("Website Title", text: self.$output.title)
+            HStack() {
+                TextField("Website URL", text: self.$output.resolvedURLString)
+                Button(
+                    action: { self.completion(.failure(.userCancelled)) },
+                    label: { Image(systemName: "xmark.circle") }
+                )
+                Button(
+                    action: { self.completion(.success(())) },
+                    label: { Image(systemName: "plus.app") }
+                )
             }
         }
     }
 }
+
+
+#if DEBUG
+struct FormLoaded_Preview: PreviewProvider {
+    static var output = WebView.Output()
+    static var previews: some View {
+        FormLoaded(output: self.output, completion: { _ in })
+            .previewLayout(.fixed(width: 300, height: 100.0))
+    }
+}
+#endif

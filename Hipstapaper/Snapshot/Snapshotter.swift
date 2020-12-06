@@ -44,7 +44,7 @@ public struct Snapshotter: View {
     class ViewModel: ObservableObject {
         @Published var input = WebView.Input()
         @Published var output = WebView.Output()
-        var formState: Form.Which {
+        var formState: Form {
             switch (self.input.shouldLoad, self.output.isLoading) {
             case (false, _):
                 return .load
@@ -75,7 +75,7 @@ public struct Snapshotter: View {
     
     public var body: some View {
         VStack {
-            Form(viewModel: self.viewModel) { result in
+            FormSwitcher(viewModel: self.viewModel) { result in
                 self.completion(
                     result.flatMap {
                         guard

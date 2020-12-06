@@ -21,8 +21,7 @@
 
 import SwiftUI
 
-extension Form {
-    struct Load: View {
+    struct FormLoad: View {
         
         @Binding var input: WebView.Input
         
@@ -37,4 +36,13 @@ extension Form {
             }
         }
     }
+
+#if DEBUG
+struct FormLoad_Preview: PreviewProvider {
+    @State static var input = WebView.Input()
+    static var previews: some View {
+        FormLoad(input: self.$input)
+            .previewLayout(.fixed(width: 300, height: 100.0))
+    }
 }
+#endif

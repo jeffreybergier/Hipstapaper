@@ -21,25 +21,26 @@
 
 import SwiftUI
 
-struct Form: View {
+enum Form {
     
     typealias Completion = (Result<Void, Error>) -> Void
+    case load, loading, loaded
     
-    enum Which {
-        case load, loading, loaded
-    }
+}
+
+struct FormSwitcher: View {
     
     @ObservedObject var viewModel: Snapshotter.ViewModel
-    let completion: Completion
+    let completion: Form.Completion
     
     var body: some View {
         switch self.viewModel.formState {
         case .load:
-            return AnyView(Load(input: self.$viewModel.input))
+            return AnyView(FormLoad(input: self.$viewModel.input))
         case .loading:
-            return AnyView(Loading(output: self.viewModel.output))
+            return AnyView(FormLoading(output: self.viewModel.output))
         case .loaded:
-            return AnyView(Loaded(output: self.viewModel.output, completion: completion))
+            return AnyView(FormLoaded(output: self.viewModel.output, completion: completion))
         }
     }
 }

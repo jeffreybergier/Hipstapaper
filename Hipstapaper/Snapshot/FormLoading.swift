@@ -21,8 +21,7 @@
 
 import SwiftUI
 
-extension Form {
-    struct Loading: View {
+    struct FormLoading: View {
         
         @ObservedObject var output: WebView.Output
         
@@ -42,4 +41,14 @@ extension Form {
             }
         }
     }
+
+
+#if DEBUG
+struct FormLoading_Preview: PreviewProvider {
+    static var output = WebView.Output()
+    static var previews: some View {
+        FormLoading(output: self.output)
+            .previewLayout(.fixed(width: 300, height: 100.0))
+    }
 }
+#endif
