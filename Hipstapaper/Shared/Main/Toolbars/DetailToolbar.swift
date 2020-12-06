@@ -38,7 +38,15 @@ struct DetailToolbar: View {
             })
             .sheet(isPresented: self.$presentation.isAddWebsite, content: {
                 Snapshotter() { result in
-                    print(result)
+                    switch result {
+                    case .success(let ouput):
+                        // TODO: create website in controller
+                        break
+                    case .failure(let error):
+                        // TODO: maybe show error to user?
+                        break
+                    }
+                    self.presentation.value = .none
                 }
             })
             

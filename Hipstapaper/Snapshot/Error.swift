@@ -23,4 +23,5 @@ public enum Error: Swift.Error {
     case take(Swift.Error)
     case convert
     case size(Int)
+    case userCancelled
 }

@@ -25,6 +25,7 @@ extension Form {
     struct Loaded: View {
         
         @ObservedObject var output: WebView.Output
+        let completion: Completion
         
         var body: some View {
             VStack {
@@ -32,11 +33,11 @@ extension Form {
                 HStack() {
                     TextField("Website URL", text: self.$output.resolvedURLString)
                     Button(
-                        action: { print("Cancel!") },
+                        action: { self.completion(.failure(.userCancelled)) },
                         label: { Image(systemName: "xmark.circle") }
                     )
                     Button(
-                        action: { print("Save!") },
+                        action: { self.completion(.success(())) },
                         label: { Image(systemName: "plus.app") }
                     )
                 }

@@ -28,7 +28,7 @@ struct WebView: View {
     struct Input {
         var shouldLoad: Bool = false
         var originalURLString: String = ""
-        var maxThumbSize: Int = 100_000
+        var maxThumbSize: Int = 300_000 // TODO: Change back to 100,000
         var snapConfig: WKSnapshotConfiguration = {
             let config = WKSnapshotConfiguration()
             config.afterScreenUpdates = true

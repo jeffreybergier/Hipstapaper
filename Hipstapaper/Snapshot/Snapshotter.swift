@@ -24,6 +24,8 @@ import Combine
 
 public struct Snapshotter: View {
     
+    public typealias Completion = (Result<Output, Error>) -> Void
+    
     public struct Input {
         var loadURL: URL?
         public init(loadURL: URL? = nil) {
@@ -64,15 +66,28 @@ public struct Snapshotter: View {
     }
     
     @ObservedObject var viewModel: ViewModel
+    let completion: Completion
     
-    public init(_ input: Input = .init(), completion: @escaping (Result<Output, Error>) -> Void) {
+    public init(_ input: Input = .init(), completion: @escaping Completion) {
         _viewModel = ObservedObject(wrappedValue: ViewModel(input))
+        self.completion = completion
     }
     
     public var body: some View {
         VStack {
-            Form(viewModel: self.viewModel)
-                .padding()
+            Form(viewModel: self.viewModel) { result in
+                self.completion(
+                    result.map {
+                        let originalURL = URL(string: self.viewModel.input.originalURLString)!
+                        let resolvedURL = URL(string: self.viewModel.output.resolvedURLString)!
+                        return Snapshotter.Output(originalURL: originalURL,
+                                                  resolvedURL: resolvedURL,
+                                                  title: self.viewModel.output.title,
+                                                  thumbnail: self.viewModel.output.thumbnail?.value)
+                    }
+                )
+            }
+            .padding()
             ZStack {
                 WebView(input: self.$viewModel.input,
                         output: self.viewModel.output)
