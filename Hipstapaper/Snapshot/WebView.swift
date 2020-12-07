@@ -119,6 +119,7 @@ extension WKWebView {
                 completion(.failure(.take(error)))
                 return
             }
+            // TODO: Convert this to JPEG Compression
             guard
                 let tiff = image?.tiffRepresentation,
                 let rep = NSBitmapImageRep(data: tiff),
@@ -163,6 +164,7 @@ extension WKWebView {
                 completion(.failure(.take(error)))
                 return
             }
+            // TODO: Convert this to JPEG Compression
             guard let data = image?.pngData() else {
                 completion(.failure(.convertURL))
                 return
