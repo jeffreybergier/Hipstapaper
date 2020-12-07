@@ -29,11 +29,10 @@ import SwiftUI
             VStack {
                 TextField("Website Title", text: self.$output.title)
                     .disabled(true)
-                HStack() {
-                    TextField("Website URL", text: self.$output.resolvedURLString)
-                        .disabled(true)
-                    ProgressView()
-                }
+                TextField("Website URL", text: self.$output.resolvedURLString)
+                    .disabled(true)
+                ProgressView(self.output.progress)
+                    .progressViewStyle(LinearProgressViewStyle())
             }
             .textFieldStyle(RoundedBorderTextFieldStyle())
         }

@@ -42,6 +42,7 @@ struct WebView: View {
         @Published var resolvedURLString: String = ""
         @Published var title: String = ""
         @Published var thumbnail: Result<Data, Error>?
+        var progress: Progress = .init(totalUnitCount: 100)
         var kvo = [NSKeyValueObservation]()
     }
 
@@ -84,7 +85,10 @@ struct WebView: View {
         let token3 = wv.observe(\.title) { _, _ in
             self.output.title = wv.title ?? ""
         }
-        self.output.kvo = [token1, token2, token3]
+        let token4 = wv.observe(\.estimatedProgress) { _, _ in
+            self.output.progress.completedUnitCount = Int64(wv.estimatedProgress * 100)
+        }
+        self.output.kvo = [token1, token2, token3, token4]
         return wv
     }
 }
