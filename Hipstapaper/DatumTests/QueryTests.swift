@@ -26,12 +26,12 @@ import CoreData
 class QueryTests: ParentTestCase {
     
     func test_predicate_all() throws {
-        let query = Query(isArchived: .all, tag: nil, search: nil)
+        let query = Query(isArchived: .all, tag: nil, search: "")
         XCTAssertNil(query.cd_predicate)
     }
     
     func test_predicate_unarchived() throws {
-        let query = Query(isArchived: .unarchived, tag: nil, search: nil)
+        let query = Query(isArchived: .unarchived, tag: nil, search: "")
         print(query.cd_predicate.debugDescription)
         guard let predicate = query.cd_predicate else { XCTFail(); return }
         XCTAssertEqual(predicate.debugDescription, "isArchived == 0")
