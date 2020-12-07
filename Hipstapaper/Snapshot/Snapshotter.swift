@@ -44,16 +44,9 @@ public struct Snapshotter: View {
     class ViewModel: ObservableObject {
         @Published var input = WebView.Input()
         @Published var output = WebView.Output()
-        var formState: Form {
-            switch (self.input.shouldLoad, self.output.isLoading) {
-            case (false, _):
-                return .load
-            case (true, true):
-                return .loading
-            case (true, false):
-                return .loaded
-            }
-        }
+        @Published var formState: Form = .load
+
+        private var token: AnyCancellable?
         
         init(_ input: Input) {
             var wvInput = WebView.Input()
@@ -62,6 +55,22 @@ public struct Snapshotter: View {
                 wvInput.originalURLString = url.absoluteString
             }
             self.input = wvInput
+            
+            // For some reason, I have to subscribe to the publishers manually
+            // and do this. But oh well.
+            self.token = Publishers.CombineLatest3(self.$input,
+                                                   self.output.$isLoading,
+                                                   self.output.$thumbnail)
+                .sink { [unowned self] input, isLoading, _ in
+                    switch (input.shouldLoad, isLoading) {
+                    case (false, _):
+                        self.formState = .load
+                    case (true, true):
+                        self.formState = .loading
+                    case (true, false):
+                        self.formState = .loaded
+                    }
+                }
         }
     }
     
@@ -114,7 +123,7 @@ internal struct WebThumbnail: View {
                 Image(systemName: "globe")
             })
         case .loading:
-            return AnyView(Spacer().hidden()) // show nothing
+            return AnyView(EmptyView().hidden()) // show nothing
         case .loaded:
             if let data = self.viewModel.output.thumbnail?.value {
                 return AnyView(Thumbnail(data))
