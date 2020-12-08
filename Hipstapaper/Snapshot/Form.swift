@@ -31,7 +31,6 @@ enum Form {
 struct FormSwitcher: View {
     
     @ObservedObject var viewModel: Snapshotter.ViewModel
-    let completion: Form.Completion
     
     var body: some View {
         switch self.viewModel.formState {
@@ -40,7 +39,7 @@ struct FormSwitcher: View {
         case .loading:
             return AnyView(FormLoading(output: self.viewModel.output))
         case .loaded:
-            return AnyView(FormLoaded(output: self.viewModel.output, completion: completion))
+            return AnyView(FormLoaded(output: self.viewModel.output))
         }
     }
 }

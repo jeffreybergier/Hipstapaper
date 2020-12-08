@@ -24,23 +24,11 @@ import SwiftUI
 struct FormLoaded: View {
     
     @ObservedObject var output: WebView.Output
-    let completion: Form.Completion
     
     var body: some View {
         VStack {
             TextField("Website Title", text: self.$output.title)
             TextField("Website URL", text: self.$output.resolvedURLString)
-            HStack {
-                Spacer()
-                Button(
-                    action: { self.completion(.failure(.userCancelled)) },
-                    label: { Text("Cancel") }
-                )
-                Button(
-                    action: { self.completion(.success(())) },
-                    label: { Text("Add Website") }
-                ).keyboardShortcut(.defaultAction)
-            }
         }
         .textFieldStyle(RoundedBorderTextFieldStyle())
     }
@@ -51,7 +39,7 @@ struct FormLoaded: View {
 struct FormLoaded_Preview: PreviewProvider {
     static var output = WebView.Output()
     static var previews: some View {
-        FormLoaded(output: self.output, completion: { _ in })
+        FormLoaded(output: self.output)
             .previewLayout(.fixed(width: 300, height: 100.0))
     }
 }

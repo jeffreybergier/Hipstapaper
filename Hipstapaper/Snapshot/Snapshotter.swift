@@ -83,30 +83,33 @@ public struct Snapshotter: View {
     }
     
     public var body: some View {
-        VStack {
-            FormSwitcher(viewModel: self.viewModel) { result in
-                self.completion(
-                    result.flatMap {
+        VStack(alignment: .leading) {
+            Toolbar(output: self.viewModel.output,
+                    cancel: { self.completion(.failure(.userCancelled)) },
+                    confirm: {
                         guard
                             let originalURL = URL(string: self.viewModel.input.originalURLString),
                             let resolvedURL = URL(string: self.viewModel.output.resolvedURLString)
-                        else { return .failure(.convertURL) }
-                        return .success(
+                        else {
+                            self.completion(.failure(.convertURL))
+                            return
+                        }
+                        self.completion(.success(
                             Snapshotter.Output(originalURL: originalURL,
                                                resolvedURL: resolvedURL,
                                                title: self.viewModel.output.title,
                                                thumbnail: self.viewModel.output.thumbnail?.value)
-                        )
-                    }
-                )
-            }
-            .padding()
+                        ))
+                    })
+            FormSwitcher(viewModel: self.viewModel)
+                .padding()
             ZStack {
                 WebView(input: self.$viewModel.input,
                         output: self.viewModel.output)
                 WebThumbnail(viewModel: self.viewModel)
             }
             .frame(width: 300, height: 300)
+            .padding()
         }
     }
 }
