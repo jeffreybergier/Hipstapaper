@@ -44,6 +44,11 @@ struct WebView: View {
         @Published var thumbnail: Result<Data, Error>?
         var progress: Progress = .init(totalUnitCount: 100)
         var kvo = [NSKeyValueObservation]()
+        var timer: Timer?
+        deinit {
+            self.timer?.invalidate()
+            self.kvo.forEach({ $0.invalidate() })
+        }
     }
 
     
@@ -75,7 +80,16 @@ struct WebView: View {
         wv.allowsBackForwardNavigationGestures = false
         let token1 = wv.observe(\.isLoading) { _, _ in
             if wv.isLoading == false {
-                wv.snap_takeSnapshot(with: self.input) { self.output.thumbnail = $0 }
+                self.output.timer?.invalidate()
+                // added so the webview unloads
+                // and stops making sounds and accepting interactions
+                self.output.kvo = []
+                wv.snap_takeSnapshot(with: self.input) {
+                    self.output.thumbnail = $0
+                    // added so the webview unloads
+                    // and stops making sounds and accepting interactions
+                    wv.load(URLRequest(url: URL(string: "about:blank")!))
+                }
             }
             self.output.isLoading = wv.isLoading
         }
@@ -87,6 +101,9 @@ struct WebView: View {
         }
         let token4 = wv.observe(\.estimatedProgress) { _, _ in
             self.output.progress.completedUnitCount = Int64(wv.estimatedProgress * 100)
+        }
+        self.output.timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true) { _ in
+            wv.snap_takeSnapshot(with: self.input) { self.output.thumbnail = $0 }
         }
         self.output.kvo = [token1, token2, token3, token4]
         return wv

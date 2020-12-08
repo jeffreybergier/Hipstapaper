@@ -106,9 +106,11 @@ public struct Snapshotter: View {
             ZStack {
                 WebView(input: self.$viewModel.input,
                         output: self.viewModel.output)
+                Color(.lightGray)
                 WebThumbnail(viewModel: self.viewModel)
             }
             .frame(width: 300, height: 300)
+            .cornerRadius(8)
             .padding()
         }
     }
@@ -121,22 +123,13 @@ internal struct WebThumbnail: View {
     var body: some View {
         switch self.viewModel.formState {
         case .load:
-            return AnyView(ZStack {
-                Color(white: 1)
-                Image(systemName: "globe")
-            })
-        case .loading:
-            return AnyView(EmptyView().hidden()) // show nothing
-        case .loaded:
+            return AnyView(Image(systemName: "globe"))
+        case .loading, .loaded:
             if let data = self.viewModel.output.thumbnail?.value {
                 return AnyView(Thumbnail(data))
             } else {
-                return AnyView(ZStack {
-                    Color(white: 1)
-                    Image(systemName: "exclamationmark.icloud")
-                })
+                return AnyView(Image(systemName: "exclamationmark.icloud"))
             }
         }
     }
-    
 }
