@@ -38,6 +38,11 @@
 		735C92022577C0260033B4E8 /* FixedTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C92012577C0260033B4E8 /* FixedTags.swift */; };
 		7399BAAD258251A500B8CAFD /* Stylize.h in Headers */ = {isa = PBXBuildFile; fileRef = 7399BAAB258251A500B8CAFD /* Stylize.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7399BAC7258251D800B8CAFD /* Localize.h in Headers */ = {isa = PBXBuildFile; fileRef = 7399BAC5258251D800B8CAFD /* Localize.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7399BAD32582525200B8CAFD /* Thumbnails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7399BAD22582525200B8CAFD /* Thumbnails.swift */; };
+		7399BAE22582529400B8CAFD /* Stylize.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7399BAA9258251A500B8CAFD /* Stylize.framework */; };
+		7399BB172582537500B8CAFD /* Stylize.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7399BAA9258251A500B8CAFD /* Stylize.framework */; };
+		7399BB182582537500B8CAFD /* Stylize.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7399BAA9258251A500B8CAFD /* Stylize.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7399BB2A2582555E00B8CAFD /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7399BB292582555E00B8CAFD /* Colors.swift */; };
 		73A3DE7825792604002EDEB4 /* DetailToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DE7725792604002EDEB4 /* DetailToolbar.swift */; };
 		73A3DE7925792604002EDEB4 /* DetailToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DE7725792604002EDEB4 /* DetailToolbar.swift */; };
 		73A3DE7F257B36C8002EDEB4 /* StaticElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DE7E257B36C8002EDEB4 /* StaticElement.swift */; };
@@ -56,7 +61,6 @@
 		73A3DEF7257BC18B002EDEB4 /* Snapshot.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 73A3DEC1257BBD83002EDEB4 /* Snapshot.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		73A3DF0D257BC22C002EDEB4 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DF0C257BC22C002EDEB4 /* WebView.swift */; };
 		73A3DF15257C53C8002EDEB4 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DF14257C53C8002EDEB4 /* Error.swift */; };
-		73A3DF1D257CC1F4002EDEB4 /* Thumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DF1C257CC1F4002EDEB4 /* Thumbnail.swift */; };
 		73A3DF25257CCA82002EDEB4 /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DF24257CCA82002EDEB4 /* Form.swift */; };
 		73A3DF2D257CCB25002EDEB4 /* FormLoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DF2C257CCB25002EDEB4 /* FormLoad.swift */; };
 		73A3DF35257CCB65002EDEB4 /* FormLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DF34257CCB65002EDEB4 /* FormLoading.swift */; };
@@ -100,6 +104,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		7399BAE42582529400B8CAFD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBDCB337256BE8E600D005F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7399BAA8258251A500B8CAFD;
+			remoteInfo = Stylize;
+		};
+		7399BB192582537500B8CAFD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBDCB337256BE8E600D005F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7399BAA8258251A500B8CAFD;
+			remoteInfo = Stylize;
+		};
 		73A3DEEE257BC184002EDEB4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DBDCB337256BE8E600D005F6 /* Project object */;
@@ -158,6 +176,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				7399BB182582537500B8CAFD /* Stylize.framework in Embed Frameworks */,
 				73A3DEED257BC184002EDEB4 /* Snapshot.framework in Embed Frameworks */,
 				DBDCB3A7256BEC5B00D005F6 /* Datum.framework in Embed Frameworks */,
 			);
@@ -205,6 +224,8 @@
 		7399BAC3258251D800B8CAFD /* Localize.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Localize.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7399BAC5258251D800B8CAFD /* Localize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Localize.h; sourceTree = "<group>"; };
 		7399BAC6258251D800B8CAFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7399BAD22582525200B8CAFD /* Thumbnails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Thumbnails.swift; sourceTree = "<group>"; };
+		7399BB292582555E00B8CAFD /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		73A3DE7725792604002EDEB4 /* DetailToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailToolbar.swift; sourceTree = "<group>"; };
 		73A3DE7E257B36C8002EDEB4 /* StaticElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticElement.swift; sourceTree = "<group>"; };
 		73A3DE88257B6918002EDEB4 /* Presentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presentation.swift; sourceTree = "<group>"; };
@@ -217,7 +238,6 @@
 		73A3DEE4257BC138002EDEB4 /* Snapshotter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snapshotter.swift; sourceTree = "<group>"; };
 		73A3DF0C257BC22C002EDEB4 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		73A3DF14257C53C8002EDEB4 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
-		73A3DF1C257CC1F4002EDEB4 /* Thumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Thumbnail.swift; sourceTree = "<group>"; };
 		73A3DF24257CCA82002EDEB4 /* Form.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Form.swift; sourceTree = "<group>"; };
 		73A3DF2C257CCB25002EDEB4 /* FormLoad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormLoad.swift; sourceTree = "<group>"; };
 		73A3DF34257CCB65002EDEB4 /* FormLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormLoading.swift; sourceTree = "<group>"; };
@@ -286,6 +306,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7399BAE22582529400B8CAFD /* Stylize.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,6 +314,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7399BB172582537500B8CAFD /* Stylize.framework in Frameworks */,
 				73A3DEEC257BC184002EDEB4 /* Snapshot.framework in Frameworks */,
 				DBDCB3A6256BEC5B00D005F6 /* Datum.framework in Frameworks */,
 			);
@@ -372,6 +394,8 @@
 			children = (
 				7399BAAB258251A500B8CAFD /* Stylize.h */,
 				7399BAAC258251A500B8CAFD /* Info.plist */,
+				7399BAD22582525200B8CAFD /* Thumbnails.swift */,
+				7399BB292582555E00B8CAFD /* Colors.swift */,
 			);
 			path = Stylize;
 			sourceTree = "<group>";
@@ -445,7 +469,6 @@
 				73A3DF34257CCB65002EDEB4 /* FormLoading.swift */,
 				73A3DF3C257CCBC0002EDEB4 /* FormLoaded.swift */,
 				73A3DF0C257BC22C002EDEB4 /* WebView.swift */,
-				73A3DF1C257CC1F4002EDEB4 /* Thumbnail.swift */,
 				734D4EC9257FAB7F0033ED52 /* Toolbar.swift */,
 				73A3DEC4257BBD83002EDEB4 /* Info.plist */,
 			);
@@ -694,6 +717,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				7399BAE52582529400B8CAFD /* PBXTargetDependency */,
 			);
 			name = Snapshot;
 			productName = Snapshot;
@@ -714,6 +738,7 @@
 			dependencies = (
 				DBDCB3A9256BEC5B00D005F6 /* PBXTargetDependency */,
 				73A3DEEF257BC184002EDEB4 /* PBXTargetDependency */,
+				7399BB1A2582537500B8CAFD /* PBXTargetDependency */,
 			);
 			name = "Hipstapaper (iOS)";
 			packageProductDependencies = (
@@ -830,6 +855,7 @@
 				TargetAttributes = {
 					7399BAA8258251A500B8CAFD = {
 						CreatedOnToolsVersion = 12.2;
+						LastSwiftMigration = 1220;
 					};
 					7399BAC2258251D800B8CAFD = {
 						CreatedOnToolsVersion = 12.2;
@@ -963,6 +989,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7399BAD32582525200B8CAFD /* Thumbnails.swift in Sources */,
+				7399BB2A2582555E00B8CAFD /* Colors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -985,7 +1013,6 @@
 				73A3DF25257CCA82002EDEB4 /* Form.swift in Sources */,
 				73A3DF2D257CCB25002EDEB4 /* FormLoad.swift in Sources */,
 				734D4ECA257FAB7F0033ED52 /* Toolbar.swift in Sources */,
-				73A3DF1D257CC1F4002EDEB4 /* Thumbnail.swift in Sources */,
 				73A3DF0D257BC22C002EDEB4 /* WebView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1099,6 +1126,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		7399BAE52582529400B8CAFD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7399BAA8258251A500B8CAFD /* Stylize */;
+			targetProxy = 7399BAE42582529400B8CAFD /* PBXContainerItemProxy */;
+		};
+		7399BB1A2582537500B8CAFD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7399BAA8258251A500B8CAFD /* Stylize */;
+			targetProxy = 7399BB192582537500B8CAFD /* PBXContainerItemProxy */;
+		};
 		73A3DEEF257BC184002EDEB4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 73A3DEC0257BBD83002EDEB4 /* Snapshot */;
@@ -1140,6 +1177,7 @@
 		7399BAAE258251A500B8CAFD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -1149,7 +1187,8 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Stylize/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1159,6 +1198,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos appletvsimulator appletvos watchos watchsimulator macosx";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1169,6 +1210,7 @@
 		7399BAAF258251A500B8CAFD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -1178,7 +1220,8 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Stylize/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1188,6 +1231,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos appletvsimulator appletvos watchos watchsimulator macosx";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1208,7 +1252,8 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Localize/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1218,6 +1263,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx watchsimulator watchos appletvos appletvsimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1237,7 +1283,8 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Localize/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1247,6 +1294,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx watchsimulator watchos appletvos appletvsimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

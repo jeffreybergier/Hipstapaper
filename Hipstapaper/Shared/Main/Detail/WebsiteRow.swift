@@ -21,7 +21,7 @@
 
 import SwiftUI
 import Datum
-import Snapshot
+import Stylize
 
 struct WebsiteRow: View {
     

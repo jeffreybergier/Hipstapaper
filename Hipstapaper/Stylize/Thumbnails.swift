@@ -29,25 +29,28 @@ import UIKit
 #endif
 
 public struct Thumbnail: View {
+        
+    public let input: Data?
     
-    public typealias Input = Data
-    
-    public let input: Input?
-    
-    public var body: Image? {
-        guard let data = self.input else { return nil }
+    public var body: some View {
         #if canImport(AppKit)
-        guard let image = NSImage(data: data) else { return nil }
-        return Image(nsImage: image).resizable()
+        guard
+            let data = self.input,
+            let image = NSImage(data: data)
+        else { return AnyView(Color(.lightGray)) }
+        return AnyView(Image(nsImage: image).resizable())
         #elseif canImport(UIKit)
-        guard let image = UIImage(data: data) else { return nil }
-        return Image(uiImage: image).resizable()
+        guard
+            let data = self.input,
+            let image = UIImage(data: data)
+        else { return AnyView(Color(.lightGray)) }
+        return AnyView(Image(uiImage: image).resizable())
         #else
         fatalError()
         #endif
     }
     
-    public init(_ input: Input?) {
+    public init(_ input: Data?) {
         self.input = input
     }
 }
