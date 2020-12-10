@@ -107,7 +107,6 @@ public struct Snapshotter: View {
             ZStack {
                 WebView(input: self.$viewModel.input,
                         output: self.viewModel.output)
-                Color(.lightGray)
                 WebThumbnail(viewModel: self.viewModel)
             }
             .frame(width: 300, height: 300)
@@ -121,6 +120,7 @@ internal struct WebThumbnail: View {
     
     @ObservedObject var viewModel: Snapshotter.ViewModel
 
+    // TODO: Fix this
     var body: some View {
         switch self.viewModel.formState {
         case .load:

@@ -18,3 +18,21 @@
 //  You should have received a copy of the GNU General Public License
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
+
+import SwiftUI
+
+public struct PlaceholderColor: View {
+    
+    @Environment(\.colorScheme) var colorScheme
+    
+    public var body: Color {
+        switch self.colorScheme {
+        case .light:
+            return Color(.sRGB, red: 0.9, green: 0.9, blue: 0.9, opacity: 1.0)
+        case .dark:
+            return Color(.sRGB, red: 0.1, green: 0.1, blue: 0.1, opacity: 1.0)
+        @unknown default:
+            <#fatalError()#>
+        }
+    }
+}

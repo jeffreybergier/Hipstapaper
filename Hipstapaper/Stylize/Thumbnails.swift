@@ -33,18 +33,26 @@ public struct Thumbnail: View {
     public let input: Data?
     
     public var body: some View {
+        let topView = self.topView() ?? Image(systemName: "photo")
+        return VStack {
+            PlaceholderColor()
+            topView.resizable()
+        }
+    }
+    
+    private func topView() -> Image? {
         #if canImport(AppKit)
         guard
             let data = self.input,
             let image = NSImage(data: data)
-        else { return AnyView(Color(.lightGray)) }
-        return AnyView(Image(nsImage: image).resizable())
+        else { return nil }
+        return Image(nsImage: image)
         #elseif canImport(UIKit)
         guard
             let data = self.input,
             let image = UIImage(data: data)
-        else { return AnyView(Color(.lightGray)) }
-        return AnyView(Image(uiImage: image).resizable())
+        else { return nil }
+        return Image(uiImage: image)
         #else
         fatalError()
         #endif
