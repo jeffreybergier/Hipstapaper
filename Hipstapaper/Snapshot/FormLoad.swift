@@ -28,7 +28,7 @@ struct FormLoad: View {
     
     var body: some View {
         HStack() {
-            URLTextField(self.$input.originalURLString)
+            TextField.URL(self.$input.originalURLString)
             Button(
                 action: { self.input.shouldLoad.toggle() },
                 label: { Text("Go") }

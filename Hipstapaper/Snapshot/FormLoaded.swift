@@ -28,8 +28,8 @@ struct FormLoaded: View {
     
     var body: some View {
         VStack {
-            WebsiteTitleTextField(self.$output.title)
-            URLTextField(self.$output.resolvedURLString)
+            TextField.WebsiteTitle(self.$output.title)
+            TextField.URL(self.$output.resolvedURLString)
         }
     }
 }

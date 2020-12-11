@@ -29,9 +29,9 @@ struct FormLoading: View {
     
     var body: some View {
         VStack {
-            WebsiteTitleTextField(self.$output.title)
+            TextField.WebsiteTitle(self.$output.title)
                 .disabled(true)
-            URLTextField(self.$output.resolvedURLString)
+            TextField.URL(self.$output.resolvedURLString)
                 .disabled(true)
             ProgressView(self.output.progress)
                 .progressViewStyle(LinearProgressViewStyle())

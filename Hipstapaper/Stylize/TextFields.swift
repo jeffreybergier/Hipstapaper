@@ -21,15 +21,19 @@
 
 import SwiftUI
 
-public func URLTextField(_ binding: Binding<String>) -> some View {
-    return TextField("Website URL", text: binding)
-        .disableAutocorrection(true)
-        .keyboardType(.URL)
-        .textFieldStyle(RoundedBorderTextFieldStyle())
-}
+extension TextField where Label == Text {
 
-public func WebsiteTitleTextField(_ binding: Binding<String>) -> some View {
-    return TextField("Website Title", text: binding)
-        .keyboardType(.default)
-        .textFieldStyle(RoundedBorderTextFieldStyle())
+    public static func URL(_ binding: Binding<String>) -> some View {
+        return SwiftUI.TextField("Website URL", text: binding)
+            .disableAutocorrection(true)
+            .keyboardType(.URL)
+            .textFieldStyle(RoundedBorderTextFieldStyle())
+    }
+    
+    public static func WebsiteTitle(_ binding: Binding<String>) -> some View {
+        return SwiftUI.TextField("Website Title", text: binding)
+            .keyboardType(.default)
+            .textFieldStyle(RoundedBorderTextFieldStyle())
+    }
+
 }

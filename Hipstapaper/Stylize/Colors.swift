@@ -21,18 +21,21 @@
 
 import SwiftUI
 
-public struct PlaceholderColor: View {
-    
-    @Environment(\.colorScheme) var colorScheme
-    
-    public var body: Color {
-        switch self.colorScheme {
-        case .dark:
-            return Color(.sRGB, red: 0.2, green: 0.2, blue: 0.2, opacity: 1.0)
-        case .light:
-            fallthrough
-        @unknown default:
-            return Color(.sRGB, red: 0.95, green: 0.95, blue: 0.95, opacity: 1.0)
+extension Color {
+
+    public struct Placeholder: View {
+
+        @Environment(\.colorScheme) var colorScheme
+
+        public var body: Color {
+            switch self.colorScheme {
+            case .dark:
+                return Color(.sRGB, red: 0.2, green: 0.2, blue: 0.2, opacity: 1.0)
+            case .light:
+                fallthrough
+            @unknown default:
+                return Color(.sRGB, red: 0.95, green: 0.95, blue: 0.95, opacity: 1.0)
+            }
         }
     }
 }

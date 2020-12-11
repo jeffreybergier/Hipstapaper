@@ -35,7 +35,7 @@ public struct ImageThumbnail: View {
     public var body: some View {
         let topView = self.topView() ?? Image(systemName: "photo")
         return ZStack {
-            PlaceholderColor()
+            Color.Placeholder()
             topView
         }
     }
@@ -70,7 +70,7 @@ public struct SystemThumbnail: View {
 
     public var body: some View {
         ZStack {
-            PlaceholderColor()
+            Color.Placeholder()
             Image(systemName: self.systemName)
         }
     }
