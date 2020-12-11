@@ -110,7 +110,7 @@ public struct Snapshotter: View {
                 WebThumbnail(viewModel: self.viewModel)
             }
             .frame(width: 300, height: 300)
-            .cornerRadius(8)
+            .cornerRadius_medium
             .padding()
         }
     }

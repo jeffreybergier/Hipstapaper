@@ -76,6 +76,7 @@
 		DB21C1FC256C8DC500DF6AE7 /* CD_Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB21C1FB256C8DC500DF6AE7 /* CD_Tag.swift */; };
 		DB21C203256C8F9100DF6AE7 /* Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB21C202256C8F9100DF6AE7 /* Controller.swift */; };
 		DB79744C2582F3440040E663 /* TextFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB79744B2582F3440040E663 /* TextFields.swift */; };
+		DB79745525832A4E0040E663 /* CornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB79745425832A4E0040E663 /* CornerRadius.swift */; };
 		DBA1993E256D452C00383EB1 /* CD_Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA1993D256D452C00383EB1 /* CD_Collection.swift */; };
 		DBA3BE3025709D0A005A2379 /* Website.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA3BE2F25709D0A005A2379 /* Website.swift */; };
 		DBA3BE3625709D3D005A2379 /* AnyWebsite.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA3BE3525709D3D005A2379 /* AnyWebsite.swift */; };
@@ -254,6 +255,7 @@
 		DB21C1FB256C8DC500DF6AE7 /* CD_Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_Tag.swift; sourceTree = "<group>"; };
 		DB21C202256C8F9100DF6AE7 /* Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controller.swift; sourceTree = "<group>"; };
 		DB79744B2582F3440040E663 /* TextFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFields.swift; sourceTree = "<group>"; };
+		DB79745425832A4E0040E663 /* CornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CornerRadius.swift; sourceTree = "<group>"; };
 		DBA1993D256D452C00383EB1 /* CD_Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_Collection.swift; sourceTree = "<group>"; };
 		DBA3BE2F25709D0A005A2379 /* Website.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Website.swift; sourceTree = "<group>"; };
 		DBA3BE3525709D3D005A2379 /* AnyWebsite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyWebsite.swift; sourceTree = "<group>"; };
@@ -399,6 +401,7 @@
 				7399BAD22582525200B8CAFD /* Thumbnails.swift */,
 				7399BB292582555E00B8CAFD /* Colors.swift */,
 				DB79744B2582F3440040E663 /* TextFields.swift */,
+				DB79745425832A4E0040E663 /* CornerRadius.swift */,
 			);
 			path = Stylize;
 			sourceTree = "<group>";
@@ -994,6 +997,7 @@
 			files = (
 				7399BAD32582525200B8CAFD /* Thumbnails.swift in Sources */,
 				7399BB2A2582555E00B8CAFD /* Colors.swift in Sources */,
+				DB79745525832A4E0040E663 /* CornerRadius.swift in Sources */,
 				DB79744C2582F3440040E663 /* TextFields.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
