@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/12/06.
+//  Created by Jeffrey Bergier on 2020/12/11.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -20,31 +20,16 @@
 //
 
 import SwiftUI
-import Stylize
 
-struct FormLoad: View {
-    
-    @Binding var input: WebView.Input
-    
-    var body: some View {
-        HStack() {
-            URLTextField(self.$input.originalURLString)
-            Button(
-                action: { self.input.shouldLoad.toggle() },
-                label: { Text("Go") }
-            )
-            .keyboardShortcut(.defaultAction)
-            .disabled(URL(string: self.input.originalURLString) == nil)
-        }
-    }
+public func URLTextField(_ binding: Binding<String>) -> some View {
+    return TextField("Website URL", text: binding)
+        .disableAutocorrection(true)
+        .keyboardType(.URL)
+        .textFieldStyle(RoundedBorderTextFieldStyle())
 }
 
-#if DEBUG
-struct FormLoad_Preview: PreviewProvider {
-    @State static var input = WebView.Input()
-    static var previews: some View {
-        FormLoad(input: self.$input)
-            .previewLayout(.fixed(width: 300, height: 100.0))
-    }
+public func WebsiteTitleTextField(_ binding: Binding<String>) -> some View {
+    return TextField("Website Title", text: binding)
+        .keyboardType(.default)
+        .textFieldStyle(RoundedBorderTextFieldStyle())
 }
-#endif

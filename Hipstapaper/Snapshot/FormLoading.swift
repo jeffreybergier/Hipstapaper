@@ -19,24 +19,25 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import SwiftUI
 
-    struct FormLoading: View {
-        
-        @ObservedObject var output: WebView.Output
-        
-        var body: some View {
-            VStack {
-                TextField("Website Title", text: self.$output.title)
-                    .disabled(true)
-                TextField("Website URL", text: self.$output.resolvedURLString)
-                    .disabled(true)
-                ProgressView(self.output.progress)
-                    .progressViewStyle(LinearProgressViewStyle())
-            }
-            .textFieldStyle(RoundedBorderTextFieldStyle())
+import SwiftUI
+import Stylize
+
+struct FormLoading: View {
+    
+    @ObservedObject var output: WebView.Output
+    
+    var body: some View {
+        VStack {
+            WebsiteTitleTextField(self.$output.title)
+                .disabled(true)
+            URLTextField(self.$output.resolvedURLString)
+                .disabled(true)
+            ProgressView(self.output.progress)
+                .progressViewStyle(LinearProgressViewStyle())
         }
     }
+}
 
 
 #if DEBUG

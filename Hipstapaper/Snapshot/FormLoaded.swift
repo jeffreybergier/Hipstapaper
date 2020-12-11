@@ -20,6 +20,7 @@
 //
 
 import SwiftUI
+import Stylize
 
 struct FormLoaded: View {
     
@@ -27,10 +28,9 @@ struct FormLoaded: View {
     
     var body: some View {
         VStack {
-            TextField("Website Title", text: self.$output.title)
-            TextField("Website URL", text: self.$output.resolvedURLString)
+            WebsiteTitleTextField(self.$output.title)
+            URLTextField(self.$output.resolvedURLString)
         }
-        .textFieldStyle(RoundedBorderTextFieldStyle())
     }
 }
 
