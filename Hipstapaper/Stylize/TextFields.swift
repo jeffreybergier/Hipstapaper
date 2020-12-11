@@ -24,16 +24,18 @@ import SwiftUI
 extension TextField where Label == Text {
 
     public static func URL(_ binding: Binding<String>) -> some View {
-        return SwiftUI.TextField("Website URL", text: binding)
+        let tf = SwiftUI.TextField("Website URL", text: binding)
             .disableAutocorrection(true)
-            .keyboardType(.URL)
             .textFieldStyle(RoundedBorderTextFieldStyle())
+        #if canImport(UIKit)
+        return tf.keyboardType(.URL)
+        #else
+        return tf
+        #endif
     }
     
     public static func WebsiteTitle(_ binding: Binding<String>) -> some View {
         return SwiftUI.TextField("Website Title", text: binding)
-            .keyboardType(.default)
             .textFieldStyle(RoundedBorderTextFieldStyle())
     }
-
 }
