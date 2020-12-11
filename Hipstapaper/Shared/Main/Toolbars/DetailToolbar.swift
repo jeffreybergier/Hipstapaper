@@ -30,79 +30,67 @@ struct DetailToolbar: View {
 
     var body: some View {
         HStack {
-            Button(action: {
-                // Add
-                self.presentation.value = .addWebsite
-            }, label: {
-                Image(systemName: "plus")
-            })
-            .sheet(isPresented: self.$presentation.isAddWebsite, content: {
-                Snapshotter() { result in
-                    switch result {
-                    case .success(let ouput):
-                        // TODO: create website in controller
-                        break
-                    case .failure(let error):
-                        // TODO: maybe show error to user?
-                        break
+            Button.ToolbarIcon(systemName: "plus",
+                               accessibilityLabel: "Add Website")
+                { self.presentation.value = .addWebsite }
+                .sheet(isPresented: self.$presentation.isAddWebsite, content: {
+                    Snapshotter() { result in
+                        switch result {
+                        case .success(let output):
+                            // TODO: create website in controller
+                            break
+                        case .failure(let error):
+                            // TODO: maybe show error to user?
+                            break
+                        }
+                        self.presentation.value = .none
                     }
-                    self.presentation.value = .none
-                }
-            })
+                })
             
-            Button(action: {
+            Button.ToolbarIcon(systemName: "tray.and.arrow.down",
+                               accessibilityLabel: "Archive")
+            {
                 // Archive
                 guard let site = self.controller.selectedWebsite else { return }
                 let element = AnyElement(StaticElement(site))
                 try! self.controller.controller.update(element, .init(isArchived: true)).get()
-            }, label: {
-                Image(systemName: "tray.and.arrow.down")
-            })
+            }
             .disabled(self.controller.selectedWebsite?.isArchived ?? true)
             
-            Button(action: {
+            Button.ToolbarIcon(systemName: "tray.and.arrow.up",
+                               accessibilityLabel: "Unarchive")
+            {
                 // Unarchive
                 guard let site = self.controller.selectedWebsite else { return }
                 let element = AnyElement(StaticElement(site))
                 try! self.controller.controller.update(element, .init(isArchived: false)).get()
-            }, label: {
-                Image(systemName: "tray.and.arrow.up")
-            })
+            }
             .disabled(!(self.controller.selectedWebsite?.isArchived ?? false))
             
-            Button(action: {
-                print("Tag")
-                self.presentation.value = .tagApply
-            }, label: {
-                Image(systemName: "tag")
-            })
-            .disabled(self.controller.selectedWebsite == nil)
-            .popover(isPresented: self.$presentation.isTagApply, content: {
-                Text("Tag!")
-            })
+            Button.ToolbarIcon(systemName: "tag",
+                               accessibilityLabel: "Add and Remove Tags")
+                { self.presentation.value = .tagApply }
+                .disabled(self.controller.selectedWebsite == nil)
+                .popover(isPresented: self.$presentation.isTagApply, content: {
+                    Text("Tag!")
+                })
             
-            Button(action: {
-                print("Share")
-                self.presentation.value = .share
-            }, label: {
-                Image(systemName: "square.and.arrow.up")
-            })
-            .disabled(self.controller.selectedWebsite == nil)
-            .sheet(isPresented: self.$presentation.isShare, content: {
-                Text("Share!")
-            })
+            Button.ToolbarIcon(systemName: "square.and.arrow.up",
+                               accessibilityLabel: "Share")
+                { self.presentation.value = .share }
+                .disabled(self.controller.selectedWebsite == nil)
+                .sheet(isPresented: self.$presentation.isShare, content: {
+                    Text("Share!")
+                })
             
-            Button(action: {
-                print("Search")
-                self.presentation.value = .search
-            }, label: {
-                // TODO: Make search look different when a search is in effect
-                // self.controller.detailQuery.search.nonEmptyString == nil
-                Image(systemName: "magnifyingglass")
-            })
-            .popover(isPresented: self.$presentation.isSearch, content: {
-                Search(search: self.$controller.detailQuery.search)
-            })
+            // TODO: Make search look different when a search is in effect
+            // self.controller.detailQuery.search.nonEmptyString == nil
+            Button.ToolbarIcon(systemName: "magnifyingglass",
+                               accessibilityLabel: "Search")
+                { self.presentation.value = .search }
+                .popover(isPresented: self.$presentation.isSearch, content: {
+                    Search(search: self.$controller.detailQuery.search)
+                })
         }
     }
     

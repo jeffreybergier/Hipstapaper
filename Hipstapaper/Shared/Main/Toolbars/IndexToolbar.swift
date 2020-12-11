@@ -21,6 +21,7 @@
 
 import SwiftUI
 import Datum
+import Stylize
 
 struct IndexToolbar: View {
     
@@ -29,25 +30,24 @@ struct IndexToolbar: View {
     
     var body: some View {
         HStack {
-            Button(action: {
+            Button.ToolbarIcon(systemName: "minus",
+                               accessibilityLabel: "Delete Tag")
+            {
                 // Delete
                 guard let tag = self.controller.selectedTag else { return }
                 let element = AnyElement(StaticElement(tag))
                 try! self.controller.controller.delete(element).get()
-            }, label: {
-                Image(systemName: "minus")
-            })
+            }
             .disabled({
                 guard let tag = self.controller.selectedTag else { return true }
                 return tag.wrappedValue as? Query.Archived != nil
             }())
             
-            Button(action: {
-                // Add
+            Button.ToolbarIcon(systemName: "plus",
+                               accessibilityLabel: "Add Tag")
+            {
                 self.presentation.value = .addTag
-            }, label: {
-                Image(systemName: "plus")
-            })
+            }
             .popover(isPresented: self.$presentation.isAddTag, content: {
                 Text("Add Tag!")
             })

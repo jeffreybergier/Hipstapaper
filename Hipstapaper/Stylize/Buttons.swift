@@ -53,3 +53,14 @@ extension Button where Label == Text {
         #endif
     }
 }
+
+extension Button where Label == Image {
+    
+    public static func ToolbarIcon(systemName: String,
+                                   accessibilityLabel: LocalizedStringKey,
+                                   action: @escaping () -> Void) -> some View
+    {
+        return Button(action: action, label: { Image(systemName: systemName) })
+            .accessibility(label: Text(accessibilityLabel))
+    }
+}
