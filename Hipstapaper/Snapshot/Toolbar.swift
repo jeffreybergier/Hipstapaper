@@ -20,19 +20,16 @@
 //
 
 import SwiftUI
+import Stylize
 
-struct Toolbar: View {
+struct SnapshotToolbar: View {
     
     @ObservedObject var output: WebView.Output
     let cancel: () -> Void
     let confirm: () -> Void
     
     var body: some View {
-        ZStack {
-            VStack(spacing: 0) {
-                ToolbarBackground()
-                Color(.lightGray).frame(height: 0.5)
-            }
+        Toolbar {
             HStack {
                 Button("Cancel", action: self.cancel)
                     .keyboardShortcut(.escape)
@@ -49,34 +46,6 @@ struct Toolbar: View {
                             || self.output.title.isEmpty
                     )
             }
-            .padding()
-            .layoutPriority(100)
         }
     }
 }
-
-private struct ToolbarBackground: View { }
-
-#if canImport(AppKit)
-import AppKit
-extension ToolbarBackground: NSViewRepresentable {
-    func updateNSView(_ tb: NSVisualEffectView, context: Context) { }
-    func makeNSView(context: Context) -> NSVisualEffectView {
-        let view = NSVisualEffectView()
-        view.material = .titlebar
-        return view
-    }
-}
-#endif
-
-#if canImport(UIKit)
-import UIKit
-extension ToolbarBackground: UIViewRepresentable {
-    func updateUIView(_ tb: UIVisualEffectView, context: Context) { }
-    func makeUIView(context: Context) -> UIVisualEffectView {
-        let effect = UIBlurEffect(style: .systemChromeMaterial)
-        let view = UIVisualEffectView(effect: effect)
-        return view
-    }
-}
-#endif
