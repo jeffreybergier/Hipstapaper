@@ -31,16 +31,14 @@ struct SnapshotToolbar: View {
     var body: some View {
         Toolbar {
             HStack {
-                Button("Cancel", action: self.cancel)
+                Button.Default("Cancel", action: self.cancel)
                     .keyboardShortcut(.escape)
-                    .font(.subheadline)
                 Spacer()
                 Text("Add Website")
                     .font(.title3)
                 Spacer()
-                Button("Save", action: self.confirm)
+                Button.Done("Save", action: self.confirm)
                     .keyboardShortcut(.defaultAction)
-                    .font(.headline)
                     .disabled(
                         URL(string: self.output.resolvedURLString) == nil
                             || self.output.title.isEmpty
