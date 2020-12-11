@@ -27,12 +27,12 @@ public struct PlaceholderColor: View {
     
     public var body: Color {
         switch self.colorScheme {
-        case .light:
-            return Color(.sRGB, red: 0.9, green: 0.9, blue: 0.9, opacity: 1.0)
         case .dark:
-            return Color(.sRGB, red: 0.1, green: 0.1, blue: 0.1, opacity: 1.0)
+            return Color(.sRGB, red: 0.2, green: 0.2, blue: 0.2, opacity: 1.0)
+        case .light:
+            fallthrough
         @unknown default:
-            <#fatalError()#>
+            return Color(.sRGB, red: 0.95, green: 0.95, blue: 0.95, opacity: 1.0)
         }
     }
 }

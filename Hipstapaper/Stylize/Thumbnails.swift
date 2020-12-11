@@ -28,15 +28,15 @@ import AppKit
 import UIKit
 #endif
 
-public struct Thumbnail: View {
+public struct ImageThumbnail: View {
         
     public let input: Data?
     
     public var body: some View {
         let topView = self.topView() ?? Image(systemName: "photo")
-        return VStack {
+        return ZStack {
             PlaceholderColor()
-            topView.resizable()
+            topView
         }
     }
     
@@ -46,13 +46,13 @@ public struct Thumbnail: View {
             let data = self.input,
             let image = NSImage(data: data)
         else { return nil }
-        return Image(nsImage: image)
+        return Image(nsImage: image).resizable()
         #elseif canImport(UIKit)
         guard
             let data = self.input,
             let image = UIImage(data: data)
         else { return nil }
-        return Image(uiImage: image)
+        return Image(uiImage: image).resizable()
         #else
         fatalError()
         #endif
@@ -61,4 +61,23 @@ public struct Thumbnail: View {
     public init(_ input: Data?) {
         self.input = input
     }
+}
+
+/// Displays SF Symbol above a placeholder color
+public struct SystemThumbnail: View {
+
+    let systemName: String
+
+    public var body: some View {
+        ZStack {
+            PlaceholderColor()
+            Image(systemName: self.systemName)
+        }
+    }
+
+    /// Does not check if your string is a valid SF Symbols name
+    public init(systemName: String) {
+        self.systemName = systemName
+    }
+
 }
