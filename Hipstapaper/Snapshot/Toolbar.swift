@@ -21,6 +21,7 @@
 
 import SwiftUI
 import Stylize
+import Localize
 
 struct SnapshotToolbar: View {
     
@@ -37,7 +38,7 @@ struct SnapshotToolbar: View {
                 Text("Add Website")
                     .font(.title3)
                 Spacer()
-                Button.Done("Save", action: self.confirm)
+                Button.Done(Save, action: self.confirm)
                     .keyboardShortcut(.defaultAction)
                     .disabled(
                         URL(string: self.output.resolvedURLString) == nil
