@@ -21,6 +21,7 @@
 
 import SwiftUI
 import Datum
+import Stylize
 
 struct TagRow: View {
     
@@ -32,11 +33,7 @@ struct TagRow: View {
             IndexRowTitle(self.title)
             if let count = self.websitesCount {
                 Spacer()
-                Text(String(count))
-                    .font(.callout)
-                    .foregroundColor(.black)
-                    .padding(EdgeInsets(top: 3, leading: 8, bottom: 3, trailing: 8))
-                    .background(RoundedRectangle(cornerRadius: 15).fill(Color.gray))
+                NumberOval(count)
             }
         }
         .frame(height: 30)

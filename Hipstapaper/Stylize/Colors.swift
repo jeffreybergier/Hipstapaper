@@ -41,4 +41,6 @@ extension Color {
     static internal let textTitleDisabled_Dark  = Color(.sRGB, white: 0.4, opacity: 1.0)
     static internal let thumbnailPlaceholder = Color(.sRGB, white: 0.95, opacity: 1.0)
     static internal let thumbnailPlaceholder_Dark = Color(.sRGB, white: 0.2, opacity: 1.0)
+    static internal let numberCircleBackground = Color(.sRGB, white: 0.75, opacity: 1.0)
+    static internal let numberCircleBackground_Dark = Color(.sRGB, white: 0.2, opacity: 1.0)
 }
