@@ -39,4 +39,9 @@ extension TextField where Label == Text {
         return SwiftUI.TextField(Localize.WebsiteTitle, text: binding)
             .textFieldStyle(RoundedBorderTextFieldStyle())
     }
+    
+    public static func Search(_ binding: Binding<String>) -> some View {
+        return SwiftUI.TextField(Localize.Search, text: binding)
+            .textFieldStyle(RoundedBorderTextFieldStyle())
+    }
 }

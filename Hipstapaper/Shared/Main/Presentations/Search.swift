@@ -21,17 +21,15 @@
 
 import SwiftUI
 import Datum
-import Localize
+import Stylize
 
 struct Search: View {
     
     @Binding var search: String
     
     var body: some View {
-        HStack {
-            TextField(Localize.Search, text: self.$search)
-        }
-        .frame(width: 250)
-        .padding()
+        TextField.Search(self.$search)
+            .frame(width: 250)
+            .padding()
     }
 }
