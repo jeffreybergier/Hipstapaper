@@ -28,19 +28,6 @@ import AppKit
 import UIKit
 #endif
 
-struct SectionTitle: View {
-    var title: LocalizedStringKey
-    var body: some View {
-        Text(title)
-            .font(.title3)
-            .frame(height: 30)
-    }
-    
-    init(_ title: LocalizedStringKey) {
-        self.title = title
-    }
-}
-
 struct IndexRowTitle: View {
     var title: String?
     var body: some View {

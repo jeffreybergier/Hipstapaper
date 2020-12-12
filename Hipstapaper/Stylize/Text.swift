@@ -102,4 +102,27 @@ extension Text {
         public init(_ input: String) { self.provider = .raw(input) }
         public init(_ input: LocalizedStringKey) { self.provider = .localized(input) }
     }
+    
+    public struct IndexSection: View {
+        private var title: LocalizedStringKey
+        public var body: some View {
+            Text(self.title)
+                .font(.subheadline)
+                .fontWeight(.bold)
+        }
+        public init(_ title: LocalizedStringKey) {
+            self.title = title
+        }
+    }
+    
+    public struct ModalTitle: View {
+        private var title: LocalizedStringKey
+        public var body: some View {
+            Text(self.title)
+                .font(.title3)
+        }
+        public init(_ title: LocalizedStringKey) {
+            self.title = title
+        }
+    }
 }

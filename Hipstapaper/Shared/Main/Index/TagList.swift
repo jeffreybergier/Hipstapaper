@@ -29,12 +29,12 @@ struct TagList: View {
 
     var body: some View {
         List(selection: self.$controller.selectedTag) {
-            Section(header: SectionTitle(ReadingList)) {
+            Section(header: Text.IndexSection(ReadingList)) {
                 ForEach(self.controller.indexFixed, id: \.self) { item in
                     TagRow(item)
                 }
             }
-            Section(header: SectionTitle(Tags)) {
+            Section(header: Text.IndexSection(Tags)) {
                 ForEach(self.controller.indexTags.value!, id: \.value) { item in
                     TagRow(item.value)
                 }
