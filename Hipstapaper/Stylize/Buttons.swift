@@ -54,13 +54,28 @@ extension Button where Label == Text {
     }
 }
 
-extension Button where Label == Image {
-    
-    public static func ToolbarIcon(systemName: String,
-                                   accessibilityLabel: LocalizedStringKey,
-                                   action: @escaping () -> Void) -> some View
+public struct ToolbarButton: View {
+    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.isEnabled) var isEnabled
+    private var systemName: String
+    private var accessibilityLabel: LocalizedStringKey
+    private var action: () -> Void
+    public var body: some View {
+        Button(action: self.action) {
+            Image(systemName: self.systemName)
+                .foregroundColor(self.colorScheme.isNormal
+                                    ? Color.toolbarIcon
+                                    : Color.toolbarIcon_Dark)
+                .opacity(self.isEnabled ? 1.0 : 0.5 )
+        }
+        .accessibility(label: Text(self.accessibilityLabel))
+    }
+    public init(systemName: String,
+                accessibilityLabel: LocalizedStringKey,
+                action: @escaping () -> Void)
     {
-        return Button(action: action, label: { Image(systemName: systemName) })
-            .accessibility(label: Text(accessibilityLabel))
+        self.systemName = systemName
+        self.accessibilityLabel = accessibilityLabel
+        self.action = action
     }
 }
