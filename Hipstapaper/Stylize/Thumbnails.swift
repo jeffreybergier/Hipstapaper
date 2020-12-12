@@ -28,56 +28,60 @@ import AppKit
 import UIKit
 #endif
 
-public struct ImageThumbnail: View {
+public enum Thumbnail {
+    
+    public struct Image: View {
         
-    public let input: Data?
-    
-    public var body: some View {
-        let topView = self.topView() ?? Image(systemName: "photo")
-        return ZStack {
-            Color.Placeholder()
-            topView
+        public let input: Data?
+        
+        public var body: some View {
+            let topView = self.topView() ?? SwiftUI.Image(systemName: "photo")
+            return ZStack {
+                Color.Placeholder()
+                topView
+            }
+        }
+        
+        private func topView() -> SwiftUI.Image? {
+            #if canImport(AppKit)
+            guard
+                let data = self.input,
+                let image = NSImage(data: data)
+            else { return nil }
+            return SwiftUI.Image(nsImage: image).resizable()
+            #elseif canImport(UIKit)
+            guard
+                let data = self.input,
+                let image = UIImage(data: data)
+            else { return nil }
+            return SwiftUI.Image(uiImage: image).resizable()
+            #else
+            fatalError()
+            #endif
+        }
+        
+        public init(_ input: Data?) {
+            self.input = input
         }
     }
     
-    private func topView() -> Image? {
-        #if canImport(AppKit)
-        guard
-            let data = self.input,
-            let image = NSImage(data: data)
-        else { return nil }
-        return Image(nsImage: image).resizable()
-        #elseif canImport(UIKit)
-        guard
-            let data = self.input,
-            let image = UIImage(data: data)
-        else { return nil }
-        return Image(uiImage: image).resizable()
-        #else
-        fatalError()
-        #endif
+    /// Displays SF Symbol above a placeholder color
+    public struct SystemName: View {
+        
+        let systemName: String
+        
+        public var body: some View {
+            ZStack {
+                Color.Placeholder()
+                SwiftUI.Image(systemName: self.systemName)
+            }
+        }
+        
+        /// Does not check if your string is a valid SF Symbols name
+        public init(_ systemName: String) {
+            self.systemName = systemName
+        }
+        
     }
     
-    public init(_ input: Data?) {
-        self.input = input
-    }
-}
-
-/// Displays SF Symbol above a placeholder color
-public struct SystemThumbnail: View {
-
-    let systemName: String
-
-    public var body: some View {
-        ZStack {
-            Color.Placeholder()
-            Image(systemName: self.systemName)
-        }
-    }
-
-    /// Does not check if your string is a valid SF Symbols name
-    public init(systemName: String) {
-        self.systemName = systemName
-    }
-
 }

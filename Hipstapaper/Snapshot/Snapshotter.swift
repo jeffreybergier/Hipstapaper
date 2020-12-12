@@ -127,12 +127,12 @@ internal struct WebThumbnail: View {
     var body: some View {
         switch self.viewModel.formState {
         case .load:
-            return AnyView(SystemThumbnail(systemName: "globe"))
+            return AnyView(Thumbnail.SystemName("globe"))
         case .loading, .loaded:
             if let data = self.viewModel.output.thumbnail?.value {
-                return AnyView(ImageThumbnail(data))
+                return AnyView(Thumbnail.Image(data))
             } else {
-                return AnyView(SystemThumbnail(systemName: "exclamationmark.icloud"))
+                return AnyView(Thumbnail.SystemName("exclamationmark.icloud"))
             }
         }
     }
