@@ -1,3 +1,4 @@
+
 //
 //  Created by Jeffrey Bergier on 2020/12/12.
 //
@@ -17,9 +18,8 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import SwiftUI
 
 
 
-
-public let Save: LocalizedStringKey = "Save"
+/* Save */
+"Save" = "Save";
