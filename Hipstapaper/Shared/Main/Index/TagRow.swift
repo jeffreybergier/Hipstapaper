@@ -29,7 +29,7 @@ struct TagRow: View {
     
     var body: some View {
         HStack {
-            RowTitle(self.title)
+            IndexRowTitle(self.title)
             if let count = self.websitesCount {
                 Spacer()
                 Text(String(count))

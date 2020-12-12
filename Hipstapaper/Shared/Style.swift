@@ -41,15 +41,13 @@ struct SectionTitle: View {
     }
 }
 
-struct RowTitle: View {
+struct IndexRowTitle: View {
     var title: String?
-    var body: Text {
+    var body: some View {
         if let title = self.title {
-            return Text(title)
-                .font(.headline)
+            return AnyView(Text.IndexRowTitle(title))
         } else {
-            return Text(Untitled)
-                .font(.headline)
+            return AnyView(Text.IndexRowTitleDisabled(Untitled))
         }
     }
     init(_ title: String?) {
@@ -57,7 +55,21 @@ struct RowTitle: View {
     }
 }
 
-struct DateSubtitle: View {
+struct DetailRowTitle: View {
+    var title: String?
+    var body: some View {
+        if let title = self.title {
+            return AnyView(Text.DetailRowTitle(title))
+        } else {
+            return AnyView(Text.DetailRowTitleDisabled(Untitled))
+        }
+    }
+    init(_ title: String?) {
+        self.title = title
+    }
+}
+
+struct DetailRowDateSubtitle: View {
     
     private static let formatter: DateFormatter = {
         let df = DateFormatter()
@@ -68,9 +80,8 @@ struct DateSubtitle: View {
     
     var date: Date
     
-    var body: Text {
-        return Text(DateSubtitle.formatter.string(from: self.date))
-            .font(.subheadline)
+    var body: Text.DetailRowSubtitle {
+        Text.DetailRowSubtitle(DetailRowDateSubtitle.formatter.string(from: self.date))
     }
     
     init(_ date: Date) {

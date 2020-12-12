@@ -21,21 +21,24 @@
 
 import SwiftUI
 
-extension Color {
-
-    public struct Placeholder: View {
-
-        @Environment(\.colorScheme) var colorScheme
-
-        public var body: Color {
-            switch self.colorScheme {
-            case .dark:
-                return Color(.sRGB, red: 0.2, green: 0.2, blue: 0.2, opacity: 1.0)
-            case .light:
-                fallthrough
-            @unknown default:
-                return Color(.sRGB, red: 0.95, green: 0.95, blue: 0.95, opacity: 1.0)
-            }
+extension ColorScheme {
+    internal var isNormal: Bool {
+        switch self {
+        case .dark:
+            return false
+        case .light:
+            fallthrough
+        @unknown default:
+            return true
         }
     }
+}
+
+extension Color {
+    static internal let textTitle: Color  = .black
+    static internal let textTitle_Dark: Color   = .white
+    static internal let textTitleDisabled = Color(.sRGB, white: 0.6, opacity: 1.0)
+    static internal let textTitleDisabled_Dark  = Color(.sRGB, white: 0.4, opacity: 1.0)
+    static internal let thumbnailPlaceholder = Color(.sRGB, white: 0.95, opacity: 1.0)
+    static internal let thumbnailPlaceholder_Dark = Color(.sRGB, white: 0.2, opacity: 1.0)
 }

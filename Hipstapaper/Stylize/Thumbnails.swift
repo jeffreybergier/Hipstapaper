@@ -32,13 +32,18 @@ public enum Thumbnail {
     
     public struct Image: View {
         
+        @Environment(\.colorScheme) var colorScheme
         public let input: Data?
         
         public var body: some View {
             let topView = self.topView() ?? SwiftUI.Image(systemName: "photo")
             return ZStack {
-                Color.Placeholder()
-                topView
+                self.colorScheme.isNormal
+                    ? Color.thumbnailPlaceholder
+                    : Color.thumbnailPlaceholder_Dark
+                self.colorScheme.isNormal
+                    ? topView.foregroundColor(.textTitle)
+                    : topView.foregroundColor(.textTitle_Dark)
             }
         }
         
@@ -68,11 +73,14 @@ public enum Thumbnail {
     /// Displays SF Symbol above a placeholder color
     public struct SystemName: View {
         
+        @Environment(\.colorScheme) var colorScheme
         let systemName: String
         
         public var body: some View {
             ZStack {
-                Color.Placeholder()
+                self.colorScheme.isNormal
+                    ? Color.thumbnailPlaceholder
+                    : Color.thumbnailPlaceholder_Dark
                 SwiftUI.Image(systemName: self.systemName)
             }
         }

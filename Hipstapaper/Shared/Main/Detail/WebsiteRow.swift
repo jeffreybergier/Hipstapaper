@@ -30,8 +30,8 @@ struct WebsiteRow: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                RowTitle(self.website.title)
-                DateSubtitle(self.website.dateCreated)
+                DetailRowTitle(self.website.title)
+                DetailRowDateSubtitle(self.website.dateCreated)
             }
             Spacer()
             Thumbnail.Image(self.website.thumbnail)
