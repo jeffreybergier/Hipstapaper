@@ -31,7 +31,7 @@ struct IndexToolbar: View {
     
     var body: some View {
         HStack {
-            ToolbarButton(systemName: "minus",
+            ButtonToolbar(systemName: "minus",
                           accessibilityLabel: DeleteTag)
             {
                 // Delete
@@ -44,7 +44,7 @@ struct IndexToolbar: View {
                 return tag.wrappedValue as? Query.Archived != nil
             }())
             
-            ToolbarButton(systemName: "plus",
+            ButtonToolbar(systemName: "plus",
                           accessibilityLabel: AddTag)
             {
                 self.presentation.value = .addTag

@@ -32,13 +32,13 @@ struct SnapshotToolbar: View {
     var body: some View {
         Toolbar {
             HStack {
-                Button.Default(Cancel, action: self.cancel)
+                ButtonDefault(Cancel, action: self.cancel)
                     .keyboardShortcut(.escape)
                 Spacer()
                 Text(AddWebsite)
                     .font(.title3)
                 Spacer()
-                Button.Done(Save, action: self.confirm)
+                ButtonDone(Save, action: self.confirm)
                     .keyboardShortcut(.defaultAction)
                     .disabled(
                         URL(string: self.output.resolvedURLString) == nil

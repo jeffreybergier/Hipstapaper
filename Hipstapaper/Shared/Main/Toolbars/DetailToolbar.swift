@@ -32,7 +32,7 @@ struct DetailToolbar: View {
 
     var body: some View {
         HStack {
-            ToolbarButton(systemName: "plus",
+            ButtonToolbar(systemName: "plus",
                           accessibilityLabel: AddWebsite)
                 { self.presentation.value = .addWebsite }
                 .sheet(isPresented: self.$presentation.isAddWebsite, content: {
@@ -49,7 +49,7 @@ struct DetailToolbar: View {
                     }
                 })
             
-            ToolbarButton(systemName: "tray.and.arrow.down",
+            ButtonToolbar(systemName: "tray.and.arrow.down",
                           accessibilityLabel: Archive)
             {
                 // Archive
@@ -59,7 +59,7 @@ struct DetailToolbar: View {
             }
             .disabled(self.controller.selectedWebsite?.isArchived ?? true)
             
-            ToolbarButton(systemName: "tray.and.arrow.up",
+            ButtonToolbar(systemName: "tray.and.arrow.up",
                           accessibilityLabel: Unarchive)
             {
                 // Unarchive
@@ -69,7 +69,7 @@ struct DetailToolbar: View {
             }
             .disabled(!(self.controller.selectedWebsite?.isArchived ?? false))
             
-            ToolbarButton(systemName: "tag",
+            ButtonToolbar(systemName: "tag",
                           accessibilityLabel: AddAndRemoveTags)
                 { self.presentation.value = .tagApply }
                 .disabled(self.controller.selectedWebsite == nil)
@@ -77,7 +77,7 @@ struct DetailToolbar: View {
                     Text("Tag!")
                 })
             
-            ToolbarButton(systemName: "square.and.arrow.up",
+            ButtonToolbar(systemName: "square.and.arrow.up",
                           accessibilityLabel: Share)
                 { self.presentation.value = .share }
                 .disabled(self.controller.selectedWebsite == nil)
@@ -87,7 +87,7 @@ struct DetailToolbar: View {
             
             // TODO: Make search look different when a search is in effect
             // self.controller.detailQuery.search.nonEmptyString == nil
-            ToolbarButton(systemName: "magnifyingglass",
+            ButtonToolbar(systemName: "magnifyingglass",
                           accessibilityLabel: Localize.Search)
                 { self.presentation.value = .search }
                 .popover(isPresented: self.$presentation.isSearch, content: {

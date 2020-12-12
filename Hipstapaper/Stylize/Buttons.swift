@@ -20,41 +20,38 @@
 //
 
 import SwiftUI
-
-extension Button where Label == Text {
     
-    /// Normal button
-    public static func Default(_ label: LocalizedStringKey,
-                               action: @escaping () -> Void) -> some View
-    {
-        let b = Button(action: action) {
-            Text(label)
-                .font(.subheadline)
-        }
-        #if canImport(AppKit)
-        return b.buttonStyle(BorderedButtonStyle())
-        #else
-        return b
-        #endif
+/// Normal button
+public func ButtonDefault(_ label: LocalizedStringKey,
+                          action: @escaping () -> Void) -> some View
+{
+    let b = Button(action: action) {
+        Text(label)
+            .font(.subheadline)
     }
-    
-    /// Button with more prominence.
-    public static func Done(_ label: LocalizedStringKey,
-                            action: @escaping () -> Void) -> some View
-    {
-        let b = Button(action: action) {
-            Text(label)
-                .font(.headline)
-        }
-        #if canImport(AppKit)
-        return b.buttonStyle(BorderedButtonStyle())
-        #else
-        return b
-        #endif
-    }
+    #if canImport(AppKit)
+    return b.buttonStyle(BorderedButtonStyle())
+    #else
+    return b
+    #endif
 }
 
-public struct ToolbarButton: View {
+/// Button with more prominence.
+public func ButtonDone(_ label: LocalizedStringKey,
+                       action: @escaping () -> Void) -> some View
+{
+    let b = Button(action: action) {
+        Text(label)
+            .font(.headline)
+    }
+    #if canImport(AppKit)
+    return b.buttonStyle(BorderedButtonStyle())
+    #else
+    return b
+    #endif
+}
+
+public struct ButtonToolbar: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.isEnabled) var isEnabled
     private var systemName: String
