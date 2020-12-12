@@ -19,6 +19,8 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import Localize
+
 extension Query.Archived: Tag {
     
     public static var anyTag_allCases: [AnyTag] {
@@ -29,9 +31,9 @@ extension Query.Archived: Tag {
     public var localizedDescription: String {
         switch self {
         case .all:
-            return "All Items"
+            return AllItems_L
         case .unarchived:
-            return "Unread Items"
+            return UnreadItems_L
         }
     }
     

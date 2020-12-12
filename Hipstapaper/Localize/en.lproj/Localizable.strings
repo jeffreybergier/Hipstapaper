@@ -19,7 +19,61 @@
 //
 
 
-
+// Line Matching with LocalizedStrings.swift
 
 /* Save */
 "Save" = "Save";
+
+/* Cancel */
+"Cancel" = "Cancel";
+
+/* Search */
+"Search" = "Search";
+
+/* "Add Website" */
+"Add Website" = "Add Website";
+
+/* Archive */
+"Archive" = "Archive";
+
+/* Unarchive */
+"Unarchive" = "Unarchive";
+
+/* "Add and Remove Tags" */
+"Add and Remove Tags" = "Add and Remove Tags";
+
+/* Share */
+"Share" = "Share";
+
+/* Delete Tag */
+"Delete Tag" = "Delete Tag";
+
+/* Share */
+"Share" = "Share";
+
+/* Reading List */
+"Reading List" = "Reading List";
+
+/* Tags */
+"Tags" = "Tags";
+
+/* Untitled */
+"Untitled" = "Untitled";
+
+/* All Items */
+"All Items" = "All Items";
+
+/* Unread Items */
+"Unread Items" = "Unread Items";
+
+/* Go */
+"Go" = "Go";
+
+/* Website URL */
+"Website URL" = "Website URL";
+
+/* Website Title */
+"Website Title" = "Website Title";
+
+/* Hipstapaper */
+"Hipstapaper" = "Hipstapaper";

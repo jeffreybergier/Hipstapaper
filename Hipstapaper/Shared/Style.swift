@@ -20,6 +20,7 @@
 //
 
 import SwiftUI
+import Localize
 #if canImport(AppKit)
 import AppKit
 #endif
@@ -28,14 +29,14 @@ import UIKit
 #endif
 
 struct SectionTitle: View {
-    var title: String
+    var title: LocalizedStringKey
     var body: some View {
         Text(title)
             .font(.title3)
             .frame(height: 30)
     }
     
-    init(_ title: String) {
+    init(_ title: LocalizedStringKey) {
         self.title = title
     }
 }
@@ -47,7 +48,7 @@ struct RowTitle: View {
             return Text(title)
                 .font(.headline)
         } else {
-            return Text("Untitled")
+            return Text(Untitled)
                 .font(.headline)
         }
     }

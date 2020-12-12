@@ -21,6 +21,7 @@
 
 import SwiftUI
 import Datum
+import Localize
 
 struct Search: View {
     
@@ -28,7 +29,7 @@ struct Search: View {
     
     var body: some View {
         HStack {
-            TextField("Search", text: self.$search)
+            TextField(Localize.Search, text: self.$search)
         }
         .frame(width: 250)
         .padding()

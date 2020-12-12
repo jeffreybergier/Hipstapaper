@@ -20,11 +20,12 @@
 //
 
 import SwiftUI
+import Localize
 
 extension TextField where Label == Text {
 
-    public static func URL(_ binding: Binding<String>) -> some View {
-        let tf = SwiftUI.TextField("Website URL", text: binding)
+    public static func WebsiteURL(_ binding: Binding<String>) -> some View {
+        let tf = SwiftUI.TextField(Localize.WebsiteURL, text: binding)
             .disableAutocorrection(true)
             .textFieldStyle(RoundedBorderTextFieldStyle())
         #if canImport(UIKit)
@@ -35,7 +36,7 @@ extension TextField where Label == Text {
     }
     
     public static func WebsiteTitle(_ binding: Binding<String>) -> some View {
-        return SwiftUI.TextField("Website Title", text: binding)
+        return SwiftUI.TextField(Localize.WebsiteTitle, text: binding)
             .textFieldStyle(RoundedBorderTextFieldStyle())
     }
 }

@@ -21,6 +21,7 @@
 
 import SwiftUI
 import Datum
+import Localize
 
 struct WebsiteList: View {
     
@@ -33,7 +34,7 @@ struct WebsiteList: View {
         { item in
             WebsiteRow(item.value)
         }
-        .navigationTitle("Hipstapaper")
+        .navigationTitle(Hipstapaper)
     }
 }
 

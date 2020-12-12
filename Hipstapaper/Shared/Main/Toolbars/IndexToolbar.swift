@@ -21,7 +21,7 @@
 
 import SwiftUI
 import Datum
-import Stylize
+import Localize
 
 struct IndexToolbar: View {
     
@@ -31,7 +31,7 @@ struct IndexToolbar: View {
     var body: some View {
         HStack {
             Button.ToolbarIcon(systemName: "minus",
-                               accessibilityLabel: "Delete Tag")
+                               accessibilityLabel: DeleteTag)
             {
                 // Delete
                 guard let tag = self.controller.selectedTag else { return }
@@ -44,7 +44,7 @@ struct IndexToolbar: View {
             }())
             
             Button.ToolbarIcon(systemName: "plus",
-                               accessibilityLabel: "Add Tag")
+                               accessibilityLabel: AddTag)
             {
                 self.presentation.value = .addTag
             }

@@ -19,7 +19,61 @@
 
 import SwiftUI
 
-
+// Line Matching with Localizable.strings file
 
 
 public let Save: LocalizedStringKey = "Save"
+
+
+public let Cancel: LocalizedStringKey = "Cancel"
+
+
+public let Search: LocalizedStringKey = "Search"
+
+
+public let AddWebsite: LocalizedStringKey = "Add Website"
+
+
+public let Archive: LocalizedStringKey = "Archive"
+
+
+public let Unarchive: LocalizedStringKey = "Unarchive"
+
+
+public let AddAndRemoveTags: LocalizedStringKey = "Add and Remove Tags"
+
+
+public let Share: LocalizedStringKey = "Share"
+
+
+public let DeleteTag: LocalizedStringKey = "Delete Tag"
+
+
+public let AddTag: LocalizedStringKey = "Add Tag"
+
+
+public let ReadingList: LocalizedStringKey = "Reading List"
+
+
+public let Tags: LocalizedStringKey = "Tags"
+
+
+public let Untitled: LocalizedStringKey = "Untitled"
+
+public let AllItems: LocalizedStringKey = "All Items"
+public let AllItems_L: String = NSLocalizedString("All Items", comment: "")
+
+public let UnreadItems: LocalizedStringKey = "Unread Items"
+public let UnreadItems_L: String = NSLocalizedString("Unread Items", comment: "")
+
+
+public let Go: LocalizedStringKey = "Go"
+
+
+public let WebsiteURL: LocalizedStringKey = "Website URL"
+
+
+public let WebsiteTitle: LocalizedStringKey = "Website Title"
+
+
+public let Hipstapaper: LocalizedStringKey = "Hipstapaper"

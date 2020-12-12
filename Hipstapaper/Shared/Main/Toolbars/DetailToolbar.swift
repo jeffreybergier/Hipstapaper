@@ -22,6 +22,7 @@
 import SwiftUI
 import Datum
 import Snapshot
+import Localize
 
 struct DetailToolbar: View {
     
@@ -31,7 +32,7 @@ struct DetailToolbar: View {
     var body: some View {
         HStack {
             Button.ToolbarIcon(systemName: "plus",
-                               accessibilityLabel: "Add Website")
+                               accessibilityLabel: AddWebsite)
                 { self.presentation.value = .addWebsite }
                 .sheet(isPresented: self.$presentation.isAddWebsite, content: {
                     Snapshotter() { result in
@@ -48,7 +49,7 @@ struct DetailToolbar: View {
                 })
             
             Button.ToolbarIcon(systemName: "tray.and.arrow.down",
-                               accessibilityLabel: "Archive")
+                               accessibilityLabel: Archive)
             {
                 // Archive
                 guard let site = self.controller.selectedWebsite else { return }
@@ -58,7 +59,7 @@ struct DetailToolbar: View {
             .disabled(self.controller.selectedWebsite?.isArchived ?? true)
             
             Button.ToolbarIcon(systemName: "tray.and.arrow.up",
-                               accessibilityLabel: "Unarchive")
+                               accessibilityLabel: Unarchive)
             {
                 // Unarchive
                 guard let site = self.controller.selectedWebsite else { return }
@@ -68,7 +69,7 @@ struct DetailToolbar: View {
             .disabled(!(self.controller.selectedWebsite?.isArchived ?? false))
             
             Button.ToolbarIcon(systemName: "tag",
-                               accessibilityLabel: "Add and Remove Tags")
+                               accessibilityLabel: AddAndRemoveTags)
                 { self.presentation.value = .tagApply }
                 .disabled(self.controller.selectedWebsite == nil)
                 .popover(isPresented: self.$presentation.isTagApply, content: {
@@ -76,7 +77,7 @@ struct DetailToolbar: View {
                 })
             
             Button.ToolbarIcon(systemName: "square.and.arrow.up",
-                               accessibilityLabel: "Share")
+                               accessibilityLabel: Share)
                 { self.presentation.value = .share }
                 .disabled(self.controller.selectedWebsite == nil)
                 .sheet(isPresented: self.$presentation.isShare, content: {
@@ -86,7 +87,7 @@ struct DetailToolbar: View {
             // TODO: Make search look different when a search is in effect
             // self.controller.detailQuery.search.nonEmptyString == nil
             Button.ToolbarIcon(systemName: "magnifyingglass",
-                               accessibilityLabel: "Search")
+                               accessibilityLabel: Localize.Search)
                 { self.presentation.value = .search }
                 .popover(isPresented: self.$presentation.isSearch, content: {
                     Search(search: self.$controller.detailQuery.search)

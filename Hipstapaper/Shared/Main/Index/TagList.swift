@@ -21,6 +21,7 @@
 
 import SwiftUI
 import Datum
+import Localize
 
 struct TagList: View {
     
@@ -28,12 +29,12 @@ struct TagList: View {
 
     var body: some View {
         List(selection: self.$controller.selectedTag) {
-            Section(header: SectionTitle("Reading List")) {
+            Section(header: SectionTitle(ReadingList)) {
                 ForEach(self.controller.indexFixed, id: \.self) { item in
                     TagRow(item)
                 }
             }
-            Section(header: SectionTitle("Tags")) {
+            Section(header: SectionTitle(Tags)) {
                 ForEach(self.controller.indexTags.value!, id: \.value) { item in
                     TagRow(item.value)
                 }
@@ -45,7 +46,7 @@ struct TagList: View {
             self.controller.selectedTag = self.controller.indexFixed.first
             self.controller.objectWillChange.send()
         }
-        .navigationTitle("Tags")
+        .navigationTitle(Tags)
     }
 }
 
