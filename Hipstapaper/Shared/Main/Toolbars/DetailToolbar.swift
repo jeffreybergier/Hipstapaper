@@ -52,27 +52,33 @@ struct DetailToolbar: View {
             ButtonToolbar(systemName: "tray.and.arrow.down",
                           accessibilityLabel: Archive)
             {
+                /*
                 // Archive
-                guard let site = self.controller.selectedWebsite else { return }
+                guard let site = self.controller.selectedWebsites else { return }
                 let element = AnyElement(StaticElement(site))
                 try! self.controller.controller.update(element, .init(isArchived: true)).get()
+ */
             }
-            .disabled(self.controller.selectedWebsite?.isArchived ?? true)
+            // TODO: Fix this
+            // .disabled(self.controller.selectedWebsites?.isArchived ?? true)
             
             ButtonToolbar(systemName: "tray.and.arrow.up",
                           accessibilityLabel: Unarchive)
             {
+                /*
                 // Unarchive
-                guard let site = self.controller.selectedWebsite else { return }
+                guard let site = self.controller.selectedWebsites else { return }
                 let element = AnyElement(StaticElement(site))
                 try! self.controller.controller.update(element, .init(isArchived: false)).get()
+ */
             }
-            .disabled(!(self.controller.selectedWebsite?.isArchived ?? false))
+            // TODO: Fix this
+            //.disabled(!(self.controller.selectedWebsites?.isArchived ?? false))
             
             ButtonToolbar(systemName: "tag",
                           accessibilityLabel: AddAndRemoveTags)
                 { self.presentation.value = .tagApply }
-                .disabled(self.controller.selectedWebsite == nil)
+                .disabled(self.controller.selectedWebsites == nil)
                 .popover(isPresented: self.$presentation.isTagApply, content: {
                     Text("Tag!")
                 })
@@ -80,7 +86,7 @@ struct DetailToolbar: View {
             ButtonToolbar(systemName: "square.and.arrow.up",
                           accessibilityLabel: Share)
                 { self.presentation.value = .share }
-                .disabled(self.controller.selectedWebsite == nil)
+                .disabled(self.controller.selectedWebsites == nil)
                 .sheet(isPresented: self.$presentation.isShare, content: {
                     Text("Share!")
                 })

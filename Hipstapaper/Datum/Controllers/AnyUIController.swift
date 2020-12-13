@@ -39,7 +39,7 @@ public class AnyUIController: UIController {
         get { self.getSelectedTag() }
         set { self.setSelectedTag(newValue) }
     }
-    public var selectedWebsite: AnyWebsite? {
+    public var selectedWebsites: Set<AnyWebsite> {
         get { self.getSelectedWebsite() }
         set { self.setSelectedWebsite(newValue) }
     }
@@ -50,8 +50,8 @@ public class AnyUIController: UIController {
     private var setDetailQuery:     (Query) -> Void
     private var getSelectedTag:     () -> AnyTag?
     private var setSelectedTag:     (AnyTag?) -> Void
-    private var getSelectedWebsite: () -> AnyWebsite?
-    private var setSelectedWebsite: (AnyWebsite?) -> Void
+    private var getSelectedWebsite: () -> Set<AnyWebsite>
+    private var setSelectedWebsite: (Set<AnyWebsite>) -> Void
     
     public init<T: UIController>(_ controller: T) where T.ObjectWillChangePublisher == ObservableObjectPublisher {
         self.getController      = { controller.controller }
@@ -60,8 +60,8 @@ public class AnyUIController: UIController {
         self.setDetailQuery     = { controller.detailQuery = $0 }
         self.getSelectedTag     = { controller.selectedTag }
         self.setSelectedTag     = { controller.selectedTag = $0 }
-        self.getSelectedWebsite = { controller.selectedWebsite }
-        self.setSelectedWebsite = { controller.selectedWebsite = $0 }
+        self.getSelectedWebsite = { controller.selectedWebsites }
+        self.setSelectedWebsite = { controller.selectedWebsites = $0 }
         self.objectWillChange   = controller.objectWillChange
     }
 }

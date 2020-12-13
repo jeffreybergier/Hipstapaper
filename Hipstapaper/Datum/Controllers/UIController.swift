@@ -35,5 +35,5 @@ public protocol UIController: ObservableObject {
     /// These properties are separate because SwiftUI is not smart enough to update a complex property
     var detailQuery: Query { get set }
     var selectedTag: AnyTag? { get set }
-    var selectedWebsite: AnyWebsite? { get set }
+    var selectedWebsites: Set<AnyWebsite> { get set }
 }
