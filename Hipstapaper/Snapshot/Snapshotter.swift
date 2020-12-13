@@ -105,16 +105,16 @@ public struct Snapshotter: View {
                 }
             )
             FormSwitcher(viewModel: self.viewModel)
-                .padding()
+                .paddingDefault()
             Spacer()
             ZStack {
                 WebView(input: self.$viewModel.input,
                         output: self.viewModel.output)
                 WebThumbnail(viewModel: self.viewModel)
             }
-            .frame(width: 300, height: 300)
+            .frame(width: 300, height: 300, alignment: Alignment(horizontal: .center, vertical: .center))
             .cornerRadius_medium
-            .padding()
+            .paddingDefault_Equal(ignoring: [\.top])
         }
     }
 }

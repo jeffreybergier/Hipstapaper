@@ -30,6 +30,6 @@ struct Search: View {
     var body: some View {
         TextField.Search(self.$search)
             .frame(width: 250)
-            .padding()
+            .paddingDefault()
     }
 }

@@ -28,7 +28,7 @@ public struct NumberOval: View {
             .foregroundColor(self.colorScheme.isNormal
                                 ? .textTitle
                                 : .textTitle_Dark)
-            .padding(EdgeInsets(top: 3, leading: 8, bottom: 3, trailing: 8))
+            .paddingNumberOval()
             .background(
                 RoundedRectangle(cornerRadius: 15)
                     .fill(self.colorScheme.isNormal

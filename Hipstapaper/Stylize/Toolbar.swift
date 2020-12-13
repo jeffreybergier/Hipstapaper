@@ -29,7 +29,8 @@ public struct Toolbar<Content>: View where Content: View {
         ZStack {
             ToolbarBackground()
             self.content
-                .padding()
+                .paddingToolbar()
+                .layoutPriority(1000)
         }
     }
     public init(@ViewBuilder _ content: () -> Content) {
