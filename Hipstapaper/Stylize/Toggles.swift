@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/23.
+//  Created by Jeffrey Bergier on 2020/12/14.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -20,27 +20,26 @@
 //
 
 import SwiftUI
-import Datum
+import Localize
 
-struct Main: View {
-    
-    @ObservedObject var controller: AnyUIController
-    @State var presentation = Presentation.Wrap()
-    
-    var body: some View {
-        NavigationView {
-            TagList(controller: self.controller)
-                .toolbar { IndexToolbar(controller: self.controller, presentation: self.presentation)}
-            WebsiteList(controller: self.controller)
-                .toolbar { DetailToolbar(controller: self.controller, presentation: self.$presentation)}
+internal func _ToggleDefault(label: TextProvider, isOn: Binding<Bool>) -> some View {
+    return Toggle(isOn: isOn, label: { () -> AnyView in
+        switch label {
+        case .localized(let title):
+            return AnyView(Text.IndexRowTitleDisabled(title))
+        case .raw(let title):
+            return AnyView(Text.IndexRowTitle(title))
         }
-    }
+    })
+    //.toggleStyle(SwitchToggleStyle())
 }
 
-#if DEBUG
-struct Main_Previews: PreviewProvider {
-    static var previews: some View {
-        Main(controller: P_UIController.new())
+public func ToggleDefault(label: String?, isOn: Binding<Bool>) -> some View {
+    let provider: TextProvider
+    if let label = label {
+        provider = .raw(label)
+    } else {
+        provider = .localized(Untitled)
     }
+    return _ToggleDefault(label: provider, isOn: isOn)
 }
-#endif

@@ -20,11 +20,30 @@
 //
 
 import SwiftUI
+import Datum
+import Stylize
+import Localize
 
 struct TagApply: View {
+    
+    @ObservedObject var controller: AnyUIController
+    @Binding var presentation: Presentation.Wrap
+    @State var on = true
+    
     var body: some View {
-        VStack {
-            Text("TagApply")
+        VStack(spacing: 0) {
+            Toolbar {
+                HStack {
+                    Spacer()
+                    Text.ModalTitle(ApplyTags)
+                    Spacer()
+                    ButtonDone(Done) { self.presentation.value = .none }
+                }
+            }
+            List(self.controller.indexTags.value!) { tag in
+                TagApplyRow(name: tag.value.name, isOn: self.$on)
+            }
+            .frame(width: 300, height: 300)
         }
     }
 }

@@ -25,6 +25,9 @@ import SwiftUI
 public let Save: LocalizedStringKey = "Save"
 
 
+public let Done: LocalizedStringKey = "Done"
+
+
 public let Cancel: LocalizedStringKey = "Cancel"
 
 
@@ -77,3 +80,6 @@ public let WebsiteTitle: LocalizedStringKey = "Website Title"
 
 
 public let Hipstapaper: LocalizedStringKey = "Hipstapaper"
+
+
+public let ApplyTags: LocalizedStringKey = "Apply Tags"

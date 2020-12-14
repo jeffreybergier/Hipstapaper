@@ -24,6 +24,9 @@
 /* Save */
 "Save" = "Save";
 
+/* Done */
+"Done" = "Done";
+
 /* Cancel */
 "Cancel" = "Cancel";
 
@@ -77,3 +80,6 @@
 
 /* Hipstapaper */
 "Hipstapaper" = "Hipstapaper";
+
+/* Apply Tags */
+"Apply Tags" = "Apply Tags";

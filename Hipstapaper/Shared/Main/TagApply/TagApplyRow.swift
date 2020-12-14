@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/23.
+//  Created by Jeffrey Bergier on 2020/12/14.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -21,26 +21,16 @@
 
 import SwiftUI
 import Datum
+import Stylize
+import Localize
 
-struct Main: View {
+struct TagApplyRow: View {
     
-    @ObservedObject var controller: AnyUIController
-    @State var presentation = Presentation.Wrap()
+    let name: String?
+    @Binding var isOn: Bool
     
     var body: some View {
-        NavigationView {
-            TagList(controller: self.controller)
-                .toolbar { IndexToolbar(controller: self.controller, presentation: self.presentation)}
-            WebsiteList(controller: self.controller)
-                .toolbar { DetailToolbar(controller: self.controller, presentation: self.$presentation)}
-        }
+        ToggleDefault(label: self.name, isOn: self.$isOn)
+        .paddingDefault(ignoring: [\.leading, \.trailing])
     }
 }
-
-#if DEBUG
-struct Main_Previews: PreviewProvider {
-    static var previews: some View {
-        Main(controller: P_UIController.new())
-    }
-}
-#endif
