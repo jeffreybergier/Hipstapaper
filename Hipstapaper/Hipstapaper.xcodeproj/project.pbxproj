@@ -37,6 +37,10 @@
 		735C91F2257678070033B4E8 /* AnyUIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C91F1257678070033B4E8 /* AnyUIController.swift */; };
 		735C91F8257678310033B4E8 /* DefaultUIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C91F7257678310033B4E8 /* DefaultUIController.swift */; };
 		735C92022577C0260033B4E8 /* FixedTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C92012577C0260033B4E8 /* FixedTags.swift */; };
+		736DD3E3258790A000F0FBE0 /* TagApply.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736DD3E2258790A000F0FBE0 /* TagApply.swift */; };
+		736DD3E4258790A000F0FBE0 /* TagApply.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736DD3E2258790A000F0FBE0 /* TagApply.swift */; };
+		736DD3ED258793C200F0FBE0 /* Website+Hipstapaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736DD3EC258793C200F0FBE0 /* Website+Hipstapaper.swift */; };
+		736DD3EE258793C200F0FBE0 /* Website+Hipstapaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736DD3EC258793C200F0FBE0 /* Website+Hipstapaper.swift */; };
 		7399BAAD258251A500B8CAFD /* Stylize.h in Headers */ = {isa = PBXBuildFile; fileRef = 7399BAAB258251A500B8CAFD /* Stylize.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7399BAC7258251D800B8CAFD /* Localize.h in Headers */ = {isa = PBXBuildFile; fileRef = 7399BAC5258251D800B8CAFD /* Localize.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7399BAD32582525200B8CAFD /* Thumbnails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7399BAD22582525200B8CAFD /* Thumbnails.swift */; };
@@ -275,6 +279,8 @@
 		735C91F1257678070033B4E8 /* AnyUIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyUIController.swift; sourceTree = "<group>"; };
 		735C91F7257678310033B4E8 /* DefaultUIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultUIController.swift; sourceTree = "<group>"; };
 		735C92012577C0260033B4E8 /* FixedTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedTags.swift; sourceTree = "<group>"; };
+		736DD3E2258790A000F0FBE0 /* TagApply.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagApply.swift; sourceTree = "<group>"; };
+		736DD3EC258793C200F0FBE0 /* Website+Hipstapaper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Website+Hipstapaper.swift"; sourceTree = "<group>"; };
 		7399BAA9258251A500B8CAFD /* Stylize.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Stylize.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7399BAAB258251A500B8CAFD /* Stylize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stylize.h; sourceTree = "<group>"; };
 		7399BAAC258251A500B8CAFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -459,6 +465,14 @@
 			path = Observables;
 			sourceTree = "<group>";
 		};
+		736DD3E12587905D00F0FBE0 /* TagApply */ = {
+			isa = PBXGroup;
+			children = (
+				736DD3E2258790A000F0FBE0 /* TagApply.swift */,
+			);
+			path = TagApply;
+			sourceTree = "<group>";
+		};
 		7399BAAA258251A500B8CAFD /* Stylize */ = {
 			isa = PBXGroup;
 			children = (
@@ -496,6 +510,7 @@
 				73A3DEA9257B9249002EDEB4 /* Toolbars */,
 				73A3DEA8257B9242002EDEB4 /* Detail */,
 				73A3DEA7257B923C002EDEB4 /* Index */,
+				736DD3E12587905D00F0FBE0 /* TagApply */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -604,6 +619,7 @@
 				73A3DEA2257B9217002EDEB4 /* Main */,
 				734068262574B5C500D4A343 /* Style.swift */,
 				73406811257491E600D4A343 /* PreviewsContent.swift */,
+				736DD3EC258793C200F0FBE0 /* Website+Hipstapaper.swift */,
 				DBDCB33E256BE8E700D005F6 /* Assets.xcassets */,
 			);
 			path = Shared;
@@ -1128,6 +1144,8 @@
 				73A3DEB0257B9351002EDEB4 /* Search.swift in Sources */,
 				DBDCB365256BE8E800D005F6 /* HipstapaperApp.swift in Sources */,
 				734068192574981200D4A343 /* TagRow.swift in Sources */,
+				736DD3E3258790A000F0FBE0 /* TagApply.swift in Sources */,
+				736DD3ED258793C200F0FBE0 /* Website+Hipstapaper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1147,6 +1165,8 @@
 				73A3DEB1257B9351002EDEB4 /* Search.swift in Sources */,
 				DBDCB366256BE8E800D005F6 /* HipstapaperApp.swift in Sources */,
 				7340681A2574981200D4A343 /* TagRow.swift in Sources */,
+				736DD3E4258790A000F0FBE0 /* TagApply.swift in Sources */,
+				736DD3EE258793C200F0FBE0 /* Website+Hipstapaper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

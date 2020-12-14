@@ -39,8 +39,8 @@ struct DetailToolbar: View {
                     Snapshotter() { result in
                         switch result {
                         case .success(let output):
-                            // TODO: create website in controller
-                            break
+                            // TODO: maybe show error to user?
+                            try! self.controller.controller.createWebsite(.init(output)).get()
                         case .failure(let error):
                             // TODO: maybe show error to user?
                             break
@@ -52,29 +52,29 @@ struct DetailToolbar: View {
             ButtonToolbar(systemName: "tray.and.arrow.down",
                           accessibilityLabel: Archive)
             {
-                /*
                 // Archive
-                guard let site = self.controller.selectedWebsites else { return }
-                let element = AnyElement(StaticElement(site))
-                try! self.controller.controller.update(element, .init(isArchived: true)).get()
- */
+                self.controller.selectedWebsites
+                    .filter { !$0.isArchived }
+                    .map { AnyElement(StaticElement($0)) }
+                    .forEach { try! self.controller.controller
+                        .update($0, .init(isArchived: true)).get()
+                    }
             }
-            // TODO: Fix this
-            // .disabled(self.controller.selectedWebsites?.isArchived ?? true)
+            .disabled(self.controller.selectedWebsites.filter { !$0.isArchived }.isEmpty)
             
             ButtonToolbar(systemName: "tray.and.arrow.up",
                           accessibilityLabel: Unarchive)
             {
-                /*
                 // Unarchive
-                guard let site = self.controller.selectedWebsites else { return }
-                let element = AnyElement(StaticElement(site))
-                try! self.controller.controller.update(element, .init(isArchived: false)).get()
- */
+                self.controller.selectedWebsites
+                    .filter { $0.isArchived }
+                    .map { AnyElement(StaticElement($0)) }
+                    .forEach { try! self.controller.controller
+                        .update($0, .init(isArchived: false)).get()
+                    }
             }
-            // TODO: Fix this
-            //.disabled(!(self.controller.selectedWebsites?.isArchived ?? false))
-            
+            .disabled(self.controller.selectedWebsites.filter { $0.isArchived }.isEmpty)
+
             ButtonToolbar(systemName: "tag",
                           accessibilityLabel: AddAndRemoveTags)
                 { self.presentation.value = .tagApply }

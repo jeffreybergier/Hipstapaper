@@ -35,11 +35,11 @@ public struct Snapshotter: View {
     }
     
     public struct Output: Codable {
-        var originalURL: URL
-        var resolvedURL: URL
-        var title: String
-        var thumbnail: Data?
-        var date: Date = Date()
+        public var originalURL: URL
+        public var resolvedURL: URL
+        public var title: String
+        public var thumbnail: Data?
+        public var date: Date = Date()
     }
     
     class ViewModel: ObservableObject {
