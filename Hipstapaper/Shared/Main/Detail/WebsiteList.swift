@@ -29,7 +29,7 @@ struct WebsiteList: View {
     
     var body: some View {
         return List(self.controller.detailWebsites.value!,
-                    id: \.value,
+                    id: \.self,
                     selection: self.$controller.selectedWebsites)
         { item in
             WebsiteRow(item.value)

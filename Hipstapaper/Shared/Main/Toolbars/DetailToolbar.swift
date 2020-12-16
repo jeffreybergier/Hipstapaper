@@ -54,26 +54,24 @@ struct DetailToolbar: View {
             {
                 // Archive
                 self.controller.selectedWebsites
-                    .filter { !$0.isArchived }
-                    .map { AnyElement(StaticElement($0)) }
+                    .filter { !$0.value.isArchived }
                     .forEach { try! self.controller.controller
                         .update($0, .init(isArchived: true)).get()
                     }
             }
-            .disabled(self.controller.selectedWebsites.filter { !$0.isArchived }.isEmpty)
+            .disabled(self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
             
             ButtonToolbar(systemName: "tray.and.arrow.up",
                           accessibilityLabel: Unarchive)
             {
                 // Unarchive
                 self.controller.selectedWebsites
-                    .filter { $0.isArchived }
-                    .map { AnyElement(StaticElement($0)) }
+                    .filter { $0.value.isArchived }
                     .forEach { try! self.controller.controller
                         .update($0, .init(isArchived: false)).get()
                     }
             }
-            .disabled(self.controller.selectedWebsites.filter { $0.isArchived }.isEmpty)
+            .disabled(self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
 
             ButtonToolbar(systemName: "tag",
                           accessibilityLabel: AddAndRemoveTags)

@@ -20,18 +20,18 @@
 //
 
 /// Element that does not properly observe its Value
-public class StaticElement<T: Hashable>: Element {
-    public var value: T
-    public var isDeleted: Bool { fatalError("StaticElement does not know this") }
-    public init(_ value: T) {
+internal class StaticElement<T: Hashable>: Element {
+    internal var value: T
+    internal var isDeleted: Bool { fatalError("StaticElement does not know this") }
+    internal init(_ value: T) {
         self.value = value
     }
     
-    public static func == (lhs: StaticElement<T>, rhs: StaticElement<T>) -> Bool {
+    internal static func == (lhs: StaticElement<T>, rhs: StaticElement<T>) -> Bool {
         return lhs.value == rhs.value
     }
     
-    public var hashValue: Int {
+    internal var hashValue: Int {
         return self.hashValue
     }
 }

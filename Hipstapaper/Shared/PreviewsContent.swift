@@ -134,7 +134,7 @@ class P_UIController: UIController {
     var controller: Controller = P_Controller()
     @Published var detailQuery: Query = .init()
     @Published var selectedTag: AnyElement<AnyTag>?
-    @Published var selectedWebsites: Set<AnyWebsite> = []
+    @Published var selectedWebsites: Set<AnyElement<AnyWebsite>> = []
 }
 
 class P_Collection<Element>: Collection {
