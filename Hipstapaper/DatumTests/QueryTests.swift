@@ -34,7 +34,7 @@ class QueryTests: ParentTestCase {
         let query = Query(isArchived: .unarchived, tag: nil, search: "")
         print(query.cd_predicate.debugDescription)
         guard let predicate = query.cd_predicate else { XCTFail(); return }
-        XCTAssertEqual(predicate.debugDescription, "isArchived == 0")
+        XCTAssertEqual(predicate.debugDescription, "cd_isArchived == 0")
     }
     
     func test_predicate_all_search() throws {
@@ -42,7 +42,7 @@ class QueryTests: ParentTestCase {
         print(query.cd_predicate.debugDescription)
         guard let predicate = query.cd_predicate else { XCTFail(); return }
         XCTAssertEqual(predicate.debugDescription,
-                       "title CONTAINS[cd] \"aString\" OR resolvedURL CONTAINS[cd] \"aString\" OR originalURL CONTAINS[cd] \"aString\"")
+                       "cd_title CONTAINS[cd] \"aString\" OR cd_resolvedURL CONTAINS[cd] \"aString\" OR cd_originalURL CONTAINS[cd] \"aString\"")
     }
     
     func test_predicate_unarchived_search() throws {
@@ -50,7 +50,7 @@ class QueryTests: ParentTestCase {
         print(query.cd_predicate.debugDescription)
         guard let predicate = query.cd_predicate else { XCTFail(); return }
         XCTAssertEqual(predicate.debugDescription,
-                       "isArchived == 0 AND (title CONTAINS[cd] \"aString\" OR resolvedURL CONTAINS[cd] \"aString\" OR originalURL CONTAINS[cd] \"aString\")")
+                       "cd_isArchived == 0 AND (cd_title CONTAINS[cd] \"aString\" OR cd_resolvedURL CONTAINS[cd] \"aString\" OR cd_originalURL CONTAINS[cd] \"aString\")")
     }
     
     func test_predicate_all_search_tag() throws {
@@ -61,7 +61,7 @@ class QueryTests: ParentTestCase {
         guard let predicate = query.cd_predicate else { XCTFail(); return }
         print(_tag.objectID)
         XCTAssertEqual(predicate.predicateFormat,
-                       "(title CONTAINS[cd] \"aString\" OR resolvedURL CONTAINS[cd] \"aString\" OR originalURL CONTAINS[cd] \"aString\") AND tags CONTAINS \(_tag)")
+                       "(cd_title CONTAINS[cd] \"aString\" OR cd_resolvedURL CONTAINS[cd] \"aString\" OR cd_originalURL CONTAINS[cd] \"aString\") AND cd_tags CONTAINS \(_tag)")
     }
     
     func test_predicate_unarchived_search_tag() throws {
@@ -72,7 +72,7 @@ class QueryTests: ParentTestCase {
         guard let predicate = query.cd_predicate else { XCTFail(); return }
         print(_tag.objectID)
         XCTAssertEqual(predicate.predicateFormat,
-                       "isArchived == 0 AND (title CONTAINS[cd] \"aString\" OR resolvedURL CONTAINS[cd] \"aString\" OR originalURL CONTAINS[cd] \"aString\") AND tags CONTAINS \(_tag)")
+                       "cd_isArchived == 0 AND (cd_title CONTAINS[cd] \"aString\" OR cd_resolvedURL CONTAINS[cd] \"aString\" OR cd_originalURL CONTAINS[cd] \"aString\") AND cd_tags CONTAINS \(_tag)")
     }
     
 }

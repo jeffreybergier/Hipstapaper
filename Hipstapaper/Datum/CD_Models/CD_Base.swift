@@ -30,18 +30,18 @@ import Combine
         NSFetchRequest<CD_Base>(entityName: self.entityName)
     }
 
-    @NSManaged internal var dateCreated: Date
-    @NSManaged internal var dateModified: Date
+    @NSManaged internal var cd_dateCreated: Date
+    @NSManaged internal var cd_dateModified: Date
 
     override internal func awakeFromInsert() {
         super.awakeFromInsert()
         let date = Date()
-        self.dateModified = date
-        self.dateCreated = date
+        self.cd_dateModified = date
+        self.cd_dateCreated = date
     }
 
     /// Override to validate your properties before saving
     internal func datum_willSave() {
-        self.dateModified = Date()
+        self.cd_dateModified = Date()
     }
 }

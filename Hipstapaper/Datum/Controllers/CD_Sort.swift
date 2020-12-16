@@ -25,17 +25,17 @@ extension Sort {
     internal var cd_sortDescriptors: [NSSortDescriptor] {
         switch self {
         case .dateModifiedNewest:
-            return [.init(key: #keyPath(CD_Website.dateModified), ascending: true)]
+            return [.init(key: #keyPath(CD_Website.cd_dateModified), ascending: true)]
         case .dateModifiedOldest:
-            return [.init(key: #keyPath(CD_Website.dateModified), ascending: false)]
+            return [.init(key: #keyPath(CD_Website.cd_dateModified), ascending: false)]
         case .dateCreatedNewest:
-            return [.init(key: #keyPath(CD_Website.dateCreated), ascending: true)]
+            return [.init(key: #keyPath(CD_Website.cd_dateCreated), ascending: true)]
         case .dateCreatedOldest:
-            return [.init(key: #keyPath(CD_Website.dateCreated), ascending: false)]
+            return [.init(key: #keyPath(CD_Website.cd_dateCreated), ascending: false)]
         case .titleA:
-            return [.init(key: #keyPath(CD_Website.title), ascending: true)]
+            return [.init(key: #keyPath(CD_Website.cd_title), ascending: true)]
         case .titleZ:
-            return [.init(key: #keyPath(CD_Website.title), ascending: false)]
+            return [.init(key: #keyPath(CD_Website.cd_title), ascending: false)]
         }
     }
 }

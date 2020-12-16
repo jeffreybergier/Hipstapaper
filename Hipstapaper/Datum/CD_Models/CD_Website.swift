@@ -21,7 +21,13 @@
 
 import CoreData
 
-extension CD_Website: Website { }
+extension CD_Website: Website {
+    var isArchived: Bool { cd_isArchived }
+    var originalURL: URL? { cd_originalURL }
+    var resolvedURL: URL? { cd_resolvedURL }
+    var title: String? { cd_title }
+    var thumbnail: Data? { cd_thumbnail }
+}
 
 @objc(CD_Website) internal class CD_Website: CD_Base {
 
@@ -30,12 +36,12 @@ extension CD_Website: Website { }
         NSFetchRequest<CD_Website>(entityName: self.entityName)
     }
 
-    @NSManaged internal var isArchived:  Bool
-    @NSManaged internal var originalURL: URL?
-    @NSManaged internal var resolvedURL: URL?
-    @NSManaged internal var title:       String?
-    @NSManaged internal var thumbnail:   Data?
-    @NSManaged internal var tags:        NSSet?
+    @NSManaged internal var cd_isArchived:  Bool
+    @NSManaged internal var cd_originalURL: URL?
+    @NSManaged internal var cd_resolvedURL: URL?
+    @NSManaged internal var cd_title:       String?
+    @NSManaged internal var cd_thumbnail:   Data?
+    @NSManaged internal var cd_tags:        NSSet?
 
     internal override func datum_willSave() {
         super.datum_willSave()

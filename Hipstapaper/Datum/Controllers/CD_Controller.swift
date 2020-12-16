@@ -35,19 +35,19 @@ extension CD_Controller: Controller {
 
         let website = CD_Website(context: context)
         if let title = raw.title {
-            website.title = title
+            website.cd_title = title
         }
         if let originalURL = raw.originalURL {
-            website.originalURL = originalURL
+            website.cd_originalURL = originalURL
         }
         if let resolvedURL = raw.resolvedURL {
-            website.resolvedURL = resolvedURL
+            website.cd_resolvedURL = resolvedURL
         }
         if let isArchived = raw.isArchived {
-            website.isArchived = isArchived
+            website.cd_isArchived = isArchived
         }
         if let thumbnail = raw.thumbnail {
-            website.thumbnail = thumbnail
+            website.cd_thumbnail = thumbnail
         }
         return context.datum_save().map {
             AnyElement(CD_Element(website, { AnyWebsite($0) }))
@@ -94,23 +94,23 @@ extension CD_Controller: Controller {
         var changesMade = false
         if let title = raw.title {
             changesMade = true
-            website.title = title
+            website.cd_title = title
         }
         if let originalURL = raw.originalURL {
             changesMade = true
-            website.originalURL = originalURL
+            website.cd_originalURL = originalURL
         }
         if let resolvedURL = raw.resolvedURL {
             changesMade = true
-            website.resolvedURL = resolvedURL
+            website.cd_resolvedURL = resolvedURL
         }
         if let isArchived = raw.isArchived {
             changesMade = true
-            website.isArchived = isArchived
+            website.cd_isArchived = isArchived
         }
         if let thumbnail = raw.thumbnail {
             changesMade = true
-            website.thumbnail = thumbnail
+            website.cd_thumbnail = thumbnail
         }
         
         return changesMade ? context.datum_save() : .success(())
@@ -142,7 +142,7 @@ extension CD_Controller: Controller {
         defer { self.didSave(token) }
 
         let tag = CD_Tag(context: context)
-        tag.name = name
+        tag.cd_name = name
         return context.datum_save().map {
             AnyElement(CD_Element(tag, { AnyTag($0) }))
         }
@@ -154,7 +154,7 @@ extension CD_Controller: Controller {
         let context = self.container.viewContext
         let request = CD_Tag.request
         request.sortDescriptors = [
-            .init(key: #keyPath(CD_Tag.name), ascending: true)
+            .init(key: #keyPath(CD_Tag.cd_name), ascending: true)
         ]
         let controller = NSFetchedResultsController(fetchRequest: request,
                                                     managedObjectContext: context,
@@ -188,7 +188,7 @@ extension CD_Controller: Controller {
         var changesMade = false
         if let newName = name {
             changesMade = true
-            tag.name = newName
+            tag.cd_name = newName
         }
 
         return changesMade ? context.datum_save() : .success(())
