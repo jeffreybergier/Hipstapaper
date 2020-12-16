@@ -94,12 +94,15 @@ struct P_Website: Website {
 }
 
 class P_Element<T>: Element {
+    
     typealias Value = T
     var value: T
     var isDeleted: Bool = false
     init(_ value: T) {
         self.value = value
     }
+    static func == (lhs: P_Element<T>, rhs: P_Element<T>) -> Bool { fatalError() }
+    var hashValue: Int { fatalError() }
 }
 
 class P_Controller: Controller {

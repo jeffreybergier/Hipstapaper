@@ -20,10 +20,19 @@
 //
 
 /// Element that does not properly observe its Value
+// TODO: Remove this class
 public class StaticElement<T>: Element {
     public var value: T
     public var isDeleted: Bool { fatalError("StaticElement does not know this") }
     public init(_ value: T) {
         self.value = value
+    }
+    
+    public static func == (lhs: StaticElement<T>, rhs: StaticElement<T>) -> Bool {
+        fatalError()
+    }
+    
+    public var hashValue: Int {
+        fatalError()
     }
 }
