@@ -36,12 +36,11 @@ struct IndexToolbar: View {
             {
                 // Delete
                 guard let tag = self.controller.selectedTag else { return }
-                let element = AnyElement(StaticElement(tag))
-                try! self.controller.controller.delete(element).get()
+                try! self.controller.controller.delete(tag).get()
             }
             .disabled({
                 guard let tag = self.controller.selectedTag else { return true }
-                return tag.wrappedValue as? Query.Archived != nil
+                return tag.value.wrappedValue as? Query.Archived != nil
             }())
             
             ButtonToolbar(systemName: "plus",

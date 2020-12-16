@@ -27,13 +27,13 @@ public func UIControllerNew(controller: Controller) -> AnyUIController {
 
 /// No magic happens here, It is your responsibility to merge the `objectWillChange` signals
 public protocol UIController: ObservableObject {
-    var indexFixed: [AnyTag] { get }
+    var indexFixed: [AnyElement<AnyTag>] { get }
     var indexTags: Result<AnyCollection<AnyElement<AnyTag>>, Error> { get }
     var detailWebsites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error> { get }
     var controller: Controller { get }
 
     /// These properties are separate because SwiftUI is not smart enough to update a complex property
     var detailQuery: Query { get set }
-    var selectedTag: AnyTag? { get set }
+    var selectedTag: AnyElement<AnyTag>? { get set }
     var selectedWebsites: Set<AnyWebsite> { get set }
 }

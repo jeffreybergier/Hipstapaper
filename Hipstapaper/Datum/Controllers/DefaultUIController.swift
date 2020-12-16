@@ -20,22 +20,23 @@
 //
 
 import Combine
+import SwiftUI
 
 internal class DefaultUIController: UIController {
     
-    private(set) lazy var indexFixed: [AnyTag] = Query.Archived.anyTag_allCases
+    private(set) lazy var indexFixed: [AnyElement<AnyTag>] = Query.Archived.anyTag_allCases
     private(set) var indexTags: Result<AnyCollection<AnyElement<AnyTag>>, Error>
     private(set) var detailWebsites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error>
     private(set) var controller: Controller
 
     @Published internal var selectedWebsites: Set<AnyWebsite> = []
-    internal var selectedTag: AnyTag? = nil {
+    internal var selectedTag: AnyElement<AnyTag>? = nil {
         didSet {
             var query = self.detailQuery
             defer { self.detailQuery = query }
             query.search = ""
             query.tag = nil
-            if let isArchived = self.selectedTag?.wrappedValue as? Query.Archived {
+            if let isArchived = self.selectedTag?.value.wrappedValue as? Query.Archived {
                 query.isArchived = isArchived
             } else {
                 query.tag = self.selectedTag
@@ -49,6 +50,9 @@ internal class DefaultUIController: UIController {
             self.mergeStreams()
         }
     }
+    
+    // TODO: Update this in mergestreams closure
+    internal var selectedTagApplication: Dictionary<AnyTag, Binding<Bool>> = [:]
 
     private var observation: AnyCancellable?
     
@@ -70,5 +74,15 @@ internal class DefaultUIController: UIController {
             self.objectWillChange.send()
         }
         self.objectWillChange.send()
+    }
+    
+    private func updateSelectedTagApplication() {
+        guard !self.selectedWebsites.isEmpty else {
+            self.selectedTagApplication = [:]
+            return
+        }
+        self.indexTags.value?.map() { tag in
+            
+        }
     }
 }

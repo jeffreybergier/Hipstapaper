@@ -23,8 +23,8 @@ import Localize
 
 extension Query.Archived: Tag {
     
-    public static var anyTag_allCases: [AnyTag] {
-        self.allCases.map { AnyTag($0) }
+    public static var anyTag_allCases: [AnyElement<AnyTag>] {
+        self.allCases.map { AnyElement(StaticElement(AnyTag($0))) }
     }
     
     // TODO: See if its possible change type to LocalizedString

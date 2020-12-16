@@ -31,11 +31,11 @@ struct TagList: View {
         List(selection: self.$controller.selectedTag) {
             Section(header: Text.IndexSection(ReadingList)) {
                 ForEach(self.controller.indexFixed, id: \.self) { item in
-                    TagRow(item)
+                    TagRow(item.value)
                 }
             }
             Section(header: Text.IndexSection(Tags)) {
-                ForEach(self.controller.indexTags.value!, id: \.value) { item in
+                ForEach(self.controller.indexTags.value!, id: \.self) { item in
                     TagRow(item.value)
                 }
             }

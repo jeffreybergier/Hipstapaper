@@ -39,7 +39,7 @@ extension Query {
             }(),
             {
                 guard let _tag = self.tag else { return nil }
-                guard let tag = _tag.wrappedValue as? CD_Tag
+                guard let tag = _tag.value.wrappedValue as? CD_Tag
                 else { assertionFailure("Invalid TAG Object"); return nil; }
                 return NSPredicate(format: "%K CONTAINS %@", #keyPath(CD_Website.cd_tags), tag)
             }(),

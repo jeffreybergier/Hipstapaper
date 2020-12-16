@@ -26,7 +26,7 @@ public class AnyUIController: UIController {
     
     public let objectWillChange: ObservableObjectPublisher
     
-    public var indexFixed: [AnyTag] { getIndexFixed() }
+    public var indexFixed: [AnyElement<AnyTag>] { getIndexFixed() }
     public var indexTags: Result<AnyCollection<AnyElement<AnyTag>>, Error> { getController().readTags() }
     public var detailWebsites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error> { getController().readWebsites(query: self.detailQuery) }
     public var controller: Controller { getController() }
@@ -35,7 +35,7 @@ public class AnyUIController: UIController {
         get { getDetailQuery() }
         set { setDetailQuery(newValue) }
     }
-    public var selectedTag: AnyTag? {
+    public var selectedTag: AnyElement<AnyTag>? {
         get { self.getSelectedTag() }
         set { self.setSelectedTag(newValue) }
     }
@@ -45,11 +45,11 @@ public class AnyUIController: UIController {
     }
     
     private var getController:      () -> Controller
-    private var getIndexFixed:      () -> [AnyTag]
+    private var getIndexFixed:      () -> [AnyElement<AnyTag>]
     private var getDetailQuery:     () -> Query
     private var setDetailQuery:     (Query) -> Void
-    private var getSelectedTag:     () -> AnyTag?
-    private var setSelectedTag:     (AnyTag?) -> Void
+    private var getSelectedTag:     () -> AnyElement<AnyTag>?
+    private var setSelectedTag:     (AnyElement<AnyTag>?) -> Void
     private var getSelectedWebsite: () -> Set<AnyWebsite>
     private var setSelectedWebsite: (Set<AnyWebsite>) -> Void
     
