@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		5031AF03256E894F00AC98AA /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5031AF02256E894F00AC98AA /* Tag.swift */; };
 		5031AF0E256E8AE100AC98AA /* ListProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5031AF0D256E8AE100AC98AA /* ListProtocol.swift */; };
-		5031AF24256E8DEC00AC98AA /* AnyCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5031AF23256E8DEC00AC98AA /* AnyCollection.swift */; };
+		5031AF24256E8DEC00AC98AA /* AnyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5031AF23256E8DEC00AC98AA /* AnyList.swift */; };
 		5070E75D257217F100AF0968 /* CD_Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5070E75C257217F100AF0968 /* CD_Query.swift */; };
 		5073F40425720C5F00AC4C6C /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5073F40325720C5F00AC4C6C /* Query.swift */; };
 		50D63AA8256FE3BF001C5985 /* AnyTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D63AA7256FE3BF001C5985 /* AnyTag.swift */; };
@@ -265,7 +265,7 @@
 /* Begin PBXFileReference section */
 		5031AF02256E894F00AC98AA /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		5031AF0D256E8AE100AC98AA /* ListProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListProtocol.swift; sourceTree = "<group>"; };
-		5031AF23256E8DEC00AC98AA /* AnyCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyCollection.swift; sourceTree = "<group>"; };
+		5031AF23256E8DEC00AC98AA /* AnyList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyList.swift; sourceTree = "<group>"; };
 		5070E75C257217F100AF0968 /* CD_Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_Query.swift; sourceTree = "<group>"; };
 		5073F40325720C5F00AC4C6C /* Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
 		50D63AA7256FE3BF001C5985 /* AnyTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyTag.swift; sourceTree = "<group>"; };
@@ -468,7 +468,7 @@
 				DBFE5D25256F47EB00A23555 /* CD_Element.swift */,
 				73A3DE7E257B36C8002EDEB4 /* StaticElement.swift */,
 				5031AF0D256E8AE100AC98AA /* ListProtocol.swift */,
-				5031AF23256E8DEC00AC98AA /* AnyCollection.swift */,
+				5031AF23256E8DEC00AC98AA /* AnyList.swift */,
 				DBA1993D256D452C00383EB1 /* CD_Collection.swift */,
 				735D4BC6258AF4080016F904 /* SetCollection.swift */,
 				735D4BD6258AF4A90016F904 /* AnySetCollection.swift */,
@@ -1216,7 +1216,7 @@
 				73F2B03825745EFD009AC2AF /* Logger.swift in Sources */,
 				DBFE5D26256F47EB00A23555 /* CD_Element.swift in Sources */,
 				73F2B044257460D2009AC2AF /* CD_Sort.swift in Sources */,
-				5031AF24256E8DEC00AC98AA /* AnyCollection.swift in Sources */,
+				5031AF24256E8DEC00AC98AA /* AnyList.swift in Sources */,
 				73F2B03E257460AF009AC2AF /* Sort.swift in Sources */,
 				DB21C203256C8F9100DF6AE7 /* Controller.swift in Sources */,
 				735C91F8257678310033B4E8 /* DefaultUIController.swift in Sources */,

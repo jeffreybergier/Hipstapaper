@@ -25,7 +25,7 @@ import Datum
 
 var p_query = Query()
 
-let p_tags: AnyCollection<AnyElement<AnyTag>> = {
+let p_tags: AnyList<AnyElement<AnyTag>> = {
     let date1 = Date(timeIntervalSinceNow: -700)
     let date2 = Date(timeIntervalSinceNow: 0)
     let tag1 = P_Tag(name: "Videos", websitesCount: 3, dateCreated: date1, dateModified: date1, id: .init(NSString("A")))
@@ -35,10 +35,10 @@ let p_tags: AnyCollection<AnyElement<AnyTag>> = {
     let element2 = AnyElement(P_Element(AnyTag(tag2)))
     let element3 = AnyElement(P_Element(AnyTag(tag3)))
     let collection = P_Collection([element1, element2, element3])
-    return AnyCollection(collection)
+    return AnyList(collection)
 }()
 
-let p_sites: AnyCollection<AnyElement<AnyWebsite>> = {
+let p_sites: AnyList<AnyElement<AnyWebsite>> = {
     let date1 = Date(timeIntervalSinceNow: -700)
     let date2 = Date(timeIntervalSinceNow: 0)
     let site1 = P_Website(.init(title: "Google.com", resolvedURL: URL(string: "https://www.google.com")!),
@@ -60,7 +60,7 @@ let p_sites: AnyCollection<AnyElement<AnyWebsite>> = {
             AnyElement(P_Element(AnyWebsite(site3)))
         ]
     )
-    return AnyCollection(collection)
+    return AnyList(collection)
 }()
 
 struct P_Tag: Tag {
@@ -110,7 +110,7 @@ class P_Controller: Controller {
     static var storeExists: Bool = true
     func createWebsite(_ raw: AnyWebsite.Raw) -> Result<AnyElement<AnyWebsite>, Error>
     { log.debug("Create Site: \(raw)"); return .success(p_sites.first!) }
-    func readWebsites(query: Query) -> Result<AnyCollection<AnyElement<AnyWebsite>>, Error>
+    func readWebsites(query: Query) -> Result<AnyList<AnyElement<AnyWebsite>>, Error>
     { log.debug("Read Websites, with: \(query)"); return .success(p_sites) }
     func update(_ site: AnyElement<AnyWebsite>, _ raw: AnyWebsite.Raw) -> Result<Void, Error>
     { log.debug("Update: \(site), with: \(raw)"); return .success(()) }
@@ -118,7 +118,7 @@ class P_Controller: Controller {
     { log.debug("Delete: \(site)"); return .success(()) }
     func createTag(name: String?) -> Result<AnyElement<AnyTag>, Error>
     { log.debug("Create Tag: \(name)"); return .success(p_tags.first!) }
-    func readTags() -> Result<AnyCollection<AnyElement<AnyTag>>, Error>
+    func readTags() -> Result<AnyList<AnyElement<AnyTag>>, Error>
     { log.debug("Read Tags"); return .success(p_tags) }
     func update(_ tag: AnyElement<AnyTag>, name: Optional<String?>) -> Result<Void, Error>
     { log.debug("Update: \(tag) with: \(name)"); return .success(()) }
@@ -129,8 +129,8 @@ class P_Controller: Controller {
 class P_UIController: UIController {
     class func new() -> AnyUIController { AnyUIController(P_UIController()) }
     var indexFixed: [AnyElement<AnyTag>] = Query.Archived.anyTag_allCases
-    var indexTags: Result<AnyCollection<AnyElement<AnyTag>>, Error> = .success(p_tags)
-    var detailWebsites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error> = .success(p_sites)
+    var indexTags: Result<AnyList<AnyElement<AnyTag>>, Error> = .success(p_tags)
+    var detailWebsites: Result<AnyList<AnyElement<AnyWebsite>>, Error> = .success(p_sites)
     var controller: Controller = P_Controller()
     @Published var detailQuery: Query = .init()
     @Published var selectedTag: AnyElement<AnyTag>?

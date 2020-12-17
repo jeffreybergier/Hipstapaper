@@ -34,13 +34,13 @@ public protocol Controller {
 
     // MARK: Websites CRUD
     func createWebsite(_: AnyWebsite.Raw) -> Result<AnyElement<AnyWebsite>, Error>
-    func readWebsites(query: Query) -> Result<AnyCollection<AnyElement<AnyWebsite>>, Error>
+    func readWebsites(query: Query) -> Result<AnyList<AnyElement<AnyWebsite>>, Error>
     func update(_: AnyElement<AnyWebsite>, _: AnyWebsite.Raw) -> Result<Void, Error>
     func delete(_: AnyElement<AnyWebsite>) -> Result<Void, Error>
 
     // MARK: Tags CRUD
     func createTag(name: String?) -> Result<AnyElement<AnyTag>, Error>
-    func readTags() -> Result<AnyCollection<AnyElement<AnyTag>>, Error>
+    func readTags() -> Result<AnyList<AnyElement<AnyTag>>, Error>
     func update(_: AnyElement<AnyTag>, name: Optional<String?>) -> Result<Void, Error>
     func delete(_: AnyElement<AnyTag>) -> Result<Void, Error>
 

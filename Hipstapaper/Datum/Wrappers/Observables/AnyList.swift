@@ -21,7 +21,7 @@
 
 import Combine
 
-public class AnyCollection<Element>: ListProtocol {
+public class AnyList<Element>: ListProtocol {
 
     public let objectWillChange: ObservableObjectPublisher
 

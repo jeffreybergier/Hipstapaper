@@ -25,8 +25,8 @@ import SwiftUI
 internal class DefaultUIController: UIController {
     
     private(set) lazy var indexFixed: [AnyElement<AnyTag>] = Query.Archived.anyTag_allCases
-    private(set) var indexTags: Result<AnyCollection<AnyElement<AnyTag>>, Error>
-    private(set) var detailWebsites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error>
+    private(set) var indexTags: Result<AnyList<AnyElement<AnyTag>>, Error>
+    private(set) var detailWebsites: Result<AnyList<AnyElement<AnyWebsite>>, Error>
     private(set) var controller: Controller
 
     @Published internal var selectedWebsites: Set<AnyElement<AnyWebsite>> = []

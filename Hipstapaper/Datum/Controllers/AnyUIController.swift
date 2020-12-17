@@ -27,8 +27,8 @@ public class AnyUIController: UIController {
     public let objectWillChange: ObservableObjectPublisher
     
     public var indexFixed: [AnyElement<AnyTag>] { getIndexFixed() }
-    public var indexTags: Result<AnyCollection<AnyElement<AnyTag>>, Error> { getController().readTags() }
-    public var detailWebsites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error> { getController().readWebsites(query: self.detailQuery) }
+    public var indexTags: Result<AnyList<AnyElement<AnyTag>>, Error> { getController().readTags() }
+    public var detailWebsites: Result<AnyList<AnyElement<AnyWebsite>>, Error> { getController().readWebsites(query: self.detailQuery) }
     public var controller: Controller { getController() }
     
     public var detailQuery: Query {
