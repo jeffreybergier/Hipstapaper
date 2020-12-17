@@ -21,7 +21,7 @@
 
 import Combine
 
-public class AnySetCollection<Element: Hashable>: SetCollection {
+public class AnySet<Element: Hashable>: SetProtocol {
     
     public let objectWillChange: ObservableObjectPublisher
     

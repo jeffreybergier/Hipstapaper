@@ -19,6 +19,6 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-public protocol SetCollection: Swift.Collection, ObservableObject {
+public protocol SetProtocol: Swift.Collection, ObservableObject {
     associatedtype Element
 }
