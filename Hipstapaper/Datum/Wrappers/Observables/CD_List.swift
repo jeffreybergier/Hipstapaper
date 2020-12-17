@@ -22,7 +22,7 @@
 import CoreData
 import Combine
 
-internal class CD_Collection<
+internal class CD_List<
     Output,
     Input: NSManagedObject
 >: NSObject, ListProtocol, NSFetchedResultsControllerDelegate

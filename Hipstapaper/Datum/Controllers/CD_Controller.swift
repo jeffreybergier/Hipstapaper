@@ -70,7 +70,7 @@ extension CD_Controller: Controller {
             try controller.performFetch()
             return .success(
                 AnyList(
-                    CD_Collection(controller, {
+                    CD_List(controller, {
                         AnyElement(CD_Element($0, { AnyWebsite($0) }))
                     })
                 )
@@ -164,7 +164,7 @@ extension CD_Controller: Controller {
             try controller.performFetch()
             return .success(
                 AnyList(
-                    CD_Collection(controller, {
+                    CD_List(controller, {
                         AnyElement(CD_Element($0, { AnyTag($0) }))
                     })
                 )
