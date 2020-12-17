@@ -21,6 +21,6 @@
 
 import Combine
 
-public protocol Collection: Swift.RandomAccessCollection, ObservableObject {
+public protocol ListProtocol: Swift.RandomAccessCollection, ObservableObject {
     associatedtype Element
 }

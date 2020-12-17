@@ -25,7 +25,7 @@ import Combine
 internal class CD_Collection<
     Output,
     Input: NSManagedObject
->: NSObject, Collection, NSFetchedResultsControllerDelegate
+>: NSObject, ListProtocol, NSFetchedResultsControllerDelegate
 {
 
     public typealias Index = Int

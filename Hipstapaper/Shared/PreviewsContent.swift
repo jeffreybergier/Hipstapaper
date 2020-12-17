@@ -137,7 +137,7 @@ class P_UIController: UIController {
     @Published var selectedWebsites: Set<AnyElement<AnyWebsite>> = []
 }
 
-class P_Collection<Element>: Collection {
+class P_Collection<Element>: ListProtocol {
     
     private let wrapped: [Element]
     

@@ -33,7 +33,7 @@ public class AnySetCollection<Element: Hashable>: SetCollection {
     private let _subscript: (Index) -> Element
     private let _indexAfter: (Index) -> Index
     
-    public init<T: Collection>(_ collection: T)
+    public init<T: ListProtocol>(_ collection: T)
     where T.Element == Element,
           T.Index == Index,
           T.ObjectWillChangePublisher == ObservableObjectPublisher
