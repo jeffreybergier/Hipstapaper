@@ -39,4 +39,19 @@ class TagAddRemoveTests: ParentTestCase {
         XCTAssertEqual(wTag.cd_websites.count, 1)
     }
     
+    func test_remove_tag() throws {
+        let site = try self.controller.createWebsite(.init(title: "ASite")).get()
+        let tag = try self.controller.createTag(name: "ATag").get()
+        let wSite = site.value.wrappedValue as! CD_Website
+        let wTag = tag.value.wrappedValue as! CD_Tag
+        XCTAssertEqual(wSite.cd_tags.count, 0)
+        XCTAssertEqual(wTag.cd_websites.count, 0)
+        try self.controller.add(tag: tag, to: [site]).get()
+        XCTAssertEqual(wSite.cd_tags.count, 1)
+        XCTAssertEqual(wTag.cd_websites.count, 1)
+        try self.controller.remove(tag: tag, from: [site]).get()
+        XCTAssertEqual(wSite.cd_tags.count, 0)
+        XCTAssertEqual(wTag.cd_websites.count, 0)
+    }
+    
 }

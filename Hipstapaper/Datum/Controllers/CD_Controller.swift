@@ -211,10 +211,10 @@ extension CD_Controller: Controller {
     
     // MARK: Custom Functions
     
-    func add(tag: AnyElement<AnyTag>, to websites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error> {
-        let sites = websites.compactMap { $0.value.wrappedValue as? CD_Website }
+    func add(tag: AnyElement<AnyTag>, to _sites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error> {
+        let sites = _sites.compactMap { $0.value.wrappedValue as? CD_Website }
         guard
-            sites.count == websites.count,
+            sites.count == _sites.count,
             let tag = tag.value.wrappedValue as? CD_Tag
         else { return .failure(.unknown) }
         
@@ -233,9 +233,26 @@ extension CD_Controller: Controller {
         return changesMade ? context.datum_save() : .success(())
     }
     
-    func remove(tag: AnyElement<AnyTag>, from websites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error> {
-        // TODO: Fix these
-        return .failure(Error.unknown)
+    func remove(tag: AnyElement<AnyTag>, from _sites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error> {
+        let sites = _sites.compactMap { $0.value.wrappedValue as? CD_Website }
+        guard
+            sites.count == _sites.count,
+            let tag = tag.value.wrappedValue as? CD_Tag
+        else { return .failure(.unknown) }
+        
+        let context = self.container.viewContext
+        let token = self.willSave(context)
+        defer { self.didSave(token) }
+        
+        var changesMade = false
+        for site in sites {
+            guard site.cd_tags.contains(tag) == true else { continue }
+            changesMade = true
+            let tags = site.mutableSetValue(forKey: #keyPath(CD_Website.cd_tags))
+            tags.remove(tag)
+        }
+        
+        return changesMade ? context.datum_save() : .success(())
     }
     
     func tagStatus(for websites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error> {
