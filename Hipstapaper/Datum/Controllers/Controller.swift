@@ -47,5 +47,5 @@ public protocol Controller {
     // MARK: Custom Functions
     func add(tag: AnyElement<AnyTag>, to websites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error>
     func remove(tag: AnyElement<AnyTag>, from websites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error>
-    func tagStatus(for websites: Set<AnyElement<AnyWebsite>>) -> Result<AnyList<(AnyElement<AnyTag>, Bool)>, Error>
+    func tagStatus(for websites: Set<AnyElement<AnyWebsite>>) -> Result<AnyList<(AnyElement<AnyTag>, ToggleState)>, Error>
 }

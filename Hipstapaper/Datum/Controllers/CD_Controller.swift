@@ -256,7 +256,7 @@ extension CD_Controller: Controller {
     }
     
     func tagStatus(for _sites: Set<AnyElement<AnyWebsite>>)
-                  -> Result<AnyList<(AnyElement<AnyTag>, Bool)>, Error>
+                  -> Result<AnyList<(AnyElement<AnyTag>, ToggleState)>, Error>
 
     {
         let sites = _sites.compactMap { $0.value.wrappedValue as? CD_Website }
@@ -265,12 +265,9 @@ extension CD_Controller: Controller {
             return AnyList(
                 MappedList(tags) { tag in
                     let tag = tag.value.wrappedValue as! CD_Tag
-                    var contains = false
-                    for site in sites {
-                        guard site.cd_tags.contains(tag) else { continue }
-                        contains = true
-                    }
-                    return contains
+                    return ToggleState(sites.map {
+                        $0.cd_tags.contains(tag)
+                    })
                 }
             )
         }

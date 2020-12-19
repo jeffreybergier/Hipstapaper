@@ -65,29 +65,29 @@ class TagAddRemoveTests: ParentTestCase {
         XCTAssertEqual(status1.count, 2)
         XCTAssertEqual(status1[0].0, tag1)
         XCTAssertEqual(status1[1].0, tag2)
-        XCTAssertEqual(status1[0].1, true)
-        XCTAssertEqual(status1[1].1, false)
+        XCTAssertEqual(status1[0].1, .on)
+        XCTAssertEqual(status1[1].1, .off)
         
         let status2 = try self.controller.tagStatus(for: [site2]).get()
         XCTAssertEqual(status2.count, 2)
         XCTAssertEqual(status2[0].0, tag1)
         XCTAssertEqual(status2[1].0, tag2)
-        XCTAssertEqual(status2[0].1, false)
-        XCTAssertEqual(status2[1].1, true)
+        XCTAssertEqual(status2[0].1, .off)
+        XCTAssertEqual(status2[1].1, .on)
         
         let status3 = try self.controller.tagStatus(for: [site1, site2]).get()
         XCTAssertEqual(status3.count, 2)
         XCTAssertEqual(status3[0].0, tag1)
         XCTAssertEqual(status3[1].0, tag2)
-        XCTAssertEqual(status3[0].1, true)
-        XCTAssertEqual(status3[1].1, true)
+        XCTAssertEqual(status3[0].1, .mixed)
+        XCTAssertEqual(status3[1].1, .mixed)
         
         let status4 = try self.controller.tagStatus(for: []).get()
         XCTAssertEqual(status4.count, 2)
         XCTAssertEqual(status4[0].0, tag1)
         XCTAssertEqual(status4[1].0, tag2)
-        XCTAssertEqual(status4[0].1, false)
-        XCTAssertEqual(status4[1].1, false)
+        XCTAssertEqual(status4[0].1, .off)
+        XCTAssertEqual(status4[1].1, .off)
     }
     
 }
