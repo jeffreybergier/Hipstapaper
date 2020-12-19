@@ -255,8 +255,25 @@ extension CD_Controller: Controller {
         return changesMade ? context.datum_save() : .success(())
     }
     
-    func tagStatus(for websites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error> {
-        return .failure(.unknown)
+    func tagStatus(for _sites: Set<AnyElement<AnyWebsite>>)
+                  -> Result<AnyList<(AnyElement<AnyTag>, Bool)>, Error>
+
+    {
+        let sites = _sites.compactMap { $0.value.wrappedValue as? CD_Website }
+        guard sites.count == _sites.count else { return .failure(.unknown) }
+        return self.readTags().map() { tags in
+            return AnyList(
+                MappedList(tags) { tag in
+                    let tag = tag.value.wrappedValue as! CD_Tag
+                    var contains = false
+                    for site in sites {
+                        guard site.cd_tags.contains(tag) else { continue }
+                        contains = true
+                    }
+                    return contains
+                }
+            )
+        }
     }
 }
 

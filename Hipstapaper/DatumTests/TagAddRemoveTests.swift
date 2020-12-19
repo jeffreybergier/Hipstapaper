@@ -54,4 +54,40 @@ class TagAddRemoveTests: ParentTestCase {
         XCTAssertEqual(wTag.cd_websites.count, 0)
     }
     
+    func test_tagStatus() throws {
+        let site1 = try self.controller.createWebsite(.init(title: "ASite")).get()
+        let site2 = try self.controller.createWebsite(.init(title: "BSite")).get()
+        let tag1 = try self.controller.createTag(name: "ATag").get()
+        let tag2 = try self.controller.createTag(name: "BTag").get()
+        try self.controller.add(tag: tag1, to: [site1]).get()
+        try self.controller.add(tag: tag2, to: [site2]).get()
+        let status1 = try self.controller.tagStatus(for: [site1]).get()
+        XCTAssertEqual(status1.count, 2)
+        XCTAssertEqual(status1[0].0, tag1)
+        XCTAssertEqual(status1[1].0, tag2)
+        XCTAssertEqual(status1[0].1, true)
+        XCTAssertEqual(status1[1].1, false)
+        
+        let status2 = try self.controller.tagStatus(for: [site2]).get()
+        XCTAssertEqual(status2.count, 2)
+        XCTAssertEqual(status2[0].0, tag1)
+        XCTAssertEqual(status2[1].0, tag2)
+        XCTAssertEqual(status2[0].1, false)
+        XCTAssertEqual(status2[1].1, true)
+        
+        let status3 = try self.controller.tagStatus(for: [site1, site2]).get()
+        XCTAssertEqual(status3.count, 2)
+        XCTAssertEqual(status3[0].0, tag1)
+        XCTAssertEqual(status3[1].0, tag2)
+        XCTAssertEqual(status3[0].1, true)
+        XCTAssertEqual(status3[1].1, true)
+        
+        let status4 = try self.controller.tagStatus(for: []).get()
+        XCTAssertEqual(status4.count, 2)
+        XCTAssertEqual(status4[0].0, tag1)
+        XCTAssertEqual(status4[1].0, tag2)
+        XCTAssertEqual(status4[0].1, false)
+        XCTAssertEqual(status4[1].1, false)
+    }
+    
 }

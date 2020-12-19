@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/25.
+//  Created by Jeffrey Bergier on 2020/12/19.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -21,20 +21,21 @@
 
 import Combine
 
-public class AnyList<Element>: ListProtocol {
-
+public class MappedList<E, U>: ListProtocol {
+    
     public let objectWillChange: ObservableObjectPublisher
 
     public typealias Index = Int
-    public typealias Element = Element
+    public typealias Element = (E, U)
 
     private let _startIndex: () -> Index
     private let _endIndex: () -> Index
-    private let _subscript: (Index) -> Element
+    private let _subscript: (Index) -> E
     private let _indexAfter: (Index) -> Index
+    private let transform: (E) -> U
 
-    public init<T: ListProtocol>(_ collection: T)
-    where T.Element == Element,
+    public init<T: ListProtocol>(_ collection: T, transform: @escaping (E) -> U)
+    where T.Element == E,
           T.Index == Int,
           T.ObjectWillChangePublisher == ObservableObjectPublisher
     {
@@ -42,12 +43,17 @@ public class AnyList<Element>: ListProtocol {
         _endIndex = { collection.endIndex }
         _subscript = { collection[$0] }
         _indexAfter = { collection.index(after: $0) }
+        self.transform = transform
         self.objectWillChange = collection.objectWillChange
     }
 
     // MARK: Swift.Collection Boilerplate
     public var startIndex: Index { _startIndex() }
     public var endIndex: Index { _endIndex() }
-    public subscript(index: Index) -> Element { _subscript(index) }
     public func index(after index: Index) -> Index { _indexAfter(index) }
+    public subscript(index: Index) -> Element {
+        let e = _subscript(index)
+        let u = transform(e)
+        return (e, u)
+    }
 }

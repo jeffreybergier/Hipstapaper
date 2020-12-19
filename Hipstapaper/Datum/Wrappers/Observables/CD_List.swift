@@ -55,5 +55,4 @@ internal class CD_List<
     internal func controller(_: AnyObject, didChangeContentWith _: AnyObject) {
         self.objectWillChange.send()
     }
-
 }
