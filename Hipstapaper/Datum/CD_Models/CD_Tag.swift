@@ -33,14 +33,14 @@ extension CD_Tag: Tag {
         NSFetchRequest<CD_Tag>(entityName: self.entityName)
     }
 
-    @NSManaged private var cd_websitesCount: Int32
+    @NSManaged internal var cd_websitesCount: Int32
     @NSManaged internal var cd_name: String?
-    @NSManaged internal var cd_websites: NSSet?
+    @NSManaged internal var cd_websites: NSSet
 
     internal override func datum_willSave() {
         super.datum_willSave()
 
-        self.cd_websitesCount = Int32(self.cd_websites?.count ?? 0)
+        self.cd_websitesCount = Int32(self.cd_websites.count)
         // TODO: validate name
     }
 }

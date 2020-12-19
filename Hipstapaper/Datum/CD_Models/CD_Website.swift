@@ -41,7 +41,7 @@ extension CD_Website: Website {
     @NSManaged internal var cd_resolvedURL: URL?
     @NSManaged internal var cd_title:       String?
     @NSManaged internal var cd_thumbnail:   Data?
-    @NSManaged internal var cd_tags:        NSSet?
+    @NSManaged internal var cd_tags:        NSSet
 
     internal override func datum_willSave() {
         super.datum_willSave()

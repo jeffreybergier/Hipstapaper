@@ -43,5 +43,10 @@ public protocol Controller {
     func readTags() -> Result<AnyList<AnyElement<AnyTag>>, Error>
     func update(_: AnyElement<AnyTag>, name: Optional<String?>) -> Result<Void, Error>
     func delete(_: AnyElement<AnyTag>) -> Result<Void, Error>
+    
+    // MARK: Custom Functions
+    func add(tag: AnyElement<AnyTag>, to websites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error>
+    func remove(tag: AnyElement<AnyTag>, from websites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error>
+    func tagStatus(for websites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error>
 
 }

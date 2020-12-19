@@ -208,6 +208,39 @@ extension CD_Controller: Controller {
         context.delete(tag)
         return context.datum_save()
     }
+    
+    // MARK: Custom Functions
+    
+    func add(tag: AnyElement<AnyTag>, to websites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error> {
+        let sites = websites.compactMap { $0.value.wrappedValue as? CD_Website }
+        guard
+            sites.count == websites.count,
+            let tag = tag.value.wrappedValue as? CD_Tag
+        else { return .failure(.unknown) }
+        
+        let context = self.container.viewContext
+        let token = self.willSave(context)
+        defer { self.didSave(token) }
+        
+        var changesMade = false
+        for site in sites {
+            guard site.cd_tags.contains(tag) == false else { continue }
+            changesMade = true
+            let tags = site.mutableSetValue(forKey: #keyPath(CD_Website.cd_tags))
+            tags.add(tag)
+        }
+        
+        return changesMade ? context.datum_save() : .success(())
+    }
+    
+    func remove(tag: AnyElement<AnyTag>, from websites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error> {
+        // TODO: Fix these
+        return .failure(Error.unknown)
+    }
+    
+    func tagStatus(for websites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error> {
+        return .failure(.unknown)
+    }
 }
 
 internal class CD_Controller {
