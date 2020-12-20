@@ -77,8 +77,8 @@ struct DetailToolbar: View {
                           accessibilityLabel: AddAndRemoveTags)
                 { self.presentation.value = .tagApply }
                 .disabled(self.controller.selectedWebsites.isEmpty)
-                .popover(isPresented: self.$presentation.isTagApply, content: {
-                    TagApply(controller: self.controller, presentation: self.$presentation)
+                .popover(isPresented: self.$presentation.isTagApply, content: { () -> TagApply in
+                    return TagApply(controller: self.controller, presentation: self.$presentation)
                 })
             
             ButtonToolbar(systemName: "square.and.arrow.up",

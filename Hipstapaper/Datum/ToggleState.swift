@@ -37,12 +37,21 @@ public enum ToggleState {
             self = .off
         }
     }
+    
+    public var boolValue: Bool {
+        switch self {
+        case .off:
+            return false
+        case .on, .mixed:
+            return true
+        }
+    }
 }
 
 #if canImport(AppKit)
 import AppKit
 extension ToggleState {
-    var nativeValue: NSControl.StateValue {
+    public var nativeValue: NSControl.StateValue {
         switch self {
         case .mixed:
             return .mixed
@@ -56,13 +65,8 @@ extension ToggleState {
 #else
 import UIKit
 extension ToggleState {
-    var nativeValue: Bool {
-        switch self {
-        case .off:
-            return false
-        case .on, .mixed:
-            return true
-        }
+    public var nativeValue: Bool {
+        return self.boolValue
     }
 }
 #endif

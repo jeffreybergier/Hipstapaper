@@ -27,10 +27,11 @@ import Localize
 struct TagApplyRow: View {
     
     let name: String?
-    @Binding var isOn: Bool
+    let value: Bool
+    let valueChanged: BoolChange
     
     var body: some View {
-        ToggleDefault(label: self.name, isOn: self.$isOn)
+        ToggleDefault(label: self.name, initialValue: value, valueChanged: self.valueChanged)
         .paddingDefault(ignoring: [\.leading, \.trailing])
     }
 }

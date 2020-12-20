@@ -124,6 +124,13 @@ class P_Controller: Controller {
     { log.debug("Update: \(tag) with: \(name)"); return .success(()) }
     func delete(_ tag: AnyElement<AnyTag>) -> Result<Void, Error>
     { log.debug("Delete: \(tag)"); return .success(()) }
+    func add(tag: AnyElement<AnyTag>, to websites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error>
+    { log.debug("Apply Tag: \(tag), to: \(websites)"); return .success(()) }
+    func remove(tag: AnyElement<AnyTag>, from websites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error>
+    { log.debug("Remove Tag: \(tag), from: \(websites)"); return .success(()) }    
+    func tagStatus(for websites: Set<AnyElement<AnyWebsite>>) -> Result<AnyList<(AnyElement<AnyTag>, ToggleState)>, Error> {
+        return .success(AnyList(MappedList(p_tags, transform: { _ in .on })))
+    }
 }
 
 class P_UIController: UIController {

@@ -22,24 +22,65 @@
 import SwiftUI
 import Localize
 
-internal func _ToggleDefault(label: TextProvider, isOn: Binding<Bool>) -> some View {
-    return Toggle(isOn: isOn, label: { () -> AnyView in
-        switch label {
-        case .localized(let title):
-            return AnyView(Text.IndexRowTitleDisabled(title))
-        case .raw(let title):
-            return AnyView(Text.IndexRowTitle(title))
-        }
-    })
-    //.toggleStyle(SwitchToggleStyle())
+internal func _ToggleDefault(label: TextProvider,
+                            initialValue: Bool,
+                            valueChanged: @escaping BoolChange)
+                            -> some View
+{
+    return ManualToggle(initialValue: initialValue,
+                        content:
+                            { () -> AnyView in
+                                switch label {
+                                case .localized(let title):
+                                    return AnyView(Text.IndexRowTitleDisabled(title))
+                                case .raw(let title):
+                                    return AnyView(Text.IndexRowTitle(title))
+                                }
+                            },
+                        valueChanged: valueChanged)
 }
 
-public func ToggleDefault(label: String?, isOn: Binding<Bool>) -> some View {
+public func ToggleDefault(label: String?,
+                          initialValue: Bool,
+                          valueChanged: @escaping BoolChange)
+                          -> some View
+{
     let provider: TextProvider
     if let label = label {
         provider = .raw(label)
     } else {
         provider = .localized(Untitled)
     }
-    return _ToggleDefault(label: provider, isOn: isOn)
+    return _ToggleDefault(label: provider,
+                          initialValue: initialValue,
+                          valueChanged: valueChanged)
+}
+
+public typealias BoolChange = (Bool) -> Void
+private struct BoolWrapper {
+    let valueChanged: BoolChange
+    var value: Bool {
+        didSet {
+            self.valueChanged(self.value)
+        }
+    }
+}
+
+public struct ManualToggle<Content>: View where Content: View {
+    
+    let content: () -> Content
+    @State private var value: BoolWrapper
+    
+    public var body: some View {
+        Toggle(isOn: self.$value.value, label: self.content)
+        //.toggleStyle(SwitchToggleStyle())
+    }
+    
+    public init(initialValue: Bool,
+                @ViewBuilder content: @escaping () -> Content,
+                valueChanged: @escaping BoolChange)
+    {
+        _value = State(initialValue: BoolWrapper(valueChanged: valueChanged, value: initialValue))
+        self.content = content
+    }
 }

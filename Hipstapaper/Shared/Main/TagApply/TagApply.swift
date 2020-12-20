@@ -28,7 +28,6 @@ struct TagApply: View {
     
     @ObservedObject var controller: AnyUIController
     @Binding var presentation: Presentation.Wrap
-    @State var on = true
     
     var body: some View {
         VStack(spacing: 0) {
@@ -40,8 +39,17 @@ struct TagApply: View {
                     ButtonDone(Done) { self.presentation.value = .none }
                 }
             }
-            List(self.controller.indexTags.value!) { tag in
-                TagApplyRow(name: tag.value.name, isOn: self.$on)
+            List(self.controller.controller.tagStatus(for: self.controller.selectedWebsites).value!, id: \.0) { tuple in
+                TagApplyRow(name: tuple.0.value.name, value: tuple.1.boolValue) { newValue in
+                    switch newValue {
+                    case true:
+                        // TODO: Fix try!
+                        try! self.controller.controller.add(tag: tuple.0, to: self.controller.selectedWebsites).get()
+                    case false:
+                        // TODO: Fix try!
+                        try! self.controller.controller.remove(tag: tuple.0, from: self.controller.selectedWebsites).get()
+                    }
+                }
             }
             .frame(width: 300, height: 300)
         }
