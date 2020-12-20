@@ -24,56 +24,96 @@ import WebKit
 
 internal struct WebView: View {
     
-    internal class ViewModel: ObservableObject {
+    internal class Control: ObservableObject {
+        @Published var stop = false
+        @Published var goBack = false
+        @Published var goForward = false
+        @Published var isJSEnabled = false
+        @Published var load: URL?
+        internal init(_ load: URL) {
+            self.load = load
+        }
+    }
+    
+    internal class Display: ObservableObject {
         @Published var title: String = ""
         @Published var currentURLString = ""
         @Published var isLoading: Bool = false
         @Published var canGoBack: Bool = false
         @Published var canGoForward: Bool = false
         let progress = Progress(totalUnitCount: 100)
-        let originalURL: URL
         var kvo: [NSKeyValueObservation] = []
-        internal init(_ load: URL) {
-            self.originalURL = load
-        }
     }
     
-    @ObservedObject var viewModel: ViewModel
+    @ObservedObject var control: Control
+    @ObservedObject var display: Display
     
+    private func update(_ wv: WKWebView, context: Context) {
+        if self.control.stop {
+            wv.stopLoading()
+            self.control.stop = true
+        }
+        if self.control.goBack {
+            wv.goBack()
+            self.control.goBack = true
+        }
+        if self.control.goForward {
+            wv.goForward()
+            self.control.goForward = true
+        }
+        if wv.configuration.preferences.javaScriptEnabled != self.control.isJSEnabled {
+            wv.configuration.preferences.javaScriptEnabled = self.control.isJSEnabled
+            wv.reload()
+        }
+        if let load = self.control.load {
+            wv.load(URLRequest(url: load))
+            self.control.load = nil
+        }
+    }
+        
     private func makeWebView(context: Context) -> WKWebView {
         let config = WKWebViewConfiguration()
         let wv = WKWebView(frame: .zero, configuration: config)
         let token1 = wv.observe(\.isLoading)
-        { [unowned viewModel] wv, _ in
-            viewModel.isLoading = wv.isLoading
+        { [unowned display] wv, _ in
+            display.isLoading = wv.isLoading
         }
         let token2 = wv.observe(\.url)
-        { [unowned viewModel] wv, _ in
-            viewModel.currentURLString = wv.url?.absoluteString ?? ""
+        { [unowned display] wv, _ in
+            display.currentURLString = wv.url?.absoluteString ?? ""
         }
         let token3 = wv.observe(\.title)
-        { [unowned viewModel] wv, _ in
-            viewModel.title = wv.title ?? ""
+        { [unowned display] wv, _ in
+            display.title = wv.title ?? ""
         }
         let token4 = wv.observe(\.estimatedProgress)
-        { [unowned viewModel] wv, two in
-            viewModel.progress.completedUnitCount = Int64(wv.estimatedProgress * 100)
+        { [unowned display] wv, two in
+            display.progress.completedUnitCount = Int64(wv.estimatedProgress * 100)
         }
-        self.viewModel.kvo = [token1, token2, token3, token4]
+        self.display.kvo = [token1, token2, token3, token4]
         return wv
     }
     
 }
 
 #if canImport(AppKit)
+extension WebView: NSViewRepresentable {
+    func makeNSView(context: Context) -> WKWebView {
+        return self.makeWebView(context: context)
+    }
+    
+    func updateNSView(_ wv: WKWebView, context: Context) {
+        self.update(wv, context: context)
+    }
+}
 #else
 extension WebView: UIViewRepresentable {
     func makeUIView(context: Context) -> WKWebView {
-        fatalError()
+        return self.makeWebView(context: context)
     }
     
-    func updateUIView(_ uiView: WKWebView, context: Context) {
-        fatalError()
+    func updateUIView(_ wv: WKWebView, context: Context) {
+        self.update(wv, context: context)
     }
 }
 #endif

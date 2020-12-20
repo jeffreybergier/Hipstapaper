@@ -22,8 +22,15 @@
 import SwiftUI
 
 public struct Browse: View {
+    
+    @StateObject var control: WebView.Control
+    @StateObject var display: WebView.Display = .init()
+    
     public var body: some View {
-        Text("A Browser").frame(width: 300, height: 300)
+        WebView(control: self.control, display: self.display)
+            .frame(width: 768, height: 768)
     }
-    public init() {}
+    public init(_ load: URL) {
+        _control = .init(wrappedValue: WebView.Control(load))
+    }
 }

@@ -44,7 +44,7 @@ struct HipstapaperApp: App {
         }
         #if os(macOS)
         Settings {
-            Browse()
+            Browse(URL(string: "https://www.theverge.com")!)
         }
         #endif
     }
