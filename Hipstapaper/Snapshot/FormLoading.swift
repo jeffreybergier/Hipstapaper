@@ -33,8 +33,7 @@ struct FormLoading: View {
                 .disabled(true)
             TextField.WebsiteURL(self.$output.resolvedURLString)
                 .disabled(true)
-            ProgressView(self.output.progress)
-                .progressViewStyle(LinearProgressViewStyle())
+            ProgressBar(self.output.progress)
         }
     }
 }

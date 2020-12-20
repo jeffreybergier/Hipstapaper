@@ -26,6 +26,7 @@ internal struct WebView: View {
     
     internal class Control: ObservableObject {
         @Published var stop = false
+        @Published var reload = false
         @Published var goBack = false
         @Published var goForward = false
         @Published var isJSEnabled = false
@@ -51,15 +52,19 @@ internal struct WebView: View {
     private func update(_ wv: WKWebView, context: Context) {
         if self.control.stop {
             wv.stopLoading()
-            self.control.stop = true
+            self.control.stop = false
+        }
+        if self.control.reload {
+            wv.reload()
+            self.control.reload = false
         }
         if self.control.goBack {
             wv.goBack()
-            self.control.goBack = true
+            self.control.goBack = false
         }
         if self.control.goForward {
             wv.goForward()
-            self.control.goForward = true
+            self.control.goForward = false
         }
         if wv.configuration.preferences.javaScriptEnabled != self.control.isJSEnabled {
             wv.configuration.preferences.javaScriptEnabled = self.control.isJSEnabled

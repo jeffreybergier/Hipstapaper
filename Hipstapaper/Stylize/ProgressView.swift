@@ -21,19 +21,12 @@
 
 import SwiftUI
 
-public struct Browse: View {
-    
-    @StateObject var control: WebView.Control
-    @StateObject var display: WebView.Display = .init()
-    
-    public var body: some View {
-        VStack {
-            Toolbar(control: self.control, display: self.display)
-            WebView(control: self.control, display: self.display)
-                .frame(minWidth: 300, idealWidth: 768, minHeight: 300, idealHeight: 768)
-        }
-    }
-    public init(_ load: URL) {
-        _control = .init(wrappedValue: WebView.Control(load))
-    }
+public func ProgressBar(_ progress: Progress) -> some View {
+    return ProgressView(progress)
+        .progressViewStyle(LinearProgressViewStyle())
+}
+
+public func ProgressSpinner(_ progress: Progress) -> some View {
+    return ProgressView(progress)
+        .progressViewStyle(CircularProgressViewStyle())
 }
