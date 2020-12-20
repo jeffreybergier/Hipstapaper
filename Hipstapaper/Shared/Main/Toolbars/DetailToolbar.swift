@@ -95,7 +95,7 @@ struct DetailToolbar: View {
                           accessibilityLabel: Localize.Search)
                 { self.presentation.value = .search }
                 .popover(isPresented: self.$presentation.isSearch, content: {
-                    Search(search: self.$controller.detailQuery.search)
+                    Search(controller: self.controller, presentation: self.$presentation)
                 })
         }
     }

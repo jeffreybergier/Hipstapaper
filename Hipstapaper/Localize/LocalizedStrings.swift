@@ -86,3 +86,6 @@ public let ApplyTags: LocalizedStringKey = "Apply Tags"
 
 
 public let TagName: LocalizedStringKey = "Tag Name"
+
+
+public let ClearSearch: LocalizedStringKey = "Clear Search"

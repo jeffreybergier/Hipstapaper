@@ -22,14 +22,35 @@
 import SwiftUI
 import Datum
 import Stylize
+import Localize
 
 struct Search: View {
     
-    @Binding var search: String
+    @ObservedObject var controller: AnyUIController
+    @Binding var presentation: Presentation.Wrap
     
     var body: some View {
-        TextField.Search(self.$search)
+        VStack(spacing: 0) {
+            Toolbar {
+                HStack {
+                    Spacer()
+                    Text.ModalTitle(Localize.Search)
+                    Spacer()
+                    ButtonDone(Done) { self.presentation.value = .none }
+                    .keyboardShortcut(.defaultAction)
+                }
+            }
+            HStack {
+                TextField.Search(self.$controller.detailQuery.search)
+                if self.controller.detailQuery.search.nonEmptyString != nil {
+                    ButtonToolbar(systemName: "xmark.circle", accessibilityLabel: ClearSearch) {
+                        self.controller.detailQuery.search = ""
+                    }
+                }
+            }
             .frame(width: 250)
-            .paddingDefault()
+            .paddingDefault_Equal()
+        }
+        .animation(.default)
     }
 }
