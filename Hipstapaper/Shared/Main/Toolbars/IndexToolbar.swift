@@ -44,12 +44,12 @@ struct IndexToolbar: View {
             }())
             
             ButtonToolbar(systemName: "plus",
-                          accessibilityLabel: AddTag)
+                          accessibilityLabel: Localize.AddTag)
             {
                 self.presentation.value = .addTag
             }
             .popover(isPresented: self.$presentation.isAddTag, content: {
-                Text("Add Tag!")
+                AddTag(controller: self.controller.controller, presentation: self.$presentation)
             })
         }
     }
