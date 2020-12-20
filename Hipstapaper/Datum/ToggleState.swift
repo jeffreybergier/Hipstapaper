@@ -25,18 +25,17 @@ public enum ToggleState {
     case on
     
     public init(_ input: [Bool]) {
-        let offTest = input.filter { !$0 }
-        if offTest.count == input.count {
-            self = .off
-            return
-        }
-        let onTest = input.filter { $0 }
-        if onTest.count == input.count {
+        let setValue = Set(input)
+        switch (setValue.contains(true), setValue.contains(false)) {
+        case (true, true): // contains true and false
+            self = .mixed
+        case (true, false): // contains true but no false
             self = .on
-            return
+        case (false, true): // contains false but no true
+            self = .off
+        case (false, false): // empty
+            self = .off
         }
-        self = .mixed
-        return
     }
 }
 
