@@ -95,7 +95,15 @@ internal struct WebView: View {
         { [unowned display] wv, two in
             display.progress.completedUnitCount = Int64(wv.estimatedProgress * 100)
         }
-        self.display.kvo = [token1, token2, token3, token4]
+        let token5 = wv.observe(\.canGoBack)
+        { [unowned display] wv, _ in
+            display.canGoBack = wv.canGoBack
+        }
+        let token6 = wv.observe(\.canGoForward)
+        { [unowned display] wv, _ in
+            display.canGoForward = wv.canGoForward
+        }
+        self.display.kvo = [token1, token2, token3, token4, token5, token6]
         return wv
     }
     

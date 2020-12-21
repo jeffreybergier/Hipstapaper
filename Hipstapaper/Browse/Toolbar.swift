@@ -34,29 +34,26 @@ internal struct Toolbar: View {
                     ButtonToolbar(systemName: "chevron.backward", accessibilityLabel: "Go Back") {
                         self.control.goBack = true
                     }
+                    .keyboardShortcut("[")
                     .disabled(!self.display.canGoBack)
                     ButtonToolbar(systemName: "chevron.forward", accessibilityLabel: "Go Forward") {
                         self.control.goForward = true
                     }
+                    .keyboardShortcut("]")
                     .disabled(!self.display.canGoForward)
-                    if self.display.isLoading {
-                        ButtonToolbar(systemName: "xmark", accessibilityLabel: "Stop") {
-                            self.control.stop = true
-                        }
-                        .disabled(!self.display.isLoading)
-                    } else {
-                        ButtonToolbar(systemName: "arrow.clockwise", accessibilityLabel: "Reload") {
-                            self.control.reload = true
-                        }
-                        .disabled(self.display.isLoading)
-                    }
+                    ButtonToolbarStopReload(isLoading: self.display.isLoading,
+                                            stopAction: { self.control.stop = true },
+                                            reloadAction: { self.control.reload = true })
                     TextField.WebsiteTitle(self.$display.title).disabled(true)
-                    ButtonToolbar(systemName: self.control.isJSEnabled ? "applescript.fill" : "applescript", accessibilityLabel: "Javascript") {
-                        self.control.isJSEnabled.toggle()
-                    }
+                    ButtonToolbarJavascript(isJSEnabled: self.control.isJSEnabled,
+                                            toggleAction: { self.control.isJSEnabled.toggle() })
+                        .keyboardShortcut("j")
+                    ButtonToolbarShare({})
+                        .keyboardShortcut("i")
                 }
                 if self.display.isLoading {
                     ProgressBar(self.display.progress)
+                        .opacity(self.display.isLoading ? 1 : 0)
                 }
             }
         }.animation(.default)
