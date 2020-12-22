@@ -81,9 +81,7 @@ struct DetailToolbar: View {
                     return TagApply(controller: self.controller, presentation: self.$presentation)
                 })
             
-            ButtonToolbar(systemName: "square.and.arrow.up",
-                          accessibilityLabel: Share)
-                { self.presentation.value = .share }
+            ButtonToolbarShare { self.presentation.value = .share }
                 .disabled(self.controller.selectedWebsites.isEmpty)
                 .sheet(isPresented: self.$presentation.isShare, content: {
                     Text("Share!")

@@ -22,6 +22,7 @@
 import SwiftUI
 import XCGLogger
 import Datum
+import Browse
 
 internal let log: XCGLogger = {
     XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
@@ -37,9 +38,14 @@ struct HipstapaperApp: App {
         _controller = StateObject(wrappedValue: P_UIController.new())
     }
 
-    var body: some Scene {
+    @SceneBuilder var body: some Scene {
         WindowGroup {
             Main(controller: self.controller)
         }
+        #if os(macOS)
+        Settings {
+            Browse(URL(string: "https://www.theverge.com")!)
+        }
+        #endif
     }
 }

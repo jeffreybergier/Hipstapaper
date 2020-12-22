@@ -20,6 +20,7 @@
 //
 
 import SwiftUI
+import Localize
     
 /// Normal button
 public func ButtonDefault(_ label: LocalizedStringKey,
@@ -75,4 +76,10 @@ public struct ButtonToolbar: View {
         self.accessibilityLabel = accessibilityLabel
         self.action = action
     }
+}
+
+public func ButtonToolbarShare(_ action: @escaping () -> Void) -> some View {
+    ButtonToolbar(systemName: "square.and.arrow.up",
+                  accessibilityLabel: Localize.Share,
+                  action: action)
 }

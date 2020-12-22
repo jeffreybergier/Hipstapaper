@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/12/06.
+//  Created by Jeffrey Bergier on 2020/12/20.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,33 +19,14 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-
 import SwiftUI
-import Stylize
 
-struct FormLoading: View {
-    
-    @ObservedObject var output: WebView.Output
-    
-    var body: some View {
-        VStack {
-            TextField.WebsiteTitle(self.$output.title)
-                .disabled(true)
-            TextField.WebsiteURL(self.$output.resolvedURLString)
-                .disabled(true)
-            ProgressBar(self.output.progress)
-        }
-    }
+public func ProgressBar(_ progress: Progress) -> some View {
+    return ProgressView(progress)
+        .progressViewStyle(LinearProgressViewStyle())
 }
 
-
-#if DEBUG
-struct FormLoading_Preview: PreviewProvider {
-    static var output = WebView.Output()
-    static var previews: some View {
-        FormLoading(output: self.output)
-            .environment(\.sizeCategory, .accessibilityLarge)
-            .previewLayout(.fixed(width: 300, height: 100.0))
-    }
+public func ProgressSpinner(_ progress: Progress) -> some View {
+    return ProgressView(progress)
+        .progressViewStyle(CircularProgressViewStyle())
 }
-#endif

@@ -78,32 +78,37 @@ struct WebView: View {
         let config = WKWebViewConfiguration()
         let wv = WKWebView(frame: .zero, configuration: config)
         wv.allowsBackForwardNavigationGestures = false
-        let token1 = wv.observe(\.isLoading) { _, _ in
+        let token1 = wv.observe(\.isLoading)
+        { [unowned output] wv, _ in
             if wv.isLoading == false {
-                self.output.timer?.invalidate()
+                output.timer?.invalidate()
                 // added so the webview unloads
                 // and stops making sounds and accepting interactions
-                self.output.kvo = []
+                output.kvo = []
                 wv.snap_takeSnapshot(with: self.input) {
-                    self.output.thumbnail = $0
+                    output.thumbnail = $0
                     // added so the webview unloads
                     // and stops making sounds and accepting interactions
                     wv.load(URLRequest(url: URL(string: "about:blank")!))
                 }
             }
-            self.output.isLoading = wv.isLoading
+            output.isLoading = wv.isLoading
         }
-        let token2 = wv.observe(\.url) { _, _ in
-            self.output.resolvedURLString = wv.url?.absoluteString ?? ""
+        let token2 = wv.observe(\.url)
+        { [unowned output] wv, _ in
+            output.resolvedURLString = wv.url?.absoluteString ?? ""
         }
-        let token3 = wv.observe(\.title) { _, _ in
-            self.output.title = wv.title ?? ""
+        let token3 = wv.observe(\.title)
+        { [unowned output] wv, _ in
+            output.title = wv.title ?? ""
         }
-        let token4 = wv.observe(\.estimatedProgress) { _, _ in
-            self.output.progress.completedUnitCount = Int64(wv.estimatedProgress * 100)
+        let token4 = wv.observe(\.estimatedProgress)
+        { [unowned output] wv, _ in
+            output.progress.completedUnitCount = Int64(wv.estimatedProgress * 100)
         }
-        self.output.timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true) { _ in
-            wv.snap_takeSnapshot(with: self.input) { self.output.thumbnail = $0 }
+        self.output.timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true)
+        { [unowned output, unowned wv, input] _ in
+            wv.snap_takeSnapshot(with: input) { output.thumbnail = $0 }
         }
         self.output.kvo = [token1, token2, token3, token4]
         return wv
