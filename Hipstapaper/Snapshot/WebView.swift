@@ -107,7 +107,8 @@ struct WebView: View {
             output.progress.completedUnitCount = Int64(wv.estimatedProgress * 100)
         }
         self.output.timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true)
-        { [unowned output, unowned wv, input] _ in
+        { [unowned output, weak wv, input] timer in
+            guard let wv = wv else { timer.invalidate(); return; }
             wv.snap_takeSnapshot(with: input) { output.thumbnail = $0 }
         }
         self.output.kvo = [token1, token2, token3, token4]

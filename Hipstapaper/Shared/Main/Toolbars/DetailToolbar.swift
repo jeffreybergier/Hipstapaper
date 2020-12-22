@@ -28,14 +28,14 @@ import Stylize
 struct DetailToolbar: View {
     
     @ObservedObject var controller: AnyUIController
-    @Binding var presentation: Presentation.Wrap
+    @State var presentation: Presentation.Wrap
 
     var body: some View {
         HStack {
             ButtonToolbar(systemName: "plus",
                           accessibilityLabel: AddWebsite)
                 { self.presentation.value = .addWebsite }
-                .sheet(isPresented: self.$presentation.isAddWebsite, content: {
+                .sheet(isPresented: self.$presentation.isAddWebsite) {
                     Snapshotter() { result in
                         switch result {
                         case .success(let output):
@@ -47,7 +47,7 @@ struct DetailToolbar: View {
                         }
                         self.presentation.value = .none
                     }
-                })
+                }
             
             ButtonToolbar(systemName: "tray.and.arrow.down",
                           accessibilityLabel: Archive)
@@ -78,7 +78,7 @@ struct DetailToolbar: View {
                 { self.presentation.value = .tagApply }
                 .disabled(self.controller.selectedWebsites.isEmpty)
                 .popover(isPresented: self.$presentation.isTagApply, content: { () -> TagApply in
-                    return TagApply(controller: self.controller, presentation: self.$presentation)
+                    return TagApply(controller: self.controller, presentation: self.presentation)
                 })
             
             ButtonToolbarShare { self.presentation.value = .share }

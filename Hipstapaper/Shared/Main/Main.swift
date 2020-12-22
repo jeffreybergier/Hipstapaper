@@ -32,7 +32,7 @@ struct Main: View {
             TagList(controller: self.controller)
                 .toolbar { IndexToolbar(controller: self.controller, presentation: self.presentation)}
             WebsiteList(controller: self.controller)
-                .toolbar { DetailToolbar(controller: self.controller, presentation: self.$presentation)}
+                .toolbar { DetailToolbar(controller: self.controller, presentation: self.presentation)}
         }
     }
 }

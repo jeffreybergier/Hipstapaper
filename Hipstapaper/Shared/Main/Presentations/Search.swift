@@ -50,7 +50,7 @@ struct Search: View {
             }
             .frame(width: 250)
             .paddingDefault_Equal()
+            .animation(.default)
         }
-        .animation(.default)
     }
 }

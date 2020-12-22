@@ -27,7 +27,7 @@ import Localize
 struct TagApply: View {
     
     @ObservedObject var controller: AnyUIController
-    @Binding var presentation: Presentation.Wrap
+    @State var presentation: Presentation.Wrap
     
     var body: some View {
         VStack(spacing: 0) {
