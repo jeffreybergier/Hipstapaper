@@ -26,8 +26,12 @@ public struct Share: View {
     public let items: [URL]
     public let completion: Completion
     public var body: some View {
+        #if canImport(UIKit)
+        _Share(items: self.items, completion: self.completion)
+        #else
         _Share(items: self.items, completion: self.completion)
             .frame(width: 10, height: 10)
+        #endif
     }
     public init(_ items: [URL], completion: @escaping Share.Completion) {
         self.items = items
@@ -77,6 +81,22 @@ extension _Share: NSViewRepresentable {
         }
     }
 }
+#endif
+
+#if canImport(UIKit)
+import UIKit
+
+extension _Share: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        let vc = UIActivityViewController(activityItems: self.items, applicationActivities: nil)
+        vc.completionWithItemsHandler = { _, _, _, _ in
+            completion()
+        }
+        return vc
+    }
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) { }
+}
+#endif
 
 #if DEBUG
 struct Share_Preview: PreviewProvider {
@@ -87,6 +107,4 @@ struct Share_Preview: PreviewProvider {
         Share(items, completion: { })
     }
 }
-#endif
-
 #endif
