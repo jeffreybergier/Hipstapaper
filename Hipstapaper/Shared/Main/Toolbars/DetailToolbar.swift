@@ -83,8 +83,12 @@ struct DetailToolbar: View {
             
             ButtonToolbarShare { self.presentation.value = .share }
                 .disabled(self.controller.selectedWebsites.isEmpty)
-                .sheet(isPresented: self.$presentation.isShare, content: {
-                    Text("Share!")
+                .popover(isPresented: self.$presentation.isShare, content: {
+                    Share(self.controller.selectedWebsites.compactMap
+                    { $0.value.resolvedURL ?? $0.value.originalURL })
+                    {
+                        self.presentation.value = .none
+                    }
                 })
             
             // TODO: Make search look different when a search is in effect
