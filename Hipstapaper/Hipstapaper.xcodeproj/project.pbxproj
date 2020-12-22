@@ -32,6 +32,7 @@
 		734068332574ED5800D4A343 /* TagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734068312574ED5800D4A343 /* TagList.swift */; };
 		734942A52590CADC00AD292E /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734942A42590CADC00AD292E /* Buttons.swift */; };
 		734942AF2592078E00AD292E /* Share.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734942AE2592078E00AD292E /* Share.swift */; };
+		734942D82592346900AD292E /* EditMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734942D72592346900AD292E /* EditMode.swift */; };
 		734D4ECA257FAB7F0033ED52 /* Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4EC9257FAB7F0033ED52 /* Toolbar.swift */; };
 		735C91C02574F1790033B4E8 /* WebsiteList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C91BF2574F1790033B4E8 /* WebsiteList.swift */; };
 		735C91C12574F1790033B4E8 /* WebsiteList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C91BF2574F1790033B4E8 /* WebsiteList.swift */; };
@@ -334,6 +335,7 @@
 		734068312574ED5800D4A343 /* TagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagList.swift; sourceTree = "<group>"; };
 		734942A42590CADC00AD292E /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
 		734942AE2592078E00AD292E /* Share.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Share.swift; sourceTree = "<group>"; };
+		734942D72592346900AD292E /* EditMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMode.swift; sourceTree = "<group>"; };
 		734D4EC9257FAB7F0033ED52 /* Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar.swift; sourceTree = "<group>"; };
 		735C91BF2574F1790033B4E8 /* WebsiteList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteList.swift; sourceTree = "<group>"; };
 		735C91EB257674F30033B4E8 /* UIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIController.swift; sourceTree = "<group>"; };
@@ -592,6 +594,7 @@
 				736DD40025879FD100F0FBE0 /* Toggles.swift */,
 				735D4D63258F8B740016F904 /* ProgressView.swift */,
 				734942AE2592078E00AD292E /* Share.swift */,
+				734942D72592346900AD292E /* EditMode.swift */,
 			);
 			path = Stylize;
 			sourceTree = "<group>";
@@ -1256,6 +1259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7399BAD32582525200B8CAFD /* Thumbnails.swift in Sources */,
+				734942D82592346900AD292E /* EditMode.swift in Sources */,
 				734942AF2592078E00AD292E /* Share.swift in Sources */,
 				7399BB2A2582555E00B8CAFD /* Colors.swift in Sources */,
 				730CC989258650930002C50A /* Padding.swift in Sources */,

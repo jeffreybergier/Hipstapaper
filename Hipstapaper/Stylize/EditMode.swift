@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/30.
+//  Created by Jeffrey Bergier on 2020/12/22.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -20,30 +20,20 @@
 //
 
 import SwiftUI
-import Datum
-import Localize
-import Stylize
 
-struct WebsiteList: View {
-    
-    @ObservedObject var controller: AnyUIController
-    
-    var body: some View {
-        return List(self.controller.detailWebsites.value!,
-                    id: \.self,
-                    selection: self.$controller.selectedWebsites)
-        { item in
-            WebsiteRow(item.value)
-        }
-        .navigationTitle(Hipstapaper)
-        .modifier(ListEditMode())
+#if canImport(UIKit)
+public struct ListEditMode: ViewModifier {
+    @State var editMode: EditMode = EditMode.active
+    public func body(content: Content) -> some View {
+        content.environment((\.editMode), self.$editMode)
     }
+    public init() {}
 }
-
-#if DEBUG
-struct WebsiteList_Preview: PreviewProvider {
-    static var previews: some View {
-        WebsiteList(controller: P_UIController.new())
+#else
+public struct ListEditMode: ViewModifier {
+    public func body(content: Content) -> some View {
+        return content
     }
+    public init() {}
 }
 #endif

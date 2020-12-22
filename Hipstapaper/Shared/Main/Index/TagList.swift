@@ -22,6 +22,7 @@
 import SwiftUI
 import Datum
 import Localize
+import Stylize
 
 struct TagList: View {
     
@@ -47,6 +48,7 @@ struct TagList: View {
             self.controller.objectWillChange.send()
         }
         .navigationTitle(Tags)
+        .modifier(ListEditMode())
     }
 }
 
