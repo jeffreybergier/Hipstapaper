@@ -31,8 +31,10 @@ internal struct WebView: View {
         @Published var goForward = false
         @Published var isJSEnabled = false
         @Published var load: URL?
+        let originalLoad: URL
         internal init(_ load: URL) {
             self.load = load
+            self.originalLoad = load
         }
     }
     
