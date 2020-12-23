@@ -27,7 +27,7 @@ public struct Browse: View {
     @StateObject var display: WebView.Display = .init()
     
     public var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             Toolbar(control: self.control, display: self.display)
             WebView(control: self.control, display: self.display)
                 .frame(minWidth: 300, idealWidth: 768, minHeight: 300, idealHeight: 768)
