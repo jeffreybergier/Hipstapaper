@@ -83,3 +83,9 @@ public func ButtonToolbarShare(_ action: @escaping () -> Void) -> some View {
                   accessibilityLabel: Localize.Share,
                   action: action)
 }
+
+public func ButtonToolbarSafari(_ action: @escaping () -> Void) -> some View {
+    ButtonToolbar(systemName: "safari",
+                  accessibilityLabel: Localize.Safari,
+                  action: action)
+}

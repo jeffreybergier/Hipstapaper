@@ -27,6 +27,7 @@ internal struct Toolbar: View {
     @ObservedObject var control: WebView.Control
     @ObservedObject var display: WebView.Display
     @State var shareSheetPresented = false
+    @Environment(\.openURL) var openURL
     
     var body: some View {
         Stylize.Toolbar {
@@ -45,15 +46,17 @@ internal struct Toolbar: View {
                     ButtonToolbarStopReload(isLoading: self.display.isLoading,
                                             stopAction: { self.control.stop = true },
                                             reloadAction: { self.control.reload = true })
-                    TextField.WebsiteTitle(self.$display.title).disabled(true)
                     ButtonToolbarJavascript(isJSEnabled: self.control.isJSEnabled,
                                             toggleAction: { self.control.isJSEnabled.toggle() })
                         .keyboardShortcut("j")
+                    TextField.WebsiteTitle(self.$display.title).disabled(true)
                     ButtonToolbarShare { self.shareSheetPresented = true }
                         .keyboardShortcut("i")
                         .popover(isPresented: self.$shareSheetPresented) {
                             Share([self.control.originalLoad]) { self.shareSheetPresented = false }
                         }
+                    ButtonToolbarSafari { self.openURL(self.control.originalLoad) }
+                        .keyboardShortcut("O")
                 }
                 if self.display.isLoading {
                     ProgressBar(self.display.progress)

@@ -89,3 +89,6 @@ public let TagName: LocalizedStringKey = "Tag Name"
 
 
 public let ClearSearch: LocalizedStringKey = "Clear Search"
+
+
+public let Safari: LocalizedStringKey = "Open in Browser"
