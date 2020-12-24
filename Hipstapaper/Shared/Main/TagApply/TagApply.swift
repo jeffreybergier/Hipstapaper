@@ -34,9 +34,9 @@ struct TagApply: View {
             Toolbar {
                 HStack {
                     Spacer()
-                    Text.ModalTitle(ApplyTags)
+                    Text.ModalTitle(Verb.ApplyTags)
                     Spacer()
-                    ButtonDone(Done) { self.presentation.value = .none }
+                    ButtonDone(Verb.Done) { self.presentation.value = .none }
                 }
             }
             List(self.controller.controller.tagStatus(for: self.controller.selectedWebsites).value!, id: \.0) { tuple in

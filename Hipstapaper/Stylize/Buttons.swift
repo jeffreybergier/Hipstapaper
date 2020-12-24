@@ -80,12 +80,12 @@ public struct ButtonToolbar: View {
 
 public func ButtonToolbarShare(_ action: @escaping () -> Void) -> some View {
     ButtonToolbar(systemName: "square.and.arrow.up",
-                  accessibilityLabel: Localize.Share,
+                  accessibilityLabel: Verb.Share,
                   action: action)
 }
 
 public func ButtonToolbarSafari(_ action: @escaping () -> Void) -> some View {
     ButtonToolbar(systemName: "safari",
-                  accessibilityLabel: Localize.Safari,
+                  accessibilityLabel: Verb.Safari,
                   action: action)
 }

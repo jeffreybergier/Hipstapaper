@@ -30,12 +30,12 @@ struct TagList: View {
 
     var body: some View {
         List(selection: self.$controller.selectedTag) {
-            Section(header: Text.IndexSection(ReadingList)) {
+            Section(header: Text.IndexSection(Noun.ReadingList)) {
                 ForEach(self.controller.indexFixed, id: \.self) { item in
                     TagRow(item.value)
                 }
             }
-            Section(header: Text.IndexSection(Tags)) {
+            Section(header: Text.IndexSection(Noun.Tags)) {
                 ForEach(self.controller.indexTags.value!, id: \.self) { item in
                     TagRow(item.value)
                 }
@@ -47,7 +47,7 @@ struct TagList: View {
             self.controller.selectedTag = self.controller.indexFixed.first
             self.controller.objectWillChange.send()
         }
-        .navigationTitle(Tags)
+        .navigationTitle(Noun.Tags)
         .modifier(ListEditMode())
     }
 }

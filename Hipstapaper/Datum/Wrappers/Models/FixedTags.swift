@@ -31,9 +31,9 @@ extension Query.Archived: Tag {
     public var localizedDescription: String {
         switch self {
         case .all:
-            return AllItems_L
+            return Noun.AllItems_L
         case .unarchived:
-            return UnreadItems_L
+            return Noun.UnreadItems_L
         }
     }
     

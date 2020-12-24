@@ -34,16 +34,16 @@ struct Search: View {
             Toolbar {
                 HStack {
                     Spacer()
-                    Text.ModalTitle(Localize.Search)
+                    Text.ModalTitle(Noun.Search)
                     Spacer()
-                    ButtonDone(Done) { self.presentation.value = .none }
+                    ButtonDone(Verb.Done) { self.presentation.value = .none }
                     .keyboardShortcut(.defaultAction)
                 }
             }
             HStack {
                 TextField.Search(self.$controller.detailQuery.search)
                 if self.controller.detailQuery.search.nonEmptyString != nil {
-                    ButtonToolbar(systemName: "xmark.circle", accessibilityLabel: ClearSearch) {
+                    ButtonToolbar(systemName: "xmark.circle", accessibilityLabel: Verb.ClearSearch) {
                         self.controller.detailQuery.search = ""
                     }
                 }

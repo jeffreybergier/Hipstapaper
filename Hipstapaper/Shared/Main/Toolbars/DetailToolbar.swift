@@ -33,7 +33,7 @@ struct DetailToolbar: View {
     var body: some View {
         HStack {
             ButtonToolbar(systemName: "plus",
-                          accessibilityLabel: AddWebsite)
+                          accessibilityLabel: Verb.AddWebsite)
                 { self.presentation.value = .addWebsite }
                 .sheet(isPresented: self.$presentation.isAddWebsite) {
                     Snapshotter() { result in
@@ -50,7 +50,7 @@ struct DetailToolbar: View {
                 }
             
             ButtonToolbar(systemName: "tray.and.arrow.down",
-                          accessibilityLabel: Archive)
+                          accessibilityLabel: Verb.Archive)
             {
                 // Archive
                 self.controller.selectedWebsites
@@ -62,7 +62,7 @@ struct DetailToolbar: View {
             .disabled(self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
             
             ButtonToolbar(systemName: "tray.and.arrow.up",
-                          accessibilityLabel: Unarchive)
+                          accessibilityLabel: Verb.Unarchive)
             {
                 // Unarchive
                 self.controller.selectedWebsites
@@ -74,7 +74,7 @@ struct DetailToolbar: View {
             .disabled(self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
 
             ButtonToolbar(systemName: "tag",
-                          accessibilityLabel: AddAndRemoveTags)
+                          accessibilityLabel: Verb.AddAndRemoveTags)
                 { self.presentation.value = .tagApply }
                 .disabled(self.controller.selectedWebsites.isEmpty)
                 .popover(isPresented: self.$presentation.isTagApply, content: { () -> TagApply in
@@ -94,7 +94,7 @@ struct DetailToolbar: View {
             // TODO: Make search look different when a search is in effect
             // self.controller.detailQuery.search.nonEmptyString == nil
             ButtonToolbar(systemName: "magnifyingglass",
-                          accessibilityLabel: Localize.Search)
+                          accessibilityLabel: Verb.Search)
                 { self.presentation.value = .search }
                 .popover(isPresented: self.$presentation.isSearch, content: {
                     Search(controller: self.controller, presentation: self.$presentation)

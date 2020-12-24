@@ -30,7 +30,7 @@ struct FormLoad: View {
     var body: some View {
         HStack() {
             TextField.WebsiteURL(self.$input.originalURLString)
-            ButtonDone(Go) {
+            ButtonDone(Verb.Go) {
                 self.input.shouldLoad.toggle()
             }
             .keyboardShortcut(.defaultAction)

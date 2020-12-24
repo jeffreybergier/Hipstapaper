@@ -25,7 +25,7 @@ import Localize
 extension TextField where Label == Text {
 
     public static func WebsiteURL(_ binding: Binding<String>) -> some View {
-        let tf = SwiftUI.TextField(Localize.WebsiteURL, text: binding)
+        let tf = SwiftUI.TextField(Noun.WebsiteURL, text: binding)
             .disableAutocorrection(true)
             .textFieldStyle(RoundedBorderTextFieldStyle())
         #if canImport(UIKit)
@@ -36,17 +36,17 @@ extension TextField where Label == Text {
     }
     
     public static func WebsiteTitle(_ binding: Binding<String>) -> some View {
-        return SwiftUI.TextField(Localize.WebsiteTitle, text: binding)
+        return SwiftUI.TextField(Noun.WebsiteTitle, text: binding)
             .textFieldStyle(RoundedBorderTextFieldStyle())
     }
     
     public static func Search(_ binding: Binding<String>) -> some View {
-        return SwiftUI.TextField(Localize.Search, text: binding)
+        return SwiftUI.TextField(Noun.Search, text: binding)
             .textFieldStyle(RoundedBorderTextFieldStyle())
     }
     
     public static func TagName(_ binding: Binding<String>) -> some View {
-        return SwiftUI.TextField(Localize.TagName, text: binding)
+        return SwiftUI.TextField(Noun.TagName, text: binding)
             .textFieldStyle(RoundedBorderTextFieldStyle())
     }
 }

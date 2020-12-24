@@ -34,7 +34,7 @@ struct IndexRowTitle: View {
         if let title = self.title {
             return AnyView(Text.IndexRowTitle(title))
         } else {
-            return AnyView(Text.IndexRowTitleDisabled(Untitled))
+            return AnyView(Text.IndexRowTitleDisabled(Noun.Untitled))
         }
     }
     init(_ title: String?) {
@@ -48,7 +48,7 @@ struct DetailRowTitle: View {
         if let title = self.title {
             return AnyView(Text.DetailRowTitle(title))
         } else {
-            return AnyView(Text.DetailRowTitleDisabled(Untitled))
+            return AnyView(Text.DetailRowTitleDisabled(Noun.Untitled))
         }
     }
     init(_ title: String?) {

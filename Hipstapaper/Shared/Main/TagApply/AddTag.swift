@@ -34,11 +34,11 @@ struct AddTag: View {
         VStack(spacing: 0) {
             Toolbar {
                 HStack {
-                    ButtonDefault(Cancel) { self.presentation.value = .none }
+                    ButtonDefault(Verb.Cancel) { self.presentation.value = .none }
                     Spacer()
-                    Text.ModalTitle(Localize.AddTag)
+                    Text.ModalTitle(Noun.AddTag)
                     Spacer()
-                    ButtonDone(Save) {
+                    ButtonDone(Verb.Save) {
                         // TODO: Fix
                         try! self.controller.createTag(name: self.tagName.nonEmptyString).get()
                         self.presentation.value = .none

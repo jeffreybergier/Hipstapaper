@@ -49,7 +49,7 @@ public func ToggleDefault(label: String?,
     if let label = label {
         provider = .raw(label)
     } else {
-        provider = .localized(Untitled)
+        provider = .localized(Noun.Untitled)
     }
     return _ToggleDefault(label: provider,
                           initialValue: initialValue,

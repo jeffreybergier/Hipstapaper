@@ -35,7 +35,7 @@ struct WebsiteList: View {
         { item in
             WebsiteRow(item.value)
         }
-        .navigationTitle(Hipstapaper)
+        .navigationTitle(Noun.Hipstapaper)
         .modifier(ListEditMode())
     }
 }

@@ -32,7 +32,7 @@ struct IndexToolbar: View {
     var body: some View {
         HStack {
             ButtonToolbar(systemName: "minus",
-                          accessibilityLabel: DeleteTag)
+                          accessibilityLabel: Verb.DeleteTag)
             {
                 // Delete
                 guard let tag = self.controller.selectedTag else { return }
@@ -44,7 +44,7 @@ struct IndexToolbar: View {
             }())
             
             ButtonToolbar(systemName: "plus",
-                          accessibilityLabel: Localize.AddTag)
+                          accessibilityLabel: Verb.AddTag)
             {
                 self.presentation.value = .addTag
             }

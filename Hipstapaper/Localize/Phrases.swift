@@ -1,6 +1,5 @@
-
 //
-//  Created by Jeffrey Bergier on 2020/12/12.
+//  Created by Jeffrey Bergier on 2020/12/24.
 //
 //  This file is part of Hipstapaper.
 //
@@ -18,32 +17,8 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import SwiftUI
 
-//
-//
-////
-////// Verbs
-////
-//
-//
-
-/* Save */
-// "Save" = "Save";
-
-
-//
-//
-////
-////// Nouns
-////
-//
-//
-
-
-//
-//
-////
-////// Phrases
-////
-//
-//
+public enum Phrase {
+    
+}
