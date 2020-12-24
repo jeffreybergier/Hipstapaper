@@ -27,9 +27,21 @@
 //
 //
 
-/* Save */
-// "Save" = "Save";
-
+"LCZ.Verb.Save"                = "Save";
+"LCZ.Verb.Done"                = "Done";
+"LCZ.Verb.Cancel"              = "Cancel";
+"LCZ.Verb.Search"              = "Search";
+"LCZ.Verb.Add Website"         = "Add Website";
+"LCZ.Verb.Archive"             = "Archive";
+"LCZ.Verb.Unarchive"           = "Unarchive";
+"LCZ.Verb.Share"               = "Share";
+"LCZ.Verb.Delete Tag"          = "Delete Tag";
+"LCZ.Verb.Add Tag"             = "Add Tag";
+"LCZ.Verb.Go"                  = "Go";
+"LCZ.Verb.Apply Tags"          = "Apply Tags";
+"LCZ.Verb.Clear Search"        = "Clear Search";
+"LCZ.Verb.Open in Browser"     = "Open in Browser";
+"LCZ.Verb.Add and Remove Tags" = "Add and Remove Tags";
 
 //
 //
@@ -39,6 +51,18 @@
 //
 //
 
+"LCZ.Noun.Search"        = "Search";
+"LCZ.Noun.Reading List"  = "Reading List";
+"LCZ.Noun.Tags"          = "Tags";
+"LCZ.Noun.Untitled"      = "Untitled";
+"LCZ.Noun.All Items"     = "All Items";
+"LCZ.Noun.Unread Items"  = "Unread Items";
+"LCZ.Noun.Website URL"   = "Website URL";
+"LCZ.Noun.Website Title" = "Website Title";
+"LCZ.Noun.Hipstapaper"   = "Hipstapaper";
+"LCZ.Noun.Tag Name"      = "Tag Name";
+"LCZ.Noun.Add Tag"       = "Add Tag";
+"LCZ.Noun.Add Website"   = "Add Website";
 
 //
 //
