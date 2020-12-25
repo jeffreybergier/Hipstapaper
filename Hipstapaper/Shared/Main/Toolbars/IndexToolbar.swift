@@ -44,35 +44,38 @@ struct IndexToolbar: View {
                 return tag.value.wrappedValue as? Query.Archived != nil
             }())
             
-            ButtonToolbar(systemName: "plus",
-                          accessibilityLabel: Verb.AddTag)
-            {
-                self.presentation.value = .addChoose
-            }
-            .popover(isPresented: self.$presentation.isAddChoose) {
-                VStack {
-                    ButtonDefault(Verb.AddTag) {
-                        self.presentation.value = .none
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            self.presentation.value = .addTag
-                        }
-                    }
-                    ButtonDefault(Verb.AddWebsite) {
-                        self.presentation.value = .none
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            self.presentation.value = .addWebsite
-                        }
-                    }
+            ZStack() {
+                // TODO: Hack to give the popover something to attach to
+                Color.clear.popover(isPresented: self.$presentation.isAddTag, content: {
+                    AddTag(controller: self.controller.controller, presentation: self.$presentation)
+                })
+                ButtonToolbar(systemName: "plus",
+                              accessibilityLabel: Verb.AddTag)
+                {
+                    self.presentation.value = .addChoose
                 }
-                .paddingDefault_Equal()
-                .frame(width: 200)
+                .popover(isPresented: self.$presentation.isAddChoose) {
+                    VStack {
+                        ButtonDefault(Verb.AddTag) {
+                            self.presentation.value = .none
+                            // TODO: Hack to make the dismissing and opening of new popover/sheet work
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                                self.presentation.value = .addTag
+                            }
+                        }
+                        ButtonDefault(Verb.AddWebsite) {
+                            self.presentation.value = .none
+                            // TODO: Hack to make the dismissing and opening of new popover/sheet work
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                                self.presentation.value = .addWebsite
+                            }
+                        }
+                    }
+                    .paddingDefault_Equal()
+                    .frame(width: 200)
+                }
             }
-            
-            Group {}.sheet(isPresented: self.$presentation.isAddTag, content: {
-                AddTag(controller: self.controller.controller, presentation: self.$presentation)
-            })
-            
-            Group {}.sheet(isPresented: self.$presentation.isAddWebsite, content: {
+            .sheet(isPresented: self.$presentation.isAddWebsite, content: {
                 Snapshotter() { result in
                     switch result {
                     case .success(let output):
