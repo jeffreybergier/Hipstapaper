@@ -30,9 +30,9 @@ struct Main: View {
     var body: some View {
         NavigationView {
             TagList(controller: self.controller)
-                .toolbar { IndexToolbar(controller: self.controller, presentation: self.presentation)}
+                .toolbar { IndexToolbar(controller: self.controller, presentation: self.$presentation)}
             WebsiteList(controller: self.controller)
-                .toolbar { DetailToolbar(controller: self.controller, presentation: self.presentation)}
+                .toolbar { DetailToolbar(controller: self.controller, presentation: self.$presentation)}
         }
     }
 }

@@ -26,6 +26,7 @@ enum Presentation: Int {
     case share
     case addWebsite
     case addTag
+    case addChoose
     
     // TODO: Remove this when SwiftUI doesn't suck at modals
     struct Wrap {
@@ -69,17 +70,26 @@ enum Presentation: Int {
             }
         }
         
+        var isAddChoose = false {
+            didSet {
+                guard !internalUpdateInProgress else { return }
+                guard !self.isAddChoose else { return }
+                self.value = .none
+            }
+        }
+        
         private var internalUpdateInProgress = false
         var value: Presentation = .none {
             didSet {
                 self.internalUpdateInProgress = true
                 defer { self.internalUpdateInProgress = false }
                 
-                self.isSearch = self.value == .search
-                self.isTagApply = self.value == .tagApply
-                self.isShare = self.value == .share
+                self.isSearch     = self.value == .search
+                self.isTagApply   = self.value == .tagApply
+                self.isShare      = self.value == .share
                 self.isAddWebsite = self.value == .addWebsite
-                self.isAddTag = self.value == .addTag
+                self.isAddTag     = self.value == .addTag
+                self.isAddChoose  = self.value == .addChoose
             }
         }
     }

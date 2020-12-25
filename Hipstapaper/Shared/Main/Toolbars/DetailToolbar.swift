@@ -21,7 +21,6 @@
 
 import SwiftUI
 import Datum
-import Snapshot
 import Localize
 import Stylize
 import Browse
@@ -29,27 +28,10 @@ import Browse
 struct DetailToolbar: View {
     
     @ObservedObject var controller: AnyUIController
-    @State var presentation: Presentation.Wrap
+    @Binding var presentation: Presentation.Wrap
 
     var body: some View {
         HStack {
-            ButtonToolbar(systemName: "plus",
-                          accessibilityLabel: Verb.AddWebsite)
-                { self.presentation.value = .addWebsite }
-                .sheet(isPresented: self.$presentation.isAddWebsite) {
-                    Snapshotter() { result in
-                        switch result {
-                        case .success(let output):
-                            // TODO: maybe show error to user?
-                            try! self.controller.controller.createWebsite(.init(output)).get()
-                        case .failure(let error):
-                            // TODO: maybe show error to user?
-                            break
-                        }
-                        self.presentation.value = .none
-                    }
-                }
-            
             ButtonToolbar(systemName: "tray.and.arrow.down",
                           accessibilityLabel: Verb.Archive)
             {

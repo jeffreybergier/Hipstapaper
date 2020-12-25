@@ -23,11 +23,12 @@ import SwiftUI
 import Datum
 import Localize
 import Stylize
+import Snapshot
 
 struct IndexToolbar: View {
     
     @ObservedObject var controller: AnyUIController
-    @State var presentation: Presentation.Wrap
+    @Binding var presentation: Presentation.Wrap
     
     var body: some View {
         HStack {
@@ -46,10 +47,43 @@ struct IndexToolbar: View {
             ButtonToolbar(systemName: "plus",
                           accessibilityLabel: Verb.AddTag)
             {
-                self.presentation.value = .addTag
+                self.presentation.value = .addChoose
             }
-            .popover(isPresented: self.$presentation.isAddTag, content: {
+            .popover(isPresented: self.$presentation.isAddChoose) {
+                VStack {
+                    ButtonDefault(Verb.AddTag) {
+                        self.presentation.value = .none
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            self.presentation.value = .addTag
+                        }
+                    }
+                    ButtonDefault(Verb.AddWebsite) {
+                        self.presentation.value = .none
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            self.presentation.value = .addWebsite
+                        }
+                    }
+                }
+                .paddingDefault_Equal()
+                .frame(width: 200)
+            }
+            
+            Group {}.sheet(isPresented: self.$presentation.isAddTag, content: {
                 AddTag(controller: self.controller.controller, presentation: self.$presentation)
+            })
+            
+            Group {}.sheet(isPresented: self.$presentation.isAddWebsite, content: {
+                Snapshotter() { result in
+                    switch result {
+                    case .success(let output):
+                        // TODO: maybe show error to user?
+                        try! self.controller.controller.createWebsite(.init(output)).get()
+                    case .failure(let error):
+                        // TODO: maybe show error to user?
+                        break
+                    }
+                    self.presentation.value = .none
+                }
             })
         }
     }
