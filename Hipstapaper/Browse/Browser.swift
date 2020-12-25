@@ -21,7 +21,7 @@
 
 import SwiftUI
 
-public struct Browse: View {
+public struct Browser: View {
     
     @StateObject var control: WebView.Control
     @StateObject var display: WebView.Display = .init()

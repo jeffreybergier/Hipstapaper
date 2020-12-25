@@ -52,7 +52,7 @@
 		735D4CDA258F502E0016F904 /* Browse.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 735D4CB8258F4D690016F904 /* Browse.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		735D4CDD258F50350016F904 /* Browse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 735D4CB8258F4D690016F904 /* Browse.framework */; };
 		735D4CDE258F50350016F904 /* Browse.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 735D4CB8258F4D690016F904 /* Browse.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		735D4CEA258F50830016F904 /* Browse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4CE9258F50830016F904 /* Browse.swift */; };
+		735D4CEA258F50830016F904 /* Browser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4CE9258F50830016F904 /* Browser.swift */; };
 		735D4CF3258F54390016F904 /* Localize.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7399BAC3258251D800B8CAFD /* Localize.framework */; };
 		735D4D18258F5EEC0016F904 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4D17258F5EEC0016F904 /* WebView.swift */; };
 		735D4D5A258F7DE80016F904 /* Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4D59258F7DE80016F904 /* Toolbar.swift */; };
@@ -351,7 +351,7 @@
 		735D4CB8258F4D690016F904 /* Browse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Browse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		735D4CBA258F4D690016F904 /* Browse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Browse.h; sourceTree = "<group>"; };
 		735D4CBB258F4D690016F904 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		735D4CE9258F50830016F904 /* Browse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Browse.swift; sourceTree = "<group>"; };
+		735D4CE9258F50830016F904 /* Browser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Browser.swift; sourceTree = "<group>"; };
 		735D4D17258F5EEC0016F904 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		735D4D59258F7DE80016F904 /* Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar.swift; sourceTree = "<group>"; };
 		735D4D63258F8B740016F904 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
@@ -562,7 +562,7 @@
 			isa = PBXGroup;
 			children = (
 				735D4CBA258F4D690016F904 /* Browse.h */,
-				735D4CE9258F50830016F904 /* Browse.swift */,
+				735D4CE9258F50830016F904 /* Browser.swift */,
 				735D4D17258F5EEC0016F904 /* WebView.swift */,
 				735D4D59258F7DE80016F904 /* Toolbar.swift */,
 				734942A42590CADC00AD292E /* Buttons.swift */,
@@ -1254,7 +1254,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				735D4D5A258F7DE80016F904 /* Toolbar.swift in Sources */,
-				735D4CEA258F50830016F904 /* Browse.swift in Sources */,
+				735D4CEA258F50830016F904 /* Browser.swift in Sources */,
 				735D4D18258F5EEC0016F904 /* WebView.swift in Sources */,
 				734942A52590CADC00AD292E /* Buttons.swift in Sources */,
 			);

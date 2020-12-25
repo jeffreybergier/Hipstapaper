@@ -42,10 +42,5 @@ struct HipstapaperApp: App {
         WindowGroup {
             Main(controller: self.controller)
         }
-        #if os(macOS)
-        Settings {
-            Browse(URL(string: "https://www.theverge.com")!)
-        }
-        #endif
     }
 }
