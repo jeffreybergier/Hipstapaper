@@ -24,6 +24,7 @@ import Datum
 import Snapshot
 import Localize
 import Stylize
+import Browse
 
 struct DetailToolbar: View {
     
