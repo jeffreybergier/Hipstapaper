@@ -36,7 +36,7 @@ struct TagApply: View {
                     Spacer()
                     Text.ModalTitle(Verb.ApplyTags)
                     Spacer()
-                    ButtonDone(Verb.Done) { self.presentation.value = .none }
+                    ButtonDone(Verb.Done) { self.presentation.isTagApply = false }
                 }
             }
             List(self.controller.controller.tagStatus(for: self.controller.selectedWebsites).value!, id: \.0) { tuple in

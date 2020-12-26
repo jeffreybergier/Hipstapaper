@@ -36,7 +36,7 @@ struct Search: View {
                     Spacer()
                     Text.ModalTitle(Noun.Search)
                     Spacer()
-                    ButtonDone(Verb.Done) { self.presentation.value = .none }
+                    ButtonDone(Verb.Done) { self.presentation.isSearch = false }
                     .keyboardShortcut(.defaultAction)
                 }
             }

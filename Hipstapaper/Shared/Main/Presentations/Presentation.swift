@@ -29,68 +29,32 @@ enum Presentation: Int {
     case addChoose
     
     // TODO: Remove this when SwiftUI doesn't suck at modals
-    struct Wrap {
-        var isSearch = false {
-            didSet {
-                guard !internalUpdateInProgress else { return }
-                guard !self.isSearch else { return }
-                self.value = .none
-            }
+    struct Wrap: CustomStringConvertible, CustomDebugStringConvertible {
+        var isSearch = false            { didSet { print(debugDescription) } }
+        var isTagApply = false          { didSet { print(debugDescription) } }
+        var isShare = false             { didSet { print(debugDescription) } }
+        var isAddWebsite = false        { didSet { print(debugDescription) } }
+        var isAddTag = false            { didSet { print(debugDescription) } }
+        var isAddChoose = false         { didSet { print(debugDescription) } }
+        
+        var description: String {
+            return "Presentation: "
+            + "isSearch: \(isSearch), "
+            + "isTagApply: \(isTagApply), "
+            + "isShare: \(isShare), "
+            + "isAddWebsite: \(isAddWebsite), "
+            + "isAddTag: \(isAddTag), "
+            + "isAddChoose: \(isAddChoose)"
         }
         
-        var isTagApply = false {
-            didSet {
-                guard !internalUpdateInProgress else { return }
-                guard !self.isTagApply else { return }
-                self.value = .none
-            }
-        }
-        
-        var isShare = false {
-            didSet {
-                guard !internalUpdateInProgress else { return }
-                guard !self.isShare else { return }
-                self.value = .none
-            }
-        }
-        
-        var isAddWebsite = false {
-            didSet {
-                guard !internalUpdateInProgress else { return }
-                guard !self.isAddWebsite else { return }
-                self.value = .none
-            }
-        }
-        
-        var isAddTag = false {
-            didSet {
-                guard !internalUpdateInProgress else { return }
-                guard !self.isAddTag else { return }
-                self.value = .none
-            }
-        }
-        
-        var isAddChoose = false {
-            didSet {
-                guard !internalUpdateInProgress else { return }
-                guard !self.isAddChoose else { return }
-                self.value = .none
-            }
-        }
-        
-        private var internalUpdateInProgress = false
-        var value: Presentation = .none {
-            didSet {
-                self.internalUpdateInProgress = true
-                defer { self.internalUpdateInProgress = false }
-                
-                self.isSearch     = self.value == .search
-                self.isTagApply   = self.value == .tagApply
-                self.isShare      = self.value == .share
-                self.isAddWebsite = self.value == .addWebsite
-                self.isAddTag     = self.value == .addTag
-                self.isAddChoose  = self.value == .addChoose
-            }
+        var debugDescription: String {
+            return "--- Presentation ---\n"
+            + "isSearch: \(isSearch)\n"
+            + "isTagApply: \(isTagApply)\n"
+            + "isShare: \(isShare)\n"
+            + "isAddWebsite: \(isAddWebsite)\n"
+            + "isAddTag: \(isAddTag)\n"
+            + "isAddChoose: \(isAddChoose)"
         }
     }
 }

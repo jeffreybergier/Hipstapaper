@@ -76,20 +76,20 @@ struct DetailToolbar: ViewModifier {
             ToolbarItem {
                 ButtonToolbar(systemName: "tag",
                               accessibilityLabel: Verb.AddAndRemoveTags)
-                    { self.presentation.value = .tagApply }
+                    { self.presentation.isTagApply = true }
                     .disabled(self.controller.selectedWebsites.isEmpty)
                     .popover(isPresented: self.$presentation.isTagApply, content: { () -> TagApply in
                         return TagApply(controller: self.controller, presentation: self.presentation)
                     })
             }
             ToolbarItem {
-                ButtonToolbarShare { self.presentation.value = .share }
+                ButtonToolbarShare { self.presentation.isShare = true }
                     .disabled(self.controller.selectedWebsites.isEmpty)
                     .popover(isPresented: self.$presentation.isShare, content: {
                         Share(self.controller.selectedWebsites.compactMap
                         { $0.value.resolvedURL ?? $0.value.originalURL })
                         {
-                            self.presentation.value = .none
+                            self.presentation.isShare = false
                         }
                     })
             }
@@ -98,7 +98,7 @@ struct DetailToolbar: ViewModifier {
                 // self.controller.detailQuery.search.nonEmptyString == nil
                 ButtonToolbar(systemName: "magnifyingglass",
                               accessibilityLabel: Verb.Search)
-                    { self.presentation.value = .search }
+                    { self.presentation.isSearch = true }
                     .popover(isPresented: self.$presentation.isSearch, content: {
                         Search(controller: self.controller, presentation: self.$presentation)
                     })

@@ -54,25 +54,15 @@ struct _IndexToolbar: ViewModifier {
                     })
                     ButtonToolbar(systemName: "plus",
                                   accessibilityLabel: Verb.AddTag)
-                        { self.presentation.value = .addChoose }
+                        { self.presentation.isAddChoose = true }
                         .modifier(ActionSheet(
                                     isPresented: self.$presentation.isAddChoose,
                                     title: Phrase.AddChoice,
                                     buttons: [
-                                        .init(title: Verb.AddTag, action: {
-                                            self.presentation.value = .none
-                                            // TODO: Hack to make the dismissing and opening of new popover/sheet work
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                                                self.presentation.value = .addTag
-                                            }
-                                        }),
-                                        .init(title: Verb.AddWebsite, action: {
-                                            self.presentation.value = .none
-                                            // TODO: Hack to make the dismissing and opening of new popover/sheet work
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                                                self.presentation.value = .addWebsite
-                                            }
-                                        })
+                                        .init(title: Verb.AddTag,
+                                              action: { self.presentation.isAddTag = true }),
+                                        .init(title: Verb.AddWebsite,
+                                              action: { self.presentation.isAddWebsite = true })
                                     ])
                         )
                 }
@@ -86,7 +76,7 @@ struct _IndexToolbar: ViewModifier {
                             // TODO: maybe show error to user?
                             break
                         }
-                        self.presentation.value = .none
+                        self.presentation.isAddWebsite = false
                     }
                 })
             }

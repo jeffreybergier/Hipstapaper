@@ -34,14 +34,14 @@ struct AddTag: View {
         VStack(spacing: 0) {
             Toolbar {
                 HStack {
-                    ButtonDefault(Verb.Cancel) { self.presentation.value = .none }
+                    ButtonDefault(Verb.Cancel) { self.presentation.isAddTag = false }
                     Spacer()
                     Text.ModalTitle(Noun.AddTag)
                     Spacer()
                     ButtonDone(Verb.Save) {
                         // TODO: Fix
                         try! self.controller.createTag(name: self.tagName.nonEmptyString).get()
-                        self.presentation.value = .none
+                        self.presentation.isAddTag = false
                     }
                     .keyboardShortcut(.defaultAction)
                     .disabled(self.tagName.nonEmptyString == nil)
