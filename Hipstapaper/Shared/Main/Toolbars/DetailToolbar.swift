@@ -29,9 +29,24 @@ struct DetailToolbar: ViewModifier {
     
     @ObservedObject var controller: AnyUIController
     @Binding var presentation: Presentation.Wrap
-    
+    @Environment(\.openURL) var openURL
+
     func body(content: Content) -> some View {
         content.toolbar {
+            ToolbarItem {
+                ButtonToolbar(systemName: "safari", accessibilityLabel: Verb.Open, action: {})
+                    .keyboardShortcut("o")
+                    .modifier(OpenWebsiteDisabler(selectedWebsites: self.controller.selectedWebsites))
+            }
+            ToolbarItem {
+                ButtonToolbar(systemName: "safari.fill", accessibilityLabel: Verb.Safari) {
+                    let urls = self.controller.selectedWebsites
+                        .compactMap { $0.value.resolvedURL ?? $0.value.originalURL }
+                    urls.forEach { self.openURL($0) }
+                }
+                .keyboardShortcut("O")
+                .modifier(OpenWebsiteDisabler(selectedWebsites: self.controller.selectedWebsites))
+            }
             ToolbarItem {
                 ButtonToolbar(systemName: "tray.and.arrow.down",
                               accessibilityLabel: Verb.Archive)
@@ -90,4 +105,18 @@ struct DetailToolbar: ViewModifier {
             }
         }
     }
+}
+
+fileprivate struct OpenWebsiteDisabler: ViewModifier {
+    
+    let selectedWebsites: Set<AnyElement<AnyWebsite>>
+    
+    func body(content: Content) -> some View {
+        #if os(macOS)
+        return content.disabled(self.selectedWebsites.isEmpty)
+        #else
+        return content.disabled(self.selectedWebsites.count != 1)
+        #endif
+    }
+    
 }
