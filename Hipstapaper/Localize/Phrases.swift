@@ -20,5 +20,5 @@
 import SwiftUI
 
 public enum Phrase {
-    
+    public static let AddChoice: LocalizedStringKey = "LCZ.Phrase.AddChoice"
 }

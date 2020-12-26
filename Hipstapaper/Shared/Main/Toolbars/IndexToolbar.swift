@@ -51,29 +51,27 @@ struct IndexToolbar: View {
                 })
                 ButtonToolbar(systemName: "plus",
                               accessibilityLabel: Verb.AddTag)
-                {
-                    self.presentation.value = .addChoose
-                }
-                .popover(isPresented: self.$presentation.isAddChoose) {
-                    VStack {
-                        ButtonDefault(Verb.AddTag) {
-                            self.presentation.value = .none
-                            // TODO: Hack to make the dismissing and opening of new popover/sheet work
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                                self.presentation.value = .addTag
-                            }
-                        }
-                        ButtonDefault(Verb.AddWebsite) {
-                            self.presentation.value = .none
-                            // TODO: Hack to make the dismissing and opening of new popover/sheet work
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                                self.presentation.value = .addWebsite
-                            }
-                        }
-                    }
-                    .paddingDefault_Equal()
-                    .frame(width: 200)
-                }
+                    { self.presentation.value = .addChoose }
+                    .modifier(ActionSheet(
+                                isPresented: self.$presentation.isAddChoose,
+                                title: Phrase.AddChoice,
+                                buttons: [
+                                    .init(title: Verb.AddTag, action: {
+                                        self.presentation.value = .none
+                                        // TODO: Hack to make the dismissing and opening of new popover/sheet work
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                                            self.presentation.value = .addTag
+                                        }
+                                    }),
+                                    .init(title: Verb.AddWebsite, action: {
+                                        self.presentation.value = .none
+                                        // TODO: Hack to make the dismissing and opening of new popover/sheet work
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                                            self.presentation.value = .addWebsite
+                                        }
+                                    })
+                                ])
+                    )
             }
             .sheet(isPresented: self.$presentation.isAddWebsite, content: {
                 Snapshotter() { result in
