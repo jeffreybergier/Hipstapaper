@@ -25,64 +25,69 @@ import Localize
 import Stylize
 import Browse
 
-struct DetailToolbar: View {
+struct DetailToolbar: ViewModifier {
     
     @ObservedObject var controller: AnyUIController
     @Binding var presentation: Presentation.Wrap
-
-    var body: some View {
-        HStack {
-            ButtonToolbar(systemName: "tray.and.arrow.down",
-                          accessibilityLabel: Verb.Archive)
-            {
-                // Archive
-                self.controller.selectedWebsites
-                    .filter { !$0.value.isArchived }
-                    .forEach { try! self.controller.controller
-                        .update($0, .init(isArchived: true)).get()
-                    }
+    
+    func body(content: Content) -> some View {
+        content.toolbar {
+            ToolbarItem {
+                ButtonToolbar(systemName: "tray.and.arrow.down",
+                              accessibilityLabel: Verb.Archive)
+                {
+                    // Archive
+                    self.controller.selectedWebsites
+                        .filter { !$0.value.isArchived }
+                        .forEach { try! self.controller.controller
+                            .update($0, .init(isArchived: true)).get()
+                        }
+                }
+                .disabled(self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
             }
-            .disabled(self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
-            
-            ButtonToolbar(systemName: "tray.and.arrow.up",
-                          accessibilityLabel: Verb.Unarchive)
-            {
-                // Unarchive
-                self.controller.selectedWebsites
-                    .filter { $0.value.isArchived }
-                    .forEach { try! self.controller.controller
-                        .update($0, .init(isArchived: false)).get()
-                    }
+            ToolbarItem {
+                ButtonToolbar(systemName: "tray.and.arrow.up",
+                              accessibilityLabel: Verb.Unarchive)
+                {
+                    // Unarchive
+                    self.controller.selectedWebsites
+                        .filter { $0.value.isArchived }
+                        .forEach { try! self.controller.controller
+                            .update($0, .init(isArchived: false)).get()
+                        }
+                }
+                .disabled(self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
             }
-            .disabled(self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
-
-            ButtonToolbar(systemName: "tag",
-                          accessibilityLabel: Verb.AddAndRemoveTags)
-                { self.presentation.value = .tagApply }
-                .disabled(self.controller.selectedWebsites.isEmpty)
-                .popover(isPresented: self.$presentation.isTagApply, content: { () -> TagApply in
-                    return TagApply(controller: self.controller, presentation: self.presentation)
-                })
-            
-            ButtonToolbarShare { self.presentation.value = .share }
-                .disabled(self.controller.selectedWebsites.isEmpty)
-                .popover(isPresented: self.$presentation.isShare, content: {
-                    Share(self.controller.selectedWebsites.compactMap
-                    { $0.value.resolvedURL ?? $0.value.originalURL })
-                    {
-                        self.presentation.value = .none
-                    }
-                })
-            
-            // TODO: Make search look different when a search is in effect
-            // self.controller.detailQuery.search.nonEmptyString == nil
-            ButtonToolbar(systemName: "magnifyingglass",
-                          accessibilityLabel: Verb.Search)
-                { self.presentation.value = .search }
-                .popover(isPresented: self.$presentation.isSearch, content: {
-                    Search(controller: self.controller, presentation: self.$presentation)
-                })
+            ToolbarItem {
+                ButtonToolbar(systemName: "tag",
+                              accessibilityLabel: Verb.AddAndRemoveTags)
+                    { self.presentation.value = .tagApply }
+                    .disabled(self.controller.selectedWebsites.isEmpty)
+                    .popover(isPresented: self.$presentation.isTagApply, content: { () -> TagApply in
+                        return TagApply(controller: self.controller, presentation: self.presentation)
+                    })
+            }
+            ToolbarItem {
+                ButtonToolbarShare { self.presentation.value = .share }
+                    .disabled(self.controller.selectedWebsites.isEmpty)
+                    .popover(isPresented: self.$presentation.isShare, content: {
+                        Share(self.controller.selectedWebsites.compactMap
+                        { $0.value.resolvedURL ?? $0.value.originalURL })
+                        {
+                            self.presentation.value = .none
+                        }
+                    })
+            }
+            ToolbarItem {
+                // TODO: Make search look different when a search is in effect
+                // self.controller.detailQuery.search.nonEmptyString == nil
+                ButtonToolbar(systemName: "magnifyingglass",
+                              accessibilityLabel: Verb.Search)
+                    { self.presentation.value = .search }
+                    .popover(isPresented: self.$presentation.isSearch, content: {
+                        Search(controller: self.controller, presentation: self.$presentation)
+                    })
+            }
         }
     }
-    
 }

@@ -21,6 +21,7 @@
 
 import SwiftUI
 import Datum
+import Stylize
 
 struct Main: View {
     
@@ -30,9 +31,9 @@ struct Main: View {
     var body: some View {
         NavigationView {
             TagList(controller: self.controller)
-                .toolbar { IndexToolbar(controller: self.controller, presentation: self.$presentation)}
+                .modifier(_IndexToolbar(controller: self.controller, presentation: self.$presentation))
             WebsiteList(controller: self.controller)
-                .toolbar { DetailToolbar(controller: self.controller, presentation: self.$presentation)}
+                .modifier(DetailToolbar(controller: self.controller, presentation: self.$presentation))
         }
     }
 }

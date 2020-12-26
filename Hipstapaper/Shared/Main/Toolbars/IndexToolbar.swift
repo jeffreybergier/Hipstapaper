@@ -25,68 +25,71 @@ import Localize
 import Stylize
 import Snapshot
 
-struct IndexToolbar: View {
+struct _IndexToolbar: ViewModifier {
     
     @ObservedObject var controller: AnyUIController
     @Binding var presentation: Presentation.Wrap
     
-    var body: some View {
-        HStack {
-            ButtonToolbar(systemName: "minus",
-                          accessibilityLabel: Verb.DeleteTag)
-            {
-                // Delete
-                guard let tag = self.controller.selectedTag else { return }
-                try! self.controller.controller.delete(tag).get()
-            }
-            .disabled({
-                guard let tag = self.controller.selectedTag else { return true }
-                return tag.value.wrappedValue as? Query.Archived != nil
-            }())
-            
-            ZStack() {
-                // TODO: Hack to give the popover something to attach to
-                Color.clear.popover(isPresented: self.$presentation.isAddTag, content: {
-                    AddTag(controller: self.controller.controller, presentation: self.$presentation)
-                })
-                ButtonToolbar(systemName: "plus",
-                              accessibilityLabel: Verb.AddTag)
-                    { self.presentation.value = .addChoose }
-                    .modifier(ActionSheet(
-                                isPresented: self.$presentation.isAddChoose,
-                                title: Phrase.AddChoice,
-                                buttons: [
-                                    .init(title: Verb.AddTag, action: {
-                                        self.presentation.value = .none
-                                        // TODO: Hack to make the dismissing and opening of new popover/sheet work
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                                            self.presentation.value = .addTag
-                                        }
-                                    }),
-                                    .init(title: Verb.AddWebsite, action: {
-                                        self.presentation.value = .none
-                                        // TODO: Hack to make the dismissing and opening of new popover/sheet work
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                                            self.presentation.value = .addWebsite
-                                        }
-                                    })
-                                ])
-                    )
-            }
-            .sheet(isPresented: self.$presentation.isAddWebsite, content: {
-                Snapshotter() { result in
-                    switch result {
-                    case .success(let output):
-                        // TODO: maybe show error to user?
-                        try! self.controller.controller.createWebsite(.init(output)).get()
-                    case .failure(let error):
-                        // TODO: maybe show error to user?
-                        break
-                    }
-                    self.presentation.value = .none
+    func body(content: Content) -> some View {
+        return content.toolbar {
+            // TODO: Move into ToolbarItems
+            // For some reason on iOS, it only shows 1 of the 2 items
+            HStack {
+                ButtonToolbar(systemName: "minus",
+                              accessibilityLabel: Verb.DeleteTag)
+                {
+                    // Delete
+                    guard let tag = self.controller.selectedTag else { return }
+                    try! self.controller.controller.delete(tag).get()
                 }
-            })
+                .disabled({
+                    guard let tag = self.controller.selectedTag else { return true }
+                    return tag.value.wrappedValue as? Query.Archived != nil
+                }())
+                
+                ZStack() {
+                    // TODO: Hack to give the popover something to attach to
+                    Color.clear.popover(isPresented: self.$presentation.isAddTag, content: {
+                        AddTag(controller: self.controller.controller, presentation: self.$presentation)
+                    })
+                    ButtonToolbar(systemName: "plus",
+                                  accessibilityLabel: Verb.AddTag)
+                        { self.presentation.value = .addChoose }
+                        .modifier(ActionSheet(
+                                    isPresented: self.$presentation.isAddChoose,
+                                    title: Phrase.AddChoice,
+                                    buttons: [
+                                        .init(title: Verb.AddTag, action: {
+                                            self.presentation.value = .none
+                                            // TODO: Hack to make the dismissing and opening of new popover/sheet work
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                                                self.presentation.value = .addTag
+                                            }
+                                        }),
+                                        .init(title: Verb.AddWebsite, action: {
+                                            self.presentation.value = .none
+                                            // TODO: Hack to make the dismissing and opening of new popover/sheet work
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                                                self.presentation.value = .addWebsite
+                                            }
+                                        })
+                                    ])
+                        )
+                }
+                .sheet(isPresented: self.$presentation.isAddWebsite, content: {
+                    Snapshotter() { result in
+                        switch result {
+                        case .success(let output):
+                            // TODO: maybe show error to user?
+                            try! self.controller.controller.createWebsite(.init(output)).get()
+                        case .failure(let error):
+                            // TODO: maybe show error to user?
+                            break
+                        }
+                        self.presentation.value = .none
+                    }
+                })
+            }
         }
     }
-    
 }
