@@ -22,6 +22,7 @@
 import SwiftUI
 import Combine
 import Stylize
+import Localize
 
 public struct Snapshotter: View {
     
@@ -85,37 +86,37 @@ public struct Snapshotter: View {
     
     public var body: some View {
         VStack(alignment: .leading) {
-            SnapshotToolbar(
-                output: self.viewModel.output,
-                cancel: { self.completion(.failure(.userCancelled)) },
-                confirm: {
-                    guard
-                        let originalURL = URL(string: self.viewModel.input.originalURLString),
-                        let resolvedURL = URL(string: self.viewModel.output.resolvedURLString)
-                    else {
-                        self.completion(.failure(.convertURL))
-                        return
-                    }
-                    self.completion(.success(
-                        Snapshotter.Output(originalURL: originalURL,
-                                           resolvedURL: resolvedURL,
-                                           title: self.viewModel.output.title,
-                                           thumbnail: self.viewModel.output.thumbnail?.value)
-                    ))
-                }
-            )
             FormSwitcher(viewModel: self.viewModel)
-                .paddingDefault()
+                .paddingDefault_Equal(ignoring: [\.bottom])
             Spacer()
-            ZStack {
+            ZStack() {
                 WebView(input: self.$viewModel.input,
                         output: self.viewModel.output)
                 WebThumbnail(viewModel: self.viewModel)
             }
-            .frame(width: 300, height: 300, alignment: Alignment(horizontal: .center, vertical: .center))
+            .frame(width: 300, height: 300)
             .cornerRadius_medium
             .paddingDefault_Equal(ignoring: [\.top])
         }
+        .modifier(Modal.SaveCancel(
+                    title: Noun.AddWebsite,
+                    cancel: { self.completion(.failure(.userCancelled)) },
+                    save: {
+                        guard
+                            let originalURL = URL(string: self.viewModel.input.originalURLString),
+                            let resolvedURL = URL(string: self.viewModel.output.resolvedURLString)
+                        else {
+                            self.completion(.failure(.convertURL))
+                            return
+                        }
+                        self.completion(.success(
+                            Snapshotter.Output(originalURL: originalURL,
+                                               resolvedURL: resolvedURL,
+                                               title: self.viewModel.output.title,
+                                               thumbnail: self.viewModel.output.thumbnail?.value)
+                        ))
+                    })
+        )
     }
 }
 

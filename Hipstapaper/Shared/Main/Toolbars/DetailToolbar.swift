@@ -79,7 +79,7 @@ struct DetailToolbar: ViewModifier {
                     { self.presentation.isTagApply = true }
                     .disabled(self.controller.selectedWebsites.isEmpty)
                     .popover(isPresented: self.$presentation.isTagApply, content: { () -> TagApply in
-                        return TagApply(controller: self.controller, presentation: self.presentation)
+                        return TagApply(controller: self.controller, done: { self.presentation.isTagApply = false })
                     })
             }
             ToolbarItem(id: "5") {

@@ -27,18 +27,11 @@ import Localize
 struct TagApply: View {
     
     @ObservedObject var controller: AnyUIController
-    @State var presentation: Presentation.Wrap
+    let done: Modal.Action
     
     var body: some View {
+        // TODO: Figure out how to remove VStack without ruining layout on iOS
         VStack(spacing: 0) {
-            Toolbar {
-                HStack {
-                    Spacer()
-                    Text.ModalTitle(Verb.ApplyTags)
-                    Spacer()
-                    ButtonDone(Verb.Done) { self.presentation.isTagApply = false }
-                }
-            }
             List(self.controller.controller.tagStatus(for: self.controller.selectedWebsites).value!, id: \.0) { tuple in
                 TagApplyRow(name: tuple.0.value.name, value: tuple.1.boolValue) { newValue in
                     switch newValue {
@@ -51,6 +44,7 @@ struct TagApply: View {
                     }
                 }
             }
+            .modifier(Modal.Done(title: Verb.ApplyTags, done: self.done))
             .frame(width: 300, height: 300)
         }
     }

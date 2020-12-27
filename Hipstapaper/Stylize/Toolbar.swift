@@ -19,7 +19,9 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+#if canImport(AppKit)
 import SwiftUI
+import AppKit
 
 public struct Toolbar<Content>: View where Content: View {
 
@@ -28,6 +30,7 @@ public struct Toolbar<Content>: View where Content: View {
     public var body: some View {
         ZStack {
             ToolbarBackground()
+                .ignoresSafeArea()
             self.content
                 .paddingToolbar()
                 .layoutPriority(1000)
@@ -38,27 +41,11 @@ public struct Toolbar<Content>: View where Content: View {
     }
 }
 
-private struct ToolbarBackground: View { }
-
-#if canImport(AppKit)
-import AppKit
-extension ToolbarBackground: NSViewRepresentable {
+private struct ToolbarBackground: NSViewRepresentable {
     func updateNSView(_ tb: NSVisualEffectView, context: Context) { }
     func makeNSView(context: Context) -> NSVisualEffectView {
         let view = NSVisualEffectView()
         view.material = .titlebar
-        return view
-    }
-}
-#endif
-
-#if canImport(UIKit)
-import UIKit
-extension ToolbarBackground: UIViewRepresentable {
-    func updateUIView(_ tb: UIVisualEffectView, context: Context) { }
-    func makeUIView(context: Context) -> UIVisualEffectView {
-        let effect = UIBlurEffect(style: .systemChromeMaterial)
-        let view = UIVisualEffectView(effect: effect)
         return view
     }
 }
