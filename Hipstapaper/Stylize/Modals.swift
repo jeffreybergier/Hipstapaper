@@ -61,7 +61,7 @@ extension Modal {
                 content
                     .navigationBarTitle(self.title, displayMode: .inline)
                     .toolbar(id: "Modal.Done") {
-                        ToolbarItem(id: "0", placement: ToolbarItemPlacement.confirmationAction,
+                        ToolbarItem(id: "Modal.Done.0", placement: ToolbarItemPlacement.confirmationAction,
                                     content: { ButtonDone(Verb.Done, action: self.done) })
                     }
             }
@@ -108,9 +108,9 @@ extension Modal {
                 content
                     .navigationBarTitle(self.title, displayMode: .inline)
                     .toolbar(id: "Modal.Save") {
-                        ToolbarItem(id: "0", placement: ToolbarItemPlacement.cancellationAction,
+                        ToolbarItem(id: "Modal.Save.0", placement: ToolbarItemPlacement.cancellationAction,
                                     content: { ButtonDone(Verb.Cancel, action: self.cancel) })
-                        ToolbarItem(id: "1", placement: ToolbarItemPlacement.confirmationAction,
+                        ToolbarItem(id: "Modal.Save.1", placement: ToolbarItemPlacement.confirmationAction,
                                     content: { ButtonDone(Verb.Save, action: self.save) })
                     }
             }

@@ -33,66 +33,75 @@ struct IndexToolbar: ViewModifier {
     @State var isAddChoose = false
     
     func body(content: Content) -> some View {
-        return content.toolbar {
-            // TODO: Move into ToolbarItems
-            // For some reason on iOS, it only shows 1 of the 2 items
-            HStack {
-                ButtonToolbar(systemName: "minus",
-                              accessibilityLabel: Verb.DeleteTag)
-                {
-                    // Delete
-                    guard let tag = self.controller.selectedTag else { return }
-                    try! self.controller.controller.delete(tag).get()
-                }
-                .disabled({
-                    guard let tag = self.controller.selectedTag else { return true }
-                    return tag.value.wrappedValue as? Query.Archived != nil
-                }())
-                
-                ZStack() {
-                    // TODO: Hack to give the popover something to attach to
-                    Color.clear.popover(isPresented: self.$isAddTag, content: {
-                        AddTag(
-                            cancel: { self.isAddTag = false },
-                            save: {
-                                let result = self.controller.controller.createTag(name: $0)
-                                switch result {
-                                case .success:
-                                    self.isAddTag = false
-                                case .failure(let error):
-                                    // TODO: Do something with this error
-                                    break
-                                }
-                            }
-                        )
-                    })
-                    ButtonToolbar(systemName: "plus",
-                                  accessibilityLabel: Verb.AddTag)
-                        { self.isAddChoose = true }
-                        .modifier(ActionSheet(
-                                    isPresented: self.$isAddChoose,
-                                    title: Phrase.AddChoice,
-                                    buttons: [
-                                        .init(title: Verb.AddTag,
-                                              action: { self.isAddTag = true }),
-                                        .init(title: Verb.AddWebsite,
-                                              action: { self.isAddWebsite = true })
-                                    ])
-                        )
-                }
-                .sheet(isPresented: self.$isAddWebsite, content: {
-                    Snapshotter() { result in
+        return ZStack(alignment: Alignment.topTrailing) {
+            // TODO: Hack when toolbars work properly with popovers
+            Color.clear.frame(width: 1, height: 1).popover(isPresented: self.$isAddTag) {
+                AddTag(
+                    cancel: { self.isAddTag = false },
+                    save: {
+                        let result = self.controller.controller.createTag(name: $0)
                         switch result {
-                        case .success(let output):
-                            // TODO: maybe show error to user?
-                            try! self.controller.controller.createWebsite(.init(output)).get()
+                        case .success:
+                            self.isAddTag = false
                         case .failure(let error):
-                            // TODO: maybe show error to user?
+                            // TODO: Do something with this error
                             break
                         }
-                        self.isAddWebsite = false
                     }
-                })
+                )
+            }
+            
+            // TODO: Hack when toolbars work properly with popovers
+            Color.clear.frame(width: 1, height: 1).sheet(isPresented: self.$isAddWebsite) {
+                Snapshotter() { result in
+                    switch result {
+                    case .success(let output):
+                        // TODO: maybe show error to user?
+                        try! self.controller.controller.createWebsite(.init(output)).get()
+                    case .failure(let error):
+                        // TODO: maybe show error to user?
+                        break
+                    }
+                    self.isAddWebsite = false
+                }
+            }
+            
+            // TODO: Hack when toolbars work properly with popovers
+            Color.clear.frame(width: 1, height: 1).modifier(
+                ActionSheet(
+                    isPresented: self.$isAddChoose,
+                    title: Phrase.AddChoice,
+                    buttons: [
+                        .init(title: Verb.AddTag,
+                              action: { self.isAddTag = true }),
+                        .init(title: Verb.AddWebsite,
+                              action: { self.isAddWebsite = true })
+                    ]
+                )
+            )
+            
+            content.toolbar(id: "Index") {
+                // TODO: Move into ToolbarItems
+                // For some reason on iOS, it only shows 1 of the 2 items
+                ToolbarItem(id: "Index.0", placement: .destructiveAction) {
+                    ButtonToolbar(systemName: "minus",
+                                  accessibilityLabel: Verb.DeleteTag)
+                    {
+                        // Delete
+                        guard let tag = self.controller.selectedTag else { return }
+                        try! self.controller.controller.delete(tag).get()
+                    }
+                    .disabled({
+                        guard let tag = self.controller.selectedTag else { return true }
+                        return tag.value.wrappedValue as? Query.Archived != nil
+                    }())
+                }
+                ToolbarItem(id: "Index.1", placement: .confirmationAction) {
+                    ButtonToolbar(systemName: "plus",
+                                  accessibilityLabel: Verb.AddTag,
+                                  action: { self.isAddChoose = true })
+                }
+                
             }
         }
     }

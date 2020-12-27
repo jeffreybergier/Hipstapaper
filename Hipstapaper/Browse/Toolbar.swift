@@ -83,45 +83,45 @@ internal struct Toolbar: ViewModifier {
             content
                 .navigationBarTitle(self.display.title, displayMode: .inline)
                 .toolbar(id: "Browser") {
-                    ToolbarItem(id: "1", placement: ToolbarItemPlacement.navigation) {
+                    ToolbarItem(id: "Browser.1", placement: ToolbarItemPlacement.navigation) {
                         ButtonToolbar(systemName: "chevron.backward", accessibilityLabel: "Go Back") {
                             self.control.goBack = true
                         }
                         .keyboardShortcut("[")
                         .disabled(!self.display.canGoBack)
                     }
-                    ToolbarItem(id: "2", placement: ToolbarItemPlacement.navigation) {
+                    ToolbarItem(id: "Browser.2", placement: ToolbarItemPlacement.navigation) {
                         ButtonToolbar(systemName: "chevron.forward", accessibilityLabel: "Go Forward") {
                             self.control.goForward = true
                         }
                         .keyboardShortcut("]")
                         .disabled(!self.display.canGoForward)
                     }
-                    ToolbarItem(id: "3", placement: ToolbarItemPlacement.navigation) {
+                    ToolbarItem(id: "Browser.3", placement: ToolbarItemPlacement.navigation) {
                         ButtonToolbarStopReload(isLoading: self.display.isLoading,
                                                 stopAction: { self.control.stop = true },
                                                 reloadAction: { self.control.reload = true })
                     }
-                    ToolbarItem(id: "4", placement: ToolbarItemPlacement.navigation) {
+                    ToolbarItem(id: "Browser.4", placement: ToolbarItemPlacement.navigation) {
                         ButtonToolbarJavascript(isJSEnabled: self.control.isJSEnabled,
                                                 toggleAction: { self.control.isJSEnabled.toggle() })
                             .keyboardShortcut("j")
                     }
-                    ToolbarItem(id: "5", placement: ToolbarItemPlacement.principal) {
+                    ToolbarItem(id: "Browser.5", placement: ToolbarItemPlacement.principal) {
                         TextField.WebsiteTitle(self.$display.title).disabled(true)
                     }
-                    ToolbarItem(id: "6", placement: ToolbarItemPlacement.primaryAction) {
+                    ToolbarItem(id: "Browser.6", placement: ToolbarItemPlacement.primaryAction) {
                         ButtonToolbarShare { self.shareSheetPresented = true }
                             .keyboardShortcut("i")
                             .popover(isPresented: self.$shareSheetPresented) {
                                 Share([self.control.originalLoad]) { self.shareSheetPresented = false }
                             }
                     }
-                    ToolbarItem(id: "7", placement: ToolbarItemPlacement.primaryAction) {
+                    ToolbarItem(id: "Browser.7", placement: ToolbarItemPlacement.primaryAction) {
                         ButtonToolbarSafari { self.openURL(self.control.originalLoad) }
                             .keyboardShortcut("O")
                     }
-                    ToolbarItem(id: "8", placement: ToolbarItemPlacement.primaryAction) {
+                    ToolbarItem(id: "Browser.8", placement: ToolbarItemPlacement.primaryAction) {
                         ButtonDone(Verb.Done, action: self.done)
                             .keyboardShortcut("w")
                     }

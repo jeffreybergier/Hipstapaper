@@ -36,7 +36,8 @@ struct AddTag: View {
                 .modifier(Modal.SaveCancel(title: Noun.AddTag,
                                            cancel: self.cancel,
                                            save: { self.save(self.tagName.nonEmptyString) }))
-                .frame(width: 250, height: 150) // TODO: Remove height when this is not broken
+                // TODO: Remove height when this is not broken
+                .frame(idealWidth: 250, maxWidth: .infinity, idealHeight: 150, maxHeight: .infinity)
         }
     }
 }
