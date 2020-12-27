@@ -26,13 +26,16 @@ import Stylize
 struct Main: View {
     
     @ObservedObject var controller: AnyUIController
+    @State var presentations = Presentation.Wrap()
     
     var body: some View {
         NavigationView {
             TagList(controller: self.controller)
-                .modifier(IndexToolbar(controller: self.controller))
+                .modifier(IndexToolbar(controller: self.controller,
+                                       presentations: self.$presentations))
             WebsiteList(controller: self.controller)
-                .modifier(DetailToolbar(controller: self.controller))
+                .modifier(DetailToolbar(controller: self.controller,
+                                        presentations: self.$presentations))
         }
     }
 }

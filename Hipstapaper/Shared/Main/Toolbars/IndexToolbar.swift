@@ -28,22 +28,20 @@ import Snapshot
 struct IndexToolbar: ViewModifier {
     
     @ObservedObject var controller: AnyUIController
-    @State var isAddWebsite = false
-    @State var isAddTag = false
-    @State var isAddChoose = false
+    @Binding var presentations: Presentation.Wrap
     
     func body(content: Content) -> some View {
         return ZStack(alignment: Alignment.topTrailing) {
             // TODO: Hack when toolbars work properly with popovers
             Color.clear.frame(width: 1, height: 1)
-                .popover(isPresented: self.$isAddTag) {
+                .popover(isPresented: self.$presentations.isAddTag) {
                     AddTag(
-                        cancel: { self.isAddTag = false },
+                        cancel: { self.presentations.value = .none },
                         save: {
                             let result = self.controller.controller.createTag(name: $0)
                             switch result {
                             case .success:
-                                self.isAddTag = false
+                                self.presentations.value = .none
                             case .failure(let error):
                                 // TODO: Do something with this error
                                 break
@@ -54,7 +52,7 @@ struct IndexToolbar: ViewModifier {
             
             // TODO: Hack when toolbars work properly with popovers
             Color.clear.frame(width: 1, height: 1)
-                .sheet(isPresented: self.$isAddWebsite) {
+                .sheet(isPresented: self.$presentations.isAddWebsite) {
                     Snapshotter() { result in
                         switch result {
                         case .success(let output):
@@ -64,20 +62,30 @@ struct IndexToolbar: ViewModifier {
                             // TODO: maybe show error to user?
                             break
                         }
-                        self.isAddWebsite = false
+                        self.presentations.value = .none
                     }
                 }
             
             // TODO: Hack when toolbars work properly with popovers
             Color.clear.frame(width: 1, height: 1)
                 .modifier(ActionSheet(
-                    isPresented: self.$isAddChoose,
+                    isPresented: self.$presentations.isAddChoose,
                     title: Phrase.AddChoice,
                     buttons: [
-                        .init(title: Verb.AddTag,
-                              action: { self.isAddTag = true }),
-                        .init(title: Verb.AddWebsite,
-                              action: { self.isAddWebsite = true })
+                        .init(title: Verb.AddTag) {
+                            self.presentations.value = .none
+                            // TODO: Remove this hack when possible
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                self.presentations.value = .addTag
+                            }
+                        },
+                        .init(title: Verb.AddWebsite) {
+                            self.presentations.value = .none
+                            // TODO: Remove this hack when possible
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                self.presentations.value = .addWebsite
+                            }
+                        }
                     ]
                 ))
             
@@ -100,7 +108,7 @@ struct IndexToolbar: ViewModifier {
                 ToolbarItem(id: "Index.1", placement: .confirmationAction) {
                     ButtonToolbar(systemName: "plus",
                                   accessibilityLabel: Verb.AddTag,
-                                  action: { self.isAddChoose = true })
+                                  action: { self.presentations.value = .addChoose })
                 }
                 
             }

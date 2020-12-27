@@ -28,44 +28,45 @@ import Browse
 struct DetailToolbar: ViewModifier {
     
     @ObservedObject var controller: AnyUIController
+    @Binding var presentations: Presentation.Wrap
+
     @Environment(\.openURL) var openURL
-    @State var isSearch = false
-    @State var isTagApply = false
-    @State var isShare = false
-    @State var isBrowser = false
     
     func body(content: Content) -> some View {
         return ZStack(alignment: Alignment.topTrailing) {
             // TODO: Hack when toolbars work properly with popovers
             Color.clear.frame(width: 1, height: 1)
-                .sheet(isPresented: self.$isBrowser) {
+                .sheet(isPresented: self.$presentations.isBrowser) {
                     let site = self.controller.selectedWebsites.first!.value
                     let url = site.resolvedURL ?? site.originalURL
-                    Browser(url: url!, done: { self.isBrowser = false })
+                    Browser(url: url!, done: { self.presentations.value = .none })
                 }
             
             Color.clear.frame(width: 1, height: 1)
-                .popover(isPresented: self.$isTagApply) { () -> TagApply in
-                    return TagApply(controller: self.controller, done: { self.isTagApply = false })
+                .popover(isPresented: self.$presentations.isTagApply) { () -> TagApply in
+                    return TagApply(controller: self.controller,
+                                    done: { self.presentations.value = .none })
                 }
             
             Color.clear.frame(width: 1, height: 1)
-                .popover(isPresented: self.$isShare) {
+                .popover(isPresented: self.$presentations.isShare) {
                     Share(self.controller.selectedWebsites.compactMap
                     { $0.value.resolvedURL ?? $0.value.originalURL })
-                    { self.isShare = false }
+                    { self.presentations.value = .none }
                 }
             
             Color.clear.frame(width: 1, height: 1)
-                .popover(isPresented: self.$isSearch) {
+                .popover(isPresented: self.$presentations.isSearch) {
                     Search(controller: self.controller,
-                           doneAction: { self.isSearch = false })
+                           doneAction: { self.presentations.value = .none })
                 }
             
             
             content.toolbar(id: "Detail") {
                 ToolbarItem(id: "Detail.0") {
-                    ButtonToolbar(systemName: "safari", accessibilityLabel: Verb.Open, action: { self.isBrowser = true })
+                    ButtonToolbar(systemName: "safari",
+                                  accessibilityLabel: Verb.Open,
+                                  action: { self.presentations.value = .browser })
                         .keyboardShortcut("o")
                         .modifier(OpenWebsiteDisabler(selectedWebsites: self.controller.selectedWebsites))
                 }
@@ -106,12 +107,12 @@ struct DetailToolbar: ViewModifier {
                 }
                 ToolbarItem(id: "Detail.4") {
                     ButtonToolbar(systemName: "tag",
-                                  accessibilityLabel: Verb.AddAndRemoveTags)
-                        { self.isTagApply = true }
+                                  accessibilityLabel: Verb.AddAndRemoveTags,
+                                  action: { self.presentations.value = .tagApply })
                         .disabled(self.controller.selectedWebsites.isEmpty)
                 }
                 ToolbarItem(id: "Detail.5") {
-                    ButtonToolbarShare { self.isShare = true }
+                    ButtonToolbarShare { self.presentations.value = .share }
                         .disabled(self.controller.selectedWebsites.isEmpty)
                 }
                 ToolbarItem(id: "Detail.6") {
@@ -119,7 +120,7 @@ struct DetailToolbar: ViewModifier {
                     // self.controller.detailQuery.search.nonEmptyString == nil
                     ButtonToolbar(systemName: "magnifyingglass",
                                   accessibilityLabel: Verb.Search,
-                                  action: { self.isSearch = true })
+                                  action: { self.presentations.value = .search })
                 }
             }
         }
