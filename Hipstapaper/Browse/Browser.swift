@@ -20,6 +20,7 @@
 //
 
 import SwiftUI
+import Stylize
 
 public struct Browser: View {
     
@@ -28,10 +29,16 @@ public struct Browser: View {
     let done: () -> Void
     
     public var body: some View {
-        WebView(control: self.control, display: self.display)
-            .frame(minWidth: 300, idealWidth: 768, minHeight: 300, idealHeight: 768)
-            .edgesIgnoringSafeArea(.all)
-            .modifier(Toolbar(control: self.control, display: self.display, done: self.done))
+        ZStack(alignment: .top) {
+            WebView(control: self.control, display: self.display)
+                .frame(minWidth: 300, idealWidth: 768, minHeight: 300, idealHeight: 768)
+                .edgesIgnoringSafeArea(.all)
+            if self.display.isLoading {
+                ProgressBar(self.display.progress)
+                    .opacity(self.display.isLoading ? 1 : 0)
+            }
+        }
+        .modifier(Toolbar(control: self.control, display: self.display, done: self.done))
     }
     
     public init(url load: URL, done: @escaping () -> Void) {

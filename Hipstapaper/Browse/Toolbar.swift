@@ -83,22 +83,3 @@ internal struct Toolbar: ViewModifier {
         }
     }
 }
-
-//    var body: some View {
-//        Stylize.Toolbar {
-//            VStack {
-//                HStack {
-//
-//
-//
-//
-//                }
-//                if self.display.isLoading {
-//                    ProgressBar(self.display.progress)
-//                        .opacity(self.display.isLoading ? 1 : 0)
-//                }
-//            }
-//        }.animation(.default)
-//    }
-
-// }
