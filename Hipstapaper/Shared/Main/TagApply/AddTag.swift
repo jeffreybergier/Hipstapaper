@@ -22,34 +22,21 @@
 import SwiftUI
 import Stylize
 import Localize
-import Datum
 
 struct AddTag: View {
     
-    var controller: Controller
-    @Binding var presentation: Presentation.Wrap
     @State private var tagName: String = ""
+    let cancel: Modal.Action
+    let save: (String?) -> Void
     
     var body: some View {
         VStack(spacing: 0) {
-            Toolbar {
-                HStack {
-                    ButtonDefault(Verb.Cancel) { self.presentation.isAddTag = false }
-                    Spacer()
-                    Text.ModalTitle(Noun.AddTag)
-                    Spacer()
-                    ButtonDone(Verb.Save) {
-                        // TODO: Fix
-                        try! self.controller.createTag(name: self.tagName.nonEmptyString).get()
-                        self.presentation.isAddTag = false
-                    }
-                    .keyboardShortcut(.defaultAction)
-                    .disabled(self.tagName.nonEmptyString == nil)
-                }
-            }
             TextField.TagName(self.$tagName)
-                .frame(width: 250)
                 .paddingDefault_Equal()
+                .modifier(Modal.SaveCancel(title: Noun.AddTag,
+                                           cancel: self.cancel,
+                                           save: { self.save(self.tagName.nonEmptyString) }))
+                .frame(width: 250, height: 150) // TODO: Remove height when this is not broken
         }
     }
 }

@@ -50,7 +50,19 @@ struct _IndexToolbar: ViewModifier {
                 ZStack() {
                     // TODO: Hack to give the popover something to attach to
                     Color.clear.popover(isPresented: self.$presentation.isAddTag, content: {
-                        AddTag(controller: self.controller.controller, presentation: self.$presentation)
+                        AddTag(
+                            cancel: { self.presentation.isAddTag = false },
+                            save: {
+                                let result = self.controller.controller.createTag(name: $0)
+                                switch result {
+                                case .success:
+                                    self.presentation.isAddTag = false
+                                case .failure(let error):
+                                    // TODO: Do something with this error
+                                    break
+                                }
+                            }
+                        )
                     })
                     ButtonToolbar(systemName: "plus",
                                   accessibilityLabel: Verb.AddTag)

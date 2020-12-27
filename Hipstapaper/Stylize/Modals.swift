@@ -61,13 +61,61 @@ extension Modal {
                 content
                     .navigationBarTitle(self.title, displayMode: .inline)
                     .toolbar(id: "Modal.Done") {
-                        ToolbarItem(id: "0", placement: ToolbarItemPlacement.primaryAction,
+                        ToolbarItem(id: "0", placement: ToolbarItemPlacement.confirmationAction,
                                     content: { ButtonDone(Verb.Done, action: self.done) })
                     }
             }
         }
         #endif
         
+    }
+    
+    // TODO: Add ability to dynamically disable save button
+    public struct SaveCancel: ViewModifier {
+        
+        let title: LocalizedStringKey
+        let save: Action
+        let cancel: Action
+        
+        public init(title: LocalizedStringKey, cancel: @escaping Action, save: @escaping Action) {
+            self.title = title
+            self.cancel = cancel
+            self.save = save
+        }
+        
+        #if os(macOS)
+        // TODO: Remove this once its not broken on the mac
+        public func body(content: Content) -> some View {
+            return VStack(spacing: 0) {
+                Toolbar {
+                    HStack {
+                        ButtonDefault(Verb.Cancel, action: self.cancel)
+                            .keyboardShortcut(.escape)
+                        Spacer()
+                        Text.ModalTitle(self.title)
+                        Spacer()
+                        ButtonDone(Verb.Save, action: self.save)
+                            .keyboardShortcut(.defaultAction)
+                    }
+                }
+                content
+                Spacer(minLength: 0)
+            }
+        }
+        #else
+        public func body(content: Content) -> some View {
+            return NavigationView {
+                content
+                    .navigationBarTitle(self.title, displayMode: .inline)
+                    .toolbar(id: "Modal.Save") {
+                        ToolbarItem(id: "0", placement: ToolbarItemPlacement.cancellationAction,
+                                    content: { ButtonDone(Verb.Cancel, action: self.cancel) })
+                        ToolbarItem(id: "1", placement: ToolbarItemPlacement.confirmationAction,
+                                    content: { ButtonDone(Verb.Save, action: self.save) })
+                    }
+            }
+        }
+        #endif
     }
 }
 

@@ -41,6 +41,6 @@ struct Search: View {
         .animation(.default)
         .paddingDefault_Equal()
         .modifier(Modal.Done(title: Noun.Search, done: self.doneAction))
-        .frame(width: 250, height: 150)
+        .frame(width: 250, height: 150) // TODO: Remove height when this is not broken
     }
 }
