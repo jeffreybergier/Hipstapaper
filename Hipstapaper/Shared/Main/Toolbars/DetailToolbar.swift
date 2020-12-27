@@ -33,82 +33,94 @@ struct DetailToolbar: ViewModifier {
     @State var isTagApply = false
     @State var isShare = false
     @State var isBrowser = false
-
+    
     func body(content: Content) -> some View {
-        content.toolbar(id: "Detail") {
-            ToolbarItem(id: "Detail.0") {
-                ButtonToolbar(systemName: "safari", accessibilityLabel: Verb.Open, action: { self.isBrowser = true })
-                    .keyboardShortcut("o")
-                    .modifier(OpenWebsiteDisabler(selectedWebsites: self.controller.selectedWebsites))
-                    .sheet(isPresented: self.$isBrowser) {
-                        let site = self.controller.selectedWebsites.first!.value
-                        let url = site.resolvedURL ?? site.originalURL
-                        Browser(url: url!, done: { self.isBrowser = false })
+        return ZStack(alignment: Alignment.topTrailing) {
+            // TODO: Hack when toolbars work properly with popovers
+            Color.clear.frame(width: 1, height: 1)
+                .sheet(isPresented: self.$isBrowser) {
+                    let site = self.controller.selectedWebsites.first!.value
+                    let url = site.resolvedURL ?? site.originalURL
+                    Browser(url: url!, done: { self.isBrowser = false })
+                }
+            
+            Color.clear.frame(width: 1, height: 1)
+                .popover(isPresented: self.$isTagApply) { () -> TagApply in
+                    return TagApply(controller: self.controller, done: { self.isTagApply = false })
+                }
+            
+            Color.clear.frame(width: 1, height: 1)
+                .popover(isPresented: self.$isShare) {
+                    Share(self.controller.selectedWebsites.compactMap
+                    { $0.value.resolvedURL ?? $0.value.originalURL })
+                    { self.isShare = false }
+                }
+            
+            Color.clear.frame(width: 1, height: 1)
+                .popover(isPresented: self.$isSearch) {
+                    Search(controller: self.controller,
+                           doneAction: { self.isSearch = false })
+                }
+            
+            
+            content.toolbar(id: "Detail") {
+                ToolbarItem(id: "Detail.0") {
+                    ButtonToolbar(systemName: "safari", accessibilityLabel: Verb.Open, action: { self.isBrowser = true })
+                        .keyboardShortcut("o")
+                        .modifier(OpenWebsiteDisabler(selectedWebsites: self.controller.selectedWebsites))
+                }
+                ToolbarItem(id: "Detail.1") {
+                    ButtonToolbar(systemName: "safari.fill", accessibilityLabel: Verb.Safari) {
+                        let urls = self.controller.selectedWebsites
+                            .compactMap { $0.value.resolvedURL ?? $0.value.originalURL }
+                        urls.forEach { self.openURL($0) }
                     }
-            }
-            ToolbarItem(id: "Detail.1") {
-                ButtonToolbar(systemName: "safari.fill", accessibilityLabel: Verb.Safari) {
-                    let urls = self.controller.selectedWebsites
-                        .compactMap { $0.value.resolvedURL ?? $0.value.originalURL }
-                    urls.forEach { self.openURL($0) }
+                    .keyboardShortcut("O")
+                    .modifier(OpenWebsiteDisabler(selectedWebsites: self.controller.selectedWebsites))
                 }
-                .keyboardShortcut("O")
-                .modifier(OpenWebsiteDisabler(selectedWebsites: self.controller.selectedWebsites))
-            }
-            ToolbarItem(id: "Detail.2") {
-                ButtonToolbar(systemName: "tray.and.arrow.down",
-                              accessibilityLabel: Verb.Archive)
-                {
-                    // Archive
-                    self.controller.selectedWebsites
-                        .filter { !$0.value.isArchived }
-                        .forEach { try! self.controller.controller
-                            .update($0, .init(isArchived: true)).get()
-                        }
+                ToolbarItem(id: "Detail.2") {
+                    ButtonToolbar(systemName: "tray.and.arrow.down",
+                                  accessibilityLabel: Verb.Archive)
+                    {
+                        // Archive
+                        self.controller.selectedWebsites
+                            .filter { !$0.value.isArchived }
+                            .forEach { try! self.controller.controller
+                                .update($0, .init(isArchived: true)).get()
+                            }
+                    }
+                    .disabled(self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
                 }
-                .disabled(self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
-            }
-            ToolbarItem(id: "Detail.3") {
-                ButtonToolbar(systemName: "tray.and.arrow.up",
-                              accessibilityLabel: Verb.Unarchive)
-                {
-                    // Unarchive
-                    self.controller.selectedWebsites
-                        .filter { $0.value.isArchived }
-                        .forEach { try! self.controller.controller
-                            .update($0, .init(isArchived: false)).get()
-                        }
+                ToolbarItem(id: "Detail.3") {
+                    ButtonToolbar(systemName: "tray.and.arrow.up",
+                                  accessibilityLabel: Verb.Unarchive)
+                    {
+                        // Unarchive
+                        self.controller.selectedWebsites
+                            .filter { $0.value.isArchived }
+                            .forEach { try! self.controller.controller
+                                .update($0, .init(isArchived: false)).get()
+                            }
+                    }
+                    .disabled(self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
                 }
-                .disabled(self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
-            }
-            ToolbarItem(id: "Detail.4") {
-                ButtonToolbar(systemName: "tag",
-                              accessibilityLabel: Verb.AddAndRemoveTags)
-                    { self.isTagApply = true }
-                    .disabled(self.controller.selectedWebsites.isEmpty)
-                    .popover(isPresented: self.$isTagApply, content: { () -> TagApply in
-                        return TagApply(controller: self.controller, done: { self.isTagApply = false })
-                    })
-            }
-            ToolbarItem(id: "Detail.5") {
-                ButtonToolbarShare { self.isShare = true }
-                    .disabled(self.controller.selectedWebsites.isEmpty)
-                    .popover(isPresented: self.$isShare, content: {
-                        Share(self.controller.selectedWebsites.compactMap
-                        { $0.value.resolvedURL ?? $0.value.originalURL })
-                        { self.isShare = false }
-                    })
-            }
-            ToolbarItem(id: "Detail.6") {
-                // TODO: Make search look different when a search is in effect
-                // self.controller.detailQuery.search.nonEmptyString == nil
-                ButtonToolbar(systemName: "magnifyingglass",
-                              accessibilityLabel: Verb.Search)
-                    { self.isSearch = true }
-                    .popover(isPresented: self.$isSearch, content: {
-                        Search(controller: self.controller,
-                               doneAction: { self.isSearch = false })
-                    })
+                ToolbarItem(id: "Detail.4") {
+                    ButtonToolbar(systemName: "tag",
+                                  accessibilityLabel: Verb.AddAndRemoveTags)
+                        { self.isTagApply = true }
+                        .disabled(self.controller.selectedWebsites.isEmpty)
+                }
+                ToolbarItem(id: "Detail.5") {
+                    ButtonToolbarShare { self.isShare = true }
+                        .disabled(self.controller.selectedWebsites.isEmpty)
+                }
+                ToolbarItem(id: "Detail.6") {
+                    // TODO: Make search look different when a search is in effect
+                    // self.controller.detailQuery.search.nonEmptyString == nil
+                    ButtonToolbar(systemName: "magnifyingglass",
+                                  accessibilityLabel: Verb.Search,
+                                  action: { self.isSearch = true })
+                }
             }
         }
     }

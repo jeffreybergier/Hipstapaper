@@ -35,40 +35,42 @@ struct IndexToolbar: ViewModifier {
     func body(content: Content) -> some View {
         return ZStack(alignment: Alignment.topTrailing) {
             // TODO: Hack when toolbars work properly with popovers
-            Color.clear.frame(width: 1, height: 1).popover(isPresented: self.$isAddTag) {
-                AddTag(
-                    cancel: { self.isAddTag = false },
-                    save: {
-                        let result = self.controller.controller.createTag(name: $0)
+            Color.clear.frame(width: 1, height: 1)
+                .popover(isPresented: self.$isAddTag) {
+                    AddTag(
+                        cancel: { self.isAddTag = false },
+                        save: {
+                            let result = self.controller.controller.createTag(name: $0)
+                            switch result {
+                            case .success:
+                                self.isAddTag = false
+                            case .failure(let error):
+                                // TODO: Do something with this error
+                                break
+                            }
+                        }
+                    )
+                }
+            
+            // TODO: Hack when toolbars work properly with popovers
+            Color.clear.frame(width: 1, height: 1)
+                .sheet(isPresented: self.$isAddWebsite) {
+                    Snapshotter() { result in
                         switch result {
-                        case .success:
-                            self.isAddTag = false
+                        case .success(let output):
+                            // TODO: maybe show error to user?
+                            try! self.controller.controller.createWebsite(.init(output)).get()
                         case .failure(let error):
-                            // TODO: Do something with this error
+                            // TODO: maybe show error to user?
                             break
                         }
+                        self.isAddWebsite = false
                     }
-                )
-            }
-            
-            // TODO: Hack when toolbars work properly with popovers
-            Color.clear.frame(width: 1, height: 1).sheet(isPresented: self.$isAddWebsite) {
-                Snapshotter() { result in
-                    switch result {
-                    case .success(let output):
-                        // TODO: maybe show error to user?
-                        try! self.controller.controller.createWebsite(.init(output)).get()
-                    case .failure(let error):
-                        // TODO: maybe show error to user?
-                        break
-                    }
-                    self.isAddWebsite = false
                 }
-            }
             
             // TODO: Hack when toolbars work properly with popovers
-            Color.clear.frame(width: 1, height: 1).modifier(
-                ActionSheet(
+            Color.clear.frame(width: 1, height: 1)
+                .modifier(ActionSheet(
                     isPresented: self.$isAddChoose,
                     title: Phrase.AddChoice,
                     buttons: [
@@ -77,8 +79,7 @@ struct IndexToolbar: ViewModifier {
                         .init(title: Verb.AddWebsite,
                               action: { self.isAddWebsite = true })
                     ]
-                )
-            )
+                ))
             
             content.toolbar(id: "Index") {
                 // TODO: Move into ToolbarItems
