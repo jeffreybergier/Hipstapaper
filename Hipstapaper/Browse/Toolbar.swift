@@ -73,6 +73,7 @@ internal struct Toolbar: ViewModifier {
                         .keyboardShortcut("w")
                 }
             }
+            .buttonStyle(PlainButtonStyle())
             content
                 .navigationTitle(self.display.title)
         }
