@@ -32,13 +32,13 @@ struct DetailToolbar: ViewModifier {
     @Environment(\.openURL) var openURL
 
     func body(content: Content) -> some View {
-        content.toolbar {
-            ToolbarItem {
+        content.toolbar(id: "Detail") {
+            ToolbarItem(id: "0") {
                 ButtonToolbar(systemName: "safari", accessibilityLabel: Verb.Open, action: {})
                     .keyboardShortcut("o")
                     .modifier(OpenWebsiteDisabler(selectedWebsites: self.controller.selectedWebsites))
             }
-            ToolbarItem {
+            ToolbarItem(id: "1") {
                 ButtonToolbar(systemName: "safari.fill", accessibilityLabel: Verb.Safari) {
                     let urls = self.controller.selectedWebsites
                         .compactMap { $0.value.resolvedURL ?? $0.value.originalURL }
@@ -47,7 +47,7 @@ struct DetailToolbar: ViewModifier {
                 .keyboardShortcut("O")
                 .modifier(OpenWebsiteDisabler(selectedWebsites: self.controller.selectedWebsites))
             }
-            ToolbarItem {
+            ToolbarItem(id: "2") {
                 ButtonToolbar(systemName: "tray.and.arrow.down",
                               accessibilityLabel: Verb.Archive)
                 {
@@ -60,7 +60,7 @@ struct DetailToolbar: ViewModifier {
                 }
                 .disabled(self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
             }
-            ToolbarItem {
+            ToolbarItem(id: "3") {
                 ButtonToolbar(systemName: "tray.and.arrow.up",
                               accessibilityLabel: Verb.Unarchive)
                 {
@@ -73,7 +73,7 @@ struct DetailToolbar: ViewModifier {
                 }
                 .disabled(self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
             }
-            ToolbarItem {
+            ToolbarItem(id: "4") {
                 ButtonToolbar(systemName: "tag",
                               accessibilityLabel: Verb.AddAndRemoveTags)
                     { self.presentation.isTagApply = true }
@@ -82,7 +82,7 @@ struct DetailToolbar: ViewModifier {
                         return TagApply(controller: self.controller, presentation: self.presentation)
                     })
             }
-            ToolbarItem {
+            ToolbarItem(id: "5") {
                 ButtonToolbarShare { self.presentation.isShare = true }
                     .disabled(self.controller.selectedWebsites.isEmpty)
                     .popover(isPresented: self.$presentation.isShare, content: {
@@ -93,7 +93,7 @@ struct DetailToolbar: ViewModifier {
                         }
                     })
             }
-            ToolbarItem {
+            ToolbarItem(id: "6") {
                 // TODO: Make search look different when a search is in effect
                 // self.controller.detailQuery.search.nonEmptyString == nil
                 ButtonToolbar(systemName: "magnifyingglass",
