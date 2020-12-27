@@ -25,10 +25,12 @@ import Localize
 import Stylize
 import Snapshot
 
-struct _IndexToolbar: ViewModifier {
+struct IndexToolbar: ViewModifier {
     
     @ObservedObject var controller: AnyUIController
-    @Binding var presentation: Presentation.Wrap
+    @State var isAddWebsite = false
+    @State var isAddTag = false
+    @State var isAddChoose = false
     
     func body(content: Content) -> some View {
         return content.toolbar {
@@ -49,14 +51,14 @@ struct _IndexToolbar: ViewModifier {
                 
                 ZStack() {
                     // TODO: Hack to give the popover something to attach to
-                    Color.clear.popover(isPresented: self.$presentation.isAddTag, content: {
+                    Color.clear.popover(isPresented: self.$isAddTag, content: {
                         AddTag(
-                            cancel: { self.presentation.isAddTag = false },
+                            cancel: { self.isAddTag = false },
                             save: {
                                 let result = self.controller.controller.createTag(name: $0)
                                 switch result {
                                 case .success:
-                                    self.presentation.isAddTag = false
+                                    self.isAddTag = false
                                 case .failure(let error):
                                     // TODO: Do something with this error
                                     break
@@ -66,19 +68,19 @@ struct _IndexToolbar: ViewModifier {
                     })
                     ButtonToolbar(systemName: "plus",
                                   accessibilityLabel: Verb.AddTag)
-                        { self.presentation.isAddChoose = true }
+                        { self.isAddChoose = true }
                         .modifier(ActionSheet(
-                                    isPresented: self.$presentation.isAddChoose,
+                                    isPresented: self.$isAddChoose,
                                     title: Phrase.AddChoice,
                                     buttons: [
                                         .init(title: Verb.AddTag,
-                                              action: { self.presentation.isAddTag = true }),
+                                              action: { self.isAddTag = true }),
                                         .init(title: Verb.AddWebsite,
-                                              action: { self.presentation.isAddWebsite = true })
+                                              action: { self.isAddWebsite = true })
                                     ])
                         )
                 }
-                .sheet(isPresented: self.$presentation.isAddWebsite, content: {
+                .sheet(isPresented: self.$isAddWebsite, content: {
                     Snapshotter() { result in
                         switch result {
                         case .success(let output):
@@ -88,7 +90,7 @@ struct _IndexToolbar: ViewModifier {
                             // TODO: maybe show error to user?
                             break
                         }
-                        self.presentation.isAddWebsite = false
+                        self.isAddWebsite = false
                     }
                 })
             }

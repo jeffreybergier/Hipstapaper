@@ -28,8 +28,10 @@ import Browse
 struct DetailToolbar: ViewModifier {
     
     @ObservedObject var controller: AnyUIController
-    @Binding var presentation: Presentation.Wrap
     @Environment(\.openURL) var openURL
+    @State var isSearch = false
+    @State var isTagApply = false
+    @State var isShare = false
 
     func body(content: Content) -> some View {
         content.toolbar(id: "Detail") {
@@ -76,21 +78,19 @@ struct DetailToolbar: ViewModifier {
             ToolbarItem(id: "4") {
                 ButtonToolbar(systemName: "tag",
                               accessibilityLabel: Verb.AddAndRemoveTags)
-                    { self.presentation.isTagApply = true }
+                    { self.isTagApply = true }
                     .disabled(self.controller.selectedWebsites.isEmpty)
-                    .popover(isPresented: self.$presentation.isTagApply, content: { () -> TagApply in
-                        return TagApply(controller: self.controller, done: { self.presentation.isTagApply = false })
+                    .popover(isPresented: self.$isTagApply, content: { () -> TagApply in
+                        return TagApply(controller: self.controller, done: { self.isTagApply = false })
                     })
             }
             ToolbarItem(id: "5") {
-                ButtonToolbarShare { self.presentation.isShare = true }
+                ButtonToolbarShare { self.isShare = true }
                     .disabled(self.controller.selectedWebsites.isEmpty)
-                    .popover(isPresented: self.$presentation.isShare, content: {
+                    .popover(isPresented: self.$isShare, content: {
                         Share(self.controller.selectedWebsites.compactMap
                         { $0.value.resolvedURL ?? $0.value.originalURL })
-                        {
-                            self.presentation.isShare = false
-                        }
+                        { self.isShare = false }
                     })
             }
             ToolbarItem(id: "6") {
@@ -98,10 +98,10 @@ struct DetailToolbar: ViewModifier {
                 // self.controller.detailQuery.search.nonEmptyString == nil
                 ButtonToolbar(systemName: "magnifyingglass",
                               accessibilityLabel: Verb.Search)
-                    { self.presentation.isSearch = true }
-                    .popover(isPresented: self.$presentation.isSearch, content: {
+                    { self.isSearch = true }
+                    .popover(isPresented: self.$isSearch, content: {
                         Search(controller: self.controller,
-                               doneAction: { self.presentation.isSearch = false })
+                               doneAction: { self.isSearch = false })
                     })
             }
         }
