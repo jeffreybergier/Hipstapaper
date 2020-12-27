@@ -27,30 +27,20 @@ import Localize
 struct Search: View {
     
     @ObservedObject var controller: AnyUIController
-    @Binding var presentation: Presentation.Wrap
+    let doneAction: Modal.Action
     
     var body: some View {
-        VStack(spacing: 0) {
-            Toolbar {
-                HStack {
-                    Spacer()
-                    Text.ModalTitle(Noun.Search)
-                    Spacer()
-                    ButtonDone(Verb.Done) { self.presentation.isSearch = false }
-                    .keyboardShortcut(.defaultAction)
+        HStack {
+            TextField.Search(self.$controller.detailQuery.search)
+            if self.controller.detailQuery.search.nonEmptyString != nil {
+                ButtonToolbar(systemName: "xmark.circle", accessibilityLabel: Verb.ClearSearch) {
+                    self.controller.detailQuery.search = ""
                 }
             }
-            HStack {
-                TextField.Search(self.$controller.detailQuery.search)
-                if self.controller.detailQuery.search.nonEmptyString != nil {
-                    ButtonToolbar(systemName: "xmark.circle", accessibilityLabel: Verb.ClearSearch) {
-                        self.controller.detailQuery.search = ""
-                    }
-                }
-            }
-            .frame(width: 250)
-            .paddingDefault_Equal()
-            .animation(.default)
         }
+        .animation(.default)
+        .paddingDefault_Equal()
+        .modifier(Modal.Done(title: Noun.Search, done: self.doneAction))
+        .frame(width: 250, height: 150)
     }
 }

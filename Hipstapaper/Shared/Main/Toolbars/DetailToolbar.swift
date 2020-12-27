@@ -100,7 +100,8 @@ struct DetailToolbar: ViewModifier {
                               accessibilityLabel: Verb.Search)
                     { self.presentation.isSearch = true }
                     .popover(isPresented: self.$presentation.isSearch, content: {
-                        Search(controller: self.controller, presentation: self.$presentation)
+                        Search(controller: self.controller,
+                               doneAction: { self.presentation.isSearch = false })
                     })
             }
         }
