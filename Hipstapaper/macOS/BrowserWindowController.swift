@@ -30,8 +30,15 @@ class BrowserWindowController: NSWindowController {
     
     init(url: URL) {
         self.url = url
-        let vc = NSHostingController(rootView: Browser(url))
-        let window = NSWindow(contentViewController: vc)
+        let window = NSWindow(
+            contentRect: NSRect(x: 0, y: 0, width: 768, height: 768),
+            styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
+            backing: .buffered, defer: false)
+        window.titlebarAppearsTransparent = true // as stated
+        window.titleVisibility = .hidden         // no title - all in content
+        window.contentView = NSHostingView(rootView: Browser(url: url, done: {}))
+        window.center()
+//        window.contentViewController = NSHostingController(rootView: Browser(url: url, done: {}))
         super.init(window: window)
         self.windowFrameAutosaveName = url.absoluteString
         _ = self.memoryLeak

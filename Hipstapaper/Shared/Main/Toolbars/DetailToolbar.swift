@@ -32,13 +32,19 @@ struct DetailToolbar: ViewModifier {
     @State var isSearch = false
     @State var isTagApply = false
     @State var isShare = false
+    @State var isBrowser = false
 
     func body(content: Content) -> some View {
         content.toolbar(id: "Detail") {
             ToolbarItem(id: "0") {
-                ButtonToolbar(systemName: "safari", accessibilityLabel: Verb.Open, action: {})
+                ButtonToolbar(systemName: "safari", accessibilityLabel: Verb.Open, action: { self.isBrowser = true })
                     .keyboardShortcut("o")
                     .modifier(OpenWebsiteDisabler(selectedWebsites: self.controller.selectedWebsites))
+                    .sheet(isPresented: self.$isBrowser) {
+                        let site = self.controller.selectedWebsites.first!.value
+                        let url = site.resolvedURL ?? site.originalURL
+                        Browser(url: url!, done: { self.isBrowser = false })
+                    }
             }
             ToolbarItem(id: "1") {
                 ButtonToolbar(systemName: "safari.fill", accessibilityLabel: Verb.Safari) {

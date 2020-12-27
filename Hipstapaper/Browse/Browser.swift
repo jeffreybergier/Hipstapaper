@@ -25,15 +25,17 @@ public struct Browser: View {
     
     @StateObject var control: WebView.Control
     @StateObject var display: WebView.Display = .init()
+    let done: () -> Void
     
     public var body: some View {
-        VStack(spacing: 0) {
-            WebView(control: self.control, display: self.display)
-                .modifier(Toolbar(control: self.control, display: self.display))
-                .frame(minWidth: 300, idealWidth: 768, minHeight: 300, idealHeight: 768)
-        }
+        WebView(control: self.control, display: self.display)
+            .frame(minWidth: 300, idealWidth: 768, minHeight: 300, idealHeight: 768)
+            .edgesIgnoringSafeArea(.all)
+            .modifier(Toolbar(control: self.control, display: self.display, done: self.done))
     }
-    public init(_ load: URL) {
+    
+    public init(url load: URL, done: @escaping () -> Void) {
         _control = .init(wrappedValue: WebView.Control(load))
+        self.done = done
     }
 }
