@@ -32,6 +32,7 @@ public struct Toolbar<Content>: View where Content: View {
             ToolbarBackground()
                 .ignoresSafeArea()
             self.content
+                .buttonStyle(PlainButtonStyle())
                 .paddingToolbar()
                 .layoutPriority(1000)
         }
