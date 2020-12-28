@@ -30,12 +30,13 @@ struct Main: View {
     
     var body: some View {
         NavigationView {
-            TagList(controller: self.controller)
+            try! TagList(controller: self.controller.controller, navigation: { _ in
+                AnyView(WebsiteList(controller: self.controller)
+                            .modifier(DetailToolbar(controller: self.controller,
+                                                    presentations: self.$presentations)))
+            })
                 .modifier(IndexToolbar(controller: self.controller,
                                        presentations: self.$presentations))
-            WebsiteList(controller: self.controller)
-                .modifier(DetailToolbar(controller: self.controller,
-                                        presentations: self.$presentations))
         }
     }
 }

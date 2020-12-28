@@ -20,42 +20,64 @@
 //
 
 import SwiftUI
+import Combine
 import Datum
 import Localize
-import Stylize
+
+fileprivate class TagController: ObservableObject {
+    
+    let objectWillChange: ObservableObjectPublisher
+    
+    let staticTags = Query.Archived.anyTag_allCases
+    let allTags: AnyList<AnyElement<AnyTag>>
+    
+    init(controller: Controller) throws {
+        let tags = try controller.readTags().get()
+        self.objectWillChange = tags.objectWillChange
+        self.allTags = tags
+    }
+}
 
 struct TagList: View {
     
-    @ObservedObject var controller: AnyUIController
+    typealias Navigation = (AnyElement<AnyTag>) -> AnyView
+    
+    @ObservedObject private var controller: TagController
+    @State private var selection: AnyElement<AnyTag>?
+    private let navigation: Navigation
+    
+    init(controller: Controller, navigation: @escaping Navigation) throws {
+        let tagController = try TagController(controller: controller)
+        _controller = ObservedObject(initialValue: tagController)
+        self.navigation = navigation
+    }
 
     var body: some View {
-        List(selection: self.$controller.selectedTag) {
+        List(selection: self.$selection) {
             Section(header: Text.IndexSection(Noun.ReadingList)) {
-                ForEach(self.controller.indexFixed, id: \.self) { item in
-                    TagRow(item.value)
+                ForEach(self.controller.staticTags, id: \.self) { item in
+                    NavigationLink(destination: self.navigation(item)) {
+                        TagRow(item.value)
+                    }
                 }
             }
             Section(header: Text.IndexSection(Noun.Tags)) {
-                ForEach(self.controller.indexTags.value!, id: \.self) { item in
-                    TagRow(item.value)
+                ForEach(self.controller.allTags, id: \.self) { item in
+                    NavigationLink(destination: self.navigation(item)) {
+                        TagRow(item.value)
+                    }
                 }
             }
         }
         .listStyle(SidebarListStyle())
-        .onAppear() {
-            // TODO: Hack to make initial selection
-            self.controller.selectedTag = self.controller.indexFixed.first
-            self.controller.objectWillChange.send()
-        }
         .navigationTitle(Noun.Tags)
-        .modifier(ListEditMode())
     }
 }
 
 #if DEBUG
 struct TagList_Preview: PreviewProvider {
     static var previews: some View {
-        TagList(controller: P_UIController.new())
+        try! TagList(controller: P_Controller(), navigation: { _ in AnyView(Text("Swift Previews")) })
     }
 }
 #endif
