@@ -22,6 +22,10 @@
 import Combine
 
 public class AnyList<Element>: ListProtocol {
+    
+    public static var empty: AnyList<Element> {
+        return AnyList(__List_Empty())
+    }
 
     public let objectWillChange: ObservableObjectPublisher
 

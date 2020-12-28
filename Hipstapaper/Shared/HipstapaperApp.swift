@@ -40,7 +40,7 @@ struct HipstapaperApp: App {
 
     @SceneBuilder var body: some Scene {
         WindowGroup {
-            Main(controller: self.controller)
+            Main(controller: self.controller.controller)
         }
     }
 }

@@ -24,3 +24,17 @@ import Combine
 public protocol ListProtocol: Swift.RandomAccessCollection, ObservableObject {
     associatedtype Element
 }
+
+internal class __List_Empty<T>: ListProtocol {
+    
+    internal let objectWillChange: ObservableObjectPublisher = .init()
+
+    internal typealias Index = Int
+    internal typealias Element = T
+    
+    // MARK: Swift.Collection Boilerplate
+    public var startIndex: Index { 0 }
+    public var endIndex: Index { 0 }
+    public subscript(index: Index) -> Element { fatalError() }
+    public func index(after index: Index) -> Index { 0 }
+}

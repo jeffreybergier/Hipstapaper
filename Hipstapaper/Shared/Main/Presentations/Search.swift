@@ -26,15 +26,15 @@ import Localize
 
 struct Search: View {
     
-    @ObservedObject var controller: AnyUIController
+    @Binding var searchString: String
     let doneAction: Modal.Action
     
     var body: some View {
         HStack {
-            TextField.Search(self.$controller.detailQuery.search)
-            if self.controller.detailQuery.search.nonEmptyString != nil {
+            TextField.Search(self.$searchString)
+            if self.searchString.nonEmptyString != nil {
                 ButtonToolbar(systemName: "xmark.circle", accessibilityLabel: Verb.ClearSearch) {
-                    self.controller.detailQuery.search = ""
+                    self.searchString = ""
                 }
             }
         }

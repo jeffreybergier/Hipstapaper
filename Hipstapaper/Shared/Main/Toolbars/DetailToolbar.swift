@@ -27,7 +27,9 @@ import Browse
 
 struct DetailToolbar: ViewModifier {
     
-    @ObservedObject var controller: AnyUIController
+    let controller: Controller
+    @Binding var query: Query
+    @Binding var selectedWebsites: Set<AnyElement<AnyWebsite>>
     @Binding var presentations: Presentation.Wrap
 
     @Environment(\.openURL) var openURL
@@ -37,7 +39,7 @@ struct DetailToolbar: ViewModifier {
             // TODO: Hack when toolbars work properly with popovers
             Color.clear.frame(width: 1, height: 1)
                 .sheet(isPresented: self.$presentations.isBrowser) {
-                    let site = self.controller.selectedWebsites.first!.value
+                    let site = self.selectedWebsites.first!.value
                     let url = site.resolvedURL ?? site.originalURL
                     Browser(url: url!, done: { self.presentations.value = .none })
                 }
@@ -45,19 +47,20 @@ struct DetailToolbar: ViewModifier {
             Color.clear.frame(width: 1, height: 1)
                 .popover(isPresented: self.$presentations.isTagApply) { () -> TagApply in
                     return TagApply(controller: self.controller,
+                                    selectedWebsites: self.$selectedWebsites,
                                     done: { self.presentations.value = .none })
                 }
             
             Color.clear.frame(width: 1, height: 1)
                 .popover(isPresented: self.$presentations.isShare) {
-                    Share(self.controller.selectedWebsites.compactMap
+                    Share(self.selectedWebsites.compactMap
                     { $0.value.resolvedURL ?? $0.value.originalURL })
                     { self.presentations.value = .none }
                 }
             
             Color.clear.frame(width: 1, height: 1)
                 .popover(isPresented: self.$presentations.isSearch) {
-                    Search(controller: self.controller,
+                    Search(searchString: self.$query.search,
                            doneAction: { self.presentations.value = .none })
                 }
             
@@ -68,52 +71,48 @@ struct DetailToolbar: ViewModifier {
                                   accessibilityLabel: Verb.Open,
                                   action: { self.presentations.value = .browser })
                         .keyboardShortcut("o")
-                        .modifier(OpenWebsiteDisabler(selectedWebsites: self.controller.selectedWebsites))
+                        .modifier(OpenWebsiteDisabler(selectedWebsites: self.selectedWebsites))
                 }
                 ToolbarItem(id: "Detail.1") {
                     ButtonToolbar(systemName: "safari.fill", accessibilityLabel: Verb.Safari) {
-                        let urls = self.controller.selectedWebsites
+                        let urls = self.selectedWebsites
                             .compactMap { $0.value.resolvedURL ?? $0.value.originalURL }
                         urls.forEach { self.openURL($0) }
                     }
                     .keyboardShortcut("O")
-                    .modifier(OpenWebsiteDisabler(selectedWebsites: self.controller.selectedWebsites))
+                    .modifier(OpenWebsiteDisabler(selectedWebsites: self.selectedWebsites))
                 }
                 ToolbarItem(id: "Detail.2") {
                     ButtonToolbar(systemName: "tray.and.arrow.down",
                                   accessibilityLabel: Verb.Archive)
                     {
                         // Archive
-                        self.controller.selectedWebsites
+                        self.selectedWebsites
                             .filter { !$0.value.isArchived }
-                            .forEach { try! self.controller.controller
-                                .update($0, .init(isArchived: true)).get()
-                            }
+                            .forEach { try! self.controller.update($0, .init(isArchived: true)).get() }
                     }
-                    .disabled(self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
+                    .disabled(self.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
                 }
                 ToolbarItem(id: "Detail.3") {
                     ButtonToolbar(systemName: "tray.and.arrow.up",
                                   accessibilityLabel: Verb.Unarchive)
                     {
                         // Unarchive
-                        self.controller.selectedWebsites
+                        self.selectedWebsites
                             .filter { $0.value.isArchived }
-                            .forEach { try! self.controller.controller
-                                .update($0, .init(isArchived: false)).get()
-                            }
+                            .forEach { try! self.controller.update($0, .init(isArchived: false)).get() }
                     }
-                    .disabled(self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
+                    .disabled(self.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
                 }
                 ToolbarItem(id: "Detail.4") {
                     ButtonToolbar(systemName: "tag",
                                   accessibilityLabel: Verb.AddAndRemoveTags,
                                   action: { self.presentations.value = .tagApply })
-                        .disabled(self.controller.selectedWebsites.isEmpty)
+                        .disabled(self.selectedWebsites.isEmpty)
                 }
                 ToolbarItem(id: "Detail.5") {
                     ButtonToolbarShare { self.presentations.value = .share }
-                        .disabled(self.controller.selectedWebsites.isEmpty)
+                        .disabled(self.selectedWebsites.isEmpty)
                 }
                 ToolbarItem(id: "Detail.6") {
                     // TODO: Make search look different when a search is in effect

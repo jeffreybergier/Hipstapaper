@@ -26,24 +26,36 @@ import Stylize
 
 struct WebsiteList: View {
     
-    @ObservedObject var controller: AnyUIController
+    @ObservedObject var controller: WebsiteController
+    @Binding var selectedWebsites: Set<AnyElement<AnyWebsite>>
+    @Binding var presentations: Presentation.Wrap
+    
+//    init(controller: Controller, selectedTag: AnyElement<AnyTag>, selectedWebsites: Binding<Set<AnyElement<AnyWebsite>>?>) {
+//        let websiteController = WebsiteController(controller: controller, selectedTag: selectedTag)
+//        _controller = ObservedObject(initialValue: websiteController)
+//        _selectedWebsites = selectedWebsites
+//    }
     
     var body: some View {
-        return List(self.controller.detailWebsites.value!,
+        return List(self.controller.all,
                     id: \.self,
-                    selection: self.$controller.selectedWebsites)
+                    selection: self.$selectedWebsites)
         { item in
             WebsiteRow(item.value)
         }
         .navigationTitle(Noun.Hipstapaper)
         .modifier(ListEditMode())
+        .modifier(DetailToolbar(controller: self.controller.controller,
+                                query: self.$controller.query,
+                                selectedWebsites: self.$selectedWebsites,
+                                presentations: self.$presentations))
     }
 }
 
-#if DEBUG
-struct WebsiteList_Preview: PreviewProvider {
-    static var previews: some View {
-        WebsiteList(controller: P_UIController.new())
-    }
-}
-#endif
+//#if DEBUG
+//struct WebsiteList_Preview: PreviewProvider {
+//    static var previews: some View {
+//        WebsiteList(controller: P_UIController.new())
+//    }
+//}
+//#endif

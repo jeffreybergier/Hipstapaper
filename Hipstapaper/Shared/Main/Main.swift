@@ -25,26 +25,31 @@ import Stylize
 
 struct Main: View {
     
-    @ObservedObject var controller: AnyUIController
+    var controller: Controller
+    @State var selectedWebsites: Set<AnyElement<AnyWebsite>> = []
     @State var presentations = Presentation.Wrap()
     
     var body: some View {
         NavigationView {
-            try! TagList(controller: self.controller.controller, navigation: { _ in
-                AnyView(WebsiteList(controller: self.controller)
-                            .modifier(DetailToolbar(controller: self.controller,
-                                                    presentations: self.$presentations)))
-            })
-                .modifier(IndexToolbar(controller: self.controller,
-                                       presentations: self.$presentations))
+            try! TagList(
+                controller: self.controller,
+                navigation: { selectedTag in
+                    let c = WebsiteController(controller: self.controller, selectedTag: selectedTag)
+                    return AnyView(WebsiteList(controller: c,
+                                               selectedWebsites: self.$selectedWebsites,
+                                               presentations: self.$presentations))
+                }
+            )
+            .modifier(IndexToolbar(controller: self.controller,
+                                   presentations: self.$presentations))
         }
     }
 }
 
-#if DEBUG
-struct Main_Previews: PreviewProvider {
-    static var previews: some View {
-        Main(controller: P_UIController.new())
-    }
-}
-#endif
+//#if DEBUG
+//struct Main_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Main(controller: P_UIController.new())
+//    }
+//}
+//#endif

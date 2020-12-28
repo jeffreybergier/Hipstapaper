@@ -27,7 +27,7 @@ import Snapshot
 
 struct IndexToolbar: ViewModifier {
     
-    @ObservedObject var controller: AnyUIController
+    let controller: Controller
     @Binding var presentations: Presentation.Wrap
     
     func body(content: Content) -> some View {
@@ -38,7 +38,7 @@ struct IndexToolbar: ViewModifier {
                     AddTag(
                         cancel: { self.presentations.value = .none },
                         save: {
-                            let result = self.controller.controller.createTag(name: $0)
+                            let result = self.controller.createTag(name: $0)
                             switch result {
                             case .success:
                                 self.presentations.value = .none
@@ -57,7 +57,7 @@ struct IndexToolbar: ViewModifier {
                         switch result {
                         case .success(let output):
                             // TODO: maybe show error to user?
-                            try! self.controller.controller.createWebsite(.init(output)).get()
+                            try! self.controller.createWebsite(.init(output)).get()
                         case .failure(let error):
                             // TODO: maybe show error to user?
                             break
@@ -90,22 +90,7 @@ struct IndexToolbar: ViewModifier {
                 ))
             
             content.toolbar(id: "Index") {
-                // TODO: Move into ToolbarItems
-                // For some reason on iOS, it only shows 1 of the 2 items
-                ToolbarItem(id: "Index.0", placement: .destructiveAction) {
-                    ButtonToolbar(systemName: "minus",
-                                  accessibilityLabel: Verb.DeleteTag)
-                    {
-                        // Delete
-                        guard let tag = self.controller.selectedTag else { return }
-                        try! self.controller.controller.delete(tag).get()
-                    }
-                    .disabled({
-                        guard let tag = self.controller.selectedTag else { return true }
-                        return tag.value.wrappedValue as? Query.Archived != nil
-                    }())
-                }
-                ToolbarItem(id: "Index.1", placement: .confirmationAction) {
+                ToolbarItem(id: "Index.0", placement: .confirmationAction) {
                     ButtonToolbar(systemName: "plus",
                                   accessibilityLabel: Verb.AddTag,
                                   action: { self.presentations.value = .addChoose })
