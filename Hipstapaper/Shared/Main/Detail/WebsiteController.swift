@@ -43,6 +43,8 @@ class WebsiteController: ObservableObject {
         }
     }
     
+    @Published var selectedWebsites: Set<AnyElement<AnyWebsite>> = []
+    
     private var token: AnyCancellable?
     
     init(controller: Controller, selectedTag: AnyElement<AnyTag>) {

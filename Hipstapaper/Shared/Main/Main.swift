@@ -25,19 +25,15 @@ import Stylize
 
 struct Main: View {
     
-    var controller: Controller
-    @State var selectedWebsites: Set<AnyElement<AnyWebsite>> = []
+    let controller: Controller
     
     var body: some View {
         NavigationView {
             try! TagList(
                 controller: self.controller,
                 navigation: { selectedTag in
-                    let c = WebsiteController(controller: self.controller, selectedTag: selectedTag)
-                    return AnyView(
-                        WebsiteList(controller: c,
-                                    selectedWebsites: self.$selectedWebsites)
-                    )
+                    let w = WebsiteList(controller: self.controller, selectedTag: selectedTag)
+                    return AnyView(w.modifier(DetailToolbar(controller: w.controller)))
                 }
             )
             .modifier(IndexToolbar(controller: self.controller))
