@@ -29,14 +29,17 @@ struct Main: View {
     
     var body: some View {
         NavigationView {
-            try! TagList(
-                controller: self.controller,
-                navigation: { selectedTag in
-                    let w = WebsiteList(controller: self.controller, selectedTag: selectedTag)
-                    return AnyView(w.modifier(DetailToolbar(controller: w.controller)))
-                }
-            )
-            .modifier(IndexToolbar(controller: self.controller))
+            TagList(controller: self.controller,
+                    navigation: { selectedTag in
+                        let c = WebsiteController(controller: self.controller, selectedTag: selectedTag)
+                        return AnyView(WebsiteList(controller: c).modifier(DetailToolbar(controller: c)))
+                    })
+                .modifier(IndexToolbar(controller: self.controller))
+            
+            // Show the default load view at app launch
+            // This gets replaced with navigation later
+            let c = WebsiteController(controller: self.controller)
+            WebsiteList(controller: c).modifier(DetailToolbar(controller: c))
         }
     }
 }

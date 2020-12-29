@@ -1,7 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/12/28.
-//
-//  Copyright © 2020 Saturday Apps.
+//  Created by Jeffrey Bergier on 2020/12/29.
 //
 //  This file is part of Hipstapaper.
 //
@@ -19,17 +17,15 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import Combine
 import Datum
+import Combine
 
-class WebsiteController: ObservableObject {
+class TagController: ObservableObject {
     
-    private let selectedTag: AnyElement<AnyTag>
-    
-    let controller: Controller
-    
-    private var _all: AnyList<AnyElement<AnyWebsite>>? = nil
-    var all: AnyList<AnyElement<AnyWebsite>> {
+    private let controller: Controller
+    let `static` = Query.Archived.anyTag_allCases
+    private var _all: AnyList<AnyElement<AnyTag>>?
+    var all: AnyList<AnyElement<AnyTag>> {
         get {
             if let all = _all { return all }
             self.update()
@@ -37,33 +33,23 @@ class WebsiteController: ObservableObject {
         }
     }
     
-    @Published var query: Query = .init() {
-        didSet {
-            self.update()
-        }
-    }
-    
-    @Published var selectedWebsites: Set<AnyElement<AnyWebsite>> = []
-    
     private var token: AnyCancellable?
     
-    init(controller: Controller, selectedTag: AnyElement<AnyTag> = Query.Archived.anyTag_allCases.first!) {
-        self.selectedTag = selectedTag
+    init(controller: Controller) {
         self.controller = controller
     }
     
     private func update() {
         self.token?.cancel()
         self.token = nil
-        let result = controller.readWebsites(query: self.query)
+        let result = controller.readTags()
         switch result {
         case .failure(let error):
             // TODO: Do something with this error
             _all = nil
-            break
-        case .success(let sites):
-            self._all = sites
-            self.token = sites.objectWillChange.sink { [unowned self] _ in
+        case .success(let tags):
+            _all = tags
+            self.token = tags.objectWillChange.sink() { [unowned self] _ in
                 self.objectWillChange.send()
             }
         }

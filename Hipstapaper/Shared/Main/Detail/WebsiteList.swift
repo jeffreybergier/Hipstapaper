@@ -33,6 +33,10 @@ struct WebsiteList: View {
         _controller = ObservedObject(initialValue: websiteController)
     }
     
+    init(controller: WebsiteController) {
+        _controller = ObservedObject(initialValue: controller)
+    }
+    
     var body: some View {
         return List(self.controller.all, id: \.self, selection: self.$controller.selectedWebsites)
         { item in
@@ -46,7 +50,7 @@ struct WebsiteList: View {
 #if DEBUG
 struct WebsiteList_Preview: PreviewProvider {
     static var previews: some View {
-        WebsiteList(controller: P_Controller(), selectedTag: p_tags.first!)
+        WebsiteList(controller: WebsiteController(controller: P_Controller()))
     }
 }
 #endif

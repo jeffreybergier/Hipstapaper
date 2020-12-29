@@ -20,23 +20,8 @@
 //
 
 import SwiftUI
-import Combine
 import Datum
 import Localize
-
-fileprivate class TagController: ObservableObject {
-    
-    let objectWillChange: ObservableObjectPublisher
-    
-    let staticTags = Query.Archived.anyTag_allCases
-    let allTags: AnyList<AnyElement<AnyTag>>
-    
-    init(controller: Controller) throws {
-        let tags = try controller.readTags().get()
-        self.objectWillChange = tags.objectWillChange
-        self.allTags = tags
-    }
-}
 
 struct TagList: View {
     
@@ -46,8 +31,8 @@ struct TagList: View {
     @State private var selection: AnyElement<AnyTag>?
     private let navigation: Navigation
     
-    init(controller: Controller, navigation: @escaping Navigation) throws {
-        let tagController = try TagController(controller: controller)
+    init(controller: Controller, navigation: @escaping Navigation) {
+        let tagController = TagController(controller: controller)
         _controller = ObservedObject(initialValue: tagController)
         self.navigation = navigation
     }
@@ -55,14 +40,14 @@ struct TagList: View {
     var body: some View {
         List(selection: self.$selection) {
             Section(header: Text.IndexSection(Noun.ReadingList)) {
-                ForEach(self.controller.staticTags, id: \.self) { item in
+                ForEach(self.controller.`static`, id: \.self) { item in
                     NavigationLink(destination: self.navigation(item)) {
                         TagRow(item.value)
                     }
                 }
             }
             Section(header: Text.IndexSection(Noun.Tags)) {
-                ForEach(self.controller.allTags, id: \.self) { item in
+                ForEach(self.controller.all, id: \.self) { item in
                     NavigationLink(destination: self.navigation(item)) {
                         TagRow(item.value)
                     }
