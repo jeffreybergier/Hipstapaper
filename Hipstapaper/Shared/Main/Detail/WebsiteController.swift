@@ -24,11 +24,7 @@ import Datum
 
 class WebsiteController: ObservableObject {
     
-    private let selectedTag: AnyElement<AnyTag>
-    
     let controller: Controller
-    
-    private var _all: AnyList<AnyElement<AnyWebsite>>? = nil
     var all: AnyList<AnyElement<AnyWebsite>> {
         get {
             if let all = _all { return all }
@@ -36,15 +32,15 @@ class WebsiteController: ObservableObject {
             return _all ?? .empty
         }
     }
-    
+    @Published var selectedWebsites: Set<AnyElement<AnyWebsite>> = []
     @Published var query: Query = .init() {
         didSet {
             self.update()
         }
     }
     
-    @Published var selectedWebsites: Set<AnyElement<AnyWebsite>> = []
-    
+    private var _all: AnyList<AnyElement<AnyWebsite>>? = nil
+    private let selectedTag: AnyElement<AnyTag>
     private var token: AnyCancellable?
     
     init(controller: Controller, selectedTag: AnyElement<AnyTag> = Query.Archived.anyTag_allCases.first!) {
@@ -63,6 +59,7 @@ class WebsiteController: ObservableObject {
             break
         case .success(let sites):
             self._all = sites
+            self.objectWillChange.send()
             self.token = sites.objectWillChange.sink { [unowned self] _ in
                 self.objectWillChange.send()
             }

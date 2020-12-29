@@ -28,7 +28,6 @@ struct TagList: View {
     typealias Navigation = (AnyElement<AnyTag>) -> AnyView
     
     @ObservedObject private var controller: TagController
-    @State private var selection: AnyElement<AnyTag>?
     private let navigation: Navigation
     
     init(controller: Controller, navigation: @escaping Navigation) {
@@ -36,9 +35,14 @@ struct TagList: View {
         _controller = ObservedObject(initialValue: tagController)
         self.navigation = navigation
     }
+    
+    init(controller: TagController, navigation: @escaping Navigation) {
+        _controller = ObservedObject(initialValue: controller)
+        self.navigation = navigation
+    }
 
     var body: some View {
-        List(selection: self.$selection) {
+        List(selection: self.$controller.selection) {
             Section(header: Text.IndexSection(Noun.ReadingList)) {
                 ForEach(self.controller.`static`, id: \.self) { item in
                     NavigationLink(destination: self.navigation(item)) {

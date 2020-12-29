@@ -22,9 +22,8 @@ import Combine
 
 class TagController: ObservableObject {
     
-    private let controller: Controller
+    @Published var selection: AnyElement<AnyTag>?
     let `static` = Query.Archived.anyTag_allCases
-    private var _all: AnyList<AnyElement<AnyTag>>?
     var all: AnyList<AnyElement<AnyTag>> {
         get {
             if let all = _all { return all }
@@ -33,6 +32,8 @@ class TagController: ObservableObject {
         }
     }
     
+    private let controller: Controller
+    private var _all: AnyList<AnyElement<AnyTag>>?
     private var token: AnyCancellable?
     
     init(controller: Controller) {
@@ -49,6 +50,7 @@ class TagController: ObservableObject {
             _all = nil
         case .success(let tags):
             _all = tags
+            self.objectWillChange.send()
             self.token = tags.objectWillChange.sink() { [unowned self] _ in
                 self.objectWillChange.send()
             }
