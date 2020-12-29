@@ -19,28 +19,29 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import SwiftUI
-import XCGLogger
-import Datum
-import Browse
+import CoreData
+import Combine
 
-internal let log: XCGLogger = {
-    XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
-}()
+@objc(CD_Base) internal class CD_Base: NSManagedObject, Identifiable {
 
-@main
-struct HipstapaperApp: App {
-
-    let controller: Controller
-    
-    init() {
-//        let controller = try! ControllerNew()
-        self.controller = P_Controller()
+    /// Template for fetch request in subclasses
+    internal class var entityName: String { "CD_Base" }
+    private class var request: NSFetchRequest<CD_Base> {
+        NSFetchRequest<CD_Base>(entityName: self.entityName)
     }
 
-    @SceneBuilder var body: some Scene {
-        WindowGroup {
-            Main(controller: self.controller)
-        }
+    @NSManaged internal var cd_dateCreated: Date
+    @NSManaged internal var cd_dateModified: Date
+
+    override internal func awakeFromInsert() {
+        super.awakeFromInsert()
+        let date = Date()
+        self.cd_dateModified = date
+        self.cd_dateCreated = date
+    }
+
+    /// Override to validate your properties before saving
+    internal func datum_willSave() {
+        self.cd_dateModified = Date()
     }
 }

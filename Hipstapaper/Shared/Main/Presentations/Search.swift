@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/23.
+//  Created by Jeffrey Bergier on 2020/12/05.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -20,27 +20,27 @@
 //
 
 import SwiftUI
-import XCGLogger
 import Datum
-import Browse
+import Stylize
+import Localize
 
-internal let log: XCGLogger = {
-    XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
-}()
-
-@main
-struct HipstapaperApp: App {
-
-    let controller: Controller
+struct Search: View {
     
-    init() {
-//        let controller = try! ControllerNew()
-        self.controller = P_Controller()
-    }
-
-    @SceneBuilder var body: some Scene {
-        WindowGroup {
-            Main(controller: self.controller)
+    @Binding var searchString: String
+    let doneAction: Modal.Action
+    
+    var body: some View {
+        HStack {
+            TextField.Search(self.$searchString)
+            if self.searchString.nonEmptyString != nil {
+                ButtonToolbar(systemName: "xmark.circle", accessibilityLabel: Verb.ClearSearch) {
+                    self.searchString = ""
+                }
+            }
         }
+        .animation(.default)
+        .paddingDefault_Equal()
+        .modifier(Modal.Done(title: Noun.Search, done: self.doneAction))
+        .frame(width: 250, height: 150) // TODO: Remove height when this is not broken
     }
 }

@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/23.
+//  Created by Jeffrey Bergier on 2020/12/20.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -20,27 +20,24 @@
 //
 
 import SwiftUI
-import XCGLogger
-import Datum
-import Browse
+import Stylize
+import Localize
 
-internal let log: XCGLogger = {
-    XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
-}()
-
-@main
-struct HipstapaperApp: App {
-
-    let controller: Controller
+struct AddTag: View {
     
-    init() {
-//        let controller = try! ControllerNew()
-        self.controller = P_Controller()
-    }
-
-    @SceneBuilder var body: some Scene {
-        WindowGroup {
-            Main(controller: self.controller)
+    @State private var tagName: String = ""
+    let cancel: Modal.Action
+    let save: (String?) -> Void
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            TextField.TagName(self.$tagName)
+                .paddingDefault_Equal()
+                .modifier(Modal.SaveCancel(title: Noun.AddTag,
+                                           cancel: self.cancel,
+                                           save: { self.save(self.tagName.nonEmptyString) }))
+                // TODO: Remove height when this is not broken
+                .frame(idealWidth: 250, maxWidth: .infinity, idealHeight: 150, maxHeight: .infinity)
         }
     }
 }

@@ -1,0 +1,76 @@
+
+//
+//  Created by Jeffrey Bergier on 2020/12/12.
+//
+//  This file is part of Hipstapaper.
+//
+//  Hipstapaper is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  Hipstapaper is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
+//
+
+
+//
+//
+////
+////// Verbs
+////
+//
+//
+
+"LCZ.Verb.Save"                = "Save";
+"LCZ.Verb.Done"                = "Done";
+"LCZ.Verb.Cancel"              = "Cancel";
+"LCZ.Verb.Search"              = "Search";
+"LCZ.Verb.Add Website"         = "Add Website";
+"LCZ.Verb.Archive"             = "Archive";
+"LCZ.Verb.Unarchive"           = "Unarchive";
+"LCZ.Verb.Share"               = "Share";
+"LCZ.Verb.Delete Tag"          = "Delete Tag";
+"LCZ.Verb.Add Tag"             = "Add Tag";
+"LCZ.Verb.Go"                  = "Go";
+"LCZ.Verb.Apply Tags"          = "Apply Tags";
+"LCZ.Verb.Clear Search"        = "Clear Search";
+"LCZ.Verb.Open"                = "Open";
+"LCZ.Verb.Open in Browser"     = "Open in Browser";
+"LCZ.Verb.Add and Remove Tags" = "Add and Remove Tags";
+
+//
+//
+////
+////// Nouns
+////
+//
+//
+
+"LCZ.Noun.Search"        = "Search";
+"LCZ.Noun.Reading List"  = "Reading List";
+"LCZ.Noun.Tags"          = "Tags";
+"LCZ.Noun.Untitled"      = "Untitled";
+"LCZ.Noun.All Items"     = "All Items";
+"LCZ.Noun.Unread Items"  = "Unread Items";
+"LCZ.Noun.Website URL"   = "Website URL";
+"LCZ.Noun.Website Title" = "Website Title";
+"LCZ.Noun.Hipstapaper"   = "Hipstapaper";
+"LCZ.Noun.Tag Name"      = "Tag Name";
+"LCZ.Noun.Add Tag"       = "Add Tag";
+"LCZ.Noun.Add Website"   = "Add Website";
+
+//
+//
+////
+////// Phrases
+////
+//
+//
+
+"LCZ.Phrase.AddChoice" = "Create new tag or add new website?";

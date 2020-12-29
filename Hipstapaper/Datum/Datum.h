@@ -19,28 +19,14 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import SwiftUI
-import XCGLogger
-import Datum
-import Browse
+#import <Foundation/Foundation.h>
 
-internal let log: XCGLogger = {
-    XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
-}()
+//! Project version number for Datum.
+FOUNDATION_EXPORT double DatumVersionNumber;
 
-@main
-struct HipstapaperApp: App {
+//! Project version string for Datum.
+FOUNDATION_EXPORT const unsigned char DatumVersionString[];
 
-    let controller: Controller
-    
-    init() {
-//        let controller = try! ControllerNew()
-        self.controller = P_Controller()
-    }
+// In this header, you should import all the public headers of your framework using statements like #import <Datum/PublicHeader.h>
 
-    @SceneBuilder var body: some Scene {
-        WindowGroup {
-            Main(controller: self.controller)
-        }
-    }
-}
+

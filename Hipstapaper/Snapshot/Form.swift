@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/23.
+//  Created by Jeffrey Bergier on 2020/12/06.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -20,27 +20,29 @@
 //
 
 import SwiftUI
-import XCGLogger
-import Datum
-import Browse
 
-internal let log: XCGLogger = {
-    XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
-}()
-
-@main
-struct HipstapaperApp: App {
-
-    let controller: Controller
+enum Form {
     
-    init() {
-//        let controller = try! ControllerNew()
-        self.controller = P_Controller()
-    }
+    typealias Completion = (Result<Void, Error>) -> Void
+    case load, loading, loaded
+    
+}
 
-    @SceneBuilder var body: some Scene {
-        WindowGroup {
-            Main(controller: self.controller)
+struct FormSwitcher: View {
+    
+    @ObservedObject var viewModel: Snapshotter.ViewModel
+    
+    var body: some View {
+        Group {
+            switch self.viewModel.formState {
+            case .load:
+                AnyView(FormLoad(input: self.$viewModel.input))
+            case .loading:
+                AnyView(FormLoading(output: self.viewModel.output))
+            case .loaded:
+                AnyView(FormLoaded(output: self.viewModel.output))
+            }
         }
+        .animation(.default)
     }
 }

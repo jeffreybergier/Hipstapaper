@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/23.
+//  Created by Jeffrey Bergier on 2020/12/11.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -20,27 +20,19 @@
 //
 
 import SwiftUI
-import XCGLogger
-import Datum
-import Browse
 
-internal let log: XCGLogger = {
-    XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
-}()
+extension View {
 
-@main
-struct HipstapaperApp: App {
-
-    let controller: Controller
-    
-    init() {
-//        let controller = try! ControllerNew()
-        self.controller = P_Controller()
+    public var cornerRadius_small: some View {
+        return self.cornerRadius(4)
     }
 
-    @SceneBuilder var body: some Scene {
-        WindowGroup {
-            Main(controller: self.controller)
-        }
+    public var cornerRadius_medium: some View {
+        return self.cornerRadius(8)
     }
+
+    public var cornerRadius_large: some View {
+        return self.cornerRadius(16)
+    }
+
 }

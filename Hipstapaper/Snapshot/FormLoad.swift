@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/23.
+//  Created by Jeffrey Bergier on 2020/12/06.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -20,27 +20,31 @@
 //
 
 import SwiftUI
-import XCGLogger
-import Datum
-import Browse
+import Stylize
+import Localize
 
-internal let log: XCGLogger = {
-    XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
-}()
-
-@main
-struct HipstapaperApp: App {
-
-    let controller: Controller
+struct FormLoad: View {
     
-    init() {
-//        let controller = try! ControllerNew()
-        self.controller = P_Controller()
-    }
-
-    @SceneBuilder var body: some Scene {
-        WindowGroup {
-            Main(controller: self.controller)
+    @Binding var input: WebView.Input
+    
+    var body: some View {
+        HStack() {
+            TextField.WebsiteURL(self.$input.originalURLString)
+            ButtonDone(Verb.Go) {
+                self.input.shouldLoad.toggle()
+            }
+            .keyboardShortcut(.defaultAction)
+            .disabled(URL(string: self.input.originalURLString) == nil)
         }
     }
 }
+
+#if DEBUG
+struct FormLoad_Preview: PreviewProvider {
+    @State static var input = WebView.Input()
+    static var previews: some View {
+        FormLoad(input: self.$input)
+            .previewLayout(.fixed(width: 300, height: 100.0))
+    }
+}
+#endif

@@ -19,28 +19,22 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import SwiftUI
-import XCGLogger
 import Datum
-import Browse
+import Combine
 
-internal let log: XCGLogger = {
-    XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
-}()
+class ParentTestCase: AsyncDeprecateTestCase {
 
-@main
-struct HipstapaperApp: App {
+    var controller: Datum.Controller!
+    var token: AnyCancellable?
 
-    let controller: Controller
-    
-    init() {
-//        let controller = try! ControllerNew()
-        self.controller = P_Controller()
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+        self.controller = try ControllerNew(isTesting: true)
     }
 
-    @SceneBuilder var body: some Scene {
-        WindowGroup {
-            Main(controller: self.controller)
-        }
+    override func tearDownWithError() throws {
+        self.controller = nil
+        try super.tearDownWithError()
     }
+
 }

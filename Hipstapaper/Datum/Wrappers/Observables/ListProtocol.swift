@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/23.
+//  Created by Jeffrey Bergier on 2020/11/25.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,28 +19,22 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import SwiftUI
-import XCGLogger
-import Datum
-import Browse
+import Combine
 
-internal let log: XCGLogger = {
-    XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
-}()
+public protocol ListProtocol: Swift.RandomAccessCollection, ObservableObject {
+    associatedtype Element
+}
 
-@main
-struct HipstapaperApp: App {
-
-    let controller: Controller
+internal class __List_Empty<T>: ListProtocol {
     
-    init() {
-//        let controller = try! ControllerNew()
-        self.controller = P_Controller()
-    }
+    internal let objectWillChange: ObservableObjectPublisher = .init()
 
-    @SceneBuilder var body: some Scene {
-        WindowGroup {
-            Main(controller: self.controller)
-        }
-    }
+    internal typealias Index = Int
+    internal typealias Element = T
+    
+    // MARK: Swift.Collection Boilerplate
+    public var startIndex: Index { 0 }
+    public var endIndex: Index { 0 }
+    public subscript(index: Index) -> Element { fatalError() }
+    public func index(after index: Index) -> Index { 0 }
 }

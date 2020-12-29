@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/23.
+//  Created by Jeffrey Bergier on 2020/12/05.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,28 +19,19 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import SwiftUI
-import XCGLogger
-import Datum
-import Browse
-
-internal let log: XCGLogger = {
-    XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
-}()
-
-@main
-struct HipstapaperApp: App {
-
-    let controller: Controller
-    
-    init() {
-//        let controller = try! ControllerNew()
-        self.controller = P_Controller()
+/// Element that does not properly observe its Value
+internal class StaticElement<T: Hashable>: Element {
+    internal var value: T
+    internal var isDeleted: Bool { fatalError("StaticElement does not know this") }
+    internal init(_ value: T) {
+        self.value = value
     }
-
-    @SceneBuilder var body: some Scene {
-        WindowGroup {
-            Main(controller: self.controller)
-        }
+    
+    internal static func == (lhs: StaticElement<T>, rhs: StaticElement<T>) -> Bool {
+        return lhs.value == rhs.value
+    }
+    
+    internal var hashValue: Int {
+        return self.hashValue
     }
 }

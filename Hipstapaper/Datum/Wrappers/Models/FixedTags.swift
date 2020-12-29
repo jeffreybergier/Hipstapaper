@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/23.
+//  Created by Jeffrey Bergier on 2020/12/02.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,28 +19,26 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import SwiftUI
-import XCGLogger
-import Datum
-import Browse
+import Localize
 
-internal let log: XCGLogger = {
-    XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
-}()
-
-@main
-struct HipstapaperApp: App {
-
-    let controller: Controller
+extension Query.Archived: Tag {
     
-    init() {
-//        let controller = try! ControllerNew()
-        self.controller = P_Controller()
+    public static var anyTag_allCases: [AnyElement<AnyTag>] {
+        self.allCases.map { AnyElement(StaticElement(AnyTag($0))) }
     }
-
-    @SceneBuilder var body: some Scene {
-        WindowGroup {
-            Main(controller: self.controller)
+    
+    // TODO: See if its possible change type to LocalizedString
+    public var localizedDescription: String {
+        switch self {
+        case .all:
+            return Noun.AllItems_L
+        case .unarchived:
+            return Noun.UnreadItems_L
         }
     }
+    
+    public var name: String? { self.localizedDescription }
+    public var websitesCount: Int? { return nil }
+    public var dateCreated: Date { fatalError() }
+    public var dateModified: Date { fatalError() }
 }

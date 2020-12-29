@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/23.
+//  Created by Jeffrey Bergier on 2020/12/20.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -20,27 +20,13 @@
 //
 
 import SwiftUI
-import XCGLogger
-import Datum
-import Browse
 
-internal let log: XCGLogger = {
-    XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
-}()
+public func ProgressBar(_ progress: Progress) -> some View {
+    return ProgressView(progress)
+        .progressViewStyle(LinearProgressViewStyle())
+}
 
-@main
-struct HipstapaperApp: App {
-
-    let controller: Controller
-    
-    init() {
-//        let controller = try! ControllerNew()
-        self.controller = P_Controller()
-    }
-
-    @SceneBuilder var body: some Scene {
-        WindowGroup {
-            Main(controller: self.controller)
-        }
-    }
+public func ProgressSpinner(_ progress: Progress) -> some View {
+    return ProgressView(progress)
+        .progressViewStyle(CircularProgressViewStyle())
 }

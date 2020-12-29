@@ -1,7 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/23.
-//
-//  Copyright © 2020 Saturday Apps.
+//  Created by Jeffrey Bergier on 2020/12/24.
 //
 //  This file is part of Hipstapaper.
 //
@@ -20,27 +18,7 @@
 //
 
 import SwiftUI
-import XCGLogger
-import Datum
-import Browse
 
-internal let log: XCGLogger = {
-    XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
-}()
-
-@main
-struct HipstapaperApp: App {
-
-    let controller: Controller
-    
-    init() {
-//        let controller = try! ControllerNew()
-        self.controller = P_Controller()
-    }
-
-    @SceneBuilder var body: some Scene {
-        WindowGroup {
-            Main(controller: self.controller)
-        }
-    }
+public enum Phrase {
+    public static let AddChoice: LocalizedStringKey = "LCZ.Phrase.AddChoice"
 }

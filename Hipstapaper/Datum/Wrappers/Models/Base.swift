@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/23.
+//  Created by Jeffrey Bergier on 2020/11/28.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,28 +19,12 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import SwiftUI
-import XCGLogger
-import Datum
-import Browse
+public protocol Base: Identifiable, Hashable {
+    var dateCreated: Date { get }
+    var dateModified: Date { get }
+}
 
-internal let log: XCGLogger = {
-    XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
-}()
-
-@main
-struct HipstapaperApp: App {
-
-    let controller: Controller
-    
-    init() {
-//        let controller = try! ControllerNew()
-        self.controller = P_Controller()
-    }
-
-    @SceneBuilder var body: some Scene {
-        WindowGroup {
-            Main(controller: self.controller)
-        }
-    }
+extension CD_Base: Base {
+    var dateCreated: Date { cd_dateCreated }
+    var dateModified: Date { cd_dateModified }
 }

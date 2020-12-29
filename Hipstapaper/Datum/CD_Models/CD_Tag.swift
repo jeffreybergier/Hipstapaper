@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/23.
+//  Created by Jeffrey Bergier on 2020/11/24.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,28 +19,29 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import SwiftUI
-import XCGLogger
-import Datum
-import Browse
+import CoreData
 
-internal let log: XCGLogger = {
-    XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
-}()
+extension CD_Tag: Tag {
+    var name: String? { cd_name }
+    var websitesCount: Int? { Int(self.cd_websitesCount) }
+}
 
-@main
-struct HipstapaperApp: App {
+@objc(CD_Tag) internal class CD_Tag: CD_Base {
 
-    let controller: Controller
-    
-    init() {
-//        let controller = try! ControllerNew()
-        self.controller = P_Controller()
+    internal class override var entityName: String { "CD_Tag" }
+    internal class var request: NSFetchRequest<CD_Tag> {
+        NSFetchRequest<CD_Tag>(entityName: self.entityName)
     }
 
-    @SceneBuilder var body: some Scene {
-        WindowGroup {
-            Main(controller: self.controller)
-        }
+    @NSManaged internal var cd_websitesCount: Int32
+    @NSManaged internal var cd_name: String?
+    @NSManaged internal var cd_websites: NSSet
+
+    internal override func datum_willSave() {
+        super.datum_willSave()
+
+        self.cd_websitesCount = Int32(self.cd_websites.count)
+        // TODO: validate name
     }
 }
+
