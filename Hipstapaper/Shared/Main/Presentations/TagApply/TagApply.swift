@@ -26,22 +26,30 @@ import Localize
 
 struct TagApply: View {
     
-    var controller: Controller
-    @Binding var selectedWebsites: Set<AnyElement<AnyWebsite>>
+    @ObservedObject var controller: WebsiteController
     let done: Modal.Action
     
     var body: some View {
         // TODO: Figure out how to remove VStack without ruining layout on iOS
         VStack(spacing: 0) {
-            List(self.controller.tagStatus(for: self.selectedWebsites).value!, id: \.0) { tuple in
-                TagApplyRow(name: tuple.0.value.name, value: tuple.1.boolValue) { newValue in
+            List(try! self.controller.controller.tagStatus(for: self.controller.selectedWebsites).get(),
+                id: \.0)
+            { tuple in
+                TagApplyRow(name: tuple.0.value.name, value: tuple.1.boolValue)
+                { newValue in
                     switch newValue {
                     case true:
                         // TODO: Fix try!
-                        try! self.controller.add(tag: tuple.0, to: self.selectedWebsites).get()
+                        try! self.controller.controller.add(
+                            tag: tuple.0,
+                            to: self.controller.selectedWebsites
+                        ).get()
                     case false:
                         // TODO: Fix try!
-                        try! self.controller.remove(tag: tuple.0, from: self.selectedWebsites).get()
+                        try! self.controller.controller.remove(
+                            tag: tuple.0,
+                            from: self.controller.selectedWebsites
+                        ).get()
                     }
                 }
             }

@@ -30,6 +30,7 @@ public struct Query {
     public var tag: AnyElement<AnyTag>?
     public var search: String {
         didSet {
+            // TODO: Remove this print
             print(self.search)
         }
     }

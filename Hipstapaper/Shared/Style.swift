@@ -21,12 +21,6 @@
 
 import SwiftUI
 import Localize
-#if canImport(AppKit)
-import AppKit
-#endif
-#if canImport(UIKit)
-import UIKit
-#endif
 
 struct IndexRowTitle: View {
     var title: String?
