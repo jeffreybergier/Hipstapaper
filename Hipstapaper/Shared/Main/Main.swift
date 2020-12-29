@@ -45,10 +45,10 @@ struct Main: View {
     }
 }
 
-//#if DEBUG
-//struct Main_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Main(controller: P_UIController.new())
-//    }
-//}
-//#endif
+#if DEBUG
+struct Main_Previews: PreviewProvider {
+    static var previews: some View {
+        Main(controller: P_Controller())
+    }
+}
+#endif

@@ -31,16 +31,16 @@ internal let log: XCGLogger = {
 @main
 struct HipstapaperApp: App {
 
-    @StateObject var controller: AnyUIController
+    let controller: Controller
     
     init() {
-        let controller = try! ControllerNew()
-        _controller = StateObject(wrappedValue: P_UIController.new())
+//        let controller = try! ControllerNew()
+        self.controller = P_Controller()
     }
 
     @SceneBuilder var body: some Scene {
         WindowGroup {
-            Main(controller: self.controller.controller)
+            Main(controller: self.controller)
         }
     }
 }

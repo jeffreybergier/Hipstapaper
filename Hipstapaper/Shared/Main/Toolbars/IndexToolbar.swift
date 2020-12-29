@@ -95,7 +95,6 @@ struct IndexToolbar: ViewModifier {
                                   accessibilityLabel: Verb.AddTag,
                                   action: { self.presentation.value = .addChoose })
                 }
-                
             }
         }
     }

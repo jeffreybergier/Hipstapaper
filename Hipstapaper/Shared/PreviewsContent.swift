@@ -131,17 +131,9 @@ class P_Controller: Controller {
     func tagStatus(for websites: Set<AnyElement<AnyWebsite>>) -> Result<AnyList<(AnyElement<AnyTag>, ToggleState)>, Error> {
         return .success(AnyList(MappedList(p_tags, transform: { _ in .on })))
     }
-}
-
-class P_UIController: UIController {
-    class func new() -> AnyUIController { AnyUIController(P_UIController()) }
-    var indexFixed: [AnyElement<AnyTag>] = Query.Archived.anyTag_allCases
-    var indexTags: Result<AnyList<AnyElement<AnyTag>>, Error> = .success(p_tags)
-    var detailWebsites: Result<AnyList<AnyElement<AnyWebsite>>, Error> = .success(p_sites)
-    var controller: Controller = P_Controller()
-    @Published var detailQuery: Query = .init()
-    @Published var selectedTag: AnyElement<AnyTag>?
-    @Published var selectedWebsites: Set<AnyElement<AnyWebsite>> = []
+    deinit {
+        print("DEINIT")
+    }
 }
 
 class P_Collection<Element>: ListProtocol {

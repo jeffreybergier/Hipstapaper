@@ -36,9 +36,6 @@
 		734BC9B6259731710001286E /* ActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734BC9B5259731710001286E /* ActionSheet.swift */; };
 		735C91C02574F1790033B4E8 /* WebsiteList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C91BF2574F1790033B4E8 /* WebsiteList.swift */; };
 		735C91C12574F1790033B4E8 /* WebsiteList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C91BF2574F1790033B4E8 /* WebsiteList.swift */; };
-		735C91EC257674F30033B4E8 /* UIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C91EB257674F30033B4E8 /* UIController.swift */; };
-		735C91F2257678070033B4E8 /* AnyUIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C91F1257678070033B4E8 /* AnyUIController.swift */; };
-		735C91F8257678310033B4E8 /* DefaultUIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C91F7257678310033B4E8 /* DefaultUIController.swift */; };
 		735C92022577C0260033B4E8 /* FixedTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C92012577C0260033B4E8 /* FixedTags.swift */; };
 		735D4C64258DF9D00016F904 /* TagAddRemoveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4C63258DF9D00016F904 /* TagAddRemoveTests.swift */; };
 		735D4C6D258E27870016F904 /* MappedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4C6C258E27870016F904 /* MappedList.swift */; };
@@ -346,9 +343,6 @@
 		734942D72592346900AD292E /* EditMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMode.swift; sourceTree = "<group>"; };
 		734BC9B5259731710001286E /* ActionSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionSheet.swift; sourceTree = "<group>"; };
 		735C91BF2574F1790033B4E8 /* WebsiteList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteList.swift; sourceTree = "<group>"; };
-		735C91EB257674F30033B4E8 /* UIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIController.swift; sourceTree = "<group>"; };
-		735C91F1257678070033B4E8 /* AnyUIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyUIController.swift; sourceTree = "<group>"; };
-		735C91F7257678310033B4E8 /* DefaultUIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultUIController.swift; sourceTree = "<group>"; };
 		735C92012577C0260033B4E8 /* FixedTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedTags.swift; sourceTree = "<group>"; };
 		735D4C63258DF9D00016F904 /* TagAddRemoveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagAddRemoveTests.swift; sourceTree = "<group>"; };
 		735D4C6C258E27870016F904 /* MappedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappedList.swift; sourceTree = "<group>"; };
@@ -705,9 +699,6 @@
 				73F2B043257460D2009AC2AF /* CD_Sort.swift */,
 				DB21C202256C8F9100DF6AE7 /* Controller.swift */,
 				DBAA772F256C999B005126C3 /* CD_Controller.swift */,
-				735C91EB257674F30033B4E8 /* UIController.swift */,
-				735C91F1257678070033B4E8 /* AnyUIController.swift */,
-				735C91F7257678310033B4E8 /* DefaultUIController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1396,7 +1387,6 @@
 				DBA3BE3625709D3D005A2379 /* AnyWebsite.swift in Sources */,
 				DBAA7730256C999B005126C3 /* CD_Controller.swift in Sources */,
 				5031AF03256E894F00AC98AA /* Tag.swift in Sources */,
-				735C91F2257678070033B4E8 /* AnyUIController.swift in Sources */,
 				50D63AA8256FE3BF001C5985 /* AnyTag.swift in Sources */,
 				73F2B03825745EFD009AC2AF /* Logger.swift in Sources */,
 				735D4C6D258E27870016F904 /* MappedList.swift in Sources */,
@@ -1405,7 +1395,6 @@
 				5031AF24256E8DEC00AC98AA /* AnyList.swift in Sources */,
 				73F2B03E257460AF009AC2AF /* Sort.swift in Sources */,
 				DB21C203256C8F9100DF6AE7 /* Controller.swift in Sources */,
-				735C91F8257678310033B4E8 /* DefaultUIController.swift in Sources */,
 				DBDCB3BB256BEE3800D005F6 /* CD_MOM.xcdatamodeld in Sources */,
 				735D4C8B258E2F9C0016F904 /* ToggleState.swift in Sources */,
 				DB21C1FC256C8DC500DF6AE7 /* CD_Tag.swift in Sources */,
@@ -1423,7 +1412,6 @@
 				50D63AB5256FE8B6001C5985 /* Element.swift in Sources */,
 				DBDCB3FB256C866200D005F6 /* CD_Website.swift in Sources */,
 				50D63ABA256FE8B9001C5985 /* AnyElement.swift in Sources */,
-				735C91EC257674F30033B4E8 /* UIController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
