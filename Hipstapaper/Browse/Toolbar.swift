@@ -132,6 +132,7 @@ internal struct Toolbar: ViewModifier {
                     }
             }
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
     #endif
 }

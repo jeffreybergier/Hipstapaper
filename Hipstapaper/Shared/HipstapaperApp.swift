@@ -31,6 +31,8 @@ internal let log: XCGLogger = {
 @main
 struct HipstapaperApp: App {
 
+    @UIApplicationDelegateAdaptor(ApplicationDelegate.self) var appDelegate
+    
     let controller: Controller
     
     init() {

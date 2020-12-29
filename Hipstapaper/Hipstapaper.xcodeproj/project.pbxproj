@@ -113,6 +113,7 @@
 		73C6BCAE259AC172006B7A6D /* TagController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BCAD259AC172006B7A6D /* TagController.swift */; };
 		73C6BCAF259AC172006B7A6D /* TagController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BCAD259AC172006B7A6D /* TagController.swift */; };
 		73C6BCC5259B5E0D006B7A6D /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BCC4259B5E0D006B7A6D /* WindowManager.swift */; };
+		73C6BCFA259B6AE6006B7A6D /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BCF9259B6AE6006B7A6D /* WindowManager.swift */; };
 		73DC73DA25728B9F00EE72FA /* QueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC73D925728B9F00EE72FA /* QueryTests.swift */; };
 		73DC73E0257290EF00EE72FA /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC73DF257290EF00EE72FA /* Base.swift */; };
 		73F2B03825745EFD009AC2AF /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2B03725745EFD009AC2AF /* Logger.swift */; };
@@ -397,6 +398,7 @@
 		73C6BC82259AB2DF006B7A6D /* DetailToolbarPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailToolbarPresentation.swift; sourceTree = "<group>"; };
 		73C6BCAD259AC172006B7A6D /* TagController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagController.swift; sourceTree = "<group>"; };
 		73C6BCC4259B5E0D006B7A6D /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
+		73C6BCF9259B6AE6006B7A6D /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
 		73DC73D925728B9F00EE72FA /* QueryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryTests.swift; sourceTree = "<group>"; };
 		73DC73DF257290EF00EE72FA /* Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
 		73F2B03725745EFD009AC2AF /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
@@ -771,6 +773,7 @@
 			isa = PBXGroup;
 			children = (
 				DBDCB346256BE8E700D005F6 /* Info.plist */,
+				73C6BCF9259B6AE6006B7A6D /* WindowManager.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -1332,6 +1335,7 @@
 				73A3DE94257B77C8002EDEB4 /* IndexToolbar.swift in Sources */,
 				734068202574B56700D4A343 /* WebsiteRow.swift in Sources */,
 				DBDCB367256BE8E800D005F6 /* Main.swift in Sources */,
+				73C6BCFA259B6AE6006B7A6D /* WindowManager.swift in Sources */,
 				73C6BCAE259AC172006B7A6D /* TagController.swift in Sources */,
 				73A3DEB0257B9351002EDEB4 /* Search.swift in Sources */,
 				DBDCB365256BE8E800D005F6 /* HipstapaperApp.swift in Sources */,
