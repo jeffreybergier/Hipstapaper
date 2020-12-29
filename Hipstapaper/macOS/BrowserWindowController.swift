@@ -26,26 +26,31 @@ import SwiftUI
 class BrowserWindowController: NSWindowController {
     
     let url: URL
-    private lazy var memoryLeak = { self }
+    var windowWillClose: ((URL) -> Void)?
     
     init(url: URL) {
         self.url = url
-        let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 768, height: 768),
-            styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
-            backing: .buffered, defer: false)
-        window.titlebarAppearsTransparent = true // as stated
-        window.titleVisibility = .hidden         // no title - all in content
-        window.contentView = NSHostingView(rootView: Browser(url: url, done: {}))
-        window.center()
-//        window.contentViewController = NSHostingController(rootView: Browser(url: url, done: {}))
-        super.init(window: window)
+        super.init(window: nil)
         self.windowFrameAutosaveName = url.absoluteString
-        _ = self.memoryLeak
     }
     
+    override func showWindow(_ sender: Any?) {
+        let browser = Browser(url: url) { [unowned self] in self.close() }
+        let vc = NSHostingController(rootView: browser)
+        let window = NSWindow(contentViewController: vc)
+        window.delegate = self
+        self.window = window
+        super.showWindow(sender)
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+}
+
+extension BrowserWindowController: NSWindowDelegate {
+    func windowWillClose(_ notification: Notification) {
+        self.windowWillClose?(self.url)
+    }
 }

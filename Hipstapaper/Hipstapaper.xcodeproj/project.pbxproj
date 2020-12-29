@@ -112,6 +112,7 @@
 		73C6BC84259AB2DF006B7A6D /* DetailToolbarPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC82259AB2DF006B7A6D /* DetailToolbarPresentation.swift */; };
 		73C6BCAE259AC172006B7A6D /* TagController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BCAD259AC172006B7A6D /* TagController.swift */; };
 		73C6BCAF259AC172006B7A6D /* TagController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BCAD259AC172006B7A6D /* TagController.swift */; };
+		73C6BCC5259B5E0D006B7A6D /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BCC4259B5E0D006B7A6D /* WindowManager.swift */; };
 		73DC73DA25728B9F00EE72FA /* QueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC73D925728B9F00EE72FA /* QueryTests.swift */; };
 		73DC73E0257290EF00EE72FA /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC73DF257290EF00EE72FA /* Base.swift */; };
 		73F2B03825745EFD009AC2AF /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2B03725745EFD009AC2AF /* Logger.swift */; };
@@ -395,6 +396,7 @@
 		73C6BC77259AB266006B7A6D /* IndexToolbarPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexToolbarPresentation.swift; sourceTree = "<group>"; };
 		73C6BC82259AB2DF006B7A6D /* DetailToolbarPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailToolbarPresentation.swift; sourceTree = "<group>"; };
 		73C6BCAD259AC172006B7A6D /* TagController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagController.swift; sourceTree = "<group>"; };
+		73C6BCC4259B5E0D006B7A6D /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
 		73DC73D925728B9F00EE72FA /* QueryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryTests.swift; sourceTree = "<group>"; };
 		73DC73DF257290EF00EE72FA /* Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
 		73F2B03725745EFD009AC2AF /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
@@ -778,6 +780,7 @@
 			children = (
 				DBDCB34D256BE8E700D005F6 /* Info.plist */,
 				73993E2D2595DFC2006FB612 /* BrowserWindowController.swift */,
+				73C6BCC4259B5E0D006B7A6D /* WindowManager.swift */,
 				DBDCB34E256BE8E700D005F6 /* macOS.entitlements */,
 			);
 			path = macOS;
@@ -1348,6 +1351,7 @@
 			files = (
 				73A3DE7925792604002EDEB4 /* DetailToolbar.swift in Sources */,
 				73406813257491E600D4A343 /* PreviewsContent.swift in Sources */,
+				73C6BCC5259B5E0D006B7A6D /* WindowManager.swift in Sources */,
 				734068332574ED5800D4A343 /* TagList.swift in Sources */,
 				734068282574B5C500D4A343 /* Style.swift in Sources */,
 				735C91C12574F1790033B4E8 /* WebsiteList.swift in Sources */,

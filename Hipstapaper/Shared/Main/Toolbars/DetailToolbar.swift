@@ -31,6 +31,7 @@ struct DetailToolbar: ViewModifier {
     @State var presentation = DetailToolbarPresentation.Wrap()
 
     @Environment(\.openURL) var openURL
+    @EnvironmentObject var windowManager: WindowManager
     
     func body(content: Content) -> some View {
         return ZStack(alignment: Alignment.topTrailing) {
@@ -66,7 +67,12 @@ struct DetailToolbar: ViewModifier {
                 ToolbarItem(id: "Detail.0") {
                     ButtonToolbar(systemName: "safari",
                                   accessibilityLabel: Verb.Open,
-                                  action: { self.presentation.value = .browser })
+                                  action: {
+                                    for site in self.controller.selectedWebsites {
+                                        guard let url = site.value.resolvedURL ?? site.value.originalURL else { continue }
+                                        self.windowManager.show(url)
+                                    }
+                                  })
                         .keyboardShortcut("o")
                         .modifier(OpenWebsiteDisabler(selectedWebsites: self.controller.selectedWebsites))
                 }
