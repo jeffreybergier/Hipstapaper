@@ -20,35 +20,15 @@
 //
 
 import SwiftUI
-#if canImport(AppKit)
-import AppKit
-#endif
-#if canImport(UIKit)
-import UIKit
-#endif
+import Localize
 
-struct SectionTitle: View {
-    var title: String
-    var body: some View {
-        Text(title)
-            .font(.title3)
-            .frame(height: 30)
-    }
-    
-    init(_ title: String) {
-        self.title = title
-    }
-}
-
-struct RowTitle: View {
+struct IndexRowTitle: View {
     var title: String?
-    var body: Text {
+    var body: some View {
         if let title = self.title {
-            return Text(title)
-                .font(.headline)
+            return AnyView(Text.IndexRowTitle(title))
         } else {
-            return Text("Untitled")
-                .font(.headline)
+            return AnyView(Text.IndexRowTitleDisabled(Noun.Untitled))
         }
     }
     init(_ title: String?) {
@@ -56,7 +36,21 @@ struct RowTitle: View {
     }
 }
 
-struct DateSubtitle: View {
+struct DetailRowTitle: View {
+    var title: String?
+    var body: some View {
+        if let title = self.title {
+            return AnyView(Text.DetailRowTitle(title))
+        } else {
+            return AnyView(Text.DetailRowTitleDisabled(Noun.Untitled))
+        }
+    }
+    init(_ title: String?) {
+        self.title = title
+    }
+}
+
+struct DetailRowDateSubtitle: View {
     
     private static let formatter: DateFormatter = {
         let df = DateFormatter()
@@ -67,34 +61,11 @@ struct DateSubtitle: View {
     
     var date: Date
     
-    var body: Text {
-        return Text(DateSubtitle.formatter.string(from: self.date))
-            .font(.subheadline)
+    var body: Text.DetailRowSubtitle {
+        Text.DetailRowSubtitle(DetailRowDateSubtitle.formatter.string(from: self.date))
     }
     
     init(_ date: Date) {
         self.date = date
-    }
-}
-
-struct Thumbnail: View {
-    
-    var data: Data?
-    
-    var body: Image? {
-        guard let data = self.data else { return nil }
-        #if canImport(AppKit)
-        guard let image = NSImage(data: data) else { return nil }
-        return Image(nsImage: image).resizable()
-        #elseif canImport(UIKit)
-        guard let image = UIImage(data: data) else { return nil }
-        return Image(uiImage: image).resizable()
-        #else
-        return nil
-        #endif
-    }
-    
-    init(_ data: Data?) {
-        self.data = data
     }
 }

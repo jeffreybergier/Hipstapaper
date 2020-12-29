@@ -25,7 +25,7 @@ import Datum
 
 var p_query = Query()
 
-let p_tags: AnyCollection<AnyElement<AnyTag>> = {
+let p_tags: AnyList<AnyElement<AnyTag>> = {
     let date1 = Date(timeIntervalSinceNow: -700)
     let date2 = Date(timeIntervalSinceNow: 0)
     let tag1 = P_Tag(name: "Videos", websitesCount: 3, dateCreated: date1, dateModified: date1, id: .init(NSString("A")))
@@ -35,17 +35,17 @@ let p_tags: AnyCollection<AnyElement<AnyTag>> = {
     let element2 = AnyElement(P_Element(AnyTag(tag2)))
     let element3 = AnyElement(P_Element(AnyTag(tag3)))
     let collection = P_Collection([element1, element2, element3])
-    return AnyCollection(collection)
+    return AnyList(collection)
 }()
 
-let p_sites: AnyCollection<AnyElement<AnyWebsite>> = {
+let p_sites: AnyList<AnyElement<AnyWebsite>> = {
     let date1 = Date(timeIntervalSinceNow: -700)
     let date2 = Date(timeIntervalSinceNow: 0)
     let site1 = P_Website(.init(title: "Google.com", resolvedURL: URL(string: "https://www.google.com")!),
                           dateCreated: date1,
                           dateModified: date2,
                           id: .init(NSString("A")))
-    let site2 = P_Website(.init(title: "Apple.com", originalURL: URL(string: "https://www.apple.com")!),
+    let site2 = P_Website(.init(title: "Apple.com", originalURL: URL(string: "https://www.apple.com")!, isArchived: true),
                           dateCreated: date2,
                           dateModified: date1,
                           id: .init(NSString("B")))
@@ -60,7 +60,7 @@ let p_sites: AnyCollection<AnyElement<AnyWebsite>> = {
             AnyElement(P_Element(AnyWebsite(site3)))
         ]
     )
-    return AnyCollection(collection)
+    return AnyList(collection)
 }()
 
 struct P_Tag: Tag {
@@ -94,25 +94,49 @@ struct P_Website: Website {
 }
 
 class P_Element<T>: Element {
+    
     typealias Value = T
     var value: T
     var isDeleted: Bool = false
     init(_ value: T) {
         self.value = value
     }
+    static func == (lhs: P_Element<T>, rhs: P_Element<T>) -> Bool { fatalError() }
+    var hashValue: Int { fatalError() }
 }
 
-class P_UIController: UIController {
-    class func new() -> AnyUIController { AnyUIController(P_UIController()) }
-    var indexFixed: [AnyTag] = Query.Archived.anyTag_allCases
-    var indexTags: Result<AnyCollection<AnyElement<AnyTag>>, Error> = .success(p_tags)
-    var detailWebsites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error> = .success(p_sites)
-    var detailQuery: Query = .init()
-    var selectedTag: AnyTag?
-    var selectedWebsite: AnyWebsite?
+class P_Controller: Controller {
+    static var storeDirectoryURL: URL { fatalError() }
+    static var storeExists: Bool = true
+    func createWebsite(_ raw: AnyWebsite.Raw) -> Result<AnyElement<AnyWebsite>, Error>
+    { log.debug("Create Site: \(raw)"); return .success(p_sites.first!) }
+    func readWebsites(query: Query) -> Result<AnyList<AnyElement<AnyWebsite>>, Error>
+    { log.debug("Read Websites, with: \(query)"); return .success(p_sites) }
+    func update(_ site: AnyElement<AnyWebsite>, _ raw: AnyWebsite.Raw) -> Result<Void, Error>
+    { log.debug("Update: \(site), with: \(raw)"); return .success(()) }
+    func delete(_ site: AnyElement<AnyWebsite>) -> Result<Void, Error>
+    { log.debug("Delete: \(site)"); return .success(()) }
+    func createTag(name: String?) -> Result<AnyElement<AnyTag>, Error>
+    { log.debug("Create Tag: \(name)"); return .success(p_tags.first!) }
+    func readTags() -> Result<AnyList<AnyElement<AnyTag>>, Error>
+    { log.debug("Read Tags"); return .success(p_tags) }
+    func update(_ tag: AnyElement<AnyTag>, name: Optional<String?>) -> Result<Void, Error>
+    { log.debug("Update: \(tag) with: \(name)"); return .success(()) }
+    func delete(_ tag: AnyElement<AnyTag>) -> Result<Void, Error>
+    { log.debug("Delete: \(tag)"); return .success(()) }
+    func add(tag: AnyElement<AnyTag>, to websites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error>
+    { log.debug("Apply Tag: \(tag), to: \(websites)"); return .success(()) }
+    func remove(tag: AnyElement<AnyTag>, from websites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error>
+    { log.debug("Remove Tag: \(tag), from: \(websites)"); return .success(()) }    
+    func tagStatus(for websites: Set<AnyElement<AnyWebsite>>) -> Result<AnyList<(AnyElement<AnyTag>, ToggleState)>, Error> {
+        return .success(AnyList(MappedList(p_tags, transform: { _ in .on })))
+    }
+    deinit {
+        print("DEINIT")
+    }
 }
 
-class P_Collection<Element>: Collection {
+class P_Collection<Element>: ListProtocol {
     
     private let wrapped: [Element]
     

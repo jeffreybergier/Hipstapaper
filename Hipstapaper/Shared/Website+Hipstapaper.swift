@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/23.
+//  Created by Jeffrey Bergier on 2020/12/14.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,28 +19,14 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import SwiftUI
 import Datum
+import Snapshot
 
-struct ContentView: View {
-    
-    @ObservedObject var controller: AnyUIController
-    
-    var body: some View {
-        NavigationView {
-            TagList(controller: self.controller)
-            WebsiteList(controller: self.controller)
-                .toolbar {
-                    Toolbar(controller: self.controller)
-                }
-        }
+extension AnyWebsite.Raw {
+    init(_ output: Snapshotter.Output) {
+        self.init(title: output.title,
+                  originalURL: output.originalURL,
+                  resolvedURL: output.resolvedURL,
+                  thumbnail: output.thumbnail)
     }
 }
-
-#if DEBUG
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView(controller: P_UIController.new())
-    }
-}
-#endif

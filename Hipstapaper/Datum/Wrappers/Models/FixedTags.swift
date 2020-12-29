@@ -19,19 +19,21 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import Localize
+
 extension Query.Archived: Tag {
     
-    public static var anyTag_allCases: [AnyTag] {
-        self.allCases.map { AnyTag($0) }
+    public static var anyTag_allCases: [AnyElement<AnyTag>] {
+        self.allCases.map { AnyElement(StaticElement(AnyTag($0))) }
     }
     
     // TODO: See if its possible change type to LocalizedString
     public var localizedDescription: String {
         switch self {
         case .all:
-            return "All Items"
+            return Noun.AllItems_L
         case .unarchived:
-            return "Unread Items"
+            return Noun.UnreadItems_L
         }
     }
     

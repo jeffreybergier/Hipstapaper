@@ -21,7 +21,7 @@
 
 import Combine
 
-public protocol Element: ObservableObject, Identifiable {
+public protocol Element: ObservableObject, Identifiable, Hashable {
     associatedtype Value
     var value: Value { get }
     var isDeleted: Bool { get }

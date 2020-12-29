@@ -21,7 +21,7 @@
 
 import Combine
 
-public class AnyElement<Value: Identifiable>: Element {
+public class AnyElement<Value: Identifiable & Hashable>: Element {
 
     public let objectWillChange: ObservableObjectPublisher
 
@@ -39,5 +39,13 @@ public class AnyElement<Value: Identifiable>: Element {
         self._value = { element.value }
         self._isDeleted = { element.isDeleted }
         self.objectWillChange = element.objectWillChange
+    }
+    
+    public static func == (lhs: AnyElement<Value>, rhs: AnyElement<Value>) -> Bool {
+        return lhs.value == rhs.value
+    }
+    
+    public var hashValue: Int {
+        return self.value.hashValue
     }
 }

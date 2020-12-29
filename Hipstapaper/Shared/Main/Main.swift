@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/30.
+//  Created by Jeffrey Bergier on 2020/11/23.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -21,26 +21,33 @@
 
 import SwiftUI
 import Datum
+import Stylize
 
-struct WebsiteList: View {
+struct Main: View {
     
-    @ObservedObject var controller: AnyUIController
+    let controller: Controller
     
     var body: some View {
-        return List(self.controller.detailWebsites.value!,
-                    id: \.value,
-                    selection: self.$controller.selectedWebsite)
-        { item in
-            WebsiteRow(item.value)
+        NavigationView {
+            TagList(controller: self.controller,
+                    navigation: { selectedTag in
+                        let c = WebsiteController(controller: self.controller, selectedTag: selectedTag)
+                        return AnyView(WebsiteList(controller: c).modifier(DetailToolbar(controller: c)))
+                    })
+                .modifier(IndexToolbar(controller: self.controller))
+            
+            // Show the default load view at app launch
+            // This gets replaced with navigation later
+            let c = WebsiteController(controller: self.controller)
+            WebsiteList(controller: c).modifier(DetailToolbar(controller: c))
         }
-        .navigationTitle("Hipstapaper")
     }
 }
 
 #if DEBUG
-struct WebsiteList_Preview: PreviewProvider {
+struct Main_Previews: PreviewProvider {
     static var previews: some View {
-        WebsiteList(controller: P_UIController.new())
+        Main(controller: P_Controller())
     }
 }
 #endif

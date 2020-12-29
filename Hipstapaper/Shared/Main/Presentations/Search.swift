@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/30.
+//  Created by Jeffrey Bergier on 2020/12/05.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -21,38 +21,26 @@
 
 import SwiftUI
 import Datum
+import Stylize
+import Localize
 
-struct WebsiteRow: View {
+struct Search: View {
     
-    var website: AnyWebsite
+    @Binding var searchString: String
+    let doneAction: Modal.Action
     
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
-                RowTitle(self.website.title)
-                DateSubtitle(self.website.dateCreated)
+            TextField.Search(self.$searchString)
+            if self.searchString.nonEmptyString != nil {
+                ButtonToolbar(systemName: "xmark.circle", accessibilityLabel: Verb.ClearSearch) {
+                    self.searchString = ""
+                }
             }
-            Spacer()
-            Thumbnail(self.website.thumbnail)
-                .scaledToFit()
         }
-        .frame(height: 60)
-    }
-    
-    init(_ website: AnyWebsite) {
-        self.website = website
-    }
-}
-
-#if DEBUG
-struct WebsiteRow_Preview1: PreviewProvider {
-    static var previews: some View {
-        WebsiteRow(p_sites[0].value)
+        .animation(.default)
+        .paddingDefault_Equal()
+        .modifier(Modal.Done(title: Noun.Search, done: self.doneAction))
+        .frame(width: 250, height: 150) // TODO: Remove height when this is not broken
     }
 }
-struct WebsiteRow_Preview2: PreviewProvider {
-    static var previews: some View {
-        WebsiteRow(p_sites[2].value)
-    }
-}
-#endif

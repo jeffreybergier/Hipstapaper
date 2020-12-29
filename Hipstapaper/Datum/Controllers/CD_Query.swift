@@ -27,21 +27,21 @@ extension Query {
         let predicates: [NSPredicate] = [
             {
                 guard case .unarchived = self.isArchived else { return nil }
-                return NSPredicate(format: "%K == NO", #keyPath(CD_Website.isArchived))
+                return NSPredicate(format: "%K == NO", #keyPath(CD_Website.cd_isArchived))
             }(),
             {
-                guard let search = self.search else { return nil }
+                guard let search = self.search.nonEmptyString else { return nil }
                 return NSCompoundPredicate(orPredicateWithSubpredicates: [
-                    NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(CD_Website.title), search),
-                    NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(CD_Website.resolvedURL), search),
-                    NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(CD_Website.originalURL), search),
+                    NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(CD_Website.cd_title), search),
+                    NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(CD_Website.cd_resolvedURL), search),
+                    NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(CD_Website.cd_originalURL), search),
                 ])
             }(),
             {
                 guard let _tag = self.tag else { return nil }
-                guard let tag = _tag.wrappedValue as? CD_Tag
+                guard let tag = _tag.value.wrappedValue as? CD_Tag
                 else { assertionFailure("Invalid TAG Object"); return nil; }
-                return NSPredicate(format: "%K CONTAINS %@", #keyPath(CD_Website.tags), tag)
+                return NSPredicate(format: "%K CONTAINS %@", #keyPath(CD_Website.cd_tags), tag)
             }(),
         ].compactMap { $0 }
         guard predicates.isEmpty == false else { return nil }

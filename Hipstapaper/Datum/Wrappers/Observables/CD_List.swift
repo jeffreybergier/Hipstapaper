@@ -22,10 +22,10 @@
 import CoreData
 import Combine
 
-internal class CD_Collection<
+internal class CD_List<
     Output,
     Input: NSManagedObject
->: NSObject, Collection, NSFetchedResultsControllerDelegate
+>: NSObject, ListProtocol, NSFetchedResultsControllerDelegate
 {
 
     public typealias Index = Int
@@ -55,5 +55,4 @@ internal class CD_Collection<
     internal func controller(_: AnyObject, didChangeContentWith _: AnyObject) {
         self.objectWillChange.send()
     }
-
 }

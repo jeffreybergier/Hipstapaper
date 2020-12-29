@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/25.
+//  Created by Jeffrey Bergier on 2020/12/22.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,8 +19,21 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import Combine
+import SwiftUI
 
-public protocol Collection: Swift.RandomAccessCollection, ObservableObject {
-    associatedtype Element
+#if canImport(UIKit)
+public struct ListEditMode: ViewModifier {
+    @State var editMode: EditMode = EditMode.active
+    public func body(content: Content) -> some View {
+        content.environment((\.editMode), self.$editMode)
+    }
+    public init() {}
 }
+#else
+public struct ListEditMode: ViewModifier {
+    public func body(content: Content) -> some View {
+        return content
+    }
+    public init() {}
+}
+#endif

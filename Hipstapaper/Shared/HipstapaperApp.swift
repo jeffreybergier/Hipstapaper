@@ -20,21 +20,27 @@
 //
 
 import SwiftUI
+import XCGLogger
 import Datum
+import Browse
+
+internal let log: XCGLogger = {
+    XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
+}()
 
 @main
 struct HipstapaperApp: App {
 
-    @StateObject var controller: AnyUIController
+    let controller: Controller
     
     init() {
-        let controller = try! ControllerNew()
-        _controller = StateObject(wrappedValue: P_UIController.new())
+//        let controller = try! ControllerNew()
+        self.controller = P_Controller()
     }
 
-    var body: some Scene {
+    @SceneBuilder var body: some Scene {
         WindowGroup {
-            ContentView(controller: self.controller)
+            Main(controller: self.controller)
         }
     }
 }

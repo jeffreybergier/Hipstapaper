@@ -27,13 +27,18 @@ public struct Query {
         public var id: ObjectIdentifier { .init(NSNumber(value: self.rawValue)) }
     }
     public var isArchived: Archived! // TODO: Hack for SwiftUI - Remove
-    public var tag: AnyTag?
-    public var search: String?
+    public var tag: AnyElement<AnyTag>?
+    public var search: String {
+        didSet {
+            // TODO: Remove this print
+            print(self.search)
+        }
+    }
     public var sort: Sort
 
     public init(isArchived: Archived = .unarchived,
-                tag: AnyTag? = nil,
-                search: String? = nil,
+                tag: AnyElement<AnyTag>? = nil,
+                search: String = "",
                 sort: Sort = .dateModifiedNewest)
     {
         self.isArchived = isArchived

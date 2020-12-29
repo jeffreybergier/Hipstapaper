@@ -35,26 +35,26 @@ extension CD_Controller: Controller {
 
         let website = CD_Website(context: context)
         if let title = raw.title {
-            website.title = title
+            website.cd_title = title
         }
         if let originalURL = raw.originalURL {
-            website.originalURL = originalURL
+            website.cd_originalURL = originalURL
         }
         if let resolvedURL = raw.resolvedURL {
-            website.resolvedURL = resolvedURL
+            website.cd_resolvedURL = resolvedURL
         }
         if let isArchived = raw.isArchived {
-            website.isArchived = isArchived
+            website.cd_isArchived = isArchived
         }
         if let thumbnail = raw.thumbnail {
-            website.thumbnail = thumbnail
+            website.cd_thumbnail = thumbnail
         }
         return context.datum_save().map {
             AnyElement(CD_Element(website, { AnyWebsite($0) }))
         }
     }
 
-    func readWebsites(query: Query) -> Result<AnyCollection<AnyElement<AnyWebsite>>, Error> {
+    func readWebsites(query: Query) -> Result<AnyList<AnyElement<AnyWebsite>>, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
@@ -69,8 +69,8 @@ extension CD_Controller: Controller {
         do {
             try controller.performFetch()
             return .success(
-                AnyCollection(
-                    CD_Collection(controller, {
+                AnyList(
+                    CD_List(controller, {
                         AnyElement(CD_Element($0, { AnyWebsite($0) }))
                     })
                 )
@@ -94,23 +94,23 @@ extension CD_Controller: Controller {
         var changesMade = false
         if let title = raw.title {
             changesMade = true
-            website.title = title
+            website.cd_title = title
         }
         if let originalURL = raw.originalURL {
             changesMade = true
-            website.originalURL = originalURL
+            website.cd_originalURL = originalURL
         }
         if let resolvedURL = raw.resolvedURL {
             changesMade = true
-            website.resolvedURL = resolvedURL
+            website.cd_resolvedURL = resolvedURL
         }
         if let isArchived = raw.isArchived {
             changesMade = true
-            website.isArchived = isArchived
+            website.cd_isArchived = isArchived
         }
         if let thumbnail = raw.thumbnail {
             changesMade = true
-            website.thumbnail = thumbnail
+            website.cd_thumbnail = thumbnail
         }
         
         return changesMade ? context.datum_save() : .success(())
@@ -142,19 +142,19 @@ extension CD_Controller: Controller {
         defer { self.didSave(token) }
 
         let tag = CD_Tag(context: context)
-        tag.name = name
+        tag.cd_name = name
         return context.datum_save().map {
             AnyElement(CD_Element(tag, { AnyTag($0) }))
         }
     }
 
-    func readTags() -> Result<AnyCollection<AnyElement<AnyTag>>, Error> {
+    func readTags() -> Result<AnyList<AnyElement<AnyTag>>, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
         let request = CD_Tag.request
         request.sortDescriptors = [
-            .init(key: #keyPath(CD_Tag.name), ascending: true)
+            .init(key: #keyPath(CD_Tag.cd_name), ascending: true)
         ]
         let controller = NSFetchedResultsController(fetchRequest: request,
                                                     managedObjectContext: context,
@@ -163,8 +163,8 @@ extension CD_Controller: Controller {
         do {
             try controller.performFetch()
             return .success(
-                AnyCollection(
-                    CD_Collection(controller, {
+                AnyList(
+                    CD_List(controller, {
                         AnyElement(CD_Element($0, { AnyTag($0) }))
                     })
                 )
@@ -188,7 +188,7 @@ extension CD_Controller: Controller {
         var changesMade = false
         if let newName = name {
             changesMade = true
-            tag.name = newName
+            tag.cd_name = newName
         }
 
         return changesMade ? context.datum_save() : .success(())
@@ -207,6 +207,70 @@ extension CD_Controller: Controller {
 
         context.delete(tag)
         return context.datum_save()
+    }
+    
+    // MARK: Custom Functions
+    
+    func add(tag: AnyElement<AnyTag>, to _sites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error> {
+        let sites = _sites.compactMap { $0.value.wrappedValue as? CD_Website }
+        guard
+            sites.count == _sites.count,
+            let tag = tag.value.wrappedValue as? CD_Tag
+        else { return .failure(.unknown) }
+        
+        let context = self.container.viewContext
+        let token = self.willSave(context)
+        defer { self.didSave(token) }
+        
+        var changesMade = false
+        for site in sites {
+            guard site.cd_tags.contains(tag) == false else { continue }
+            changesMade = true
+            let tags = site.mutableSetValue(forKey: #keyPath(CD_Website.cd_tags))
+            tags.add(tag)
+        }
+        
+        return changesMade ? context.datum_save() : .success(())
+    }
+    
+    func remove(tag: AnyElement<AnyTag>, from _sites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error> {
+        let sites = _sites.compactMap { $0.value.wrappedValue as? CD_Website }
+        guard
+            sites.count == _sites.count,
+            let tag = tag.value.wrappedValue as? CD_Tag
+        else { return .failure(.unknown) }
+        
+        let context = self.container.viewContext
+        let token = self.willSave(context)
+        defer { self.didSave(token) }
+        
+        var changesMade = false
+        for site in sites {
+            guard site.cd_tags.contains(tag) == true else { continue }
+            changesMade = true
+            let tags = site.mutableSetValue(forKey: #keyPath(CD_Website.cd_tags))
+            tags.remove(tag)
+        }
+        
+        return changesMade ? context.datum_save() : .success(())
+    }
+    
+    func tagStatus(for _sites: Set<AnyElement<AnyWebsite>>)
+                  -> Result<AnyList<(AnyElement<AnyTag>, ToggleState)>, Error>
+
+    {
+        let sites = _sites.compactMap { $0.value.wrappedValue as? CD_Website }
+        guard sites.count == _sites.count else { return .failure(.unknown) }
+        return self.readTags().map() { tags in
+            return AnyList(
+                MappedList(tags) { tag in
+                    let tag = tag.value.wrappedValue as! CD_Tag
+                    return ToggleState(sites.map {
+                        $0.cd_tags.contains(tag)
+                    })
+                }
+            )
+        }
     }
 }
 
@@ -266,6 +330,10 @@ internal class CD_Controller {
 
     private func didSave(_ token: Any) {
         NotificationCenter.default.removeObserver(token)
+    }
+    
+    deinit {
+        print("CONTROLLER DEINIT")
     }
 }
 

@@ -22,9 +22,8 @@
 import CoreData
 
 extension CD_Tag: Tag {
-    var websitesCount: Int? {
-        return Int(self.cd_websitesCount)
-    }
+    var name: String? { cd_name }
+    var websitesCount: Int? { Int(self.cd_websitesCount) }
 }
 
 @objc(CD_Tag) internal class CD_Tag: CD_Base {
@@ -34,14 +33,14 @@ extension CD_Tag: Tag {
         NSFetchRequest<CD_Tag>(entityName: self.entityName)
     }
 
-    @NSManaged private var cd_websitesCount: Int32
-    @NSManaged internal var name: String?
-    @NSManaged internal var websites: NSSet?
+    @NSManaged internal var cd_websitesCount: Int32
+    @NSManaged internal var cd_name: String?
+    @NSManaged internal var cd_websites: NSSet
 
     internal override func datum_willSave() {
         super.datum_willSave()
 
-        self.cd_websitesCount = Int32(self.websites?.count ?? 0)
+        self.cd_websitesCount = Int32(self.cd_websites.count)
         // TODO: validate name
     }
 }

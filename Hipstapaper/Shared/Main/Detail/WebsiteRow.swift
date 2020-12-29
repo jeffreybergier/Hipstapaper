@@ -21,48 +21,39 @@
 
 import SwiftUI
 import Datum
+import Stylize
 
-struct TagRow: View {
+struct WebsiteRow: View {
     
-    var title: String?
-    var websitesCount: Int? = nil
+    var website: AnyWebsite
     
     var body: some View {
         HStack {
-            RowTitle(self.title)
-            if let count = self.websitesCount {
-                Spacer()
-                Text(String(count))
-                    .font(.callout)
-                    .foregroundColor(.black)
-                    .padding(EdgeInsets(top: 3, leading: 8, bottom: 3, trailing: 8))
-                    .background(RoundedRectangle(cornerRadius: 15).fill(Color.gray))
+            VStack(alignment: .leading) {
+                DetailRowTitle(self.website.title)
+                DetailRowDateSubtitle(self.website.dateCreated)
             }
+            Spacer()
+            Thumbnail.Image(self.website.thumbnail)
+                .scaledToFit()
         }
-        .frame(height: 30)
+        .frame(height: 60)
     }
     
-    init(_ tag: AnyTag) {
-        self.title = tag.name
-        self.websitesCount = tag.websitesCount
-    }
-    
-    init(_ title: String) {
-        self.title = title
-        self.websitesCount = nil
+    init(_ website: AnyWebsite) {
+        self.website = website
     }
 }
 
 #if DEBUG
-struct TagRow_Preview1: PreviewProvider {
+struct WebsiteRow_Preview1: PreviewProvider {
     static var previews: some View {
-        TagRow(p_tags[0].value)
+        WebsiteRow(p_sites[0].value)
     }
 }
-struct TagRow_Preview2: PreviewProvider {
+struct WebsiteRow_Preview2: PreviewProvider {
     static var previews: some View {
-        TagRow(p_tags[2].value)
+        WebsiteRow(p_sites[2].value)
     }
 }
 #endif
-

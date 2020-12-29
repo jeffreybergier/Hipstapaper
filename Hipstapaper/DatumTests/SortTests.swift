@@ -29,22 +29,22 @@ class SortTests: ParentTestCase {
             XCTAssertEqual($0.cd_sortDescriptors.count, 1)
             switch $0 {
             case .dateModifiedNewest:
-                XCTAssertEqual($0.cd_sortDescriptors[0].key, #keyPath(CD_Website.dateModified))
+                XCTAssertEqual($0.cd_sortDescriptors[0].key, #keyPath(CD_Website.cd_dateModified))
                 XCTAssertEqual($0.cd_sortDescriptors[0].ascending, true)
             case .dateModifiedOldest:
-                XCTAssertEqual($0.cd_sortDescriptors[0].key, #keyPath(CD_Website.dateModified))
+                XCTAssertEqual($0.cd_sortDescriptors[0].key, #keyPath(CD_Website.cd_dateModified))
                 XCTAssertEqual($0.cd_sortDescriptors[0].ascending, false)
             case .dateCreatedNewest:
-                XCTAssertEqual($0.cd_sortDescriptors[0].key, #keyPath(CD_Website.dateCreated))
+                XCTAssertEqual($0.cd_sortDescriptors[0].key, #keyPath(CD_Website.cd_dateCreated))
                 XCTAssertEqual($0.cd_sortDescriptors[0].ascending, true)
             case .dateCreatedOldest:
-                XCTAssertEqual($0.cd_sortDescriptors[0].key, #keyPath(CD_Website.dateCreated))
+                XCTAssertEqual($0.cd_sortDescriptors[0].key, #keyPath(CD_Website.cd_dateCreated))
                 XCTAssertEqual($0.cd_sortDescriptors[0].ascending, false)
             case .titleA:
-                XCTAssertEqual($0.cd_sortDescriptors[0].key, #keyPath(CD_Website.title))
+                XCTAssertEqual($0.cd_sortDescriptors[0].key, #keyPath(CD_Website.cd_title))
                 XCTAssertEqual($0.cd_sortDescriptors[0].ascending, true)
             case .titleZ:
-                XCTAssertEqual($0.cd_sortDescriptors[0].key, #keyPath(CD_Website.title))
+                XCTAssertEqual($0.cd_sortDescriptors[0].key, #keyPath(CD_Website.cd_title))
                 XCTAssertEqual($0.cd_sortDescriptors[0].ascending, false)
             }
         }

@@ -23,7 +23,7 @@ import CoreData
 import Combine
 
 internal class CD_Element<Output, Input: NSManagedObject>: Element {
-
+    
     internal let objectWillChange: ObservableObjectPublisher
     internal var value: Output { transform(_value) }
     internal var isDeleted: Bool { _value.isDeleted }
@@ -35,6 +35,14 @@ internal class CD_Element<Output, Input: NSManagedObject>: Element {
         self._value = input
         self.transform = transform
         self.objectWillChange = input.objectWillChange
+    }
+    
+    var hashValue: Int {
+        return self._value.hashValue
+    }
+    
+    static func == (lhs: CD_Element<Output, Input>, rhs: CD_Element<Output, Input>) -> Bool {
+        return lhs._value == rhs._value
     }
 
 }

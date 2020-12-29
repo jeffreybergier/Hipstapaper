@@ -21,38 +21,45 @@
 
 import SwiftUI
 import Datum
+import Stylize
 
-struct TagList: View {
+struct TagRow: View {
     
-    @ObservedObject var controller: AnyUIController
-
+    var title: String?
+    var websitesCount: Int? = nil
+    
     var body: some View {
-        List(selection: self.$controller.selectedTag) {
-            Section(header: SectionTitle("Reading List")) {
-                ForEach(self.controller.indexFixed, id: \.self) { item in
-                    TagRow(item)
-                }
-            }
-            Section(header: SectionTitle("Tags")) {
-                ForEach(self.controller.indexTags.value!, id: \.value) { item in
-                    TagRow(item.value)
-                }
+        HStack {
+            IndexRowTitle(self.title)
+            if let count = self.websitesCount {
+                Spacer()
+                NumberOval(count)
             }
         }
-        .listStyle(SidebarListStyle())
-        .onAppear() {
-            // TODO: Hack to make initial selection
-            self.controller.selectedTag = self.controller.indexFixed.first
-            self.controller.objectWillChange.send()
-        }
-        .navigationTitle("Tags")
+        .frame(height: 30)
+    }
+    
+    init(_ tag: AnyTag) {
+        self.title = tag.name
+        self.websitesCount = tag.websitesCount
+    }
+    
+    init(_ title: String) {
+        self.title = title
+        self.websitesCount = nil
     }
 }
 
 #if DEBUG
-struct TagList_Preview: PreviewProvider {
+struct TagRow_Preview1: PreviewProvider {
     static var previews: some View {
-        TagList(controller: P_UIController.new())
+        TagRow(p_tags[0].value)
+    }
+}
+struct TagRow_Preview2: PreviewProvider {
+    static var previews: some View {
+        TagRow(p_tags[2].value)
     }
 }
 #endif
+

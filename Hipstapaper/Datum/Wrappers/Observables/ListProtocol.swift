@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/12/01.
+//  Created by Jeffrey Bergier on 2020/11/25.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -21,18 +21,20 @@
 
 import Combine
 
-public func UIControllerNew(controller: Controller) -> AnyUIController {
-    return AnyUIController(DefaultUIController(controller: controller))
+public protocol ListProtocol: Swift.RandomAccessCollection, ObservableObject {
+    associatedtype Element
 }
 
-/// No magic happens here, It is your responsibility to merge the `objectWillChange` signals
-public protocol UIController: ObservableObject {
-    var indexFixed: [AnyTag] { get }
-    var indexTags: Result<AnyCollection<AnyElement<AnyTag>>, Error> { get }
-    var detailWebsites: Result<AnyCollection<AnyElement<AnyWebsite>>, Error> { get }
-    var detailQuery: Query { get }
+internal class __List_Empty<T>: ListProtocol {
+    
+    internal let objectWillChange: ObservableObjectPublisher = .init()
 
-    /// These properties are separate because SwiftUI is not smart enough to update a complex property
-    var selectedTag: AnyTag? { get set }
-    var selectedWebsite: AnyWebsite? { get set }
+    internal typealias Index = Int
+    internal typealias Element = T
+    
+    // MARK: Swift.Collection Boilerplate
+    public var startIndex: Index { 0 }
+    public var endIndex: Index { 0 }
+    public subscript(index: Index) -> Element { fatalError() }
+    public func index(after index: Index) -> Index { 0 }
 }

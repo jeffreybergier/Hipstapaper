@@ -23,3 +23,8 @@ public protocol Base: Identifiable, Hashable {
     var dateCreated: Date { get }
     var dateModified: Date { get }
 }
+
+extension CD_Base: Base {
+    var dateCreated: Date { cd_dateCreated }
+    var dateModified: Date { cd_dateModified }
+}
