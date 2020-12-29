@@ -19,14 +19,11 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-enum Presentation: Int {
+enum DetailToolbarPresentation: Int {
     case none
     case search
     case tagApply
     case share
-    case addWebsite
-    case addTag
-    case addChoose
     case browser
     
     // TODO: Remove this when SwiftUI doesn't suck at modals
@@ -55,30 +52,6 @@ enum Presentation: Int {
             }
         }
         
-        var isAddWebsite = false {
-            didSet {
-                guard !internalUpdateInProgress else { return }
-                guard !self.isAddWebsite else { return }
-                self.value = .none
-            }
-        }
-        
-        var isAddTag = false {
-            didSet {
-                guard !internalUpdateInProgress else { return }
-                guard !self.isAddTag else { return }
-                self.value = .none
-            }
-        }
-        
-        var isAddChoose = false {
-            didSet {
-                guard !internalUpdateInProgress else { return }
-                guard !self.isAddChoose else { return }
-                self.value = .none
-            }
-        }
-        
         var isBrowser = false {
             didSet {
                 guard !internalUpdateInProgress else { return }
@@ -88,7 +61,7 @@ enum Presentation: Int {
         }
         
         private var internalUpdateInProgress = false
-        var value: Presentation = .none {
+        var value: DetailToolbarPresentation = .none {
             didSet {
                 self.internalUpdateInProgress = true
                 defer { self.internalUpdateInProgress = false }
@@ -96,9 +69,6 @@ enum Presentation: Int {
                 self.isSearch     = self.value == .search
                 self.isTagApply   = self.value == .tagApply
                 self.isShare      = self.value == .share
-                self.isAddWebsite = self.value == .addWebsite
-                self.isAddTag     = self.value == .addTag
-                self.isAddChoose  = self.value == .addChoose
                 self.isBrowser    = self.value == .browser
             }
         }

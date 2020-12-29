@@ -27,7 +27,6 @@ struct Main: View {
     
     var controller: Controller
     @State var selectedWebsites: Set<AnyElement<AnyWebsite>> = []
-    @State var presentations = Presentation.Wrap()
     
     var body: some View {
         NavigationView {
@@ -35,13 +34,13 @@ struct Main: View {
                 controller: self.controller,
                 navigation: { selectedTag in
                     let c = WebsiteController(controller: self.controller, selectedTag: selectedTag)
-                    return AnyView(WebsiteList(controller: c,
-                                               selectedWebsites: self.$selectedWebsites,
-                                               presentations: self.$presentations))
+                    return AnyView(
+                        WebsiteList(controller: c,
+                                    selectedWebsites: self.$selectedWebsites)
+                    )
                 }
             )
-            .modifier(IndexToolbar(controller: self.controller,
-                                   presentations: self.$presentations))
+            .modifier(IndexToolbar(controller: self.controller))
         }
     }
 }

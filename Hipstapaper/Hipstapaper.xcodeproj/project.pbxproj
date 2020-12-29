@@ -107,10 +107,12 @@
 		73A3DF3D257CCBC0002EDEB4 /* FormLoaded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DF3C257CCBC0002EDEB4 /* FormLoaded.swift */; };
 		73A3DF45257D0761002EDEB4 /* Result+Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DF44257D0761002EDEB4 /* Result+Snapshot.swift */; };
 		73C6BC1D25982FA0006B7A6D /* Modals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC1C25982FA0006B7A6D /* Modals.swift */; };
-		73C6BC472598BCEC006B7A6D /* Presentations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC462598BCEC006B7A6D /* Presentations.swift */; };
-		73C6BC482598BCEC006B7A6D /* Presentations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC462598BCEC006B7A6D /* Presentations.swift */; };
 		73C6BC6D259A16F3006B7A6D /* WebsiteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC6C259A16F3006B7A6D /* WebsiteController.swift */; };
 		73C6BC6E259A16F3006B7A6D /* WebsiteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC6C259A16F3006B7A6D /* WebsiteController.swift */; };
+		73C6BC78259AB266006B7A6D /* IndexToolbarPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC77259AB266006B7A6D /* IndexToolbarPresentation.swift */; };
+		73C6BC79259AB266006B7A6D /* IndexToolbarPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC77259AB266006B7A6D /* IndexToolbarPresentation.swift */; };
+		73C6BC83259AB2DF006B7A6D /* DetailToolbarPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC82259AB2DF006B7A6D /* DetailToolbarPresentation.swift */; };
+		73C6BC84259AB2DF006B7A6D /* DetailToolbarPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC82259AB2DF006B7A6D /* DetailToolbarPresentation.swift */; };
 		73DC73DA25728B9F00EE72FA /* QueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC73D925728B9F00EE72FA /* QueryTests.swift */; };
 		73DC73E0257290EF00EE72FA /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC73DF257290EF00EE72FA /* Base.swift */; };
 		73F2B03825745EFD009AC2AF /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2B03725745EFD009AC2AF /* Logger.swift */; };
@@ -393,8 +395,9 @@
 		73A3DF3C257CCBC0002EDEB4 /* FormLoaded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormLoaded.swift; sourceTree = "<group>"; };
 		73A3DF44257D0761002EDEB4 /* Result+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Result+Snapshot.swift"; sourceTree = "<group>"; };
 		73C6BC1C25982FA0006B7A6D /* Modals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modals.swift; sourceTree = "<group>"; };
-		73C6BC462598BCEC006B7A6D /* Presentations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presentations.swift; sourceTree = "<group>"; };
 		73C6BC6C259A16F3006B7A6D /* WebsiteController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteController.swift; sourceTree = "<group>"; };
+		73C6BC77259AB266006B7A6D /* IndexToolbarPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexToolbarPresentation.swift; sourceTree = "<group>"; };
+		73C6BC82259AB2DF006B7A6D /* DetailToolbarPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailToolbarPresentation.swift; sourceTree = "<group>"; };
 		73DC73D925728B9F00EE72FA /* QueryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryTests.swift; sourceTree = "<group>"; };
 		73DC73DF257290EF00EE72FA /* Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
 		73F2B03725745EFD009AC2AF /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
@@ -660,6 +663,8 @@
 			children = (
 				73A3DE7725792604002EDEB4 /* DetailToolbar.swift */,
 				73A3DE93257B77C8002EDEB4 /* IndexToolbar.swift */,
+				73C6BC82259AB2DF006B7A6D /* DetailToolbarPresentation.swift */,
+				73C6BC77259AB266006B7A6D /* IndexToolbarPresentation.swift */,
 			);
 			path = Toolbars;
 			sourceTree = "<group>";
@@ -667,7 +672,6 @@
 		73A3DEAA257B924F002EDEB4 /* Presentations */ = {
 			isa = PBXGroup;
 			children = (
-				73C6BC462598BCEC006B7A6D /* Presentations.swift */,
 				73A3DEAF257B9351002EDEB4 /* Search.swift */,
 				735D4C93258F1E2F0016F904 /* AddTag.swift */,
 				736DD3E12587905D00F0FBE0 /* TagApply */,
@@ -1334,9 +1338,10 @@
 				DBDCB365256BE8E800D005F6 /* HipstapaperApp.swift in Sources */,
 				735D4CA3258F1ECE0016F904 /* AddTag.swift in Sources */,
 				734068192574981200D4A343 /* TagRow.swift in Sources */,
-				73C6BC472598BCEC006B7A6D /* Presentations.swift in Sources */,
 				73C6BC6D259A16F3006B7A6D /* WebsiteController.swift in Sources */,
+				73C6BC83259AB2DF006B7A6D /* DetailToolbarPresentation.swift in Sources */,
 				736DD3E3258790A000F0FBE0 /* TagApply.swift in Sources */,
+				73C6BC78259AB266006B7A6D /* IndexToolbarPresentation.swift in Sources */,
 				736DD3ED258793C200F0FBE0 /* Website+Hipstapaper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1348,7 +1353,6 @@
 				73A3DE7925792604002EDEB4 /* DetailToolbar.swift in Sources */,
 				73406813257491E600D4A343 /* PreviewsContent.swift in Sources */,
 				734068332574ED5800D4A343 /* TagList.swift in Sources */,
-				73C6BC482598BCEC006B7A6D /* Presentations.swift in Sources */,
 				734068282574B5C500D4A343 /* Style.swift in Sources */,
 				735C91C12574F1790033B4E8 /* WebsiteList.swift in Sources */,
 				736DD3F825879D1800F0FBE0 /* TagApplyRow.swift in Sources */,
@@ -1357,9 +1361,11 @@
 				73C6BC6E259A16F3006B7A6D /* WebsiteController.swift in Sources */,
 				734068212574B56700D4A343 /* WebsiteRow.swift in Sources */,
 				DBDCB368256BE8E800D005F6 /* Main.swift in Sources */,
+				73C6BC79259AB266006B7A6D /* IndexToolbarPresentation.swift in Sources */,
 				73A3DEB1257B9351002EDEB4 /* Search.swift in Sources */,
 				DBDCB366256BE8E800D005F6 /* HipstapaperApp.swift in Sources */,
 				735D4CAB258F1ECF0016F904 /* AddTag.swift in Sources */,
+				73C6BC84259AB2DF006B7A6D /* DetailToolbarPresentation.swift in Sources */,
 				7340681A2574981200D4A343 /* TagRow.swift in Sources */,
 				736DD3E4258790A000F0FBE0 /* TagApply.swift in Sources */,
 				736DD3EE258793C200F0FBE0 /* Website+Hipstapaper.swift in Sources */,

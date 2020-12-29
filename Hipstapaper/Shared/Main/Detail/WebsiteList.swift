@@ -28,7 +28,6 @@ struct WebsiteList: View {
     
     @ObservedObject var controller: WebsiteController
     @Binding var selectedWebsites: Set<AnyElement<AnyWebsite>>
-    @Binding var presentations: Presentation.Wrap
     
 //    init(controller: Controller, selectedTag: AnyElement<AnyTag>, selectedWebsites: Binding<Set<AnyElement<AnyWebsite>>?>) {
 //        let websiteController = WebsiteController(controller: controller, selectedTag: selectedTag)
@@ -47,8 +46,7 @@ struct WebsiteList: View {
         .modifier(ListEditMode())
         .modifier(DetailToolbar(controller: self.controller.controller,
                                 query: self.$controller.query,
-                                selectedWebsites: self.$selectedWebsites,
-                                presentations: self.$presentations))
+                                selectedWebsites: self.$selectedWebsites))
     }
 }
 
