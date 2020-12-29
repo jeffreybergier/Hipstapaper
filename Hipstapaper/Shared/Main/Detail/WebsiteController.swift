@@ -27,7 +27,16 @@ class WebsiteController: ObservableObject {
     private let selectedTag: AnyElement<AnyTag>
     
     let controller: Controller
-    var all: AnyList<AnyElement<AnyWebsite>> = .empty
+    
+    private var _all: AnyList<AnyElement<AnyWebsite>>? = nil
+    var all: AnyList<AnyElement<AnyWebsite>> {
+        get {
+            if let all = _all { return all }
+            self.update()
+            return _all ?? .empty
+        }
+    }
+    
     @Published var query: Query = .init() {
         didSet {
             self.update()
@@ -39,7 +48,6 @@ class WebsiteController: ObservableObject {
     init(controller: Controller, selectedTag: AnyElement<AnyTag>) {
         self.selectedTag = selectedTag
         self.controller = controller
-        self.update()
     }
     
     private func update() {
@@ -49,10 +57,10 @@ class WebsiteController: ObservableObject {
         switch result {
         case .failure(let error):
             // TODO: Do something with this error
-            self.all = .empty
+            _all = nil
             break
         case .success(let sites):
-            self.all = sites
+            self._all = sites
             self.token = sites.objectWillChange.sink { [unowned self] _ in
                 self.objectWillChange.send()
             }
