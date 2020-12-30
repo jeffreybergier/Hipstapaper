@@ -136,13 +136,13 @@ struct DetailToolbar: ViewModifier {
 fileprivate struct OpenWebsiteDisabler: ViewModifier {
     
     let selectedWebsites: Set<AnyElement<AnyWebsite>>
+    @EnvironmentObject var windowManager: WindowManager
     
     func body(content: Content) -> some View {
-        #if os(macOS)
-        return content.disabled(self.selectedWebsites.isEmpty)
-        #else
-        return content.disabled(self.selectedWebsites.count != 1)
-        #endif
+        if self.windowManager.features.contains(.bulkActivation) {
+            return content.disabled(self.selectedWebsites.isEmpty)
+        } else {
+            return content.disabled(self.selectedWebsites.count != 1)
+        }
     }
-    
 }
