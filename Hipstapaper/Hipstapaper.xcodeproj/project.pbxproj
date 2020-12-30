@@ -114,6 +114,9 @@
 		73C6BCAF259AC172006B7A6D /* TagController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BCAD259AC172006B7A6D /* TagController.swift */; };
 		73C6BCC5259B5E0D006B7A6D /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BCC4259B5E0D006B7A6D /* WindowManager.swift */; };
 		73C6BCFA259B6AE6006B7A6D /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BCF9259B6AE6006B7A6D /* WindowManager.swift */; };
+		73C6BD0C259C0209006B7A6D /* BrowserWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BD0B259C0209006B7A6D /* BrowserWindowController.swift */; };
+		73C6BD1E259C0530006B7A6D /* WindowManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BD1D259C0530006B7A6D /* WindowManagerProtocol.swift */; };
+		73C6BD1F259C0530006B7A6D /* WindowManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BD1D259C0530006B7A6D /* WindowManagerProtocol.swift */; };
 		73DC73DA25728B9F00EE72FA /* QueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC73D925728B9F00EE72FA /* QueryTests.swift */; };
 		73DC73E0257290EF00EE72FA /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC73DF257290EF00EE72FA /* Base.swift */; };
 		73F2B03825745EFD009AC2AF /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2B03725745EFD009AC2AF /* Logger.swift */; };
@@ -399,6 +402,8 @@
 		73C6BCAD259AC172006B7A6D /* TagController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagController.swift; sourceTree = "<group>"; };
 		73C6BCC4259B5E0D006B7A6D /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
 		73C6BCF9259B6AE6006B7A6D /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
+		73C6BD0B259C0209006B7A6D /* BrowserWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserWindowController.swift; sourceTree = "<group>"; };
+		73C6BD1D259C0530006B7A6D /* WindowManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManagerProtocol.swift; sourceTree = "<group>"; };
 		73DC73D925728B9F00EE72FA /* QueryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryTests.swift; sourceTree = "<group>"; };
 		73DC73DF257290EF00EE72FA /* Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
 		73F2B03725745EFD009AC2AF /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
@@ -747,6 +752,7 @@
 				734068262574B5C500D4A343 /* Style.swift */,
 				73406811257491E600D4A343 /* PreviewsContent.swift */,
 				736DD3EC258793C200F0FBE0 /* Website+Hipstapaper.swift */,
+				73C6BD1D259C0530006B7A6D /* WindowManagerProtocol.swift */,
 				DBDCB33E256BE8E700D005F6 /* Assets.xcassets */,
 			);
 			path = Shared;
@@ -774,6 +780,7 @@
 			children = (
 				DBDCB346256BE8E700D005F6 /* Info.plist */,
 				73C6BCF9259B6AE6006B7A6D /* WindowManager.swift */,
+				73C6BD0B259C0209006B7A6D /* BrowserWindowController.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -782,8 +789,8 @@
 			isa = PBXGroup;
 			children = (
 				DBDCB34D256BE8E700D005F6 /* Info.plist */,
-				73993E2D2595DFC2006FB612 /* BrowserWindowController.swift */,
 				73C6BCC4259B5E0D006B7A6D /* WindowManager.swift */,
+				73993E2D2595DFC2006FB612 /* BrowserWindowController.swift */,
 				DBDCB34E256BE8E700D005F6 /* macOS.entitlements */,
 			);
 			path = macOS;
@@ -1327,6 +1334,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				73A3DE7825792604002EDEB4 /* DetailToolbar.swift in Sources */,
+				73C6BD1E259C0530006B7A6D /* WindowManagerProtocol.swift in Sources */,
+				73C6BD0C259C0209006B7A6D /* BrowserWindowController.swift in Sources */,
 				73406812257491E600D4A343 /* PreviewsContent.swift in Sources */,
 				734068322574ED5800D4A343 /* TagList.swift in Sources */,
 				734068272574B5C500D4A343 /* Style.swift in Sources */,
@@ -1354,6 +1363,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				73A3DE7925792604002EDEB4 /* DetailToolbar.swift in Sources */,
+				73C6BD1F259C0530006B7A6D /* WindowManagerProtocol.swift in Sources */,
 				73406813257491E600D4A343 /* PreviewsContent.swift in Sources */,
 				73C6BCC5259B5E0D006B7A6D /* WindowManager.swift in Sources */,
 				734068332574ED5800D4A343 /* TagList.swift in Sources */,

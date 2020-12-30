@@ -68,10 +68,12 @@ struct DetailToolbar: ViewModifier {
                     ButtonToolbar(systemName: "safari",
                                   accessibilityLabel: Verb.Open,
                                   action: {
-                                    for site in self.controller.selectedWebsites {
-                                        guard let url = site.value.resolvedURL ?? site.value.originalURL else { continue }
-                                        self.windowManager.show(url)
-                                    }
+                                    let urls = self.controller.selectedWebsites.compactMap
+                                    { $0.value.resolvedURL ?? $0.value.originalURL }
+                                    self.windowManager.show(urls, error: {
+                                        // TODO: Do something with this error
+                                        print($0)
+                                    })
                                   })
                         .keyboardShortcut("o")
                         .modifier(OpenWebsiteDisabler(selectedWebsites: self.controller.selectedWebsites))
