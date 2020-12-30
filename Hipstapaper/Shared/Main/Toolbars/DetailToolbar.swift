@@ -42,13 +42,15 @@ struct DetailToolbar: ViewModifier {
                     let url = (site.resolvedURL ?? site.originalURL)!
                     Browser(
                         url: url,
-                        openInNewWindow: {
-                            self.presentation.value = .none
-                            self.windowManager.show([url]) {
-                                // TODO: Do something with this error
-                                print($0)
+                        openInNewWindow:
+                            self.windowManager.features.contains(.multipleWindows)
+                            ? { self.presentation.value = .none
+                                self.windowManager.show([url]) {
+                                    // TODO: Do something with this error
+                                    print($0)
+                                }
                             }
-                        },
+                            : nil,
                         done: { self.presentation.value = .none }
                     )
                 }
