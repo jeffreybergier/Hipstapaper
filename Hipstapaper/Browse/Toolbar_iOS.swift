@@ -29,6 +29,7 @@ internal struct Toolbar: ViewModifier {
     @ObservedObject var control: WebView.Control
     @ObservedObject var display: WebView.Display
     let done: () -> Void
+    let openInNewWindow: (() -> Void)?
     @State var shareSheetPresented = false
             
     func body(content: Content) -> some View {
@@ -47,7 +48,7 @@ internal struct Toolbar: ViewModifier {
                             TextField.WebsiteTitle(self.$display.title).disabled(true)
                         }
                     }
-                    .modifier(BrowserToolbar(control: self.control, openInNewWindow: nil))
+                    .modifier(BrowserToolbar(control: self.control, openInNewWindow: self.openInNewWindow))
                     .toolbar(id: "Browser") {
                         ToolbarItem(id: "Browser.6", placement: ToolbarItemPlacement.primaryAction) {
                             ButtonToolbarShare { self.shareSheetPresented = true }

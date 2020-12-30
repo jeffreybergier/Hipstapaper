@@ -27,6 +27,7 @@ public struct Browser: View {
     @StateObject var control: WebView.Control
     @StateObject var display: WebView.Display = .init()
     let done: () -> Void
+    let openInNewWindow: (() -> Void)?
     
     public var body: some View {
         ZStack(alignment: .top) {
@@ -38,11 +39,12 @@ public struct Browser: View {
                     .opacity(self.display.isLoading ? 1 : 0)
             }
         }
-        .modifier(Toolbar(control: self.control, display: self.display))
+        .modifier(Toolbar(control: self.control, display: self.display, done: self.done, openInNewWindow: self.openInNewWindow))
     }
     
-    public init(url load: URL, done: @escaping () -> Void) {
+    public init(url load: URL, openInNewWindow: (() -> Void)?, done: @escaping () -> Void) {
         _control = .init(wrappedValue: WebView.Control(load))
         self.done = done
+        self.openInNewWindow = openInNewWindow
     }
 }

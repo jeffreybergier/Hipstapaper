@@ -35,7 +35,9 @@ class BrowserWindowController: NSWindowController {
     }
     
     override func showWindow(_ sender: Any?) {
-        let browser = Browser(url: url) { [unowned self] in self.close() }
+        let browser = Browser(url: url,
+                              openInNewWindow: nil,
+                              done: { [unowned self] in self.close() })
         let vc = NSHostingController(rootView: browser)
         let window = NSWindow(contentViewController: vc)
         window.delegate = self

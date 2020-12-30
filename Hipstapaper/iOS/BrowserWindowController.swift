@@ -50,7 +50,7 @@ class BrowserWindowControllerDelegate: NSObject, UIWindowSceneDelegate {
         let scene = scene as! UIWindowScene
         let window = UIWindow(windowScene: scene)
         let url = connectionOptions.userActivities.first!.referrerURL!
-        let browser = Browser(url: url) { [unowned self] in
+        let browser = Browser(url: url, openInNewWindow: nil) { [unowned self] in
             self.app.requestSceneSessionDestruction(session, options: nil)
             { error in
                 print(error)

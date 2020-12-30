@@ -39,8 +39,18 @@ struct DetailToolbar: ViewModifier {
             Color.clear.frame(width: 1, height: 1)
                 .sheet(isPresented: self.$presentation.isBrowser) {
                     let site = self.controller.selectedWebsites.first!.value
-                    let url = site.resolvedURL ?? site.originalURL
-                    Browser(url: url!, done: { self.presentation.value = .none })
+                    let url = (site.resolvedURL ?? site.originalURL)!
+                    Browser(
+                        url: url,
+                        openInNewWindow: {
+                            self.presentation.value = .none
+                            self.windowManager.show([url]) {
+                                // TODO: Do something with this error
+                                print($0)
+                            }
+                        },
+                        done: { self.presentation.value = .none }
+                    )
                 }
             
             Color.clear.frame(width: 1, height: 1)
