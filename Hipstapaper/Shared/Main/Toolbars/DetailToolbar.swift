@@ -65,23 +65,22 @@ struct DetailToolbar: ViewModifier {
             
             content.toolbar(id: "Detail") {
                 ToolbarItem(id: "Detail.0") {
-                    ButtonToolbar(systemName: "safari",
-                                  accessibilityLabel: Verb.Open,
-                                  action: {
-                                    guard self.windowManager.features.contains([.multipleWindows, .bulkActivation])
-                                    else { self.presentation.value = .browser; return }
-                                    let urls = self.controller.selectedWebsites.compactMap
-                                    { $0.value.resolvedURL ?? $0.value.originalURL }
-                                    self.windowManager.show(urls) {
-                                        // TODO: Do something with this error
-                                        print($0)
-                                    }
-                                  })
-                        .keyboardShortcut("o")
-                        .modifier(OpenWebsiteDisabler(selectedWebsites: self.controller.selectedWebsites))
+                    ButtonToolbarBrowserInApp
+                    {
+                        guard self.windowManager.features.contains([.multipleWindows, .bulkActivation])
+                        else { self.presentation.value = .browser; return }
+                        let urls = self.controller.selectedWebsites.compactMap
+                        { $0.value.resolvedURL ?? $0.value.originalURL }
+                        self.windowManager.show(urls) {
+                            // TODO: Do something with this error
+                            print($0)
+                        }
+                    }
+                    .keyboardShortcut("o")
+                    .modifier(OpenWebsiteDisabler(selectedWebsites: self.controller.selectedWebsites))
                 }
                 ToolbarItem(id: "Detail.1") {
-                    ButtonToolbar(systemName: "safari.fill", accessibilityLabel: Verb.Safari) {
+                    ButtonToolbarBrowserExternal {
                         let urls = self.controller.selectedWebsites
                             .compactMap { $0.value.resolvedURL ?? $0.value.originalURL }
                         urls.forEach { self.openURL($0) }

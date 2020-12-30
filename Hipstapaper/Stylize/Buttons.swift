@@ -84,8 +84,14 @@ public func ButtonToolbarShare(_ action: @escaping () -> Void) -> some View {
                   action: action)
 }
 
-public func ButtonToolbarSafari(_ action: @escaping () -> Void) -> some View {
+public func ButtonToolbarBrowserInApp(_ action: @escaping () -> Void) -> some View {
     ButtonToolbar(systemName: "safari",
+                  accessibilityLabel: Verb.Open,
+                  action: action)
+}
+
+public func ButtonToolbarBrowserExternal(_ action: @escaping () -> Void) -> some View {
+    ButtonToolbar(systemName: "safari.fill",
                   accessibilityLabel: Verb.Safari,
                   action: action)
 }

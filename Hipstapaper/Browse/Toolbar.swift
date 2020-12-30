@@ -28,9 +28,7 @@ internal struct Toolbar: ViewModifier {
     @ObservedObject var control: WebView.Control
     @ObservedObject var display: WebView.Display
     let done: () -> Void
-    
     @State var shareSheetPresented = false
-    @Environment(\.openURL) var openURL
     
     #if os(macOS)
     // TODO: Remove this copy paste BS when NSWindow works properly
@@ -89,43 +87,19 @@ internal struct Toolbar: ViewModifier {
                     }
                 content
                     .navigationBarTitle(self.display.title, displayMode: .inline)
+                    .modifier(NavigationToolbar(control: self.control, display: self.display))
                     .toolbar(id: "Browser") {
-                        ToolbarItem(id: "Browser.1", placement: ToolbarItemPlacement.navigation) {
-                            ButtonToolbar(systemName: "chevron.backward", accessibilityLabel: "Go Back") {
-                                self.control.goBack = true
-                            }
-                            .keyboardShortcut("[")
-                            .disabled(!self.display.canGoBack)
-                        }
-                        ToolbarItem(id: "Browser.2", placement: ToolbarItemPlacement.navigation) {
-                            ButtonToolbar(systemName: "chevron.forward", accessibilityLabel: "Go Forward") {
-                                self.control.goForward = true
-                            }
-                            .keyboardShortcut("]")
-                            .disabled(!self.display.canGoForward)
-                        }
-                        ToolbarItem(id: "Browser.3", placement: ToolbarItemPlacement.navigation) {
-                            ButtonToolbarStopReload(isLoading: self.display.isLoading,
-                                                    stopAction: { self.control.stop = true },
-                                                    reloadAction: { self.control.reload = true })
-                        }
-                        ToolbarItem(id: "Browser.4", placement: ToolbarItemPlacement.navigation) {
-                            ButtonToolbarJavascript(isJSEnabled: self.control.isJSEnabled,
-                                                    toggleAction: { self.control.isJSEnabled.toggle() })
-                                .keyboardShortcut("j")
-                        }
                         ToolbarItem(id: "Browser.5", placement: ToolbarItemPlacement.principal) {
                             TextField.WebsiteTitle(self.$display.title).disabled(true)
                         }
+                    }
+                    .modifier(BrowserToolbar(control: self.control, openInNewWindow: nil))
+                    .toolbar(id: "Browser") {
                         ToolbarItem(id: "Browser.6", placement: ToolbarItemPlacement.primaryAction) {
                             ButtonToolbarShare { self.shareSheetPresented = true }
                                 .keyboardShortcut("i")
                         }
-                        ToolbarItem(id: "Browser.7", placement: ToolbarItemPlacement.primaryAction) {
-                            ButtonToolbarSafari { self.openURL(self.control.originalLoad) }
-                                .keyboardShortcut("O")
-                        }
-                        ToolbarItem(id: "Browser.8", placement: ToolbarItemPlacement.primaryAction) {
+                        ToolbarItem(id: "Browser.9", placement: ToolbarItemPlacement.primaryAction) {
                             ButtonDone(Verb.Done, action: self.done)
                                 .keyboardShortcut("w")
                         }
@@ -135,4 +109,82 @@ internal struct Toolbar: ViewModifier {
         .navigationViewStyle(StackNavigationViewStyle())
     }
     #endif
+}
+
+struct BrowserToolbar: ViewModifier {
+    
+    @ObservedObject var control: WebView.Control
+    let openInNewWindow: (() -> Void)?
+    @Environment(\.openURL) var openURL
+    
+    func body(content: Content) -> some View {
+        if let open = self.openInNewWindow {
+            return AnyView(content
+                .toolbar(id: "Browser") {
+                    ToolbarItem(id: "Browser.7", placement: .automatic) {
+                        ButtonToolbarBrowserInApp { open() }
+                            .keyboardShortcut("o")
+                    }
+                    ToolbarItem(id: "Browser.8", placement: .automatic) {
+                        ButtonToolbarBrowserExternal { self.openURL(self.control.originalLoad) }
+                            .keyboardShortcut("O")
+                    }
+                })
+        } else {
+            return AnyView(content
+                .toolbar(id: "Browser") {
+                    ToolbarItem(id: "Browser.8", placement: ToolbarItemPlacement.automatic) {
+                        ButtonToolbarBrowserExternal { self.openURL(self.control.originalLoad) }
+                            .keyboardShortcut("O")
+                    }
+                })
+        }
+    }
+}
+
+struct NavigationToolbar: ViewModifier {
+    
+    @ObservedObject var control: WebView.Control
+    @ObservedObject var display: WebView.Display
+    
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    private var navigationPlacement: ToolbarItemPlacement {
+        switch self.horizontalSizeClass ?? .compact {
+        case .regular:
+            return .navigation
+        case .compact:
+            fallthrough
+        @unknown default:
+            return .bottomBar
+        }
+    }
+        
+    func body(content: Content) -> some View {
+        content.toolbar(id: "Browser") {
+            ToolbarItem(id: "Browser.1", placement: self.navigationPlacement) {
+                ButtonToolbar(systemName: "chevron.backward", accessibilityLabel: "Go Back") {
+                    self.control.goBack = true
+                }
+                .keyboardShortcut("[")
+                .disabled(!self.display.canGoBack)
+            }
+            ToolbarItem(id: "Browser.2", placement: self.navigationPlacement) {
+                ButtonToolbar(systemName: "chevron.forward", accessibilityLabel: "Go Forward") {
+                    self.control.goForward = true
+                }
+                .keyboardShortcut("]")
+                .disabled(!self.display.canGoForward)
+            }
+            ToolbarItem(id: "Browser.3", placement: self.navigationPlacement) {
+                ButtonToolbarStopReload(isLoading: self.display.isLoading,
+                                        stopAction: { self.control.stop = true },
+                                        reloadAction: { self.control.reload = true })
+            }
+            ToolbarItem(id: "Browser.4", placement: self.navigationPlacement) {
+                ButtonToolbarJavascript(isJSEnabled: self.control.isJSEnabled,
+                                        toggleAction: { self.control.isJSEnabled.toggle() })
+                    .keyboardShortcut("j")
+            }
+        }
+    }
 }
