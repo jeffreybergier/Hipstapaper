@@ -22,16 +22,20 @@
 import AppKit
 import Combine
 
-class WindowManager: NSObject, ObservableObject {
+class WindowManager: ObservableObject, WindowManagerProtocol {
     
     private var windows: [URL: BrowserWindowController] = [:]
     
-    func show(_ url: URL) {
-        let window = self.windows[url] ?? BrowserWindowController(url: url)
-        self.windows[url] = window
-        window.windowWillClose = { [unowned self] url in
-            self.windows.removeValue(forKey: url)
+    var features: Features { [.multipleWindows, .bulkActivation] }
+
+    func show(_ urls: [URL], error: @escaping (Error) -> Void) {
+        for url in urls {
+            let window = self.windows[url] ?? BrowserWindowController(url: url)
+            self.windows[url] = window
+            window.windowWillClose = { [unowned self] url in
+                self.windows.removeValue(forKey: url)
+            }
+            window.showWindow(self)
         }
-        window.showWindow(self)
     }
 }

@@ -26,11 +26,17 @@ class WindowManager: ObservableObject, WindowManagerProtocol {
     
     private var app: UIApplication { UIApplication.shared }
     
-    var supportsMultipleWindows: Bool { self.app.supportsMultipleScenes }
+    var features: Features {
+        var features: Features = []
+        if self.app.supportsMultipleScenes {
+            features.insert(.multipleWindows)
+        }
+        return features
+    }
     
-    func show(_ url: [URL], error errorHandler: @escaping (WMError) -> Void) {
-        guard self.supportsMultipleWindows else { errorHandler(.unsupported); return }
-        guard url.count < 2 else { errorHandler(.multipleURL); return }
+    func show(_ url: [URL], error errorHandler: @escaping (Error) -> Void) {
+        guard self.features.contains(.multipleWindows) else { errorHandler(.unsupported); return }
+        guard self.features.contains(.bulkActivation) else { errorHandler(.bulkActivation); return }
         guard let url = url.first else { return }
         let activity = NSUserActivity(activityType: "Browser")
         activity.referrerURL = url

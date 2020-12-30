@@ -31,9 +31,12 @@ internal let log: XCGLogger = {
 @main
 struct HipstapaperApp: App {
 
+    #if canImport(UIKit)
     @UIApplicationDelegateAdaptor(ApplicationDelegate.self) var appDelegate
+    #endif
     
     let controller: Controller
+    let windowManager = WindowManager()
     
     init() {
 //        let controller = try! ControllerNew()
@@ -43,7 +46,7 @@ struct HipstapaperApp: App {
     @SceneBuilder var body: some Scene {
         WindowGroup {
             Main(controller: self.controller)
-                .environmentObject(WindowManager())
+                .environmentObject(self.windowManager)
         }
     }
 }

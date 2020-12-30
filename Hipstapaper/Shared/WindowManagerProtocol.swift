@@ -22,16 +22,24 @@
 import Foundation
 
 protocol WindowManagerProtocol {
-    var supportsMultipleWindows: Bool { get }
-    func show(_: [URL], error: @escaping (WMError) -> Void)
+    var features: WindowManager.Features { get }
+    func show(_: [URL], error: @escaping (WindowManager.Error) -> Void)
 }
 
-enum WMError: Swift.Error {
-    /// Occurs when the device does not support bulk opening multiple windwos
-    case multipleURL
-    /// Occurs when the UIScene API returns an error on activation
-    case activation(Swift.Error)
-    /// Occurs when the device does not support multitple windows.
-    /// Please display your window modally in this case
-    case unsupported
+extension WindowManager {
+    enum Error: Swift.Error {
+        /// Occurs when the device does not support bulk opening multiple windwos
+        case bulkActivation
+        /// Occurs when the UIScene API returns an error on activation
+        case activation(Swift.Error)
+        /// Occurs when the device does not support multitple windows.
+        /// Please display your window modally in this case
+        case unsupported
+    }
+    
+    struct Features: OptionSet {
+        let rawValue: Int
+        static let multipleWindows = Features(rawValue: 1 << 0)
+        static let bulkActivation  = Features(rawValue: 1 << 1)
+    }
 }
