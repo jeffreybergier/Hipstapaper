@@ -52,7 +52,7 @@
 		735D4CEA258F50830016F904 /* Browser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4CE9258F50830016F904 /* Browser.swift */; };
 		735D4CF3258F54390016F904 /* Localize.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7399BAC3258251D800B8CAFD /* Localize.framework */; };
 		735D4D18258F5EEC0016F904 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4D17258F5EEC0016F904 /* WebView.swift */; };
-		735D4D5A258F7DE80016F904 /* Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4D59258F7DE80016F904 /* Toolbar.swift */; };
+		735D4D5A258F7DE80016F904 /* Toolbar_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4D59258F7DE80016F904 /* Toolbar_iOS.swift */; };
 		735D4D64258F8B740016F904 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4D63258F8B740016F904 /* ProgressView.swift */; };
 		736DD3E3258790A000F0FBE0 /* TagApply.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736DD3E2258790A000F0FBE0 /* TagApply.swift */; };
 		736DD3E4258790A000F0FBE0 /* TagApply.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736DD3E2258790A000F0FBE0 /* TagApply.swift */; };
@@ -103,6 +103,7 @@
 		73A3DF35257CCB65002EDEB4 /* FormLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DF34257CCB65002EDEB4 /* FormLoading.swift */; };
 		73A3DF3D257CCBC0002EDEB4 /* FormLoaded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DF3C257CCBC0002EDEB4 /* FormLoaded.swift */; };
 		73A3DF45257D0761002EDEB4 /* Result+Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DF44257D0761002EDEB4 /* Result+Snapshot.swift */; };
+		73B4D18A259C858C00B8E6A6 /* Toolbar_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B4D189259C858C00B8E6A6 /* Toolbar_macOS.swift */; };
 		73C6BC1D25982FA0006B7A6D /* Modals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC1C25982FA0006B7A6D /* Modals.swift */; };
 		73C6BC6D259A16F3006B7A6D /* WebsiteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC6C259A16F3006B7A6D /* WebsiteController.swift */; };
 		73C6BC6E259A16F3006B7A6D /* WebsiteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC6C259A16F3006B7A6D /* WebsiteController.swift */; };
@@ -360,7 +361,7 @@
 		735D4CBB258F4D690016F904 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		735D4CE9258F50830016F904 /* Browser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Browser.swift; sourceTree = "<group>"; };
 		735D4D17258F5EEC0016F904 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
-		735D4D59258F7DE80016F904 /* Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar.swift; sourceTree = "<group>"; };
+		735D4D59258F7DE80016F904 /* Toolbar_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar_iOS.swift; sourceTree = "<group>"; };
 		735D4D63258F8B740016F904 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 		736DD3E2258790A000F0FBE0 /* TagApply.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagApply.swift; sourceTree = "<group>"; };
 		736DD3EC258793C200F0FBE0 /* Website+Hipstapaper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Website+Hipstapaper.swift"; sourceTree = "<group>"; };
@@ -395,6 +396,7 @@
 		73A3DF34257CCB65002EDEB4 /* FormLoading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormLoading.swift; sourceTree = "<group>"; };
 		73A3DF3C257CCBC0002EDEB4 /* FormLoaded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormLoaded.swift; sourceTree = "<group>"; };
 		73A3DF44257D0761002EDEB4 /* Result+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Result+Snapshot.swift"; sourceTree = "<group>"; };
+		73B4D189259C858C00B8E6A6 /* Toolbar_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar_macOS.swift; sourceTree = "<group>"; };
 		73C6BC1C25982FA0006B7A6D /* Modals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modals.swift; sourceTree = "<group>"; };
 		73C6BC6C259A16F3006B7A6D /* WebsiteController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteController.swift; sourceTree = "<group>"; };
 		73C6BC77259AB266006B7A6D /* IndexToolbarPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexToolbarPresentation.swift; sourceTree = "<group>"; };
@@ -580,7 +582,8 @@
 				735D4CBA258F4D690016F904 /* Browse.h */,
 				735D4CE9258F50830016F904 /* Browser.swift */,
 				735D4D17258F5EEC0016F904 /* WebView.swift */,
-				735D4D59258F7DE80016F904 /* Toolbar.swift */,
+				735D4D59258F7DE80016F904 /* Toolbar_iOS.swift */,
+				73B4D189259C858C00B8E6A6 /* Toolbar_macOS.swift */,
 				734942A42590CADC00AD292E /* Buttons.swift */,
 				735D4CBB258F4D690016F904 /* Info.plist */,
 			);
@@ -1275,9 +1278,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				735D4D5A258F7DE80016F904 /* Toolbar.swift in Sources */,
+				735D4D5A258F7DE80016F904 /* Toolbar_iOS.swift in Sources */,
 				735D4CEA258F50830016F904 /* Browser.swift in Sources */,
 				735D4D18258F5EEC0016F904 /* WebView.swift in Sources */,
+				73B4D18A259C858C00B8E6A6 /* Toolbar_macOS.swift in Sources */,
 				734942A52590CADC00AD292E /* Buttons.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

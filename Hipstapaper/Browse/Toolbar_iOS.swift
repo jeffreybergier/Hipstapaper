@@ -23,60 +23,14 @@ import SwiftUI
 import Stylize
 import Localize
 
+#if canImport(UIKit)
 internal struct Toolbar: ViewModifier {
     
     @ObservedObject var control: WebView.Control
     @ObservedObject var display: WebView.Display
     let done: () -> Void
     @State var shareSheetPresented = false
-    
-    #if os(macOS)
-    // TODO: Remove this copy paste BS when NSWindow works properly
-    func body(content: Content) -> some View {
-        VStack(spacing: 0) {
-            Stylize.Toolbar {
-                HStack(spacing: 16) {
-                    ButtonToolbar(systemName: "chevron.backward", accessibilityLabel: "Go Back") {
-                        self.control.goBack = true
-                    }
-                    .keyboardShortcut("[")
-                    .disabled(!self.display.canGoBack)
-                    
-                    ButtonToolbar(systemName: "chevron.forward", accessibilityLabel: "Go Forward") {
-                        self.control.goForward = true
-                    }
-                    .keyboardShortcut("]")
-                    .disabled(!self.display.canGoForward)
-                    
-                    ButtonToolbarStopReload(isLoading: self.display.isLoading,
-                                            stopAction: { self.control.stop = true },
-                                            reloadAction: { self.control.reload = true })
-                    
-                    ButtonToolbarJavascript(isJSEnabled: self.control.isJSEnabled,
-                                            toggleAction: { self.control.isJSEnabled.toggle() })
-                        .keyboardShortcut("j")
-                    
-                    TextField.WebsiteTitle(self.$display.title).disabled(true)
-                    
-                    ButtonToolbarShare { self.shareSheetPresented = true }
-                        .keyboardShortcut("i")
-                        .popover(isPresented: self.$shareSheetPresented) {
-                            Share([self.control.originalLoad]) { self.shareSheetPresented = false }
-                        }
-                    
-                    ButtonToolbarSafari { self.openURL(self.control.originalLoad) }
-                        .keyboardShortcut("O")
-                    
-                    ButtonDone(Verb.Done, action: self.done)
-                        .keyboardShortcut("w")
-                }
-            }
-            .buttonStyle(PlainButtonStyle())
-            content
-                .navigationTitle(self.display.title)
-        }
-    }
-    #else
+            
     func body(content: Content) -> some View {
         return NavigationView {
             // TODO: Remove hack when toolbar presentations work
@@ -108,7 +62,6 @@ internal struct Toolbar: ViewModifier {
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
-    #endif
 }
 
 struct BrowserToolbar: ViewModifier {
@@ -188,3 +141,5 @@ struct NavigationToolbar: ViewModifier {
         }
     }
 }
+
+#endif

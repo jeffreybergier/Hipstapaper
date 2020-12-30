@@ -38,7 +38,7 @@ public struct Browser: View {
                     .opacity(self.display.isLoading ? 1 : 0)
             }
         }
-        .modifier(Toolbar(control: self.control, display: self.display, done: self.done))
+        .modifier(Toolbar(control: self.control, display: self.display))
     }
     
     public init(url load: URL, done: @escaping () -> Void) {
