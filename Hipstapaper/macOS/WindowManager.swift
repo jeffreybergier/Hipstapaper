@@ -26,7 +26,7 @@ class WindowManager: ObservableObject, WindowManagerProtocol {
     
     private var windows: [URL: BrowserWindowController] = [:]
     
-    var features: Features { [.multipleWindows, .bulkActivation] }
+    let features: Features = [.multipleWindows, .bulkActivation]
 
     func show(_ urls: [URL], error: @escaping (Error) -> Void) {
         for url in urls {
