@@ -134,7 +134,9 @@ private struct Toolbar_Compact: ViewModifier {
                     .keyboardShortcut("i")
             }
             ToolbarItem(id: "Browser.AddressBar", placement: .principal) {
-                TextField.WebsiteTitle(self.$display.title).disabled(true)
+                TextField.WebsiteTitle(self.$display.title)
+                    .disabled(true)
+                    .frame(width: 250) // TODO: Remove hack when toolbar can manage width properly
             }
             ToolbarItem(id: "Browser.Done", placement: .primaryAction) {
                 ButtonDone(Verb.Done, action: self.done)
@@ -202,7 +204,9 @@ private struct Toolbar_Regular: ViewModifier {
             // [Top Leading] - [AddressBar] - [Share][Done]
             //
             ToolbarItem(id: "Browser.AddressBar", placement: .principal) {
-                TextField.WebsiteTitle(self.$display.title).disabled(true)
+                TextField.WebsiteTitle(self.$display.title)
+                    .disabled(true)
+                    .frame(width: 400) // TODO: Remove hack when toolbar can manage width properly
             }
             ToolbarItem(id: "Browser.Share", placement: .automatic) {
                 ButtonToolbarShare { self.shareSheetPresented = true }
