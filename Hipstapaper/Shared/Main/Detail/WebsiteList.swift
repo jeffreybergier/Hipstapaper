@@ -38,12 +38,20 @@ struct WebsiteList: View {
     }
     
     var body: some View {
-        return List(self.controller.all, id: \.self, selection: self.$controller.selectedWebsites)
-        { item in
-            WebsiteRow(item.value)
-        }
-        .navigationTitle(Noun.Hipstapaper)
-        .modifier(ListEditMode())
+        // TODO: Delete workaround for crashing mac app
+        let content = self.controller.all.count > 0
+            ? AnyView(
+                List(self.controller.all,
+                     id: \.self,
+                     selection: self.$controller.selectedWebsites)
+                { item in
+                    WebsiteRow(item.value)
+                }
+            )
+            : AnyView(Color.windowBackground)
+        return content
+            .navigationTitle(Noun.Hipstapaper)
+            .modifier(ListEditMode())
     }
 }
 
