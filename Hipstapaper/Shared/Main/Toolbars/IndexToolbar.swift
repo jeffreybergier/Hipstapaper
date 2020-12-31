@@ -30,6 +30,11 @@ struct IndexToolbar: ViewModifier {
     @ObservedObject var controller: TagController
     @State var presentation = IndexToolbarPresentation.Wrap()
     
+    #if os(macOS)
+    #else
+    @Environment(\.editMode) var editMode
+    #endif
+    
     func body(content: Content) -> some View {
         return ZStack(alignment: Alignment.topTrailing) {
             // TODO: Hack when toolbars work properly with popovers
@@ -104,15 +109,49 @@ struct IndexToolbar: ViewModifier {
                         return tag.value.wrappedValue as? Query.Archived != nil
                     }())
                 }
-                ToolbarItem(id: "Index.Add", placement: .confirmationAction) {
+                ToolbarItem(id: "Index.Add", placement: .primaryAction) {
                     ButtonToolbar(systemName: "plus",
                                   accessibilityLabel: Verb.AddTag,
                                   action: { self.presentation.value = .addChoose })
                 }
             }
             #else
-            // TODO: Add iOS delete capability
-            content
+            if self.editMode?.wrappedValue == .inactive {
+                content.toolbar(id: "Index") {
+                    ToolbarItem(id: "Index.Edit", placement: .bottomBar) {
+                        EditButton()
+                    }
+                    ToolbarItem(id: "Index.Add", placement: .primaryAction) {
+                        ButtonToolbar(systemName: "plus",
+                                      accessibilityLabel: Verb.AddTag,
+                                      action: { self.presentation.value = .addChoose })
+                    }
+                }
+            } else {
+                content.toolbar(id: "Index") {
+                    ToolbarItem(id: "Index.Edit", placement: .bottomBar) {
+                        EditButton()
+                    }
+                    ToolbarItem(id: "Index.Delete", placement: .bottomBar) {
+                        ButtonToolbar(systemName: "minus",
+                                      accessibilityLabel: Verb.DeleteTag)
+                        {
+                            // Delete
+                            guard let tag = self.controller.selection else { return }
+                            try! self.controller.controller.delete(tag).get()
+                        }
+                        .disabled({
+                            guard let tag = self.controller.selection else { return true }
+                            return tag.value.wrappedValue as? Query.Archived != nil
+                        }())
+                    }
+                    ToolbarItem(id: "Index.Add", placement: .bottomBar) {
+                        ButtonToolbar(systemName: "plus",
+                                      accessibilityLabel: Verb.AddTag,
+                                      action: { self.presentation.value = .addTag })
+                    }
+                }
+            }
             #endif
         }
     }
