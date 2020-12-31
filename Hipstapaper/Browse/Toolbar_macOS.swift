@@ -25,15 +25,10 @@ import Localize
 
 #if os(macOS)
 
-internal struct Toolbar: ViewModifier {
+internal struct Toolbar_macOS: ViewModifier {
     
     @ObservedObject var control: WebView.Control
     @ObservedObject var display: WebView.Display
-    
-    // Unused on Mac
-    let done: (() -> Void)?
-    // Unused on Mac
-    let openInNewWindow: (() -> Void)?
     
     @State var shareSheetPresented = false
     @Environment(\.openURL) var openURL

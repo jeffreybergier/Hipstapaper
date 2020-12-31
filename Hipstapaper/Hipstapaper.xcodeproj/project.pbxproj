@@ -118,6 +118,7 @@
 		73C6BD0C259C0209006B7A6D /* BrowserWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BD0B259C0209006B7A6D /* BrowserWindowController.swift */; };
 		73C6BD1E259C0530006B7A6D /* WindowManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BD1D259C0530006B7A6D /* WindowManagerProtocol.swift */; };
 		73C6BD1F259C0530006B7A6D /* WindowManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BD1D259C0530006B7A6D /* WindowManagerProtocol.swift */; };
+		73CAA424259DACD200FFE3BD /* Toolbar_Wrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73CAA423259DACD200FFE3BD /* Toolbar_Wrap.swift */; };
 		73DC73DA25728B9F00EE72FA /* QueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC73D925728B9F00EE72FA /* QueryTests.swift */; };
 		73DC73E0257290EF00EE72FA /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC73DF257290EF00EE72FA /* Base.swift */; };
 		73F2B03825745EFD009AC2AF /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2B03725745EFD009AC2AF /* Logger.swift */; };
@@ -406,6 +407,7 @@
 		73C6BCF9259B6AE6006B7A6D /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
 		73C6BD0B259C0209006B7A6D /* BrowserWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserWindowController.swift; sourceTree = "<group>"; };
 		73C6BD1D259C0530006B7A6D /* WindowManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManagerProtocol.swift; sourceTree = "<group>"; };
+		73CAA423259DACD200FFE3BD /* Toolbar_Wrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar_Wrap.swift; sourceTree = "<group>"; };
 		73DC73D925728B9F00EE72FA /* QueryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryTests.swift; sourceTree = "<group>"; };
 		73DC73DF257290EF00EE72FA /* Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
 		73F2B03725745EFD009AC2AF /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
@@ -582,6 +584,7 @@
 				735D4CBA258F4D690016F904 /* Browse.h */,
 				735D4CE9258F50830016F904 /* Browser.swift */,
 				735D4D17258F5EEC0016F904 /* WebView.swift */,
+				73CAA423259DACD200FFE3BD /* Toolbar_Wrap.swift */,
 				735D4D59258F7DE80016F904 /* Toolbar_iOS.swift */,
 				73B4D189259C858C00B8E6A6 /* Toolbar_macOS.swift */,
 				734942A42590CADC00AD292E /* Buttons.swift */,
@@ -1279,6 +1282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				735D4D5A258F7DE80016F904 /* Toolbar_iOS.swift in Sources */,
+				73CAA424259DACD200FFE3BD /* Toolbar_Wrap.swift in Sources */,
 				735D4CEA258F50830016F904 /* Browser.swift in Sources */,
 				735D4D18258F5EEC0016F904 /* WebView.swift in Sources */,
 				73B4D18A259C858C00B8E6A6 /* Toolbar_macOS.swift in Sources */,

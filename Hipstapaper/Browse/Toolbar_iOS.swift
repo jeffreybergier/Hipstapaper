@@ -23,7 +23,9 @@ import SwiftUI
 import Stylize
 import Localize
 
-internal struct Toolbar_Wrap: ViewModifier {
+#if os(macOS)
+#else
+internal struct Toolbar_iOS: ViewModifier {
     
     @ObservedObject var control: WebView.Control
     @ObservedObject var display: WebView.Display
@@ -219,3 +221,4 @@ private struct Toolbar_Regular: ViewModifier {
         }
     }
 }
+#endif
