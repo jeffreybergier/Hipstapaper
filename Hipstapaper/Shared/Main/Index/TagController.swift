@@ -23,6 +23,7 @@ import Combine
 class TagController: ObservableObject {
     
     @Published var selection: AnyElement<AnyTag>?
+    let controller: Controller
     let `static` = Query.Archived.anyTag_allCases
     var all: AnyList<AnyElement<AnyTag>> {
         get {
@@ -32,7 +33,6 @@ class TagController: ObservableObject {
         }
     }
     
-    private let controller: Controller
     private var _all: AnyList<AnyElement<AnyTag>>?
     private var token: AnyCancellable?
     

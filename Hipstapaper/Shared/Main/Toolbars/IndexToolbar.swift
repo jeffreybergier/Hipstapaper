@@ -27,7 +27,7 @@ import Snapshot
 
 struct IndexToolbar: ViewModifier {
     
-    let controller: Controller
+    @ObservedObject var controller: TagController
     @State var presentation = IndexToolbarPresentation.Wrap()
     
     func body(content: Content) -> some View {
@@ -38,7 +38,7 @@ struct IndexToolbar: ViewModifier {
                     AddTag(
                         cancel: { self.presentation.value = .none },
                         save: {
-                            let result = self.controller.createTag(name: $0)
+                            let result = self.controller.controller.createTag(name: $0)
                             switch result {
                             case .success:
                                 self.presentation.value = .none
@@ -57,7 +57,7 @@ struct IndexToolbar: ViewModifier {
                         switch result {
                         case .success(let output):
                             // TODO: maybe show error to user?
-                            try! self.controller.createWebsite(.init(output)).get()
+                            _ = try! self.controller.controller.createWebsite(.init(output)).get()
                         case .failure(let error):
                             // TODO: maybe show error to user?
                             break
@@ -89,13 +89,31 @@ struct IndexToolbar: ViewModifier {
                     ]
                 ))
             
+            #if os(macOS)
             content.toolbar(id: "Index") {
-                ToolbarItem(id: "Index.0", placement: .confirmationAction) {
+                ToolbarItem(id: "Index.Delete", placement: .destructiveAction) {
+                    ButtonToolbar(systemName: "minus",
+                                  accessibilityLabel: Verb.DeleteTag)
+                    {
+                        // Delete
+                        guard let tag = self.controller.selection else { return }
+                        try! self.controller.controller.delete(tag).get()
+                    }
+                    .disabled({
+                        guard let tag = self.controller.selection else { return true }
+                        return tag.value.wrappedValue as? Query.Archived != nil
+                    }())
+                }
+                ToolbarItem(id: "Index.Add", placement: .confirmationAction) {
                     ButtonToolbar(systemName: "plus",
                                   accessibilityLabel: Verb.AddTag,
                                   action: { self.presentation.value = .addChoose })
                 }
             }
+            #else
+            // TODO: Add iOS delete capability
+            content
+            #endif
         }
     }
 }

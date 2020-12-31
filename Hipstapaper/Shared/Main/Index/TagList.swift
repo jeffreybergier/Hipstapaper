@@ -27,19 +27,8 @@ struct TagList: View {
     
     typealias Navigation = (AnyElement<AnyTag>) -> AnyView
     
-    @ObservedObject private var controller: TagController
-    private let navigation: Navigation
-    
-    init(controller: Controller, navigation: @escaping Navigation) {
-        let tagController = TagController(controller: controller)
-        _controller = ObservedObject(initialValue: tagController)
-        self.navigation = navigation
-    }
-    
-    init(controller: TagController, navigation: @escaping Navigation) {
-        _controller = ObservedObject(initialValue: controller)
-        self.navigation = navigation
-    }
+    @StateObject var controller: TagController
+    let navigation: Navigation
 
     var body: some View {
         List(selection: self.$controller.selection) {
@@ -66,7 +55,7 @@ struct TagList: View {
 #if DEBUG
 struct TagList_Preview: PreviewProvider {
     static var previews: some View {
-        try! TagList(controller: P_Controller(), navigation: { _ in AnyView(Text("Swift Previews")) })
+        TagList(controller: .init(controller: P_Controller()), navigation: { _ in AnyView(Text("Swift Previews")) })
     }
 }
 #endif
