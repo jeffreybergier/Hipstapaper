@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/23.
+//  Created by Jeffrey Bergier on 2020/12/29.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,34 +19,23 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import SwiftUI
-import XCGLogger
-import Datum
-import Browse
+import AppKit
+import Combine
 
-internal let log: XCGLogger = {
-    XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
-}()
-
-@main
-struct HipstapaperApp: App {
-
-    #if canImport(UIKit)
-    @UIApplicationDelegateAdaptor(ApplicationDelegate.self) var appDelegate
-    #endif
+class WindowManager: ObservableObject, WindowManagerProtocol {
     
-    let controller: Controller
-    let windowManager = WindowManager()
+    private var windows: [URL: BrowserWindowController] = [:]
     
-    init() {
-//        let controller = try! ControllerNew()
-        self.controller = P_Controller()
-    }
+    let features: Features = [.multipleWindows, .bulkActivation]
 
-    @SceneBuilder var body: some Scene {
-        WindowGroup {
-            Main(controller: self.controller)
-                .environmentObject(self.windowManager)
+    func show(_ urls: [URL], error: @escaping (Error) -> Void) {
+        for url in urls {
+            let window = self.windows[url] ?? BrowserWindowController(url: url)
+            self.windows[url] = window
+            window.windowWillClose = { [unowned self] url in
+                self.windows.removeValue(forKey: url)
+            }
+            window.showWindow(self)
         }
     }
 }

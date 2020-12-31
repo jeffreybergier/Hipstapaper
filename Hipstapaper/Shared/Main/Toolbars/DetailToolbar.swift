@@ -31,6 +31,7 @@ struct DetailToolbar: ViewModifier {
     @State var presentation = DetailToolbarPresentation.Wrap()
 
     @Environment(\.openURL) var openURL
+    @EnvironmentObject var windowManager: WindowManager
     
     func body(content: Content) -> some View {
         return ZStack(alignment: Alignment.topTrailing) {
@@ -38,8 +39,20 @@ struct DetailToolbar: ViewModifier {
             Color.clear.frame(width: 1, height: 1)
                 .sheet(isPresented: self.$presentation.isBrowser) {
                     let site = self.controller.selectedWebsites.first!.value
-                    let url = site.resolvedURL ?? site.originalURL
-                    Browser(url: url!, done: { self.presentation.value = .none })
+                    let url = (site.resolvedURL ?? site.originalURL)!
+                    Browser(
+                        url: url,
+                        openInNewWindow:
+                            self.windowManager.features.contains(.multipleWindows)
+                            ? { self.presentation.value = .none
+                                self.windowManager.show([url]) {
+                                    // TODO: Do something with this error
+                                    print($0)
+                                }
+                            }
+                            : nil,
+                        done: { self.presentation.value = .none }
+                    )
                 }
             
             Color.clear.frame(width: 1, height: 1)
@@ -64,14 +77,22 @@ struct DetailToolbar: ViewModifier {
             
             content.toolbar(id: "Detail") {
                 ToolbarItem(id: "Detail.0") {
-                    ButtonToolbar(systemName: "safari",
-                                  accessibilityLabel: Verb.Open,
-                                  action: { self.presentation.value = .browser })
-                        .keyboardShortcut("o")
-                        .modifier(OpenWebsiteDisabler(selectedWebsites: self.controller.selectedWebsites))
+                    ButtonToolbarBrowserInApp
+                    {
+                        guard self.windowManager.features.contains([.multipleWindows, .bulkActivation])
+                        else { self.presentation.value = .browser; return }
+                        let urls = self.controller.selectedWebsites.compactMap
+                        { $0.value.resolvedURL ?? $0.value.originalURL }
+                        self.windowManager.show(urls) {
+                            // TODO: Do something with this error
+                            print($0)
+                        }
+                    }
+                    .keyboardShortcut("o")
+                    .modifier(OpenWebsiteDisabler(selectedWebsites: self.controller.selectedWebsites))
                 }
                 ToolbarItem(id: "Detail.1") {
-                    ButtonToolbar(systemName: "safari.fill", accessibilityLabel: Verb.Safari) {
+                    ButtonToolbarBrowserExternal {
                         let urls = self.controller.selectedWebsites
                             .compactMap { $0.value.resolvedURL ?? $0.value.originalURL }
                         urls.forEach { self.openURL($0) }
@@ -128,13 +149,13 @@ struct DetailToolbar: ViewModifier {
 fileprivate struct OpenWebsiteDisabler: ViewModifier {
     
     let selectedWebsites: Set<AnyElement<AnyWebsite>>
+    @EnvironmentObject var windowManager: WindowManager
     
     func body(content: Content) -> some View {
-        #if os(macOS)
-        return content.disabled(self.selectedWebsites.isEmpty)
-        #else
-        return content.disabled(self.selectedWebsites.count != 1)
-        #endif
+        if self.windowManager.features.contains(.bulkActivation) {
+            return content.disabled(self.selectedWebsites.isEmpty)
+        } else {
+            return content.disabled(self.selectedWebsites.count != 1)
+        }
     }
-    
 }
