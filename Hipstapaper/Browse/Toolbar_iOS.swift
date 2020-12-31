@@ -23,199 +23,120 @@ import SwiftUI
 import Stylize
 import Localize
 
-#if canImport(UIKit)
-internal struct Toolbar: ViewModifier {
+internal struct Toolbar_Wrap: ViewModifier {
     
     @ObservedObject var control: WebView.Control
     @ObservedObject var display: WebView.Display
+    
     let done: () -> Void
     let openInNewWindow: (() -> Void)?
-            
+    
+    @State private var shareSheetPresented = false
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    
+    private var isCompact: Bool {
+        switch self.horizontalSizeClass ?? .compact {
+        case .regular:
+            return false
+        case .compact:
+            fallthrough
+        @unknown default:
+            return true
+        }
+    }
+    
     func body(content: Content) -> some View {
-        return NavigationView {
+        // TODO remove this hack once toolbars support popovers
+        let newContent = ZStack(alignment: self.isCompact ? .topLeading : .topTrailing) {
+            Color.clear.frame(width: 1, height: 1)
+                .popover(isPresented: self.$shareSheetPresented) {
+                    Share([self.control.originalLoad]) { self.shareSheetPresented = false }
+                }
             content
-                .navigationBarTitle(self.display.title, displayMode: .inline)
-                .modifier(ShareToolbar_Leading(control: self.control))
-                .modifier(NavigationToolbar(control: self.control, display: self.display))
-                .toolbar(id: "Browser") {
-                    ToolbarItem(id: "Browser.5", placement: ToolbarItemPlacement.principal) {
-                        TextField.WebsiteTitle(self.$display.title).disabled(true)
-                    }
-                }
-                .modifier(BrowserToolbar(control: self.control, openInNewWindow: self.openInNewWindow))
-                .modifier(ShareToolbar_Trailing(control: self.control))
-                .toolbar(id: "Browser") {
-                    ToolbarItem(id: "Browser.9", placement: .primaryAction) {
-                        ButtonDone(Verb.Done, action: self.done)
-                            .keyboardShortcut("w")
-                    }
-                }
+                .navigationTitle(self.display.title)
+                .navigationBarTitleDisplayMode(.inline)
+        }
+        return NavigationView {
+            newContent
+                .modifier(
+                    Toolbar_Compact(control: self.control,
+                                    display: self.display,
+                                    shareSheetPresented: self.$shareSheetPresented,
+                                    done: self.done,
+                                    openInNewWindow: self.openInNewWindow)
+                )
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
-struct ShareToolbar_Leading: ViewModifier {
-    
-    @ObservedObject var control: WebView.Control
-    @State private var shareSheetPresented = false
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-    private var isCompact: Bool {
-        switch self.horizontalSizeClass ?? .compact {
-        case .regular:
-            return false
-        case .compact:
-            fallthrough
-        @unknown default:
-            return true
-        }
-    }
-    
-    func body(content: Content) -> some View {
-        guard isCompact else { return AnyView(content) }
-        // TODO: Remove hack when toolbar presentations work
-        return AnyView(
-            ZStack(alignment: .topLeading) {
-                Color.clear.frame(width: 1, height: 1)
-                    .popover(isPresented: self.$shareSheetPresented) {
-                        Share([self.control.originalLoad]) { self.shareSheetPresented = false }
-                    }
-                content
-                    .toolbar(id: "Browser") {
-                        ToolbarItem(id: "Browser.6", placement: .cancellationAction) {
-                            ButtonToolbarShare { self.shareSheetPresented = true }
-                                .keyboardShortcut("i")
-                        }
-                    }
-            }
-        )
-    }
-}
-
-struct ShareToolbar_Trailing: ViewModifier {
-    
-    @ObservedObject var control: WebView.Control
-    @State private var shareSheetPresented = false
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-    private var isCompact: Bool {
-        switch self.horizontalSizeClass ?? .compact {
-        case .regular:
-            return false
-        case .compact:
-            fallthrough
-        @unknown default:
-            return true
-        }
-    }
-    
-    func body(content: Content) -> some View {
-        guard !isCompact else { return AnyView(content) }
-        // TODO: Remove hack when toolbar presentations work
-        return AnyView(
-            ZStack(alignment: .topTrailing) {
-                Color.clear.frame(width: 1, height: 1)
-                    .popover(isPresented: self.$shareSheetPresented) {
-                        Share([self.control.originalLoad]) { self.shareSheetPresented = false }
-                    }
-                content
-                    .toolbar(id: "Browser") {
-                        ToolbarItem(id: "Browser.6", placement: .automatic) {
-                            ButtonToolbarShare { self.shareSheetPresented = true }
-                                .keyboardShortcut("i")
-                        }
-                    }
-            }
-        )
-    }
-}
-
-struct BrowserToolbar: ViewModifier {
-    
-    @ObservedObject var control: WebView.Control
-    let openInNewWindow: (() -> Void)?
-    @Environment(\.openURL) var openURL
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-    private var placement: ToolbarItemPlacement {
-        switch self.horizontalSizeClass ?? .compact {
-        case .regular:
-            return .automatic
-        case .compact:
-            fallthrough
-        @unknown default:
-            return .bottomBar
-        }
-    }
-    
-    func body(content: Content) -> some View {
-        if let open = self.openInNewWindow {
-            return AnyView(content
-                .toolbar(id: "Browser") {
-                    ToolbarItem(id: "Browser.7", placement: self.placement) {
-                        ButtonToolbarBrowserInApp { open() }
-                            .keyboardShortcut("o")
-                    }
-                    ToolbarItem(id: "Browser.8", placement: self.placement) {
-                        ButtonToolbarBrowserExternal { self.openURL(self.control.originalLoad) }
-                            .keyboardShortcut("O")
-                    }
-                })
-        } else {
-            return AnyView(content
-                .toolbar(id: "Browser") {
-                    ToolbarItem(id: "Browser.8", placement: self.placement) {
-                        ButtonToolbarBrowserExternal { self.openURL(self.control.originalLoad) }
-                            .keyboardShortcut("O")
-                    }
-                })
-        }
-    }
-}
-
-struct NavigationToolbar: ViewModifier {
+private struct Toolbar_Compact: ViewModifier {
     
     @ObservedObject var control: WebView.Control
     @ObservedObject var display: WebView.Display
+    @Binding var shareSheetPresented: Bool
     
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-    private var placement: ToolbarItemPlacement {
-        switch self.horizontalSizeClass ?? .compact {
-        case .regular:
-            return .navigation
-        case .compact:
-            fallthrough
-        @unknown default:
-            return .bottomBar
-        }
-    }
-        
+    let done: () -> Void
+    let openInNewWindow: (() -> Void)?
+    
+    @Environment(\.openURL) private var openURL
+    
     func body(content: Content) -> some View {
         content.toolbar(id: "Browser") {
-            ToolbarItem(id: "Browser.1", placement: self.placement) {
+            //
+            // Bottom Navigation
+            //
+            ToolbarItem(id: "Browser.Back", placement: .bottomBar) {
                 ButtonToolbar(systemName: "chevron.backward", accessibilityLabel: "Go Back") {
                     self.control.goBack = true
                 }
                 .keyboardShortcut("[")
                 .disabled(!self.display.canGoBack)
             }
-            ToolbarItem(id: "Browser.2", placement: self.placement) {
+            ToolbarItem(id: "Browser.Forward", placement: .bottomBar) {
                 ButtonToolbar(systemName: "chevron.forward", accessibilityLabel: "Go Forward") {
                     self.control.goForward = true
                 }
                 .keyboardShortcut("]")
                 .disabled(!self.display.canGoForward)
             }
-            ToolbarItem(id: "Browser.3", placement: self.placement) {
+            ToolbarItem(id: "Browser.Reload", placement: .bottomBar) {
                 ButtonToolbarStopReload(isLoading: self.display.isLoading,
                                         stopAction: { self.control.stop = true },
                                         reloadAction: { self.control.reload = true })
             }
-            ToolbarItem(id: "Browser.4", placement: self.placement) {
+            ToolbarItem(id: "Browser.JS", placement: .bottomBar) {
                 ButtonToolbarJavascript(isJSEnabled: self.control.isJSEnabled,
                                         toggleAction: { self.control.isJSEnabled.toggle() })
                     .keyboardShortcut("j")
             }
+            //
+            // Bottom Open in Options
+            //
+            ToolbarItem(id: "Browser.OpenInWindow", placement: .bottomBar) {
+                ButtonToolbarBrowserInApp { self.openInNewWindow?() }
+                    .keyboardShortcut("o")
+                    .disabled({ self.openInNewWindow == nil }())
+            }
+            ToolbarItem(id: "Browser.OpenInExternal", placement: .bottomBar) {
+                ButtonToolbarBrowserExternal { self.openURL(self.control.originalLoad) }
+                    .keyboardShortcut("O")
+            }
+            
+            //
+            // Top [Share] - [AddressBar] - [Done]
+            //
+            ToolbarItem(id: "Browser.Share", placement: .cancellationAction) {
+                ButtonToolbarShare { self.shareSheetPresented = true }
+                    .keyboardShortcut("i")
+            }
+            ToolbarItem(id: "Browser.AddressBar", placement: .principal) {
+                TextField.WebsiteTitle(self.$display.title).disabled(true)
+            }
+            ToolbarItem(id: "Browser.Done", placement: .primaryAction) {
+                ButtonDone(Verb.Done, action: self.done)
+                    .keyboardShortcut("w")
+            }
         }
     }
 }
-
-#endif

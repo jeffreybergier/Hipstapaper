@@ -39,7 +39,7 @@ public struct Browser: View {
                     .opacity(self.display.isLoading ? 1 : 0)
             }
         }
-        .modifier(Toolbar(control: self.control, display: self.display, done: self.done, openInNewWindow: self.openInNewWindow))
+        .modifier(Toolbar_Wrap(control: self.control, display: self.display, done: self.done, openInNewWindow: self.openInNewWindow))
     }
     
     public init(url load: URL, openInNewWindow: (() -> Void)?, done: @escaping () -> Void) {
