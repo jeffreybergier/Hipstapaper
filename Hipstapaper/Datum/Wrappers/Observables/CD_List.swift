@@ -45,14 +45,27 @@ internal class CD_List<
     }
 
     // MARK: Swift.Collection Boilerplate
-    public var startIndex: Index { self.frc.fetchedObjects?.startIndex ?? 0 }
-    public var endIndex: Index { self.frc.fetchedObjects?.endIndex ?? 0 }
+    public var startIndex: Index { self.frc.fetchedObjects!.startIndex }
+    public var endIndex: Index { self.frc.fetchedObjects!.endIndex }
     public subscript(index: Index) -> Iterator.Element { transform(frc.fetchedObjects![index]) }
-    public func index(after index: Index) -> Index { frc.fetchedObjects?.index(after: index) ?? 0 }
+    public func index(after index: Index) -> Index { frc.fetchedObjects!.index(after: index) }
 
     // MARK: NSFetchedResultsControllerDelegate
-    @objc(controller:didChangeContentWithSnapshot:)
-    internal func controller(_: AnyObject, didChangeContentWith _: AnyObject) {
+
+    // TODO: Changing to this works in iOS
+    // But it crashes in macOS
+    @objc(controllerWillChangeContent:)
+    internal func controllerWillChangeContent(_ controller: AnyObject) {
         self.objectWillChange.send()
     }
+    
+    //    @objc(controller:didChangeContentWithSnapshot:)
+    //    internal func controller(_: AnyObject, didChangeContentWith _: AnyObject) {
+    //        self.objectWillChange.send()
+    //    }
+    
+    //    @objc(controllerDidChangeContent:)
+    //    internal func controllerDidChangeContent(_ controller: AnyObject) {
+    //        self.objectWillChange.send()
+    //    }
 }
