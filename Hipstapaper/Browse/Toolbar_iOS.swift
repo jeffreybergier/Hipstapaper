@@ -57,14 +57,17 @@ internal struct Toolbar_Wrap: ViewModifier {
                 .navigationBarTitleDisplayMode(.inline)
         }
         return NavigationView {
-            newContent
-                .modifier(
-                    Toolbar_Compact(control: self.control,
-                                    display: self.display,
-                                    shareSheetPresented: self.$shareSheetPresented,
-                                    done: self.done,
-                                    openInNewWindow: self.openInNewWindow)
-                )
+            return self.isCompact
+                ? AnyView(newContent.modifier(Toolbar_Compact(control: self.control,
+                                                              display: self.display,
+                                                              shareSheetPresented: self.$shareSheetPresented,
+                                                              done: self.done,
+                                                              openInNewWindow: self.openInNewWindow)))
+                : AnyView(newContent.modifier(Toolbar_Regular(control: self.control,
+                                                              display: self.display,
+                                                              shareSheetPresented: self.$shareSheetPresented,
+                                                              done: self.done,
+                                                              openInNewWindow: self.openInNewWindow)))
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
@@ -132,6 +135,78 @@ private struct Toolbar_Compact: ViewModifier {
             }
             ToolbarItem(id: "Browser.AddressBar", placement: .principal) {
                 TextField.WebsiteTitle(self.$display.title).disabled(true)
+            }
+            ToolbarItem(id: "Browser.Done", placement: .primaryAction) {
+                ButtonDone(Verb.Done, action: self.done)
+                    .keyboardShortcut("w")
+            }
+        }
+    }
+}
+
+private struct Toolbar_Regular: ViewModifier {
+    
+    @ObservedObject var control: WebView.Control
+    @ObservedObject var display: WebView.Display
+    @Binding var shareSheetPresented: Bool
+    
+    let done: () -> Void
+    let openInNewWindow: (() -> Void)?
+    
+    @Environment(\.openURL) private var openURL
+    
+    func body(content: Content) -> some View {
+        content.toolbar(id: "Browser") {
+            //
+            // Bottom [JS] - [Open1] - [Open2]
+            //
+            ToolbarItem(id: "Browser.JS", placement: .bottomBar) {
+                ButtonToolbarJavascript(isJSEnabled: self.control.isJSEnabled,
+                                        toggleAction: { self.control.isJSEnabled.toggle() })
+                    .keyboardShortcut("j")
+            }
+            ToolbarItem(id: "Browser.OpenInWindow", placement: .bottomBar) {
+                ButtonToolbarBrowserInApp { self.openInNewWindow?() }
+                    .keyboardShortcut("o")
+                    .disabled({ self.openInNewWindow == nil }())
+            }
+            ToolbarItem(id: "Browser.OpenInExternal", placement: .bottomBar) {
+                ButtonToolbarBrowserExternal { self.openURL(self.control.originalLoad) }
+                    .keyboardShortcut("O")
+            }
+            
+            //
+            // Top Leading
+            //
+            ToolbarItem(id: "Browser.Back", placement: .navigation) {
+                ButtonToolbar(systemName: "chevron.backward", accessibilityLabel: "Go Back") {
+                    self.control.goBack = true
+                }
+                .keyboardShortcut("[")
+                .disabled(!self.display.canGoBack)
+            }
+            ToolbarItem(id: "Browser.Forward", placement: .navigation) {
+                ButtonToolbar(systemName: "chevron.forward", accessibilityLabel: "Go Forward") {
+                    self.control.goForward = true
+                }
+                .keyboardShortcut("]")
+                .disabled(!self.display.canGoForward)
+            }
+            ToolbarItem(id: "Browser.Reload", placement: .navigation) {
+                ButtonToolbarStopReload(isLoading: self.display.isLoading,
+                                        stopAction: { self.control.stop = true },
+                                        reloadAction: { self.control.reload = true })
+            }
+            
+            //
+            // [Top Leading] - [AddressBar] - [Share][Done]
+            //
+            ToolbarItem(id: "Browser.AddressBar", placement: .principal) {
+                TextField.WebsiteTitle(self.$display.title).disabled(true)
+            }
+            ToolbarItem(id: "Browser.Share", placement: .automatic) {
+                ButtonToolbarShare { self.shareSheetPresented = true }
+                    .keyboardShortcut("i")
             }
             ToolbarItem(id: "Browser.Done", placement: .primaryAction) {
                 ButtonDone(Verb.Done, action: self.done)
