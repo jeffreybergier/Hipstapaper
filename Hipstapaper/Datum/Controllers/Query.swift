@@ -35,6 +35,24 @@ public struct Query {
         }
     }
     public var sort: Sort
+    
+    /// Use this initializer when the tag is selected from the UI
+    /// and may include the static tags provided for `Unread` and `All`.
+    /// This properly configures the Query in these special cases.
+    public init(specialTag: AnyElement<AnyTag>) {
+        self.init()
+        switch specialTag {
+        case Query.Archived.anyTag_allCases[0]:
+            // Unread Items
+            self.isArchived = .unarchived
+        case Query.Archived.anyTag_allCases[1]:
+            // All Items
+            self.isArchived = .all
+        default:
+            // A user selected tag
+            self.tag = specialTag
+        }
+    }
 
     public init(isArchived: Archived = .unarchived,
                 tag: AnyElement<AnyTag>? = nil,

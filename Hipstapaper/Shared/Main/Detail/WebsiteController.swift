@@ -33,18 +33,17 @@ class WebsiteController: ObservableObject {
         }
     }
     @Published var selectedWebsites: Set<AnyElement<AnyWebsite>> = []
-    @Published var query: Query = .init() {
+    @Published var query: Query {
         didSet {
             self.update()
         }
     }
     
     private var _all: AnyList<AnyElement<AnyWebsite>>? = nil
-    private let selectedTag: AnyElement<AnyTag>
     private var token: AnyCancellable?
     
-    init(controller: Controller, selectedTag: AnyElement<AnyTag> = Query.Archived.anyTag_allCases.first!) {
-        self.selectedTag = selectedTag
+    init(controller: Controller, selectedTag: AnyElement<AnyTag> = Query.Archived.anyTag_allCases[0]) {
+        self.query = Query(specialTag: selectedTag)
         self.controller = controller
     }
     

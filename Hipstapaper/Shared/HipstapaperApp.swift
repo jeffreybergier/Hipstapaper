@@ -39,8 +39,8 @@ struct HipstapaperApp: App {
     let windowManager = WindowManager()
     
     init() {
-//        let controller = try! ControllerNew()
-        self.controller = P_Controller()
+        self.controller = try! ControllerNew()
+//        self.controller = P_Controller()
     }
 
     @SceneBuilder var body: some Scene {
