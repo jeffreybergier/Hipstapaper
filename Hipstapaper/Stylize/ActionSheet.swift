@@ -20,6 +20,7 @@
 //
 
 import SwiftUI
+import Localize
 
 public struct ActionSheet: ViewModifier {
     
@@ -83,7 +84,9 @@ public func body(content: Content) -> some View {
         return SwiftUI.ActionSheet(
             title: Text(self.title),
             message: self.message.map { Text($0) },
-            buttons: self.buttons.map { $0.nativeValue }
+            buttons: self.buttons
+                .map { $0.nativeValue }
+                + [.cancel(Text(Verb.Cancel))]
         )
     }
 }
