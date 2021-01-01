@@ -31,12 +31,24 @@ struct IndexToolbar: ViewModifier {
     @State var presentation = IndexToolbarPresentation.Wrap()
     
     #if os(macOS)
+    /// Source of popover
+    private let alignment: Alignment = .topTrailing
     #else
     @Environment(\.editMode) var editMode
+    private var alignment: Alignment {
+        switch self.editMode?.wrappedValue ?? .inactive {
+        case .active:
+            return .bottomTrailing
+        case .inactive, .transient:
+            fallthrough
+        @unknown default:
+            return .topTrailing
+        }
+    }
     #endif
     
     func body(content: Content) -> some View {
-        return ZStack(alignment: Alignment.topTrailing) {
+        return ZStack(alignment: self.alignment) {
             // TODO: Hack when toolbars work properly with popovers
             Color.clear.frame(width: 1, height: 1)
                 .popover(isPresented: self.$presentation.isAddTag) {
