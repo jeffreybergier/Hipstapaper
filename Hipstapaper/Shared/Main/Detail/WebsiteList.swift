@@ -38,10 +38,13 @@ struct WebsiteList: View {
     }
     
     var body: some View {
-        return List(self.controller.all, id: \.self, selection: self.$controller.selectedWebsites)
+        return List(self.controller.all,
+                    id: \.self,
+                    selection: self.$controller.selectedWebsites)
         { item in
             WebsiteRow(item.value)
         }
+        .animation(.default)
         .navigationTitle(Noun.Hipstapaper)
         .modifier(ListEditMode())
     }

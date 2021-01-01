@@ -28,18 +28,32 @@ public struct Query {
     }
     public var isArchived: Archived! // TODO: Hack for SwiftUI - Remove
     public var tag: AnyElement<AnyTag>?
-    public var search: String {
-        didSet {
-            // TODO: Remove this print
-            print(self.search)
+    public var search: String
+    public var sort: Sort
+    
+    /// Use this initializer when the tag is selected from the UI
+    /// and may include the static tags provided for `Unread` and `All`.
+    /// This properly configures the Query in these special cases.
+    public init(specialTag: AnyElement<AnyTag>) {
+        self.init()
+        switch specialTag {
+        case Query.Archived.anyTag_allCases[0]:
+            // Unread Items
+            self.isArchived = .unarchived
+        case Query.Archived.anyTag_allCases[1]:
+            // All Items
+            self.isArchived = .all
+        default:
+            // A user selected tag
+            self.tag = specialTag
+            self.isArchived = .all
         }
     }
-    public var sort: Sort
 
     public init(isArchived: Archived = .unarchived,
                 tag: AnyElement<AnyTag>? = nil,
                 search: String = "",
-                sort: Sort = .dateModifiedNewest)
+                sort: Sort = .dateCreatedNewest)
     {
         self.isArchived = isArchived
         self.tag = tag

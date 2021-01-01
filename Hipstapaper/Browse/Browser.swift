@@ -39,6 +39,7 @@ public struct Browser: View {
                     .opacity(self.display.isLoading ? 1 : 0)
             }
         }
+        // TODO: Toolbar leaks like crazy on iOS :(
         .modifier(Toolbar(control: self.control,
                           display: self.display,
                           done: self.done,

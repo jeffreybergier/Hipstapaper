@@ -112,7 +112,7 @@ class P_Controller: Controller {
     { log.debug("Create Site: \(raw)"); return .success(p_sites.first!) }
     func readWebsites(query: Query) -> Result<AnyList<AnyElement<AnyWebsite>>, Error>
     { log.debug("Read Websites, with: \(query)"); return .success(p_sites) }
-    func update(_ site: AnyElement<AnyWebsite>, _ raw: AnyWebsite.Raw) -> Result<Void, Error>
+    func update(_ site: Set<AnyElement<AnyWebsite>>, _ raw: AnyWebsite.Raw) -> Result<Void, Error>
     { log.debug("Update: \(site), with: \(raw)"); return .success(()) }
     func delete(_ site: AnyElement<AnyWebsite>) -> Result<Void, Error>
     { log.debug("Delete: \(site)"); return .success(()) }
@@ -131,9 +131,6 @@ class P_Controller: Controller {
     func tagStatus(for websites: Set<AnyElement<AnyWebsite>>) -> Result<AnyList<(AnyElement<AnyTag>, ToggleState)>, Error> {
         return .success(AnyList(MappedList(p_tags, transform: { _ in .on })))
     }
-    deinit {
-        print("DEINIT")
-    }
 }
 
 class P_Collection<Element>: ListProtocol {
@@ -150,7 +147,6 @@ class P_Collection<Element>: ListProtocol {
     var startIndex: Index { self.wrapped.startIndex }
     var endIndex: Index { self.wrapped.endIndex }
     subscript(index: Index) -> Iterator.Element { self.wrapped[index] }
-    func index(after index: Index) -> Index { self.wrapped.index(after: index) }
 }
 
 private let fakeImageData: Data = {

@@ -70,9 +70,9 @@ extension CD_Controller: Controller {
             try controller.performFetch()
             return .success(
                 AnyList(
-                    CD_List(controller, {
+                    CD_List(controller, fallback: AnyWebsite.blank) {
                         AnyElement(CD_Element($0, { AnyWebsite($0) }))
-                    })
+                    }
                 )
             )
         } catch {
@@ -80,37 +80,43 @@ extension CD_Controller: Controller {
         }
     }
     
-    func update(_ input: AnyElement<AnyWebsite>, _ raw: AnyWebsite.Raw) -> Result<Void, Error> {
+    func update(_ inputs: Set<AnyElement<AnyWebsite>>, _ raw: AnyWebsite.Raw) -> Result<Void, Error> {
         assert(Thread.isMainThread)
-
-        guard let website = input.value.wrappedValue as? CD_Website else {
-            log.error("Wrong type: \(input.value.wrappedValue)")
-            return .failure(.unknown)
-        }
+        
         let context = self.container.viewContext
         let token = self.willSave(context)
         defer { self.didSave(token) }
-        
+
+        var inputs = inputs
         var changesMade = false
-        if let title = raw.title {
-            changesMade = true
-            website.cd_title = title
-        }
-        if let originalURL = raw.originalURL {
-            changesMade = true
-            website.cd_originalURL = originalURL
-        }
-        if let resolvedURL = raw.resolvedURL {
-            changesMade = true
-            website.cd_resolvedURL = resolvedURL
-        }
-        if let isArchived = raw.isArchived {
-            changesMade = true
-            website.cd_isArchived = isArchived
-        }
-        if let thumbnail = raw.thumbnail {
-            changesMade = true
-            website.cd_thumbnail = thumbnail
+        
+        while !inputs.isEmpty {
+            let input = inputs.popFirst()!
+            guard let website = input.value.wrappedValue as? CD_Website else {
+                log.error("Wrong type: \(input.value.wrappedValue)")
+                return .failure(.unknown)
+            }
+            
+            if let title = raw.title {
+                changesMade = true
+                website.cd_title = title
+            }
+            if let originalURL = raw.originalURL {
+                changesMade = true
+                website.cd_originalURL = originalURL
+            }
+            if let resolvedURL = raw.resolvedURL {
+                changesMade = true
+                website.cd_resolvedURL = resolvedURL
+            }
+            if let isArchived = raw.isArchived {
+                changesMade = true
+                website.cd_isArchived = isArchived
+            }
+            if let thumbnail = raw.thumbnail {
+                changesMade = true
+                website.cd_thumbnail = thumbnail
+            }
         }
         
         return changesMade ? context.datum_save() : .success(())
@@ -164,9 +170,9 @@ extension CD_Controller: Controller {
             try controller.performFetch()
             return .success(
                 AnyList(
-                    CD_List(controller, {
+                    CD_List(controller, fallback: AnyTag.blank) {
                         AnyElement(CD_Element($0, { AnyTag($0) }))
-                    })
+                    }
                 )
             )
         } catch {
@@ -330,10 +336,6 @@ internal class CD_Controller {
 
     private func didSave(_ token: Any) {
         NotificationCenter.default.removeObserver(token)
-    }
-    
-    deinit {
-        print("CONTROLLER DEINIT")
     }
 }
 

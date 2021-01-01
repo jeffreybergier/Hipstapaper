@@ -29,7 +29,7 @@ class WebsiteObservationTests: ParentTestCase {
         XCTAssertEqual(website.value.title, "A")
         self.do(after: .instant) {
             do {
-                try self.controller.update(website, .init(title: "B")).get()
+                try self.controller.update([website], .init(title: "B")).get()
             } catch {
                 XCTFail(String(describing: error))
             }

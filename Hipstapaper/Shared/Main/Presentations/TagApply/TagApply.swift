@@ -26,13 +26,14 @@ import Localize
 
 struct TagApply: View {
     
-    @ObservedObject var controller: WebsiteController
+    let selectedWebsites: Set<AnyElement<AnyWebsite>>
+    let controller: Controller
     let done: Modal.Action
     
     var body: some View {
         // TODO: Figure out how to remove VStack without ruining layout on iOS
         VStack(spacing: 0) {
-            List(try! self.controller.controller.tagStatus(for: self.controller.selectedWebsites).get(),
+            List(try! self.controller.tagStatus(for: self.selectedWebsites).get(),
                 id: \.0)
             { tuple in
                 TagApplyRow(name: tuple.0.value.name, value: tuple.1.boolValue)
@@ -40,15 +41,15 @@ struct TagApply: View {
                     switch newValue {
                     case true:
                         // TODO: Fix try!
-                        try! self.controller.controller.add(
+                        try! self.controller.add(
                             tag: tuple.0,
-                            to: self.controller.selectedWebsites
+                            to: self.selectedWebsites
                         ).get()
                     case false:
                         // TODO: Fix try!
-                        try! self.controller.controller.remove(
+                        try! self.controller.remove(
                             tag: tuple.0,
-                            from: self.controller.selectedWebsites
+                            from: self.selectedWebsites
                         ).get()
                     }
                 }

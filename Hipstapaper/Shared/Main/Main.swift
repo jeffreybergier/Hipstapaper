@@ -26,20 +26,21 @@ import Stylize
 struct Main: View {
     
     let controller: Controller
+    private let tagController: TagController
+    
+    init(controller: Controller) {
+        self.controller = controller
+        self.tagController = .init(controller: self.controller)
+    }
     
     var body: some View {
         NavigationView {
-            TagList(controller: self.controller,
+            TagList(controller: self.tagController,
                     navigation: { selectedTag in
                         let c = WebsiteController(controller: self.controller, selectedTag: selectedTag)
                         return AnyView(WebsiteList(controller: c).modifier(DetailToolbar(controller: c)))
                     })
-                .modifier(IndexToolbar(controller: self.controller))
-            
-            // Show the default load view at app launch
-            // This gets replaced with navigation later
-            let c = WebsiteController(controller: self.controller)
-            WebsiteList(controller: c).modifier(DetailToolbar(controller: c))
+                .modifier(IndexToolbar(controller: self.tagController))
         }
     }
 }

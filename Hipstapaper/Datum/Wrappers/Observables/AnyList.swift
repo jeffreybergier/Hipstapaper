@@ -35,7 +35,6 @@ public class AnyList<Element>: ListProtocol {
     private let _startIndex: () -> Index
     private let _endIndex: () -> Index
     private let _subscript: (Index) -> Element
-    private let _indexAfter: (Index) -> Index
 
     public init<T: ListProtocol>(_ collection: T)
     where T.Element == Element,
@@ -45,7 +44,6 @@ public class AnyList<Element>: ListProtocol {
         _startIndex = { collection.startIndex }
         _endIndex = { collection.endIndex }
         _subscript = { collection[$0] }
-        _indexAfter = { collection.index(after: $0) }
         self.objectWillChange = collection.objectWillChange
     }
 
@@ -53,5 +51,4 @@ public class AnyList<Element>: ListProtocol {
     public var startIndex: Index { _startIndex() }
     public var endIndex: Index { _endIndex() }
     public subscript(index: Index) -> Element { _subscript(index) }
-    public func index(after index: Index) -> Index { _indexAfter(index) }
 }

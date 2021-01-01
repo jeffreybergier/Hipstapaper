@@ -70,17 +70,24 @@ extension Modal {
         
     }
     
-    // TODO: Add ability to dynamically disable save button
     public struct SaveCancel: ViewModifier {
+        
+        public typealias CanSave = () -> Bool
         
         let title: LocalizedStringKey
         let save: Action
         let cancel: Action
+        let canSave: CanSave
         
-        public init(title: LocalizedStringKey, cancel: @escaping Action, save: @escaping Action) {
+        public init(title: LocalizedStringKey,
+                    cancel: @escaping Action,
+                    save: @escaping Action,
+                    canSave: CanSave?)
+        {
             self.title = title
             self.cancel = cancel
             self.save = save
+            self.canSave = canSave ?? { true }
         }
         
         #if os(macOS)
@@ -96,6 +103,7 @@ extension Modal {
                         Spacer()
                         ButtonDone(Verb.Save, action: self.save)
                             .keyboardShortcut(.defaultAction)
+                            .disabled(!self.canSave())
                     }
                 }
                 content
@@ -108,10 +116,19 @@ extension Modal {
                 content
                     .navigationBarTitle(self.title, displayMode: .inline)
                     .toolbar(id: "Modal.Save") {
-                        ToolbarItem(id: "Modal.Save.0", placement: ToolbarItemPlacement.cancellationAction,
-                                    content: { ButtonDone(Verb.Cancel, action: self.cancel) })
-                        ToolbarItem(id: "Modal.Save.1", placement: ToolbarItemPlacement.confirmationAction,
-                                    content: { ButtonDone(Verb.Save, action: self.save) })
+                        ToolbarItem(id: "Modal.Save.0",
+                                    placement: .cancellationAction)
+                        {
+                            ButtonDone(Verb.Cancel, action: self.cancel)
+                                .keyboardShortcut(.escape)
+                        }
+                        ToolbarItem(id: "Modal.Save.1",
+                                    placement: .confirmationAction)
+                        {
+                            ButtonDone(Verb.Save, action: self.save)
+                                .keyboardShortcut(.defaultAction)
+                                .disabled(!self.canSave())
+                        }
                     }
             }
         }

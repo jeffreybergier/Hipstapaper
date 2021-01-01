@@ -142,7 +142,7 @@ internal class WebsiteCollectionTests : ParentTestCase {
             query: .init(isArchived: .all, sort: .titleA)
         ).get()
         XCTAssertEqual(sites[0].value.title, "A")
-        try self.controller.update(sites[0], .init(title: "Z")).get()
+        try self.controller.update([sites[0]], .init(title: "Z")).get()
         XCTAssertEqual(sites[0].value.title, "B")
         XCTAssertEqual(sites[3].value.title, "Z")
     }
@@ -157,7 +157,7 @@ internal class WebsiteCollectionTests : ParentTestCase {
         XCTAssertEqual(sites[3].value.title, "D")
         self.do(after: .instant) {
             do {
-                try self.controller.update(sites[0], .init(title: "Z")).get()
+                try self.controller.update([sites[0]], .init(title: "Z")).get()
             } catch {
                 XCTFail(String(describing: error))
             }

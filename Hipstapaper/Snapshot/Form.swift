@@ -40,7 +40,7 @@ struct FormSwitcher: View {
             case .loading:
                 AnyView(FormLoading(output: self.viewModel.output))
             case .loaded:
-                AnyView(FormLoaded(output: self.viewModel.output))
+                AnyView(FormLoaded(input: self.$viewModel.input, output: self.viewModel.output))
             }
         }
         .animation(.default)

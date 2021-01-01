@@ -26,30 +26,22 @@ import Localize
 public func ButtonDefault(_ label: LocalizedStringKey,
                           action: @escaping () -> Void) -> some View
 {
-    let b = Button(action: action) {
+    return Button(action: action) {
         Text(label)
             .font(.subheadline)
     }
-    #if canImport(AppKit)
-    return b.buttonStyle(BorderedButtonStyle())
-    #else
-    return b
-    #endif
+    .modifier(STZ_BorderedButtonStyle())
 }
 
 /// Button with more prominence.
 public func ButtonDone(_ label: LocalizedStringKey,
                        action: @escaping () -> Void) -> some View
 {
-    let b = Button(action: action) {
+    return Button(action: action) {
         Text(label)
             .font(.headline)
     }
-    #if canImport(AppKit)
-    return b.buttonStyle(BorderedButtonStyle())
-    #else
-    return b
-    #endif
+    .modifier(STZ_BorderedButtonStyle())
 }
 
 public struct ButtonToolbar: View {
@@ -94,4 +86,52 @@ public func ButtonToolbarBrowserExternal(_ action: @escaping () -> Void) -> some
     ButtonToolbar(systemName: "safari.fill",
                   accessibilityLabel: Verb.Safari,
                   action: action)
+}
+
+public func ButtonToolbarStopReload(isLoading: Bool,
+                             stopAction: @escaping () -> Void,
+                             reloadAction: @escaping () -> Void) -> some View
+{
+    return isLoading
+        ? ButtonToolbar(systemName: "xmark",
+                        accessibilityLabel: "Stop",
+                        action: stopAction)
+        .keyboardShortcut(".")
+        .disabled(!isLoading)
+        : ButtonToolbar(systemName: "arrow.clockwise",
+                        accessibilityLabel: "Reload",
+                        action: reloadAction)
+        .keyboardShortcut("r")
+        .disabled(isLoading)
+}
+
+public struct ButtonToolbarJavascript: View {
+    @Binding private var isJSEnabled: Bool
+    public var body: some View {
+        __ButtonToolbarJavascript(isJSEnabled: self.isJSEnabled,
+                                  toggleAction: { self.isJSEnabled.toggle() })
+    }
+    public init(_ isJSEnabled: Binding<Bool>) {
+        _isJSEnabled = isJSEnabled
+    }
+}
+
+private func __ButtonToolbarJavascript(isJSEnabled: Bool, toggleAction: @escaping () -> Void) -> some View {
+    let icon = isJSEnabled ? "applescript.fill" : "applescript"
+    let label: LocalizedStringKey = isJSEnabled ? "Disable Javascript" : "Enable Javascript"
+    return ButtonToolbar(systemName: icon,
+                         accessibilityLabel: label,
+                         action: toggleAction)
+        .modifier(STZ_BorderedButtonStyle())
+}
+
+public struct STZ_BorderedButtonStyle: ViewModifier {
+    public init() {}
+    public func body(content: Content) -> some View {
+        #if os(macOS)
+        return content.buttonStyle(BorderedButtonStyle())
+        #else
+        return content
+        #endif
+    }
 }

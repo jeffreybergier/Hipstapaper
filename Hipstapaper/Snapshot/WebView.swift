@@ -27,8 +27,10 @@ struct WebView: View {
     
     struct Input {
         var shouldLoad: Bool = false
+        var javascriptEnabled = false
         var originalURLString: String = ""
-        var maxThumbSize: Int = 300_000 // TODO: Change back to 100,000
+        var compressionFactor: CGFloat = 0.4
+        var maxThumbSize: Int = 100_000
         var snapConfig: WKSnapshotConfiguration = {
             let config = WKSnapshotConfiguration()
             config.afterScreenUpdates = true
@@ -61,6 +63,11 @@ struct WebView: View {
     }
     
     private func update(_ wv: WKWebView, context: Context) {
+        if self.input.javascriptEnabled != wv.configuration.preferences.javaScriptEnabled {
+            wv.configuration.preferences.javaScriptEnabled = self.input.javascriptEnabled
+            wv.reload()
+            return
+        }
         guard self.input.shouldLoad else {
             wv.stopLoading()
             return
@@ -76,20 +83,15 @@ struct WebView: View {
     
     private func makeWebView(context: Context) -> WKWebView {
         let config = WKWebViewConfiguration()
+        config.preferences.javaScriptEnabled = self.input.javascriptEnabled
+        config.mediaTypesRequiringUserActionForPlayback = .all
         let wv = WKWebView(frame: .zero, configuration: config)
         wv.allowsBackForwardNavigationGestures = false
         let token1 = wv.observe(\.isLoading)
         { [unowned output] wv, _ in
             if wv.isLoading == false {
-                output.timer?.invalidate()
-                // added so the webview unloads
-                // and stops making sounds and accepting interactions
-                output.kvo = []
                 wv.snap_takeSnapshot(with: self.input) {
                     output.thumbnail = $0
-                    // added so the webview unloads
-                    // and stops making sounds and accepting interactions
-                    wv.load(URLRequest(url: URL(string: "about:blank")!))
                 }
             }
             output.isLoading = wv.isLoading
@@ -109,6 +111,7 @@ struct WebView: View {
         self.output.timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true)
         { [unowned output, weak wv, input] timer in
             guard let wv = wv else { timer.invalidate(); return; }
+            guard wv.isLoading else { return }
             wv.snap_takeSnapshot(with: input) { output.thumbnail = $0 }
         }
         self.output.kvo = [token1, token2, token3, token4]
@@ -142,11 +145,11 @@ extension WKWebView {
                 completion(.failure(.take(error)))
                 return
             }
-            // TODO: Convert this to JPEG Compression
             guard
                 let tiff = image?.tiffRepresentation,
                 let rep = NSBitmapImageRep(data: tiff),
-                let data = rep.representation(using: NSBitmapImageRep.FileType.png, properties: [:])
+                let data = rep.representation(using: NSBitmapImageRep.FileType.jpeg,
+                                              properties: [.compressionFactor: input.compressionFactor])
             else {
                 completion(.failure(.convertImage))
                 return
@@ -188,7 +191,7 @@ extension WKWebView {
                 return
             }
             // TODO: Convert this to JPEG Compression
-            guard let data = image?.pngData() else {
+            guard let data = image?.jpegData(compressionQuality: input.compressionFactor) else {
                 completion(.failure(.convertURL))
                 return
             }

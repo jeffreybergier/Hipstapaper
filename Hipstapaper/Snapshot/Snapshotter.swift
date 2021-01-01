@@ -60,43 +60,46 @@ public struct Snapshotter: View {
             
             // For some reason, I have to subscribe to the publishers manually
             // and do this. But oh well.
-            self.token = Publishers.CombineLatest3(self.$input,
+            self.token = Publishers.CombineLatest4(self.$input,
                                                    self.output.$isLoading,
-                                                   self.output.$thumbnail)
-                .sink { [unowned self] input, isLoading, _ in
-                    switch (input.shouldLoad, isLoading) {
-                    case (false, _):
-                        self.formState = .load
-                    case (true, true):
-                        self.formState = .loading
-                    case (true, false):
-                        self.formState = .loaded
+                                                   self.output.$thumbnail,
+                                                   self.output.$resolvedURLString)
+                .sink { [unowned self] _, isLoading, _, resolvedURLString in
+                    if URL(string: resolvedURLString) == nil {
+                        self.formState = isLoading
+                            ? .loading
+                            : .load
+                    } else {
+                        self.formState = isLoading
+                            ? .loading
+                            : .loaded
                     }
                 }
         }
     }
     
-    @ObservedObject var viewModel: ViewModel
+    @StateObject var viewModel: ViewModel
     let completion: Completion
     
     public init(_ input: Input = .init(), completion: @escaping Completion) {
-        _viewModel = ObservedObject(wrappedValue: ViewModel(input))
+        _viewModel = StateObject(wrappedValue: ViewModel(input))
         self.completion = completion
     }
     
     public var body: some View {
-        VStack(alignment: .leading) {
-            FormSwitcher(viewModel: self.viewModel)
-                .paddingDefault_Equal(ignoring: [\.bottom])
-            Spacer()
-            ZStack() {
-                WebView(input: self.$viewModel.input,
-                        output: self.viewModel.output)
-                WebThumbnail(viewModel: self.viewModel)
+        ScrollView {
+            VStack(alignment: .center) {
+                FormSwitcher(viewModel: self.viewModel)
+                    .paddingDefault_Equal(ignoring: [\.bottom])
+                ZStack(alignment: .top) {
+                    WebView(input: self.$viewModel.input,
+                            output: self.viewModel.output)
+                    WebThumbnail(viewModel: self.viewModel)
+                }
+                .frame(width: 300, height: 300)
+                .cornerRadius_medium
+                .paddingDefault_Equal(ignoring: [\.top])
             }
-            .frame(width: 300, height: 300)
-            .cornerRadius_medium
-            .paddingDefault_Equal(ignoring: [\.top])
         }
         .modifier(Modal.SaveCancel(
                     title: Noun.AddWebsite,
@@ -115,7 +118,8 @@ public struct Snapshotter: View {
                                                title: self.viewModel.output.title,
                                                thumbnail: self.viewModel.output.thumbnail?.value)
                         ))
-                    })
+                    },
+                    canSave: { URL(string: self.viewModel.output.resolvedURLString) != nil })
         )
     }
 }

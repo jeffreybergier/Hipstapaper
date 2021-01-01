@@ -42,3 +42,25 @@ extension Query.Archived: Tag {
     public var dateCreated: Date { fatalError() }
     public var dateModified: Date { fatalError() }
 }
+
+// TODO: Remove these hacks once SwiftUI doesn't crash so easily with the FRC
+extension AnyWebsite {
+    internal static let blank: AnyElement<AnyWebsite> = AnyElement(StaticElement(AnyWebsite(Blank())))
+}
+
+extension AnyTag {
+    internal static let blank: AnyElement<AnyTag> = AnyElement(StaticElement(AnyTag(Blank())))
+}
+
+fileprivate struct Blank: Tag, Website {
+    var name: String?
+    var websitesCount: Int?
+    var isArchived: Bool = false
+    var originalURL: URL?
+    var resolvedURL: URL?
+    var title: String?
+    var thumbnail: Data?
+    var dateCreated: Date = Date()
+    var dateModified: Date = Date()
+    var id: ObjectIdentifier = ObjectIdentifier(String(Int.random(in: 0...100_000)) as NSString)
+}

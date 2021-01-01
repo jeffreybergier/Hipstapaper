@@ -87,60 +87,57 @@ private struct Toolbar_Compact: ViewModifier {
     @Environment(\.openURL) private var openURL
     
     func body(content: Content) -> some View {
-        content.toolbar(id: "Browser") {
+        content.toolbar(id: "Browser_Compact") {
             //
             // Bottom Navigation
             //
-            ToolbarItem(id: "Browser.Back", placement: .bottomBar) {
+            ToolbarItem(id: "Browser_Compact.Back", placement: .bottomBar) {
                 ButtonToolbar(systemName: "chevron.backward", accessibilityLabel: "Go Back") {
                     self.control.goBack = true
                 }
                 .keyboardShortcut("[")
                 .disabled(!self.display.canGoBack)
             }
-            ToolbarItem(id: "Browser.Forward", placement: .bottomBar) {
+            ToolbarItem(id: "Browser_Compact.Forward", placement: .bottomBar) {
                 ButtonToolbar(systemName: "chevron.forward", accessibilityLabel: "Go Forward") {
                     self.control.goForward = true
                 }
                 .keyboardShortcut("]")
                 .disabled(!self.display.canGoForward)
             }
-            ToolbarItem(id: "Browser.Reload", placement: .bottomBar) {
+            ToolbarItem(id: "Browser_Compact.Reload", placement: .bottomBar) {
                 ButtonToolbarStopReload(isLoading: self.display.isLoading,
-                                        stopAction: { self.control.stop = true },
-                                        reloadAction: { self.control.reload = true })
+                                        // Unowned here prevents leaks. Not sure why
+                                        stopAction: { [unowned control] in control.stop = true },
+                                        reloadAction: { [unowned control] in control.reload = true })
             }
-            ToolbarItem(id: "Browser.JS", placement: .bottomBar) {
-                ButtonToolbarJavascript(isJSEnabled: self.control.isJSEnabled,
-                                        toggleAction: { self.control.isJSEnabled.toggle() })
+            // TODO: LEAKING!
+            ToolbarItem(id: "Browser_Compact.JS", placement: .bottomBar) {
+                ButtonToolbarJavascript(self.$control.isJSEnabled)
                     .keyboardShortcut("j")
             }
-            //
-            // Bottom Open in Options
-            //
-            ToolbarItem(id: "Browser.OpenInWindow", placement: .bottomBar) {
+//            //
+//            // Bottom Open in Options
+//            //
+            ToolbarItem(id: "Browser_Compact.OpenInWindow", placement: .bottomBar) {
                 ButtonToolbarBrowserInApp { self.openInNewWindow?() }
                     .keyboardShortcut("o")
                     .disabled({ self.openInNewWindow == nil }())
             }
-            ToolbarItem(id: "Browser.OpenInExternal", placement: .bottomBar) {
-                ButtonToolbarBrowserExternal { self.openURL(self.control.originalLoad) }
+            // TODO: LEAKING!
+            ToolbarItem(id: "Browser_Compact.OpenInExternal", placement: .bottomBar) {
+                return ButtonToolbarBrowserExternal { self.openURL(self.control.originalLoad) }
                     .keyboardShortcut("O")
             }
-            
-            //
-            // Top [Share] - [AddressBar] - [Done]
-            //
-            ToolbarItem(id: "Browser.Share", placement: .cancellationAction) {
+//
+//            //
+//            // Top [Share] - [AddressBar] - [Done]
+//            //
+            ToolbarItem(id: "Browser_Compact.Share", placement: .cancellationAction) {
                 ButtonToolbarShare { self.shareSheetPresented = true }
                     .keyboardShortcut("i")
             }
-            ToolbarItem(id: "Browser.AddressBar", placement: .principal) {
-                TextField.WebsiteTitle(self.$display.title)
-                    .disabled(true)
-                    .frame(width: 250) // TODO: Remove hack when toolbar can manage width properly
-            }
-            ToolbarItem(id: "Browser.Done", placement: .primaryAction) {
+            ToolbarItem(id: "Browser_Compact.Done", placement: .primaryAction) {
                 ButtonDone(Verb.Done, action: self.done)
                     .keyboardShortcut("w")
             }
@@ -160,21 +157,23 @@ private struct Toolbar_Regular: ViewModifier {
     @Environment(\.openURL) private var openURL
     
     func body(content: Content) -> some View {
-        content.toolbar(id: "Browser") {
+        content.toolbar(id: "Browser_Regular") {
             //
             // Bottom [JS] - [Open1] - [Open2]
             //
-            ToolbarItem(id: "Browser.JS", placement: .bottomBar) {
-                ButtonToolbarJavascript(isJSEnabled: self.control.isJSEnabled,
-                                        toggleAction: { self.control.isJSEnabled.toggle() })
+            // TODO: LEAKING!
+            ToolbarItem(id: "Browser_Regular.JS", placement: .bottomBar) {
+                ButtonToolbarJavascript(self.$control.isJSEnabled)
                     .keyboardShortcut("j")
             }
-            ToolbarItem(id: "Browser.OpenInWindow", placement: .bottomBar) {
+            // TODO: LEAKING!
+            ToolbarItem(id: "Browser_Regular.OpenInWindow", placement: .bottomBar) {
                 ButtonToolbarBrowserInApp { self.openInNewWindow?() }
                     .keyboardShortcut("o")
                     .disabled({ self.openInNewWindow == nil }())
             }
-            ToolbarItem(id: "Browser.OpenInExternal", placement: .bottomBar) {
+            // TODO: LEAKING!
+            ToolbarItem(id: "Browser_Regular.OpenInExternal", placement: .bottomBar) {
                 ButtonToolbarBrowserExternal { self.openURL(self.control.originalLoad) }
                     .keyboardShortcut("O")
             }
@@ -182,39 +181,40 @@ private struct Toolbar_Regular: ViewModifier {
             //
             // Top Leading
             //
-            ToolbarItem(id: "Browser.Back", placement: .navigation) {
+            ToolbarItem(id: "Browser_Regular.Back", placement: .navigation) {
                 ButtonToolbar(systemName: "chevron.backward", accessibilityLabel: "Go Back") {
                     self.control.goBack = true
                 }
                 .keyboardShortcut("[")
                 .disabled(!self.display.canGoBack)
             }
-            ToolbarItem(id: "Browser.Forward", placement: .navigation) {
+            ToolbarItem(id: "Browser_Regular.Forward", placement: .navigation) {
                 ButtonToolbar(systemName: "chevron.forward", accessibilityLabel: "Go Forward") {
                     self.control.goForward = true
                 }
                 .keyboardShortcut("]")
                 .disabled(!self.display.canGoForward)
             }
-            ToolbarItem(id: "Browser.Reload", placement: .navigation) {
+            ToolbarItem(id: "Browser_Regular.Reload", placement: .navigation) {
                 ButtonToolbarStopReload(isLoading: self.display.isLoading,
-                                        stopAction: { self.control.stop = true },
-                                        reloadAction: { self.control.reload = true })
+                                        // Unowned here prevents leaks. Not sure why
+                                        stopAction: { [unowned control] in control.stop = true },
+                                        reloadAction: { [unowned control] in control.reload = true })
             }
             
             //
             // [Top Leading] - [AddressBar] - [Share][Done]
             //
-            ToolbarItem(id: "Browser.AddressBar", placement: .principal) {
+            ToolbarItem(id: "Browser_Regular.AddressBar", placement: .principal) {
                 TextField.WebsiteTitle(self.$display.title)
                     .disabled(true)
                     .frame(width: 400) // TODO: Remove hack when toolbar can manage width properly
             }
-            ToolbarItem(id: "Browser.Share", placement: .automatic) {
+            ToolbarItem(id: "Browser_Regular.Share", placement: .automatic) {
                 ButtonToolbarShare { self.shareSheetPresented = true }
                     .keyboardShortcut("i")
             }
-            ToolbarItem(id: "Browser.Done", placement: .primaryAction) {
+            ToolbarItem(id: "Browser_Regular.Done", placement: .primaryAction) {
                 ButtonDone(Verb.Done, action: self.done)
                     .keyboardShortcut("w")
             }

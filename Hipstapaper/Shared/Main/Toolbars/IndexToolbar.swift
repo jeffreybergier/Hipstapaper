@@ -27,18 +27,35 @@ import Snapshot
 
 struct IndexToolbar: ViewModifier {
     
-    let controller: Controller
+    @ObservedObject var controller: TagController
     @State var presentation = IndexToolbarPresentation.Wrap()
     
+    #if os(macOS)
+    /// Source of popover
+    private let alignment: Alignment = .topTrailing
+    #else
+    @Environment(\.editMode) var editMode
+    private var alignment: Alignment {
+        switch self.editMode?.wrappedValue ?? .inactive {
+        case .active:
+            return .bottomTrailing
+        case .inactive, .transient:
+            fallthrough
+        @unknown default:
+            return .topTrailing
+        }
+    }
+    #endif
+    
     func body(content: Content) -> some View {
-        return ZStack(alignment: Alignment.topTrailing) {
+        return ZStack(alignment: self.alignment) {
             // TODO: Hack when toolbars work properly with popovers
             Color.clear.frame(width: 1, height: 1)
                 .popover(isPresented: self.$presentation.isAddTag) {
                     AddTag(
                         cancel: { self.presentation.value = .none },
                         save: {
-                            let result = self.controller.createTag(name: $0)
+                            let result = self.controller.controller.createTag(name: $0)
                             switch result {
                             case .success:
                                 self.presentation.value = .none
@@ -57,7 +74,7 @@ struct IndexToolbar: ViewModifier {
                         switch result {
                         case .success(let output):
                             // TODO: maybe show error to user?
-                            try! self.controller.createWebsite(.init(output)).get()
+                            _ = try! self.controller.controller.createWebsite(.init(output)).get()
                         case .failure(let error):
                             // TODO: maybe show error to user?
                             break
@@ -89,13 +106,65 @@ struct IndexToolbar: ViewModifier {
                     ]
                 ))
             
+            #if os(macOS)
             content.toolbar(id: "Index") {
-                ToolbarItem(id: "Index.0", placement: .confirmationAction) {
+                ToolbarItem(id: "Index.Delete", placement: .destructiveAction) {
+                    ButtonToolbar(systemName: "minus",
+                                  accessibilityLabel: Verb.DeleteTag)
+                    {
+                        // Delete
+                        guard let tag = self.controller.selection else { return }
+                        try! self.controller.controller.delete(tag).get()
+                    }
+                    .disabled({
+                        guard let tag = self.controller.selection else { return true }
+                        return tag.value.wrappedValue as? Query.Archived != nil
+                    }())
+                }
+                ToolbarItem(id: "Index.Add", placement: .primaryAction) {
                     ButtonToolbar(systemName: "plus",
                                   accessibilityLabel: Verb.AddTag,
                                   action: { self.presentation.value = .addChoose })
                 }
             }
+            #else
+            if self.editMode?.wrappedValue == .inactive {
+                content.toolbar(id: "Index") {
+                    ToolbarItem(id: "Index.Edit", placement: .bottomBar) {
+                        EditButton()
+                    }
+                    ToolbarItem(id: "Index.Add", placement: .primaryAction) {
+                        ButtonToolbar(systemName: "plus",
+                                      accessibilityLabel: Verb.AddTag,
+                                      action: { self.presentation.value = .addChoose })
+                    }
+                }
+            } else {
+                content.toolbar(id: "Index") {
+                    ToolbarItem(id: "Index.Edit", placement: .bottomBar) {
+                        EditButton()
+                    }
+                    ToolbarItem(id: "Index.Delete", placement: .bottomBar) {
+                        ButtonToolbar(systemName: "minus",
+                                      accessibilityLabel: Verb.DeleteTag)
+                        {
+                            // Delete
+                            guard let tag = self.controller.selection else { return }
+                            try! self.controller.controller.delete(tag).get()
+                        }
+                        .disabled({
+                            guard let tag = self.controller.selection else { return true }
+                            return tag.value.wrappedValue as? Query.Archived != nil
+                        }())
+                    }
+                    ToolbarItem(id: "Index.Add", placement: .bottomBar) {
+                        ButtonToolbar(systemName: "plus",
+                                      accessibilityLabel: Verb.AddTag,
+                                      action: { self.presentation.value = .addTag })
+                    }
+                }
+            }
+            #endif
         }
     }
 }
