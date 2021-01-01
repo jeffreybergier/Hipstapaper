@@ -27,6 +27,7 @@ struct WebView: View {
     
     struct Input {
         var shouldLoad: Bool = false
+        var javascriptEnabled = false
         var originalURLString: String = ""
         var compressionFactor: CGFloat = 0.4
         var maxThumbSize: Int = 100_000
@@ -62,6 +63,11 @@ struct WebView: View {
     }
     
     private func update(_ wv: WKWebView, context: Context) {
+        if self.input.javascriptEnabled != wv.configuration.preferences.javaScriptEnabled {
+            wv.configuration.preferences.javaScriptEnabled = self.input.javascriptEnabled
+            wv.reload()
+            return
+        }
         guard self.input.shouldLoad else {
             wv.stopLoading()
             return
@@ -77,20 +83,15 @@ struct WebView: View {
     
     private func makeWebView(context: Context) -> WKWebView {
         let config = WKWebViewConfiguration()
+        config.preferences.javaScriptEnabled = self.input.javascriptEnabled
+        config.mediaTypesRequiringUserActionForPlayback = .all
         let wv = WKWebView(frame: .zero, configuration: config)
         wv.allowsBackForwardNavigationGestures = false
         let token1 = wv.observe(\.isLoading)
         { [unowned output] wv, _ in
             if wv.isLoading == false {
-                output.timer?.invalidate()
-                // added so the webview unloads
-                // and stops making sounds and accepting interactions
-                output.kvo = []
                 wv.snap_takeSnapshot(with: self.input) {
                     output.thumbnail = $0
-                    // added so the webview unloads
-                    // and stops making sounds and accepting interactions
-                    wv.load(URLRequest(url: URL(string: "about:blank")!))
                 }
             }
             output.isLoading = wv.isLoading
@@ -197,7 +198,6 @@ extension WKWebView {
                 completion(.failure(.size(data.count)))
                 return
             }
-            print(data.count)
             completion(.success(data))
         }
     }

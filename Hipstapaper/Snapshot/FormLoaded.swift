@@ -24,13 +24,27 @@ import Stylize
 
 struct FormLoaded: View {
     
+    @Binding var input: WebView.Input
     @ObservedObject var output: WebView.Output
     
     var body: some View {
         VStack {
             TextField.WebsiteTitle(self.$output.title)
-            TextField.WebsiteURL(self.$output.resolvedURLString)
-                .disabled(true)
+            HStack {
+                TextField.WebsiteURL(self.$output.resolvedURLString)
+                    .disabled(true)
+                if self.input.javascriptEnabled {
+                    // TODO: Add Localized Strings Here
+                    ButtonDefault("Disable JS") {
+                        self.input.javascriptEnabled = false
+                    }
+                } else {
+                    // TODO: Add Localized Strings Here
+                    ButtonDefault("Enable JS") {
+                        self.input.javascriptEnabled = true
+                    }
+                }
+            }
         }
     }
 }
@@ -38,9 +52,10 @@ struct FormLoaded: View {
 
 #if DEBUG
 struct FormLoaded_Preview: PreviewProvider {
+    @State static var input = WebView.Input()
     static var output = WebView.Output()
     static var previews: some View {
-        FormLoaded(output: self.output)
+        FormLoaded(input: self.$input, output: self.output)
             .previewLayout(.fixed(width: 300, height: 100.0))
     }
 }

@@ -60,17 +60,19 @@ public struct Snapshotter: View {
             
             // For some reason, I have to subscribe to the publishers manually
             // and do this. But oh well.
-            self.token = Publishers.CombineLatest3(self.$input,
+            self.token = Publishers.CombineLatest4(self.$input,
                                                    self.output.$isLoading,
-                                                   self.output.$thumbnail)
-                .sink { [unowned self] input, isLoading, _ in
-                    switch (input.shouldLoad, isLoading) {
-                    case (false, _):
-                        self.formState = .load
-                    case (true, true):
-                        self.formState = .loading
-                    case (true, false):
-                        self.formState = .loaded
+                                                   self.output.$thumbnail,
+                                                   self.output.$resolvedURLString)
+                .sink { [unowned self] _, isLoading, _, resolvedURLString in
+                    if URL(string: resolvedURLString) == nil {
+                        self.formState = isLoading
+                            ? .loading
+                            : .load
+                    } else {
+                        self.formState = isLoading
+                            ? .loading
+                            : .loaded
                     }
                 }
         }
