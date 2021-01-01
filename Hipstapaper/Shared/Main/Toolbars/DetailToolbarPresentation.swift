@@ -25,6 +25,7 @@ enum DetailToolbarPresentation: Int {
     case tagApply
     case share
     case browser
+    case sort
     
     // TODO: Remove this when SwiftUI doesn't suck at modals
     struct Wrap {
@@ -60,6 +61,14 @@ enum DetailToolbarPresentation: Int {
             }
         }
         
+        var isSort = false {
+            didSet {
+                guard !internalUpdateInProgress else { return }
+                guard !self.isSort else { return }
+                self.value = .none
+            }
+        }
+        
         private var internalUpdateInProgress = false
         var value: DetailToolbarPresentation = .none {
             didSet {
@@ -70,6 +79,7 @@ enum DetailToolbarPresentation: Int {
                 self.isTagApply   = self.value == .tagApply
                 self.isShare      = self.value == .share
                 self.isBrowser    = self.value == .browser
+                self.isSort       = self.value == .sort
             }
         }
     }

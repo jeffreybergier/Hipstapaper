@@ -72,8 +72,23 @@ struct DetailToolbar_macOS: ViewModifier {
                            doneAction: { self.presentation.value = .none })
                 }
             
+            Color.clear.frame(width: 1, height: 1)
+                .popover(isPresented: self.$presentation.isSort) {
+                    Sort(selection: self.$controller.query.sort, doneAction: { self.presentation.value = .none })
+                }
             
-            content.toolbar(id: "Detail") {
+            
+            content.toolbar(id: "Detail_Mac") {
+                ToolbarItem(id: "Detail_Mac.Sort") {
+                    ButtonToolbar(systemName: "arrow.up.arrow.down.circle",
+                                  accessibilityLabel: "",
+                                  action: { self.presentation.value = .sort })
+                }
+                ToolbarItem(id: "Detail_Mac.Filter") {
+                    ButtonToolbar(systemName: "line.horizontal.3.decrease.circle",
+                                  accessibilityLabel: "",
+                                  action: { })
+                }
                 ToolbarItem(id: "Detail.0") {
                     ButtonToolbarBrowserInApp
                     {

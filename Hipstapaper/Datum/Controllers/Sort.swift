@@ -20,6 +20,7 @@
 //
 
 public enum Sort: CaseIterable {
+    public static let `default`: Sort = .dateCreatedNewest
     case dateModifiedNewest, dateModifiedOldest
     case dateCreatedNewest, dateCreatedOldest
     case titleA, titleZ

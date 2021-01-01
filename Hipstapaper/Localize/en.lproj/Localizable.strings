@@ -64,6 +64,8 @@
 "LCZ.Noun.Tag Name"      = "Tag Name";
 "LCZ.Noun.Add Tag"       = "Add Tag";
 "LCZ.Noun.Add Website"   = "Add Website";
+"LCZ.Noun.Sort"          = "Sort";
+"LCZ.Noun.Filter"        = "Filter";
 
 //
 //
@@ -73,4 +75,10 @@
 //
 //
 
-"LCZ.Phrase.AddChoice" = "Create new tag or add new website?";
+"LCZ.Phrase.AddChoice"              = "Create new tag or add new website?";
+"LCZ.Phrase.SortDateModifiedNewest" = "Most Recently Modified First";
+"LCZ.Phrase.SortDateModifiedOldest" = "Most Recently Modified Last";
+"LCZ.Phrase.SortDateCreatedNewest"  = "Most Recently Created First";
+"LCZ.Phrase.SortDateCreatedOldest"  = "Most Recently Created Last";
+"LCZ.Phrase.SortTitleA"             = "Page Titles Starting with A First";
+"LCZ.Phrase.SortTitleZ"             = "Page Titles Starting with Z First";
