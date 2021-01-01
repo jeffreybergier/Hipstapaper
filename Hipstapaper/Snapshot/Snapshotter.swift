@@ -115,7 +115,8 @@ public struct Snapshotter: View {
                                                title: self.viewModel.output.title,
                                                thumbnail: self.viewModel.output.thumbnail?.value)
                         ))
-                    })
+                    },
+                    canSave: { URL(string: self.viewModel.output.resolvedURLString) != nil })
         )
     }
 }
