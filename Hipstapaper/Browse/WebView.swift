@@ -36,6 +36,10 @@ internal struct WebView: View {
             self.load = load
             self.originalLoad = load
         }
+        deinit {
+            // TODO: Remove once toolbar leaks are fixed
+            print("Browser Control DEINIT")
+        }
     }
     
     internal class Display: ObservableObject {
@@ -46,6 +50,10 @@ internal struct WebView: View {
         @Published var canGoForward: Bool = false
         let progress = Progress(totalUnitCount: 100)
         var kvo: [NSKeyValueObservation] = []
+        deinit {
+            // TODO: Remove once toolbar leaks are fixed
+            print("Browser Display DEINIT")
+        }
     }
     
     @ObservedObject var control: Control
