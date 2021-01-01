@@ -57,7 +57,8 @@ struct DetailToolbar: ViewModifier {
             
             Color.clear.frame(width: 1, height: 1)
                 .popover(isPresented: self.$presentation.isTagApply) { () -> TagApply in
-                    return TagApply(controller: self.controller,
+                    return TagApply(selectedWebsites: self.controller.selectedWebsites,
+                                    controller: self.controller.controller,
                                     done: { self.presentation.value = .none })
                 }
             

@@ -28,12 +28,7 @@ public struct Query {
     }
     public var isArchived: Archived! // TODO: Hack for SwiftUI - Remove
     public var tag: AnyElement<AnyTag>?
-    public var search: String {
-        didSet {
-            // TODO: Remove this print
-            print(self.search)
-        }
-    }
+    public var search: String
     public var sort: Sort
     
     /// Use this initializer when the tag is selected from the UI
@@ -51,13 +46,14 @@ public struct Query {
         default:
             // A user selected tag
             self.tag = specialTag
+            self.isArchived = .all
         }
     }
 
     public init(isArchived: Archived = .unarchived,
                 tag: AnyElement<AnyTag>? = nil,
                 search: String = "",
-                sort: Sort = .dateModifiedNewest)
+                sort: Sort = .dateCreatedNewest)
     {
         self.isArchived = isArchived
         self.tag = tag
