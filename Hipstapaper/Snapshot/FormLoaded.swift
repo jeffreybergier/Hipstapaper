@@ -30,6 +30,7 @@ struct FormLoaded: View {
         VStack {
             TextField.WebsiteTitle(self.$output.title)
             TextField.WebsiteURL(self.$output.resolvedURLString)
+                .disabled(true)
         }
     }
 }

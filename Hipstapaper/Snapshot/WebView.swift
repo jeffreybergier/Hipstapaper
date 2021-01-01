@@ -28,7 +28,8 @@ struct WebView: View {
     struct Input {
         var shouldLoad: Bool = false
         var originalURLString: String = ""
-        var maxThumbSize: Int = 300_000 // TODO: Change back to 100,000
+        var compressionFactor: CGFloat = 0.4
+        var maxThumbSize: Int = 100_000
         var snapConfig: WKSnapshotConfiguration = {
             let config = WKSnapshotConfiguration()
             config.afterScreenUpdates = true
@@ -142,11 +143,11 @@ extension WKWebView {
                 completion(.failure(.take(error)))
                 return
             }
-            // TODO: Convert this to JPEG Compression
             guard
                 let tiff = image?.tiffRepresentation,
                 let rep = NSBitmapImageRep(data: tiff),
-                let data = rep.representation(using: NSBitmapImageRep.FileType.png, properties: [:])
+                let data = rep.representation(using: NSBitmapImageRep.FileType.jpeg,
+                                              properties: [.compressionFactor: input.compressionFactor])
             else {
                 completion(.failure(.convertImage))
                 return
@@ -188,7 +189,7 @@ extension WKWebView {
                 return
             }
             // TODO: Convert this to JPEG Compression
-            guard let data = image?.pngData() else {
+            guard let data = image?.jpegData(compressionQuality: input.compressionFactor) else {
                 completion(.failure(.convertURL))
                 return
             }
@@ -196,6 +197,7 @@ extension WKWebView {
                 completion(.failure(.size(data.count)))
                 return
             }
+            print(data.count)
             completion(.success(data))
         }
     }

@@ -76,11 +76,11 @@ public struct Snapshotter: View {
         }
     }
     
-    @ObservedObject var viewModel: ViewModel
+    @StateObject var viewModel: ViewModel
     let completion: Completion
     
     public init(_ input: Input = .init(), completion: @escaping Completion) {
-        _viewModel = ObservedObject(wrappedValue: ViewModel(input))
+        _viewModel = StateObject(wrappedValue: ViewModel(input))
         self.completion = completion
     }
     

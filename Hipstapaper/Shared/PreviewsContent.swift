@@ -131,9 +131,6 @@ class P_Controller: Controller {
     func tagStatus(for websites: Set<AnyElement<AnyWebsite>>) -> Result<AnyList<(AnyElement<AnyTag>, ToggleState)>, Error> {
         return .success(AnyList(MappedList(p_tags, transform: { _ in .on })))
     }
-    deinit {
-        print("DEINIT")
-    }
 }
 
 class P_Collection<Element>: ListProtocol {
