@@ -111,6 +111,7 @@ struct WebView: View {
         self.output.timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true)
         { [unowned output, weak wv, input] timer in
             guard let wv = wv else { timer.invalidate(); return; }
+            guard wv.isLoading else { return }
             wv.snap_takeSnapshot(with: input) { output.thumbnail = $0 }
         }
         self.output.kvo = [token1, token2, token3, token4]

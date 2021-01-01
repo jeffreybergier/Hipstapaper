@@ -87,18 +87,19 @@ public struct Snapshotter: View {
     }
     
     public var body: some View {
-        VStack(alignment: .leading) {
-            FormSwitcher(viewModel: self.viewModel)
-                .paddingDefault_Equal(ignoring: [\.bottom])
-            Spacer()
-            ZStack() {
-                WebView(input: self.$viewModel.input,
-                        output: self.viewModel.output)
-                WebThumbnail(viewModel: self.viewModel)
+        ScrollView {
+            VStack(alignment: .center) {
+                FormSwitcher(viewModel: self.viewModel)
+                    .paddingDefault_Equal(ignoring: [\.bottom])
+                ZStack(alignment: .top) {
+                    WebView(input: self.$viewModel.input,
+                            output: self.viewModel.output)
+                    WebThumbnail(viewModel: self.viewModel)
+                }
+                .frame(width: 300, height: 300)
+                .cornerRadius_medium
+                .paddingDefault_Equal(ignoring: [\.top])
             }
-            .frame(width: 300, height: 300)
-            .cornerRadius_medium
-            .paddingDefault_Equal(ignoring: [\.top])
         }
         .modifier(Modal.SaveCancel(
                     title: Noun.AddWebsite,
