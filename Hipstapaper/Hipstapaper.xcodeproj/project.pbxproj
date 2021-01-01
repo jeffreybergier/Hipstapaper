@@ -30,6 +30,8 @@
 		734068282574B5C500D4A343 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734068262574B5C500D4A343 /* Style.swift */; };
 		734068322574ED5800D4A343 /* TagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734068312574ED5800D4A343 /* TagList.swift */; };
 		734068332574ED5800D4A343 /* TagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734068312574ED5800D4A343 /* TagList.swift */; };
+		7346696E259F4B790001E7C9 /* DetailToolbar_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7346696D259F4B790001E7C9 /* DetailToolbar_macOS.swift */; };
+		73466978259F4C820001E7C9 /* DetailToolbar_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73466977259F4C820001E7C9 /* DetailToolbar_iOS.swift */; };
 		734942AF2592078E00AD292E /* Share.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734942AE2592078E00AD292E /* Share.swift */; };
 		734942D82592346900AD292E /* EditMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734942D72592346900AD292E /* EditMode.swift */; };
 		734BC9B6259731710001286E /* ActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734BC9B5259731710001286E /* ActionSheet.swift */; };
@@ -346,6 +348,8 @@
 		7340681F2574B56700D4A343 /* WebsiteRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteRow.swift; sourceTree = "<group>"; };
 		734068262574B5C500D4A343 /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		734068312574ED5800D4A343 /* TagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagList.swift; sourceTree = "<group>"; };
+		7346696D259F4B790001E7C9 /* DetailToolbar_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailToolbar_macOS.swift; sourceTree = "<group>"; };
+		73466977259F4C820001E7C9 /* DetailToolbar_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailToolbar_iOS.swift; sourceTree = "<group>"; };
 		734942AE2592078E00AD292E /* Share.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Share.swift; sourceTree = "<group>"; };
 		734942D72592346900AD292E /* EditMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMode.swift; sourceTree = "<group>"; };
 		734BC9B5259731710001286E /* ActionSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionSheet.swift; sourceTree = "<group>"; };
@@ -672,6 +676,8 @@
 			isa = PBXGroup;
 			children = (
 				73A3DE7725792604002EDEB4 /* DetailToolbar.swift */,
+				7346696D259F4B790001E7C9 /* DetailToolbar_macOS.swift */,
+				73466977259F4C820001E7C9 /* DetailToolbar_iOS.swift */,
 				73A3DE93257B77C8002EDEB4 /* IndexToolbar.swift */,
 				73C6BC82259AB2DF006B7A6D /* DetailToolbarPresentation.swift */,
 				73C6BC77259AB266006B7A6D /* IndexToolbarPresentation.swift */,
@@ -1349,6 +1355,7 @@
 				734068202574B56700D4A343 /* WebsiteRow.swift in Sources */,
 				DBDCB367256BE8E800D005F6 /* Main.swift in Sources */,
 				73C6BCFA259B6AE6006B7A6D /* WindowManager.swift in Sources */,
+				73466978259F4C820001E7C9 /* DetailToolbar_iOS.swift in Sources */,
 				73C6BCAE259AC172006B7A6D /* TagController.swift in Sources */,
 				73A3DEB0257B9351002EDEB4 /* Search.swift in Sources */,
 				DBDCB365256BE8E800D005F6 /* HipstapaperApp.swift in Sources */,
@@ -1387,6 +1394,7 @@
 				73C6BC84259AB2DF006B7A6D /* DetailToolbarPresentation.swift in Sources */,
 				7340681A2574981200D4A343 /* TagRow.swift in Sources */,
 				736DD3E4258790A000F0FBE0 /* TagApply.swift in Sources */,
+				7346696E259F4B790001E7C9 /* DetailToolbar_macOS.swift in Sources */,
 				736DD3EE258793C200F0FBE0 /* Website+Hipstapaper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

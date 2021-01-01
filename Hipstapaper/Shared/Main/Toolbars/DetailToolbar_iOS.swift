@@ -1,7 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/12/03.
-//
-//  Copyright © 2020 Saturday Apps.
+//  Created by Jeffrey Bergier on 2021/01/01.
 //
 //  This file is part of Hipstapaper.
 //
@@ -20,34 +18,13 @@
 //
 
 import SwiftUI
-import Datum
-import Localize
-import Stylize
-import Browse
 
-struct DetailToolbar: ViewModifier {
+struct DetailToolbar_iOS: ViewModifier {
     
     @ObservedObject var controller: WebsiteController
     
     func body(content: Content) -> some View {
-        #if os(macOS)
-        return content.modifier(DetailToolbar_macOS(controller: self.controller))
-        #else
-        return content.modifier(DetailToolbar_iOS(controller: self.controller))
-        #endif
+        return content
     }
-}
-
-struct OpenWebsiteDisabler: ViewModifier {
     
-    let selectedWebsites: Set<AnyElement<AnyWebsite>>
-    @EnvironmentObject var windowManager: WindowManager
-    
-    func body(content: Content) -> some View {
-        if self.windowManager.features.contains(.bulkActivation) {
-            return content.disabled(self.selectedWebsites.isEmpty)
-        } else {
-            return content.disabled(self.selectedWebsites.count != 1)
-        }
-    }
 }
