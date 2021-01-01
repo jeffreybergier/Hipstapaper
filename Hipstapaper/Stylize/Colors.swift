@@ -46,10 +46,8 @@ extension Color {
     #if canImport(AppKit)
     static internal var toolbarIcon: Color { Color(NSColor.controlAccentColor) }
     static internal var toolbarIcon_Dark: Color { Color(NSColor.controlAccentColor) }
-    static public var windowBackground: Color { Color(NSColor.windowBackgroundColor) }
     #else
     static internal let toolbarIcon = Color(.sRGB, white: 0.33, opacity: 1.0)
     static internal let toolbarIcon_Dark = Color(.sRGB, white: 0.66, opacity: 1.0)
-    static public var windowBackground: Color { Color(UIColor.systemBackground) }
     #endif
 }
