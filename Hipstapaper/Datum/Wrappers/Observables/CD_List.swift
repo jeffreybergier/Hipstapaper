@@ -33,22 +33,33 @@ internal class CD_List<
 
     private let frc: NSFetchedResultsController<Input>
     private let transform: (Input) -> Output
+    // TODO: Remove these hacks once SwiftUI doesn't crash so easily with the FRC
+    private let fallback: Output
 
     /// Init with `NSFetchedResultsController`
     /// This class does not call `performFetch` on its own.
     /// Call `performFetch()` yourself before this is used.
-    internal init(_ frc: NSFetchedResultsController<Input>, _ transform: @escaping (Input) -> Output) {
+    internal init(_ frc: NSFetchedResultsController<Input>,
+                  fallback: Output,
+                  _ transform: @escaping (Input) -> Output)
+    {
         self.frc = frc
         self.transform = transform
+        self.fallback = fallback
         super.init()
         frc.delegate = self
     }
 
     // MARK: Swift.Collection Boilerplate
-    public var startIndex: Index { self.frc.fetchedObjects!.startIndex }
-    public var endIndex: Index { self.frc.fetchedObjects!.endIndex }
-    public subscript(index: Index) -> Iterator.Element { transform(frc.fetchedObjects![index]) }
-    public func index(after index: Index) -> Index { frc.fetchedObjects!.index(after: index) }
+    public var startIndex: Index { 0 }
+    public var endIndex: Index { self.frc.fetchedObjects!.count }
+    public subscript(index: Index) -> Iterator.Element {
+        let objects = self.frc.fetchedObjects!
+        guard index < objects.count else {
+            return self.fallback
+        }
+        return transform(objects[index])
+    }
 
     // MARK: NSFetchedResultsControllerDelegate
 

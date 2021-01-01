@@ -150,7 +150,6 @@ class P_Collection<Element>: ListProtocol {
     var startIndex: Index { self.wrapped.startIndex }
     var endIndex: Index { self.wrapped.endIndex }
     subscript(index: Index) -> Iterator.Element { self.wrapped[index] }
-    func index(after index: Index) -> Index { self.wrapped.index(after: index) }
 }
 
 private let fakeImageData: Data = {

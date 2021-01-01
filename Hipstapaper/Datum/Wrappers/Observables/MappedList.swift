@@ -31,7 +31,6 @@ public class MappedList<E, U>: ListProtocol {
     private let _startIndex: () -> Index
     private let _endIndex: () -> Index
     private let _subscript: (Index) -> E
-    private let _indexAfter: (Index) -> Index
     private let transform: (E) -> U
 
     public init<T: ListProtocol>(_ collection: T, transform: @escaping (E) -> U)
@@ -42,7 +41,6 @@ public class MappedList<E, U>: ListProtocol {
         _startIndex = { collection.startIndex }
         _endIndex = { collection.endIndex }
         _subscript = { collection[$0] }
-        _indexAfter = { collection.index(after: $0) }
         self.transform = transform
         self.objectWillChange = collection.objectWillChange
     }
@@ -50,7 +48,6 @@ public class MappedList<E, U>: ListProtocol {
     // MARK: Swift.Collection Boilerplate
     public var startIndex: Index { _startIndex() }
     public var endIndex: Index { _endIndex() }
-    public func index(after index: Index) -> Index { _indexAfter(index) }
     public subscript(index: Index) -> Element {
         let e = _subscript(index)
         let u = transform(e)

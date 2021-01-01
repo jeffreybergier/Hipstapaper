@@ -70,9 +70,9 @@ extension CD_Controller: Controller {
             try controller.performFetch()
             return .success(
                 AnyList(
-                    CD_List(controller, {
+                    CD_List(controller, fallback: AnyWebsite.blank) {
                         AnyElement(CD_Element($0, { AnyWebsite($0) }))
-                    })
+                    }
                 )
             )
         } catch {
@@ -164,9 +164,9 @@ extension CD_Controller: Controller {
             try controller.performFetch()
             return .success(
                 AnyList(
-                    CD_List(controller, {
+                    CD_List(controller, fallback: AnyTag.blank) {
                         AnyElement(CD_Element($0, { AnyTag($0) }))
-                    })
+                    }
                 )
             )
         } catch {

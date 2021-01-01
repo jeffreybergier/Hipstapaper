@@ -36,5 +36,4 @@ internal class __List_Empty<T>: ListProtocol {
     public var startIndex: Index { 0 }
     public var endIndex: Index { 0 }
     public subscript(index: Index) -> Element { fatalError() }
-    public func index(after index: Index) -> Index { 0 }
 }
