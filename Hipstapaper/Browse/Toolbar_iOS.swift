@@ -134,11 +134,6 @@ private struct Toolbar_Compact: ViewModifier {
                 ButtonToolbarShare { self.shareSheetPresented = true }
                     .keyboardShortcut("i")
             }
-            ToolbarItem(id: "Browser.AddressBar", placement: .principal) {
-                TextField.WebsiteTitle(self.$display.title)
-                    .disabled(true)
-                    .frame(width: 250) // TODO: Remove hack when toolbar can manage width properly
-            }
             ToolbarItem(id: "Browser.Done", placement: .primaryAction) {
                 ButtonDone(Verb.Done, action: self.done)
                     .keyboardShortcut("w")
