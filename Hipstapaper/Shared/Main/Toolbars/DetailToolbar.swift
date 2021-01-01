@@ -105,10 +105,9 @@ struct DetailToolbar: ViewModifier {
                                   accessibilityLabel: Verb.Archive)
                     {
                         // Archive
-                        self.controller
-                            .selectedWebsites
-                            .filter { !$0.value.isArchived }
-                            .forEach { try! self.controller.controller.update($0, .init(isArchived: true)).get() }
+                        let selected = self.controller.selectedWebsites
+                        self.controller.selectedWebsites = []
+                        try! self.controller.controller.update(selected, .init(isArchived: true)).get()
                     }
                     .disabled(self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
                 }
@@ -117,10 +116,9 @@ struct DetailToolbar: ViewModifier {
                                   accessibilityLabel: Verb.Unarchive)
                     {
                         // Unarchive
-                        self.controller
-                            .selectedWebsites
-                            .filter { $0.value.isArchived }
-                            .forEach { try! self.controller.controller.update($0, .init(isArchived: false)).get() }
+                        let selected = self.controller.selectedWebsites
+                        self.controller.selectedWebsites = []
+                        try! self.controller.controller.update(selected, .init(isArchived: false)).get()
                     }
                     .disabled(self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
                 }
