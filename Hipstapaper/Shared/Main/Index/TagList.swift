@@ -49,6 +49,7 @@ struct TagList: View {
         }
         .listStyle(SidebarListStyle())
         .navigationTitle(Noun.Tags)
+        .animation(.default)
     }
 }
 

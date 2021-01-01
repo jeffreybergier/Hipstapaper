@@ -44,6 +44,7 @@ struct WebsiteList: View {
         { item in
             WebsiteRow(item.value)
         }
+        .animation(.default)
         .navigationTitle(Noun.Hipstapaper)
         .modifier(ListEditMode())
     }
