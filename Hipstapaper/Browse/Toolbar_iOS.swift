@@ -111,8 +111,7 @@ private struct Toolbar_Compact: ViewModifier {
                                         reloadAction: { self.control.reload = true })
             }
             ToolbarItem(id: "Browser.JS", placement: .bottomBar) {
-                ButtonToolbarJavascript(isJSEnabled: self.control.isJSEnabled,
-                                        toggleAction: { self.control.isJSEnabled.toggle() })
+                ButtonToolbarJavascript(self.$control.isJSEnabled)
                     .keyboardShortcut("j")
             }
             //
@@ -165,8 +164,7 @@ private struct Toolbar_Regular: ViewModifier {
             // Bottom [JS] - [Open1] - [Open2]
             //
             ToolbarItem(id: "Browser.JS", placement: .bottomBar) {
-                ButtonToolbarJavascript(isJSEnabled: self.control.isJSEnabled,
-                                        toggleAction: { self.control.isJSEnabled.toggle() })
+                ButtonToolbarJavascript(self.$control.isJSEnabled)
                     .keyboardShortcut("j")
             }
             ToolbarItem(id: "Browser.OpenInWindow", placement: .bottomBar) {

@@ -33,17 +33,7 @@ struct FormLoaded: View {
             HStack {
                 TextField.WebsiteURL(self.$output.resolvedURLString)
                     .disabled(true)
-                if self.input.javascriptEnabled {
-                    // TODO: Add Localized Strings Here
-                    ButtonDefault("Disable JS") {
-                        self.input.javascriptEnabled = false
-                    }
-                } else {
-                    // TODO: Add Localized Strings Here
-                    ButtonDefault("Enable JS") {
-                        self.input.javascriptEnabled = true
-                    }
-                }
+                ButtonToolbarJavascript(self.$input.javascriptEnabled)
             }
         }
     }

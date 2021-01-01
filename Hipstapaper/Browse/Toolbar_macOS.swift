@@ -54,8 +54,7 @@ internal struct Toolbar_macOS: ViewModifier {
                                             stopAction: { self.control.stop = true },
                                             reloadAction: { self.control.reload = true })
                     
-                    ButtonToolbarJavascript(isJSEnabled: self.control.isJSEnabled,
-                                            toggleAction: { self.control.isJSEnabled.toggle() })
+                    ButtonToolbarJavascript(self.$control.isJSEnabled)
                         .keyboardShortcut("j")
                     
                     TextField.WebsiteTitle(self.$display.title).disabled(true)
@@ -70,7 +69,7 @@ internal struct Toolbar_macOS: ViewModifier {
                         .keyboardShortcut("O")
                 }
             }
-            .buttonStyle(PlainButtonStyle())
+            .modifier(STZ_BorderedButtonStyle())
             content
                 .navigationTitle(self.display.title)
         }
