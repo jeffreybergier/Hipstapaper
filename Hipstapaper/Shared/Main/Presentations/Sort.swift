@@ -33,9 +33,9 @@ struct Sort: View {
                 .font(.headline)
                 .paddingDefault(ignoring: [\.leading, \.trailing])
         }
-        .modifier(ListEditMode())
+        .modifier(ModalSelectionStyle())
         .modifier(Modal.Done(title: Noun.Sort, done: self.doneAction))
-        .frame(width: 300, height: 300)
+        .frame(idealWidth: 300, idealHeight: 300)
     }
 }
 
