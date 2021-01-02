@@ -40,12 +40,15 @@ struct DetailToolbar_iOS: ViewModifier {
     
     func body(content: Content) -> some View {
         return self.isCompact
-        ? AnyView(Text(""))
+        ? AnyView(
+            content.modifier(DetailToolbar_Compact_iOS(controller: self.controller,
+                                                       presentation: self.$presentation,
+                                                       popoverAlignment: self.$popoverAlignment))
+        )
         : AnyView(
-            content
-                .modifier(DetailToolbar_Regular_iOS(controller: self.controller,
-                                                    presentation: self.$presentation,
-                                                    popoverAlignment: self.$popoverAlignment))
+            content.modifier(DetailToolbar_Regular_iOS(controller: self.controller,
+                                                       presentation: self.$presentation,
+                                                       popoverAlignment: self.$popoverAlignment))
         )
     }
 }
@@ -142,3 +145,93 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
     }
 }
 
+fileprivate struct DetailToolbar_Compact_iOS: ViewModifier {
+    
+    @ObservedObject var controller: WebsiteController
+    @Binding var presentation: DetailToolbarPresentation.Wrap
+    @Binding var popoverAlignment: Alignment
+    
+    @Environment(\.openURL) var openURL
+    @EnvironmentObject var windowManager: WindowManager
+    
+    func body(content: Content) -> some View {
+        content.toolbar(id: "Detail_iOS_Compact") {
+            //
+            // Bottom Buttons
+            //
+            ToolbarItem(id: "Detail_iOS_Compact.Filter", placement: .bottomBar) {
+                DT.Filter(filter: self.controller.query.isArchived) {
+                    self.popoverAlignment = .bottomLeading
+                    self.controller.query.isArchived.toggle()
+                }
+            }
+            ToolbarItem(id: "Detail_iOS_Compact.Sort", placement: .bottomBar) {
+                ButtonToolbarSort {
+                    self.popoverAlignment = .bottomLeading
+                    self.presentation.value = .sort
+                }
+            }
+            ToolbarItem(id: "Detail_iOS_Compact.Tag", placement: .bottomBar) {
+                DT.Tag(isDisabled: self.controller.selectedWebsites.isEmpty)
+                {
+                    self.popoverAlignment = .bottomLeading
+                    self.presentation.value = .tagApply
+                }
+            }
+            ToolbarItem(id: "Detail_iOS_Compact.Archive", placement: .bottomBar) {
+                DT.Unarchive(isDisabled: self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
+                {
+                    // Archive
+                    let selected = self.controller.selectedWebsites
+                    self.controller.selectedWebsites = []
+                    try! self.controller.controller.update(selected, .init(isArchived: true)).get()
+                }
+            }
+            ToolbarItem(id: "Detail_iOS_Compact.Unarchive", placement: .bottomBar) {
+                DT.Unarchive(isDisabled: self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
+                {
+                    // Unarchive
+                    let selected = self.controller.selectedWebsites
+                    self.controller.selectedWebsites = []
+                    try! self.controller.controller.update(selected, .init(isArchived: false)).get()
+                }
+            }
+            ToolbarItem(id: "Detail_iOS_Compact.OpenInApp", placement: .bottomBar) {
+                DT.OpenInApp(selectionCount: self.controller.selectedWebsites.count) {
+                    guard self.windowManager.features.contains([.multipleWindows, .bulkActivation])
+                    else { self.presentation.value = .browser; return }
+                    let urls = self.controller.selectedWebsites.compactMap
+                    { $0.value.resolvedURL ?? $0.value.originalURL }
+                    self.windowManager.show(urls) {
+                        // TODO: Do something with this error
+                        print($0)
+                    }
+                }
+            }
+            ToolbarItem(id: "Detail_iOS_Compact.OpenExternal", placement: .bottomBar) {
+                DT.OpenExternal(selectionCount: self.controller.selectedWebsites.count) {
+                    let urls = self.controller.selectedWebsites
+                        .compactMap { $0.value.resolvedURL ?? $0.value.originalURL }
+                    urls.forEach { self.openURL($0) }
+                }
+            }
+            
+            //
+            // Top Bar Items
+            //
+            ToolbarItem(id: "Detail_iOS_Compact.Share", placement: .cancellationAction) {
+                DT.Share(isDisabled: self.controller.selectedWebsites.isEmpty)
+                {
+                    self.popoverAlignment = .topLeading
+                    self.presentation.value = .share
+                }
+            }
+            ToolbarItem(id: "Detail_iOS_Compact.Search", placement: .primaryAction) {
+                DT.Search {
+                    self.popoverAlignment = .topTrailing
+                    self.presentation.value = .search
+                }
+            }
+        }
+    }
+}
