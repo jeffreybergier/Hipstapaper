@@ -76,6 +76,14 @@ public func ButtonToolbarSearchInactive(_ action: @escaping () -> Void) -> Butto
                          action: action)
 }
 
+public func ButtonToolbarSeparator() -> some View {
+    Button(action: {}) {
+        Text("|")
+    }
+    .buttonStyle(BorderlessButtonStyle())
+    .disabled(true)
+}
+
 public func ButtonToolbarSearchActive(_ action: @escaping () -> Void) -> ButtonToolbar {
     return ButtonToolbar(systemName: "magnifyingglass.circle.fill",
                          accessibilityLabel: Verb.Search,
