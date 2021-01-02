@@ -69,7 +69,7 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
                 // Bottom Buttons
                 //
                 ToolbarItem(id: "Detail_iOS_Regular.Archive", placement: .bottomBar) {
-                    DT.Unarchive(isDisabled: self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
+                    DT.Archive(isDisabled: self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
                     {
                         // Archive
                         let selected = self.controller.selectedWebsites
@@ -86,7 +86,7 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
                         try! self.controller.controller.update(selected, .init(isArchived: false)).get()
                     }
                 }
-                ToolbarItem(id: "Detail_iOS_Regular.FilterSeparator", placement: .bottomBar) {
+                ToolbarItem(id: "Detail_iOS_Regular.Separator", placement: .bottomBar) {
                     ButtonToolbarSeparator()
                 }
                 ToolbarItem(id: "Detail_iOS_Regular.Tag", placement: .bottomBar) {
@@ -96,7 +96,7 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
                         self.presentation.value = .tagApply
                     }
                 }
-                ToolbarItem(id: "Detail_iOS_Regular.FilterSeparator", placement: .bottomBar) {
+                ToolbarItem(id: "Detail_iOS_Regular.Separator", placement: .bottomBar) {
                     Spacer()
                 }
                 ToolbarItem(id: "Detail_iOS_Regular.OpenInApp", placement: .bottomBar) {
@@ -118,7 +118,7 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
                         urls.forEach { self.openURL($0) }
                     }
                 }
-                ToolbarItem(id: "Detail_iOS_Regular.FilterSeparator", placement: .bottomBar) {
+                ToolbarItem(id: "Detail_iOS_Regular.Separator", placement: .bottomBar) {
                     ButtonToolbarSeparator()
                 }
                 ToolbarItem(id: "Detail_iOS_Regular.Share", placement: .bottomBar) {
@@ -188,7 +188,7 @@ fileprivate struct DetailToolbar_Compact_iOS: ViewModifier {
                     ButtonToolbarSeparator()
                 }
                 ToolbarItem(id: "Detail_iOS_Compact.Archive", placement: .bottomBar) {
-                    DT.Unarchive(isDisabled: self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
+                    DT.Archive(isDisabled: self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
                     {
                         // Archive
                         let selected = self.controller.selectedWebsites

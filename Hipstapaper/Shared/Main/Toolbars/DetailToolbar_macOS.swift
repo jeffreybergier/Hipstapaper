@@ -54,12 +54,12 @@ struct DetailToolbar_macOS: ViewModifier {
                 DT.Share(isDisabled: self.controller.selectedWebsites.isEmpty,
                          action: { self.presentation.value = .share })
             }
-            ToolbarItem(id: "Detail_Mac.FilterSeparator") {
+            ToolbarItem(id: "Detail_Mac.Separator") {
                 ButtonToolbarSeparator()
             }
             ToolbarItem(id: "Detail_Mac.Archive") {
                 HStack {
-                    DT.Unarchive(isDisabled: self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
+                    DT.Archive(isDisabled: self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
                     {
                         // Archive
                         let selected = self.controller.selectedWebsites
@@ -79,7 +79,7 @@ struct DetailToolbar_macOS: ViewModifier {
                 DT.Tag(isDisabled: self.controller.selectedWebsites.isEmpty,
                        action: { self.presentation.value = .tagApply })
             }
-            ToolbarItem(id: "Detail_Mac.FilterSeparator") {
+            ToolbarItem(id: "Detail_Mac.Separator") {
                 ButtonToolbarSeparator()
             }
             ToolbarItem(id: "Detail_Mac.Sort") {
