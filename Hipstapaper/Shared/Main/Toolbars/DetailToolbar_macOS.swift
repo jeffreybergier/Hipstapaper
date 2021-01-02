@@ -84,7 +84,9 @@ struct DetailToolbar_macOS: ViewModifier {
                          action: { self.presentation.value = .share })
             }
             ToolbarItem(id: "Detail_Mac.Search") {
-                DT.Search { self.presentation.value = .search }
+                DT.Search(searchActive: self.controller.query.search.nonEmptyString != nil) {
+                    self.presentation.value = .search
+                }
             }
         }
     }

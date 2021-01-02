@@ -160,11 +160,10 @@ enum DT {
         return ButtonToolbarShare(action)
             .disabled(isDisabled)
     }
-    // TODO: Make search look different when a search is in effect
-    // self.controller.detailQuery.search.nonEmptyString == nil
-    static func Search(action: @escaping () -> Void) -> some View {
-        return ButtonToolbar(systemName: "magnifyingglass",
-                             accessibilityLabel: Verb.Search,
-                             action: action)
+    
+    static func Search(searchActive: Bool, action: @escaping () -> Void) -> ButtonToolbar {
+        return searchActive
+        ? ButtonToolbarSearchActive(action)
+        : ButtonToolbarSearchInactive(action)
     }
 }

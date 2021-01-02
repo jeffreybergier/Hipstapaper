@@ -136,7 +136,7 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
                 }
             }
             ToolbarItem(id: "Detail_iOS_Regular.Search", placement: .primaryAction) {
-                DT.Search {
+                DT.Search(searchActive: self.controller.query.search.nonEmptyString != nil) {
                     self.popoverAlignment = .topTrailing
                     self.presentation.value = .search
                 }
@@ -227,7 +227,7 @@ fileprivate struct DetailToolbar_Compact_iOS: ViewModifier {
                 }
             }
             ToolbarItem(id: "Detail_iOS_Compact.Search", placement: .primaryAction) {
-                DT.Search {
+                DT.Search(searchActive: self.controller.query.search.nonEmptyString != nil) {
                     self.popoverAlignment = .topTrailing
                     self.presentation.value = .search
                 }

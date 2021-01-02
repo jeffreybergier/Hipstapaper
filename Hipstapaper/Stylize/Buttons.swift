@@ -70,6 +70,18 @@ public struct ButtonToolbar: View {
     }
 }
 
+public func ButtonToolbarSearchInactive(_ action: @escaping () -> Void) -> ButtonToolbar {
+    return ButtonToolbar(systemName: "magnifyingglass",
+                         accessibilityLabel: Verb.Search,
+                         action: action)
+}
+
+public func ButtonToolbarSearchActive(_ action: @escaping () -> Void) -> ButtonToolbar {
+    return ButtonToolbar(systemName: "magnifyingglass.circle.fill",
+                         accessibilityLabel: Verb.Search,
+                         action: action)
+}
+
 public func ButtonToolbarShare(_ action: @escaping () -> Void) -> some View {
     ButtonToolbar(systemName: "square.and.arrow.up",
                   accessibilityLabel: Verb.Share,
