@@ -28,11 +28,12 @@ import Browse
 struct DetailToolbar: ViewModifier {
     
     @ObservedObject var controller: WebsiteController
-    @State var presentation = DetailToolbarPresentation.Wrap()
     @EnvironmentObject var windowManager: WindowManager
+    @State var presentation = DetailToolbarPresentation.Wrap()
+    @State var popoverAlignment: Alignment = .topTrailing
     
     func body(content: Content) -> some View {
-        return ZStack(alignment: Alignment.topTrailing) {
+        return ZStack(alignment: self.popoverAlignment) {
             // TODO: Hack when toolbars work properly with popovers
             Color.clear.frame(width: 1, height: 1)
                 .sheet(isPresented: self.$presentation.isBrowser) {
@@ -81,7 +82,9 @@ struct DetailToolbar: ViewModifier {
             content.modifier(DetailToolbar_macOS(controller: self.controller,
                                                  presentation: self.$presentation))
             #else
-            content.modifier(DetailToolbar_iOS(controller: self.controller))
+            content.modifier(DetailToolbar_iOS(controller: self.controller,
+                                               presentation: self.$presentation,
+                                               popoverAlignment: self.$popoverAlignment))
             #endif
         }
     }
