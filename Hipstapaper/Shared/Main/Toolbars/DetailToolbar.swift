@@ -28,13 +28,62 @@ import Browse
 struct DetailToolbar: ViewModifier {
     
     @ObservedObject var controller: WebsiteController
+    @State var presentation = DetailToolbarPresentation.Wrap()
+    @EnvironmentObject var windowManager: WindowManager
     
     func body(content: Content) -> some View {
-        #if os(macOS)
-        return content.modifier(DetailToolbar_macOS(controller: self.controller))
-        #else
-        return content.modifier(DetailToolbar_iOS(controller: self.controller))
-        #endif
+        return ZStack(alignment: Alignment.topTrailing) {
+            // TODO: Hack when toolbars work properly with popovers
+            Color.clear.frame(width: 1, height: 1)
+                .sheet(isPresented: self.$presentation.isBrowser) {
+                    let site = self.controller.selectedWebsites.first!.value
+                    let url = (site.resolvedURL ?? site.originalURL)!
+                    Browser(
+                        url: url,
+                        openInNewWindow:
+                            self.windowManager.features.contains(.multipleWindows)
+                            ? { self.presentation.value = .none
+                                self.windowManager.show([url]) {
+                                    // TODO: Do something with this error
+                                    print($0)
+                                }
+                            }
+                            : nil,
+                        done: { self.presentation.value = .none }
+                    )
+                }
+            
+            Color.clear.frame(width: 1, height: 1)
+                .popover(isPresented: self.$presentation.isTagApply) { () -> TagApply in
+                    return TagApply(selectedWebsites: self.controller.selectedWebsites,
+                                    controller: self.controller.controller,
+                                    done: { self.presentation.value = .none })
+                }
+            
+            Color.clear.frame(width: 1, height: 1)
+                .popover(isPresented: self.$presentation.isShare) {
+                    Share(self.controller.selectedWebsites.compactMap
+                    { $0.value.resolvedURL ?? $0.value.originalURL })
+                    { self.presentation.value = .none }
+                }
+            
+            Color.clear.frame(width: 1, height: 1)
+                .popover(isPresented: self.$presentation.isSearch) {
+                    Search(searchString: self.$controller.query.search,
+                           doneAction: { self.presentation.value = .none })
+                }
+            
+            Color.clear.frame(width: 1, height: 1)
+                .popover(isPresented: self.$presentation.isSort) {
+                    Sort(selection: self.$controller.query.sort, doneAction: { self.presentation.value = .none })
+                }
+            #if os(macOS)
+            content.modifier(DetailToolbar_macOS(controller: self.controller,
+                                                 presentation: self.$presentation))
+            #else
+            content.modifier(DetailToolbar_iOS(controller: self.controller))
+            #endif
+        }
     }
 }
 
@@ -49,9 +98,9 @@ struct OpenWebsiteDisabler: ViewModifier {
     
     func body(content: Content) -> some View {
         if self.windowManager.features.contains(.bulkActivation) {
-            return content.disabled(self.selectionCount > 0)
+            return content.disabled(self.selectionCount < 1)
         } else {
-            return content.disabled(self.selectionCount == 1)
+            return content.disabled(self.selectionCount != 1)
         }
     }
 }

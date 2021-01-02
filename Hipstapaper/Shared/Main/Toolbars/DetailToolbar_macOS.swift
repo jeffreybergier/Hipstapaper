@@ -18,123 +18,73 @@
 //
 
 import SwiftUI
-import Localize
 import Stylize
-import Browse
 
 struct DetailToolbar_macOS: ViewModifier {
     
     @ObservedObject var controller: WebsiteController
-    @State var presentation = DetailToolbarPresentation.Wrap()
-
+    @Binding var presentation: DetailToolbarPresentation.Wrap
+    
     @Environment(\.openURL) var openURL
     @EnvironmentObject var windowManager: WindowManager
     
     func body(content: Content) -> some View {
-        return ZStack(alignment: Alignment.topTrailing) {
-            // TODO: Hack when toolbars work properly with popovers
-            Color.clear.frame(width: 1, height: 1)
-                .sheet(isPresented: self.$presentation.isBrowser) {
-                    let site = self.controller.selectedWebsites.first!.value
-                    let url = (site.resolvedURL ?? site.originalURL)!
-                    Browser(
-                        url: url,
-                        openInNewWindow:
-                            self.windowManager.features.contains(.multipleWindows)
-                            ? { self.presentation.value = .none
-                                self.windowManager.show([url]) {
-                                    // TODO: Do something with this error
-                                    print($0)
-                                }
-                            }
-                            : nil,
-                        done: { self.presentation.value = .none }
-                    )
+        content.toolbar(id: "Detail_Mac") {
+            ToolbarItem(id: "Detail_Mac.Sort") {
+                ButtonToolbarSort { self.presentation.value = .sort }
+            }
+            ToolbarItem(id: "Detail_Mac.Filter") {
+                DT.Filter(filter: self.controller.query.isArchived) {
+                    self.controller.query.isArchived.toggle()
                 }
-            
-            Color.clear.frame(width: 1, height: 1)
-                .popover(isPresented: self.$presentation.isTagApply) { () -> TagApply in
-                    return TagApply(selectedWebsites: self.controller.selectedWebsites,
-                                    controller: self.controller.controller,
-                                    done: { self.presentation.value = .none })
-                }
-            
-            Color.clear.frame(width: 1, height: 1)
-                .popover(isPresented: self.$presentation.isShare) {
-                    Share(self.controller.selectedWebsites.compactMap
-                    { $0.value.resolvedURL ?? $0.value.originalURL })
-                    { self.presentation.value = .none }
-                }
-            
-            Color.clear.frame(width: 1, height: 1)
-                .popover(isPresented: self.$presentation.isSearch) {
-                    Search(searchString: self.$controller.query.search,
-                           doneAction: { self.presentation.value = .none })
-                }
-            
-            Color.clear.frame(width: 1, height: 1)
-                .popover(isPresented: self.$presentation.isSort) {
-                    Sort(selection: self.$controller.query.sort, doneAction: { self.presentation.value = .none })
-                }
-            
-            
-            content.toolbar(id: "Detail_Mac") {
-                ToolbarItem(id: "Detail_Mac.Sort") {
-                    ButtonToolbarSort { self.presentation.value = .sort }
-                }
-                ToolbarItem(id: "Detail_Mac.Filter") {
-                    DT.Filter(filter: self.controller.query.isArchived) {
-                        self.controller.query.isArchived.toggle()
+            }
+            ToolbarItem(id: "Detail_Mac.OpenInApp") {
+                DT.OpenInApp(selectionCount: self.controller.selectedWebsites.count) {
+                    guard self.windowManager.features.contains([.multipleWindows, .bulkActivation])
+                    else { self.presentation.value = .browser; return }
+                    let urls = self.controller.selectedWebsites.compactMap
+                    { $0.value.resolvedURL ?? $0.value.originalURL }
+                    self.windowManager.show(urls) {
+                        // TODO: Do something with this error
+                        print($0)
                     }
                 }
-                ToolbarItem(id: "Detail.0") {
-                    DT.OpenInApp(selectionCount: self.controller.selectedWebsites.count) {
-                        guard self.windowManager.features.contains([.multipleWindows, .bulkActivation])
-                        else { self.presentation.value = .browser; return }
-                        let urls = self.controller.selectedWebsites.compactMap
-                        { $0.value.resolvedURL ?? $0.value.originalURL }
-                        self.windowManager.show(urls) {
-                            // TODO: Do something with this error
-                            print($0)
-                        }
-                    }
+            }
+            ToolbarItem(id: "Detail_Mac.OpenExternal") {
+                DT.OpenExternal(selectionCount: self.controller.selectedWebsites.count) {
+                    let urls = self.controller.selectedWebsites
+                        .compactMap { $0.value.resolvedURL ?? $0.value.originalURL }
+                    urls.forEach { self.openURL($0) }
                 }
-                ToolbarItem(id: "Detail_Mac.OpenExternal") {
-                    DT.OpenExternal(selectionCount: self.controller.selectedWebsites.count) {
-                        let urls = self.controller.selectedWebsites
-                            .compactMap { $0.value.resolvedURL ?? $0.value.originalURL }
-                        urls.forEach { self.openURL($0) }
-                    }
+            }
+            ToolbarItem(id: "Detail_Mac.Archive") {
+                DT.Unarchive(isDisabled: self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
+                {
+                    // Archive
+                    let selected = self.controller.selectedWebsites
+                    self.controller.selectedWebsites = []
+                    try! self.controller.controller.update(selected, .init(isArchived: true)).get()
                 }
-                ToolbarItem(id: "Detail_Mac.Archive") {
-                    DT.Unarchive(isDisabled: self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
-                    {
-                        // Archive
-                        let selected = self.controller.selectedWebsites
-                        self.controller.selectedWebsites = []
-                        try! self.controller.controller.update(selected, .init(isArchived: true)).get()
-                    }
+            }
+            ToolbarItem(id: "Detail_Mac.Unarchive") {
+                DT.Unarchive(isDisabled: self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
+                {
+                    // Unarchive
+                    let selected = self.controller.selectedWebsites
+                    self.controller.selectedWebsites = []
+                    try! self.controller.controller.update(selected, .init(isArchived: false)).get()
                 }
-                ToolbarItem(id: "Detail_Mac.Unarchive") {
-                    DT.Unarchive(isDisabled: self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
-                    {
-                        // Unarchive
-                        let selected = self.controller.selectedWebsites
-                        self.controller.selectedWebsites = []
-                        try! self.controller.controller.update(selected, .init(isArchived: false)).get()
-                    }
-                }
-                ToolbarItem(id: "Detail_Mac.Tag") {
-                    DT.Tag(isDisabled: self.controller.selectedWebsites.isEmpty,
-                           action: { self.presentation.value = .tagApply })
-                }
-                ToolbarItem(id: "Detail_Mac.Share") {
-                    DT.Share(isDisabled: self.controller.selectedWebsites.isEmpty,
-                             action: { self.presentation.value = .share })
-                }
-                ToolbarItem(id: "Detail_Mac.Search") {
-                    DT.Search { self.presentation.value = .search }
-                }
+            }
+            ToolbarItem(id: "Detail_Mac.Tag") {
+                DT.Tag(isDisabled: self.controller.selectedWebsites.isEmpty,
+                       action: { self.presentation.value = .tagApply })
+            }
+            ToolbarItem(id: "Detail_Mac.Share") {
+                DT.Share(isDisabled: self.controller.selectedWebsites.isEmpty,
+                         action: { self.presentation.value = .share })
+            }
+            ToolbarItem(id: "Detail_Mac.Search") {
+                DT.Search { self.presentation.value = .search }
             }
         }
     }
