@@ -78,7 +78,10 @@
 "LCZ.Phrase.AddChoice"              = "Create new tag or add new website?";
 "LCZ.Phrase.SortDateModifiedNewest" = "Most Recently Modified First";
 "LCZ.Phrase.SortDateModifiedOldest" = "Most Recently Modified Last";
-"LCZ.Phrase.SortDateCreatedNewest"  = "Most Recently Created First";
-"LCZ.Phrase.SortDateCreatedOldest"  = "Most Recently Created Last";
+"LCZ.Phrase.SortDateCreatedNewest"  = "Most Recently Added First";
+"LCZ.Phrase.SortDateCreatedOldest"  = "Most Recently Added Last";
 "LCZ.Phrase.SortTitleA"             = "Page Titles Starting with A First";
 "LCZ.Phrase.SortTitleZ"             = "Page Titles Starting with Z First";
+"LCZ.Phrase.Sort"                   = "Sort Items";
+"LCZ.Phrase.FilterA"                = "Show all items";
+"LCZ.Phrase.FilterB"                = "Show unread items";

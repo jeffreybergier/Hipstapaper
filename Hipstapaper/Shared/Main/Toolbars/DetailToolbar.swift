@@ -40,14 +40,79 @@ struct DetailToolbar: ViewModifier {
 
 struct OpenWebsiteDisabler: ViewModifier {
     
-    let selectedWebsites: Set<AnyElement<AnyWebsite>>
+    let selectionCount: Int
     @EnvironmentObject var windowManager: WindowManager
+    
+    init(_ selectionCount: Int) {
+        self.selectionCount = selectionCount
+    }
     
     func body(content: Content) -> some View {
         if self.windowManager.features.contains(.bulkActivation) {
-            return content.disabled(self.selectedWebsites.isEmpty)
+            return content.disabled(self.selectionCount > 0)
         } else {
-            return content.disabled(self.selectedWebsites.count != 1)
+            return content.disabled(self.selectionCount == 1)
         }
+    }
+}
+
+enum DT {
+    static func Filter(filter: Query.Archived, action: @escaping () -> Void) -> some View {
+        switch filter {
+        case .all:
+            return ButtonToolbarFilterB(action)
+        case .unarchived:
+            return ButtonToolbarFilterA(action)
+        }
+    }
+    static func OpenInApp(selectionCount: Int,
+                          action: @escaping () -> Void)
+                          -> some View
+    {
+        ButtonToolbarBrowserInApp(action)
+        .keyboardShortcut("o")
+        .modifier(OpenWebsiteDisabler(selectionCount))
+    }
+    
+    static func OpenExternal(selectionCount: Int,
+                             action: @escaping () -> Void)
+                             -> some View
+    {
+        ButtonToolbarBrowserExternal(action)
+        .keyboardShortcut("O")
+        .modifier(OpenWebsiteDisabler(selectionCount))
+    }
+    
+    static func Archive(isDisabled: Bool, action: @escaping () -> Void) -> some View {
+        return ButtonToolbar(systemName: "tray.and.arrow.down",
+                             accessibilityLabel: Verb.Archive,
+                             action: action)
+            .disabled(isDisabled)
+    }
+    
+    static func Unarchive(isDisabled: Bool, action: @escaping () -> Void) -> some View {
+        return ButtonToolbar(systemName: "tray.and.arrow.up",
+                             accessibilityLabel: Verb.Unarchive,
+                             action: action)
+            .disabled(isDisabled)
+    }
+    
+    static func Tag(isDisabled: Bool, action: @escaping () -> Void) -> some View {
+        return ButtonToolbar(systemName: "tag",
+                             accessibilityLabel: Verb.AddAndRemoveTags,
+                             action: action)
+            .disabled(isDisabled)
+    }
+    
+    static func Share(isDisabled: Bool, action: @escaping () -> Void) -> some View {
+        return ButtonToolbarShare(action)
+            .disabled(isDisabled)
+    }
+    // TODO: Make search look different when a search is in effect
+    // self.controller.detailQuery.search.nonEmptyString == nil
+    static func Search(action: @escaping () -> Void) -> some View {
+        return ButtonToolbar(systemName: "magnifyingglass",
+                             accessibilityLabel: Verb.Search,
+                             action: action)
     }
 }

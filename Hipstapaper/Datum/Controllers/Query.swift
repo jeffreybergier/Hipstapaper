@@ -25,6 +25,14 @@ public struct Query {
     public enum Archived: Int, Identifiable, CaseIterable {
         case unarchived, all
         public var id: ObjectIdentifier { .init(NSNumber(value: self.rawValue)) }
+        public mutating func toggle() {
+            switch self {
+            case .all:
+                self = .unarchived
+            case .unarchived:
+                self = .all
+            }
+        }
     }
     public var isArchived: Archived! // TODO: Hack for SwiftUI - Remove
     public var tag: AnyElement<AnyTag>?

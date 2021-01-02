@@ -88,6 +88,24 @@ public func ButtonToolbarBrowserExternal(_ action: @escaping () -> Void) -> some
                   action: action)
 }
 
+public func ButtonToolbarFilterA(_ action: @escaping () -> Void) -> ButtonToolbar {
+    ButtonToolbar(systemName: "line.horizontal.3.decrease.circle.fill",
+                  accessibilityLabel: Phrase.FilterA,
+                  action: action)
+}
+
+public func ButtonToolbarFilterB(_ action: @escaping () -> Void) -> ButtonToolbar {
+    ButtonToolbar(systemName: "line.horizontal.3.decrease.circle",
+                  accessibilityLabel: Phrase.FilterB,
+                  action: action)
+}
+
+public func ButtonToolbarSort(_ action: @escaping () -> Void) -> ButtonToolbar {
+    ButtonToolbar(systemName: "arrow.up.arrow.down.circle",
+                  accessibilityLabel: Phrase.Sort,
+                  action: action)
+}
+
 public func ButtonToolbarStopReload(isLoading: Bool,
                              stopAction: @escaping () -> Void,
                              reloadAction: @escaping () -> Void) -> some View

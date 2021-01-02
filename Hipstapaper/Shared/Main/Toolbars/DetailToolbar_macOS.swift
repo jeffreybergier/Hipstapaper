@@ -80,18 +80,15 @@ struct DetailToolbar_macOS: ViewModifier {
             
             content.toolbar(id: "Detail_Mac") {
                 ToolbarItem(id: "Detail_Mac.Sort") {
-                    ButtonToolbar(systemName: "arrow.up.arrow.down.circle",
-                                  accessibilityLabel: "",
-                                  action: { self.presentation.value = .sort })
+                    ButtonToolbarSort { self.presentation.value = .sort }
                 }
                 ToolbarItem(id: "Detail_Mac.Filter") {
-                    ButtonToolbar(systemName: "line.horizontal.3.decrease.circle",
-                                  accessibilityLabel: "",
-                                  action: { })
+                    DT.Filter(filter: self.controller.query.isArchived) {
+                        self.controller.query.isArchived.toggle()
+                    }
                 }
                 ToolbarItem(id: "Detail.0") {
-                    ButtonToolbarBrowserInApp
-                    {
+                    DT.OpenInApp(selectionCount: self.controller.selectedWebsites.count) {
                         guard self.windowManager.features.contains([.multipleWindows, .bulkActivation])
                         else { self.presentation.value = .browser; return }
                         let urls = self.controller.selectedWebsites.compactMap
@@ -101,56 +98,42 @@ struct DetailToolbar_macOS: ViewModifier {
                             print($0)
                         }
                     }
-                    .keyboardShortcut("o")
-                    .modifier(OpenWebsiteDisabler(selectedWebsites: self.controller.selectedWebsites))
                 }
-                ToolbarItem(id: "Detail.1") {
-                    ButtonToolbarBrowserExternal {
+                ToolbarItem(id: "Detail_Mac.OpenExternal") {
+                    DT.OpenExternal(selectionCount: self.controller.selectedWebsites.count) {
                         let urls = self.controller.selectedWebsites
                             .compactMap { $0.value.resolvedURL ?? $0.value.originalURL }
                         urls.forEach { self.openURL($0) }
                     }
-                    .keyboardShortcut("O")
-                    .modifier(OpenWebsiteDisabler(selectedWebsites: self.controller.selectedWebsites))
                 }
-                ToolbarItem(id: "Detail.2") {
-                    ButtonToolbar(systemName: "tray.and.arrow.down",
-                                  accessibilityLabel: Verb.Archive)
+                ToolbarItem(id: "Detail_Mac.Archive") {
+                    DT.Unarchive(isDisabled: self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
                     {
                         // Archive
                         let selected = self.controller.selectedWebsites
                         self.controller.selectedWebsites = []
                         try! self.controller.controller.update(selected, .init(isArchived: true)).get()
                     }
-                    .disabled(self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
                 }
-                ToolbarItem(id: "Detail.3") {
-                    ButtonToolbar(systemName: "tray.and.arrow.up",
-                                  accessibilityLabel: Verb.Unarchive)
+                ToolbarItem(id: "Detail_Mac.Unarchive") {
+                    DT.Unarchive(isDisabled: self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
                     {
                         // Unarchive
                         let selected = self.controller.selectedWebsites
                         self.controller.selectedWebsites = []
                         try! self.controller.controller.update(selected, .init(isArchived: false)).get()
                     }
-                    .disabled(self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
                 }
-                ToolbarItem(id: "Detail.4") {
-                    ButtonToolbar(systemName: "tag",
-                                  accessibilityLabel: Verb.AddAndRemoveTags,
-                                  action: { self.presentation.value = .tagApply })
-                        .disabled(self.controller.selectedWebsites.isEmpty)
+                ToolbarItem(id: "Detail_Mac.Tag") {
+                    DT.Tag(isDisabled: self.controller.selectedWebsites.isEmpty,
+                           action: { self.presentation.value = .tagApply })
                 }
-                ToolbarItem(id: "Detail.5") {
-                    ButtonToolbarShare { self.presentation.value = .share }
-                        .disabled(self.controller.selectedWebsites.isEmpty)
+                ToolbarItem(id: "Detail_Mac.Share") {
+                    DT.Share(isDisabled: self.controller.selectedWebsites.isEmpty,
+                             action: { self.presentation.value = .share })
                 }
-                ToolbarItem(id: "Detail.6") {
-                    // TODO: Make search look different when a search is in effect
-                    // self.controller.detailQuery.search.nonEmptyString == nil
-                    ButtonToolbar(systemName: "magnifyingglass",
-                                  accessibilityLabel: Verb.Search,
-                                  action: { self.presentation.value = .search })
+                ToolbarItem(id: "Detail_Mac.Search") {
+                    DT.Search { self.presentation.value = .search }
                 }
             }
         }
