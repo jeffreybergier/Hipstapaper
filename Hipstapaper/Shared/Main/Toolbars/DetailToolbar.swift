@@ -161,9 +161,11 @@ enum DT {
             .disabled(isDisabled)
     }
     
-    static func Search(searchActive: Bool, action: @escaping () -> Void) -> ButtonToolbar {
-        return searchActive
-        ? ButtonToolbarSearchActive(action)
-        : ButtonToolbarSearchInactive(action)
+    static func Search(searchActive: Bool, action: @escaping () -> Void) -> some View {
+        return AnyView(
+            searchActive
+                ? ButtonToolbarSearchActive(action)
+                : ButtonToolbarSearchInactive(action)
+        ).keyboardShortcut("f")
     }
 }
