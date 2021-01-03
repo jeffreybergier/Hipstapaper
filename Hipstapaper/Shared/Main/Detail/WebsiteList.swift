@@ -26,7 +26,8 @@ import Stylize
 
 struct WebsiteList: View {
     
-    @ObservedObject var controller: WebsiteController
+    @ObservedObject private var controller: WebsiteController
+    @StateObject private var clickController = ClickActions.Controller()
     
     init(controller: Controller, selectedTag: AnyElement<AnyTag>) {
         let websiteController = WebsiteController(controller: controller, selectedTag: selectedTag)
@@ -42,10 +43,12 @@ struct WebsiteList: View {
                     id: \.self,
                     selection: self.$controller.selectedWebsites)
         { item in
-            WebsiteRow(item.value)
+            WebsiteRow(item.value).modifier(
+                ClickActions.SingleClick(item: item, controller: self.clickController)
+            )
         }
         .navigationTitle(Noun.Hipstapaper)
-        .modifier(ListEditMode())
+        .modifier(ClickActions.Modifier(controller: self.clickController))
     }
 }
 
