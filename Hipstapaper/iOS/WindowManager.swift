@@ -34,7 +34,7 @@ class WindowManager: ObservableObject, WindowManagerProtocol {
         return features
     }
     
-    func show(_ urls: [URL], error errorHandler: @escaping (Error) -> Void) {
+    func show(_ urls: Set<URL>, error errorHandler: @escaping (Error) -> Void) {
         guard self.features.contains(.multipleWindows) else { errorHandler(.unsupported); return }
         guard urls.count <= 1 else { errorHandler(.bulkActivation); return }
         guard let url = urls.first else { return }

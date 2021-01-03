@@ -33,10 +33,8 @@ enum ClickActions {
         
         @ObservedObject var controller: Controller
         @EnvironmentObject private var windowManager: WindowManager
-        private var url: URL {
-            let item = self.controller.item.value
-            return (item.resolvedURL ?? item.originalURL)!
-        }
+        // TODO: remove !
+        private var url: URL { self.controller.item.value.preferredURL! }
         func body(content: Content) -> some View {
             content.sheet(isPresented: self.$controller.isPresented) {
                 Browser(

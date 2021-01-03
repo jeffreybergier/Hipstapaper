@@ -23,7 +23,7 @@ import Foundation
 
 protocol WindowManagerProtocol {
     var features: WindowManager.Features { get }
-    func show(_: [URL], error: @escaping (WindowManager.Error) -> Void)
+    func show(_: Set<URL>, error: @escaping (WindowManager.Error) -> Void)
 }
 
 extension WindowManager {

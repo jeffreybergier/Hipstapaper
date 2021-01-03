@@ -114,7 +114,7 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
                     ToolbarItem(id: "Detail_iOS_Regular.OpenExternal", placement: .bottomBar) {
                         DT.OpenExternal(selectionCount: self.controller.selectedWebsites.count) {
                             let urls = self.controller.selectedWebsites
-                                .compactMap { $0.value.resolvedURL ?? $0.value.originalURL }
+                                .compactMap { $0.value.preferredURL }
                             urls.forEach { self.openURL($0) }
                         }
                     }
@@ -245,7 +245,7 @@ fileprivate struct DetailToolbar_Compact_iOS: ViewModifier {
                     ToolbarItem(id: "Detail_iOS_Compact.OpenExternal", placement: .bottomBar) {
                         DT.OpenExternal(selectionCount: self.controller.selectedWebsites.count) {
                             let urls = self.controller.selectedWebsites
-                                .compactMap { $0.value.resolvedURL ?? $0.value.originalURL }
+                                .compactMap { $0.value.preferredURL }
                             urls.forEach { self.openURL($0) }
                         }
                     }

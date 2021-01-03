@@ -28,7 +28,7 @@ class WindowManager: ObservableObject, WindowManagerProtocol {
     
     let features: Features = [.multipleWindows, .bulkActivation]
 
-    func show(_ urls: [URL], error: @escaping (Error) -> Void) {
+    func show(_ urls: Set<URL>, error: @escaping (Error) -> Void) {
         for url in urls {
             let window = self.windows[url] ?? BrowserWindowController(url: url)
             self.windows[url] = window

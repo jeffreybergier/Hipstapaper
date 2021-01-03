@@ -21,6 +21,7 @@ public protocol Website: Base {
     var isArchived: Bool { get }
     var originalURL: URL? { get }
     var resolvedURL: URL? { get }
+    var preferredURL: URL? { get }
     var title: String? { get }
     var thumbnail: Data? { get }
 }

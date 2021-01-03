@@ -25,6 +25,7 @@ extension CD_Website: Website {
     var isArchived: Bool { cd_isArchived }
     var originalURL: URL? { cd_originalURL }
     var resolvedURL: URL? { cd_resolvedURL }
+    var preferredURL: URL? { cd_resolvedURL ?? cd_originalURL }
     var title: String? { cd_title }
     var thumbnail: Data? { cd_thumbnail }
 }

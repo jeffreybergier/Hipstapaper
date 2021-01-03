@@ -34,18 +34,24 @@ struct DetailToolbar_macOS: ViewModifier {
             ToolbarItem(id: "Detail_Mac.OpenInApp") {
                 HStack {
                     DT.OpenInApp(selectionCount: self.controller.selectedWebsites.count) {
-                        guard self.windowManager.features.contains([.multipleWindows, .bulkActivation])
-                        else { self.presentation.value = .browser; return }
-                        let urls = self.controller.selectedWebsites.compactMap
-                        { $0.value.resolvedURL ?? $0.value.originalURL }
+                        let allURLs = self.controller.selectedWebsites.compactMap { $0.value.preferredURL }
+                        guard
+                            !allURLs.isEmpty,
+                            self.windowManager.features.contains(.multipleWindows)
+                        else {
+                            self.presentation.value = .browser
+                            return
+                        }
+                        let urls = self.windowManager.features.contains(.bulkActivation)
+                            ? Set(allURLs)
+                            : Set([allURLs.first!])
                         self.windowManager.show(urls) {
                             // TODO: Do something with this error
                             print($0)
                         }
                     }
                     DT.OpenExternal(selectionCount: self.controller.selectedWebsites.count) {
-                        let urls = self.controller.selectedWebsites
-                            .compactMap { $0.value.resolvedURL ?? $0.value.originalURL }
+                        let urls = self.controller.selectedWebsites.compactMap { $0.value.preferredURL }
                         urls.forEach { self.openURL($0) }
                     }
                 }

@@ -38,7 +38,8 @@ struct DetailToolbar: ViewModifier {
             Color.clear.frame(width: 1, height: 1)
                 .sheet(isPresented: self.$presentation.isBrowser) {
                     let site = self.controller.selectedWebsites.first!.value
-                    let url = (site.resolvedURL ?? site.originalURL)!
+                    // TODO: Remove !
+                    let url = site.preferredURL!
                     Browser(
                         url: url,
                         openInNewWindow:
@@ -64,7 +65,7 @@ struct DetailToolbar: ViewModifier {
             Color.clear.frame(width: 1, height: 1)
                 .popover(isPresented: self.$presentation.isShare) {
                     Share(self.controller.selectedWebsites.compactMap
-                    { $0.value.resolvedURL ?? $0.value.originalURL })
+                    { $0.value.preferredURL })
                     { self.presentation.value = .none }
                 }
             
