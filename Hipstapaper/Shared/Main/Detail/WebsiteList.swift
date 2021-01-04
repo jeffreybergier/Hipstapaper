@@ -47,7 +47,7 @@ struct WebsiteList: View {
                 ClickActions.SingleClick(item: item, controller: self.clickController)
             )
         }
-        .navigationTitle(Noun.Hipstapaper)
+        .modifier(Title(query: self.controller.query))
         .modifier(ClickActions.Modifier(controller: self.clickController))
     }
 }
@@ -59,3 +59,19 @@ struct WebsiteList_Preview: PreviewProvider {
     }
 }
 #endif
+
+fileprivate struct Title: ViewModifier {
+    let query: Query
+    func body(content: Content) -> some View {
+        if let tag = self.query.tag {
+            return AnyView(content.navigationTitle(tag.value.name ?? Noun.UnreadItems_L))
+        } else {
+            switch query.isArchived! {
+            case .all:
+                return AnyView(content.navigationTitle(Noun.AllItems))
+            case .unarchived:
+                return AnyView(content.navigationTitle(Noun.Hipstapaper))
+            }
+        }
+    }
+}
