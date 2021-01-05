@@ -50,14 +50,17 @@ class BrowserWindowControllerDelegate: NSObject, UIWindowSceneDelegate {
         let scene = scene as! UIWindowScene
         let window = UIWindow(windowScene: scene)
         let url = connectionOptions.userActivities.first!.referrerURL!
-        let browser = Browser(url: url, openInNewWindow: nil) { [unowned self] in
-            self.app.requestSceneSessionDestruction(session, options: nil)
-            { error in
-                print(error)
-                print("")
-            }
-            
-        }
+        let browser = Browser(
+            .init(url: url,
+                  archive: nil, // TODO: Hook this up. Too hard because of NSUserActivity
+                  done: { [unowned self] in
+                    self.app.requestSceneSessionDestruction(session, options: nil)
+                    { error in
+                        print(error)
+                        print("")
+                    }
+                  })
+        )
         window.rootViewController = UIHostingController(rootView: browser)
         self.window = window
         window.makeKeyAndVisible()

@@ -25,21 +25,19 @@ struct Toolbar: ViewModifier {
     
     @ObservedObject var control: WebView.Control
     @ObservedObject var display: WebView.Display
-    
-    let done: () -> Void
-    let openInNewWindow: (() -> Void)?
+    let configuration: Browser.Configuration
     
     #if os(macOS)
     func body(content: Content) -> some View {
         return content.modifier(Toolbar_macOS(control: self.control,
-                                            display: self.display))
+                                              display: self.display,
+                                              configuration: self.configuration))
     }
     #else
     func body(content: Content) -> some View {
         return content.modifier(Toolbar_iOS(control: self.control,
                                             display: self.display,
-                                            done: self.done,
-                                            openInNewWindow: self.openInNewWindow))
+                                            configuration: self.configuration))
     }
     #endif
 }

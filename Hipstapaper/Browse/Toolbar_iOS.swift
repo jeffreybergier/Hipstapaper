@@ -29,9 +29,7 @@ internal struct Toolbar_iOS: ViewModifier {
     
     @ObservedObject var control: WebView.Control
     @ObservedObject var display: WebView.Display
-    
-    let done: () -> Void
-    let openInNewWindow: (() -> Void)?
+    let configuration: Browser.Configuration
     
     @State private var shareSheetPresented = false
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
@@ -63,13 +61,11 @@ internal struct Toolbar_iOS: ViewModifier {
                 ? AnyView(newContent.modifier(Toolbar_Compact(control: self.control,
                                                               display: self.display,
                                                               shareSheetPresented: self.$shareSheetPresented,
-                                                              done: self.done,
-                                                              openInNewWindow: self.openInNewWindow)))
+                                                              configuration: self.configuration)))
                 : AnyView(newContent.modifier(Toolbar_Regular(control: self.control,
                                                               display: self.display,
                                                               shareSheetPresented: self.$shareSheetPresented,
-                                                              done: self.done,
-                                                              openInNewWindow: self.openInNewWindow)))
+                                                              configuration: self.configuration)))
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
@@ -80,9 +76,7 @@ private struct Toolbar_Compact: ViewModifier {
     @ObservedObject var control: WebView.Control
     @ObservedObject var display: WebView.Display
     @Binding var shareSheetPresented: Bool
-    
-    let done: () -> Void
-    let openInNewWindow: (() -> Void)?
+    let configuration: Browser.Configuration
     
     @Environment(\.openURL) private var openURL
     
@@ -116,30 +110,31 @@ private struct Toolbar_Compact: ViewModifier {
                 ButtonToolbarJavascript(self.$control.isJSEnabled)
                     .keyboardShortcut("j")
             }
-//            //
-//            // Bottom Open in Options
-//            //
+            //
+            // Bottom Open in Options
+            //
             ToolbarItem(id: "Browser_Compact.OpenInWindow", placement: .bottomBar) {
-                ButtonToolbarBrowserInApp { self.openInNewWindow?() }
+                ButtonToolbarBrowserInApp({ self.configuration.openInApp?() })
                     .keyboardShortcut("o")
-                    .disabled({ self.openInNewWindow == nil }())
+                    .disabled({ self.configuration.openInApp == nil }())
             }
             // TODO: LEAKING!
             ToolbarItem(id: "Browser_Compact.OpenInExternal", placement: .bottomBar) {
                 return ButtonToolbarBrowserExternal { self.openURL(self.control.originalLoad) }
                     .keyboardShortcut("O")
             }
-//
-//            //
-//            // Top [Share] - [AddressBar] - [Done]
-//            //
+
+            //
+            // Top [Share] - [AddressBar] - [Done]
+            //
             ToolbarItem(id: "Browser_Compact.Share", placement: .cancellationAction) {
                 ButtonToolbarShare { self.shareSheetPresented = true }
                     .keyboardShortcut("i")
             }
             ToolbarItem(id: "Browser_Compact.Done", placement: .primaryAction) {
-                ButtonDone(Verb.Done, action: self.done)
+                ButtonDone(Verb.Done, action: { self.configuration.done?() })
                     .keyboardShortcut("w")
+                    .disabled(self.configuration.done == nil)
             }
         }
     }
@@ -150,9 +145,7 @@ private struct Toolbar_Regular: ViewModifier {
     @ObservedObject var control: WebView.Control
     @ObservedObject var display: WebView.Display
     @Binding var shareSheetPresented: Bool
-    
-    let done: () -> Void
-    let openInNewWindow: (() -> Void)?
+    let configuration: Browser.Configuration
     
     @Environment(\.openURL) private var openURL
     
@@ -168,9 +161,9 @@ private struct Toolbar_Regular: ViewModifier {
             }
             // TODO: LEAKING!
             ToolbarItem(id: "Browser_Regular.OpenInWindow", placement: .bottomBar) {
-                ButtonToolbarBrowserInApp { self.openInNewWindow?() }
+                ButtonToolbarBrowserInApp({ self.configuration.openInApp?() })
                     .keyboardShortcut("o")
-                    .disabled({ self.openInNewWindow == nil }())
+                    .disabled({ self.configuration.openInApp == nil }())
             }
             // TODO: LEAKING!
             ToolbarItem(id: "Browser_Regular.OpenInExternal", placement: .bottomBar) {
@@ -215,8 +208,9 @@ private struct Toolbar_Regular: ViewModifier {
                     .keyboardShortcut("i")
             }
             ToolbarItem(id: "Browser_Regular.Done", placement: .primaryAction) {
-                ButtonDone(Verb.Done, action: self.done)
+                ButtonDone(Verb.Done, action: { self.configuration.done?() })
                     .keyboardShortcut("w")
+                    .disabled(self.configuration.done == nil)
             }
         }
     }

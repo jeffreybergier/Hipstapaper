@@ -34,21 +34,23 @@ enum ClickActions {
         @ObservedObject var controller: Controller
         @EnvironmentObject private var windowManager: WindowManager
         // TODO: remove !
-        private var url: URL { self.controller.item.value.preferredURL! }
+        private var item: AnyWebsite { self.controller.item.value }
         func body(content: Content) -> some View {
             content.sheet(isPresented: self.$controller.isPresented) {
                 Browser(
-                    url: self.url,
-                    openInNewWindow: self.windowManager.features.contains(.multipleWindows)
-                        ? {
-                            self.controller.isPresented = false
-                            self.windowManager.show([self.url]) {
-                                // TODO: Do something with this error
-                                print($0)
+                    .init(url: self.item.preferredURL!,
+                          archive: (self.item.isArchived, { _ in }),
+                          titleChanged: nil,
+                          done: { self.controller.isPresented = false },
+                          openInApp: self.windowManager.features.contains(.multipleWindows)
+                            ? {
+                                self.controller.isPresented = false
+                                self.windowManager.show([self.item.preferredURL!]) {
+                                    // TODO: Do something with this error
+                                    print($0)
+                                }
                             }
-                        }
-                        : nil,
-                    done: { self.controller.isPresented = false }
+                            : nil)
                 )
                 .onDisappear { self.controller.item = nil }
             }

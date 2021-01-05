@@ -29,6 +29,7 @@ internal struct Toolbar_macOS: ViewModifier {
     
     @ObservedObject var control: WebView.Control
     @ObservedObject var display: WebView.Display
+    let configuration: Browser.Configuration
     
     @State var shareSheetPresented = false
     @Environment(\.openURL) var openURL

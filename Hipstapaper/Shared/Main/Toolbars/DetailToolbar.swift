@@ -37,21 +37,22 @@ struct DetailToolbar: ViewModifier {
             // TODO: Hack when toolbars work properly with popovers
             Color.clear.frame(width: 1, height: 1)
                 .sheet(isPresented: self.$presentation.isBrowser) {
-                    let site = self.controller.selectedWebsites.first!.value
-                    // TODO: Remove !
-                    let url = site.preferredURL!
+                    let item = self.controller.selectedWebsites.first!.value
                     Browser(
-                        url: url,
-                        openInNewWindow:
-                            self.windowManager.features.contains(.multipleWindows)
-                            ? { self.presentation.value = .none
-                                self.windowManager.show([url]) {
-                                    // TODO: Do something with this error
-                                    print($0)
+                        .init(url: item.preferredURL!, // TODO: Remove !
+                              archive: (item.isArchived, { _ in }), // TODO: Hook this up
+                              titleChanged: nil,
+                              done: { self.presentation.value = .none },
+                              openInApp: self.windowManager.features.contains(.multipleWindows)
+                                ? {
+                                    self.presentation.value = .none
+                                    self.windowManager.show([item.preferredURL!]) {
+                                        // TODO: Do something with this error
+                                        print($0)
+                                    }
                                 }
-                            }
-                            : nil,
-                        done: { self.presentation.value = .none }
+                                : nil
+                        )
                     )
                 }
             

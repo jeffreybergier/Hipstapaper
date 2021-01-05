@@ -24,10 +24,29 @@ import Stylize
 
 public struct Browser: View {
     
+    public struct Configuration {
+        var url: URL
+        var archive: (Bool, (Bool) -> Void)?
+        var titleChanged: ((String) -> Void)?
+        var openInApp: (() -> Void)?
+        var done: (() -> Void)?
+        public init(url: URL,
+                    archive: (Bool, (Bool) -> Void)? = nil,
+                    titleChanged: ((String) -> Void)? = nil,
+                    done: (() -> Void)? = nil,
+                    openInApp: (() -> Void)? = nil)
+        {
+            self.url = url
+            self.archive = archive
+            self.titleChanged = titleChanged
+            self.done = done
+            self.openInApp = openInApp
+        }
+    }
+    
     @StateObject var control: WebView.Control
     @StateObject var display: WebView.Display = .init()
-    let done: () -> Void
-    let openInNewWindow: (() -> Void)?
+    private let configuration: Configuration
     
     public var body: some View {
         ZStack(alignment: .top) {
@@ -42,13 +61,11 @@ public struct Browser: View {
         // TODO: Toolbar leaks like crazy on iOS :(
         .modifier(Toolbar(control: self.control,
                           display: self.display,
-                          done: self.done,
-                          openInNewWindow: self.openInNewWindow))
+                          configuration: self.configuration))
     }
     
-    public init(url load: URL, openInNewWindow: (() -> Void)?, done: @escaping () -> Void) {
-        _control = .init(wrappedValue: WebView.Control(load))
-        self.done = done
-        self.openInNewWindow = openInNewWindow
+    public init(_ configuration: Configuration) {
+        _control = .init(wrappedValue: WebView.Control(configuration.url))
+        self.configuration = configuration
     }
 }
