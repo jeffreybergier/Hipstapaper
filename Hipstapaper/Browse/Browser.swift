@@ -45,7 +45,7 @@ public struct Browser: View {
     }
     
     @StateObject var control: WebView.Control
-    @StateObject var display: WebView.Display = .init()
+    @StateObject var display: WebView.Display
     private let configuration: Configuration
     
     public var body: some View {
@@ -66,6 +66,9 @@ public struct Browser: View {
     
     public init(_ configuration: Configuration) {
         _control = .init(wrappedValue: WebView.Control(configuration.url))
+        let display = WebView.Display()
+        display.titleChanged = configuration.titleChanged
+        _display = .init(wrappedValue: display)
         self.configuration = configuration
     }
 }

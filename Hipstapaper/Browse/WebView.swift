@@ -43,7 +43,12 @@ internal struct WebView: View {
     }
     
     internal class Display: ObservableObject {
-        @Published var title: String = ""
+        var titleChanged: ((String) -> Void)?
+        @Published var title: String = "" {
+            didSet {
+                self.titleChanged?(self.title)
+            }
+        }
         @Published var currentURLString = ""
         @Published var isLoading: Bool = false
         @Published var canGoBack: Bool = false
