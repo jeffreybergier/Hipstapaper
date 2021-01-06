@@ -24,51 +24,27 @@ import Stylize
 
 public struct Browser: View {
     
-    public struct Configuration {
-        var url: URL
-        var archive: (Bool, (Bool) -> Void)?
-        var titleChanged: ((String) -> Void)?
-        var openInApp: (() -> Void)?
-        var done: (() -> Void)?
-        public init(url: URL,
-                    archive: (Bool, (Bool) -> Void)? = nil,
-                    titleChanged: ((String) -> Void)? = nil,
-                    done: (() -> Void)? = nil,
-                    openInApp: (() -> Void)? = nil)
-        {
-            self.url = url
-            self.archive = archive
-            self.titleChanged = titleChanged
-            self.done = done
-            self.openInApp = openInApp
-        }
-    }
-    
-    @StateObject var control: WebView.Control
-    @StateObject var display: WebView.Display
-    private let configuration: Configuration
+    @StateObject public var viewModel: ViewModel
     
     public var body: some View {
         ZStack(alignment: .top) {
-            WebView(control: self.control, display: self.display)
+            WebView(viewModel: self.viewModel)
                 .frame(minWidth: 300, idealWidth: 768, minHeight: 300, idealHeight: 768)
                 .edgesIgnoringSafeArea(.all)
-            if self.display.isLoading {
-                ProgressBar(self.display.progress)
-                    .opacity(self.display.isLoading ? 1 : 0)
+            if self.viewModel.browserDisplay.isLoading {
+                ProgressBar(self.viewModel.browserDisplay.progress)
+                    .opacity(self.viewModel.browserDisplay.isLoading ? 1 : 0)
             }
         }
         // TODO: Toolbar leaks like crazy on iOS :(
-        .modifier(Toolbar(control: self.control,
-                          display: self.display,
-                          configuration: self.configuration))
+        .modifier(Toolbar(viewModel: self.viewModel))
     }
     
-    public init(_ configuration: Configuration) {
-        _control = .init(wrappedValue: WebView.Control(configuration.url))
-        let display = WebView.Display()
-        display.titleChanged = configuration.titleChanged
-        _display = .init(wrappedValue: display)
-        self.configuration = configuration
+    public init(_ viewModel: ViewModel) {
+        _viewModel = .init(wrappedValue: viewModel)
+    }
+    
+    public init(url: URL, doneAction: (() -> Void)?) {
+        _viewModel = .init(wrappedValue: .init(url: url, doneAction: doneAction))
     }
 }

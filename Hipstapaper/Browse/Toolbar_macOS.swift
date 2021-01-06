@@ -27,11 +27,7 @@ import Localize
 
 internal struct Toolbar_macOS: ViewModifier {
     
-    @ObservedObject var control: WebView.Control
-    @ObservedObject var display: WebView.Display
-    let configuration: Browser.Configuration
-    
-    @State var shareSheetPresented = false
+    @ObservedObject var viewModel: ViewModel
     @Environment(\.openURL) var openURL
     
     // TODO: Remove this copy paste BS when NSWindow works properly
@@ -40,39 +36,38 @@ internal struct Toolbar_macOS: ViewModifier {
             Stylize.Toolbar {
                 HStack(spacing: 16) {
                     ButtonToolbar(systemName: "chevron.backward", accessibilityLabel: "Go Back") {
-                        self.control.goBack = true
+                        self.viewModel.browserControl.goBack = true
                     }
                     .keyboardShortcut("[")
-                    .disabled(!self.display.canGoBack)
+                    .disabled(!self.viewModel.browserDisplay.canGoBack)
                     
                     ButtonToolbar(systemName: "chevron.forward", accessibilityLabel: "Go Forward") {
-                        self.control.goForward = true
+                        self.viewModel.browserControl.goForward = true
                     }
                     .keyboardShortcut("]")
-                    .disabled(!self.display.canGoForward)
+                    .disabled(!self.viewModel.browserDisplay.canGoForward)
                     
-                    ButtonToolbarStopReload(isLoading: self.display.isLoading,
-                                            stopAction: { self.control.stop = true },
-                                            reloadAction: { self.control.reload = true })
+                    ButtonToolbarStopReload(isLoading: self.viewModel.browserDisplay.isLoading,
+                                            // TODO: Check for memory leaks here
+                                            stopAction: { self.viewModel.browserControl.stop = true },
+                                            reloadAction: { self.viewModel.browserControl.reload = true })
                     
-                    ButtonToolbarJavascript(self.$control.isJSEnabled)
+                    ButtonToolbarJavascript(self.$viewModel.itemDisplay.isJSEnabled)
                         .keyboardShortcut("j")
                     
-                    TextField.WebsiteTitle(self.$display.title).disabled(true)
+                    TextField.WebsiteTitle(self.$viewModel.browserDisplay.title)
+                        .disabled(true)
                     
-                    ButtonToolbarShare { self.shareSheetPresented = true }
+                    ButtonToolbarShare { self.viewModel.browserDisplay.isSharing = true }
                         .keyboardShortcut("i")
-                        .popover(isPresented: self.$shareSheetPresented) {
-                            Share([self.control.originalLoad]) { self.shareSheetPresented = false }
-                        }
                     
-                    ButtonToolbarBrowserExternal { self.openURL(self.control.originalLoad) }
+                    ButtonToolbarBrowserExternal { self.openURL(self.viewModel.originalURL) }
                         .keyboardShortcut("O")
                 }
             }
             .modifier(STZ_BorderedButtonStyle())
             content
-                .navigationTitle(self.display.title)
+                .navigationTitle(self.viewModel.browserDisplay.title)
         }
     }
 }

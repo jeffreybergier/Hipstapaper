@@ -23,21 +23,15 @@ import SwiftUI
 
 struct Toolbar: ViewModifier {
     
-    @ObservedObject var control: WebView.Control
-    @ObservedObject var display: WebView.Display
-    let configuration: Browser.Configuration
+    @ObservedObject var viewModel: ViewModel
     
     #if os(macOS)
     func body(content: Content) -> some View {
-        return content.modifier(Toolbar_macOS(control: self.control,
-                                              display: self.display,
-                                              configuration: self.configuration))
+        return content.modifier(Toolbar_macOS(viewModel: self.viewModel))
     }
     #else
     func body(content: Content) -> some View {
-        return content.modifier(Toolbar_iOS(control: self.control,
-                                            display: self.display,
-                                            configuration: self.configuration))
+        return content.modifier(Toolbar_iOS(viewModel: self.viewModel))
     }
     #endif
 }
