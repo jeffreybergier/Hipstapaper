@@ -30,10 +30,6 @@ internal let log: XCGLogger = {
 
 @main
 struct HipstapaperApp: App {
-
-    #if canImport(UIKit)
-    @UIApplicationDelegateAdaptor(ApplicationDelegate.self) var appDelegate
-    #endif
     
     let controller: Controller
     let windowManager = WindowManager()

@@ -23,28 +23,10 @@ import UIKit
 import Combine
 
 class WindowManager: ObservableObject, WindowManagerProtocol {
-    
-    private var app: UIApplication { UIApplication.shared }
-    
-    var features: Features {
-        var features: Features = []
-        if self.app.supportsMultipleScenes {
-            features.insert(.multipleWindows)
-        }
-        return features
-    }
+        
+    let features: Features = []
     
     func show(_ urls: Set<URL>, error errorHandler: @escaping (Error) -> Void) {
-        guard self.features.contains(.multipleWindows) else { errorHandler(.unsupported); return }
-        guard urls.count <= 1 else { errorHandler(.bulkActivation); return }
-        guard let url = urls.first else { return }
-        let activity = NSUserActivity(activityType: "Browser")
-        activity.referrerURL = url
-        self.app.requestSceneSessionActivation(nil,
-                                               userActivity: activity,
-                                               options: nil)
-        { error in
-            errorHandler(.activation(error))
-        }
+        fatalError("Not supported on iOS")
     }
 }
