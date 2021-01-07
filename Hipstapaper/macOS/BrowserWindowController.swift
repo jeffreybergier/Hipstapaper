@@ -40,8 +40,11 @@ class BrowserWindowController: NSWindowController {
         if self.window == nil {
             let vm = Browse.ViewModel(url: self.url, doneAction: nil)
             self.browserToken = vm.$browserDisplay.sink()
-            { [unowned self] display in
-                self.window?.title = display.title
+            { [weak self] display in
+                // WindowController DEINIT happens before Browser
+                // If title changed in this small instant, could crash
+                // if using unowned reference
+                self?.window?.title = display.title
             }
             let browser = Browser(vm)
             let vc = NSHostingController(rootView: browser)
