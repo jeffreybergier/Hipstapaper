@@ -1,4 +1,6 @@
 //
+//  Created by Jeffrey Bergier on 2021/01/03.
+//
 //  Copyright © 2020 Saturday Apps.
 //
 //  This file is part of Hipstapaper.
@@ -17,12 +19,23 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-public protocol Website: Base {
-    var isArchived: Bool { get }
-    var originalURL: URL? { get }
-    var resolvedURL: URL? { get }
-    var preferredURL: URL? { get }
-    var title: String? { get }
-    var thumbnail: Data? { get }
-}
+import SwiftUI
+import Datum
+import Browse
 
+enum ClickActions {
+    struct SingleClick: ViewModifier {
+        
+        @EnvironmentObject var presentation: BrowserPresentation
+        let item: AnyElement<AnyWebsite>
+
+        func body(content: Content) -> some View {
+            #if os(macOS)
+            return content
+            #else
+            return Button(action: { self.presentation.item = item },
+                          label: { content })
+            #endif
+        }
+    }
+}

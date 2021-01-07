@@ -136,4 +136,15 @@ extension Modal {
     }
 }
 
-
+public struct ModalSelectionStyle: ViewModifier {
+    public init() {}
+    public func body(content: Content) -> some View {
+        #if os(macOS)
+        return content
+        #else
+        return content
+            .listStyle(PlainListStyle())
+            .modifier(ListEditMode())
+        #endif
+    }
+}

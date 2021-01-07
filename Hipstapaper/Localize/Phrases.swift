@@ -20,5 +20,14 @@
 import SwiftUI
 
 public enum Phrase {
-    public static let AddChoice: LocalizedStringKey = "LCZ.Phrase.AddChoice"
+    public static let AddChoice: LocalizedStringKey              = "LCZ.Phrase.AddChoice"
+    public static let SortDateModifiedNewest: LocalizedStringKey = "LCZ.Phrase.SortDateModifiedNewest"
+    public static let SortDateModifiedOldest: LocalizedStringKey = "LCZ.Phrase.SortDateModifiedOldest"
+    public static let SortDateCreatedNewest: LocalizedStringKey  = "LCZ.Phrase.SortDateCreatedNewest"
+    public static let SortDateCreatedOldest: LocalizedStringKey  = "LCZ.Phrase.SortDateCreatedOldest"
+    public static let SortTitleA: LocalizedStringKey             = "LCZ.Phrase.SortTitleA"
+    public static let SortTitleZ: LocalizedStringKey             = "LCZ.Phrase.SortTitleZ"
+    public static let Sort: LocalizedStringKey                   = "LCZ.Phrase.Sort"
+    public static let FilterA: LocalizedStringKey                = "LCZ.Phrase.FilterA"
+    public static let FilterB: LocalizedStringKey                = "LCZ.Phrase.FilterB"
 }

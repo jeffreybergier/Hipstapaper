@@ -75,6 +75,7 @@ struct P_Website: Website {
     var isArchived: Bool
     var originalURL: URL?
     var resolvedURL: URL?
+    var preferredURL: URL? { self.resolvedURL ?? self.originalURL }
     var title: String?
     var thumbnail: Data?
     var dateCreated: Date

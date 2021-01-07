@@ -29,6 +29,7 @@ public struct AnyWebsite: Website {
     public var isArchived:  Bool    { _isArchived() }
     public var originalURL: URL?    { _originalURL() }
     public var resolvedURL: URL?    { _resolvedURL() }
+    public var preferredURL: URL?   { _preferredURL() }
     public var title:       String? { _title() }
     public var thumbnail:   Data?   { _thumbnail() }
     public var dateCreated: Date    { _dateCreated() }
@@ -39,6 +40,7 @@ public struct AnyWebsite: Website {
     private let _isArchived:   () -> Bool
     private let _originalURL:  () -> URL?
     private let _resolvedURL:  () -> URL?
+    private let _preferredURL: () -> URL?
     private let _title:        () -> String?
     private let _thumbnail:    () -> Data?
     private var _dateCreated:  () -> Date
@@ -53,6 +55,7 @@ public struct AnyWebsite: Website {
         _isArchived   = { website.isArchived }
         _originalURL  = { website.originalURL }
         _resolvedURL  = { website.resolvedURL }
+        _preferredURL = { website.preferredURL }
         _title        = { website.title }
         _thumbnail    = { website.thumbnail }
         _dateCreated  = { website.dateCreated }

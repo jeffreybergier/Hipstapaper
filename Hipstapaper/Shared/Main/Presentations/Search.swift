@@ -30,17 +30,20 @@ struct Search: View {
     let doneAction: Modal.Action
     
     var body: some View {
-        HStack {
-            TextField.Search(self.$searchString)
-            if self.searchString.nonEmptyString != nil {
-                ButtonToolbar(systemName: "xmark.circle", accessibilityLabel: Verb.ClearSearch) {
-                    self.searchString = ""
+        VStack {
+            HStack {
+                TextField.Search(self.$searchString)
+                if self.searchString.nonEmptyString != nil {
+                    ButtonToolbar(systemName: "xmark.circle", accessibilityLabel: Verb.ClearSearch) {
+                        self.searchString = ""
+                    }
                 }
             }
+            .animation(.default)
+            Spacer()
         }
-        .animation(.default)
         .paddingDefault_Equal()
         .modifier(Modal.Done(title: Noun.Search, done: self.doneAction))
-        .frame(width: 250, height: 150) // TODO: Remove height when this is not broken
+        .frame(idealWidth: 250, idealHeight: 150) // TODO: Remove height when this is not broken
     }
 }

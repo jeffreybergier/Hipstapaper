@@ -24,65 +24,32 @@ import WebKit
 
 internal struct WebView: View {
     
-    internal class Control: ObservableObject {
-        @Published var stop = false
-        @Published var reload = false
-        @Published var goBack = false
-        @Published var goForward = false
-        @Published var isJSEnabled = false
-        @Published var load: URL?
-        let originalLoad: URL
-        internal init(_ load: URL) {
-            self.load = load
-            self.originalLoad = load
-        }
-        deinit {
-            // TODO: Remove once toolbar leaks are fixed
-            print("Browser Control DEINIT")
-        }
-    }
-    
-    internal class Display: ObservableObject {
-        @Published var title: String = ""
-        @Published var currentURLString = ""
-        @Published var isLoading: Bool = false
-        @Published var canGoBack: Bool = false
-        @Published var canGoForward: Bool = false
-        let progress = Progress(totalUnitCount: 100)
-        var kvo: [NSKeyValueObservation] = []
-        deinit {
-            // TODO: Remove once toolbar leaks are fixed
-            print("Browser Display DEINIT")
-        }
-    }
-    
-    @ObservedObject var control: Control
-    @ObservedObject var display: Display
+    @ObservedObject var viewModel: ViewModel
     
     private func update(_ wv: WKWebView, context: Context) {
-        if self.control.stop {
+        if self.viewModel.browserControl.stop {
             wv.stopLoading()
-            self.control.stop = false
+            self.viewModel.browserControl.stop = false
         }
-        if self.control.reload {
+        if self.viewModel.browserControl.reload {
             wv.reload()
-            self.control.reload = false
+            self.viewModel.browserControl.reload = false
         }
-        if self.control.goBack {
+        if self.viewModel.browserControl.goBack {
             wv.goBack()
-            self.control.goBack = false
+            self.viewModel.browserControl.goBack = false
         }
-        if self.control.goForward {
+        if self.viewModel.browserControl.goForward {
             wv.goForward()
-            self.control.goForward = false
+            self.viewModel.browserControl.goForward = false
         }
-        if wv.configuration.preferences.javaScriptEnabled != self.control.isJSEnabled {
-            wv.configuration.preferences.javaScriptEnabled = self.control.isJSEnabled
+        if wv.configuration.preferences.javaScriptEnabled != self.viewModel.itemDisplay.isJSEnabled {
+            wv.configuration.preferences.javaScriptEnabled = self.viewModel.itemDisplay.isJSEnabled
             wv.reload()
         }
-        if let load = self.control.load {
+        if let load = self.viewModel.browserControl.load {
             wv.load(URLRequest(url: load))
-            self.control.load = nil
+            self.viewModel.browserControl.load = nil
         }
     }
         
@@ -90,30 +57,30 @@ internal struct WebView: View {
         let config = WKWebViewConfiguration()
         let wv = WKWebView(frame: .zero, configuration: config)
         let token1 = wv.observe(\.isLoading)
-        { [unowned display] wv, _ in
-            display.isLoading = wv.isLoading
+        { [unowned vm = viewModel] wv, _ in
+            vm.browserDisplay.isLoading = wv.isLoading
         }
         let token2 = wv.observe(\.url)
-        { [unowned display] wv, _ in
-            display.currentURLString = wv.url?.absoluteString ?? ""
+        { [unowned vm = viewModel] wv, _ in
+            vm.browserDisplay.urlString = wv.url?.absoluteString ?? ""
         }
         let token3 = wv.observe(\.title)
-        { [unowned display] wv, _ in
-            display.title = wv.title ?? ""
+        { [unowned vm = viewModel] wv, _ in
+            vm.browserDisplay.title = wv.title ?? ""
         }
         let token4 = wv.observe(\.estimatedProgress)
-        { [unowned display] wv, two in
-            display.progress.completedUnitCount = Int64(wv.estimatedProgress * 100)
+        { [unowned vm = viewModel] wv, _ in
+            vm.browserDisplay.progress.completedUnitCount = Int64(wv.estimatedProgress * 100)
         }
         let token5 = wv.observe(\.canGoBack)
-        { [unowned display] wv, _ in
-            display.canGoBack = wv.canGoBack
+        { [unowned vm = viewModel] wv, _ in
+            vm.browserDisplay.canGoBack = wv.canGoBack
         }
         let token6 = wv.observe(\.canGoForward)
-        { [unowned display] wv, _ in
-            display.canGoForward = wv.canGoForward
+        { [unowned vm = viewModel] wv, _ in
+            vm.browserDisplay.canGoForward = wv.canGoForward
         }
-        self.display.kvo = [token1, token2, token3, token4, token5, token6]
+        self.viewModel.browserDisplay.kvo = [token1, token2, token3, token4, token5, token6]
         return wv
     }
     

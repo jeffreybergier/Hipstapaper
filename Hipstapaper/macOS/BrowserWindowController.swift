@@ -19,14 +19,16 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import Combine
 import AppKit
-import Browse
 import SwiftUI
+import Browse
 
 class BrowserWindowController: NSWindowController {
     
     let url: URL
     var windowWillClose: ((URL) -> Void)?
+    var browserToken: AnyCancellable?
     
     init(url: URL) {
         self.url = url
@@ -35,20 +37,27 @@ class BrowserWindowController: NSWindowController {
     }
     
     override func showWindow(_ sender: Any?) {
-        let browser = Browser(url: url,
-                              openInNewWindow: nil,
-                              done: { [unowned self] in self.close() })
-        let vc = NSHostingController(rootView: browser)
-        let window = NSWindow(contentViewController: vc)
-        window.delegate = self
-        self.window = window
+        if self.window == nil {
+            let vm = Browse.ViewModel(url: self.url, doneAction: nil)
+            self.browserToken = vm.$browserDisplay.sink()
+            { [weak self] display in
+                // WindowController DEINIT happens before Browser
+                // If title changed in this small instant, could crash
+                // if using unowned reference
+                self?.window?.title = display.title
+            }
+            let browser = Browser(vm)
+            let vc = NSHostingController(rootView: browser)
+            let window = NSWindow(contentViewController: vc)
+            window.delegate = self
+            self.window = window
+        }
         super.showWindow(sender)
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
 
 extension BrowserWindowController: NSWindowDelegate {

@@ -24,31 +24,27 @@ import Stylize
 
 public struct Browser: View {
     
-    @StateObject var control: WebView.Control
-    @StateObject var display: WebView.Display = .init()
-    let done: () -> Void
-    let openInNewWindow: (() -> Void)?
+    @StateObject public var viewModel: ViewModel
     
     public var body: some View {
         ZStack(alignment: .top) {
-            WebView(control: self.control, display: self.display)
+            WebView(viewModel: self.viewModel)
                 .frame(minWidth: 300, idealWidth: 768, minHeight: 300, idealHeight: 768)
                 .edgesIgnoringSafeArea(.all)
-            if self.display.isLoading {
-                ProgressBar(self.display.progress)
-                    .opacity(self.display.isLoading ? 1 : 0)
+            if self.viewModel.browserDisplay.isLoading {
+                ProgressBar(self.viewModel.browserDisplay.progress)
+                    .opacity(self.viewModel.browserDisplay.isLoading ? 1 : 0)
             }
         }
         // TODO: Toolbar leaks like crazy on iOS :(
-        .modifier(Toolbar(control: self.control,
-                          display: self.display,
-                          done: self.done,
-                          openInNewWindow: self.openInNewWindow))
+        .modifier(Toolbar(viewModel: self.viewModel))
     }
     
-    public init(url load: URL, openInNewWindow: (() -> Void)?, done: @escaping () -> Void) {
-        _control = .init(wrappedValue: WebView.Control(load))
-        self.done = done
-        self.openInNewWindow = openInNewWindow
+    public init(_ viewModel: ViewModel) {
+        _viewModel = .init(wrappedValue: viewModel)
+    }
+    
+    public init(url: URL, doneAction: (() -> Void)?) {
+        _viewModel = .init(wrappedValue: .init(url: url, doneAction: doneAction))
     }
 }

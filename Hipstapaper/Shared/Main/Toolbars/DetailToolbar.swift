@@ -28,33 +28,13 @@ import Browse
 struct DetailToolbar: ViewModifier {
     
     @ObservedObject var controller: WebsiteController
-    @State var presentation = DetailToolbarPresentation.Wrap()
-
-    @Environment(\.openURL) var openURL
     @EnvironmentObject var windowManager: WindowManager
+    @State var presentation = DetailToolbarPresentation.Wrap()
+    @State var popoverAlignment: Alignment = .topTrailing
     
     func body(content: Content) -> some View {
-        return ZStack(alignment: Alignment.topTrailing) {
+        return ZStack(alignment: self.popoverAlignment) {
             // TODO: Hack when toolbars work properly with popovers
-            Color.clear.frame(width: 1, height: 1)
-                .sheet(isPresented: self.$presentation.isBrowser) {
-                    let site = self.controller.selectedWebsites.first!.value
-                    let url = (site.resolvedURL ?? site.originalURL)!
-                    Browser(
-                        url: url,
-                        openInNewWindow:
-                            self.windowManager.features.contains(.multipleWindows)
-                            ? { self.presentation.value = .none
-                                self.windowManager.show([url]) {
-                                    // TODO: Do something with this error
-                                    print($0)
-                                }
-                            }
-                            : nil,
-                        done: { self.presentation.value = .none }
-                    )
-                }
-            
             Color.clear.frame(width: 1, height: 1)
                 .popover(isPresented: self.$presentation.isTagApply) { () -> TagApply in
                     return TagApply(selectedWebsites: self.controller.selectedWebsites,
@@ -65,7 +45,7 @@ struct DetailToolbar: ViewModifier {
             Color.clear.frame(width: 1, height: 1)
                 .popover(isPresented: self.$presentation.isShare) {
                     Share(self.controller.selectedWebsites.compactMap
-                    { $0.value.resolvedURL ?? $0.value.originalURL })
+                    { $0.value.preferredURL })
                     { self.presentation.value = .none }
                 }
             
@@ -75,86 +55,98 @@ struct DetailToolbar: ViewModifier {
                            doneAction: { self.presentation.value = .none })
                 }
             
-            
-            content.toolbar(id: "Detail") {
-                ToolbarItem(id: "Detail.0") {
-                    ButtonToolbarBrowserInApp
-                    {
-                        guard self.windowManager.features.contains([.multipleWindows, .bulkActivation])
-                        else { self.presentation.value = .browser; return }
-                        let urls = self.controller.selectedWebsites.compactMap
-                        { $0.value.resolvedURL ?? $0.value.originalURL }
-                        self.windowManager.show(urls) {
-                            // TODO: Do something with this error
-                            print($0)
-                        }
-                    }
-                    .keyboardShortcut("o")
-                    .modifier(OpenWebsiteDisabler(selectedWebsites: self.controller.selectedWebsites))
+            Color.clear.frame(width: 1, height: 1)
+                .popover(isPresented: self.$presentation.isSort) {
+                    Sort(selection: self.$controller.query.sort, doneAction: { self.presentation.value = .none })
                 }
-                ToolbarItem(id: "Detail.1") {
-                    ButtonToolbarBrowserExternal {
-                        let urls = self.controller.selectedWebsites
-                            .compactMap { $0.value.resolvedURL ?? $0.value.originalURL }
-                        urls.forEach { self.openURL($0) }
-                    }
-                    .keyboardShortcut("O")
-                    .modifier(OpenWebsiteDisabler(selectedWebsites: self.controller.selectedWebsites))
-                }
-                ToolbarItem(id: "Detail.2") {
-                    ButtonToolbar(systemName: "tray.and.arrow.down",
-                                  accessibilityLabel: Verb.Archive)
-                    {
-                        // Archive
-                        let selected = self.controller.selectedWebsites
-                        self.controller.selectedWebsites = []
-                        try! self.controller.controller.update(selected, .init(isArchived: true)).get()
-                    }
-                    .disabled(self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
-                }
-                ToolbarItem(id: "Detail.3") {
-                    ButtonToolbar(systemName: "tray.and.arrow.up",
-                                  accessibilityLabel: Verb.Unarchive)
-                    {
-                        // Unarchive
-                        let selected = self.controller.selectedWebsites
-                        self.controller.selectedWebsites = []
-                        try! self.controller.controller.update(selected, .init(isArchived: false)).get()
-                    }
-                    .disabled(self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
-                }
-                ToolbarItem(id: "Detail.4") {
-                    ButtonToolbar(systemName: "tag",
-                                  accessibilityLabel: Verb.AddAndRemoveTags,
-                                  action: { self.presentation.value = .tagApply })
-                        .disabled(self.controller.selectedWebsites.isEmpty)
-                }
-                ToolbarItem(id: "Detail.5") {
-                    ButtonToolbarShare { self.presentation.value = .share }
-                        .disabled(self.controller.selectedWebsites.isEmpty)
-                }
-                ToolbarItem(id: "Detail.6") {
-                    // TODO: Make search look different when a search is in effect
-                    // self.controller.detailQuery.search.nonEmptyString == nil
-                    ButtonToolbar(systemName: "magnifyingglass",
-                                  accessibilityLabel: Verb.Search,
-                                  action: { self.presentation.value = .search })
-                }
-            }
+            #if os(macOS)
+            content.modifier(DetailToolbar_macOS(controller: self.controller,
+                                                 presentation: self.$presentation))
+            #else
+            content.modifier(DetailToolbar_iOS(controller: self.controller,
+                                               presentation: self.$presentation,
+                                               popoverAlignment: self.$popoverAlignment))
+            #endif
         }
     }
 }
 
-fileprivate struct OpenWebsiteDisabler: ViewModifier {
+struct OpenWebsiteDisabler: ViewModifier {
     
-    let selectedWebsites: Set<AnyElement<AnyWebsite>>
+    let selectionCount: Int
     @EnvironmentObject var windowManager: WindowManager
+    
+    init(_ selectionCount: Int) {
+        self.selectionCount = selectionCount
+    }
     
     func body(content: Content) -> some View {
         if self.windowManager.features.contains(.bulkActivation) {
-            return content.disabled(self.selectedWebsites.isEmpty)
+            return content.disabled(self.selectionCount < 1)
         } else {
-            return content.disabled(self.selectedWebsites.count != 1)
+            return content.disabled(self.selectionCount != 1)
         }
+    }
+}
+
+enum DT {
+    static func Filter(filter: Query.Archived, action: @escaping () -> Void) -> some View {
+        switch filter {
+        case .all:
+            return ButtonToolbarFilterB(action)
+        case .unarchived:
+            return ButtonToolbarFilterA(action)
+        }
+    }
+    static func OpenInApp(selectionCount: Int,
+                          action: @escaping () -> Void)
+                          -> some View
+    {
+        ButtonToolbarBrowserInApp(action)
+        .keyboardShortcut("o")
+        .modifier(OpenWebsiteDisabler(selectionCount))
+    }
+    
+    static func OpenExternal(selectionCount: Int,
+                             action: @escaping () -> Void)
+                             -> some View
+    {
+        ButtonToolbarBrowserExternal(action)
+        .keyboardShortcut("O")
+        .modifier(OpenWebsiteDisabler(selectionCount))
+    }
+    
+    static func Archive(isDisabled: Bool, action: @escaping () -> Void) -> some View {
+        return ButtonToolbar(systemName: "tray.and.arrow.down",
+                             accessibilityLabel: Verb.Archive,
+                             action: action)
+            .disabled(isDisabled)
+    }
+    
+    static func Unarchive(isDisabled: Bool, action: @escaping () -> Void) -> some View {
+        return ButtonToolbar(systemName: "tray.and.arrow.up",
+                             accessibilityLabel: Verb.Unarchive,
+                             action: action)
+            .disabled(isDisabled)
+    }
+    
+    static func Tag(isDisabled: Bool, action: @escaping () -> Void) -> some View {
+        return ButtonToolbar(systemName: "tag",
+                             accessibilityLabel: Verb.AddAndRemoveTags,
+                             action: action)
+            .disabled(isDisabled)
+    }
+    
+    static func Share(isDisabled: Bool, action: @escaping () -> Void) -> some View {
+        return ButtonToolbarShare(action)
+            .disabled(isDisabled)
+    }
+    
+    static func Search(searchActive: Bool, action: @escaping () -> Void) -> some View {
+        return AnyView(
+            searchActive
+                ? ButtonToolbarSearchActive(action)
+                : ButtonToolbarSearchInactive(action)
+        ).keyboardShortcut("f")
     }
 }

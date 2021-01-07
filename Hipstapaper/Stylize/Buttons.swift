@@ -70,6 +70,26 @@ public struct ButtonToolbar: View {
     }
 }
 
+public func ButtonToolbarSearchInactive(_ action: @escaping () -> Void) -> ButtonToolbar {
+    return ButtonToolbar(systemName: "magnifyingglass",
+                         accessibilityLabel: Verb.Search,
+                         action: action)
+}
+
+public func ButtonToolbarSeparator() -> some View {
+    Button(action: {}) {
+        Text("|")
+    }
+    .buttonStyle(BorderlessButtonStyle())
+    .disabled(true)
+}
+
+public func ButtonToolbarSearchActive(_ action: @escaping () -> Void) -> ButtonToolbar {
+    return ButtonToolbar(systemName: "magnifyingglass.circle.fill",
+                         accessibilityLabel: Verb.Search,
+                         action: action)
+}
+
 public func ButtonToolbarShare(_ action: @escaping () -> Void) -> some View {
     ButtonToolbar(systemName: "square.and.arrow.up",
                   accessibilityLabel: Verb.Share,
@@ -85,6 +105,24 @@ public func ButtonToolbarBrowserInApp(_ action: @escaping () -> Void) -> some Vi
 public func ButtonToolbarBrowserExternal(_ action: @escaping () -> Void) -> some View {
     ButtonToolbar(systemName: "safari.fill",
                   accessibilityLabel: Verb.Safari,
+                  action: action)
+}
+
+public func ButtonToolbarFilterA(_ action: @escaping () -> Void) -> ButtonToolbar {
+    ButtonToolbar(systemName: "line.horizontal.3.decrease.circle.fill",
+                  accessibilityLabel: Phrase.FilterA,
+                  action: action)
+}
+
+public func ButtonToolbarFilterB(_ action: @escaping () -> Void) -> ButtonToolbar {
+    ButtonToolbar(systemName: "line.horizontal.3.decrease.circle",
+                  accessibilityLabel: Phrase.FilterB,
+                  action: action)
+}
+
+public func ButtonToolbarSort(_ action: @escaping () -> Void) -> ButtonToolbar {
+    ButtonToolbar(systemName: "arrow.up.arrow.down.circle",
+                  accessibilityLabel: Phrase.Sort,
                   action: action)
 }
 

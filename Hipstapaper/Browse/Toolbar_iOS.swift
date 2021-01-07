@@ -27,13 +27,7 @@ import Localize
 #else
 internal struct Toolbar_iOS: ViewModifier {
     
-    @ObservedObject var control: WebView.Control
-    @ObservedObject var display: WebView.Display
-    
-    let done: () -> Void
-    let openInNewWindow: (() -> Void)?
-    
-    @State private var shareSheetPresented = false
+    @ObservedObject var viewModel: ViewModel
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
     private var isCompact: Bool {
@@ -51,25 +45,17 @@ internal struct Toolbar_iOS: ViewModifier {
         // TODO remove this hack once toolbars support popovers
         let newContent = ZStack(alignment: self.isCompact ? .topLeading : .topTrailing) {
             Color.clear.frame(width: 1, height: 1)
-                .popover(isPresented: self.$shareSheetPresented) {
-                    Share([self.control.originalLoad]) { self.shareSheetPresented = false }
+                .popover(isPresented: self.$viewModel.browserDisplay.isSharing) {
+                    Share([self.viewModel.originalURL]) { self.viewModel.browserDisplay.isSharing = false }
                 }
             content
-                .navigationTitle(self.display.title)
+                .navigationTitle(self.viewModel.browserDisplay.title)
                 .navigationBarTitleDisplayMode(.inline)
         }
         return NavigationView {
             return self.isCompact
-                ? AnyView(newContent.modifier(Toolbar_Compact(control: self.control,
-                                                              display: self.display,
-                                                              shareSheetPresented: self.$shareSheetPresented,
-                                                              done: self.done,
-                                                              openInNewWindow: self.openInNewWindow)))
-                : AnyView(newContent.modifier(Toolbar_Regular(control: self.control,
-                                                              display: self.display,
-                                                              shareSheetPresented: self.$shareSheetPresented,
-                                                              done: self.done,
-                                                              openInNewWindow: self.openInNewWindow)))
+                ? AnyView(newContent.modifier(Toolbar_Compact(viewModel: self.viewModel)))
+                : AnyView(newContent.modifier(Toolbar_Regular(viewModel: self.viewModel)))
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
@@ -77,13 +63,7 @@ internal struct Toolbar_iOS: ViewModifier {
 
 private struct Toolbar_Compact: ViewModifier {
     
-    @ObservedObject var control: WebView.Control
-    @ObservedObject var display: WebView.Display
-    @Binding var shareSheetPresented: Bool
-    
-    let done: () -> Void
-    let openInNewWindow: (() -> Void)?
-    
+    @ObservedObject var viewModel: ViewModel
     @Environment(\.openURL) private var openURL
     
     func body(content: Content) -> some View {
@@ -93,53 +73,49 @@ private struct Toolbar_Compact: ViewModifier {
             //
             ToolbarItem(id: "Browser_Compact.Back", placement: .bottomBar) {
                 ButtonToolbar(systemName: "chevron.backward", accessibilityLabel: "Go Back") {
-                    self.control.goBack = true
+                    self.viewModel.browserControl.goBack = true
                 }
                 .keyboardShortcut("[")
-                .disabled(!self.display.canGoBack)
+                .disabled(!self.viewModel.browserDisplay.canGoBack)
             }
             ToolbarItem(id: "Browser_Compact.Forward", placement: .bottomBar) {
                 ButtonToolbar(systemName: "chevron.forward", accessibilityLabel: "Go Forward") {
-                    self.control.goForward = true
+                    self.viewModel.browserControl.goForward = true
                 }
                 .keyboardShortcut("]")
-                .disabled(!self.display.canGoForward)
+                .disabled(!self.viewModel.browserDisplay.canGoForward)
             }
             ToolbarItem(id: "Browser_Compact.Reload", placement: .bottomBar) {
-                ButtonToolbarStopReload(isLoading: self.display.isLoading,
-                                        // Unowned here prevents leaks. Not sure why
-                                        stopAction: { [unowned control] in control.stop = true },
-                                        reloadAction: { [unowned control] in control.reload = true })
+                ButtonToolbarStopReload(isLoading: self.viewModel.browserDisplay.isLoading,
+                                        // TODO: Check for memory leaks here
+                                        stopAction: { self.viewModel.browserControl.stop = true },
+                                        reloadAction: { self.viewModel.browserControl.reload = true })
             }
             // TODO: LEAKING!
             ToolbarItem(id: "Browser_Compact.JS", placement: .bottomBar) {
-                ButtonToolbarJavascript(self.$control.isJSEnabled)
+                ButtonToolbarJavascript(self.$viewModel.itemDisplay.isJSEnabled)
                     .keyboardShortcut("j")
             }
-//            //
-//            // Bottom Open in Options
-//            //
-            ToolbarItem(id: "Browser_Compact.OpenInWindow", placement: .bottomBar) {
-                ButtonToolbarBrowserInApp { self.openInNewWindow?() }
-                    .keyboardShortcut("o")
-                    .disabled({ self.openInNewWindow == nil }())
-            }
+            //
+            // Bottom Open in Options
+            //
             // TODO: LEAKING!
             ToolbarItem(id: "Browser_Compact.OpenInExternal", placement: .bottomBar) {
-                return ButtonToolbarBrowserExternal { self.openURL(self.control.originalLoad) }
+                return ButtonToolbarBrowserExternal { self.openURL(self.viewModel.originalURL) }
                     .keyboardShortcut("O")
             }
-//
-//            //
-//            // Top [Share] - [AddressBar] - [Done]
-//            //
+
+            //
+            // Top [Share] - [AddressBar] - [Done]
+            //
             ToolbarItem(id: "Browser_Compact.Share", placement: .cancellationAction) {
-                ButtonToolbarShare { self.shareSheetPresented = true }
+                ButtonToolbarShare { self.viewModel.browserDisplay.isSharing = true }
                     .keyboardShortcut("i")
             }
             ToolbarItem(id: "Browser_Compact.Done", placement: .primaryAction) {
-                ButtonDone(Verb.Done, action: self.done)
+                ButtonDone(Verb.Done, action: { self.viewModel.doneAction?() })
                     .keyboardShortcut("w")
+                    .disabled(self.viewModel.doneAction == nil)
             }
         }
     }
@@ -147,13 +123,7 @@ private struct Toolbar_Compact: ViewModifier {
 
 private struct Toolbar_Regular: ViewModifier {
     
-    @ObservedObject var control: WebView.Control
-    @ObservedObject var display: WebView.Display
-    @Binding var shareSheetPresented: Bool
-    
-    let done: () -> Void
-    let openInNewWindow: (() -> Void)?
-    
+    @ObservedObject var viewModel: ViewModel
     @Environment(\.openURL) private var openURL
     
     func body(content: Content) -> some View {
@@ -163,60 +133,55 @@ private struct Toolbar_Regular: ViewModifier {
             //
             // TODO: LEAKING!
             ToolbarItem(id: "Browser_Regular.JS", placement: .bottomBar) {
-                ButtonToolbarJavascript(self.$control.isJSEnabled)
+                ButtonToolbarJavascript(self.$viewModel.itemDisplay.isJSEnabled)
                     .keyboardShortcut("j")
             }
             // TODO: LEAKING!
-            ToolbarItem(id: "Browser_Regular.OpenInWindow", placement: .bottomBar) {
-                ButtonToolbarBrowserInApp { self.openInNewWindow?() }
-                    .keyboardShortcut("o")
-                    .disabled({ self.openInNewWindow == nil }())
-            }
-            // TODO: LEAKING!
             ToolbarItem(id: "Browser_Regular.OpenInExternal", placement: .bottomBar) {
-                ButtonToolbarBrowserExternal { self.openURL(self.control.originalLoad) }
+                ButtonToolbarBrowserExternal { self.openURL(self.viewModel.originalURL) }
                     .keyboardShortcut("O")
             }
             
             //
             // Top Leading
             //
-            ToolbarItem(id: "Browser_Regular.Back", placement: .navigation) {
+            ToolbarItem(id: "Browser_Regular.Back", placement: .bottomBar) {
                 ButtonToolbar(systemName: "chevron.backward", accessibilityLabel: "Go Back") {
-                    self.control.goBack = true
+                    self.viewModel.browserControl.goBack = true
                 }
                 .keyboardShortcut("[")
-                .disabled(!self.display.canGoBack)
+                .disabled(!self.viewModel.browserDisplay.canGoBack)
             }
-            ToolbarItem(id: "Browser_Regular.Forward", placement: .navigation) {
+            ToolbarItem(id: "Browser_Regular.Forward", placement: .bottomBar) {
                 ButtonToolbar(systemName: "chevron.forward", accessibilityLabel: "Go Forward") {
-                    self.control.goForward = true
+                    self.viewModel.browserControl.goForward = true
                 }
                 .keyboardShortcut("]")
-                .disabled(!self.display.canGoForward)
+                .disabled(!self.viewModel.browserDisplay.canGoForward)
             }
-            ToolbarItem(id: "Browser_Regular.Reload", placement: .navigation) {
-                ButtonToolbarStopReload(isLoading: self.display.isLoading,
-                                        // Unowned here prevents leaks. Not sure why
-                                        stopAction: { [unowned control] in control.stop = true },
-                                        reloadAction: { [unowned control] in control.reload = true })
+            ToolbarItem(id: "Browser_Compact.Reload", placement: .bottomBar) {
+                ButtonToolbarStopReload(isLoading: self.viewModel.browserDisplay.isLoading,
+                                        // TODO: Check for memory leaks here
+                                        stopAction: { self.viewModel.browserControl.stop = true },
+                                        reloadAction: { self.viewModel.browserControl.reload = true })
             }
             
             //
             // [Top Leading] - [AddressBar] - [Share][Done]
             //
             ToolbarItem(id: "Browser_Regular.AddressBar", placement: .principal) {
-                TextField.WebsiteTitle(self.$display.title)
+                TextField.WebsiteTitle(self.$viewModel.browserDisplay.title)
                     .disabled(true)
                     .frame(width: 400) // TODO: Remove hack when toolbar can manage width properly
             }
-            ToolbarItem(id: "Browser_Regular.Share", placement: .automatic) {
-                ButtonToolbarShare { self.shareSheetPresented = true }
+            ToolbarItem(id: "Browser_Regular.Share", placement: .cancellationAction) {
+                ButtonToolbarShare { self.viewModel.browserDisplay.isSharing = true }
                     .keyboardShortcut("i")
             }
             ToolbarItem(id: "Browser_Regular.Done", placement: .primaryAction) {
-                ButtonDone(Verb.Done, action: self.done)
+                ButtonDone(Verb.Done, action: { self.viewModel.doneAction?() })
                     .keyboardShortcut("w")
+                    .disabled(self.viewModel.doneAction == nil)
             }
         }
     }

@@ -25,11 +25,19 @@ public struct Query {
     public enum Archived: Int, Identifiable, CaseIterable {
         case unarchived, all
         public var id: ObjectIdentifier { .init(NSNumber(value: self.rawValue)) }
+        public mutating func toggle() {
+            switch self {
+            case .all:
+                self = .unarchived
+            case .unarchived:
+                self = .all
+            }
+        }
     }
     public var isArchived: Archived! // TODO: Hack for SwiftUI - Remove
     public var tag: AnyElement<AnyTag>?
     public var search: String
-    public var sort: Sort
+    public var sort: Sort! // TODO: Hack for SwiftUI - Remove
     
     /// Use this initializer when the tag is selected from the UI
     /// and may include the static tags provided for `Unread` and `All`.
@@ -53,7 +61,7 @@ public struct Query {
     public init(isArchived: Archived = .unarchived,
                 tag: AnyElement<AnyTag>? = nil,
                 search: String = "",
-                sort: Sort = .dateCreatedNewest)
+                sort: Sort = .default)
     {
         self.isArchived = isArchived
         self.tag = tag

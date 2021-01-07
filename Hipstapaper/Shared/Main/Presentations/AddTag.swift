@@ -32,13 +32,14 @@ struct AddTag: View {
     var body: some View {
         VStack(spacing: 0) {
             TextField.TagName(self.$tagName)
-                .paddingDefault_Equal()
-                .modifier(Modal.SaveCancel(title: Noun.AddTag,
-                                           cancel: self.cancel,
-                                           save: { self.save(self.tagName.nonEmptyString) },
-                                           canSave: { self.tagName.nonEmptyString != nil }))
-                // TODO: Remove height when this is not broken
-                .frame(idealWidth: 250, maxWidth: .infinity, idealHeight: 150, maxHeight: .infinity)
+            Spacer()
         }
+        .paddingDefault_Equal()
+        .modifier(Modal.SaveCancel(title: Noun.AddTag,
+                                   cancel: self.cancel,
+                                   save: { self.save(self.tagName.nonEmptyString) },
+                                   canSave: { self.tagName.nonEmptyString != nil }))
+        // TODO: Remove height when this is not broken
+        .frame(idealWidth: 250, idealHeight: 150)
     }
 }

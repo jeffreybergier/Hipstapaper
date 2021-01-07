@@ -58,6 +58,7 @@ fileprivate struct Blank: Tag, Website {
     var isArchived: Bool = false
     var originalURL: URL?
     var resolvedURL: URL?
+    var preferredURL: URL?
     var title: String?
     var thumbnail: Data?
     var dateCreated: Date = Date()

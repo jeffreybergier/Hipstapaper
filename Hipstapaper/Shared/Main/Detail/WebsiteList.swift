@@ -26,7 +26,7 @@ import Stylize
 
 struct WebsiteList: View {
     
-    @ObservedObject var controller: WebsiteController
+    @ObservedObject private var controller: WebsiteController
     
     init(controller: Controller, selectedTag: AnyElement<AnyTag>) {
         let websiteController = WebsiteController(controller: controller, selectedTag: selectedTag)
@@ -43,10 +43,9 @@ struct WebsiteList: View {
                     selection: self.$controller.selectedWebsites)
         { item in
             WebsiteRow(item.value)
+                .modifier(ClickActions.SingleClick(item: item))
         }
-        .animation(.default)
-        .navigationTitle(Noun.Hipstapaper)
-        .modifier(ListEditMode())
+        .modifier(Title(query: self.controller.query))
     }
 }
 
@@ -57,3 +56,19 @@ struct WebsiteList_Preview: PreviewProvider {
     }
 }
 #endif
+
+fileprivate struct Title: ViewModifier {
+    let query: Query
+    func body(content: Content) -> some View {
+        if let tag = self.query.tag {
+            return AnyView(content.navigationTitle(tag.value.name ?? Noun.UnreadItems_L))
+        } else {
+            switch query.isArchived! {
+            case .all:
+                return AnyView(content.navigationTitle(Noun.AllItems))
+            case .unarchived:
+                return AnyView(content.navigationTitle(Noun.Hipstapaper))
+            }
+        }
+    }
+}
