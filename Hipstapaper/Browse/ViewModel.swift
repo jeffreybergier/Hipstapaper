@@ -23,40 +23,28 @@ import Combine
 
 public class ViewModel: ObservableObject {
     
-    public class BrowserControl: ObservableObject {
-        @Published public var stop = false
-        @Published public var reload = false
-        @Published public var goBack = false
-        @Published public var goForward = false
-        @Published public var load: URL?
-        deinit {
-            // TODO: Remove once toolbar leaks are fixed
-            print("Browser Control DEINIT")
-        }
+    public struct BrowserControl {
+        public var stop = false
+        public var reload = false
+        public var goBack = false
+        public var goForward = false
+        public var load: URL?
     }
     
-    public class BrowserDisplay: ObservableObject {
-        @Published public internal(set) var title = ""
-        @Published public internal(set) var urlString = ""
-        @Published public internal(set) var isSharing = false
-        @Published public internal(set) var isLoading: Bool = false
-        @Published public internal(set) var canGoBack: Bool = false
-        @Published public internal(set) var canGoForward: Bool = false
+    public struct BrowserDisplay {
+        public internal(set) var title = ""
+        public internal(set) var urlString = ""
+        public internal(set) var isSharing = false
+        public internal(set) var isLoading: Bool = false
+        public internal(set) var canGoBack: Bool = false
+        public internal(set) var canGoForward: Bool = false
         public let progress = Progress(totalUnitCount: 100)
         internal var kvo: [NSKeyValueObservation] = []
-        deinit {
-            // TODO: Remove once toolbar leaks are fixed
-            print("Browser Display DEINIT")
-        }
     }
     
-    public class ItemDisplay: ObservableObject {
-        @Published public var isJSEnabled = false
-        @Published public var isArchived: Bool = false
-        deinit {
-            // TODO: Remove once toolbar leaks are fixed
-            print("ItemDisplay DEINIT")
-        }
+    public struct ItemDisplay {
+        public var isJSEnabled = false
+        public var isArchived: Bool = false
     }
     
     public let originalURL: URL
@@ -68,6 +56,7 @@ public class ViewModel: ObservableObject {
     public init(url: URL, doneAction: (() -> Void)?) {
         self.originalURL = url
         self.doneAction = doneAction
+        self.browserControl.load = originalURL
     }
     
     deinit {

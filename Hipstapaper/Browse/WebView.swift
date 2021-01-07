@@ -57,28 +57,28 @@ internal struct WebView: View {
         let config = WKWebViewConfiguration()
         let wv = WKWebView(frame: .zero, configuration: config)
         let token1 = wv.observe(\.isLoading)
-        { [unowned display = viewModel.browserDisplay] wv, _ in
-            display.isLoading = wv.isLoading
+        { [unowned vm = viewModel] wv, _ in
+            vm.browserDisplay.isLoading = wv.isLoading
         }
         let token2 = wv.observe(\.url)
-        { [unowned display = viewModel.browserDisplay] wv, _ in
-            display.urlString = wv.url?.absoluteString ?? ""
+        { [unowned vm = viewModel] wv, _ in
+            vm.browserDisplay.urlString = wv.url?.absoluteString ?? ""
         }
         let token3 = wv.observe(\.title)
-        { [unowned display = viewModel.browserDisplay] wv, _ in
-            display.title = wv.title ?? ""
+        { [unowned vm = viewModel] wv, _ in
+            vm.browserDisplay.title = wv.title ?? ""
         }
         let token4 = wv.observe(\.estimatedProgress)
-        { [unowned display = viewModel.browserDisplay] wv, _ in
-            display.progress.completedUnitCount = Int64(wv.estimatedProgress * 100)
+        { [unowned vm = viewModel] wv, _ in
+            vm.browserDisplay.progress.completedUnitCount = Int64(wv.estimatedProgress * 100)
         }
         let token5 = wv.observe(\.canGoBack)
-        { [unowned display = viewModel.browserDisplay] wv, _ in
-            display.canGoBack = wv.canGoBack
+        { [unowned vm = viewModel] wv, _ in
+            vm.browserDisplay.canGoBack = wv.canGoBack
         }
         let token6 = wv.observe(\.canGoForward)
-        { [unowned display = viewModel.browserDisplay] wv, _ in
-            display.canGoForward = wv.canGoForward
+        { [unowned vm = viewModel] wv, _ in
+            vm.browserDisplay.canGoForward = wv.canGoForward
         }
         self.viewModel.browserDisplay.kvo = [token1, token2, token3, token4, token5, token6]
         return wv
