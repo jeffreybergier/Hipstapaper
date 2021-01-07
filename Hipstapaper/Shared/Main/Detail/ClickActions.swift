@@ -24,42 +24,17 @@ import Datum
 import Browse
 
 enum ClickActions {
-    class Controller: ObservableObject {
-        @Published fileprivate var item: AnyElement<AnyWebsite>!
-        @Published fileprivate var isPresented: Bool = false
-    }
-    
-    struct Modifier: ViewModifier {
-        
-        @ObservedObject var controller: Controller
-        @EnvironmentObject private var windowManager: WindowManager
-        // TODO: remove !
-        private var item: AnyWebsite { self.controller.item.value }
-        func body(content: Content) -> some View {
-            content.sheet(isPresented: self.$controller.isPresented) { () -> Browser in
-                let vm = Browse.ViewModel(url: self.item.preferredURL!) {
-                    self.controller.isPresented = false
-                }
-                return Browser(vm)
-                // TODO: Add this back
-//                    .onDisappear { self.controller.item = nil }
-            }
-        }
-    }
-    
     struct SingleClick: ViewModifier {
         
+        @EnvironmentObject var presentation: BrowserPresentation
         let item: AnyElement<AnyWebsite>
-        @ObservedObject var controller: Controller
 
         func body(content: Content) -> some View {
             #if os(macOS)
             return content
             #else
-            return Button(action: {
-                self.controller.item = self.item
-                self.controller.isPresented = true
-            },label: { content })
+            return Button(action: { self.presentation.item = item },
+                          label: { content })
             #endif
         }
     }

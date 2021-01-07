@@ -43,6 +43,7 @@ struct HipstapaperApp: App {
         WindowGroup {
             Main(controller: self.controller)
                 .environmentObject(self.windowManager)
+                .environmentObject(BrowserPresentation())
         }
     }
 }

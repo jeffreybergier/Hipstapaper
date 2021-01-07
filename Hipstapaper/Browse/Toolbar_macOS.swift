@@ -63,6 +63,11 @@ internal struct Toolbar_macOS: ViewModifier {
                     
                     ButtonToolbarBrowserExternal { self.openURL(self.viewModel.originalURL) }
                         .keyboardShortcut("O")
+                    
+                    if let done = self.viewModel.doneAction {
+                        ButtonDone(Verb.Done, action: done)
+                            .keyboardShortcut("w")
+                    }
                 }
             }
             .modifier(STZ_BorderedButtonStyle())

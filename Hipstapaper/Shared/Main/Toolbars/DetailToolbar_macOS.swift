@@ -27,6 +27,7 @@ struct DetailToolbar_macOS: ViewModifier {
     
     @Environment(\.openURL) var openURL
     @EnvironmentObject var windowManager: WindowManager
+    @EnvironmentObject var browserPresentation: BrowserPresentation
     
     func body(content: Content) -> some View {
         // TODO: Remove combined ToolbarItems when it supoprts more than 10 items
@@ -39,7 +40,7 @@ struct DetailToolbar_macOS: ViewModifier {
                             !allURLs.isEmpty,
                             self.windowManager.features.contains(.multipleWindows)
                         else {
-                            self.presentation.value = .browser
+                            self.browserPresentation.item = self.controller.selectedWebsites.first
                             return
                         }
                         let urls = self.windowManager.features.contains(.bulkActivation)

@@ -24,7 +24,6 @@ enum DetailToolbarPresentation: Int {
     case search
     case tagApply
     case share
-    case browser
     case sort
     
     // TODO: Remove this when SwiftUI doesn't suck at modals
@@ -53,14 +52,6 @@ enum DetailToolbarPresentation: Int {
             }
         }
         
-        var isBrowser = false {
-            didSet {
-                guard !internalUpdateInProgress else { return }
-                guard !self.isBrowser else { return }
-                self.value = .none
-            }
-        }
-        
         var isSort = false {
             didSet {
                 guard !internalUpdateInProgress else { return }
@@ -78,7 +69,6 @@ enum DetailToolbarPresentation: Int {
                 self.isSearch     = self.value == .search
                 self.isTagApply   = self.value == .tagApply
                 self.isShare      = self.value == .share
-                self.isBrowser    = self.value == .browser
                 self.isSort       = self.value == .sort
             }
         }

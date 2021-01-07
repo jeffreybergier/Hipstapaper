@@ -36,15 +36,6 @@ struct DetailToolbar: ViewModifier {
         return ZStack(alignment: self.popoverAlignment) {
             // TODO: Hack when toolbars work properly with popovers
             Color.clear.frame(width: 1, height: 1)
-                .sheet(isPresented: self.$presentation.isBrowser) { () -> Browser in
-                    let item = self.controller.selectedWebsites.first!.value
-                    let vm = Browse.ViewModel(url: item.preferredURL!) {
-                        self.presentation.value = .none
-                    }
-                    return Browser(vm)
-                }
-            
-            Color.clear.frame(width: 1, height: 1)
                 .popover(isPresented: self.$presentation.isTagApply) { () -> TagApply in
                     return TagApply(selectedWebsites: self.controller.selectedWebsites,
                                     controller: self.controller.controller,
