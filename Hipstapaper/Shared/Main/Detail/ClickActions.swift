@@ -36,23 +36,13 @@ enum ClickActions {
         // TODO: remove !
         private var item: AnyWebsite { self.controller.item.value }
         func body(content: Content) -> some View {
-            content.sheet(isPresented: self.$controller.isPresented) {
-                Browser(
-                    .init(url: self.item.preferredURL!,
-                          archive: (self.item.isArchived, { _ in }),
-                          titleChanged: nil,
-                          done: { self.controller.isPresented = false },
-                          openInApp: self.windowManager.features.contains(.multipleWindows)
-                            ? {
-                                self.controller.isPresented = false
-                                self.windowManager.show([self.item.preferredURL!]) {
-                                    // TODO: Do something with this error
-                                    print($0)
-                                }
-                            }
-                            : nil)
-                )
-                .onDisappear { self.controller.item = nil }
+            content.sheet(isPresented: self.$controller.isPresented) { () -> Browser in
+                let vm = Browse.ViewModel(url: self.item.preferredURL!) {
+                    self.controller.isPresented = false
+                }
+                return Browser(vm)
+                // TODO: Add this back
+//                    .onDisappear { self.controller.item = nil }
             }
         }
     }
