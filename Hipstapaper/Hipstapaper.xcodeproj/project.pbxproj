@@ -88,6 +88,15 @@
 		739A874A258467860098DD72 /* Localize.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7399BAC3258251D800B8CAFD /* Localize.framework */; };
 		739A87E2258495550098DD72 /* Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739A87E1258495550098DD72 /* Text.swift */; };
 		739A87FB2584F92C0098DD72 /* NumberOval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739A87FA2584F92C0098DD72 /* NumberOval.swift */; };
+		739F03AE25A87F49001826F8 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739F03AD25A87F49001826F8 /* ShareViewController.swift */; };
+		739F03B125A87F49001826F8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 739F03AF25A87F49001826F8 /* MainInterface.storyboard */; };
+		739F03B525A87F49001826F8 /* Share_iOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 739F03AB25A87F49001826F8 /* Share_iOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		739F03CA25A87FE4001826F8 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 739F03C925A87FE4001826F8 /* icon.icns */; };
+		739F03CC25A87FE4001826F8 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739F03CB25A87FE4001826F8 /* ShareViewController.swift */; };
+		739F03CF25A87FE4001826F8 /* ShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 739F03CD25A87FE4001826F8 /* ShareViewController.xib */; };
+		739F03D425A87FE4001826F8 /* Share_macOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 739F03C725A87FE4001826F8 /* Share_macOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		739F040125A8823F001826F8 /* Snapshot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A3DEC1257BBD83002EDEB4 /* Snapshot.framework */; };
+		739F040625A8824A001826F8 /* Snapshot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A3DEC1257BBD83002EDEB4 /* Snapshot.framework */; };
 		73A3DE7825792604002EDEB4 /* DetailToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DE7725792604002EDEB4 /* DetailToolbar.swift */; };
 		73A3DE7925792604002EDEB4 /* DetailToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DE7725792604002EDEB4 /* DetailToolbar.swift */; };
 		73A3DE7F257B36C8002EDEB4 /* StaticElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DE7E257B36C8002EDEB4 /* StaticElement.swift */; };
@@ -254,6 +263,34 @@
 			remoteGlobalIDString = 7399BAC2258251D800B8CAFD;
 			remoteInfo = Localize;
 		};
+		739F03B325A87F49001826F8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBDCB337256BE8E600D005F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 739F03AA25A87F49001826F8;
+			remoteInfo = Share_iOS;
+		};
+		739F03D225A87FE4001826F8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBDCB337256BE8E600D005F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 739F03C625A87FE4001826F8;
+			remoteInfo = Share_macOS;
+		};
+		739F040325A8823F001826F8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBDCB337256BE8E600D005F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 73A3DEC0257BBD83002EDEB4;
+			remoteInfo = Snapshot;
+		};
+		739F040825A8824A001826F8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBDCB337256BE8E600D005F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 73A3DEC0257BBD83002EDEB4;
+			remoteInfo = Snapshot;
+		};
 		73A3DEEE257BC184002EDEB4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DBDCB337256BE8E600D005F6 /* Project object */;
@@ -306,6 +343,28 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		739F03B625A87F49001826F8 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				739F03B525A87F49001826F8 /* Share_iOS.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		739F03D825A87FE4001826F8 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				739F03D425A87FE4001826F8 /* Share_macOS.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DBDCB3AA256BEC5C00D005F6 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -392,6 +451,16 @@
 		7399BB7B25843C8500B8CAFD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		739A87E1258495550098DD72 /* Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
 		739A87FA2584F92C0098DD72 /* NumberOval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberOval.swift; sourceTree = "<group>"; };
+		739F03AB25A87F49001826F8 /* Share_iOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Share_iOS.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		739F03AD25A87F49001826F8 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		739F03B025A87F49001826F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		739F03B225A87F49001826F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		739F03C725A87FE4001826F8 /* Share_macOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Share_macOS.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		739F03C925A87FE4001826F8 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
+		739F03CB25A87FE4001826F8 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		739F03CE25A87FE4001826F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ShareViewController.xib; sourceTree = "<group>"; };
+		739F03D025A87FE4001826F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		739F03D125A87FE4001826F8 /* Share_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Share_macOS.entitlements; sourceTree = "<group>"; };
 		73A3DE7725792604002EDEB4 /* DetailToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailToolbar.swift; sourceTree = "<group>"; };
 		73A3DE7E257B36C8002EDEB4 /* StaticElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticElement.swift; sourceTree = "<group>"; };
 		73A3DE93257B77C8002EDEB4 /* IndexToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexToolbar.swift; sourceTree = "<group>"; };
@@ -491,6 +560,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		739F03A825A87F49001826F8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				739F040625A8824A001826F8 /* Snapshot.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		739F03C425A87FE4001826F8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				739F040125A8823F001826F8 /* Snapshot.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -650,6 +735,28 @@
 			path = Localize;
 			sourceTree = "<group>";
 		};
+		739F03AC25A87F49001826F8 /* Share_iOS */ = {
+			isa = PBXGroup;
+			children = (
+				739F03AD25A87F49001826F8 /* ShareViewController.swift */,
+				739F03AF25A87F49001826F8 /* MainInterface.storyboard */,
+				739F03B225A87F49001826F8 /* Info.plist */,
+			);
+			path = Share_iOS;
+			sourceTree = "<group>";
+		};
+		739F03C825A87FE4001826F8 /* Share_macOS */ = {
+			isa = PBXGroup;
+			children = (
+				739F03C925A87FE4001826F8 /* icon.icns */,
+				739F03CB25A87FE4001826F8 /* ShareViewController.swift */,
+				739F03CD25A87FE4001826F8 /* ShareViewController.xib */,
+				739F03D025A87FE4001826F8 /* Info.plist */,
+				739F03D125A87FE4001826F8 /* Share_macOS.entitlements */,
+			);
+			path = Share_macOS;
+			sourceTree = "<group>";
+		};
 		73A3DEA2257B9217002EDEB4 /* Main */ = {
 			isa = PBXGroup;
 			children = (
@@ -761,6 +868,8 @@
 				7399BAAA258251A500B8CAFD /* Stylize */,
 				7399BAC4258251D800B8CAFD /* Localize */,
 				735D4CB9258F4D690016F904 /* Browse */,
+				739F03AC25A87F49001826F8 /* Share_iOS */,
+				739F03C825A87FE4001826F8 /* Share_macOS */,
 				DBDCB344256BE8E700D005F6 /* Products */,
 				DBDCB3A5256BEC5B00D005F6 /* Frameworks */,
 			);
@@ -793,6 +902,8 @@
 				7399BAA9258251A500B8CAFD /* Stylize.framework */,
 				7399BAC3258251D800B8CAFD /* Localize.framework */,
 				735D4CB8258F4D690016F904 /* Browse.framework */,
+				739F03AB25A87F49001826F8 /* Share_iOS.appex */,
+				739F03C725A87FE4001826F8 /* Share_macOS.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -990,6 +1101,42 @@
 			productReference = 7399BAC3258251D800B8CAFD /* Localize.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		739F03AA25A87F49001826F8 /* Share_iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 739F03B925A87F49001826F8 /* Build configuration list for PBXNativeTarget "Share_iOS" */;
+			buildPhases = (
+				739F03A725A87F49001826F8 /* Sources */,
+				739F03A825A87F49001826F8 /* Frameworks */,
+				739F03A925A87F49001826F8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				739F040925A8824A001826F8 /* PBXTargetDependency */,
+			);
+			name = Share_iOS;
+			productName = Share_iOS;
+			productReference = 739F03AB25A87F49001826F8 /* Share_iOS.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		739F03C625A87FE4001826F8 /* Share_macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 739F03D525A87FE4001826F8 /* Build configuration list for PBXNativeTarget "Share_macOS" */;
+			buildPhases = (
+				739F03C325A87FE4001826F8 /* Sources */,
+				739F03C425A87FE4001826F8 /* Frameworks */,
+				739F03C525A87FE4001826F8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				739F040425A8823F001826F8 /* PBXTargetDependency */,
+			);
+			name = Share_macOS;
+			productName = Share_macOS;
+			productReference = 739F03C725A87FE4001826F8 /* Share_macOS.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		73A3DEC0257BBD83002EDEB4 /* Snapshot */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 73A3DED2257BBD83002EDEB4 /* Build configuration list for PBXNativeTarget "Snapshot" */;
@@ -1018,6 +1165,7 @@
 				DBDCB340256BE8E700D005F6 /* Frameworks */,
 				DBDCB341256BE8E700D005F6 /* Resources */,
 				DBDCB3AA256BEC5C00D005F6 /* Embed Frameworks */,
+				739F03B625A87F49001826F8 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
@@ -1027,6 +1175,7 @@
 				7399BB1A2582537500B8CAFD /* PBXTargetDependency */,
 				7399BB5A2584399C00B8CAFD /* PBXTargetDependency */,
 				735D4CDC258F502E0016F904 /* PBXTargetDependency */,
+				739F03B425A87F49001826F8 /* PBXTargetDependency */,
 			);
 			name = "Hipstapaper (iOS)";
 			packageProductDependencies = (
@@ -1043,6 +1192,7 @@
 				DBDCB348256BE8E700D005F6 /* Frameworks */,
 				DBDCB349256BE8E700D005F6 /* Resources */,
 				DBDCB3B4256BEC6500D005F6 /* Embed Frameworks */,
+				739F03D825A87FE4001826F8 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
@@ -1052,6 +1202,7 @@
 				7399BB5E258439A900B8CAFD /* PBXTargetDependency */,
 				7399BB69258439BD00B8CAFD /* PBXTargetDependency */,
 				735D4CE0258F50350016F904 /* PBXTargetDependency */,
+				739F03D325A87FE4001826F8 /* PBXTargetDependency */,
 			);
 			name = "Hipstapaper (macOS)";
 			packageProductDependencies = (
@@ -1157,6 +1308,12 @@
 						CreatedOnToolsVersion = 12.2;
 						LastSwiftMigration = 1220;
 					};
+					739F03AA25A87F49001826F8 = {
+						CreatedOnToolsVersion = 12.2;
+					};
+					739F03C625A87FE4001826F8 = {
+						CreatedOnToolsVersion = 12.2;
+					};
 					73A3DEC0257BBD83002EDEB4 = {
 						CreatedOnToolsVersion = 12.2;
 						LastSwiftMigration = 1220;
@@ -1210,6 +1367,8 @@
 				7399BAA8258251A500B8CAFD /* Stylize */,
 				7399BAC2258251D800B8CAFD /* Localize */,
 				735D4CB7258F4D690016F904 /* Browse */,
+				739F03AA25A87F49001826F8 /* Share_iOS */,
+				739F03C625A87FE4001826F8 /* Share_macOS */,
 			);
 		};
 /* End PBXProject section */
@@ -1233,6 +1392,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		739F03A925A87F49001826F8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				739F03B125A87F49001826F8 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		739F03C525A87FE4001826F8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				739F03CF25A87FE4001826F8 /* ShareViewController.xib in Resources */,
+				739F03CA25A87FE4001826F8 /* icon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1334,6 +1510,22 @@
 				DB382FFA259491C800ACF1F4 /* Verbs.swift in Sources */,
 				DB383004259491F100ACF1F4 /* Nouns.swift in Sources */,
 				DB38300E259491FB00ACF1F4 /* Phrases.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		739F03A725A87F49001826F8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				739F03AE25A87F49001826F8 /* ShareViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		739F03C325A87FE4001826F8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				739F03CC25A87FE4001826F8 /* ShareViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1548,6 +1740,26 @@
 			target = 7399BAC2258251D800B8CAFD /* Localize */;
 			targetProxy = 739A874C258467860098DD72 /* PBXContainerItemProxy */;
 		};
+		739F03B425A87F49001826F8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 739F03AA25A87F49001826F8 /* Share_iOS */;
+			targetProxy = 739F03B325A87F49001826F8 /* PBXContainerItemProxy */;
+		};
+		739F03D325A87FE4001826F8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 739F03C625A87FE4001826F8 /* Share_macOS */;
+			targetProxy = 739F03D225A87FE4001826F8 /* PBXContainerItemProxy */;
+		};
+		739F040425A8823F001826F8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 73A3DEC0257BBD83002EDEB4 /* Snapshot */;
+			targetProxy = 739F040325A8823F001826F8 /* PBXContainerItemProxy */;
+		};
+		739F040925A8824A001826F8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 73A3DEC0257BBD83002EDEB4 /* Snapshot */;
+			targetProxy = 739F040825A8824A001826F8 /* PBXContainerItemProxy */;
+		};
 		73A3DEEF257BC184002EDEB4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 73A3DEC0257BBD83002EDEB4 /* Snapshot */;
@@ -1592,6 +1804,22 @@
 				7399BB7B25843C8500B8CAFD /* en */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		739F03AF25A87F49001826F8 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				739F03B025A87F49001826F8 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+		739F03CD25A87FE4001826F8 /* ShareViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				739F03CE25A87FE4001826F8 /* Base */,
+			);
+			name = ShareViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1810,6 +2038,95 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 				WATCHOS_DEPLOYMENT_TARGET = 6.0;
+			};
+			name = Release;
+		};
+		739F03B725A87F49001826F8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = V6ESYGU6CV;
+				INFOPLIST_FILE = Share_iOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.Hipstapaper.Share-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		739F03B825A87F49001826F8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = V6ESYGU6CV;
+				INFOPLIST_FILE = Share_iOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.Hipstapaper.Share-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		739F03D625A87FE4001826F8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Share_macOS/Share_macOS.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = V6ESYGU6CV;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = Share_macOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.Hipstapaper.Share-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		739F03D725A87FE4001826F8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Share_macOS/Share_macOS.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = V6ESYGU6CV;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = Share_macOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.Hipstapaper.Share-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -2349,6 +2666,24 @@
 			buildConfigurations = (
 				7399BAC9258251D800B8CAFD /* Debug */,
 				7399BACA258251D800B8CAFD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		739F03B925A87F49001826F8 /* Build configuration list for PBXNativeTarget "Share_iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				739F03B725A87F49001826F8 /* Debug */,
+				739F03B825A87F49001826F8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		739F03D525A87FE4001826F8 /* Build configuration list for PBXNativeTarget "Share_macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				739F03D625A87FE4001826F8 /* Debug */,
+				739F03D725A87FE4001826F8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
