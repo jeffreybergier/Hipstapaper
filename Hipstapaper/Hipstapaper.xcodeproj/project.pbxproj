@@ -97,6 +97,9 @@
 		739F03D425A87FE4001826F8 /* Share_macOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 739F03C725A87FE4001826F8 /* Share_macOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		739F040125A8823F001826F8 /* Snapshot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A3DEC1257BBD83002EDEB4 /* Snapshot.framework */; };
 		739F040625A8824A001826F8 /* Snapshot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A3DEC1257BBD83002EDEB4 /* Snapshot.framework */; };
+		739F042125A8A32A001826F8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7399BB7C25843C8500B8CAFD /* Localizable.strings */; };
+		739F042C25A8A32A001826F8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7399BB7C25843C8500B8CAFD /* Localizable.strings */; };
+		739F044225A8A34F001826F8 /* NSExtensionItem+Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739F044125A8A34F001826F8 /* NSExtensionItem+Snapshot.swift */; };
 		73A3DE7825792604002EDEB4 /* DetailToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DE7725792604002EDEB4 /* DetailToolbar.swift */; };
 		73A3DE7925792604002EDEB4 /* DetailToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DE7725792604002EDEB4 /* DetailToolbar.swift */; };
 		73A3DE7F257B36C8002EDEB4 /* StaticElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DE7E257B36C8002EDEB4 /* StaticElement.swift */; };
@@ -461,6 +464,7 @@
 		739F03CE25A87FE4001826F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ShareViewController.xib; sourceTree = "<group>"; };
 		739F03D025A87FE4001826F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		739F03D125A87FE4001826F8 /* Share_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Share_macOS.entitlements; sourceTree = "<group>"; };
+		739F044125A8A34F001826F8 /* NSExtensionItem+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSExtensionItem+Snapshot.swift"; sourceTree = "<group>"; };
 		73A3DE7725792604002EDEB4 /* DetailToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailToolbar.swift; sourceTree = "<group>"; };
 		73A3DE7E257B36C8002EDEB4 /* StaticElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticElement.swift; sourceTree = "<group>"; };
 		73A3DE93257B77C8002EDEB4 /* IndexToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexToolbar.swift; sourceTree = "<group>"; };
@@ -827,6 +831,7 @@
 				73A3DF34257CCB65002EDEB4 /* FormLoading.swift */,
 				73A3DF3C257CCBC0002EDEB4 /* FormLoaded.swift */,
 				73A3DF0C257BC22C002EDEB4 /* WebView.swift */,
+				739F044125A8A34F001826F8 /* NSExtensionItem+Snapshot.swift */,
 				73A3DEC4257BBD83002EDEB4 /* Info.plist */,
 			);
 			path = Snapshot;
@@ -1400,6 +1405,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				739F03B125A87F49001826F8 /* MainInterface.storyboard in Resources */,
+				739F042125A8A32A001826F8 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1408,6 +1414,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				739F03CF25A87FE4001826F8 /* ShareViewController.xib in Resources */,
+				739F042C25A8A32A001826F8 /* Localizable.strings in Resources */,
 				739F03CA25A87FE4001826F8 /* icon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1535,6 +1542,7 @@
 			files = (
 				73A3DF3D257CCBC0002EDEB4 /* FormLoaded.swift in Sources */,
 				73A3DEE5257BC138002EDEB4 /* Snapshotter.swift in Sources */,
+				739F044225A8A34F001826F8 /* NSExtensionItem+Snapshot.swift in Sources */,
 				73A3DF45257D0761002EDEB4 /* Result+Snapshot.swift in Sources */,
 				73A3DF15257C53C8002EDEB4 /* Error.swift in Sources */,
 				73A3DF35257CCB65002EDEB4 /* FormLoading.swift in Sources */,
