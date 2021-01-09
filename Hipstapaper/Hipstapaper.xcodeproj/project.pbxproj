@@ -126,6 +126,7 @@
 		73B3893A25A1BEC800FE8A29 /* ClickActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B3893825A1BEC800FE8A29 /* ClickActions.swift */; };
 		73B4D18A259C858C00B8E6A6 /* Toolbar_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B4D189259C858C00B8E6A6 /* Toolbar_macOS.swift */; };
 		73C274B025A98EBE0028FE3A /* WKWebview+Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C274AF25A98EBD0028FE3A /* WKWebview+Snapshot.swift */; };
+		73C274D025A9D9AC0028FE3A /* AppExtensionStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C274CF25A9D9AC0028FE3A /* AppExtensionStorage.swift */; };
 		73C6BC1D25982FA0006B7A6D /* Modals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC1C25982FA0006B7A6D /* Modals.swift */; };
 		73C6BC6D259A16F3006B7A6D /* WebsiteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC6C259A16F3006B7A6D /* WebsiteController.swift */; };
 		73C6BC6E259A16F3006B7A6D /* WebsiteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC6C259A16F3006B7A6D /* WebsiteController.swift */; };
@@ -487,6 +488,9 @@
 		73B3893825A1BEC800FE8A29 /* ClickActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickActions.swift; sourceTree = "<group>"; };
 		73B4D189259C858C00B8E6A6 /* Toolbar_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar_macOS.swift; sourceTree = "<group>"; };
 		73C274AF25A98EBD0028FE3A /* WKWebview+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebview+Snapshot.swift"; sourceTree = "<group>"; };
+		73C274CF25A9D9AC0028FE3A /* AppExtensionStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppExtensionStorage.swift; sourceTree = "<group>"; };
+		73C274DB25A9DA440028FE3A /* Hipstapaper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper.entitlements; sourceTree = "<group>"; };
+		73C274E625A9DA6A0028FE3A /* Share_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Share_iOS.entitlements; sourceTree = "<group>"; };
 		73C6BC1C25982FA0006B7A6D /* Modals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modals.swift; sourceTree = "<group>"; };
 		73C6BC6C259A16F3006B7A6D /* WebsiteController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteController.swift; sourceTree = "<group>"; };
 		73C6BC77259AB266006B7A6D /* IndexToolbarPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexToolbarPresentation.swift; sourceTree = "<group>"; };
@@ -746,6 +750,7 @@
 		739F03AC25A87F49001826F8 /* Share_iOS */ = {
 			isa = PBXGroup;
 			children = (
+				73C274E625A9DA6A0028FE3A /* Share_iOS.entitlements */,
 				739F03AD25A87F49001826F8 /* ShareViewController.swift */,
 				739F03AF25A87F49001826F8 /* MainInterface.storyboard */,
 				739F03B225A87F49001826F8 /* Info.plist */,
@@ -838,6 +843,7 @@
 				73A3DF0C257BC22C002EDEB4 /* WebView.swift */,
 				73C274AF25A98EBD0028FE3A /* WKWebview+Snapshot.swift */,
 				739F044125A8A34F001826F8 /* NSExtensionItem+Snapshot.swift */,
+				73C274CF25A9D9AC0028FE3A /* AppExtensionStorage.swift */,
 				73A3DEC4257BBD83002EDEB4 /* Info.plist */,
 			);
 			path = Snapshot;
@@ -868,6 +874,7 @@
 		DBDCB336256BE8E600D005F6 = {
 			isa = PBXGroup;
 			children = (
+				73C274DB25A9DA440028FE3A /* Hipstapaper.entitlements */,
 				DBDCB33B256BE8E600D005F6 /* Shared */,
 				DBDCB345256BE8E700D005F6 /* iOS */,
 				DBDCB34C256BE8E700D005F6 /* macOS */,
@@ -1557,6 +1564,7 @@
 				73A3DF2D257CCB25002EDEB4 /* FormLoad.swift in Sources */,
 				73C274B025A98EBE0028FE3A /* WKWebview+Snapshot.swift in Sources */,
 				73A3DF0D257BC22C002EDEB4 /* WebView.swift in Sources */,
+				73C274D025A9D9AC0028FE3A /* AppExtensionStorage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2060,6 +2068,7 @@
 		739F03B725A87F49001826F8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Share_iOS/Share_iOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
 				INFOPLIST_FILE = Share_iOS/Info.plist;
@@ -2081,6 +2090,7 @@
 		739F03B825A87F49001826F8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Share_iOS/Share_iOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
 				INFOPLIST_FILE = Share_iOS/Info.plist;
@@ -2337,6 +2347,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Hipstapaper.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
 				ENABLE_PREVIEWS = YES;
@@ -2362,6 +2373,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Hipstapaper.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
 				ENABLE_PREVIEWS = YES;
