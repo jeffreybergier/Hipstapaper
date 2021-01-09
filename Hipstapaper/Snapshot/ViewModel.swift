@@ -66,7 +66,8 @@ public class ViewModel: ObservableObject {
     
     private var formStateToken: AnyCancellable?
         
-    public init(prepopulatedURL: URL? = nil, doneAction: @escaping DoneAction) {
+    public init(prepopulatedURL: URL? = nil,
+                doneAction: @escaping DoneAction = { _ in }) {
         var control = Control()
         var output = Output()
         if let prepopulatedURL = prepopulatedURL {
@@ -91,6 +92,12 @@ public class ViewModel: ObservableObject {
                         : .loaded
                 }
             }
+    }
+    
+    public func setInputURL(_ inputURL: URL) {
+        self.output.inputURLString = inputURL.absoluteString
+        self.output.inputURL = inputURL
+        self.control.shouldLoad = true
     }
     
     deinit {

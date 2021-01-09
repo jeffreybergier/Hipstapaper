@@ -25,55 +25,52 @@ import Snapshot
 
 class ShareViewController: UIViewController {
     
+    private let viewModel = Snapshot.ViewModel()
+    private lazy var snapshotVC: UIViewController = UIHostingController(rootView: Snapshotter(self.viewModel))
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.view.backgroundColor = .systemBackground
         
-        var success = false {
-            didSet {
-                switch success {
-                case false:
-                    // TODO: Fix this
-                    fatalError()
-                    // self.extensionContext?.cancelRequest(withError: nil)
-                case true:
-                    self.extensionContext?.completeRequest(returningItems: nil,
-                                                           completionHandler: nil)
-                }
+        let vc = self.snapshotVC
+        vc.view.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(vc.view)
+        self.view.addConstraints([
+            self.view.topAnchor.constraint(equalTo: vc.view.topAnchor, constant: 0),
+            self.view.bottomAnchor.constraint(equalTo: vc.view.bottomAnchor, constant: 0),
+            self.view.leadingAnchor.constraint(equalTo: vc.view.leadingAnchor, constant: 0),
+            self.view.trailingAnchor.constraint(equalTo: vc.view.trailingAnchor, constant: 0)
+        ])
+        self.addChild(vc)
+        
+        self.viewModel.doneAction = { result in
+            switch result {
+            case .failure(let error):
+                // TODO: Do something with this error
+                self.extensionContext?.completeRequest(returningItems: nil,
+                                                       completionHandler: nil)
+            case .success(let output):
+                print(output)
+                self.extensionContext?.completeRequest(returningItems: nil,
+                                                       completionHandler: nil)
             }
+            
         }
         
         guard let context = self.extensionContext?.inputItems.first as? NSExtensionItem else {
-            success = false
+            self.extensionContext?.completeRequest(returningItems: nil,
+                                                   completionHandler: nil)
             return
         }
+        
         context.urlValue() { url in
             guard let url = url else {
-                success = false
+                self.extensionContext?.completeRequest(returningItems: nil,
+                                                       completionHandler: nil)
                 return
             }
-            
-            let snapshotter = Snapshotter(.init(prepopulatedURL: url, doneAction: { result in
-                switch result {
-                case .failure(let error):
-                    // TODO: Do something with this error
-                    success = false
-                case .success(let output):
-                    print(output)
-                    print("DONE")
-                }
-            }))
-            
-            let vc = UIHostingController(rootView: snapshotter)
-            vc.view.translatesAutoresizingMaskIntoConstraints = false
-            self.view.addSubview(vc.view)
-            self.view.addConstraints([
-                self.view.topAnchor.constraint(equalTo: vc.view.topAnchor, constant: 0),
-                self.view.bottomAnchor.constraint(equalTo: vc.view.bottomAnchor, constant: 0),
-                self.view.leadingAnchor.constraint(equalTo: vc.view.leadingAnchor, constant: 0),
-                self.view.trailingAnchor.constraint(equalTo: vc.view.trailingAnchor, constant: 0)
-            ])
-            self.addChild(vc)
+            self.viewModel.setInputURL(url)
         }
     }
 
