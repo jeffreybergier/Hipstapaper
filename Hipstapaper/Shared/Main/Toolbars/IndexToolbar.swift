@@ -70,7 +70,7 @@ struct IndexToolbar: ViewModifier {
             // TODO: Hack when toolbars work properly with popovers
             Color.clear.frame(width: 1, height: 1)
                 .sheet(isPresented: self.$presentation.isAddWebsite) {
-                    Snapshotter() { result in
+                    return Snapshotter(.init(doneAction: { result in
                         switch result {
                         case .success(let output):
                             // TODO: maybe show error to user?
@@ -80,7 +80,7 @@ struct IndexToolbar: ViewModifier {
                             break
                         }
                         self.presentation.value = .none
-                    }
+                    }))
                 }
             
             // TODO: Hack when toolbars work properly with popovers

@@ -25,7 +25,7 @@ import WebKit
 
 public class ViewModel: ObservableObject {
     
-    public typealias DoneAction = (Error?) -> Void
+    public typealias DoneAction = (Result<Output, Error>) -> Void
     
     public struct Control {
         public var shouldLoad = false
@@ -66,29 +66,27 @@ public class ViewModel: ObservableObject {
     
     private var formStateToken: AnyCancellable?
         
-    public init(prepopulatedURL: URL?, doneAction: @escaping DoneAction) {
-        self.doneAction = doneAction
+    public init(prepopulatedURL: URL? = nil, doneAction: @escaping DoneAction) {
         var control = Control()
         var output = Output()
-        
         if let prepopulatedURL = prepopulatedURL {
             control.shouldLoad = true
             output.inputURLString = prepopulatedURL.absoluteString
         }
-        
         _control = .init(initialValue: control)
         _output = .init(initialValue: output)
+        self.doneAction = doneAction
         
         // For some reason, I have to subscribe to the publishers manually
         // and do this. But oh well.
-        self.formStateToken = self.objectWillChange
-            .sink { [unowned self] in
-                if self.output.currentURL == nil {
-                    self.formState = self.isLoading
+        self.formStateToken = Publishers.CombineLatest(self.$isLoading, self.$output)
+            .sink { [unowned self] isLoading, output in
+                if output.currentURL == nil {
+                    self.formState = isLoading
                         ? .loading
                         : .load
                 } else {
-                    self.formState = self.isLoading
+                    self.formState = isLoading
                         ? .loading
                         : .loaded
                 }

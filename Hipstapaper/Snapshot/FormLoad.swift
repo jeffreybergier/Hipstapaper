@@ -51,8 +51,7 @@ struct FormLoad_Preview2: PreviewProvider {
     static let viewModel: ViewModel = {
         let vm = ViewModel(prepopulatedURL: nil,
                            doneAction: { _ in })
-        // TODO: Figure out how to uncomment this
-//        vm.output.inputURLString = "https://www.google.com"
+        vm.output.inputURLString = "https://www.google.com"
         return vm
     }()
     static var previews: some View {

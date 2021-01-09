@@ -40,8 +40,21 @@ struct FormLoaded: View {
 
 
 #if DEBUG
-struct FormLoaded_Preview: PreviewProvider {
+struct FormLoaded_Preview1: PreviewProvider {
     static var viewModel = ViewModel(prepopulatedURL: nil, doneAction: { _ in })
+    static var previews: some View {
+        FormLoaded(viewModel: viewModel)
+            .previewLayout(.fixed(width: 300, height: 200.0))
+    }
+}
+struct FormLoaded_Preview2: PreviewProvider {
+    static var viewModel: ViewModel = {
+        let vm = ViewModel(prepopulatedURL: nil, doneAction: { _ in })
+        vm.progress.completedUnitCount = 30
+        vm.output.title = "Apple.com"
+        vm.output.currentURL = URL(string: "https://www.google.com")!
+        return vm
+    }()
     static var previews: some View {
         FormLoaded(viewModel: viewModel)
             .previewLayout(.fixed(width: 300, height: 200.0))

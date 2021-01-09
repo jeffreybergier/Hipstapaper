@@ -48,10 +48,9 @@ public struct Snapshotter: View {
         }
         .modifier(Modal.SaveCancel(
                     title: Noun.AddWebsite,
-                    cancel: { self.viewModel.doneAction(.userCancelled) },
-                    save: { self.viewModel.doneAction(nil) },
-                    canSave: { self.viewModel.output.currentURL != nil })
-        )
+                    cancel: { self.viewModel.doneAction(.failure(.userCancelled)) },
+                    save: { self.viewModel.doneAction(.success(self.viewModel.output)) },
+                    canSave: { self.viewModel.output.currentURL != nil }))
     }
 }
 

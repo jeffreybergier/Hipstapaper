@@ -53,7 +53,7 @@ class ShareViewController: UIViewController {
                 return
             }
             
-            let snapshotter = Snapshotter(.init(loadURL: url)) { result in
+            let snapshotter = Snapshotter(.init(prepopulatedURL: url, doneAction: { result in
                 switch result {
                 case .failure(let error):
                     // TODO: Do something with this error
@@ -61,9 +61,8 @@ class ShareViewController: UIViewController {
                 case .success(let output):
                     print(output)
                     print("DONE")
-                    success = true
                 }
-            }
+            }))
             
             let vc = UIHostingController(rootView: snapshotter)
             vc.view.translatesAutoresizingMaskIntoConstraints = false

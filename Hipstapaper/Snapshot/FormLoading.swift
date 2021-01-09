@@ -51,9 +51,8 @@ struct FormLoading_Preview2: PreviewProvider {
     static var viewModel: ViewModel = {
         let vm = ViewModel(prepopulatedURL: nil, doneAction: { _ in })
         vm.progress.completedUnitCount = 30
-        // TODO: Figure out how to uncomment these
-//        vm.output.title = "Apple.com"
-//        vm.output.currentURL = URL(string: "https://www.google.com")!
+        vm.output.title = "Apple.com"
+        vm.output.currentURL = URL(string: "https://www.google.com")!
         return vm
     }()
     static var previews: some View {
