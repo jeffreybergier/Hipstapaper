@@ -51,7 +51,19 @@ class ShareViewController: UIViewController {
                 self.extensionContext?.completeRequest(returningItems: nil,
                                                        completionHandler: nil)
             case .success(let output):
-                print(output)
+                do {
+                    let dropbox = AppGroup.dropbox
+                    let dateString = ISO8601DateFormatter().string(from: Date())
+                    let data = try PropertyListEncoder().encode(output)
+                    let fm = FileManager.default
+                    try fm.createDirectory(at: dropbox,
+                                           withIntermediateDirectories: true,
+                                           attributes: nil)
+                    let dataURL = dropbox.appendingPathComponent(dateString + ".plist")
+                    try! data.write(to: dataURL)
+                } catch {
+                    print(error)
+                }
                 self.extensionContext?.completeRequest(returningItems: nil,
                                                        completionHandler: nil)
             }

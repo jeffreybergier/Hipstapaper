@@ -23,6 +23,7 @@ import Foundation
 import Combine
 
 public enum AppGroup {
+    public static let dropbox: URL = container.appendingPathComponent("Dropbox", isDirectory: true)
     public static let container: URL = {
         let fm = FileManager.default
         #if os(macOS)
@@ -66,7 +67,7 @@ open class DirectoryPublisher: DirectoryPresenter {
         NSFileCoordinator.addFilePresenter(self)
         for url in existingContents ?? [] {
             let check = try? url.resourceValues(forKeys: [.isRegularFileKey, .isHiddenKey])
-            guard check?.isRegularFile == true && check?.isHidden == false else { return }
+            guard check?.isRegularFile == true && check?.isHidden == false else { continue }
             self.presentedItemOperationQueue.underlyingQueue!.async {
                 self._publisher.send(url)
             }
