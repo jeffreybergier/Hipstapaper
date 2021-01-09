@@ -25,15 +25,15 @@ import Stylize
 
 struct FormLoading: View {
     
-    @ObservedObject var output: WebView.Output
+    @ObservedObject var viewModel: ViewModel
     
     var body: some View {
         VStack {
-            TextField.WebsiteTitle(self.$output.title)
+            TextField.WebsiteTitle(self.$viewModel.output.title)
                 .disabled(true)
-            TextField.WebsiteURL(self.$output.resolvedURLString)
+            TextField.WebsiteURL(self.$viewModel.output.currentURLString)
                 .disabled(true)
-            ProgressBar(self.output.progress)
+            ProgressBar(self.viewModel.progress)
         }
     }
 }
@@ -41,11 +41,24 @@ struct FormLoading: View {
 
 #if DEBUG
 struct FormLoading_Preview: PreviewProvider {
-    static var output = WebView.Output()
+    static var viewModel = ViewModel(prepopulatedURL: nil, doneAction: { _ in })
     static var previews: some View {
-        FormLoading(output: self.output)
-            .environment(\.sizeCategory, .accessibilityLarge)
-            .previewLayout(.fixed(width: 300, height: 100.0))
+        FormLoading(viewModel: viewModel)
+            .previewLayout(.fixed(width: 300, height: 200.0))
+    }
+}
+struct FormLoading_Preview2: PreviewProvider {
+    static var viewModel: ViewModel = {
+        let vm = ViewModel(prepopulatedURL: nil, doneAction: { _ in })
+        vm.progress.completedUnitCount = 30
+        // TODO: Figure out how to uncomment these
+//        vm.output.title = "Apple.com"
+//        vm.output.currentURL = URL(string: "https://www.google.com")!
+        return vm
+    }()
+    static var previews: some View {
+        FormLoading(viewModel: viewModel)
+            .previewLayout(.fixed(width: 300, height: 200.0))
     }
 }
 #endif

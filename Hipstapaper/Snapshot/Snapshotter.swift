@@ -26,64 +26,10 @@ import Localize
 
 public struct Snapshotter: View {
     
-    public typealias Completion = (Result<Output, Error>) -> Void
-    
-    public struct Input {
-        var loadURL: URL?
-        public init(loadURL: URL? = nil) {
-            self.loadURL = loadURL
-        }
-    }
-    
-    public struct Output: Codable {
-        public var originalURL: URL
-        public var resolvedURL: URL
-        public var title: String
-        public var thumbnail: Data?
-        public var date: Date = Date()
-    }
-    
-    class ViewModel: ObservableObject {
-        @Published var input = WebView.Input()
-        @Published var output = WebView.Output()
-        @Published var formState: Form = .load
-
-        private var token: AnyCancellable?
-        
-        init(_ input: Input) {
-            var wvInput = WebView.Input()
-            if let url = input.loadURL {
-                wvInput.shouldLoad = true
-                wvInput.originalURLString = url.absoluteString
-            }
-            self.input = wvInput
-            
-            // For some reason, I have to subscribe to the publishers manually
-            // and do this. But oh well.
-            self.token = Publishers.CombineLatest4(self.$input,
-                                                   self.output.$isLoading,
-                                                   self.output.$thumbnail,
-                                                   self.output.$resolvedURLString)
-                .sink { [unowned self] _, isLoading, _, resolvedURLString in
-                    if URL(string: resolvedURLString) == nil {
-                        self.formState = isLoading
-                            ? .loading
-                            : .load
-                    } else {
-                        self.formState = isLoading
-                            ? .loading
-                            : .loaded
-                    }
-                }
-        }
-    }
-    
     @StateObject var viewModel: ViewModel
-    let completion: Completion
     
-    public init(_ input: Input = .init(), completion: @escaping Completion) {
-        _viewModel = StateObject(wrappedValue: ViewModel(input))
-        self.completion = completion
+    public init(_ viewModel: ViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
     }
     
     public var body: some View {
@@ -92,8 +38,7 @@ public struct Snapshotter: View {
                 FormSwitcher(viewModel: self.viewModel)
                     .paddingDefault_Equal(ignoring: [\.bottom])
                 ZStack(alignment: .top) {
-                    WebView(input: self.$viewModel.input,
-                            output: self.viewModel.output)
+                    WebView(viewModel: self.viewModel)
                     WebThumbnail(viewModel: self.viewModel)
                 }
                 .frame(width: 300, height: 300)
@@ -103,30 +48,16 @@ public struct Snapshotter: View {
         }
         .modifier(Modal.SaveCancel(
                     title: Noun.AddWebsite,
-                    cancel: { self.completion(.failure(.userCancelled)) },
-                    save: {
-                        guard
-                            let originalURL = URL(string: self.viewModel.input.originalURLString),
-                            let resolvedURL = URL(string: self.viewModel.output.resolvedURLString)
-                        else {
-                            self.completion(.failure(.convertURL))
-                            return
-                        }
-                        self.completion(.success(
-                            Snapshotter.Output(originalURL: originalURL,
-                                               resolvedURL: resolvedURL,
-                                               title: self.viewModel.output.title,
-                                               thumbnail: self.viewModel.output.thumbnail?.value)
-                        ))
-                    },
-                    canSave: { URL(string: self.viewModel.output.resolvedURLString) != nil })
+                    cancel: { self.viewModel.doneAction(.userCancelled) },
+                    save: { self.viewModel.doneAction(nil) },
+                    canSave: { self.viewModel.output.currentURL != nil })
         )
     }
 }
 
 internal struct WebThumbnail: View {
     
-    @ObservedObject var viewModel: Snapshotter.ViewModel
+    @ObservedObject var viewModel: ViewModel
 
     // TODO: Fix this
     var body: some View {

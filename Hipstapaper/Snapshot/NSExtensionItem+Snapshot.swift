@@ -20,7 +20,9 @@
 //
 
 import Foundation
+#if canImport(MobileCoreServices)
 import MobileCoreServices
+#endif
 
 extension NSExtensionItem {
     public func urlValue(completion: @escaping (URL?) -> Void) {

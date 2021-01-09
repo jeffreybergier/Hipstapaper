@@ -24,16 +24,15 @@ import Stylize
 
 struct FormLoaded: View {
     
-    @Binding var input: WebView.Input
-    @ObservedObject var output: WebView.Output
+    @ObservedObject var viewModel: ViewModel
     
     var body: some View {
         VStack {
-            TextField.WebsiteTitle(self.$output.title)
+            TextField.WebsiteTitle(self.$viewModel.output.title)
             HStack {
-                TextField.WebsiteURL(self.$output.resolvedURLString)
+                TextField.WebsiteURL(self.$viewModel.output.currentURLString)
                     .disabled(true)
-                ButtonToolbarJavascript(self.$input.javascriptEnabled)
+                ButtonToolbarJavascript(self.$viewModel.control.isJSEnabled)
             }
         }
     }
@@ -42,11 +41,10 @@ struct FormLoaded: View {
 
 #if DEBUG
 struct FormLoaded_Preview: PreviewProvider {
-    @State static var input = WebView.Input()
-    static var output = WebView.Output()
+    static var viewModel = ViewModel(prepopulatedURL: nil, doneAction: { _ in })
     static var previews: some View {
-        FormLoaded(input: self.$input, output: self.output)
-            .previewLayout(.fixed(width: 300, height: 100.0))
+        FormLoaded(viewModel: viewModel)
+            .previewLayout(.fixed(width: 300, height: 200.0))
     }
 }
 #endif
