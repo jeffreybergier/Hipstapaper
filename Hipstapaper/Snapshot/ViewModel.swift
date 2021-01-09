@@ -108,3 +108,32 @@ public class ViewModel: ObservableObject {
     }
 }
 
+extension ViewModel.Output: Codable {
+    public enum CodingKeys: String, CodingKey {
+        case title
+        case thumbnail
+        case currentURL
+        case inputURL
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        self.title = try values.decode(String.self, forKey: .title)
+        self.inputURL = try values.decode(Optional<URL>.self, forKey: .inputURL)
+        self.currentURL = try values.decode(Optional<URL>.self, forKey: .currentURL)
+        let data = try values.decode(Optional<Data>.self, forKey: .thumbnail)
+        if let data = data {
+            self.thumbnail = .success(data)
+        } else {
+            self.thumbnail = nil
+        }
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.title, forKey: .title)
+        try container.encode(self.inputURL, forKey: .inputURL)
+        try container.encode(self.currentURL, forKey: .currentURL)
+        try container.encode(self.thumbnail?.value, forKey: .thumbnail)
+    }
+}
