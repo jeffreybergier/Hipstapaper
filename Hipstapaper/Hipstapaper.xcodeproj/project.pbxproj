@@ -20,6 +20,7 @@
 		7302C8EB2573A29500DA6614 /* SortTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7302C8EA2573A29500DA6614 /* SortTests.swift */; };
 		7302C8F625745E1F00DA6614 /* ServerlessLogger in Frameworks */ = {isa = PBXBuildFile; productRef = 7302C8F525745E1F00DA6614 /* ServerlessLogger */; };
 		730CC989258650930002C50A /* Padding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730CC988258650930002C50A /* Padding.swift */; };
+		732CD60A25AAA09300DB842B /* Snapshot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A3DEC1257BBD83002EDEB4 /* Snapshot.framework */; };
 		732D529B25A5E7830028545F /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732D529A25A5E7830028545F /* ViewModel.swift */; };
 		732D52A525A73C2B0028545F /* Browser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732D52A425A73C2B0028545F /* Browser.swift */; };
 		732D52A625A73C2B0028545F /* Browser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732D52A425A73C2B0028545F /* Browser.swift */; };
@@ -95,11 +96,9 @@
 		739F03CC25A87FE4001826F8 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739F03CB25A87FE4001826F8 /* ShareViewController.swift */; };
 		739F03CF25A87FE4001826F8 /* ShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 739F03CD25A87FE4001826F8 /* ShareViewController.xib */; };
 		739F03D425A87FE4001826F8 /* Share_macOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 739F03C725A87FE4001826F8 /* Share_macOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		739F040125A8823F001826F8 /* Snapshot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A3DEC1257BBD83002EDEB4 /* Snapshot.framework */; };
 		739F040625A8824A001826F8 /* Snapshot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A3DEC1257BBD83002EDEB4 /* Snapshot.framework */; };
 		739F042125A8A32A001826F8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7399BB7C25843C8500B8CAFD /* Localizable.strings */; };
 		739F042C25A8A32A001826F8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7399BB7C25843C8500B8CAFD /* Localizable.strings */; };
-		739F044225A8A34F001826F8 /* NSExtensionItem+Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739F044125A8A34F001826F8 /* NSExtensionItem+Snapshot.swift */; };
 		739F044E25A94CB3001826F8 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739F044D25A94CB3001826F8 /* ViewModel.swift */; };
 		73A3DE7825792604002EDEB4 /* DetailToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DE7725792604002EDEB4 /* DetailToolbar.swift */; };
 		73A3DE7925792604002EDEB4 /* DetailToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DE7725792604002EDEB4 /* DetailToolbar.swift */; };
@@ -469,7 +468,6 @@
 		739F03CE25A87FE4001826F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ShareViewController.xib; sourceTree = "<group>"; };
 		739F03D025A87FE4001826F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		739F03D125A87FE4001826F8 /* Share_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Share_macOS.entitlements; sourceTree = "<group>"; };
-		739F044125A8A34F001826F8 /* NSExtensionItem+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSExtensionItem+Snapshot.swift"; sourceTree = "<group>"; };
 		739F044D25A94CB3001826F8 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		73A3DE7725792604002EDEB4 /* DetailToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailToolbar.swift; sourceTree = "<group>"; };
 		73A3DE7E257B36C8002EDEB4 /* StaticElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticElement.swift; sourceTree = "<group>"; };
@@ -590,7 +588,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				739F040125A8823F001826F8 /* Snapshot.framework in Frameworks */,
+				732CD60A25AAA09300DB842B /* Snapshot.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -845,7 +843,6 @@
 				73A3DF3C257CCBC0002EDEB4 /* FormLoaded.swift */,
 				73A3DF0C257BC22C002EDEB4 /* WebView.swift */,
 				73C274AF25A98EBD0028FE3A /* WKWebview+Snapshot.swift */,
-				739F044125A8A34F001826F8 /* NSExtensionItem+Snapshot.swift */,
 				73C274CF25A9D9AC0028FE3A /* AppExtensionStorage.swift */,
 				73A3DEC4257BBD83002EDEB4 /* Info.plist */,
 			);
@@ -1560,7 +1557,6 @@
 				739F044E25A94CB3001826F8 /* ViewModel.swift in Sources */,
 				73A3DF3D257CCBC0002EDEB4 /* FormLoaded.swift in Sources */,
 				73A3DEE5257BC138002EDEB4 /* Snapshotter.swift in Sources */,
-				739F044225A8A34F001826F8 /* NSExtensionItem+Snapshot.swift in Sources */,
 				73A3DF45257D0761002EDEB4 /* Result+Snapshot.swift in Sources */,
 				73A3DF15257C53C8002EDEB4 /* Error.swift in Sources */,
 				73A3DF35257CCB65002EDEB4 /* FormLoading.swift in Sources */,

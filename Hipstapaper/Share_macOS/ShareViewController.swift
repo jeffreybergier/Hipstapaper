@@ -75,14 +75,38 @@ class ShareViewController: NSViewController {
             return
         }
         
-//        context.urlValue() { url in
-//            guard let url = url else {
-//                self.extensionContext?.completeRequest(returningItems: nil,
-//                                                       completionHandler: nil)
-//                return
-//            }
-//            self.viewModel.setInputURL(url)
-//        }
+        context.urlValue() { url in
+            guard let url = url else {
+                self.extensionContext?.completeRequest(returningItems: nil,
+                                                       completionHandler: nil)
+                return
+            }
+            self.viewModel.setInputURL(url)
+        }
     }
 
+}
+
+extension NSExtensionItem {
+    fileprivate func urlValue(completion: @escaping (URL?) -> Void) {
+        let contentType = kUTTypeURL as String
+        let _a = self.attachments?.first(where: { $0.hasItemConformingToTypeIdentifier(contentType) })
+        guard let attachment = _a else {
+            completion(nil)
+            return
+        }
+        attachment.loadItem(forTypeIdentifier: contentType, options: nil) { data, _ in
+            DispatchQueue.main.async {
+                guard
+                    let data = data as? Data,
+                    let urlString = String(data: data, encoding: .utf8),
+                    let url = URL(string: urlString)
+                else {
+                    completion(nil)
+                    return
+                }
+                completion(url)
+            }
+        }
+    }
 }

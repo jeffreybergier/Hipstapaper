@@ -85,5 +85,28 @@ class ShareViewController: UIViewController {
             self.viewModel.setInputURL(url)
         }
     }
+}
 
+#if canImport(MobileCoreServices)
+import MobileCoreServices
+#endif
+
+extension NSExtensionItem {
+    fileprivate func urlValue(completion: @escaping (URL?) -> Void) {
+        let contentType = kUTTypeURL as String
+        let _a = self.attachments?.first(where: { $0.hasItemConformingToTypeIdentifier(contentType) })
+        guard let attachment = _a else {
+            completion(nil)
+            return
+        }
+        attachment.loadItem(forTypeIdentifier: contentType, options: nil) { url, _ in
+            DispatchQueue.main.async {
+                guard let url = url as? URL else {
+                    completion(nil)
+                    return
+                }
+                completion(url)
+            }
+        }
+    }
 }
