@@ -34,8 +34,7 @@ class ShareViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.errorViewModel.dismissAction = { [unowned self] in
-            let error: Swift.Error = self.errorViewModel.error!
+        self.errorViewModel.dismissAction = { [unowned self] error in
             self.extensionContext?.cancelRequest(withError: error)
         }
         
@@ -69,7 +68,6 @@ class ShareViewController: NSViewController {
         self.viewModel.doneAction = { [unowned self] result in
             switch result {
             case .failure(let error):
-                print(error)
                 if case .userCancelled = error {
                     self.extensionContext?.cancelRequest(withError: error)
                 } else {

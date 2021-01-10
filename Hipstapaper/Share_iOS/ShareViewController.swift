@@ -22,34 +22,60 @@
 import UIKit
 import SwiftUI
 import Snapshot
+import Stylize
 
 class ShareViewController: UIViewController {
     
     private let viewModel = Snapshot.ViewModel()
+    private let errorViewModel = Alert.ViewModel()
     private lazy var snapshotVC: UIViewController = UIHostingController(rootView: Snapshotter(self.viewModel))
+    private lazy var errorVC: UIViewController = UIHostingController(rootView: AlertPresenter(self.errorViewModel))
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = .systemBackground
         
-        let vc = self.snapshotVC
-        vc.view.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(vc.view)
-        self.view.addConstraints([
-            self.view.topAnchor.constraint(equalTo: vc.view.topAnchor, constant: 0),
-            self.view.bottomAnchor.constraint(equalTo: vc.view.bottomAnchor, constant: 0),
-            self.view.leadingAnchor.constraint(equalTo: vc.view.leadingAnchor, constant: 0),
-            self.view.trailingAnchor.constraint(equalTo: vc.view.trailingAnchor, constant: 0)
-        ])
-        self.addChild(vc)
+        self.errorViewModel.dismissAction = { [unowned self] error in
+            self.extensionContext?.cancelRequest(withError: error)
+        }
         
-        self.viewModel.doneAction = { result in
+        _ = { // Add SnapshotVC
+            let vc = self.snapshotVC
+            vc.view.translatesAutoresizingMaskIntoConstraints = false
+            self.view.addSubview(vc.view)
+            self.view.addConstraints([
+                self.view.topAnchor.constraint(equalTo: vc.view.topAnchor, constant: 0),
+                self.view.bottomAnchor.constraint(equalTo: vc.view.bottomAnchor, constant: 0),
+                self.view.leadingAnchor.constraint(equalTo: vc.view.leadingAnchor, constant: 0),
+                self.view.trailingAnchor.constraint(equalTo: vc.view.trailingAnchor, constant: 0)
+            ])
+            self.addChild(vc)
+        }()
+        
+        _ = { // Add ErrorVC
+            let vc = self.errorVC
+            vc.view.translatesAutoresizingMaskIntoConstraints = false
+            vc.view.backgroundColor = .clear
+            vc.view.isUserInteractionEnabled = false
+            self.view.addSubview(vc.view)
+            self.view.addConstraints([
+                self.view.topAnchor.constraint(equalTo: vc.view.topAnchor, constant: 0),
+                self.view.bottomAnchor.constraint(equalTo: vc.view.bottomAnchor, constant: 0),
+                self.view.leadingAnchor.constraint(equalTo: vc.view.leadingAnchor, constant: 0),
+                self.view.trailingAnchor.constraint(equalTo: vc.view.trailingAnchor, constant: 0),
+            ])
+            self.addChild(vc)
+        }()
+        
+        self.viewModel.doneAction = { [unowned self] result in
             switch result {
             case .failure(let error):
-                // TODO: Do something with this error
-                self.extensionContext?.completeRequest(returningItems: nil,
-                                                       completionHandler: nil)
+                if case .userCancelled = error {
+                    self.extensionContext?.cancelRequest(withError: error)
+                } else {
+                    self.errorViewModel.error = error
+                }
             case .success(let output):
                 do {
                     let dropbox = AppGroup.dropbox
@@ -60,26 +86,25 @@ class ShareViewController: UIViewController {
                                            withIntermediateDirectories: true,
                                            attributes: nil)
                     let dataURL = dropbox.appendingPathComponent(dateString + ".plist")
-                    try! data.write(to: dataURL)
+                    try data.write(to: dataURL)
+                    self.extensionContext?.completeRequest(returningItems: nil,
+                                                           completionHandler: nil)
                 } catch {
                     print(error)
+                    self.errorViewModel.error = Snapshot.Error.sx_save
                 }
-                self.extensionContext?.completeRequest(returningItems: nil,
-                                                       completionHandler: nil)
             }
             
         }
         
         guard let context = self.extensionContext?.inputItems.first as? NSExtensionItem else {
-            self.extensionContext?.completeRequest(returningItems: nil,
-                                                   completionHandler: nil)
+            self.errorViewModel.error = Snapshot.Error.sx_process
             return
         }
         
         context.urlValue() { url in
             guard let url = url else {
-                self.extensionContext?.completeRequest(returningItems: nil,
-                                                       completionHandler: nil)
+                self.errorViewModel.error = Snapshot.Error.sx_process
                 return
             }
             self.viewModel.setInputURL(url)
@@ -105,7 +130,7 @@ extension NSExtensionItem {
                     completion(nil)
                     return
                 }
-                completion(url)
+                completion(nil)
             }
         }
     }

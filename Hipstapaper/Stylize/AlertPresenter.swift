@@ -23,7 +23,7 @@ import SwiftUI
 import Stylize
 
 extension Alert {
-    public typealias DismissAction = () -> Void
+    public typealias DismissAction = (Error) -> Void
     public class ViewModel: ObservableObject {
         public var dismissAction: DismissAction?
         public var alert: Alert? {
@@ -48,7 +48,7 @@ extension Alert {
     public init(error: LocalizedError, dismissAction: DismissAction?) {
         self.init(title: Text("Error"),
                   message: Text(error.errorDescription!),
-                  dismissButton: .default(Text("Dismiss"), action: dismissAction))
+                  dismissButton: .default(Text("Dismiss"), action: { dismissAction?(error) }))
     }
 }
 
