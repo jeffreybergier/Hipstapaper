@@ -80,7 +80,7 @@ extension WKWebView {
             }
             // TODO: Convert this to JPEG Compression
             guard let data = image?.jpegData(compressionQuality: config.compressionFactor) else {
-                completion(.failure(.convertURL))
+                completion(.failure(.convertImage))
                 return
             }
             guard data.count <= config.maxThumbSize else {
