@@ -87,7 +87,6 @@ class ShareViewController: NSViewController {
                     self.extensionContext?.completeRequest(returningItems: nil,
                                                            completionHandler: nil)
                 } catch {
-                    print(error)
                     self.errorViewModel.error = Snapshot.Error.sx_save
                 }
             }

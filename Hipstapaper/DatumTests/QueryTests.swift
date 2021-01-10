@@ -32,14 +32,12 @@ class QueryTests: ParentTestCase {
     
     func test_predicate_unarchived() throws {
         let query = Query(isArchived: .unarchived, tag: nil, search: "")
-        print(query.cd_predicate.debugDescription)
         guard let predicate = query.cd_predicate else { XCTFail(); return }
         XCTAssertEqual(predicate.debugDescription, "cd_isArchived == 0")
     }
     
     func test_predicate_all_search() throws {
         let query = Query(isArchived: .all, tag: nil, search: "aString")
-        print(query.cd_predicate.debugDescription)
         guard let predicate = query.cd_predicate else { XCTFail(); return }
         XCTAssertEqual(predicate.debugDescription,
                        "cd_title CONTAINS[cd] \"aString\" OR cd_resolvedURL CONTAINS[cd] \"aString\" OR cd_originalURL CONTAINS[cd] \"aString\"")
@@ -47,7 +45,6 @@ class QueryTests: ParentTestCase {
     
     func test_predicate_unarchived_search() throws {
         let query = Query(isArchived: .unarchived, tag: nil, search: "aString")
-        print(query.cd_predicate.debugDescription)
         guard let predicate = query.cd_predicate else { XCTFail(); return }
         XCTAssertEqual(predicate.debugDescription,
                        "cd_isArchived == 0 AND (cd_title CONTAINS[cd] \"aString\" OR cd_resolvedURL CONTAINS[cd] \"aString\" OR cd_originalURL CONTAINS[cd] \"aString\")")
@@ -57,9 +54,7 @@ class QueryTests: ParentTestCase {
         let tag = try self.controller.createTag(name: "ATag").get()
         let _tag = tag.value.wrappedValue as! NSManagedObject
         let query = Query(isArchived: .all, tag: tag, search: "aString")
-        print(query.cd_predicate.debugDescription)
         guard let predicate = query.cd_predicate else { XCTFail(); return }
-        print(_tag.objectID)
         XCTAssertEqual(predicate.predicateFormat,
                        "(cd_title CONTAINS[cd] \"aString\" OR cd_resolvedURL CONTAINS[cd] \"aString\" OR cd_originalURL CONTAINS[cd] \"aString\") AND cd_tags CONTAINS \(_tag)")
     }
@@ -68,9 +63,7 @@ class QueryTests: ParentTestCase {
         let tag = try self.controller.createTag(name: "ATag").get()
         let _tag = tag.value.wrappedValue as! NSManagedObject
         let query = Query(isArchived: .unarchived, tag: tag, search: "aString")
-        print(query.cd_predicate.debugDescription)
         guard let predicate = query.cd_predicate else { XCTFail(); return }
-        print(_tag.objectID)
         XCTAssertEqual(predicate.predicateFormat,
                        "cd_isArchived == 0 AND (cd_title CONTAINS[cd] \"aString\" OR cd_resolvedURL CONTAINS[cd] \"aString\" OR cd_originalURL CONTAINS[cd] \"aString\") AND cd_tags CONTAINS \(_tag)")
     }
