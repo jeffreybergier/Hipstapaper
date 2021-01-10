@@ -37,16 +37,15 @@ struct DetailToolbar: ViewModifier {
             // TODO: Hack when toolbars work properly with popovers
             Color.clear.frame(width: 1, height: 1)
                 .popover(isPresented: self.$presentation.isTagApply) { () -> TagApply in
-                    return TagApply(selectedWebsites: self.controller.selectedWebsites,
-                                    controller: self.controller.controller,
-                                    done: { self.presentation.value = .none })
+                    TagApply(selectedWebsites: self.controller.selectedWebsites,
+                             controller: self.controller.controller,
+                             done: { self.presentation.value = .none })
                 }
             
             Color.clear.frame(width: 1, height: 1)
                 .popover(isPresented: self.$presentation.isShare) {
-                    Share(self.controller.selectedWebsites.compactMap
-                    { $0.value.preferredURL })
-                    { self.presentation.value = .none }
+                    Share(items: self.controller.selectedWebsites.compactMap { $0.value.preferredURL },
+                          completion:  { self.presentation.value = .none })
                 }
             
             Color.clear.frame(width: 1, height: 1)

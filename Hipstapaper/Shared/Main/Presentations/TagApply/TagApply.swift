@@ -54,7 +54,7 @@ struct TagApply: View {
                     }
                 }
             }
-            .modifier(Modal.Done(title: Verb.ApplyTags, done: self.done))
+            .modifier(Modal.Done(title: Noun.ApplyTags, done: self.done))
             .frame(idealWidth: 300, idealHeight: 300)
         }
     }

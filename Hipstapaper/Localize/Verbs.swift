@@ -31,7 +31,6 @@ public enum Verb {
     public static let DeleteTag: LocalizedStringKey        = "LCZ.Verb.Delete Tag"
     public static let AddTag: LocalizedStringKey           = "LCZ.Verb.Add Tag"
     public static let Go: LocalizedStringKey               = "LCZ.Verb.Go"
-    public static let ApplyTags: LocalizedStringKey        = "LCZ.Verb.Apply Tags"
     public static let ClearSearch: LocalizedStringKey      = "LCZ.Verb.Clear Search"
     public static let Open: LocalizedStringKey             = "LCZ.Verb.Open"
     public static let Safari: LocalizedStringKey           = "LCZ.Verb.Open in Browser"

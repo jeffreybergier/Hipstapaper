@@ -44,6 +44,7 @@ struct WebsiteList: View {
         { item in
             WebsiteRow(item.value)
                 .modifier(ClickActions.SingleClick(item: item))
+                .modifier(WebsiteRowContextMenu(item: item, controller: self.controller.controller))
         }
         .modifier(Title(query: self.controller.query))
     }

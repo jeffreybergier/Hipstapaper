@@ -46,7 +46,8 @@ internal struct Toolbar_iOS: ViewModifier {
         let newContent = ZStack(alignment: self.isCompact ? .topLeading : .topTrailing) {
             Color.clear.frame(width: 1, height: 1)
                 .popover(isPresented: self.$viewModel.browserDisplay.isSharing) {
-                    Share([self.viewModel.originalURL]) { self.viewModel.browserDisplay.isSharing = false }
+                    Share(items: [self.viewModel.originalURL],
+                          completion: { self.viewModel.browserDisplay.isSharing = false })
                 }
             content
                 .navigationTitle(self.viewModel.browserDisplay.title)

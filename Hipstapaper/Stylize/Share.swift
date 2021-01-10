@@ -33,7 +33,7 @@ public struct Share: View {
             .frame(width: 10, height: 10)
         #endif
     }
-    public init(_ items: [URL], completion: @escaping Share.Completion) {
+    public init(items: [URL], completion: @escaping Share.Completion) {
         self.items = items
         self.completion = completion
     }
@@ -104,7 +104,7 @@ struct Share_Preview: PreviewProvider {
     static var items = [URL(string: "https://www.google.com")!]
     
     static var previews: some View {
-        Share(items, completion: { })
+        Share(items: items, completion: { })
     }
 }
 #endif

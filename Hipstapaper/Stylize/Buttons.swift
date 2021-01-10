@@ -58,7 +58,7 @@ public struct ButtonToolbar: View {
                                     : Color.toolbarIcon_Dark)
                 .opacity(self.isEnabled ? 1.0 : 0.5 )
         }
-        .accessibility(label: Text(self.accessibilityLabel))
+        .help(self.accessibilityLabel)
     }
     public init(systemName: String,
                 accessibilityLabel: LocalizedStringKey,
