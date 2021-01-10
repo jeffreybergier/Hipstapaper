@@ -1,41 +1,88 @@
 //
-//  ShareViewController.swift
-//  Share_macOS
-//
 //  Created by Jeffrey Bergier on 2021/01/08.
 //
+//  Copyright © 2020 Saturday Apps.
+//
+//  This file is part of Hipstapaper.
+//
+//  Hipstapaper is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  Hipstapaper is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
+//
 
-import Cocoa
+import AppKit
+import SwiftUI
+import Snapshot
 
 class ShareViewController: NSViewController {
 
-    override var nibName: NSNib.Name? {
-        return NSNib.Name("ShareViewController")
-    }
-
-    override func loadView() {
-        super.loadView()
+    private let viewModel = Snapshot.ViewModel()
+    private lazy var snapshotVC: NSViewController = NSHostingController(rootView: Snapshotter(self.viewModel))
     
-        // Insert code here to customize the view
-        let item = self.extensionContext!.inputItems[0] as! NSExtensionItem
-        if let attachments = item.attachments {
-            NSLog("Attachments = %@", attachments as NSArray)
-        } else {
-            NSLog("No Attachments")
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let vc = self.snapshotVC
+        vc.view.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(vc.view)
+        self.view.addConstraints([
+            self.view.topAnchor.constraint(equalTo: vc.view.topAnchor, constant: 0),
+            self.view.bottomAnchor.constraint(greaterThanOrEqualTo: vc.view.bottomAnchor, constant: 0),
+            self.view.leadingAnchor.constraint(greaterThanOrEqualTo: vc.view.leadingAnchor, constant: 0),
+            self.view.trailingAnchor.constraint(greaterThanOrEqualTo: vc.view.trailingAnchor, constant: 0),
+            self.view.centerXAnchor.constraint(equalTo: vc.view.centerXAnchor, constant: 0),
+        ])
+        self.addChild(vc)
+        
+        self.viewModel.doneAction = { result in
+            switch result {
+            case .failure(let error):
+                // TODO: Do something with this error
+                self.extensionContext?.completeRequest(returningItems: nil,
+                                                       completionHandler: nil)
+            case .success(let output):
+                do {
+                    let dropbox = AppGroup.dropbox
+                    let dateString = ISO8601DateFormatter().string(from: Date())
+                    let data = try PropertyListEncoder().encode(output)
+                    let fm = FileManager.default
+                    try fm.createDirectory(at: dropbox,
+                                           withIntermediateDirectories: true,
+                                           attributes: nil)
+                    let dataURL = dropbox.appendingPathComponent(dateString + ".plist")
+                    try! data.write(to: dataURL)
+                } catch {
+                    print(error)
+                }
+                self.extensionContext?.completeRequest(returningItems: nil,
+                                                       completionHandler: nil)
+            }
+            
         }
-    }
-
-    @IBAction func send(_ sender: AnyObject?) {
-        let outputItem = NSExtensionItem()
-        // Complete implementation by setting the appropriate value on the output item
-    
-        let outputItems = [outputItem]
-        self.extensionContext!.completeRequest(returningItems: outputItems, completionHandler: nil)
-}
-
-    @IBAction func cancel(_ sender: AnyObject?) {
-        let cancelError = NSError(domain: NSCocoaErrorDomain, code: NSUserCancelledError, userInfo: nil)
-        self.extensionContext!.cancelRequest(withError: cancelError)
+        
+        guard let context = self.extensionContext?.inputItems.first as? NSExtensionItem else {
+            self.extensionContext?.completeRequest(returningItems: nil,
+                                                   completionHandler: nil)
+            return
+        }
+        
+//        context.urlValue() { url in
+//            guard let url = url else {
+//                self.extensionContext?.completeRequest(returningItems: nil,
+//                                                       completionHandler: nil)
+//                return
+//            }
+//            self.viewModel.setInputURL(url)
+//        }
     }
 
 }
