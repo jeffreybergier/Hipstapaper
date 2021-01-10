@@ -20,7 +20,7 @@
 //
 
 import SwiftUI
-import Stylize
+import Localize
 
 extension Alert {
     public typealias DismissAction = (Error) -> Void
@@ -46,9 +46,9 @@ extension Alert {
         public init() {}
     }
     public init(error: LocalizedError, dismissAction: DismissAction?) {
-        self.init(title: Text("Error"),
+        self.init(title: Text(Noun.Error),
                   message: Text(error.errorDescription!),
-                  dismissButton: .default(Text("Dismiss"), action: { dismissAction?(error) }))
+                  dismissButton: .default(Text(Verb.Dismiss), action: { dismissAction?(error) }))
     }
 }
 

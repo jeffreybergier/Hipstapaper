@@ -43,6 +43,7 @@
 "LCZ.Verb.Open"                = "Open";
 "LCZ.Verb.Open in Browser"     = "Open in Browser";
 "LCZ.Verb.Add and Remove Tags" = "Add and Remove Tags";
+"LCZ.Verb.Dismiss"             = "Dismiss";
 
 //
 //
@@ -66,6 +67,7 @@
 "LCZ.Noun.Add Website"   = "Add Website";
 "LCZ.Noun.Sort"          = "Sort";
 "LCZ.Noun.Filter"        = "Filter";
+"LCZ.Noun.Error"         = "Error";
 
 //
 //
