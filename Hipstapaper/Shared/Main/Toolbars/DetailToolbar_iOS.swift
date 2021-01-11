@@ -102,7 +102,7 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
                         ButtonToolbarSeparator()
                     }
                     ToolbarItem(id: "Detail_iOS_Regular.Tag", placement: .bottomBar) {
-                        DT.Tag(isDisabled: self.controller.selectedWebsites.isEmpty)
+                        STZ.TB.TagApply.toolbarButton(isDisabled: self.controller.selectedWebsites.isEmpty)
                         {
                             self.popoverAlignment = .bottomLeading
                             self.presentation.value = .tagApply
@@ -233,7 +233,7 @@ fileprivate struct DetailToolbar_Compact_iOS: ViewModifier {
                         }
                     }
                     ToolbarItem(id: "Detail_iOS_Compact.Tag", placement: .bottomBar) {
-                        DT.Tag(isDisabled: self.controller.selectedWebsites.isEmpty)
+                        STZ.TB.TagApply.toolbarButton(isDisabled: self.controller.selectedWebsites.isEmpty)
                         {
                             self.popoverAlignment = .bottomLeading
                             self.presentation.value = .tagApply

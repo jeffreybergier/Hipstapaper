@@ -83,8 +83,8 @@ struct DetailToolbar_macOS: ViewModifier {
                 }
             }
             ToolbarItem(id: "Detail_Mac.Tag") {
-                DT.Tag(isDisabled: self.controller.selectedWebsites.isEmpty,
-                       action: { self.presentation.value = .tagApply })
+                STZ.TB.TagApply.toolbarButton(isDisabled: self.controller.selectedWebsites.isEmpty,
+                                              action: { self.presentation.value = .tagApply })
             }
             ToolbarItem(id: "Detail_Mac.Separator") {
                 ButtonToolbarSeparator()

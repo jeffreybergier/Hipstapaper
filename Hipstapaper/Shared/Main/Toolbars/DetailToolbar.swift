@@ -129,13 +129,6 @@ enum DT {
             .disabled(isDisabled)
     }
     
-    static func Tag(isDisabled: Bool, action: @escaping () -> Void) -> some View {
-        return ButtonToolbar(systemName: "tag",
-                             accessibilityLabel: Verb.AddAndRemoveTags,
-                             action: action)
-            .disabled(isDisabled)
-    }
-    
     static func Share(isDisabled: Bool, action: @escaping () -> Void) -> some View {
         return ButtonToolbarShare(action)
             .disabled(isDisabled)
