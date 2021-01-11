@@ -109,7 +109,7 @@ struct IndexToolbar: ViewModifier {
             #if os(macOS)
             content.toolbar(id: "Index") {
                 ToolbarItem(id: "Index.Delete", placement: .destructiveAction) {
-                    STZ.TB.DeleteTag.toolbarButton(
+                    STZ.TB.DeleteTag.toolbar(
                         isDisabled: {
                             guard let tag = self.controller.selection else { return true }
                             return tag.value.wrappedValue as? Query.Archived != nil
@@ -121,7 +121,7 @@ struct IndexToolbar: ViewModifier {
                         })
                 }
                 ToolbarItem(id: "Index.Add", placement: .primaryAction) {
-                    STZ.TB.AddChoice.toolbarButton(action: { self.presentation.value = .addChoose })
+                    STZ.TB.AddChoice.toolbar(action: { self.presentation.value = .addChoose })
                 }
             }
             #else
@@ -131,7 +131,7 @@ struct IndexToolbar: ViewModifier {
                         EditButton()
                     }
                     ToolbarItem(id: "Index.Add", placement: .primaryAction) {
-                        STZ.TB.AddChoice.toolbarButton(action: { self.presentation.value = .addChoose  })
+                        STZ.TB.AddChoice.toolbar(action: { self.presentation.value = .addChoose  })
                     }
                 }
             } else {
@@ -140,7 +140,7 @@ struct IndexToolbar: ViewModifier {
                         EditButton()
                     }
                     ToolbarItem(id: "Index.Delete", placement: .bottomBar) {
-                        STZ.TB.DeleteTag.toolbarButton(isDisabled: {
+                        STZ.TB.DeleteTag.toolbar(isDisabled: {
                             guard let tag = self.controller.selection else { return true }
                             return tag.value.wrappedValue as? Query.Archived != nil
                         }(),
@@ -151,7 +151,7 @@ struct IndexToolbar: ViewModifier {
                         })
                     }
                     ToolbarItem(id: "Index.AddTag", placement: .bottomBar) {
-                        STZ.TB.AddTag.toolbarButton(action: { self.presentation.value = .addTag })
+                        STZ.TB.AddTag.toolbar(action: { self.presentation.value = .addTag })
                     }
                 }
             }

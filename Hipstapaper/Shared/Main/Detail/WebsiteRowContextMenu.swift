@@ -57,24 +57,24 @@ struct WebsiteRowContextMenu: ViewModifier {
             }
             .contextMenu {
                 Group {
-                    STZ.TB.OpenInApp.contextButton(isDisabled: self.item.value.preferredURL == nil,
+                    STZ.TB.OpenInApp.button(isDisabled: self.item.value.preferredURL == nil,
                                                    action: { self.presentation.item = self.item })
-                    STZ.TB.OpenInBrowser.contextButton(isDisabled: self.item.value.preferredURL == nil,
+                    STZ.TB.OpenInBrowser.button(isDisabled: self.item.value.preferredURL == nil,
                                                        action: { self.openURL(self.item.value.preferredURL!) })
                 }
                 Group {
-                    STZ.TB.Archive.contextButton(isDisabled: self.item.value.isArchived,
+                    STZ.TB.Archive.button(isDisabled: self.item.value.isArchived,
                                                  action: self.archive)
-                    STZ.TB.Unarchive.contextButton(isDisabled: !self.item.value.isArchived,
+                    STZ.TB.Unarchive.button(isDisabled: !self.item.value.isArchived,
                                                    action: self.unarchive)
                 }
                 Group {
-                    STZ.TB.Share.contextButton(isDisabled: self.item.value.preferredURL == nil,
+                    STZ.TB.Share.button(isDisabled: self.item.value.preferredURL == nil,
                                                action: { self.isSharePresented = true })
-                    STZ.TB.TagApply.contextButton(action: { self.isTagApplyPresented = true })
+                    STZ.TB.TagApply.button(action: { self.isTagApplyPresented = true })
                 }
                 Group {
-                    STZ.TB.DeleteWebsite.contextButton(action: { self.isDeleteConfirmPresented = true })
+                    STZ.TB.DeleteWebsite.button(action: { self.isDeleteConfirmPresented = true })
                 }
             }
     }

@@ -81,7 +81,7 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
                 //
                 content.toolbar(id: "Detail_iOS_Regular") {
                     ToolbarItem(id: "Detail_iOS_Regular.Archive", placement: .bottomBar) {
-                        STZ.TB.Archive.toolbarButton(isDisabled: self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
+                        STZ.TB.Archive.toolbar(isDisabled: self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
                         {
                             // Archive
                             let selected = self.controller.selectedWebsites
@@ -90,7 +90,7 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
                         }
                     }
                     ToolbarItem(id: "Detail_iOS_Regular.Unarchive", placement: .bottomBar) {
-                        STZ.TB.Unarchive.toolbarButton(isDisabled: self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
+                        STZ.TB.Unarchive.toolbar(isDisabled: self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
                         {
                             // Unarchive
                             let selected = self.controller.selectedWebsites
@@ -102,7 +102,7 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
                         STZ.TB.Separator.toolbarButton()
                     }
                     ToolbarItem(id: "Detail_iOS_Regular.Tag", placement: .bottomBar) {
-                        STZ.TB.TagApply.toolbarButton(isDisabled: self.controller.selectedWebsites.isEmpty)
+                        STZ.TB.TagApply.toolbar(isDisabled: self.controller.selectedWebsites.isEmpty)
                         {
                             self.popoverAlignment = .bottomLeading
                             self.presentation.value = .tagApply
@@ -112,7 +112,7 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
                         Spacer()
                     }
                     ToolbarItem(id: "Detail_iOS_Regular.OpenExternal", placement: .bottomBar) {
-                        STZ.TB.OpenInBrowser.toolbarButton(isDisabled: self.controller.selectedWebsites.isEmpty)
+                        STZ.TB.OpenInBrowser.toolbar(isDisabled: self.controller.selectedWebsites.isEmpty)
                         {
                             let urls = self.controller.selectedWebsites
                                 .compactMap { $0.value.preferredURL }
@@ -120,7 +120,7 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
                         }
                     }
                     ToolbarItem(id: "Detail_iOS_Regular.Share", placement: .bottomBar) {
-                        STZ.TB.Share.toolbarButton(isDisabled: self.controller.selectedWebsites.isEmpty)
+                        STZ.TB.Share.toolbar(isDisabled: self.controller.selectedWebsites.isEmpty)
                         {
                             self.popoverAlignment = .bottomTrailing
                             self.presentation.value = .share
@@ -157,11 +157,11 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
             .toolbar(id: "Detail_iOS_Regular") {
                 ToolbarItem(id: "Detail_iOS_Regular.Filter", placement: .automatic) {
                     return self.controller.query.isArchived.boolValue
-                        ? AnyView(STZ.TB.FilterActive.toolbarButton(action: { self.controller.query.isArchived.toggle() }))
-                        : AnyView(STZ.TB.FilterInactive.toolbarButton(action: { self.controller.query.isArchived.toggle() }))
+                        ? AnyView(STZ.TB.FilterActive.toolbar(action: { self.controller.query.isArchived.toggle() }))
+                        : AnyView(STZ.TB.FilterInactive.toolbar(action: { self.controller.query.isArchived.toggle() }))
                 }
                 ToolbarItem(id: "Detail_iOS_Regular.Sort", placement: .automatic) {
-                    STZ.TB.Sort.toolbarButton()
+                    STZ.TB.Sort.toolbar()
                     {
                         self.popoverAlignment = .topTrailing
                         self.presentation.value = .sort
@@ -169,8 +169,8 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
                 }
                 ToolbarItem(id: "Detail_iOS_Regular.Search", placement: .primaryAction) {
                     return self.controller.query.search.nonEmptyString == nil
-                        ? AnyView(STZ.TB.SearchInactive.toolbarButton(action: self.search))
-                        : AnyView(STZ.TB.SearchActive.toolbarButton(action: self.search))
+                        ? AnyView(STZ.TB.SearchInactive.toolbar(action: self.search))
+                        : AnyView(STZ.TB.SearchActive.toolbar(action: self.search))
                 }
             }
     }
@@ -206,11 +206,11 @@ fileprivate struct DetailToolbar_Compact_iOS: ViewModifier {
                     //
                     ToolbarItem(id: "Detail_iOS_Compact.Filter", placement: .bottomBar) {
                         return self.controller.query.isArchived.boolValue
-                            ? AnyView(STZ.TB.FilterActive.toolbarButton(action: { self.controller.query.isArchived.toggle() }))
-                            : AnyView(STZ.TB.FilterInactive.toolbarButton(action: { self.controller.query.isArchived.toggle() }))
+                            ? AnyView(STZ.TB.FilterActive.toolbar(action: { self.controller.query.isArchived.toggle() }))
+                            : AnyView(STZ.TB.FilterInactive.toolbar(action: { self.controller.query.isArchived.toggle() }))
                     }
                     ToolbarItem(id: "Detail_iOS_Compact.Sort", placement: .bottomBar) {
-                        STZ.TB.Sort.toolbarButton()
+                        STZ.TB.Sort.toolbar()
                         {
                             self.popoverAlignment = .bottomLeading
                             self.presentation.value = .sort
@@ -220,7 +220,7 @@ fileprivate struct DetailToolbar_Compact_iOS: ViewModifier {
                         STZ.TB.Separator.toolbarButton()
                     }
                     ToolbarItem(id: "Detail_iOS_Compact.Archive", placement: .bottomBar) {
-                        STZ.TB.Archive.toolbarButton(isDisabled: self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
+                        STZ.TB.Archive.toolbar(isDisabled: self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
                         {
                             // Archive
                             let selected = self.controller.selectedWebsites
@@ -229,7 +229,7 @@ fileprivate struct DetailToolbar_Compact_iOS: ViewModifier {
                         }
                     }
                     ToolbarItem(id: "Detail_iOS_Compact.Unarchive", placement: .bottomBar) {
-                        STZ.TB.Unarchive.toolbarButton(isDisabled: self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
+                        STZ.TB.Unarchive.toolbar(isDisabled: self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
                         {
                             // Unarchive
                             let selected = self.controller.selectedWebsites
@@ -238,7 +238,7 @@ fileprivate struct DetailToolbar_Compact_iOS: ViewModifier {
                         }
                     }
                     ToolbarItem(id: "Detail_iOS_Compact.Tag", placement: .bottomBar) {
-                        STZ.TB.TagApply.toolbarButton(isDisabled: self.controller.selectedWebsites.isEmpty)
+                        STZ.TB.TagApply.toolbar(isDisabled: self.controller.selectedWebsites.isEmpty)
                         {
                             self.popoverAlignment = .bottomLeading
                             self.presentation.value = .tagApply
@@ -248,7 +248,7 @@ fileprivate struct DetailToolbar_Compact_iOS: ViewModifier {
                         STZ.TB.Separator.toolbarButton()
                     }
                     ToolbarItem(id: "Detail_iOS_Compact.OpenExternal", placement: .bottomBar) {
-                        STZ.TB.OpenInBrowser.toolbarButton(isDisabled: self.controller.selectedWebsites.isEmpty)
+                        STZ.TB.OpenInBrowser.toolbar(isDisabled: self.controller.selectedWebsites.isEmpty)
                         {
                             let urls = self.controller.selectedWebsites
                                 .compactMap { $0.value.preferredURL }
@@ -285,7 +285,7 @@ fileprivate struct DetailToolbar_Compact_iOS: ViewModifier {
                 // Top Bar Items
                 //
                 ToolbarItem(id: "Detail_iOS_Compact.Share", placement: .cancellationAction) {
-                    STZ.TB.Share.toolbarButton(isDisabled: self.controller.selectedWebsites.isEmpty)
+                    STZ.TB.Share.toolbar(isDisabled: self.controller.selectedWebsites.isEmpty)
                     {
                         self.popoverAlignment = .topLeading
                         self.presentation.value = .share
@@ -293,8 +293,8 @@ fileprivate struct DetailToolbar_Compact_iOS: ViewModifier {
                 }
                 ToolbarItem(id: "Detail_iOS_Compact.Search", placement: .primaryAction) {
                     return self.controller.query.search.nonEmptyString == nil
-                        ? AnyView(STZ.TB.SearchInactive.toolbarButton(action: self.search))
-                        : AnyView(STZ.TB.SearchActive.toolbarButton(action: self.search))
+                        ? AnyView(STZ.TB.SearchInactive.toolbar(action: self.search))
+                        : AnyView(STZ.TB.SearchActive.toolbar(action: self.search))
                 }
             }
     }

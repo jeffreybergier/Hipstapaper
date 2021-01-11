@@ -35,26 +35,26 @@ internal struct Toolbar_macOS: ViewModifier {
         VStack(spacing: 0) {
             Stylize.Toolbar {
                 HStack(spacing: 16) {
-                    STZ.TB.GoBack.toolbarButton(isDisabled: !self.viewModel.browserDisplay.canGoBack,
+                    STZ.TB.GoBack.toolbar(isDisabled: !self.viewModel.browserDisplay.canGoBack,
                                                 action: { self.viewModel.browserControl.goBack = true })
                     
-                    STZ.TB.GoForward.toolbarButton(isDisabled: !self.viewModel.browserDisplay.canGoForward,
+                    STZ.TB.GoForward.toolbar(isDisabled: !self.viewModel.browserDisplay.canGoForward,
                                                 action: { self.viewModel.browserControl.goForward = true })
                     
                     self.viewModel.browserDisplay.isLoading
-                        ? AnyView(STZ.TB.Stop.toolbarButton(action: { self.viewModel.browserControl.stop = true }))
-                        : AnyView(STZ.TB.Reload.toolbarButton(action: { self.viewModel.browserControl.reload = true }))
+                        ? AnyView(STZ.TB.Stop.toolbar(action: { self.viewModel.browserControl.stop = true }))
+                        : AnyView(STZ.TB.Reload.toolbar(action: { self.viewModel.browserControl.reload = true }))
                     
                     self.viewModel.itemDisplay.isJSEnabled
-                        ? AnyView(STZ.TB.JSActive.toolbarButton(action: { self.viewModel.itemDisplay.isJSEnabled = false }))
-                        : AnyView(STZ.TB.JSInactive.toolbarButton(action: { self.viewModel.itemDisplay.isJSEnabled = true }))
+                        ? AnyView(STZ.TB.JSActive.toolbar(action: { self.viewModel.itemDisplay.isJSEnabled = false }))
+                        : AnyView(STZ.TB.JSInactive.toolbar(action: { self.viewModel.itemDisplay.isJSEnabled = true }))
                     
                     TextField.WebsiteTitle(self.$viewModel.browserDisplay.title)
                         .disabled(true)
                     
-                    STZ.TB.Share.toolbarButton(action: { self.viewModel.browserDisplay.isSharing = true })
+                    STZ.TB.Share.toolbar(action: { self.viewModel.browserDisplay.isSharing = true })
                     
-                    STZ.TB.OpenInBrowser.toolbarButton(action: { self.openURL(self.viewModel.originalURL) })
+                    STZ.TB.OpenInBrowser.toolbar(action: { self.openURL(self.viewModel.originalURL) })
                     
                     if let done = self.viewModel.doneAction {
                         ButtonDone(Verb.Done, action: done)

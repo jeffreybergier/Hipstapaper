@@ -34,7 +34,7 @@ struct DetailToolbar_macOS: ViewModifier {
         content.toolbar(id: "Detail_Mac") {
             ToolbarItem(id: "Detail_Mac.OpenInApp") {
                 HStack {
-                    STZ.TB.OpenInApp.toolbarButton(isDisabled: self.controller.selectedWebsites.isEmpty)
+                    STZ.TB.OpenInApp.toolbar(isDisabled: self.controller.selectedWebsites.isEmpty)
                     {
                         let allURLs = self.controller.selectedWebsites.compactMap { $0.value.preferredURL }
                         guard
@@ -52,7 +52,7 @@ struct DetailToolbar_macOS: ViewModifier {
                             print($0)
                         }
                     }
-                    STZ.TB.OpenInBrowser.toolbarButton(isDisabled: self.controller.selectedWebsites.isEmpty)
+                    STZ.TB.OpenInBrowser.toolbar(isDisabled: self.controller.selectedWebsites.isEmpty)
                     {
                         let urls = self.controller.selectedWebsites.compactMap { $0.value.preferredURL }
                         urls.forEach { self.openURL($0) }
@@ -60,7 +60,7 @@ struct DetailToolbar_macOS: ViewModifier {
                 }
             }
             ToolbarItem(id: "Detail_Mac.Share") {
-                STZ.TB.Share.toolbarButton(isDisabled: self.controller.selectedWebsites.isEmpty,
+                STZ.TB.Share.toolbar(isDisabled: self.controller.selectedWebsites.isEmpty,
                                            action: { self.presentation.value = .share })
             }
             ToolbarItem(id: "Detail_Mac.Separator") {
@@ -68,14 +68,14 @@ struct DetailToolbar_macOS: ViewModifier {
             }
             ToolbarItem(id: "Detail_Mac.Archive") {
                 HStack {
-                    STZ.TB.Archive.toolbarButton(isDisabled: self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
+                    STZ.TB.Archive.toolbar(isDisabled: self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
                     {
                         // Archive
                         let selected = self.controller.selectedWebsites
                         self.controller.selectedWebsites = []
                         try! self.controller.controller.update(selected, .init(isArchived: true)).get()
                     }
-                    STZ.TB.Unarchive.toolbarButton(isDisabled: self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
+                    STZ.TB.Unarchive.toolbar(isDisabled: self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
                     {
                         // Unarchive
                         let selected = self.controller.selectedWebsites
@@ -85,24 +85,24 @@ struct DetailToolbar_macOS: ViewModifier {
                 }
             }
             ToolbarItem(id: "Detail_Mac.Tag") {
-                STZ.TB.TagApply.toolbarButton(isDisabled: self.controller.selectedWebsites.isEmpty,
+                STZ.TB.TagApply.toolbar(isDisabled: self.controller.selectedWebsites.isEmpty,
                                               action: { self.presentation.value = .tagApply })
             }
             ToolbarItem(id: "Detail_Mac.Separator") {
                 STZ.TB.Separator.toolbarButton()
             }
             ToolbarItem(id: "Detail_Mac.Sort") {
-                STZ.TB.Sort.toolbarButton(action: { self.presentation.value = .sort })
+                STZ.TB.Sort.toolbar(action: { self.presentation.value = .sort })
             }
             ToolbarItem(id: "Detail_Mac.Filter") {
                 return self.controller.query.isArchived.boolValue
-                    ? AnyView(STZ.TB.FilterActive.toolbarButton(action: { self.controller.query.isArchived.toggle() }))
-                    : AnyView(STZ.TB.FilterInactive.toolbarButton(action: { self.controller.query.isArchived.toggle() }))
+                    ? AnyView(STZ.TB.FilterActive.toolbar(action: { self.controller.query.isArchived.toggle() }))
+                    : AnyView(STZ.TB.FilterInactive.toolbar(action: { self.controller.query.isArchived.toggle() }))
             }
             ToolbarItem(id: "Detail_Mac.Search") {
                 return self.controller.query.search.nonEmptyString == nil
-                    ? AnyView(STZ.TB.SearchInactive.toolbarButton(action: { self.presentation.value = .search }))
-                    : AnyView(STZ.TB.SearchActive.toolbarButton(action: { self.presentation.value = .search }))
+                    ? AnyView(STZ.TB.SearchInactive.toolbar(action: { self.presentation.value = .search }))
+                    : AnyView(STZ.TB.SearchActive.toolbar(action: { self.presentation.value = .search }))
             }
         }
     }

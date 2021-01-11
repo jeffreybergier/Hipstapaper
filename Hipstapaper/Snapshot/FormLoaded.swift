@@ -33,8 +33,8 @@ struct FormLoaded: View {
                 TextField.WebsiteURL(self.$viewModel.output.currentURLString)
                     .disabled(true)
                 self.viewModel.control.isJSEnabled
-                    ? AnyView(STZ.TB.JSActive.toolbarButton(action: { self.viewModel.control.isJSEnabled = false }))
-                    : AnyView(STZ.TB.JSInactive.toolbarButton(action: { self.viewModel.control.isJSEnabled = true }))
+                    ? AnyView(STZ.TB.JSActive.toolbar(action: { self.viewModel.control.isJSEnabled = false }))
+                    : AnyView(STZ.TB.JSInactive.toolbar(action: { self.viewModel.control.isJSEnabled = true }))
             }
         }
     }

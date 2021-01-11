@@ -73,37 +73,37 @@ private struct Toolbar_Compact: ViewModifier {
             // Bottom Navigation
             //
             ToolbarItem(id: "Browser_Compact.Back", placement: .bottomBar) {
-                STZ.TB.GoBack.toolbarButton(isDisabled: !self.viewModel.browserDisplay.canGoBack,
+                STZ.TB.GoBack.toolbar(isDisabled: !self.viewModel.browserDisplay.canGoBack,
                                             action: { self.viewModel.browserControl.goBack = true })
             }
             ToolbarItem(id: "Browser_Compact.Forward", placement: .bottomBar) {
-                STZ.TB.GoForward.toolbarButton(isDisabled: !self.viewModel.browserDisplay.canGoForward,
+                STZ.TB.GoForward.toolbar(isDisabled: !self.viewModel.browserDisplay.canGoForward,
                                             action: { self.viewModel.browserControl.goForward = true })
             }
             ToolbarItem(id: "Browser_Compact.Reload", placement: .bottomBar) {
                 self.viewModel.browserDisplay.isLoading
-                    ? AnyView(STZ.TB.Stop.toolbarButton(action: { self.viewModel.browserControl.stop = true }))
-                    : AnyView(STZ.TB.Reload.toolbarButton(action: { self.viewModel.browserControl.reload = true }))
+                    ? AnyView(STZ.TB.Stop.toolbar(action: { self.viewModel.browserControl.stop = true }))
+                    : AnyView(STZ.TB.Reload.toolbar(action: { self.viewModel.browserControl.reload = true }))
             }
             // TODO: LEAKING!
             ToolbarItem(id: "Browser_Compact.JS", placement: .bottomBar) {
                 self.viewModel.itemDisplay.isJSEnabled
-                    ? AnyView(STZ.TB.JSActive.toolbarButton(action: { self.viewModel.itemDisplay.isJSEnabled = false }))
-                    : AnyView(STZ.TB.JSInactive.toolbarButton(action: { self.viewModel.itemDisplay.isJSEnabled = true }))
+                    ? AnyView(STZ.TB.JSActive.toolbar(action: { self.viewModel.itemDisplay.isJSEnabled = false }))
+                    : AnyView(STZ.TB.JSInactive.toolbar(action: { self.viewModel.itemDisplay.isJSEnabled = true }))
             }
             //
             // Bottom Open in Options
             //
             // TODO: LEAKING!
             ToolbarItem(id: "Browser_Compact.OpenInExternal", placement: .bottomBar) {
-                STZ.TB.OpenInBrowser.toolbarButton(action: { self.openURL(self.viewModel.originalURL) })
+                STZ.TB.OpenInBrowser.toolbar(action: { self.openURL(self.viewModel.originalURL) })
             }
 
             //
             // Top [Share] - [AddressBar] - [Done]
             //
             ToolbarItem(id: "Browser_Compact.Share", placement: .cancellationAction) {
-                STZ.TB.Share.toolbarButton(action: { self.viewModel.browserDisplay.isSharing = true })
+                STZ.TB.Share.toolbar(action: { self.viewModel.browserDisplay.isSharing = true })
             }
             ToolbarItem(id: "Browser_Compact.Done", placement: .primaryAction) {
                 ButtonDone(Verb.Done, action: { self.viewModel.doneAction?() })
@@ -127,29 +127,29 @@ private struct Toolbar_Regular: ViewModifier {
             // TODO: LEAKING!
             ToolbarItem(id: "Browser_Regular.JS", placement: .bottomBar) {
                 self.viewModel.itemDisplay.isJSEnabled
-                    ? AnyView(STZ.TB.JSActive.toolbarButton(action: { self.viewModel.itemDisplay.isJSEnabled = false }))
-                    : AnyView(STZ.TB.JSInactive.toolbarButton(action: { self.viewModel.itemDisplay.isJSEnabled = true }))
+                    ? AnyView(STZ.TB.JSActive.toolbar(action: { self.viewModel.itemDisplay.isJSEnabled = false }))
+                    : AnyView(STZ.TB.JSInactive.toolbar(action: { self.viewModel.itemDisplay.isJSEnabled = true }))
             }
             // TODO: LEAKING!
             ToolbarItem(id: "Browser_Regular.OpenInExternal", placement: .bottomBar) {
-                STZ.TB.OpenInBrowser.toolbarButton(action: { self.openURL(self.viewModel.originalURL) })
+                STZ.TB.OpenInBrowser.toolbar(action: { self.openURL(self.viewModel.originalURL) })
             }
             
             //
             // Top Leading
             //
             ToolbarItem(id: "Browser_Regular.Back", placement: .bottomBar) {
-                STZ.TB.GoBack.toolbarButton(isDisabled: !self.viewModel.browserDisplay.canGoBack,
+                STZ.TB.GoBack.toolbar(isDisabled: !self.viewModel.browserDisplay.canGoBack,
                                             action: { self.viewModel.browserControl.goBack = true })
             }
             ToolbarItem(id: "Browser_Regular.Forward", placement: .bottomBar) {
-                STZ.TB.GoForward.toolbarButton(isDisabled: !self.viewModel.browserDisplay.canGoForward,
+                STZ.TB.GoForward.toolbar(isDisabled: !self.viewModel.browserDisplay.canGoForward,
                                             action: { self.viewModel.browserControl.goForward = true })
             }
             ToolbarItem(id: "Browser_Compact.Reload", placement: .bottomBar) {
                 self.viewModel.browserDisplay.isLoading
-                    ? AnyView(STZ.TB.Stop.toolbarButton(action: { self.viewModel.browserControl.stop = true }))
-                    : AnyView(STZ.TB.Reload.toolbarButton(action: { self.viewModel.browserControl.reload = true }))
+                    ? AnyView(STZ.TB.Stop.toolbar(action: { self.viewModel.browserControl.stop = true }))
+                    : AnyView(STZ.TB.Reload.toolbar(action: { self.viewModel.browserControl.reload = true }))
             }
             
             //
@@ -161,7 +161,7 @@ private struct Toolbar_Regular: ViewModifier {
                     .frame(width: 400) // TODO: Remove hack when toolbar can manage width properly
             }
             ToolbarItem(id: "Browser_Regular.Share", placement: .cancellationAction) {
-                STZ.TB.Share.toolbarButton(action: { self.viewModel.browserDisplay.isSharing = true })
+                STZ.TB.Share.toolbar(action: { self.viewModel.browserDisplay.isSharing = true })
             }
             ToolbarItem(id: "Browser_Regular.Done", placement: .primaryAction) {
                 ButtonDone(Verb.Done, action: { self.viewModel.doneAction?() })
