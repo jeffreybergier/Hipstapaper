@@ -61,8 +61,7 @@ internal struct Toolbar_macOS: ViewModifier {
                     ButtonToolbarShare { self.viewModel.browserDisplay.isSharing = true }
                         .keyboardShortcut("i")
                     
-                    ButtonToolbarBrowserExternal { self.openURL(self.viewModel.originalURL) }
-                        .keyboardShortcut("O")
+                    STZ.TB.OpenInBrowser.toolbarButton(action: { self.openURL(self.viewModel.originalURL) })
                     
                     if let done = self.viewModel.doneAction {
                         ButtonDone(Verb.Done, action: done)

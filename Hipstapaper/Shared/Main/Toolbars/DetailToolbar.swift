@@ -105,40 +105,4 @@ enum DT {
         .keyboardShortcut("o")
         .modifier(OpenWebsiteDisabler(selectionCount))
     }
-    
-    static func OpenExternal(selectionCount: Int,
-                             action: @escaping () -> Void)
-                             -> some View
-    {
-        ButtonToolbarBrowserExternal(action)
-        .keyboardShortcut("O")
-        .modifier(OpenWebsiteDisabler(selectionCount))
-    }
-    
-    static func Archive(isDisabled: Bool, action: @escaping () -> Void) -> some View {
-        return ButtonToolbar(systemName: "tray.and.arrow.down",
-                             accessibilityLabel: Verb.Archive,
-                             action: action)
-            .disabled(isDisabled)
-    }
-    
-    static func Unarchive(isDisabled: Bool, action: @escaping () -> Void) -> some View {
-        return ButtonToolbar(systemName: "tray.and.arrow.up",
-                             accessibilityLabel: Verb.Unarchive,
-                             action: action)
-            .disabled(isDisabled)
-    }
-    
-    static func Share(isDisabled: Bool, action: @escaping () -> Void) -> some View {
-        return ButtonToolbarShare(action)
-            .disabled(isDisabled)
-    }
-    
-    static func Search(searchActive: Bool, action: @escaping () -> Void) -> some View {
-        return AnyView(
-            searchActive
-                ? ButtonToolbarSearchActive(action)
-                : ButtonToolbarSearchInactive(action)
-        ).keyboardShortcut("f")
-    }
 }

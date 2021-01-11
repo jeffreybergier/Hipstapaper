@@ -51,29 +51,30 @@ struct DetailToolbar_macOS: ViewModifier {
                             print($0)
                         }
                     }
-                    DT.OpenExternal(selectionCount: self.controller.selectedWebsites.count) {
+                    STZ.TB.OpenInBrowser.toolbarButton(isDisabled: self.controller.selectedWebsites.isEmpty)
+                    {
                         let urls = self.controller.selectedWebsites.compactMap { $0.value.preferredURL }
                         urls.forEach { self.openURL($0) }
                     }
                 }
             }
             ToolbarItem(id: "Detail_Mac.Share") {
-                DT.Share(isDisabled: self.controller.selectedWebsites.isEmpty,
-                         action: { self.presentation.value = .share })
+                STZ.TB.Share.toolbarButton(isDisabled: self.controller.selectedWebsites.isEmpty,
+                                           action: { self.presentation.value = .share })
             }
             ToolbarItem(id: "Detail_Mac.Separator") {
                 ButtonToolbarSeparator()
             }
             ToolbarItem(id: "Detail_Mac.Archive") {
                 HStack {
-                    DT.Archive(isDisabled: self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
+                    STZ.TB.Archive.toolbarButton(isDisabled: self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
                     {
                         // Archive
                         let selected = self.controller.selectedWebsites
                         self.controller.selectedWebsites = []
                         try! self.controller.controller.update(selected, .init(isArchived: true)).get()
                     }
-                    DT.Unarchive(isDisabled: self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
+                    STZ.TB.Unarchive.toolbarButton(isDisabled: self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
                     {
                         // Unarchive
                         let selected = self.controller.selectedWebsites
@@ -98,9 +99,9 @@ struct DetailToolbar_macOS: ViewModifier {
                 }
             }
             ToolbarItem(id: "Detail_Mac.Search") {
-                DT.Search(searchActive: self.controller.query.search.nonEmptyString != nil) {
-                    self.presentation.value = .search
-                }
+                return self.controller.query.search.nonEmptyString == nil
+                    ? AnyView(STZ.TB.SearchInactive.toolbarButton(action: { self.presentation.value = .search }))
+                    : AnyView(STZ.TB.SearchActive.toolbarButton(action: { self.presentation.value = .search }))
             }
         }
     }

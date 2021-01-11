@@ -24,8 +24,10 @@ import Localize
 
 public protocol Toolbarable {
     static var icon: String { get }
-    static var help: LocalizedStringKey { get }
-    static var label: LocalizedStringKey { get }
+    static var phrase: LocalizedStringKey { get }
+    static var verb: LocalizedStringKey { get }
+    static var noun: LocalizedStringKey { get }
+    static var shortcut: KeyboardShortcut { get }
 }
 
 fileprivate struct __Hack_ToolbarButtonStyle: ViewModifier {
@@ -47,17 +49,19 @@ extension Toolbarable {
         return Button(action: action) {
             Image(systemName: self.icon)
         }
+        .keyboardShortcut(self.shortcut)
         .modifier(__Hack_ToolbarButtonStyle())
         .disabled(isDisabled)
-        .help(self.help)
+        .help(self.phrase)
     }
     
     public static func contextButton(isDisabled: Bool, action: @escaping Action) -> some View {
         return Button(action: action) {
-            Label(self.label, systemImage: self.icon)
+            Label(self.verb, systemImage: self.icon)
         }
+        .keyboardShortcut(self.shortcut)
         .disabled(isDisabled)
-        .help(self.help)
+        .help(self.phrase)
     }
 }
 
@@ -65,8 +69,52 @@ extension STZ {
     public enum TB {
         public enum TagApply: Toolbarable {
             public static let icon: String = "tag"
-            public static let help: LocalizedStringKey = Verb.AddAndRemoveTags
-            public static let label: LocalizedStringKey = Verb.AddAndRemoveTags
+            public static let phrase: LocalizedStringKey = Verb.AddAndRemoveTags
+            public static let verb: LocalizedStringKey = Verb.AddAndRemoveTags
+            public static let noun: LocalizedStringKey = Noun.ApplyTags
+            public static let shortcut: KeyboardShortcut = .init("T", modifiers: [.command])
+        }
+        public enum Share: Toolbarable {
+            public static let icon: String = "square.and.arrow.up"
+            public static let phrase: LocalizedStringKey = Verb.Share
+            public static let verb: LocalizedStringKey = Verb.Share
+            public static let noun: LocalizedStringKey = Verb.Share
+            public static let shortcut: KeyboardShortcut = .init("I", modifiers: [.command])
+        }
+        public enum SearchInactive: Toolbarable {
+            public static let icon: String = "magnifyingglass"
+            public static let phrase: LocalizedStringKey = Verb.Search
+            public static let verb: LocalizedStringKey = Verb.Search
+            public static let noun: LocalizedStringKey = Noun.Search
+            public static let shortcut: KeyboardShortcut = .init("f", modifiers: [.command])
+        }
+        public enum SearchActive: Toolbarable {
+            public static let icon: String = "magnifyingglass.circle.fill"
+            public static let phrase: LocalizedStringKey = Verb.Search
+            public static let verb: LocalizedStringKey = Verb.Search
+            public static let noun: LocalizedStringKey = Noun.Search
+            public static let shortcut: KeyboardShortcut = .init("f", modifiers: [.command])
+        }
+        public enum Unarchive: Toolbarable {
+            public static let icon: String = "tray.and.arrow.up"
+            public static let phrase: LocalizedStringKey = Verb.Unarchive
+            public static let verb: LocalizedStringKey = Verb.Unarchive
+            public static let noun: LocalizedStringKey = { fatalError() }()
+            public static let shortcut: KeyboardShortcut = .init("u", modifiers: [.command, .control])
+        }
+        public enum Archive: Toolbarable {
+            public static let icon: String = "tray.and.arrow.down"
+            public static let phrase: LocalizedStringKey = Verb.Archive
+            public static let verb: LocalizedStringKey = Verb.Archive
+            public static let noun: LocalizedStringKey = { fatalError() }()
+            public static let shortcut: KeyboardShortcut = .init("a", modifiers: [.command, .control])
+        }
+        public enum OpenInBrowser: Toolbarable {
+            public static let icon: String = "safari.fill"
+            public static let phrase: LocalizedStringKey = Verb.Safari
+            public static let verb: LocalizedStringKey = Verb.Safari
+            public static let noun: LocalizedStringKey = { fatalError() }()
+            public static let shortcut: KeyboardShortcut = .init("o", modifiers: [.command, .shift])
         }
     }
 }

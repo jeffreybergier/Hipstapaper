@@ -102,8 +102,7 @@ private struct Toolbar_Compact: ViewModifier {
             //
             // TODO: LEAKING!
             ToolbarItem(id: "Browser_Compact.OpenInExternal", placement: .bottomBar) {
-                return ButtonToolbarBrowserExternal { self.openURL(self.viewModel.originalURL) }
-                    .keyboardShortcut("O")
+                STZ.TB.OpenInBrowser.toolbarButton(action: { self.openURL(self.viewModel.originalURL) })
             }
 
             //
@@ -139,8 +138,7 @@ private struct Toolbar_Regular: ViewModifier {
             }
             // TODO: LEAKING!
             ToolbarItem(id: "Browser_Regular.OpenInExternal", placement: .bottomBar) {
-                ButtonToolbarBrowserExternal { self.openURL(self.viewModel.originalURL) }
-                    .keyboardShortcut("O")
+                STZ.TB.OpenInBrowser.toolbarButton(action: { self.openURL(self.viewModel.originalURL) })
             }
             
             //
