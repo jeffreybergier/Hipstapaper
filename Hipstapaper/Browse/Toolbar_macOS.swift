@@ -21,7 +21,6 @@
 
 import SwiftUI
 import Stylize
-import Localize
 
 #if os(macOS)
 

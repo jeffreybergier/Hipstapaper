@@ -22,7 +22,6 @@
 import SwiftUI
 import Datum
 import Stylize
-import Localize
 
 struct TagApplyRow: View {
     

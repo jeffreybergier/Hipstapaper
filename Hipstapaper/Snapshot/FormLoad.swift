@@ -21,7 +21,6 @@
 
 import SwiftUI
 import Stylize
-import Localize
 
 struct FormLoad: View {
     
@@ -30,11 +29,8 @@ struct FormLoad: View {
     var body: some View {
         HStack() {
             TextField.WebsiteURL(self.$viewModel.output.inputURLString)
-            ButtonDone(Verb.Go) {
-                self.viewModel.control.shouldLoad.toggle()
-            }
-            .keyboardShortcut(.defaultAction)
-            .disabled(self.viewModel.output.inputURL == nil)
+            STZ.BTN.Go.button(isDisabled: self.viewModel.output.inputURL == nil,
+                              action: { self.viewModel.control.shouldLoad.toggle() })
         }
     }
 }

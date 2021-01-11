@@ -20,7 +20,6 @@
 //
 
 import SwiftUI
-import Localize
     
 /// Normal button
 public func ButtonDefault(_ label: LocalizedStringKey,
