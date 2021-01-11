@@ -57,32 +57,24 @@ struct WebsiteRowContextMenu: ViewModifier {
             }
             .contextMenu {
                 Group {
-                    Button(action: { self.presentation.item = self.item },
-                           label: { Label(Verb.Open, systemImage: "safari") })
-                        .disabled(self.item.value.preferredURL == nil)
-                    Button(action: { self.openURL(self.item.value.preferredURL!) },
-                           label: { Label(Verb.Safari, systemImage: "safari.fill") })
-                        .disabled(self.item.value.preferredURL == nil)
+                    STZ.TB.OpenInApp.contextButton(isDisabled: self.item.value.preferredURL == nil,
+                                                   action: { self.presentation.item = self.item })
+                    STZ.TB.OpenInBrowser.contextButton(isDisabled: self.item.value.preferredURL == nil,
+                                                       action: { self.openURL(self.item.value.preferredURL!) })
                 }
                 Group {
-                    Button(action: self.archive,
-                           label: { Label(Verb.Archive, systemImage: "tray.and.arrow.down") })
-                        .disabled(self.item.value.isArchived)
-                    Button(action: self.unarchive,
-                           label: { Label(Verb.Unarchive, systemImage: "tray.and.arrow.up") })
-                        .disabled(!self.item.value.isArchived)
+                    STZ.TB.Archive.contextButton(isDisabled: self.item.value.isArchived,
+                                                 action: self.archive)
+                    STZ.TB.Unarchive.contextButton(isDisabled: !self.item.value.isArchived,
+                                                   action: self.unarchive)
                 }
                 Group {
-                    Button(action: { self.isSharePresented = true },
-                           label: { Label(Verb.Share, systemImage: "square.and.arrow.up") })
-                        .disabled(self.item.value.preferredURL == nil)
-                    Button(action: { self.isTagApplyPresented = true },
-                           label: { Label(Verb.AddAndRemoveTags, systemImage: "tag") })
-                        .disabled(self.item.value.preferredURL == nil)
+                    STZ.TB.Share.contextButton(isDisabled: self.item.value.preferredURL == nil,
+                                               action: { self.isSharePresented = true })
+                    STZ.TB.TagApply.contextButton(action: { self.isTagApplyPresented = true })
                 }
                 Group {
-                    Button(action: { self.isDeleteConfirmPresented = true },
-                           label: { Label("Delete", systemImage: "trash") })
+                    STZ.TB.DeleteWebsite.contextButton(action: { self.isDeleteConfirmPresented = true })
                 }
             }
     }

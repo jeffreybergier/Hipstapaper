@@ -55,7 +55,7 @@ extension Toolbarable {
         .keyboardShortcut(self.shortcut)
     }
     
-    public static func contextButton(isDisabled: Bool, action: @escaping Action) -> some View {
+    public static func contextButton(isDisabled: Bool = false, action: @escaping Action) -> some View {
         return Button(action: action) {
             Label(self.verb, systemImage: self.icon)
         }
@@ -190,6 +190,13 @@ extension STZ {
             public static let icon: String = "minus"
             public static let phrase: LocalizedStringKey = Verb.DeleteTag
             public static let verb: LocalizedStringKey = Verb.DeleteTag
+            public static let noun: LocalizedStringKey = { fatalError() }()
+            public static let shortcut: KeyboardShortcut = .init(.delete, modifiers: [.command])
+        }
+        public enum DeleteWebsite: Toolbarable {
+            public static let icon: String = "trash"
+            public static let phrase: LocalizedStringKey = "Delete website"
+            public static let verb: LocalizedStringKey = "Delete Website"
             public static let noun: LocalizedStringKey = { fatalError() }()
             public static let shortcut: KeyboardShortcut = .init(.delete, modifiers: [.command])
         }
