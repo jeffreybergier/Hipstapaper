@@ -56,8 +56,7 @@ internal struct Toolbar_macOS: ViewModifier {
                     STZ.TB.OpenInBrowser.toolbar(action: { self.openURL(self.viewModel.originalURL) })
                     
                     if let done = self.viewModel.doneAction {
-                        ButtonDone(Verb.Done, action: done)
-                            .keyboardShortcut("w")
+                        STZ.BTN.BrowserDone.button(action: done)
                     }
                 }
             }

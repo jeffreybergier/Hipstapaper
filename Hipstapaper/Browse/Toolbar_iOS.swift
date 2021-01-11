@@ -105,10 +105,10 @@ private struct Toolbar_Compact: ViewModifier {
             ToolbarItem(id: "Browser_Compact.Share", placement: .cancellationAction) {
                 STZ.TB.Share.toolbar(action: { self.viewModel.browserDisplay.isSharing = true })
             }
-            ToolbarItem(id: "Browser_Compact.Done", placement: .primaryAction) {
-                ButtonDone(Verb.Done, action: { self.viewModel.doneAction?() })
-                    .keyboardShortcut("w")
-                    .disabled(self.viewModel.doneAction == nil)
+            ToolbarItem(id: "Browser_Compact.Done", placement: .confirmationAction) {
+                STZ.BTN.BrowserDone.button(doneStyle: true,
+                                           isDisabled: self.viewModel.doneAction == nil,
+                                           action: { self.viewModel.doneAction?() })
             }
         }
     }
@@ -163,10 +163,10 @@ private struct Toolbar_Regular: ViewModifier {
             ToolbarItem(id: "Browser_Regular.Share", placement: .cancellationAction) {
                 STZ.TB.Share.toolbar(action: { self.viewModel.browserDisplay.isSharing = true })
             }
-            ToolbarItem(id: "Browser_Regular.Done", placement: .primaryAction) {
-                ButtonDone(Verb.Done, action: { self.viewModel.doneAction?() })
-                    .keyboardShortcut("w")
-                    .disabled(self.viewModel.doneAction == nil)
+            ToolbarItem(id: "Browser_Regular.Done", placement: .confirmationAction) {
+                STZ.BTN.BrowserDone.button(doneStyle: true,
+                                           isDisabled: self.viewModel.doneAction == nil,
+                                           action: { self.viewModel.doneAction?() })
             }
         }
     }

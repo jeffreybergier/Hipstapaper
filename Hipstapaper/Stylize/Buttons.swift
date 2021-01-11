@@ -22,7 +22,7 @@
 import SwiftUI
     
 /// Normal button
-public func ButtonDefault(_ label: LocalizedStringKey,
+internal func ButtonDefault(_ label: LocalizedStringKey,
                           action: @escaping () -> Void) -> some View
 {
     return Button(action: action) {
@@ -33,7 +33,7 @@ public func ButtonDefault(_ label: LocalizedStringKey,
 }
 
 /// Button with more prominence.
-public func ButtonDone(_ label: LocalizedStringKey,
+internal func ButtonDone(_ label: LocalizedStringKey,
                        action: @escaping () -> Void) -> some View
 {
     return Button(action: action) {
