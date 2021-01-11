@@ -87,22 +87,3 @@ struct OpenWebsiteDisabler: ViewModifier {
         }
     }
 }
-
-enum DT {
-    static func Filter(filter: Query.Archived, action: @escaping () -> Void) -> some View {
-        switch filter {
-        case .all:
-            return ButtonToolbarFilterB(action)
-        case .unarchived:
-            return ButtonToolbarFilterA(action)
-        }
-    }
-    static func OpenInApp(selectionCount: Int,
-                          action: @escaping () -> Void)
-                          -> some View
-    {
-        ButtonToolbarBrowserInApp(action)
-        .keyboardShortcut("o")
-        .modifier(OpenWebsiteDisabler(selectionCount))
-    }
-}

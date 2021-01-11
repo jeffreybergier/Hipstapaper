@@ -109,8 +109,7 @@ private struct Toolbar_Compact: ViewModifier {
             // Top [Share] - [AddressBar] - [Done]
             //
             ToolbarItem(id: "Browser_Compact.Share", placement: .cancellationAction) {
-                ButtonToolbarShare { self.viewModel.browserDisplay.isSharing = true }
-                    .keyboardShortcut("i")
+                STZ.TB.Share.toolbarButton(action: { self.viewModel.browserDisplay.isSharing = true })
             }
             ToolbarItem(id: "Browser_Compact.Done", placement: .primaryAction) {
                 ButtonDone(Verb.Done, action: { self.viewModel.doneAction?() })
@@ -174,8 +173,7 @@ private struct Toolbar_Regular: ViewModifier {
                     .frame(width: 400) // TODO: Remove hack when toolbar can manage width properly
             }
             ToolbarItem(id: "Browser_Regular.Share", placement: .cancellationAction) {
-                ButtonToolbarShare { self.viewModel.browserDisplay.isSharing = true }
-                    .keyboardShortcut("i")
+                STZ.TB.Share.toolbarButton(action: { self.viewModel.browserDisplay.isSharing = true })
             }
             ToolbarItem(id: "Browser_Regular.Done", placement: .primaryAction) {
                 ButtonDone(Verb.Done, action: { self.viewModel.doneAction?() })

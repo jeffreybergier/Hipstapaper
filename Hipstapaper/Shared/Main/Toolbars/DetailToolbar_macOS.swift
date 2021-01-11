@@ -34,7 +34,8 @@ struct DetailToolbar_macOS: ViewModifier {
         content.toolbar(id: "Detail_Mac") {
             ToolbarItem(id: "Detail_Mac.OpenInApp") {
                 HStack {
-                    DT.OpenInApp(selectionCount: self.controller.selectedWebsites.count) {
+                    STZ.TB.OpenInApp.toolbarButton(isDisabled: self.controller.selectedWebsites.isEmpty)
+                    {
                         let allURLs = self.controller.selectedWebsites.compactMap { $0.value.preferredURL }
                         guard
                             !allURLs.isEmpty,
@@ -63,7 +64,7 @@ struct DetailToolbar_macOS: ViewModifier {
                                            action: { self.presentation.value = .share })
             }
             ToolbarItem(id: "Detail_Mac.Separator") {
-                ButtonToolbarSeparator()
+                STZ.TB.Separator.toolbarButton()
             }
             ToolbarItem(id: "Detail_Mac.Archive") {
                 HStack {
@@ -88,15 +89,15 @@ struct DetailToolbar_macOS: ViewModifier {
                                               action: { self.presentation.value = .tagApply })
             }
             ToolbarItem(id: "Detail_Mac.Separator") {
-                ButtonToolbarSeparator()
+                STZ.TB.Separator.toolbarButton()
             }
             ToolbarItem(id: "Detail_Mac.Sort") {
-                ButtonToolbarSort { self.presentation.value = .sort }
+                STZ.TB.Sort.toolbarButton(action: { self.presentation.value = .sort })
             }
             ToolbarItem(id: "Detail_Mac.Filter") {
-                DT.Filter(filter: self.controller.query.isArchived) {
-                    self.controller.query.isArchived.toggle()
-                }
+                return self.controller.query.isArchived.boolValue
+                    ? AnyView(STZ.TB.FilterActive.toolbarButton(action: { self.controller.query.isArchived.toggle() }))
+                    : AnyView(STZ.TB.FilterInactive.toolbarButton(action: { self.controller.query.isArchived.toggle() }))
             }
             ToolbarItem(id: "Detail_Mac.Search") {
                 return self.controller.query.search.nonEmptyString == nil

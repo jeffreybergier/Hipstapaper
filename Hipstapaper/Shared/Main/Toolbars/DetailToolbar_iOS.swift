@@ -99,7 +99,7 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
                         }
                     }
                     ToolbarItem(id: "Detail_iOS_Regular.Separator", placement: .bottomBar) {
-                        ButtonToolbarSeparator()
+                        STZ.TB.Separator.toolbarButton()
                     }
                     ToolbarItem(id: "Detail_iOS_Regular.Tag", placement: .bottomBar) {
                         STZ.TB.TagApply.toolbarButton(isDisabled: self.controller.selectedWebsites.isEmpty)
@@ -127,7 +127,7 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
                         }
                     }
                     ToolbarItem(id: "Detail_iOS_Regular.Separator", placement: .bottomBar) {
-                        ButtonToolbarSeparator()
+                        STZ.TB.Separator.toolbarButton()
                     }
                     ToolbarItem(id: "Detail_iOS_Regular.EditButton", placement: .bottomBar) {
                         EditButton()
@@ -156,13 +156,13 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
         return editModeModified
             .toolbar(id: "Detail_iOS_Regular") {
                 ToolbarItem(id: "Detail_iOS_Regular.Filter", placement: .automatic) {
-                    DT.Filter(filter: self.controller.query.isArchived) {
-                        self.popoverAlignment = .topTrailing
-                        self.controller.query.isArchived.toggle()
-                    }
+                    return self.controller.query.isArchived.boolValue
+                        ? AnyView(STZ.TB.FilterActive.toolbarButton(action: { self.controller.query.isArchived.toggle() }))
+                        : AnyView(STZ.TB.FilterInactive.toolbarButton(action: { self.controller.query.isArchived.toggle() }))
                 }
                 ToolbarItem(id: "Detail_iOS_Regular.Sort", placement: .automatic) {
-                    ButtonToolbarSort {
+                    STZ.TB.Sort.toolbarButton()
+                    {
                         self.popoverAlignment = .topTrailing
                         self.presentation.value = .sort
                     }
@@ -205,19 +205,19 @@ fileprivate struct DetailToolbar_Compact_iOS: ViewModifier {
                     // Bottom Buttons
                     //
                     ToolbarItem(id: "Detail_iOS_Compact.Filter", placement: .bottomBar) {
-                        DT.Filter(filter: self.controller.query.isArchived) {
-                            self.popoverAlignment = .bottomLeading
-                            self.controller.query.isArchived.toggle()
-                        }
+                        return self.controller.query.isArchived.boolValue
+                            ? AnyView(STZ.TB.FilterActive.toolbarButton(action: { self.controller.query.isArchived.toggle() }))
+                            : AnyView(STZ.TB.FilterInactive.toolbarButton(action: { self.controller.query.isArchived.toggle() }))
                     }
                     ToolbarItem(id: "Detail_iOS_Compact.Sort", placement: .bottomBar) {
-                        ButtonToolbarSort {
+                        STZ.TB.Sort.toolbarButton()
+                        {
                             self.popoverAlignment = .bottomLeading
                             self.presentation.value = .sort
                         }
                     }
                     ToolbarItem(id: "Detail_iOS_Compact.Separator", placement: .bottomBar) {
-                        ButtonToolbarSeparator()
+                        STZ.TB.Separator.toolbarButton()
                     }
                     ToolbarItem(id: "Detail_iOS_Compact.Archive", placement: .bottomBar) {
                         STZ.TB.Archive.toolbarButton(isDisabled: self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
@@ -245,7 +245,7 @@ fileprivate struct DetailToolbar_Compact_iOS: ViewModifier {
                         }
                     }
                     ToolbarItem(id: "Detail_iOS_Compact.Separator", placement: .bottomBar) {
-                        ButtonToolbarSeparator()
+                        STZ.TB.Separator.toolbarButton()
                     }
                     ToolbarItem(id: "Detail_iOS_Compact.OpenExternal", placement: .bottomBar) {
                         STZ.TB.OpenInBrowser.toolbarButton(isDisabled: self.controller.selectedWebsites.isEmpty)

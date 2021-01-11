@@ -25,6 +25,7 @@ public struct Query {
     public enum Archived: Int, Identifiable, CaseIterable {
         case unarchived, all
         public var id: ObjectIdentifier { .init(NSNumber(value: self.rawValue)) }
+        public var boolValue: Bool { return self == .unarchived } 
         public mutating func toggle() {
             switch self {
             case .all:

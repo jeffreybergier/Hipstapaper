@@ -72,14 +72,14 @@ extension STZ {
             public static let phrase: LocalizedStringKey = Verb.AddAndRemoveTags
             public static let verb: LocalizedStringKey = Verb.AddAndRemoveTags
             public static let noun: LocalizedStringKey = Noun.ApplyTags
-            public static let shortcut: KeyboardShortcut = .init("T", modifiers: [.command])
+            public static let shortcut: KeyboardShortcut = .init("t", modifiers: [.command, .shift])
         }
         public enum Share: Toolbarable {
             public static let icon: String = "square.and.arrow.up"
             public static let phrase: LocalizedStringKey = Verb.Share
             public static let verb: LocalizedStringKey = Verb.Share
             public static let noun: LocalizedStringKey = Verb.Share
-            public static let shortcut: KeyboardShortcut = .init("I", modifiers: [.command])
+            public static let shortcut: KeyboardShortcut = .init("i", modifiers: [.command, .shift])
         }
         public enum SearchInactive: Toolbarable {
             public static let icon: String = "magnifyingglass"
@@ -115,6 +115,45 @@ extension STZ {
             public static let verb: LocalizedStringKey = Verb.Safari
             public static let noun: LocalizedStringKey = { fatalError() }()
             public static let shortcut: KeyboardShortcut = .init("o", modifiers: [.command, .shift])
+        }
+        public enum OpenInApp: Toolbarable {
+            public static let icon: String = "safari"
+            public static let phrase: LocalizedStringKey = Verb.Open
+            public static let verb: LocalizedStringKey = Verb.Open
+            public static let noun: LocalizedStringKey = { fatalError() }()
+            public static let shortcut: KeyboardShortcut = .init("o", modifiers: [.command])
+        }
+        public enum FilterActive: Toolbarable {
+            public static let icon: String = "line.horizontal.3.decrease.circle.fill"
+            public static let phrase: LocalizedStringKey = Phrase.FilterA
+            public static let verb: LocalizedStringKey = { fatalError() }()
+            public static let noun: LocalizedStringKey = { fatalError() }()
+            public static let shortcut: KeyboardShortcut = .init("l", modifiers: [.command, .shift])
+        }
+        public enum FilterInactive: Toolbarable {
+            public static let icon: String = "line.horizontal.3.decrease.circle"
+            public static let phrase: LocalizedStringKey = Phrase.FilterB
+            public static let verb: LocalizedStringKey = { fatalError() }()
+            public static let noun: LocalizedStringKey = { fatalError() }()
+            public static let shortcut: KeyboardShortcut = .init("l", modifiers: [.command, .shift])
+        }
+        public enum Sort: Toolbarable {
+            public static let icon: String = "arrow.up.arrow.down.circle"
+            public static let phrase: LocalizedStringKey = Phrase.Sort
+            public static let verb: LocalizedStringKey = Phrase.Sort
+            public static let noun: LocalizedStringKey = Noun.Sort
+            public static let shortcut: KeyboardShortcut = .init("`", modifiers: [.command, .option])
+        }
+        
+        // MARK: Weird Buttons
+        public enum Separator {
+            public static func toolbarButton() -> some View {
+                Button(action: {}) {
+                    Text("|")
+                }
+                .buttonStyle(BorderlessButtonStyle())
+                .disabled(true)
+            }
         }
     }
 }

@@ -70,44 +70,6 @@ public struct ButtonToolbar: View {
     }
 }
 
-public func ButtonToolbarSeparator() -> some View {
-    Button(action: {}) {
-        Text("|")
-    }
-    .buttonStyle(BorderlessButtonStyle())
-    .disabled(true)
-}
-
-public func ButtonToolbarShare(_ action: @escaping () -> Void) -> some View {
-    ButtonToolbar(systemName: "square.and.arrow.up",
-                  accessibilityLabel: Verb.Share,
-                  action: action)
-}
-
-public func ButtonToolbarBrowserInApp(_ action: @escaping () -> Void) -> some View {
-    ButtonToolbar(systemName: "safari",
-                  accessibilityLabel: Verb.Open,
-                  action: action)
-}
-
-public func ButtonToolbarFilterA(_ action: @escaping () -> Void) -> ButtonToolbar {
-    ButtonToolbar(systemName: "line.horizontal.3.decrease.circle.fill",
-                  accessibilityLabel: Phrase.FilterA,
-                  action: action)
-}
-
-public func ButtonToolbarFilterB(_ action: @escaping () -> Void) -> ButtonToolbar {
-    ButtonToolbar(systemName: "line.horizontal.3.decrease.circle",
-                  accessibilityLabel: Phrase.FilterB,
-                  action: action)
-}
-
-public func ButtonToolbarSort(_ action: @escaping () -> Void) -> ButtonToolbar {
-    ButtonToolbar(systemName: "arrow.up.arrow.down.circle",
-                  accessibilityLabel: Phrase.Sort,
-                  action: action)
-}
-
 public func ButtonToolbarStopReload(isLoading: Bool,
                              stopAction: @escaping () -> Void,
                              reloadAction: @escaping () -> Void) -> some View

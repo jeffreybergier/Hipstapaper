@@ -58,8 +58,7 @@ internal struct Toolbar_macOS: ViewModifier {
                     TextField.WebsiteTitle(self.$viewModel.browserDisplay.title)
                         .disabled(true)
                     
-                    ButtonToolbarShare { self.viewModel.browserDisplay.isSharing = true }
-                        .keyboardShortcut("i")
+                    STZ.TB.Share.toolbarButton(action: { self.viewModel.browserDisplay.isSharing = true })
                     
                     STZ.TB.OpenInBrowser.toolbarButton(action: { self.openURL(self.viewModel.originalURL) })
                     
