@@ -109,22 +109,19 @@ struct IndexToolbar: ViewModifier {
             #if os(macOS)
             content.toolbar(id: "Index") {
                 ToolbarItem(id: "Index.Delete", placement: .destructiveAction) {
-                    ButtonToolbar(systemName: "minus",
-                                  accessibilityLabel: Verb.DeleteTag)
-                    {
-                        // Delete
-                        guard let tag = self.controller.selection else { return }
-                        try! self.controller.controller.delete(tag).get()
-                    }
-                    .disabled({
-                        guard let tag = self.controller.selection else { return true }
-                        return tag.value.wrappedValue as? Query.Archived != nil
-                    }())
+                    STZ.TB.DeleteTag.toolbarButton(
+                        isDisabled: {
+                            guard let tag = self.controller.selection else { return true }
+                            return tag.value.wrappedValue as? Query.Archived != nil
+                        }(),
+                        action: {
+                            // Delete
+                            guard let tag = self.controller.selection else { return }
+                            try! self.controller.controller.delete(tag).get()
+                        })
                 }
                 ToolbarItem(id: "Index.Add", placement: .primaryAction) {
-                    ButtonToolbar(systemName: "plus",
-                                  accessibilityLabel: Verb.AddTag,
-                                  action: { self.presentation.value = .addChoose })
+                    STZ.TB.AddChoice.toolbarButton(action: { self.presentation.value = .addChoose })
                 }
             }
             #else
@@ -134,9 +131,7 @@ struct IndexToolbar: ViewModifier {
                         EditButton()
                     }
                     ToolbarItem(id: "Index.Add", placement: .primaryAction) {
-                        ButtonToolbar(systemName: "plus",
-                                      accessibilityLabel: Verb.AddTag,
-                                      action: { self.presentation.value = .addChoose })
+                        STZ.TB.AddChoice.toolbarButton(action: { self.presentation.value = .addChoose  })
                     }
                 }
             } else {
@@ -145,22 +140,18 @@ struct IndexToolbar: ViewModifier {
                         EditButton()
                     }
                     ToolbarItem(id: "Index.Delete", placement: .bottomBar) {
-                        ButtonToolbar(systemName: "minus",
-                                      accessibilityLabel: Verb.DeleteTag)
-                        {
+                        STZ.TB.DeleteTag.toolbarButton(isDisabled: {
+                            guard let tag = self.controller.selection else { return true }
+                            return tag.value.wrappedValue as? Query.Archived != nil
+                        }(),
+                        action: {
                             // Delete
                             guard let tag = self.controller.selection else { return }
                             try! self.controller.controller.delete(tag).get()
-                        }
-                        .disabled({
-                            guard let tag = self.controller.selection else { return true }
-                            return tag.value.wrappedValue as? Query.Archived != nil
-                        }())
+                        })
                     }
-                    ToolbarItem(id: "Index.Add", placement: .bottomBar) {
-                        ButtonToolbar(systemName: "plus",
-                                      accessibilityLabel: Verb.AddTag,
-                                      action: { self.presentation.value = .addTag })
+                    ToolbarItem(id: "Index.AddTag", placement: .bottomBar) {
+                        STZ.TB.AddTag.toolbarButton(action: { self.presentation.value = .addTag })
                     }
                 }
             }

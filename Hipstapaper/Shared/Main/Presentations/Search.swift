@@ -34,9 +34,7 @@ struct Search: View {
             HStack {
                 TextField.Search(self.$searchString)
                 if self.searchString.nonEmptyString != nil {
-                    ButtonToolbar(systemName: "xmark.circle", accessibilityLabel: Verb.ClearSearch) {
-                        self.searchString = ""
-                    }
+                    STZ.TB.ClearSearch.toolbarButton(action: { self.searchString = "" })
                 }
             }
             .animation(.default)

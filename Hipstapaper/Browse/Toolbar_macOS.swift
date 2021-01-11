@@ -35,25 +35,19 @@ internal struct Toolbar_macOS: ViewModifier {
         VStack(spacing: 0) {
             Stylize.Toolbar {
                 HStack(spacing: 16) {
-                    ButtonToolbar(systemName: "chevron.backward", accessibilityLabel: "Go Back") {
-                        self.viewModel.browserControl.goBack = true
-                    }
-                    .keyboardShortcut("[")
-                    .disabled(!self.viewModel.browserDisplay.canGoBack)
+                    STZ.TB.GoBack.toolbarButton(isDisabled: !self.viewModel.browserDisplay.canGoBack,
+                                                action: { self.viewModel.browserControl.goBack = true })
                     
-                    ButtonToolbar(systemName: "chevron.forward", accessibilityLabel: "Go Forward") {
-                        self.viewModel.browserControl.goForward = true
-                    }
-                    .keyboardShortcut("]")
-                    .disabled(!self.viewModel.browserDisplay.canGoForward)
+                    STZ.TB.GoForward.toolbarButton(isDisabled: !self.viewModel.browserDisplay.canGoForward,
+                                                action: { self.viewModel.browserControl.goForward = true })
                     
-                    ButtonToolbarStopReload(isLoading: self.viewModel.browserDisplay.isLoading,
-                                            // TODO: Check for memory leaks here
-                                            stopAction: { self.viewModel.browserControl.stop = true },
-                                            reloadAction: { self.viewModel.browserControl.reload = true })
+                    self.viewModel.browserDisplay.isLoading
+                        ? AnyView(STZ.TB.Stop.toolbarButton(action: { self.viewModel.browserControl.stop = true }))
+                        : AnyView(STZ.TB.Reload.toolbarButton(action: { self.viewModel.browserControl.reload = true }))
                     
-                    ButtonToolbarJavascript(self.$viewModel.itemDisplay.isJSEnabled)
-                        .keyboardShortcut("j")
+                    self.viewModel.itemDisplay.isJSEnabled
+                        ? AnyView(STZ.TB.JSActive.toolbarButton(action: { self.viewModel.itemDisplay.isJSEnabled = false }))
+                        : AnyView(STZ.TB.JSInactive.toolbarButton(action: { self.viewModel.itemDisplay.isJSEnabled = true }))
                     
                     TextField.WebsiteTitle(self.$viewModel.browserDisplay.title)
                         .disabled(true)
@@ -68,7 +62,7 @@ internal struct Toolbar_macOS: ViewModifier {
                     }
                 }
             }
-            .modifier(STZ_BorderedButtonStyle())
+            .buttonStyle(BorderedButtonStyle())
             content
                 .navigationTitle(self.viewModel.browserDisplay.title)
         }

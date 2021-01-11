@@ -44,72 +44,9 @@ public func ButtonDone(_ label: LocalizedStringKey,
     .modifier(STZ_BorderedButtonStyle())
 }
 
-public struct ButtonToolbar: View {
-    @Environment(\.colorScheme) var colorScheme
-    @Environment(\.isEnabled) var isEnabled
-    private var systemName: String
-    private var accessibilityLabel: LocalizedStringKey
-    private var action: () -> Void
-    public var body: some View {
-        Button(action: self.action) {
-            Image(systemName: self.systemName)
-                .foregroundColor(self.colorScheme.isNormal
-                                    ? Color.toolbarIcon
-                                    : Color.toolbarIcon_Dark)
-                .opacity(self.isEnabled ? 1.0 : 0.5 )
-        }
-        .help(self.accessibilityLabel)
-    }
-    public init(systemName: String,
-                accessibilityLabel: LocalizedStringKey,
-                action: @escaping () -> Void)
-    {
-        self.systemName = systemName
-        self.accessibilityLabel = accessibilityLabel
-        self.action = action
-    }
-}
-
-public func ButtonToolbarStopReload(isLoading: Bool,
-                             stopAction: @escaping () -> Void,
-                             reloadAction: @escaping () -> Void) -> some View
-{
-    return isLoading
-        ? ButtonToolbar(systemName: "xmark",
-                        accessibilityLabel: "Stop",
-                        action: stopAction)
-        .keyboardShortcut(".")
-        .disabled(!isLoading)
-        : ButtonToolbar(systemName: "arrow.clockwise",
-                        accessibilityLabel: "Reload",
-                        action: reloadAction)
-        .keyboardShortcut("r")
-        .disabled(isLoading)
-}
-
-public struct ButtonToolbarJavascript: View {
-    @Binding private var isJSEnabled: Bool
-    public var body: some View {
-        __ButtonToolbarJavascript(isJSEnabled: self.isJSEnabled,
-                                  toggleAction: { self.isJSEnabled.toggle() })
-    }
-    public init(_ isJSEnabled: Binding<Bool>) {
-        _isJSEnabled = isJSEnabled
-    }
-}
-
-private func __ButtonToolbarJavascript(isJSEnabled: Bool, toggleAction: @escaping () -> Void) -> some View {
-    let icon = isJSEnabled ? "applescript.fill" : "applescript"
-    let label: LocalizedStringKey = isJSEnabled ? "Disable Javascript" : "Enable Javascript"
-    return ButtonToolbar(systemName: icon,
-                         accessibilityLabel: label,
-                         action: toggleAction)
-        .modifier(STZ_BorderedButtonStyle())
-}
-
-public struct STZ_BorderedButtonStyle: ViewModifier {
-    public init() {}
-    public func body(content: Content) -> some View {
+fileprivate struct STZ_BorderedButtonStyle: ViewModifier {
+    fileprivate init() {}
+    fileprivate func body(content: Content) -> some View {
         #if os(macOS)
         return content.buttonStyle(BorderedButtonStyle())
         #else

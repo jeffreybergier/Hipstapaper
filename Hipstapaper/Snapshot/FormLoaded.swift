@@ -32,7 +32,9 @@ struct FormLoaded: View {
             HStack {
                 TextField.WebsiteURL(self.$viewModel.output.currentURLString)
                     .disabled(true)
-                ButtonToolbarJavascript(self.$viewModel.control.isJSEnabled)
+                self.viewModel.control.isJSEnabled
+                    ? AnyView(STZ.TB.JSActive.toolbarButton(action: { self.viewModel.control.isJSEnabled = false }))
+                    : AnyView(STZ.TB.JSInactive.toolbarButton(action: { self.viewModel.control.isJSEnabled = true }))
             }
         }
     }

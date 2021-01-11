@@ -48,11 +48,11 @@ extension Toolbarable {
     public static func toolbarButton(isDisabled: Bool = false, action: @escaping Action) -> some View {
         return Button(action: action) {
             Image(systemName: self.icon)
+                .modifier(__Hack_ToolbarButtonStyle())
         }
-        .keyboardShortcut(self.shortcut)
-        .modifier(__Hack_ToolbarButtonStyle())
         .disabled(isDisabled)
         .help(self.phrase)
+        .keyboardShortcut(self.shortcut)
     }
     
     public static func contextButton(isDisabled: Bool, action: @escaping Action) -> some View {
@@ -143,6 +143,83 @@ extension STZ {
             public static let verb: LocalizedStringKey = Phrase.Sort
             public static let noun: LocalizedStringKey = Noun.Sort
             public static let shortcut: KeyboardShortcut = .init("`", modifiers: [.command, .option])
+        }
+        public enum Stop: Toolbarable {
+            public static let icon: String = "xmark"
+            public static let phrase: LocalizedStringKey = "Stop"
+            public static let verb: LocalizedStringKey = { fatalError() }()
+            public static let noun: LocalizedStringKey = { fatalError() }()
+            public static let shortcut: KeyboardShortcut = .init(".", modifiers: [.command])
+        }
+        public enum Reload: Toolbarable {
+            public static let icon: String = "arrow.clockwise"
+            public static let phrase: LocalizedStringKey = "Reload"
+            public static let verb: LocalizedStringKey = { fatalError() }()
+            public static let noun: LocalizedStringKey = { fatalError() }()
+            public static let shortcut: KeyboardShortcut = .init("r", modifiers: [.command])
+        }
+        public enum JSActive: Toolbarable {
+            public static let icon: String = "applescript.fill"
+            public static let phrase: LocalizedStringKey = "Disable Javascript"
+            public static let verb: LocalizedStringKey = "Javascript"
+            public static let noun: LocalizedStringKey = { fatalError() }()
+            public static let shortcut: KeyboardShortcut = .init("j", modifiers: [.command, .option])
+        }
+        public enum JSInactive: Toolbarable {
+            public static let icon: String = "applescript"
+            public static let phrase: LocalizedStringKey = "Enable Javascript"
+            public static let verb: LocalizedStringKey = "Javascript"
+            public static let noun: LocalizedStringKey = { fatalError() }()
+            public static let shortcut: KeyboardShortcut = .init("j", modifiers: [.command, .option])
+        }
+        public enum GoBack: Toolbarable {
+            public static let icon: String = "chevron.backward"
+            public static let phrase: LocalizedStringKey = "Show the previous page"
+            public static let verb: LocalizedStringKey = "Back"
+            public static let noun: LocalizedStringKey = { fatalError() }()
+            public static let shortcut: KeyboardShortcut = .init("[", modifiers: [.command])
+        }
+        public enum GoForward: Toolbarable {
+            public static let icon: String = "chevron.forward"
+            public static let phrase: LocalizedStringKey = "Show the next page"
+            public static let verb: LocalizedStringKey = "Forward"
+            public static let noun: LocalizedStringKey = { fatalError() }()
+            public static let shortcut: KeyboardShortcut = .init("]", modifiers: [.command])
+        }
+        public enum DeleteTag: Toolbarable {
+            public static let icon: String = "minus"
+            public static let phrase: LocalizedStringKey = Verb.DeleteTag
+            public static let verb: LocalizedStringKey = Verb.DeleteTag
+            public static let noun: LocalizedStringKey = { fatalError() }()
+            public static let shortcut: KeyboardShortcut = .init(.delete, modifiers: [.command])
+        }
+        public enum AddChoice: Toolbarable {
+            public static let icon: String = "plus"
+            public static let phrase: LocalizedStringKey = Phrase.AddChoice
+            public static let verb: LocalizedStringKey = Phrase.AddChoice
+            public static let noun: LocalizedStringKey = Phrase.AddChoice
+            public static let shortcut: KeyboardShortcut = .init("n", modifiers: [.command])
+        }
+        public enum AddTag: Toolbarable {
+            public static let icon: String = "tag"
+            public static let phrase: LocalizedStringKey = Verb.AddTag
+            public static let verb: LocalizedStringKey = Verb.AddTag
+            public static let noun: LocalizedStringKey = { fatalError() }()
+            public static let shortcut: KeyboardShortcut = .init("n", modifiers: [.command, .option])
+        }
+        public enum AddWebsite: Toolbarable {
+            public static let icon: String = "macwindow.badge.plus"
+            public static let phrase: LocalizedStringKey = Verb.AddWebsite
+            public static let verb: LocalizedStringKey = Verb.AddWebsite
+            public static let noun: LocalizedStringKey = { fatalError() }()
+            public static let shortcut: KeyboardShortcut = .init("n", modifiers: [.command, .shift])
+        }
+        public enum ClearSearch: Toolbarable {
+            public static let icon: String = "xmark.circle"
+            public static let phrase: LocalizedStringKey = Verb.ClearSearch
+            public static let verb: LocalizedStringKey = Verb.ClearSearch
+            public static let noun: LocalizedStringKey = { fatalError() }()
+            public static let shortcut: KeyboardShortcut = .init(.escape, modifiers: [])
         }
         
         // MARK: Weird Buttons
