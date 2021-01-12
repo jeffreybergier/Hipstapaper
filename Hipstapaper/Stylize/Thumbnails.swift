@@ -21,12 +21,23 @@
 
 import SwiftUI
 import Foundation
-#if canImport(AppKit)
+#if os(macOS)
 import AppKit
-#endif
-#if canImport(UIKit)
+#else
 import UIKit
 #endif
+
+extension Data {
+    fileprivate var imageValue: Image? {
+        #if os(macOS)
+        guard let image = NSImage(data: self) else { return nil }
+        return Image(nsImage: image).resizable()
+        #else
+        guard let image = UIImage(data: data) else { return nil }
+        return Image(uiImage: image).resizable()
+        #endif
+    }
+}
 
 public enum Thumbnail {
     
@@ -36,7 +47,7 @@ public enum Thumbnail {
         public let input: Data?
         
         public var body: some View {
-            let topView = self.topView() ?? SwiftUI.Image(systemName: "photo")
+            let topView = self.input?.imageValue ?? SwiftUI.Image(systemName: "photo")
             return ZStack {
                 self.colorScheme.isNormal
                     ? Color.thumbnailPlaceholder
@@ -46,25 +57,6 @@ public enum Thumbnail {
                     : topView.foregroundColor(.textTitle_Dark)
             }
         }
-        
-        private func topView() -> SwiftUI.Image? {
-            #if canImport(AppKit)
-            guard
-                let data = self.input,
-                let image = NSImage(data: data)
-            else { return nil }
-            return SwiftUI.Image(nsImage: image).resizable()
-            #elseif canImport(UIKit)
-            guard
-                let data = self.input,
-                let image = UIImage(data: data)
-            else { return nil }
-            return SwiftUI.Image(uiImage: image).resizable()
-            #else
-            fatalError()
-            #endif
-        }
-        
         public init(_ input: Data?) {
             self.input = input
         }
