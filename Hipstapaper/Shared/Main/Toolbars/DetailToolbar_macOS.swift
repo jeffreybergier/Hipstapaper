@@ -64,7 +64,7 @@ struct DetailToolbar_macOS: ViewModifier {
                                            action: { self.presentation.value = .share })
             }
             ToolbarItem(id: "Detail_Mac.Separator") {
-                STZ.TB.Separator.toolbarButton()
+                STZ.TB.Separator.toolbar()
             }
             ToolbarItem(id: "Detail_Mac.Archive") {
                 HStack {
@@ -89,7 +89,7 @@ struct DetailToolbar_macOS: ViewModifier {
                                               action: { self.presentation.value = .tagApply })
             }
             ToolbarItem(id: "Detail_Mac.Separator") {
-                STZ.TB.Separator.toolbarButton()
+                STZ.TB.Separator.toolbar()
             }
             ToolbarItem(id: "Detail_Mac.Sort") {
                 STZ.TB.Sort.toolbar(action: { self.presentation.value = .sort })

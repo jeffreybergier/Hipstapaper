@@ -99,7 +99,7 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
                         }
                     }
                     ToolbarItem(id: "Detail_iOS_Regular.Separator", placement: .bottomBar) {
-                        STZ.TB.Separator.toolbarButton()
+                        STZ.TB.Separator.toolbar()
                     }
                     ToolbarItem(id: "Detail_iOS_Regular.Tag", placement: .bottomBar) {
                         STZ.TB.TagApply.toolbar(isDisabled: self.controller.selectedWebsites.isEmpty)
@@ -127,7 +127,7 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
                         }
                     }
                     ToolbarItem(id: "Detail_iOS_Regular.Separator", placement: .bottomBar) {
-                        STZ.TB.Separator.toolbarButton()
+                        STZ.TB.Separator.toolbar()
                     }
                     ToolbarItem(id: "Detail_iOS_Regular.EditButton", placement: .bottomBar) {
                         EditButton()
@@ -217,7 +217,7 @@ fileprivate struct DetailToolbar_Compact_iOS: ViewModifier {
                         }
                     }
                     ToolbarItem(id: "Detail_iOS_Compact.Separator", placement: .bottomBar) {
-                        STZ.TB.Separator.toolbarButton()
+                        STZ.TB.Separator.toolbar()
                     }
                     ToolbarItem(id: "Detail_iOS_Compact.Archive", placement: .bottomBar) {
                         STZ.TB.Archive.toolbar(isDisabled: self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
@@ -245,7 +245,7 @@ fileprivate struct DetailToolbar_Compact_iOS: ViewModifier {
                         }
                     }
                     ToolbarItem(id: "Detail_iOS_Compact.Separator", placement: .bottomBar) {
-                        STZ.TB.Separator.toolbarButton()
+                        STZ.TB.Separator.toolbar()
                     }
                     ToolbarItem(id: "Detail_iOS_Compact.OpenExternal", placement: .bottomBar) {
                         STZ.TB.OpenInBrowser.toolbar(isDisabled: self.controller.selectedWebsites.isEmpty)
