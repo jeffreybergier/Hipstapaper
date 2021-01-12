@@ -25,7 +25,7 @@ import Datum
 struct Sort: View {
     
     @Binding var selection: Datum.Sort!
-    let doneAction: Modal.Action
+    let doneAction: Action
     
     var body: some View {
         List(Datum.Sort.allCases, id: \.self, selection: self.$selection) { order in
@@ -34,7 +34,7 @@ struct Sort: View {
                 .paddingDefault(ignoring: [\.leading, \.trailing])
         }
         .modifier(ModalSelectionStyle())
-        .modifier(Modal.Done(title: Noun.Sort, done: self.doneAction))
+        .modifier(STZ.MDL.Done(kind: STZ.TB.Sort.self, done: self.doneAction))
         .frame(idealWidth: 300, idealHeight: 300)
     }
 }

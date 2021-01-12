@@ -26,7 +26,7 @@ import Localize
 struct AddTag: View {
     
     @State private var tagName: String = ""
-    let cancel: Modal.Action
+    let cancel: Action
     let save: (String?) -> Void
     
     var body: some View {

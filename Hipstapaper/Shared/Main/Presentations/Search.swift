@@ -27,7 +27,7 @@ import Localize
 struct Search: View {
     
     @Binding var searchString: String
-    let doneAction: Modal.Action
+    let doneAction: Action
     
     var body: some View {
         VStack {
@@ -41,7 +41,7 @@ struct Search: View {
             Spacer()
         }
         .paddingDefault_Equal()
-        .modifier(Modal.Done(title: Noun.Search, done: self.doneAction))
+        .modifier(STZ.MDL.Done(kind: STZ.TB.SearchActive.self, done: self.doneAction))
         .frame(idealWidth: 250, idealHeight: 150) // TODO: Remove height when this is not broken
     }
 }

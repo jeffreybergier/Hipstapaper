@@ -28,7 +28,7 @@ struct TagApply: View {
     
     let selectedWebsites: Set<AnyElement<AnyWebsite>>
     let controller: Controller
-    let done: Modal.Action
+    let done: Action
     
     var body: some View {
         // TODO: Figure out how to remove VStack without ruining layout on iOS
@@ -54,7 +54,7 @@ struct TagApply: View {
                     }
                 }
             }
-            .modifier(Modal.Done(title: Noun.ApplyTags, done: self.done))
+            .modifier(STZ.MDL.Done(kind: STZ.TB.TagApply.self, done: self.done))
             .frame(idealWidth: 300, idealHeight: 300)
         }
     }

@@ -22,53 +22,50 @@
 import SwiftUI
 import Localize
 
+extension STZ {
+    public enum MDL {
+        public struct Done: ViewModifier {
+            let kind: Presentable.Type
+            let doneAction: Action
+            public init(kind: Presentable.Type, done: @escaping Action) {
+                self.kind = kind
+                self.doneAction = done
+            }
+            #if os(macOS)
+            // TODO: Remove this once its not broken on the mac
+            public func body(content: Content) -> some View {
+                return VStack(spacing: 0) {
+                    Toolbar {
+                        HStack {
+                            Spacer()
+                            Text.ModalTitle(self.kind.noun)
+                            Spacer()
+                            STZ.BTN.Done.button(doneStyle: true, action: self.doneAction)
+                        }
+                    }
+                    content
+                    Spacer(minLength: 0)
+                }
+            }
+            #else
+            public func body(content: Content) -> some View {
+                return NavigationView {
+                    content
+                        .navigationBarTitle(self.kind.noun, displayMode: .inline)
+                        .toolbar(id: "Modal.Done") {
+                            ToolbarItem(id: "Modal.Done.0",
+                                        placement: ToolbarItemPlacement.confirmationAction,
+                                        content: { STZ.BTN.Done.button(doneStyle: true, action: self.doneAction) })
+                        }
+                }
+            }
+            #endif
+        }
+    }
+}
 public enum Modal { }
 
 extension Modal {
-    
-    public typealias Action = () -> Void
-    
-    public struct Done: ViewModifier {
-        
-        let title: LocalizedStringKey
-        let done: Action
-        
-        public init(title: LocalizedStringKey, done: @escaping Action) {
-            self.title = title
-            self.done = done
-        }
-        
-        #if os(macOS)
-        // TODO: Remove this once its not broken on the mac
-        public func body(content: Content) -> some View {
-            return VStack(spacing: 0) {
-                Toolbar {
-                    HStack {
-                        Spacer()
-                        Text.ModalTitle(self.title)
-                        Spacer()
-                        ButtonDone(Verb.Done, action: self.done)
-                            .keyboardShortcut(.defaultAction)
-                    }
-                }
-                content
-                Spacer(minLength: 0)
-            }
-        }
-        #else
-        public func body(content: Content) -> some View {
-            return NavigationView {
-                content
-                    .navigationBarTitle(self.title, displayMode: .inline)
-                    .toolbar(id: "Modal.Done") {
-                        ToolbarItem(id: "Modal.Done.0", placement: ToolbarItemPlacement.confirmationAction,
-                                    content: { ButtonDone(Verb.Done, action: self.done) })
-                    }
-            }
-        }
-        #endif
-        
-    }
     
     public struct SaveCancel: ViewModifier {
         
