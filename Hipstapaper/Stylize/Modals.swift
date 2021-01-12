@@ -53,83 +53,73 @@ extension STZ {
                     content
                         .navigationBarTitle(self.kind.noun, displayMode: .inline)
                         .toolbar(id: "Modal.Done") {
-                            ToolbarItem(id: "Modal.Done.0",
-                                        placement: ToolbarItemPlacement.confirmationAction,
-                                        content: { STZ.BTN.Done.button(doneStyle: true, action: self.doneAction) })
+                            ToolbarItem(id: "Modal.Done.0", placement: .confirmationAction) {
+                                STZ.BTN.Done.button(doneStyle: true, action: self.doneAction)
+                            }
                         }
-                }
+                }.navigationViewStyle(StackNavigationViewStyle())
             }
             #endif
         }
-    }
-}
-public enum Modal { }
-
-extension Modal {
-    
-    public struct SaveCancel: ViewModifier {
         
-        public typealias CanSave = () -> Bool
-        
-        let title: LocalizedStringKey
-        let save: Action
-        let cancel: Action
-        let canSave: CanSave
-        
-        public init(title: LocalizedStringKey,
-                    cancel: @escaping Action,
-                    save: @escaping Action,
-                    canSave: CanSave?)
-        {
-            self.title = title
-            self.cancel = cancel
-            self.save = save
-            self.canSave = canSave ?? { true }
-        }
-        
-        #if os(macOS)
-        // TODO: Remove this once its not broken on the mac
-        public func body(content: Content) -> some View {
-            return VStack(spacing: 0) {
-                Toolbar {
-                    HStack {
-                        ButtonDefault(Verb.Cancel, action: self.cancel)
-                            .keyboardShortcut(.escape)
-                        Spacer()
-                        Text.ModalTitle(self.title)
-                        Spacer()
-                        ButtonDone(Verb.Save, action: self.save)
-                            .keyboardShortcut(.defaultAction)
-                            .disabled(!self.canSave())
-                    }
-                }
-                content
-                Spacer(minLength: 0)
+        public struct Save: ViewModifier {
+            
+            public typealias CanSave = () -> Bool
+            
+            let kind: Presentable.Type
+            let saveAction: Action
+            let cancelAction: Action
+            let canSave: CanSave
+            
+            public init(kind: Presentable.Type,
+                        cancel: @escaping Action,
+                        save: @escaping Action,
+                        canSave: CanSave?)
+            {
+                self.kind = kind
+                self.cancelAction = cancel
+                self.saveAction = save
+                self.canSave = canSave ?? { true }
             }
-        }
-        #else
-        public func body(content: Content) -> some View {
-            return NavigationView {
-                content
-                    .navigationBarTitle(self.title, displayMode: .inline)
-                    .toolbar(id: "Modal.Save") {
-                        ToolbarItem(id: "Modal.Save.0",
-                                    placement: .cancellationAction)
-                        {
-                            ButtonDone(Verb.Cancel, action: self.cancel)
-                                .keyboardShortcut(.escape)
-                        }
-                        ToolbarItem(id: "Modal.Save.1",
-                                    placement: .confirmationAction)
-                        {
-                            ButtonDone(Verb.Save, action: self.save)
-                                .keyboardShortcut(.defaultAction)
-                                .disabled(!self.canSave())
+            
+            #if os(macOS)
+            // TODO: Remove this once its not broken on the mac
+            public func body(content: Content) -> some View {
+                return VStack(spacing: 0) {
+                    Toolbar {
+                        HStack {
+                            STZ.BTN.Cancel.button(action: self.cancelAction)
+                            Spacer()
+                            Text.ModalTitle(self.kind.noun)
+                            Spacer()
+                            STZ.BTN.Save.button(doneStyle: true,
+                                                isDisabled: !self.canSave(),
+                                                action: self.saveAction)
                         }
                     }
-            }.navigationViewStyle(StackNavigationViewStyle())
+                    content
+                    Spacer(minLength: 0)
+                }
+            }
+            #else
+            public func body(content: Content) -> some View {
+                return NavigationView {
+                    content
+                        .navigationBarTitle(self.kind.noun, displayMode: .inline)
+                        .toolbar(id: "Modal.Save") {
+                            ToolbarItem(id: "Modal.Save.0", placement: .cancellationAction) {
+                                STZ.BTN.Cancel.button(action: self.cancelAction)
+                            }
+                            ToolbarItem(id: "Modal.Save.1", placement: .confirmationAction) {
+                                STZ.BTN.Save.button(doneStyle: true,
+                                                    isDisabled: !self.canSave(),
+                                                    action: self.saveAction)
+                            }
+                        }
+                }.navigationViewStyle(StackNavigationViewStyle())
+            }
+            #endif
         }
-        #endif
     }
 }
 

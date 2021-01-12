@@ -46,11 +46,12 @@ public struct Snapshotter: View {
                 .paddingDefault_Equal(ignoring: [\.top])
             }
         }
-        .modifier(Modal.SaveCancel(
-                    title: Noun.AddWebsite,
-                    cancel: { self.viewModel.doneAction(.failure(.userCancelled)) },
-                    save: { self.viewModel.doneAction(.success(self.viewModel.output)) },
-                    canSave: { self.viewModel.output.currentURL != nil }))
+        .modifier(STZ.MDL.Save(
+            kind: STZ.TB.AddWebsite.self,
+            cancel: { self.viewModel.doneAction(.failure(.userCancelled)) },
+            save: { self.viewModel.doneAction(.success(self.viewModel.output)) },
+            canSave: { self.viewModel.output.currentURL != nil }
+        ))
     }
 }
 

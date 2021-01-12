@@ -66,14 +66,14 @@ extension STZ.TB {
         public static let icon: String? = "tag"
         public static let phrase: LocalizedStringKey = Verb.AddTag
         public static let verb: LocalizedStringKey = Verb.AddTag
-        public static let noun: LocalizedStringKey = { fatalError() }()
+        public static let noun: LocalizedStringKey = Noun.AddTag
         public static let shortcut: KeyboardShortcut? = .init("n", modifiers: [.command, .option])
     }
     public enum AddWebsite: Presentable {
         public static let icon: String? = "macwindow.badge.plus"
         public static let phrase: LocalizedStringKey = Verb.AddWebsite
         public static let verb: LocalizedStringKey = Verb.AddWebsite
-        public static let noun: LocalizedStringKey = { fatalError() }()
+        public static let noun: LocalizedStringKey = Noun.AddWebsite
         public static let shortcut: KeyboardShortcut? = .init("n", modifiers: [.command, .shift])
     }
 }

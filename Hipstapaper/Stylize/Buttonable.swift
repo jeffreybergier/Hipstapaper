@@ -51,6 +51,17 @@ extension Buttonable {
         .disabled(isDisabled)
         .help(self.phrase)
         .modifier(Shortcut(self.shortcut))
+        .modifier(DefaultStyle())
+    }
+}
+
+fileprivate struct DefaultStyle: ViewModifier {
+    fileprivate func body(content: Content) -> some View {
+        #if os(macOS)
+        return content.buttonStyle(BorderedButtonStyle())
+        #else
+        return content
+        #endif
     }
 }
 
@@ -98,6 +109,12 @@ extension STZ {
             public static var phrase: LocalizedStringKey = Verb.Done
             public static var verb: LocalizedStringKey = Verb.Done
             public static var shortcut: KeyboardShortcut? = .init("w")
+        }
+        public enum Save: Buttonable {
+            public static var icon: String? = nil
+            public static var phrase: LocalizedStringKey = Verb.Save
+            public static var verb: LocalizedStringKey = Verb.Save
+            public static var shortcut: KeyboardShortcut? = .init(.defaultAction)
         }
         public enum Cancel: Buttonable {
             public static var icon: String? = nil

@@ -35,10 +35,10 @@ struct AddTag: View {
             Spacer()
         }
         .paddingDefault_Equal()
-        .modifier(Modal.SaveCancel(title: Noun.AddTag,
-                                   cancel: self.cancel,
-                                   save: { self.save(self.tagName.nonEmptyString) },
-                                   canSave: { self.tagName.nonEmptyString != nil }))
+        .modifier(STZ.MDL.Save(kind: STZ.TB.AddTag.self,
+                               cancel: self.cancel,
+                               save: { self.save(self.tagName.nonEmptyString) },
+                               canSave: { self.tagName.nonEmptyString != nil }))
         // TODO: Remove height when this is not broken
         .frame(idealWidth: 250, idealHeight: 150)
     }
