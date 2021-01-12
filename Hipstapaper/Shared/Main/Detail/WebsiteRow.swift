@@ -34,8 +34,7 @@ struct WebsiteRow: View {
                 DetailRowDateSubtitle(self.website.dateCreated)
             }
             Spacer()
-            Thumbnail.Image(self.website.thumbnail)
-                .scaledToFit()
+            STZ.IMG.Placeholder.thumbnail(self.website.thumbnail)
         }
         .frame(height: 60)
     }

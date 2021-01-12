@@ -27,7 +27,7 @@ public typealias Toolbarable = Buttonable
 extension Toolbarable {
     public static func toolbar(isDisabled: Bool = false, action: @escaping Action) -> some View {
         return Button(action: action) {
-            Image(systemName: self.icon ?? "ladybug")
+            Image(systemName: self.icon ?? STZ.IMG.Bug.name)
                 .modifier(__Hack_ToolbarButtonStyle())
         }
         .disabled(isDisabled)

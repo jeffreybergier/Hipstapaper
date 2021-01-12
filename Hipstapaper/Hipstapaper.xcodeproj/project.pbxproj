@@ -81,7 +81,6 @@
 		73993E2E2595DFC7006FB612 /* BrowserWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73993E2D2595DFC2006FB612 /* BrowserWindowController.swift */; };
 		7399BAAD258251A500B8CAFD /* Stylize.h in Headers */ = {isa = PBXBuildFile; fileRef = 7399BAAB258251A500B8CAFD /* Stylize.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7399BAC7258251D800B8CAFD /* Localize.h in Headers */ = {isa = PBXBuildFile; fileRef = 7399BAC5258251D800B8CAFD /* Localize.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7399BAD32582525200B8CAFD /* Thumbnails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7399BAD22582525200B8CAFD /* Thumbnails.swift */; };
 		7399BAE22582529400B8CAFD /* Stylize.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7399BAA9258251A500B8CAFD /* Stylize.framework */; };
 		7399BB172582537500B8CAFD /* Stylize.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7399BAA9258251A500B8CAFD /* Stylize.framework */; };
 		7399BB182582537500B8CAFD /* Stylize.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7399BAA9258251A500B8CAFD /* Stylize.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -482,7 +481,6 @@
 		7399BAC3258251D800B8CAFD /* Localize.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Localize.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7399BAC5258251D800B8CAFD /* Localize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Localize.h; sourceTree = "<group>"; };
 		7399BAC6258251D800B8CAFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7399BAD22582525200B8CAFD /* Thumbnails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Thumbnails.swift; sourceTree = "<group>"; };
 		7399BB292582555E00B8CAFD /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		7399BB7B25843C8500B8CAFD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		739A87E1258495550098DD72 /* Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Text.swift; sourceTree = "<group>"; };
@@ -748,7 +746,6 @@
 				7399BAAB258251A500B8CAFD /* Stylize.h */,
 				7399BAAC258251A500B8CAFD /* Info.plist */,
 				736C2F6D25ABDFE700608F2B /* Namespace.swift */,
-				7399BAD22582525200B8CAFD /* Thumbnails.swift */,
 				7399BB292582555E00B8CAFD /* Colors.swift */,
 				DB79744B2582F3440040E663 /* TextFields.swift */,
 				DB79745425832A4E0040E663 /* CornerRadius.swift */,
@@ -1545,7 +1542,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7399BAD32582525200B8CAFD /* Thumbnails.swift in Sources */,
 				734942D82592346900AD292E /* EditMode.swift in Sources */,
 				734942AF2592078E00AD292E /* Share.swift in Sources */,
 				734BC9B6259731710001286E /* ActionSheet.swift in Sources */,

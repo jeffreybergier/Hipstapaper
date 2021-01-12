@@ -26,15 +26,49 @@ public protocol Imagable {
 }
 
 extension Imagable {
-    public static var image: Image {
-        return SwiftUI.Image(systemName: self.name)
+    fileprivate static var image: Image {
+        return Image(systemName: self.name)
     }
-    public static var thumbnail: some View {
-        return self.image.modifier(__Thumbnail())
+    
+    /// Returns a thumbnail image of icon
+    /// If data can be converted to image, it returns that instead
+    public static func thumbnail(_ data: Data? = nil) -> some View {
+        if let image = data?.imageValue {
+            return AnyView(
+                image
+                    .cornerRadius_small
+                    .aspectRatio(1, contentMode: .fit)
+            )
+        } else {
+            return AnyView(
+                self.image
+                    .modifier(Thumbnail())
+                    .cornerRadius_small
+                    .aspectRatio(1, contentMode: .fit)
+            )
+        }
     }
 }
 
-fileprivate struct __Thumbnail: ViewModifier {
+extension STZ {
+    public enum IMG {
+        public enum Web: Imagable {
+            public static let name: String = "globe"
+        }
+        public enum WebError: Imagable {
+            public static let name: String = "exclamationmark.icloud"
+        }
+        public enum Bug: Imagable {
+            public static let name: String = "ladybug"
+        }
+        public enum Placeholder: Imagable {
+            public static let name: String = "photo"
+        }
+    }
+}
+
+
+fileprivate struct Thumbnail: ViewModifier {
     @Environment(\.colorScheme) var colorScheme
     func body(content: Content) -> some View {
         ZStack {
@@ -48,13 +82,20 @@ fileprivate struct __Thumbnail: ViewModifier {
     }
 }
 
-extension STZ {
-    public enum IMG {
-        public enum Web: Imagable {
-            public static let name: String = "globe"
-        }
-        public enum WebError: Imagable {
-            public static let name: String = "exclamationmark.icloud"
-        }
+#if os(macOS)
+import AppKit
+#else
+import UIKit
+#endif
+
+extension Data {
+    fileprivate var imageValue: Image? {
+        #if os(macOS)
+        guard let image = NSImage(data: self) else { return nil }
+        return Image(nsImage: image).resizable()
+        #else
+        guard let image = UIImage(data: self) else { return nil }
+        return Image(uiImage: image).resizable()
+        #endif
     }
 }
