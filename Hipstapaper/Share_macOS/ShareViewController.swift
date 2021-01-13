@@ -27,9 +27,9 @@ import Stylize
 class ShareViewController: NSViewController {
 
     private let viewModel = Snapshot.ViewModel()
-    private let errorViewModel = Alert.ViewModel()
+    private let errorViewModel = STZ.ALRT.ViewModel()
     private lazy var snapshotVC: NSViewController = NSHostingController(rootView: Snapshotter(self.viewModel))
-    private lazy var errorVC: NSViewController = NSHostingController(rootView: AlertPresenter(self.errorViewModel))
+    private lazy var errorVC: NSViewController = NSHostingController(rootView: STZ.ALRT.Presenter(self.errorViewModel))
     
     override func viewDidLoad() {
         super.viewDidLoad()
