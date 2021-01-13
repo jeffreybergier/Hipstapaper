@@ -85,26 +85,28 @@ struct IndexToolbar: ViewModifier {
             
             // TODO: Hack when toolbars work properly with popovers
             Color.clear.frame(width: 1, height: 1)
-                .modifier(ActionSheet(
-                    isPresented: self.$presentation.isAddChoose,
-                    title: Phrase.AddChoice,
-                    buttons: [
-                        .init(title: Verb.AddTag) {
-                            self.presentation.value = .none
-                            // TODO: Remove this hack when possible
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                self.presentation.value = .addTag
+                .modifier(STZ.ACTN.Modifier(isPresented: self.$presentation.isAddChoose) {
+                    STZ.ACTN.Wrapper(
+                        title: Phrase.AddChoice,
+                        buttons: [
+                            .init(title: Verb.AddTag) {
+                                self.presentation.value = .none
+                                // TODO: Remove this hack when possible
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                    self.presentation.value = .addTag
+                                }
+                            },
+                            .init(title: Verb.AddWebsite) {
+                                self.presentation.value = .none
+                                // TODO: Remove this hack when possible
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                    self.presentation.value = .addWebsite
+                                }
                             }
-                        },
-                        .init(title: Verb.AddWebsite) {
-                            self.presentation.value = .none
-                            // TODO: Remove this hack when possible
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                self.presentation.value = .addWebsite
-                            }
-                        }
-                    ]
-                ))
+                        ]
+                    )
+                }
+            )
             
             #if os(macOS)
             content.toolbar(id: "Index") {
