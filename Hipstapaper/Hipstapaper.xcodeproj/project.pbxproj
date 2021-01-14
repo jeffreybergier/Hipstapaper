@@ -65,10 +65,10 @@
 		735D4D5A258F7DE80016F904 /* Toolbar_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4D59258F7DE80016F904 /* Toolbar_iOS.swift */; };
 		735D4D64258F8B740016F904 /* PRG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4D63258F8B740016F904 /* PRG.swift */; };
 		736C2F6E25ABDFE700608F2B /* Namespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736C2F6D25ABDFE700608F2B /* Namespace.swift */; };
-		736C2F7A25ABE01A00608F2B /* Toolbarable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736C2F7925ABE01A00608F2B /* Toolbarable.swift */; };
-		736C2F8625AC836700608F2B /* Buttonable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736C2F8525AC836700608F2B /* Buttonable.swift */; };
-		736C2F9225ADAFF400608F2B /* Presentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736C2F9125ADAFF400608F2B /* Presentable.swift */; };
-		736C2FB225ADE01B00608F2B /* Imagable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736C2FB125ADE01B00608F2B /* Imagable.swift */; };
+		736C2F7A25ABE01A00608F2B /* TB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736C2F7925ABE01A00608F2B /* TB.swift */; };
+		736C2F8625AC836700608F2B /* BTN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736C2F8525AC836700608F2B /* BTN.swift */; };
+		736C2F9225ADAFF400608F2B /* TB+Presentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736C2F9125ADAFF400608F2B /* TB+Presentable.swift */; };
+		736C2FB225ADE01B00608F2B /* IMG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736C2FB125ADE01B00608F2B /* IMG.swift */; };
 		736DD3E3258790A000F0FBE0 /* TagApply.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736DD3E2258790A000F0FBE0 /* TagApply.swift */; };
 		736DD3E4258790A000F0FBE0 /* TagApply.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736DD3E2258790A000F0FBE0 /* TagApply.swift */; };
 		736DD3ED258793C200F0FBE0 /* Website+Hipstapaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736DD3EC258793C200F0FBE0 /* Website+Hipstapaper.swift */; };
@@ -463,10 +463,10 @@
 		735D4D59258F7DE80016F904 /* Toolbar_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar_iOS.swift; sourceTree = "<group>"; };
 		735D4D63258F8B740016F904 /* PRG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PRG.swift; sourceTree = "<group>"; };
 		736C2F6D25ABDFE700608F2B /* Namespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Namespace.swift; sourceTree = "<group>"; };
-		736C2F7925ABE01A00608F2B /* Toolbarable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbarable.swift; sourceTree = "<group>"; };
-		736C2F8525AC836700608F2B /* Buttonable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttonable.swift; sourceTree = "<group>"; };
-		736C2F9125ADAFF400608F2B /* Presentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presentable.swift; sourceTree = "<group>"; };
-		736C2FB125ADE01B00608F2B /* Imagable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Imagable.swift; sourceTree = "<group>"; };
+		736C2F7925ABE01A00608F2B /* TB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TB.swift; sourceTree = "<group>"; };
+		736C2F8525AC836700608F2B /* BTN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTN.swift; sourceTree = "<group>"; };
+		736C2F9125ADAFF400608F2B /* TB+Presentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TB+Presentable.swift"; sourceTree = "<group>"; };
+		736C2FB125ADE01B00608F2B /* IMG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMG.swift; sourceTree = "<group>"; };
 		736DD3E2258790A000F0FBE0 /* TagApply.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagApply.swift; sourceTree = "<group>"; };
 		736DD3EC258793C200F0FBE0 /* Website+Hipstapaper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Website+Hipstapaper.swift"; sourceTree = "<group>"; };
 		736DD3F625879D1800F0FBE0 /* TagApplyRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagApplyRow.swift; sourceTree = "<group>"; };
@@ -757,10 +757,10 @@
 				734942AE2592078E00AD292E /* SHR.swift */,
 				73DFC99325AF24300041F555 /* ACTN.swift */,
 				732F302325AAEA0D00192822 /* ERR.swift */,
-				736C2FB125ADE01B00608F2B /* Imagable.swift */,
-				736C2F9125ADAFF400608F2B /* Presentable.swift */,
-				736C2F7925ABE01A00608F2B /* Toolbarable.swift */,
-				736C2F8525AC836700608F2B /* Buttonable.swift */,
+				736C2FB125ADE01B00608F2B /* IMG.swift */,
+				736C2F9125ADAFF400608F2B /* TB+Presentable.swift */,
+				736C2F7925ABE01A00608F2B /* TB.swift */,
+				736C2F8525AC836700608F2B /* BTN.swift */,
 			);
 			path = Stylize;
 			sourceTree = "<group>";
@@ -1541,22 +1541,22 @@
 			files = (
 				734942AF2592078E00AD292E /* SHR.swift in Sources */,
 				736C2F6E25ABDFE700608F2B /* Namespace.swift in Sources */,
-				736C2F8625AC836700608F2B /* Buttonable.swift in Sources */,
+				736C2F8625AC836700608F2B /* BTN.swift in Sources */,
 				7399BB2A2582555E00B8CAFD /* Colors.swift in Sources */,
 				730CC989258650930002C50A /* Padding.swift in Sources */,
 				DBF26D84258378FC00DA2D5B /* Toolbar.swift in Sources */,
 				739A87E2258495550098DD72 /* Text.swift in Sources */,
-				736C2F7A25ABE01A00608F2B /* Toolbarable.swift in Sources */,
+				736C2F7A25ABE01A00608F2B /* TB.swift in Sources */,
 				736DD40125879FD100F0FBE0 /* Toggles.swift in Sources */,
 				735D4D64258F8B740016F904 /* PRG.swift in Sources */,
-				736C2F9225ADAFF400608F2B /* Presentable.swift in Sources */,
+				736C2F9225ADAFF400608F2B /* TB+Presentable.swift in Sources */,
 				DB79745525832A4E0040E663 /* CornerRadius.swift in Sources */,
 				739A87FB2584F92C0098DD72 /* NumberOval.swift in Sources */,
 				73DFC99425AF24300041F555 /* ACTN.swift in Sources */,
 				73C6BC1D25982FA0006B7A6D /* Modals.swift in Sources */,
 				DB79744C2582F3440040E663 /* TextFields.swift in Sources */,
 				732F302425AAEA0D00192822 /* ERR.swift in Sources */,
-				736C2FB225ADE01B00608F2B /* Imagable.swift in Sources */,
+				736C2FB225ADE01B00608F2B /* IMG.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
