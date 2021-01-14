@@ -38,8 +38,8 @@ struct WebsiteRowContextMenu: ViewModifier {
     func body(content: Content) -> some View {
         content
             .popover(isPresented: self.$isSharePresented) {
-                Share(items: [self.item.value.preferredURL!],
-                      completion: { self.isSharePresented = false })
+                STZ.SHR(items: [self.item.value.preferredURL!],
+                        completion: { self.isSharePresented = false })
             }
             .popover(isPresented: self.$isTagApplyPresented) {
                 TagApply(selectedWebsites: [self.item],

@@ -43,8 +43,8 @@ struct DetailToolbar: ViewModifier {
             
             Color.clear.frame(width: 1, height: 1)
                 .popover(isPresented: self.$presentation.isShare) {
-                    Share(items: self.controller.selectedWebsites.compactMap { $0.value.preferredURL },
-                          completion:  { self.presentation.value = .none })
+                    STZ.SHR(items: self.controller.selectedWebsites.compactMap { $0.value.preferredURL },
+                            completion:  { self.presentation.value = .none })
                 }
             
             Color.clear.frame(width: 1, height: 1)
