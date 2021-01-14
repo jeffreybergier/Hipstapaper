@@ -63,7 +63,7 @@
 		735D4CF3258F54390016F904 /* Localize.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7399BAC3258251D800B8CAFD /* Localize.framework */; };
 		735D4D18258F5EEC0016F904 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4D17258F5EEC0016F904 /* WebView.swift */; };
 		735D4D5A258F7DE80016F904 /* Toolbar_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4D59258F7DE80016F904 /* Toolbar_iOS.swift */; };
-		735D4D64258F8B740016F904 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4D63258F8B740016F904 /* ProgressView.swift */; };
+		735D4D64258F8B740016F904 /* PRG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4D63258F8B740016F904 /* PRG.swift */; };
 		736C2F6E25ABDFE700608F2B /* Namespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736C2F6D25ABDFE700608F2B /* Namespace.swift */; };
 		736C2F7A25ABE01A00608F2B /* Toolbarable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736C2F7925ABE01A00608F2B /* Toolbarable.swift */; };
 		736C2F8625AC836700608F2B /* Buttonable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736C2F8525AC836700608F2B /* Buttonable.swift */; };
@@ -461,7 +461,7 @@
 		735D4CE9258F50830016F904 /* Browser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Browser.swift; sourceTree = "<group>"; };
 		735D4D17258F5EEC0016F904 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		735D4D59258F7DE80016F904 /* Toolbar_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar_iOS.swift; sourceTree = "<group>"; };
-		735D4D63258F8B740016F904 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
+		735D4D63258F8B740016F904 /* PRG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PRG.swift; sourceTree = "<group>"; };
 		736C2F6D25ABDFE700608F2B /* Namespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Namespace.swift; sourceTree = "<group>"; };
 		736C2F7925ABE01A00608F2B /* Toolbarable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbarable.swift; sourceTree = "<group>"; };
 		736C2F8525AC836700608F2B /* Buttonable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttonable.swift; sourceTree = "<group>"; };
@@ -752,7 +752,7 @@
 				739A87FA2584F92C0098DD72 /* NumberOval.swift */,
 				730CC988258650930002C50A /* Padding.swift */,
 				736DD40025879FD100F0FBE0 /* Toggles.swift */,
-				735D4D63258F8B740016F904 /* ProgressView.swift */,
+				735D4D63258F8B740016F904 /* PRG.swift */,
 				73C6BC1C25982FA0006B7A6D /* Modals.swift */,
 				734942AE2592078E00AD292E /* SHR.swift */,
 				73DFC99325AF24300041F555 /* ACTN.swift */,
@@ -1548,7 +1548,7 @@
 				739A87E2258495550098DD72 /* Text.swift in Sources */,
 				736C2F7A25ABE01A00608F2B /* Toolbarable.swift in Sources */,
 				736DD40125879FD100F0FBE0 /* Toggles.swift in Sources */,
-				735D4D64258F8B740016F904 /* ProgressView.swift in Sources */,
+				735D4D64258F8B740016F904 /* PRG.swift in Sources */,
 				736C2F9225ADAFF400608F2B /* Presentable.swift in Sources */,
 				DB79745525832A4E0040E663 /* CornerRadius.swift in Sources */,
 				739A87FB2584F92C0098DD72 /* NumberOval.swift in Sources */,

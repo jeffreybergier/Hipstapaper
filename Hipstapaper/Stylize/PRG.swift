@@ -21,12 +21,26 @@
 
 import SwiftUI
 
-public func ProgressBar(_ progress: Progress) -> some View {
-    return ProgressView(progress)
-        .progressViewStyle(LinearProgressViewStyle())
+extension STZ {
+    public enum PRG {}
 }
 
-public func ProgressSpinner(_ progress: Progress) -> some View {
-    return ProgressView(progress)
-        .progressViewStyle(CircularProgressViewStyle())
+extension STZ.PRG {
+    public static func Bar(_ progress: Progress) -> some View {
+        return ProgressView(progress)
+            .progressViewStyle(LinearProgressViewStyle())
+    }
+    public static func Spin(_ progress: Progress?) -> some View {
+        if let progress = progress {
+            return AnyView(
+                ProgressView(progress)
+                    .progressViewStyle(CircularProgressViewStyle())
+            )
+        } else {
+            return AnyView(
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
+            )
+        }
+    }
 }
