@@ -123,6 +123,9 @@ extension STZ {
     }
 }
 
+
+// TODO: Remove these when possible
+
 public struct ModalSelectionStyle: ViewModifier {
     public init() {}
     public func body(content: Content) -> some View {
@@ -135,3 +138,18 @@ public struct ModalSelectionStyle: ViewModifier {
         #endif
     }
 }
+
+#if canImport(UIKit)
+fileprivate struct ListEditMode: ViewModifier {
+    @State var editMode: EditMode = EditMode.active
+    func body(content: Content) -> some View {
+        content.environment((\.editMode), self.$editMode)
+    }
+}
+#else
+fileprivate struct ListEditMode: ViewModifier {
+    func body(content: Content) -> some View {
+        return content
+    }
+}
+#endif

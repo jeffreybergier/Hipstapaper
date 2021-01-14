@@ -44,7 +44,6 @@
 		73466983259F4DA20001E7C9 /* Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73466982259F4DA20001E7C9 /* Sort.swift */; };
 		73466984259F4DA20001E7C9 /* Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73466982259F4DA20001E7C9 /* Sort.swift */; };
 		734942AF2592078E00AD292E /* SHR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734942AE2592078E00AD292E /* SHR.swift */; };
-		734942D82592346900AD292E /* EditMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734942D72592346900AD292E /* EditMode.swift */; };
 		735C91C02574F1790033B4E8 /* WebsiteList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C91BF2574F1790033B4E8 /* WebsiteList.swift */; };
 		735C91C12574F1790033B4E8 /* WebsiteList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C91BF2574F1790033B4E8 /* WebsiteList.swift */; };
 		735C92022577C0260033B4E8 /* FixedModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C92012577C0260033B4E8 /* FixedModels.swift */; };
@@ -450,7 +449,6 @@
 		73466977259F4C820001E7C9 /* DetailToolbar_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailToolbar_iOS.swift; sourceTree = "<group>"; };
 		73466982259F4DA20001E7C9 /* Sort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sort.swift; sourceTree = "<group>"; };
 		734942AE2592078E00AD292E /* SHR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHR.swift; sourceTree = "<group>"; };
-		734942D72592346900AD292E /* EditMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMode.swift; sourceTree = "<group>"; };
 		735C91BF2574F1790033B4E8 /* WebsiteList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteList.swift; sourceTree = "<group>"; };
 		735C92012577C0260033B4E8 /* FixedModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedModels.swift; sourceTree = "<group>"; };
 		735D4C63258DF9D00016F904 /* TagAddRemoveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagAddRemoveTests.swift; sourceTree = "<group>"; };
@@ -755,7 +753,6 @@
 				730CC988258650930002C50A /* Padding.swift */,
 				736DD40025879FD100F0FBE0 /* Toggles.swift */,
 				735D4D63258F8B740016F904 /* ProgressView.swift */,
-				734942D72592346900AD292E /* EditMode.swift */,
 				73C6BC1C25982FA0006B7A6D /* Modals.swift */,
 				734942AE2592078E00AD292E /* SHR.swift */,
 				73DFC99325AF24300041F555 /* ACTN.swift */,
@@ -1542,7 +1539,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				734942D82592346900AD292E /* EditMode.swift in Sources */,
 				734942AF2592078E00AD292E /* SHR.swift in Sources */,
 				736C2F6E25ABDFE700608F2B /* Namespace.swift in Sources */,
 				736C2F8625AC836700608F2B /* Buttonable.swift in Sources */,
