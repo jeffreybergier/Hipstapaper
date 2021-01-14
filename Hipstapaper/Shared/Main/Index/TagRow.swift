@@ -33,7 +33,7 @@ struct TagRow: View {
             IndexRowTitle(self.title)
             if let count = self.websitesCount {
                 Spacer()
-                NumberOval(count)
+                STZ.VIEW.NumberOval(count)
             }
         }
         .frame(height: 30)

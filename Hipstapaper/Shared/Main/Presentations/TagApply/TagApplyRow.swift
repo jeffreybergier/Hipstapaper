@@ -31,8 +31,7 @@ struct TagApplyRow: View {
     let valueChanged: STZ.TGL.Action
     
     var body: some View {
-        // TODO: Fix this label
-        Text(self.name ?? "FIXME")
+        STZ.VIEW.TXT(.init(self.name, Noun.Untitled))
             .modifier(STZ.TGL(initialValue: self.value, action: self.valueChanged))
             .modifier(STZ.PDG.Default(ignore: [\.leading, \.trailing]))
     }
