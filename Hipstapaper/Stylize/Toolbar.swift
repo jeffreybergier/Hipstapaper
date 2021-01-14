@@ -32,7 +32,7 @@ public struct Toolbar<Content>: View where Content: View {
             ToolbarBackground()
                 .ignoresSafeArea()
             self.content
-                .paddingToolbar()
+                .modifier(STZ.PDG.TB())
                 .layoutPriority(1000)
         }
     }

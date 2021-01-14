@@ -34,6 +34,6 @@ struct TagApplyRow: View {
         // TODO: Fix this label
         Text(self.name ?? "FIXME")
             .modifier(STZ.TGL(initialValue: self.value, action: self.valueChanged))
-            .paddingDefault(ignoring: [\.leading, \.trailing])
+            .modifier(STZ.PDG.Default(ignore: [\.leading, \.trailing]))
     }
 }

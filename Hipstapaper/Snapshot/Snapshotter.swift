@@ -36,14 +36,14 @@ public struct Snapshotter: View {
         ScrollView {
             VStack(alignment: .center) {
                 FormSwitcher(viewModel: self.viewModel)
-                    .paddingDefault_Equal(ignoring: [\.bottom])
+                    .modifier(STZ.PDG.Equal(ignore: [\.bottom]))
                 ZStack(alignment: .top) {
                     WebView(viewModel: self.viewModel)
                     WebThumbnail(viewModel: self.viewModel)
                 }
                 .frame(width: 300, height: 300)
                 .cornerRadius_medium
-                .paddingDefault_Equal(ignoring: [\.top])
+                .modifier(STZ.PDG.Equal(ignore: [\.top]))
             }
         }
         .modifier(STZ.MDL.Save(

@@ -93,7 +93,7 @@ extension STZ.ACTN.Wrapper {
                 self.buttons[$0].nativeValue
             }
         }
-        .paddingDefault_Equal()
+        .modifier(STZ.PDG.Equal())
     }
 }
 

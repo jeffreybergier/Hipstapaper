@@ -34,7 +34,7 @@ struct AddTag: View {
             TextField.TagName(self.$tagName)
             Spacer()
         }
-        .paddingDefault_Equal()
+        .modifier(STZ.PDG.Equal())
         .modifier(STZ.MDL.Save(kind: STZ.TB.AddTag.self,
                                cancel: self.cancel,
                                save: { self.save(self.tagName.nonEmptyString) },

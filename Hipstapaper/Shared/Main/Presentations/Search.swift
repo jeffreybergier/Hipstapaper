@@ -40,7 +40,7 @@ struct Search: View {
             .animation(.default)
             Spacer()
         }
-        .paddingDefault_Equal()
+        .modifier(STZ.PDG.Equal())
         .modifier(STZ.MDL.Done(kind: STZ.TB.SearchActive.self, done: self.doneAction))
         .frame(idealWidth: 250, idealHeight: 150) // TODO: Remove height when this is not broken
     }

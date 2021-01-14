@@ -31,7 +31,7 @@ struct Sort: View {
         List(Datum.Sort.allCases, id: \.self, selection: self.$selection) { order in
             Text(order.localized)
                 .font(.headline)
-                .paddingDefault(ignoring: [\.leading, \.trailing])
+                .modifier(STZ.PDG.Default(ignore: [\.leading, \.trailing]))
         }
         .modifier(ModalSelectionStyle())
         .modifier(STZ.MDL.Done(kind: STZ.TB.Sort.self, done: self.doneAction))
