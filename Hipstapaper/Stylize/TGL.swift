@@ -20,20 +20,25 @@
 //
 
 import SwiftUI
-import Datum
-import Stylize
-import Localize
 
-struct TagApplyRow: View {
-    
-    let name: String?
-    let value: Bool
-    let valueChanged: STZ.TGL.Action
-    
-    var body: some View {
-        // TODO: Fix this label
-        Text(self.name ?? "FIXME")
-            .modifier(STZ.TGL(initialValue: self.value, action: self.valueChanged))
-            .paddingDefault(ignoring: [\.leading, \.trailing])
+extension STZ {
+    public struct TGL: ViewModifier {
+        public typealias Action = (Bool) -> Void
+        private struct ViewModel {
+            let action: Action
+            var value: Bool {
+                didSet {
+                    self.action(self.value)
+                }
+            }
+        }
+        @State private var viewModel: ViewModel
+        public func body(content: Content) -> some View {
+            Toggle(isOn: self.$viewModel.value, label: { content })
+        }
+        public init(initialValue: Bool, action: @escaping Action) {
+            _viewModel = .init(initialValue: .init(action: action,
+                                                   value: initialValue))
+        }
     }
 }
