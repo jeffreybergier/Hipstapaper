@@ -23,7 +23,39 @@ import SwiftUI
 import Localize
 
 extension STZ {
-    public enum ALRT {
+    public enum ERR {
+        public struct Modifier: ViewModifier {
+            @Binding public var isPresented: Bool
+            public let dismissAction: Action?
+            public let content: () -> LocalizedError
+            public func body(content: Content) -> some View {
+                return content.alert(isPresented: self.$isPresented,
+                                     content: { Alert(error: self.content(), dismissAction: self.dismissAction) })
+            }
+            public init(isPresented: Binding<Bool>, dismissAction: Action?, content: @escaping () -> LocalizedError) {
+                _isPresented = isPresented
+                self.content = content
+                self.dismissAction = dismissAction
+            }
+        }
+    }
+}
+
+extension Alert {
+    fileprivate init(error: LocalizedError, dismissAction: Action?) {
+        self.init(title: Text(Noun.Error),
+                  message: Text(error.errorDescription!),
+                  dismissButton: .default(Text(Verb.Dismiss), action: { dismissAction?() }))
+    }
+    fileprivate init(error: LocalizedError, dismissAction: STZ.ERR.Legacy.Action?) {
+        self.init(title: Text(Noun.Error),
+                  message: Text(error.errorDescription!),
+                  dismissButton: .default(Text(Verb.Dismiss), action: { dismissAction?(error) }))
+    }
+}
+
+extension STZ.ERR {
+    public enum Legacy {
         public typealias Action = (Error) -> Void
         /// Set an error here to present an Alert when using with
         /// Presenter / Modifier
@@ -63,26 +95,5 @@ extension STZ {
                 _viewModel = .init(wrappedValue: viewModel)
             }
         }
-        
-        /// If the ViewModel contains an alert, presents it,
-        /// otherwise does not modify the view.
-        public struct Modifier: ViewModifier {
-            @ObservedObject public var viewModel: ViewModel
-            public func body(content: Content) -> some View {
-                content.alert(isPresented: self.$viewModel.isPresented,
-                              content: { self.viewModel.alert! })
-            }
-            public init(_ viewModel: ViewModel) {
-                _viewModel = .init(wrappedValue: viewModel)
-            }
-        }
-    }
-}
-
-extension Alert {
-    fileprivate init(error: LocalizedError, dismissAction: STZ.ALRT.Action?) {
-        self.init(title: Text(Noun.Error),
-                  message: Text(error.errorDescription!),
-                  dismissButton: .default(Text(Verb.Dismiss), action: { dismissAction?(error) }))
     }
 }
