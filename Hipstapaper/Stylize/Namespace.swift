@@ -21,13 +21,3 @@
 
 public enum STZ {}
 public typealias Action = () -> Void
-public enum Either<A, B> {
-    case lhs(A), rhs(B)
-    public init(_ a: A?, _ b: B) {
-        if let a = a {
-            self = .lhs(a)
-        } else {
-            self = .rhs(b)
-        }
-    }
-}

@@ -35,14 +35,13 @@ extension STZ {
             // TODO: Remove this once its not broken on the mac
             public func body(content: Content) -> some View {
                 return VStack(spacing: 0) {
-                    Toolbar {
-                        HStack {
-                            Spacer()
-                            Text.ModalTitle(self.kind.noun)
-                            Spacer()
-                            STZ.BTN.Done.button(doneStyle: true, action: self.doneAction)
-                        }
+                    HStack {
+                        Spacer()
+                        Text.ModalTitle(self.kind.noun)
+                        Spacer()
+                        STZ.BTN.Done.button(doneStyle: true, action: self.doneAction)
                     }
+                    .modifier(STZ.VIEW.TB_HACK())
                     content
                     Spacer(minLength: 0)
                 }
@@ -86,17 +85,17 @@ extension STZ {
             // TODO: Remove this once its not broken on the mac
             public func body(content: Content) -> some View {
                 return VStack(spacing: 0) {
-                    Toolbar {
-                        HStack {
-                            STZ.BTN.Cancel.button(action: self.cancelAction)
-                            Spacer()
-                            Text.ModalTitle(self.kind.noun)
-                            Spacer()
-                            STZ.BTN.Save.button(doneStyle: true,
-                                                isDisabled: !self.canSave(),
-                                                action: self.saveAction)
-                        }
+                    HStack {
+                        STZ.BTN.Cancel.button(action: self.cancelAction)
+                        Spacer()
+                        Text.ModalTitle(self.kind.noun)
+                        Spacer()
+                        STZ.BTN.Save.button(doneStyle: true,
+                                            isDisabled: !self.canSave(),
+                                            action: self.saveAction)
                     }
+                    .modifier(STZ.VIEW.TB_HACK())
+
                     content
                     Spacer(minLength: 0)
                 }
