@@ -129,7 +129,7 @@
 		73C274D025A9D9AC0028FE3A /* AppExtensionStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C274CF25A9D9AC0028FE3A /* AppExtensionStorage.swift */; };
 		73C2751A25A9FB300028FE3A /* DropboxWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C2751925A9FB300028FE3A /* DropboxWatcher.swift */; };
 		73C2751B25A9FB300028FE3A /* DropboxWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C2751925A9FB300028FE3A /* DropboxWatcher.swift */; };
-		73C6BC1D25982FA0006B7A6D /* Modals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC1C25982FA0006B7A6D /* Modals.swift */; };
+		73C6BC1D25982FA0006B7A6D /* MDL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC1C25982FA0006B7A6D /* MDL.swift */; };
 		73C6BC6D259A16F3006B7A6D /* WebsiteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC6C259A16F3006B7A6D /* WebsiteController.swift */; };
 		73C6BC6E259A16F3006B7A6D /* WebsiteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC6C259A16F3006B7A6D /* WebsiteController.swift */; };
 		73C6BC78259AB266006B7A6D /* IndexToolbarPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC77259AB266006B7A6D /* IndexToolbarPresentation.swift */; };
@@ -509,7 +509,7 @@
 		73C274DB25A9DA440028FE3A /* Hipstapaper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper.entitlements; sourceTree = "<group>"; };
 		73C274E625A9DA6A0028FE3A /* Share_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Share_iOS.entitlements; sourceTree = "<group>"; };
 		73C2751925A9FB300028FE3A /* DropboxWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxWatcher.swift; sourceTree = "<group>"; };
-		73C6BC1C25982FA0006B7A6D /* Modals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modals.swift; sourceTree = "<group>"; };
+		73C6BC1C25982FA0006B7A6D /* MDL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDL.swift; sourceTree = "<group>"; };
 		73C6BC6C259A16F3006B7A6D /* WebsiteController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteController.swift; sourceTree = "<group>"; };
 		73C6BC77259AB266006B7A6D /* IndexToolbarPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexToolbarPresentation.swift; sourceTree = "<group>"; };
 		73C6BC82259AB2DF006B7A6D /* DetailToolbarPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailToolbarPresentation.swift; sourceTree = "<group>"; };
@@ -747,7 +747,7 @@
 				730CC988258650930002C50A /* PDG.swift */,
 				736DD40025879FD100F0FBE0 /* TGL.swift */,
 				735D4D63258F8B740016F904 /* PRG.swift */,
-				73C6BC1C25982FA0006B7A6D /* Modals.swift */,
+				73C6BC1C25982FA0006B7A6D /* MDL.swift */,
 				734942AE2592078E00AD292E /* SHR.swift */,
 				73DFC99325AF24300041F555 /* ACTN.swift */,
 				732F302325AAEA0D00192822 /* ERR.swift */,
@@ -1544,7 +1544,7 @@
 				736C2F9225ADAFF400608F2B /* TB+Presentable.swift in Sources */,
 				DB79745525832A4E0040E663 /* CRN.swift in Sources */,
 				73DFC99425AF24300041F555 /* ACTN.swift in Sources */,
-				73C6BC1D25982FA0006B7A6D /* Modals.swift in Sources */,
+				73C6BC1D25982FA0006B7A6D /* MDL.swift in Sources */,
 				DB79744C2582F3440040E663 /* TXTFLD.swift in Sources */,
 				73DFCA5825B13C3D0041F555 /* CLR.swift in Sources */,
 				732F302425AAEA0D00192822 /* ERR.swift in Sources */,
