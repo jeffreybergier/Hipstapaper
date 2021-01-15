@@ -120,6 +120,12 @@ extension STZ {
                 public static let darkColor = Raw.numberCircleBackground_Dark
             }
         }
+        public enum Sort {
+            public enum Text: Colorable {
+                public static let color = Raw.textTitle
+                public static let darkColor = Raw.textTitle_Dark
+            }
+        }
         
         #if os(macOS)
         internal enum MDL {

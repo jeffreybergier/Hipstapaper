@@ -32,8 +32,10 @@ struct Sort: View {
     
     var body: some View {
         List(Datum.Sort.allCases, id: \.self, selection: self.$selection) { order in
+            // TODO: Change to label
             STZ.VIEW.TXT(order.localized)
-                .font(.headline)
+                .modifier(STZ.FNT.Sort.apply())
+                .modifier(STZ.CLR.Sort.Text.foreground())
                 .modifier(STZ.PDG.Default(ignore: [\.leading, \.trailing]))
         }
         .modifier(ModalSelectionStyle())
