@@ -61,6 +61,14 @@ extension STZ {
                 public static var font: Font = .subheadline
             }
         }
+        public enum Button {
+            public enum Done: Fontable {
+                public static var font: Font = .headline
+            }
+            public enum Default: Fontable {
+                public static var font: Font = .body
+            }
+        }
         
         #if os(macOS)
         internal enum MDL {

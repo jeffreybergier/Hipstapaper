@@ -125,13 +125,17 @@ extension STZ {
         internal enum MDL {
             internal enum Title: Colorable {
                 static let color = Raw.textTitle
-                static let darkColor = Raw.textTitle
+                static let darkColor = Raw.textTitle_Dark
             }
         }
         internal enum ACTN {
             internal enum Body: Colorable {
                 static let color = Raw.textTitle
-                static let darkColor = Raw.textTitle
+                static let darkColor = Raw.textTitle_Dark
+            }
+            internal enum Button: Colorable {
+                static let color = Raw.textTitle
+                static let darkColor = Raw.textTitle_Dark
             }
         }
         internal enum TB {

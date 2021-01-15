@@ -69,9 +69,11 @@ fileprivate struct DoneStyle: ViewModifier {
     var enabled: Bool
     func body(content: Content) -> some View {
         if enabled {
-            return content.font(.headline)
+            return content
+                .modifier(STZ.FNT.Button.Done.apply())
         } else {
-            return content.font(.body)
+            return content
+                .modifier(STZ.FNT.Button.Default.apply())
         }
     }
 }

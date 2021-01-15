@@ -104,7 +104,8 @@ extension STZ.ACTN.Wrapper.Button {
             action: self.action,
             label: {
                 STZ.VIEW.TXT(self.title)
-                    .font(.headline)
+                    .modifier(STZ.FNT.Button.Done.apply())
+                    .modifier(STZ.CLR.ACTN.Button.foreground())
                     .frame(minWidth: 200, maxWidth: 200)
             }
         )
