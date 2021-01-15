@@ -45,5 +45,26 @@ extension STZ {
                 public static var font: Font = .headline
             }
         }
+        public enum IndexSection {
+            public enum Title: Fontable {
+                public static var font: Font = .subheadline
+            }
+        }
+        public enum DetailRow {
+            public enum Title: Fontable {
+                public static var font: Font = .headline
+            }
+            public enum Subtitle: Fontable {
+                public static var font: Font = .subheadline
+            }
+        }
+        
+        #if os(macOS)
+        internal enum MDL {
+            internal enum Title: Fontable {
+                internal static var font: Font = .title3
+            }
+        }
+        #endif
     }
 }

@@ -56,5 +56,26 @@ extension STZ {
                 public static var darkColor: Color = Color.textTitle_Dark
             }
         }
+        public enum IndexSection {
+            public enum Text: Colorable {
+                public static var color: Color = Color.textTitle
+                public static var darkColor: Color = Color.textTitle_Dark
+            }
+        }
+        public enum DetailRow {
+            public enum Text: Colorable {
+                public static var color: Color = Color.textTitle
+                public static var darkColor: Color = Color.textTitle_Dark
+            }
+        }
+        
+        #if os(macOS)
+        internal enum MDL {
+            internal enum Title: Colorable {
+                static var color: Color = Color.textTitle
+                static var darkColor: Color = Color.textTitle
+            }
+        }
+        #endif
     }
 }

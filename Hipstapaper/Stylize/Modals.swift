@@ -37,7 +37,9 @@ extension STZ {
                 return VStack(spacing: 0) {
                     HStack {
                         Spacer()
-                        Text.ModalTitle(self.kind.noun)
+                        STZ.VIEW.TXT(self.kind.noun)
+                            .modifier(STZ.FNT.MDL.Title.apply())
+                            .modifier(STZ.CLR.MDL.Title.foreground())
                         Spacer()
                         STZ.BTN.Done.button(doneStyle: true, action: self.doneAction)
                     }
@@ -88,7 +90,9 @@ extension STZ {
                     HStack {
                         STZ.BTN.Cancel.button(action: self.cancelAction)
                         Spacer()
-                        Text.ModalTitle(self.kind.noun)
+                        STZ.VIEW.TXT(self.kind.noun)
+                            .modifier(STZ.FNT.MDL.Title.apply())
+                            .modifier(STZ.CLR.MDL.Title.foreground())
                         Spacer()
                         STZ.BTN.Save.button(doneStyle: true,
                                             isDisabled: !self.canSave(),
