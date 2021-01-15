@@ -62,7 +62,8 @@ struct TagList: View {
 #if DEBUG
 struct TagList_Preview: PreviewProvider {
     static var previews: some View {
-        TagList(controller: .init(controller: P_Controller()), navigation: { _ in AnyView(Text("Swift Previews")) })
+        TagList(controller: .init(controller: P_Controller()),
+                navigation: { _ in AnyView(STZ.VIEW.TXT("Swift Previews")) })
     }
 }
 #endif

@@ -43,7 +43,7 @@ extension Buttonable {
                 )
             } else {
                 return AnyView(
-                    Text(self.verb)
+                    STZ.VIEW.TXT(self.verb)
                         .modifier(DoneStyle(enabled: doneStyle))
                 )
             }

@@ -154,7 +154,7 @@ extension STZ {
         public enum Separator {
             public static func toolbar() -> some View {
                 Button(action: {}) {
-                    Text("|")
+                    STZ.VIEW.TXT("|")
                 }
                 .buttonStyle(BorderlessButtonStyle())
                 .disabled(true)

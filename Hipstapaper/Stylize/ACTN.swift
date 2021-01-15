@@ -103,7 +103,7 @@ extension STZ.ACTN.Wrapper.Button {
         SwiftUI.Button(
             action: self.action,
             label: {
-                Text(self.title)
+                STZ.VIEW.TXT(self.title)
                     .font(.headline)
                     .frame(minWidth: 200, maxWidth: 200)
             }
@@ -114,11 +114,11 @@ extension STZ.ACTN.Wrapper.Button {
 extension STZ.ACTN.Wrapper {
     internal var nativeValue: ActionSheet {
         SwiftUI.ActionSheet(
-            title: Text(self.title),
-            message: self.message.map { Text($0) },
+            title: STZ.VIEW.TXT(self.title),
+            message: self.message.map { STZ.VIEW.TXT($0) },
             buttons: self.buttons
                 .map { $0.nativeValue }
-                + [.cancel(Text(Verb.Cancel))]
+                + [.cancel(STZ.VIEW.TXT(Verb.Cancel))]
         )
     }
 }
@@ -127,11 +127,14 @@ extension STZ.ACTN.Wrapper.Button {
     internal var nativeValue: Alert.Button {
         switch self.kind {
         case .cancel:
-            return .cancel(Text(self.title), action: self.action)
+            return .cancel(STZ.VIEW.TXT(self.title),
+                           action: self.action)
         case .default:
-            return .default(Text(self.title), action: self.action)
+            return .default(STZ.VIEW.TXT(self.title),
+                            action: self.action)
         case .destructive:
-            return .destructive(Text(self.title), action: self.action)
+            return .destructive(STZ.VIEW.TXT(self.title),
+                                action: self.action)
         }
     }
 }

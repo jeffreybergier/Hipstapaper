@@ -29,7 +29,7 @@ struct Sort: View {
     
     var body: some View {
         List(Datum.Sort.allCases, id: \.self, selection: self.$selection) { order in
-            Text(order.localized)
+            STZ.VIEW.TXT(order.localized)
                 .font(.headline)
                 .modifier(STZ.PDG.Default(ignore: [\.leading, \.trailing]))
         }

@@ -49,9 +49,9 @@ struct WebsiteRowContextMenu: ViewModifier {
             .alert(isPresented: self.$isDeleteConfirmPresented) {
                 Alert(
                     // TODO: Localized and fix this
-                    title: Text("Delete"),
-                    message: Text("Are you sure you want to delete 1 item? This action cannot be undone."),
-                    primaryButton: .destructive(Text("Delete"), action: self.delete),
+                    title: STZ.VIEW.TXT("Delete"),
+                    message: STZ.VIEW.TXT("Are you sure you want to delete 1 item? This action cannot be undone."),
+                    primaryButton: .destructive(STZ.VIEW.TXT("Delete"), action: self.delete),
                     secondaryButton: .cancel()
                 )
             }
