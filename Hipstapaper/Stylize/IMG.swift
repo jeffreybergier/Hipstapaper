@@ -72,12 +72,9 @@ fileprivate struct Thumbnail: ViewModifier {
     @Environment(\.colorScheme) var colorScheme
     func body(content: Content) -> some View {
         ZStack {
-            self.colorScheme.isNormal
-                ? Color.thumbnailPlaceholder
-                : Color.thumbnailPlaceholder_Dark
-            self.colorScheme.isNormal
-                ? content.foregroundColor(.textTitle)
-                : content.foregroundColor(.textTitle_Dark)
+            STZ.CLR.Thumbnail.Background.view()
+            content
+                .modifier(STZ.CLR.Thumbnail.Icon.foreground())
         }
     }
 }

@@ -48,21 +48,17 @@ extension STZ.VIEW {
 
 extension STZ.VIEW {
     public struct NumberOval: View {
-        @Environment(\.colorScheme) var colorScheme
-        private var number: Int
+        public let number: Int
         public var body: some View {
-            Text(String(self.number))
-                .font(.callout)
-                .foregroundColor(self.colorScheme.isNormal
-                                    ? .textTitle
-                                    : .textTitle_Dark)
-                .modifier(STZ.PDG.Oval())
-                .background(
-                    RoundedRectangle(cornerRadius: 15)
-                        .fill(self.colorScheme.isNormal
-                                ? Color.numberCircleBackground
-                                : Color.numberCircleBackground_Dark)
-                )
+            ZStack {
+                RoundedRectangle(cornerRadius: 1000) // Setting super large number seems to give desired appearance
+                    .modifier(STZ.CLR.Oval.Background.foreground())
+                STZ.VIEW.TXT(String(self.number))
+                    .modifier(STZ.FNT.Oval.apply())
+                    .modifier(STZ.CLR.Oval.Text.foreground())
+                    .modifier(STZ.PDG.Oval())
+                    .layoutPriority(1)
+            }
         }
         public init(_ number: Int) {
             self.number = number

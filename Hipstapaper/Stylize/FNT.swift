@@ -50,6 +50,9 @@ extension STZ {
                 public static var font: Font = .subheadline
             }
         }
+        public enum Oval: Fontable {
+            public static var font: Font = .callout
+        }
         public enum DetailRow {
             public enum Title: Fontable {
                 public static var font: Font = .headline
@@ -63,6 +66,11 @@ extension STZ {
         internal enum MDL {
             internal enum Title: Fontable {
                 internal static var font: Font = .title3
+            }
+        }
+        internal enum ACTN {
+            internal enum Body: Fontable {
+                internal static var font: Font = .body
             }
         }
         #endif

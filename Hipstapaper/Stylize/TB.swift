@@ -38,15 +38,16 @@ extension Toolbarable {
 
 fileprivate struct __Hack_ToolbarButtonStyle: ViewModifier {
     
-    @Environment(\.colorScheme) var colorScheme
     @Environment(\.isEnabled) var isEnabled
     
     func body(content: Content) -> some View {
-        content
-            .foregroundColor(self.colorScheme.isNormal
-                                ? Color.toolbarIcon
-                                : Color.toolbarIcon_Dark)
+        #if os(macOS)
+        return content
+            .modifier(STZ.CLR.TB.Tint.foreground())
             .opacity(self.isEnabled ? 1.0 : 0.5 )
+        #else
+        return content
+        #endif
     }
 }
 

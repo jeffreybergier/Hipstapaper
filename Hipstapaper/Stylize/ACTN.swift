@@ -84,11 +84,12 @@ extension STZ.ACTN.Wrapper {
     internal var nativeValue: some View {
         VStack() {
             // TODO: Make this text wrap
-            Text(self.title)
-                .font(.body)
-                .foregroundColor(Color.textTitleDisabled)
+            STZ.VIEW.TXT(self.title)
+                .modifier(STZ.FNT.ACTN.Body.apply())
+                .modifier(STZ.CLR.ACTN.Body.foreground())
+                .lineLimit(2) // TODO: Remove hack when possible
+                .fixedSize(horizontal: false, vertical: true) // TODO: Remove hack when possible
                 .frame(maxWidth: 200)
-                .lineLimit(nil)
             ForEach(0..<self.buttons.count, id: \.self) {
                 self.buttons[$0].nativeValue
             }
