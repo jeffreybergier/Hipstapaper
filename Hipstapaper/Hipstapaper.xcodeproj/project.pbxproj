@@ -62,6 +62,7 @@
 		735D4D18258F5EEC0016F904 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4D17258F5EEC0016F904 /* WebView.swift */; };
 		735D4D5A258F7DE80016F904 /* Toolbar_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4D59258F7DE80016F904 /* Toolbar_iOS.swift */; };
 		735D4D64258F8B740016F904 /* PRG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4D63258F8B740016F904 /* PRG.swift */; };
+		736878BB25B256C000D158A4 /* LBL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736878BA25B256C000D158A4 /* LBL.swift */; };
 		736C2F6E25ABDFE700608F2B /* Namespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736C2F6D25ABDFE700608F2B /* Namespace.swift */; };
 		736C2F7A25ABE01A00608F2B /* TB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736C2F7925ABE01A00608F2B /* TB.swift */; };
 		736C2F8625AC836700608F2B /* BTN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736C2F8525AC836700608F2B /* BTN.swift */; };
@@ -458,6 +459,7 @@
 		735D4D17258F5EEC0016F904 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		735D4D59258F7DE80016F904 /* Toolbar_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar_iOS.swift; sourceTree = "<group>"; };
 		735D4D63258F8B740016F904 /* PRG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PRG.swift; sourceTree = "<group>"; };
+		736878BA25B256C000D158A4 /* LBL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LBL.swift; sourceTree = "<group>"; };
 		736C2F6D25ABDFE700608F2B /* Namespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Namespace.swift; sourceTree = "<group>"; };
 		736C2F7925ABE01A00608F2B /* TB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TB.swift; sourceTree = "<group>"; };
 		736C2F8525AC836700608F2B /* BTN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTN.swift; sourceTree = "<group>"; };
@@ -755,6 +757,7 @@
 				736C2F9125ADAFF400608F2B /* TB+Presentable.swift */,
 				736C2F7925ABE01A00608F2B /* TB.swift */,
 				736C2F8525AC836700608F2B /* BTN.swift */,
+				736878BA25B256C000D158A4 /* LBL.swift */,
 			);
 			path = Stylize;
 			sourceTree = "<group>";
@@ -1548,6 +1551,7 @@
 				DB79744C2582F3440040E663 /* TXTFLD.swift in Sources */,
 				73DFCA5825B13C3D0041F555 /* CLR.swift in Sources */,
 				732F302425AAEA0D00192822 /* ERR.swift in Sources */,
+				736878BB25B256C000D158A4 /* LBL.swift in Sources */,
 				736C2FB225ADE01B00608F2B /* IMG.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

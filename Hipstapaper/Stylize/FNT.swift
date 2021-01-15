@@ -54,7 +54,7 @@ extension STZ {
             public static var font: Font = .callout
         }
         public enum Sort: Fontable {
-            public static var font: Font = .headline
+            public static var font: Font = .body
         }
         public enum DetailRow {
             public enum Title: Fontable {
