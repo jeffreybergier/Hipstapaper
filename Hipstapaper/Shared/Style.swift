@@ -21,15 +21,14 @@
 
 import SwiftUI
 import Localize
+import Stylize
 
 struct IndexRowTitle: View {
     var title: String?
     var body: some View {
-        if let title = self.title {
-            return AnyView(Text.IndexRowTitle(title))
-        } else {
-            return AnyView(Text.IndexRowTitleDisabled(Noun.Untitled))
-        }
+        STZ.VIEW.TXT(self.title, or: Noun.Untitled)
+            .modifier(STZ.CLR.IndexRow.Text.foreground())
+            .modifier(STZ.FNT.IndexRow.Title.apply())
     }
     init(_ title: String?) {
         self.title = title

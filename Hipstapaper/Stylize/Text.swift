@@ -33,34 +33,6 @@ internal enum TextProvider {
 
 extension Text {
     
-    public struct IndexRowTitle: View {
-        @Environment(\.colorScheme) var colorScheme
-        private var provider: TextProvider
-        public var body: Text {
-            return self.provider.textValue
-                .font(.headline)
-                .foregroundColor(
-                    self.colorScheme.isNormal ? .textTitle : .textTitle_Dark
-                )
-        }
-        public init(_ input: String) { self.provider = .raw(input) }
-        public init(_ input: LocalizedStringKey) { self.provider = .localized(input) }
-    }
-    
-    public struct IndexRowTitleDisabled: View {
-        @Environment(\.colorScheme) var colorScheme
-        private var provider: TextProvider
-        public var body: Text {
-            return self.provider.textValue
-                .font(.headline)
-                .foregroundColor(
-                    self.colorScheme.isNormal ? .textTitleDisabled : .textTitleDisabled_Dark
-                )
-        }
-        public init(_ input: String) { self.provider = .raw(input) }
-        public init(_ input: LocalizedStringKey) { self.provider = .localized(input) }
-    }
-    
     public struct DetailRowTitle: View {
         @Environment(\.colorScheme) var colorScheme
         private var provider: TextProvider

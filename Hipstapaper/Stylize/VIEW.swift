@@ -20,15 +20,22 @@
 import SwiftUI
 
 extension STZ {
-    public enum VIEW {}
+    public enum VIEW {
+        public struct isFallBackKey: PreferenceKey {
+            public static var defaultValue: Bool = false
+            public static func reduce(value: inout Bool, nextValue: () -> Bool) {
+                value = nextValue()
+            }
+        }
+    }
 }
 
 extension STZ.VIEW {
-    public static func TXT(_ string: String?, or fallback: LocalizedStringKey) -> Text {
+    public static func TXT(_ string: String?, or fallback: LocalizedStringKey) -> some View {
         if let string = string {
-            return Text(string)
+            return Text(string).preference(key: isFallBackKey.self, value: false)
         } else {
-            return Text(fallback)
+            return Text(fallback).preference(key: isFallBackKey.self, value: true)
         }
     }
     public static func TXT(_ string: String) -> Text {
