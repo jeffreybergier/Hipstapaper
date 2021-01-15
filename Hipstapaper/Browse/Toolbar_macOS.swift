@@ -47,7 +47,7 @@ internal struct Toolbar_macOS: ViewModifier {
                     ? AnyView(STZ.TB.JSActive.toolbar(action: { self.viewModel.itemDisplay.isJSEnabled = false }))
                     : AnyView(STZ.TB.JSInactive.toolbar(action: { self.viewModel.itemDisplay.isJSEnabled = true }))
                 
-                TextField.WebsiteTitle(self.$viewModel.browserDisplay.title)
+                STZ.VIEW.TXTFLD.WebTitle.textfield(self.$viewModel.browserDisplay.title)
                     .disabled(true)
                 
                 STZ.TB.Share.toolbar(action: { self.viewModel.browserDisplay.isSharing = true })

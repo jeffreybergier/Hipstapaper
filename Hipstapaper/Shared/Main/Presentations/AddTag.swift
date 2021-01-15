@@ -31,7 +31,7 @@ struct AddTag: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            TextField.TagName(self.$tagName)
+            STZ.VIEW.TXTFLD.TagName.textfield(self.$tagName)
             Spacer()
         }
         .modifier(STZ.PDG.Equal())

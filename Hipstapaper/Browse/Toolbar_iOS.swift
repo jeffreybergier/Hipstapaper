@@ -156,7 +156,7 @@ private struct Toolbar_Regular: ViewModifier {
             // [Top Leading] - [AddressBar] - [Share][Done]
             //
             ToolbarItem(id: "Browser_Regular.AddressBar", placement: .principal) {
-                TextField.WebsiteTitle(self.$viewModel.browserDisplay.title)
+                STZ.VIEW.TXTFLD.WebTitle.textfield(self.$viewModel.browserDisplay.title)
                     .disabled(true)
                     .frame(width: 400) // TODO: Remove hack when toolbar can manage width properly
             }

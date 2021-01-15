@@ -32,7 +32,7 @@ struct Search: View {
     var body: some View {
         VStack {
             HStack {
-                TextField.Search(self.$searchString)
+                STZ.VIEW.TXTFLD.Search.textfield(self.$searchString)
                 if self.searchString.nonEmptyString != nil {
                     STZ.TB.ClearSearch.toolbar(action: { self.searchString = "" })
                 }
