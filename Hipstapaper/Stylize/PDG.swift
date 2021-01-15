@@ -19,6 +19,8 @@
 
 import SwiftUI
 
+// TODO: Add Paddable protocol here
+
 extension STZ {
     public enum PDG {
         public struct Modifier: ViewModifier {

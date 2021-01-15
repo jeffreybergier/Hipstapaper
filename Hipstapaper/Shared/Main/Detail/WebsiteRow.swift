@@ -37,9 +37,11 @@ struct WebsiteRow: View {
             VStack(alignment: .leading) {
                 STZ.VIEW.TXT(self.website.title, or: Noun.Untitled)
                     .modifier(STZ.FNT.DetailRow.Title.apply())
+                    .modifier(STZ.CLR.DetailRow.Text.foreground())
                 STZ.VIEW.TXT(WebsiteRow.formatter.string(from: self.website.dateCreated))
                     .modifier(STZ.FNT.DetailRow.Subtitle.apply())
-            }.modifier(STZ.CLR.DetailRow.Text.foreground())
+                    .modifier(STZ.CLR.DetailRow.Text.foreground())
+            }
 
             Spacer()
             STZ.IMG.Placeholder.thumbnail(self.website.thumbnail)

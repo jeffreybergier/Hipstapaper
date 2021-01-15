@@ -33,9 +33,11 @@ extension STZ {
 extension STZ.VIEW {
     public static func TXT(_ string: String?, or fallback: LocalizedStringKey) -> some View {
         if let string = string {
-            return Text(string).preference(key: isFallBackKey.self, value: false)
+            return Text(string)
+                .preference(key: isFallBackKey.self, value: false)
         } else {
-            return Text(fallback).preference(key: isFallBackKey.self, value: true)
+            return Text(fallback)
+                .preference(key: isFallBackKey.self, value: true)
         }
     }
     public static func TXT(_ string: String) -> Text {
@@ -78,7 +80,7 @@ extension STZ.VIEW {
                     .ignoresSafeArea()
                 content
                     .modifier(STZ.PDG.TB())
-                    .layoutPriority(1000)
+                    .layoutPriority(1)
             }
         }
     }
