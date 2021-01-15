@@ -36,14 +36,14 @@ extension Imagable {
         if let image = data?.imageValue {
             return AnyView(
                 image
-                    .cornerRadius_small
+                    .modifier(STZ.CRN.small())
                     .aspectRatio(1, contentMode: .fit)
             )
         } else {
             return AnyView(
                 self.image
                     .modifier(Thumbnail())
-                    .cornerRadius_small
+                    .modifier(STZ.CRN.small())
                     .aspectRatio(1, contentMode: .fit)
             )
         }

@@ -42,7 +42,7 @@ public struct Snapshotter: View {
                     WebThumbnail(viewModel: self.viewModel)
                 }
                 .frame(width: 300, height: 300)
-                .cornerRadius_medium
+                .modifier(STZ.CRN.medium())
                 .modifier(STZ.PDG.Equal(ignore: [\.top]))
             }
         }

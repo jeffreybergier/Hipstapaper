@@ -21,18 +21,25 @@
 
 import SwiftUI
 
-extension View {
-
-    public var cornerRadius_small: some View {
-        return self.cornerRadius(4)
+extension STZ {
+    public enum CRN {
+        public struct Modifier: ViewModifier {
+            public let radius: CGFloat
+            public func body(content: Content) -> some View {
+                content.cornerRadius(self.radius)
+            }
+            public init(radius: CGFloat) {
+                self.radius = radius
+            }
+        }
+        public static func small() -> Modifier {
+            .init(radius: 4)
+        }
+        public static func medium() -> Modifier {
+            .init(radius: 8)
+        }
+        public static func large() -> Modifier {
+            .init(radius: 16)
+        }
     }
-
-    public var cornerRadius_medium: some View {
-        return self.cornerRadius(8)
-    }
-
-    public var cornerRadius_large: some View {
-        return self.cornerRadius(16)
-    }
-
 }
