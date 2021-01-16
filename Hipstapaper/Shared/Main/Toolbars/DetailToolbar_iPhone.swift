@@ -53,28 +53,20 @@ extension DetailToolbar.iOS {
                     ToolbarItem(id: "Detail.FlexibleSpace", placement: .bottomBar) {
                         Spacer()
                     }
-                    ToolbarItem(id: "Detail.OpenInApp", placement: .bottomBar) {
-                        STZ.TB.OpenInApp.toolbar(isEnabled: self.controller.canOpen(in: self.windowPresentation)) {
-                            self.modalPresentation.value = .browser(self.controller.selectedWebsites.first!)
+                    ToolbarItem(id: "Detail.Share", placement: .bottomBar) {
+                        STZ.TB.Share.toolbar(isEnabled: self.controller.canShare()) {
+                            self.popoverAlignment = .bottomTrailing
+                            self.modalPresentation.value = .share
                         }
-                    }
-                    ToolbarItem(id: "Detail.OpenExternal", placement: .bottomBar) {
-                        STZ.TB.OpenInBrowser.toolbar(isEnabled: self.controller.canOpen(in: self.windowPresentation),
-                                                     action: { self.controller.open(in: self.externalPresentation) })
-                    }
-                    ToolbarItem(id: "Detail.Separator", placement: .bottomBar) {
-                        STZ.TB.Separator.toolbar()
                     }
                     ToolbarItem(id: "Detail.EditMode", placement: .bottomBar) {
                         EditButton()
                     }
                 }
                 .toolbar(id: "Detail") { // TODO: Hack because toolbars only support 10 items
-                    ToolbarItem(id: "Detail.Share", placement: .primaryAction) {
-                        STZ.TB.Share.toolbar(isEnabled: self.controller.canShare()) {
-                            self.popoverAlignment = .bottomTrailing
-                            self.modalPresentation.value = .share
-                        }
+                    ToolbarItem(id: "Detail.OpenExternal", placement: .primaryAction) {
+                        STZ.TB.OpenInBrowser.toolbar(isEnabled: self.controller.canOpen(in: self.windowPresentation),
+                                                     action: { self.controller.open(in: self.externalPresentation) })
                     }
                 }
         }

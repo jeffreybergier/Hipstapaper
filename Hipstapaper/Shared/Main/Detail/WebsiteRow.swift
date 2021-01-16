@@ -42,11 +42,11 @@ struct WebsiteRow: View {
                     .modifier(STZ.FNT.DetailRow.Subtitle.apply())
                     .modifier(STZ.CLR.DetailRow.Text.foreground())
             }
-
             Spacer()
             STZ.IMG.Placeholder.thumbnail(self.website.thumbnail)
         }
         .frame(height: 60)
+        .animation(nil)
     }
     init(_ website: AnyWebsite) {
         self.website = website

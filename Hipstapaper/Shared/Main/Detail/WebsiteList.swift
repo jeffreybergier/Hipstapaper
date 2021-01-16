@@ -47,6 +47,7 @@ struct WebsiteList: View {
                 .modifier(WebsiteRowContextMenu(item: item, controller: self.controller.controller))
         }
         .modifier(Title(query: self.controller.query))
+        .animation(.default)
     }
 }
 
@@ -62,13 +63,25 @@ fileprivate struct Title: ViewModifier {
     let query: Query
     func body(content: Content) -> some View {
         if let tag = self.query.tag {
-            return AnyView(content.navigationTitle(tag.value.name ?? Noun.UnreadItems_L))
+            return AnyView(
+                content
+                    .navigationBarTitleDisplayMode(.inline)
+                    .navigationTitle(tag.value.name ?? Noun.UnreadItems_L)
+            )
         } else {
             switch query.isArchived! {
             case .all:
-                return AnyView(content.navigationTitle(Noun.AllItems))
+                return AnyView(
+                    content
+                        .navigationBarTitleDisplayMode(.inline)
+                        .navigationTitle(Noun.AllItems)
+                )
             case .unarchived:
-                return AnyView(content.navigationTitle(Noun.Hipstapaper))
+                return AnyView(
+                    content
+                        .navigationBarTitleDisplayMode(.large)
+                        .navigationTitle(Noun.Hipstapaper)
+                )
             }
         }
     }
