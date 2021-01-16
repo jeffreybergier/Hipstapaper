@@ -32,7 +32,6 @@ internal let log: XCGLogger = {
 struct HipstapaperApp: App {
     
     let controller: Controller
-    let windowManager = WindowManager()
     let watcher: DropboxWatcher
     
     init() {
@@ -44,8 +43,8 @@ struct HipstapaperApp: App {
     @SceneBuilder var body: some Scene {
         WindowGroup {
             Main(controller: self.controller)
-                .environmentObject(self.windowManager)
-                .environmentObject(BrowserPresentation())
+                .environmentObject(WindowPresentation())
+                .environmentObject(ModalPresentation.Wrap())
         }
     }
 }

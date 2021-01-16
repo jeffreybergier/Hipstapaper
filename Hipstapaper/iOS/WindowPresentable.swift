@@ -19,23 +19,14 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import AppKit
+import UIKit
 import Combine
 
-class WindowManager: ObservableObject, WindowManagerProtocol {
+class WindowPresentation: ObservableObject, WindowManagerProtocol {
+        
+    let features: Features = []
     
-    private var windows: [URL: BrowserWindowController] = [:]
-    
-    let features: Features = [.multipleWindows, .bulkActivation]
-
-    func show(_ urls: Set<URL>, error: @escaping (Error) -> Void) {
-        for url in urls {
-            let window = self.windows[url] ?? BrowserWindowController(url: url)
-            self.windows[url] = window
-            window.windowWillClose = { [unowned self] url in
-                self.windows.removeValue(forKey: url)
-            }
-            window.showWindow(self)
-        }
+    func show(_ urls: Set<URL>, error errorHandler: @escaping (Error) -> Void) {
+        fatalError("Not supported on iOS")
     }
 }

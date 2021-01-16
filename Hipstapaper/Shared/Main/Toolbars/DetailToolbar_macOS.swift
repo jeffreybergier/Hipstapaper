@@ -23,11 +23,10 @@ import Stylize
 struct DetailToolbar_macOS: ViewModifier {
     
     @ObservedObject var controller: WebsiteController
-    @Binding var presentation: DetailToolbarPresentation.Wrap
-    
+    @EnvironmentObject private var presentation: ModalPresentation.Wrap
+
     @Environment(\.openURL) var openURL
-    @EnvironmentObject var windowManager: WindowManager
-    @EnvironmentObject var browserPresentation: BrowserPresentation
+    @EnvironmentObject var windowManager: WindowPresentation
     
     func body(content: Content) -> some View {
         // TODO: Remove combined ToolbarItems when it supoprts more than 10 items
@@ -37,11 +36,9 @@ struct DetailToolbar_macOS: ViewModifier {
                     STZ.TB.OpenInApp.toolbar(isDisabled: self.controller.selectedWebsites.isEmpty)
                     {
                         let allURLs = self.controller.selectedWebsites.compactMap { $0.value.preferredURL }
-                        guard
-                            !allURLs.isEmpty,
-                            self.windowManager.features.contains(.multipleWindows)
-                        else {
-                            self.browserPresentation.item = self.controller.selectedWebsites.first
+                        guard allURLs.isEmpty == false else { fatalError("Maybe present an error?") }
+                        guard self.windowManager.features.contains(.multipleWindows) else {
+                            self.presentation.value = .browser(self.controller.selectedWebsites.first!)
                             return
                         }
                         let urls = self.windowManager.features.contains(.bulkActivation)

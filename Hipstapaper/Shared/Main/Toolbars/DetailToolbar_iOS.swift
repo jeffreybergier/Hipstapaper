@@ -23,9 +23,11 @@ import Stylize
 struct DetailToolbar_iOS: ViewModifier {
     
     @ObservedObject var controller: WebsiteController
-    @Binding var presentation: DetailToolbarPresentation.Wrap
     @Binding var popoverAlignment: Alignment
+    
+    @EnvironmentObject private var presentation: ModalPresentation.Wrap
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    
     private var isCompact: Bool {
         switch self.horizontalSizeClass ?? .compact {
         case .regular:
@@ -43,7 +45,6 @@ struct DetailToolbar_iOS: ViewModifier {
                 content.modifier(
                     DetailToolbar_Compact_iOS(
                         controller: self.controller,
-                        presentation: self.$presentation,
                         popoverAlignment: self.$popoverAlignment
                     )
                 )
@@ -52,7 +53,6 @@ struct DetailToolbar_iOS: ViewModifier {
                 content.modifier(
                     DetailToolbar_Regular_iOS(
                         controller: self.controller,
-                        presentation: self.$presentation,
                         popoverAlignment: self.$popoverAlignment
                     )
                 )
@@ -63,7 +63,7 @@ struct DetailToolbar_iOS: ViewModifier {
 fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
     
     @ObservedObject var controller: WebsiteController
-    @Binding var presentation: DetailToolbarPresentation.Wrap
+    @EnvironmentObject private var presentation: ModalPresentation.Wrap
     @Binding var popoverAlignment: Alignment
     
     @Environment(\.openURL) var openURL
@@ -184,9 +184,9 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
 fileprivate struct DetailToolbar_Compact_iOS: ViewModifier {
     
     @ObservedObject var controller: WebsiteController
-    @Binding var presentation: DetailToolbarPresentation.Wrap
     @Binding var popoverAlignment: Alignment
     
+    @EnvironmentObject private var presentation: ModalPresentation.Wrap
     @Environment(\.openURL) var openURL
     @Environment(\.editMode) var editMode
     

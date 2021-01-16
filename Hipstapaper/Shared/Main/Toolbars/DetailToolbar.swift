@@ -27,8 +27,8 @@ import Browse
 struct DetailToolbar: ViewModifier {
     
     @ObservedObject var controller: WebsiteController
-    @EnvironmentObject var windowManager: WindowManager
-    @State var presentation = DetailToolbarPresentation.Wrap()
+    @EnvironmentObject var windowManager: WindowPresentation
+    @EnvironmentObject private var presentation: ModalPresentation.Wrap
     @State var popoverAlignment: Alignment = .topTrailing
     
     func body(content: Content) -> some View {
@@ -58,11 +58,9 @@ struct DetailToolbar: ViewModifier {
                     Sort(selection: self.$controller.query.sort, doneAction: { self.presentation.value = .none })
                 }
             #if os(macOS)
-            content.modifier(DetailToolbar_macOS(controller: self.controller,
-                                                 presentation: self.$presentation))
+            content.modifier(DetailToolbar_macOS(controller: self.controller))
             #else
             content.modifier(DetailToolbar_iOS(controller: self.controller,
-                                               presentation: self.$presentation,
                                                popoverAlignment: self.$popoverAlignment))
             #endif
         }
@@ -72,7 +70,7 @@ struct DetailToolbar: ViewModifier {
 struct OpenWebsiteDisabler: ViewModifier {
     
     let selectionCount: Int
-    @EnvironmentObject var windowManager: WindowManager
+    @EnvironmentObject var windowManager: WindowPresentation
     
     init(_ selectionCount: Int) {
         self.selectionCount = selectionCount

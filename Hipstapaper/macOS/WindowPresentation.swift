@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2021/01/03.
+//  Created by Jeffrey Bergier on 2020/12/29.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,23 +19,23 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import SwiftUI
-import Datum
-import Browse
+import AppKit
+import Combine
 
-enum ClickActions {
-    struct SingleClick: ViewModifier {
-        
-        @EnvironmentObject private var presentation: ModalPresentation.Wrap
-        let item: AnyElement<AnyWebsite>
+class WindowPresentation: ObservableObject, WindowManagerProtocol {
+    
+    private var windows: [URL: BrowserWindowController] = [:]
+    
+    let features: Features = [.multipleWindows, .bulkActivation]
 
-        func body(content: Content) -> some View {
-            #if os(macOS)
-            return content
-            #else
-            return Button(action: { self.presentation.value = .browser(item) },
-                          label: { content })
-            #endif
+    func show(_ urls: Set<URL>, error: @escaping (Error) -> Void) {
+        for url in urls {
+            let window = self.windows[url] ?? BrowserWindowController(url: url)
+            self.windows[url] = window
+            window.windowWillClose = { [unowned self] url in
+                self.windows.removeValue(forKey: url)
+            }
+            window.showWindow(self)
         }
     }
 }

@@ -28,8 +28,8 @@ import Snapshot
 struct IndexToolbar: ViewModifier {
     
     @ObservedObject var controller: TagController
-    @State var presentation = IndexToolbarPresentation.Wrap()
-    
+    @EnvironmentObject private var presentation: ModalPresentation.Wrap
+
     #if os(macOS)
     /// Source of popover
     private let alignment: Alignment = .topTrailing

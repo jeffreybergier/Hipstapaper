@@ -33,7 +33,7 @@ struct WebsiteRowContextMenu: ViewModifier {
     @State private var isDeleteConfirmPresented = false
     
     @Environment(\.openURL) private var openURL
-    @EnvironmentObject private var presentation: BrowserPresentation
+    @EnvironmentObject private var presentation: ModalPresentation.Wrap
     
     func body(content: Content) -> some View {
         content
@@ -58,7 +58,7 @@ struct WebsiteRowContextMenu: ViewModifier {
             .contextMenu {
                 Group {
                     STZ.TB.OpenInApp.button(isDisabled: self.item.value.preferredURL == nil,
-                                                   action: { self.presentation.item = self.item })
+                                            action: { self.presentation.value = .browser(self.item) })
                     STZ.TB.OpenInBrowser.button(isDisabled: self.item.value.preferredURL == nil,
                                                        action: { self.openURL(self.item.value.preferredURL!) })
                 }
