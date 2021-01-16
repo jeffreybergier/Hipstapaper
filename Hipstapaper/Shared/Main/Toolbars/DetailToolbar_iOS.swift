@@ -38,23 +38,17 @@ extension DetailToolbar.iOS {
                     self.editMode?.wrappedValue.isEditing ?? false)
             {
             case (true, true): // iPhone editing
-                return AnyView(
-                    content
-                )
+                return AnyView(content.modifier(iPhoneEdit(controller: self.controller,
+                                                           popoverAlignment: self.$popoverAlignment)))
             case (true, false): // iPhone not editing
-                return AnyView(
-                    content
-                )
+                return AnyView(content.modifier(iPhone(controller: self.controller,
+                                                       popoverAlignment: self.$popoverAlignment)))
             case (false, true): // iPad editing
-                return AnyView(
-                    content.modifier(iPadEdit(controller: self.controller,
-                                              popoverAlignment: self.$popoverAlignment))
-                )
+                return AnyView(content.modifier(iPadEdit(controller: self.controller,
+                                                         popoverAlignment: self.$popoverAlignment)))
             case (false, false): // iPad not editing
-                return AnyView(
-                    content.modifier(iPad(controller: self.controller,
-                                          popoverAlignment: self.$popoverAlignment))
-                )
+                return AnyView(content.modifier(iPad(controller: self.controller,
+                                                     popoverAlignment: self.$popoverAlignment)))
             }
         }
     }
