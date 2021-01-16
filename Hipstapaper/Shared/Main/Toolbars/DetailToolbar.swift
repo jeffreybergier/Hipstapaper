@@ -24,36 +24,36 @@ import Datum
 import Stylize
 import Browse
 
-struct DetailToolbar: ViewModifier {
-    
-    @ObservedObject var controller: WebsiteController
-    @State var popoverAlignment: Alignment = .topTrailing
-    
-    func body(content: Content) -> some View {
-        return ZStack(alignment: self.popoverAlignment) {
-            // TODO: Hack when toolbars work properly with popovers
-            Color.clear.frame(width: 1, height: 1).modifier(
-                TagApplyPresentable(controller: self.controller.controller,
-                                    selectedWebsites: self.controller.selectedWebsites)
-            )
-            
-            Color.clear.frame(width: 1, height: 1).modifier(
-                SharePresentable(selectedWebsites: self.controller.selectedWebsites)
-            )
-            
-            Color.clear.frame(width: 1, height: 1).modifier(
-                SearchPresentable(search: self.$controller.query.search)
-            )
-            
-            Color.clear.frame(width: 1, height: 1).modifier(
-                SortPresentable(sort: self.$controller.query.sort)
-            )
-            #if os(macOS)
-            content.modifier(DetailToolbar_macOS(controller: self.controller))
-            #else
-            content.modifier(DetailToolbar_iOS(controller: self.controller,
-                                               popoverAlignment: self.$popoverAlignment))
-            #endif
+enum DetailToolbar {
+    struct Shared: ViewModifier {
+        
+        @ObservedObject var controller: WebsiteController
+        @State var popoverAlignment: Alignment = .topTrailing
+        
+        func body(content: Content) -> some View {
+            return ZStack(alignment: self.popoverAlignment) {
+                // TODO: Hack when toolbars work properly with popovers
+                Color.clear.frame(width: 1, height: 1).modifier(
+                    TagApplyPresentable(controller: self.controller.controller,
+                                        selectedWebsites: self.controller.selectedWebsites)
+                )
+                Color.clear.frame(width: 1, height: 1).modifier(
+                    SharePresentable(selectedWebsites: self.controller.selectedWebsites)
+                )
+                Color.clear.frame(width: 1, height: 1).modifier(
+                    SearchPresentable(search: self.$controller.query.search)
+                )
+                
+                Color.clear.frame(width: 1, height: 1).modifier(
+                    SortPresentable(sort: self.$controller.query.sort)
+                )
+                #if os(macOS)
+                content.modifier(macOS(controller: self.controller))
+                #else
+                content.modifier(iOS.Shared(controller: self.controller,
+                                            popoverAlignment: self.$popoverAlignment))
+                #endif
+            }
         }
     }
 }

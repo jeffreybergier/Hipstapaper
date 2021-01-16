@@ -20,26 +20,42 @@
 import SwiftUI
 import Stylize
 
-struct DetailToolbar_iOS: ViewModifier {
-    
-    @ObservedObject var controller: WebsiteController
-    @Binding var popoverAlignment: Alignment
-    
-    @Environment(\.editMode) private var editMode
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-    
-    func body(content: Content) -> some View {
-        switch (self.horizontalSizeClass?.isCompact ?? true,
-                self.editMode?.wrappedValue.isEditing ?? false)
-        {
-        case (true, true): // iPhone editing
-            return content
-        case (true, false): // iPhone not editing
-            return content
-        case (false, true): // iPad editing
-            return content
-        case (false, false): // iPad not editing
-            return content
+extension DetailToolbar {
+    enum iOS { }
+}
+
+extension DetailToolbar.iOS {
+    struct Shared: ViewModifier {
+        
+        @ObservedObject var controller: WebsiteController
+        @Binding var popoverAlignment: Alignment
+        
+        @Environment(\.editMode) private var editMode
+        @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+        
+        func body(content: Content) -> some View {
+            switch (self.horizontalSizeClass?.isCompact ?? true,
+                    self.editMode?.wrappedValue.isEditing ?? false)
+            {
+            case (true, true): // iPhone editing
+                return AnyView(
+                    content
+                )
+            case (true, false): // iPhone not editing
+                return AnyView(
+                    content
+                )
+            case (false, true): // iPad editing
+                return AnyView(
+                    content.modifier(iPadEdit(controller: self.controller,
+                                              popoverAlignment: self.$popoverAlignment))
+                )
+            case (false, false): // iPad not editing
+                return AnyView(
+                    content.modifier(iPad(controller: self.controller,
+                                          popoverAlignment: self.$popoverAlignment))
+                )
+            }
         }
     }
 }

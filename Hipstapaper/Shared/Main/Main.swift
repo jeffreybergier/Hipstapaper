@@ -37,8 +37,12 @@ struct Main: View {
         NavigationView {
             TagList(controller: self.tagController,
                     navigation: { selectedTag in
-                        let c = WebsiteController(controller: self.controller, selectedTag: selectedTag)
-                        return AnyView(WebsiteList(controller: c).modifier(DetailToolbar(controller: c)))
+                        let c = WebsiteController(controller: self.controller,
+                                                  selectedTag: selectedTag)
+                        return AnyView(
+                            WebsiteList(controller: c)
+                                .modifier(DetailToolbar.Shared(controller: c))
+                        )
                     })
                 .modifier(IndexToolbar(controller: self.tagController))
         }
