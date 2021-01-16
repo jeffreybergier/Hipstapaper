@@ -59,6 +59,23 @@ struct WebsiteList_Preview: PreviewProvider {
 }
 #endif
 
+#if os(macOS)
+fileprivate struct Title: ViewModifier {
+    let query: Query
+    func body(content: Content) -> some View {
+        if let tag = self.query.tag {
+            return AnyView(content.navigationTitle(tag.value.name ?? Noun.UnreadItems_L))
+        } else {
+            switch query.isArchived! {
+            case .all:
+                return AnyView(content.navigationTitle(Noun.AllItems))
+            case .unarchived:
+                return AnyView(content.navigationTitle(Noun.Hipstapaper))
+            }
+        }
+    }
+}
+#else
 fileprivate struct Title: ViewModifier {
     let query: Query
     func body(content: Content) -> some View {
@@ -86,3 +103,4 @@ fileprivate struct Title: ViewModifier {
         }
     }
 }
+#endif

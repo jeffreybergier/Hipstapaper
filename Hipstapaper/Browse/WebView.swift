@@ -21,10 +21,12 @@
 
 import SwiftUI
 import WebKit
+import Stylize
 
 internal struct WebView: View {
     
     @ObservedObject var viewModel: ViewModel
+    @EnvironmentObject private var errorQ: STZ.ERR.Q
     
     private func update(_ wv: WKWebView, context: Context) {
         if self.viewModel.browserControl.stop {
@@ -56,6 +58,7 @@ internal struct WebView: View {
     private func makeWebView(context: Context) -> WKWebView {
         let config = WKWebViewConfiguration()
         let wv = WKWebView(frame: .zero, configuration: config)
+        wv.navigationDelegate = context.coordinator
         let token1 = wv.observe(\.isLoading)
         { [unowned vm = viewModel] wv, _ in
             vm.browserDisplay.isLoading = wv.isLoading
@@ -82,6 +85,12 @@ internal struct WebView: View {
         }
         self.viewModel.browserDisplay.kvo = [token1, token2, token3, token4, token5, token6]
         return wv
+    }
+    
+    func makeCoordinator() -> ErrorDelegate {
+        let delegate = ErrorDelegate()
+        delegate.errorQ = self.errorQ
+        return delegate
     }
     
 }

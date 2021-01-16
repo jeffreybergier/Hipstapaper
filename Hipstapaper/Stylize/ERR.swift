@@ -41,6 +41,43 @@ extension STZ {
     }
 }
 
+extension STZ.ERR {
+    public class Q: ObservableObject {
+        @Published public var isPresented = false
+        @Published private var errors: [LocalizedError] = [] {
+            didSet {
+                self.isPresented = !self.errors.isEmpty
+            }
+        }
+        public init() {}
+        public func append(_ error: LocalizedError) {
+            self.errors.append(error)
+        }
+        public func next() -> (LocalizedError, Action)? {
+            guard let first = self.errors.first else { return nil }
+            let closure = {
+                DispatchQueue.main.async {
+                    self.errors = Array(self.errors.dropFirst())
+                }
+            }
+            return (first, closure)
+        }
+    }
+
+    public struct QPresenter: ViewModifier {
+        @ObservedObject private var queue: Q
+        public init(_ queue: Q) {
+            _queue = .init(initialValue: queue)
+        }
+        public func body(content: Content) -> some View {
+            content.alert(isPresented: self.$queue.isPresented) {
+                let next = self.queue.next()!
+                return Alert(error: next.0, dismissAction: next.1)
+            }
+        }
+    }
+}
+
 extension Alert {
     fileprivate init(error: LocalizedError, dismissAction: Action?) {
         self.init(title: STZ.VIEW.TXT(Noun.Error),
@@ -95,6 +132,23 @@ extension STZ.ERR {
             }
             public init(_ viewModel: ViewModel) {
                 _viewModel = .init(wrappedValue: viewModel)
+            }
+        }
+        
+        public struct _LocalizedError: LocalizedError {
+            /// A localized message describing what error occurred.
+            public var errorDescription: String?
+
+            /// A localized message describing the reason for the failure.
+            public var failureReason: String?
+
+            /// A localized message providing "help" text if the user requests help.
+            public var helpAnchor: String?
+            
+            public init(error: NSError) {
+                self.errorDescription = error.localizedDescription
+                self.failureReason = error.localizedFailureReason
+                self.helpAnchor = error.helpAnchor
             }
         }
     }

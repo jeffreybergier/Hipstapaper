@@ -127,6 +127,7 @@
 		73A3DF45257D0761002EDEB4 /* Result+Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DF44257D0761002EDEB4 /* Result+Snapshot.swift */; };
 		73AFCBE925B31E6100832F31 /* DetailToolbar_iPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AFCBE825B31E6100832F31 /* DetailToolbar_iPad.swift */; };
 		73AFCBF525B3280200832F31 /* DetailToolbar_iPhone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AFCBF425B3280200832F31 /* DetailToolbar_iPhone.swift */; };
+		73AFCC0125B32F0800832F31 /* ErrorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AFCC0025B32F0800832F31 /* ErrorDelegate.swift */; };
 		73B3893925A1BEC800FE8A29 /* ClickActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B3893825A1BEC800FE8A29 /* ClickActions.swift */; };
 		73B3893A25A1BEC800FE8A29 /* ClickActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B3893825A1BEC800FE8A29 /* ClickActions.swift */; };
 		73B4D18A259C858C00B8E6A6 /* Toolbar_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B4D189259C858C00B8E6A6 /* Toolbar_macOS.swift */; };
@@ -507,6 +508,7 @@
 		73A3DF44257D0761002EDEB4 /* Result+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Result+Snapshot.swift"; sourceTree = "<group>"; };
 		73AFCBE825B31E6100832F31 /* DetailToolbar_iPad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailToolbar_iPad.swift; sourceTree = "<group>"; };
 		73AFCBF425B3280200832F31 /* DetailToolbar_iPhone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailToolbar_iPhone.swift; sourceTree = "<group>"; };
+		73AFCC0025B32F0800832F31 /* ErrorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorDelegate.swift; sourceTree = "<group>"; };
 		73B3893825A1BEC800FE8A29 /* ClickActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickActions.swift; sourceTree = "<group>"; };
 		73B4D189259C858C00B8E6A6 /* Toolbar_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar_macOS.swift; sourceTree = "<group>"; };
 		73C274AF25A98EBD0028FE3A /* WKWebview+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebview+Snapshot.swift"; sourceTree = "<group>"; };
@@ -719,6 +721,7 @@
 				735D4CE9258F50830016F904 /* Browser.swift */,
 				732D529A25A5E7830028545F /* ViewModel.swift */,
 				735D4D17258F5EEC0016F904 /* WebView.swift */,
+				73AFCC0025B32F0800832F31 /* ErrorDelegate.swift */,
 				73CAA423259DACD200FFE3BD /* Toolbar_Wrap.swift */,
 				735D4D59258F7DE80016F904 /* Toolbar_iOS.swift */,
 				73B4D189259C858C00B8E6A6 /* Toolbar_macOS.swift */,
@@ -1529,6 +1532,7 @@
 				735D4CEA258F50830016F904 /* Browser.swift in Sources */,
 				735D4D18258F5EEC0016F904 /* WebView.swift in Sources */,
 				732D529B25A5E7830028545F /* ViewModel.swift in Sources */,
+				73AFCC0125B32F0800832F31 /* ErrorDelegate.swift in Sources */,
 				73B4D18A259C858C00B8E6A6 /* Toolbar_macOS.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
