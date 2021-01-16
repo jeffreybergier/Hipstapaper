@@ -51,62 +51,11 @@ struct IndexToolbar: ViewModifier {
         return ZStack(alignment: self.alignment) {
             // TODO: Hack when toolbars work properly with popovers
             Color.clear.frame(width: 1, height: 1)
-                .popover(isPresented: self.$presentation.isAddTag) {
-                    AddTag(
-                        cancel: { self.presentation.value = .none },
-                        save: {
-                            let result = self.controller.controller.createTag(name: $0)
-                            switch result {
-                            case .success:
-                                self.presentation.value = .none
-                            case .failure(let error):
-                                // TODO: Do something with this error
-                                break
-                            }
-                        }
-                    )
-                }
-            
-            // TODO: Hack when toolbars work properly with popovers
+                .modifier(AddTagPresentable(controller: self.controller.controller))
             Color.clear.frame(width: 1, height: 1)
-                .sheet(isPresented: self.$presentation.isAddWebsite) {
-                    return Snapshotter(.init(doneAction: { result in
-                        switch result {
-                        case .success(let output):
-                            // TODO: maybe show error to user?
-                            _ = try! self.controller.controller.createWebsite(.init(output)).get()
-                        case .failure(let error):
-                            // TODO: maybe show error to user?
-                            break
-                        }
-                        self.presentation.value = .none
-                    }))
-                }
-            
-            // TODO: Hack when toolbars work properly with popovers
+                .modifier(AddWebsitePresentable(controller: self.controller.controller))
             Color.clear.frame(width: 1, height: 1)
-                .modifier(STZ.ACTN.Modifier(isPresented: self.$presentation.isAddChoose) {
-                    STZ.ACTN.Wrapper(
-                        title: Phrase.AddChoice,
-                        buttons: [
-                            .init(title: Verb.AddTag) {
-                                self.presentation.value = .none
-                                // TODO: Remove this hack when possible
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    self.presentation.value = .addTag
-                                }
-                            },
-                            .init(title: Verb.AddWebsite) {
-                                self.presentation.value = .none
-                                // TODO: Remove this hack when possible
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    self.presentation.value = .addWebsite
-                                }
-                            }
-                        ]
-                    )
-                }
-            )
+                .modifier(AddChoicePresentable())
             
             #if os(macOS)
             content.toolbar(id: "Index") {
