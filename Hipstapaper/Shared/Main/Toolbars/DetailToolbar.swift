@@ -27,60 +27,33 @@ import Browse
 struct DetailToolbar: ViewModifier {
     
     @ObservedObject var controller: WebsiteController
-    @EnvironmentObject var windowManager: WindowPresentation
-    @EnvironmentObject private var presentation: ModalPresentation.Wrap
     @State var popoverAlignment: Alignment = .topTrailing
     
     func body(content: Content) -> some View {
         return ZStack(alignment: self.popoverAlignment) {
             // TODO: Hack when toolbars work properly with popovers
-            Color.clear.frame(width: 1, height: 1)
-                .popover(isPresented: self.$presentation.isTagApply) { () -> TagApply in
-                    TagApply(selectedWebsites: self.controller.selectedWebsites,
-                             controller: self.controller.controller,
-                             done: { self.presentation.value = .none })
-                }
+            Color.clear.frame(width: 1, height: 1).modifier(
+                TagApplyPresentable(controller: self.controller.controller,
+                                    selectedWebsites: self.controller.selectedWebsites)
+            )
             
-            Color.clear.frame(width: 1, height: 1)
-                .popover(isPresented: self.$presentation.isShare) {
-                    STZ.SHR(items: self.controller.selectedWebsites.compactMap { $0.value.preferredURL },
-                            completion:  { self.presentation.value = .none })
-                }
+            Color.clear.frame(width: 1, height: 1).modifier(
+                SharePresentable(selectedWebsites: self.controller.selectedWebsites)
+            )
             
-            Color.clear.frame(width: 1, height: 1)
-                .popover(isPresented: self.$presentation.isSearch) {
-                    Search(searchString: self.$controller.query.search,
-                           doneAction: { self.presentation.value = .none })
-                }
+            Color.clear.frame(width: 1, height: 1).modifier(
+                SearchPresentable(search: self.$controller.query.search)
+            )
             
-            Color.clear.frame(width: 1, height: 1)
-                .popover(isPresented: self.$presentation.isSort) {
-                    Sort(selection: self.$controller.query.sort, doneAction: { self.presentation.value = .none })
-                }
+            Color.clear.frame(width: 1, height: 1).modifier(
+                SortPresentable(sort: self.$controller.query.sort)
+            )
             #if os(macOS)
             content.modifier(DetailToolbar_macOS(controller: self.controller))
             #else
             content.modifier(DetailToolbar_iOS(controller: self.controller,
                                                popoverAlignment: self.$popoverAlignment))
             #endif
-        }
-    }
-}
-
-struct OpenWebsiteDisabler: ViewModifier {
-    
-    let selectionCount: Int
-    @EnvironmentObject var windowManager: WindowPresentation
-    
-    init(_ selectionCount: Int) {
-        self.selectionCount = selectionCount
-    }
-    
-    func body(content: Content) -> some View {
-        if self.windowManager.features.contains(.bulkActivation) {
-            return content.disabled(self.selectionCount < 1)
-        } else {
-            return content.disabled(self.selectionCount != 1)
         }
     }
 }
