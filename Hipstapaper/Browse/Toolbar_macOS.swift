@@ -33,10 +33,10 @@ internal struct Toolbar_macOS: ViewModifier {
     func body(content: Content) -> some View {
         VStack(spacing: 0) {
             HStack(spacing: 16) {
-                STZ.TB.GoBack.toolbar(isDisabled: !self.viewModel.browserDisplay.canGoBack,
+                STZ.TB.GoBack.toolbar(isEnabled: self.viewModel.browserDisplay.canGoBack,
                                       action: { self.viewModel.browserControl.goBack = true })
                 
-                STZ.TB.GoForward.toolbar(isDisabled: !self.viewModel.browserDisplay.canGoForward,
+                STZ.TB.GoForward.toolbar(isEnabled: self.viewModel.browserDisplay.canGoForward,
                                          action: { self.viewModel.browserControl.goForward = true })
                 
                 self.viewModel.browserDisplay.isLoading

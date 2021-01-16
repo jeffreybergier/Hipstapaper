@@ -57,3 +57,16 @@ class TagController: ObservableObject {
         }
     }
 }
+
+// MARK: Toolbar Helpers
+extension TagController {
+    func canDelete() -> Bool {
+        guard let tag = self.selection else { return false }
+        return (tag.value.wrappedValue as? Query.Archived) == nil
+    }
+    func delete() {
+        guard let tag = self.selection else { return }
+        // TODO: fix this try!
+        try! self.controller.delete(tag).get()
+    }
+}

@@ -33,7 +33,7 @@ struct DetailToolbar_macOS: ViewModifier {
         content.toolbar(id: "Detail_Mac") {
             ToolbarItem(id: "Detail_Mac.OpenInApp") {
                 HStack {
-                    STZ.TB.OpenInApp.toolbar(isDisabled: self.controller.selectedWebsites.isEmpty)
+                    STZ.TB.OpenInApp.toolbar(isEnabled: !self.controller.selectedWebsites.isEmpty)
                     {
                         let allURLs = self.controller.selectedWebsites.compactMap { $0.value.preferredURL }
                         guard allURLs.isEmpty == false else { fatalError("Maybe present an error?") }
@@ -49,7 +49,7 @@ struct DetailToolbar_macOS: ViewModifier {
                             print($0)
                         }
                     }
-                    STZ.TB.OpenInBrowser.toolbar(isDisabled: self.controller.selectedWebsites.isEmpty)
+                    STZ.TB.OpenInBrowser.toolbar(isEnabled: !self.controller.selectedWebsites.isEmpty)
                     {
                         let urls = self.controller.selectedWebsites.compactMap { $0.value.preferredURL }
                         urls.forEach { self.openURL($0) }
@@ -57,7 +57,7 @@ struct DetailToolbar_macOS: ViewModifier {
                 }
             }
             ToolbarItem(id: "Detail_Mac.Share") {
-                STZ.TB.Share.toolbar(isDisabled: self.controller.selectedWebsites.isEmpty,
+                STZ.TB.Share.toolbar(isEnabled: !self.controller.selectedWebsites.isEmpty,
                                            action: { self.presentation.value = .share })
             }
             ToolbarItem(id: "Detail_Mac.Separator") {
@@ -65,14 +65,14 @@ struct DetailToolbar_macOS: ViewModifier {
             }
             ToolbarItem(id: "Detail_Mac.Archive") {
                 HStack {
-                    STZ.TB.Archive.toolbar(isDisabled: self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
+                    STZ.TB.Archive.toolbar(isEnabled: !self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
                     {
                         // Archive
                         let selected = self.controller.selectedWebsites
                         self.controller.selectedWebsites = []
                         try! self.controller.controller.update(selected, .init(isArchived: true)).get()
                     }
-                    STZ.TB.Unarchive.toolbar(isDisabled: self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
+                    STZ.TB.Unarchive.toolbar(isEnabled: !self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
                     {
                         // Unarchive
                         let selected = self.controller.selectedWebsites
@@ -82,7 +82,7 @@ struct DetailToolbar_macOS: ViewModifier {
                 }
             }
             ToolbarItem(id: "Detail_Mac.Tag") {
-                STZ.TB.TagApply.toolbar(isDisabled: self.controller.selectedWebsites.isEmpty,
+                STZ.TB.TagApply.toolbar(isEnabled: !self.controller.selectedWebsites.isEmpty,
                                               action: { self.presentation.value = .tagApply })
             }
             ToolbarItem(id: "Detail_Mac.Separator") {

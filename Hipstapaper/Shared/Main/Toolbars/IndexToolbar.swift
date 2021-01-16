@@ -28,24 +28,8 @@ import Snapshot
 struct IndexToolbar: ViewModifier {
     
     @ObservedObject var controller: TagController
+    @State private var alignment: Alignment = .topTrailing
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
-
-    #if os(macOS)
-    /// Source of popover
-    private let alignment: Alignment = .topTrailing
-    #else
-    @Environment(\.editMode) var editMode
-    private var alignment: Alignment {
-        switch self.editMode?.wrappedValue ?? .inactive {
-        case .active:
-            return .bottomTrailing
-        case .inactive, .transient:
-            fallthrough
-        @unknown default:
-            return .topTrailing
-        }
-    }
-    #endif
     
     func body(content: Content) -> some View {
         return ZStack(alignment: self.alignment) {
@@ -58,55 +42,73 @@ struct IndexToolbar: ViewModifier {
                 .modifier(AddChoicePresentable())
             
             #if os(macOS)
-            content.toolbar(id: "Index") {
-                ToolbarItem(id: "Index.Delete", placement: .destructiveAction) {
-                    STZ.TB.DeleteTag.toolbar(
-                        isDisabled: {
-                            guard let tag = self.controller.selection else { return true }
-                            return tag.value.wrappedValue as? Query.Archived != nil
-                        }(),
-                        action: {
-                            // Delete
-                            guard let tag = self.controller.selection else { return }
-                            try! self.controller.controller.delete(tag).get()
-                        })
-                }
-                ToolbarItem(id: "Index.Add", placement: .primaryAction) {
-                    STZ.TB.AddChoice.toolbar(action: { self.presentation.value = .addChoose })
-                }
-            }
+            content.modifier(IndexToolbar_macOS(controller: self.controller))
             #else
-            if self.editMode?.wrappedValue == .inactive {
-                content.toolbar(id: "Index") {
-                    ToolbarItem(id: "Index.Edit", placement: .bottomBar) {
-                        EditButton()
-                    }
-                    ToolbarItem(id: "Index.Add", placement: .primaryAction) {
-                        STZ.TB.AddChoice.toolbar(action: { self.presentation.value = .addChoose  })
-                    }
-                }
-            } else {
-                content.toolbar(id: "Index") {
-                    ToolbarItem(id: "Index.Edit", placement: .bottomBar) {
-                        EditButton()
-                    }
-                    ToolbarItem(id: "Index.Delete", placement: .bottomBar) {
-                        STZ.TB.DeleteTag.toolbar(isDisabled: {
-                            guard let tag = self.controller.selection else { return true }
-                            return tag.value.wrappedValue as? Query.Archived != nil
-                        }(),
-                        action: {
-                            // Delete
-                            guard let tag = self.controller.selection else { return }
-                            try! self.controller.controller.delete(tag).get()
-                        })
-                    }
-                    ToolbarItem(id: "Index.AddTag", placement: .bottomBar) {
-                        STZ.TB.AddTag.toolbar(action: { self.presentation.value = .addTag })
-                    }
-                }
-            }
+            content.modifier(IndexToolbar_iOS(controller: self.controller,
+                                              alignment: self.$alignment))
             #endif
         }
     }
 }
+
+#if os(macOS)
+struct IndexToolbar_macOS: ViewModifier {
+    @ObservedObject var controller: TagController
+    @EnvironmentObject private var presentation: ModalPresentation.Wrap
+    func body(content: Content) -> some View {
+        content.toolbar(id: "Index") {
+            ToolbarItem(id: "macOS.DeleteTag", placement: .automatic) {
+                STZ.TB.DeleteTag.toolbar(isEnabled: self.controller.canDelete(),
+                                         action: self.controller.delete)
+            }
+            ToolbarItem(id: "macOS.AddChoice", placement: .primaryAction) {
+                STZ.TB.AddChoice.toolbar(action: { self.presentation.value = .addChoose })
+            }
+        }
+    }
+}
+#else
+struct IndexToolbar_iOS: ViewModifier {
+    
+    @ObservedObject var controller: TagController
+    @Binding var alignment: Alignment
+    @Environment(\.editMode) private var editMode
+    @EnvironmentObject private var presentation: ModalPresentation.Wrap
+    
+    func body(content: Content) -> some View {
+        if self.editMode?.wrappedValue.isEditing == false {
+            return AnyView(
+                content.toolbar(id: "Index") {
+                    ToolbarItem(id: "iOS.EditButton", placement: .primaryAction) {
+                        EditButton()
+                    }
+                }
+            )
+        } else {
+            return AnyView(
+                content.toolbar(id: "Index") {
+                    ToolbarItem(id: "iOS.FlexibleSpace", placement: .bottomBar) {
+                        Spacer()
+                    }
+                    ToolbarItem(id: "iOS.DeleteTag", placement: .bottomBar) {
+                        STZ.TB.DeleteTag.toolbar(isEnabled: self.controller.canDelete(),
+                                                 action: self.controller.delete)
+                    }
+                    ToolbarItem(id: "iOS.Divider", placement: .bottomBar) {
+                        Text("   ")
+                    }
+                    ToolbarItem(id: "iOS.AddChoice", placement: .bottomBar) {
+                        STZ.TB.AddChoice.toolbar() {
+                            self.alignment = .bottomTrailing
+                            self.presentation.value = .addChoose
+                        }
+                    }
+                    ToolbarItem(id: "iOS.EditButton", placement: .primaryAction) {
+                        EditButton()
+                    }
+                }
+            )
+        }
+    }
+}
+#endif

@@ -81,7 +81,7 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
                 //
                 content.toolbar(id: "Detail_iOS_Regular") {
                     ToolbarItem(id: "Detail_iOS_Regular.Archive", placement: .bottomBar) {
-                        STZ.TB.Archive.toolbar(isDisabled: self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
+                        STZ.TB.Archive.toolbar(isEnabled: !self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
                         {
                             // Archive
                             let selected = self.controller.selectedWebsites
@@ -90,7 +90,7 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
                         }
                     }
                     ToolbarItem(id: "Detail_iOS_Regular.Unarchive", placement: .bottomBar) {
-                        STZ.TB.Unarchive.toolbar(isDisabled: self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
+                        STZ.TB.Unarchive.toolbar(isEnabled: !self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
                         {
                             // Unarchive
                             let selected = self.controller.selectedWebsites
@@ -102,7 +102,7 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
                         STZ.TB.Separator.toolbar()
                     }
                     ToolbarItem(id: "Detail_iOS_Regular.Tag", placement: .bottomBar) {
-                        STZ.TB.TagApply.toolbar(isDisabled: self.controller.selectedWebsites.isEmpty)
+                        STZ.TB.TagApply.toolbar(isEnabled: !self.controller.selectedWebsites.isEmpty)
                         {
                             self.popoverAlignment = .bottomLeading
                             self.presentation.value = .tagApply
@@ -112,7 +112,7 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
                         Spacer()
                     }
                     ToolbarItem(id: "Detail_iOS_Regular.OpenExternal", placement: .bottomBar) {
-                        STZ.TB.OpenInBrowser.toolbar(isDisabled: self.controller.selectedWebsites.isEmpty)
+                        STZ.TB.OpenInBrowser.toolbar(isEnabled: !self.controller.selectedWebsites.isEmpty)
                         {
                             let urls = self.controller.selectedWebsites
                                 .compactMap { $0.value.preferredURL }
@@ -120,7 +120,7 @@ fileprivate struct DetailToolbar_Regular_iOS: ViewModifier {
                         }
                     }
                     ToolbarItem(id: "Detail_iOS_Regular.Share", placement: .bottomBar) {
-                        STZ.TB.Share.toolbar(isDisabled: self.controller.selectedWebsites.isEmpty)
+                        STZ.TB.Share.toolbar(isEnabled: !self.controller.selectedWebsites.isEmpty)
                         {
                             self.popoverAlignment = .bottomTrailing
                             self.presentation.value = .share
@@ -220,7 +220,7 @@ fileprivate struct DetailToolbar_Compact_iOS: ViewModifier {
                         STZ.TB.Separator.toolbar()
                     }
                     ToolbarItem(id: "Detail_iOS_Compact.Archive", placement: .bottomBar) {
-                        STZ.TB.Archive.toolbar(isDisabled: self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
+                        STZ.TB.Archive.toolbar(isEnabled: !self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
                         {
                             // Archive
                             let selected = self.controller.selectedWebsites
@@ -229,7 +229,7 @@ fileprivate struct DetailToolbar_Compact_iOS: ViewModifier {
                         }
                     }
                     ToolbarItem(id: "Detail_iOS_Compact.Unarchive", placement: .bottomBar) {
-                        STZ.TB.Unarchive.toolbar(isDisabled: self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
+                        STZ.TB.Unarchive.toolbar(isEnabled: !self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
                         {
                             // Unarchive
                             let selected = self.controller.selectedWebsites
@@ -238,7 +238,7 @@ fileprivate struct DetailToolbar_Compact_iOS: ViewModifier {
                         }
                     }
                     ToolbarItem(id: "Detail_iOS_Compact.Tag", placement: .bottomBar) {
-                        STZ.TB.TagApply.toolbar(isDisabled: self.controller.selectedWebsites.isEmpty)
+                        STZ.TB.TagApply.toolbar(isEnabled: !self.controller.selectedWebsites.isEmpty)
                         {
                             self.popoverAlignment = .bottomLeading
                             self.presentation.value = .tagApply
@@ -248,7 +248,7 @@ fileprivate struct DetailToolbar_Compact_iOS: ViewModifier {
                         STZ.TB.Separator.toolbar()
                     }
                     ToolbarItem(id: "Detail_iOS_Compact.OpenExternal", placement: .bottomBar) {
-                        STZ.TB.OpenInBrowser.toolbar(isDisabled: self.controller.selectedWebsites.isEmpty)
+                        STZ.TB.OpenInBrowser.toolbar(isEnabled: !self.controller.selectedWebsites.isEmpty)
                         {
                             let urls = self.controller.selectedWebsites
                                 .compactMap { $0.value.preferredURL }
@@ -285,7 +285,7 @@ fileprivate struct DetailToolbar_Compact_iOS: ViewModifier {
                 // Top Bar Items
                 //
                 ToolbarItem(id: "Detail_iOS_Compact.Share", placement: .cancellationAction) {
-                    STZ.TB.Share.toolbar(isDisabled: self.controller.selectedWebsites.isEmpty)
+                    STZ.TB.Share.toolbar(isEnabled: !self.controller.selectedWebsites.isEmpty)
                     {
                         self.popoverAlignment = .topLeading
                         self.presentation.value = .share

@@ -73,12 +73,12 @@ private struct Toolbar_Compact: ViewModifier {
             // Bottom Navigation
             //
             ToolbarItem(id: "Browser_Compact.Back", placement: .bottomBar) {
-                STZ.TB.GoBack.toolbar(isDisabled: !self.viewModel.browserDisplay.canGoBack,
-                                            action: { self.viewModel.browserControl.goBack = true })
+                STZ.TB.GoBack.toolbar(isEnabled: self.viewModel.browserDisplay.canGoBack,
+                                      action: { self.viewModel.browserControl.goBack = true })
             }
             ToolbarItem(id: "Browser_Compact.Forward", placement: .bottomBar) {
-                STZ.TB.GoForward.toolbar(isDisabled: !self.viewModel.browserDisplay.canGoForward,
-                                            action: { self.viewModel.browserControl.goForward = true })
+                STZ.TB.GoForward.toolbar(isEnabled: self.viewModel.browserDisplay.canGoForward,
+                                         action: { self.viewModel.browserControl.goForward = true })
             }
             ToolbarItem(id: "Browser_Compact.Reload", placement: .bottomBar) {
                 self.viewModel.browserDisplay.isLoading
@@ -139,12 +139,12 @@ private struct Toolbar_Regular: ViewModifier {
             // Top Leading
             //
             ToolbarItem(id: "Browser_Regular.Back", placement: .bottomBar) {
-                STZ.TB.GoBack.toolbar(isDisabled: !self.viewModel.browserDisplay.canGoBack,
-                                            action: { self.viewModel.browserControl.goBack = true })
+                STZ.TB.GoBack.toolbar(isEnabled: self.viewModel.browserDisplay.canGoBack,
+                                      action: { self.viewModel.browserControl.goBack = true })
             }
             ToolbarItem(id: "Browser_Regular.Forward", placement: .bottomBar) {
-                STZ.TB.GoForward.toolbar(isDisabled: !self.viewModel.browserDisplay.canGoForward,
-                                            action: { self.viewModel.browserControl.goForward = true })
+                STZ.TB.GoForward.toolbar(isEnabled: self.viewModel.browserDisplay.canGoForward,
+                                         action: { self.viewModel.browserControl.goForward = true })
             }
             ToolbarItem(id: "Browser_Compact.Reload", placement: .bottomBar) {
                 self.viewModel.browserDisplay.isLoading
