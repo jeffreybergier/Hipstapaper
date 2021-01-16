@@ -28,11 +28,10 @@ import Snapshot
 struct IndexToolbar: ViewModifier {
     
     @ObservedObject var controller: TagController
-    @State private var alignment: Alignment = .topTrailing
-    @EnvironmentObject private var presentation: ModalPresentation.Wrap
+    @State private var popoverAlignment: Alignment = .topTrailing
     
     func body(content: Content) -> some View {
-        return ZStack(alignment: self.alignment) {
+        return ZStack(alignment: self.popoverAlignment) {
             // TODO: Hack when toolbars work properly with popovers
             Color.clear.frame(width: 1, height: 1)
                 .modifier(AddTagPresentable(controller: self.controller.controller))
@@ -45,7 +44,7 @@ struct IndexToolbar: ViewModifier {
             content.modifier(IndexToolbar_macOS(controller: self.controller))
             #else
             content.modifier(IndexToolbar_iOS(controller: self.controller,
-                                              alignment: self.$alignment))
+                                              popoverAlignment: self.$popoverAlignment))
             #endif
         }
     }
@@ -53,8 +52,10 @@ struct IndexToolbar: ViewModifier {
 
 #if os(macOS)
 struct IndexToolbar_macOS: ViewModifier {
+    
     @ObservedObject var controller: TagController
-    @EnvironmentObject private var presentation: ModalPresentation.Wrap
+    @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
+    
     func body(content: Content) -> some View {
         content.toolbar(id: "Index") {
             ToolbarItem(id: "macOS.DeleteTag", placement: .automatic) {
@@ -62,7 +63,7 @@ struct IndexToolbar_macOS: ViewModifier {
                                          action: self.controller.delete)
             }
             ToolbarItem(id: "macOS.AddChoice", placement: .primaryAction) {
-                STZ.TB.AddChoice.toolbar(action: { self.presentation.value = .addChoose })
+                STZ.TB.AddChoice.toolbar(action: { self.modalPresentation.value = .addChoose })
             }
         }
     }
@@ -71,9 +72,10 @@ struct IndexToolbar_macOS: ViewModifier {
 struct IndexToolbar_iOS: ViewModifier {
     
     @ObservedObject var controller: TagController
-    @Binding var alignment: Alignment
+    @Binding var popoverAlignment: Alignment
+    
     @Environment(\.editMode) private var editMode
-    @EnvironmentObject private var presentation: ModalPresentation.Wrap
+    @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     
     func body(content: Content) -> some View {
         if self.editMode?.wrappedValue.isEditing == false {
@@ -95,12 +97,12 @@ struct IndexToolbar_iOS: ViewModifier {
                                                  action: self.controller.delete)
                     }
                     ToolbarItem(id: "iOS.Divider", placement: .bottomBar) {
-                        Text("   ")
+                        Text("   ") // TODO: Remove when spacer is no longer needed
                     }
                     ToolbarItem(id: "iOS.AddChoice", placement: .bottomBar) {
                         STZ.TB.AddChoice.toolbar() {
-                            self.alignment = .bottomTrailing
-                            self.presentation.value = .addChoose
+                            self.popoverAlignment = .bottomTrailing
+                            self.modalPresentation.value = .addChoose
                         }
                     }
                     ToolbarItem(id: "iOS.EditButton", placement: .primaryAction) {

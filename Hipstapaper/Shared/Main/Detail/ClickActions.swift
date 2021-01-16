@@ -26,14 +26,14 @@ import Browse
 enum ClickActions {
     struct SingleClick: ViewModifier {
         
-        @EnvironmentObject private var presentation: ModalPresentation.Wrap
+        @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
         let item: AnyElement<AnyWebsite>
 
         func body(content: Content) -> some View {
             #if os(macOS)
             return content
             #else
-            return Button(action: { self.presentation.value = .browser(item) },
+            return Button(action: { self.modalPresentation.value = .browser(item) },
                           label: { content })
             #endif
         }
