@@ -173,6 +173,24 @@ extension STZ.ERR {
         }
         
         public func webView(_ webView: WKWebView,
+                            decidePolicyFor navigationAction: WKNavigationAction,
+                            preferences: WKWebpagePreferences,
+                            decisionHandler: @escaping (WKNavigationActionPolicy, WKWebpagePreferences) -> Void)
+        {
+            guard let url = navigationAction.request.url,
+                  let comp = URLComponents(url: url, resolvingAgainstBaseURL: true),
+                  comp.scheme == "http" || comp.scheme == "https"
+            else {
+                // TODO: Created real error
+                decisionHandler(.cancel, preferences)
+                let error = NSError(domain: "thing", code: 0, userInfo: nil)
+                self.viewModel.append(Legacy.LError(error: error))
+                return
+            }
+            decisionHandler(.allow, preferences)
+        }
+        
+        public func webView(_ webView: WKWebView,
                             didFail navigation: WKNavigation!,
                             withError error: Error)
         {
