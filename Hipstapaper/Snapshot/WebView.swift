@@ -22,10 +22,12 @@
 
 import SwiftUI
 import WebKit
+import Stylize
 
 struct WebView: View {
     
     @ObservedObject var viewModel: ViewModel
+    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
     
     private func update(_ wv: WKWebView, context: Context) {
         if self.viewModel.control.isJSEnabled != wv.configuration.preferences.javaScriptEnabled {
@@ -54,10 +56,12 @@ struct WebView: View {
         config.preferences.javaScriptEnabled = self.viewModel.control.isJSEnabled
         config.mediaTypesRequiringUserActionForPlayback = .all
         let wv = WKWebView(frame: .zero, configuration: config)
+        wv.navigationDelegate = context.coordinator
         wv.allowsBackForwardNavigationGestures = false
         let token1 = wv.observe(\.isLoading)
         { [unowned viewModel] wv, _ in
             if wv.isLoading == false {
+                viewModel.control.shouldLoad = false
                 wv.snap_takeSnapshot(with: viewModel.thumbnailConfiguration) {
                     viewModel.output.thumbnail = $0
                 }
@@ -84,6 +88,10 @@ struct WebView: View {
         }
         self.viewModel.kvo = [token1, token2, token3, token4]
         return wv
+    }
+    
+    func makeCoordinator() -> STZ.ERR.WKDelegate {
+        return .init(viewModel: self.errorQ)
     }
 }
 
