@@ -29,6 +29,9 @@ extension STZ {
 
 extension STZ.ERR {
     
+    /// Add ViewModel to environment so any view can append errors.
+    /// Use PresenterA or B at a high level in the view hierarchy
+    /// to deque errors and present them to the user.
     public class ViewModel: ObservableObject {
         @Published public var isPresented = false
         @Published private var errors: [LocalizedError] = []
@@ -138,7 +141,7 @@ extension STZ.ERR {
             }
         }
         
-        public struct _LocalizedError: LocalizedError {
+        public struct LError: LocalizedError {
             /// A localized message describing what error occurred.
             public var errorDescription: String?
 
@@ -153,6 +156,38 @@ extension STZ.ERR {
                 self.failureReason = error.localizedFailureReason
                 self.helpAnchor = error.helpAnchor
             }
+        }
+    }
+}
+
+import WebKit
+
+extension STZ.ERR {
+    public class WKDelegate: NSObject, WKNavigationDelegate {
+        
+        // TODO: Remove !
+        public let viewModel: ViewModel
+        
+        public init(viewModel: ViewModel) {
+            self.viewModel = viewModel
+        }
+        
+        public func webView(_ webView: WKWebView,
+                            didFail navigation: WKNavigation!,
+                            withError error: Error)
+        {
+            webView.stopLoading()
+            let localizedError = STZ.ERR.Legacy.LError(error: error as NSError)
+            self.viewModel.append(localizedError)
+        }
+        
+        public func webView(_ webView: WKWebView,
+                            didFailProvisionalNavigation navigation: WKNavigation!,
+                            withError error: Error)
+        {
+            webView.stopLoading()
+            let localizedError = Legacy.LError(error: error as NSError)
+            self.viewModel.append(localizedError)
         }
     }
 }

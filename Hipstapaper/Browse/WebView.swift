@@ -87,10 +87,8 @@ internal struct WebView: View {
         return wv
     }
     
-    func makeCoordinator() -> ErrorDelegate {
-        let delegate = ErrorDelegate()
-        delegate.errorQ = self.errorQ
-        return delegate
+    func makeCoordinator() -> STZ.ERR.WKDelegate {
+        return .init(viewModel: self.errorQ)
     }
     
 }
