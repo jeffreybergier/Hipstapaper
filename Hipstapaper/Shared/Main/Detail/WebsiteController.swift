@@ -124,16 +124,20 @@ extension WebsiteController {
             .compactMap { $0.value.preferredURL }
             .forEach { open($0) }
     }
-    func open(in wm: WindowPresentation) {
-        let _urls = self.selectedWebsites.compactMap { $0.value.preferredURL }
-        guard _urls.isEmpty == false else { fatalError("Maybe present an error?") }
-        guard wm.features.contains(.multipleWindows) else { fatalError("Maybe present an error?") }
-        let urls = wm.features.contains(.bulkActivation)
-            ? Set(_urls)
-            : Set([_urls.first!])
-        wm.show(urls) {
+    
+    @discardableResult
+    func open(in wm: WindowPresentation) -> AnyElement<AnyWebsite>? {
+        let sites = self.selectedWebsites
+        let urls = sites.compactMap { $0.value.preferredURL }
+        
+        guard urls.isEmpty == false else { fatalError("Maybe present an error?") }
+        guard wm.features.contains([.multipleWindows, .bulkActivation])
+            else { return sites.first! }
+        
+        wm.show(Set(urls)) {
             // TODO: Do something with this error
             print($0)
         }
+        return nil
     }
 }
