@@ -23,16 +23,24 @@
 import WebKit
 import Stylize
 
-class ErrorDelegate: NSObject, WKNavigationDelegate {
+public class ErrorDelegate: NSObject, WKNavigationDelegate {
     
-    weak var errorQ: STZ.ERR.Q!
+    // TODO: Remove !
+    public weak var errorQ: STZ.ERR.ViewModel!
     
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+    public func webView(_ webView: WKWebView,
+                        didFail navigation: WKNavigation!,
+                        withError error: Error)
+    {
         webView.stopLoading()
         let localizedError = STZ.ERR.Legacy._LocalizedError(error: error as NSError)
         self.errorQ.append(localizedError)
     }
-    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+    
+    public func webView(_ webView: WKWebView,
+                        didFailProvisionalNavigation navigation: WKNavigation!,
+                        withError error: Error)
+    {
         webView.stopLoading()
         let localizedError = STZ.ERR.Legacy._LocalizedError(error: error as NSError)
         self.errorQ.append(localizedError)

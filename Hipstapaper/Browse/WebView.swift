@@ -26,7 +26,7 @@ import Stylize
 internal struct WebView: View {
     
     @ObservedObject var viewModel: ViewModel
-    @EnvironmentObject private var errorQ: STZ.ERR.Q
+    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
     
     private func update(_ wv: WKWebView, context: Context) {
         if self.viewModel.browserControl.stop {

@@ -24,51 +24,54 @@ import Localize
 
 extension STZ {
     public enum ERR {
-        public struct Modifier: ViewModifier {
-            @Binding public var isPresented: Bool
-            public let dismissAction: Action?
-            public let content: () -> LocalizedError
-            public func body(content: Content) -> some View {
-                return content.alert(isPresented: self.$isPresented,
-                                     content: { Alert(error: self.content(), dismissAction: self.dismissAction) })
-            }
-            public init(isPresented: Binding<Bool>, dismissAction: Action?, content: @escaping () -> LocalizedError) {
-                _isPresented = isPresented
-                self.content = content
-                self.dismissAction = dismissAction
-            }
-        }
     }
 }
 
 extension STZ.ERR {
-    public class Q: ObservableObject {
+    
+    public class ViewModel: ObservableObject {
         @Published public var isPresented = false
-        @Published private var errors: [LocalizedError] = [] {
-            didSet {
-                self.isPresented = !self.errors.isEmpty
-            }
-        }
-        public init() {}
+        @Published private var errors: [LocalizedError] = []
+        public init() { }
         public func append(_ error: LocalizedError) {
             self.errors.append(error)
+            self.updateIsPresented()
         }
         public func next() -> (LocalizedError, Action)? {
             guard let first = self.errors.first else { return nil }
             let closure = {
                 DispatchQueue.main.async {
                     self.errors = Array(self.errors.dropFirst())
+                    self.updateIsPresented()
                 }
             }
             return (first, closure)
         }
-    }
-
-    public struct QPresenter: ViewModifier {
-        @ObservedObject private var queue: Q
-        public init(_ queue: Q) {
-            _queue = .init(initialValue: queue)
+        private func updateIsPresented() {
+            self.isPresented = !self.errors.isEmpty
         }
+    }
+    
+    /// Gets STZ.ERR.ViewModel from Initializer.
+    /// Use `PresenterB` if you want to get ViewModel from Environment
+    public struct PresenterA: ViewModifier {
+        @ObservedObject private var viewModel: ViewModel
+        public init(_ queue: ViewModel) {
+            _viewModel = .init(initialValue: queue)
+        }
+        public func body(content: Content) -> some View {
+            content.alert(isPresented: self.$viewModel.isPresented) {
+                let next = self.viewModel.next()!
+                return Alert(error: next.0, dismissAction: next.1)
+            }
+        }
+    }
+    
+    /// Gets STZ.ERR.ViewModel from Environment.
+    /// Use `PresenterA` if you don't want to use Environment
+    public struct PresenterB: ViewModifier {
+        @EnvironmentObject private var queue: ViewModel
+        public init() {}
         public func body(content: Content) -> some View {
             content.alert(isPresented: self.$queue.isPresented) {
                 let next = self.queue.next()!
