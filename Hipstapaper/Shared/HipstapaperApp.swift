@@ -22,7 +22,7 @@
 import SwiftUI
 import XCGLogger
 import Datum
-import Browse
+import Stylize
 
 internal let log: XCGLogger = {
     XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
@@ -33,6 +33,7 @@ struct HipstapaperApp: App {
     
     let controller: Controller
     let watcher: DropboxWatcher
+    @StateObject private var errorQ = STZ.ERR.ViewModel()
     
     init() {
         self.controller = try! ControllerNew()
@@ -45,6 +46,7 @@ struct HipstapaperApp: App {
             Main(controller: self.controller)
                 .environmentObject(WindowPresentation())
                 .environmentObject(ModalPresentation.Wrap())
+                .environmentObject(self.errorQ)
         }
     }
 }

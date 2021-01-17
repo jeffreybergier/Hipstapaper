@@ -47,6 +47,7 @@ struct Main: View {
                 .modifier(IndexToolbar(controller: self.tagController))
         }
         .modifier(BrowserPresentable())
+        .modifier(STZ.ERR.PresenterB())
     }
 }
 
