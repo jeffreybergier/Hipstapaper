@@ -54,6 +54,20 @@ struct SharePresentable: ViewModifier {
     }
 }
 
+struct ShareModalPresentable: ViewModifier {
+    
+    let selectedWebsites: Set<AnyElement<AnyWebsite>>
+    @EnvironmentObject private var presentation: ModalPresentation.Wrap
+    
+    func body(content: Content) -> some View {
+        content.sheet(isPresented: self.$presentation.isShare)
+        {
+            STZ.SHR(items: self.selectedWebsites.compactMap { $0.value.preferredURL },
+                    completion:  { self.presentation.value = .none })
+        }
+    }
+}
+
 struct SearchPresentable: ViewModifier {
     
     @Binding var search: String
