@@ -32,7 +32,7 @@ public protocol Buttonable {
 
 extension Buttonable {
     public static func button(doneStyle: Bool = false,
-                              isDisabled: Bool = false,
+                              isEnabled: Bool = true,
                               action: @escaping Action) -> some View
     {
         return Button(action: action) { () -> AnyView in
@@ -48,7 +48,7 @@ extension Buttonable {
                 )
             }
         }
-        .disabled(isDisabled)
+        .disabled(!isEnabled)
         .help(self.phrase)
         .modifier(Shortcut(self.shortcut))
         .modifier(DefaultStyle())

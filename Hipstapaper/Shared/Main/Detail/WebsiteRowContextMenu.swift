@@ -57,20 +57,20 @@ struct WebsiteRowContextMenu: ViewModifier {
             }
             .contextMenu {
                 Group {
-                    STZ.TB.OpenInApp.button(isDisabled: self.item.value.preferredURL == nil,
+                    STZ.TB.OpenInApp.button(isEnabled: self.item.value.preferredURL != nil,
                                             action: { self.presentation.value = .browser(self.item) })
-                    STZ.TB.OpenInBrowser.button(isDisabled: self.item.value.preferredURL == nil,
-                                                       action: { self.openURL(self.item.value.preferredURL!) })
+                    STZ.TB.OpenInBrowser.button(isEnabled: self.item.value.preferredURL == nil,
+                                                action: { self.openURL(self.item.value.preferredURL!) })
                 }
                 Group {
-                    STZ.TB.Archive.button(isDisabled: self.item.value.isArchived,
-                                                 action: self.archive)
-                    STZ.TB.Unarchive.button(isDisabled: !self.item.value.isArchived,
-                                                   action: self.unarchive)
+                    STZ.TB.Archive.button(isEnabled: !self.item.value.isArchived,
+                                          action: self.archive)
+                    STZ.TB.Unarchive.button(isEnabled: self.item.value.isArchived,
+                                            action: self.unarchive)
                 }
                 Group {
-                    STZ.TB.Share.button(isDisabled: self.item.value.preferredURL == nil,
-                                               action: { self.isSharePresented = true })
+                    STZ.TB.Share.button(isEnabled: self.item.value.preferredURL != nil,
+                                        action: { self.isSharePresented = true })
                     STZ.TB.TagApply.button(action: { self.isTagApplyPresented = true })
                 }
                 Group {

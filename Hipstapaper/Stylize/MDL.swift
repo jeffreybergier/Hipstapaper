@@ -98,7 +98,7 @@ extension STZ.MDL {
                         .modifier(STZ.CLR.MDL.Title.foreground())
                     Spacer()
                     STZ.BTN.Save.button(doneStyle: true,
-                                        isDisabled: !self.canSave(),
+                                        isEnabled: self.canSave(),
                                         action: self.saveAction)
                 }
                 .modifier(STZ.VIEW.TB_HACK())
@@ -118,7 +118,7 @@ extension STZ.MDL {
                         }
                         ToolbarItem(id: "Modal.Save.1", placement: .confirmationAction) {
                             STZ.BTN.Save.button(doneStyle: true,
-                                                isDisabled: !self.canSave(),
+                                                isEnabled: self.canSave(),
                                                 action: self.saveAction)
                         }
                     }
