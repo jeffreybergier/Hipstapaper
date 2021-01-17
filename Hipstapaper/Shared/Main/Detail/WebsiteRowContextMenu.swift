@@ -26,74 +26,53 @@ import Stylize
 struct WebsiteRowContextMenu: ViewModifier {
     
     let item: AnyElement<AnyWebsite>
-    let controller: Controller
+    @ObservedObject var controller: WebsiteController
     
-    @State private var isSharePresented = false
-    @State private var isTagApplyPresented = false
     @State private var isDeleteConfirmPresented = false
     
-    @Environment(\.openURL) private var openURL
-    @EnvironmentObject private var presentation: ModalPresentation.Wrap
+    @StateObject private var modalPresentation = ModalPresentation.Wrap()
+    @EnvironmentObject private var windowPresentation: WindowPresentation
+    @Environment(\.openURL) private var externalPresentation
     
     func body(content: Content) -> some View {
         content
-            .popover(isPresented: self.$isSharePresented) {
-                STZ.SHR(items: [self.item.value.preferredURL!],
-                        completion: { self.isSharePresented = false })
-            }
-            .popover(isPresented: self.$isTagApplyPresented) {
-                TagApply(selectedWebsites: [self.item],
-                         controller: self.controller,
-                         done: { self.isTagApplyPresented = false })
-            }
+            .modifier(SharePresentable(selectedWebsites: self.controller.selectedWebsites))
+            .modifier(TagApplyPresentable(controller: self.controller.controller,
+                                          selectedWebsites: self.controller.selectedWebsites))
             .alert(isPresented: self.$isDeleteConfirmPresented) {
                 Alert(
                     // TODO: Localized and fix this
                     title: STZ.VIEW.TXT("Delete"),
                     message: STZ.VIEW.TXT("Are you sure you want to delete 1 item? This action cannot be undone."),
-                    primaryButton: .destructive(STZ.VIEW.TXT("Delete"), action: self.delete),
+                    primaryButton: .destructive(STZ.VIEW.TXT("Delete"), action: self.controller.delete),
                     secondaryButton: .cancel()
                 )
             }
             .contextMenu {
                 Group {
-                    STZ.TB.OpenInApp.button(isEnabled: self.item.value.preferredURL != nil,
-                                            action: { self.presentation.value = .browser(self.item) })
-                    STZ.TB.OpenInBrowser.button(isEnabled: self.item.value.preferredURL == nil,
-                                                action: { self.openURL(self.item.value.preferredURL!) })
+                    STZ.TB.OpenInApp.context(isEnabled: self.controller.canOpen(in: self.windowPresentation),
+                                             action: { self.modalPresentation.value = .browser(nil) })
+                    STZ.TB.OpenInBrowser.context(isEnabled: self.controller.canOpen(in: self.windowPresentation),
+                                                 action: { self.controller.open(in: self.externalPresentation) })
                 }
                 Group {
-                    STZ.TB.Archive.button(isEnabled: !self.item.value.isArchived,
-                                          action: self.archive)
-                    STZ.TB.Unarchive.button(isEnabled: self.item.value.isArchived,
-                                            action: self.unarchive)
+                    STZ.TB.Archive.context(isEnabled: self.controller.canArchive(),
+                                           action: self.controller.archive)
+                    STZ.TB.Unarchive.context(isEnabled: self.controller.canUnarchive(),
+                                             action: self.controller.unarchive)
                 }
                 Group {
-                    STZ.TB.Share.button(isEnabled: self.item.value.preferredURL != nil,
-                                        action: { self.isSharePresented = true })
-                    STZ.TB.TagApply.button(action: { self.isTagApplyPresented = true })
+                    STZ.TB.Share.context(isEnabled: self.controller.canShare(),
+                                         action: { self.modalPresentation.value = .share })
+                    STZ.TB.TagApply.context(action: { self.modalPresentation.value = .tagApply })
                 }
                 Group {
-                    STZ.TB.DeleteWebsite.button(action: { self.isDeleteConfirmPresented = true })
+                    STZ.TB.DeleteWebsite.context(isEnabled: self.controller.canDelete(),
+                                                 action: { self.isDeleteConfirmPresented = true })
                 }
             }
+            .environmentObject(self.modalPresentation)
+
     }
     
-    private func archive() {
-        let r = self.controller.update([item], .init(isArchived: true))
-        guard case .failure(let error) = r else { return }
-        print(error)
-    }
-    
-    private func unarchive() {
-        let r = self.controller.update([item], .init(isArchived: false))
-        guard case .failure(let error) = r else { return }
-        print(error)
-    }
-    
-    private func delete() {
-        let r = self.controller.delete(self.item)
-        guard case .failure(let error) = r else { return }
-        print(error)
-    }
 }

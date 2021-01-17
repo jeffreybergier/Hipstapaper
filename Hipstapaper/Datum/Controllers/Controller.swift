@@ -36,7 +36,7 @@ public protocol Controller {
     func createWebsite(_: AnyWebsite.Raw) -> Result<AnyElement<AnyWebsite>, Error>
     func readWebsites(query: Query) -> Result<AnyList<AnyElement<AnyWebsite>>, Error>
     func update(_: Set<AnyElement<AnyWebsite>>, _: AnyWebsite.Raw) -> Result<Void, Error>
-    func delete(_: AnyElement<AnyWebsite>) -> Result<Void, Error>
+    func delete(_: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error>
 
     // MARK: Tags CRUD
     func createTag(name: String?) -> Result<AnyElement<AnyTag>, Error>

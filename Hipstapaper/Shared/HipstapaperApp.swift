@@ -33,6 +33,8 @@ struct HipstapaperApp: App {
     
     let controller: Controller
     let watcher: DropboxWatcher
+    @StateObject private var modalPresentation = ModalPresentation.Wrap()
+    @StateObject private var windowPresentation = WindowPresentation()
     @StateObject private var errorQ = STZ.ERR.ViewModel()
     
     init() {
@@ -44,8 +46,8 @@ struct HipstapaperApp: App {
     @SceneBuilder var body: some Scene {
         WindowGroup {
             Main(controller: self.controller)
-                .environmentObject(WindowPresentation())
-                .environmentObject(ModalPresentation.Wrap())
+                .environmentObject(self.windowPresentation)
+                .environmentObject(self.modalPresentation)
                 .environmentObject(self.errorQ)
         }
     }

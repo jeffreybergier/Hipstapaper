@@ -32,11 +32,11 @@ struct TagApplyPresentable: ViewModifier {
     
     func body(content: Content) -> some View {
         content.popover(isPresented: self.$presentation.isTagApply)
-            { () -> TagApply in
-                TagApply(selectedWebsites: self.selectedWebsites,
-                         controller: self.controller,
-                         done: { self.presentation.value = .none })
-            }
+        { () -> TagApply in
+            TagApply(selectedWebsites: self.selectedWebsites,
+                     controller: self.controller,
+                     done: { self.presentation.value = .none })
+        }
     }
 }
 
@@ -47,10 +47,10 @@ struct SharePresentable: ViewModifier {
     
     func body(content: Content) -> some View {
         content.popover(isPresented: self.$presentation.isShare)
-            {
-                STZ.SHR(items: self.selectedWebsites.compactMap { $0.value.preferredURL },
-                        completion:  { self.presentation.value = .none })
-            }
+        {
+            STZ.SHR(items: self.selectedWebsites.compactMap { $0.value.preferredURL },
+                    completion:  { self.presentation.value = .none })
+        }
     }
 }
 

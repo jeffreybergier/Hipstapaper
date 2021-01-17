@@ -115,7 +115,7 @@ class P_Controller: Controller {
     { log.debug("Read Websites, with: \(query)"); return .success(p_sites) }
     func update(_ site: Set<AnyElement<AnyWebsite>>, _ raw: AnyWebsite.Raw) -> Result<Void, Error>
     { log.debug("Update: \(site), with: \(raw)"); return .success(()) }
-    func delete(_ site: AnyElement<AnyWebsite>) -> Result<Void, Error>
+    func delete(_ site: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error>
     { log.debug("Delete: \(site)"); return .success(()) }
     func createTag(name: String?) -> Result<AnyElement<AnyTag>, Error>
     { log.debug("Create Tag: \(name)"); return .success(p_tags.first!) }

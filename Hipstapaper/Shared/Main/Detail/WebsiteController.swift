@@ -81,6 +81,9 @@ extension WebsiteController {
     func canUnarchive() -> Bool {
         return self.selectedWebsites.first(where: { $0.value.isArchived == true }) != nil
     }
+    func canDelete() -> Bool {
+        return self.selectedWebsites.isEmpty == false
+    }
     func canOpen(in wm: WindowPresentation) -> Bool {
         if wm.features.contains(.bulkActivation) {
             return self.selectedWebsites.first(where: { $0.value.preferredURL != nil }) != nil
@@ -105,6 +108,13 @@ extension WebsiteController {
         self.selectedWebsites = []
         // TODO: remove Try!
         try! self.controller.update(selected, .init(isArchived: false)).get()
+    }
+    func delete() {
+        let selected = self.selectedWebsites
+        self.selectedWebsites = []
+        let r = self.controller.delete(selected)
+        guard case .failure(let error) = r else { return }
+        print(error)
     }
     func toggleFilter() {
         self.query.isArchived.toggle()
