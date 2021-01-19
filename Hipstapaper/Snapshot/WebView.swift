@@ -32,6 +32,7 @@ struct WebView: View {
     private func update(_ wv: WKWebView, context: Context) {
         if self.viewModel.control.isJSEnabled != wv.configuration.preferences.javaScriptEnabled {
             wv.configuration.preferences.javaScriptEnabled = self.viewModel.control.isJSEnabled
+            viewModel.control.shouldLoad = true
             wv.reload()
             return
         }
@@ -62,8 +63,11 @@ struct WebView: View {
         { [unowned viewModel] wv, _ in
             if wv.isLoading == false {
                 viewModel.control.shouldLoad = false
-                wv.snap_takeSnapshot(with: viewModel.thumbnailConfiguration) {
-                    viewModel.output.thumbnail = $0
+                // Hack to make screenshotting more reliable
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    wv.snap_takeSnapshot(with: viewModel.thumbnailConfiguration) {
+                        viewModel.output.thumbnail = $0
+                    }
                 }
             }
             viewModel.isLoading = wv.isLoading
