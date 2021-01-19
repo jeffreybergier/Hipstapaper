@@ -29,7 +29,7 @@ class ParentTestCase: AsyncDeprecateTestCase {
 
     override func setUpWithError() throws {
         try super.setUpWithError()
-        self.controller = try ControllerNew(isTesting: true)
+        self.controller = try ControllerNew(isTesting: true).get()
     }
 
     override func tearDownWithError() throws {

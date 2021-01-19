@@ -182,7 +182,7 @@ internal class WebsiteCollectionTests : ParentTestCase {
         ).get()
         XCTAssertEqual(sites.count, 4)
         XCTAssertEqual(sites[0].value.title, "A")
-        try self.controller.delete(sites[0]).get()
+        try self.controller.delete([sites[0]]).get()
         XCTAssertEqual(sites.count, 3)
         XCTAssertEqual(sites[0].value.title, "B")
         XCTAssertEqual(sites[2].value.title, "D")
@@ -198,7 +198,7 @@ internal class WebsiteCollectionTests : ParentTestCase {
         XCTAssertEqual(sites[3].value.title, "D")
         self.do(after: .instant) {
             do {
-                try self.controller.delete(sites[0]).get()
+                try self.controller.delete([sites[0]]).get()
             } catch {
                 XCTFail(String(describing: error))
             }
