@@ -66,6 +66,7 @@ extension TagController {
     }
     func delete(_ errorQ: ErrorQ) {
         guard let tag = self.selection else { return }
-        errorQ.append(self.controller.delete(tag))
+        let r = errorQ.append(self.controller.delete(tag))
+        log.error(r.error)
     }
 }

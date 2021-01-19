@@ -74,7 +74,8 @@ extension Menu.Website {
                             // TODO: Localized and fix this
                             title: STZ.VIEW.TXT("Delete"),
                             message: STZ.VIEW.TXT("This action cannot be undone."),
-                            primaryButton: .destructive(STZ.VIEW.TXT("Delete"), action: self.controller.delete),
+                            primaryButton: .destructive(STZ.VIEW.TXT("Delete"),
+                                                        action: { self.controller.delete(self.errorQ) }),
                             secondaryButton: .cancel()
                         )
                     }
@@ -188,13 +189,16 @@ extension Menu.Website {
             self.externalPresentation(self.item.value.preferredURL!)
         }
         private func archive() {
-            self.errorQ.append(self.controller.update([self.item], .init(isArchived: true)))
+            let r = self.errorQ.append(self.controller.update([self.item], .init(isArchived: true)))
+            log.error(r.error)
         }
         private func unarchive() {
-            self.errorQ.append(self.controller.update([self.item], .init(isArchived: false)))
+            let r = self.errorQ.append(self.controller.update([self.item], .init(isArchived: false)))
+            log.error(r.error)
         }
         private func delete() {
-            self.errorQ.append(self.controller.delete([self.item]))
+            let r = self.errorQ.append(self.controller.delete([self.item]))
+            log.error(r.error)
         }
     }
 }

@@ -136,8 +136,11 @@ struct AddWebsitePresentable: ViewModifier {
     
     private func snapshot(_ result: Result<Snapshot.ViewModel.Output, Snapshot.Error>) {
         defer { self.presentation.value = .none }
-        guard let output = self.errorQ.append(result) else { return }
-        self.errorQ.append(self.controller.createWebsite(.init(output)))
+        self.errorQ.append(result)
+        log.error(result.error)
+        guard let output = result.value else { return }
+        let result2 = self.errorQ.append(self.controller.createWebsite(.init(output)))
+        log.error(result2.error)
     }
 }
 

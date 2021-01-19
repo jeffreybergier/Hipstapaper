@@ -146,6 +146,8 @@
 		73C6BD1E259C0530006B7A6D /* WindowManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BD1D259C0530006B7A6D /* WindowManagerProtocol.swift */; };
 		73C6BD1F259C0530006B7A6D /* WindowManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BD1D259C0530006B7A6D /* WindowManagerProtocol.swift */; };
 		73CAA424259DACD200FFE3BD /* Toolbar_Wrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73CAA423259DACD200FFE3BD /* Toolbar_Wrap.swift */; };
+		73D0F84B25B7160300D82D00 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D0F84A25B7160300D82D00 /* Errors.swift */; };
+		73D0F84C25B7160300D82D00 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D0F84A25B7160300D82D00 /* Errors.swift */; };
 		73DC73DA25728B9F00EE72FA /* QueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC73D925728B9F00EE72FA /* QueryTests.swift */; };
 		73DC73E0257290EF00EE72FA /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC73DF257290EF00EE72FA /* Base.swift */; };
 		73DFC99425AF24300041F555 /* ACTN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DFC99325AF24300041F555 /* ACTN.swift */; };
@@ -524,6 +526,7 @@
 		73C6BCF9259B6AE6006B7A6D /* WindowPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowPresentation.swift; sourceTree = "<group>"; };
 		73C6BD1D259C0530006B7A6D /* WindowManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManagerProtocol.swift; sourceTree = "<group>"; };
 		73CAA423259DACD200FFE3BD /* Toolbar_Wrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar_Wrap.swift; sourceTree = "<group>"; };
+		73D0F84A25B7160300D82D00 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		73DC73D925728B9F00EE72FA /* QueryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryTests.swift; sourceTree = "<group>"; };
 		73DC73DF257290EF00EE72FA /* Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
 		73DFC99325AF24300041F555 /* ACTN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACTN.swift; sourceTree = "<group>"; };
@@ -935,6 +938,7 @@
 				73C6BD1D259C0530006B7A6D /* WindowManagerProtocol.swift */,
 				73C2751925A9FB300028FE3A /* DropboxWatcher.swift */,
 				732CF67425B45904008C0A96 /* ObserveBox.swift */,
+				73D0F84A25B7160300D82D00 /* Errors.swift */,
 				DBDCB33E256BE8E700D005F6 /* Assets.xcassets */,
 			);
 			path = Shared;
@@ -1613,6 +1617,7 @@
 				73A3DE7825792604002EDEB4 /* DetailToolbar.swift in Sources */,
 				732F305825AB347500192822 /* WebsiteRowContextMenu.swift in Sources */,
 				73C6BD1E259C0530006B7A6D /* WindowManagerProtocol.swift in Sources */,
+				73D0F84B25B7160300D82D00 /* Errors.swift in Sources */,
 				73406812257491E600D4A343 /* PreviewsContent.swift in Sources */,
 				734068322574ED5800D4A343 /* TagList.swift in Sources */,
 				73466983259F4DA20001E7C9 /* Sort.swift in Sources */,
@@ -1665,6 +1670,7 @@
 				DBDCB368256BE8E800D005F6 /* Main.swift in Sources */,
 				73B3893A25A1BEC800FE8A29 /* ClickActions.swift in Sources */,
 				73A3DEB1257B9351002EDEB4 /* Search.swift in Sources */,
+				73D0F84C25B7160300D82D00 /* Errors.swift in Sources */,
 				DBDCB366256BE8E800D005F6 /* HipstapaperApp.swift in Sources */,
 				735D4CAB258F1ECF0016F904 /* AddTag.swift in Sources */,
 				732CF67625B45904008C0A96 /* ObserveBox.swift in Sources */,

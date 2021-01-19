@@ -100,19 +100,20 @@ extension WebsiteController {
     func archive(_ errorQ: ErrorQ) {
         let selected = self.selectedWebsites
         self.selectedWebsites = []
-        errorQ.append(self.controller.update(selected, .init(isArchived: true)))
+        let r = errorQ.append(self.controller.update(selected, .init(isArchived: true)))
+        log.error(r.error)
     }
     func unarchive(_ errorQ: ErrorQ) {
         let selected = self.selectedWebsites
         self.selectedWebsites = []
-        errorQ.append(self.controller.update(selected, .init(isArchived: false)))
+        let r = errorQ.append(self.controller.update(selected, .init(isArchived: false)))
+        log.error(r.error)
     }
-    func delete() {
+    func delete(_ errorQ: ErrorQ) {
         let selected = self.selectedWebsites
         self.selectedWebsites = []
-        let r = self.controller.delete(selected)
-        guard case .failure(let error) = r else { return }
-        print(error)
+        let r = errorQ.append(self.controller.delete(selected))
+        log.error(r.error)
     }
     func toggleFilter() {
         self.query.isArchived.toggle()

@@ -33,8 +33,10 @@ struct TagApply: View {
     @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
     
     var body: some View {
-        guard let data = self.errorQ.append(self.controller.tagStatus(for: self.selectedWebsites))
-            else { return AnyView(Color.clear) }
+        let result = self.controller.tagStatus(for: self.selectedWebsites)
+        self.errorQ.append(result)
+        log.error(result.error)
+        guard let data = result.value else { return AnyView(Color.clear) }
         // TODO: Figure out how to remove VStack without ruining layout on iOS
         return AnyView(
             VStack(spacing: 0) {
@@ -50,15 +52,17 @@ struct TagApply: View {
     }
     
     private func process(newValue: Bool, for tag: AnyElement<AnyTag>) {
+        let result: Result<Void, Datum.Error>
         switch newValue {
         case true:
-            self.errorQ.append(
+            result = self.errorQ.append(
                 self.controller.add(tag: tag, to: self.selectedWebsites)
             )
         case false:
-            self.errorQ.append(
+            result = self.errorQ.append(
                 self.controller.remove(tag: tag, from: self.selectedWebsites)
             )
         }
+        log.error(result.error)
     }
 }

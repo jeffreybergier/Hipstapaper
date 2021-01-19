@@ -109,27 +109,27 @@ class P_Element<T>: Element {
 class P_Controller: Controller {
     static var storeDirectoryURL: URL { fatalError() }
     static var storeExists: Bool = true
-    func createWebsite(_ raw: AnyWebsite.Raw) -> Result<AnyElement<AnyWebsite>, Error>
+    func createWebsite(_ raw: AnyWebsite.Raw) -> Result<AnyElement<AnyWebsite>, Datum.Error>
     { log.debug("Create Site: \(raw)"); return .success(p_sites.first!) }
-    func readWebsites(query: Query) -> Result<AnyList<AnyElement<AnyWebsite>>, Error>
+    func readWebsites(query: Query) -> Result<AnyList<AnyElement<AnyWebsite>>, Datum.Error>
     { log.debug("Read Websites, with: \(query)"); return .success(p_sites) }
-    func update(_ site: Set<AnyElement<AnyWebsite>>, _ raw: AnyWebsite.Raw) -> Result<Void, Error>
+    func update(_ site: Set<AnyElement<AnyWebsite>>, _ raw: AnyWebsite.Raw) -> Result<Void, Datum.Error>
     { log.debug("Update: \(site), with: \(raw)"); return .success(()) }
-    func delete(_ site: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error>
+    func delete(_ site: Set<AnyElement<AnyWebsite>>) -> Result<Void, Datum.Error>
     { log.debug("Delete: \(site)"); return .success(()) }
-    func createTag(name: String?) -> Result<AnyElement<AnyTag>, Error>
+    func createTag(name: String?) -> Result<AnyElement<AnyTag>, Datum.Error>
     { log.debug("Create Tag: \(name)"); return .success(p_tags.first!) }
-    func readTags() -> Result<AnyList<AnyElement<AnyTag>>, Error>
+    func readTags() -> Result<AnyList<AnyElement<AnyTag>>, Datum.Error>
     { log.debug("Read Tags"); return .success(p_tags) }
-    func update(_ tag: AnyElement<AnyTag>, name: Optional<String?>) -> Result<Void, Error>
+    func update(_ tag: AnyElement<AnyTag>, name: Optional<String?>) -> Result<Void, Datum.Error>
     { log.debug("Update: \(tag) with: \(name)"); return .success(()) }
-    func delete(_ tag: AnyElement<AnyTag>) -> Result<Void, Error>
+    func delete(_ tag: AnyElement<AnyTag>) -> Result<Void, Datum.Error>
     { log.debug("Delete: \(tag)"); return .success(()) }
-    func add(tag: AnyElement<AnyTag>, to websites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error>
+    func add(tag: AnyElement<AnyTag>, to websites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Datum.Error>
     { log.debug("Apply Tag: \(tag), to: \(websites)"); return .success(()) }
-    func remove(tag: AnyElement<AnyTag>, from websites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error>
+    func remove(tag: AnyElement<AnyTag>, from websites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Datum.Error>
     { log.debug("Remove Tag: \(tag), from: \(websites)"); return .success(()) }    
-    func tagStatus(for websites: Set<AnyElement<AnyWebsite>>) -> Result<AnyList<(AnyElement<AnyTag>, ToggleState)>, Error> {
+    func tagStatus(for websites: Set<AnyElement<AnyWebsite>>) -> Result<AnyList<(AnyElement<AnyTag>, ToggleState)>, Datum.Error> {
         return .success(AnyList(MappedList(p_tags, transform: { _ in .on })))
     }
 }
