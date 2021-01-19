@@ -55,6 +55,7 @@ extension Menu.Website {
         @ObservedObject var controller: WebsiteController
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
         @EnvironmentObject private var windowPresentation: WindowPresentation
+        @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
         @Environment(\.openURL) private var externalPresentation
         func body(content: Content) -> some View {
             ZStack {
@@ -91,9 +92,9 @@ extension Menu.Website {
                 }
                 Group {
                     STZ.TB.Archive.context(isEnabled: self.controller.canArchive(),
-                                           action: self.controller.archive)
+                                           action: { self.controller.archive(self.errorQ) })
                     STZ.TB.Unarchive.context(isEnabled: self.controller.canUnarchive(),
-                                             action: self.controller.unarchive)
+                                             action: { self.controller.unarchive(self.errorQ) })
                 }
                 Group {
                     STZ.TB.Share.context(isEnabled: self.controller.canShare(),
@@ -114,6 +115,7 @@ extension Menu.Website {
         let controller: Controller
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
         @EnvironmentObject private var windowPresentation: WindowPresentation
+        @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
         @Environment(\.openURL) private var externalPresentation
         func body(content: Content) -> some View {
             ZStack {
@@ -186,16 +188,13 @@ extension Menu.Website {
             self.externalPresentation(self.item.value.preferredURL!)
         }
         private func archive() {
-            // TODO: Remove this try
-            try! self.controller.update([self.item], .init(isArchived: true)).get()
+            self.errorQ.append(self.controller.update([self.item], .init(isArchived: true)))
         }
         private func unarchive() {
-            // TODO: Remove this try
-            try! self.controller.update([self.item], .init(isArchived: false)).get()
+            self.errorQ.append(self.controller.update([self.item], .init(isArchived: false)))
         }
         private func delete() {
-            // TODO: Remove this try
-            try! self.controller.delete([self.item]).get()
+            self.errorQ.append(self.controller.delete([self.item]))
         }
     }
 }

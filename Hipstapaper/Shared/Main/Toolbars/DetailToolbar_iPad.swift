@@ -28,6 +28,7 @@ extension DetailToolbar.iOS {
         
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
         @EnvironmentObject private var windowPresentation: WindowPresentation
+        @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
         @Environment(\.openURL) private var externalPresentation
         
         func body(content: Content) -> some View {
@@ -35,11 +36,11 @@ extension DetailToolbar.iOS {
                 .toolbar(id: "Detail_Bottom") {
                     ToolbarItem(id: "Detail.Archive", placement: .bottomBar) {
                         STZ.TB.Archive.toolbar(isEnabled: self.controller.canArchive(),
-                                               action: self.controller.archive)
+                                               action: { self.controller.archive(self.errorQ) })
                     }
                     ToolbarItem(id: "Detail.Unarchive", placement: .bottomBar) {
                         STZ.TB.Unarchive.toolbar(isEnabled: self.controller.canUnarchive(),
-                                                 action: self.controller.unarchive)
+                                                 action: { self.controller.unarchive(self.errorQ) })
                     }
                     ToolbarItem(id: "Detail.Separator", placement: .bottomBar) {
                         STZ.TB.Separator.toolbar()

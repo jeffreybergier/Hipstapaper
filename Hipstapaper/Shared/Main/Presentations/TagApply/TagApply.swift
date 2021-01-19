@@ -30,32 +30,35 @@ struct TagApply: View {
     let controller: Controller
     let done: Action
     
+    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
+    
     var body: some View {
+        guard let data = self.errorQ.append(self.controller.tagStatus(for: self.selectedWebsites))
+            else { return AnyView(Color.clear) }
         // TODO: Figure out how to remove VStack without ruining layout on iOS
-        VStack(spacing: 0) {
-            List(try! self.controller.tagStatus(for: self.selectedWebsites).get(),
-                id: \.0)
-            { tuple in
-                TagApplyRow(name: tuple.0.value.name, value: tuple.1.boolValue)
-                { newValue in
-                    switch newValue {
-                    case true:
-                        // TODO: Fix try!
-                        try! self.controller.add(
-                            tag: tuple.0,
-                            to: self.selectedWebsites
-                        ).get()
-                    case false:
-                        // TODO: Fix try!
-                        try! self.controller.remove(
-                            tag: tuple.0,
-                            from: self.selectedWebsites
-                        ).get()
-                    }
+        return AnyView(
+            VStack(spacing: 0) {
+                List(data, id: \.0) { tuple in
+                    TagApplyRow(name: tuple.0.value.name,
+                                value: tuple.1.boolValue,
+                                valueChanged: { self.process(newValue: $0, for: tuple.0) })
                 }
+                .modifier(STZ.MDL.Done(kind: STZ.TB.TagApply.self, done: self.done))
+                .frame(idealWidth: 300, idealHeight: 300)
             }
-            .modifier(STZ.MDL.Done(kind: STZ.TB.TagApply.self, done: self.done))
-            .frame(idealWidth: 300, idealHeight: 300)
+        )
+    }
+    
+    private func process(newValue: Bool, for tag: AnyElement<AnyTag>) {
+        switch newValue {
+        case true:
+            self.errorQ.append(
+                self.controller.add(tag: tag, to: self.selectedWebsites)
+            )
+        case false:
+            self.errorQ.append(
+                self.controller.remove(tag: tag, from: self.selectedWebsites)
+            )
         }
     }
 }

@@ -25,7 +25,6 @@
 
 public func ControllerNew(isTesting: Bool = false) -> Result<Controller, Error> {
     do {
-        return .failure(.critical)
         return .success(try CD_Controller(isTesting: isTesting))
     } catch {
         log.emergency(error)

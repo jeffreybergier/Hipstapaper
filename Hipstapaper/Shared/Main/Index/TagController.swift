@@ -64,9 +64,8 @@ extension TagController {
         guard let tag = self.selection else { return false }
         return (tag.value.wrappedValue as? Query.Archived) == nil
     }
-    func delete() {
+    func delete(_ errorQ: ErrorQ) {
         guard let tag = self.selection else { return }
-        // TODO: fix this try!
-        try! self.controller.delete(tag).get()
+        errorQ.append(self.controller.delete(tag))
     }
 }

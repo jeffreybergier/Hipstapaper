@@ -97,17 +97,15 @@ extension WebsiteController {
     func isSearchActive() -> Bool {
         return self.query.search.nonEmptyString == nil
     }
-    func archive() {
+    func archive(_ errorQ: ErrorQ) {
         let selected = self.selectedWebsites
         self.selectedWebsites = []
-        // TODO: remove Try!
-        try! self.controller.update(selected, .init(isArchived: true)).get()
+        errorQ.append(self.controller.update(selected, .init(isArchived: true)))
     }
-    func unarchive() {
+    func unarchive(_ errorQ: ErrorQ) {
         let selected = self.selectedWebsites
         self.selectedWebsites = []
-        // TODO: remove Try!
-        try! self.controller.update(selected, .init(isArchived: false)).get()
+        errorQ.append(self.controller.update(selected, .init(isArchived: false)))
     }
     func delete() {
         let selected = self.selectedWebsites

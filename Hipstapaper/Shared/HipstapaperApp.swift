@@ -28,6 +28,14 @@ internal let log: XCGLogger = {
     XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
 }()
 
+protocol ErrorQ: class {
+    func append(_ error: LocalizedError)
+    @discardableResult
+    func append<T, E: LocalizedError>(_ result: Result<T, E>) -> T?
+}
+
+extension STZ.ERR.ViewModel: ErrorQ {}
+
 @main
 struct HipstapaperApp: App {
     
@@ -40,16 +48,16 @@ struct HipstapaperApp: App {
     init() {
         let errorQ = STZ.ERR.ViewModel()
         guard let controller = errorQ.append(ControllerNew()) else {
+            _errorQ = .init(wrappedValue: errorQ)
             self.controller = nil
             self.watcher = nil
-            _errorQ = .init(wrappedValue: errorQ)
             return
         }
         _errorQ = .init(wrappedValue: errorQ)
         
         // self.controller = P_Controller()
         self.controller = controller
-        self.watcher = DropboxWatcher(controller: controller)
+        self.watcher = DropboxWatcher(controller: controller, errorQ: errorQ)
     }
 
     @SceneBuilder var body: some Scene {

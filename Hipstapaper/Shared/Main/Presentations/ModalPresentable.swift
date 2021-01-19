@@ -124,6 +124,7 @@ struct AddTagPresentable: ViewModifier {
 struct AddWebsitePresentable: ViewModifier {
     
     let controller: Controller
+    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
 
     func body(content: Content) -> some View {
@@ -134,15 +135,9 @@ struct AddWebsitePresentable: ViewModifier {
     }
     
     private func snapshot(_ result: Result<Snapshot.ViewModel.Output, Snapshot.Error>) {
-        switch result {
-        case .success(let output):
-            // TODO: maybe show error to user?
-            _ = try! self.controller.createWebsite(.init(output)).get()
-        case .failure(let error):
-            // TODO: maybe show error to user?
-            break
-        }
-        self.presentation.value = .none
+        defer { self.presentation.value = .none }
+        guard let output = self.errorQ.append(result) else { return }
+        self.errorQ.append(self.controller.createWebsite(.init(output)))
     }
 }
 

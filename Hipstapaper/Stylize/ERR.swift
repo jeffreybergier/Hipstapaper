@@ -40,7 +40,9 @@ extension STZ.ERR {
             self.errors.append(error)
             self.updateIsPresented()
         }
-        public func append<T, E: LocalizedError>(_ result: Result<T, E>) -> T? {
+        @discardableResult
+        public func append<T, E: LocalizedError>(_ result: Result<T, E>) -> T?
+        {
             switch result {
             case .success(let value):
                 return value
