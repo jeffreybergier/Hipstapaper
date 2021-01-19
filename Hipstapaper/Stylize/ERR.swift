@@ -40,6 +40,15 @@ extension STZ.ERR {
             self.errors.append(error)
             self.updateIsPresented()
         }
+        public func append<T, E: LocalizedError>(_ result: Result<T, E>) -> T? {
+            switch result {
+            case .success(let value):
+                return value
+            case .failure(let error):
+                self.append(error)
+                return nil
+            }
+        }
         public func next() -> (LocalizedError, Action)? {
             guard let first = self.errors.first else { return nil }
             let closure = {

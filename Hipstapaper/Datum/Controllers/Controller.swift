@@ -23,8 +23,14 @@
 // https://developer.apple.com/documentation/swiftui/fetchedresults
 // https://www.raywenderlich.com/9335365-core-data-with-swiftui-tutorial-getting-started
 
-public func ControllerNew(isTesting: Bool = false) throws -> Controller {
-    return try CD_Controller(isTesting: isTesting)
+public func ControllerNew(isTesting: Bool = false) -> Result<Controller, Error> {
+    do {
+        return .failure(.critical)
+        return .success(try CD_Controller(isTesting: isTesting))
+    } catch {
+        log.emergency(error)
+        return .failure(.critical)
+    }
 }
 
 public protocol Controller {

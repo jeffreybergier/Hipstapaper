@@ -311,7 +311,7 @@ internal class CD_Controller {
         assert(Thread.isMainThread)
 
         guard let container = CD_Controller.container(isTesting: isTesting)
-            else { throw Error.unknown }
+            else { throw Error.critical }
         let lock = DispatchSemaphore(value: 0)
         var error: Swift.Error?
         container.loadPersistentStores() { _, _error in
@@ -319,7 +319,7 @@ internal class CD_Controller {
             lock.signal()
         }
         lock.wait()
-        guard error == nil else { throw error! }
+        if let error = error { throw error }
         container.viewContext.automaticallyMergesChangesFromParent = true
         self.container = container
     }

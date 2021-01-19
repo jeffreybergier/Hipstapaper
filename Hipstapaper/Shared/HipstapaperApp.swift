@@ -31,24 +31,43 @@ internal let log: XCGLogger = {
 @main
 struct HipstapaperApp: App {
     
-    let controller: Controller
-    let watcher: DropboxWatcher
+    let controller: Controller?
+    let watcher: DropboxWatcher?
     @StateObject private var modalPresentation = ModalPresentation.Wrap()
     @StateObject private var windowPresentation = WindowPresentation()
-    @StateObject private var errorQ = STZ.ERR.ViewModel()
+    @StateObject private var errorQ: STZ.ERR.ViewModel
     
     init() {
-        self.controller = try! ControllerNew()
-//        self.controller = P_Controller()
-        self.watcher = DropboxWatcher(controller: self.controller)
+        let errorQ = STZ.ERR.ViewModel()
+        guard let controller = errorQ.append(ControllerNew()) else {
+            self.controller = nil
+            self.watcher = nil
+            _errorQ = .init(wrappedValue: errorQ)
+            return
+        }
+        _errorQ = .init(wrappedValue: errorQ)
+        
+        // self.controller = P_Controller()
+        self.controller = controller
+        self.watcher = DropboxWatcher(controller: controller)
     }
 
     @SceneBuilder var body: some Scene {
-        WindowGroup {
-            Main(controller: self.controller)
-                .environmentObject(self.windowPresentation)
-                .environmentObject(self.modalPresentation)
-                .environmentObject(self.errorQ)
+        WindowGroup { () -> AnyView in
+            if let controller = self.controller {
+                return AnyView(
+                    Main(controller: controller)
+                        .environmentObject(self.windowPresentation)
+                        .environmentObject(self.modalPresentation)
+                        .environmentObject(self.errorQ)
+                )
+            } else {
+                return AnyView(
+                    Color.clear
+                        .modifier(STZ.ERR.PresenterB())
+                        .environmentObject(self.errorQ)
+                )
+            }
         }
     }
 }
