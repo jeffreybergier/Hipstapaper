@@ -110,9 +110,7 @@ extension WebsiteController {
         log.error(r.error)
     }
     func delete(_ errorQ: ErrorQ) {
-        let selected = self.selectedWebsites
-        self.selectedWebsites = []
-        let r = errorQ.append(self.controller.delete(selected))
+        let r = errorQ.append(self.controller.delete(self.selectedWebsites))
         log.error(r.error)
     }
     func toggleFilter() {
