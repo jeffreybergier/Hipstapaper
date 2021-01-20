@@ -36,7 +36,7 @@ enum Menu {
             if self.controller.selectedWebsites.isEmpty {
                 return AnyView(
                     content
-                        .modifier(Single(item: self.item, controller: self.controller.controller))
+                        .modifier(Single(item: self.item, controller: self.controller))
                         .environmentObject(self.modalPresentation)
                 )
             } else {
@@ -60,7 +60,7 @@ extension Menu.Website {
         func body(content: Content) -> some View {
             ZStack {
                 Color.clear.frame(width: 1, height: 1).modifier(
-                    TagApplyPresentable(controller: self.controller.controller,
+                    TagApplyPresentable(controller: self.controller,
                                         selectedWebsites: self.controller.selectedWebsites)
                 )
                 Color.clear.frame(width: 1, height: 1).modifier(
@@ -113,7 +113,7 @@ extension Menu.Website {
     
     struct Single: ViewModifier {
         let item: AnyElement<AnyWebsite>
-        let controller: Controller
+        let controller: WebsiteController
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
         @EnvironmentObject private var windowPresentation: WindowPresentation
         @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
@@ -189,15 +189,15 @@ extension Menu.Website {
             self.externalPresentation(self.item.value.preferredURL!)
         }
         private func archive() {
-            let r = self.errorQ.append(self.controller.update([self.item], .init(isArchived: true)))
+            let r = self.errorQ.append(self.controller.controller.update([self.item], .init(isArchived: true)))
             log.error(r.error)
         }
         private func unarchive() {
-            let r = self.errorQ.append(self.controller.update([self.item], .init(isArchived: false)))
+            let r = self.errorQ.append(self.controller.controller.update([self.item], .init(isArchived: false)))
             log.error(r.error)
         }
         private func delete() {
-            let r = self.errorQ.append(self.controller.delete([self.item]))
+            let r = self.errorQ.append(self.controller.controller.delete([self.item]))
             log.error(r.error)
         }
     }

@@ -65,10 +65,10 @@ internal class CD_List<
 
     // TODO: Changing to this works in iOS
     // But it crashes in macOS
-    //    @objc(controllerWillChangeContent:)
-    //    internal func controllerWillChangeContent(_ controller: AnyObject) {
-    //        self.objectWillChange.send()
-    //    }
+    @objc(controllerWillChangeContent:)
+    internal func controllerWillChangeContent(_ controller: AnyObject) {
+        self.objectWillChange.send()
+    }
     
     //    @objc(controller:didChangeContentWithSnapshot:)
     //    internal func controller(_: AnyObject, didChangeContentWith _: AnyObject) {
@@ -77,8 +77,8 @@ internal class CD_List<
     
     // Using this one makes the tests work as expected
     // And all 3 of these options appear to have the same crashes in app
-    @objc(controllerDidChangeContent:)
-    internal func controllerDidChangeContent(_ controller: AnyObject) {
-        self.objectWillChange.send()
-    }
+    //    @objc(controllerDidChangeContent:)
+    //    internal func controllerDidChangeContent(_ controller: AnyObject) {
+    //        self.objectWillChange.send()
+    //    }
 }

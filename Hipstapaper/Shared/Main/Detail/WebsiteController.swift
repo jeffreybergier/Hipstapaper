@@ -103,23 +103,47 @@ extension WebsiteController {
     func isSearchActive() -> Bool {
         return self.query.search.nonEmptyString == nil
     }
+    
+    // TODO: Remove Dispatch Async after crashes are fixed
     func archive(_ errorQ: ErrorQ) {
         let selected = self.selectedWebsites
-        let r = errorQ.append(self.controller.update(selected, .init(isArchived: true)))
-        log.error(r.error)
+        self.selectedWebsites = []
+        self.deactivate()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+            let r = errorQ.append(self.controller.update(selected, .init(isArchived: true)))
+            log.error(r.error)
+            self.activate()
+        }
     }
+    
+    // TODO: Remove Dispatch Async after crashes are fixed
     func unarchive(_ errorQ: ErrorQ) {
         let selected = self.selectedWebsites
-        let r = errorQ.append(self.controller.update(selected, .init(isArchived: false)))
-        log.error(r.error)
+        self.selectedWebsites = []
+        self.deactivate()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+            let r = errorQ.append(self.controller.update(selected, .init(isArchived: false)))
+            log.error(r.error)
+            self.activate()
+        }
     }
+    
+    // TODO: Remove Dispatch Async after crashes are fixed
     func delete(_ errorQ: ErrorQ) {
-        let r = errorQ.append(self.controller.delete(self.selectedWebsites))
-        log.error(r.error)
+        let selected = self.selectedWebsites
+        self.selectedWebsites = []
+        self.deactivate()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+            let r = errorQ.append(self.controller.delete(selected))
+            log.error(r.error)
+            self.activate()
+        }
     }
+    
     func toggleFilter() {
         self.query.isArchived.toggle()
     }
+    
     func open(in open: OpenURLAction) {
         self.selectedWebsites
             .compactMap { $0.value.preferredURL }
