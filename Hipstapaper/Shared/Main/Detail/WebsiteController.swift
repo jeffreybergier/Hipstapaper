@@ -26,17 +26,11 @@ class WebsiteController: ObservableObject {
     
     let controller: Controller
     var all: AnyList<AnyElement<AnyWebsite>> {
-        get {
-            if let all = _all { return all }
-            self.update()
-            return _all ?? .empty
-        }
+        get { return _all ?? .empty }
     }
     @Published var selectedWebsites: Set<AnyElement<AnyWebsite>> = []
     @Published var query: Query {
-        didSet {
-            self.update()
-        }
+        didSet { self.activate() }
     }
     
     private var _all: AnyList<AnyElement<AnyWebsite>>? = nil
@@ -47,10 +41,12 @@ class WebsiteController: ObservableObject {
         self.controller = controller
     }
     
-    private func update() {
+    func activate() {
+        log.verbose()
         self.token?.cancel()
         self.token = nil
         let result = controller.readWebsites(query: self.query)
+        self.objectWillChange.send()
         switch result {
         case .failure(let error):
             // TODO: Do something with this error
@@ -58,11 +54,21 @@ class WebsiteController: ObservableObject {
             break
         case .success(let sites):
             self._all = sites
-            self.objectWillChange.send()
             self.token = sites.objectWillChange.sink { [unowned self] _ in
                 self.objectWillChange.send()
             }
         }
+    }
+    
+    func deactivate() {
+        log.verbose()
+        self.objectWillChange.send()
+        self.token?.cancel()
+        _all = .empty
+    }
+    
+    deinit {
+        log.verbose()
     }
 }
 
@@ -99,13 +105,11 @@ extension WebsiteController {
     }
     func archive(_ errorQ: ErrorQ) {
         let selected = self.selectedWebsites
-        self.selectedWebsites = []
         let r = errorQ.append(self.controller.update(selected, .init(isArchived: true)))
         log.error(r.error)
     }
     func unarchive(_ errorQ: ErrorQ) {
         let selected = self.selectedWebsites
-        self.selectedWebsites = []
         let r = errorQ.append(self.controller.update(selected, .init(isArchived: false)))
         log.error(r.error)
     }

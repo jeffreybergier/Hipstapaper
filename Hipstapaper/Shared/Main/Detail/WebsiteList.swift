@@ -48,6 +48,8 @@ struct WebsiteList: View {
         }
         .modifier(Title(query: self.controller.query))
         .animation(.default)
+        .onAppear() { self.controller.activate() }
+        .onDisappear() { self.controller.deactivate() }
     }
 }
 
