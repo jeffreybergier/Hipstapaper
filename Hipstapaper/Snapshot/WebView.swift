@@ -61,15 +61,6 @@ struct WebView: View {
         wv.allowsBackForwardNavigationGestures = false
         let token1 = wv.observe(\.isLoading)
         { [unowned viewModel] wv, _ in
-            if wv.isLoading == false {
-                viewModel.control.shouldLoad = false
-                // Hack to make screenshotting more reliable
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    wv.snap_takeSnapshot(with: viewModel.thumbnailConfiguration) {
-                        viewModel.output.thumbnail = $0
-                    }
-                }
-            }
             viewModel.isLoading = wv.isLoading
         }
         let token2 = wv.observe(\.url)
@@ -87,7 +78,7 @@ struct WebView: View {
         self.viewModel.timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true)
         { [unowned viewModel, weak wv] timer in
             guard let wv = wv else { timer.invalidate(); return; }
-            guard wv.isLoading else { return }
+            guard viewModel.control.shouldLoad else { return }
             wv.snap_takeSnapshot(with: viewModel.thumbnailConfiguration) { viewModel.output.thumbnail = $0 }
         }
         self.viewModel.kvo = [token1, token2, token3, token4]
