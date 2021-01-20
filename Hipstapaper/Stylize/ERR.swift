@@ -172,11 +172,24 @@ import WebKit
 extension STZ.ERR {
     public class WKDelegate: NSObject, WKNavigationDelegate {
         
-        // TODO: Remove !
-        public let viewModel: ViewModel
+        public enum Error: LocalizedError {
+            case invalidURL(URL)
+            public var errorDescription: String? {
+                switch self {
+                case .invalidURL(let url):
+                    return "Attempted to browse to an invalid URL: \(url.absoluteString)"
+                }
+            }
+        }
         
-        public init(viewModel: ViewModel) {
+        public typealias OnError = (LocalizedError) -> Void
+        
+        public let viewModel: ViewModel
+        public var onError: OnError?
+        
+        public init(viewModel: ViewModel, onError: OnError? = nil) {
             self.viewModel = viewModel
+            self.onError = onError
         }
         
         public func webView(_ webView: WKWebView,
@@ -184,14 +197,15 @@ extension STZ.ERR {
                             preferences: WKWebpagePreferences,
                             decisionHandler: @escaping (WKNavigationActionPolicy, WKWebpagePreferences) -> Void)
         {
-            guard let url = navigationAction.request.url,
-                  let comp = URLComponents(url: url, resolvingAgainstBaseURL: true),
-                  comp.scheme == "http" || comp.scheme == "https"
+            let url = navigationAction.request.url!
+            guard
+                let comp = URLComponents(url: url, resolvingAgainstBaseURL: true),
+                comp.scheme == "http" || comp.scheme == "https"
             else {
-                // TODO: Created real error
                 decisionHandler(.cancel, preferences)
-                let error = NSError(domain: "thing", code: 0, userInfo: nil)
-                self.viewModel.append(Legacy.LError(error: error))
+                let localizedError = Error.invalidURL(url)
+                self.viewModel.append(localizedError)
+                self.onError?(localizedError)
                 return
             }
             decisionHandler(.allow, preferences)
@@ -201,18 +215,18 @@ extension STZ.ERR {
                             didFail navigation: WKNavigation!,
                             withError error: Error)
         {
-            webView.stopLoading()
             let localizedError = STZ.ERR.Legacy.LError(error: error as NSError)
             self.viewModel.append(localizedError)
+            self.onError?(localizedError)
         }
         
         public func webView(_ webView: WKWebView,
                             didFailProvisionalNavigation navigation: WKNavigation!,
                             withError error: Error)
         {
-            webView.stopLoading()
             let localizedError = Legacy.LError(error: error as NSError)
             self.viewModel.append(localizedError)
+            self.onError?(localizedError)
         }
     }
 }

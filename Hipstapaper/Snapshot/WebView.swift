@@ -86,7 +86,9 @@ struct WebView: View {
     }
     
     func makeCoordinator() -> STZ.ERR.WKDelegate {
-        return .init(viewModel: self.errorQ)
+        return .init(viewModel: self.errorQ) { [unowned viewModel] _ in
+            viewModel.control.shouldLoad = false
+        }
     }
 }
 
