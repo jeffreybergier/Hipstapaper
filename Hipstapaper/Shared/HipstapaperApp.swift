@@ -37,13 +37,22 @@ struct HipstapaperApp: App {
     @StateObject private var windowPresentation = WindowPresentation()
     @StateObject private var errorQ: STZ.ERR.ViewModel
     
+    /*
+    init() {
+        let errorQ = STZ.ERR.ViewModel()
+        let controller = P_Controller()
+        _errorQ = .init(wrappedValue: errorQ)
+        self.controller = controller
+        self.watcher = DropboxWatcher(controller: controller, errorQ: errorQ)
+    }
+    */
+    
     init() {
         let errorQ = STZ.ERR.ViewModel()
         let result = ControllerNew()
         switch result {
         case .success(let controller):
             _errorQ = .init(wrappedValue: errorQ)
-            // self.controller = P_Controller()
             self.controller = controller
             self.watcher = DropboxWatcher(controller: controller, errorQ: errorQ)
         case .failure(let error):

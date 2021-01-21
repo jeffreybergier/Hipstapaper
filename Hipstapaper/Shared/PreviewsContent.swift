@@ -39,6 +39,10 @@ let p_tags: AnyList<AnyElement<AnyTag>> = {
 }()
 
 let p_sites: AnyList<AnyElement<AnyWebsite>> = {
+    return AnyList(pp_sites)
+}()
+
+let pp_sites: P_Collection<AnyElement<AnyWebsite>> = {
     let date1 = Date(timeIntervalSinceNow: -700)
     let date2 = Date(timeIntervalSinceNow: 0)
     let site1 = P_Website(.init(title: "Google.com", resolvedURL: URL(string: "https://www.google.com")!),
@@ -53,14 +57,13 @@ let p_sites: AnyList<AnyElement<AnyWebsite>> = {
                           dateCreated: date1,
                           dateModified: date2,
                           id: .init(NSString("C")))
-    let collection = P_Collection(
+    return P_Collection(
         [
             AnyElement(P_Element(AnyWebsite(site1))),
             AnyElement(P_Element(AnyWebsite(site2))),
             AnyElement(P_Element(AnyWebsite(site3)))
         ]
     )
-    return AnyList(collection)
 }()
 
 struct P_Tag: Tag {
@@ -116,7 +119,11 @@ class P_Controller: Controller {
     func update(_ site: Set<AnyElement<AnyWebsite>>, _ raw: AnyWebsite.Raw) -> Result<Void, Datum.Error>
     { log.debug("Update: \(site), with: \(raw)"); return .success(()) }
     func delete(_ site: Set<AnyElement<AnyWebsite>>) -> Result<Void, Datum.Error>
-    { log.debug("Delete: \(site)"); return .success(()) }
+    {
+        p_sites.objectWillChange.send()
+        pp_sites.wrapped.removeFirst()
+        log.debug("Delete: \(site)"); return .success(())
+    }
     func createTag(name: String?) -> Result<AnyElement<AnyTag>, Datum.Error>
     { log.debug("Create Tag: \(name)"); return .success(p_tags.first!) }
     func readTags() -> Result<AnyList<AnyElement<AnyTag>>, Datum.Error>
@@ -136,7 +143,7 @@ class P_Controller: Controller {
 
 class P_Collection<Element>: ListProtocol {
     
-    private let wrapped: [Element]
+    var wrapped: [Element]
     
     init(_ wrapped: [Element]) {
         self.wrapped = wrapped
