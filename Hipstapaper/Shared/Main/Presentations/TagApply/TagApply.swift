@@ -52,22 +52,17 @@ struct TagApply: View {
     
     private func process(newValue: Bool, for tag: AnyElement<AnyTag>) {
         let selection = self.controller.selectedWebsites
-        self.controller.deactivate()
-        // TODO: Remove this Async after when it no longer crashes
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
-            let result: Result<Void, Datum.Error>
-            switch newValue {
-            case true:
-                result = self.errorQ.append(
-                    self.controller.controller.add(tag: tag, to: selection)
-                )
-            case false:
-                result = self.errorQ.append(
-                    self.controller.controller.remove(tag: tag, from: selection)
-                )
-            }
-            log.error(result.error)
-            self.controller.activate()
+        let result: Result<Void, Datum.Error>
+        switch newValue {
+        case true:
+            result = self.errorQ.append(
+                self.controller.controller.add(tag: tag, to: selection)
+            )
+        case false:
+            result = self.errorQ.append(
+                self.controller.controller.remove(tag: tag, from: selection)
+            )
         }
+        log.error(result.error)
     }
 }

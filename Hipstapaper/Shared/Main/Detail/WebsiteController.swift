@@ -104,40 +104,25 @@ extension WebsiteController {
         return self.query.search.nonEmptyString == nil
     }
     
-    // TODO: Remove Dispatch Async after crashes are fixed
     func archive(_ errorQ: ErrorQ) {
         let selected = self.selectedWebsites
         self.selectedWebsites = []
-        self.deactivate()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
-            let r = errorQ.append(self.controller.update(selected, .init(isArchived: true)))
-            log.error(r.error)
-            self.activate()
-        }
+        let r = errorQ.append(self.controller.update(selected, .init(isArchived: true)))
+        log.error(r.error)
     }
     
-    // TODO: Remove Dispatch Async after crashes are fixed
     func unarchive(_ errorQ: ErrorQ) {
         let selected = self.selectedWebsites
         self.selectedWebsites = []
-        self.deactivate()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
-            let r = errorQ.append(self.controller.update(selected, .init(isArchived: false)))
-            log.error(r.error)
-            self.activate()
-        }
+        let r = errorQ.append(self.controller.update(selected, .init(isArchived: false)))
+        log.error(r.error)
     }
     
-    // TODO: Remove Dispatch Async after crashes are fixed
     func delete(_ errorQ: ErrorQ) {
         let selected = self.selectedWebsites
         self.selectedWebsites = []
-        self.deactivate()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
-            let r = errorQ.append(self.controller.delete(selected))
-            log.error(r.error)
-            self.activate()
-        }
+        let r = errorQ.append(self.controller.delete(selected))
+        log.error(r.error)
     }
     
     func toggleFilter() {
