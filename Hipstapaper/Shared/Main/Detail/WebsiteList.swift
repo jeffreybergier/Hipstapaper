@@ -23,10 +23,13 @@ import SwiftUI
 import Datum
 import Localize
 import Stylize
+import XPList
 
 struct WebsiteList: View {
     
     @ObservedObject private var controller: WebsiteController
+    @EnvironmentObject private var windowPresentation: WindowPresentation
+    @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     
     init(controller: Controller, selectedTag: AnyElement<AnyTag>) {
         let websiteController = WebsiteController(controller: controller, selectedTag: selectedTag)
@@ -38,16 +41,23 @@ struct WebsiteList: View {
     }
     
     var body: some View {
-        return List(self.controller.all,
-                    id: \.self,
-                    selection: self.$controller.selectedWebsites)
+        XPL.List(self.controller.all,
+                 selection: self.$controller.selectedWebsites,
+                 openAction: { items in
+                    if self.windowPresentation.features.contains([.bulkActivation, .multipleWindows]) {
+                        let validURLs = Set(items.compactMap({ $0.value.preferredURL }))
+                        self.windowPresentation.show(validURLs, error: { _ in })
+                    } else {
+                        guard let validItem = items.first(where: { $0.value.preferredURL != nil }) else { return }
+                        self.modalPresentation.value = .browser(validItem)
+                    }
+                 },
+                 menu: { _ in })
         { item in
             WebsiteRow(item.value)
-                .modifier(ClickActions.SingleClick(item: item))
-                .modifier(Menu.Website(item: item, controller: self.controller))
         }
         .modifier(Title(query: self.controller.query))
-        .animation(.default)
+        .animation(.linear(duration: 0.1))
         .onAppear() { self.controller.activate() }
         .onDisappear() { self.controller.deactivate() }
     }
