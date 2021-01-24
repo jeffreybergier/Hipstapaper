@@ -158,6 +158,8 @@
 		73F2B03E257460AF009AC2AF /* Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2B03D257460AF009AC2AF /* Sort.swift */; };
 		73F2B044257460D2009AC2AF /* CD_Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2B043257460D2009AC2AF /* CD_Sort.swift */; };
 		73F2B04A25746386009AC2AF /* WebsiteObservationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2B04925746386009AC2AF /* WebsiteObservationTests.swift */; };
+		73F8B36F25BD677C001A6A09 /* XPList in Frameworks */ = {isa = PBXBuildFile; productRef = 73F8B36E25BD677C001A6A09 /* XPList */; };
+		73F8B37B25BD6790001A6A09 /* XPList in Frameworks */ = {isa = PBXBuildFile; productRef = 73F8B37A25BD6790001A6A09 /* XPList */; };
 		DB111DA925772D5800365BEA /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB111DA825772D5800365BEA /* Result.swift */; };
 		DB21C1FC256C8DC500DF6AE7 /* CD_Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB21C1FB256C8DC500DF6AE7 /* CD_Tag.swift */; };
 		DB21C203256C8F9100DF6AE7 /* Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB21C202256C8F9100DF6AE7 /* Controller.swift */; };
@@ -638,6 +640,7 @@
 			files = (
 				7399BB172582537500B8CAFD /* Stylize.framework in Frameworks */,
 				735D4CD9258F502E0016F904 /* Browse.framework in Frameworks */,
+				73F8B36F25BD677C001A6A09 /* XPList in Frameworks */,
 				7399BB572584399C00B8CAFD /* Localize.framework in Frameworks */,
 				73A3DEEC257BC184002EDEB4 /* Snapshot.framework in Frameworks */,
 				DBDCB3A6256BEC5B00D005F6 /* Datum.framework in Frameworks */,
@@ -650,6 +653,7 @@
 			files = (
 				73A3DEF6257BC18B002EDEB4 /* Snapshot.framework in Frameworks */,
 				735D4CDD258F50350016F904 /* Browse.framework in Frameworks */,
+				73F8B37B25BD6790001A6A09 /* XPList in Frameworks */,
 				7399BB66258439BD00B8CAFD /* Stylize.framework in Frameworks */,
 				DBDCB3B0256BEC6400D005F6 /* Datum.framework in Frameworks */,
 				7399BB5B258439A900B8CAFD /* Localize.framework in Frameworks */,
@@ -1237,6 +1241,7 @@
 			);
 			name = "Hipstapaper (iOS)";
 			packageProductDependencies = (
+				73F8B36E25BD677C001A6A09 /* XPList */,
 			);
 			productName = "Hipstapaper (iOS)";
 			productReference = DBDCB343256BE8E700D005F6 /* Hipstapaper.app */;
@@ -1264,6 +1269,7 @@
 			);
 			name = "Hipstapaper (macOS)";
 			packageProductDependencies = (
+				73F8B37A25BD6790001A6A09 /* XPList */,
 			);
 			productName = "Hipstapaper (macOS)";
 			productReference = DBDCB34B256BE8E700D005F6 /* Hipstapaper.app */;
@@ -1410,6 +1416,7 @@
 			mainGroup = DBDCB336256BE8E600D005F6;
 			packageReferences = (
 				7302C8F025745E1100DA6614 /* XCRemoteSwiftPackageReference "JSBServerlessLogger" */,
+				73F8B36D25BD677C001A6A09 /* XCRemoteSwiftPackageReference "XPList" */,
 			);
 			productRefGroup = DBDCB344256BE8E700D005F6 /* Products */;
 			projectDirPath = "";
@@ -2867,6 +2874,14 @@
 				kind = branch;
 			};
 		};
+		73F8B36D25BD677C001A6A09 /* XCRemoteSwiftPackageReference "XPList" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jeffreybergier/XPList.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2874,6 +2889,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7302C8F025745E1100DA6614 /* XCRemoteSwiftPackageReference "JSBServerlessLogger" */;
 			productName = ServerlessLogger;
+		};
+		73F8B36E25BD677C001A6A09 /* XPList */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 73F8B36D25BD677C001A6A09 /* XCRemoteSwiftPackageReference "XPList" */;
+			productName = XPList;
+		};
+		73F8B37A25BD6790001A6A09 /* XPList */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 73F8B36D25BD677C001A6A09 /* XCRemoteSwiftPackageReference "XPList" */;
+			productName = XPList;
 		};
 /* End XCSwiftPackageProductDependency section */
 
