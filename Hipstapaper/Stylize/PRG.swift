@@ -20,26 +20,27 @@
 //
 
 import SwiftUI
-import Stylize
-import Localize
 
-struct AddTag: View {
-    
-    @State private var tagName: String = ""
-    let cancel: Action
-    let save: (String?) -> Void
-    
-    var body: some View {
-        VStack(spacing: 0) {
-            STZ.VIEW.TXTFLD.TagName.textfield(self.$tagName)
-            Spacer()
+extension STZ {
+    public enum PRG {}
+}
+
+extension STZ.PRG {
+    public static func Bar(_ progress: Progress) -> some View {
+        return ProgressView(progress)
+            .progressViewStyle(LinearProgressViewStyle())
+    }
+    public static func Spin(_ progress: Progress?) -> some View {
+        if let progress = progress {
+            return AnyView(
+                ProgressView(progress)
+                    .progressViewStyle(CircularProgressViewStyle())
+            )
+        } else {
+            return AnyView(
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
+            )
         }
-        .modifier(STZ.PDG.Equal())
-        .modifier(STZ.MDL.Save(kind: STZ.TB.AddTag.self,
-                               cancel: self.cancel,
-                               save: { self.save(self.tagName.nonEmptyString) },
-                               canSave: { self.tagName.nonEmptyString != nil }))
-        // TODO: Remove height when this is not broken
-        .frame(idealWidth: 250, idealHeight: 150)
     }
 }

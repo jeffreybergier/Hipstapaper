@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/12/20.
+//  Created by Jeffrey Bergier on 2020/12/29.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,27 +19,23 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import SwiftUI
-import Stylize
-import Localize
+import AppKit
+import Combine
 
-struct AddTag: View {
+class WindowPresentation: ObservableObject, WindowManagerProtocol {
     
-    @State private var tagName: String = ""
-    let cancel: Action
-    let save: (String?) -> Void
+    private var windows: [URL: BrowserWindowController] = [:]
     
-    var body: some View {
-        VStack(spacing: 0) {
-            STZ.VIEW.TXTFLD.TagName.textfield(self.$tagName)
-            Spacer()
+    let features: Features = [.multipleWindows, .bulkActivation]
+
+    func show(_ urls: Set<URL>, error: @escaping (Error) -> Void) {
+        for url in urls {
+            let window = self.windows[url] ?? BrowserWindowController(url: url)
+            self.windows[url] = window
+            window.windowWillClose = { [unowned self] url in
+                self.windows.removeValue(forKey: url)
+            }
+            window.showWindow(self)
         }
-        .modifier(STZ.PDG.Equal())
-        .modifier(STZ.MDL.Save(kind: STZ.TB.AddTag.self,
-                               cancel: self.cancel,
-                               save: { self.save(self.tagName.nonEmptyString) },
-                               canSave: { self.tagName.nonEmptyString != nil }))
-        // TODO: Remove height when this is not broken
-        .frame(idealWidth: 250, idealHeight: 150)
     }
 }

@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/12/22.
+//  Created by Jeffrey Bergier on 2020/12/11.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -21,19 +21,25 @@
 
 import SwiftUI
 
-#if canImport(UIKit)
-public struct ListEditMode: ViewModifier {
-    @State var editMode: EditMode = EditMode.active
-    public func body(content: Content) -> some View {
-        content.environment((\.editMode), self.$editMode)
+extension STZ {
+    public enum CRN {
+        public struct Modifier: ViewModifier {
+            public let radius: CGFloat
+            public func body(content: Content) -> some View {
+                content.cornerRadius(self.radius)
+            }
+            public init(radius: CGFloat) {
+                self.radius = radius
+            }
+        }
+        public static func small() -> Modifier {
+            .init(radius: 4)
+        }
+        public static func medium() -> Modifier {
+            .init(radius: 8)
+        }
+        public static func large() -> Modifier {
+            .init(radius: 16)
+        }
     }
-    public init() {}
 }
-#else
-public struct ListEditMode: ViewModifier {
-    public func body(content: Content) -> some View {
-        return content
-    }
-    public init() {}
-}
-#endif

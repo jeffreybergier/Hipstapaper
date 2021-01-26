@@ -28,143 +28,89 @@ import Snapshot
 struct IndexToolbar: ViewModifier {
     
     @ObservedObject var controller: TagController
-    @State var presentation = IndexToolbarPresentation.Wrap()
-    
-    #if os(macOS)
-    /// Source of popover
-    private let alignment: Alignment = .topTrailing
-    #else
-    @Environment(\.editMode) var editMode
-    private var alignment: Alignment {
-        switch self.editMode?.wrappedValue ?? .inactive {
-        case .active:
-            return .bottomTrailing
-        case .inactive, .transient:
-            fallthrough
-        @unknown default:
-            return .topTrailing
-        }
-    }
-    #endif
+    @State private var popoverAlignment: Alignment = .topTrailing
     
     func body(content: Content) -> some View {
-        return ZStack(alignment: self.alignment) {
+        return ZStack(alignment: self.popoverAlignment) {
             // TODO: Hack when toolbars work properly with popovers
             Color.clear.frame(width: 1, height: 1)
-                .popover(isPresented: self.$presentation.isAddTag) {
-                    AddTag(
-                        cancel: { self.presentation.value = .none },
-                        save: {
-                            let result = self.controller.controller.createTag(name: $0)
-                            switch result {
-                            case .success:
-                                self.presentation.value = .none
-                            case .failure(let error):
-                                // TODO: Do something with this error
-                                break
-                            }
-                        }
-                    )
-                }
-            
-            // TODO: Hack when toolbars work properly with popovers
+                .modifier(AddTagPresentable(controller: self.controller.controller))
             Color.clear.frame(width: 1, height: 1)
-                .sheet(isPresented: self.$presentation.isAddWebsite) {
-                    return Snapshotter(.init(doneAction: { result in
-                        switch result {
-                        case .success(let output):
-                            // TODO: maybe show error to user?
-                            _ = try! self.controller.controller.createWebsite(.init(output)).get()
-                        case .failure(let error):
-                            // TODO: maybe show error to user?
-                            break
-                        }
-                        self.presentation.value = .none
-                    }))
-                }
-            
-            // TODO: Hack when toolbars work properly with popovers
+                .modifier(AddWebsitePresentable(controller: self.controller.controller))
             Color.clear.frame(width: 1, height: 1)
-                .modifier(ActionSheet(
-                    isPresented: self.$presentation.isAddChoose,
-                    title: Phrase.AddChoice,
-                    buttons: [
-                        .init(title: Verb.AddTag) {
-                            self.presentation.value = .none
-                            // TODO: Remove this hack when possible
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                self.presentation.value = .addTag
-                            }
-                        },
-                        .init(title: Verb.AddWebsite) {
-                            self.presentation.value = .none
-                            // TODO: Remove this hack when possible
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                self.presentation.value = .addWebsite
-                            }
-                        }
-                    ]
-                ))
+                .modifier(AddChoicePresentable())
             
             #if os(macOS)
-            content.toolbar(id: "Index") {
-                ToolbarItem(id: "Index.Delete", placement: .destructiveAction) {
-                    ButtonToolbar(systemName: "minus",
-                                  accessibilityLabel: Verb.DeleteTag)
-                    {
-                        // Delete
-                        guard let tag = self.controller.selection else { return }
-                        try! self.controller.controller.delete(tag).get()
-                    }
-                    .disabled({
-                        guard let tag = self.controller.selection else { return true }
-                        return tag.value.wrappedValue as? Query.Archived != nil
-                    }())
-                }
-                ToolbarItem(id: "Index.Add", placement: .primaryAction) {
-                    ButtonToolbar(systemName: "plus",
-                                  accessibilityLabel: Verb.AddTag,
-                                  action: { self.presentation.value = .addChoose })
-                }
-            }
+            content.modifier(IndexToolbar_macOS(controller: self.controller))
             #else
-            if self.editMode?.wrappedValue == .inactive {
-                content.toolbar(id: "Index") {
-                    ToolbarItem(id: "Index.Edit", placement: .bottomBar) {
-                        EditButton()
-                    }
-                    ToolbarItem(id: "Index.Add", placement: .primaryAction) {
-                        ButtonToolbar(systemName: "plus",
-                                      accessibilityLabel: Verb.AddTag,
-                                      action: { self.presentation.value = .addChoose })
-                    }
-                }
-            } else {
-                content.toolbar(id: "Index") {
-                    ToolbarItem(id: "Index.Edit", placement: .bottomBar) {
-                        EditButton()
-                    }
-                    ToolbarItem(id: "Index.Delete", placement: .bottomBar) {
-                        ButtonToolbar(systemName: "minus",
-                                      accessibilityLabel: Verb.DeleteTag)
-                        {
-                            // Delete
-                            guard let tag = self.controller.selection else { return }
-                            try! self.controller.controller.delete(tag).get()
-                        }
-                        .disabled({
-                            guard let tag = self.controller.selection else { return true }
-                            return tag.value.wrappedValue as? Query.Archived != nil
-                        }())
-                    }
-                    ToolbarItem(id: "Index.Add", placement: .bottomBar) {
-                        ButtonToolbar(systemName: "plus",
-                                      accessibilityLabel: Verb.AddTag,
-                                      action: { self.presentation.value = .addTag })
-                    }
-                }
-            }
+            content.modifier(IndexToolbar_iOS(controller: self.controller,
+                                              popoverAlignment: self.$popoverAlignment))
             #endif
         }
     }
 }
+
+#if os(macOS)
+struct IndexToolbar_macOS: ViewModifier {
+    
+    @ObservedObject var controller: TagController
+    @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
+    
+    func body(content: Content) -> some View {
+        content.toolbar(id: "Index") {
+            ToolbarItem(id: "macOS.DeleteTag", placement: .automatic) {
+                STZ.TB.DeleteTag.toolbar(isEnabled: self.controller.canDelete(),
+                                         action: self.controller.delete)
+            }
+            ToolbarItem(id: "macOS.AddChoice", placement: .primaryAction) {
+                STZ.TB.AddChoice.toolbar(action: { self.modalPresentation.value = .addChoose })
+            }
+        }
+    }
+}
+#else
+struct IndexToolbar_iOS: ViewModifier {
+    
+    @ObservedObject var controller: TagController
+    @Binding var popoverAlignment: Alignment
+    
+    @Environment(\.editMode) private var editMode
+    @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
+    
+    func body(content: Content) -> some View {
+        if self.editMode?.wrappedValue.isEditing == false {
+            return AnyView(
+                content.toolbar(id: "Index") {
+                    ToolbarItem(id: "iOS.EditButton", placement: .primaryAction) {
+                        EditButton()
+                    }
+                }
+            )
+        } else {
+            return AnyView(
+                content.toolbar(id: "Index") {
+                    ToolbarItem(id: "iOS.FlexibleSpace", placement: .bottomBar) {
+                        Spacer()
+                    }
+                    ToolbarItem(id: "iOS.DeleteTag", placement: .bottomBar) {
+                        STZ.TB.DeleteTag.toolbar(isEnabled: self.controller.canDelete(),
+                                                 action: self.controller.delete)
+                    }
+                    ToolbarItem(id: "iOS.Divider", placement: .bottomBar) {
+                        Text("   ") // TODO: Remove when spacer is no longer needed
+                    }
+                    ToolbarItem(id: "iOS.AddChoice", placement: .bottomBar) {
+                        STZ.TB.AddChoice.toolbar() {
+                            self.popoverAlignment = .bottomTrailing
+                            self.modalPresentation.value = .addChoose
+                        }
+                    }
+                    ToolbarItem(id: "iOS.EditButton", placement: .primaryAction) {
+                        EditButton()
+                    }
+                }
+            )
+        }
+    }
+}
+#endif

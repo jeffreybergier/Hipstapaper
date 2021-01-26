@@ -29,11 +29,11 @@ struct FormLoading: View {
     
     var body: some View {
         VStack {
-            TextField.WebsiteTitle(self.$viewModel.output.title)
+            STZ.VIEW.TXTFLD.WebTitle.textfield(self.$viewModel.output.title)
                 .disabled(true)
-            TextField.WebsiteURL(self.$viewModel.output.currentURLString)
+            STZ.VIEW.TXTFLD.WebURL.textfield(self.$viewModel.output.currentURLString)
                 .disabled(true)
-            ProgressBar(self.viewModel.progress)
+            STZ.PRG.Bar(self.viewModel.progress)
         }
     }
 }

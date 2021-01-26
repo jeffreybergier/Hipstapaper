@@ -21,132 +21,39 @@
 
 import SwiftUI
 import Datum
-import Localize
 import Stylize
 import Browse
 
-struct DetailToolbar: ViewModifier {
-    
-    @ObservedObject var controller: WebsiteController
-    @EnvironmentObject var windowManager: WindowManager
-    @State var presentation = DetailToolbarPresentation.Wrap()
-    @State var popoverAlignment: Alignment = .topTrailing
-    
-    func body(content: Content) -> some View {
-        return ZStack(alignment: self.popoverAlignment) {
-            // TODO: Hack when toolbars work properly with popovers
-            Color.clear.frame(width: 1, height: 1)
-                .popover(isPresented: self.$presentation.isTagApply) { () -> TagApply in
-                    return TagApply(selectedWebsites: self.controller.selectedWebsites,
-                                    controller: self.controller.controller,
-                                    done: { self.presentation.value = .none })
-                }
-            
-            Color.clear.frame(width: 1, height: 1)
-                .popover(isPresented: self.$presentation.isShare) {
-                    Share(self.controller.selectedWebsites.compactMap
-                    { $0.value.preferredURL })
-                    { self.presentation.value = .none }
-                }
-            
-            Color.clear.frame(width: 1, height: 1)
-                .popover(isPresented: self.$presentation.isSearch) {
-                    Search(searchString: self.$controller.query.search,
-                           doneAction: { self.presentation.value = .none })
-                }
-            
-            Color.clear.frame(width: 1, height: 1)
-                .popover(isPresented: self.$presentation.isSort) {
-                    Sort(selection: self.$controller.query.sort, doneAction: { self.presentation.value = .none })
-                }
-            #if os(macOS)
-            content.modifier(DetailToolbar_macOS(controller: self.controller,
-                                                 presentation: self.$presentation))
-            #else
-            content.modifier(DetailToolbar_iOS(controller: self.controller,
-                                               presentation: self.$presentation,
-                                               popoverAlignment: self.$popoverAlignment))
-            #endif
+enum DetailToolbar {
+    struct Shared: ViewModifier {
+        
+        @ObservedObject var controller: WebsiteController
+        @State var popoverAlignment: Alignment = .topTrailing
+        
+        func body(content: Content) -> some View {
+            return ZStack(alignment: self.popoverAlignment) {
+                // TODO: Hack when toolbars work properly with popovers
+                Color.clear.frame(width: 1, height: 1).modifier(
+                    TagApplyPresentable(controller: self.controller.controller,
+                                        selectedWebsites: self.controller.selectedWebsites)
+                )
+                Color.clear.frame(width: 1, height: 1).modifier(
+                    SharePresentable(selectedWebsites: self.controller.selectedWebsites)
+                )
+                Color.clear.frame(width: 1, height: 1).modifier(
+                    SearchPresentable(search: self.$controller.query.search)
+                )
+                
+                Color.clear.frame(width: 1, height: 1).modifier(
+                    SortPresentable(sort: self.$controller.query.sort)
+                )
+                #if os(macOS)
+                content.modifier(macOS(controller: self.controller))
+                #else
+                content.modifier(iOS.Shared(controller: self.controller,
+                                            popoverAlignment: self.$popoverAlignment))
+                #endif
+            }
         }
-    }
-}
-
-struct OpenWebsiteDisabler: ViewModifier {
-    
-    let selectionCount: Int
-    @EnvironmentObject var windowManager: WindowManager
-    
-    init(_ selectionCount: Int) {
-        self.selectionCount = selectionCount
-    }
-    
-    func body(content: Content) -> some View {
-        if self.windowManager.features.contains(.bulkActivation) {
-            return content.disabled(self.selectionCount < 1)
-        } else {
-            return content.disabled(self.selectionCount != 1)
-        }
-    }
-}
-
-enum DT {
-    static func Filter(filter: Query.Archived, action: @escaping () -> Void) -> some View {
-        switch filter {
-        case .all:
-            return ButtonToolbarFilterB(action)
-        case .unarchived:
-            return ButtonToolbarFilterA(action)
-        }
-    }
-    static func OpenInApp(selectionCount: Int,
-                          action: @escaping () -> Void)
-                          -> some View
-    {
-        ButtonToolbarBrowserInApp(action)
-        .keyboardShortcut("o")
-        .modifier(OpenWebsiteDisabler(selectionCount))
-    }
-    
-    static func OpenExternal(selectionCount: Int,
-                             action: @escaping () -> Void)
-                             -> some View
-    {
-        ButtonToolbarBrowserExternal(action)
-        .keyboardShortcut("O")
-        .modifier(OpenWebsiteDisabler(selectionCount))
-    }
-    
-    static func Archive(isDisabled: Bool, action: @escaping () -> Void) -> some View {
-        return ButtonToolbar(systemName: "tray.and.arrow.down",
-                             accessibilityLabel: Verb.Archive,
-                             action: action)
-            .disabled(isDisabled)
-    }
-    
-    static func Unarchive(isDisabled: Bool, action: @escaping () -> Void) -> some View {
-        return ButtonToolbar(systemName: "tray.and.arrow.up",
-                             accessibilityLabel: Verb.Unarchive,
-                             action: action)
-            .disabled(isDisabled)
-    }
-    
-    static func Tag(isDisabled: Bool, action: @escaping () -> Void) -> some View {
-        return ButtonToolbar(systemName: "tag",
-                             accessibilityLabel: Verb.AddAndRemoveTags,
-                             action: action)
-            .disabled(isDisabled)
-    }
-    
-    static func Share(isDisabled: Bool, action: @escaping () -> Void) -> some View {
-        return ButtonToolbarShare(action)
-            .disabled(isDisabled)
-    }
-    
-    static func Search(searchActive: Bool, action: @escaping () -> Void) -> some View {
-        return AnyView(
-            searchActive
-                ? ButtonToolbarSearchActive(action)
-                : ButtonToolbarSearchInactive(action)
-        ).keyboardShortcut("f")
     }
 }

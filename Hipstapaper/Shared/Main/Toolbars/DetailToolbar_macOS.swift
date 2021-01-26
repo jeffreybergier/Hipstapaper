@@ -20,86 +20,60 @@
 import SwiftUI
 import Stylize
 
-struct DetailToolbar_macOS: ViewModifier {
-    
-    @ObservedObject var controller: WebsiteController
-    @Binding var presentation: DetailToolbarPresentation.Wrap
-    
-    @Environment(\.openURL) var openURL
-    @EnvironmentObject var windowManager: WindowManager
-    @EnvironmentObject var browserPresentation: BrowserPresentation
-    
-    func body(content: Content) -> some View {
-        // TODO: Remove combined ToolbarItems when it supoprts more than 10 items
-        content.toolbar(id: "Detail_Mac") {
-            ToolbarItem(id: "Detail_Mac.OpenInApp") {
-                HStack {
-                    DT.OpenInApp(selectionCount: self.controller.selectedWebsites.count) {
-                        let allURLs = self.controller.selectedWebsites.compactMap { $0.value.preferredURL }
-                        guard
-                            !allURLs.isEmpty,
-                            self.windowManager.features.contains(.multipleWindows)
-                        else {
-                            self.browserPresentation.item = self.controller.selectedWebsites.first
-                            return
-                        }
-                        let urls = self.windowManager.features.contains(.bulkActivation)
-                            ? Set(allURLs)
-                            : Set([allURLs.first!])
-                        self.windowManager.show(urls) {
-                            // TODO: Do something with this error
-                            print($0)
-                        }
-                    }
-                    DT.OpenExternal(selectionCount: self.controller.selectedWebsites.count) {
-                        let urls = self.controller.selectedWebsites.compactMap { $0.value.preferredURL }
-                        urls.forEach { self.openURL($0) }
+extension DetailToolbar {
+    struct macOS: ViewModifier {
+        
+        @ObservedObject var controller: WebsiteController
+        
+        @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
+        @EnvironmentObject private var windowPresentation: WindowPresentation
+        @Environment(\.openURL) private var externalPresentation
+        
+        func body(content: Content) -> some View {
+            // TODO: Remove combined ToolbarItems when it supoprts more than 10 items
+            content.toolbar(id: "Detail") {
+                ToolbarItem(id: "Detail.Open") {
+                    HStack {
+                        STZ.TB.OpenInApp.toolbar(isEnabled: self.controller.canOpen(in: self.windowPresentation),
+                                                 action: { self.controller.open(in: self.windowPresentation) })
+                        STZ.TB.OpenInBrowser.toolbar(isEnabled: self.controller.canOpen(in: self.windowPresentation),
+                                                     action: { self.controller.open(in: self.externalPresentation) })
                     }
                 }
-            }
-            ToolbarItem(id: "Detail_Mac.Share") {
-                DT.Share(isDisabled: self.controller.selectedWebsites.isEmpty,
-                         action: { self.presentation.value = .share })
-            }
-            ToolbarItem(id: "Detail_Mac.Separator") {
-                ButtonToolbarSeparator()
-            }
-            ToolbarItem(id: "Detail_Mac.Archive") {
-                HStack {
-                    DT.Archive(isDisabled: self.controller.selectedWebsites.filter { !$0.value.isArchived }.isEmpty)
-                    {
-                        // Archive
-                        let selected = self.controller.selectedWebsites
-                        self.controller.selectedWebsites = []
-                        try! self.controller.controller.update(selected, .init(isArchived: true)).get()
-                    }
-                    DT.Unarchive(isDisabled: self.controller.selectedWebsites.filter { $0.value.isArchived }.isEmpty)
-                    {
-                        // Unarchive
-                        let selected = self.controller.selectedWebsites
-                        self.controller.selectedWebsites = []
-                        try! self.controller.controller.update(selected, .init(isArchived: false)).get()
+                ToolbarItem(id: "Detail.Share") {
+                    STZ.TB.Share.toolbar(isEnabled: self.controller.canShare(),
+                                         action: { self.modalPresentation.value = .share })
+                }
+                ToolbarItem(id: "Detail.Separator") {
+                    STZ.TB.Separator.toolbar()
+                }
+                ToolbarItem(id: "Detail.Archive") {
+                    HStack {
+                        STZ.TB.Archive.toolbar(isEnabled: self.controller.canArchive(),
+                                               action: self.controller.archive)
+                        STZ.TB.Unarchive.toolbar(isEnabled: self.controller.canUnarchive(),
+                                                 action: self.controller.unarchive)
                     }
                 }
-            }
-            ToolbarItem(id: "Detail_Mac.Tag") {
-                DT.Tag(isDisabled: self.controller.selectedWebsites.isEmpty,
-                       action: { self.presentation.value = .tagApply })
-            }
-            ToolbarItem(id: "Detail_Mac.Separator") {
-                ButtonToolbarSeparator()
-            }
-            ToolbarItem(id: "Detail_Mac.Sort") {
-                ButtonToolbarSort { self.presentation.value = .sort }
-            }
-            ToolbarItem(id: "Detail_Mac.Filter") {
-                DT.Filter(filter: self.controller.query.isArchived) {
-                    self.controller.query.isArchived.toggle()
+                ToolbarItem(id: "Detail.Tag") {
+                    STZ.TB.TagApply.toolbar(isEnabled: self.controller.canTag(),
+                                            action: { self.modalPresentation.value = .tagApply })
                 }
-            }
-            ToolbarItem(id: "Detail_Mac.Search") {
-                DT.Search(searchActive: self.controller.query.search.nonEmptyString != nil) {
-                    self.presentation.value = .search
+                ToolbarItem(id: "Detail.Separator") {
+                    STZ.TB.Separator.toolbar()
+                }
+                ToolbarItem(id: "Detail.Sort") {
+                    STZ.TB.Sort.toolbar(action: { self.modalPresentation.value = .sort })
+                }
+                ToolbarItem(id: "Detail.Filter") {
+                    return self.controller.isFiltered()
+                        ? AnyView(STZ.TB.FilterActive.toolbar(action: self.controller.toggleFilter))
+                        : AnyView(STZ.TB.FilterInactive.toolbar(action: self.controller.toggleFilter))
+                }
+                ToolbarItem(id: "Detail.Search") {
+                    return self.controller.isSearchActive()
+                        ? AnyView(STZ.TB.SearchInactive.toolbar(action: { self.modalPresentation.value = .search }))
+                        : AnyView(STZ.TB.SearchActive.toolbar(action: { self.modalPresentation.value = .search }))
                 }
             }
         }

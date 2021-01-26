@@ -65,3 +65,65 @@ class WebsiteController: ObservableObject {
         }
     }
 }
+
+// MARK: Toolbar helpers
+import SwiftUI
+extension WebsiteController {
+    func canShare() -> Bool {
+        return self.selectedWebsites.first(where: { $0.value.preferredURL != nil }) != nil
+    }
+    func canTag() -> Bool {
+        return self.selectedWebsites.isEmpty == false
+    }
+    func canArchive() -> Bool {
+        return self.selectedWebsites.first(where: { $0.value.isArchived == false }) != nil
+    }
+    func canUnarchive() -> Bool {
+        return self.selectedWebsites.first(where: { $0.value.isArchived == true }) != nil
+    }
+    func canOpen(in wm: WindowPresentation) -> Bool {
+        if wm.features.contains(.bulkActivation) {
+            return self.selectedWebsites.first(where: { $0.value.preferredURL != nil }) != nil
+        } else {
+            return self.selectedWebsites.compactMap { $0.value.preferredURL != nil }.count == 1
+        }
+    }
+    func isFiltered() -> Bool {
+        return self.query.isArchived.boolValue
+    }
+    func isSearchActive() -> Bool {
+        return self.query.search.nonEmptyString == nil
+    }
+    func archive() {
+        let selected = self.selectedWebsites
+        self.selectedWebsites = []
+        // TODO: remove Try!
+        try! self.controller.update(selected, .init(isArchived: true)).get()
+    }
+    func unarchive() {
+        let selected = self.selectedWebsites
+        self.selectedWebsites = []
+        // TODO: remove Try!
+        try! self.controller.update(selected, .init(isArchived: false)).get()
+    }
+    func toggleFilter() {
+        self.query.isArchived.toggle()
+    }
+    func open(in open: OpenURLAction) {
+        self.selectedWebsites
+            .compactMap { $0.value.preferredURL }
+            .forEach { open($0) }
+    }
+    func open(in wm: WindowPresentation) {
+        let _urls = self.selectedWebsites.compactMap { $0.value.preferredURL }
+        guard _urls.isEmpty == false else { fatalError("Maybe present an error?") }
+        guard wm.features.contains(.multipleWindows) else { fatalError("Maybe present an error?") }
+        let urls = wm.features.contains(.bulkActivation)
+            ? Set(_urls)
+            : Set([_urls.first!])
+        wm.show(urls) {
+            // TODO: Do something with this error
+            print($0)
+        }
+    }
+}

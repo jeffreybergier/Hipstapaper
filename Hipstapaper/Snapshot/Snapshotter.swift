@@ -36,21 +36,22 @@ public struct Snapshotter: View {
         ScrollView {
             VStack(alignment: .center) {
                 FormSwitcher(viewModel: self.viewModel)
-                    .paddingDefault_Equal(ignoring: [\.bottom])
+                    .modifier(STZ.PDG.Equal(ignore: [\.bottom]))
                 ZStack(alignment: .top) {
                     WebView(viewModel: self.viewModel)
                     WebThumbnail(viewModel: self.viewModel)
                 }
                 .frame(width: 300, height: 300)
-                .cornerRadius_medium
-                .paddingDefault_Equal(ignoring: [\.top])
+                .modifier(STZ.CRN.medium())
+                .modifier(STZ.PDG.Equal(ignore: [\.top]))
             }
         }
-        .modifier(Modal.SaveCancel(
-                    title: Noun.AddWebsite,
-                    cancel: { self.viewModel.doneAction(.failure(.userCancelled)) },
-                    save: { self.viewModel.doneAction(.success(self.viewModel.output)) },
-                    canSave: { self.viewModel.output.currentURL != nil }))
+        .modifier(STZ.MDL.Save(
+            kind: STZ.TB.AddWebsite.self,
+            cancel: { self.viewModel.doneAction(.failure(.userCancelled)) },
+            save: { self.viewModel.doneAction(.success(self.viewModel.output)) },
+            canSave: { self.viewModel.output.currentURL != nil }
+        ))
     }
 }
 
@@ -60,15 +61,9 @@ internal struct WebThumbnail: View {
 
     // TODO: Fix this
     var body: some View {
-        switch self.viewModel.formState {
-        case .load:
-            return AnyView(Thumbnail.SystemName("globe"))
-        case .loading, .loaded:
-            if let data = self.viewModel.output.thumbnail?.value {
-                return AnyView(Thumbnail.Image(data))
-            } else {
-                return AnyView(Thumbnail.SystemName("exclamationmark.icloud"))
-            }
-        }
+        let image: Imagable.Type = self.viewModel.formState == .load
+            ? STZ.IMG.Web.self
+            : STZ.IMG.WebError.self
+        return image.thumbnail(self.viewModel.output.thumbnail?.value)
     }
 }

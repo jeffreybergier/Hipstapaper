@@ -22,28 +22,27 @@
 import SwiftUI
 import Datum
 import Stylize
+import Localize
 
 struct TagRow: View {
-    
-    var title: String?
-    var websitesCount: Int? = nil
-    
+    let title: String?
+    let websitesCount: Int?
     var body: some View {
         HStack {
-            IndexRowTitle(self.title)
+            STZ.VIEW.TXT(self.title, or: Noun.Untitled)
+                .modifier(STZ.CLR.IndexRow.Text.foreground())
+                .modifier(STZ.FNT.IndexRow.Title.apply())
             if let count = self.websitesCount {
                 Spacer()
-                NumberOval(count)
+                STZ.VIEW.NumberOval(count)
             }
         }
         .frame(height: 30)
     }
-    
     init(_ tag: AnyTag) {
         self.title = tag.name
         self.websitesCount = tag.websitesCount
     }
-    
     init(_ title: String) {
         self.title = title
         self.websitesCount = nil

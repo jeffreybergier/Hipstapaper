@@ -22,7 +22,7 @@
 import UIKit
 import Combine
 
-class WindowManager: ObservableObject, WindowManagerProtocol {
+class WindowPresentation: ObservableObject, WindowManagerProtocol {
         
     let features: Features = []
     

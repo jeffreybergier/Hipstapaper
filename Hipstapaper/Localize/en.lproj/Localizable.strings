@@ -38,7 +38,6 @@
 "LCZ.Verb.Delete Tag"          = "Delete Tag";
 "LCZ.Verb.Add Tag"             = "Add Tag";
 "LCZ.Verb.Go"                  = "Go";
-"LCZ.Verb.Apply Tags"          = "Apply Tags";
 "LCZ.Verb.Clear Search"        = "Clear Search";
 "LCZ.Verb.Open"                = "Open";
 "LCZ.Verb.Open in Browser"     = "Open in Browser";
@@ -65,6 +64,7 @@
 "LCZ.Noun.Tag Name"      = "Tag Name";
 "LCZ.Noun.Add Tag"       = "Add Tag";
 "LCZ.Noun.Add Website"   = "Add Website";
+"LCZ.Noun.Apply Tags"    = "Apply Tags";
 "LCZ.Noun.Sort"          = "Sort";
 "LCZ.Noun.Filter"        = "Filter";
 "LCZ.Noun.Error"         = "Error";

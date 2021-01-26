@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/12/29.
+//  Created by Jeffrey Bergier on 2021/01/11.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,23 +19,5 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import AppKit
-import Combine
-
-class WindowManager: ObservableObject, WindowManagerProtocol {
-    
-    private var windows: [URL: BrowserWindowController] = [:]
-    
-    let features: Features = [.multipleWindows, .bulkActivation]
-
-    func show(_ urls: Set<URL>, error: @escaping (Error) -> Void) {
-        for url in urls {
-            let window = self.windows[url] ?? BrowserWindowController(url: url)
-            self.windows[url] = window
-            window.windowWillClose = { [unowned self] url in
-                self.windows.removeValue(forKey: url)
-            }
-            window.showWindow(self)
-        }
-    }
-}
+public enum STZ {}
+public typealias Action = () -> Void

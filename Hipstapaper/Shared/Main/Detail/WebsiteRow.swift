@@ -22,24 +22,32 @@
 import SwiftUI
 import Datum
 import Stylize
+import Localize
 
 struct WebsiteRow: View {
-    
-    var website: AnyWebsite
-    
+    private static let formatter: DateFormatter = {
+        let df = DateFormatter()
+        df.dateStyle = .long
+        df.timeStyle = .short
+        return df
+    }()
+    let website: AnyWebsite
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                DetailRowTitle(self.website.title)
-                DetailRowDateSubtitle(self.website.dateCreated)
+                STZ.VIEW.TXT(self.website.title, or: Noun.Untitled)
+                    .modifier(STZ.FNT.DetailRow.Title.apply())
+                    .modifier(STZ.CLR.DetailRow.Text.foreground())
+                STZ.VIEW.TXT(WebsiteRow.formatter.string(from: self.website.dateCreated))
+                    .modifier(STZ.FNT.DetailRow.Subtitle.apply())
+                    .modifier(STZ.CLR.DetailRow.Text.foreground())
             }
             Spacer()
-            Thumbnail.Image(self.website.thumbnail)
-                .scaledToFit()
+            STZ.IMG.Placeholder.thumbnail(self.website.thumbnail)
         }
         .frame(height: 60)
+        .animation(nil)
     }
-    
     init(_ website: AnyWebsite) {
         self.website = website
     }

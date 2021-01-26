@@ -28,11 +28,13 @@ struct FormLoaded: View {
     
     var body: some View {
         VStack {
-            TextField.WebsiteTitle(self.$viewModel.output.title)
+            STZ.VIEW.TXTFLD.WebTitle.textfield(self.$viewModel.output.title)
             HStack {
-                TextField.WebsiteURL(self.$viewModel.output.currentURLString)
+                STZ.VIEW.TXTFLD.WebURL.textfield(self.$viewModel.output.currentURLString)
                     .disabled(true)
-                ButtonToolbarJavascript(self.$viewModel.control.isJSEnabled)
+                self.viewModel.control.isJSEnabled
+                    ? AnyView(STZ.TB.JSActive.toolbar(action: { self.viewModel.control.isJSEnabled = false }))
+                    : AnyView(STZ.TB.JSInactive.toolbar(action: { self.viewModel.control.isJSEnabled = true }))
             }
         }
     }

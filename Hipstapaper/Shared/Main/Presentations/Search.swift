@@ -27,23 +27,21 @@ import Localize
 struct Search: View {
     
     @Binding var searchString: String
-    let doneAction: Modal.Action
+    let doneAction: Action
     
     var body: some View {
         VStack {
             HStack {
-                TextField.Search(self.$searchString)
+                STZ.VIEW.TXTFLD.Search.textfield(self.$searchString)
                 if self.searchString.nonEmptyString != nil {
-                    ButtonToolbar(systemName: "xmark.circle", accessibilityLabel: Verb.ClearSearch) {
-                        self.searchString = ""
-                    }
+                    STZ.TB.ClearSearch.toolbar(action: { self.searchString = "" })
                 }
             }
             .animation(.default)
             Spacer()
         }
-        .paddingDefault_Equal()
-        .modifier(Modal.Done(title: Noun.Search, done: self.doneAction))
+        .modifier(STZ.PDG.Equal())
+        .modifier(STZ.MDL.Done(kind: STZ.TB.SearchActive.self, done: self.doneAction))
         .frame(idealWidth: 250, idealHeight: 150) // TODO: Remove height when this is not broken
     }
 }

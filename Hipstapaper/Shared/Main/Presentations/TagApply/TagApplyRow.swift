@@ -28,10 +28,11 @@ struct TagApplyRow: View {
     
     let name: String?
     let value: Bool
-    let valueChanged: BoolChange
+    let valueChanged: STZ.TGL.Action
     
     var body: some View {
-        ToggleDefault(label: self.name, initialValue: value, valueChanged: self.valueChanged)
-        .paddingDefault(ignoring: [\.leading, \.trailing])
+        STZ.VIEW.TXT(self.name, or: Noun.Untitled)
+            .modifier(STZ.TGL(initialValue: self.value, action: self.valueChanged))
+            .modifier(STZ.PDG.Default(ignore: [\.leading, \.trailing]))
     }
 }

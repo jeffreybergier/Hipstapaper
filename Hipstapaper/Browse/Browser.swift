@@ -32,7 +32,7 @@ public struct Browser: View {
                 .frame(minWidth: 300, idealWidth: 768, minHeight: 300, idealHeight: 768)
                 .edgesIgnoringSafeArea(.all)
             if self.viewModel.browserDisplay.isLoading {
-                ProgressBar(self.viewModel.browserDisplay.progress)
+                STZ.PRG.Bar(self.viewModel.browserDisplay.progress)
                     .opacity(self.viewModel.browserDisplay.isLoading ? 1 : 0)
             }
         }

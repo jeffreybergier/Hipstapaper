@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/12/11.
+//  Created by Jeffrey Bergier on 2020/12/14.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -21,18 +21,24 @@
 
 import SwiftUI
 
-extension View {
-
-    public var cornerRadius_small: some View {
-        return self.cornerRadius(4)
+extension STZ {
+    public struct TGL: ViewModifier {
+        public typealias Action = (Bool) -> Void
+        private struct ViewModel {
+            let action: Action
+            var value: Bool {
+                didSet {
+                    self.action(self.value)
+                }
+            }
+        }
+        @State private var viewModel: ViewModel
+        public func body(content: Content) -> some View {
+            Toggle(isOn: self.$viewModel.value, label: { content })
+        }
+        public init(initialValue: Bool, action: @escaping Action) {
+            _viewModel = .init(initialValue: .init(action: action,
+                                                   value: initialValue))
+        }
     }
-
-    public var cornerRadius_medium: some View {
-        return self.cornerRadius(8)
-    }
-
-    public var cornerRadius_large: some View {
-        return self.cornerRadius(16)
-    }
-
 }

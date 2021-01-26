@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/12/20.
+//  Created by Jeffrey Bergier on 2020/12/29.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,14 +19,14 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import SwiftUI
+import UIKit
+import Combine
 
-public func ProgressBar(_ progress: Progress) -> some View {
-    return ProgressView(progress)
-        .progressViewStyle(LinearProgressViewStyle())
-}
-
-public func ProgressSpinner(_ progress: Progress) -> some View {
-    return ProgressView(progress)
-        .progressViewStyle(CircularProgressViewStyle())
+class WindowPresentation: ObservableObject, WindowManagerProtocol {
+        
+    let features: Features = []
+    
+    func show(_ urls: Set<URL>, error errorHandler: @escaping (Error) -> Void) {
+        fatalError("Not supported on iOS")
+    }
 }

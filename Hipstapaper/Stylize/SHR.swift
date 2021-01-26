@@ -21,33 +21,36 @@
 
 import SwiftUI
 
-public struct Share: View {
-    public typealias Completion = () -> Void
-    public let items: [URL]
-    public let completion: Completion
-    public var body: some View {
-        #if canImport(UIKit)
-        _Share(items: self.items, completion: self.completion)
-        #else
-        _Share(items: self.items, completion: self.completion)
-            .frame(width: 10, height: 10)
-        #endif
-    }
-    public init(_ items: [URL], completion: @escaping Share.Completion) {
-        self.items = items
-        self.completion = completion
+extension STZ {
+    public struct SHR: View {
+        public typealias Completion = () -> Void
+        public let items: [URL]
+        public let completion: Completion
+        public var body: some View {
+            #if canImport(UIKit)
+            Bridge(items: self.items, completion: self.completion)
+            #else
+            Bridge(items: self.items, completion: self.completion)
+                .frame(width: 10, height: 10)
+            #endif
+        }
+        public init(items: [URL], completion: @escaping SHR.Completion) {
+            self.items = items
+            self.completion = completion
+        }
     }
 }
 
-internal struct _Share: View {
-    let items: [URL]
-    let completion: Share.Completion
+extension STZ.SHR {
+    fileprivate struct Bridge: View {
+        let items: [URL]
+        let completion: Completion
+    }
 }
 
-#if canImport(AppKit)
+#if os(macOS)
 import AppKit
-extension _Share: NSViewRepresentable {
-    
+extension STZ.SHR.Bridge: NSViewRepresentable {
     func updateNSView(_ view: NSView, context: Context) {
         guard context.coordinator.alreadyPresented == false else { return }
         context.coordinator.alreadyPresented = true
@@ -60,19 +63,12 @@ extension _Share: NSViewRepresentable {
             picker.show(relativeTo: .zero, of: view, preferredEdge: .minY)
         }
     }
-    
-    func makeNSView(context: Context) -> NSView {
-        return NSView()
-    }
-    
-    func makeCoordinator() -> Delegate {
-        return Delegate(completion: self.completion)
-    }
-    
-    internal class Delegate: NSObject, NSSharingServicePickerDelegate {
-        let completion: Share.Completion
+    func makeNSView(context: Context) -> NSView { return NSView() }
+    func makeCoordinator() -> Delegate { return Delegate(completion: self.completion) }
+    fileprivate class Delegate: NSObject, NSSharingServicePickerDelegate {
+        let completion: STZ.SHR.Completion
         var alreadyPresented = false
-        init(completion: @escaping Share.Completion) { self.completion = completion }
+        init(completion: @escaping STZ.SHR.Completion) { self.completion = completion }
         @objc func sharingServicePicker(_ sharingServicePicker: NSSharingServicePicker,
                                         didChoose service: NSSharingService?)
         {
@@ -81,12 +77,9 @@ extension _Share: NSViewRepresentable {
         }
     }
 }
-#endif
-
-#if canImport(UIKit)
+#else
 import UIKit
-
-extension _Share: UIViewControllerRepresentable {
+extension STZ.SHR.Bridge: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIActivityViewController {
         let vc = UIActivityViewController(activityItems: self.items, applicationActivities: nil)
         vc.completionWithItemsHandler = { _, _, _, _ in
@@ -100,11 +93,9 @@ extension _Share: UIViewControllerRepresentable {
 
 #if DEBUG
 struct Share_Preview: PreviewProvider {
-    
     static var items = [URL(string: "https://www.google.com")!]
-    
     static var previews: some View {
-        Share(items, completion: { })
+        STZ.SHR(items: items, completion: { })
     }
 }
 #endif

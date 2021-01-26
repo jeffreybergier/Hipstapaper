@@ -22,6 +22,7 @@
 import SwiftUI
 import Datum
 import Localize
+import Stylize
 
 struct TagList: View {
     
@@ -32,14 +33,20 @@ struct TagList: View {
 
     var body: some View {
         List(selection: self.$controller.selection) {
-            Section(header: Text.IndexSection(Noun.ReadingList)) {
+            Section(header: STZ.VIEW.TXT(Noun.ReadingList)
+                        .modifier(STZ.CLR.IndexSection.Text.foreground())
+                        .modifier(STZ.FNT.IndexSection.Title.apply()))
+            {
                 ForEach(self.controller.`static`, id: \.self) { item in
                     NavigationLink(destination: self.navigation(item)) {
                         TagRow(item.value)
                     }
                 }
             }
-            Section(header: Text.IndexSection(Noun.Tags)) {
+            Section(header: STZ.VIEW.TXT(Noun.Tags)
+                        .modifier(STZ.CLR.IndexSection.Text.foreground())
+                        .modifier(STZ.FNT.IndexSection.Title.apply()))
+            {
                 ForEach(self.controller.all, id: \.self) { item in
                     NavigationLink(destination: self.navigation(item)) {
                         TagRow(item.value)
@@ -55,7 +62,8 @@ struct TagList: View {
 #if DEBUG
 struct TagList_Preview: PreviewProvider {
     static var previews: some View {
-        TagList(controller: .init(controller: P_Controller()), navigation: { _ in AnyView(Text("Swift Previews")) })
+        TagList(controller: .init(controller: P_Controller()),
+                navigation: { _ in AnyView(STZ.VIEW.TXT("Swift Previews")) })
     }
 }
 #endif

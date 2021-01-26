@@ -22,11 +22,11 @@
 import Foundation
 
 protocol WindowManagerProtocol {
-    var features: WindowManager.Features { get }
-    func show(_: Set<URL>, error: @escaping (WindowManager.Error) -> Void)
+    var features: WindowPresentation.Features { get }
+    func show(_: Set<URL>, error: @escaping (WindowPresentation.Error) -> Void)
 }
 
-extension WindowManager {
+extension WindowPresentation {
     enum Error: Swift.Error {
         /// Occurs when the device does not support bulk opening multiple windwos
         case bulkActivation

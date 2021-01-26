@@ -22,38 +22,51 @@ import Stylize
 import Localize
 import Datum
 
+// TODO: Try to replace this with picker
+// https://medium.com/@luca.jon/swiftui-contextmenu-and-menu-for-ios-e01f90e525f6
+
 struct Sort: View {
     
     @Binding var selection: Datum.Sort!
-    let doneAction: Modal.Action
+    let doneAction: Action
     
     var body: some View {
-        List(Datum.Sort.allCases, id: \.self, selection: self.$selection) { order in
-            Text(order.localized)
-                .font(.headline)
-                .paddingDefault(ignoring: [\.leading, \.trailing])
+        List(Datum.Sort.allCases, id: \.self, selection: self.$selection)
+        { order in
+            order.label.label()
+                .modifier(STZ.PDG.Default(ignore: [\.leading, \.trailing]))
         }
         .modifier(ModalSelectionStyle())
-        .modifier(Modal.Done(title: Noun.Sort, done: self.doneAction))
-        .frame(idealWidth: 300, idealHeight: 300)
+        .modifier(STZ.MDL.Done(kind: STZ.TB.Sort.self, done: self.doneAction))
+        .modifier(__Size())
+    }
+}
+
+fileprivate struct __Size: ViewModifier {
+    fileprivate func body(content: Content) -> some View {
+        #if os(macOS)
+        return content.frame(idealWidth: 300, idealHeight: 300)
+        #else
+        return content.frame(idealWidth: 400, idealHeight: 300)
+        #endif
     }
 }
 
 extension Datum.Sort {
-    fileprivate var localized: LocalizedStringKey {
+    fileprivate var label: Labelable.Type {
         switch self {
         case .dateModifiedNewest:
-            return Phrase.SortDateModifiedNewest
+            return STZ.LBL.Sort.ModifiedNewest.self
         case .dateModifiedOldest:
-            return Phrase.SortDateModifiedOldest
+            return STZ.LBL.Sort.ModifiedOldest.self
         case .dateCreatedNewest:
-            return Phrase.SortDateCreatedNewest
+            return STZ.LBL.Sort.CreatedNewest.self
         case .dateCreatedOldest:
-            return Phrase.SortDateCreatedOldest
+            return STZ.LBL.Sort.CreatedOldest.self
         case .titleA:
-            return Phrase.SortTitleA
+            return STZ.LBL.Sort.TitleA.self
         case .titleZ:
-            return Phrase.SortTitleZ
+            return STZ.LBL.Sort.TitleZ.self
         }
     }
 }
