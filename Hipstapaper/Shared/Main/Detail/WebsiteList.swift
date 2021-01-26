@@ -43,9 +43,9 @@ struct WebsiteList: View {
     }
     
     var body: some View {
-        XPL.List(self.controller.all,
+        XPL.List(data: self.controller.all,
                  selection: self.$controller.selectedWebsites,
-                 openAction: self.open,
+                 open: self.open,
                  menu: self.contextMenu)
         { item in
             WebsiteRow(item.value)
@@ -68,7 +68,7 @@ struct WebsiteList: View {
 }
 
 extension WebsiteList {
-    func open(_ items: Set<AnyElement<AnyWebsite>>) {
+    private func open(_ items: Set<AnyElement<AnyWebsite>>) {
         if self.windowPresentation.features.contains([.bulkActivation, .multipleWindows]) {
             let validURLs = Set(items.compactMap({ $0.value.preferredURL }))
             self.windowPresentation.show(validURLs, error: { _ in })
@@ -78,14 +78,14 @@ extension WebsiteList {
         }
     }
     
-    func contextMenu(_ items: Set<AnyElement<AnyWebsite>>) -> some View {
+    private func contextMenu(_ items: Set<AnyElement<AnyWebsite>>) -> some View {
         // TODO: Remove this temp controller nonesense
         let controller = WebsiteController(controller: self.controller.controller)
         controller.selectedWebsites = items
         return _contextMenu(controller)
     }
     
-    @ViewBuilder func _contextMenu(_ tmpCtrlr: WebsiteController) -> some View {
+    @ViewBuilder private func _contextMenu(_ tmpCtrlr: WebsiteController) -> some View {
         STZ.VIEW.TXT("\(tmpCtrlr.selectedWebsites.count) selected")
         Group {
             STZ.TB.OpenInApp.context(isEnabled: tmpCtrlr.canOpen(in: self.windowPresentation)) {
@@ -113,6 +113,7 @@ extension WebsiteList {
         }
         Group {
             STZ.TB.DeleteWebsite.context(isEnabled: tmpCtrlr.canDelete()) {
+                // TODO: Find a way to not forcefully change the selection
                 self.controller.selectedWebsites = tmpCtrlr.selectedWebsites
                 self.modalPresentation.value = .delete
             }
