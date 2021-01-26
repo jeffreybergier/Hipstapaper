@@ -34,7 +34,7 @@ enum DetailToolbar {
             return ZStack(alignment: self.popoverAlignment) {
                 // TODO: Hack when toolbars work properly with popovers
                 Color.clear.frame(width: 1, height: 1).modifier(
-                    TagApplyPresentable(controller: self.controller.controller,
+                    TagApplyPresentable(controller: self.controller,
                                         selectedWebsites: self.controller.selectedWebsites)
                 )
                 Color.clear.frame(width: 1, height: 1).modifier(

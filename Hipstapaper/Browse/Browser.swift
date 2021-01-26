@@ -25,6 +25,7 @@ import Stylize
 public struct Browser: View {
     
     @StateObject public var viewModel: ViewModel
+    @StateObject private var errorQ = STZ.ERR.ViewModel()
     
     public var body: some View {
         ZStack(alignment: .top) {
@@ -38,6 +39,8 @@ public struct Browser: View {
         }
         // TODO: Toolbar leaks like crazy on iOS :(
         .modifier(Toolbar(viewModel: self.viewModel))
+        .modifier(STZ.ERR.PresenterB())
+        .environmentObject(self.errorQ)
     }
     
     public init(_ viewModel: ViewModel) {

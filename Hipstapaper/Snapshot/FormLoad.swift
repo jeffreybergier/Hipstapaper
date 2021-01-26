@@ -30,7 +30,7 @@ struct FormLoad: View {
         HStack() {
             STZ.VIEW.TXTFLD.WebURL.textfield(self.$viewModel.output.inputURLString)
             STZ.BTN.Go.button(doneStyle: true,
-                              isDisabled: self.viewModel.output.inputURL == nil,
+                              isEnabled: self.viewModel.output.inputURL != nil,
                               action: { self.viewModel.control.shouldLoad.toggle() })
         }
     }

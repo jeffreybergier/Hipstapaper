@@ -28,23 +28,24 @@ import Foundation
 class DropboxWatcher {
     
     let observer: DirectoryPublisher
-    var token: AnyCancellable?
+    private var token: AnyCancellable?
     
-    init(controller: Controller) {
+    init(controller: Controller, errorQ: ErrorQ) {
         let dropbox = AppGroup.dropbox
         let fm = FileManager.default
         try? fm.createDirectory(at: dropbox,
                                 withIntermediateDirectories: true,
                                 attributes: nil)
         self.observer = DirectoryPublisher(url: dropbox)
-        self.token = self.observer.publisher.sink() { url in
+        self.token = self.observer.publisher.sink() { [weak errorQ] url in
             do {
                 let data = try Data(contentsOf: url)
                 let output = try PropertyListDecoder().decode(Snapshot.ViewModel.Output.self, from: data)
                 _ = try controller.createWebsite(.init(output)).get()
                 try FileManager.default.removeItem(at: url)
             } catch {
-                print(error)
+                log.error(error)
+                errorQ?.append(Error.shareExtensionAdd)
             }
         }
     }

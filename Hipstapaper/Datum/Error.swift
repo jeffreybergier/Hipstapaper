@@ -23,5 +23,13 @@ import Foundation
 
 // TODO: Conform to NSError Protocols
 public enum Error: Swift.Error {
+    case critical
     case unknown
+}
+
+// TODO: Add cases here
+extension Error: LocalizedError {
+    public var errorDescription: String? {
+        return "LOCALIZE THIS ERROR"
+    }
 }

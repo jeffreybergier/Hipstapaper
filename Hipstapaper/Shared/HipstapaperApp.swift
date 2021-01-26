@@ -22,7 +22,7 @@
 import SwiftUI
 import XCGLogger
 import Datum
-import Browse
+import Stylize
 
 internal let log: XCGLogger = {
     XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
@@ -31,20 +31,55 @@ internal let log: XCGLogger = {
 @main
 struct HipstapaperApp: App {
     
-    let controller: Controller
-    let watcher: DropboxWatcher
+    let controller: Controller?
+    let watcher: DropboxWatcher?
+    @StateObject private var modalPresentation = ModalPresentation.Wrap()
+    @StateObject private var windowPresentation = WindowPresentation()
+    @StateObject private var errorQ: STZ.ERR.ViewModel
+    
+    /*
+    init() {
+        let errorQ = STZ.ERR.ViewModel()
+        let controller = P_Controller()
+        _errorQ = .init(wrappedValue: errorQ)
+        self.controller = controller
+        self.watcher = DropboxWatcher(controller: controller, errorQ: errorQ)
+    }
+    */
     
     init() {
-        self.controller = try! ControllerNew()
-//        self.controller = P_Controller()
-        self.watcher = DropboxWatcher(controller: self.controller)
+        let errorQ = STZ.ERR.ViewModel()
+        let result = ControllerNew()
+        switch result {
+        case .success(let controller):
+            _errorQ = .init(wrappedValue: errorQ)
+            self.controller = controller
+            self.watcher = DropboxWatcher(controller: controller, errorQ: errorQ)
+        case .failure(let error):
+            errorQ.append(error)
+            log.error(error)
+            _errorQ = .init(wrappedValue: errorQ)
+            self.controller = nil
+            self.watcher = nil
+        }
     }
 
     @SceneBuilder var body: some Scene {
-        WindowGroup {
-            Main(controller: self.controller)
-                .environmentObject(WindowPresentation())
-                .environmentObject(ModalPresentation.Wrap())
+        WindowGroup { () -> AnyView in
+            if let controller = self.controller {
+                return AnyView(
+                    Main(controller: controller)
+                        .environmentObject(self.windowPresentation)
+                        .environmentObject(self.modalPresentation)
+                        .environmentObject(self.errorQ)
+                )
+            } else {
+                return AnyView(
+                    Color.clear
+                        .modifier(STZ.ERR.PresenterB())
+                        .environmentObject(self.errorQ)
+                )
+            }
         }
     }
 }

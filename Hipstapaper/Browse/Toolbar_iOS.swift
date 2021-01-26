@@ -107,7 +107,7 @@ private struct Toolbar_Compact: ViewModifier {
             }
             ToolbarItem(id: "Browser_Compact.Done", placement: .confirmationAction) {
                 STZ.BTN.BrowserDone.button(doneStyle: true,
-                                           isDisabled: self.viewModel.doneAction == nil,
+                                           isEnabled: self.viewModel.doneAction != nil,
                                            action: { self.viewModel.doneAction?() })
             }
         }
@@ -165,7 +165,7 @@ private struct Toolbar_Regular: ViewModifier {
             }
             ToolbarItem(id: "Browser_Regular.Done", placement: .confirmationAction) {
                 STZ.BTN.BrowserDone.button(doneStyle: true,
-                                           isDisabled: self.viewModel.doneAction == nil,
+                                           isEnabled: self.viewModel.doneAction != nil,
                                            action: { self.viewModel.doneAction?() })
             }
         }

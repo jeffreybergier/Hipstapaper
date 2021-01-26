@@ -32,8 +32,18 @@ public protocol Buttonable {
 
 extension Buttonable {
     public static func button(doneStyle: Bool = false,
-                              isDisabled: Bool = false,
+                              isEnabled: Bool = true,
                               action: @escaping Action) -> some View
+    {
+        return context(doneStyle: doneStyle,
+                       isEnabled: isEnabled,
+                       action: action)
+            // if this modifier is used on context menu buttons everything breaks
+            .modifier(DefaultStyle())
+    }
+    public static func context(doneStyle: Bool = false,
+                               isEnabled: Bool = true,
+                               action: @escaping Action) -> some View
     {
         return Button(action: action) { () -> AnyView in
             if let icon = self.icon {
@@ -48,10 +58,9 @@ extension Buttonable {
                 )
             }
         }
-        .disabled(isDisabled)
+        .disabled(!isEnabled)
         .help(self.phrase)
         .modifier(Shortcut(self.shortcut))
-        .modifier(DefaultStyle())
     }
 }
 

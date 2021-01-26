@@ -27,6 +27,7 @@ extension DetailToolbar {
         
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
         @EnvironmentObject private var windowPresentation: WindowPresentation
+        @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
         @Environment(\.openURL) private var externalPresentation
         
         func body(content: Content) -> some View {
@@ -50,9 +51,9 @@ extension DetailToolbar {
                 ToolbarItem(id: "Detail.Archive") {
                     HStack {
                         STZ.TB.Archive.toolbar(isEnabled: self.controller.canArchive(),
-                                               action: self.controller.archive)
+                                               action: { self.controller.archive(self.errorQ) })
                         STZ.TB.Unarchive.toolbar(isEnabled: self.controller.canUnarchive(),
-                                                 action: self.controller.unarchive)
+                                                 action: { self.controller.unarchive(self.errorQ) })
                     }
                 }
                 ToolbarItem(id: "Detail.Tag") {

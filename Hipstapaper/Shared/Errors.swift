@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2021/01/03.
+//  Created by Jeffrey Bergier on 2021/01/19.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,23 +19,16 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import SwiftUI
-import Datum
-import Browse
+import Stylize
 
-enum ClickActions {
-    struct SingleClick: ViewModifier {
-        
-        @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
-        let item: AnyElement<AnyWebsite>
-
-        func body(content: Content) -> some View {
-            #if os(macOS)
-            return content
-            #else
-            return Button(action: { self.modalPresentation.value = .browser(item) },
-                          label: { content })
-            #endif
-        }
-    }
+enum Error: LocalizedError {
+    case shareExtensionAdd
 }
+
+protocol ErrorQ: class {
+    func append(_ error: LocalizedError)
+    @discardableResult
+    func append<T, E: LocalizedError>(_ result: Result<T, E>) -> Result<T, E>
+}
+
+extension STZ.ERR.ViewModel: ErrorQ {}

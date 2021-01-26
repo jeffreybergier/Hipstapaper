@@ -26,17 +26,11 @@ class WebsiteController: ObservableObject {
     
     let controller: Controller
     var all: AnyList<AnyElement<AnyWebsite>> {
-        get {
-            if let all = _all { return all }
-            self.update()
-            return _all ?? .empty
-        }
+        get { return _all ?? .empty }
     }
     @Published var selectedWebsites: Set<AnyElement<AnyWebsite>> = []
     @Published var query: Query {
-        didSet {
-            self.update()
-        }
+        didSet { self.activate() }
     }
     
     private var _all: AnyList<AnyElement<AnyWebsite>>? = nil
@@ -47,10 +41,12 @@ class WebsiteController: ObservableObject {
         self.controller = controller
     }
     
-    private func update() {
+    func activate() {
+        log.verbose()
         self.token?.cancel()
         self.token = nil
         let result = controller.readWebsites(query: self.query)
+        self.objectWillChange.send()
         switch result {
         case .failure(let error):
             // TODO: Do something with this error
@@ -58,11 +54,21 @@ class WebsiteController: ObservableObject {
             break
         case .success(let sites):
             self._all = sites
-            self.objectWillChange.send()
             self.token = sites.objectWillChange.sink { [unowned self] _ in
                 self.objectWillChange.send()
             }
         }
+    }
+    
+    func deactivate() {
+        log.verbose()
+        self.objectWillChange.send()
+        self.token?.cancel()
+        _all = .empty
+    }
+    
+    deinit {
+        log.verbose()
     }
 }
 
@@ -81,6 +87,9 @@ extension WebsiteController {
     func canUnarchive() -> Bool {
         return self.selectedWebsites.first(where: { $0.value.isArchived == true }) != nil
     }
+    func canDelete() -> Bool {
+        return self.selectedWebsites.isEmpty == false
+    }
     func canOpen(in wm: WindowPresentation) -> Bool {
         if wm.features.contains(.bulkActivation) {
             return self.selectedWebsites.first(where: { $0.value.preferredURL != nil }) != nil
@@ -94,36 +103,51 @@ extension WebsiteController {
     func isSearchActive() -> Bool {
         return self.query.search.nonEmptyString == nil
     }
-    func archive() {
+    
+    func archive(_ errorQ: ErrorQ) {
         let selected = self.selectedWebsites
         self.selectedWebsites = []
-        // TODO: remove Try!
-        try! self.controller.update(selected, .init(isArchived: true)).get()
+        let r = errorQ.append(self.controller.update(selected, .init(isArchived: true)))
+        log.error(r.error)
     }
-    func unarchive() {
+    
+    func unarchive(_ errorQ: ErrorQ) {
         let selected = self.selectedWebsites
         self.selectedWebsites = []
-        // TODO: remove Try!
-        try! self.controller.update(selected, .init(isArchived: false)).get()
+        let r = errorQ.append(self.controller.update(selected, .init(isArchived: false)))
+        log.error(r.error)
     }
+    
+    func delete(_ errorQ: ErrorQ) {
+        let selected = self.selectedWebsites
+        self.selectedWebsites = []
+        let r = errorQ.append(self.controller.delete(selected))
+        log.error(r.error)
+    }
+    
     func toggleFilter() {
         self.query.isArchived.toggle()
     }
+    
     func open(in open: OpenURLAction) {
         self.selectedWebsites
             .compactMap { $0.value.preferredURL }
             .forEach { open($0) }
     }
-    func open(in wm: WindowPresentation) {
-        let _urls = self.selectedWebsites.compactMap { $0.value.preferredURL }
-        guard _urls.isEmpty == false else { fatalError("Maybe present an error?") }
-        guard wm.features.contains(.multipleWindows) else { fatalError("Maybe present an error?") }
-        let urls = wm.features.contains(.bulkActivation)
-            ? Set(_urls)
-            : Set([_urls.first!])
-        wm.show(urls) {
+    
+    @discardableResult
+    func open(in wm: WindowPresentation) -> AnyElement<AnyWebsite>? {
+        let sites = self.selectedWebsites
+        let urls = sites.compactMap { $0.value.preferredURL }
+        
+        guard urls.isEmpty == false else { fatalError("Maybe present an error?") }
+        guard wm.features.contains([.multipleWindows, .bulkActivation])
+            else { return sites.first! }
+        
+        wm.show(Set(urls)) {
             // TODO: Do something with this error
             print($0)
         }
+        return nil
     }
 }

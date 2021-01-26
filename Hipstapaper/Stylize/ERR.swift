@@ -24,18 +24,68 @@ import Localize
 
 extension STZ {
     public enum ERR {
-        public struct Modifier: ViewModifier {
-            @Binding public var isPresented: Bool
-            public let dismissAction: Action?
-            public let content: () -> LocalizedError
-            public func body(content: Content) -> some View {
-                return content.alert(isPresented: self.$isPresented,
-                                     content: { Alert(error: self.content(), dismissAction: self.dismissAction) })
+    }
+}
+
+extension STZ.ERR {
+    
+    /// Add ViewModel to environment so any view can append errors.
+    /// Use PresenterA or B at a high level in the view hierarchy
+    /// to deque errors and present them to the user.
+    public class ViewModel: ObservableObject {
+        @Published public var isPresented = false
+        @Published private var errors: [LocalizedError] = []
+        public init() { }
+        public func append(_ error: LocalizedError) {
+            self.errors.append(error)
+            self.updateIsPresented()
+        }
+        @discardableResult
+        public func append<T, E: LocalizedError>(_ result: Result<T, E>) -> Result<T, E>
+        {
+            guard case .failure(let error) = result else { return result }
+            self.append(error)
+            return result
+        }
+        public func next() -> (LocalizedError, Action)? {
+            guard let first = self.errors.first else { return nil }
+            let closure = {
+                DispatchQueue.main.async {
+                    self.errors = Array(self.errors.dropFirst())
+                    self.updateIsPresented()
+                }
             }
-            public init(isPresented: Binding<Bool>, dismissAction: Action?, content: @escaping () -> LocalizedError) {
-                _isPresented = isPresented
-                self.content = content
-                self.dismissAction = dismissAction
+            return (first, closure)
+        }
+        private func updateIsPresented() {
+            self.isPresented = !self.errors.isEmpty
+        }
+    }
+    
+    /// Gets STZ.ERR.ViewModel from Initializer.
+    /// Use `PresenterB` if you want to get ViewModel from Environment
+    public struct PresenterA: ViewModifier {
+        @ObservedObject private var viewModel: ViewModel
+        public init(_ queue: ViewModel) {
+            _viewModel = .init(initialValue: queue)
+        }
+        public func body(content: Content) -> some View {
+            content.alert(isPresented: self.$viewModel.isPresented) {
+                let next = self.viewModel.next()!
+                return Alert(error: next.0, dismissAction: next.1)
+            }
+        }
+    }
+    
+    /// Gets STZ.ERR.ViewModel from Environment.
+    /// Use `PresenterA` if you don't want to use Environment
+    public struct PresenterB: ViewModifier {
+        @EnvironmentObject private var queue: ViewModel
+        public init() {}
+        public func body(content: Content) -> some View {
+            content.alert(isPresented: self.$queue.isPresented) {
+                let next = self.queue.next()!
+                return Alert(error: next.0, dismissAction: next.1)
             }
         }
     }
@@ -96,6 +146,87 @@ extension STZ.ERR {
             public init(_ viewModel: ViewModel) {
                 _viewModel = .init(wrappedValue: viewModel)
             }
+        }
+        
+        public struct LError: LocalizedError {
+            /// A localized message describing what error occurred.
+            public var errorDescription: String?
+
+            /// A localized message describing the reason for the failure.
+            public var failureReason: String?
+
+            /// A localized message providing "help" text if the user requests help.
+            public var helpAnchor: String?
+            
+            public init(error: NSError) {
+                self.errorDescription = error.localizedDescription
+                self.failureReason = error.localizedFailureReason
+                self.helpAnchor = error.helpAnchor
+            }
+        }
+    }
+}
+
+import WebKit
+
+extension STZ.ERR {
+    public class WKDelegate: NSObject, WKNavigationDelegate {
+        
+        public enum Error: LocalizedError {
+            case invalidURL(URL)
+            public var errorDescription: String? {
+                switch self {
+                case .invalidURL(let url):
+                    return "Attempted to browse to an invalid URL: \(url.absoluteString)"
+                }
+            }
+        }
+        
+        public typealias OnError = (LocalizedError) -> Void
+        
+        public let viewModel: ViewModel
+        public var onError: OnError?
+        
+        public init(viewModel: ViewModel, onError: OnError? = nil) {
+            self.viewModel = viewModel
+            self.onError = onError
+        }
+        
+        public func webView(_ webView: WKWebView,
+                            decidePolicyFor navigationAction: WKNavigationAction,
+                            preferences: WKWebpagePreferences,
+                            decisionHandler: @escaping (WKNavigationActionPolicy, WKWebpagePreferences) -> Void)
+        {
+            let url = navigationAction.request.url!
+            guard
+                let comp = URLComponents(url: url, resolvingAgainstBaseURL: true),
+                comp.scheme == "http" || comp.scheme == "https"
+            else {
+                decisionHandler(.cancel, preferences)
+                let localizedError = Error.invalidURL(url)
+                self.viewModel.append(localizedError)
+                self.onError?(localizedError)
+                return
+            }
+            decisionHandler(.allow, preferences)
+        }
+        
+        public func webView(_ webView: WKWebView,
+                            didFail navigation: WKNavigation!,
+                            withError error: Error)
+        {
+            let localizedError = STZ.ERR.Legacy.LError(error: error as NSError)
+            self.viewModel.append(localizedError)
+            self.onError?(localizedError)
+        }
+        
+        public func webView(_ webView: WKWebView,
+                            didFailProvisionalNavigation navigation: WKNavigation!,
+                            withError error: Error)
+        {
+            let localizedError = Legacy.LError(error: error as NSError)
+            self.viewModel.append(localizedError)
+            self.onError?(localizedError)
         }
     }
 }

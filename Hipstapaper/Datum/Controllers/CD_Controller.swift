@@ -122,20 +122,27 @@ extension CD_Controller: Controller {
         return changesMade ? context.datum_save() : .success(())
     }
     
-    func delete(_ input: AnyElement<AnyWebsite>) -> Result<Void, Error> {
+    func delete(_ inputs: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error> {
         assert(Thread.isMainThread)
 
-        guard let website = input.value.wrappedValue as? CD_Website else {
-            log.error("Wrong type: \(input.value.wrappedValue)")
-            return .failure(.unknown)
-        }
-        
         let context = self.container.viewContext
         let token = self.willSave(context)
         defer { self.didSave(token) }
 
-        context.delete(website)
-        return context.datum_save()
+        var inputs = inputs
+        var changesMade = false
+        
+        while !inputs.isEmpty {
+            let input = inputs.popFirst()!
+            guard let website = input.value.wrappedValue as? CD_Website else {
+                log.error("Wrong type: \(input.value.wrappedValue)")
+                return .failure(.unknown)
+            }
+            changesMade = true
+            context.delete(website)
+        }
+
+        return changesMade ? context.datum_save() : .success(())
     }
 
     // MARK: Tag CRUD
@@ -304,7 +311,7 @@ internal class CD_Controller {
         assert(Thread.isMainThread)
 
         guard let container = CD_Controller.container(isTesting: isTesting)
-            else { throw Error.unknown }
+            else { throw Error.critical }
         let lock = DispatchSemaphore(value: 0)
         var error: Swift.Error?
         container.loadPersistentStores() { _, _error in
@@ -312,7 +319,7 @@ internal class CD_Controller {
             lock.signal()
         }
         lock.wait()
-        guard error == nil else { throw error! }
+        if let error = error { throw error }
         container.viewContext.automaticallyMergesChangesFromParent = true
         self.container = container
     }

@@ -25,18 +25,17 @@ struct BrowserPresentable: ViewModifier {
 
 struct TagApplyPresentable: ViewModifier {
     
-    let controller: Controller
+    let controller: WebsiteController
     let selectedWebsites: Set<AnyElement<AnyWebsite>>
     
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
     
     func body(content: Content) -> some View {
         content.popover(isPresented: self.$presentation.isTagApply)
-            { () -> TagApply in
-                TagApply(selectedWebsites: self.selectedWebsites,
-                         controller: self.controller,
-                         done: { self.presentation.value = .none })
-            }
+        { () -> TagApply in
+            TagApply(controller: self.controller,
+                     done: { self.presentation.value = .none })
+        }
     }
 }
 
@@ -47,10 +46,24 @@ struct SharePresentable: ViewModifier {
     
     func body(content: Content) -> some View {
         content.popover(isPresented: self.$presentation.isShare)
-            {
-                STZ.SHR(items: self.selectedWebsites.compactMap { $0.value.preferredURL },
-                        completion:  { self.presentation.value = .none })
-            }
+        {
+            STZ.SHR(items: self.selectedWebsites.compactMap { $0.value.preferredURL },
+                    completion:  { self.presentation.value = .none })
+        }
+    }
+}
+
+struct ShareModalPresentable: ViewModifier {
+    
+    let selectedWebsites: Set<AnyElement<AnyWebsite>>
+    @EnvironmentObject private var presentation: ModalPresentation.Wrap
+    
+    func body(content: Content) -> some View {
+        content.sheet(isPresented: self.$presentation.isShare)
+        {
+            STZ.SHR(items: self.selectedWebsites.compactMap { $0.value.preferredURL },
+                    completion:  { self.presentation.value = .none })
+        }
     }
 }
 
@@ -110,6 +123,7 @@ struct AddTagPresentable: ViewModifier {
 struct AddWebsitePresentable: ViewModifier {
     
     let controller: Controller
+    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
 
     func body(content: Content) -> some View {
@@ -120,15 +134,12 @@ struct AddWebsitePresentable: ViewModifier {
     }
     
     private func snapshot(_ result: Result<Snapshot.ViewModel.Output, Snapshot.Error>) {
-        switch result {
-        case .success(let output):
-            // TODO: maybe show error to user?
-            _ = try! self.controller.createWebsite(.init(output)).get()
-        case .failure(let error):
-            // TODO: maybe show error to user?
-            break
-        }
-        self.presentation.value = .none
+        defer { self.presentation.value = .none }
+        self.errorQ.append(result)
+        log.error(result.error)
+        guard let output = result.value else { return }
+        let result2 = self.errorQ.append(self.controller.createWebsite(.init(output)))
+        log.error(result2.error)
     }
 }
 

@@ -23,10 +23,15 @@ import SwiftUI
 import Datum
 import Localize
 import Stylize
+import XPList
 
 struct WebsiteList: View {
     
     @ObservedObject private var controller: WebsiteController
+    @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
+    @EnvironmentObject private var windowPresentation: WindowPresentation
+    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
+    @Environment(\.openURL) private var externalPresentation
     
     init(controller: Controller, selectedTag: AnyElement<AnyTag>) {
         let websiteController = WebsiteController(controller: controller, selectedTag: selectedTag)
@@ -38,16 +43,81 @@ struct WebsiteList: View {
     }
     
     var body: some View {
-        return List(self.controller.all,
-                    id: \.self,
-                    selection: self.$controller.selectedWebsites)
+        XPL.List(data: self.controller.all,
+                 selection: self.$controller.selectedWebsites,
+                 open: self.open,
+                 menu: self.contextMenu)
         { item in
             WebsiteRow(item.value)
-                .modifier(ClickActions.SingleClick(item: item))
-                .modifier(WebsiteRowContextMenu(item: item, controller: self.controller.controller))
         }
-        .modifier(Title(query: self.controller.query))
-        .animation(.default)
+        .alert(isPresented: self.$modalPresentation.isDelete) {
+            Alert(
+                // TODO: Localized and fix this
+                title: STZ.VIEW.TXT("Delete"),
+                message: STZ.VIEW.TXT("This action cannot be undone."),
+                primaryButton: .destructive(STZ.VIEW.TXT("Delete"),
+                                            action: { self.controller.delete(self.errorQ) }),
+                secondaryButton: .cancel()
+            )
+        }
+        .modifier(WebsiteListTitle(query: self.controller.query))
+        .animation(.linear(duration: 0.1))
+        .onAppear() { self.controller.activate() }
+        .onDisappear() { self.controller.deactivate() }
+    }
+}
+
+extension WebsiteList {
+    private func open(_ items: Set<AnyElement<AnyWebsite>>) {
+        if self.windowPresentation.features.contains([.bulkActivation, .multipleWindows]) {
+            let validURLs = Set(items.compactMap({ $0.value.preferredURL }))
+            self.windowPresentation.show(validURLs, error: { _ in })
+        } else {
+            guard let validItem = items.first(where: { $0.value.preferredURL != nil }) else { return }
+            self.modalPresentation.value = .browser(validItem)
+        }
+    }
+    
+    private func contextMenu(_ items: Set<AnyElement<AnyWebsite>>) -> some View {
+        // TODO: Remove this temp controller nonesense
+        let controller = WebsiteController(controller: self.controller.controller)
+        controller.selectedWebsites = items
+        return _contextMenu(controller)
+    }
+    
+    @ViewBuilder private func _contextMenu(_ tmpCtrlr: WebsiteController) -> some View {
+        STZ.VIEW.TXT("\(tmpCtrlr.selectedWebsites.count) selected")
+        Group {
+            STZ.TB.OpenInApp.context(isEnabled: tmpCtrlr.canOpen(in: self.windowPresentation)) {
+                guard let fail = tmpCtrlr.open(in: self.windowPresentation) else { return }
+                self.modalPresentation.value = .browser(fail)
+            }
+            STZ.TB.OpenInBrowser.context(isEnabled: tmpCtrlr.canOpen(in: self.windowPresentation),
+                                         action: { tmpCtrlr.open(in: self.externalPresentation) })
+        }
+        Group {
+            STZ.TB.Archive.context(isEnabled: tmpCtrlr.canArchive(),
+                                   action: { tmpCtrlr.archive(self.errorQ) })
+            STZ.TB.Unarchive.context(isEnabled: tmpCtrlr.canUnarchive(),
+                                     action: { tmpCtrlr.unarchive(self.errorQ) })
+        }
+        Group {
+            STZ.TB.Share.context(isEnabled: tmpCtrlr.canShare()) {
+                self.controller.selectedWebsites = tmpCtrlr.selectedWebsites
+                self.modalPresentation.value = .share
+            }
+            STZ.TB.TagApply.context(isEnabled: tmpCtrlr.canTag()) {
+                self.controller.selectedWebsites = tmpCtrlr.selectedWebsites
+                self.modalPresentation.value = .tagApply
+            }
+        }
+        Group {
+            STZ.TB.DeleteWebsite.context(isEnabled: tmpCtrlr.canDelete()) {
+                // TODO: Find a way to not forcefully change the selection
+                self.controller.selectedWebsites = tmpCtrlr.selectedWebsites
+                self.modalPresentation.value = .delete
+            }
+        }
     }
 }
 
@@ -58,31 +128,3 @@ struct WebsiteList_Preview: PreviewProvider {
     }
 }
 #endif
-
-fileprivate struct Title: ViewModifier {
-    let query: Query
-    func body(content: Content) -> some View {
-        if let tag = self.query.tag {
-            return AnyView(
-                content
-                    .navigationBarTitleDisplayMode(.inline)
-                    .navigationTitle(tag.value.name ?? Noun.UnreadItems_L)
-            )
-        } else {
-            switch query.isArchived! {
-            case .all:
-                return AnyView(
-                    content
-                        .navigationBarTitleDisplayMode(.inline)
-                        .navigationTitle(Noun.AllItems)
-                )
-            case .unarchived:
-                return AnyView(
-                    content
-                        .navigationBarTitleDisplayMode(.large)
-                        .navigationTitle(Noun.Hipstapaper)
-                )
-            }
-        }
-    }
-}

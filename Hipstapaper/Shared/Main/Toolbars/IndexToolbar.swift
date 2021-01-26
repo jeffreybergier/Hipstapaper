@@ -55,12 +55,13 @@ struct IndexToolbar_macOS: ViewModifier {
     
     @ObservedObject var controller: TagController
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
+    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
     
     func body(content: Content) -> some View {
         content.toolbar(id: "Index") {
             ToolbarItem(id: "macOS.DeleteTag", placement: .automatic) {
                 STZ.TB.DeleteTag.toolbar(isEnabled: self.controller.canDelete(),
-                                         action: self.controller.delete)
+                                         action: { self.controller.delete(self.errorQ) })
             }
             ToolbarItem(id: "macOS.AddChoice", placement: .primaryAction) {
                 STZ.TB.AddChoice.toolbar(action: { self.modalPresentation.value = .addChoose })
@@ -76,6 +77,7 @@ struct IndexToolbar_iOS: ViewModifier {
     
     @Environment(\.editMode) private var editMode
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
+    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
     
     func body(content: Content) -> some View {
         if self.editMode?.wrappedValue.isEditing == false {
@@ -94,7 +96,7 @@ struct IndexToolbar_iOS: ViewModifier {
                     }
                     ToolbarItem(id: "iOS.DeleteTag", placement: .bottomBar) {
                         STZ.TB.DeleteTag.toolbar(isEnabled: self.controller.canDelete(),
-                                                 action: self.controller.delete)
+                                                 action: { self.controller.delete(self.errorQ) })
                     }
                     ToolbarItem(id: "iOS.Divider", placement: .bottomBar) {
                         Text("   ") // TODO: Remove when spacer is no longer needed

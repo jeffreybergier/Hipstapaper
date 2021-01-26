@@ -28,6 +28,8 @@ struct Main: View {
     let controller: Controller
     private let tagController: TagController
     
+    @StateObject private var websiteControllerCache: BlackBox<AnyElement<AnyTag>, WebsiteController> = .init()
+
     init(controller: Controller) {
         self.controller = controller
         self.tagController = .init(controller: self.controller)
@@ -37,8 +39,10 @@ struct Main: View {
         NavigationView {
             TagList(controller: self.tagController,
                     navigation: { selectedTag in
-                        let c = WebsiteController(controller: self.controller,
-                                                  selectedTag: selectedTag)
+                        let c = self.websiteControllerCache[selectedTag] {
+                            return WebsiteController(controller: self.controller,
+                                                     selectedTag: selectedTag)
+                        }
                         return AnyView(
                             WebsiteList(controller: c)
                                 .modifier(DetailToolbar.Shared(controller: c))
@@ -47,6 +51,7 @@ struct Main: View {
                 .modifier(IndexToolbar(controller: self.tagController))
         }
         .modifier(BrowserPresentable())
+        .modifier(STZ.ERR.PresenterB())
     }
 }
 

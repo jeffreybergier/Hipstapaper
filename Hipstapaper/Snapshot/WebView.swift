@@ -22,14 +22,17 @@
 
 import SwiftUI
 import WebKit
+import Stylize
 
 struct WebView: View {
     
     @ObservedObject var viewModel: ViewModel
+    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
     
     private func update(_ wv: WKWebView, context: Context) {
         if self.viewModel.control.isJSEnabled != wv.configuration.preferences.javaScriptEnabled {
             wv.configuration.preferences.javaScriptEnabled = self.viewModel.control.isJSEnabled
+            viewModel.control.shouldLoad = true
             wv.reload()
             return
         }
@@ -54,14 +57,10 @@ struct WebView: View {
         config.preferences.javaScriptEnabled = self.viewModel.control.isJSEnabled
         config.mediaTypesRequiringUserActionForPlayback = .all
         let wv = WKWebView(frame: .zero, configuration: config)
+        wv.navigationDelegate = context.coordinator
         wv.allowsBackForwardNavigationGestures = false
         let token1 = wv.observe(\.isLoading)
         { [unowned viewModel] wv, _ in
-            if wv.isLoading == false {
-                wv.snap_takeSnapshot(with: viewModel.thumbnailConfiguration) {
-                    viewModel.output.thumbnail = $0
-                }
-            }
             viewModel.isLoading = wv.isLoading
         }
         let token2 = wv.observe(\.url)
@@ -79,11 +78,17 @@ struct WebView: View {
         self.viewModel.timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true)
         { [unowned viewModel, weak wv] timer in
             guard let wv = wv else { timer.invalidate(); return; }
-            guard wv.isLoading else { return }
+            guard viewModel.control.shouldLoad else { return }
             wv.snap_takeSnapshot(with: viewModel.thumbnailConfiguration) { viewModel.output.thumbnail = $0 }
         }
         self.viewModel.kvo = [token1, token2, token3, token4]
         return wv
+    }
+    
+    func makeCoordinator() -> STZ.ERR.WKDelegate {
+        return .init(viewModel: self.errorQ) { [unowned viewModel] _ in
+            viewModel.control.shouldLoad = false
+        }
     }
 }
 
