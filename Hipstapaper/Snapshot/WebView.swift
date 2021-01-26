@@ -25,96 +25,64 @@ import WebKit
 
 struct WebView: View {
     
-    struct Input {
-        var shouldLoad: Bool = false
-        var javascriptEnabled = false
-        var originalURLString: String = ""
-        var compressionFactor: CGFloat = 0.4
-        var maxThumbSize: Int = 100_000
-        var snapConfig: WKSnapshotConfiguration = {
-            let config = WKSnapshotConfiguration()
-            config.afterScreenUpdates = true
-            config.snapshotWidth = NSNumber(value: 300.0)
-            return config
-        }()
-    }
-    
-    class Output: ObservableObject {
-        @Published var isLoading: Bool = false
-        @Published var resolvedURLString: String = ""
-        @Published var title: String = ""
-        @Published var thumbnail: Result<Data, Error>?
-        var progress: Progress = .init(totalUnitCount: 100)
-        var kvo = [NSKeyValueObservation]()
-        var timer: Timer?
-        deinit {
-            self.timer?.invalidate()
-            self.kvo.forEach({ $0.invalidate() })
-        }
-    }
-
-    
-    @Binding var input: Input
-    @ObservedObject var output: Output
-    
-    init(input: Binding<Input>, output: Output) {
-        _input = input
-        self.output = output
-    }
+    @ObservedObject var viewModel: ViewModel
     
     private func update(_ wv: WKWebView, context: Context) {
-        if self.input.javascriptEnabled != wv.configuration.preferences.javaScriptEnabled {
-            wv.configuration.preferences.javaScriptEnabled = self.input.javascriptEnabled
+        if self.viewModel.control.isJSEnabled != wv.configuration.preferences.javaScriptEnabled {
+            wv.configuration.preferences.javaScriptEnabled = self.viewModel.control.isJSEnabled
             wv.reload()
             return
         }
-        guard self.input.shouldLoad else {
+        
+        guard self.viewModel.control.shouldLoad else {
             wv.stopLoading()
             return
         }
+        
         guard
-            !wv.isLoading,
-            URL(string: self.output.resolvedURLString) == nil,
-            let originalURL = URL(string: self.input.originalURLString)
+            self.viewModel.output.currentURL == nil,
+            let originalURL = self.viewModel.output.inputURL,
+            !wv.isLoading
         else { return }
+        
         let request = URLRequest(url: originalURL)
         wv.load(request)
     }
     
     private func makeWebView(context: Context) -> WKWebView {
         let config = WKWebViewConfiguration()
-        config.preferences.javaScriptEnabled = self.input.javascriptEnabled
+        config.preferences.javaScriptEnabled = self.viewModel.control.isJSEnabled
         config.mediaTypesRequiringUserActionForPlayback = .all
         let wv = WKWebView(frame: .zero, configuration: config)
         wv.allowsBackForwardNavigationGestures = false
         let token1 = wv.observe(\.isLoading)
-        { [unowned output] wv, _ in
+        { [unowned viewModel] wv, _ in
             if wv.isLoading == false {
-                wv.snap_takeSnapshot(with: self.input) {
-                    output.thumbnail = $0
+                wv.snap_takeSnapshot(with: viewModel.thumbnailConfiguration) {
+                    viewModel.output.thumbnail = $0
                 }
             }
-            output.isLoading = wv.isLoading
+            viewModel.isLoading = wv.isLoading
         }
         let token2 = wv.observe(\.url)
-        { [unowned output] wv, _ in
-            output.resolvedURLString = wv.url?.absoluteString ?? ""
+        { [unowned viewModel] wv, _ in
+            viewModel.output.currentURL = wv.url
         }
         let token3 = wv.observe(\.title)
-        { [unowned output] wv, _ in
-            output.title = wv.title ?? ""
+        { [unowned viewModel] wv, _ in
+            viewModel.output.title = wv.title ?? ""
         }
         let token4 = wv.observe(\.estimatedProgress)
-        { [unowned output] wv, _ in
-            output.progress.completedUnitCount = Int64(wv.estimatedProgress * 100)
+        { [unowned viewModel] wv, _ in
+            viewModel.progress.completedUnitCount = Int64(wv.estimatedProgress * 100)
         }
-        self.output.timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true)
-        { [unowned output, weak wv, input] timer in
+        self.viewModel.timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true)
+        { [unowned viewModel, weak wv] timer in
             guard let wv = wv else { timer.invalidate(); return; }
             guard wv.isLoading else { return }
-            wv.snap_takeSnapshot(with: input) { output.thumbnail = $0 }
+            wv.snap_takeSnapshot(with: viewModel.thumbnailConfiguration) { viewModel.output.thumbnail = $0 }
         }
-        self.output.kvo = [token1, token2, token3, token4]
+        self.viewModel.kvo = [token1, token2, token3, token4]
         return wv
     }
 }
@@ -136,32 +104,6 @@ extension WebView: NSViewRepresentable {
     }
 }
 
-extension WKWebView {
-    fileprivate func snap_takeSnapshot(with input: WebView.Input,
-                                       completion: @escaping (Result<Data, Error>) -> Void)
-    {
-        self.takeSnapshot(with: input.snapConfig) { image, error in
-            if let error = error {
-                completion(.failure(.take(error)))
-                return
-            }
-            guard
-                let tiff = image?.tiffRepresentation,
-                let rep = NSBitmapImageRep(data: tiff),
-                let data = rep.representation(using: NSBitmapImageRep.FileType.jpeg,
-                                              properties: [.compressionFactor: input.compressionFactor])
-            else {
-                completion(.failure(.convertImage))
-                return
-            }
-            guard data.count <= input.maxThumbSize else {
-                completion(.failure(.size(data.count)))
-                return
-            }
-            completion(.success(data))
-        }
-    }
-}
 #endif
 
 #if canImport(UIKit)
@@ -178,29 +120,6 @@ extension WebView: UIViewRepresentable {
         wv.transform = .init(scaleX: 0.7, y: 0.7)
         wv.isUserInteractionEnabled = false
         return wv
-    }
-}
-
-extension WKWebView {
-    fileprivate func snap_takeSnapshot(with input: WebView.Input,
-                                       completion: @escaping (Result<Data, Error>) -> Void)
-    {
-        self.takeSnapshot(with: input.snapConfig) { image, error in
-            if let error = error {
-                completion(.failure(.take(error)))
-                return
-            }
-            // TODO: Convert this to JPEG Compression
-            guard let data = image?.jpegData(compressionQuality: input.compressionFactor) else {
-                completion(.failure(.convertURL))
-                return
-            }
-            guard data.count <= input.maxThumbSize else {
-                completion(.failure(.size(data.count)))
-                return
-            }
-            completion(.success(data))
-        }
     }
 }
 #endif

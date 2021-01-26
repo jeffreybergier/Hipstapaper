@@ -130,7 +130,7 @@ extension Modal {
                                 .disabled(!self.canSave())
                         }
                     }
-            }
+            }.navigationViewStyle(StackNavigationViewStyle())
         }
         #endif
     }

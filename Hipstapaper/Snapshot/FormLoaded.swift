@@ -24,16 +24,15 @@ import Stylize
 
 struct FormLoaded: View {
     
-    @Binding var input: WebView.Input
-    @ObservedObject var output: WebView.Output
+    @ObservedObject var viewModel: ViewModel
     
     var body: some View {
         VStack {
-            TextField.WebsiteTitle(self.$output.title)
+            TextField.WebsiteTitle(self.$viewModel.output.title)
             HStack {
-                TextField.WebsiteURL(self.$output.resolvedURLString)
+                TextField.WebsiteURL(self.$viewModel.output.currentURLString)
                     .disabled(true)
-                ButtonToolbarJavascript(self.$input.javascriptEnabled)
+                ButtonToolbarJavascript(self.$viewModel.control.isJSEnabled)
             }
         }
     }
@@ -41,12 +40,24 @@ struct FormLoaded: View {
 
 
 #if DEBUG
-struct FormLoaded_Preview: PreviewProvider {
-    @State static var input = WebView.Input()
-    static var output = WebView.Output()
+struct FormLoaded_Preview1: PreviewProvider {
+    static var viewModel = ViewModel(prepopulatedURL: nil, doneAction: { _ in })
     static var previews: some View {
-        FormLoaded(input: self.$input, output: self.output)
-            .previewLayout(.fixed(width: 300, height: 100.0))
+        FormLoaded(viewModel: viewModel)
+            .previewLayout(.fixed(width: 300, height: 200.0))
+    }
+}
+struct FormLoaded_Preview2: PreviewProvider {
+    static var viewModel: ViewModel = {
+        let vm = ViewModel(prepopulatedURL: nil, doneAction: { _ in })
+        vm.progress.completedUnitCount = 30
+        vm.output.title = "Apple.com"
+        vm.output.currentURL = URL(string: "https://www.google.com")!
+        return vm
+    }()
+    static var previews: some View {
+        FormLoaded(viewModel: viewModel)
+            .previewLayout(.fixed(width: 300, height: 200.0))
     }
 }
 #endif

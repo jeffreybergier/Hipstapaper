@@ -30,17 +30,17 @@ enum Form {
 
 struct FormSwitcher: View {
     
-    @ObservedObject var viewModel: Snapshotter.ViewModel
+    @ObservedObject var viewModel: ViewModel
     
     var body: some View {
         Group {
             switch self.viewModel.formState {
             case .load:
-                AnyView(FormLoad(input: self.$viewModel.input))
+                AnyView(FormLoad(viewModel: self.viewModel))
             case .loading:
-                AnyView(FormLoading(output: self.viewModel.output))
+                AnyView(FormLoading(viewModel: self.viewModel))
             case .loaded:
-                AnyView(FormLoaded(input: self.$viewModel.input, output: self.viewModel.output))
+                AnyView(FormLoaded(viewModel: self.viewModel))
             }
         }
         .animation(.default)

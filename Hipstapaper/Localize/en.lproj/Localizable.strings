@@ -43,6 +43,7 @@
 "LCZ.Verb.Open"                = "Open";
 "LCZ.Verb.Open in Browser"     = "Open in Browser";
 "LCZ.Verb.Add and Remove Tags" = "Add and Remove Tags";
+"LCZ.Verb.Dismiss"             = "Dismiss";
 
 //
 //
@@ -66,6 +67,7 @@
 "LCZ.Noun.Add Website"   = "Add Website";
 "LCZ.Noun.Sort"          = "Sort";
 "LCZ.Noun.Filter"        = "Filter";
+"LCZ.Noun.Error"         = "Error";
 
 //
 //
@@ -85,3 +87,9 @@
 "LCZ.Phrase.Sort"                   = "Sort Items";
 "LCZ.Phrase.FilterA"                = "Show all items";
 "LCZ.Phrase.FilterB"                = "Show unread items";
+"LCZ.Phrase.ErrorScreenshot"        = "An error ocurred when attempting to capture the thumbnail.";
+"LCZ.Phrase.ErrorConvertImage"      = "An error ocurred when attempting to convert the thumbnail into a compatible format.";
+"LCZ.Phrase.ImageSize"              = "An error ocurred when saving because the thumbnail was too large.";
+"LCZ.Phrase.UserCancel"             = "User cancelled the operation before it could complete.";
+"LCZ.Phrase.ProcessURL"             = "The sharing app did not provide a URL to save.";
+"LCZ.Phrase.SaveWebsite"            = "An error ocurred when attempting to save the website.";

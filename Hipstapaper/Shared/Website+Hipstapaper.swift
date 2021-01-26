@@ -23,10 +23,10 @@ import Datum
 import Snapshot
 
 extension AnyWebsite.Raw {
-    init(_ output: Snapshotter.Output) {
+    init(_ output: Snapshot.ViewModel.Output) {
         self.init(title: output.title,
-                  originalURL: output.originalURL,
-                  resolvedURL: output.resolvedURL,
-                  thumbnail: output.thumbnail)
+                  originalURL: output.inputURL,
+                  resolvedURL: output.currentURL,
+                  thumbnail: output.thumbnail?.value)
     }
 }

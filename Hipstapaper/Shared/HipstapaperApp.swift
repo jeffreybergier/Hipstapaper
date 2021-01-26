@@ -33,10 +33,12 @@ struct HipstapaperApp: App {
     
     let controller: Controller
     let windowManager = WindowManager()
+    let watcher: DropboxWatcher
     
     init() {
         self.controller = try! ControllerNew()
 //        self.controller = P_Controller()
+        self.watcher = DropboxWatcher(controller: self.controller)
     }
 
     @SceneBuilder var body: some Scene {

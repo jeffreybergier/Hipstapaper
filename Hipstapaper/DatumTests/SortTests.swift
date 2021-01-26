@@ -30,16 +30,16 @@ class SortTests: ParentTestCase {
             switch $0 {
             case .dateModifiedNewest:
                 XCTAssertEqual($0.cd_sortDescriptors[0].key, #keyPath(CD_Website.cd_dateModified))
-                XCTAssertEqual($0.cd_sortDescriptors[0].ascending, true)
+                XCTAssertEqual($0.cd_sortDescriptors[0].ascending, false)
             case .dateModifiedOldest:
                 XCTAssertEqual($0.cd_sortDescriptors[0].key, #keyPath(CD_Website.cd_dateModified))
-                XCTAssertEqual($0.cd_sortDescriptors[0].ascending, false)
+                XCTAssertEqual($0.cd_sortDescriptors[0].ascending, true)
             case .dateCreatedNewest:
                 XCTAssertEqual($0.cd_sortDescriptors[0].key, #keyPath(CD_Website.cd_dateCreated))
-                XCTAssertEqual($0.cd_sortDescriptors[0].ascending, true)
+                XCTAssertEqual($0.cd_sortDescriptors[0].ascending, false)
             case .dateCreatedOldest:
                 XCTAssertEqual($0.cd_sortDescriptors[0].key, #keyPath(CD_Website.cd_dateCreated))
-                XCTAssertEqual($0.cd_sortDescriptors[0].ascending, false)
+                XCTAssertEqual($0.cd_sortDescriptors[0].ascending, true)
             case .titleA:
                 XCTAssertEqual($0.cd_sortDescriptors[0].key, #keyPath(CD_Website.cd_title))
                 XCTAssertEqual($0.cd_sortDescriptors[0].ascending, true)

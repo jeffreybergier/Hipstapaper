@@ -25,25 +25,37 @@ import Localize
 
 struct FormLoad: View {
     
-    @Binding var input: WebView.Input
+    @ObservedObject var viewModel: ViewModel
     
     var body: some View {
         HStack() {
-            TextField.WebsiteURL(self.$input.originalURLString)
+            TextField.WebsiteURL(self.$viewModel.output.inputURLString)
             ButtonDone(Verb.Go) {
-                self.input.shouldLoad.toggle()
+                self.viewModel.control.shouldLoad.toggle()
             }
             .keyboardShortcut(.defaultAction)
-            .disabled(URL(string: self.input.originalURLString) == nil)
+            .disabled(self.viewModel.output.inputURL == nil)
         }
     }
 }
 
 #if DEBUG
-struct FormLoad_Preview: PreviewProvider {
-    @State static var input = WebView.Input()
+struct FormLoad_Preview1: PreviewProvider {
+    static var viewModel = ViewModel(prepopulatedURL: nil, doneAction: { _ in })
     static var previews: some View {
-        FormLoad(input: self.$input)
+        FormLoad(viewModel: viewModel)
+            .previewLayout(.fixed(width: 300, height: 100.0))
+    }
+}
+struct FormLoad_Preview2: PreviewProvider {
+    static let viewModel: ViewModel = {
+        let vm = ViewModel(prepopulatedURL: nil,
+                           doneAction: { _ in })
+        vm.output.inputURLString = "https://www.google.com"
+        return vm
+    }()
+    static var previews: some View {
+        FormLoad(viewModel: viewModel)
             .previewLayout(.fixed(width: 300, height: 100.0))
     }
 }

@@ -36,4 +36,5 @@ public enum Noun {
     public static let AddWebsite: LocalizedStringKey   = "LCZ.Noun.Add Website"
     public static let Sort: LocalizedStringKey         = "LCZ.Noun.Sort"
     public static let Filter: LocalizedStringKey       = "LCZ.Noun.Filter"
+    public static let Error: LocalizedStringKey        = "LCZ.Noun.Error"
 }
