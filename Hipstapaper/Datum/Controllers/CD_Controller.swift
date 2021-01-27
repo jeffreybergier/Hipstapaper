@@ -377,7 +377,7 @@ extension CD_Controller {
     }
 }
 
-private class Datum_PersistentContainer: NSPersistentContainer {
+private class Datum_PersistentContainer: NSPersistentCloudKitContainer {
     override class func defaultDirectoryURL() -> URL {
         return CD_Controller.storeDirectoryURL
     }

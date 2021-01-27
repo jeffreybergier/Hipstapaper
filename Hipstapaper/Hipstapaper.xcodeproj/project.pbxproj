@@ -79,6 +79,8 @@
 		736DD3F725879D1800F0FBE0 /* TagApplyRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736DD3F625879D1800F0FBE0 /* TagApplyRow.swift */; };
 		736DD3F825879D1800F0FBE0 /* TagApplyRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736DD3F625879D1800F0FBE0 /* TagApplyRow.swift */; };
 		736DD40125879FD100F0FBE0 /* TGL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736DD40025879FD100F0FBE0 /* TGL.swift */; };
+		736F67A325C19822006896DF /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 736F67A225C19822006896DF /* CloudKit.framework */; };
+		736F67A525C19979006896DF /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 736F67A425C19979006896DF /* CloudKit.framework */; };
 		73993E2E2595DFC7006FB612 /* BrowserWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73993E2D2595DFC2006FB612 /* BrowserWindowController.swift */; };
 		7399BAAD258251A500B8CAFD /* Stylize.h in Headers */ = {isa = PBXBuildFile; fileRef = 7399BAAB258251A500B8CAFD /* Stylize.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7399BAC7258251D800B8CAFD /* Localize.h in Headers */ = {isa = PBXBuildFile; fileRef = 7399BAC5258251D800B8CAFD /* Localize.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -475,6 +477,8 @@
 		736DD3EC258793C200F0FBE0 /* Website+Hipstapaper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Website+Hipstapaper.swift"; sourceTree = "<group>"; };
 		736DD3F625879D1800F0FBE0 /* TagApplyRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagApplyRow.swift; sourceTree = "<group>"; };
 		736DD40025879FD100F0FBE0 /* TGL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TGL.swift; sourceTree = "<group>"; };
+		736F67A225C19822006896DF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.2.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
+		736F67A425C19979006896DF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		73993E2D2595DFC2006FB612 /* BrowserWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserWindowController.swift; sourceTree = "<group>"; };
 		7399BAA9258251A500B8CAFD /* Stylize.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Stylize.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7399BAAB258251A500B8CAFD /* Stylize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stylize.h; sourceTree = "<group>"; };
@@ -635,6 +639,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				736F67A325C19822006896DF /* CloudKit.framework in Frameworks */,
 				7399BB172582537500B8CAFD /* Stylize.framework in Frameworks */,
 				735D4CD9258F502E0016F904 /* Browse.framework in Frameworks */,
 				73F8B36F25BD677C001A6A09 /* XPList in Frameworks */,
@@ -648,6 +653,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				736F67A525C19979006896DF /* CloudKit.framework in Frameworks */,
 				73A3DEF6257BC18B002EDEB4 /* Snapshot.framework in Frameworks */,
 				735D4CDD258F50350016F904 /* Browse.framework in Frameworks */,
 				73F8B37B25BD6790001A6A09 /* XPList in Frameworks */,
@@ -1039,6 +1045,8 @@
 		DBDCB3A5256BEC5B00D005F6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				736F67A425C19979006896DF /* CloudKit.framework */,
+				736F67A225C19822006896DF /* CloudKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
