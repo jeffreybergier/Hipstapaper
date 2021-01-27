@@ -322,6 +322,11 @@ internal class CD_Controller {
         if let error = error { throw error }
         container.viewContext.automaticallyMergesChangesFromParent = true
         self.container = container
+        
+        // TODO: Create sync watcher
+        // Observe NSPersistentCloudKitContainer.eventChangedNotification
+        // Read NSPersistentCloudKitContainer.Event from NSPersistentCloudKitContainer.eventNotificationUserInfoKey
+        // https://github.com/ggruen/CloudKitSyncMonitor/blob/main/Sources/CloudKitSyncMonitor/SyncMonitor.swift
     }
 
     private func willSave(_ context: NSManagedObjectContext) -> Any {
