@@ -304,8 +304,9 @@ internal class CD_Controller {
         )
     }
 
+    internal let syncMonitor: AnySyncMonitor
     internal let container: NSPersistentContainer
-
+    
     internal init(isTesting: Bool) throws {
         // debug only sanity checks
         assert(Thread.isMainThread)
@@ -323,10 +324,11 @@ internal class CD_Controller {
         container.viewContext.automaticallyMergesChangesFromParent = true
         self.container = container
         
-        // TODO: Create sync watcher
-        // Observe NSPersistentCloudKitContainer.eventChangedNotification
-        // Read NSPersistentCloudKitContainer.Event from NSPersistentCloudKitContainer.eventNotificationUserInfoKey
-        // https://github.com/ggruen/CloudKitSyncMonitor/blob/main/Sources/CloudKitSyncMonitor/SyncMonitor.swift
+        if #available(iOS 14.0, *) {
+            self.syncMonitor = AnySyncMonitor(CD_SyncMonitor())
+        } else {
+            self.syncMonitor = AnySyncMonitor(NoSyncMonitor())
+        }
     }
 
     private func willSave(_ context: NSManagedObjectContext) -> Any {

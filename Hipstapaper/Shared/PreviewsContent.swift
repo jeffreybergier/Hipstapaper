@@ -112,6 +112,7 @@ class P_Element<T>: Element {
 class P_Controller: Controller {
     static var storeDirectoryURL: URL { fatalError() }
     static var storeExists: Bool = true
+    var syncMonitor: AnySyncMonitor = AnySyncMonitor(NoSyncMonitor())
     func createWebsite(_ raw: AnyWebsite.Raw) -> Result<AnyElement<AnyWebsite>, Datum.Error>
     { log.debug("Create Site: \(raw)"); return .success(p_sites.first!) }
     func readWebsites(query: Query) -> Result<AnyList<AnyElement<AnyWebsite>>, Datum.Error>

@@ -36,6 +36,9 @@ public protocol Controller {
 
     static var storeDirectoryURL: URL { get }
     static var storeExists: Bool { get }
+    
+    // MARK: Sync
+    var syncMonitor: AnySyncMonitor { get }
 
     // MARK: Websites CRUD
     func createWebsite(_: AnyWebsite.Raw) -> Result<AnyElement<AnyWebsite>, Error>

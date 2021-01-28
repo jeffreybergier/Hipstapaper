@@ -81,6 +81,8 @@
 		736DD40125879FD100F0FBE0 /* TGL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736DD40025879FD100F0FBE0 /* TGL.swift */; };
 		736F67A325C19822006896DF /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 736F67A225C19822006896DF /* CloudKit.framework */; };
 		736F67A525C19979006896DF /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 736F67A425C19979006896DF /* CloudKit.framework */; };
+		736F67BB25C2F043006896DF /* SyncMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736F67BA25C2F043006896DF /* SyncMonitor.swift */; };
+		736F67C725C2FE02006896DF /* CD_SyncMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736F67C625C2FE02006896DF /* CD_SyncMonitor.swift */; };
 		73993E2E2595DFC7006FB612 /* BrowserWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73993E2D2595DFC2006FB612 /* BrowserWindowController.swift */; };
 		7399BAAD258251A500B8CAFD /* Stylize.h in Headers */ = {isa = PBXBuildFile; fileRef = 7399BAAB258251A500B8CAFD /* Stylize.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7399BAC7258251D800B8CAFD /* Localize.h in Headers */ = {isa = PBXBuildFile; fileRef = 7399BAC5258251D800B8CAFD /* Localize.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -479,6 +481,8 @@
 		736DD40025879FD100F0FBE0 /* TGL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TGL.swift; sourceTree = "<group>"; };
 		736F67A225C19822006896DF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.2.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		736F67A425C19979006896DF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		736F67BA25C2F043006896DF /* SyncMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncMonitor.swift; sourceTree = "<group>"; };
+		736F67C625C2FE02006896DF /* CD_SyncMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_SyncMonitor.swift; sourceTree = "<group>"; };
 		73993E2D2595DFC2006FB612 /* BrowserWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserWindowController.swift; sourceTree = "<group>"; };
 		7399BAA9258251A500B8CAFD /* Stylize.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Stylize.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7399BAAB258251A500B8CAFD /* Stylize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stylize.h; sourceTree = "<group>"; };
@@ -900,6 +904,8 @@
 				73F2B043257460D2009AC2AF /* CD_Sort.swift */,
 				DB21C202256C8F9100DF6AE7 /* Controller.swift */,
 				DBAA772F256C999B005126C3 /* CD_Controller.swift */,
+				736F67BA25C2F043006896DF /* SyncMonitor.swift */,
+				736F67C625C2FE02006896DF /* CD_SyncMonitor.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1726,6 +1732,7 @@
 				735D4C8B258E2F9C0016F904 /* ToggleState.swift in Sources */,
 				DB21C1FC256C8DC500DF6AE7 /* CD_Tag.swift in Sources */,
 				DBDCB3FA256C866200D005F6 /* CD_Base.swift in Sources */,
+				736F67C725C2FE02006896DF /* CD_SyncMonitor.swift in Sources */,
 				73A3DE7F257B36C8002EDEB4 /* StaticElement.swift in Sources */,
 				5073F40425720C5F00AC4C6C /* Query.swift in Sources */,
 				73A3DEB7257B97E8002EDEB4 /* String+Datum.swift in Sources */,
@@ -1733,6 +1740,7 @@
 				5031AF0E256E8AE100AC98AA /* ListProtocol.swift in Sources */,
 				73DC73E0257290EF00EE72FA /* Base.swift in Sources */,
 				DBAA7736256C9A17005126C3 /* Error.swift in Sources */,
+				736F67BB25C2F043006896DF /* SyncMonitor.swift in Sources */,
 				5070E75D257217F100AF0968 /* CD_Query.swift in Sources */,
 				DBA3BE3025709D0A005A2379 /* Website.swift in Sources */,
 				DBA1993E256D452C00383EB1 /* CD_List.swift in Sources */,
