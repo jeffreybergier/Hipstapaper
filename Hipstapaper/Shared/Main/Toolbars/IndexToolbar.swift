@@ -59,11 +59,17 @@ struct IndexToolbar_macOS: ViewModifier {
     
     func body(content: Content) -> some View {
         content.toolbar(id: "Index") {
-            ToolbarItem(id: "macOS.DeleteTag", placement: .automatic) {
+            ToolbarItem(id: "Index.Sync") {
+                STZ.TB.SyncMonitor(self.controller.controller.syncMonitor)
+            }
+            ToolbarItem(id: "Index.FlexibleSpace") {
+                Spacer()
+            }
+            ToolbarItem(id: "Index.DeleteTag", placement: .automatic) {
                 STZ.TB.DeleteTag.toolbar(isEnabled: self.controller.canDelete(),
                                          action: { self.controller.delete(self.errorQ) })
             }
-            ToolbarItem(id: "macOS.AddChoice", placement: .primaryAction) {
+            ToolbarItem(id: "Index.AddChoice", placement: .primaryAction) {
                 STZ.TB.AddChoice.toolbar(action: { self.modalPresentation.value = .addChoose })
             }
         }

@@ -25,6 +25,7 @@ public protocol Base: Identifiable, Hashable {
 }
 
 extension CD_Base: Base {
-    var dateCreated: Date { cd_dateCreated }
-    var dateModified: Date { cd_dateModified }
+    // TODO: Remove !
+    var dateCreated: Date { cd_dateCreated! }
+    var dateModified: Date { cd_dateModified! }
 }

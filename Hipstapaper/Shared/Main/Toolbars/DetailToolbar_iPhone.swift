@@ -65,6 +65,9 @@ extension DetailToolbar.iOS {
                     }
                 }
                 .toolbar(id: "Detail") { // TODO: Hack because toolbars only support 10 items
+                    ToolbarItem(id: "Detail.Sync", placement: .cancellationAction) {
+                        STZ.TB.SyncMonitor(self.controller.controller.syncMonitor)
+                    }
                     ToolbarItem(id: "Detail.OpenExternal", placement: .primaryAction) {
                         STZ.TB.OpenInBrowser.toolbar(isEnabled: self.controller.canOpen(in: self.windowPresentation),
                                                      action: { self.controller.open(in: self.externalPresentation) })
@@ -106,6 +109,9 @@ extension DetailToolbar.iOS {
                 }
                 ToolbarItem(id: "Detail.EditMode", placement: .bottomBar) {
                     EditButton()
+                }
+                ToolbarItem(id: "Detail.Sync", placement: .cancellationAction) {
+                    STZ.TB.SyncMonitor(self.controller.controller.syncMonitor)
                 }
                 ToolbarItem(id: "Detail.Search", placement: .primaryAction) {
                     return self.controller.isSearchActive()

@@ -77,6 +77,9 @@ extension DetailToolbar.iOS {
                     }
                 }
                 .toolbar(id: "Detail") { // TODO: Hack because toolbars only support 10 items
+                    ToolbarItem(id: "Detail.Sync", placement: .cancellationAction) {
+                        STZ.TB.SyncMonitor(self.controller.controller.syncMonitor)
+                    }
                     ToolbarItem(id: "Detail.Sort") {
                         STZ.TB.Sort.toolbar() {
                             self.popoverAlignment = .topTrailing
@@ -117,6 +120,9 @@ extension DetailToolbar.iOS {
                 }
                 ToolbarItem(id: "Detail.EditMode", placement: .bottomBar) {
                     EditButton()
+                }
+                ToolbarItem(id: "Detail.Sync", placement: .cancellationAction) {
+                    STZ.TB.SyncMonitor(self.controller.controller.syncMonitor)
                 }
                 ToolbarItem(id: "Detail.Sort") {
                     STZ.TB.Sort.toolbar() {

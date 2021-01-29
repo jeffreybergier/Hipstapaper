@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17511" systemVersion="20C69" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="CD_Base" representedClassName="CD_Base" isAbstract="YES" syncable="YES">
-        <attribute name="cd_dateCreated" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="cd_dateModified" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="cd_dateCreated" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="cd_dateModified" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
     <entity name="CD_Tag" representedClassName="CD_Tag" parentEntity="CD_Base" syncable="YES">
         <attribute name="cd_name" optional="YES" attributeType="String"/>
@@ -18,7 +18,7 @@
         <relationship name="cd_tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CD_Tag" inverseName="cd_websites" inverseEntity="CD_Tag"/>
     </entity>
     <elements>
-        <element name="CD_Base" positionX="-192.15234375" positionY="-218.01953125" width="128" height="59"/>
+        <element name="CD_Base" positionX="-192.15234375" positionY="-218.01953125" width="128" height="73"/>
         <element name="CD_Tag" positionX="-36" positionY="45" width="128" height="88"/>
         <element name="CD_Website" positionX="-334.19921875" positionY="52.45703125" width="128" height="133"/>
     </elements>

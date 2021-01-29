@@ -33,3 +33,10 @@ extension Error: LocalizedError {
         return "LOCALIZE THIS ERROR"
     }
 }
+
+internal struct CocoaError: LocalizedError {
+    var error: NSError
+    var errorDescription: String? { error.localizedDescription }
+    var failureReason: String? { error.localizedFailureReason }
+    var recoverySuggestion: String? { error.localizedRecoverySuggestion }
+}

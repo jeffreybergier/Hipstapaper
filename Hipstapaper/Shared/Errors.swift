@@ -23,6 +23,17 @@ import Stylize
 
 enum Error: LocalizedError {
     case shareExtensionAdd
+    case cloudAccount
+    
+    var errorDescription: String? {
+        switch self {
+        case .cloudAccount:
+            // TODO: Fix this
+            return "You're not logged into iCloud. Sign into an iCloud account to sync."
+        case .shareExtensionAdd:
+            return "There was an error when adding a website saved by another application."
+        }
+    }
 }
 
 protocol ErrorQ: class {
