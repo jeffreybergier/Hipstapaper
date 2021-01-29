@@ -40,22 +40,3 @@ internal struct CocoaError: LocalizedError {
     var failureReason: String? { error.localizedFailureReason }
     var recoverySuggestion: String? { error.localizedRecoverySuggestion }
 }
-
-public struct Queue<Element>: ExpressibleByArrayLiteral {
-
-    private var storage: [Element] = []
-    
-    public init(arrayLiteral elements: Element...) {
-        self.storage = elements
-    }
-    
-    public mutating func append(_ newValue: Element) {
-        self.storage.append(newValue)
-    }
-    
-    public mutating func next() -> Element? {
-        let next = self.storage.first
-        self.storage = Array(self.storage.dropFirst())
-        return next
-    }
-}

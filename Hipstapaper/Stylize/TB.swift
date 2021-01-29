@@ -149,6 +149,24 @@ extension STZ {
             public static let verb: LocalizedStringKey = Verb.ClearSearch
             public static let shortcut: KeyboardShortcut? = .init(.escape, modifiers: [])
         }
+        public enum CloudSyncError: Toolbarable {
+            public static let icon: String? = "exclamationmark.icloud"
+            public static let phrase: LocalizedStringKey = "iCloud Sync Error"
+            public static let verb: LocalizedStringKey = "iCloud Sync Error"
+            public static let shortcut: KeyboardShortcut? = nil
+        }
+        public enum CloudSyncSuccess: Toolbarable {
+            public static let icon: String? = "checkmark.icloud"
+            public static let phrase: LocalizedStringKey = "iCloud Sync Complete"
+            public static let verb: LocalizedStringKey = "iCloud Sync Complete"
+            public static let shortcut: KeyboardShortcut? = nil
+        }
+        public enum CloudAccountError: Toolbarable {
+            public static let icon: String? = "icloud.slash"
+            public static let phrase: LocalizedStringKey = "No iCloud Account"
+            public static let verb: LocalizedStringKey = "No iCloud Account"
+            public static let shortcut: KeyboardShortcut? = nil
+        }
         
         // MARK: Weird Buttons
         public enum Separator {

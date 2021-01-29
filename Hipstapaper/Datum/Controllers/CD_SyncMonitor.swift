@@ -21,6 +21,7 @@
 
 import CoreData
 import Combine
+import CloudKit
 
 // Highly inspired by
 // https://github.com/ggruen/CloudKitSyncMonitor/blob/main/Sources/CloudKitSyncMonitor/SyncMonitor.swift
@@ -28,10 +29,12 @@ import Combine
 @available(iOS 14.0, OSX 11.0, *)
 internal class CD_SyncMonitor: SyncMonitor {
     
+    internal var isLoggedIn: Bool = false
     internal let progress: Progress
     internal var errorQ: Queue<LocalizedError> = []
     
-    private let name = NSPersistentCloudKitContainer.eventChangedNotification
+    private let syncName = NSPersistentCloudKitContainer.eventChangedNotification
+    private let accountName = Notification.Name.CKAccountChanged
     private var io: Set<UUID> = []
     
     internal init() {
@@ -39,12 +42,35 @@ internal class CD_SyncMonitor: SyncMonitor {
         self.progress.completedUnitCount = 0
         let nc = NotificationCenter.default
         nc.addObserver(self,
-                       selector: #selector(self.observe(_:)),
-                       name: self.name,
+                       selector: #selector(self.observeSync(_:)),
+                       name: self.syncName,
                        object: nil)
+        nc.addObserver(self, selector: #selector(self.observeAccount),
+                       name: self.accountName,
+                       object: nil)
+        self.observeAccount()
     }
     
-    @objc private func observe(_ aNotification: Notification) {
+    @objc private func observeAccount() {
+        CKContainer.default().accountStatus() { account, error in
+            DispatchQueue.main.async {
+                self.objectWillChange.send()
+                if let error = error {
+                    self.errorQ.append(CocoaError(error: error as NSError))
+                }
+                switch account {
+                case .available:
+                    self.isLoggedIn = true
+                case .couldNotDetermine, .restricted, .noAccount:
+                    fallthrough
+                @unknown default:
+                    self.isLoggedIn = false
+                }
+            }
+        }
+    }
+    
+    @objc private func observeSync(_ aNotification: Notification) {
         let key = NSPersistentCloudKitContainer.eventNotificationUserInfoKey
         guard let event = aNotification.userInfo?[key]
                 as? NSPersistentCloudKitContainer.Event else { return }
@@ -69,6 +95,7 @@ internal class CD_SyncMonitor: SyncMonitor {
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: self.name, object: nil)
+        NotificationCenter.default.removeObserver(self, name: self.syncName, object: nil)
+        NotificationCenter.default.removeObserver(self, name: self.accountName, object: nil)
     }
 }

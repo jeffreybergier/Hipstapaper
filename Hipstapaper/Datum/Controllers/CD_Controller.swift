@@ -324,7 +324,7 @@ internal class CD_Controller {
         container.viewContext.automaticallyMergesChangesFromParent = true
         self.container = container
         
-        if #available(iOS 14.0, *) {
+        if #available(iOS 14.0, OSX 11.0, *) {
             self.syncMonitor = AnySyncMonitor(CD_SyncMonitor())
         } else {
             self.syncMonitor = AnySyncMonitor(NoSyncMonitor())
@@ -384,11 +384,21 @@ extension CD_Controller {
     }
 }
 
+// TODO: Remove this to enable mac to sync
+#if os(macOS)
+private class Datum_PersistentContainer: NSPersistentContainer {
+    override class func defaultDirectoryURL() -> URL {
+        return CD_Controller.storeDirectoryURL
+    }
+}
+#else
 private class Datum_PersistentContainer: NSPersistentCloudKitContainer {
     override class func defaultDirectoryURL() -> URL {
         return CD_Controller.storeDirectoryURL
     }
 }
+#endif
+
 
 extension NSManagedObjectContext {
     fileprivate func datum_save() -> Result<Void, Error> {

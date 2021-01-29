@@ -23,6 +23,7 @@ import CoreData
 import Combine
 
 public protocol SyncMonitor: ObservableObject {
+    var isLoggedIn: Bool { get }
     var progress: Progress { get }
     var errorQ: Queue<LocalizedError> { get }
 }
@@ -30,14 +31,17 @@ public protocol SyncMonitor: ObservableObject {
 public class AnySyncMonitor: SyncMonitor {
     
     public let objectWillChange: ObservableObjectPublisher
+    public var isLoggedIn: Bool { _isLoggedIn() }
     public var progress: Progress { _progress() }
     public var errorQ: Queue<LocalizedError> { _errorQ() }
     
+    private var _isLoggedIn: () -> Bool
     private var _progress: () -> Progress
     private var _errorQ: () -> Queue<LocalizedError>
     
     public init<T: SyncMonitor>(_ monitor: T) where T.ObjectWillChangePublisher == ObservableObjectPublisher {
         self.objectWillChange = monitor.objectWillChange
+        _isLoggedIn = { monitor.isLoggedIn }
         _progress = { monitor.progress }
         _errorQ = { monitor.errorQ }
     }
@@ -45,7 +49,26 @@ public class AnySyncMonitor: SyncMonitor {
 }
 
 public class NoSyncMonitor: SyncMonitor {
+    public let isLoggedIn: Bool = false
     public let progress: Progress = .init()
     public let errorQ: Queue<LocalizedError> = []
     public init() {}
+}
+
+public class Queue<Element>: ExpressibleByArrayLiteral {
+    private var storage: [Element] = []
+    public var isEmpty: Bool {
+        return self.storage.isEmpty
+    }
+    required public init(arrayLiteral elements: Element...) {
+        self.storage = elements
+    }
+    public func append(_ newValue: Element) {
+        self.storage.append(newValue)
+    }
+    public func next() -> Element? {
+        let next = self.storage.first
+        self.storage = Array(self.storage.dropFirst())
+        return next
+    }
 }
