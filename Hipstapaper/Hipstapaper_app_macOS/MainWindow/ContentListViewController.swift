@@ -235,6 +235,8 @@ class ContentListViewController: NSViewController, RealmControllable {
             return true
         case .openInBrowser:
             return true
+        case .migrate:
+            return true
         }
     }
     

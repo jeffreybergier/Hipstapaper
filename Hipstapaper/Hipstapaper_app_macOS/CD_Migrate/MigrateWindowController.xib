@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="MigrateWindowController" customModule="Hipstapaper" customModuleProvider="target">
+            <connections>
+                <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Migrate to Core Data" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" frameAutosaveName="MigrateWindow" animationBehavior="default" tabbingIdentifier="MigrateWindow" id="F0z-JX-Cv5">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="480" height="122"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1025"/>
+            <view key="contentView" id="se5-gp-TjO">
+                <rect key="frame" x="0.0" y="0.0" width="480" height="122"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nb1-N2-UaC">
+                        <rect key="frame" x="180" y="13" width="121" height="32"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="107" id="rGI-Fi-UaT"/>
+                        </constraints>
+                        <buttonCell key="cell" type="push" title="Start" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WCa-Wv-vFf">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
+                    <progressIndicator maxValue="100" doubleValue="50" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="clV-K8-l5V">
+                        <rect key="frame" x="20" y="59" width="440" height="44"/>
+                    </progressIndicator>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="clV-K8-l5V" secondAttribute="trailing" constant="20" symbolic="YES" id="8Bz-9b-suM"/>
+                    <constraint firstAttribute="bottom" secondItem="nb1-N2-UaC" secondAttribute="bottom" constant="20" symbolic="YES" id="APL-6J-7R1"/>
+                    <constraint firstItem="clV-K8-l5V" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" constant="20" symbolic="YES" id="u6H-FF-urm"/>
+                    <constraint firstItem="nb1-N2-UaC" firstAttribute="top" secondItem="clV-K8-l5V" secondAttribute="bottom" constant="20" symbolic="YES" id="xUb-4i-O7T"/>
+                    <constraint firstItem="nb1-N2-UaC" firstAttribute="centerX" secondItem="clV-K8-l5V" secondAttribute="centerX" id="xgI-8z-clb"/>
+                    <constraint firstItem="clV-K8-l5V" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="20" symbolic="YES" id="zva-dC-SrD"/>
+                </constraints>
+            </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
+            </connections>
+            <point key="canvasLocation" x="-139" y="218"/>
+        </window>
+    </objects>
+</document>

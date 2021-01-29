@@ -38,6 +38,12 @@
                                     <action selector="showPreferencesWindow:" target="-1" id="i42-MC-8xM"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Migrate to Core Data…" tag="626" id="ptI-iX-27a">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="showMigrateWindowMenuChosen:" target="-1" id="4vN-cJ-EQX"/>
+                                </connections>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>
                             <menuItem title="Services" id="NMo-om-nkz">
                                 <modifierMask key="keyEquivalentModifierMask"/>
@@ -123,7 +129,7 @@ CA
                                     <action selector="share:" target="-1" id="cZg-Sf-i80"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="Utu-9o-9HV"/>
+                            <menuItem isSeparatorItem="YES" id="C7G-qZ-FRx"/>
                             <menuItem title="Close Window" keyEquivalent="w" id="DVo-aG-piG">
                                 <connections>
                                     <action selector="performClose:" target="-1" id="HmO-Ls-i7Q"/>

@@ -68,6 +68,13 @@
 		50F832C01E371EA90008921B /* TagAddRemoveTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F832BC1E371EA90008921B /* TagAddRemoveTableViewCell.xib */; };
 		50F832C11E371EA90008921B /* TagAddRemoveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F832BD1E371EA90008921B /* TagAddRemoveViewController.swift */; };
 		50F832C21E371EA90008921B /* TagAddRemoveViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F832BE1E371EA90008921B /* TagAddRemoveViewController.xib */; };
+		733BEA8025C4D006003E70CB /* CD_Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733BEA7B25C4D006003E70CB /* CD_Base.swift */; };
+		733BEA8125C4D006003E70CB /* CD_Website.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733BEA7C25C4D006003E70CB /* CD_Website.swift */; };
+		733BEA8225C4D006003E70CB /* CD_Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733BEA7D25C4D006003E70CB /* CD_Tag.swift */; };
+		733BEA8325C4D006003E70CB /* CD_MOM.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 733BEA7E25C4D006003E70CB /* CD_MOM.xcdatamodeld */; };
+		733BEA8725C4D03E003E70CB /* CD_Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733BEA8625C4D03E003E70CB /* CD_Controller.swift */; };
+		733BEA9625C4D0D4003E70CB /* MigrateWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733BEA9425C4D0D4003E70CB /* MigrateWindowController.swift */; };
+		733BEA9725C4D0D4003E70CB /* MigrateWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 733BEA9525C4D0D4003E70CB /* MigrateWindowController.xib */; };
 		7F71E553732530D3E8D4B76A /* Pods_Hipstapaper_share_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D26BB1F55D9FFF4C85A5526 /* Pods_Hipstapaper_share_iOS.framework */; };
 		97A8DD815FB0BD86CCEAE4FA /* Pods_Hipstapaper_share_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A3840B0BB699D6B1A7CC854 /* Pods_Hipstapaper_share_macOS.framework */; };
 		CD3A4C8DE0763589C73CC67F /* Pods_Hipstapaper_app_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E646CA78B90435CAAFD1E09C /* Pods_Hipstapaper_app_macOS.framework */; };
@@ -213,6 +220,13 @@
 		50F832BE1E371EA90008921B /* TagAddRemoveViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagAddRemoveViewController.xib; sourceTree = "<group>"; };
 		50FA3BFA1DF4F3A400551325 /* Hipstapaper_app_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper_app_iOS.entitlements; sourceTree = "<group>"; };
 		5F54888A6DD3B257C9590AEA /* Pods-Hipstapaper_share_macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_share_macOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_share_macOS/Pods-Hipstapaper_share_macOS.debug.xcconfig"; sourceTree = "<group>"; };
+		733BEA7B25C4D006003E70CB /* CD_Base.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CD_Base.swift; sourceTree = "<group>"; };
+		733BEA7C25C4D006003E70CB /* CD_Website.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CD_Website.swift; sourceTree = "<group>"; };
+		733BEA7D25C4D006003E70CB /* CD_Tag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CD_Tag.swift; sourceTree = "<group>"; };
+		733BEA7F25C4D006003E70CB /* CD_MOM.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CD_MOM.xcdatamodel; sourceTree = "<group>"; };
+		733BEA8625C4D03E003E70CB /* CD_Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_Controller.swift; sourceTree = "<group>"; };
+		733BEA9425C4D0D4003E70CB /* MigrateWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrateWindowController.swift; sourceTree = "<group>"; };
+		733BEA9525C4D0D4003E70CB /* MigrateWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MigrateWindowController.xib; sourceTree = "<group>"; };
 		90DDD86949B3AB421C23DF72 /* Pods_Hipstapaper_app_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hipstapaper_app_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96E8707AB89530E913E8DA44 /* Pods-Hipstapaper_share_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_share_iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_share_iOS/Pods-Hipstapaper_share_iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		9F39DF42A44AA2B4AB4AAE3A /* Pods-Hipstapaper_share_macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hipstapaper_share_macOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Hipstapaper_share_macOS/Pods-Hipstapaper_share_macOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -377,6 +391,7 @@
 				5048AF0B1E0DA45300AC1B2D /* TagAddRemoveViewController */,
 				505B30481DEA695D00B74AE6 /* WebBrowser */,
 				5085A15B1E3429B300F8EC34 /* HelperClasses */,
+				733BEA7A25C4CFE5003E70CB /* CD_Migrate */,
 				506A3F091DD6C10D00A5656E /* Assets.xcassets */,
 				506A3F0B1DD6C10D00A5656E /* MainMenu.xib */,
 				506A3F0E1DD6C10D00A5656E /* Info.plist */,
@@ -484,6 +499,20 @@
 				50F832B21E371E360008921B /* SortSelectingViewController.xib */,
 			);
 			path = SortSelectingViewController;
+			sourceTree = "<group>";
+		};
+		733BEA7A25C4CFE5003E70CB /* CD_Migrate */ = {
+			isa = PBXGroup;
+			children = (
+				733BEA9425C4D0D4003E70CB /* MigrateWindowController.swift */,
+				733BEA9525C4D0D4003E70CB /* MigrateWindowController.xib */,
+				733BEA8625C4D03E003E70CB /* CD_Controller.swift */,
+				733BEA7B25C4D006003E70CB /* CD_Base.swift */,
+				733BEA7E25C4D006003E70CB /* CD_MOM.xcdatamodeld */,
+				733BEA7D25C4D006003E70CB /* CD_Tag.swift */,
+				733BEA7C25C4D006003E70CB /* CD_Website.swift */,
+			);
+			path = CD_Migrate;
 			sourceTree = "<group>";
 		};
 		E2499158A9A7144B9DDE9365 /* Pods */ = {
@@ -742,6 +771,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				506A3F0A1DD6C10D00A5656E /* Assets.xcassets in Resources */,
+				733BEA9725C4D0D4003E70CB /* MigrateWindowController.xib in Resources */,
 				502D55951E42C1AB0074AFCF /* MainWindowController.xib in Resources */,
 				5097166F1E3ED5AC00FC12A2 /* TagAddRemoveViewController.xib in Resources */,
 				509716751E3ED78700FC12A2 /* WebBrowserWindowController.xib in Resources */,
@@ -942,14 +972,20 @@
 				5085A15F1E3429D800F8EC34 /* ValidatingToolbar.swift in Sources */,
 				5097167B1E3EDAB600FC12A2 /* MenuController.swift in Sources */,
 				5085A15E1E3429D800F8EC34 /* AppleInterfaceStyleWindowAppearanceSwitcher.swift in Sources */,
+				733BEA9625C4D0D4003E70CB /* MigrateWindowController.swift in Sources */,
+				733BEA8025C4D006003E70CB /* CD_Base.swift in Sources */,
 				509716741E3ED78700FC12A2 /* WebBrowserWindowController.swift in Sources */,
 				5055515F1E1AD8BC006E2A3B /* FrameworkExtensions.swift in Sources */,
 				5085A1681E342A4700F8EC34 /* SourceListViewController.swift in Sources */,
 				501B332C1E4595150073A8AC /* WebBrowserDelegate.swift in Sources */,
 				506AD7E31E4F9F9400537F61 /* QuickLookPanelController.swift in Sources */,
+				733BEA8225C4D006003E70CB /* CD_Tag.swift in Sources */,
 				509716671E3ED2DE00FC12A2 /* PreferencesWindowController.swift in Sources */,
 				5097167D1E3EDADE00FC12A2 /* MainWindowCreator.swift in Sources */,
 				507C49C71F2CF8B200931269 /* LocalViewController.swift in Sources */,
+				733BEA8125C4D006003E70CB /* CD_Website.swift in Sources */,
+				733BEA8725C4D03E003E70CB /* CD_Controller.swift in Sources */,
+				733BEA8325C4D006003E70CB /* CD_MOM.xcdatamodeld in Sources */,
 				5097166D1E3ED5AC00FC12A2 /* TagAddRemoveViewController.swift in Sources */,
 				50F832AE1E371DFE0008921B /* SortSelectingViewController.swift in Sources */,
 			);
@@ -1256,7 +1292,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Hipstapaper_app_macOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper;
 				PRODUCT_NAME = Hipstapaper;
@@ -1277,7 +1313,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Hipstapaper_app_macOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper;
 				PRODUCT_NAME = Hipstapaper;
@@ -1334,6 +1370,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		733BEA7E25C4D006003E70CB /* CD_MOM.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				733BEA7F25C4D006003E70CB /* CD_MOM.xcdatamodel */,
+			);
+			currentVersion = 733BEA7F25C4D006003E70CB /* CD_MOM.xcdatamodel */;
+			path = CD_MOM.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 506A3EFC1DD6C10C00A5656E /* Project object */;
 }

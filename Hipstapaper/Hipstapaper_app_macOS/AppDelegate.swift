@@ -44,6 +44,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.rootWindowController.showWindow(self)
     }
     
+    private lazy var migrateWindowController: NSWindowController = MigrateWindowController.new()
+    
+    @IBAction func showMigrateWindowMenuChosen(_ sender: NSObject?) {
+        guard
+            let menuItem = sender as? NSMenuItem,
+            let kind = NSMenuItem.Kind(rawValue: menuItem.tag),
+            kind == .migrate
+        else { return }
+        self.migrateWindowController.showWindow(sender)
+    }
+    
     // MARK: Load Items from Extension when App Comes or Goes
     
     func applicationDidBecomeActive(_ notification: Notification) {

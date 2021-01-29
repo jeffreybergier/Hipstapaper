@@ -200,6 +200,8 @@ class WebBrowserWindowController: NSWindowController {
             return false
         case .openInBrowser:
             return true
+        case .migrate:
+            return true
         }
     }
     
