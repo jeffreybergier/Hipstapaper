@@ -23,8 +23,10 @@ import CoreData
 import Combine
 
 public protocol SyncMonitor: ObservableObject {
+    // TODO: Change this to `persistentError`
     var isLoggedIn: Bool { get }
     var progress: Progress { get }
+    // TODO: Change this to ephemeralError?
     var errorQ: Queue<LocalizedError> { get }
 }
 

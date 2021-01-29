@@ -37,14 +37,15 @@ internal class CD_SyncMonitor: SyncMonitor {
     private let accountName = Notification.Name.CKAccountChanged
     private var io: Set<UUID> = []
     
-    internal init() {
+    internal init(_ container: NSPersistentContainer) {
         self.progress = .init(totalUnitCount: 0)
         self.progress.completedUnitCount = 0
+        guard container is NSPersistentCloudKitContainer else { return }
         let nc = NotificationCenter.default
         nc.addObserver(self,
                        selector: #selector(self.observeSync(_:)),
                        name: self.syncName,
-                       object: nil)
+                       object: container)
         nc.addObserver(self, selector: #selector(self.observeAccount),
                        name: self.accountName,
                        object: nil)

@@ -325,7 +325,7 @@ internal class CD_Controller {
         self.container = container
         
         if #available(iOS 14.0, OSX 11.0, *) {
-            self.syncMonitor = AnySyncMonitor(CD_SyncMonitor())
+            self.syncMonitor = AnySyncMonitor(CD_SyncMonitor(container))
         } else {
             self.syncMonitor = AnySyncMonitor(NoSyncMonitor())
         }
