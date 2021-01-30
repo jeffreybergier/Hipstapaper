@@ -44,7 +44,10 @@ class MigrateWindowController: NSWindowController {
     }
     
     @IBAction private func start(_ sender: NSButton) {
-        print("Start")
+        sender.isEnabled = false
+        self.controller.start() {
+            print("Completed: \($0)")
+        }
     }
     
 }

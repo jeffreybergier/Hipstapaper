@@ -37,7 +37,7 @@
                             <action selector="start:" target="-2" id="uR8-IU-sMB"/>
                         </connections>
                     </button>
-                    <progressIndicator maxValue="100" doubleValue="50" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="clV-K8-l5V">
+                    <progressIndicator maxValue="1" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="clV-K8-l5V">
                         <rect key="frame" x="20" y="59" width="440" height="44"/>
                         <connections>
                             <binding destination="-2" name="value" keyPath="self.progress.fractionCompleted" id="gnd-LM-j9C"/>
