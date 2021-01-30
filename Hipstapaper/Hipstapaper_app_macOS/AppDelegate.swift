@@ -44,7 +44,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.rootWindowController.showWindow(self)
     }
     
-    private lazy var migrateWindowController: NSWindowController = MigrateWindowController.new()
+    private var migrateWindowController: NSWindowController?
     
     @IBAction func showMigrateWindowMenuChosen(_ sender: NSObject?) {
         guard
@@ -52,7 +52,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let kind = NSMenuItem.Kind(rawValue: menuItem.tag),
             kind == .migrate
         else { return }
-        self.migrateWindowController.showWindow(sender)
+        guard let rc = self.rootWindowController.realmController else {
+            print("Couldn't migrate. No Realm Controller")
+            return
+        }
+        if self.migrateWindowController == nil {
+            self.migrateWindowController = MigrateWindowController.new(controller: rc)
+        }
+        self.migrateWindowController!.showWindow(sender)
     }
     
     // MARK: Load Items from Extension when App Comes or Goes

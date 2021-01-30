@@ -20,5 +20,42 @@
 //
 
 import CoreData
+import RealmSwift
+import Common
 
+class CD_Controller {
+    
+    static let exportLocation: URL = {
+        return FileManager
+            .default
+            .urls(for: .downloadsDirectory, in: .userDomainMask)
+            .first!
+            .appendingPathComponent("Hipstapaper_Export", isDirectory: true)
+    }()
+    
+    private let container: NSPersistentContainer
+    private let rc: RealmController
+    private let progress: Progress
+    
+    init(controller: RealmController, progress: Progress) {
+        let container = WM_PersistentContainer(name: "CD_MOM")
+        let lock = DispatchSemaphore(value: 0)
+        container.loadPersistentStores() { _, error in
+            if let error = error {
+                fatalError(String(describing: error))
+            }
+            lock.signal()
+        }
+        lock.wait()
+        self.container = container
+        self.progress = progress
+        self.rc = controller
+    }
+    
+}
 
+private class WM_PersistentContainer: NSPersistentContainer {
+    override class func defaultDirectoryURL() -> URL {
+        return CD_Controller.exportLocation
+    }
+}

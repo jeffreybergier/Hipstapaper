@@ -20,17 +20,31 @@
 //
 
 import Cocoa
+import Common
 
 class MigrateWindowController: NSWindowController {
     
-    class func new() -> NSWindowController {
-        return MigrateWindowController(windowNibName: "MigrateWindowController")
+    class func new(controller: RealmController) -> NSWindowController {
+        let wc = MigrateWindowController(windowNibName: "MigrateWindowController")
+        wc.rc = controller
+        return wc
     }
+    
+    private var rc: RealmController!
+    private lazy var controller = CD_Controller(controller: self.rc, progress: self.progress)
+    
+    // progress hooked up with bindings
+    @objc private let progress = Progress()
+    @IBOutlet private weak var progressView: NSProgressIndicator!
+    @IBOutlet private weak var startButton: NSButton!
 
     override func windowDidLoad() {
         super.windowDidLoad()
-
-        // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
+        _ = self.controller
+    }
+    
+    @IBAction private func start(_ sender: NSButton) {
+        print("Start")
     }
     
 }

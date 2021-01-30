@@ -8,6 +8,8 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="MigrateWindowController" customModule="Hipstapaper" customModuleProvider="target">
             <connections>
+                <outlet property="progressView" destination="clV-K8-l5V" id="3nO-z5-1Rc"/>
+                <outlet property="startButton" destination="nb1-N2-UaC" id="9wW-ZQ-59u"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -31,9 +33,15 @@
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="start:" target="-2" id="uR8-IU-sMB"/>
+                        </connections>
                     </button>
                     <progressIndicator maxValue="100" doubleValue="50" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="clV-K8-l5V">
                         <rect key="frame" x="20" y="59" width="440" height="44"/>
+                        <connections>
+                            <binding destination="-2" name="value" keyPath="self.progress.fractionCompleted" id="gnd-LM-j9C"/>
+                        </connections>
                     </progressIndicator>
                 </subviews>
                 <constraints>
