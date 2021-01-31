@@ -24,17 +24,12 @@ import Datum
 
 class WebsiteController: ObservableObject {
     
-    let controller: Controller
-    var all: AnyList<AnyElement<AnyWebsite>> {
-        get { return _all ?? .empty }
-    }
     @Published var selectedWebsites: Set<AnyElement<AnyWebsite>> = []
-    @Published var query: Query {
-        didSet { self.activate() }
-    }
+    @Published var query: Query { didSet { self.activate() } }
+    @Published private var sites: AnyObserver<AnyList<AnyElement<AnyWebsite>>>?
     
-    private var _all: AnyList<AnyElement<AnyWebsite>>? = nil
-    private var token: AnyCancellable?
+    let controller: Controller
+    var all: AnyList<AnyElement<AnyWebsite>> { sites?.data ?? .empty }
     
     init(controller: Controller, selectedTag: AnyElement<AnyTag> = Query.Archived.anyTag_allCases[0]) {
         self.query = Query(specialTag: selectedTag)
@@ -43,28 +38,20 @@ class WebsiteController: ObservableObject {
     
     func activate() {
         log.verbose()
-        self.token?.cancel()
-        self.token = nil
         let result = controller.readWebsites(query: self.query)
-        self.objectWillChange.send()
         switch result {
+        case .success(let sites):
+            self.sites = sites
         case .failure(let error):
             // TODO: Do something with this error
-            _all = nil
-            break
-        case .success(let sites):
-            self._all = sites
-            self.token = sites.objectWillChange.sink { [unowned self] _ in
-                self.objectWillChange.send()
-            }
+            self.sites = nil
         }
     }
     
     func deactivate() {
         log.verbose()
         self.objectWillChange.send()
-        self.token?.cancel()
-        _all = .empty
+        self.sites = nil
     }
     
     deinit {

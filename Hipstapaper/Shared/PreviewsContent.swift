@@ -34,15 +34,15 @@ let p_tags: AnyList<AnyElement<AnyTag>> = {
     let element1 = AnyElement(P_Element(AnyTag(tag1)))
     let element2 = AnyElement(P_Element(AnyTag(tag2)))
     let element3 = AnyElement(P_Element(AnyTag(tag3)))
-    let collection = P_Collection([element1, element2, element3])
+    let collection = [element1, element2, element3]
     return AnyList(collection)
 }()
 
-let p_sites: AnyList<AnyElement<AnyWebsite>> = {
-    return AnyList(pp_sites)
+let p_sites: P_Observer<AnyList<AnyElement<AnyWebsite>>> = {
+    return P_Observer(pp_sites)
 }()
 
-let pp_sites: P_Collection<AnyElement<AnyWebsite>> = {
+let pp_sites: AnyList<AnyElement<AnyWebsite>> = {
     let date1 = Date(timeIntervalSinceNow: -700)
     let date2 = Date(timeIntervalSinceNow: 0)
     let site1 = P_Website(.init(title: "Google.com", resolvedURL: URL(string: "https://www.google.com")!),
@@ -57,14 +57,13 @@ let pp_sites: P_Collection<AnyElement<AnyWebsite>> = {
                           dateCreated: date1,
                           dateModified: date2,
                           id: .init(NSString("C")))
-    return P_Collection(
-        [
-            AnyElement(P_Element(AnyWebsite(site1))),
-            AnyElement(P_Element(AnyWebsite(site2))),
-            AnyElement(P_Element(AnyWebsite(site3)))
-        ]
-    )
+    return AnyList([
+        AnyElement(P_Element(AnyWebsite(site1))),
+        AnyElement(P_Element(AnyWebsite(site2))),
+        AnyElement(P_Element(AnyWebsite(site3)))
+    ])
 }()
+
 
 struct P_Tag: Tag {
     var name: String?
@@ -114,21 +113,22 @@ class P_Controller: Controller {
     static var storeExists: Bool = true
     var syncMonitor: AnySyncMonitor = AnySyncMonitor(NoSyncMonitor())
     func createWebsite(_ raw: AnyWebsite.Raw) -> Result<AnyElement<AnyWebsite>, Datum.Error>
-    { log.debug("Create Site: \(raw)"); return .success(p_sites.first!) }
-    func readWebsites(query: Query) -> Result<AnyList<AnyElement<AnyWebsite>>, Datum.Error>
-    { log.debug("Read Websites, with: \(query)"); return .success(p_sites) }
+    { log.debug("Create Site: \(raw)"); return .success(pp_sites.first!) }
+    func readWebsites(query: Query) -> Result<AnyObserver<AnyList<AnyElement<AnyWebsite>>>, Datum.Error>
+    { log.debug("Read Websites, with: \(query)"); return .success(AnyObserver(p_sites)) }
     func update(_ site: Set<AnyElement<AnyWebsite>>, _ raw: AnyWebsite.Raw) -> Result<Void, Datum.Error>
     { log.debug("Update: \(site), with: \(raw)"); return .success(()) }
     func delete(_ site: Set<AnyElement<AnyWebsite>>) -> Result<Void, Datum.Error>
     {
+        log.debug("Delete: \(site)");
         p_sites.objectWillChange.send()
-        pp_sites.wrapped.removeFirst()
-        log.debug("Delete: \(site)"); return .success(())
+        p_sites.data = AnyList(p_sites.data.dropLast())
+        return .success(())
     }
     func createTag(name: String?) -> Result<AnyElement<AnyTag>, Datum.Error>
     { log.debug("Create Tag: \(name)"); return .success(p_tags.first!) }
-    func readTags() -> Result<AnyList<AnyElement<AnyTag>>, Datum.Error>
-    { log.debug("Read Tags"); return .success(p_tags) }
+    func readTags() -> Result<AnyObserver<AnyList<AnyElement<AnyTag>>>, Datum.Error>
+    { log.debug("Read Tags"); return .success(AnyObserver(P_Observer(p_tags))) }
     func update(_ tag: AnyElement<AnyTag>, name: Optional<String?>) -> Result<Void, Datum.Error>
     { log.debug("Update: \(tag) with: \(name)"); return .success(()) }
     func delete(_ tag: AnyElement<AnyTag>) -> Result<Void, Datum.Error>
@@ -142,20 +142,11 @@ class P_Controller: Controller {
     }
 }
 
-class P_Collection<Element>: ListProtocol {
-    
-    var wrapped: [Element]
-    
-    init(_ wrapped: [Element]) {
-        self.wrapped = wrapped
+class P_Observer<T: RandomAccessCollection>: Observer {
+    var data: T
+    init(_ list: T) {
+        self.data = list
     }
-    
-    // MARK: Swift.Collection Boilerplate
-    typealias Index = Int
-    typealias Element = Element
-    var startIndex: Index { self.wrapped.startIndex }
-    var endIndex: Index { self.wrapped.endIndex }
-    subscript(index: Index) -> Iterator.Element { self.wrapped[index] }
 }
 
 private let fakeImageData: Data = {

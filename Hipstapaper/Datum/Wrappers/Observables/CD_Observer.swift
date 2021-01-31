@@ -22,10 +22,9 @@
 import CoreData
 import Combine
 
-internal class CD_Observer<Output: Identifiable & Hashable,
-                           Input: NSManagedObject>: NSObject,
-                                                    Observer,
-                                                    NSFetchedResultsControllerDelegate
+internal class CD_Observer<Output, Input: NSManagedObject>: NSObject,
+                                                            Observer,
+                                                            NSFetchedResultsControllerDelegate
 {
 
     internal var data: AnyList<Output>

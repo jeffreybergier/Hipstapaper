@@ -20,13 +20,11 @@
 import Combine
 
 public protocol Observer: ObservableObject {
-    associatedtype Collection: RandomAccessCollection where Collection.Element: Hashable & Identifiable
+    associatedtype Collection: RandomAccessCollection
     var data: Collection { get }
 }
 
-public class AnyObserver<Collection: RandomAccessCollection>: Observer
-                   where Collection.Element: Hashable & Identifiable
-{
+public class AnyObserver<Collection: RandomAccessCollection>: Observer {
     public let objectWillChange: ObservableObjectPublisher
     public var data: Collection { _data() }
     private let _data: () -> Collection

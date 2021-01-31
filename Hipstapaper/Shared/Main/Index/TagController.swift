@@ -23,37 +23,31 @@ import Combine
 class TagController: ObservableObject {
     
     @Published var selection: AnyElement<AnyTag>?
+    @Published private var tags: AnyObserver<AnyList<AnyElement<AnyTag>>>?
+    
     let controller: Controller
     let `static` = Query.Archived.anyTag_allCases
     var all: AnyList<AnyElement<AnyTag>> {
         get {
-            if let all = _all { return all }
+            if let tags = self.tags { return tags.data }
             self.update()
-            return _all ?? .empty
+            return self.tags?.data ?? .empty
         }
     }
-    
-    private var _all: AnyList<AnyElement<AnyTag>>?
-    private var token: AnyCancellable?
-    
+        
     init(controller: Controller) {
         self.controller = controller
     }
     
     private func update() {
-        self.token?.cancel()
-        self.token = nil
         let result = controller.readTags()
+        self.objectWillChange.send()
         switch result {
+        case .success(let tags):
+            self.tags = tags
         case .failure(let error):
             // TODO: Do something with this error
-            _all = nil
-        case .success(let tags):
-            _all = tags
-            self.objectWillChange.send()
-            self.token = tags.objectWillChange.sink() { [unowned self] _ in
-                self.objectWillChange.send()
-            }
+            self.tags = nil
         }
     }
 }
