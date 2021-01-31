@@ -23,8 +23,8 @@
         "package": "XPList",
         "repositoryURL": "https://github.com/jeffreybergier/XPList.git",
         "state": {
-          "branch": "main",
-          "revision": "28fcdef0e75977b1b6593f4fc7c0ee1c0d8f3c04",
+          "branch": "v2",
+          "revision": "95e2452a028a157ef2738d14aaa59945dd3601cf",
           "version": null
         }
       }

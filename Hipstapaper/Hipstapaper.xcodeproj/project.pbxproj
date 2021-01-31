@@ -2894,7 +2894,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jeffreybergier/XPList.git";
 			requirement = {
-				branch = main;
+				branch = v2;
 				kind = branch;
 			};
 		};
