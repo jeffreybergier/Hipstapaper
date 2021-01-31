@@ -33,19 +33,15 @@ internal class CD_List<
 
     private let frc: NSFetchedResultsController<Input>
     private let transform: (Input) -> Output
-    // TODO: Remove these hacks once SwiftUI doesn't crash so easily with the FRC
-    private let fallback: Output
 
     /// Init with `NSFetchedResultsController`
     /// This class does not call `performFetch` on its own.
     /// Call `performFetch()` yourself before this is used.
     internal init(_ frc: NSFetchedResultsController<Input>,
-                  fallback: Output,
                   _ transform: @escaping (Input) -> Output)
     {
         self.frc = frc
         self.transform = transform
-        self.fallback = fallback
         super.init()
         frc.delegate = self
     }
@@ -53,13 +49,7 @@ internal class CD_List<
     // MARK: Swift.Collection Boilerplate
     public var startIndex: Index { 0 }
     public var endIndex: Index { self.frc.fetchedObjects!.count }
-    public subscript(index: Index) -> Iterator.Element {
-        let objects = self.frc.fetchedObjects!
-        guard index < objects.count else {
-            return self.fallback
-        }
-        return transform(objects[index])
-    }
+    public subscript(index: Index) -> Iterator.Element { transform(self.frc.fetchedObjects![index]) }
 
     // MARK: NSFetchedResultsControllerDelegate
 
@@ -69,16 +59,4 @@ internal class CD_List<
     internal func controllerWillChangeContent(_ controller: AnyObject) {
         self.objectWillChange.send()
     }
-    
-    //    @objc(controller:didChangeContentWithSnapshot:)
-    //    internal func controller(_: AnyObject, didChangeContentWith _: AnyObject) {
-    //        self.objectWillChange.send()
-    //    }
-    
-    // Using this one makes the tests work as expected
-    // And all 3 of these options appear to have the same crashes in app
-    //    @objc(controllerDidChangeContent:)
-    //    internal func controllerDidChangeContent(_ controller: AnyObject) {
-    //        self.objectWillChange.send()
-    //    }
 }
