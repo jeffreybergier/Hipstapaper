@@ -22,16 +22,12 @@
 import CoreData
 import Combine
 
-internal class CD_List<
-    Output,
-    Input: NSManagedObject
->: NSObject, ListProtocol, NSFetchedResultsControllerDelegate
-{
+internal struct CD_List<Output, Input: NSManagedObject>: RandomAccessCollection {
+    
+    internal typealias Index = Int
+    internal typealias Element = Output
 
-    public typealias Index = Int
-    public typealias Element = Output
-
-    private let frc: NSFetchedResultsController<Input>
+    internal let frc: NSFetchedResultsController<Input>
     private let transform: (Input) -> Output
 
     /// Init with `NSFetchedResultsController`
@@ -42,21 +38,10 @@ internal class CD_List<
     {
         self.frc = frc
         self.transform = transform
-        super.init()
-        frc.delegate = self
     }
 
     // MARK: Swift.Collection Boilerplate
-    public var startIndex: Index { 0 }
-    public var endIndex: Index { self.frc.fetchedObjects!.count }
-    public subscript(index: Index) -> Iterator.Element { transform(self.frc.fetchedObjects![index]) }
-
-    // MARK: NSFetchedResultsControllerDelegate
-
-    // TODO: Changing to this works in iOS
-    // But it crashes in macOS
-    @objc(controllerWillChangeContent:)
-    internal func controllerWillChangeContent(_ controller: AnyObject) {
-        self.objectWillChange.send()
-    }
+    internal var startIndex: Index { 0 }
+    internal var endIndex: Index { self.frc.fetchedObjects!.count }
+    internal subscript(index: Index) -> Element { transform(self.frc.fetchedObjects![index]) }
 }

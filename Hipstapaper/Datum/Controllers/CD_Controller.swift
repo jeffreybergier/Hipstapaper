@@ -54,7 +54,7 @@ extension CD_Controller: Controller {
         }
     }
 
-    func readWebsites(query: Query) -> Result<AnyList<AnyElement<AnyWebsite>>, Error> {
+    func readWebsites(query: Query) -> Result<AnyObserver<AnyList<AnyElement<AnyWebsite>>>, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
@@ -69,10 +69,12 @@ extension CD_Controller: Controller {
         do {
             try controller.performFetch()
             return .success(
-                AnyList(
-                    CD_List(controller) {
-                        AnyElement(CD_Element($0, { AnyWebsite($0) }))
-                    }
+                AnyObserver(
+                    CD_Observer(
+                        CD_List(controller) {
+                            AnyElement(CD_Element($0, { AnyWebsite($0) }))
+                        }
+                    )
                 )
             )
         } catch {
@@ -161,7 +163,7 @@ extension CD_Controller: Controller {
         }
     }
 
-    func readTags() -> Result<AnyList<AnyElement<AnyTag>>, Error> {
+    func readTags() -> Result<AnyObserver<AnyList<AnyElement<AnyTag>>>, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
@@ -176,10 +178,12 @@ extension CD_Controller: Controller {
         do {
             try controller.performFetch()
             return .success(
-                AnyList(
-                    CD_List(controller) {
-                        AnyElement(CD_Element($0, { AnyTag($0) }))
-                    }
+                AnyObserver(
+                    CD_Observer(
+                        CD_List(controller) {
+                            AnyElement(CD_Element($0, { AnyTag($0) }))
+                        }
+                    )
                 )
             )
         } catch {
@@ -276,7 +280,7 @@ extension CD_Controller: Controller {
         guard sites.count == _sites.count else { return .failure(.unknown) }
         return self.readTags().map() { tags in
             return AnyList(
-                MappedList(tags) { tag in
+                MappedList(tags.data) { tag in
                     let tag = tag.value.wrappedValue as! CD_Tag
                     return ToggleState(sites.map {
                         $0.cd_tags.contains(tag)

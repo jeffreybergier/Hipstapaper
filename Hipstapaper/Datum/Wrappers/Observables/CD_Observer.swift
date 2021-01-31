@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/25.
+//  Created by Jeffrey Bergier on 2021/01/31.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,21 +19,28 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import CoreData
 import Combine
 
-public protocol ListProtocol: Swift.RandomAccessCollection, ObservableObject {
-    associatedtype Element
-}
+internal class CD_Observer<Output: Identifiable & Hashable,
+                           Input: NSManagedObject>: NSObject,
+                                                    Observer,
+                                                    NSFetchedResultsControllerDelegate
+{
 
-internal class __List_Empty<T>: ListProtocol {
-    
-    internal let objectWillChange: ObservableObjectPublisher = .init()
+    internal var data: AnyList<Output>
 
-    internal typealias Index = Int
-    internal typealias Element = T
-    
-    // MARK: Swift.Collection Boilerplate
-    public var startIndex: Index { 0 }
-    public var endIndex: Index { 0 }
-    public subscript(index: Index) -> Element { fatalError() }
+    internal init(_ list: CD_List<Output, Input>)
+    {
+        self.data = AnyList(list)
+        super.init()
+        list.frc.delegate = self
+    }
+
+    // MARK: NSFetchedResultsControllerDelegate
+
+    @objc(controllerWillChangeContent:)
+    internal func controllerWillChangeContent(_ controller: AnyObject) {
+        self.objectWillChange.send()
+    }
 }

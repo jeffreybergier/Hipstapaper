@@ -21,13 +21,11 @@
 
 import Combine
 
-public class AnyList<Element>: ListProtocol {
+public struct AnyList<Element>: RandomAccessCollection {
     
     public static var empty: AnyList<Element> {
         return AnyList(__List_Empty())
     }
-
-    public let objectWillChange: ObservableObjectPublisher
 
     public typealias Index = Int
     public typealias Element = Element
@@ -36,19 +34,27 @@ public class AnyList<Element>: ListProtocol {
     private let _endIndex: () -> Index
     private let _subscript: (Index) -> Element
 
-    public init<T: ListProtocol>(_ collection: T)
+    public init<T: RandomAccessCollection>(_ collection: T)
     where T.Element == Element,
-          T.Index == Int,
-          T.ObjectWillChangePublisher == ObservableObjectPublisher
+          T.Index == Int
     {
         _startIndex = { collection.startIndex }
         _endIndex = { collection.endIndex }
         _subscript = { collection[$0] }
-        self.objectWillChange = collection.objectWillChange
     }
 
     // MARK: Swift.Collection Boilerplate
     public var startIndex: Index { _startIndex() }
     public var endIndex: Index { _endIndex() }
     public subscript(index: Index) -> Element { _subscript(index) }
+}
+
+fileprivate struct __List_Empty<T>: RandomAccessCollection {
+    internal typealias Index = Int
+    internal typealias Element = T
+    
+    // MARK: Swift.Collection Boilerplate
+    public var startIndex: Index { 0 }
+    public var endIndex: Index { 0 }
+    public subscript(index: Index) -> Element { fatalError() }
 }
