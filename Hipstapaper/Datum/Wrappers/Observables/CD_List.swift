@@ -41,7 +41,7 @@ internal struct CD_List<Output, Input: NSManagedObject>: RandomAccessCollection 
     }
 
     // MARK: Swift.Collection Boilerplate
-    internal var startIndex: Index { 0 }
-    internal var endIndex: Index { self.frc.fetchedObjects!.count }
+    internal var startIndex: Index { self.frc.fetchedObjects!.startIndex }
+    internal var endIndex: Index { self.frc.fetchedObjects!.endIndex }
     internal subscript(index: Index) -> Element { transform(self.frc.fetchedObjects![index]) }
 }
