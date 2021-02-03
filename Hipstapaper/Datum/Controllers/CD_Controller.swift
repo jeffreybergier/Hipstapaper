@@ -392,13 +392,17 @@ extension CD_Controller {
 #if os(macOS)
 private class Datum_PersistentContainer: NSPersistentContainer {
     override class func defaultDirectoryURL() -> URL {
-        return CD_Controller.storeDirectoryURL
+        let url = CD_Controller.storeDirectoryURL
+        log.debug(url)
+        return url
     }
 }
 #else
 private class Datum_PersistentContainer: NSPersistentCloudKitContainer {
     override class func defaultDirectoryURL() -> URL {
-        return CD_Controller.storeDirectoryURL
+        let url = CD_Controller.storeDirectoryURL
+        log.debug(url)
+        return url
     }
 }
 #endif
