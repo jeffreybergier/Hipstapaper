@@ -28,16 +28,16 @@ struct TagList: View {
     
     typealias Navigation = (AnyElement<AnyTag>) -> AnyView
     
-    @StateObject var controller: TagDataSource
+    @StateObject var dataSource: TagDataSource
     let navigation: Navigation
 
     var body: some View {
-        List(selection: self.$controller.selection) {
+        List(selection: self.$dataSource.selection) {
             Section(header: STZ.VIEW.TXT(Noun.ReadingList)
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
-                ForEach(self.controller.fixed, id: \.self) { item in
+                ForEach(self.dataSource.fixed, id: \.self) { item in
                     NavigationLink(destination: self.navigation(item)) {
                         TagRow(item.value)
                     }
@@ -47,15 +47,15 @@ struct TagList: View {
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
-                ForEach(self.controller.data, id: \.self) { item in
+                ForEach(self.dataSource.data, id: \.self) { item in
                     NavigationLink(destination: self.navigation(item)) {
                         TagRow(item.value)
                     }
                 }
             }
         }
-        .onAppear { self.controller.activate() }
-        .onDisappear { self.controller.deactivate() }
+        .onAppear { self.dataSource.activate() }
+        .onDisappear { self.dataSource.deactivate() }
         .listStyle(SidebarListStyle())
         .navigationTitle(Noun.Tags)
     }
@@ -64,7 +64,7 @@ struct TagList: View {
 #if DEBUG
 struct TagList_Preview: PreviewProvider {
     static var previews: some View {
-        TagList(controller: .init(controller: P_Controller()),
+        TagList(dataSource: .init(controller: P_Controller()),
                 navigation: { _ in AnyView(STZ.VIEW.TXT("Swift Previews")) })
     }
 }

@@ -27,23 +27,23 @@ import Snapshot
 
 struct IndexToolbar: ViewModifier {
     
-    @ObservedObject var controller: TagDataSource
+    @ObservedObject var dataSource: TagDataSource
     @State private var popoverAlignment: Alignment = .topTrailing
     
     func body(content: Content) -> some View {
         return ZStack(alignment: self.popoverAlignment) {
             // TODO: Hack when toolbars work properly with popovers
             Color.clear.frame(width: 1, height: 1)
-                .modifier(AddTagPresentable(controller: self.controller.controller))
+                .modifier(AddTagPresentable(controller: self.dataSource.controller))
             Color.clear.frame(width: 1, height: 1)
-                .modifier(AddWebsitePresentable(controller: self.controller.controller))
+                .modifier(AddWebsitePresentable(controller: self.dataSource.controller))
             Color.clear.frame(width: 1, height: 1)
                 .modifier(AddChoicePresentable())
             
             #if os(macOS)
-            content.modifier(IndexToolbar_macOS(controller: self.controller))
+            content.modifier(IndexToolbar_macOS(dataSource: self.dataSource))
             #else
-            content.modifier(IndexToolbar_iOS(controller: self.controller,
+            content.modifier(IndexToolbar_iOS(dataSource: self.dataSource,
                                               popoverAlignment: self.$popoverAlignment))
             #endif
         }
@@ -53,21 +53,21 @@ struct IndexToolbar: ViewModifier {
 #if os(macOS)
 struct IndexToolbar_macOS: ViewModifier {
     
-    @ObservedObject var controller: TagDataSource
+    @ObservedObject var dataSource: TagDataSource
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
     
     func body(content: Content) -> some View {
         content.toolbar(id: "Index") {
             ToolbarItem(id: "Index.Sync") {
-                STZ.TB.SyncMonitor(self.controller.controller.syncMonitor)
+                STZ.TB.SyncMonitor(self.dataSource.controller.syncMonitor)
             }
             ToolbarItem(id: "Index.FlexibleSpace") {
                 Spacer()
             }
             ToolbarItem(id: "Index.DeleteTag", placement: .automatic) {
-                STZ.TB.DeleteTag.toolbar(isEnabled: self.controller.canDelete(),
-                                         action: { self.controller.delete(self.errorQ) })
+                STZ.TB.DeleteTag.toolbar(isEnabled: self.dataSource.canDelete(),
+                                         action: { self.dataSource.delete(self.errorQ) })
             }
             ToolbarItem(id: "Index.AddChoice", placement: .primaryAction) {
                 STZ.TB.AddChoice.toolbar(action: { self.modalPresentation.value = .addChoose })
@@ -78,7 +78,7 @@ struct IndexToolbar_macOS: ViewModifier {
 #else
 struct IndexToolbar_iOS: ViewModifier {
     
-    @ObservedObject var controller: TagDataSource
+    @ObservedObject var dataSource: TagDataSource
     @Binding var popoverAlignment: Alignment
     
     @Environment(\.editMode) private var editMode
@@ -101,8 +101,8 @@ struct IndexToolbar_iOS: ViewModifier {
                         Spacer()
                     }
                     ToolbarItem(id: "iOS.DeleteTag", placement: .bottomBar) {
-                        STZ.TB.DeleteTag.toolbar(isEnabled: self.controller.canDelete(),
-                                                 action: { self.controller.delete(self.errorQ) })
+                        STZ.TB.DeleteTag.toolbar(isEnabled: self.dataSource.canDelete(),
+                                                 action: { self.dataSource.delete(self.errorQ) })
                     }
                     ToolbarItem(id: "iOS.Divider", placement: .bottomBar) {
                         Text("   ") // TODO: Remove when spacer is no longer needed

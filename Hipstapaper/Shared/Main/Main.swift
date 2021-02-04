@@ -26,18 +26,18 @@ import Stylize
 struct Main: View {
     
     let controller: Controller
-    private let tagController: TagDataSource
+    private let tagDataSource: TagDataSource
     
     @StateObject private var websiteControllerCache: BlackBox<AnyElement<AnyTag>, WebsiteDataSource> = .init()
 
     init(controller: Controller) {
         self.controller = controller
-        self.tagController = .init(controller: self.controller)
+        self.tagDataSource = .init(controller: self.controller)
     }
     
     var body: some View {
         NavigationView {
-            TagList(controller: self.tagController,
+            TagList(dataSource: self.tagDataSource,
                     navigation: { selectedTag in
                         let c = self.websiteControllerCache[selectedTag] {
                             return WebsiteDataSource(controller: self.controller,
@@ -48,7 +48,7 @@ struct Main: View {
                                 .modifier(DetailToolbar.Shared(controller: c))
                         )
                     })
-                .modifier(IndexToolbar(controller: self.tagController))
+                .modifier(IndexToolbar(dataSource: self.tagDataSource))
         }
         .modifier(BrowserPresentable())
         .modifier(STZ.ERR.PresenterB())

@@ -388,16 +388,6 @@ extension CD_Controller {
     }
 }
 
-// TODO: Remove this to enable mac to sync
-#if os(macOS)
-private class Datum_PersistentContainer: NSPersistentContainer {
-    override class func defaultDirectoryURL() -> URL {
-        let url = CD_Controller.storeDirectoryURL
-        log.debug(url)
-        return url
-    }
-}
-#else
 private class Datum_PersistentContainer: NSPersistentCloudKitContainer {
     override class func defaultDirectoryURL() -> URL {
         let url = CD_Controller.storeDirectoryURL
@@ -405,8 +395,6 @@ private class Datum_PersistentContainer: NSPersistentCloudKitContainer {
         return url
     }
 }
-#endif
-
 
 extension NSManagedObjectContext {
     fileprivate func datum_save() -> Result<Void, Error> {
