@@ -26,13 +26,13 @@ import Stylize
 struct Main: View {
     
     let controller: Controller
-    private let tagDataSource: TagDataSource
     
+    @StateObject private var tagDataSource: TagDataSource
     @StateObject private var websiteControllerCache: BlackBox<AnyElement<AnyTag>, WebsiteDataSource> = .init()
 
     init(controller: Controller) {
         self.controller = controller
-        self.tagDataSource = .init(controller: self.controller)
+        _tagDataSource = .init(wrappedValue: .init(controller: controller))
     }
     
     var body: some View {

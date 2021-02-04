@@ -43,6 +43,11 @@ class TagDataSource: DataSourceSelectable {
         self.objectWillChange.send()
         self.observer = nil
     }
+    
+    deinit {
+        // TODO: Remove later
+        log.emergency()
+    }
 }
 
 // MARK: Toolbar Helpers

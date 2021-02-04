@@ -28,7 +28,7 @@ struct TagList: View {
     
     typealias Navigation = (AnyElement<AnyTag>) -> AnyView
     
-    @StateObject var dataSource: TagDataSource
+    @ObservedObject var dataSource: TagDataSource
     let navigation: Navigation
 
     var body: some View {

@@ -355,6 +355,11 @@ internal class CD_Controller {
     private func didSave(_ token: Any) {
         NotificationCenter.default.removeObserver(token)
     }
+    
+    deinit {
+        // TODO: Remove later
+        log.emergency()
+    }
 }
 
 extension CD_Controller {
