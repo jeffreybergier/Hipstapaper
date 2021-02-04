@@ -25,6 +25,7 @@ protocol DataSource: ObservableObject {
     associatedtype Observer: Datum.Observer where Observer.Collection.Element: Hashable & Identifiable
     
     var controller: Controller { get }
+    /// Should be @Published
     var observer: Observer? { get }
     /// Computed property that `{ observer?.data ?? .empty }`
     var data: Observer.Collection { get }
@@ -37,9 +38,11 @@ protocol DataSource: ObservableObject {
 }
 
 protocol DataSourceMultiSelectable: DataSource {
+    /// Should be @Published
     var selection: Set<Observer.Collection.Element> { get set }
 }
 
 protocol DataSourceSelectable: DataSource {
+    /// Should be @Published
     var selection: Observer.Collection.Element? { get set }
 }

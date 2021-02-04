@@ -20,40 +20,32 @@
 import Datum
 import Combine
 
-class TagController: ObservableObject {
+class TagDataSource: DataSourceSelectable {
     
     @Published var selection: AnyElement<AnyTag>?
-    @Published private var tags: AnyObserver<AnyList<AnyElement<AnyTag>>>?
-    
+    @Published var observer: AnyObserver<AnyList<AnyElement<AnyTag>>>?
+    var data: AnyList<AnyElement<AnyTag>> { self.observer?.data ?? .empty }
+    let fixed = Query.Archived.anyTag_allCases
     let controller: Controller
-    let `static` = Query.Archived.anyTag_allCases
-    var all: AnyList<AnyElement<AnyTag>> {
-        get {
-            if let tags = self.tags { return tags.data }
-            self.update()
-            return self.tags?.data ?? .empty
-        }
-    }
-        
+    
     init(controller: Controller) {
         self.controller = controller
     }
     
-    private func update() {
+    func activate() -> Result<Void, Datum.Error> {
         let result = controller.readTags()
+        self.observer = result.value
+        return result.map { _ in () }
+    }
+    
+    func deactivate() {
         self.objectWillChange.send()
-        switch result {
-        case .success(let tags):
-            self.tags = tags
-        case .failure(let error):
-            // TODO: Do something with this error
-            self.tags = nil
-        }
+        self.observer = nil
     }
 }
 
 // MARK: Toolbar Helpers
-extension TagController {
+extension TagDataSource {
     func canDelete() -> Bool {
         guard let tag = self.selection else { return false }
         return (tag.value.wrappedValue as? Query.Archived) == nil

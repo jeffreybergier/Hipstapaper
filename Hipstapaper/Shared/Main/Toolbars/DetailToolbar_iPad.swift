@@ -56,7 +56,7 @@ extension DetailToolbar.iOS {
                     }
                     ToolbarItem(id: "Detail.OpenInApp", placement: .bottomBar) {
                         STZ.TB.OpenInApp.toolbar(isEnabled: self.controller.canOpen(in: self.windowPresentation)) {
-                            self.modalPresentation.value = .browser(self.controller.selectedWebsites.first!)
+                            self.modalPresentation.value = .browser(self.controller.selection.first!)
                         }
                     }
                     ToolbarItem(id: "Detail.OpenExternal", placement: .bottomBar) {

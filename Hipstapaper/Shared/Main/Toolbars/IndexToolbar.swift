@@ -27,7 +27,7 @@ import Snapshot
 
 struct IndexToolbar: ViewModifier {
     
-    @ObservedObject var controller: TagController
+    @ObservedObject var controller: TagDataSource
     @State private var popoverAlignment: Alignment = .topTrailing
     
     func body(content: Content) -> some View {
@@ -53,7 +53,7 @@ struct IndexToolbar: ViewModifier {
 #if os(macOS)
 struct IndexToolbar_macOS: ViewModifier {
     
-    @ObservedObject var controller: TagController
+    @ObservedObject var controller: TagDataSource
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
     
@@ -78,7 +78,7 @@ struct IndexToolbar_macOS: ViewModifier {
 #else
 struct IndexToolbar_iOS: ViewModifier {
     
-    @ObservedObject var controller: TagController
+    @ObservedObject var controller: TagDataSource
     @Binding var popoverAlignment: Alignment
     
     @Environment(\.editMode) private var editMode

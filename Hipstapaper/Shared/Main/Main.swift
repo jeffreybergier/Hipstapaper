@@ -26,7 +26,7 @@ import Stylize
 struct Main: View {
     
     let controller: Controller
-    private let tagController: TagController
+    private let tagController: TagDataSource
     
     @StateObject private var websiteControllerCache: BlackBox<AnyElement<AnyTag>, WebsiteDataSource> = .init()
 

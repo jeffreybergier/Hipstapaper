@@ -28,7 +28,7 @@ struct TagList: View {
     
     typealias Navigation = (AnyElement<AnyTag>) -> AnyView
     
-    @StateObject var controller: TagController
+    @StateObject var controller: TagDataSource
     let navigation: Navigation
 
     var body: some View {
@@ -37,7 +37,7 @@ struct TagList: View {
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
-                ForEach(self.controller.`static`, id: \.self) { item in
+                ForEach(self.controller.fixed, id: \.self) { item in
                     NavigationLink(destination: self.navigation(item)) {
                         TagRow(item.value)
                     }
@@ -47,13 +47,15 @@ struct TagList: View {
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
-                ForEach(self.controller.all, id: \.self) { item in
+                ForEach(self.controller.data, id: \.self) { item in
                     NavigationLink(destination: self.navigation(item)) {
                         TagRow(item.value)
                     }
                 }
             }
         }
+        .onAppear { self.controller.activate() }
+        .onDisappear { self.controller.deactivate() }
         .listStyle(SidebarListStyle())
         .navigationTitle(Noun.Tags)
     }
