@@ -146,8 +146,8 @@
 		73C6BC1D25982FA0006B7A6D /* MDL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC1C25982FA0006B7A6D /* MDL.swift */; };
 		73C6BC6D259A16F3006B7A6D /* WebsiteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC6C259A16F3006B7A6D /* WebsiteDataSource.swift */; };
 		73C6BC6E259A16F3006B7A6D /* WebsiteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC6C259A16F3006B7A6D /* WebsiteDataSource.swift */; };
-		73C6BCAE259AC172006B7A6D /* TagController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BCAD259AC172006B7A6D /* TagController.swift */; };
-		73C6BCAF259AC172006B7A6D /* TagController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BCAD259AC172006B7A6D /* TagController.swift */; };
+		73C6BCAE259AC172006B7A6D /* TagDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BCAD259AC172006B7A6D /* TagDataSource.swift */; };
+		73C6BCAF259AC172006B7A6D /* TagDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BCAD259AC172006B7A6D /* TagDataSource.swift */; };
 		73C6BCC5259B5E0D006B7A6D /* WindowPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BCC4259B5E0D006B7A6D /* WindowPresentation.swift */; };
 		73C6BCFA259B6AE6006B7A6D /* WindowPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BCF9259B6AE6006B7A6D /* WindowPresentation.swift */; };
 		73C6BD1E259C0530006B7A6D /* WindowManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BD1D259C0530006B7A6D /* WindowManagerProtocol.swift */; };
@@ -536,7 +536,7 @@
 		73C2751925A9FB300028FE3A /* DropboxWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxWatcher.swift; sourceTree = "<group>"; };
 		73C6BC1C25982FA0006B7A6D /* MDL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDL.swift; sourceTree = "<group>"; };
 		73C6BC6C259A16F3006B7A6D /* WebsiteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteDataSource.swift; sourceTree = "<group>"; };
-		73C6BCAD259AC172006B7A6D /* TagController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagController.swift; sourceTree = "<group>"; };
+		73C6BCAD259AC172006B7A6D /* TagDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDataSource.swift; sourceTree = "<group>"; };
 		73C6BCC4259B5E0D006B7A6D /* WindowPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowPresentation.swift; sourceTree = "<group>"; };
 		73C6BCF9259B6AE6006B7A6D /* WindowPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowPresentation.swift; sourceTree = "<group>"; };
 		73C6BD1D259C0530006B7A6D /* WindowManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManagerProtocol.swift; sourceTree = "<group>"; };
@@ -842,7 +842,7 @@
 			children = (
 				734068312574ED5800D4A343 /* TagList.swift */,
 				734068182574981200D4A343 /* TagRow.swift */,
-				73C6BCAD259AC172006B7A6D /* TagController.swift */,
+				73C6BCAD259AC172006B7A6D /* TagDataSource.swift */,
 			);
 			path = Index;
 			sourceTree = "<group>";
@@ -1661,7 +1661,7 @@
 				73466978259F4C820001E7C9 /* DetailToolbar_iOS.swift in Sources */,
 				7350B37D25C4274300C61716 /* SyncMonitor.swift in Sources */,
 				735CA02925CBE88600B3F04B /* DataSource.swift in Sources */,
-				73C6BCAE259AC172006B7A6D /* TagController.swift in Sources */,
+				73C6BCAE259AC172006B7A6D /* TagDataSource.swift in Sources */,
 				73A3DEB0257B9351002EDEB4 /* Search.swift in Sources */,
 				73AFCBE925B31E6100832F31 /* DetailToolbar_iPad.swift in Sources */,
 				73C2751A25A9FB300028FE3A /* DropboxWatcher.swift in Sources */,
@@ -1690,7 +1690,7 @@
 				73466984259F4DA20001E7C9 /* Sort.swift in Sources */,
 				735C91C12574F1790033B4E8 /* WebsiteList.swift in Sources */,
 				736DD3F825879D1800F0FBE0 /* TagApplyRow.swift in Sources */,
-				73C6BCAF259AC172006B7A6D /* TagController.swift in Sources */,
+				73C6BCAF259AC172006B7A6D /* TagDataSource.swift in Sources */,
 				73C2751B25A9FB300028FE3A /* DropboxWatcher.swift in Sources */,
 				73A3DE95257B77C8002EDEB4 /* IndexToolbar.swift in Sources */,
 				73993E2E2595DFC7006FB612 /* BrowserWindowController.swift in Sources */,
