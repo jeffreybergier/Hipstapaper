@@ -23,7 +23,7 @@ import Stylize
 extension DetailToolbar.iOS {
     struct iPadEdit: ViewModifier {
         
-        @ObservedObject var controller: WebsiteController
+        @ObservedObject var controller: WebsiteDataSource
         @Binding var popoverAlignment: Alignment
         
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
@@ -107,7 +107,7 @@ extension DetailToolbar.iOS {
     
     struct iPad: ViewModifier {
         
-        @ObservedObject var controller: WebsiteController
+        @ObservedObject var controller: WebsiteDataSource
         @Binding var popoverAlignment: Alignment
         
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap

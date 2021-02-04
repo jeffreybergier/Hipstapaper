@@ -26,7 +26,7 @@ import Localize
 
 struct TagApply: View {
     
-    let controller: WebsiteController
+    let controller: WebsiteDataSource
     let done: Action
     
     @EnvironmentObject private var errorQ: STZ.ERR.ViewModel

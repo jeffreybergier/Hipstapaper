@@ -25,7 +25,7 @@ struct BrowserPresentable: ViewModifier {
 
 struct TagApplyPresentable: ViewModifier {
     
-    let controller: WebsiteController
+    let controller: WebsiteDataSource
     let selectedWebsites: Set<AnyElement<AnyWebsite>>
     
     @EnvironmentObject private var presentation: ModalPresentation.Wrap

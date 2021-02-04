@@ -27,7 +27,7 @@ extension DetailToolbar {
 extension DetailToolbar.iOS {
     struct Shared: ViewModifier {
         
-        @ObservedObject var controller: WebsiteController
+        @ObservedObject var controller: WebsiteDataSource
         @Binding var popoverAlignment: Alignment
         
         @Environment(\.editMode) private var editMode

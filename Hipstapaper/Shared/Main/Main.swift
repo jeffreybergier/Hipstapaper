@@ -28,7 +28,7 @@ struct Main: View {
     let controller: Controller
     private let tagController: TagController
     
-    @StateObject private var websiteControllerCache: BlackBox<AnyElement<AnyTag>, WebsiteController> = .init()
+    @StateObject private var websiteControllerCache: BlackBox<AnyElement<AnyTag>, WebsiteDataSource> = .init()
 
     init(controller: Controller) {
         self.controller = controller
@@ -40,7 +40,7 @@ struct Main: View {
             TagList(controller: self.tagController,
                     navigation: { selectedTag in
                         let c = self.websiteControllerCache[selectedTag] {
-                            return WebsiteController(controller: self.controller,
+                            return WebsiteDataSource(controller: self.controller,
                                                      selectedTag: selectedTag)
                         }
                         return AnyView(

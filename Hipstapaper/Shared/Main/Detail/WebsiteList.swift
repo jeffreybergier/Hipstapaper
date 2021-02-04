@@ -27,18 +27,18 @@ import XPList
 
 struct WebsiteList: View {
     
-    @ObservedObject private var controller: WebsiteController
+    @ObservedObject private var controller: WebsiteDataSource
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     @EnvironmentObject private var windowPresentation: WindowPresentation
     @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
     @Environment(\.openURL) private var externalPresentation
     
     init(controller: Controller, selectedTag: AnyElement<AnyTag>) {
-        let websiteController = WebsiteController(controller: controller, selectedTag: selectedTag)
+        let websiteController = WebsiteDataSource(controller: controller, selectedTag: selectedTag)
         _controller = ObservedObject(initialValue: websiteController)
     }
     
-    init(controller: WebsiteController) {
+    init(controller: WebsiteDataSource) {
         _controller = ObservedObject(initialValue: controller)
     }
     
@@ -80,12 +80,12 @@ extension WebsiteList {
     
     private func contextMenu(_ items: Set<AnyElement<AnyWebsite>>) -> some View {
         // TODO: Remove this temp controller nonesense
-        let controller = WebsiteController(controller: self.controller.controller)
+        let controller = WebsiteDataSource(controller: self.controller.controller)
         controller.selection = items
         return _contextMenu(controller)
     }
     
-    @ViewBuilder private func _contextMenu(_ tmpCtrlr: WebsiteController) -> some View {
+    @ViewBuilder private func _contextMenu(_ tmpCtrlr: WebsiteDataSource) -> some View {
         STZ.VIEW.TXT("\(tmpCtrlr.selection.count) selected")
         Group {
             STZ.TB.OpenInApp.context(isEnabled: tmpCtrlr.canOpen(in: self.windowPresentation)) {
@@ -124,7 +124,7 @@ extension WebsiteList {
 #if DEBUG
 struct WebsiteList_Preview: PreviewProvider {
     static var previews: some View {
-        WebsiteList(controller: WebsiteController(controller: P_Controller()))
+        WebsiteList(controller: WebsiteDataSource(controller: P_Controller()))
     }
 }
 #endif

@@ -144,8 +144,8 @@
 		73C2751A25A9FB300028FE3A /* DropboxWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C2751925A9FB300028FE3A /* DropboxWatcher.swift */; };
 		73C2751B25A9FB300028FE3A /* DropboxWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C2751925A9FB300028FE3A /* DropboxWatcher.swift */; };
 		73C6BC1D25982FA0006B7A6D /* MDL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC1C25982FA0006B7A6D /* MDL.swift */; };
-		73C6BC6D259A16F3006B7A6D /* WebsiteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC6C259A16F3006B7A6D /* WebsiteController.swift */; };
-		73C6BC6E259A16F3006B7A6D /* WebsiteController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC6C259A16F3006B7A6D /* WebsiteController.swift */; };
+		73C6BC6D259A16F3006B7A6D /* WebsiteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC6C259A16F3006B7A6D /* WebsiteDataSource.swift */; };
+		73C6BC6E259A16F3006B7A6D /* WebsiteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC6C259A16F3006B7A6D /* WebsiteDataSource.swift */; };
 		73C6BCAE259AC172006B7A6D /* TagController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BCAD259AC172006B7A6D /* TagController.swift */; };
 		73C6BCAF259AC172006B7A6D /* TagController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BCAD259AC172006B7A6D /* TagController.swift */; };
 		73C6BCC5259B5E0D006B7A6D /* WindowPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BCC4259B5E0D006B7A6D /* WindowPresentation.swift */; };
@@ -535,7 +535,7 @@
 		73C274E625A9DA6A0028FE3A /* Share_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Share_iOS.entitlements; sourceTree = "<group>"; };
 		73C2751925A9FB300028FE3A /* DropboxWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxWatcher.swift; sourceTree = "<group>"; };
 		73C6BC1C25982FA0006B7A6D /* MDL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDL.swift; sourceTree = "<group>"; };
-		73C6BC6C259A16F3006B7A6D /* WebsiteController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteController.swift; sourceTree = "<group>"; };
+		73C6BC6C259A16F3006B7A6D /* WebsiteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteDataSource.swift; sourceTree = "<group>"; };
 		73C6BCAD259AC172006B7A6D /* TagController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagController.swift; sourceTree = "<group>"; };
 		73C6BCC4259B5E0D006B7A6D /* WindowPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowPresentation.swift; sourceTree = "<group>"; };
 		73C6BCF9259B6AE6006B7A6D /* WindowPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowPresentation.swift; sourceTree = "<group>"; };
@@ -853,7 +853,7 @@
 				735C91BF2574F1790033B4E8 /* WebsiteList.swift */,
 				736450D325BDBFE3000B9B06 /* WebsiteListTitle.swift */,
 				7340681F2574B56700D4A343 /* WebsiteRow.swift */,
-				73C6BC6C259A16F3006B7A6D /* WebsiteController.swift */,
+				73C6BC6C259A16F3006B7A6D /* WebsiteDataSource.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -1668,7 +1668,7 @@
 				DBDCB365256BE8E800D005F6 /* HipstapaperApp.swift in Sources */,
 				735D4CA3258F1ECE0016F904 /* AddTag.swift in Sources */,
 				734068192574981200D4A343 /* TagRow.swift in Sources */,
-				73C6BC6D259A16F3006B7A6D /* WebsiteController.swift in Sources */,
+				73C6BC6D259A16F3006B7A6D /* WebsiteDataSource.swift in Sources */,
 				736DD3E3258790A000F0FBE0 /* TagApply.swift in Sources */,
 				732CF67525B45904008C0A96 /* ObserveBox.swift in Sources */,
 				736DD3ED258793C200F0FBE0 /* Website+Hipstapaper.swift in Sources */,
@@ -1695,7 +1695,7 @@
 				73A3DE95257B77C8002EDEB4 /* IndexToolbar.swift in Sources */,
 				73993E2E2595DFC7006FB612 /* BrowserWindowController.swift in Sources */,
 				736450D525BDBFE3000B9B06 /* WebsiteListTitle.swift in Sources */,
-				73C6BC6E259A16F3006B7A6D /* WebsiteController.swift in Sources */,
+				73C6BC6E259A16F3006B7A6D /* WebsiteDataSource.swift in Sources */,
 				734068212574B56700D4A343 /* WebsiteRow.swift in Sources */,
 				DBDCB368256BE8E800D005F6 /* Main.swift in Sources */,
 				73A3DEB1257B9351002EDEB4 /* Search.swift in Sources */,

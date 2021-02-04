@@ -23,7 +23,7 @@ import Stylize
 extension DetailToolbar {
     struct macOS: ViewModifier {
         
-        @ObservedObject var controller: WebsiteController
+        @ObservedObject var controller: WebsiteDataSource
         
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
         @EnvironmentObject private var windowPresentation: WindowPresentation

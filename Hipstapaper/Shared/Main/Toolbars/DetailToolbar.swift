@@ -27,7 +27,7 @@ import Browse
 enum DetailToolbar {
     struct Shared: ViewModifier {
         
-        @ObservedObject var controller: WebsiteController
+        @ObservedObject var controller: WebsiteDataSource
         @State var popoverAlignment: Alignment = .topTrailing
         
         func body(content: Content) -> some View {

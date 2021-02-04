@@ -22,7 +22,7 @@
 import Combine
 import Datum
 
-class WebsiteController: DataSourceMultiSelectable {
+class WebsiteDataSource: DataSourceMultiSelectable {
     
     @Published var selection: Set<AnyElement<AnyWebsite>> = []
     @Published var query: Query { didSet { self.activate() } }
@@ -52,7 +52,7 @@ class WebsiteController: DataSourceMultiSelectable {
 
 // MARK: Toolbar helpers
 import SwiftUI
-extension WebsiteController {
+extension WebsiteDataSource {
     func canShare() -> Bool {
         return self.selection.first(where: { $0.value.preferredURL != nil }) != nil
     }
