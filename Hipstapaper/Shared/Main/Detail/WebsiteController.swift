@@ -138,3 +138,32 @@ extension WebsiteController {
         return nil
     }
 }
+
+class WebsiteDataSource: DataSourceMultiSelectable {
+    
+    @Published var selection: Set<AnyElement<AnyWebsite>> = []
+    @Published var query: Query
+    @Published var observer: AnyObserver<AnyList<AnyElement<AnyWebsite>>>?
+    var data: AnyList<AnyElement<AnyWebsite>> { self.observer?.data ?? .empty }
+    
+    let controller: Controller
+    
+    init(controller: Controller, selectedTag: AnyElement<AnyTag> = Query.Archived.anyTag_allCases[0]) {
+        self.query = Query(specialTag: selectedTag)
+        self.controller = controller
+    }
+    
+    func activate() -> Result<Void, Datum.Error> {
+        log.verbose()
+        let result = controller.readWebsites(query: self.query)
+        self.observer = result.value
+        return result.map { _ in () }
+    }
+    
+    func deactivate() {
+        log.verbose()
+        self.objectWillChange.send()
+        self.observer = nil
+    }
+    
+}
