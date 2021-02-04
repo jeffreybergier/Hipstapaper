@@ -60,6 +60,7 @@ struct WebsiteList: View {
                 secondaryButton: .cancel()
             )
         }
+        .animation(.default)
         .modifier(WebsiteListTitle(query: self.controller.query))
         .onAppear() { self.controller.activate() }
         .onDisappear() { self.controller.deactivate() }
