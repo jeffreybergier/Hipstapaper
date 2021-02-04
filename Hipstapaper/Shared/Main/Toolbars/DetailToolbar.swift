@@ -35,10 +35,10 @@ enum DetailToolbar {
                 // TODO: Hack when toolbars work properly with popovers
                 Color.clear.frame(width: 1, height: 1).modifier(
                     TagApplyPresentable(controller: self.controller,
-                                        selectedWebsites: self.controller.selectedWebsites)
+                                        selectedWebsites: self.controller.selection)
                 )
                 Color.clear.frame(width: 1, height: 1).modifier(
-                    SharePresentable(selectedWebsites: self.controller.selectedWebsites)
+                    SharePresentable(selectedWebsites: self.controller.selection)
                 )
                 Color.clear.frame(width: 1, height: 1).modifier(
                     SearchPresentable(search: self.$controller.query.search)

@@ -32,7 +32,7 @@ struct TagApply: View {
     @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
     
     var body: some View {
-        let result = self.controller.controller.tagStatus(for: self.controller.selectedWebsites)
+        let result = self.controller.controller.tagStatus(for: self.controller.selection)
         self.errorQ.append(result)
         log.error(result.error)
         guard let data = result.value else { return AnyView(Color.clear) }
@@ -51,7 +51,7 @@ struct TagApply: View {
     }
     
     private func process(newValue: Bool, for tag: AnyElement<AnyTag>) {
-        let selection = self.controller.selectedWebsites
+        let selection = self.controller.selection
         let result: Result<Void, Datum.Error>
         switch newValue {
         case true:

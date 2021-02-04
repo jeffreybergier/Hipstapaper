@@ -43,8 +43,8 @@ struct WebsiteList: View {
     }
     
     var body: some View {
-        XPL.List(data: self.controller.all,
-                 selection: self.$controller.selectedWebsites,
+        XPL.List(data: self.controller.data,
+                 selection: self.$controller.selection,
                  open: self.open,
                  menu: self.contextMenu)
         { item in
@@ -81,12 +81,12 @@ extension WebsiteList {
     private func contextMenu(_ items: Set<AnyElement<AnyWebsite>>) -> some View {
         // TODO: Remove this temp controller nonesense
         let controller = WebsiteController(controller: self.controller.controller)
-        controller.selectedWebsites = items
+        controller.selection = items
         return _contextMenu(controller)
     }
     
     @ViewBuilder private func _contextMenu(_ tmpCtrlr: WebsiteController) -> some View {
-        STZ.VIEW.TXT("\(tmpCtrlr.selectedWebsites.count) selected")
+        STZ.VIEW.TXT("\(tmpCtrlr.selection.count) selected")
         Group {
             STZ.TB.OpenInApp.context(isEnabled: tmpCtrlr.canOpen(in: self.windowPresentation)) {
                 guard let fail = tmpCtrlr.open(in: self.windowPresentation) else { return }
@@ -103,18 +103,18 @@ extension WebsiteList {
         }
         Group {
             STZ.TB.Share.context(isEnabled: tmpCtrlr.canShare()) {
-                self.controller.selectedWebsites = tmpCtrlr.selectedWebsites
+                self.controller.selection = tmpCtrlr.selection
                 self.modalPresentation.value = .share
             }
             STZ.TB.TagApply.context(isEnabled: tmpCtrlr.canTag()) {
-                self.controller.selectedWebsites = tmpCtrlr.selectedWebsites
+                self.controller.selection = tmpCtrlr.selection
                 self.modalPresentation.value = .tagApply
             }
         }
         Group {
             STZ.TB.DeleteWebsite.context(isEnabled: tmpCtrlr.canDelete()) {
                 // TODO: Find a way to not forcefully change the selection
-                self.controller.selectedWebsites = tmpCtrlr.selectedWebsites
+                self.controller.selection = tmpCtrlr.selection
                 self.modalPresentation.value = .delete
             }
         }
