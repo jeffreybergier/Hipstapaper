@@ -36,14 +36,10 @@ struct Main: View {
     var body: some View {
         NavigationView {
             TagList(controller: self.controller) { selectedTag in
-                let ds = self.websiteControllerCache[selectedTag] {
-                    return WebsiteDataSource(controller: self.controller,
-                                             selectedTag: selectedTag)
-                }
-                return AnyView(
-                    WebsiteList(dataSource: ds)
-                        .modifier(DetailToolbar.Shared(dataSource: ds))
-                )
+                WebsiteList(dataSource: self.websiteControllerCache[selectedTag] {
+                    WebsiteDataSource(controller: self.controller,
+                                      selectedTag: selectedTag)
+                })
             }
         }
         .modifier(BrowserPresentable())

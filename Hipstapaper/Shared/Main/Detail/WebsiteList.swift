@@ -53,9 +53,10 @@ struct WebsiteList: View {
             )
         }
         .animation(.default)
-        .modifier(WebsiteListTitle(query: self.dataSource.query))
         .onAppear() { self.dataSource.activate() }
         .onDisappear() { self.dataSource.deactivate() }
+        .modifier(WebsiteListTitle(query: self.dataSource.query))
+        .modifier(DetailToolbar.Shared(dataSource: self.dataSource))
     }
 }
 

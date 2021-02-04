@@ -24,14 +24,14 @@ import Datum
 import Localize
 import Stylize
 
-struct TagList: View {
+struct TagList<Nav: View>: View {
     
-    typealias Navigation = (AnyElement<AnyTag>) -> AnyView
+    typealias Navigation = (AnyElement<AnyTag>) -> Nav
     
-    @StateObject var dataSource: TagDataSource
-    let navigation: Navigation
+    @StateObject private var dataSource: TagDataSource
+    private let navigation: Navigation
     
-    init(controller: Controller, navigation: @escaping Navigation) {
+    init(controller: Controller, @ViewBuilder navigation: @escaping Navigation) {
         self.navigation = navigation
         _dataSource = .init(wrappedValue: .init(controller: controller))
     }
