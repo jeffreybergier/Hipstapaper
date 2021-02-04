@@ -200,7 +200,7 @@ extension STZ.ERR {
             let url = navigationAction.request.url!
             guard
                 let comp = URLComponents(url: url, resolvingAgainstBaseURL: true),
-                comp.scheme == "http" || comp.scheme == "https"
+                comp.scheme == "http" || comp.scheme == "https" || comp.scheme == "about"
             else {
                 decisionHandler(.cancel, preferences)
                 let localizedError = Error.invalidURL(url)
