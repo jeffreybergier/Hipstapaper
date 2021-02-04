@@ -40,6 +40,7 @@ struct TagList: View {
                 ForEach(self.dataSource.fixed, id: \.self) { item in
                     NavigationLink(destination: self.navigation(item)) {
                         TagRow(item.value)
+                            .animation(nil)
                     }
                 }
             }
@@ -50,12 +51,13 @@ struct TagList: View {
                 ForEach(self.dataSource.data, id: \.self) { item in
                     NavigationLink(destination: self.navigation(item)) {
                         TagRow(item.value)
+                            .animation(nil)
                     }
                 }
             }
         }
-        .onAppear { self.dataSource.activate() }
         .animation(.default)
+        .onAppear { self.dataSource.activate() }
         .listStyle(SidebarListStyle())
         .navigationTitle(Noun.Tags)
     }
