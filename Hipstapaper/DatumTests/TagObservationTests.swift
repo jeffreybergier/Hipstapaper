@@ -60,6 +60,6 @@ class TagObservationTests: ParentTestCase {
                 XCTAssertTrue(tag.isDeleted)
             }
         }
-        self.wait(for: .short)
+        self.wait(for: .medium)
     }
 }
