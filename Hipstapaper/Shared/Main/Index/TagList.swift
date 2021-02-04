@@ -55,7 +55,7 @@ struct TagList: View {
             }
         }
         .onAppear { self.dataSource.activate() }
-        .onDisappear { self.dataSource.deactivate() }
+        .animation(.default)
         .listStyle(SidebarListStyle())
         .navigationTitle(Noun.Tags)
     }

@@ -33,6 +33,7 @@ class TagDataSource: DataSourceSelectable {
     }
     
     func activate() -> Result<Void, Datum.Error> {
+        guard self.observer == nil else { return .success(()) }
         let result = controller.readTags()
         self.observer = result.value
         return result.map { _ in () }
@@ -52,6 +53,7 @@ extension TagDataSource {
     }
     func delete(_ errorQ: ErrorQ) {
         guard let tag = self.selection else { return }
+        self.selection = nil
         let r = errorQ.append(self.controller.delete(tag))
         log.error(r.error)
     }
