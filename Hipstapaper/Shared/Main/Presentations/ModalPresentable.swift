@@ -25,7 +25,7 @@ struct BrowserPresentable: ViewModifier {
 
 struct TagApplyPresentable: ViewModifier {
     
-    let controller: WebsiteDataSource
+    let dataSource: WebsiteDataSource
     let selectedWebsites: Set<AnyElement<AnyWebsite>>
     
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
@@ -33,7 +33,7 @@ struct TagApplyPresentable: ViewModifier {
     func body(content: Content) -> some View {
         content.popover(isPresented: self.$presentation.isTagApply)
         { () -> TagApply in
-            TagApply(controller: self.controller,
+            TagApply(dataSource: self.dataSource,
                      done: { self.presentation.value = .none })
         }
     }

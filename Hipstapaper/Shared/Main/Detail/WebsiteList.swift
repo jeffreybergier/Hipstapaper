@@ -27,24 +27,16 @@ import XPList
 
 struct WebsiteList: View {
     
-    @ObservedObject private var controller: WebsiteDataSource
+    @ObservedObject var dataSource: WebsiteDataSource
+    
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     @EnvironmentObject private var windowPresentation: WindowPresentation
     @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
     @Environment(\.openURL) private var externalPresentation
     
-    init(controller: Controller, selectedTag: AnyElement<AnyTag>) {
-        let websiteController = WebsiteDataSource(controller: controller, selectedTag: selectedTag)
-        _controller = ObservedObject(initialValue: websiteController)
-    }
-    
-    init(controller: WebsiteDataSource) {
-        _controller = ObservedObject(initialValue: controller)
-    }
-    
     var body: some View {
-        XPL.List(data: self.controller.data,
-                 selection: self.$controller.selection,
+        XPL.List(data: self.dataSource.data,
+                 selection: self.$dataSource.selection,
                  open: self.open,
                  menu: self.contextMenu)
         { item in
@@ -56,14 +48,14 @@ struct WebsiteList: View {
                 title: STZ.VIEW.TXT("Delete"),
                 message: STZ.VIEW.TXT("This action cannot be undone."),
                 primaryButton: .destructive(STZ.VIEW.TXT("Delete"),
-                                            action: { self.controller.delete(self.errorQ) }),
+                                            action: { self.dataSource.delete(self.errorQ) }),
                 secondaryButton: .cancel()
             )
         }
         .animation(.default)
-        .modifier(WebsiteListTitle(query: self.controller.query))
-        .onAppear() { self.controller.activate() }
-        .onDisappear() { self.controller.deactivate() }
+        .modifier(WebsiteListTitle(query: self.dataSource.query))
+        .onAppear() { self.dataSource.activate() }
+        .onDisappear() { self.dataSource.deactivate() }
     }
 }
 
@@ -80,7 +72,7 @@ extension WebsiteList {
     
     private func contextMenu(_ items: Set<AnyElement<AnyWebsite>>) -> some View {
         // TODO: Remove this temp controller nonesense
-        let controller = WebsiteDataSource(controller: self.controller.controller)
+        let controller = WebsiteDataSource(controller: self.dataSource.controller)
         controller.selection = items
         return _contextMenu(controller)
     }
@@ -103,18 +95,18 @@ extension WebsiteList {
         }
         Group {
             STZ.TB.Share.context(isEnabled: tmpCtrlr.canShare()) {
-                self.controller.selection = tmpCtrlr.selection
+                self.dataSource.selection = tmpCtrlr.selection
                 self.modalPresentation.value = .share
             }
             STZ.TB.TagApply.context(isEnabled: tmpCtrlr.canTag()) {
-                self.controller.selection = tmpCtrlr.selection
+                self.dataSource.selection = tmpCtrlr.selection
                 self.modalPresentation.value = .tagApply
             }
         }
         Group {
             STZ.TB.DeleteWebsite.context(isEnabled: tmpCtrlr.canDelete()) {
                 // TODO: Find a way to not forcefully change the selection
-                self.controller.selection = tmpCtrlr.selection
+                self.dataSource.selection = tmpCtrlr.selection
                 self.modalPresentation.value = .delete
             }
         }
@@ -124,7 +116,7 @@ extension WebsiteList {
 #if DEBUG
 struct WebsiteList_Preview: PreviewProvider {
     static var previews: some View {
-        WebsiteList(controller: WebsiteDataSource(controller: P_Controller()))
+        WebsiteList(dataSource: WebsiteDataSource(controller: P_Controller()))
     }
 }
 #endif

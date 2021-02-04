@@ -39,13 +39,13 @@ struct Main: View {
         NavigationView {
             TagList(dataSource: self.tagDataSource,
                     navigation: { selectedTag in
-                        let c = self.websiteControllerCache[selectedTag] {
+                        let ds = self.websiteControllerCache[selectedTag] {
                             return WebsiteDataSource(controller: self.controller,
                                                      selectedTag: selectedTag)
                         }
                         return AnyView(
-                            WebsiteList(controller: c)
-                                .modifier(DetailToolbar.Shared(controller: c))
+                            WebsiteList(dataSource: ds)
+                                .modifier(DetailToolbar.Shared(dataSource: ds))
                         )
                     })
                 .modifier(IndexToolbar(dataSource: self.tagDataSource))

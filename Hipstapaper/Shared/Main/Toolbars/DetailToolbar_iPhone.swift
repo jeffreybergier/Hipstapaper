@@ -23,7 +23,7 @@ import Stylize
 extension DetailToolbar.iOS {
     struct iPhoneEdit: ViewModifier {
         
-        @ObservedObject var controller: WebsiteDataSource
+        @ObservedObject var dataSource: WebsiteDataSource
         @Binding var popoverAlignment: Alignment
         
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
@@ -35,18 +35,18 @@ extension DetailToolbar.iOS {
             content
                 .toolbar(id: "Detail_Bottom") {
                     ToolbarItem(id: "Detail.Archive", placement: .bottomBar) {
-                        STZ.TB.Archive.toolbar(isEnabled: self.controller.canArchive(),
-                                               action: { self.controller.archive(self.errorQ) })
+                        STZ.TB.Archive.toolbar(isEnabled: self.dataSource.canArchive(),
+                                               action: { self.dataSource.archive(self.errorQ) })
                     }
                     ToolbarItem(id: "Detail.Unarchive", placement: .bottomBar) {
-                        STZ.TB.Unarchive.toolbar(isEnabled: self.controller.canUnarchive(),
-                                                 action: { self.controller.unarchive(self.errorQ) })
+                        STZ.TB.Unarchive.toolbar(isEnabled: self.dataSource.canUnarchive(),
+                                                 action: { self.dataSource.unarchive(self.errorQ) })
                     }
                     ToolbarItem(id: "Detail.Separator", placement: .bottomBar) {
                         STZ.TB.Separator.toolbar()
                     }
                     ToolbarItem(id: "Detail.Tag", placement: .bottomBar) {
-                        STZ.TB.TagApply.toolbar(isEnabled: self.controller.canTag()) {
+                        STZ.TB.TagApply.toolbar(isEnabled: self.dataSource.canTag()) {
                             self.popoverAlignment = .bottomLeading
                             self.modalPresentation.value = .tagApply
                         }
@@ -55,7 +55,7 @@ extension DetailToolbar.iOS {
                         Spacer()
                     }
                     ToolbarItem(id: "Detail.Share", placement: .bottomBar) {
-                        STZ.TB.Share.toolbar(isEnabled: self.controller.canShare()) {
+                        STZ.TB.Share.toolbar(isEnabled: self.dataSource.canShare()) {
                             self.popoverAlignment = .bottomTrailing
                             self.modalPresentation.value = .share
                         }
@@ -66,11 +66,11 @@ extension DetailToolbar.iOS {
                 }
                 .toolbar(id: "Detail") { // TODO: Hack because toolbars only support 10 items
                     ToolbarItem(id: "Detail.Sync", placement: .cancellationAction) {
-                        STZ.TB.SyncMonitor(self.controller.controller.syncMonitor)
+                        STZ.TB.SyncMonitor(self.dataSource.controller.syncMonitor)
                     }
                     ToolbarItem(id: "Detail.OpenExternal", placement: .primaryAction) {
-                        STZ.TB.OpenInBrowser.toolbar(isEnabled: self.controller.canOpen(in: self.windowPresentation),
-                                                     action: { self.controller.open(in: self.externalPresentation) })
+                        STZ.TB.OpenInBrowser.toolbar(isEnabled: self.dataSource.canOpen(in: self.windowPresentation),
+                                                     action: { self.dataSource.open(in: self.externalPresentation) })
                     }
                 }
         }
@@ -83,7 +83,7 @@ extension DetailToolbar.iOS {
     
     struct iPhone: ViewModifier {
         
-        @ObservedObject var controller: WebsiteDataSource
+        @ObservedObject var dataSource: WebsiteDataSource
         @Binding var popoverAlignment: Alignment
         
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
@@ -91,9 +91,9 @@ extension DetailToolbar.iOS {
         func body(content: Content) -> some View {
             content.toolbar(id: "Detail") {
                 ToolbarItem(id: "Detail.Filter", placement: .bottomBar) {
-                    return self.controller.isFiltered()
-                        ? AnyView(STZ.TB.FilterActive.toolbar(action: self.controller.toggleFilter))
-                        : AnyView(STZ.TB.FilterInactive.toolbar(action: self.controller.toggleFilter))
+                    return self.dataSource.isFiltered()
+                        ? AnyView(STZ.TB.FilterActive.toolbar(action: self.dataSource.toggleFilter))
+                        : AnyView(STZ.TB.FilterInactive.toolbar(action: self.dataSource.toggleFilter))
                 }
                 ToolbarItem(id: "Detail.Separator", placement: .bottomBar) {
                     STZ.TB.Separator.toolbar()
@@ -111,10 +111,10 @@ extension DetailToolbar.iOS {
                     EditButton()
                 }
                 ToolbarItem(id: "Detail.Sync", placement: .cancellationAction) {
-                    STZ.TB.SyncMonitor(self.controller.controller.syncMonitor)
+                    STZ.TB.SyncMonitor(self.dataSource.controller.syncMonitor)
                 }
                 ToolbarItem(id: "Detail.Search", placement: .primaryAction) {
-                    return self.controller.isSearchActive()
+                    return self.dataSource.isSearchActive()
                         ? AnyView(STZ.TB.SearchInactive.toolbar(action: self.search))
                         : AnyView(STZ.TB.SearchActive.toolbar(action: self.search))
                 }

@@ -23,7 +23,7 @@ import Stylize
 extension DetailToolbar {
     struct macOS: ViewModifier {
         
-        @ObservedObject var controller: WebsiteDataSource
+        @ObservedObject var dataSource: WebsiteDataSource
         
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
         @EnvironmentObject private var windowPresentation: WindowPresentation
@@ -35,14 +35,14 @@ extension DetailToolbar {
             content.toolbar(id: "Detail") {
                 ToolbarItem(id: "Detail.Open") {
                     HStack {
-                        STZ.TB.OpenInApp.toolbar(isEnabled: self.controller.canOpen(in: self.windowPresentation),
-                                                 action: { self.controller.open(in: self.windowPresentation) })
-                        STZ.TB.OpenInBrowser.toolbar(isEnabled: self.controller.canOpen(in: self.windowPresentation),
-                                                     action: { self.controller.open(in: self.externalPresentation) })
+                        STZ.TB.OpenInApp.toolbar(isEnabled: self.dataSource.canOpen(in: self.windowPresentation),
+                                                 action: { self.dataSource.open(in: self.windowPresentation) })
+                        STZ.TB.OpenInBrowser.toolbar(isEnabled: self.dataSource.canOpen(in: self.windowPresentation),
+                                                     action: { self.dataSource.open(in: self.externalPresentation) })
                     }
                 }
                 ToolbarItem(id: "Detail.Share") {
-                    STZ.TB.Share.toolbar(isEnabled: self.controller.canShare(),
+                    STZ.TB.Share.toolbar(isEnabled: self.dataSource.canShare(),
                                          action: { self.modalPresentation.value = .share })
                 }
                 ToolbarItem(id: "Detail.Separator") {
@@ -50,14 +50,14 @@ extension DetailToolbar {
                 }
                 ToolbarItem(id: "Detail.Archive") {
                     HStack {
-                        STZ.TB.Archive.toolbar(isEnabled: self.controller.canArchive(),
-                                               action: { self.controller.archive(self.errorQ) })
-                        STZ.TB.Unarchive.toolbar(isEnabled: self.controller.canUnarchive(),
-                                                 action: { self.controller.unarchive(self.errorQ) })
+                        STZ.TB.Archive.toolbar(isEnabled: self.dataSource.canArchive(),
+                                               action: { self.dataSource.archive(self.errorQ) })
+                        STZ.TB.Unarchive.toolbar(isEnabled: self.dataSource.canUnarchive(),
+                                                 action: { self.dataSource.unarchive(self.errorQ) })
                     }
                 }
                 ToolbarItem(id: "Detail.Tag") {
-                    STZ.TB.TagApply.toolbar(isEnabled: self.controller.canTag(),
+                    STZ.TB.TagApply.toolbar(isEnabled: self.dataSource.canTag(),
                                             action: { self.modalPresentation.value = .tagApply })
                 }
                 ToolbarItem(id: "Detail.Separator") {
@@ -67,12 +67,12 @@ extension DetailToolbar {
                     STZ.TB.Sort.toolbar(action: { self.modalPresentation.value = .sort })
                 }
                 ToolbarItem(id: "Detail.Filter") {
-                    return self.controller.isFiltered()
-                        ? AnyView(STZ.TB.FilterActive.toolbar(action: self.controller.toggleFilter))
-                        : AnyView(STZ.TB.FilterInactive.toolbar(action: self.controller.toggleFilter))
+                    return self.dataSource.isFiltered()
+                        ? AnyView(STZ.TB.FilterActive.toolbar(action: self.dataSource.toggleFilter))
+                        : AnyView(STZ.TB.FilterInactive.toolbar(action: self.dataSource.toggleFilter))
                 }
                 ToolbarItem(id: "Detail.Search") {
-                    return self.controller.isSearchActive()
+                    return self.dataSource.isSearchActive()
                         ? AnyView(STZ.TB.SearchInactive.toolbar(action: { self.modalPresentation.value = .search }))
                         : AnyView(STZ.TB.SearchActive.toolbar(action: { self.modalPresentation.value = .search }))
                 }
