@@ -27,28 +27,24 @@ struct Main: View {
     
     let controller: Controller
     
-    @StateObject private var tagDataSource: TagDataSource
     @StateObject private var websiteControllerCache: BlackBox<AnyElement<AnyTag>, WebsiteDataSource> = .init()
 
     init(controller: Controller) {
         self.controller = controller
-        _tagDataSource = .init(wrappedValue: .init(controller: controller))
     }
     
     var body: some View {
         NavigationView {
-            TagList(dataSource: self.tagDataSource,
-                    navigation: { selectedTag in
-                        let ds = self.websiteControllerCache[selectedTag] {
-                            return WebsiteDataSource(controller: self.controller,
-                                                     selectedTag: selectedTag)
-                        }
-                        return AnyView(
-                            WebsiteList(dataSource: ds)
-                                .modifier(DetailToolbar.Shared(dataSource: ds))
-                        )
-                    })
-                .modifier(IndexToolbar(dataSource: self.tagDataSource))
+            TagList(controller: self.controller) { selectedTag in
+                let ds = self.websiteControllerCache[selectedTag] {
+                    return WebsiteDataSource(controller: self.controller,
+                                             selectedTag: selectedTag)
+                }
+                return AnyView(
+                    WebsiteList(dataSource: ds)
+                        .modifier(DetailToolbar.Shared(dataSource: ds))
+                )
+            }
         }
         .modifier(BrowserPresentable())
         .modifier(STZ.ERR.PresenterB())

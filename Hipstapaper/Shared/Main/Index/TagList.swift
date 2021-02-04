@@ -28,8 +28,13 @@ struct TagList: View {
     
     typealias Navigation = (AnyElement<AnyTag>) -> AnyView
     
-    @ObservedObject var dataSource: TagDataSource
+    @StateObject var dataSource: TagDataSource
     let navigation: Navigation
+    
+    init(controller: Controller, navigation: @escaping Navigation) {
+        self.navigation = navigation
+        _dataSource = .init(wrappedValue: .init(controller: controller))
+    }
 
     var body: some View {
         List(selection: self.$dataSource.selection) {
@@ -58,15 +63,17 @@ struct TagList: View {
         }
         .animation(.default)
         .onAppear { self.dataSource.activate() }
+        .onDisappear { self.dataSource.deactivate() }
         .listStyle(SidebarListStyle())
         .navigationTitle(Noun.Tags)
+        .modifier(IndexToolbar(dataSource: self.dataSource))
     }
 }
 
 #if DEBUG
 struct TagList_Preview: PreviewProvider {
     static var previews: some View {
-        TagList(dataSource: .init(controller: P_Controller()),
+        TagList(controller: P_Controller(),
                 navigation: { _ in AnyView(STZ.VIEW.TXT("Swift Previews")) })
     }
 }

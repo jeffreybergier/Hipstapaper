@@ -37,16 +37,21 @@ class WebsiteDataSource: DataSourceMultiSelectable {
     }
     
     func activate() -> Result<Void, Datum.Error> {
-        log.verbose()
+        log.verbose(self.query.tag?.value.name ?? self.query.isArchived)
         let result = controller.readWebsites(query: self.query)
         self.observer = result.value
         return result.map { _ in () }
     }
     
     func deactivate() {
-        log.verbose()
+        log.verbose(self.query.tag?.value.name ?? self.query.isArchived)
         self.objectWillChange.send()
         self.observer = nil
+    }
+    
+    deinit {
+        // TODO: Remove this
+        log.emergency()
     }
 }
 

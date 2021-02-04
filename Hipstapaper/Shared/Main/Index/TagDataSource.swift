@@ -33,6 +33,7 @@ class TagDataSource: DataSourceSelectable {
     }
     
     func activate() -> Result<Void, Datum.Error> {
+        log.verbose()
         guard self.observer == nil else { return .success(()) }
         let result = controller.readTags()
         self.observer = result.value
@@ -40,6 +41,7 @@ class TagDataSource: DataSourceSelectable {
     }
     
     func deactivate() {
+        log.verbose()
         self.objectWillChange.send()
         self.observer = nil
     }
