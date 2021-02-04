@@ -414,6 +414,7 @@ extension NSManagedObjectContext {
             try self.save()
             return .success(())
         } catch {
+            log.error(error)
             self.rollback()
             return .failure(.unknown)
         }

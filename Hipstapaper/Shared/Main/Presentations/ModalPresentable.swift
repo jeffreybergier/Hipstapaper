@@ -127,9 +127,8 @@ struct AddWebsitePresentable: ViewModifier {
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
 
     func body(content: Content) -> some View {
-        content.sheet(isPresented: self.$presentation.isAddWebsite)
-        {
-            return Snapshotter(.init(doneAction: self.snapshot))
+        content.sheet(isPresented: self.$presentation.isAddWebsite) {
+            Snapshotter(.init(doneAction: self.snapshot))
         }
     }
     
