@@ -20,7 +20,7 @@
 //
 
 /// Element that does not properly observe its Value
-internal class StaticElement<T: Hashable>: Element {
+internal class StaticElement<T: Hashable>: ElementObserver {
     internal var value: T
     internal var isDeleted: Bool { fatalError("StaticElement does not know this") }
     internal init(_ value: T) {

@@ -24,14 +24,14 @@ import Datum
 
 class WebsiteDataSource: DataSourceMultiSelectable {
     
-    @Published var selection: Set<AnyElement<AnyWebsite>> = []
+    @Published var selection: Set<AnyElementObserver<AnyWebsite>> = []
     @Published var query: Query { didSet { self.activate() } }
-    @Published var observer: AnyListObserver<AnyList<AnyElement<AnyWebsite>>>?
-    var data: AnyList<AnyElement<AnyWebsite>> { self.observer?.data ?? .empty }
+    @Published var observer: AnyListObserver<AnyList<AnyElementObserver<AnyWebsite>>>?
+    var data: AnyList<AnyElementObserver<AnyWebsite>> { self.observer?.data ?? .empty }
     
     let controller: Controller
     
-    init(controller: Controller, selectedTag: AnyElement<AnyTag> = Query.Archived.anyTag_allCases[0]) {
+    init(controller: Controller, selectedTag: AnyElementObserver<AnyTag> = Query.Archived.anyTag_allCases[0]) {
         self.query = Query(specialTag: selectedTag)
         self.controller = controller
     }
@@ -119,7 +119,7 @@ extension WebsiteDataSource {
     }
     
     @discardableResult
-    func open(in wm: WindowPresentation) -> AnyElement<AnyWebsite>? {
+    func open(in wm: WindowPresentation) -> AnyElementObserver<AnyWebsite>? {
         let sites = self.selection
         let urls = sites.compactMap { $0.value.preferredURL }
         

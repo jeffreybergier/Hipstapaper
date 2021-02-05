@@ -36,14 +36,14 @@ public struct Query {
         }
     }
     public var isArchived: Archived! // TODO: Hack for SwiftUI - Remove
-    public var tag: AnyElement<AnyTag>?
+    public var tag: AnyElementObserver<AnyTag>?
     public var search: String
     public var sort: Sort! // TODO: Hack for SwiftUI - Remove
     
     /// Use this initializer when the tag is selected from the UI
     /// and may include the static tags provided for `Unread` and `All`.
     /// This properly configures the Query in these special cases.
-    public init(specialTag: AnyElement<AnyTag>) {
+    public init(specialTag: AnyElementObserver<AnyTag>) {
         self.init()
         switch specialTag {
         case Query.Archived.anyTag_allCases[0]:
@@ -60,7 +60,7 @@ public struct Query {
     }
 
     public init(isArchived: Archived = .unarchived,
-                tag: AnyElement<AnyTag>? = nil,
+                tag: AnyElementObserver<AnyTag>? = nil,
                 search: String = "",
                 sort: Sort = .default)
     {

@@ -22,7 +22,7 @@
 import CoreData
 import Combine
 
-internal class CD_Element<Output, Input: NSManagedObject>: Element {
+internal class CD_Element<Output, Input: NSManagedObject>: ElementObserver {
     
     internal let objectWillChange: ObservableObjectPublisher
     internal var value: Output { transform(_value) }

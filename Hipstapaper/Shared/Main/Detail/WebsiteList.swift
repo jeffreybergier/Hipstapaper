@@ -61,7 +61,7 @@ struct WebsiteList: View {
 }
 
 extension WebsiteList {
-    private func open(_ items: Set<AnyElement<AnyWebsite>>) {
+    private func open(_ items: Set<AnyElementObserver<AnyWebsite>>) {
         if self.windowPresentation.features.contains([.bulkActivation, .multipleWindows]) {
             let validURLs = Set(items.compactMap({ $0.value.preferredURL }))
             self.windowPresentation.show(validURLs, error: { _ in })
@@ -71,7 +71,7 @@ extension WebsiteList {
         }
     }
     
-    private func contextMenu(_ items: Set<AnyElement<AnyWebsite>>) -> some View {
+    private func contextMenu(_ items: Set<AnyElementObserver<AnyWebsite>>) -> some View {
         // TODO: Remove this temp controller nonesense
         let controller = WebsiteDataSource(controller: self.dataSource.controller)
         controller.selection = items

@@ -26,7 +26,7 @@ extension CD_Controller: Controller {
 
     // MARK: Website CRUD
 
-    func createWebsite(_ raw: AnyWebsite.Raw) -> Result<AnyElement<AnyWebsite>, Error> {
+    func createWebsite(_ raw: AnyWebsite.Raw) -> Result<AnyElementObserver<AnyWebsite>, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
@@ -48,11 +48,11 @@ extension CD_Controller: Controller {
         }
         website.datum_willSave()
         return context.datum_save().map {
-            AnyElement(CD_Element(website, { AnyWebsite($0) }))
+            AnyElementObserver(CD_Element(website, { AnyWebsite($0) }))
         }
     }
 
-    func readWebsites(query: Query) -> Result<AnyListObserver<AnyList<AnyElement<AnyWebsite>>>, Error> {
+    func readWebsites(query: Query) -> Result<AnyListObserver<AnyList<AnyElementObserver<AnyWebsite>>>, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
@@ -70,7 +70,7 @@ extension CD_Controller: Controller {
                 AnyListObserver(
                     CD_ListObserver(
                         CD_List(controller) {
-                            AnyElement(CD_Element($0, { AnyWebsite($0) }))
+                            AnyElementObserver(CD_Element($0, { AnyWebsite($0) }))
                         }
                     )
                 )
@@ -80,7 +80,7 @@ extension CD_Controller: Controller {
         }
     }
     
-    func update(_ inputs: Set<AnyElement<AnyWebsite>>, _ raw: AnyWebsite.Raw) -> Result<Void, Error> {
+    func update(_ inputs: Set<AnyElementObserver<AnyWebsite>>, _ raw: AnyWebsite.Raw) -> Result<Void, Error> {
         assert(Thread.isMainThread)
         
         let context = self.container.viewContext
@@ -121,7 +121,7 @@ extension CD_Controller: Controller {
         return changesMade ? context.datum_save() : .success(())
     }
     
-    func delete(_ inputs: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error> {
+    func delete(_ inputs: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
@@ -144,7 +144,7 @@ extension CD_Controller: Controller {
 
     // MARK: Tag CRUD
 
-    func createTag(name: String?) -> Result<AnyElement<AnyTag>, Error> {
+    func createTag(name: String?) -> Result<AnyElementObserver<AnyTag>, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
@@ -153,11 +153,11 @@ extension CD_Controller: Controller {
         tag.cd_name = name
         tag.willSave()
         return context.datum_save().map {
-            AnyElement(CD_Element(tag, { AnyTag($0) }))
+            AnyElementObserver(CD_Element(tag, { AnyTag($0) }))
         }
     }
 
-    func readTags() -> Result<AnyListObserver<AnyList<AnyElement<AnyTag>>>, Error> {
+    func readTags() -> Result<AnyListObserver<AnyList<AnyElementObserver<AnyTag>>>, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
@@ -175,7 +175,7 @@ extension CD_Controller: Controller {
                 AnyListObserver(
                     CD_ListObserver(
                         CD_List(controller) {
-                            AnyElement(CD_Element($0, { AnyTag($0) }))
+                            AnyElementObserver(CD_Element($0, { AnyTag($0) }))
                         }
                     )
                 )
@@ -185,7 +185,7 @@ extension CD_Controller: Controller {
         }
     }
 
-    func update(_ input: AnyElement<AnyTag>, name: Optional<String?>) -> Result<Void, Error> {
+    func update(_ input: AnyElementObserver<AnyTag>, name: Optional<String?>) -> Result<Void, Error> {
         assert(Thread.isMainThread)
 
         guard let tag = input.value.wrappedValue as? CD_Tag else {
@@ -204,7 +204,7 @@ extension CD_Controller: Controller {
         return changesMade ? context.datum_save() : .success(())
     }
 
-    func delete(_ input: AnyElement<AnyTag>) -> Result<Void, Error> {
+    func delete(_ input: AnyElementObserver<AnyTag>) -> Result<Void, Error> {
         assert(Thread.isMainThread)
 
         guard let tag = input.value.wrappedValue as? CD_Tag else {
@@ -218,7 +218,7 @@ extension CD_Controller: Controller {
     
     // MARK: Custom Functions
     
-    func add(tag: AnyElement<AnyTag>, to _sites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error> {
+    func add(tag: AnyElementObserver<AnyTag>, to _sites: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error> {
         let sites = _sites.compactMap { $0.value.wrappedValue as? CD_Website }
         guard
             sites.count == _sites.count,
@@ -244,7 +244,7 @@ extension CD_Controller: Controller {
         }
     }
     
-    func remove(tag: AnyElement<AnyTag>, from _sites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error> {
+    func remove(tag: AnyElementObserver<AnyTag>, from _sites: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error> {
         let sites = _sites.compactMap { $0.value.wrappedValue as? CD_Website }
         guard
             sites.count == _sites.count,
@@ -270,8 +270,8 @@ extension CD_Controller: Controller {
         }
     }
     
-    func tagStatus(for _sites: Set<AnyElement<AnyWebsite>>)
-                  -> Result<AnyList<(AnyElement<AnyTag>, ToggleState)>, Error>
+    func tagStatus(for _sites: Set<AnyElementObserver<AnyWebsite>>)
+                  -> Result<AnyList<(AnyElementObserver<AnyTag>, ToggleState)>, Error>
 
     {
         let sites = _sites.compactMap { $0.value.wrappedValue as? CD_Website }

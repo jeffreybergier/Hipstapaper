@@ -26,7 +26,7 @@ struct BrowserPresentable: ViewModifier {
 struct TagApplyPresentable: ViewModifier {
     
     let dataSource: WebsiteDataSource
-    let selectedWebsites: Set<AnyElement<AnyWebsite>>
+    let selectedWebsites: Set<AnyElementObserver<AnyWebsite>>
     
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
     
@@ -41,7 +41,7 @@ struct TagApplyPresentable: ViewModifier {
 
 struct SharePresentable: ViewModifier {
     
-    let selectedWebsites: Set<AnyElement<AnyWebsite>>
+    let selectedWebsites: Set<AnyElementObserver<AnyWebsite>>
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
     
     func body(content: Content) -> some View {
@@ -55,7 +55,7 @@ struct SharePresentable: ViewModifier {
 
 struct ShareModalPresentable: ViewModifier {
     
-    let selectedWebsites: Set<AnyElement<AnyWebsite>>
+    let selectedWebsites: Set<AnyElementObserver<AnyWebsite>>
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
     
     func body(content: Content) -> some View {

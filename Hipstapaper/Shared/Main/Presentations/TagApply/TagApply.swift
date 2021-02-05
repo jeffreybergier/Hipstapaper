@@ -50,7 +50,7 @@ struct TagApply: View {
         )
     }
     
-    private func process(newValue: Bool, for tag: AnyElement<AnyTag>) {
+    private func process(newValue: Bool, for tag: AnyElementObserver<AnyTag>) {
         let selection = self.dataSource.selection
         let result: Result<Void, Datum.Error>
         switch newValue {

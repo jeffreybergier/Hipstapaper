@@ -26,7 +26,7 @@ import Stylize
 
 struct TagList<Nav: View>: View {
     
-    typealias Navigation = (AnyElement<AnyTag>) -> Nav
+    typealias Navigation = (AnyElementObserver<AnyTag>) -> Nav
     
     @StateObject private var dataSource: TagDataSource
     private let navigation: Navigation
