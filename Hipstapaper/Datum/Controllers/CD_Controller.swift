@@ -30,9 +30,6 @@ extension CD_Controller: Controller {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
-        let token = self.willSave(context)
-        defer { self.didSave(token) }
-
         let website = CD_Website(context: context)
         if let title = raw.title {
             website.cd_title = title
@@ -49,6 +46,7 @@ extension CD_Controller: Controller {
         if let thumbnail = raw.thumbnail {
             website.cd_thumbnail = thumbnail
         }
+        website.datum_willSave()
         return context.datum_save().map {
             AnyElement(CD_Element(website, { AnyWebsite($0) }))
         }
@@ -86,9 +84,6 @@ extension CD_Controller: Controller {
         assert(Thread.isMainThread)
         
         let context = self.container.viewContext
-        let token = self.willSave(context)
-        defer { self.didSave(token) }
-
         var inputs = inputs
         var changesMade = false
         
@@ -119,8 +114,10 @@ extension CD_Controller: Controller {
                 changesMade = true
                 website.cd_thumbnail = thumbnail
             }
+            if changesMade {
+                website.datum_willSave()
+            }
         }
-        
         return changesMade ? context.datum_save() : .success(())
     }
     
@@ -128,8 +125,6 @@ extension CD_Controller: Controller {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
-        let token = self.willSave(context)
-        defer { self.didSave(token) }
 
         var inputs = inputs
         var changesMade = false
@@ -153,11 +148,10 @@ extension CD_Controller: Controller {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
-        let token = self.willSave(context)
-        defer { self.didSave(token) }
 
         let tag = CD_Tag(context: context)
         tag.cd_name = name
+        tag.willSave()
         return context.datum_save().map {
             AnyElement(CD_Element(tag, { AnyTag($0) }))
         }
@@ -199,13 +193,12 @@ extension CD_Controller: Controller {
             return .failure(.unknown)
         }
         let context = self.container.viewContext
-        let token = self.willSave(context)
-        defer { self.didSave(token) }
 
         var changesMade = false
         if let newName = name {
             changesMade = true
             tag.cd_name = newName
+            tag.datum_willSave()
         }
 
         return changesMade ? context.datum_save() : .success(())
@@ -219,9 +212,6 @@ extension CD_Controller: Controller {
             return .failure(.unknown)
         }
         let context = self.container.viewContext
-        let token = self.willSave(context)
-        defer { self.didSave(token) }
-
         context.delete(tag)
         return context.datum_save()
     }
@@ -236,8 +226,6 @@ extension CD_Controller: Controller {
         else { return .failure(.unknown) }
         
         let context = self.container.viewContext
-        let token = self.willSave(context)
-        defer { self.didSave(token) }
         
         var changesMade = false
         for site in sites {
@@ -245,9 +233,15 @@ extension CD_Controller: Controller {
             changesMade = true
             let tags = site.mutableSetValue(forKey: #keyPath(CD_Website.cd_tags))
             tags.add(tag)
+            site.datum_willSave()
         }
         
-        return changesMade ? context.datum_save() : .success(())
+        if changesMade {
+            tag.datum_willSave()
+            return context.datum_save()
+        } else {
+            return .success(())
+        }
     }
     
     func remove(tag: AnyElement<AnyTag>, from _sites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error> {
@@ -258,8 +252,6 @@ extension CD_Controller: Controller {
         else { return .failure(.unknown) }
         
         let context = self.container.viewContext
-        let token = self.willSave(context)
-        defer { self.didSave(token) }
         
         var changesMade = false
         for site in sites {
@@ -267,9 +259,15 @@ extension CD_Controller: Controller {
             changesMade = true
             let tags = site.mutableSetValue(forKey: #keyPath(CD_Website.cd_tags))
             tags.remove(tag)
+            site.datum_willSave()
         }
         
-        return changesMade ? context.datum_save() : .success(())
+        if changesMade {
+            tag.datum_willSave()
+            return context.datum_save()
+        } else {
+            return .success(())
+        }
     }
     
     func tagStatus(for _sites: Set<AnyElement<AnyWebsite>>)
@@ -333,27 +331,6 @@ internal class CD_Controller {
         } else {
             self.syncMonitor = AnySyncMonitor(NoSyncMonitor())
         }
-    }
-
-    private func willSave(_ context: NSManagedObjectContext) -> Any {
-        return NotificationCenter.default.addObserver(forName: .NSManagedObjectContextWillSave,
-                                                      object: context,
-                                                      queue: nil)
-        { notification in
-            guard let context = notification.object as? NSManagedObjectContext else { return }
-            
-            context.insertedObjects
-                .union(context.updatedObjects)
-                .forEach { obj in
-                    let obj = obj as? CD_Base
-                    obj?.datum_willSave()
-                    obj?.objectWillChange.send()
-                }
-        }
-    }
-
-    private func didSave(_ token: Any) {
-        NotificationCenter.default.removeObserver(token)
     }
     
     deinit {
