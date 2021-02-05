@@ -39,6 +39,7 @@ public struct AnyTag: Tag {
     private var _dateModified:  () -> Date
     private var _hashValue:     () -> Int
 
+    // TODO: Make this internal
     public let wrappedValue: Any
 
     public init<T: Tag>(_ tag: T) where T.ID == ID {

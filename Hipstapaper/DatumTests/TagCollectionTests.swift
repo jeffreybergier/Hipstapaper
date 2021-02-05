@@ -20,7 +20,7 @@
 //
 
 import XCTest
-import Datum
+@testable import Datum
 
 class TagCollectionTests: ParentTestCase {
 
@@ -63,10 +63,20 @@ class TagCollectionTests: ParentTestCase {
                 XCTFail(String(describing: error))
             }
         }
-        let wait = self.newWait(count: 2)
-        self.token = tags.objectWillChange.sink() {
-            wait() { XCTAssertEqual(tags.data.count, 5) }
-        }
+        
+        // verify objectWillChange fires and collection is unchanged
+        let wait1 = self.newWait()
+        tags.objectWillChange.sink() {
+            wait1() { XCTAssertEqual(tags.data.count, 4) }
+        }.store(in: &self.tokens)
+        
+        // verify data does actually change
+        let wait2 = self.newWait()
+        let _tags = tags.__testingValue as! CD_Observer<AnyElement<AnyTag>, CD_Tag>
+        _tags.__objectDidChange.sink() {
+            wait2() { XCTAssertEqual(tags.data.count, 5) }
+        }.store(in: &self.tokens)
+        
         self.wait(for: .short)
     }
 
@@ -98,15 +108,30 @@ class TagCollectionTests: ParentTestCase {
                 XCTFail(String(describing: error))
             }
         }
-        let wait = self.newWait(count: 2)
-        self.token = tags.objectWillChange.sink() {
-            wait() {
+        
+        // verify objectWillChange fires and collection is unchanged
+        let wait1 = self.newWait()
+        tags.objectWillChange.sink() {
+            wait1() {
+                XCTAssertEqual(tags.data[0].value.name, nil)
+                XCTAssertEqual(tags.data[1].value.name, "A")
+                XCTAssertEqual(tags.data[2].value.name, "Z")
+                XCTAssertEqual(tags.data[3].value.name, "C")
+            }
+        }.store(in: &self.tokens)
+        
+        // verify data does actually change
+        let wait2 = self.newWait()
+        let _tags = tags.__testingValue as! CD_Observer<AnyElement<AnyTag>, CD_Tag>
+        _tags.__objectDidChange.sink() {
+            wait2() {
                 XCTAssertEqual(tags.data[0].value.name, nil)
                 XCTAssertEqual(tags.data[1].value.name, "A")
                 XCTAssertEqual(tags.data[2].value.name, "C")
                 XCTAssertEqual(tags.data[3].value.name, "Z")
             }
-        }
+        }.store(in: &self.tokens)
+        
         self.wait(for: .short)
     }
 
@@ -137,14 +162,30 @@ class TagCollectionTests: ParentTestCase {
                 XCTFail(String(describing: error))
             }
         }
-        let wait = self.newWait()
-        self.token = tags.objectWillChange.sink() {
-            wait() {
+        
+        // verify objectWillChange fires and collection is unchanged
+        let wait1 = self.newWait()
+        tags.objectWillChange.sink() {
+            wait1() {
+                XCTAssertEqual(tags.data[0].value.name, nil)
+                XCTAssertEqual(tags.data[1].value.name, "A")
+                XCTAssertEqual(tags.data[2].value.name, "B")
+                XCTAssertEqual(tags.data[3].value.name, "C")
+                XCTAssertTrue(tags.data[2].isDeleted)
+            }
+        }.store(in: &self.tokens)
+        
+        // verify data does actually change
+        let wait2 = self.newWait()
+        let _tags = tags.__testingValue as! CD_Observer<AnyElement<AnyTag>, CD_Tag>
+        _tags.__objectDidChange.sink() {
+            wait2() {
                 XCTAssertEqual(tags.data[0].value.name, nil)
                 XCTAssertEqual(tags.data[1].value.name, "A")
                 XCTAssertEqual(tags.data[2].value.name, "C")
             }
-        }
+        }.store(in: &self.tokens)
+        
         self.wait(for: .short)
     }
 }

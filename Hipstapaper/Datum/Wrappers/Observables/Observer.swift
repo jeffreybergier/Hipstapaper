@@ -25,14 +25,20 @@ public protocol Observer: ObservableObject {
 }
 
 public class AnyObserver<Collection: RandomAccessCollection>: Observer {
+    
     public let objectWillChange: ObservableObjectPublisher
+    
     public var data: Collection { _data() }
     private let _data: () -> Collection
+    
+    internal let __testingValue: Any
+    
     public init<T: Observer>(_ observer: T)
           where T.Collection == Collection,
                 T.ObjectWillChangePublisher == ObjectWillChangePublisher
     {
         _data = { observer.data }
+        __testingValue = observer
         self.objectWillChange = observer.objectWillChange
     }
 }

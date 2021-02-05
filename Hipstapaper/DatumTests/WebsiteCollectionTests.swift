@@ -20,7 +20,7 @@
 //
 
 import XCTest
-import Datum
+@testable import Datum
 
 internal class WebsiteCollectionTests : ParentTestCase {
     
@@ -128,10 +128,19 @@ internal class WebsiteCollectionTests : ParentTestCase {
                 XCTFail(String(describing: error))
             }
         }
-        let wait = self.newWait(count: 2)
-        self.token = sites.objectWillChange.sink() {
-            wait() { XCTAssertEqual(sites.data.count, 5) }
-        }
+        
+        // verify objectWillChange fires and collection is unchanged
+        let wait1 = self.newWait()
+        sites.objectWillChange.sink() {
+            wait1() { XCTAssertEqual(sites.data.count, 4) }
+        }.store(in: &self.tokens)
+        
+        let wait2 = self.newWait()
+        let _tags = sites.__testingValue as! CD_Observer<AnyElement<AnyWebsite>, CD_Website>
+        _tags.__objectDidChange.sink() {
+            wait2() { XCTAssertEqual(sites.data.count, 5) }
+        }.store(in: &self.tokens)
+        
         self.wait(for: .short)
     }
     
@@ -162,15 +171,27 @@ internal class WebsiteCollectionTests : ParentTestCase {
                 XCTFail(String(describing: error))
             }
         }
-        let wait = self.newWait(count: 2)
-        self.token = sites.objectWillChange.sink() {
-            wait() {
+        let wait1 = self.newWait()
+        sites.objectWillChange.sink() {
+            wait1() {
+                XCTAssertEqual(sites.data[0].value.title, "Z")
+                XCTAssertEqual(sites.data[1].value.title, "B")
+                XCTAssertEqual(sites.data[2].value.title, "C")
+                XCTAssertEqual(sites.data[3].value.title, "D")
+            }
+        }.store(in: &self.tokens)
+        
+        let wait2 = self.newWait()
+        let _tags = sites.__testingValue as! CD_Observer<AnyElement<AnyWebsite>, CD_Website>
+        _tags.__objectDidChange.sink() {
+            wait2() {
                 XCTAssertEqual(sites.data[0].value.title, "B")
                 XCTAssertEqual(sites.data[1].value.title, "C")
                 XCTAssertEqual(sites.data[2].value.title, "D")
                 XCTAssertEqual(sites.data[3].value.title, "Z")
             }
-        }
+        }.store(in: &self.tokens)
+        
         self.wait(for: .short)
     }
     
@@ -203,14 +224,27 @@ internal class WebsiteCollectionTests : ParentTestCase {
                 XCTFail(String(describing: error))
             }
         }
-        let wait = self.newWait()
-        self.token = sites.objectWillChange.sink() {
-            wait() {
+        let wait1 = self.newWait()
+        sites.objectWillChange.sink() {
+            wait1() {
+                XCTAssertEqual(sites.data[0].value.title, "A")
+                XCTAssertEqual(sites.data[1].value.title, "B")
+                XCTAssertEqual(sites.data[2].value.title, "C")
+                XCTAssertEqual(sites.data[3].value.title, "D")
+                XCTAssertTrue(sites.data[0].isDeleted)
+            }
+        }.store(in: &self.tokens)
+        
+        let wait2 = self.newWait()
+        let _tags = sites.__testingValue as! CD_Observer<AnyElement<AnyWebsite>, CD_Website>
+        _tags.__objectDidChange.sink() {
+            wait2() {
                 XCTAssertEqual(sites.data[0].value.title, "B")
                 XCTAssertEqual(sites.data[1].value.title, "C")
                 XCTAssertEqual(sites.data[2].value.title, "D")
             }
-        }
+        }.store(in: &self.tokens)
+        
         self.wait(for: .short)
     }
 }

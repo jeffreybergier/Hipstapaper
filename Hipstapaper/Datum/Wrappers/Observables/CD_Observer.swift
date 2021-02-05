@@ -42,4 +42,12 @@ internal class CD_Observer<Output, Input: NSManagedObject>: NSObject,
     internal func controllerWillChangeContent(_ controller: AnyObject) {
         self.objectWillChange.send()
     }
+    
+    /// MARK: Testing Only
+    internal var __objectDidChange = ObservableObjectPublisher()
+    
+    @objc(controllerDidChangeContent:)
+    internal func controllerDidChangeContent(_ controller: AnyObject) {
+        __objectDidChange.send()
+    }
 }

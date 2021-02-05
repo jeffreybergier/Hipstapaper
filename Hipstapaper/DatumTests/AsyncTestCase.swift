@@ -50,7 +50,7 @@ class AsyncTestCase: XCTestCase {
                 wait.fulfill()
             }
             guard !Thread.isMainThread else { work(); return; }
-            DispatchQueue.main.async(execute: work)
+            DispatchQueue.main.sync(execute: work)
         }
     }
 
