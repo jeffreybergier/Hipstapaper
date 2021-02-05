@@ -22,8 +22,8 @@
 import CoreData
 import Combine
 
-internal class CD_Observer<Output, Input: NSManagedObject>: NSObject,
-                                                            Observer,
+internal class CD_ListObserver<Output, Input: NSManagedObject>: NSObject,
+                                                            ListObserver,
                                                             NSFetchedResultsControllerDelegate
 {
 

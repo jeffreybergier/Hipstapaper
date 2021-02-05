@@ -19,12 +19,12 @@
 
 import Combine
 
-public protocol Observer: ObservableObject {
+public protocol ListObserver: ObservableObject {
     associatedtype Collection: RandomAccessCollection
     var data: Collection { get }
 }
 
-public class AnyObserver<Collection: RandomAccessCollection>: Observer {
+public class AnyListObserver<Collection: RandomAccessCollection>: ListObserver {
     
     public let objectWillChange: ObservableObjectPublisher
     
@@ -33,7 +33,7 @@ public class AnyObserver<Collection: RandomAccessCollection>: Observer {
     
     internal let __testingValue: Any
     
-    public init<T: Observer>(_ observer: T)
+    public init<T: ListObserver>(_ observer: T)
           where T.Collection == Collection,
                 T.ObjectWillChangePublisher == ObjectWillChangePublisher
     {

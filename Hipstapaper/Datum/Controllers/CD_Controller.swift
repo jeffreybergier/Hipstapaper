@@ -52,7 +52,7 @@ extension CD_Controller: Controller {
         }
     }
 
-    func readWebsites(query: Query) -> Result<AnyObserver<AnyList<AnyElement<AnyWebsite>>>, Error> {
+    func readWebsites(query: Query) -> Result<AnyListObserver<AnyList<AnyElement<AnyWebsite>>>, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
@@ -67,8 +67,8 @@ extension CD_Controller: Controller {
         do {
             try controller.performFetch()
             return .success(
-                AnyObserver(
-                    CD_Observer(
+                AnyListObserver(
+                    CD_ListObserver(
                         CD_List(controller) {
                             AnyElement(CD_Element($0, { AnyWebsite($0) }))
                         }
@@ -157,7 +157,7 @@ extension CD_Controller: Controller {
         }
     }
 
-    func readTags() -> Result<AnyObserver<AnyList<AnyElement<AnyTag>>>, Error> {
+    func readTags() -> Result<AnyListObserver<AnyList<AnyElement<AnyTag>>>, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
@@ -172,8 +172,8 @@ extension CD_Controller: Controller {
         do {
             try controller.performFetch()
             return .success(
-                AnyObserver(
-                    CD_Observer(
+                AnyListObserver(
+                    CD_ListObserver(
                         CD_List(controller) {
                             AnyElement(CD_Element($0, { AnyTag($0) }))
                         }

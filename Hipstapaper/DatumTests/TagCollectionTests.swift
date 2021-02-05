@@ -72,7 +72,7 @@ class TagCollectionTests: ParentTestCase {
         
         // verify data does actually change
         let wait2 = self.newWait()
-        let _tags = tags.__testingValue as! CD_Observer<AnyElement<AnyTag>, CD_Tag>
+        let _tags = tags.__testingValue as! CD_ListObserver<AnyElement<AnyTag>, CD_Tag>
         _tags.__objectDidChange.sink() {
             wait2() { XCTAssertEqual(tags.data.count, 5) }
         }.store(in: &self.tokens)
@@ -122,7 +122,7 @@ class TagCollectionTests: ParentTestCase {
         
         // verify data does actually change
         let wait2 = self.newWait()
-        let _tags = tags.__testingValue as! CD_Observer<AnyElement<AnyTag>, CD_Tag>
+        let _tags = tags.__testingValue as! CD_ListObserver<AnyElement<AnyTag>, CD_Tag>
         _tags.__objectDidChange.sink() {
             wait2() {
                 XCTAssertEqual(tags.data[0].value.name, nil)
@@ -177,7 +177,7 @@ class TagCollectionTests: ParentTestCase {
         
         // verify data does actually change
         let wait2 = self.newWait()
-        let _tags = tags.__testingValue as! CD_Observer<AnyElement<AnyTag>, CD_Tag>
+        let _tags = tags.__testingValue as! CD_ListObserver<AnyElement<AnyTag>, CD_Tag>
         _tags.__objectDidChange.sink() {
             wait2() {
                 XCTAssertEqual(tags.data[0].value.name, nil)

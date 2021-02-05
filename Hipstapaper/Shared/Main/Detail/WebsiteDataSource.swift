@@ -26,7 +26,7 @@ class WebsiteDataSource: DataSourceMultiSelectable {
     
     @Published var selection: Set<AnyElement<AnyWebsite>> = []
     @Published var query: Query { didSet { self.activate() } }
-    @Published var observer: AnyObserver<AnyList<AnyElement<AnyWebsite>>>?
+    @Published var observer: AnyListObserver<AnyList<AnyElement<AnyWebsite>>>?
     var data: AnyList<AnyElement<AnyWebsite>> { self.observer?.data ?? .empty }
     
     let controller: Controller

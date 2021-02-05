@@ -23,7 +23,7 @@ import Combine
 class TagDataSource: DataSourceSelectable {
     
     @Published var selection: AnyElement<AnyTag>?
-    @Published var observer: AnyObserver<AnyList<AnyElement<AnyTag>>>?
+    @Published var observer: AnyListObserver<AnyList<AnyElement<AnyTag>>>?
     var data: AnyList<AnyElement<AnyTag>> { self.observer?.data ?? .empty }
     let fixed = Query.Archived.anyTag_allCases
     let controller: Controller

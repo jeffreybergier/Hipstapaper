@@ -25,8 +25,8 @@
 		732F302425AAEA0D00192822 /* ERR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732F302325AAEA0D00192822 /* ERR.swift */; };
 		732F303925AAEA2200192822 /* Stylize.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7399BAA9258251A500B8CAFD /* Stylize.framework */; };
 		732F304825AAEA3B00192822 /* Stylize.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7399BAA9258251A500B8CAFD /* Stylize.framework */; };
-		733E967925C6C7D500E108EE /* Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733E967825C6C7D500E108EE /* Observer.swift */; };
-		733E96A325C6C8EC00E108EE /* CD_Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733E96A225C6C8EC00E108EE /* CD_Observer.swift */; };
+		733E967925C6C7D500E108EE /* ListObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733E967825C6C7D500E108EE /* ListObserver.swift */; };
+		733E96A325C6C8EC00E108EE /* CD_ListObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733E96A225C6C8EC00E108EE /* CD_ListObserver.swift */; };
 		73406812257491E600D4A343 /* PreviewsContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73406811257491E600D4A343 /* PreviewsContent.swift */; };
 		73406813257491E600D4A343 /* PreviewsContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73406811257491E600D4A343 /* PreviewsContent.swift */; };
 		734068192574981200D4A343 /* TagRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734068182574981200D4A343 /* TagRow.swift */; };
@@ -449,8 +449,8 @@
 		732CF67425B45904008C0A96 /* ObserveBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserveBox.swift; sourceTree = "<group>"; };
 		732D529A25A5E7830028545F /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		732F302325AAEA0D00192822 /* ERR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ERR.swift; sourceTree = "<group>"; };
-		733E967825C6C7D500E108EE /* Observer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observer.swift; sourceTree = "<group>"; };
-		733E96A225C6C8EC00E108EE /* CD_Observer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_Observer.swift; sourceTree = "<group>"; };
+		733E967825C6C7D500E108EE /* ListObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListObserver.swift; sourceTree = "<group>"; };
+		733E96A225C6C8EC00E108EE /* CD_ListObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_ListObserver.swift; sourceTree = "<group>"; };
 		73406811257491E600D4A343 /* PreviewsContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewsContent.swift; sourceTree = "<group>"; };
 		734068182574981200D4A343 /* TagRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRow.swift; sourceTree = "<group>"; };
 		7340681F2574B56700D4A343 /* WebsiteRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteRow.swift; sourceTree = "<group>"; };
@@ -732,8 +732,8 @@
 				5031AF23256E8DEC00AC98AA /* AnyList.swift */,
 				735D4C6C258E27870016F904 /* MappedList.swift */,
 				DBA1993D256D452C00383EB1 /* CD_List.swift */,
-				733E967825C6C7D500E108EE /* Observer.swift */,
-				733E96A225C6C8EC00E108EE /* CD_Observer.swift */,
+				733E967825C6C7D500E108EE /* ListObserver.swift */,
+				733E96A225C6C8EC00E108EE /* CD_ListObserver.swift */,
 			);
 			path = Observables;
 			sourceTree = "<group>";
@@ -1748,7 +1748,7 @@
 				7377B3EA25C6DDB6003BE3F1 /* MappedList.swift in Sources */,
 				DBDCB3FA256C866200D005F6 /* CD_Base.swift in Sources */,
 				736F67C725C2FE02006896DF /* CD_SyncMonitor.swift in Sources */,
-				733E967925C6C7D500E108EE /* Observer.swift in Sources */,
+				733E967925C6C7D500E108EE /* ListObserver.swift in Sources */,
 				73A3DE7F257B36C8002EDEB4 /* StaticElement.swift in Sources */,
 				5073F40425720C5F00AC4C6C /* Query.swift in Sources */,
 				73A3DEB7257B97E8002EDEB4 /* String+Datum.swift in Sources */,
@@ -1760,7 +1760,7 @@
 				DBA3BE3025709D0A005A2379 /* Website.swift in Sources */,
 				DBA1993E256D452C00383EB1 /* CD_List.swift in Sources */,
 				50D63AB5256FE8B6001C5985 /* Element.swift in Sources */,
-				733E96A325C6C8EC00E108EE /* CD_Observer.swift in Sources */,
+				733E96A325C6C8EC00E108EE /* CD_ListObserver.swift in Sources */,
 				DBDCB3FB256C866200D005F6 /* CD_Website.swift in Sources */,
 				50D63ABA256FE8B9001C5985 /* AnyElement.swift in Sources */,
 			);

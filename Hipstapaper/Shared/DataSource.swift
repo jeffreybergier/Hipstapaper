@@ -22,7 +22,7 @@
 import Datum
 
 protocol DataSource: ObservableObject {
-    associatedtype Observer: Datum.Observer where Observer.Collection.Element: Hashable & Identifiable
+    associatedtype Observer: Datum.ListObserver where Observer.Collection.Element: Hashable & Identifiable
     
     var controller: Controller { get }
     /// Should be @Published
