@@ -30,7 +30,9 @@ class WebsiteDataSource: DataSource {
     
     let controller: Controller
     
-    init(controller: Controller, selectedTag: AnyElementObserver<AnyTag> = Query.Filter.anyTag_allCases[0]) {
+    init(controller: Controller,
+         selectedTag: AnyElementObserver<AnyTag> = Query.Filter.anyTag_allCases[0])
+    {
         self.query = Query(specialTag: selectedTag)
         self.controller = controller
     }
@@ -44,7 +46,6 @@ class WebsiteDataSource: DataSource {
     
     func deactivate() {
         log.verbose(self.query.tag?.value.name ?? self.query.filter)
-        self.objectWillChange.send()
         self.observer = nil
     }
     

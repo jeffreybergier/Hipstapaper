@@ -44,12 +44,12 @@ struct WebsiteList: View {
             WebsiteRow(item: item)
         }
         .animation(.default)
-        .onAppear() { self.errorQ.append(self.dataSource.activate()) }
-        .onDisappear() { self.dataSource.deactivate() }
         .modifier(WebsiteListTitle(query: self.dataSource.query))
         .modifier(DetailToolbar.Shared(controller: self.dataSource.controller,
                                        selection: self.$selection,
                                        query: self.$dataSource.query))
+        .onAppear() { self.errorQ.append(self.dataSource.activate()) }
+        .onDisappear(perform: self.dataSource.deactivate)
     }
 }
 

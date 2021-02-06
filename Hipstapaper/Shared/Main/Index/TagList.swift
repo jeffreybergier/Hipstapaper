@@ -65,12 +65,12 @@ struct TagList<Nav: View>: View {
             }
         }
         .animation(.default)
-        .onAppear { self.errorQ.append(self.dataSource.activate()) }
-        .onDisappear { self.dataSource.deactivate() }
-        .modifier(IndexToolbar(controller: self.dataSource.controller,
-                               selection: self.$selection))
         .navigationTitle(Noun.Tags)
         .modifier(SidebarStyle())
+        .modifier(IndexToolbar(controller: self.dataSource.controller,
+                               selection: self.$selection))
+        .onAppear() { self.errorQ.append(self.dataSource.activate()) }
+        .onDisappear(perform: self.dataSource.deactivate)
     }
 }
 
