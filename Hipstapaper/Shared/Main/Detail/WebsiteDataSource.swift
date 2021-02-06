@@ -22,9 +22,8 @@
 import Combine
 import Datum
 
-class WebsiteDataSource: DataSourceMultiSelectable {
+class WebsiteDataSource: DataSource {
     
-    @Published var selection: Set<AnyElementObserver<AnyWebsite>> = []
     @Published var query: Query { didSet { self.activate() } }
     @Published var observer: AnyListObserver<AnyList<AnyElementObserver<AnyWebsite>>>?
     var data: AnyList<AnyElementObserver<AnyWebsite>> { self.observer?.data ?? .empty }

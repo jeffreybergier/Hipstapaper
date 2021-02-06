@@ -28,21 +28,24 @@ struct TagList<Nav: View>: View {
     
     typealias Navigation = (AnyElementObserver<AnyTag>) -> Nav
     
+    @State private var selection: TH.Selection?
     @StateObject private var dataSource: TagDataSource
+    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
+
     private let navigation: Navigation
     
     init(controller: Controller, @ViewBuilder navigation: @escaping Navigation) {
         self.navigation = navigation
-        _dataSource = .init(wrappedValue: .init(controller: controller))
+        _dataSource = .init(wrappedValue: TagDataSource(controller: controller))
     }
 
     var body: some View {
-        List(selection: self.$dataSource.selection) {
+        List(selection: self.$selection) {
             Section(header: STZ.VIEW.TXT(Noun.ReadingList)
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
-                ForEach(self.dataSource.fixed, id: \.self) { item in
+                ForEach(Query.Filter.anyTag_allCases, id: \.self) { item in
                     NavigationLink(destination: self.navigation(item)) {
                         TagRow(item: item)
                             .animation(nil)
@@ -62,12 +65,12 @@ struct TagList<Nav: View>: View {
             }
         }
         .animation(.default)
-        .onAppear { self.dataSource.activate() }
+        .onAppear { self.errorQ.append(self.dataSource.activate()) }
         .onDisappear { self.dataSource.deactivate() }
-        .listStyle(SidebarListStyle())
-        .navigationTitle(Noun.Tags)
         .modifier(IndexToolbar(controller: self.dataSource.controller,
-                               selection: self.$dataSource.selection))
+                               selection: self.$selection))
+        .navigationTitle(Noun.Tags)
+        .listStyle(SidebarListStyle())
     }
 }
 

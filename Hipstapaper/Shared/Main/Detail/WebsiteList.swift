@@ -28,6 +28,7 @@ import XPList
 struct WebsiteList: View {
     
     @ObservedObject var dataSource: WebsiteDataSource
+    @State var selection: WH.Selection = []
     
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     @EnvironmentObject private var windowPresentation: WindowPresentation
@@ -36,18 +37,18 @@ struct WebsiteList: View {
     
     var body: some View {
         XPL.List(data: self.dataSource.data,
-                 selection: self.$dataSource.selection,
+                 selection: self.$selection,
                  open: self.open,
                  menu: self.contextMenu)
         { item in
             WebsiteRow(item: item)
         }
         .animation(.default)
-        .onAppear() { self.dataSource.activate() }
+        .onAppear() { self.errorQ.append(self.dataSource.activate()) }
         .onDisappear() { self.dataSource.deactivate() }
         .modifier(WebsiteListTitle(query: self.dataSource.query))
         .modifier(DetailToolbar.Shared(controller: self.dataSource.controller,
-                                       selection: self.$dataSource.selection,
+                                       selection: self.$selection,
                                        query: self.$dataSource.query))
     }
 }
@@ -84,7 +85,6 @@ extension WebsiteList {
                 self.modalPresentation.value = .share(selection)
             }
             STZ.TB.TagApply.context(isEnabled: WH.canTag(selection)) {
-                self.dataSource.selection = selection
                 self.modalPresentation.value = .tagApply(selection)
             }
         }
