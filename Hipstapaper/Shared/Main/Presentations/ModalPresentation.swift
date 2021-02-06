@@ -30,7 +30,7 @@ enum ModalPresentation: Equatable {
     case tagApply(WH.Selection)
     case share(WH.Selection)
     case sort
-    case delete
+    case delete(WH.Selection)
     case browser(AnyElementObserver<AnyWebsite>)
     
     // TODO: Remove this when SwiftUI doesn't suck at modals
@@ -75,10 +75,10 @@ enum ModalPresentation: Equatable {
             }
         }
         
-        @Published var isDelete = false {
+        @Published var isDelete: WH.Selection? {
             didSet {
-                guard !internalUpdateInProgress else { return }
-                guard !self.isDelete else { return }
+                guard !self.internalUpdateInProgress else { return }
+                guard self.isDelete == nil else { return }
                 self.value = .none
             }
         }
@@ -118,12 +118,14 @@ enum ModalPresentation: Equatable {
                 self.isAddWebsite = self.value.isCase(of: .addWebsite)
                 self.isAddTag     = self.value.isCase(of: .addTag)
                 self.isAddChoose  = self.value.isCase(of: .addChoose)
-                self.isDelete     = self.value.isCase(of: .delete)
                 
+                self.isDelete     = nil
                 self.isTagApply   = nil
                 self.isBrowser    = nil
                 self.isShare      = nil
                 switch self.value {
+                case .delete(let selection):
+                    self.isDelete = selection
                 case .tagApply(let selection):
                     self.isTagApply = selection
                 case .share(let selection):

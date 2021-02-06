@@ -42,13 +42,13 @@ struct WebsiteList: View {
         { item in
             WebsiteRow(item: item)
         }
-        .alert(isPresented: self.$modalPresentation.isDelete) {
+        .alert(item: self.$modalPresentation.isDelete) { selection in
             Alert(
                 // TODO: Localized and fix this
                 title: STZ.VIEW.TXT("Delete"),
                 message: STZ.VIEW.TXT("This action cannot be undone."),
                 primaryButton: .destructive(STZ.VIEW.TXT("Delete"),
-                                            action: { self.dataSource.delete(self.errorQ) }),
+                                            action: { WH.delete(selection, self.dataSource.controller, self.errorQ) }),
                 secondaryButton: .cancel()
             )
         }
@@ -101,9 +101,7 @@ extension WebsiteList {
         }
         Group {
             STZ.TB.DeleteWebsite.context(isEnabled: WH.canDelete(selection)) {
-                // TODO: Find a way to not forcefully change the selection
-                self.dataSource.selection = selection
-                self.modalPresentation.value = .delete
+                self.modalPresentation.value = .delete(selection)
             }
         }
     }

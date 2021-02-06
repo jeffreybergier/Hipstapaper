@@ -61,7 +61,7 @@ extension DetailToolbar {
                 }
                 ToolbarItem(id: "Detail.Tag") {
                     STZ.TB.TagApply.toolbar(isEnabled: WH.canTag(self.selection),
-                                            action: { self.modalPresentation.value = .tagApply })
+                                            action: { self.modalPresentation.value = .tagApply(selection) })
                 }
                 ToolbarItem(id: "Detail.Separator") {
                     STZ.TB.Separator.toolbar()
