@@ -26,7 +26,7 @@ extension Query {
     internal var cd_predicate: NSPredicate? {
         let predicates: [NSPredicate] = [
             {
-                guard case .unarchived = self.isArchived else { return nil }
+                guard case .unarchived = self.filter else { return nil }
                 return NSPredicate(format: "%K == NO", #keyPath(CD_Website.cd_isArchived))
             }(),
             {

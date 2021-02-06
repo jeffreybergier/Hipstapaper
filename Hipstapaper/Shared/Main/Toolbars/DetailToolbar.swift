@@ -27,8 +27,12 @@ import Browse
 enum DetailToolbar {
     struct Shared: ViewModifier {
         
+        let controller: Controller
+        @Binding var selection: WH.Selection
+        @Binding var query: Query
+        
         @ObservedObject var dataSource: WebsiteDataSource
-        @State var popoverAlignment: Alignment = .topTrailing
+        @State private var popoverAlignment: Alignment = .topTrailing
         
         func body(content: Content) -> some View {
             return ZStack(alignment: self.popoverAlignment) {
@@ -48,7 +52,7 @@ enum DetailToolbar {
                     SortPresentable(sort: self.$dataSource.query.sort)
                 )
                 #if os(macOS)
-                content.modifier(macOS(dataSource: self.dataSource))
+                content.modifier(macOS(controller: self.controller, selection: self.$selection, query: self.$query))
                 #else
                 content.modifier(iOS.Shared(dataSource: self.dataSource,
                                             popoverAlignment: self.$popoverAlignment))

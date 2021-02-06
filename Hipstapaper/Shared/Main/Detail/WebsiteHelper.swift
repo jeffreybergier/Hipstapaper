@@ -51,12 +51,6 @@ enum WebsiteHelper {
             return selection.compactMap { $0.value.preferredURL != nil }.count == 1
         }
     }
-    static func isFiltered(_ query: Query) -> Bool {
-        return query.isArchived.boolValue
-    }
-    static func isSearchActive(_ query: Query) -> Bool {
-        return query.search.nonEmptyString == nil
-    }
     
     static func archive(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQ) {
         let r = errorQ.append(controller.update(selection, .init(isArchived: true)))

@@ -30,7 +30,7 @@ struct WebsiteListTitle: ViewModifier {
         if let tag = self.query.tag {
             return AnyView(content.navigationTitle(tag.value.name ?? Noun.UnreadItems_L))
         } else {
-            switch query.isArchived! {
+            switch self.query.filter! {
             case .all:
                 return AnyView(content.navigationTitle(Noun.AllItems))
             case .unarchived:
@@ -50,7 +50,7 @@ struct WebsiteListTitle: ViewModifier {
                     .navigationTitle(tag.value.name ?? Noun.UnreadItems_L)
             )
         } else {
-            switch query.isArchived! {
+            switch query.filter! {
             case .all:
                 return AnyView(
                     content

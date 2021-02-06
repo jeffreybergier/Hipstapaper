@@ -31,20 +31,20 @@ class WebsiteDataSource: DataSourceMultiSelectable {
     
     let controller: Controller
     
-    init(controller: Controller, selectedTag: AnyElementObserver<AnyTag> = Query.Archived.anyTag_allCases[0]) {
+    init(controller: Controller, selectedTag: AnyElementObserver<AnyTag> = Query.Filter.anyTag_allCases[0]) {
         self.query = Query(specialTag: selectedTag)
         self.controller = controller
     }
     
     func activate() -> Result<Void, Datum.Error> {
-        log.verbose(self.query.tag?.value.name ?? self.query.isArchived)
+        log.verbose(self.query.tag?.value.name ?? self.query.filter)
         let result = controller.readWebsites(query: self.query)
         self.observer = result.value
         return result.map { _ in () }
     }
     
     func deactivate() {
-        log.verbose(self.query.tag?.value.name ?? self.query.isArchived)
+        log.verbose(self.query.tag?.value.name ?? self.query.filter)
         self.objectWillChange.send()
         self.observer = nil
     }
@@ -81,7 +81,7 @@ extension WebsiteDataSource {
         }
     }
     func isFiltered() -> Bool {
-        return self.query.isArchived.boolValue
+        return self.query.filter.boolValue
     }
     func isSearchActive() -> Bool {
         return self.query.search.nonEmptyString == nil
@@ -109,7 +109,7 @@ extension WebsiteDataSource {
     }
     
     func toggleFilter() {
-        self.query.isArchived.toggle()
+//        self.query.isFiltered.toggle()
     }
     
     func open(in open: OpenURLAction) {

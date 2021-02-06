@@ -25,7 +25,7 @@ class TagDataSource: DataSourceSelectable {
     @Published var selection: AnyElementObserver<AnyTag>?
     @Published var observer: AnyListObserver<AnyList<AnyElementObserver<AnyTag>>>?
     var data: AnyList<AnyElementObserver<AnyTag>> { self.observer?.data ?? .empty }
-    let fixed = Query.Archived.anyTag_allCases
+    let fixed = Query.Filter.anyTag_allCases
     let controller: Controller
     
     init(controller: Controller) {
@@ -56,7 +56,7 @@ class TagDataSource: DataSourceSelectable {
 extension TagDataSource {
     func canDelete() -> Bool {
         guard let tag = self.selection else { return false }
-        return (tag.value.wrappedValue as? Query.Archived) == nil
+        return (tag.value.wrappedValue as? Query.Filter) == nil
     }
     func delete(_ errorQ: ErrorQ) {
         guard let tag = self.selection else { return }

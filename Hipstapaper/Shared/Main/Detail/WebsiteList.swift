@@ -56,7 +56,10 @@ struct WebsiteList: View {
         .onAppear() { self.dataSource.activate() }
         .onDisappear() { self.dataSource.deactivate() }
         .modifier(WebsiteListTitle(query: self.dataSource.query))
-        .modifier(DetailToolbar.Shared(dataSource: self.dataSource))
+        .modifier(DetailToolbar.Shared(controller: self.dataSource.controller,
+                                       selection: self.$dataSource.selection,
+                                       query: self.$dataSource.query,
+                                       dataSource: self.dataSource))
     }
 }
 
