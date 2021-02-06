@@ -31,9 +31,8 @@ enum DetailToolbar {
         @Binding var selection: WH.Selection
         @Binding var query: Query
         
-        @ObservedObject var dataSource: WebsiteDataSource
         @State private var popoverAlignment: Alignment = .topTrailing
-        
+
         func body(content: Content) -> some View {
             return ZStack(alignment: self.popoverAlignment) {
                 // TODO: Hack when toolbars work properly with popovers
@@ -44,12 +43,15 @@ enum DetailToolbar {
                     SharePresentable()
                 )
                 Color.clear.frame(width: 1, height: 1).modifier(
-                    SearchPresentable(search: self.$dataSource.query.search)
+                    SearchPresentable(search: self.$query.search)
                 )
-                
                 Color.clear.frame(width: 1, height: 1).modifier(
-                    SortPresentable(sort: self.$dataSource.query.sort)
+                    SortPresentable(sort: self.$query.sort)
                 )
+                Color.clear.frame(width: 1, height: 1).modifier(
+                    WebsiteDelete(controller: self.controller)
+                )
+                    
                 #if os(macOS)
                 content.modifier(macOS(controller: self.controller, selection: self.$selection, query: self.$query))
                 #else

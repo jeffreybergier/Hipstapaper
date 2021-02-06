@@ -1,7 +1,6 @@
 //
 //  Created by Jeffrey Bergier on 2021/02/05.
 //
-//
 //  Copyright © 2020 Saturday Apps.
 //
 //  This file is part of Hipstapaper.

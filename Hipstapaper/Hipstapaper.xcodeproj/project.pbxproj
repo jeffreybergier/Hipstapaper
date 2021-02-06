@@ -168,6 +168,8 @@
 		73F8B37B25BD6790001A6A09 /* XPList in Frameworks */ = {isa = PBXBuildFile; productRef = 73F8B37A25BD6790001A6A09 /* XPList */; };
 		73FFA26725CD934B00BC78BB /* WebsiteHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FFA26625CD934B00BC78BB /* WebsiteHelper.swift */; };
 		73FFA26825CD934B00BC78BB /* WebsiteHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FFA26625CD934B00BC78BB /* WebsiteHelper.swift */; };
+		73FFA2A925CEAE8D00BC78BB /* DeleteAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FFA2A825CEAE8D00BC78BB /* DeleteAlert.swift */; };
+		73FFA2AA25CEAE8D00BC78BB /* DeleteAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FFA2A825CEAE8D00BC78BB /* DeleteAlert.swift */; };
 		DB111DA925772D5800365BEA /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB111DA825772D5800365BEA /* Result.swift */; };
 		DB21C1FC256C8DC500DF6AE7 /* CD_Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB21C1FB256C8DC500DF6AE7 /* CD_Tag.swift */; };
 		DB21C203256C8F9100DF6AE7 /* Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB21C202256C8F9100DF6AE7 /* Controller.swift */; };
@@ -554,6 +556,7 @@
 		73F2B043257460D2009AC2AF /* CD_Sort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_Sort.swift; sourceTree = "<group>"; };
 		73F2B04925746386009AC2AF /* WebsiteObservationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteObservationTests.swift; sourceTree = "<group>"; };
 		73FFA26625CD934B00BC78BB /* WebsiteHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteHelper.swift; sourceTree = "<group>"; };
+		73FFA2A825CEAE8D00BC78BB /* DeleteAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAlert.swift; sourceTree = "<group>"; };
 		DB111DA825772D5800365BEA /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		DB21C1FB256C8DC500DF6AE7 /* CD_Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_Tag.swift; sourceTree = "<group>"; };
 		DB21C202256C8F9100DF6AE7 /* Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controller.swift; sourceTree = "<group>"; };
@@ -881,6 +884,7 @@
 				735D4C93258F1E2F0016F904 /* AddTag.swift */,
 				73466982259F4DA20001E7C9 /* Sort.swift */,
 				7350B37C25C4274300C61716 /* SyncMonitor.swift */,
+				73FFA2A825CEAE8D00BC78BB /* DeleteAlert.swift */,
 				736DD3E12587905D00F0FBE0 /* TagApply */,
 			);
 			path = Presentations;
@@ -1666,6 +1670,7 @@
 				73C6BCAE259AC172006B7A6D /* TagDataSource.swift in Sources */,
 				73A3DEB0257B9351002EDEB4 /* Search.swift in Sources */,
 				73AFCBE925B31E6100832F31 /* DetailToolbar_iPad.swift in Sources */,
+				73FFA2A925CEAE8D00BC78BB /* DeleteAlert.swift in Sources */,
 				73C2751A25A9FB300028FE3A /* DropboxWatcher.swift in Sources */,
 				DBDCB365256BE8E800D005F6 /* HipstapaperApp.swift in Sources */,
 				735D4CA3258F1ECE0016F904 /* AddTag.swift in Sources */,
@@ -1704,6 +1709,7 @@
 				73A3DEB1257B9351002EDEB4 /* Search.swift in Sources */,
 				73D0F84C25B7160300D82D00 /* Errors.swift in Sources */,
 				DBDCB366256BE8E800D005F6 /* HipstapaperApp.swift in Sources */,
+				73FFA2AA25CEAE8D00BC78BB /* DeleteAlert.swift in Sources */,
 				735D4CAB258F1ECF0016F904 /* AddTag.swift in Sources */,
 				732CF67625B45904008C0A96 /* BlackBox.swift in Sources */,
 				7340681A2574981200D4A343 /* TagRow.swift in Sources */,

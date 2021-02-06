@@ -123,6 +123,8 @@ enum ModalPresentation: Equatable {
                 self.isBrowser    = nil
                 self.isShare      = nil
                 switch self.value {
+                case .none:
+                    break
                 case .delete(let selection):
                     self.isDelete = selection
                 case .tagApply(let selection):
@@ -131,8 +133,6 @@ enum ModalPresentation: Equatable {
                     self.isShare = selection
                 case .browser(let item):
                     self.isBrowser = .init(item)
-                case .none:
-                    break
                 case .addWebsite:
                     self.isAddWebsite = true
                 case .addTag:

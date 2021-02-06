@@ -42,24 +42,13 @@ struct WebsiteList: View {
         { item in
             WebsiteRow(item: item)
         }
-        .alert(item: self.$modalPresentation.isDelete) { selection in
-            Alert(
-                // TODO: Localized and fix this
-                title: STZ.VIEW.TXT("Delete"),
-                message: STZ.VIEW.TXT("This action cannot be undone."),
-                primaryButton: .destructive(STZ.VIEW.TXT("Delete"),
-                                            action: { WH.delete(selection, self.dataSource.controller, self.errorQ) }),
-                secondaryButton: .cancel()
-            )
-        }
         .animation(.default)
         .onAppear() { self.dataSource.activate() }
         .onDisappear() { self.dataSource.deactivate() }
         .modifier(WebsiteListTitle(query: self.dataSource.query))
         .modifier(DetailToolbar.Shared(controller: self.dataSource.controller,
                                        selection: self.$dataSource.selection,
-                                       query: self.$dataSource.query,
-                                       dataSource: self.dataSource))
+                                       query: self.$dataSource.query))
     }
 }
 
