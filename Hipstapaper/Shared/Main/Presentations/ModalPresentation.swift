@@ -30,7 +30,8 @@ enum ModalPresentation: Equatable {
     case tagApply(WH.Selection)
     case share(WH.Selection)
     case sort
-    case delete(WH.Selection)
+    case deleteWebsite(WH.Selection)
+    case deleteTag(TH.Selection)
     case browser(AnyElementObserver<AnyWebsite>)
     
     // TODO: Remove this when SwiftUI doesn't suck at modals
@@ -75,10 +76,18 @@ enum ModalPresentation: Equatable {
             }
         }
         
-        @Published var isDelete: WH.Selection? {
+        @Published var isDeleteWebsite: WH.Selection? {
             didSet {
                 guard !self.internalUpdateInProgress else { return }
-                guard self.isDelete == nil else { return }
+                guard self.isDeleteWebsite == nil else { return }
+                self.value = .none
+            }
+        }
+        
+        @Published var isDeleteTag: TH.Selection? {
+            didSet {
+                guard !self.internalUpdateInProgress else { return }
+                guard self.isDeleteTag == nil else { return }
                 self.value = .none
             }
         }
@@ -113,20 +122,23 @@ enum ModalPresentation: Equatable {
                 self.internalUpdateInProgress = true
                 defer { self.internalUpdateInProgress = false }
                 
-                self.isSearch     = false
-                self.isSort       = false
-                self.isAddWebsite = false
-                self.isAddTag     = false
-                self.isAddChoose  = false
-                self.isDelete     = nil
-                self.isTagApply   = nil
-                self.isBrowser    = nil
-                self.isShare      = nil
+                self.isSearch        = false
+                self.isSort          = false
+                self.isAddWebsite    = false
+                self.isAddTag        = false
+                self.isAddChoose     = false
+                self.isDeleteWebsite = nil
+                self.isDeleteTag     = nil
+                self.isTagApply      = nil
+                self.isBrowser       = nil
+                self.isShare         = nil
                 switch self.value {
                 case .none:
                     break
-                case .delete(let selection):
-                    self.isDelete = selection
+                case .deleteWebsite(let selection):
+                    self.isDeleteWebsite = selection
+                case .deleteTag(let selection):
+                    self.isDeleteTag = selection
                 case .tagApply(let selection):
                     self.isTagApply = selection
                 case .share(let selection):

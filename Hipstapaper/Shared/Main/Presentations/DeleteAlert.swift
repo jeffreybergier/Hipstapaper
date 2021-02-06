@@ -28,10 +28,10 @@ struct WebsiteDelete: ViewModifier {
     @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
     
     func body(content: Content) -> some View {
-        content.alert(item: self.$modalPresentation.isDelete) { selection in
+        content.alert(item: self.$modalPresentation.isDeleteWebsite) { selection in
             Alert(
                 // TODO: Localized and fix this
-                title: STZ.VIEW.TXT("Delete"),
+                title: STZ.VIEW.TXT("Delete \(selection.count) Website(s)"),
                 message: STZ.VIEW.TXT("This action cannot be undone."),
                 primaryButton: .destructive(STZ.VIEW.TXT("Delete"),
                                             action: { WH.delete(selection, self.controller, self.errorQ) }),
@@ -40,3 +40,24 @@ struct WebsiteDelete: ViewModifier {
         }
     }
 }
+
+struct TagDelete: ViewModifier {
+    
+    let controller: Controller
+    @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
+    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
+    
+    func body(content: Content) -> some View {
+        content.alert(item: self.$modalPresentation.isDeleteTag) { selection in
+            Alert(
+                // TODO: Localized and fix this
+                title: STZ.VIEW.TXT("Delete Tag"),
+                message: STZ.VIEW.TXT("This action cannot be undone."),
+                primaryButton: .destructive(STZ.VIEW.TXT("Delete"),
+                                            action: { TH.delete(selection, self.controller, self.errorQ) }),
+                secondaryButton: .cancel()
+            )
+        }
+    }
+}
+

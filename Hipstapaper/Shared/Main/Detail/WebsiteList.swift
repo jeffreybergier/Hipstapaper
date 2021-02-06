@@ -90,7 +90,7 @@ extension WebsiteList {
         }
         Group {
             STZ.TB.DeleteWebsite.context(isEnabled: WH.canDelete(selection)) {
-                self.modalPresentation.value = .delete(selection)
+                self.modalPresentation.value = .deleteWebsite(selection)
             }
         }
     }

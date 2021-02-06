@@ -66,7 +66,8 @@ struct TagList<Nav: View>: View {
         .onDisappear { self.dataSource.deactivate() }
         .listStyle(SidebarListStyle())
         .navigationTitle(Noun.Tags)
-        .modifier(IndexToolbar(dataSource: self.dataSource))
+        .modifier(IndexToolbar(controller: self.dataSource.controller,
+                               selection: self.$dataSource.selection))
     }
 }
 
