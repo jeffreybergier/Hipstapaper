@@ -37,6 +37,7 @@ struct TagRow: View {
             }
         }
         .frame(height: 30)
+        .animation(nil)
     }
 }
 

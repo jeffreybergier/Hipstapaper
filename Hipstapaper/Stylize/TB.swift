@@ -131,7 +131,7 @@ extension STZ {
             public static let verb: LocalizedStringKey = "Forward"
             public static let shortcut: KeyboardShortcut? = .init("]", modifiers: [.command])
         }
-        public enum DeleteTag: Toolbarable {
+        public enum DeleteTag_Minus: Toolbarable {
             public static let icon: String? = "minus"
             public static let phrase: LocalizedStringKey = Verb.DeleteTag
             public static let verb: LocalizedStringKey = Verb.DeleteTag
@@ -141,6 +141,12 @@ extension STZ {
             public static let icon: String? = "trash"
             public static let phrase: LocalizedStringKey = "Delete website"
             public static let verb: LocalizedStringKey = "Delete Website"
+            public static let shortcut: KeyboardShortcut? = .init(.delete, modifiers: [.command])
+        }
+        public enum DeleteTag_Trash: Toolbarable {
+            public static let icon: String? = "trash"
+            public static let phrase: LocalizedStringKey = "Delete tag"
+            public static let verb: LocalizedStringKey = "Delete Tag"
             public static let shortcut: KeyboardShortcut? = .init(.delete, modifiers: [.command])
         }
         public enum ClearSearch: Toolbarable {

@@ -172,6 +172,8 @@
 		73FFA2AA25CEAE8D00BC78BB /* DeleteAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FFA2A825CEAE8D00BC78BB /* DeleteAlert.swift */; };
 		73FFA2B625CEB01A00BC78BB /* TagHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FFA2B525CEB01A00BC78BB /* TagHelper.swift */; };
 		73FFA2B725CEB01A00BC78BB /* TagHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FFA2B525CEB01A00BC78BB /* TagHelper.swift */; };
+		73FFA2C325CEC7D100BC78BB /* TagMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FFA2C225CEC7D100BC78BB /* TagMenu.swift */; };
+		73FFA2C425CEC7D100BC78BB /* TagMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FFA2C225CEC7D100BC78BB /* TagMenu.swift */; };
 		DB111DA925772D5800365BEA /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB111DA825772D5800365BEA /* Result.swift */; };
 		DB21C1FC256C8DC500DF6AE7 /* CD_Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB21C1FB256C8DC500DF6AE7 /* CD_Tag.swift */; };
 		DB21C203256C8F9100DF6AE7 /* Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB21C202256C8F9100DF6AE7 /* Controller.swift */; };
@@ -560,6 +562,7 @@
 		73FFA26625CD934B00BC78BB /* WebsiteHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteHelper.swift; sourceTree = "<group>"; };
 		73FFA2A825CEAE8D00BC78BB /* DeleteAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAlert.swift; sourceTree = "<group>"; };
 		73FFA2B525CEB01A00BC78BB /* TagHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagHelper.swift; sourceTree = "<group>"; };
+		73FFA2C225CEC7D100BC78BB /* TagMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagMenu.swift; sourceTree = "<group>"; };
 		DB111DA825772D5800365BEA /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		DB21C1FB256C8DC500DF6AE7 /* CD_Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_Tag.swift; sourceTree = "<group>"; };
 		DB21C202256C8F9100DF6AE7 /* Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controller.swift; sourceTree = "<group>"; };
@@ -850,6 +853,7 @@
 				734068182574981200D4A343 /* TagRow.swift */,
 				73C6BCAD259AC172006B7A6D /* TagDataSource.swift */,
 				73FFA2B525CEB01A00BC78BB /* TagHelper.swift */,
+				73FFA2C225CEC7D100BC78BB /* TagMenu.swift */,
 			);
 			path = Index;
 			sourceTree = "<group>";
@@ -1652,6 +1656,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				73A3DE7825792604002EDEB4 /* DetailToolbar.swift in Sources */,
+				73FFA2C325CEC7D100BC78BB /* TagMenu.swift in Sources */,
 				73C6BD1E259C0530006B7A6D /* WindowManagerProtocol.swift in Sources */,
 				73D0F84B25B7160300D82D00 /* Errors.swift in Sources */,
 				73406812257491E600D4A343 /* PreviewsContent.swift in Sources */,
@@ -1720,6 +1725,7 @@
 				732CF67625B45904008C0A96 /* BlackBox.swift in Sources */,
 				7340681A2574981200D4A343 /* TagRow.swift in Sources */,
 				735CA02A25CBE88600B3F04B /* DataSource.swift in Sources */,
+				73FFA2C425CEC7D100BC78BB /* TagMenu.swift in Sources */,
 				736DD3E4258790A000F0FBE0 /* TagApply.swift in Sources */,
 				7346696E259F4B790001E7C9 /* DetailToolbar_macOS.swift in Sources */,
 				736DD3EE258793C200F0FBE0 /* Website+Hipstapaper.swift in Sources */,

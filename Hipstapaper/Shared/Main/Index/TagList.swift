@@ -56,7 +56,7 @@ struct TagList<Nav: View>: View {
                 ForEach(self.dataSource.data, id: \.self) { item in
                     NavigationLink(destination: self.navigation(item)) {
                         TagRow(item: item)
-                            .animation(nil)
+                            .modifier(TagMenu(selection: item))
                     }
                 }
             }

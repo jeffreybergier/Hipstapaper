@@ -69,11 +69,11 @@ struct IndexToolbar_macOS: ViewModifier {
                 Spacer()
             }
             ToolbarItem(id: "Index.DeleteTag", placement: .automatic) {
-                STZ.TB.DeleteTag.toolbar(isEnabled: TH.canDelete(self.selection),
-                                         action: {
-                                            guard let selection = self.selection else { return }
-                                            self.modalPresentation.value = .deleteTag(selection)
-                                         })
+                STZ.TB.DeleteTag_Minus.toolbar(isEnabled: TH.canDelete(self.selection),
+                                               action: {
+                                                guard let selection = self.selection else { return }
+                                                self.modalPresentation.value = .deleteTag(selection)
+                                               })
             }
             ToolbarItem(id: "Index.AddChoice", placement: .primaryAction) {
                 STZ.TB.AddChoice.toolbar(action: { self.modalPresentation.value = .addChoose })
