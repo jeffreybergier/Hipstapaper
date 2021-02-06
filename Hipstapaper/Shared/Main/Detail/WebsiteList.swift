@@ -92,13 +92,11 @@ extension WebsiteList {
         }
         Group {
             STZ.TB.Share.context(isEnabled: WH.canShare(selection)) {
-                // TODO: Remove force selection change
-                self.dataSource.selection = selection
-                self.modalPresentation.value = .share
+                self.modalPresentation.value = .share(selection)
             }
             STZ.TB.TagApply.context(isEnabled: WH.canTag(selection)) {
                 self.dataSource.selection = selection
-                self.modalPresentation.value = .tagApply
+                self.modalPresentation.value = .tagApply(selection)
             }
         }
         Group {

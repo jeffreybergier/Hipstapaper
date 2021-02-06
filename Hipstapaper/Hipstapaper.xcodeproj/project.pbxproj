@@ -18,8 +18,8 @@
 		7302C8F625745E1F00DA6614 /* ServerlessLogger in Frameworks */ = {isa = PBXBuildFile; productRef = 7302C8F525745E1F00DA6614 /* ServerlessLogger */; };
 		730CC989258650930002C50A /* PDG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730CC988258650930002C50A /* PDG.swift */; };
 		732CD60A25AAA09300DB842B /* Snapshot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A3DEC1257BBD83002EDEB4 /* Snapshot.framework */; };
-		732CF67525B45904008C0A96 /* Blackbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732CF67425B45904008C0A96 /* Blackbox.swift */; };
-		732CF67625B45904008C0A96 /* Blackbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732CF67425B45904008C0A96 /* Blackbox.swift */; };
+		732CF67525B45904008C0A96 /* BlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732CF67425B45904008C0A96 /* BlackBox.swift */; };
+		732CF67625B45904008C0A96 /* BlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732CF67425B45904008C0A96 /* BlackBox.swift */; };
 		732D529B25A5E7830028545F /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732D529A25A5E7830028545F /* ViewModel.swift */; };
 		732F302425AAEA0D00192822 /* ERR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732F302325AAEA0D00192822 /* ERR.swift */; };
 		732F303925AAEA2200192822 /* Stylize.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7399BAA9258251A500B8CAFD /* Stylize.framework */; };
@@ -447,7 +447,7 @@
 		7302C8E425739AE700DA6614 /* WebsiteCollectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteCollectionTests.swift; sourceTree = "<group>"; };
 		7302C8EA2573A29500DA6614 /* SortTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortTests.swift; sourceTree = "<group>"; };
 		730CC988258650930002C50A /* PDG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDG.swift; sourceTree = "<group>"; };
-		732CF67425B45904008C0A96 /* Blackbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blackbox.swift; sourceTree = "<group>"; };
+		732CF67425B45904008C0A96 /* BlackBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackBox.swift; sourceTree = "<group>"; };
 		732D529A25A5E7830028545F /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		732F302325AAEA0D00192822 /* ERR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ERR.swift; sourceTree = "<group>"; };
 		733E967825C6C7D500E108EE /* ListObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListObserver.swift; sourceTree = "<group>"; };
@@ -960,7 +960,7 @@
 				736DD3EC258793C200F0FBE0 /* Website+Hipstapaper.swift */,
 				73C6BD1D259C0530006B7A6D /* WindowManagerProtocol.swift */,
 				73C2751925A9FB300028FE3A /* DropboxWatcher.swift */,
-				732CF67425B45904008C0A96 /* Blackbox.swift */,
+				732CF67425B45904008C0A96 /* BlackBox.swift */,
 				73D0F84A25B7160300D82D00 /* Errors.swift */,
 				735CA02825CBE88600B3F04B /* DataSource.swift */,
 				DBDCB33E256BE8E700D005F6 /* Assets.xcassets */,
@@ -1672,7 +1672,7 @@
 				734068192574981200D4A343 /* TagRow.swift in Sources */,
 				73C6BC6D259A16F3006B7A6D /* WebsiteDataSource.swift in Sources */,
 				736DD3E3258790A000F0FBE0 /* TagApply.swift in Sources */,
-				732CF67525B45904008C0A96 /* Blackbox.swift in Sources */,
+				732CF67525B45904008C0A96 /* BlackBox.swift in Sources */,
 				736DD3ED258793C200F0FBE0 /* Website+Hipstapaper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1705,7 +1705,7 @@
 				73D0F84C25B7160300D82D00 /* Errors.swift in Sources */,
 				DBDCB366256BE8E800D005F6 /* HipstapaperApp.swift in Sources */,
 				735D4CAB258F1ECF0016F904 /* AddTag.swift in Sources */,
-				732CF67625B45904008C0A96 /* Blackbox.swift in Sources */,
+				732CF67625B45904008C0A96 /* BlackBox.swift in Sources */,
 				7340681A2574981200D4A343 /* TagRow.swift in Sources */,
 				735CA02A25CBE88600B3F04B /* DataSource.swift in Sources */,
 				736DD3E4258790A000F0FBE0 /* TagApply.swift in Sources */,

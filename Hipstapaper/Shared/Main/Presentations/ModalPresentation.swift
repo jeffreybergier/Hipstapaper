@@ -27,8 +27,8 @@ enum ModalPresentation: Equatable {
     case addTag
     case addChoose
     case search
-    case tagApply
-    case share
+    case tagApply(WH.Selection)
+    case share(WH.Selection)
     case sort
     case delete
     case browser(AnyElementObserver<AnyWebsite>)
@@ -39,22 +39,6 @@ enum ModalPresentation: Equatable {
             didSet {
                 guard !internalUpdateInProgress else { return }
                 guard !self.isSearch else { return }
-                self.value = .none
-            }
-        }
-        
-        @Published var isTagApply = false {
-            didSet {
-                guard !internalUpdateInProgress else { return }
-                guard !self.isTagApply else { return }
-                self.value = .none
-            }
-        }
-        
-        @Published var isShare = false {
-            didSet {
-                guard !internalUpdateInProgress else { return }
-                guard !self.isShare else { return }
                 self.value = .none
             }
         }
@@ -99,7 +83,29 @@ enum ModalPresentation: Equatable {
             }
         }
         
-        @Published var isBrowser: BlackBox<AnyElementObserver<AnyWebsite>>?
+        @Published var isShare: WH.Selection? {
+            didSet {
+                guard !self.internalUpdateInProgress else { return }
+                guard self.isShare == nil else { return }
+                self.value = .none
+            }
+        }
+        
+        @Published var isTagApply: WH.Selection? {
+            didSet {
+                guard !internalUpdateInProgress else { return }
+                guard self.isTagApply == nil else { return }
+                self.value = .none
+            }
+        }
+        
+        @Published var isBrowser: BlackBox<AnyElementObserver<AnyWebsite>>? {
+            didSet {
+                guard !self.internalUpdateInProgress else { return }
+                guard self.isBrowser == nil else { return }
+                self.value = .none
+            }
+        }
         
         private var internalUpdateInProgress = false
         @Published var value: ModalPresentation = .none {
@@ -108,15 +114,20 @@ enum ModalPresentation: Equatable {
                 defer { self.internalUpdateInProgress = false }
                 
                 self.isSearch     = self.value.isCase(of: .search)
-                self.isTagApply   = self.value.isCase(of: .tagApply)
-                self.isShare      = self.value.isCase(of: .share)
                 self.isSort       = self.value.isCase(of: .sort)
                 self.isAddWebsite = self.value.isCase(of: .addWebsite)
                 self.isAddTag     = self.value.isCase(of: .addTag)
                 self.isAddChoose  = self.value.isCase(of: .addChoose)
                 self.isDelete     = self.value.isCase(of: .delete)
+                
+                self.isTagApply   = nil
                 self.isBrowser    = nil
+                self.isShare      = nil
                 switch self.value {
+                case .tagApply(let selection):
+                    self.isTagApply = selection
+                case .share(let selection):
+                    self.isShare = selection
                 case .browser(let item):
                     self.isBrowser = .init(item)
                 default:

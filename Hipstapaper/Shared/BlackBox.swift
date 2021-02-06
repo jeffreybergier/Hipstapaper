@@ -72,3 +72,9 @@ extension BlackBox: Identifiable where Value: Identifiable {
         return self.value.id
     }
 }
+
+extension Set: Identifiable where Element: Identifiable {
+    public var id: Element.ID {
+        return self.first!.id
+    }
+}

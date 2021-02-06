@@ -51,7 +51,7 @@ extension DetailToolbar.iOS {
                     ToolbarItem(id: "Detail.Tag", placement: .bottomBar) {
                         STZ.TB.TagApply.toolbar(isEnabled: WH.canTag(self.selection)) {
                             self.popoverAlignment = .bottomLeading
-                            self.modalPresentation.value = .tagApply
+                            self.modalPresentation.value = .tagApply(self.selection)
                         }
                     }
                     ToolbarItem(id: "Detail.FlexibleSpace", placement: .bottomBar) {
@@ -72,7 +72,7 @@ extension DetailToolbar.iOS {
                     ToolbarItem(id: "Detail.Share", placement: .bottomBar) {
                         STZ.TB.Share.toolbar(isEnabled: WH.canShare(self.selection)) {
                             self.popoverAlignment = .bottomTrailing
-                            self.modalPresentation.value = .share
+                            self.modalPresentation.value = .share(self.selection)
                         }
                     }
                     ToolbarItem(id: "Detail.EditMode", placement: .bottomBar) {

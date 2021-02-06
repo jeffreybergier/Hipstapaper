@@ -38,11 +38,10 @@ enum DetailToolbar {
             return ZStack(alignment: self.popoverAlignment) {
                 // TODO: Hack when toolbars work properly with popovers
                 Color.clear.frame(width: 1, height: 1).modifier(
-                    TagApplyPresentable(dataSource: self.dataSource,
-                                        selectedWebsites: self.dataSource.selection)
+                    TagApplyPresentable(controller: self.controller)
                 )
                 Color.clear.frame(width: 1, height: 1).modifier(
-                    SharePresentable(selectedWebsites: self.dataSource.selection)
+                    SharePresentable()
                 )
                 Color.clear.frame(width: 1, height: 1).modifier(
                     SearchPresentable(search: self.$dataSource.query.search)

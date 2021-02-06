@@ -46,7 +46,7 @@ extension DetailToolbar {
                 }
                 ToolbarItem(id: "Detail.Share") {
                     STZ.TB.Share.toolbar(isEnabled: WH.canShare(self.selection),
-                                         action: { self.modalPresentation.value = .share })
+                                         action: { self.modalPresentation.value = .share(self.selection) })
                 }
                 ToolbarItem(id: "Detail.Separator") {
                     STZ.TB.Separator.toolbar()
