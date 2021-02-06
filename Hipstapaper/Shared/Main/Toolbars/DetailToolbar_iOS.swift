@@ -19,6 +19,7 @@
 
 import SwiftUI
 import Stylize
+import Datum
 
 extension DetailToolbar {
     enum iOS { }
@@ -27,6 +28,9 @@ extension DetailToolbar {
 extension DetailToolbar.iOS {
     struct Shared: ViewModifier {
         
+        let controller: Controller
+        @Binding var selection: WH.Selection
+        @Binding var query: Query
         @ObservedObject var dataSource: WebsiteDataSource
         @Binding var popoverAlignment: Alignment
         
@@ -44,11 +48,14 @@ extension DetailToolbar.iOS {
                 return AnyView(content.modifier(iPhone(dataSource: self.dataSource,
                                                        popoverAlignment: self.$popoverAlignment)))
             case (false, true): // iPad editing
-                return AnyView(content.modifier(iPadEdit(dataSource: self.dataSource,
+                return AnyView(content.modifier(iPadEdit(controller: self.controller,
+                                                         selection: self.$selection,
+                                                         query: self.$query,
                                                          popoverAlignment: self.$popoverAlignment)))
             case (false, false): // iPad not editing
-                return AnyView(content.modifier(iPad(dataSource: self.dataSource,
-                                                     popoverAlignment: self.$popoverAlignment)))
+                return AnyView(content.modifier(iPad(query: self.$query,
+                                                     popoverAlignment: self.$popoverAlignment,
+                                                     syncMonitor: self.controller.syncMonitor)))
             }
         }
     }
