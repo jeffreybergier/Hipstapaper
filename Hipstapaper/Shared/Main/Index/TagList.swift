@@ -70,7 +70,7 @@ struct TagList<Nav: View>: View {
         .modifier(IndexToolbar(controller: self.dataSource.controller,
                                selection: self.$selection))
         .navigationTitle(Noun.Tags)
-        .listStyle(SidebarListStyle())
+        .modifier(SidebarStyle())
     }
 }
 
@@ -82,3 +82,19 @@ struct TagList_Preview: PreviewProvider {
     }
 }
 #endif
+
+fileprivate struct SidebarStyle: ViewModifier {
+    #if os(macOS)
+    func body(content: Content) -> some View {
+        content.listStyle(SidebarListStyle())
+    }
+    #else
+    @ViewBuilder func body(content: Content) -> some View {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            content.listStyle(SidebarListStyle())
+        } else {
+            content.listStyle(InsetGroupedListStyle())
+        }
+    }
+    #endif
+}
