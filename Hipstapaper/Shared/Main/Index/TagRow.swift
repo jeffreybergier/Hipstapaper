@@ -25,39 +25,30 @@ import Stylize
 import Localize
 
 struct TagRow: View {
-    let title: String?
-    let websitesCount: Int?
+    @ObservedObject var item: AnyElementObserver<AnyTag>
     var body: some View {
         HStack {
-            STZ.VIEW.TXT(self.title, or: Noun.Untitled)
+            STZ.VIEW.TXT(self.item.value.name, or: Noun.Untitled)
                 .modifier(STZ.CLR.IndexRow.Text.foreground())
                 .modifier(STZ.FNT.IndexRow.Title.apply())
-            if let count = self.websitesCount {
+            if let count = self.item.value.websitesCount {
                 Spacer()
                 STZ.VIEW.NumberOval(count)
             }
         }
         .frame(height: 30)
     }
-    init(_ tag: AnyTag) {
-        self.title = tag.name
-        self.websitesCount = tag.websitesCount
-    }
-    init(_ title: String) {
-        self.title = title
-        self.websitesCount = nil
-    }
 }
 
 #if DEBUG
 struct TagRow_Preview1: PreviewProvider {
     static var previews: some View {
-        TagRow(p_tags[0].value)
+        TagRow(item: p_tags[0])
     }
 }
 struct TagRow_Preview2: PreviewProvider {
     static var previews: some View {
-        TagRow(p_tags[2].value)
+        TagRow(item: p_tags[2])
     }
 }
 #endif

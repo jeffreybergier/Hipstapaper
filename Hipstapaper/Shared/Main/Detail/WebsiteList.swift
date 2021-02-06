@@ -40,7 +40,7 @@ struct WebsiteList: View {
                  open: self.open,
                  menu: self.contextMenu)
         { item in
-            WebsiteRow(item.value)
+            WebsiteRow(item: item)
         }
         .alert(isPresented: self.$modalPresentation.isDelete) {
             Alert(

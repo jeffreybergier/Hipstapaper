@@ -44,7 +44,7 @@ struct TagList<Nav: View>: View {
             {
                 ForEach(self.dataSource.fixed, id: \.self) { item in
                     NavigationLink(destination: self.navigation(item)) {
-                        TagRow(item.value)
+                        TagRow(item: item)
                             .animation(nil)
                     }
                 }
@@ -55,7 +55,7 @@ struct TagList<Nav: View>: View {
             {
                 ForEach(self.dataSource.data, id: \.self) { item in
                     NavigationLink(destination: self.navigation(item)) {
-                        TagRow(item.value)
+                        TagRow(item: item)
                             .animation(nil)
                     }
                 }

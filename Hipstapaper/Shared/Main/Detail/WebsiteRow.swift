@@ -31,37 +31,34 @@ struct WebsiteRow: View {
         df.timeStyle = .short
         return df
     }()
-    let website: AnyWebsite
+    @ObservedObject var item: AnyElementObserver<AnyWebsite>
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                STZ.VIEW.TXT(self.website.title, or: Noun.Untitled)
+                STZ.VIEW.TXT(self.item.value.title, or: Noun.Untitled)
                     .modifier(STZ.FNT.DetailRow.Title.apply())
                     .modifier(STZ.CLR.DetailRow.Text.foreground())
-                STZ.VIEW.TXT(WebsiteRow.formatter.string(from: self.website.dateCreated))
+                STZ.VIEW.TXT(WebsiteRow.formatter.string(from: self.item.value.dateCreated))
                     .modifier(STZ.FNT.DetailRow.Subtitle.apply())
                     .modifier(STZ.CLR.DetailRow.Text.foreground())
             }
             Spacer()
-            STZ.IMG.Placeholder.thumbnail(self.website.thumbnail)
+            STZ.IMG.Placeholder.thumbnail(self.item.value.thumbnail)
         }
         .frame(height: 60)
         .animation(nil)
-    }
-    init(_ website: AnyWebsite) {
-        self.website = website
     }
 }
 
 #if DEBUG
 struct WebsiteRow_Preview1: PreviewProvider {
     static var previews: some View {
-        WebsiteRow(pp_sites[0].value)
+        WebsiteRow(item: pp_sites[0])
     }
 }
 struct WebsiteRow_Preview2: PreviewProvider {
     static var previews: some View {
-        WebsiteRow(pp_sites[2].value)
+        WebsiteRow(item: pp_sites[2])
     }
 }
 #endif
