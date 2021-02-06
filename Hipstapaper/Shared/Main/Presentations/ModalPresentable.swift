@@ -15,9 +15,9 @@ import Localize
 struct BrowserPresentable: ViewModifier {
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
     func body(content: Content) -> some View {
-        content.sheet(isPresented: self.$presentation.isBrowser) {
+        content.sheet(item: self.$presentation.isBrowser) { item in
             // TODO: Do something if preferred URL nil
-            Browser(url: self.presentation.browserItem!.value.preferredURL!,
+            Browser(url: item.value.value.preferredURL!,
                     doneAction: { self.presentation.value = .none })
         }
     }
