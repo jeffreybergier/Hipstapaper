@@ -30,17 +30,15 @@ extension STZ.PRG {
         return ProgressView(progress)
             .progressViewStyle(LinearProgressViewStyle())
     }
-    public static func Spin(_ progress: Progress?) -> some View {
+    @ViewBuilder public static func Spin(_ progress: Progress?) -> some View {
         if let progress = progress {
-            return AnyView(
-                ProgressView(progress)
-                    .progressViewStyle(CircularProgressViewStyle())
-            )
+            ProgressView(progress)
+                .progressViewStyle(CircularProgressViewStyle())
+                .scaleEffect(x: 1, y: 0.5, anchor: .center)
         } else {
-            return AnyView(
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
-            )
+            ProgressView()
+                .progressViewStyle(CircularProgressViewStyle())
+                .scaleEffect(x: 0.5, y: 0.5, anchor: .center)
         }
     }
 }

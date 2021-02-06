@@ -67,21 +67,19 @@ struct HipstapaperApp: App {
     }
 
     @SceneBuilder var body: some Scene {
-        WindowGroup { () -> AnyView in
-            if let controller = self.controller {
-                return AnyView(
-                    Main(controller: controller)
-                        .environmentObject(self.windowPresentation)
-                        .environmentObject(self.modalPresentation)
-                        .environmentObject(self.errorQ)
-                )
-            } else {
-                return AnyView(
-                    Color.clear
-                        .modifier(STZ.ERR.PresenterB())
-                        .environmentObject(self.errorQ)
-                )
-            }
+        WindowGroup(content: self.build)
+    }
+    
+    @ViewBuilder private func build() -> some View {
+        if let controller = self.controller {
+            Main(controller: controller)
+                .environmentObject(self.windowPresentation)
+                .environmentObject(self.modalPresentation)
+                .environmentObject(self.errorQ)
+        } else {
+            Color.clear
+                .modifier(STZ.ERR.PresenterB())
+                .environmentObject(self.errorQ)
         }
     }
 }

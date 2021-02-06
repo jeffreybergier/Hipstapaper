@@ -21,6 +21,7 @@
 
 import SwiftUI
 import Datum
+import Stylize
 
 typealias WH = WebsiteHelper
 
@@ -84,5 +85,25 @@ enum WebsiteHelper {
         
         wm.show(Set(urls)) { errorQ.append($0) }
         return nil
+    }
+    
+    @ViewBuilder static func filterToolbarItem(_ filter: Query.Filter,
+                                               action: @escaping () -> Void) -> some View
+    {
+        if filter.boolValue {
+            STZ.TB.FilterActive.toolbar(action: action)
+        } else {
+            STZ.TB.FilterInactive.toolbar(action: action)
+        }
+    }
+    
+    @ViewBuilder static func searchToolbarItem(_ query: Query,
+                                               action: @escaping () -> Void) -> some View
+    {
+        if query.isSearchActive {
+            STZ.TB.SearchInactive.toolbar(action: action)
+        } else {
+            STZ.TB.SearchActive.toolbar(action: action)
+        }
     }
 }

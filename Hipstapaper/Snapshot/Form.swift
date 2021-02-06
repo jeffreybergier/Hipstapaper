@@ -32,15 +32,15 @@ struct FormSwitcher: View {
     
     @ObservedObject var viewModel: ViewModel
     
-    var body: some View {
+    @ViewBuilder var body: some View {
         Group {
             switch self.viewModel.formState {
             case .load:
-                AnyView(FormLoad(viewModel: self.viewModel))
+                FormLoad(viewModel: self.viewModel)
             case .loading:
-                AnyView(FormLoading(viewModel: self.viewModel))
+                FormLoading(viewModel: self.viewModel)
             case .loaded:
-                AnyView(FormLoaded(viewModel: self.viewModel))
+                FormLoaded(viewModel: self.viewModel)
             }
         }
         .animation(.default)

@@ -70,14 +70,14 @@ extension DetailToolbar {
                     STZ.TB.Sort.toolbar(action: { self.modalPresentation.value = .sort })
                 }
                 ToolbarItem(id: "Detail.Filter") {
-                    return self.query.filter.boolValue
-                        ? AnyView(STZ.TB.FilterActive.toolbar(action: { self.query.filter = .all }))
-                        : AnyView(STZ.TB.FilterInactive.toolbar(action: { self.query.filter = .unarchived }))
+                    WH.filterToolbarItem(self.query.filter) {
+                        self.query.filter.boolValue.toggle()
+                    }
                 }
                 ToolbarItem(id: "Detail.Search") {
-                    return self.query.isSearchActive
-                        ? AnyView(STZ.TB.SearchInactive.toolbar(action: { self.modalPresentation.value = .search }))
-                        : AnyView(STZ.TB.SearchActive.toolbar(action: { self.modalPresentation.value = .search }))
+                    WH.searchToolbarItem(self.query) {
+                        self.modalPresentation.value = .search
+                    }
                 }
             }
         }

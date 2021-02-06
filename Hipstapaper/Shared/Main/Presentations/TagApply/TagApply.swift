@@ -36,9 +36,12 @@ struct TagApply: View {
         let result = self.controller.tagStatus(for: self.selection)
         self.errorQ.append(result)
         log.error(result.error)
-        guard let data = result.value else { return AnyView(Color.clear) }
-        // TODO: Figure out how to remove VStack without ruining layout on iOS
-        return AnyView(
+        return self.build(result)
+    }
+    
+    @ViewBuilder private func build(_ result: Result<AnyList<(AnyElementObserver<AnyTag>, ToggleState)>, Datum.Error>) -> some View {
+        switch result {
+        case .success(let data):
             VStack(spacing: 0) {
                 List(data, id: \.0) { tuple in
                     TagApplyRow(name: tuple.0.value.name,
@@ -48,7 +51,9 @@ struct TagApply: View {
                 .modifier(STZ.MDL.Done(kind: STZ.TB.TagApply.self, done: self.done))
                 .frame(idealWidth: 300, idealHeight: 300)
             }
-        )
+        case .failure:
+            EmptyView()
+        }
     }
     
     private func process(newValue: Bool, for tag: AnyElementObserver<AnyTag>) {

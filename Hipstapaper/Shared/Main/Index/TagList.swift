@@ -78,7 +78,7 @@ struct TagList<Nav: View>: View {
 struct TagList_Preview: PreviewProvider {
     static var previews: some View {
         TagList(controller: P_Controller(),
-                navigation: { _ in AnyView(STZ.VIEW.TXT("Swift Previews")) })
+                navigation: { _ in STZ.VIEW.TXT("Swift Previews") })
     }
 }
 #endif

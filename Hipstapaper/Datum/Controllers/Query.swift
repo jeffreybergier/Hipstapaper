@@ -67,6 +67,9 @@ extension Query {
     public enum Filter: Int, Identifiable, CaseIterable {
         case unarchived, all
         public var id: ObjectIdentifier { .init(NSNumber(value: self.rawValue)) }
-        public var boolValue: Bool { return self == .unarchived }
+        public var boolValue: Bool {
+            get { return self == .unarchived }
+            set { self = newValue ? .unarchived : .all }
+        }
     }
 }

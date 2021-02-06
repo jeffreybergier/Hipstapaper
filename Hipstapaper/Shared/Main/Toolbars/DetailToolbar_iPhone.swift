@@ -95,9 +95,9 @@ extension DetailToolbar.iOS {
         func body(content: Content) -> some View {
             content.toolbar(id: "Detail") {
                 ToolbarItem(id: "Detail.Filter", placement: .bottomBar) {
-                    return self.query.filter.boolValue
-                        ? AnyView(STZ.TB.FilterActive.toolbar(action: { self.query.filter = .all }))
-                        : AnyView(STZ.TB.FilterInactive.toolbar(action: { self.query.filter = .unarchived }))
+                    WH.filterToolbarItem(self.query.filter) {
+                        self.query.filter.boolValue.toggle()
+                    }
                 }
                 ToolbarItem(id: "Detail.Separator", placement: .bottomBar) {
                     STZ.TB.Separator.toolbar()
@@ -118,9 +118,9 @@ extension DetailToolbar.iOS {
                     STZ.TB.SyncMonitor(self.syncMonitor)
                 }
                 ToolbarItem(id: "Detail.Search", placement: .primaryAction) {
-                    return self.query.isSearchActive
-                        ? AnyView(STZ.TB.SearchInactive.toolbar(action: self.search))
-                        : AnyView(STZ.TB.SearchActive.toolbar(action: self.search))
+                    WH.searchToolbarItem(self.query) {
+                        self.modalPresentation.value = .search
+                    }
                 }
             }
         }

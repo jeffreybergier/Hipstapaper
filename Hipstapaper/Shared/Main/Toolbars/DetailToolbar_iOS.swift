@@ -36,28 +36,28 @@ extension DetailToolbar.iOS {
         @Environment(\.editMode) private var editMode
         @Environment(\.horizontalSizeClass) private var horizontalSizeClass
         
-        func body(content: Content) -> some View {
+        @ViewBuilder func body(content: Content) -> some View {
             switch (self.horizontalSizeClass?.isCompact ?? true,
                     self.editMode?.wrappedValue.isEditing ?? false)
             {
             case (true, true): // iPhone editing
-                return AnyView(content.modifier(iPhoneEdit(controller: self.controller,
-                                                           selection: self.$selection,
-                                                           query: self.$query,
-                                                           popoverAlignment: self.$popoverAlignment)))
+                content.modifier(iPhoneEdit(controller: self.controller,
+                                            selection: self.$selection,
+                                            query: self.$query,
+                                            popoverAlignment: self.$popoverAlignment))
             case (true, false): // iPhone not editing
-                return AnyView(content.modifier(iPhone(query: self.$query,
-                                                       popoverAlignment: self.$popoverAlignment,
-                                                       syncMonitor: self.controller.syncMonitor)))
+                content.modifier(iPhone(query: self.$query,
+                                        popoverAlignment: self.$popoverAlignment,
+                                        syncMonitor: self.controller.syncMonitor))
             case (false, true): // iPad editing
-                return AnyView(content.modifier(iPadEdit(controller: self.controller,
-                                                         selection: self.$selection,
-                                                         query: self.$query,
-                                                         popoverAlignment: self.$popoverAlignment)))
+                content.modifier(iPadEdit(controller: self.controller,
+                                          selection: self.$selection,
+                                          query: self.$query,
+                                          popoverAlignment: self.$popoverAlignment))
             case (false, false): // iPad not editing
-                return AnyView(content.modifier(iPad(query: self.$query,
-                                                     popoverAlignment: self.$popoverAlignment,
-                                                     syncMonitor: self.controller.syncMonitor)))
+                content.modifier(iPad(query: self.$query,
+                                      popoverAlignment: self.$popoverAlignment,
+                                      syncMonitor: self.controller.syncMonitor))
             }
         }
     }

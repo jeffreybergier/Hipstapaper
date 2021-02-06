@@ -31,30 +31,22 @@ extension STZ.TB {
             _monitor = .init(wrappedValue: monitor)
         }
         
-        var body: some View {
+        @ViewBuilder var body: some View {
             if self.monitor.isLoggedIn == false {
-                return AnyView(
-                    STZ.TB.CloudAccountError.toolbar {
-                        self.errorQ.append(Error.cloudAccount)
-                    }
-                )
+                STZ.TB.CloudAccountError.toolbar {
+                    self.errorQ.append(Error.cloudAccount)
+                }
             } else if self.monitor.errorQ.isEmpty == false {
-                return AnyView(
-                    STZ.TB.CloudSyncError.toolbar {
-                        while !self.monitor.errorQ.isEmpty {
-                            self.errorQ.append(self.monitor.errorQ.next()!)
-                        }
+                STZ.TB.CloudSyncError.toolbar {
+                    while !self.monitor.errorQ.isEmpty {
+                        self.errorQ.append(self.monitor.errorQ.next()!)
                     }
-                )
+                }
             } else if self.monitor.progress.completedUnitCount == self.monitor.progress.totalUnitCount {
-                return AnyView(
-                    STZ.TB.CloudSyncSuccess.toolbar(isEnabled: false, action: {})
-                )
+                STZ.TB.CloudSyncSuccess.toolbar(isEnabled: false, action: {})
             } else {
-                return AnyView(
-                    // TODO: I can't get rid of the extra labels if I actually pass the Progress object
-                    STZ.PRG.Spin(nil)
-                )
+                // TODO: I can't get rid of the extra labels if I actually pass the Progress object
+                STZ.PRG.Spin(nil)
             }
         }
     }

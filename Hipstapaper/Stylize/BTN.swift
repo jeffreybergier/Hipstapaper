@@ -35,27 +35,24 @@ extension Buttonable {
                               isEnabled: Bool = true,
                               action: @escaping Action) -> some View
     {
-        return context(doneStyle: doneStyle,
+        context(doneStyle: doneStyle,
                        isEnabled: isEnabled,
                        action: action)
-            // if this modifier is used on context menu buttons everything breaks
-            .modifier(DefaultStyle())
+            .modifier(DefaultStyle()) // if this modifier is used on context menu buttons everything breaks
     }
-    public static func context(doneStyle: Bool = false,
-                               isEnabled: Bool = true,
-                               action: @escaping Action) -> some View
+    
+    @ViewBuilder public static func context(doneStyle: Bool = false,
+                                            isEnabled: Bool = true,
+                                            action: @escaping Action)
+                                            -> some View
     {
-        return Button(action: action) { () -> AnyView in
+        Button(action: action) {
             if let icon = self.icon {
-                return AnyView(
-                    Label(self.verb, systemImage: icon)
-                        .modifier(DoneStyle(enabled: doneStyle))
-                )
+                Label(self.verb, systemImage: icon)
+                    .modifier(DoneStyle(enabled: doneStyle))
             } else {
-                return AnyView(
-                    STZ.VIEW.TXT(self.verb)
-                        .modifier(DoneStyle(enabled: doneStyle))
-                )
+                STZ.VIEW.TXT(self.verb)
+                    .modifier(DoneStyle(enabled: doneStyle))
             }
         }
         .disabled(!isEnabled)
@@ -92,11 +89,11 @@ internal struct Shortcut: ViewModifier {
     internal init(_ shortcut: KeyboardShortcut?) {
         self.shortcut = shortcut
     }
-    internal func body(content: Content) -> some View {
+    @ViewBuilder internal func body(content: Content) -> some View {
         if let shortcut = self.shortcut {
-            return AnyView(content.keyboardShortcut(shortcut))
+            content.keyboardShortcut(shortcut)
         } else {
-            return AnyView(content)
+            content
         }
     }
 }
