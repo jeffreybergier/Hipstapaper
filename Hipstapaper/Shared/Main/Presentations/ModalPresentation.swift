@@ -113,12 +113,11 @@ enum ModalPresentation: Equatable {
                 self.internalUpdateInProgress = true
                 defer { self.internalUpdateInProgress = false }
                 
-                self.isSearch     = self.value.isCase(of: .search)
-                self.isSort       = self.value.isCase(of: .sort)
-                self.isAddWebsite = self.value.isCase(of: .addWebsite)
-                self.isAddTag     = self.value.isCase(of: .addTag)
-                self.isAddChoose  = self.value.isCase(of: .addChoose)
-                
+                self.isSearch     = false
+                self.isSort       = false
+                self.isAddWebsite = false
+                self.isAddTag     = false
+                self.isAddChoose  = false
                 self.isDelete     = nil
                 self.isTagApply   = nil
                 self.isBrowser    = nil
@@ -132,38 +131,20 @@ enum ModalPresentation: Equatable {
                     self.isShare = selection
                 case .browser(let item):
                     self.isBrowser = .init(item)
-                default:
+                case .none:
                     break
+                case .addWebsite:
+                    self.isAddWebsite = true
+                case .addTag:
+                    self.isAddTag = true
+                case .addChoose:
+                    self.isAddChoose = true
+                case .search:
+                    self.isSearch = true
+                case .sort:
+                    self.isSort = true
                 }
             }
         }
-    }
-}
-
-extension ModalPresentation {
-    func isCase(of rhs: ModalPresentation) -> Bool {
-        switch self {
-        case .none:
-            guard case .none = rhs else { return false }
-        case .search:
-            guard case .search = rhs else { return false }
-        case .tagApply:
-            guard case .tagApply = rhs else { return false }
-        case .share:
-            guard case .share = rhs else { return false }
-        case .sort:
-            guard case .sort = rhs else { return false }
-        case .delete:
-            guard case .delete = rhs else { return false }
-        case .browser:
-            guard case .browser = rhs else { return false }
-        case .addWebsite:
-            guard case .addWebsite = rhs else { return false }
-        case .addTag:
-            guard case .addTag = rhs else { return false }
-        case .addChoose:
-            guard case .addChoose = rhs else { return false }
-        }
-        return true
     }
 }
