@@ -36,11 +36,14 @@ extension CD_Tag: Tag {
     @NSManaged internal var cd_websitesCount: Int32
     @NSManaged internal var cd_name: String?
     @NSManaged internal var cd_websites: NSSet
-
-    internal override func datum_willSave() {
-        super.datum_willSave()
-
-        self.cd_websitesCount = Int32(self.cd_websites.count)
+    
+    override func willSave() {
+        super.willSave()
+        let newWebsitesCount = Int32(self.cd_websites.count)
+        if self.cd_websitesCount != newWebsitesCount {
+            self.cd_websitesCount = newWebsitesCount
+        }
+        
         // TODO: validate name
     }
 }

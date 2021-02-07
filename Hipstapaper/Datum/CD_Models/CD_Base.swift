@@ -39,9 +39,24 @@ import Combine
         self.cd_dateModified = date
         self.cd_dateCreated = date
     }
-
-    /// Override to validate your properties before saving
-    internal func datum_willSave() {
-        self.cd_dateModified = Date()
+    
+    override func willSave() {
+        super.willSave()
+        
+        let now = Date()
+        
+        if self.cd_dateCreated == nil {
+            log.error()
+            self.cd_dateCreated = now
+        }
+        
+        if self.cd_dateModified == nil {
+            log.error()
+            self.cd_dateModified = now
+        }
+        
+        if abs(self.cd_dateModified!.timeIntervalSince(now)) > 3 {
+            self.cd_dateModified = now
+        }
     }
 }
