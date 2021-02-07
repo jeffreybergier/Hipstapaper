@@ -33,34 +33,19 @@ internal struct Toolbar_macOS: ViewModifier {
     func body(content: Content) -> some View {
         VStack(spacing: 0) {
             HStack(spacing: 16) {
-                STZ.TB.GoBack.toolbar(isEnabled: self.viewModel.browserDisplay.canGoBack,
-                                      action: { self.viewModel.browserControl.goBack = true })
-                
-                STZ.TB.GoForward.toolbar(isEnabled: self.viewModel.browserDisplay.canGoForward,
-                                         action: { self.viewModel.browserControl.goForward = true })
-                
-                self.viewModel.browserDisplay.isLoading
-                    ? AnyView(STZ.TB.Stop.toolbar(action: { self.viewModel.browserControl.stop = true }))
-                    : AnyView(STZ.TB.Reload.toolbar(action: { self.viewModel.browserControl.reload = true }))
-                
-                self.viewModel.itemDisplay.isJSEnabled
-                    ? AnyView(STZ.TB.JSActive.toolbar(action: { self.viewModel.itemDisplay.isJSEnabled = false }))
-                    : AnyView(STZ.TB.JSInactive.toolbar(action: { self.viewModel.itemDisplay.isJSEnabled = true }))
-                
-                STZ.VIEW.TXTFLD.WebTitle.textfield(self.$viewModel.browserDisplay.title)
-                    .disabled(true)
-                
+                TH.goBackButton(self.viewModel)
+                TH.goForwardButton(self.viewModel)
+                TH.stopReloadButton(self.viewModel)
+                TH.jsButton(self.viewModel)
+                TH.addressBar(self.$viewModel.browserDisplay.title)
                 STZ.TB.Share.toolbar(action: { self.viewModel.browserDisplay.isSharing = true })
-                
-                STZ.TB.OpenInBrowser.toolbar(action: { self.openURL(self.viewModel.originalURL) })
-                
+                TH.openExternalButton(self.viewModel, self.openURL)
                 if let done = self.viewModel.doneAction {
                     STZ.BTN.BrowserDone.button(action: done)
                 }
             }
             .modifier(STZ.VIEW.TB_HACK())
             .buttonStyle(BorderedButtonStyle())
-            
             content
         }
     }

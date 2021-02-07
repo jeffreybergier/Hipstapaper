@@ -57,7 +57,7 @@ internal enum ToolbarHelper {
                                    action: { viewModel.doneAction?() })
     }
     
-    static func openButton(_ viewModel: ViewModel, _ openURL: OpenURLAction) -> some View {
+    static func openExternalButton(_ viewModel: ViewModel, _ openURL: OpenURLAction) -> some View {
         STZ.TB.OpenInBrowser.toolbar() {
             let url = URL(string: viewModel.browserDisplay.urlString) ?? viewModel.originalURL
             openURL(url)
@@ -67,6 +67,5 @@ internal enum ToolbarHelper {
     static func addressBar(_ title: Binding<String>) -> some View {
         STZ.VIEW.TXTFLD.WebTitle.textfield(title)
             .disabled(true)
-            .frame(width: 400) // TODO: Remove hack when toolbar can manage width properly
     }
 }

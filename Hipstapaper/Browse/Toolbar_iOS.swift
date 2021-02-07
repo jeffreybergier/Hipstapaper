@@ -113,7 +113,7 @@ private struct Toolbar_Compact: ViewModifier {
             //
             // TODO: LEAKING!
             ToolbarItem(id: "Browser_Compact.OpenInExternal", placement: .cancellationAction) {
-                TH.openButton(self.viewModel, self.openURL)
+                TH.openExternalButton(self.viewModel, self.openURL)
             }
             ToolbarItem(id: "Browser_Compact.Done", placement: .confirmationAction) {
                 TH.doneButton(self.viewModel)
@@ -148,10 +148,11 @@ private struct Toolbar_Regular: ViewModifier {
             }
             ToolbarItem(id: "Browser_Regular.AddressBar", placement: .principal) {
                 TH.addressBar(self.$viewModel.browserDisplay.title)
+                    .frame(width: 400) // TODO: Remove hack when toolbar can manage width properly
             }
             // TODO: LEAKING!
             ToolbarItem(id: "Browser_Regular.OpenInExternal", placement: .automatic) {
-                TH.openButton(self.viewModel, self.openURL)
+                TH.openExternalButton(self.viewModel, self.openURL)
             }
             ToolbarItem(id: "Browser_Regular.Share", placement: .automatic) {
                 STZ.TB.Share.toolbar() {
