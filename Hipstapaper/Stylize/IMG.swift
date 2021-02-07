@@ -32,6 +32,8 @@ extension Imagable {
     
     /// Returns a thumbnail image of icon
     /// If data can be converted to image, it returns that instead
+    
+    // TODO: Make this take a Result<Data, LocalizedError>
     @ViewBuilder public static func thumbnail(_ data: Data? = nil) -> some View {
         if let image = data?.imageValue {
             image
