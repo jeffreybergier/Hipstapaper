@@ -49,7 +49,8 @@ fileprivate struct TitleSize: ViewModifier {
         #if os(macOS)
         return content
         #else
-        content.navigationBarTitleDisplayMode(self.isLarge ? .large : .inline)
+        // TODO: Fix when scrolling is not broken with XPList
+        content.navigationBarTitleDisplayMode(self.isLarge ? /*.large*/ .inline : .inline)
         #endif
     }
 }
