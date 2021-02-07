@@ -76,8 +76,7 @@ extension STZ.VIEW {
         public init() {}
         public func body(content: Content) -> some View {
             ZStack {
-                ToolbarBackground()
-                    .ignoresSafeArea()
+                // ToolbarBackground().ignoresSafeArea()
                 content
                     .modifier(STZ.PDG.TB())
                     .layoutPriority(1)

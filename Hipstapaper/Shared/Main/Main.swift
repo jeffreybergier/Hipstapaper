@@ -27,7 +27,7 @@ struct Main: View {
     
     let controller: Controller
     
-    @StateObject private var websiteControllerCache: BlackBox<AnyElementObserver<AnyTag>, WebsiteDataSource> = .init()
+    @StateObject private var websiteControllerCache: BlackBoxCache<AnyElementObserver<AnyTag>, WebsiteDataSource> = .init()
 
     init(controller: Controller) {
         self.controller = controller

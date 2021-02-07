@@ -22,115 +22,35 @@
 import Combine
 import Datum
 
-class WebsiteDataSource: DataSourceMultiSelectable {
+class WebsiteDataSource: DataSource {
     
-    @Published var selection: Set<AnyElementObserver<AnyWebsite>> = []
     @Published var query: Query { didSet { self.activate() } }
     @Published var observer: AnyListObserver<AnyList<AnyElementObserver<AnyWebsite>>>?
     var data: AnyList<AnyElementObserver<AnyWebsite>> { self.observer?.data ?? .empty }
     
     let controller: Controller
     
-    init(controller: Controller, selectedTag: AnyElementObserver<AnyTag> = Query.Archived.anyTag_allCases[0]) {
+    init(controller: Controller,
+         selectedTag: AnyElementObserver<AnyTag> = Query.Filter.anyTag_allCases[0])
+    {
         self.query = Query(specialTag: selectedTag)
         self.controller = controller
     }
     
     func activate() -> Result<Void, Datum.Error> {
-        log.verbose(self.query.tag?.value.name ?? self.query.isArchived)
+        log.verbose(self.query.tag?.value.name ?? self.query.filter)
         let result = controller.readWebsites(query: self.query)
         self.observer = result.value
         return result.map { _ in () }
     }
     
     func deactivate() {
-        log.verbose(self.query.tag?.value.name ?? self.query.isArchived)
-        self.objectWillChange.send()
+        log.verbose(self.query.tag?.value.name ?? self.query.filter)
         self.observer = nil
     }
     
     deinit {
         // TODO: Remove this
         log.emergency()
-    }
-}
-
-// MARK: Toolbar helpers
-import SwiftUI
-extension WebsiteDataSource {
-    func canShare() -> Bool {
-        return self.selection.first(where: { $0.value.preferredURL != nil }) != nil
-    }
-    func canTag() -> Bool {
-        return self.selection.isEmpty == false
-    }
-    func canArchive() -> Bool {
-        return self.selection.first(where: { $0.value.isArchived == false }) != nil
-    }
-    func canUnarchive() -> Bool {
-        return self.selection.first(where: { $0.value.isArchived == true }) != nil
-    }
-    func canDelete() -> Bool {
-        return self.selection.isEmpty == false
-    }
-    func canOpen(in wm: WindowPresentation) -> Bool {
-        if wm.features.contains(.bulkActivation) {
-            return self.selection.first(where: { $0.value.preferredURL != nil }) != nil
-        } else {
-            return self.selection.compactMap { $0.value.preferredURL != nil }.count == 1
-        }
-    }
-    func isFiltered() -> Bool {
-        return self.query.isArchived.boolValue
-    }
-    func isSearchActive() -> Bool {
-        return self.query.search.nonEmptyString == nil
-    }
-    
-    func archive(_ errorQ: ErrorQ) {
-        let selected = self.selection
-        self.selection = []
-        let r = errorQ.append(self.controller.update(selected, .init(isArchived: true)))
-        log.error(r.error)
-    }
-    
-    func unarchive(_ errorQ: ErrorQ) {
-        let selected = self.selection
-        self.selection = []
-        let r = errorQ.append(self.controller.update(selected, .init(isArchived: false)))
-        log.error(r.error)
-    }
-    
-    func delete(_ errorQ: ErrorQ) {
-        let selected = self.selection
-        self.selection = []
-        let r = errorQ.append(self.controller.delete(selected))
-        log.error(r.error)
-    }
-    
-    func toggleFilter() {
-        self.query.isArchived.toggle()
-    }
-    
-    func open(in open: OpenURLAction) {
-        self.selection
-            .compactMap { $0.value.preferredURL }
-            .forEach { open($0) }
-    }
-    
-    @discardableResult
-    func open(in wm: WindowPresentation) -> AnyElementObserver<AnyWebsite>? {
-        let sites = self.selection
-        let urls = sites.compactMap { $0.value.preferredURL }
-        
-        guard urls.isEmpty == false else { fatalError("Maybe present an error?") }
-        guard wm.features.contains([.multipleWindows, .bulkActivation])
-            else { return sites.first! }
-        
-        wm.show(Set(urls)) {
-            // TODO: Do something with this error
-            print($0)
-        }
-        return nil
     }
 }

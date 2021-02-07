@@ -26,15 +26,17 @@ struct FormLoaded: View {
     
     @ObservedObject var viewModel: ViewModel
     
-    var body: some View {
+    @ViewBuilder var body: some View {
         VStack {
             STZ.VIEW.TXTFLD.WebTitle.textfield(self.$viewModel.output.title)
             HStack {
                 STZ.VIEW.TXTFLD.WebURL.textfield(self.$viewModel.output.currentURLString)
                     .disabled(true)
-                self.viewModel.control.isJSEnabled
-                    ? AnyView(STZ.TB.JSActive.toolbar(action: { self.viewModel.control.isJSEnabled = false }))
-                    : AnyView(STZ.TB.JSInactive.toolbar(action: { self.viewModel.control.isJSEnabled = true }))
+                if self.viewModel.control.isJSEnabled {
+                    STZ.TB.JSActive.toolbar(action: { self.viewModel.control.isJSEnabled = false })
+                } else {
+                    STZ.TB.JSInactive.toolbar(action: { self.viewModel.control.isJSEnabled = true })
+                }
             }
         }
     }

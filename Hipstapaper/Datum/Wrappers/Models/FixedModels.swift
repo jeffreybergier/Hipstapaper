@@ -21,7 +21,7 @@
 
 import Localize
 
-extension Query.Archived: Tag {
+extension Query.Filter: Tag {
     
     public static var anyTag_allCases: [AnyElementObserver<AnyTag>] {
         self.allCases.map { AnyElementObserver(StaticElement(AnyTag($0))) }

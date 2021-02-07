@@ -19,11 +19,14 @@
 
 import SwiftUI
 import Stylize
+import Datum
 
 extension DetailToolbar.iOS {
     struct iPadEdit: ViewModifier {
         
-        @ObservedObject var dataSource: WebsiteDataSource
+        let controller: Controller
+        @Binding var selection: WH.Selection
+        @Binding var query: Query
         @Binding var popoverAlignment: Alignment
         
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
@@ -35,41 +38,41 @@ extension DetailToolbar.iOS {
             content
                 .toolbar(id: "Detail_Bottom") {
                     ToolbarItem(id: "Detail.Archive", placement: .bottomBar) {
-                        STZ.TB.Archive.toolbar(isEnabled: self.dataSource.canArchive(),
-                                               action: { self.dataSource.archive(self.errorQ) })
+                        STZ.TB.Archive.toolbar(isEnabled: WH.canArchive(self.selection),
+                                               action: { WH.archive(self.selection, self.controller, self.errorQ) })
                     }
                     ToolbarItem(id: "Detail.Unarchive", placement: .bottomBar) {
-                        STZ.TB.Unarchive.toolbar(isEnabled: self.dataSource.canUnarchive(),
-                                                 action: { self.dataSource.unarchive(self.errorQ) })
+                        STZ.TB.Unarchive.toolbar(isEnabled: WH.canUnarchive(self.selection),
+                                                 action: { WH.unarchive(self.selection, self.controller, self.errorQ) })
                     }
                     ToolbarItem(id: "Detail.Separator", placement: .bottomBar) {
                         STZ.TB.Separator.toolbar()
                     }
                     ToolbarItem(id: "Detail.Tag", placement: .bottomBar) {
-                        STZ.TB.TagApply.toolbar(isEnabled: self.dataSource.canTag()) {
+                        STZ.TB.TagApply.toolbar(isEnabled: WH.canTag(self.selection)) {
                             self.popoverAlignment = .bottomLeading
-                            self.modalPresentation.value = .tagApply
+                            self.modalPresentation.value = .tagApply(self.selection)
                         }
                     }
                     ToolbarItem(id: "Detail.FlexibleSpace", placement: .bottomBar) {
                         Spacer()
                     }
                     ToolbarItem(id: "Detail.OpenInApp", placement: .bottomBar) {
-                        STZ.TB.OpenInApp.toolbar(isEnabled: self.dataSource.canOpen(in: self.windowPresentation)) {
-                            self.modalPresentation.value = .browser(self.dataSource.selection.first!)
+                        STZ.TB.OpenInApp.toolbar(isEnabled: WH.canOpen(self.selection, in: self.windowPresentation)) {
+                            self.modalPresentation.value = .browser(selection.first!)
                         }
                     }
                     ToolbarItem(id: "Detail.OpenExternal", placement: .bottomBar) {
-                        STZ.TB.OpenInBrowser.toolbar(isEnabled: self.dataSource.canOpen(in: self.windowPresentation),
-                                                     action: { self.dataSource.open(in: self.externalPresentation) })
+                        STZ.TB.OpenInBrowser.toolbar(isEnabled: WH.canOpen(self.selection, in: self.windowPresentation),
+                                                     action: { WH.open(self.selection, in: self.externalPresentation) })
                     }
                     ToolbarItem(id: "Detail.Separator", placement: .bottomBar) {
                         STZ.TB.Separator.toolbar()
                     }
                     ToolbarItem(id: "Detail.Share", placement: .bottomBar) {
-                        STZ.TB.Share.toolbar(isEnabled: self.dataSource.canShare()) {
+                        STZ.TB.Share.toolbar(isEnabled: WH.canShare(self.selection)) {
                             self.popoverAlignment = .bottomTrailing
-                            self.modalPresentation.value = .share
+                            self.modalPresentation.value = .share(self.selection)
                         }
                     }
                     ToolbarItem(id: "Detail.EditMode", placement: .bottomBar) {
@@ -78,7 +81,7 @@ extension DetailToolbar.iOS {
                 }
                 .toolbar(id: "Detail") { // TODO: Hack because toolbars only support 10 items
                     ToolbarItem(id: "Detail.Sync", placement: .cancellationAction) {
-                        STZ.TB.SyncMonitor(self.dataSource.controller.syncMonitor)
+                        STZ.TB.SyncMonitor(self.controller.syncMonitor)
                     }
                     ToolbarItem(id: "Detail.Sort") {
                         STZ.TB.Sort.toolbar() {
@@ -87,14 +90,14 @@ extension DetailToolbar.iOS {
                         }
                     }
                     ToolbarItem(id: "Detail.Filter") {
-                        return self.dataSource.isFiltered()
-                            ? AnyView(STZ.TB.FilterActive.toolbar(action: self.dataSource.toggleFilter))
-                            : AnyView(STZ.TB.FilterInactive.toolbar(action: self.dataSource.toggleFilter))
+                        WH.filterToolbarItem(self.query.filter) {
+                            self.query.filter.boolValue.toggle()
+                        }
                     }
                     ToolbarItem(id: "Detail.Search") {
-                        return self.dataSource.isSearchActive()
-                            ? AnyView(STZ.TB.SearchInactive.toolbar(action: self.search))
-                            : AnyView(STZ.TB.SearchActive.toolbar(action: self.search))
+                        WH.searchToolbarItem(self.query) {
+                            self.modalPresentation.value = .search
+                        }
                     }
                 }
         }
@@ -107,8 +110,9 @@ extension DetailToolbar.iOS {
     
     struct iPad: ViewModifier {
         
-        @ObservedObject var dataSource: WebsiteDataSource
+        @Binding var query: Query
         @Binding var popoverAlignment: Alignment
+        @ObservedObject var syncMonitor: AnySyncMonitor
         
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
         
@@ -122,7 +126,7 @@ extension DetailToolbar.iOS {
                     EditButton()
                 }
                 ToolbarItem(id: "Detail.Sync", placement: .cancellationAction) {
-                    STZ.TB.SyncMonitor(self.dataSource.controller.syncMonitor)
+                    STZ.TB.SyncMonitor(self.syncMonitor)
                 }
                 ToolbarItem(id: "Detail.Sort") {
                     STZ.TB.Sort.toolbar() {
@@ -131,14 +135,14 @@ extension DetailToolbar.iOS {
                     }
                 }
                 ToolbarItem(id: "Detail.Filter") {
-                    return self.dataSource.isFiltered()
-                        ? AnyView(STZ.TB.FilterActive.toolbar(action: self.dataSource.toggleFilter))
-                        : AnyView(STZ.TB.FilterInactive.toolbar(action: self.dataSource.toggleFilter))
+                    WH.filterToolbarItem(self.query.filter) {
+                        self.query.filter.boolValue.toggle()
+                    }
                 }
                 ToolbarItem(id: "Detail.Search") {
-                    return self.dataSource.isSearchActive()
-                        ? AnyView(STZ.TB.SearchInactive.toolbar(action: self.search))
-                        : AnyView(STZ.TB.SearchActive.toolbar(action: self.search))
+                    WH.searchToolbarItem(self.query) {
+                        self.modalPresentation.value = .search
+                    }
                 }
             }
         }

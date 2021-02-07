@@ -26,18 +26,22 @@ import Localize
 
 struct TagApply: View {
     
-    let dataSource: WebsiteDataSource
+    let controller: Controller
+    let selection: WH.Selection
     let done: Action
     
     @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
     
     var body: some View {
-        let result = self.dataSource.controller.tagStatus(for: self.dataSource.selection)
+        let result = self.controller.tagStatus(for: self.selection)
         self.errorQ.append(result)
         log.error(result.error)
-        guard let data = result.value else { return AnyView(Color.clear) }
-        // TODO: Figure out how to remove VStack without ruining layout on iOS
-        return AnyView(
+        return self.build(result)
+    }
+    
+    @ViewBuilder private func build(_ result: Result<AnyList<(AnyElementObserver<AnyTag>, ToggleState)>, Datum.Error>) -> some View {
+        switch result {
+        case .success(let data):
             VStack(spacing: 0) {
                 List(data, id: \.0) { tuple in
                     TagApplyRow(name: tuple.0.value.name,
@@ -47,20 +51,22 @@ struct TagApply: View {
                 .modifier(STZ.MDL.Done(kind: STZ.TB.TagApply.self, done: self.done))
                 .frame(idealWidth: 300, idealHeight: 300)
             }
-        )
+        case .failure:
+            EmptyView()
+        }
     }
     
     private func process(newValue: Bool, for tag: AnyElementObserver<AnyTag>) {
-        let selection = self.dataSource.selection
+        let selection = self.selection
         let result: Result<Void, Datum.Error>
         switch newValue {
         case true:
             result = self.errorQ.append(
-                self.dataSource.controller.add(tag: tag, to: selection)
+                self.controller.add(tag: tag, to: selection)
             )
         case false:
             result = self.errorQ.append(
-                self.dataSource.controller.remove(tag: tag, from: selection)
+                self.controller.remove(tag: tag, from: selection)
             )
         }
         log.error(result.error)

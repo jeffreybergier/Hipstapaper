@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/12/06.
+//  Created by Jeffrey Bergier on 2021/02/06.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -20,29 +20,16 @@
 //
 
 import SwiftUI
+import Stylize
 
-enum Form {
-    
-    typealias Completion = (Result<Void, Error>) -> Void
-    case load, loading, loaded
-    
-}
-
-struct FormSwitcher: View {
-    
-    @ObservedObject var viewModel: ViewModel
-    
-    @ViewBuilder var body: some View {
-        Group {
-            switch self.viewModel.formState {
-            case .load:
-                FormLoad(viewModel: self.viewModel)
-            case .loading:
-                FormLoading(viewModel: self.viewModel)
-            case .loaded:
-                FormLoaded(viewModel: self.viewModel)
+struct TagMenu: ViewModifier {
+    @State var selection: TH.Selection
+    @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
+    func body(content: Content) -> some View {
+        content.contextMenu {
+            STZ.TB.DeleteTag_Trash.context() {
+                self.modalPresentation.value = .deleteTag(selection)
             }
         }
-        .animation(.default)
     }
 }

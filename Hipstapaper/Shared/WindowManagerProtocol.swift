@@ -43,3 +43,9 @@ extension WindowPresentation {
         static let bulkActivation  = Features(rawValue: 1 << 1)
     }
 }
+
+extension WindowPresentation.Error: LocalizedError {
+    var errorDescription: String? {
+        return "LOCALIZE THIS ERROR"
+    }
+}

@@ -27,24 +27,26 @@ import Snapshot
 
 struct IndexToolbar: ViewModifier {
     
-    @ObservedObject var dataSource: TagDataSource
-    @State private var popoverAlignment: Alignment = .topTrailing
+    let controller: Controller
+    @Binding var selection: TH.Selection?
     
     func body(content: Content) -> some View {
-        return ZStack(alignment: self.popoverAlignment) {
+        return ZStack(alignment: .topTrailing) {
             // TODO: Hack when toolbars work properly with popovers
             Color.clear.frame(width: 1, height: 1)
-                .modifier(AddTagPresentable(controller: self.dataSource.controller))
+                .modifier(AddTagPresentable(controller: self.controller))
             Color.clear.frame(width: 1, height: 1)
-                .modifier(AddWebsitePresentable(controller: self.dataSource.controller))
+                .modifier(AddWebsitePresentable(controller: self.controller))
             Color.clear.frame(width: 1, height: 1)
                 .modifier(AddChoicePresentable())
+            Color.clear.frame(width: 1, height: 1)
+                .modifier(TagDelete(controller: self.controller))
             
             #if os(macOS)
-            content.modifier(IndexToolbar_macOS(dataSource: self.dataSource))
+            content.modifier(IndexToolbar_macOS(controller: self.controller,
+                                                selection: self.$selection))
             #else
-            content.modifier(IndexToolbar_iOS(dataSource: self.dataSource,
-                                              popoverAlignment: self.$popoverAlignment))
+            content.modifier(IndexToolbar_iOS())
             #endif
         }
     }
@@ -53,21 +55,25 @@ struct IndexToolbar: ViewModifier {
 #if os(macOS)
 struct IndexToolbar_macOS: ViewModifier {
     
-    @ObservedObject var dataSource: TagDataSource
+    let controller: Controller
+    @Binding var selection: TH.Selection?
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
     
     func body(content: Content) -> some View {
         content.toolbar(id: "Index") {
             ToolbarItem(id: "Index.Sync") {
-                STZ.TB.SyncMonitor(self.dataSource.controller.syncMonitor)
+                STZ.TB.SyncMonitor(self.controller.syncMonitor)
             }
             ToolbarItem(id: "Index.FlexibleSpace") {
                 Spacer()
             }
             ToolbarItem(id: "Index.DeleteTag", placement: .automatic) {
-                STZ.TB.DeleteTag.toolbar(isEnabled: self.dataSource.canDelete(),
-                                         action: { self.dataSource.delete(self.errorQ) })
+                STZ.TB.DeleteTag_Minus.toolbar(isEnabled: TH.canDelete(self.selection),
+                                               action: {
+                                                guard let selection = self.selection else { return }
+                                                self.modalPresentation.value = .deleteTag(selection)
+                                               })
             }
             ToolbarItem(id: "Index.AddChoice", placement: .primaryAction) {
                 STZ.TB.AddChoice.toolbar(action: { self.modalPresentation.value = .addChoose })
@@ -78,46 +84,15 @@ struct IndexToolbar_macOS: ViewModifier {
 #else
 struct IndexToolbar_iOS: ViewModifier {
     
-    @ObservedObject var dataSource: TagDataSource
-    @Binding var popoverAlignment: Alignment
-    
-    @Environment(\.editMode) private var editMode
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
-    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
     
     func body(content: Content) -> some View {
-        if self.editMode?.wrappedValue.isEditing == false {
-            return AnyView(
-                content.toolbar(id: "Index") {
-                    ToolbarItem(id: "iOS.EditButton", placement: .primaryAction) {
-                        EditButton()
-                    }
+        content.toolbar(id: "Index") {
+            ToolbarItem(id: "iOS.AddChoice", placement: .primaryAction) {
+                STZ.TB.AddChoice.toolbar() {
+                    self.modalPresentation.value = .addChoose
                 }
-            )
-        } else {
-            return AnyView(
-                content.toolbar(id: "Index") {
-                    ToolbarItem(id: "iOS.FlexibleSpace", placement: .bottomBar) {
-                        Spacer()
-                    }
-                    ToolbarItem(id: "iOS.DeleteTag", placement: .bottomBar) {
-                        STZ.TB.DeleteTag.toolbar(isEnabled: self.dataSource.canDelete(),
-                                                 action: { self.dataSource.delete(self.errorQ) })
-                    }
-                    ToolbarItem(id: "iOS.Divider", placement: .bottomBar) {
-                        Text("   ") // TODO: Remove when spacer is no longer needed
-                    }
-                    ToolbarItem(id: "iOS.AddChoice", placement: .bottomBar) {
-                        STZ.TB.AddChoice.toolbar() {
-                            self.popoverAlignment = .bottomTrailing
-                            self.modalPresentation.value = .addChoose
-                        }
-                    }
-                    ToolbarItem(id: "iOS.EditButton", placement: .primaryAction) {
-                        EditButton()
-                    }
-                }
-            )
+            }
         }
     }
 }

@@ -63,10 +63,11 @@ internal struct WebThumbnail: View {
     @ObservedObject var viewModel: ViewModel
 
     // TODO: Fix this
-    var body: some View {
-        let image: Imagable.Type = self.viewModel.formState == .load
-            ? STZ.IMG.Web.self
-            : STZ.IMG.WebError.self
-        return image.thumbnail(self.viewModel.output.thumbnail?.value)
+    @ViewBuilder var body: some View {
+        if self.viewModel.formState == .load {
+            STZ.IMG.Web.thumbnail(self.viewModel.output.thumbnail?.value)
+        } else {
+            STZ.IMG.WebError.thumbnail(self.viewModel.output.thumbnail?.value)
+        }
     }
 }

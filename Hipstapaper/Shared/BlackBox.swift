@@ -44,7 +44,7 @@ extension CacheProtocol {
 }
 
 /// Publishes changes to T through ObjectWillChangePublisher
-public class ObserveBox<K: Hashable, V>: ObservableObject, CacheProtocol {
+public class Cache<K: Hashable, V>: ObservableObject, CacheProtocol {
     @Published public var cache: [K: V] = [:]
     public init(initialCache: [K: V] = [:]) {
         self.cache = initialCache
@@ -52,9 +52,29 @@ public class ObserveBox<K: Hashable, V>: ObservableObject, CacheProtocol {
 }
 
 /// Never publishes changes through ObjectWillChangePublisher
-public class BlackBox<K: Hashable, V>: ObservableObject, CacheProtocol {
+public class BlackBoxCache<K: Hashable, V>: ObservableObject, CacheProtocol {
     public var cache: [K: V] = [:]
     public init(initialCache: [K: V] = [:]) {
         self.cache = initialCache
+    }
+}
+
+/// Disconnects the ObservableObjectPublisher from the item
+public class BlackBox<Value> {
+    public var value: Value
+    public init(_ value: Value) {
+        self.value = value
+    }
+}
+
+extension BlackBox: Identifiable where Value: Identifiable {
+    public var id: Value.ID {
+        return self.value.id
+    }
+}
+
+extension Set: Identifiable where Element: Identifiable {
+    public var id: Element.ID {
+        return self.first!.id
     }
 }

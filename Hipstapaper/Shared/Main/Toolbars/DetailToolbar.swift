@@ -27,30 +27,37 @@ import Browse
 enum DetailToolbar {
     struct Shared: ViewModifier {
         
-        @ObservedObject var dataSource: WebsiteDataSource
-        @State var popoverAlignment: Alignment = .topTrailing
+        let controller: Controller
+        @Binding var selection: WH.Selection
+        @Binding var query: Query
         
+        @State private var popoverAlignment: Alignment = .topTrailing
+
         func body(content: Content) -> some View {
             return ZStack(alignment: self.popoverAlignment) {
                 // TODO: Hack when toolbars work properly with popovers
                 Color.clear.frame(width: 1, height: 1).modifier(
-                    TagApplyPresentable(dataSource: self.dataSource,
-                                        selectedWebsites: self.dataSource.selection)
+                    TagApplyPresentable(controller: self.controller)
                 )
                 Color.clear.frame(width: 1, height: 1).modifier(
-                    SharePresentable(selectedWebsites: self.dataSource.selection)
+                    SharePresentable()
                 )
                 Color.clear.frame(width: 1, height: 1).modifier(
-                    SearchPresentable(search: self.$dataSource.query.search)
+                    SearchPresentable(search: self.$query.search)
                 )
-                
                 Color.clear.frame(width: 1, height: 1).modifier(
-                    SortPresentable(sort: self.$dataSource.query.sort)
+                    SortPresentable(sort: self.$query.sort)
                 )
+                Color.clear.frame(width: 1, height: 1).modifier(
+                    WebsiteDelete(controller: self.controller)
+                )
+                    
                 #if os(macOS)
-                content.modifier(macOS(dataSource: self.dataSource))
+                content.modifier(macOS(controller: self.controller, selection: self.$selection, query: self.$query))
                 #else
-                content.modifier(iOS.Shared(dataSource: self.dataSource,
+                content.modifier(iOS.Shared(controller: self.controller,
+                                            selection: self.$selection,
+                                            query: self.$query,
                                             popoverAlignment: self.$popoverAlignment))
                 #endif
             }

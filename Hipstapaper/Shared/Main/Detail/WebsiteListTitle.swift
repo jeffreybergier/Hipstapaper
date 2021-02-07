@@ -23,48 +23,33 @@ import SwiftUI
 import Datum
 import Localize
 
-#if os(macOS)
 struct WebsiteListTitle: ViewModifier {
     let query: Query
-    func body(content: Content) -> some View {
+    @ViewBuilder func body(content: Content) -> some View {
         if let tag = self.query.tag {
-            return AnyView(content.navigationTitle(tag.value.name ?? Noun.UnreadItems_L))
+            content
+                .navigationTitle(tag.value.name ?? Noun.UnreadItems_L)
+                .modifier(TitleSize(isLarge: false))
         } else {
-            switch query.isArchived! {
+            switch self.query.filter! {
             case .all:
-                return AnyView(content.navigationTitle(Noun.AllItems))
+                content.navigationTitle(Noun.AllItems)
+                    .modifier(TitleSize(isLarge: false))
             case .unarchived:
-                return AnyView(content.navigationTitle(Noun.Hipstapaper))
+                content.navigationTitle(Noun.Hipstapaper)
+                    .modifier(TitleSize(isLarge: true))
             }
         }
     }
 }
-#else
-struct WebsiteListTitle: ViewModifier {
-    let query: Query
-    func body(content: Content) -> some View {
-        if let tag = self.query.tag {
-            return AnyView(
-                content
-                    .navigationBarTitleDisplayMode(.inline)
-                    .navigationTitle(tag.value.name ?? Noun.UnreadItems_L)
-            )
-        } else {
-            switch query.isArchived! {
-            case .all:
-                return AnyView(
-                    content
-                        .navigationBarTitleDisplayMode(.inline)
-                        .navigationTitle(Noun.AllItems)
-                )
-            case .unarchived:
-                return AnyView(
-                    content
-                        .navigationBarTitleDisplayMode(.large)
-                        .navigationTitle(Noun.Hipstapaper)
-                )
-            }
-        }
+
+fileprivate struct TitleSize: ViewModifier {
+    let isLarge: Bool
+    @ViewBuilder func body(content: Content) -> some View {
+        #if os(macOS)
+        return content
+        #else
+        content.navigationBarTitleDisplayMode(self.isLarge ? .large : .inline)
+        #endif
     }
 }
-#endif

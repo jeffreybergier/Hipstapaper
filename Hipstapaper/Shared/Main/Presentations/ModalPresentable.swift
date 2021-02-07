@@ -14,26 +14,36 @@ import Localize
 
 struct BrowserPresentable: ViewModifier {
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
+    #if os(macOS)
     func body(content: Content) -> some View {
-        content.sheet(isPresented: self.$presentation.isBrowser) {
+        content.sheet(item: self.$presentation.isBrowser) { item in
             // TODO: Do something if preferred URL nil
-            Browser(url: self.presentation.browserItem!.value.preferredURL!,
+            Browser(url: item.value.value.preferredURL!,
                     doneAction: { self.presentation.value = .none })
         }
     }
+    #else
+    func body(content: Content) -> some View {
+        content.fullScreenCover(item: self.$presentation.isBrowser) { item in
+            // TODO: Do something if preferred URL nil
+            Browser(url: item.value.value.preferredURL!,
+                    doneAction: { self.presentation.value = .none })
+        }
+    }
+    #endif
 }
 
 struct TagApplyPresentable: ViewModifier {
     
-    let dataSource: WebsiteDataSource
-    let selectedWebsites: Set<AnyElementObserver<AnyWebsite>>
+    let controller: Controller
     
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
     
     func body(content: Content) -> some View {
-        content.popover(isPresented: self.$presentation.isTagApply)
-        { () -> TagApply in
-            TagApply(dataSource: self.dataSource,
+        content.popover(item: self.$presentation.isTagApply)
+        { selection in
+            TagApply(controller: self.controller,
+                     selection: selection,
                      done: { self.presentation.value = .none })
         }
     }
@@ -41,13 +51,12 @@ struct TagApplyPresentable: ViewModifier {
 
 struct SharePresentable: ViewModifier {
     
-    let selectedWebsites: Set<AnyElementObserver<AnyWebsite>>
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
     
     func body(content: Content) -> some View {
-        content.popover(isPresented: self.$presentation.isShare)
-        {
-            STZ.SHR(items: self.selectedWebsites.compactMap { $0.value.preferredURL },
+        content.popover(item: self.$presentation.isShare) { selection in
+            // TODO: Do something if selection is empty
+            STZ.SHR(items: selection.compactMap { $0.value.preferredURL },
                     completion:  { self.presentation.value = .none })
         }
     }
@@ -55,13 +64,12 @@ struct SharePresentable: ViewModifier {
 
 struct ShareModalPresentable: ViewModifier {
     
-    let selectedWebsites: Set<AnyElementObserver<AnyWebsite>>
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
     
     func body(content: Content) -> some View {
-        content.sheet(isPresented: self.$presentation.isShare)
-        {
-            STZ.SHR(items: self.selectedWebsites.compactMap { $0.value.preferredURL },
+        content.sheet(item: self.$presentation.isShare) { selection in
+            // TODO: Do something if selection is empty
+            STZ.SHR(items: selection.compactMap { $0.value.preferredURL },
                     completion:  { self.presentation.value = .none })
         }
     }

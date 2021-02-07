@@ -36,13 +36,3 @@ protocol DataSource: ObservableObject {
     /// Causes the observer to be deallocated and no longer be observed
     func deactivate()
 }
-
-protocol DataSourceMultiSelectable: DataSource {
-    /// Should be @Published
-    var selection: Set<Observer.Collection.Element> { get set }
-}
-
-protocol DataSourceSelectable: DataSource {
-    /// Should be @Published
-    var selection: Observer.Collection.Element? { get set }
-}

@@ -19,6 +19,7 @@
 
 import SwiftUI
 import Stylize
+import Datum
 
 extension DetailToolbar {
     enum iOS { }
@@ -27,28 +28,36 @@ extension DetailToolbar {
 extension DetailToolbar.iOS {
     struct Shared: ViewModifier {
         
-        @ObservedObject var dataSource: WebsiteDataSource
+        let controller: Controller
+        @Binding var selection: WH.Selection
+        @Binding var query: Query
         @Binding var popoverAlignment: Alignment
         
         @Environment(\.editMode) private var editMode
         @Environment(\.horizontalSizeClass) private var horizontalSizeClass
         
-        func body(content: Content) -> some View {
+        @ViewBuilder func body(content: Content) -> some View {
             switch (self.horizontalSizeClass?.isCompact ?? true,
                     self.editMode?.wrappedValue.isEditing ?? false)
             {
             case (true, true): // iPhone editing
-                return AnyView(content.modifier(iPhoneEdit(dataSource: self.dataSource,
-                                                           popoverAlignment: self.$popoverAlignment)))
+                content.modifier(iPhoneEdit(controller: self.controller,
+                                            selection: self.$selection,
+                                            query: self.$query,
+                                            popoverAlignment: self.$popoverAlignment))
             case (true, false): // iPhone not editing
-                return AnyView(content.modifier(iPhone(dataSource: self.dataSource,
-                                                       popoverAlignment: self.$popoverAlignment)))
+                content.modifier(iPhone(query: self.$query,
+                                        popoverAlignment: self.$popoverAlignment,
+                                        syncMonitor: self.controller.syncMonitor))
             case (false, true): // iPad editing
-                return AnyView(content.modifier(iPadEdit(dataSource: self.dataSource,
-                                                         popoverAlignment: self.$popoverAlignment)))
+                content.modifier(iPadEdit(controller: self.controller,
+                                          selection: self.$selection,
+                                          query: self.$query,
+                                          popoverAlignment: self.$popoverAlignment))
             case (false, false): // iPad not editing
-                return AnyView(content.modifier(iPad(dataSource: self.dataSource,
-                                                     popoverAlignment: self.$popoverAlignment)))
+                content.modifier(iPad(query: self.$query,
+                                      popoverAlignment: self.$popoverAlignment,
+                                      syncMonitor: self.controller.syncMonitor))
             }
         }
     }

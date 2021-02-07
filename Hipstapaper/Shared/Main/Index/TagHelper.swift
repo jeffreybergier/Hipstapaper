@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/12/06.
+//  Created by Jeffrey Bergier on 2021/02/06.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,30 +19,23 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+
 import SwiftUI
+import Datum
 
-enum Form {
-    
-    typealias Completion = (Result<Void, Error>) -> Void
-    case load, loading, loaded
-    
-}
+typealias TH = TagHelper
 
-struct FormSwitcher: View {
+enum TagHelper {
     
-    @ObservedObject var viewModel: ViewModel
+    typealias Selection = AnyElementObserver<AnyTag>
     
-    @ViewBuilder var body: some View {
-        Group {
-            switch self.viewModel.formState {
-            case .load:
-                FormLoad(viewModel: self.viewModel)
-            case .loading:
-                FormLoading(viewModel: self.viewModel)
-            case .loaded:
-                FormLoaded(viewModel: self.viewModel)
-            }
-        }
-        .animation(.default)
+    static func canDelete(_ selection: Selection?) -> Bool {
+        guard let tag = selection else { return false }
+        return (tag.value.wrappedValue as? Query.Filter) == nil
+    }
+    static func delete(_ selection: Selection?, _ controller: Controller, _ errorQ: ErrorQ) {
+        guard let tag = selection else { return }
+        let r = errorQ.append(controller.delete(tag))
+        log.error(r.error)
     }
 }

@@ -20,12 +20,10 @@
 import Datum
 import Combine
 
-class TagDataSource: DataSourceSelectable {
+class TagDataSource: DataSource {
     
-    @Published var selection: AnyElementObserver<AnyTag>?
     @Published var observer: AnyListObserver<AnyList<AnyElementObserver<AnyTag>>>?
     var data: AnyList<AnyElementObserver<AnyTag>> { self.observer?.data ?? .empty }
-    let fixed = Query.Archived.anyTag_allCases
     let controller: Controller
     
     init(controller: Controller) {
@@ -42,26 +40,11 @@ class TagDataSource: DataSourceSelectable {
     
     func deactivate() {
         log.verbose()
-        self.objectWillChange.send()
         self.observer = nil
     }
     
     deinit {
         // TODO: Remove later
         log.emergency()
-    }
-}
-
-// MARK: Toolbar Helpers
-extension TagDataSource {
-    func canDelete() -> Bool {
-        guard let tag = self.selection else { return false }
-        return (tag.value.wrappedValue as? Query.Archived) == nil
-    }
-    func delete(_ errorQ: ErrorQ) {
-        guard let tag = self.selection else { return }
-        self.selection = nil
-        let r = errorQ.append(self.controller.delete(tag))
-        log.error(r.error)
     }
 }

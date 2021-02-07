@@ -28,23 +28,26 @@ struct TagList<Nav: View>: View {
     
     typealias Navigation = (AnyElementObserver<AnyTag>) -> Nav
     
+    @State private var selection: TH.Selection?
     @StateObject private var dataSource: TagDataSource
+    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
+
     private let navigation: Navigation
     
     init(controller: Controller, @ViewBuilder navigation: @escaping Navigation) {
         self.navigation = navigation
-        _dataSource = .init(wrappedValue: .init(controller: controller))
+        _dataSource = .init(wrappedValue: TagDataSource(controller: controller))
     }
 
     var body: some View {
-        List(selection: self.$dataSource.selection) {
+        List(selection: self.$selection) {
             Section(header: STZ.VIEW.TXT(Noun.ReadingList)
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
-                ForEach(self.dataSource.fixed, id: \.self) { item in
+                ForEach(Query.Filter.anyTag_allCases, id: \.self) { item in
                     NavigationLink(destination: self.navigation(item)) {
-                        TagRow(item.value)
+                        TagRow(item: item)
                             .animation(nil)
                     }
                 }
@@ -55,18 +58,19 @@ struct TagList<Nav: View>: View {
             {
                 ForEach(self.dataSource.data, id: \.self) { item in
                     NavigationLink(destination: self.navigation(item)) {
-                        TagRow(item.value)
-                            .animation(nil)
+                        TagRow(item: item)
+                            .modifier(TagMenu(selection: item))
                     }
                 }
             }
         }
         .animation(.default)
-        .onAppear { self.dataSource.activate() }
-        .onDisappear { self.dataSource.deactivate() }
-        .listStyle(SidebarListStyle())
         .navigationTitle(Noun.Tags)
-        .modifier(IndexToolbar(dataSource: self.dataSource))
+        .modifier(SidebarStyle())
+        .modifier(IndexToolbar(controller: self.dataSource.controller,
+                               selection: self.$selection))
+        .onAppear() { self.errorQ.append(self.dataSource.activate()) }
+        .onDisappear(perform: self.dataSource.deactivate)
     }
 }
 
@@ -74,7 +78,23 @@ struct TagList<Nav: View>: View {
 struct TagList_Preview: PreviewProvider {
     static var previews: some View {
         TagList(controller: P_Controller(),
-                navigation: { _ in AnyView(STZ.VIEW.TXT("Swift Previews")) })
+                navigation: { _ in STZ.VIEW.TXT("Swift Previews") })
     }
 }
 #endif
+
+fileprivate struct SidebarStyle: ViewModifier {
+    #if os(macOS)
+    func body(content: Content) -> some View {
+        content.listStyle(SidebarListStyle())
+    }
+    #else
+    @ViewBuilder func body(content: Content) -> some View {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            content.listStyle(SidebarListStyle())
+        } else {
+            content.listStyle(InsetGroupedListStyle())
+        }
+    }
+    #endif
+}

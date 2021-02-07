@@ -51,7 +51,7 @@ extension STZ {
             }
         }
         public enum Oval: Fontable {
-            public static var font: Font = .callout
+            public static var font: Font = Font.callout.monospacedDigit()
         }
         public enum Sort: Fontable {
             public static var font: Font = .body

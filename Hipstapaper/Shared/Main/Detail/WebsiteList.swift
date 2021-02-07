@@ -28,6 +28,7 @@ import XPList
 struct WebsiteList: View {
     
     @ObservedObject var dataSource: WebsiteDataSource
+    @State var selection: WH.Selection = []
     
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     @EnvironmentObject private var windowPresentation: WindowPresentation
@@ -36,27 +37,19 @@ struct WebsiteList: View {
     
     var body: some View {
         XPL.List(data: self.dataSource.data,
-                 selection: self.$dataSource.selection,
+                 selection: self.$selection,
                  open: self.open,
                  menu: self.contextMenu)
         { item in
-            WebsiteRow(item.value)
-        }
-        .alert(isPresented: self.$modalPresentation.isDelete) {
-            Alert(
-                // TODO: Localized and fix this
-                title: STZ.VIEW.TXT("Delete"),
-                message: STZ.VIEW.TXT("This action cannot be undone."),
-                primaryButton: .destructive(STZ.VIEW.TXT("Delete"),
-                                            action: { self.dataSource.delete(self.errorQ) }),
-                secondaryButton: .cancel()
-            )
+            WebsiteRow(item: item)
         }
         .animation(.default)
-        .onAppear() { self.dataSource.activate() }
-        .onDisappear() { self.dataSource.deactivate() }
         .modifier(WebsiteListTitle(query: self.dataSource.query))
-        .modifier(DetailToolbar.Shared(dataSource: self.dataSource))
+        .modifier(DetailToolbar.Shared(controller: self.dataSource.controller,
+                                       selection: self.$selection,
+                                       query: self.$dataSource.query))
+        .onAppear() { self.errorQ.append(self.dataSource.activate()) }
+        .onDisappear(perform: self.dataSource.deactivate)
     }
 }
 
@@ -71,44 +64,33 @@ extension WebsiteList {
         }
     }
     
-    private func contextMenu(_ items: Set<AnyElementObserver<AnyWebsite>>) -> some View {
-        // TODO: Remove this temp controller nonesense
-        let controller = WebsiteDataSource(controller: self.dataSource.controller)
-        controller.selection = items
-        return _contextMenu(controller)
-    }
-    
-    @ViewBuilder private func _contextMenu(_ tmpCtrlr: WebsiteDataSource) -> some View {
-        STZ.VIEW.TXT("\(tmpCtrlr.selection.count) selected")
+    @ViewBuilder private func contextMenu(_ selection: Set<AnyElementObserver<AnyWebsite>>) -> some View {
+        STZ.VIEW.TXT("\(selection.count) selected")
         Group {
-            STZ.TB.OpenInApp.context(isEnabled: tmpCtrlr.canOpen(in: self.windowPresentation)) {
-                guard let fail = tmpCtrlr.open(in: self.windowPresentation) else { return }
+            STZ.TB.OpenInApp.context(isEnabled: WH.canOpen(selection, in: self.windowPresentation)) {
+                guard let fail = WH.open(selection, in: self.windowPresentation, self.errorQ) else { return }
                 self.modalPresentation.value = .browser(fail)
             }
-            STZ.TB.OpenInBrowser.context(isEnabled: tmpCtrlr.canOpen(in: self.windowPresentation),
-                                         action: { tmpCtrlr.open(in: self.externalPresentation) })
+            STZ.TB.OpenInBrowser.context(isEnabled: WH.canOpen(selection, in: self.windowPresentation),
+                                         action: { WH.open(selection, in: self.externalPresentation) })
         }
         Group {
-            STZ.TB.Archive.context(isEnabled: tmpCtrlr.canArchive(),
-                                   action: { tmpCtrlr.archive(self.errorQ) })
-            STZ.TB.Unarchive.context(isEnabled: tmpCtrlr.canUnarchive(),
-                                     action: { tmpCtrlr.unarchive(self.errorQ) })
+            STZ.TB.Archive.context(isEnabled: WH.canArchive(selection),
+                                   action: { WH.archive(selection, self.dataSource.controller, self.errorQ) })
+            STZ.TB.Unarchive.context(isEnabled: WH.canUnarchive(selection),
+                                     action: { WH.unarchive(selection, self.dataSource.controller, self.errorQ) })
         }
         Group {
-            STZ.TB.Share.context(isEnabled: tmpCtrlr.canShare()) {
-                self.dataSource.selection = tmpCtrlr.selection
-                self.modalPresentation.value = .share
+            STZ.TB.Share.context(isEnabled: WH.canShare(selection)) {
+                self.modalPresentation.value = .share(selection)
             }
-            STZ.TB.TagApply.context(isEnabled: tmpCtrlr.canTag()) {
-                self.dataSource.selection = tmpCtrlr.selection
-                self.modalPresentation.value = .tagApply
+            STZ.TB.TagApply.context(isEnabled: WH.canTag(selection)) {
+                self.modalPresentation.value = .tagApply(selection)
             }
         }
         Group {
-            STZ.TB.DeleteWebsite.context(isEnabled: tmpCtrlr.canDelete()) {
-                // TODO: Find a way to not forcefully change the selection
-                self.dataSource.selection = tmpCtrlr.selection
-                self.modalPresentation.value = .delete
+            STZ.TB.DeleteWebsite.context(isEnabled: WH.canDelete(selection)) {
+                self.modalPresentation.value = .deleteWebsite(selection)
             }
         }
     }

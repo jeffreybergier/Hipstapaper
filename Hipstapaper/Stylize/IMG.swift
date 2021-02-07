@@ -32,20 +32,16 @@ extension Imagable {
     
     /// Returns a thumbnail image of icon
     /// If data can be converted to image, it returns that instead
-    public static func thumbnail(_ data: Data? = nil) -> some View {
+    @ViewBuilder public static func thumbnail(_ data: Data? = nil) -> some View {
         if let image = data?.imageValue {
-            return AnyView(
-                image
-                    .modifier(STZ.CRN.small())
-                    .aspectRatio(1, contentMode: .fit)
-            )
+            image
+                .modifier(STZ.CRN.small())
+                .aspectRatio(1, contentMode: .fit)
         } else {
-            return AnyView(
-                self.image
-                    .modifier(Thumbnail())
-                    .modifier(STZ.CRN.small())
-                    .aspectRatio(1, contentMode: .fit)
-            )
+            self.image
+                .modifier(Thumbnail())
+                .modifier(STZ.CRN.small())
+                .aspectRatio(1, contentMode: .fit)
         }
     }
 }
