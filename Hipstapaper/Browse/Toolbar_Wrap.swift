@@ -20,11 +20,12 @@
 //
 
 import SwiftUI
+import Stylize
 
 struct Toolbar: ViewModifier {
     
     @ObservedObject var viewModel: ViewModel
-    
+
     #if os(macOS)
     func body(content: Content) -> some View {
         return content.modifier(Toolbar_macOS(viewModel: self.viewModel))

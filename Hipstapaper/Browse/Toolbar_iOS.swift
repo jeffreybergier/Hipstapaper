@@ -28,6 +28,7 @@ import Localize
 internal struct Toolbar_iOS: ViewModifier {
     
     @ObservedObject var viewModel: ViewModel
+    @State private var popoverAlignment: Alignment = .topTrailing
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
     private var isCompact: Bool {
@@ -41,22 +42,24 @@ internal struct Toolbar_iOS: ViewModifier {
         }
     }
     
-    func body(content: Content) -> some View {
-        // TODO remove this hack once toolbars support popovers
-        let newContent = ZStack(alignment: self.isCompact ? .topLeading : .topTrailing) {
-            Color.clear.frame(width: 1, height: 1)
-                .popover(isPresented: self.$viewModel.browserDisplay.isSharing) {
-                    STZ.SHR(items: [self.viewModel.originalURL],
-                            completion: { self.viewModel.browserDisplay.isSharing = false })
+    @ViewBuilder func body(content: Content) -> some View {
+        NavigationView {
+            ZStack(alignment: self.popoverAlignment) {
+                Color.clear.frame(width: 1, height: 1)
+                    .popover(isPresented: self.$viewModel.browserDisplay.isSharing) {
+                        STZ.SHR(items: [self.viewModel.originalURL],
+                                completion: { self.viewModel.browserDisplay.isSharing = false })
+                    }
+                if self.isCompact {
+                    content
+                        .modifier(Toolbar_Compact(viewModel: self.viewModel,
+                                                  popoverAlignment: self.$popoverAlignment))
+                } else {
+                    content
+                        .modifier(Toolbar_Regular(viewModel: self.viewModel,
+                                                  popoverAlignment: self.$popoverAlignment))
                 }
-            content
-                .navigationTitle(self.viewModel.browserDisplay.title)
-                .navigationBarTitleDisplayMode(.inline)
-        }
-        return NavigationView {
-            return self.isCompact
-                ? AnyView(newContent.modifier(Toolbar_Compact(viewModel: self.viewModel)))
-                : AnyView(newContent.modifier(Toolbar_Regular(viewModel: self.viewModel)))
+            }
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
@@ -65,50 +68,55 @@ internal struct Toolbar_iOS: ViewModifier {
 private struct Toolbar_Compact: ViewModifier {
     
     @ObservedObject var viewModel: ViewModel
+    @Binding var popoverAlignment: Alignment
     @Environment(\.openURL) private var openURL
     
     func body(content: Content) -> some View {
-        content.toolbar(id: "Browser_Compact") {
+        content
+            .navigationTitle(self.viewModel.browserDisplay.title)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar(id: "Browser_Compact") {
             //
             // Bottom Navigation
             //
             ToolbarItem(id: "Browser_Compact.Back", placement: .bottomBar) {
-                STZ.TB.GoBack.toolbar(isEnabled: self.viewModel.browserDisplay.canGoBack,
-                                      action: { self.viewModel.browserControl.goBack = true })
+                TH.goBackButton(self.viewModel)
             }
             ToolbarItem(id: "Browser_Compact.Forward", placement: .bottomBar) {
-                STZ.TB.GoForward.toolbar(isEnabled: self.viewModel.browserDisplay.canGoForward,
-                                         action: { self.viewModel.browserControl.goForward = true })
+                TH.goForwardButton(self.viewModel)
             }
             ToolbarItem(id: "Browser_Compact.Reload", placement: .bottomBar) {
-                self.viewModel.browserDisplay.isLoading
-                    ? AnyView(STZ.TB.Stop.toolbar(action: { self.viewModel.browserControl.stop = true }))
-                    : AnyView(STZ.TB.Reload.toolbar(action: { self.viewModel.browserControl.reload = true }))
+                TH.stopReloadButton(self.viewModel)
+            }
+            ToolbarItem(id: "Detail.Separator", placement: .bottomBar) {
+                STZ.TB.Separator.toolbar()
             }
             // TODO: LEAKING!
             ToolbarItem(id: "Browser_Compact.JS", placement: .bottomBar) {
-                self.viewModel.itemDisplay.isJSEnabled
-                    ? AnyView(STZ.TB.JSActive.toolbar(action: { self.viewModel.itemDisplay.isJSEnabled = false }))
-                    : AnyView(STZ.TB.JSInactive.toolbar(action: { self.viewModel.itemDisplay.isJSEnabled = true }))
+                TH.jsButton(self.viewModel)
             }
             //
             // Bottom Open in Options
             //
-            // TODO: LEAKING!
-            ToolbarItem(id: "Browser_Compact.OpenInExternal", placement: .bottomBar) {
-                STZ.TB.OpenInBrowser.toolbar(action: { self.openURL(self.viewModel.originalURL) })
+            ToolbarItem(id: "Detail.FlexibleSpace", placement: .bottomBar) {
+                Spacer()
+            }
+            ToolbarItem(id: "Browser_Compact.Share", placement: .bottomBar) {
+                STZ.TB.Share.toolbar() {
+                    self.popoverAlignment = .bottomTrailing
+                    self.viewModel.browserDisplay.isSharing = true
+                }
             }
 
             //
             // Top [Share] - [AddressBar] - [Done]
             //
-            ToolbarItem(id: "Browser_Compact.Share", placement: .cancellationAction) {
-                STZ.TB.Share.toolbar(action: { self.viewModel.browserDisplay.isSharing = true })
+            // TODO: LEAKING!
+            ToolbarItem(id: "Browser_Compact.OpenInExternal", placement: .cancellationAction) {
+                TH.openButton(self.viewModel, self.openURL)
             }
             ToolbarItem(id: "Browser_Compact.Done", placement: .confirmationAction) {
-                STZ.BTN.BrowserDone.button(doneStyle: true,
-                                           isEnabled: self.viewModel.doneAction != nil,
-                                           action: { self.viewModel.doneAction?() })
+                TH.doneButton(self.viewModel)
             }
         }
     }
@@ -117,56 +125,42 @@ private struct Toolbar_Compact: ViewModifier {
 private struct Toolbar_Regular: ViewModifier {
     
     @ObservedObject var viewModel: ViewModel
+    @Binding var popoverAlignment: Alignment
     @Environment(\.openURL) private var openURL
     
     func body(content: Content) -> some View {
-        content.toolbar(id: "Browser_Regular") {
-            //
-            // Bottom [JS] - [Open1] - [Open2]
-            //
-            // TODO: LEAKING!
-            ToolbarItem(id: "Browser_Regular.JS", placement: .bottomBar) {
-                self.viewModel.itemDisplay.isJSEnabled
-                    ? AnyView(STZ.TB.JSActive.toolbar(action: { self.viewModel.itemDisplay.isJSEnabled = false }))
-                    : AnyView(STZ.TB.JSInactive.toolbar(action: { self.viewModel.itemDisplay.isJSEnabled = true }))
+        content
+            .navigationTitle(self.viewModel.browserDisplay.title)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar(id: "Browser_Regular") {
+            ToolbarItem(id: "Browser_Regular.Back", placement: .cancellationAction) {
+                TH.goBackButton(self.viewModel)
+            }
+            ToolbarItem(id: "Browser_Regular.Forward", placement: .cancellationAction) {
+                TH.goForwardButton(self.viewModel)
+            }
+            ToolbarItem(id: "Browser_Compact.Reload", placement: .cancellationAction) {
+                TH.stopReloadButton(self.viewModel)
             }
             // TODO: LEAKING!
-            ToolbarItem(id: "Browser_Regular.OpenInExternal", placement: .bottomBar) {
-                STZ.TB.OpenInBrowser.toolbar(action: { self.openURL(self.viewModel.originalURL) })
+            ToolbarItem(id: "Browser_Regular.JS", placement: .cancellationAction) {
+                TH.jsButton(self.viewModel)
             }
-            
-            //
-            // Top Leading
-            //
-            ToolbarItem(id: "Browser_Regular.Back", placement: .bottomBar) {
-                STZ.TB.GoBack.toolbar(isEnabled: self.viewModel.browserDisplay.canGoBack,
-                                      action: { self.viewModel.browserControl.goBack = true })
-            }
-            ToolbarItem(id: "Browser_Regular.Forward", placement: .bottomBar) {
-                STZ.TB.GoForward.toolbar(isEnabled: self.viewModel.browserDisplay.canGoForward,
-                                         action: { self.viewModel.browserControl.goForward = true })
-            }
-            ToolbarItem(id: "Browser_Compact.Reload", placement: .bottomBar) {
-                self.viewModel.browserDisplay.isLoading
-                    ? AnyView(STZ.TB.Stop.toolbar(action: { self.viewModel.browserControl.stop = true }))
-                    : AnyView(STZ.TB.Reload.toolbar(action: { self.viewModel.browserControl.reload = true }))
-            }
-            
-            //
-            // [Top Leading] - [AddressBar] - [Share][Done]
-            //
             ToolbarItem(id: "Browser_Regular.AddressBar", placement: .principal) {
-                STZ.VIEW.TXTFLD.WebTitle.textfield(self.$viewModel.browserDisplay.title)
-                    .disabled(true)
-                    .frame(width: 400) // TODO: Remove hack when toolbar can manage width properly
+                TH.addressBar(self.$viewModel.browserDisplay.title)
             }
-            ToolbarItem(id: "Browser_Regular.Share", placement: .cancellationAction) {
-                STZ.TB.Share.toolbar(action: { self.viewModel.browserDisplay.isSharing = true })
+            // TODO: LEAKING!
+            ToolbarItem(id: "Browser_Regular.OpenInExternal", placement: .automatic) {
+                TH.openButton(self.viewModel, self.openURL)
+            }
+            ToolbarItem(id: "Browser_Regular.Share", placement: .automatic) {
+                STZ.TB.Share.toolbar() {
+                    self.popoverAlignment = .topTrailing
+                    self.viewModel.browserDisplay.isSharing = true
+                }
             }
             ToolbarItem(id: "Browser_Regular.Done", placement: .confirmationAction) {
-                STZ.BTN.BrowserDone.button(doneStyle: true,
-                                           isEnabled: self.viewModel.doneAction != nil,
-                                           action: { self.viewModel.doneAction?() })
+                TH.doneButton(self.viewModel)
             }
         }
     }
