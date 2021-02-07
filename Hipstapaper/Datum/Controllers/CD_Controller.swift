@@ -46,7 +46,6 @@ extension CD_Controller: Controller {
         if let thumbnail = raw.thumbnail {
             website.cd_thumbnail = thumbnail
         }
-        website.datum_willSave()
         return context.datum_save().map {
             AnyElementObserver(CD_Element(website, { AnyWebsite($0) }))
         }
@@ -114,10 +113,8 @@ extension CD_Controller: Controller {
                 changesMade = true
                 website.cd_thumbnail = thumbnail
             }
-            if changesMade {
-                website.datum_willSave()
-            }
         }
+        
         return changesMade ? context.datum_save() : .success(())
     }
     
@@ -151,7 +148,6 @@ extension CD_Controller: Controller {
 
         let tag = CD_Tag(context: context)
         tag.cd_name = name
-        tag.willSave()
         return context.datum_save().map {
             AnyElementObserver(CD_Element(tag, { AnyTag($0) }))
         }
@@ -198,7 +194,6 @@ extension CD_Controller: Controller {
         if let newName = name {
             changesMade = true
             tag.cd_name = newName
-            tag.datum_willSave()
         }
 
         return changesMade ? context.datum_save() : .success(())
@@ -233,15 +228,9 @@ extension CD_Controller: Controller {
             changesMade = true
             let tags = site.mutableSetValue(forKey: #keyPath(CD_Website.cd_tags))
             tags.add(tag)
-            site.datum_willSave()
         }
         
-        if changesMade {
-            tag.datum_willSave()
-            return context.datum_save()
-        } else {
-            return .success(())
-        }
+        return changesMade ? context.datum_save() : .success(())
     }
     
     func remove(tag: AnyElementObserver<AnyTag>, from _sites: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error> {
@@ -259,15 +248,9 @@ extension CD_Controller: Controller {
             changesMade = true
             let tags = site.mutableSetValue(forKey: #keyPath(CD_Website.cd_tags))
             tags.remove(tag)
-            site.datum_willSave()
         }
         
-        if changesMade {
-            tag.datum_willSave()
-            return context.datum_save()
-        } else {
-            return .success(())
-        }
+        return changesMade ? context.datum_save() : .success(())
     }
     
     func tagStatus(for _sites: Set<AnyElementObserver<AnyWebsite>>)
