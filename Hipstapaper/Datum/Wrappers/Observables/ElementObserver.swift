@@ -21,7 +21,13 @@
 
 import Combine
 
-public class AnyElement<Value: Identifiable & Hashable>: Element {
+public protocol ElementObserver: ObservableObject, Identifiable, Hashable {
+    associatedtype Value
+    var value: Value { get }
+    var isDeleted: Bool { get }
+}
+
+public class AnyElementObserver<Value: Identifiable & Hashable>: ElementObserver {
 
     public let objectWillChange: ObservableObjectPublisher
 
@@ -31,7 +37,7 @@ public class AnyElement<Value: Identifiable & Hashable>: Element {
     private var _value: () -> Value
     private var _isDeleted: () -> Bool
 
-    public init<T: Element>(_ element: T)
+    public init<T: ElementObserver>(_ element: T)
     where T.Value == Value,
           T.ID == Value.ID,
           T.ObjectWillChangePublisher == ObservableObjectPublisher
@@ -41,7 +47,7 @@ public class AnyElement<Value: Identifiable & Hashable>: Element {
         self.objectWillChange = element.objectWillChange
     }
     
-    public static func == (lhs: AnyElement<Value>, rhs: AnyElement<Value>) -> Bool {
+    public static func == (lhs: AnyElementObserver<Value>, rhs: AnyElementObserver<Value>) -> Bool {
         return lhs.value == rhs.value
     }
     

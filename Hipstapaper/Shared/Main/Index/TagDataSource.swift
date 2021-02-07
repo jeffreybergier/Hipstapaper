@@ -20,52 +20,47 @@
 import Datum
 import Combine
 
-class TagController: ObservableObject {
+class TagDataSource: DataSourceSelectable {
     
-    @Published var selection: AnyElement<AnyTag>?
+    @Published var selection: AnyElementObserver<AnyTag>?
+    @Published var observer: AnyListObserver<AnyList<AnyElementObserver<AnyTag>>>?
+    var data: AnyList<AnyElementObserver<AnyTag>> { self.observer?.data ?? .empty }
+    let fixed = Query.Archived.anyTag_allCases
     let controller: Controller
-    let `static` = Query.Archived.anyTag_allCases
-    var all: AnyList<AnyElement<AnyTag>> {
-        get {
-            if let all = _all { return all }
-            self.update()
-            return _all ?? .empty
-        }
-    }
-    
-    private var _all: AnyList<AnyElement<AnyTag>>?
-    private var token: AnyCancellable?
     
     init(controller: Controller) {
         self.controller = controller
     }
     
-    private func update() {
-        self.token?.cancel()
-        self.token = nil
+    func activate() -> Result<Void, Datum.Error> {
+        log.verbose()
+        guard self.observer == nil else { return .success(()) }
         let result = controller.readTags()
-        switch result {
-        case .failure(let error):
-            // TODO: Do something with this error
-            _all = nil
-        case .success(let tags):
-            _all = tags
-            self.objectWillChange.send()
-            self.token = tags.objectWillChange.sink() { [unowned self] _ in
-                self.objectWillChange.send()
-            }
-        }
+        self.observer = result.value
+        return result.map { _ in () }
+    }
+    
+    func deactivate() {
+        log.verbose()
+        self.objectWillChange.send()
+        self.observer = nil
+    }
+    
+    deinit {
+        // TODO: Remove later
+        log.emergency()
     }
 }
 
 // MARK: Toolbar Helpers
-extension TagController {
+extension TagDataSource {
     func canDelete() -> Bool {
         guard let tag = self.selection else { return false }
         return (tag.value.wrappedValue as? Query.Archived) == nil
     }
     func delete(_ errorQ: ErrorQ) {
         guard let tag = self.selection else { return }
+        self.selection = nil
         let r = errorQ.append(self.controller.delete(tag))
         log.error(r.error)
     }

@@ -34,13 +34,13 @@ class TagObservationTests: ParentTestCase {
                 XCTFail(String(describing: error))
             }
         }
-        let wait = self.newWait(count: 3)
-        self.token = tag.objectWillChange.sink() {
+        let wait = self.newWait()
+        tag.objectWillChange.sink() {
             wait() {
                 XCTAssertEqual(tag.value.name, "B")
                 XCTAssertFalse(tag.isDeleted)
             }
-        }
+        }.store(in: &self.tokens)
         self.wait(for: .short)
     }
 
@@ -55,11 +55,11 @@ class TagObservationTests: ParentTestCase {
             }
         }
         let wait = self.newWait()
-        self.token = tag.objectWillChange.sink() {
+        tag.objectWillChange.sink() {
             wait() {
                 XCTAssertTrue(tag.isDeleted)
             }
-        }
+        }.store(in: &self.tokens)
         self.wait(for: .short)
     }
 }

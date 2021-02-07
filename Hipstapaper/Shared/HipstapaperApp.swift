@@ -25,7 +25,9 @@ import Datum
 import Stylize
 
 internal let log: XCGLogger = {
-    XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
+    let l = XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
+    l.outputLevel = .verbose
+    return l
 }()
 
 @main

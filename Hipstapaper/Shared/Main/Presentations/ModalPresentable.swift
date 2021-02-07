@@ -25,15 +25,15 @@ struct BrowserPresentable: ViewModifier {
 
 struct TagApplyPresentable: ViewModifier {
     
-    let controller: WebsiteController
-    let selectedWebsites: Set<AnyElement<AnyWebsite>>
+    let dataSource: WebsiteDataSource
+    let selectedWebsites: Set<AnyElementObserver<AnyWebsite>>
     
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
     
     func body(content: Content) -> some View {
         content.popover(isPresented: self.$presentation.isTagApply)
         { () -> TagApply in
-            TagApply(controller: self.controller,
+            TagApply(dataSource: self.dataSource,
                      done: { self.presentation.value = .none })
         }
     }
@@ -41,7 +41,7 @@ struct TagApplyPresentable: ViewModifier {
 
 struct SharePresentable: ViewModifier {
     
-    let selectedWebsites: Set<AnyElement<AnyWebsite>>
+    let selectedWebsites: Set<AnyElementObserver<AnyWebsite>>
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
     
     func body(content: Content) -> some View {
@@ -55,7 +55,7 @@ struct SharePresentable: ViewModifier {
 
 struct ShareModalPresentable: ViewModifier {
     
-    let selectedWebsites: Set<AnyElement<AnyWebsite>>
+    let selectedWebsites: Set<AnyElementObserver<AnyWebsite>>
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
     
     func body(content: Content) -> some View {
@@ -127,9 +127,8 @@ struct AddWebsitePresentable: ViewModifier {
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
 
     func body(content: Content) -> some View {
-        content.sheet(isPresented: self.$presentation.isAddWebsite)
-        {
-            return Snapshotter(.init(doneAction: self.snapshot))
+        content.sheet(isPresented: self.$presentation.isAddWebsite) {
+            Snapshotter(.init(doneAction: self.snapshot))
         }
     }
     

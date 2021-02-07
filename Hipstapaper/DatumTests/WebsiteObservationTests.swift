@@ -34,13 +34,13 @@ class WebsiteObservationTests: ParentTestCase {
                 XCTFail(String(describing: error))
             }
         }
-        let wait = self.newWait(count: 3)
-        self.token = website.objectWillChange.sink() {
+        let wait = self.newWait()
+        website.objectWillChange.sink() {
             wait() {
                 XCTAssertEqual(website.value.title, "B")
                 XCTAssertFalse(website.isDeleted)
             }
-        }
+        }.store(in: &self.tokens)
         self.wait(for: .short)
     }
 
@@ -55,11 +55,11 @@ class WebsiteObservationTests: ParentTestCase {
             }
         }
         let wait = self.newWait()
-        self.token = website.objectWillChange.sink() {
+        website.objectWillChange.sink() {
             wait() {
                 XCTAssertTrue(website.isDeleted)
             }
-        }
+        }.store(in: &self.tokens)
         self.wait(for: .short)
     }
 }

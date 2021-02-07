@@ -53,6 +53,7 @@ internal class CD_SyncMonitor: SyncMonitor {
     }
     
     @objc private func observeAccount() {
+        guard ISTESTING == false else { return }
         CKContainer.default().accountStatus() { account, error in
             DispatchQueue.main.async {
                 self.objectWillChange.send()

@@ -31,7 +31,7 @@ enum ModalPresentation: Equatable {
     case share
     case sort
     case delete
-    case browser(AnyElement<AnyWebsite>!)
+    case browser(AnyElementObserver<AnyWebsite>!)
     
     // TODO: Remove this when SwiftUI doesn't suck at modals
     class Wrap: ObservableObject {
@@ -107,7 +107,7 @@ enum ModalPresentation: Equatable {
             }
         }
         
-        var browserItem: AnyElement<AnyWebsite>! {
+        var browserItem: AnyElementObserver<AnyWebsite>! {
             guard case .browser(let item) = self.value else { return nil }
             return item
         }

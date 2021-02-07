@@ -22,79 +22,62 @@
 import Combine
 import Datum
 
-class WebsiteController: ObservableObject {
+class WebsiteDataSource: DataSourceMultiSelectable {
+    
+    @Published var selection: Set<AnyElementObserver<AnyWebsite>> = []
+    @Published var query: Query { didSet { self.activate() } }
+    @Published var observer: AnyListObserver<AnyList<AnyElementObserver<AnyWebsite>>>?
+    var data: AnyList<AnyElementObserver<AnyWebsite>> { self.observer?.data ?? .empty }
     
     let controller: Controller
-    var all: AnyList<AnyElement<AnyWebsite>> {
-        get { return _all ?? .empty }
-    }
-    @Published var selectedWebsites: Set<AnyElement<AnyWebsite>> = []
-    @Published var query: Query {
-        didSet { self.activate() }
-    }
     
-    private var _all: AnyList<AnyElement<AnyWebsite>>? = nil
-    private var token: AnyCancellable?
-    
-    init(controller: Controller, selectedTag: AnyElement<AnyTag> = Query.Archived.anyTag_allCases[0]) {
+    init(controller: Controller, selectedTag: AnyElementObserver<AnyTag> = Query.Archived.anyTag_allCases[0]) {
         self.query = Query(specialTag: selectedTag)
         self.controller = controller
     }
     
-    func activate() {
-        log.verbose()
-        self.token?.cancel()
-        self.token = nil
+    func activate() -> Result<Void, Datum.Error> {
+        log.verbose(self.query.tag?.value.name ?? self.query.isArchived)
         let result = controller.readWebsites(query: self.query)
-        self.objectWillChange.send()
-        switch result {
-        case .failure(let error):
-            // TODO: Do something with this error
-            _all = nil
-            break
-        case .success(let sites):
-            self._all = sites
-            self.token = sites.objectWillChange.sink { [unowned self] _ in
-                self.objectWillChange.send()
-            }
-        }
+        self.observer = result.value
+        return result.map { _ in () }
     }
     
     func deactivate() {
-        log.verbose()
+        log.verbose(self.query.tag?.value.name ?? self.query.isArchived)
         self.objectWillChange.send()
-        self.token?.cancel()
-        _all = .empty
+        self.observer = nil
     }
     
     deinit {
-        log.verbose()
+        // TODO: Remove this
+        log.emergency()
     }
 }
 
 // MARK: Toolbar helpers
 import SwiftUI
-extension WebsiteController {
+extension WebsiteDataSource {
     func canShare() -> Bool {
-        return self.selectedWebsites.first(where: { $0.value.preferredURL != nil }) != nil
+        return self.selection.first(where: { $0.value.preferredURL != nil }) != nil
     }
     func canTag() -> Bool {
-        return self.selectedWebsites.isEmpty == false
+        return self.selection.isEmpty == false
     }
     func canArchive() -> Bool {
-        return self.selectedWebsites.first(where: { $0.value.isArchived == false }) != nil
+        return self.selection.first(where: { $0.value.isArchived == false }) != nil
     }
     func canUnarchive() -> Bool {
-        return self.selectedWebsites.first(where: { $0.value.isArchived == true }) != nil
+        return self.selection.first(where: { $0.value.isArchived == true }) != nil
     }
     func canDelete() -> Bool {
-        return self.selectedWebsites.isEmpty == false
+        return self.selection.isEmpty == false
     }
     func canOpen(in wm: WindowPresentation) -> Bool {
         if wm.features.contains(.bulkActivation) {
-            return self.selectedWebsites.first(where: { $0.value.preferredURL != nil }) != nil
+            return self.selection.first(where: { $0.value.preferredURL != nil }) != nil
         } else {
-            return self.selectedWebsites.compactMap { $0.value.preferredURL != nil }.count == 1
+            return self.selection.compactMap { $0.value.preferredURL != nil }.count == 1
         }
     }
     func isFiltered() -> Bool {
@@ -105,22 +88,22 @@ extension WebsiteController {
     }
     
     func archive(_ errorQ: ErrorQ) {
-        let selected = self.selectedWebsites
-        self.selectedWebsites = []
+        let selected = self.selection
+        self.selection = []
         let r = errorQ.append(self.controller.update(selected, .init(isArchived: true)))
         log.error(r.error)
     }
     
     func unarchive(_ errorQ: ErrorQ) {
-        let selected = self.selectedWebsites
-        self.selectedWebsites = []
+        let selected = self.selection
+        self.selection = []
         let r = errorQ.append(self.controller.update(selected, .init(isArchived: false)))
         log.error(r.error)
     }
     
     func delete(_ errorQ: ErrorQ) {
-        let selected = self.selectedWebsites
-        self.selectedWebsites = []
+        let selected = self.selection
+        self.selection = []
         let r = errorQ.append(self.controller.delete(selected))
         log.error(r.error)
     }
@@ -130,14 +113,14 @@ extension WebsiteController {
     }
     
     func open(in open: OpenURLAction) {
-        self.selectedWebsites
+        self.selection
             .compactMap { $0.value.preferredURL }
             .forEach { open($0) }
     }
     
     @discardableResult
-    func open(in wm: WindowPresentation) -> AnyElement<AnyWebsite>? {
-        let sites = self.selectedWebsites
+    func open(in wm: WindowPresentation) -> AnyElementObserver<AnyWebsite>? {
+        let sites = self.selection
         let urls = sites.compactMap { $0.value.preferredURL }
         
         guard urls.isEmpty == false else { fatalError("Maybe present an error?") }

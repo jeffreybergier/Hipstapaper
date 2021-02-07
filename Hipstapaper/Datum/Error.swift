@@ -21,6 +21,8 @@
 
 import Foundation
 
+internal let ISTESTING: Bool = NSClassFromString("XCTestCase") != nil
+
 // TODO: Conform to NSError Protocols
 public enum Error: Swift.Error {
     case critical

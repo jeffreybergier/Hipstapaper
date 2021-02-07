@@ -26,13 +26,13 @@ import Localize
 
 struct TagApply: View {
     
-    let controller: WebsiteController
+    let dataSource: WebsiteDataSource
     let done: Action
     
     @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
     
     var body: some View {
-        let result = self.controller.controller.tagStatus(for: self.controller.selectedWebsites)
+        let result = self.dataSource.controller.tagStatus(for: self.dataSource.selection)
         self.errorQ.append(result)
         log.error(result.error)
         guard let data = result.value else { return AnyView(Color.clear) }
@@ -50,17 +50,17 @@ struct TagApply: View {
         )
     }
     
-    private func process(newValue: Bool, for tag: AnyElement<AnyTag>) {
-        let selection = self.controller.selectedWebsites
+    private func process(newValue: Bool, for tag: AnyElementObserver<AnyTag>) {
+        let selection = self.dataSource.selection
         let result: Result<Void, Datum.Error>
         switch newValue {
         case true:
             result = self.errorQ.append(
-                self.controller.controller.add(tag: tag, to: selection)
+                self.dataSource.controller.add(tag: tag, to: selection)
             )
         case false:
             result = self.errorQ.append(
-                self.controller.controller.remove(tag: tag, from: selection)
+                self.dataSource.controller.remove(tag: tag, from: selection)
             )
         }
         log.error(result.error)

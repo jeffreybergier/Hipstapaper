@@ -26,13 +26,10 @@ extension CD_Controller: Controller {
 
     // MARK: Website CRUD
 
-    func createWebsite(_ raw: AnyWebsite.Raw) -> Result<AnyElement<AnyWebsite>, Error> {
+    func createWebsite(_ raw: AnyWebsite.Raw) -> Result<AnyElementObserver<AnyWebsite>, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
-        let token = self.willSave(context)
-        defer { self.didSave(token) }
-
         let website = CD_Website(context: context)
         if let title = raw.title {
             website.cd_title = title
@@ -50,11 +47,11 @@ extension CD_Controller: Controller {
             website.cd_thumbnail = thumbnail
         }
         return context.datum_save().map {
-            AnyElement(CD_Element(website, { AnyWebsite($0) }))
+            AnyElementObserver(CD_Element(website, { AnyWebsite($0) }))
         }
     }
 
-    func readWebsites(query: Query) -> Result<AnyList<AnyElement<AnyWebsite>>, Error> {
+    func readWebsites(query: Query) -> Result<AnyListObserver<AnyList<AnyElementObserver<AnyWebsite>>>, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
@@ -69,10 +66,12 @@ extension CD_Controller: Controller {
         do {
             try controller.performFetch()
             return .success(
-                AnyList(
-                    CD_List(controller, fallback: AnyWebsite.blank) {
-                        AnyElement(CD_Element($0, { AnyWebsite($0) }))
-                    }
+                AnyListObserver(
+                    CD_ListObserver(
+                        CD_List(controller) {
+                            AnyElementObserver(CD_Element($0, { AnyWebsite($0) }))
+                        }
+                    )
                 )
             )
         } catch {
@@ -80,13 +79,10 @@ extension CD_Controller: Controller {
         }
     }
     
-    func update(_ inputs: Set<AnyElement<AnyWebsite>>, _ raw: AnyWebsite.Raw) -> Result<Void, Error> {
+    func update(_ inputs: Set<AnyElementObserver<AnyWebsite>>, _ raw: AnyWebsite.Raw) -> Result<Void, Error> {
         assert(Thread.isMainThread)
         
         let context = self.container.viewContext
-        let token = self.willSave(context)
-        defer { self.didSave(token) }
-
         var inputs = inputs
         var changesMade = false
         
@@ -122,12 +118,10 @@ extension CD_Controller: Controller {
         return changesMade ? context.datum_save() : .success(())
     }
     
-    func delete(_ inputs: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error> {
+    func delete(_ inputs: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
-        let token = self.willSave(context)
-        defer { self.didSave(token) }
 
         var inputs = inputs
         var changesMade = false
@@ -147,21 +141,19 @@ extension CD_Controller: Controller {
 
     // MARK: Tag CRUD
 
-    func createTag(name: String?) -> Result<AnyElement<AnyTag>, Error> {
+    func createTag(name: String?) -> Result<AnyElementObserver<AnyTag>, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
-        let token = self.willSave(context)
-        defer { self.didSave(token) }
 
         let tag = CD_Tag(context: context)
         tag.cd_name = name
         return context.datum_save().map {
-            AnyElement(CD_Element(tag, { AnyTag($0) }))
+            AnyElementObserver(CD_Element(tag, { AnyTag($0) }))
         }
     }
 
-    func readTags() -> Result<AnyList<AnyElement<AnyTag>>, Error> {
+    func readTags() -> Result<AnyListObserver<AnyList<AnyElementObserver<AnyTag>>>, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
@@ -176,10 +168,12 @@ extension CD_Controller: Controller {
         do {
             try controller.performFetch()
             return .success(
-                AnyList(
-                    CD_List(controller, fallback: AnyTag.blank) {
-                        AnyElement(CD_Element($0, { AnyTag($0) }))
-                    }
+                AnyListObserver(
+                    CD_ListObserver(
+                        CD_List(controller) {
+                            AnyElementObserver(CD_Element($0, { AnyTag($0) }))
+                        }
+                    )
                 )
             )
         } catch {
@@ -187,7 +181,7 @@ extension CD_Controller: Controller {
         }
     }
 
-    func update(_ input: AnyElement<AnyTag>, name: Optional<String?>) -> Result<Void, Error> {
+    func update(_ input: AnyElementObserver<AnyTag>, name: Optional<String?>) -> Result<Void, Error> {
         assert(Thread.isMainThread)
 
         guard let tag = input.value.wrappedValue as? CD_Tag else {
@@ -195,8 +189,6 @@ extension CD_Controller: Controller {
             return .failure(.unknown)
         }
         let context = self.container.viewContext
-        let token = self.willSave(context)
-        defer { self.didSave(token) }
 
         var changesMade = false
         if let newName = name {
@@ -207,7 +199,7 @@ extension CD_Controller: Controller {
         return changesMade ? context.datum_save() : .success(())
     }
 
-    func delete(_ input: AnyElement<AnyTag>) -> Result<Void, Error> {
+    func delete(_ input: AnyElementObserver<AnyTag>) -> Result<Void, Error> {
         assert(Thread.isMainThread)
 
         guard let tag = input.value.wrappedValue as? CD_Tag else {
@@ -215,16 +207,13 @@ extension CD_Controller: Controller {
             return .failure(.unknown)
         }
         let context = self.container.viewContext
-        let token = self.willSave(context)
-        defer { self.didSave(token) }
-
         context.delete(tag)
         return context.datum_save()
     }
     
     // MARK: Custom Functions
     
-    func add(tag: AnyElement<AnyTag>, to _sites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error> {
+    func add(tag: AnyElementObserver<AnyTag>, to _sites: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error> {
         let sites = _sites.compactMap { $0.value.wrappedValue as? CD_Website }
         guard
             sites.count == _sites.count,
@@ -232,8 +221,6 @@ extension CD_Controller: Controller {
         else { return .failure(.unknown) }
         
         let context = self.container.viewContext
-        let token = self.willSave(context)
-        defer { self.didSave(token) }
         
         var changesMade = false
         for site in sites {
@@ -246,7 +233,7 @@ extension CD_Controller: Controller {
         return changesMade ? context.datum_save() : .success(())
     }
     
-    func remove(tag: AnyElement<AnyTag>, from _sites: Set<AnyElement<AnyWebsite>>) -> Result<Void, Error> {
+    func remove(tag: AnyElementObserver<AnyTag>, from _sites: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error> {
         let sites = _sites.compactMap { $0.value.wrappedValue as? CD_Website }
         guard
             sites.count == _sites.count,
@@ -254,8 +241,6 @@ extension CD_Controller: Controller {
         else { return .failure(.unknown) }
         
         let context = self.container.viewContext
-        let token = self.willSave(context)
-        defer { self.didSave(token) }
         
         var changesMade = false
         for site in sites {
@@ -268,15 +253,15 @@ extension CD_Controller: Controller {
         return changesMade ? context.datum_save() : .success(())
     }
     
-    func tagStatus(for _sites: Set<AnyElement<AnyWebsite>>)
-                  -> Result<AnyList<(AnyElement<AnyTag>, ToggleState)>, Error>
+    func tagStatus(for _sites: Set<AnyElementObserver<AnyWebsite>>)
+                  -> Result<AnyList<(AnyElementObserver<AnyTag>, ToggleState)>, Error>
 
     {
         let sites = _sites.compactMap { $0.value.wrappedValue as? CD_Website }
         guard sites.count == _sites.count else { return .failure(.unknown) }
         return self.readTags().map() { tags in
             return AnyList(
-                MappedList(tags) { tag in
+                MappedList(tags.data) { tag in
                     let tag = tag.value.wrappedValue as! CD_Tag
                     return ToggleState(sites.map {
                         $0.cd_tags.contains(tag)
@@ -330,26 +315,10 @@ internal class CD_Controller {
             self.syncMonitor = AnySyncMonitor(NoSyncMonitor())
         }
     }
-
-    private func willSave(_ context: NSManagedObjectContext) -> Any {
-        return NotificationCenter.default.addObserver(forName: .NSManagedObjectContextWillSave,
-                                                      object: context,
-                                                      queue: nil)
-        { notification in
-            guard let context = notification.object as? NSManagedObjectContext else { return }
-            
-            context.insertedObjects
-                .union(context.updatedObjects)
-                .forEach { obj in
-                    let obj = obj as? CD_Base
-                    obj?.datum_willSave()
-                    obj?.objectWillChange.send()
-                }
-        }
-    }
-
-    private func didSave(_ token: Any) {
-        NotificationCenter.default.removeObserver(token)
+    
+    deinit {
+        // TODO: Remove later
+        log.emergency()
     }
 }
 
@@ -384,21 +353,13 @@ extension CD_Controller {
     }
 }
 
-// TODO: Remove this to enable mac to sync
-#if os(macOS)
-private class Datum_PersistentContainer: NSPersistentContainer {
-    override class func defaultDirectoryURL() -> URL {
-        return CD_Controller.storeDirectoryURL
-    }
-}
-#else
 private class Datum_PersistentContainer: NSPersistentCloudKitContainer {
     override class func defaultDirectoryURL() -> URL {
-        return CD_Controller.storeDirectoryURL
+        let url = CD_Controller.storeDirectoryURL
+        log.debug(url)
+        return url
     }
 }
-#endif
-
 
 extension NSManagedObjectContext {
     fileprivate func datum_save() -> Result<Void, Error> {
@@ -406,6 +367,7 @@ extension NSManagedObjectContext {
             try self.save()
             return .success(())
         } catch {
+            log.error(error)
             self.rollback()
             return .failure(.unknown)
         }

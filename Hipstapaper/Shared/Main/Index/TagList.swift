@@ -24,22 +24,28 @@ import Datum
 import Localize
 import Stylize
 
-struct TagList: View {
+struct TagList<Nav: View>: View {
     
-    typealias Navigation = (AnyElement<AnyTag>) -> AnyView
+    typealias Navigation = (AnyElementObserver<AnyTag>) -> Nav
     
-    @StateObject var controller: TagController
-    let navigation: Navigation
+    @StateObject private var dataSource: TagDataSource
+    private let navigation: Navigation
+    
+    init(controller: Controller, @ViewBuilder navigation: @escaping Navigation) {
+        self.navigation = navigation
+        _dataSource = .init(wrappedValue: .init(controller: controller))
+    }
 
     var body: some View {
-        List(selection: self.$controller.selection) {
+        List(selection: self.$dataSource.selection) {
             Section(header: STZ.VIEW.TXT(Noun.ReadingList)
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
-                ForEach(self.controller.`static`, id: \.self) { item in
+                ForEach(self.dataSource.fixed, id: \.self) { item in
                     NavigationLink(destination: self.navigation(item)) {
                         TagRow(item.value)
+                            .animation(nil)
                     }
                 }
             }
@@ -47,22 +53,27 @@ struct TagList: View {
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
-                ForEach(self.controller.all, id: \.self) { item in
+                ForEach(self.dataSource.data, id: \.self) { item in
                     NavigationLink(destination: self.navigation(item)) {
                         TagRow(item.value)
+                            .animation(nil)
                     }
                 }
             }
         }
+        .animation(.default)
+        .onAppear { self.dataSource.activate() }
+        .onDisappear { self.dataSource.deactivate() }
         .listStyle(SidebarListStyle())
         .navigationTitle(Noun.Tags)
+        .modifier(IndexToolbar(dataSource: self.dataSource))
     }
 }
 
 #if DEBUG
 struct TagList_Preview: PreviewProvider {
     static var previews: some View {
-        TagList(controller: .init(controller: P_Controller()),
+        TagList(controller: P_Controller(),
                 navigation: { _ in AnyView(STZ.VIEW.TXT("Swift Previews")) })
     }
 }

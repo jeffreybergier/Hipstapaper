@@ -27,30 +27,30 @@ import Browse
 enum DetailToolbar {
     struct Shared: ViewModifier {
         
-        @ObservedObject var controller: WebsiteController
+        @ObservedObject var dataSource: WebsiteDataSource
         @State var popoverAlignment: Alignment = .topTrailing
         
         func body(content: Content) -> some View {
             return ZStack(alignment: self.popoverAlignment) {
                 // TODO: Hack when toolbars work properly with popovers
                 Color.clear.frame(width: 1, height: 1).modifier(
-                    TagApplyPresentable(controller: self.controller,
-                                        selectedWebsites: self.controller.selectedWebsites)
+                    TagApplyPresentable(dataSource: self.dataSource,
+                                        selectedWebsites: self.dataSource.selection)
                 )
                 Color.clear.frame(width: 1, height: 1).modifier(
-                    SharePresentable(selectedWebsites: self.controller.selectedWebsites)
+                    SharePresentable(selectedWebsites: self.dataSource.selection)
                 )
                 Color.clear.frame(width: 1, height: 1).modifier(
-                    SearchPresentable(search: self.$controller.query.search)
+                    SearchPresentable(search: self.$dataSource.query.search)
                 )
                 
                 Color.clear.frame(width: 1, height: 1).modifier(
-                    SortPresentable(sort: self.$controller.query.sort)
+                    SortPresentable(sort: self.$dataSource.query.sort)
                 )
                 #if os(macOS)
-                content.modifier(macOS(controller: self.controller))
+                content.modifier(macOS(dataSource: self.dataSource))
                 #else
-                content.modifier(iOS.Shared(controller: self.controller,
+                content.modifier(iOS.Shared(dataSource: self.dataSource,
                                             popoverAlignment: self.$popoverAlignment))
                 #endif
             }

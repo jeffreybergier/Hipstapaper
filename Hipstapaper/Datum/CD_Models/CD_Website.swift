@@ -43,13 +43,13 @@ extension CD_Website: Website {
     @NSManaged internal var cd_title:       String?
     @NSManaged internal var cd_thumbnail:   Data?
     @NSManaged internal var cd_tags:        NSSet
+    
+    override func willSave() {
+        super.willSave()
+        
+        // TODO: validate title
 
-    internal override func datum_willSave() {
-        super.datum_willSave()
-
-        // validate title
-
-        // validate thumbnail size
+        // TODO: validate thumbnail size
     }
 }
 

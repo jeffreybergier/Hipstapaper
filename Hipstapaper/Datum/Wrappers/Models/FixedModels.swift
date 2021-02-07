@@ -23,8 +23,8 @@ import Localize
 
 extension Query.Archived: Tag {
     
-    public static var anyTag_allCases: [AnyElement<AnyTag>] {
-        self.allCases.map { AnyElement(StaticElement(AnyTag($0))) }
+    public static var anyTag_allCases: [AnyElementObserver<AnyTag>] {
+        self.allCases.map { AnyElementObserver(StaticElement(AnyTag($0))) }
     }
     
     // TODO: See if its possible change type to LocalizedString
@@ -41,15 +41,6 @@ extension Query.Archived: Tag {
     public var websitesCount: Int? { return nil }
     public var dateCreated: Date { fatalError() }
     public var dateModified: Date { fatalError() }
-}
-
-// TODO: Remove these hacks once SwiftUI doesn't crash so easily with the FRC
-extension AnyWebsite {
-    internal static let blank: AnyElement<AnyWebsite> = AnyElement(StaticElement(AnyWebsite(Blank())))
-}
-
-extension AnyTag {
-    internal static let blank: AnyElement<AnyTag> = AnyElement(StaticElement(AnyTag(Blank())))
 }
 
 fileprivate struct Blank: Tag, Website {
