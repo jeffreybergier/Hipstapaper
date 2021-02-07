@@ -35,16 +35,20 @@ extension STZ.VIEW {
         if let string = string {
             return Text(string)
                 .preference(key: isFallBackKey.self, value: false)
+                .lineLimit(1)
         } else {
             return Text(fallback)
                 .preference(key: isFallBackKey.self, value: true)
+                .lineLimit(1)
         }
     }
-    public static func TXT(_ string: String) -> Text {
+    public static func TXT(_ string: String) -> some View {
         return Text(string)
+            .lineLimit(1)
     }
-    public static func TXT(_ localized: LocalizedStringKey) -> Text {
+    public static func TXT(_ localized: LocalizedStringKey) -> some View {
         return Text(localized)
+            .lineLimit(1)
     }
 }
 

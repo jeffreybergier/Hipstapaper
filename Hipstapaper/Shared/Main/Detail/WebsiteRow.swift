@@ -34,7 +34,7 @@ struct WebsiteRow: View {
     @ObservedObject var item: AnyElementObserver<AnyWebsite>
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 6) {
                 STZ.VIEW.TXT(self.item.value.title, or: Noun.Untitled)
                     .modifier(STZ.FNT.DetailRow.Title.apply())
                     .modifier(STZ.CLR.DetailRow.Text.foreground())
@@ -44,8 +44,9 @@ struct WebsiteRow: View {
             }
             Spacer()
             STZ.IMG.Placeholder.thumbnail(self.item.value.thumbnail)
+                .frame(width: 60)
         }
-        .frame(height: 60)
+        .frame(minHeight: 60)
         .animation(nil)
     }
 }
