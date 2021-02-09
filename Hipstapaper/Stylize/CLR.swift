@@ -147,8 +147,10 @@ extension STZ {
         #endif
         
         fileprivate enum Raw {
-            static fileprivate let textTitle: Color  = .black
-            static fileprivate let textTitle_Dark: Color   = .white
+            static fileprivate let textTitle: Color               = LST.CFG.deselectedForeground
+            static fileprivate let textTitle_Selected: Color      = LST.CFG.selectedForeground
+            static fileprivate let textTitle_Dark: Color          = LST.CFG.deselectedForeground
+            static fileprivate let textTitle_Selected_Dark: Color = LST.CFG.selectedForeground
             static fileprivate let thumbnailPlaceholder = Color(.sRGB, white: 0.95, opacity: 1.0)
             static fileprivate let thumbnailPlaceholder_Dark = Color(.sRGB, white: 0.2, opacity: 1.0)
             static fileprivate let numberCircleBackground = Color(.sRGB, white: 0.75, opacity: 1.0)
@@ -156,7 +158,6 @@ extension STZ {
         }
     }
 }
-
 
 extension ColorScheme {
     fileprivate var isNormal: Bool {

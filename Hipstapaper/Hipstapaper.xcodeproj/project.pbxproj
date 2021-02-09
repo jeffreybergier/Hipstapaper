@@ -106,6 +106,8 @@
 		739A874A258467860098DD72 /* Localize.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7399BAC3258251D800B8CAFD /* Localize.framework */; };
 		739DD00425D2BE4B00177C49 /* WebsiteMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739DD00325D2BE4B00177C49 /* WebsiteMenu.swift */; };
 		739DD00525D2BE4B00177C49 /* WebsiteMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739DD00325D2BE4B00177C49 /* WebsiteMenu.swift */; };
+		739DD01125D2CF5D00177C49 /* XPList in Frameworks */ = {isa = PBXBuildFile; productRef = 739DD01025D2CF5D00177C49 /* XPList */; };
+		739DD02725D2CF9500177C49 /* LST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739DD02625D2CF9500177C49 /* LST.swift */; };
 		739F03AE25A87F49001826F8 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739F03AD25A87F49001826F8 /* ShareViewController.swift */; };
 		739F03B125A87F49001826F8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 739F03AF25A87F49001826F8 /* MainInterface.storyboard */; };
 		739F03B525A87F49001826F8 /* Share_iOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 739F03AB25A87F49001826F8 /* Share_iOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -167,8 +169,6 @@
 		73F2B03E257460AF009AC2AF /* Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2B03D257460AF009AC2AF /* Sort.swift */; };
 		73F2B044257460D2009AC2AF /* CD_Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2B043257460D2009AC2AF /* CD_Sort.swift */; };
 		73F2B04A25746386009AC2AF /* WebsiteObservationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2B04925746386009AC2AF /* WebsiteObservationTests.swift */; };
-		73F8B36F25BD677C001A6A09 /* XPList in Frameworks */ = {isa = PBXBuildFile; productRef = 73F8B36E25BD677C001A6A09 /* XPList */; };
-		73F8B37B25BD6790001A6A09 /* XPList in Frameworks */ = {isa = PBXBuildFile; productRef = 73F8B37A25BD6790001A6A09 /* XPList */; };
 		73FFA26725CD934B00BC78BB /* WebsiteHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FFA26625CD934B00BC78BB /* WebsiteHelper.swift */; };
 		73FFA26825CD934B00BC78BB /* WebsiteHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FFA26625CD934B00BC78BB /* WebsiteHelper.swift */; };
 		73FFA2A925CEAE8D00BC78BB /* DeleteAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FFA2A825CEAE8D00BC78BB /* DeleteAlert.swift */; };
@@ -511,6 +511,7 @@
 		7399BAC6258251D800B8CAFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7399BB7B25843C8500B8CAFD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		739DD00325D2BE4B00177C49 /* WebsiteMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteMenu.swift; sourceTree = "<group>"; };
+		739DD02625D2CF9500177C49 /* LST.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LST.swift; sourceTree = "<group>"; };
 		739F03AB25A87F49001826F8 /* Share_iOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Share_iOS.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		739F03AD25A87F49001826F8 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		739F03B025A87F49001826F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -624,6 +625,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				739DD01125D2CF5D00177C49 /* XPList in Frameworks */,
 				735D4CF3258F54390016F904 /* Localize.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -669,7 +671,6 @@
 				736F67A325C19822006896DF /* CloudKit.framework in Frameworks */,
 				7399BB172582537500B8CAFD /* Stylize.framework in Frameworks */,
 				735D4CD9258F502E0016F904 /* Browse.framework in Frameworks */,
-				73F8B36F25BD677C001A6A09 /* XPList in Frameworks */,
 				7399BB572584399C00B8CAFD /* Localize.framework in Frameworks */,
 				73A3DEEC257BC184002EDEB4 /* Snapshot.framework in Frameworks */,
 				DBDCB3A6256BEC5B00D005F6 /* Datum.framework in Frameworks */,
@@ -683,7 +684,6 @@
 				736F67A525C19979006896DF /* CloudKit.framework in Frameworks */,
 				73A3DEF6257BC18B002EDEB4 /* Snapshot.framework in Frameworks */,
 				735D4CDD258F50350016F904 /* Browse.framework in Frameworks */,
-				73F8B37B25BD6790001A6A09 /* XPList in Frameworks */,
 				7399BB66258439BD00B8CAFD /* Stylize.framework in Frameworks */,
 				DBDCB3B0256BEC6400D005F6 /* Datum.framework in Frameworks */,
 				7399BB5B258439A900B8CAFD /* Localize.framework in Frameworks */,
@@ -800,6 +800,7 @@
 				736C2F7925ABE01A00608F2B /* TB.swift */,
 				736C2F8525AC836700608F2B /* BTN.swift */,
 				736878BA25B256C000D158A4 /* LBL.swift */,
+				739DD02625D2CF9500177C49 /* LST.swift */,
 			);
 			path = Stylize;
 			sourceTree = "<group>";
@@ -1180,6 +1181,9 @@
 				735D4CF6258F54390016F904 /* PBXTargetDependency */,
 			);
 			name = Stylize;
+			packageProductDependencies = (
+				739DD01025D2CF5D00177C49 /* XPList */,
+			);
 			productName = Stylize;
 			productReference = 7399BAA9258251A500B8CAFD /* Stylize.framework */;
 			productType = "com.apple.product-type.framework";
@@ -1282,7 +1286,6 @@
 			);
 			name = "Hipstapaper (iOS)";
 			packageProductDependencies = (
-				73F8B36E25BD677C001A6A09 /* XPList */,
 			);
 			productName = "Hipstapaper (iOS)";
 			productReference = DBDCB343256BE8E700D005F6 /* Hipstapaper.app */;
@@ -1310,7 +1313,6 @@
 			);
 			name = "Hipstapaper (macOS)";
 			packageProductDependencies = (
-				73F8B37A25BD6790001A6A09 /* XPList */,
 			);
 			productName = "Hipstapaper (macOS)";
 			productReference = DBDCB34B256BE8E700D005F6 /* Hipstapaper.app */;
@@ -1606,6 +1608,7 @@
 				736C2F9225ADAFF400608F2B /* TB+Presentable.swift in Sources */,
 				DB79745525832A4E0040E663 /* CRN.swift in Sources */,
 				73DFC99425AF24300041F555 /* ACTN.swift in Sources */,
+				739DD02725D2CF9500177C49 /* LST.swift in Sources */,
 				73C6BC1D25982FA0006B7A6D /* MDL.swift in Sources */,
 				DB79744C2582F3440040E663 /* TXTFLD.swift in Sources */,
 				73DFCA5825B13C3D0041F555 /* CLR.swift in Sources */,
@@ -2946,12 +2949,7 @@
 			package = 7302C8F025745E1100DA6614 /* XCRemoteSwiftPackageReference "JSBServerlessLogger" */;
 			productName = ServerlessLogger;
 		};
-		73F8B36E25BD677C001A6A09 /* XPList */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 73F8B36D25BD677C001A6A09 /* XCRemoteSwiftPackageReference "XPList" */;
-			productName = XPList;
-		};
-		73F8B37A25BD6790001A6A09 /* XPList */ = {
+		739DD01025D2CF5D00177C49 /* XPList */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 73F8B36D25BD677C001A6A09 /* XCRemoteSwiftPackageReference "XPList" */;
 			productName = XPList;
