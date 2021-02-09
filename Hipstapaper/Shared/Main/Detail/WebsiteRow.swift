@@ -47,7 +47,6 @@ struct WebsiteRow: View {
                 .frame(width: 60)
         }
         .frame(minHeight: 60)
-        .animation(nil)
     }
 }
 
