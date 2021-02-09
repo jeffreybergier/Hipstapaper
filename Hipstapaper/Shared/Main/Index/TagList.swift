@@ -48,7 +48,6 @@ struct TagList<Nav: View>: View {
                 ForEach(Query.Filter.anyTag_allCases, id: \.self) { item in
                     NavigationLink(destination: self.navigation(item)) {
                         TagRow(item: item)
-                            .animation(nil)
                     }
                 }
             }
