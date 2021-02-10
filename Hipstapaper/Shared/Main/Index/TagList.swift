@@ -48,6 +48,7 @@ struct TagList<Nav: View>: View {
                 ForEach(Query.Filter.anyTag_allCases, id: \.self) { item in
                     NavigationLink(destination: self.navigation(item)) {
                         TagRow(item: item)
+                            .environment(\.XPL_isSelected, self.selection == item)
                     }
                 }
             }
@@ -58,6 +59,7 @@ struct TagList<Nav: View>: View {
                 ForEach(self.dataSource.data, id: \.self) { item in
                     NavigationLink(destination: self.navigation(item)) {
                         TagRow(item: item)
+                            .environment(\.XPL_isSelected, self.selection == item)
                             .modifier(TagMenu(selection: item))
                     }
                 }

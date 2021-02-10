@@ -55,9 +55,13 @@ extension STZ.CLR {
         }
         @ViewBuilder public func body(content: Content) -> some View {
             if let selectable = self.colorable as? Selectable.Type {
-                content.foregroundColor(selectable.apply(self.isFallback, self.isSelected))
+                content
+                    .onPreferenceChange(STZ.isFallbackKey.self, perform: { self.isFallback = $0 })
+                    .foregroundColor(selectable.apply(self.isFallback, self.isSelected))
             } else if let fallbackable = self.colorable as? Fallbackable.Type {
-                content.foregroundColor(fallbackable.apply(self.isFallback))
+                content
+                    .onPreferenceChange(STZ.isFallbackKey.self, perform: { self.isFallback = $0 })
+                    .foregroundColor(fallbackable.apply(self.isFallback))
             } else {
                 content.foregroundColor(self.colorable.color)
             }
@@ -72,9 +76,13 @@ extension STZ.CLR {
         }
         @ViewBuilder public func body(content: Content) -> some View {
             if let selectable = self.colorable as? Selectable.Type {
-                content.background(selectable.apply(self.isFallback, self.isSelected))
+                content
+                    .onPreferenceChange(STZ.isFallbackKey.self, perform: { self.isFallback = $0 })
+                    .background(selectable.apply(self.isFallback, self.isSelected))
             } else if let fallbackable = self.colorable as? Fallbackable.Type {
-                content.background(fallbackable.apply(self.isFallback))
+                content
+                    .onPreferenceChange(STZ.isFallbackKey.self, perform: { self.isFallback = $0 })
+                    .background(fallbackable.apply(self.isFallback))
             } else {
                 content.background(self.colorable.color)
             }
@@ -89,9 +97,13 @@ extension STZ.CLR {
         }
         @ViewBuilder public var body: some View {
             if let selectable = self.colorable as? Selectable.Type {
-                selectable.apply(self.isFallback, self.isSelected)
+                selectable
+                    .apply(self.isFallback, self.isSelected)
+                    .onPreferenceChange(STZ.isFallbackKey.self, perform: { self.isFallback = $0 })
             } else if let fallbackable = self.colorable as? Fallbackable.Type {
-                fallbackable.apply(self.isFallback)
+                fallbackable
+                    .apply(self.isFallback)
+                    .onPreferenceChange(STZ.isFallbackKey.self, perform: { self.isFallback = $0 })
             } else {
                 self.colorable.color
             }

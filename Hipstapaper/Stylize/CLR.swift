@@ -28,8 +28,9 @@ import UIKit
 
 extension STZ.CLR {
     public enum IndexRow {
-        public enum Text: Colorable {
+        public enum Text: Fallbackable {
             public static let color = Raw.textTitle
+            public static var fallbackColor = Raw.textTitle_fallback
         }
     }
     public enum IndexSection {
@@ -38,8 +39,11 @@ extension STZ.CLR {
         }
     }
     public enum DetailRow {
-        public enum Text: Colorable {
+        public enum Text: Selectable {
             public static let color = Raw.textTitle
+            public static var fallbackColor = Raw.textTitle_fallback
+            public static var selectedColor = Raw.textTitle_selected
+            public static var fallbackSelectedColor = Raw.textTitle_fallback_selected
         }
     }
     internal enum Thumbnail {
@@ -81,10 +85,10 @@ extension STZ.CLR {
     #endif
     
     fileprivate enum Raw {
-        static fileprivate let textTitle: Color               = STZ.LST.CFG.deselectedForeground
-        static fileprivate let textTitle_Selected: Color      = STZ.LST.CFG.selectedForeground
-        static fileprivate let textTitle_Dark: Color          = STZ.LST.CFG.deselectedForeground
-        static fileprivate let textTitle_Selected_Dark: Color = STZ.LST.CFG.selectedForeground
+        static fileprivate let textTitle: Color                   = STZ.LST.CFG.deselectedForeground
+        static fileprivate let textTitle_fallback: Color          = STZ.LST.CFG.deselectedForeground.opacity(0.5)
+        static fileprivate let textTitle_selected: Color          = STZ.LST.CFG.selectedForeground
+        static fileprivate let textTitle_fallback_selected: Color = STZ.LST.CFG.selectedForeground.opacity(0.5)
         static fileprivate let thumbnailPlaceholder = Color(.sRGB, white: 0.95, opacity: 1.0)
         static fileprivate let thumbnailPlaceholder_Dark = Color(.sRGB, white: 0.2, opacity: 1.0)
         static fileprivate let numberCircleBackground = Color(.sRGB, white: 0.75, opacity: 1.0)
