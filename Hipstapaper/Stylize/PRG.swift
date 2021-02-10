@@ -34,11 +34,9 @@ extension STZ.PRG {
         if let progress = progress {
             ProgressView(progress)
                 .progressViewStyle(CircularProgressViewStyle())
-                .scaleEffect(x: 1, y: 0.5, anchor: .center)
         } else {
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle())
-                .scaleEffect(x: 0.5, y: 0.5, anchor: .center)
         }
     }
 }
