@@ -21,6 +21,16 @@
 
 import SwiftUI
 
+public protocol Sizeable {
+    static var size: CGFloat { get }
+}
+
+extension Sizeable {
+    public static func apply() -> STZ.CRN.Modifier {
+        .init(radius: self.size)
+    }
+}
+
 extension STZ {
     public enum CRN {
         public struct Modifier: ViewModifier {
@@ -32,14 +42,14 @@ extension STZ {
                 self.radius = radius
             }
         }
-        public static func small() -> Modifier {
-            .init(radius: 4)
+        public enum Small: Sizeable {
+            public static let size: CGFloat = 4
         }
-        public static func medium() -> Modifier {
-            .init(radius: 8)
+        public enum Medium: Sizeable {
+            public static let size: CGFloat = 8
         }
-        public static func large() -> Modifier {
-            .init(radius: 16)
+        public enum Large: Sizeable {
+            public static let size: CGFloat = 16
         }
     }
 }

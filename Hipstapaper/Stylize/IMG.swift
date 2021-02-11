@@ -37,12 +37,12 @@ extension Imagable {
     @ViewBuilder public static func thumbnail(_ data: Data? = nil) -> some View {
         if let image = data?.imageValue {
             image
-                .modifier(STZ.CRN.small())
+                .modifier(STZ.CRN.Small.apply())
                 .aspectRatio(1, contentMode: .fit)
         } else {
             self.image
                 .modifier(Thumbnail())
-                .modifier(STZ.CRN.small())
+                .modifier(STZ.CRN.Small.apply())
                 .aspectRatio(1, contentMode: .fit)
         }
     }

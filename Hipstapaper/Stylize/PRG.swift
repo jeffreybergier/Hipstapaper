@@ -29,13 +29,18 @@ extension STZ.PRG {
     /// Stylized Progress View
     /// - Parameters:
     ///   - progress: NSProgress object used to fill the progress bar
-    ///   - height: Height of progress view. Default = 6
-    ///   - isEdgeToEdge: If `NO`, the bar has rounded corner radius.
+    ///   - height: Height of progress view. Default = STZ.CRN.Medium
+    ///   - isEdgeToEdge: If `NO`, the bar has rounded corner radius. Default = `YES`
     /// - Returns: ProgressView
-    public static func Bar(_ progress: Progress, height: CGFloat = 6, isEdgeToEdge: Bool) -> some View {
+    public static func Bar(_ progress: Progress,
+                           height: Sizeable.Type = STZ.CRN.Medium.self,
+                           isEdgeToEdge: Bool = true)
+                           -> some View
+    {
         return ProgressView(progress)
             .progressViewStyle(LinearStyle(height: height, isEdgeToEdge: isEdgeToEdge))
     }
+    
     @ViewBuilder public static func Spin(_ progress: Progress?) -> some View {
         if let progress = progress {
             ProgressView(progress)
@@ -45,12 +50,45 @@ extension STZ.PRG {
                 .progressViewStyle(CircularProgressViewStyle())
         }
     }
+    
+    public struct BarMod: ViewModifier {
+        private let progress: Progress
+        private let isVisible: Bool
+        private let height: Sizeable.Type
+        private let isEdgeToEdge: Bool
+        
+        /// Adds a Bar style progress view on top of the modified view
+        /// - Parameters:
+        ///   - progress: NSProgress object used to fill the progress bar
+        ///   - isVisible: Causes the bar to disappear
+        ///   - height: Height of progress view. Default = STZ.CRN.Medium
+        ///   - isEdgeToEdge: If `NO`, the bar has rounded corner radius. Default = `YES`
+        public init(progress: Progress,
+                    isVisible: Bool,
+                    height: Sizeable.Type = STZ.CRN.Medium.self,
+                    isEdgeToEdge: Bool = true)
+        {
+            self.progress = progress
+            self.isVisible = isVisible
+            self.height = height
+            self.isEdgeToEdge = isEdgeToEdge
+        }
+        
+        public func body(content: Content) -> some View {
+            ZStack(alignment: .top) {
+                content
+                Bar(self.progress, height: self.height, isEdgeToEdge: self.isEdgeToEdge)
+                    .opacity(self.isVisible ? 1 : 0)
+                    .animation(.default)
+            }
+        }
+    }
 }
 
 extension STZ.PRG {
     internal struct LinearStyle: ProgressViewStyle {
         
-        let height: CGFloat
+        let height: Sizeable.Type
         let isEdgeToEdge: Bool
         
         func makeBody(configuration config: Configuration) -> some View {
@@ -61,8 +99,8 @@ extension STZ.PRG {
                         .frame(width: self.width(config, geo))
                         .animation(.default)
                 }
-                .frame(height: self.height)
-                .cornerRadius(self.isEdgeToEdge ? 0 : self.height / 2)
+                .frame(height: self.height.size)
+                .cornerRadius(self.isEdgeToEdge ? 0 : self.height.size / 2)
             }
         }
         private func width(_ configuration: Configuration, _ proxy: GeometryProxy) -> CGFloat {
