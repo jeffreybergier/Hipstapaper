@@ -27,6 +27,9 @@ import UIKit
 #endif
 
 extension STZ.CLR {
+    public enum Window: Colorable {
+        public static var color = Raw.window
+    }
     public enum IndexRow {
         public enum Text: Fallbackable {
             public static let color = Raw.textTitle
@@ -102,10 +105,12 @@ extension STZ.CLR {
         static fileprivate let thumbnailPlaceholder   = Color(NSColor.windowBackgroundColor)
         static fileprivate let numberCircleBackground = Color(NSColor.underPageBackgroundColor)
         static fileprivate let progressBackground     = Color(NSColor.windowBackgroundColor)
+        static fileprivate let window                 = Color(NSColor.windowBackgroundColor)
         #else
         static fileprivate let thumbnailPlaceholder   = Color(UIColor.tertiarySystemFill)
         static fileprivate let numberCircleBackground = Color(UIColor.systemFill)
         static fileprivate let progressBackground     = Color(UIColor.systemFill)
+        static fileprivate let window                 = Color(UIColor.systemBackground)
         #endif
     }
 }

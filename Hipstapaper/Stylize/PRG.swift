@@ -91,16 +91,25 @@ extension STZ.PRG {
         let height: Sizeable.Type
         let isEdgeToEdge: Bool
         
+        private var cornerRadius: CGFloat {
+            self.isEdgeToEdge ? 0 : 100000
+        }
+        
         func makeBody(configuration config: Configuration) -> some View {
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
-                    STZ.CLR.Progress.Background.view()
-                    STZ.CLR.Progress.Foreground.view()
+                    // Second view is to put solid background
+                    // Setting it with .background left non-rounded corners on mac
+                    RoundedRectangle(cornerRadius: self.cornerRadius)
+                        .modifier(STZ.CLR.Window.foreground())
+                    RoundedRectangle(cornerRadius: self.cornerRadius)
+                        .modifier(STZ.CLR.Progress.Background.foreground())
+                    RoundedRectangle(cornerRadius: self.cornerRadius)
+                        .modifier(STZ.CLR.Progress.Foreground.foreground())
                         .frame(width: self.width(config, geo))
                         .animation(.default)
                 }
                 .frame(height: self.height.size)
-                .cornerRadius(self.isEdgeToEdge ? 0 : self.height.size / 2)
             }
         }
         private func width(_ configuration: Configuration, _ proxy: GeometryProxy) -> CGFloat {
