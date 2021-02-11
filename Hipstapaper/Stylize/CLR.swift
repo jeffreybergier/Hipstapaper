@@ -85,13 +85,13 @@ extension STZ.CLR {
     #endif
     
     fileprivate enum Raw {
-        static fileprivate let textTitle: Color                   = STZ.LST.CFG.deselectedForeground
-        static fileprivate let textTitle_fallback: Color          = STZ.LST.CFG.deselectedForeground.opacity(0.5)
-        static fileprivate let textTitle_selected: Color          = STZ.LST.CFG.selectedForeground
-        static fileprivate let textTitle_fallback_selected: Color = STZ.LST.CFG.selectedForeground.opacity(0.5)
+        static fileprivate let textTitle                   = STZ.LST.CFG.deselectedForeground
+        static fileprivate let textTitle_fallback          = STZ.LST.CFG.deselectedForeground.opacity(0.5)
+        static fileprivate let textTitle_selected          = STZ.LST.CFG.selectedForeground
+        static fileprivate let textTitle_fallback_selected = STZ.LST.CFG.selectedForeground.opacity(0.5)
         #if canImport(AppKit)
-        static fileprivate let thumbnailPlaceholder   = Color(NSColor.separatorColor)
-        static fileprivate let numberCircleBackground = Color(NSColor.separatorColor)
+        static fileprivate let thumbnailPlaceholder   = Color(NSColor.windowBackgroundColor)
+        static fileprivate let numberCircleBackground = Color(NSColor.underPageBackgroundColor)
         #else
         static fileprivate let thumbnailPlaceholder   = Color(UIColor.tertiarySystemFill)
         static fileprivate let numberCircleBackground = Color(UIColor.systemFill)
