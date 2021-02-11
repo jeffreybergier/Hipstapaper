@@ -62,6 +62,14 @@ extension STZ.CLR {
             public static let color = Raw.numberCircleBackground
         }
     }
+    public enum Progress {
+        public enum Foreground: Colorable {
+            public static let color = Raw.progressForeground
+        }
+        public enum Background: Colorable {
+            public static let color = Raw.progressBackground
+        }
+    }
     
     #if os(macOS)
     internal enum MDL {
@@ -89,12 +97,15 @@ extension STZ.CLR {
         static fileprivate let textTitle_fallback          = STZ.LST.CFG.deselectedForeground.opacity(0.5)
         static fileprivate let textTitle_selected          = STZ.LST.CFG.selectedForeground
         static fileprivate let textTitle_fallback_selected = STZ.LST.CFG.selectedForeground.opacity(0.5)
+        static fileprivate let progressForeground          = Color.accentColor
         #if canImport(AppKit)
         static fileprivate let thumbnailPlaceholder   = Color(NSColor.windowBackgroundColor)
         static fileprivate let numberCircleBackground = Color(NSColor.underPageBackgroundColor)
+        static fileprivate let progressBackground     = Color(NSColor.windowBackgroundColor)
         #else
         static fileprivate let thumbnailPlaceholder   = Color(UIColor.tertiarySystemFill)
         static fileprivate let numberCircleBackground = Color(UIColor.systemFill)
+        static fileprivate let progressBackground     = Color(UIColor.systemFill)
         #endif
     }
 }

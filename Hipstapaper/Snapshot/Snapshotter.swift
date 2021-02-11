@@ -41,6 +41,10 @@ public struct Snapshotter: View {
                 ZStack(alignment: .top) {
                     WebView(viewModel: self.viewModel)
                     WebThumbnail(viewModel: self.viewModel)
+                    if self.viewModel.isLoading {
+                        STZ.PRG.Bar(self.viewModel.progress, height: 12, isEdgeToEdge: false)
+                            .modifier(STZ.PDG.Default())
+                    }
                 }
                 .frame(width: 300, height: 300)
                 .modifier(STZ.CRN.medium())

@@ -26,9 +26,15 @@ extension STZ {
 }
 
 extension STZ.PRG {
-    public static func Bar(_ progress: Progress) -> some View {
+    /// Stylized Progress View
+    /// - Parameters:
+    ///   - progress: NSProgress object used to fill the progress bar
+    ///   - height: Height of progress view. Default = 6
+    ///   - isEdgeToEdge: If `NO`, the bar has rounded corner radius.
+    /// - Returns: ProgressView
+    public static func Bar(_ progress: Progress, height: CGFloat = 6, isEdgeToEdge: Bool) -> some View {
         return ProgressView(progress)
-            .progressViewStyle(LinearProgressViewStyle())
+            .progressViewStyle(LinearStyle(height: height, isEdgeToEdge: isEdgeToEdge))
     }
     @ViewBuilder public static func Spin(_ progress: Progress?) -> some View {
         if let progress = progress {
@@ -37,6 +43,30 @@ extension STZ.PRG {
         } else {
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle())
+        }
+    }
+}
+
+extension STZ.PRG {
+    internal struct LinearStyle: ProgressViewStyle {
+        
+        let height: CGFloat
+        let isEdgeToEdge: Bool
+        
+        func makeBody(configuration config: Configuration) -> some View {
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    STZ.CLR.Progress.Background.view()
+                    STZ.CLR.Progress.Foreground.view()
+                        .frame(width: self.width(config, geo))
+                        .animation(.default)
+                }
+                .frame(height: self.height)
+                .cornerRadius(self.isEdgeToEdge ? 0 : self.height / 2)
+            }
+        }
+        private func width(_ configuration: Configuration, _ proxy: GeometryProxy) -> CGFloat {
+            return CGFloat(configuration.fractionCompleted ?? 0) * proxy.size.width
         }
     }
 }
