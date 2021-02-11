@@ -58,18 +58,33 @@ extension STZ.VIEW {
     public struct NumberOval: View {
         public let number: Int
         public var body: some View {
-            ZStack {
-                RoundedRectangle(cornerRadius: 1000) // Setting super large number seems to give desired appearance
-                    .modifier(STZ.CLR.Oval.Background.foreground())
+            Oval {
                 STZ.VIEW.TXT(String(self.number))
                     .modifier(STZ.FNT.Oval.apply())
-                    .modifier(STZ.CLR.Oval.Text.foreground())
-                    .modifier(STZ.PDG.Oval())
-                    .layoutPriority(1)
             }
         }
         public init(_ number: Int) {
             self.number = number
+        }
+    }
+    public struct Oval<Child: View>: View {
+        private let childBuilder: () -> Child
+        public init(@ViewBuilder _ builder: @escaping () -> Child) {
+            self.childBuilder = builder
+        }
+        public var body: some View {
+            ZStack {
+                // Second view is to put solid background
+                // Setting it with .background left non-rounded corners on mac
+                RoundedRectangle(cornerRadius: 1000)
+                    .modifier(STZ.CLR.Window.foreground())
+                RoundedRectangle(cornerRadius: 1000) // Setting super large number seems to give desired appearance
+                    .modifier(STZ.CLR.Oval.Background.foreground())
+                self.childBuilder()
+                    .modifier(STZ.PDG.Oval())
+                    .modifier(STZ.CLR.Oval.Text.foreground())
+                    .layoutPriority(1)
+            }
         }
     }
 }

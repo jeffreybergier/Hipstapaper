@@ -144,6 +144,8 @@
 		73AFCBE925B31E6100832F31 /* DetailToolbar_iPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AFCBE825B31E6100832F31 /* DetailToolbar_iPad.swift */; };
 		73AFCBF525B3280200832F31 /* DetailToolbar_iPhone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AFCBF425B3280200832F31 /* DetailToolbar_iPhone.swift */; };
 		73B4D18A259C858C00B8E6A6 /* Toolbar_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73B4D189259C858C00B8E6A6 /* Toolbar_macOS.swift */; };
+		73BFB62425D5746B0030C2DA /* SyncIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BFB62325D5746B0030C2DA /* SyncIndicator.swift */; };
+		73BFB62525D5746B0030C2DA /* SyncIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73BFB62325D5746B0030C2DA /* SyncIndicator.swift */; };
 		73C274B025A98EBE0028FE3A /* WKWebview+Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C274AF25A98EBD0028FE3A /* WKWebview+Snapshot.swift */; };
 		73C274D025A9D9AC0028FE3A /* AppExtensionStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C274CF25A9D9AC0028FE3A /* AppExtensionStorage.swift */; };
 		73C2751A25A9FB300028FE3A /* DropboxWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C2751925A9FB300028FE3A /* DropboxWatcher.swift */; };
@@ -544,6 +546,7 @@
 		73AFCBE825B31E6100832F31 /* DetailToolbar_iPad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailToolbar_iPad.swift; sourceTree = "<group>"; };
 		73AFCBF425B3280200832F31 /* DetailToolbar_iPhone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailToolbar_iPhone.swift; sourceTree = "<group>"; };
 		73B4D189259C858C00B8E6A6 /* Toolbar_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar_macOS.swift; sourceTree = "<group>"; };
+		73BFB62325D5746B0030C2DA /* SyncIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncIndicator.swift; sourceTree = "<group>"; };
 		73C274AF25A98EBD0028FE3A /* WKWebview+Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebview+Snapshot.swift"; sourceTree = "<group>"; };
 		73C274CF25A9D9AC0028FE3A /* AppExtensionStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppExtensionStorage.swift; sourceTree = "<group>"; };
 		73C274DB25A9DA440028FE3A /* Hipstapaper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper.entitlements; sourceTree = "<group>"; };
@@ -903,6 +906,7 @@
 				735D4C93258F1E2F0016F904 /* AddTag.swift */,
 				73466982259F4DA20001E7C9 /* Sort.swift */,
 				7350B37C25C4274300C61716 /* SyncMonitor.swift */,
+				73BFB62325D5746B0030C2DA /* SyncIndicator.swift */,
 				73FFA2A825CEAE8D00BC78BB /* DeleteAlert.swift */,
 				736DD3E12587905D00F0FBE0 /* TagApply */,
 			);
@@ -1670,6 +1674,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73BFB62425D5746B0030C2DA /* SyncIndicator.swift in Sources */,
 				73A3DE7825792604002EDEB4 /* DetailToolbar.swift in Sources */,
 				73FFA2C325CEC7D100BC78BB /* TagMenu.swift in Sources */,
 				73C6BD1E259C0530006B7A6D /* WindowManagerProtocol.swift in Sources */,
@@ -1719,6 +1724,7 @@
 				73406813257491E600D4A343 /* PreviewsContent.swift in Sources */,
 				73550A8C25B2A7EA00B6FA9F /* ModalPresentable.swift in Sources */,
 				73FFA2B725CEB01A00BC78BB /* TagHelper.swift in Sources */,
+				73BFB62525D5746B0030C2DA /* SyncIndicator.swift in Sources */,
 				73C6BCC5259B5E0D006B7A6D /* WindowPresentation.swift in Sources */,
 				734068332574ED5800D4A343 /* TagList.swift in Sources */,
 				73466984259F4DA20001E7C9 /* Sort.swift in Sources */,

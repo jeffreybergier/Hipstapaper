@@ -42,11 +42,6 @@ extension STZ.TB {
                         self.errorQ.append(self.monitor.errorQ.next()!)
                     }
                 }
-            } else if self.monitor.progress.completedUnitCount == self.monitor.progress.totalUnitCount {
-                STZ.TB.CloudSyncSuccess.toolbar(isEnabled: false, action: {})
-            } else {
-                // TODO: I can't get rid of the extra labels if I actually pass the Progress object
-                STZ.PRG.Spin(nil)
             }
         }
     }

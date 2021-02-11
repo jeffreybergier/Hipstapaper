@@ -50,6 +50,9 @@ extension STZ {
                 public static var font: Font = .caption
             }
         }
+        public enum OvalIndicator: Fontable {
+            public static var font: Font = Font.title
+        }
         public enum Oval: Fontable {
             public static var font: Font = Font.callout.monospacedDigit()
         }
