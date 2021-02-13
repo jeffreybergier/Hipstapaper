@@ -46,13 +46,9 @@ struct SyncIndicator: ViewModifier {
                 .modifier(STZ.PRG.BarMod(progress: self.monitor.progress,
                                          isVisible: self.barIsVisible))
             STZ.VIEW.Oval {
-                if self.monitor.errorQ.isEmpty {
-                    Image(systemName: STZ.TB.CloudSyncSuccess.icon!)
-                        .modifier(STZ.FNT.OvalIndicator.apply())
-                } else {
-                    Image(systemName: STZ.TB.CloudSyncError.icon!)
-                        .modifier(STZ.FNT.OvalIndicator.apply())
-                }
+                self.build()
+                    .modifier(STZ.FNT.OvalIndicator.apply())
+                    .modifier(STZ.CLR.TB.Tint.foreground())
             }
             .modifier(STZ.PDG.Equal())
             .offset(x: 0, y: self.offset)
@@ -70,6 +66,18 @@ struct SyncIndicator: ViewModifier {
                 self.timer = nil
                 self.iconIsVisible = false
             }
+        }
+    }
+    
+    // TODO: remove !
+    // maybe create imagable protocol?
+    @ViewBuilder private func build() -> some View {
+        if self.monitor.errorQ.isEmpty {
+            Image(systemName: STZ.TB.CloudSyncSuccess.icon!)
+        } else if self.barIsVisible {
+            Image(systemName: STZ.TB.CloudSyncInProgress.icon!)
+        } else {
+            Image(systemName: STZ.TB.CloudSyncError.icon!)
         }
     }
 }

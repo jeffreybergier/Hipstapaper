@@ -167,6 +167,12 @@ extension STZ {
             public static let verb: LocalizedStringKey = "iCloud Sync Complete"
             public static let shortcut: KeyboardShortcut? = nil
         }
+        public enum CloudSyncInProgress: Toolbarable {
+            public static let icon: String? = "arrow.clockwise.icloud"
+            public static let phrase: LocalizedStringKey = "iCloud Sync in Progress"
+            public static let verb: LocalizedStringKey = "iCloud Sync in Progress"
+            public static let shortcut: KeyboardShortcut? = nil
+        }
         public enum CloudAccountError: Toolbarable {
             public static let icon: String? = "icloud.slash"
             public static let phrase: LocalizedStringKey = "No iCloud Account"

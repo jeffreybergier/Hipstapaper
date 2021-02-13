@@ -73,6 +73,11 @@ extension STZ.CLR {
             public static let color = Raw.progressBackground
         }
     }
+    public enum TB {
+        public enum Tint: Colorable {
+            public static var color: Color = Raw.toolbarTint
+        }
+    }
     
     #if os(macOS)
     internal enum MDL {
@@ -88,11 +93,6 @@ extension STZ.CLR {
             static let color = Raw.textTitle
         }
     }
-    internal enum TB {
-        internal enum Tint: Colorable {
-            static var color: Color { Color(NSColor.controlAccentColor) }
-        }
-    }
     #endif
     
     fileprivate enum Raw {
@@ -100,10 +100,11 @@ extension STZ.CLR {
         static fileprivate let textTitle_fallback          = STZ.LST.CFG.deselectedForeground.opacity(0.5)
         static fileprivate let textTitle_selected          = STZ.LST.CFG.selectedForeground
         static fileprivate let textTitle_fallback_selected = STZ.LST.CFG.selectedForeground.opacity(0.5)
+        static fileprivate let toolbarTint                 = Color.accentColor
         static fileprivate let progressForeground          = Color.accentColor
         #if canImport(AppKit)
         static fileprivate let thumbnailPlaceholder   = Color(NSColor.windowBackgroundColor)
-        static fileprivate let numberCircleBackground = Color(NSColor.underPageBackgroundColor)
+        static fileprivate let numberCircleBackground = Color(NSColor.windowBackgroundColor)
         static fileprivate let progressBackground     = Color(NSColor.windowBackgroundColor)
         static fileprivate let window                 = Color(NSColor.windowBackgroundColor)
         #else
