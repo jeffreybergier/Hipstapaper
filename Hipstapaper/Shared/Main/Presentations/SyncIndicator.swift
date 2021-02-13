@@ -25,6 +25,7 @@ struct SyncIndicator: ViewModifier {
     
     @ObservedObject var monitor: AnySyncMonitor
     @State private var iconIsVisible = false
+    @State private var timer: Timer?
     
     private var scaleEffect: CGFloat {
         self.iconIsVisible ? 1 : 0.8
@@ -62,7 +63,11 @@ struct SyncIndicator: ViewModifier {
         }
         .onReceive(self.monitor.objectWillChange) { _ in
             self.iconIsVisible = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) {
+            self.timer?.invalidate()
+            self.timer = nil
+            self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) {
+                $0.invalidate()
+                self.timer = nil
                 self.iconIsVisible = false
             }
         }
