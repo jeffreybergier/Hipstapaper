@@ -20,31 +20,36 @@
 import SwiftUI
 
 extension STZ {
-    public enum VIEW {
-        public struct isFallBackKey: PreferenceKey {
-            public static var defaultValue: Bool = false
-            public static func reduce(value: inout Bool, nextValue: () -> Bool) {
-                value = nextValue()
-            }
+    public enum VIEW {}
+}
+
+extension STZ {
+    public struct isFallbackKey: PreferenceKey {
+        public static var defaultValue: Bool = false
+        public static func reduce(value: inout Bool, nextValue: () -> Bool) {
+            value = nextValue()
         }
     }
 }
 
 extension STZ.VIEW {
-    public static func TXT(_ string: String?, or fallback: LocalizedStringKey) -> some View {
+    @ViewBuilder public static func TXT(_ string: String?, or fallback: LocalizedStringKey) -> some View {
         if let string = string {
-            return Text(string)
-                .preference(key: isFallBackKey.self, value: false)
+            Text(string)
+                .lineLimit(1)
         } else {
-            return Text(fallback)
-                .preference(key: isFallBackKey.self, value: true)
+            Text(fallback)
+                .preference(key: STZ.isFallbackKey.self, value: true)
+                .lineLimit(1)
         }
     }
-    public static func TXT(_ string: String) -> Text {
+    public static func TXT(_ string: String) -> some View {
         return Text(string)
+            .lineLimit(1)
     }
-    public static func TXT(_ localized: LocalizedStringKey) -> Text {
+    public static func TXT(_ localized: LocalizedStringKey) -> some View {
         return Text(localized)
+            .lineLimit(1)
     }
 }
 
@@ -52,18 +57,33 @@ extension STZ.VIEW {
     public struct NumberOval: View {
         public let number: Int
         public var body: some View {
-            ZStack {
-                RoundedRectangle(cornerRadius: 1000) // Setting super large number seems to give desired appearance
-                    .modifier(STZ.CLR.Oval.Background.foreground())
+            Oval {
                 STZ.VIEW.TXT(String(self.number))
                     .modifier(STZ.FNT.Oval.apply())
-                    .modifier(STZ.CLR.Oval.Text.foreground())
-                    .modifier(STZ.PDG.Oval())
-                    .layoutPriority(1)
             }
         }
         public init(_ number: Int) {
             self.number = number
+        }
+    }
+    public struct Oval<Child: View>: View {
+        private let childBuilder: () -> Child
+        public init(@ViewBuilder _ builder: @escaping () -> Child) {
+            self.childBuilder = builder
+        }
+        public var body: some View {
+            ZStack {
+                // Second view is to put solid background
+                // Setting it with .background left non-rounded corners on mac
+                RoundedRectangle(cornerRadius: 1000)
+                    .modifier(STZ.CLR.Window.foreground())
+                RoundedRectangle(cornerRadius: 1000) // Setting super large number seems to give desired appearance
+                    .modifier(STZ.CLR.Oval.Background.foreground())
+                self.childBuilder()
+                    .modifier(STZ.PDG.Oval())
+                    .modifier(STZ.CLR.Oval.Text.foreground())
+                    .layoutPriority(1)
+            }
         }
     }
 }

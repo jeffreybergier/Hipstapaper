@@ -93,15 +93,15 @@ extension STZ.ERR {
 
 extension Alert {
     fileprivate init(error: LocalizedError, dismissAction: Action?) {
-        self.init(title: STZ.VIEW.TXT(Noun.Error),
-                  message: STZ.VIEW.TXT(error.errorDescription!),
-                  dismissButton: .default(STZ.VIEW.TXT(Verb.Dismiss),
+        self.init(title: Text(Noun.Error),
+                  message: Text(error.errorDescription!),
+                  dismissButton: .default(Text(Verb.Dismiss),
                                           action: { dismissAction?() }))
     }
     fileprivate init(error: LocalizedError, dismissAction: STZ.ERR.Legacy.Action?) {
-        self.init(title: STZ.VIEW.TXT(Noun.Error),
-                  message: STZ.VIEW.TXT(error.errorDescription!),
-                  dismissButton: .default(STZ.VIEW.TXT(Verb.Dismiss),
+        self.init(title: Text(Noun.Error),
+                  message: Text(error.errorDescription!),
+                  dismissButton: .default(Text(Verb.Dismiss),
                                           action: { dismissAction?(error) }))
     }
 }

@@ -33,7 +33,6 @@ struct FormLoading: View {
                 .disabled(true)
             STZ.VIEW.TXTFLD.WebURL.textfield(self.$viewModel.output.currentURLString)
                 .disabled(true)
-            STZ.PRG.Bar(self.viewModel.progress)
         }
     }
 }

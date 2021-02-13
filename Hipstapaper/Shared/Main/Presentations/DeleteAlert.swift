@@ -31,9 +31,9 @@ struct WebsiteDelete: ViewModifier {
         content.alert(item: self.$modalPresentation.isDeleteWebsite) { selection in
             Alert(
                 // TODO: Localized and fix this
-                title: STZ.VIEW.TXT("Delete \(selection.count) Website(s)"),
-                message: STZ.VIEW.TXT("This action cannot be undone."),
-                primaryButton: .destructive(STZ.VIEW.TXT("Delete"),
+                title: Text("Delete \(selection.count) Website(s)"),
+                message: Text("This action cannot be undone."),
+                primaryButton: .destructive(Text("Delete"),
                                             action: { WH.delete(selection, self.controller, self.errorQ) }),
                 secondaryButton: .cancel()
             )
@@ -51,9 +51,9 @@ struct TagDelete: ViewModifier {
         content.alert(item: self.$modalPresentation.isDeleteTag) { selection in
             Alert(
                 // TODO: Localized and fix this
-                title: STZ.VIEW.TXT("Delete Tag"),
-                message: STZ.VIEW.TXT("This action cannot be undone."),
-                primaryButton: .destructive(STZ.VIEW.TXT("Delete"),
+                title: Text("Delete Tag"),
+                message: Text("This action cannot be undone."),
+                primaryButton: .destructive(Text("Delete"),
                                             action: { TH.delete(selection, self.controller, self.errorQ) }),
                 secondaryButton: .cancel()
             )

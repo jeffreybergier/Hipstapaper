@@ -33,18 +33,18 @@ struct WebsiteList: View {
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     @EnvironmentObject private var windowPresentation: WindowPresentation
     @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
-    @Environment(\.openURL) private var externalPresentation
     
     var body: some View {
-        XPL.List(data: self.dataSource.data,
-                 selection: self.$selection,
-                 open: self.open,
-                 menu: self.contextMenu)
+        XPL1.List(data: self.dataSource.data,
+                  selection: self.$selection,
+                  open: self.open,
+                  menu: self.menu)
         { item in
             WebsiteRow(item: item)
         }
-        .animation(.default)
+        .modifier(SyncIndicator(monitor: self.dataSource.controller.syncMonitor))
         .modifier(WebsiteListTitle(query: self.dataSource.query))
+        // TODO: Fix the choppy EditMode animation caused by overly complex toolbars
         .modifier(DetailToolbar.Shared(controller: self.dataSource.controller,
                                        selection: self.$selection,
                                        query: self.$dataSource.query))
@@ -54,7 +54,7 @@ struct WebsiteList: View {
 }
 
 extension WebsiteList {
-    private func open(_ items: Set<AnyElementObserver<AnyWebsite>>) {
+    private func open(_ items: WH.Selection) {
         if self.windowPresentation.features.contains([.bulkActivation, .multipleWindows]) {
             let validURLs = Set(items.compactMap({ $0.value.preferredURL }))
             self.windowPresentation.show(validURLs, error: { _ in })
@@ -63,36 +63,8 @@ extension WebsiteList {
             self.modalPresentation.value = .browser(validItem)
         }
     }
-    
-    @ViewBuilder private func contextMenu(_ selection: Set<AnyElementObserver<AnyWebsite>>) -> some View {
-        STZ.VIEW.TXT("\(selection.count) selected")
-        Group {
-            STZ.TB.OpenInApp.context(isEnabled: WH.canOpen(selection, in: self.windowPresentation)) {
-                guard let fail = WH.open(selection, in: self.windowPresentation, self.errorQ) else { return }
-                self.modalPresentation.value = .browser(fail)
-            }
-            STZ.TB.OpenInBrowser.context(isEnabled: WH.canOpen(selection, in: self.windowPresentation),
-                                         action: { WH.open(selection, in: self.externalPresentation) })
-        }
-        Group {
-            STZ.TB.Archive.context(isEnabled: WH.canArchive(selection),
-                                   action: { WH.archive(selection, self.dataSource.controller, self.errorQ) })
-            STZ.TB.Unarchive.context(isEnabled: WH.canUnarchive(selection),
-                                     action: { WH.unarchive(selection, self.dataSource.controller, self.errorQ) })
-        }
-        Group {
-            STZ.TB.Share.context(isEnabled: WH.canShare(selection)) {
-                self.modalPresentation.value = .share(selection)
-            }
-            STZ.TB.TagApply.context(isEnabled: WH.canTag(selection)) {
-                self.modalPresentation.value = .tagApply(selection)
-            }
-        }
-        Group {
-            STZ.TB.DeleteWebsite.context(isEnabled: WH.canDelete(selection)) {
-                self.modalPresentation.value = .deleteWebsite(selection)
-            }
-        }
+    private func menu(_ items: WH.Selection) -> WebsiteMenu {
+        WebsiteMenu(items, self.dataSource.controller)
     }
 }
 

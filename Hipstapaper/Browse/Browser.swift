@@ -32,10 +32,9 @@ public struct Browser: View {
             WebView(viewModel: self.viewModel)
                 .frame(minWidth: 300, idealWidth: 768, minHeight: 300, idealHeight: 768)
                 .edgesIgnoringSafeArea(.all)
-            if self.viewModel.browserDisplay.isLoading {
-                STZ.PRG.Bar(self.viewModel.browserDisplay.progress)
-                    .opacity(self.viewModel.browserDisplay.isLoading ? 1 : 0)
-            }
+            Color.clear // needed so the progress bar doesn't also ignore safe areas
+                .modifier(STZ.PRG.BarMod(progress: self.viewModel.browserDisplay.progress,
+                                         isVisible: self.viewModel.browserDisplay.isLoading))
         }
         // TODO: Toolbar leaks like crazy on iOS :(
         .modifier(Toolbar(viewModel: self.viewModel))

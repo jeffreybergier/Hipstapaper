@@ -29,6 +29,7 @@ struct TagList<Nav: View>: View {
     typealias Navigation = (AnyElementObserver<AnyTag>) -> Nav
     
     @State private var selection: TH.Selection?
+    @State private var initialSelection = true
     @StateObject private var dataSource: TagDataSource
     @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
 
@@ -45,11 +46,17 @@ struct TagList<Nav: View>: View {
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
-                ForEach(Query.Filter.anyTag_allCases, id: \.self) { item in
-                    NavigationLink(destination: self.navigation(item)) {
-                        TagRow(item: item)
-                            .animation(nil)
-                    }
+                let item0 = Query.Filter.anyTag_allCases[0]
+                let item1 = Query.Filter.anyTag_allCases[1]
+                NavigationLink(destination: self.navigation(item0),
+                               isActive: self.$initialSelection)
+                {
+                    TagRow(item: item0)
+                        .environment(\.XPL_isSelected, self.selection == item0)
+                }
+                NavigationLink(destination: self.navigation(item1)) {
+                    TagRow(item: item1)
+                        .environment(\.XPL_isSelected, self.selection == item1)
                 }
             }
             Section(header: STZ.VIEW.TXT(Noun.Tags)
@@ -59,12 +66,12 @@ struct TagList<Nav: View>: View {
                 ForEach(self.dataSource.data, id: \.self) { item in
                     NavigationLink(destination: self.navigation(item)) {
                         TagRow(item: item)
+                            .environment(\.XPL_isSelected, self.selection == item)
                             .modifier(TagMenu(selection: item))
                     }
                 }
             }
         }
-        .animation(.default)
         .navigationTitle(Noun.Tags)
         .modifier(SidebarStyle())
         .modifier(IndexToolbar(controller: self.dataSource.controller,

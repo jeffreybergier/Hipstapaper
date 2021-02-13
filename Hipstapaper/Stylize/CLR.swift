@@ -26,147 +26,91 @@ import AppKit
 import UIKit
 #endif
 
-public protocol Colorable {
-    static var color: Color { get }
-    static var darkColor: Color { get }
-}
-
-extension Colorable {
-    public static func foreground() -> STZ.CLR.Foreground { .init(self) }
-    public static func background() -> STZ.CLR.Background { .init(self) }
-    public static func view() -> STZ.CLR.Dynamic { .init(self) }
-}
-
-extension STZ {
-    public enum CLR {
-        public struct Foreground: ViewModifier {
-            @Environment(\.colorScheme) private var colorScheme
-            @State private var isFallback = false // set by preference
-            public let colorable: Colorable.Type
-            public func body(content: Content) -> some View {
-                return content
-                    .onPreferenceChange(STZ.VIEW.isFallBackKey.self, perform: { self.isFallback = $0 })
-                    .foregroundColor(self.colorScheme.isNormal
-                                        ? self.colorable.color
-                                        : self.colorable.darkColor)
-                    .opacity(self.isFallback
-                                ? 0.4
-                                : 1.0)
-            }
-            public init(_ colorable: Colorable.Type) {
-                self.colorable = colorable
-            }
-        }
-        public struct Background: ViewModifier {
-            @Environment(\.colorScheme) private var colorScheme
-            public let colorable: Colorable.Type
-            public func body(content: Content) -> some View {
-                return content
-                    .background(self.colorScheme.isNormal
-                                    ? self.colorable.color
-                                    : self.colorable.darkColor)
-            }
-            public init(_ colorable: Colorable.Type) {
-                self.colorable = colorable
-            }
-        }
-        public struct Dynamic: View {
-            @Environment(\.colorScheme) private var colorScheme
-            public let colorable: Colorable.Type
-            public var body: Color {
-                self.colorScheme.isNormal
-                    ? self.colorable.color
-                    : self.colorable.darkColor
-            }
-            public init(_ colorable: Colorable.Type) {
-                self.colorable = colorable
-            }
-        }
-        public enum IndexRow {
-            public enum Text: Colorable {
-                public static let color = Raw.textTitle
-                public static let darkColor = Raw.textTitle_Dark
-            }
-        }
-        public enum IndexSection {
-            public enum Text: Colorable {
-                public static let color = Raw.textTitle
-                public static let darkColor = Raw.textTitle_Dark
-            }
-        }
-        public enum DetailRow {
-            public enum Text: Colorable {
-                public static let color = Raw.textTitle
-                public static let darkColor = Raw.textTitle_Dark
-            }
-        }
-        internal enum Thumbnail {
-            public enum Icon: Colorable {
-                public static let color = Raw.textTitle
-                public static let darkColor = Raw.textTitle_Dark
-            }
-            public enum Background: Colorable {
-                public static let color = Raw.thumbnailPlaceholder
-                public static let darkColor = Raw.thumbnailPlaceholder_Dark
-            }
-        }
-        public enum Oval {
-            public enum Text: Colorable {
-                public static let color = Raw.textTitle
-                public static let darkColor = Raw.textTitle_Dark
-            }
-            public enum Background: Colorable {
-                public static let color = Raw.numberCircleBackground
-                public static let darkColor = Raw.numberCircleBackground_Dark
-            }
-        }
-        
-        #if os(macOS)
-        internal enum MDL {
-            internal enum Title: Colorable {
-                static let color = Raw.textTitle
-                static let darkColor = Raw.textTitle_Dark
-            }
-        }
-        internal enum ACTN {
-            internal enum Body: Colorable {
-                static let color = Raw.textTitle
-                static let darkColor = Raw.textTitle_Dark
-            }
-            internal enum Button: Colorable {
-                static let color = Raw.textTitle
-                static let darkColor = Raw.textTitle_Dark
-            }
-        }
-        internal enum TB {
-            internal enum Tint: Colorable {
-                static var color: Color { Color(NSColor.controlAccentColor) }
-                static var darkColor: Color { Color(NSColor.controlAccentColor) }
-            }
-        }
-        #endif
-        
-        fileprivate enum Raw {
-            static fileprivate let textTitle: Color  = .black
-            static fileprivate let textTitle_Dark: Color   = .white
-            static fileprivate let thumbnailPlaceholder = Color(.sRGB, white: 0.95, opacity: 1.0)
-            static fileprivate let thumbnailPlaceholder_Dark = Color(.sRGB, white: 0.2, opacity: 1.0)
-            static fileprivate let numberCircleBackground = Color(.sRGB, white: 0.75, opacity: 1.0)
-            static fileprivate let numberCircleBackground_Dark = Color(.sRGB, white: 0.2, opacity: 1.0)
+extension STZ.CLR {
+    public enum Window: Colorable {
+        public static var color = Raw.window
+    }
+    public enum IndexRow {
+        public enum Text: Fallbackable {
+            public static let color = Raw.textTitle
+            public static var fallbackColor = Raw.textTitle_fallback
         }
     }
-}
-
-
-extension ColorScheme {
-    fileprivate var isNormal: Bool {
-        switch self {
-        case .dark:
-            return false
-        case .light:
-            fallthrough
-        @unknown default:
-            return true
+    public enum IndexSection {
+        public enum Text: Colorable {
+            public static let color = Raw.textTitle
         }
+    }
+    public enum DetailRow {
+        public enum Text: Selectable {
+            public static let color = Raw.textTitle
+            public static var fallbackColor = Raw.textTitle_fallback
+            public static var selectedColor = Raw.textTitle_selected
+            public static var fallbackSelectedColor = Raw.textTitle_fallback_selected
+        }
+    }
+    internal enum Thumbnail {
+        public enum Icon: Colorable {
+            public static let color = Raw.textTitle
+        }
+        public enum Background: Colorable {
+            public static let color = Raw.thumbnailPlaceholder
+        }
+    }
+    public enum Oval {
+        public enum Text: Colorable {
+            public static let color = Raw.textTitle
+        }
+        public enum Background: Colorable {
+            public static let color = Raw.numberCircleBackground
+        }
+    }
+    public enum Progress {
+        public enum Foreground: Colorable {
+            public static let color = Raw.progressForeground
+        }
+        public enum Background: Colorable {
+            public static let color = Raw.progressBackground
+        }
+    }
+    
+    #if os(macOS)
+    internal enum MDL {
+        internal enum Title: Colorable {
+            static let color = Raw.textTitle
+        }
+    }
+    internal enum ACTN {
+        internal enum Body: Colorable {
+            static let color = Raw.textTitle
+        }
+        internal enum Button: Colorable {
+            static let color = Raw.textTitle
+        }
+    }
+    internal enum TB {
+        internal enum Tint: Colorable {
+            static var color: Color { Color(NSColor.controlAccentColor) }
+        }
+    }
+    #endif
+    
+    fileprivate enum Raw {
+        static fileprivate let textTitle                   = STZ.LST.CFG.deselectedForeground
+        static fileprivate let textTitle_fallback          = STZ.LST.CFG.deselectedForeground.opacity(0.5)
+        static fileprivate let textTitle_selected          = STZ.LST.CFG.selectedForeground
+        static fileprivate let textTitle_fallback_selected = STZ.LST.CFG.selectedForeground.opacity(0.5)
+        static fileprivate let progressForeground          = Color.accentColor
+        #if canImport(AppKit)
+        static fileprivate let thumbnailPlaceholder   = Color(NSColor.windowBackgroundColor)
+        static fileprivate let numberCircleBackground = Color(NSColor.underPageBackgroundColor)
+        static fileprivate let progressBackground     = Color(NSColor.windowBackgroundColor)
+        static fileprivate let window                 = Color(NSColor.windowBackgroundColor)
+        #else
+        static fileprivate let thumbnailPlaceholder   = Color(UIColor.tertiarySystemFill)
+        static fileprivate let numberCircleBackground = Color(UIColor.systemFill)
+        static fileprivate let progressBackground     = Color(UIColor.systemFill)
+        static fileprivate let window                 = Color(UIColor.systemBackground)
+        #endif
     }
 }

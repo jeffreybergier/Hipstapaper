@@ -21,6 +21,7 @@
 
 import CoreData
 import SwiftUI
+import CloudKit
 
 extension CD_Controller: Controller {
 
@@ -309,6 +310,15 @@ internal class CD_Controller {
         container.viewContext.automaticallyMergesChangesFromParent = true
         self.container = container
         
+        // initialize the CloudKit schema
+        // only do this once per change to CD MOM
+        let configureCKSchema = false
+        if configureCKSchema {
+            let container = container as! NSPersistentCloudKitContainer
+            try! container.initializeCloudKitSchema(options: [.printSchema])
+            fatalError("Cannot continue while using: initializeCloudKitSchema")
+        }
+        
         if #available(iOS 14.0, OSX 11.0, *) {
             self.syncMonitor = AnySyncMonitor(CD_SyncMonitor(container))
         } else {
@@ -358,6 +368,14 @@ private class Datum_PersistentContainer: NSPersistentCloudKitContainer {
         let url = CD_Controller.storeDirectoryURL
         log.debug(url)
         return url
+    }
+    
+    override init(name: String, managedObjectModel model: NSManagedObjectModel) {
+        super.init(name: name, managedObjectModel: model)
+        let description = self.persistentStoreDescriptions.first!
+        let id = "iCloud.com.saturdayapps.Hipstapaper"
+        let options = NSPersistentCloudKitContainerOptions(containerIdentifier: id)
+        description.cloudKitContainerOptions = options
     }
 }
 

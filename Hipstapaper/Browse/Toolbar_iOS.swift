@@ -76,49 +76,48 @@ private struct Toolbar_Compact: ViewModifier {
             .navigationTitle(self.viewModel.browserDisplay.title)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(id: "Browser_Compact") {
-            //
-            // Bottom Navigation
-            //
-            ToolbarItem(id: "Browser_Compact.Back", placement: .bottomBar) {
-                TH.goBackButton(self.viewModel)
-            }
-            ToolbarItem(id: "Browser_Compact.Forward", placement: .bottomBar) {
-                TH.goForwardButton(self.viewModel)
-            }
-            ToolbarItem(id: "Browser_Compact.Reload", placement: .bottomBar) {
-                TH.stopReloadButton(self.viewModel)
-            }
-            ToolbarItem(id: "Detail.Separator", placement: .bottomBar) {
-                STZ.TB.Separator.toolbar()
-            }
-            // TODO: LEAKING!
-            ToolbarItem(id: "Browser_Compact.JS", placement: .bottomBar) {
-                TH.jsButton(self.viewModel)
-            }
-            //
-            // Bottom Open in Options
-            //
-            ToolbarItem(id: "Detail.FlexibleSpace", placement: .bottomBar) {
-                Spacer()
-            }
-            ToolbarItem(id: "Browser_Compact.Share", placement: .bottomBar) {
-                STZ.TB.Share.toolbar() {
-                    self.popoverAlignment = .bottomTrailing
-                    self.viewModel.browserDisplay.isSharing = true
+                //
+                // Bottom Navigation
+                //
+                ToolbarItem(id: "Browser_Compact.Back", placement: .bottomBar) {
+                    TH.goBackButton(self.viewModel)
+                }
+                ToolbarItem(id: "Browser_Compact.Forward", placement: .bottomBar) {
+                    TH.goForwardButton(self.viewModel)
+                }
+                ToolbarItem(id: "Detail.Separator", placement: .bottomBar) {
+                    STZ.TB.Separator.toolbar()
+                }
+                ToolbarItem(id: "Browser_Compact.Reload", placement: .bottomBar) {
+                    TH.stopReloadButton(self.viewModel)
+                }
+                ToolbarItem(id: "Detail.FlexibleSpace", placement: .bottomBar) {
+                    Spacer()
+                }
+                // TODO: LEAKING!
+                ToolbarItem(id: "Browser_Compact.OpenInExternal", placement: .bottomBar) {
+                    TH.openExternalButton(self.viewModel, self.openURL)
+                }
+                ToolbarItem(id: "Detail.Separator", placement: .bottomBar) {
+                    STZ.TB.Separator.toolbar()
+                }
+                ToolbarItem(id: "Browser_Compact.Share", placement: .bottomBar) {
+                    STZ.TB.Share.toolbar() {
+                        self.popoverAlignment = .bottomTrailing
+                        self.viewModel.browserDisplay.isSharing = true
+                    }
+                }
+                //
+                // Top bar
+                //
+                // TODO: LEAKING!
+                ToolbarItem(id: "Browser_Compact.JS", placement: .cancellationAction) {
+                    TH.jsButton(self.viewModel)
+                }
+                ToolbarItem(id: "Browser_Compact.Done", placement: .confirmationAction) {
+                    TH.doneButton(self.viewModel)
                 }
             }
-
-            //
-            // Top [Share] - [AddressBar] - [Done]
-            //
-            // TODO: LEAKING!
-            ToolbarItem(id: "Browser_Compact.OpenInExternal", placement: .cancellationAction) {
-                TH.openExternalButton(self.viewModel, self.openURL)
-            }
-            ToolbarItem(id: "Browser_Compact.Done", placement: .confirmationAction) {
-                TH.doneButton(self.viewModel)
-            }
-        }
     }
 }
 
@@ -133,37 +132,37 @@ private struct Toolbar_Regular: ViewModifier {
             .navigationTitle(self.viewModel.browserDisplay.title)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(id: "Browser_Regular") {
-            ToolbarItem(id: "Browser_Regular.Back", placement: .cancellationAction) {
-                TH.goBackButton(self.viewModel)
-            }
-            ToolbarItem(id: "Browser_Regular.Forward", placement: .cancellationAction) {
-                TH.goForwardButton(self.viewModel)
-            }
-            ToolbarItem(id: "Browser_Compact.Reload", placement: .cancellationAction) {
-                TH.stopReloadButton(self.viewModel)
-            }
-            // TODO: LEAKING!
-            ToolbarItem(id: "Browser_Regular.JS", placement: .cancellationAction) {
-                TH.jsButton(self.viewModel)
-            }
-            ToolbarItem(id: "Browser_Regular.AddressBar", placement: .principal) {
-                TH.addressBar(self.$viewModel.browserDisplay.title)
-                    .frame(width: 400) // TODO: Remove hack when toolbar can manage width properly
-            }
-            // TODO: LEAKING!
-            ToolbarItem(id: "Browser_Regular.OpenInExternal", placement: .automatic) {
-                TH.openExternalButton(self.viewModel, self.openURL)
-            }
-            ToolbarItem(id: "Browser_Regular.Share", placement: .automatic) {
-                STZ.TB.Share.toolbar() {
-                    self.popoverAlignment = .topTrailing
-                    self.viewModel.browserDisplay.isSharing = true
+                ToolbarItem(id: "Browser_Regular.Back", placement: .cancellationAction) {
+                    TH.goBackButton(self.viewModel)
+                }
+                ToolbarItem(id: "Browser_Regular.Forward", placement: .cancellationAction) {
+                    TH.goForwardButton(self.viewModel)
+                }
+                ToolbarItem(id: "Browser_Compact.Reload", placement: .cancellationAction) {
+                    TH.stopReloadButton(self.viewModel)
+                }
+                // TODO: LEAKING!
+                ToolbarItem(id: "Browser_Regular.JS", placement: .cancellationAction) {
+                    TH.jsButton(self.viewModel)
+                }
+                ToolbarItem(id: "Browser_Regular.AddressBar", placement: .principal) {
+                    TH.addressBar(self.$viewModel.browserDisplay.title)
+                        .frame(width: 400) // TODO: Remove hack when toolbar can manage width properly
+                }
+                // TODO: LEAKING!
+                ToolbarItem(id: "Browser_Regular.OpenInExternal", placement: .automatic) {
+                    TH.openExternalButton(self.viewModel, self.openURL)
+                }
+                ToolbarItem(id: "Browser_Regular.Share", placement: .automatic) {
+                    STZ.TB.Share.toolbar() {
+                        self.popoverAlignment = .topTrailing
+                        self.viewModel.browserDisplay.isSharing = true
+                    }
+                }
+                ToolbarItem(id: "Browser_Regular.Done", placement: .confirmationAction) {
+                    TH.doneButton(self.viewModel)
                 }
             }
-            ToolbarItem(id: "Browser_Regular.Done", placement: .confirmationAction) {
-                TH.doneButton(self.viewModel)
-            }
-        }
     }
 }
 #endif

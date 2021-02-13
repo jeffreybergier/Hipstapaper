@@ -42,13 +42,16 @@ extension STZ {
         }
         public enum IndexRow {
             public enum Title: Fontable {
-                public static var font: Font = .headline
+                public static var font: Font = Font.body.weight(.medium)
             }
         }
         public enum IndexSection {
             public enum Title: Fontable {
-                public static var font: Font = .subheadline
+                public static var font: Font = .caption
             }
+        }
+        public enum OvalIndicator: Fontable {
+            public static var font: Font = Font.title
         }
         public enum Oval: Fontable {
             public static var font: Font = Font.callout.monospacedDigit()
@@ -58,10 +61,10 @@ extension STZ {
         }
         public enum DetailRow {
             public enum Title: Fontable {
-                public static var font: Font = .headline
+                public static var font: Font = .body
             }
             public enum Subtitle: Fontable {
-                public static var font: Font = .subheadline
+                public static var font: Font = .caption
             }
         }
         public enum Button {

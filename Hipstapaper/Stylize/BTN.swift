@@ -36,28 +36,31 @@ extension Buttonable {
                               action: @escaping Action) -> some View
     {
         context(doneStyle: doneStyle,
-                       isEnabled: isEnabled,
-                       action: action)
+                isEnabled: isEnabled,
+                action: action)
             .modifier(DefaultStyle()) // if this modifier is used on context menu buttons everything breaks
     }
     
-    @ViewBuilder public static func context(doneStyle: Bool = false,
-                                            isEnabled: Bool = true,
-                                            action: @escaping Action)
-                                            -> some View
+    public static func context(doneStyle: Bool = false,
+                               isEnabled: Bool = true,
+                               action: @escaping Action)
+                               -> some View
     {
         Button(action: action) {
-            if let icon = self.icon {
-                Label(self.verb, systemImage: icon)
-                    .modifier(DoneStyle(enabled: doneStyle))
-            } else {
-                STZ.VIEW.TXT(self.verb)
-                    .modifier(DoneStyle(enabled: doneStyle))
-            }
+            self.view()
+                .modifier(DoneStyle(enabled: doneStyle))
         }
         .disabled(!isEnabled)
         .help(self.phrase)
         .modifier(Shortcut(self.shortcut))
+    }
+    
+    @ViewBuilder public static func view() -> some View {
+        if let icon = self.icon {
+            Label(self.verb, systemImage: icon)
+        } else {
+            STZ.VIEW.TXT(self.verb)
+        }
     }
 }
 

@@ -47,6 +47,9 @@ class BrowserWindowController: NSWindowController {
             let vc = NSHostingController(rootView: browser)
             let window = NSWindow(contentViewController: vc)
             window.delegate = self
+            // this does not appear to override the windowFrameAutosave restore
+            window.setFrame(NSRect(x: 0, y: 0, width: 1024, height: 768), display: true)
+            window.center()
             self.window = window
         }
         super.showWindow(sender)
