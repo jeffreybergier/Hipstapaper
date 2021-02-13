@@ -58,6 +58,7 @@ struct SyncIndicator: ViewModifier {
             .scaleEffect(x: self.scaleEffect, y: self.scaleEffect, anchor: .top)
             .opacity(self.opacity)
             .animation(.default)
+            .allowsHitTesting(false)
         }
         .onReceive(self.monitor.objectWillChange) { _ in
             self.iconIsVisible = true
