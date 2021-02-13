@@ -25,7 +25,16 @@ struct SyncIndicator: ViewModifier {
     
     @ObservedObject var monitor: AnySyncMonitor
     @State private var iconIsVisible = false
-        
+    
+    private var scaleEffect: CGFloat {
+        self.iconIsVisible ? 1 : 0.8
+    }
+    private var offset: CGFloat {
+        self.iconIsVisible ? 0 : -15
+    }
+    private var opacity: Double {
+        self.iconIsVisible ? 1 : 0
+    }
     private var barIsVisible: Bool {
         return self.monitor.progress.completedUnitCount < self.monitor.progress.completedUnitCount
     }
@@ -45,9 +54,10 @@ struct SyncIndicator: ViewModifier {
                 }
             }
             .modifier(STZ.PDG.Equal())
-            .offset(x: 0, y: self.iconIsVisible ? 0 : -100)
-            .opacity(self.iconIsVisible ? 1 : 0)
-            .animation(.spring())
+            .offset(x: 0, y: self.offset)
+            .scaleEffect(x: self.scaleEffect, y: self.scaleEffect, anchor: .top)
+            .opacity(self.opacity)
+            .animation(.default)
         }
         .onReceive(self.monitor.objectWillChange) { _ in
             self.iconIsVisible = true
