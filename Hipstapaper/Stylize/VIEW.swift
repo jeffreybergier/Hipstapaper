@@ -33,13 +33,12 @@ extension STZ {
 }
 
 extension STZ.VIEW {
-    public static func TXT(_ string: String?, or fallback: LocalizedStringKey) -> some View {
+    @ViewBuilder public static func TXT(_ string: String?, or fallback: LocalizedStringKey) -> some View {
         if let string = string {
-            return Text(string)
-                .preference(key: STZ.isFallbackKey.self, value: false)
+            Text(string)
                 .lineLimit(1)
         } else {
-            return Text(fallback)
+            Text(fallback)
                 .preference(key: STZ.isFallbackKey.self, value: true)
                 .lineLimit(1)
         }
