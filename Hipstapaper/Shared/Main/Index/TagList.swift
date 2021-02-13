@@ -72,7 +72,6 @@ struct TagList<Nav: View>: View {
                 }
             }
         }
-        .animation(.default)
         .navigationTitle(Noun.Tags)
         .modifier(SidebarStyle())
         .modifier(IndexToolbar(controller: self.dataSource.controller,
