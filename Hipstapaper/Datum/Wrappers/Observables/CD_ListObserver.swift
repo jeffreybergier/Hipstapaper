@@ -37,17 +37,14 @@ internal class CD_ListObserver<Output, Input: NSManagedObject>: NSObject,
     }
 
     // MARK: NSFetchedResultsControllerDelegate
-
-    @objc(controllerWillChangeContent:)
-    internal func controllerWillChangeContent(_ controller: AnyObject) {
+    
+    internal func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         self.objectWillChange.send()
     }
     
-    /// MARK: Testing Only
+    // MARK: Testing Only
     internal var __objectDidChange = ObservableObjectPublisher()
-    
-    @objc(controllerDidChangeContent:)
-    internal func controllerDidChangeContent(_ controller: AnyObject) {
+    internal func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         __objectDidChange.send()
     }
     
