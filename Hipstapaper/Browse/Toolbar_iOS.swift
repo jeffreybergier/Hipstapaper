@@ -47,7 +47,7 @@ internal struct Toolbar_iOS: ViewModifier {
             ZStack(alignment: self.popoverAlignment) {
                 Color.clear.frame(width: 1, height: 1)
                     .popover(isPresented: self.$viewModel.browserDisplay.isSharing) {
-                        STZ.SHR(items: [self.viewModel.originalURL],
+                        STZ.SHR(items: self.viewModel.originalURL.map { [$0] } ?? [],
                                 completion: { self.viewModel.browserDisplay.isSharing = false })
                     }
                 if self.isCompact {

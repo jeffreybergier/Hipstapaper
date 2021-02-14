@@ -36,6 +36,10 @@ public struct Browser: View {
                 .modifier(STZ.PRG.BarMod(progress: self.viewModel.browserDisplay.progress,
                                          isVisible: self.viewModel.browserDisplay.isLoading))
         }
+        .onAppear() {
+            guard self.viewModel.originalURL == nil else { return }
+            self.errorQ.append(Error.loadURL)
+        }
         // TODO: Toolbar leaks like crazy on iOS :(
         .modifier(Toolbar(viewModel: self.viewModel))
         .modifier(STZ.ERR.PresenterB())
@@ -46,7 +50,7 @@ public struct Browser: View {
         _viewModel = .init(wrappedValue: viewModel)
     }
     
-    public init(url: URL, doneAction: (() -> Void)?) {
+    public init(url: URL?, doneAction: (() -> Void)?) {
         _viewModel = .init(wrappedValue: .init(url: url, doneAction: doneAction))
     }
 }

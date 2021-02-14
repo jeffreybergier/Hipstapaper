@@ -14,23 +14,21 @@ import Localize
 
 struct BrowserPresentable: ViewModifier {
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
-    #if os(macOS)
     func body(content: Content) -> some View {
-        content.sheet(item: self.$presentation.isBrowser) { item in
-            // TODO: Do something if preferred URL nil
-            Browser(url: item.value.value.preferredURL!,
-                    doneAction: { self.presentation.value = .none })
+        #if os(macOS)
+        return content.sheet(item: self.$presentation.isBrowser) { item in
+            self.browser(item.value.value.preferredURL)
         }
-    }
-    #else
-    func body(content: Content) -> some View {
-        content.fullScreenCover(item: self.$presentation.isBrowser) { item in
-            // TODO: Do something if preferred URL nil
-            Browser(url: item.value.value.preferredURL!,
-                    doneAction: { self.presentation.value = .none })
+        #else
+        return content.fullScreenCover(item: self.$presentation.isBrowser) { item in
+            self.browser(item.value.value.preferredURL)
         }
+        #endif
     }
-    #endif
+    
+    private func browser(_ url: URL?) -> some View {
+        Browser(url: url, doneAction: { self.presentation.value = .none })
+    }
 }
 
 struct TagApplyPresentable: ViewModifier {
