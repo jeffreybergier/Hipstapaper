@@ -99,5 +99,6 @@ internal class CD_SyncMonitor: SyncMonitor {
     deinit {
         NotificationCenter.default.removeObserver(self, name: self.syncName, object: nil)
         NotificationCenter.default.removeObserver(self, name: self.accountName, object: nil)
+        log.verbose()
     }
 }

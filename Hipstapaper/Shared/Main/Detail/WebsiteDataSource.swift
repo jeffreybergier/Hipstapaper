@@ -52,8 +52,9 @@ class WebsiteDataSource: DataSource {
         self.observer = nil
     }
     
+    #if DEBUG
     deinit {
-        // TODO: Remove this
-        log.emergency()
+        log.verbose()
     }
+    #endif
 }

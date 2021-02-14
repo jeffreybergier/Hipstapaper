@@ -59,8 +59,9 @@ public class ViewModel: ObservableObject {
         self.browserControl.load = originalURL
     }
     
+    #if DEBUG
     deinit {
-        // TODO: Remove once toolbar leaks are fixed
-        print("Browser ViewModel DEINIT")
+        NSLog("DEINIT: Browse ViewModel")
     }
+    #endif
 }

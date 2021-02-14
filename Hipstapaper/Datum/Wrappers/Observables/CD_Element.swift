@@ -44,5 +44,10 @@ internal class CD_Element<Output, Input: NSManagedObject>: ElementObserver {
     func hash(into hasher: inout Hasher) {
         hasher.combine(_value)
     }
-
+    
+    #if DEBUG
+    deinit {
+        log.verbose()
+    }
+    #endif
 }

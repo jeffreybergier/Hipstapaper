@@ -326,10 +326,11 @@ internal class CD_Controller {
         }
     }
     
+    #if DEBUG
     deinit {
-        // TODO: Remove later
-        log.emergency()
+        log.verbose()
     }
+    #endif
 }
 
 extension CD_Controller {

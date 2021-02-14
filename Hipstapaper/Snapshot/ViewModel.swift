@@ -101,8 +101,8 @@ public class ViewModel: ObservableObject {
     }
     
     deinit {
-        // TODO: Remove this print
-        print("DEINIT: Snapshotter ViewModel")
+        // TODO: Change this to logger
+        NSLog("DEINIT: Snapshotter ViewModel")
         self.timer?.invalidate()
         self.kvo.forEach({ $0.invalidate() })
     }

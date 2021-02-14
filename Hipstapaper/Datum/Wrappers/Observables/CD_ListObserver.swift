@@ -50,4 +50,10 @@ internal class CD_ListObserver<Output, Input: NSManagedObject>: NSObject,
     internal func controllerDidChangeContent(_ controller: AnyObject) {
         __objectDidChange.send()
     }
+    
+    #if DEBUG
+    deinit {
+        log.verbose()
+    }
+    #endif
 }

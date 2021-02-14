@@ -43,8 +43,9 @@ class TagDataSource: DataSource {
         self.observer = nil
     }
     
+    #if DEBUG
     deinit {
-        // TODO: Remove later
-        log.emergency()
+        log.verbose()
     }
+    #endif
 }

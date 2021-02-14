@@ -22,9 +22,6 @@ import Stylize
 import Localize
 import Datum
 
-// TODO: Try to replace this with picker
-// https://medium.com/@luca.jon/swiftui-contextmenu-and-menu-for-ios-e01f90e525f6
-
 struct Sort: View {
     
     @Binding var selection: Datum.Sort!
