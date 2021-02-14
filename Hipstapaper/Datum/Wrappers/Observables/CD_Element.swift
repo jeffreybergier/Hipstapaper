@@ -37,12 +37,12 @@ internal class CD_Element<Output, Input: NSManagedObject>: ElementObserver {
         self.objectWillChange = input.objectWillChange
     }
     
-    var hashValue: Int {
-        return self._value.hashValue
-    }
-    
     static func == (lhs: CD_Element<Output, Input>, rhs: CD_Element<Output, Input>) -> Bool {
         return lhs._value == rhs._value
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(_value)
     }
 
 }

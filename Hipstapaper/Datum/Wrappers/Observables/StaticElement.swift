@@ -28,10 +28,9 @@ internal class StaticElement<T: Hashable>: ElementObserver {
     }
     
     internal static func == (lhs: StaticElement<T>, rhs: StaticElement<T>) -> Bool {
-        return lhs.value == rhs.value
+        fatalError("Never Used")
     }
-    
-    internal var hashValue: Int {
-        return self.hashValue
+    internal func hash(into hasher: inout Hasher) {
+        fatalError("Never Used")
     }
 }

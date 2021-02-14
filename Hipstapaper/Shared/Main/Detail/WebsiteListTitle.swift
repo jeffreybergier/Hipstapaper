@@ -47,7 +47,7 @@ fileprivate struct TitleSize: ViewModifier {
     let isLarge: Bool
     @ViewBuilder func body(content: Content) -> some View {
         #if os(macOS)
-        return content
+        content
         #else
         content.navigationBarTitleDisplayMode(self.isLarge ? .large : .inline)
         #endif

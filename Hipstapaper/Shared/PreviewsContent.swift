@@ -105,7 +105,7 @@ class P_Element<T>: ElementObserver {
         self.value = value
     }
     static func == (lhs: P_Element<T>, rhs: P_Element<T>) -> Bool { fatalError() }
-    var hashValue: Int { fatalError() }
+    func hash(into hasher: inout Hasher) { fatalError() }
 }
 
 class P_Controller: Controller {
@@ -126,11 +126,11 @@ class P_Controller: Controller {
         return .success(())
     }
     func createTag(name: String?) -> Result<AnyElementObserver<AnyTag>, Datum.Error>
-    { log.debug("Create Tag: \(name)"); return .success(p_tags.first!) }
+    { log.debug("Create Tag: \(String(describing: name))"); return .success(p_tags.first!) }
     func readTags() -> Result<AnyListObserver<AnyList<AnyElementObserver<AnyTag>>>, Datum.Error>
     { log.debug("Read Tags"); return .success(AnyListObserver(P_Observer(p_tags))) }
     func update(_ tag: AnyElementObserver<AnyTag>, name: Optional<String?>) -> Result<Void, Datum.Error>
-    { log.debug("Update: \(tag) with: \(name)"); return .success(()) }
+    { log.debug("Update: \(tag) with: \(String(describing:name))"); return .success(()) }
     func delete(_ tag: AnyElementObserver<AnyTag>) -> Result<Void, Datum.Error>
     { log.debug("Delete: \(tag)"); return .success(()) }
     func add(tag: AnyElementObserver<AnyTag>, to websites: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Datum.Error>

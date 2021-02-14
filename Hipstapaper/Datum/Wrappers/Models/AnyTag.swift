@@ -30,14 +30,14 @@ public struct AnyTag: Tag {
     public var websitesCount: Int? { _websitesCount() }
     public var dateCreated: Date   { _dateCreated() }
     public var dateModified: Date  { _dateModified() }
-    public var hashValue: Int      { _hashValue() }
+    public func hash(into hasher: inout Hasher) { _hashValue(&hasher) }
 
     private var _id:            () -> ID
     private var _name:          () -> String?
     private var _websitesCount: () -> Int?
     private var _dateCreated:   () -> Date
     private var _dateModified:  () -> Date
-    private var _hashValue:     () -> Int
+    private var _hashValue:     (inout Hasher) -> ()
 
     // TODO: Make this internal
     public let wrappedValue: Any
@@ -48,7 +48,7 @@ public struct AnyTag: Tag {
         _websitesCount = { tag.websitesCount }
         _dateCreated   = { tag.dateCreated }
         _dateModified  = { tag.dateModified }
-        _hashValue     = { tag.hashValue }
+        _hashValue     = tag.hash
         wrappedValue   = tag
     }
     

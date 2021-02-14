@@ -34,7 +34,7 @@ public struct AnyWebsite: Website {
     public var thumbnail:   Data?   { _thumbnail() }
     public var dateCreated: Date    { _dateCreated() }
     public var dateModified: Date   { _dateModified() }
-    public var hashValue: Int       { _hashValue() }
+    public func hash(into hasher: inout Hasher) { _hashValue(&hasher) }
 
     private let _id:           () -> ID
     private let _isArchived:   () -> Bool
@@ -45,7 +45,7 @@ public struct AnyWebsite: Website {
     private let _thumbnail:    () -> Data?
     private var _dateCreated:  () -> Date
     private var _dateModified: () -> Date
-    private var _hashValue:    () -> Int
+    private var _hashValue:   (inout Hasher) -> ()
 
     /// Untyped storage for original database object
     internal let wrappedValue: Any
@@ -60,7 +60,7 @@ public struct AnyWebsite: Website {
         _thumbnail    = { website.thumbnail }
         _dateCreated  = { website.dateCreated }
         _dateModified = { website.dateModified }
-        _hashValue    = { website.hashValue }
+        _hashValue    = website.hash
         wrappedValue  = website
     }
     
