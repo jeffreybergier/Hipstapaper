@@ -76,7 +76,7 @@ struct TagList<Nav: View>: View {
         .modifier(SidebarStyle())
         .modifier(IndexToolbar(controller: self.dataSource.controller,
                                selection: self.$selection))
-        .onAppear() { self.errorQ.append(self.dataSource.activate()) }
+        .onAppear() { self.dataSource.activate(self.errorQ) }
         .onDisappear(perform: self.dataSource.deactivate)
     }
 }

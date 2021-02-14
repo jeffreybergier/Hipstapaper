@@ -24,7 +24,9 @@ import Datum
 
 class WebsiteDataSource: DataSource {
     
-    @Published var query: Query { didSet { self.activate() } }
+    private weak var errorQ: ErrorQ?
+    
+    @Published var query: Query { didSet { self.activate(self.errorQ) } }
     @Published var observer: AnyListObserver<AnyList<AnyElementObserver<AnyWebsite>>>?
     var data: AnyList<AnyElementObserver<AnyWebsite>> { self.observer?.data ?? .empty }
     
@@ -37,11 +39,12 @@ class WebsiteDataSource: DataSource {
         self.controller = controller
     }
     
-    func activate() -> Result<Void, Datum.Error> {
+    func activate(_ errorQ: ErrorQ?) {
+        self.errorQ = errorQ
         log.verbose(self.query.tag?.value.name ?? self.query.filter)
         let result = controller.readWebsites(query: self.query)
         self.observer = result.value
-        return result.map { _ in () }
+        errorQ?.append(result)
     }
     
     func deactivate() {

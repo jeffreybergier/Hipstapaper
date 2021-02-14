@@ -49,7 +49,7 @@ struct WebsiteList: View {
         .modifier(DetailToolbar.Shared(controller: self.dataSource.controller,
                                        selection: self.$selection,
                                        query: self.$dataSource.query))
-        .onAppear() { self.errorQ.append(self.dataSource.activate()) }
+        .onAppear() { self.dataSource.activate(self.errorQ) }
         .onDisappear(perform: self.dataSource.deactivate)
     }
 }

@@ -30,12 +30,12 @@ class TagDataSource: DataSource {
         self.controller = controller
     }
     
-    func activate() -> Result<Void, Datum.Error> {
+    func activate(_ errorQ: ErrorQ?) {
         log.verbose()
-        guard self.observer == nil else { return .success(()) }
+        guard self.observer == nil else { return }
         let result = controller.readTags()
         self.observer = result.value
-        return result.map { _ in () }
+        errorQ?.append(result)
     }
     
     func deactivate() {

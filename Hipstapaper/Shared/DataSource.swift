@@ -30,9 +30,9 @@ protocol DataSource: ObservableObject {
     /// Computed property that `{ observer?.data ?? .empty }`
     var data: Observer.Collection { get }
     
-    /// Causes the observer to be created and start observing
-    @discardableResult
-    func activate() -> Result<Void, Datum.Error>
+    /// Causes the observer to be created and start observing.
+    /// Pass errorQ if you want errors to be captured
+    func activate(_ errorQ: ErrorQ?)
     /// Causes the observer to be deallocated and no longer be observed
     func deactivate()
 }
