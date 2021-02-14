@@ -42,6 +42,7 @@ struct WebsiteList: View {
         { item in
             WebsiteRow(item: item)
         }
+        .modifier(If.iOS(_Animation(.default)))
         .modifier(SyncIndicator(monitor: self.dataSource.controller.syncMonitor))
         .modifier(WebsiteListTitle(query: self.dataSource.query))
         // TODO: Fix the choppy EditMode animation caused by overly complex toolbars
@@ -75,3 +76,13 @@ struct WebsiteList_Preview: PreviewProvider {
     }
 }
 #endif
+
+internal struct _Animation: ViewModifier {
+    let animation: Animation
+    init(_ animation: Animation) {
+        self.animation = animation
+    }
+    func body(content: Content) -> some View {
+        content.animation(self.animation)
+    }
+}
