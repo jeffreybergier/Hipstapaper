@@ -39,7 +39,6 @@ struct HipstapaperApp: App {
     
     let controller: Controller?
     let watcher: DropboxWatcher?
-    @StateObject private var modalPresentation = ModalPresentation.Wrap()
     @StateObject private var windowPresentation = WindowPresentation()
     @StateObject private var errorQ: STZ.ERR.ViewModel
     
@@ -78,7 +77,6 @@ struct HipstapaperApp: App {
         if let controller = self.controller {
             Main(controller: controller)
                 .environmentObject(self.windowPresentation)
-                .environmentObject(self.modalPresentation)
                 .environmentObject(self.errorQ)
         } else {
             Color.clear

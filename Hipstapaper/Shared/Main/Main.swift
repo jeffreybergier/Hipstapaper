@@ -27,6 +27,7 @@ struct Main: View {
     
     let controller: Controller
     
+    @StateObject private var modalPresentation = ModalPresentation.Wrap()
     @StateObject private var websiteControllerCache: BlackBoxCache<AnyElementObserver<AnyTag>, WebsiteDataSource> = .init()
 
     init(controller: Controller) {
@@ -44,6 +45,7 @@ struct Main: View {
         }
         .modifier(BrowserPresentable())
         .modifier(STZ.ERR.PresenterB())
+        .environmentObject(self.modalPresentation)
     }
 }
 
