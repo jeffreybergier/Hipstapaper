@@ -23,20 +23,38 @@ import SwiftUI
 
 extension STZ {
     public struct SHR: View {
+        
         public typealias Completion = () -> Void
-        public let items: [URL]
-        public let completion: Completion
+        
+        private let items: [URL]
+        private let completion: Completion
+        
+        @State private var isError: Bool
+        @Environment(\.presentationMode) private var presentationMode
+        
         public var body: some View {
-            #if canImport(UIKit)
             Bridge(items: self.items, completion: self.completion)
-            #else
-            Bridge(items: self.items, completion: self.completion)
-                .frame(width: 10, height: 10)
-            #endif
+                .frame(width: self.forcedFrame, height: self.forcedFrame)
+                .alert(isPresented: self.$isError) {
+                    // TODO: Localize this error
+                    Alert(title: Text("Error"),
+                          message: Text("The selected item(s) contained no valid URLs."),
+                          dismissButton: .cancel({ self.presentationMode.wrappedValue.dismiss() }))
+                }
         }
+        
         public init(items: [URL], completion: @escaping SHR.Completion) {
             self.items = items
             self.completion = completion
+            _isError = .init(initialValue: items.isEmpty)
+        }
+        
+        private var forcedFrame: CGFloat? {
+            #if os(macOS)
+            return 10
+            #else
+            return nil
+            #endif
         }
     }
 }

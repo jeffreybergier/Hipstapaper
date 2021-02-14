@@ -55,7 +55,6 @@ struct SharePresentable: ViewModifier {
     
     func body(content: Content) -> some View {
         content.popover(item: self.$presentation.isShare) { selection in
-            // TODO: Do something if selection is empty
             STZ.SHR(items: selection.compactMap { $0.value.preferredURL },
                     completion:  { self.presentation.value = .none })
         }
@@ -107,7 +106,8 @@ struct AddTagPresentable: ViewModifier {
     
     let controller: Controller
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
-    
+    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
+
     func body(content: Content) -> some View {
         content.popover(isPresented: self.$presentation.isAddTag)
         {
@@ -122,8 +122,7 @@ struct AddTagPresentable: ViewModifier {
         case .success:
             self.presentation.value = .none
         case .failure(let error):
-            // TODO: Do something with this error
-            break
+            self.errorQ.append(error)
         }
     }
 }
