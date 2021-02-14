@@ -70,7 +70,8 @@ struct HipstapaperApp: App {
     }
 
     @SceneBuilder var body: some Scene {
-        WindowGroup(content: self.build)
+        // TODO: Localize Reading List
+        WindowGroup("Reading List", id: "MainWindow", content: self.build)
     }
     
     @ViewBuilder private func build() -> some View {
