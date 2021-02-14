@@ -213,7 +213,7 @@ extension STZ.ERR {
         
         public func webView(_ webView: WKWebView,
                             didFail navigation: WKNavigation!,
-                            withError error: Error)
+                            withError error: Swift.Error)
         {
             let localizedError = STZ.ERR.Legacy.LError(error: error as NSError)
             self.viewModel.append(localizedError)
@@ -222,7 +222,7 @@ extension STZ.ERR {
         
         public func webView(_ webView: WKWebView,
                             didFailProvisionalNavigation navigation: WKNavigation!,
-                            withError error: Error)
+                            withError error: Swift.Error)
         {
             let localizedError = Legacy.LError(error: error as NSError)
             self.viewModel.append(localizedError)
