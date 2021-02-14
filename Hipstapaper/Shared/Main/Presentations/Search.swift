@@ -42,6 +42,14 @@ struct Search: View {
         }
         .modifier(STZ.PDG.Equal())
         .modifier(STZ.MDL.Done(kind: STZ.TB.SearchActive.self, done: self.doneAction))
-        .frame(idealWidth: 250, idealHeight: 150) // TODO: Remove height when this is not broken
+        .frame(idealWidth: 375, idealHeight: self.__hack_height) // TODO: Remove height when this is not broken
+    }
+    
+    private var __hack_height: CGFloat? {
+        #if os(macOS)
+        return nil
+        #else
+        return 120
+        #endif
     }
 }

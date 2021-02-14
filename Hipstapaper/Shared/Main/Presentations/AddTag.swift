@@ -39,7 +39,14 @@ struct AddTag: View {
                                cancel: self.cancel,
                                save: { self.save(self.tagName.nonEmptyString) },
                                canSave: { self.tagName.nonEmptyString != nil }))
-        // TODO: Remove height when this is not broken
-        .frame(idealWidth: 250, idealHeight: 150)
+        .frame(idealWidth: 375, idealHeight: self.__hack_height) // TODO: Remove height when this is not broken
+    }
+    
+    private var __hack_height: CGFloat? {
+        #if os(macOS)
+        return nil
+        #else
+        return 120
+        #endif
     }
 }
