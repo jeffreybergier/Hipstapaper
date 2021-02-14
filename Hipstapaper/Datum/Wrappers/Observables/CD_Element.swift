@@ -27,6 +27,7 @@ internal class CD_Element<Output, Input: NSManagedObject>: ElementObserver {
     internal let objectWillChange: ObservableObjectPublisher
     internal var value: Output { transform(_value) }
     internal var isDeleted: Bool { _value.isDeleted }
+    internal let canDelete: Bool = true
 
     private let _value: Input
     private let transform: (Input) -> Output

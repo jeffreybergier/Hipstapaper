@@ -23,6 +23,7 @@
 internal class StaticElement<T: Hashable>: ElementObserver {
     internal var value: T
     internal var isDeleted: Bool { fatalError("StaticElement does not know this") }
+    internal let canDelete = false
     internal init(_ value: T) {
         self.value = value
     }

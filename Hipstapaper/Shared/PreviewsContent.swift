@@ -101,6 +101,7 @@ class P_Element<T>: ElementObserver {
     typealias Value = T
     var value: T
     var isDeleted: Bool = false
+    var canDelete = false
     init(_ value: T) {
         self.value = value
     }

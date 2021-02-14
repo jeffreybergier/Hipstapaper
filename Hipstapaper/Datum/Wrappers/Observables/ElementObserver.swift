@@ -25,25 +25,29 @@ public protocol ElementObserver: ObservableObject, Identifiable, Hashable {
     associatedtype Value
     var value: Value { get }
     var isDeleted: Bool { get }
+    var canDelete: Bool { get }
 }
 
 public class AnyElementObserver<Value: Identifiable & Hashable>: ElementObserver {
 
     public let objectWillChange: ObservableObjectPublisher
 
-    public var value: Value { _value() }
-    public var id: Value.ID { _value().id }
+    public var value: Value    { _value() }
+    public var id: Value.ID    { _value().id }
     public var isDeleted: Bool { _isDeleted() }
-    private var _value: () -> Value
+    public var canDelete: Bool { _canDelete() }
+    private var _value:     () -> Value
     private var _isDeleted: () -> Bool
+    private var _canDelete: () -> Bool
 
     public init<T: ElementObserver>(_ element: T)
     where T.Value == Value,
           T.ID == Value.ID,
           T.ObjectWillChangePublisher == ObservableObjectPublisher
     {
-        self._value = { element.value }
-        self._isDeleted = { element.isDeleted }
+        _value =     { element.value }
+        _isDeleted = { element.isDeleted }
+        _canDelete = { element.canDelete }
         self.objectWillChange = element.objectWillChange
     }
     

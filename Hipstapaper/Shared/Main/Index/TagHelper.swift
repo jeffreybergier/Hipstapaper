@@ -31,7 +31,7 @@ enum TagHelper {
     
     static func canDelete(_ selection: Selection?) -> Bool {
         guard let tag = selection else { return false }
-        return (tag.value.wrappedValue as? Query.Filter) == nil
+        return tag.canDelete
     }
     static func delete(_ selection: Selection?, _ controller: Controller, _ errorQ: ErrorQ) {
         guard let tag = selection else { return }
