@@ -59,19 +59,6 @@ struct SharePresentable: ViewModifier {
     }
 }
 
-struct ShareModalPresentable: ViewModifier {
-    
-    @EnvironmentObject private var presentation: ModalPresentation.Wrap
-    
-    func body(content: Content) -> some View {
-        content.sheet(item: self.$presentation.isShare) { selection in
-            // TODO: Do something if selection is empty
-            STZ.SHR(items: selection.compactMap { $0.value.preferredURL },
-                    completion:  { self.presentation.value = .none })
-        }
-    }
-}
-
 struct SearchPresentable: ViewModifier {
     
     @Binding var search: String
