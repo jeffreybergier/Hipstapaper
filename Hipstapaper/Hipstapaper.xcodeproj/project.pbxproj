@@ -194,8 +194,6 @@
 		DBA3BE3625709D3D005A2379 /* AnyWebsite.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA3BE3525709D3D005A2379 /* AnyWebsite.swift */; };
 		DBAA7730256C999B005126C3 /* CD_Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAA772F256C999B005126C3 /* CD_Controller.swift */; };
 		DBAA7736256C9A17005126C3 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAA7735256C9A17005126C3 /* Error.swift */; };
-		DBDCB358256BE8E700D005F6 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDCB357256BE8E700D005F6 /* Tests_iOS.swift */; };
-		DBDCB363256BE8E800D005F6 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDCB362256BE8E800D005F6 /* Tests_macOS.swift */; };
 		DBDCB365256BE8E800D005F6 /* HipstapaperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDCB33C256BE8E600D005F6 /* HipstapaperApp.swift */; };
 		DBDCB366256BE8E800D005F6 /* HipstapaperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDCB33C256BE8E600D005F6 /* HipstapaperApp.swift */; };
 		DBDCB367256BE8E800D005F6 /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDCB33D256BE8E600D005F6 /* Main.swift */; };
@@ -357,20 +355,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 73A3DEC0257BBD83002EDEB4;
 			remoteInfo = Snapshot;
-		};
-		DBDCB354256BE8E700D005F6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DBDCB337256BE8E600D005F6 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DBDCB342256BE8E700D005F6;
-			remoteInfo = "Hipstapaper (iOS)";
-		};
-		DBDCB35F256BE8E800D005F6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DBDCB337256BE8E600D005F6 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DBDCB34A256BE8E700D005F6;
-			remoteInfo = "Hipstapaper (macOS)";
 		};
 		DBDCB38C256BEBE700D005F6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -597,12 +581,6 @@
 		DBDCB34B256BE8E700D005F6 /* Hipstapaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hipstapaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBDCB34D256BE8E700D005F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DBDCB34E256BE8E700D005F6 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
-		DBDCB353256BE8E700D005F6 /* Tests iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DBDCB357256BE8E700D005F6 /* Tests_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_iOS.swift; sourceTree = "<group>"; };
-		DBDCB359256BE8E800D005F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DBDCB35E256BE8E800D005F6 /* Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DBDCB362256BE8E800D005F6 /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
-		DBDCB364256BE8E800D005F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DBDCB382256BEBE700D005F6 /* Datum.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Datum.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBDCB384256BEBE700D005F6 /* Datum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Datum.h; sourceTree = "<group>"; };
 		DBDCB385256BEBE700D005F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -694,20 +672,6 @@
 				7399BB66258439BD00B8CAFD /* Stylize.framework in Frameworks */,
 				DBDCB3B0256BEC6400D005F6 /* Datum.framework in Frameworks */,
 				7399BB5B258439A900B8CAFD /* Localize.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DBDCB350256BE8E700D005F6 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DBDCB35B256BE8E800D005F6 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -966,8 +930,6 @@
 				DBDCB33B256BE8E600D005F6 /* Shared */,
 				DBDCB345256BE8E700D005F6 /* iOS */,
 				DBDCB34C256BE8E700D005F6 /* macOS */,
-				DBDCB356256BE8E700D005F6 /* Tests iOS */,
-				DBDCB361256BE8E800D005F6 /* Tests macOS */,
 				DBDCB383256BEBE700D005F6 /* Datum */,
 				DBDCB38E256BEBE700D005F6 /* DatumTests */,
 				73A3DEC2257BBD83002EDEB4 /* Snapshot */,
@@ -1003,8 +965,6 @@
 			children = (
 				DBDCB343256BE8E700D005F6 /* Hipstapaper.app */,
 				DBDCB34B256BE8E700D005F6 /* Hipstapaper.app */,
-				DBDCB353256BE8E700D005F6 /* Tests iOS.xctest */,
-				DBDCB35E256BE8E800D005F6 /* Tests macOS.xctest */,
 				DBDCB382256BEBE700D005F6 /* Datum.framework */,
 				DBDCB38A256BEBE700D005F6 /* DatumTests.xctest */,
 				73A3DEC1257BBD83002EDEB4 /* Snapshot.framework */,
@@ -1036,24 +996,6 @@
 				DBDCB34E256BE8E700D005F6 /* macOS.entitlements */,
 			);
 			path = macOS;
-			sourceTree = "<group>";
-		};
-		DBDCB356256BE8E700D005F6 /* Tests iOS */ = {
-			isa = PBXGroup;
-			children = (
-				DBDCB357256BE8E700D005F6 /* Tests_iOS.swift */,
-				DBDCB359256BE8E800D005F6 /* Info.plist */,
-			);
-			path = "Tests iOS";
-			sourceTree = "<group>";
-		};
-		DBDCB361256BE8E800D005F6 /* Tests macOS */ = {
-			isa = PBXGroup;
-			children = (
-				DBDCB362256BE8E800D005F6 /* Tests_macOS.swift */,
-				DBDCB364256BE8E800D005F6 /* Info.plist */,
-			);
-			path = "Tests macOS";
 			sourceTree = "<group>";
 		};
 		DBDCB383256BEBE700D005F6 /* Datum */ = {
@@ -1328,42 +1270,6 @@
 			productReference = DBDCB34B256BE8E700D005F6 /* Hipstapaper.app */;
 			productType = "com.apple.product-type.application";
 		};
-		DBDCB352256BE8E700D005F6 /* Tests iOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DBDCB373256BE8E800D005F6 /* Build configuration list for PBXNativeTarget "Tests iOS" */;
-			buildPhases = (
-				DBDCB34F256BE8E700D005F6 /* Sources */,
-				DBDCB350256BE8E700D005F6 /* Frameworks */,
-				DBDCB351256BE8E700D005F6 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				DBDCB355256BE8E700D005F6 /* PBXTargetDependency */,
-			);
-			name = "Tests iOS";
-			productName = "Tests iOS";
-			productReference = DBDCB353256BE8E700D005F6 /* Tests iOS.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
-		DBDCB35D256BE8E800D005F6 /* Tests macOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DBDCB376256BE8E800D005F6 /* Build configuration list for PBXNativeTarget "Tests macOS" */;
-			buildPhases = (
-				DBDCB35A256BE8E800D005F6 /* Sources */,
-				DBDCB35B256BE8E800D005F6 /* Frameworks */,
-				DBDCB35C256BE8E800D005F6 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				DBDCB360256BE8E800D005F6 /* PBXTargetDependency */,
-			);
-			name = "Tests macOS";
-			productName = "Tests macOS";
-			productReference = DBDCB35E256BE8E800D005F6 /* Tests macOS.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 		DBDCB381256BEBE700D005F6 /* Datum */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DBDCB393256BEBE800D005F6 /* Build configuration list for PBXNativeTarget "Datum" */;
@@ -1441,14 +1347,6 @@
 					DBDCB34A256BE8E700D005F6 = {
 						CreatedOnToolsVersion = 12.2;
 					};
-					DBDCB352256BE8E700D005F6 = {
-						CreatedOnToolsVersion = 12.2;
-						TestTargetID = DBDCB342256BE8E700D005F6;
-					};
-					DBDCB35D256BE8E800D005F6 = {
-						CreatedOnToolsVersion = 12.2;
-						TestTargetID = DBDCB34A256BE8E700D005F6;
-					};
 					DBDCB381256BEBE700D005F6 = {
 						CreatedOnToolsVersion = 12.2;
 						LastSwiftMigration = 1220;
@@ -1477,8 +1375,6 @@
 			targets = (
 				DBDCB342256BE8E700D005F6 /* Hipstapaper (iOS) */,
 				DBDCB34A256BE8E700D005F6 /* Hipstapaper (macOS) */,
-				DBDCB352256BE8E700D005F6 /* Tests iOS */,
-				DBDCB35D256BE8E800D005F6 /* Tests macOS */,
 				DBDCB381256BEBE700D005F6 /* Datum */,
 				DBDCB389256BEBE700D005F6 /* DatumTests */,
 				73A3DEC0257BBD83002EDEB4 /* Snapshot */,
@@ -1554,20 +1450,6 @@
 			files = (
 				DBDCB36A256BE8E800D005F6 /* Assets.xcassets in Resources */,
 				739A87422584606A0098DD72 /* Localizable.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DBDCB351256BE8E700D005F6 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DBDCB35C256BE8E800D005F6 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1759,22 +1641,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DBDCB34F256BE8E700D005F6 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DBDCB358256BE8E700D005F6 /* Tests_iOS.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DBDCB35A256BE8E800D005F6 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DBDCB363256BE8E800D005F6 /* Tests_macOS.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		DBDCB37E256BEBE700D005F6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1931,16 +1797,6 @@
 			isa = PBXTargetDependency;
 			target = 73A3DEC0257BBD83002EDEB4 /* Snapshot */;
 			targetProxy = 73A3DEF8257BC18B002EDEB4 /* PBXContainerItemProxy */;
-		};
-		DBDCB355256BE8E700D005F6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DBDCB342256BE8E700D005F6 /* Hipstapaper (iOS) */;
-			targetProxy = DBDCB354256BE8E700D005F6 /* PBXContainerItemProxy */;
-		};
-		DBDCB360256BE8E800D005F6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DBDCB34A256BE8E700D005F6 /* Hipstapaper (macOS) */;
-			targetProxy = DBDCB35F256BE8E800D005F6 /* PBXContainerItemProxy */;
 		};
 		DBDCB38D256BEBE700D005F6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2567,101 +2423,6 @@
 			};
 			name = Release;
 		};
-		DBDCB374256BE8E800D005F6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "Tests iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.Tests-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "Hipstapaper (iOS)";
-				TVOS_DEPLOYMENT_TARGET = 14.0;
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
-			};
-			name = Debug;
-		};
-		DBDCB375256BE8E800D005F6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = "Tests iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.Tests-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "Hipstapaper (iOS)";
-				TVOS_DEPLOYMENT_TARGET = 14.0;
-				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
-			};
-			name = Release;
-		};
-		DBDCB377256BE8E800D005F6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = "Tests macOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.Tests-macOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = "Hipstapaper (macOS)";
-				TVOS_DEPLOYMENT_TARGET = 14.0;
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
-			};
-			name = Debug;
-		};
-		DBDCB378256BE8E800D005F6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = "Tests macOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.saturdayapps.Tests-macOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = "Hipstapaper (macOS)";
-				TVOS_DEPLOYMENT_TARGET = 14.0;
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
-			};
-			name = Release;
-		};
 		DBDCB394256BEBE800D005F6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2841,24 +2602,6 @@
 			buildConfigurations = (
 				DBDCB371256BE8E800D005F6 /* Debug */,
 				DBDCB372256BE8E800D005F6 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		DBDCB373256BE8E800D005F6 /* Build configuration list for PBXNativeTarget "Tests iOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DBDCB374256BE8E800D005F6 /* Debug */,
-				DBDCB375256BE8E800D005F6 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		DBDCB376256BE8E800D005F6 /* Build configuration list for PBXNativeTarget "Tests macOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DBDCB377256BE8E800D005F6 /* Debug */,
-				DBDCB378256BE8E800D005F6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
