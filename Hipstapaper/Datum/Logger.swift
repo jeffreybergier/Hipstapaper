@@ -21,7 +21,6 @@
 
 import XCGLogger
 
-
 internal let log: XCGLogger = {
     let l = XCGLogger(identifier: "Hipstapaper.Datum.Logger", includeDefaultDestinations: true)
     #if DEBUG

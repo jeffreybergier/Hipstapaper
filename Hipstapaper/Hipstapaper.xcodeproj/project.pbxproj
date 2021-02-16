@@ -15,8 +15,13 @@
 		50D63AC4256FEA35001C5985 /* TagObservationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D63AC3256FEA35001C5985 /* TagObservationTests.swift */; };
 		7302C8E525739AE700DA6614 /* WebsiteCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7302C8E425739AE700DA6614 /* WebsiteCollectionTests.swift */; };
 		7302C8EB2573A29500DA6614 /* SortTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7302C8EA2573A29500DA6614 /* SortTests.swift */; };
-		7302C8F625745E1F00DA6614 /* ServerlessLogger in Frameworks */ = {isa = PBXBuildFile; productRef = 7302C8F525745E1F00DA6614 /* ServerlessLogger */; };
 		73093ACB25D92D2800B7915A /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73093ACA25D92D2800B7915A /* Error.swift */; };
+		73093C2E25DBFE3F00B7915A /* Umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 73093C2C25DBFE3F00B7915A /* Umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		73093C8725DC011B00B7915A /* Umbrella.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73093C2A25DBFE3F00B7915A /* Umbrella.framework */; };
+		73093C8825DC011B00B7915A /* Umbrella.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 73093C2A25DBFE3F00B7915A /* Umbrella.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		73093C8B25DC012200B7915A /* Umbrella.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73093C2A25DBFE3F00B7915A /* Umbrella.framework */; };
+		73093C8C25DC012200B7915A /* Umbrella.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 73093C2A25DBFE3F00B7915A /* Umbrella.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		73093CA225DC019600B7915A /* Umbrella.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73093CA125DC019600B7915A /* Umbrella.swift */; };
 		730CC989258650930002C50A /* PDG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730CC988258650930002C50A /* PDG.swift */; };
 		732CD60A25AAA09300DB842B /* Snapshot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A3DEC1257BBD83002EDEB4 /* Snapshot.framework */; };
 		732CF67525B45904008C0A96 /* BlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732CF67425B45904008C0A96 /* BlackBox.swift */; };
@@ -53,6 +58,12 @@
 		735C92022577C0260033B4E8 /* FixedModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C92012577C0260033B4E8 /* FixedModels.swift */; };
 		735CA02925CBE88600B3F04B /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735CA02825CBE88600B3F04B /* DataSource.swift */; };
 		735CA02A25CBE88600B3F04B /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735CA02825CBE88600B3F04B /* DataSource.swift */; };
+		735CC6EE25DC06E7000EA7D6 /* ServerlessLogger in Frameworks */ = {isa = PBXBuildFile; productRef = 735CC6ED25DC06E7000EA7D6 /* ServerlessLogger */; };
+		735CC70A25DC0793000EA7D6 /* Umbrella.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73093C2A25DBFE3F00B7915A /* Umbrella.framework */; };
+		735CC71825DC07B8000EA7D6 /* Umbrella.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73093C2A25DBFE3F00B7915A /* Umbrella.framework */; };
+		735CC71D25DC07C4000EA7D6 /* Umbrella.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73093C2A25DBFE3F00B7915A /* Umbrella.framework */; };
+		735CC72225DC07D3000EA7D6 /* Umbrella.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73093C2A25DBFE3F00B7915A /* Umbrella.framework */; };
+		735CC72825DC07DB000EA7D6 /* XPList in Frameworks */ = {isa = PBXBuildFile; productRef = 735CC72725DC07DB000EA7D6 /* XPList */; };
 		735D4C64258DF9D00016F904 /* TagAddRemoveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4C63258DF9D00016F904 /* TagAddRemoveTests.swift */; };
 		735D4C8B258E2F9C0016F904 /* ToggleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4C8A258E2F9C0016F904 /* ToggleState.swift */; };
 		735D4CA3258F1ECE0016F904 /* AddTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4C93258F1E2F0016F904 /* AddTag.swift */; };
@@ -108,7 +119,6 @@
 		739A874A258467860098DD72 /* Localize.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7399BAC3258251D800B8CAFD /* Localize.framework */; };
 		739DD00425D2BE4B00177C49 /* WebsiteMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739DD00325D2BE4B00177C49 /* WebsiteMenu.swift */; };
 		739DD00525D2BE4B00177C49 /* WebsiteMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739DD00325D2BE4B00177C49 /* WebsiteMenu.swift */; };
-		739DD01125D2CF5D00177C49 /* XPList in Frameworks */ = {isa = PBXBuildFile; productRef = 739DD01025D2CF5D00177C49 /* XPList */; };
 		739DD02725D2CF9500177C49 /* LST.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739DD02625D2CF9500177C49 /* LST.swift */; };
 		739F03AE25A87F49001826F8 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739F03AD25A87F49001826F8 /* ShareViewController.swift */; };
 		739F03B125A87F49001826F8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 739F03AF25A87F49001826F8 /* MainInterface.storyboard */; };
@@ -216,6 +226,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		73093C8925DC011B00B7915A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBDCB337256BE8E600D005F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 73093C2925DBFE3F00B7915A;
+			remoteInfo = Umbrella;
+		};
+		73093C8D25DC012200B7915A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBDCB337256BE8E600D005F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 73093C2925DBFE3F00B7915A;
+			remoteInfo = Umbrella;
+		};
 		732F303B25AAEA2200192822 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DBDCB337256BE8E600D005F6 /* Project object */;
@@ -229,6 +253,34 @@
 			proxyType = 1;
 			remoteGlobalIDString = 7399BAA8258251A500B8CAFD;
 			remoteInfo = Stylize;
+		};
+		735CC70C25DC0793000EA7D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBDCB337256BE8E600D005F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 73093C2925DBFE3F00B7915A;
+			remoteInfo = Umbrella;
+		};
+		735CC71A25DC07B8000EA7D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBDCB337256BE8E600D005F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 73093C2925DBFE3F00B7915A;
+			remoteInfo = Umbrella;
+		};
+		735CC71F25DC07C4000EA7D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBDCB337256BE8E600D005F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 73093C2925DBFE3F00B7915A;
+			remoteInfo = Umbrella;
+		};
+		735CC72425DC07D3000EA7D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBDCB337256BE8E600D005F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 73093C2925DBFE3F00B7915A;
+			remoteInfo = Umbrella;
 		};
 		735D4CD2258F4DFF0016F904 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -412,6 +464,7 @@
 				735D4CDA258F502E0016F904 /* Browse.framework in Embed Frameworks */,
 				7399BB582584399C00B8CAFD /* Localize.framework in Embed Frameworks */,
 				73A3DEED257BC184002EDEB4 /* Snapshot.framework in Embed Frameworks */,
+				73093C8825DC011B00B7915A /* Umbrella.framework in Embed Frameworks */,
 				DBDCB3A7256BEC5B00D005F6 /* Datum.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -427,6 +480,7 @@
 				735D4CDE258F50350016F904 /* Browse.framework in Embed Frameworks */,
 				7399BB67258439BD00B8CAFD /* Stylize.framework in Embed Frameworks */,
 				DBDCB3B1256BEC6400D005F6 /* Datum.framework in Embed Frameworks */,
+				73093C8C25DC012200B7915A /* Umbrella.framework in Embed Frameworks */,
 				7399BB5C258439A900B8CAFD /* Localize.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -444,6 +498,10 @@
 		7302C8E425739AE700DA6614 /* WebsiteCollectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteCollectionTests.swift; sourceTree = "<group>"; };
 		7302C8EA2573A29500DA6614 /* SortTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortTests.swift; sourceTree = "<group>"; };
 		73093ACA25D92D2800B7915A /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		73093C2A25DBFE3F00B7915A /* Umbrella.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Umbrella.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		73093C2C25DBFE3F00B7915A /* Umbrella.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Umbrella.h; sourceTree = "<group>"; };
+		73093C2D25DBFE3F00B7915A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		73093CA125DC019600B7915A /* Umbrella.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Umbrella.swift; sourceTree = "<group>"; };
 		730CC988258650930002C50A /* PDG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDG.swift; sourceTree = "<group>"; };
 		732CF67425B45904008C0A96 /* BlackBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackBox.swift; sourceTree = "<group>"; };
 		732D529A25A5E7830028545F /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
@@ -597,11 +655,21 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		73093C2725DBFE3F00B7915A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				735CC72825DC07DB000EA7D6 /* XPList in Frameworks */,
+				735CC6EE25DC06E7000EA7D6 /* ServerlessLogger in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		735D4CB5258F4D690016F904 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				735D4CD0258F4DFF0016F904 /* Stylize.framework in Frameworks */,
+				735CC72225DC07D3000EA7D6 /* Umbrella.framework in Frameworks */,
 				735D4CD5258F4E070016F904 /* Localize.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -610,7 +678,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				739DD01125D2CF5D00177C49 /* XPList in Frameworks */,
+				735CC71D25DC07C4000EA7D6 /* Umbrella.framework in Frameworks */,
 				735D4CF3258F54390016F904 /* Localize.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -645,6 +713,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7399BAE22582529400B8CAFD /* Stylize.framework in Frameworks */,
+				735CC71825DC07B8000EA7D6 /* Umbrella.framework in Frameworks */,
 				7399BB4B2584398E00B8CAFD /* Localize.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -656,6 +725,7 @@
 				736F67A325C19822006896DF /* CloudKit.framework in Frameworks */,
 				7399BB172582537500B8CAFD /* Stylize.framework in Frameworks */,
 				735D4CD9258F502E0016F904 /* Browse.framework in Frameworks */,
+				73093C8725DC011B00B7915A /* Umbrella.framework in Frameworks */,
 				7399BB572584399C00B8CAFD /* Localize.framework in Frameworks */,
 				73A3DEEC257BC184002EDEB4 /* Snapshot.framework in Frameworks */,
 				DBDCB3A6256BEC5B00D005F6 /* Datum.framework in Frameworks */,
@@ -669,6 +739,7 @@
 				736F67A525C19979006896DF /* CloudKit.framework in Frameworks */,
 				73A3DEF6257BC18B002EDEB4 /* Snapshot.framework in Frameworks */,
 				735D4CDD258F50350016F904 /* Browse.framework in Frameworks */,
+				73093C8B25DC012200B7915A /* Umbrella.framework in Frameworks */,
 				7399BB66258439BD00B8CAFD /* Stylize.framework in Frameworks */,
 				DBDCB3B0256BEC6400D005F6 /* Datum.framework in Frameworks */,
 				7399BB5B258439A900B8CAFD /* Localize.framework in Frameworks */,
@@ -679,7 +750,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7302C8F625745E1F00DA6614 /* ServerlessLogger in Frameworks */,
+				735CC70A25DC0793000EA7D6 /* Umbrella.framework in Frameworks */,
 				739A874A258467860098DD72 /* Localize.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -721,6 +792,16 @@
 				733E96A225C6C8EC00E108EE /* CD_ListObserver.swift */,
 			);
 			path = Observables;
+			sourceTree = "<group>";
+		};
+		73093C2B25DBFE3F00B7915A /* Umbrella */ = {
+			isa = PBXGroup;
+			children = (
+				73093C2C25DBFE3F00B7915A /* Umbrella.h */,
+				73093CA125DC019600B7915A /* Umbrella.swift */,
+				73093C2D25DBFE3F00B7915A /* Info.plist */,
+			);
+			path = Umbrella;
 			sourceTree = "<group>";
 		};
 		735D4CB9258F4D690016F904 /* Browse */ = {
@@ -938,6 +1019,7 @@
 				735D4CB9258F4D690016F904 /* Browse */,
 				739F03AC25A87F49001826F8 /* Share_iOS */,
 				739F03C825A87FE4001826F8 /* Share_macOS */,
+				73093C2B25DBFE3F00B7915A /* Umbrella */,
 				DBDCB344256BE8E700D005F6 /* Products */,
 				DBDCB3A5256BEC5B00D005F6 /* Frameworks */,
 			);
@@ -973,6 +1055,7 @@
 				735D4CB8258F4D690016F904 /* Browse.framework */,
 				739F03AB25A87F49001826F8 /* Share_iOS.appex */,
 				739F03C725A87FE4001826F8 /* Share_macOS.appex */,
+				73093C2A25DBFE3F00B7915A /* Umbrella.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1055,6 +1138,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		73093C2525DBFE3F00B7915A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73093C2E25DBFE3F00B7915A /* Umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		735D4CB3258F4D690016F904 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -1098,6 +1189,28 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		73093C2925DBFE3F00B7915A /* Umbrella */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 73093C2F25DBFE3F00B7915A /* Build configuration list for PBXNativeTarget "Umbrella" */;
+			buildPhases = (
+				73093C2525DBFE3F00B7915A /* Headers */,
+				73093C2625DBFE3F00B7915A /* Sources */,
+				73093C2725DBFE3F00B7915A /* Frameworks */,
+				73093C2825DBFE3F00B7915A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Umbrella;
+			packageProductDependencies = (
+				735CC6ED25DC06E7000EA7D6 /* ServerlessLogger */,
+				735CC72725DC07DB000EA7D6 /* XPList */,
+			);
+			productName = Umbrella;
+			productReference = 73093C2A25DBFE3F00B7915A /* Umbrella.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		735D4CB7258F4D690016F904 /* Browse */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 735D4CBD258F4D690016F904 /* Build configuration list for PBXNativeTarget "Browse" */;
@@ -1112,6 +1225,7 @@
 			dependencies = (
 				735D4CD3258F4DFF0016F904 /* PBXTargetDependency */,
 				735D4CD8258F4E070016F904 /* PBXTargetDependency */,
+				735CC72525DC07D3000EA7D6 /* PBXTargetDependency */,
 			);
 			name = Browse;
 			productName = Browse;
@@ -1131,10 +1245,10 @@
 			);
 			dependencies = (
 				735D4CF6258F54390016F904 /* PBXTargetDependency */,
+				735CC72025DC07C4000EA7D6 /* PBXTargetDependency */,
 			);
 			name = Stylize;
 			packageProductDependencies = (
-				739DD01025D2CF5D00177C49 /* XPList */,
 			);
 			productName = Stylize;
 			productReference = 7399BAA9258251A500B8CAFD /* Stylize.framework */;
@@ -1210,6 +1324,7 @@
 			dependencies = (
 				7399BAE52582529400B8CAFD /* PBXTargetDependency */,
 				7399BB4E2584398E00B8CAFD /* PBXTargetDependency */,
+				735CC71B25DC07B8000EA7D6 /* PBXTargetDependency */,
 			);
 			name = Snapshot;
 			productName = Snapshot;
@@ -1235,6 +1350,7 @@
 				7399BB5A2584399C00B8CAFD /* PBXTargetDependency */,
 				735D4CDC258F502E0016F904 /* PBXTargetDependency */,
 				739F03B425A87F49001826F8 /* PBXTargetDependency */,
+				73093C8A25DC011B00B7915A /* PBXTargetDependency */,
 			);
 			name = "Hipstapaper (iOS)";
 			packageProductDependencies = (
@@ -1262,6 +1378,7 @@
 				7399BB69258439BD00B8CAFD /* PBXTargetDependency */,
 				735D4CE0258F50350016F904 /* PBXTargetDependency */,
 				739F03D325A87FE4001826F8 /* PBXTargetDependency */,
+				73093C8E25DC012200B7915A /* PBXTargetDependency */,
 			);
 			name = "Hipstapaper (macOS)";
 			packageProductDependencies = (
@@ -1283,10 +1400,10 @@
 			);
 			dependencies = (
 				739A874D258467860098DD72 /* PBXTargetDependency */,
+				735CC70D25DC0793000EA7D6 /* PBXTargetDependency */,
 			);
 			name = Datum;
 			packageProductDependencies = (
-				7302C8F525745E1F00DA6614 /* ServerlessLogger */,
 			);
 			productName = Datum;
 			productReference = DBDCB382256BEBE700D005F6 /* Datum.framework */;
@@ -1319,6 +1436,10 @@
 				LastSwiftUpdateCheck = 1220;
 				LastUpgradeCheck = 1240;
 				TargetAttributes = {
+					73093C2925DBFE3F00B7915A = {
+						CreatedOnToolsVersion = 12.4;
+						LastSwiftMigration = 1240;
+					};
 					735D4CB7258F4D690016F904 = {
 						CreatedOnToolsVersion = 12.2;
 						LastSwiftMigration = 1220;
@@ -1381,6 +1502,7 @@
 				7399BAA8258251A500B8CAFD /* Stylize */,
 				7399BAC2258251D800B8CAFD /* Localize */,
 				735D4CB7258F4D690016F904 /* Browse */,
+				73093C2925DBFE3F00B7915A /* Umbrella */,
 				739F03AA25A87F49001826F8 /* Share_iOS */,
 				739F03C625A87FE4001826F8 /* Share_macOS */,
 			);
@@ -1388,6 +1510,13 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		73093C2825DBFE3F00B7915A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		735D4CB6258F4D690016F904 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1470,6 +1599,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		73093C2625DBFE3F00B7915A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73093CA225DC019600B7915A /* Umbrella.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		735D4CB4258F4D690016F904 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1698,6 +1835,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		73093C8A25DC011B00B7915A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 73093C2925DBFE3F00B7915A /* Umbrella */;
+			targetProxy = 73093C8925DC011B00B7915A /* PBXContainerItemProxy */;
+		};
+		73093C8E25DC012200B7915A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 73093C2925DBFE3F00B7915A /* Umbrella */;
+			targetProxy = 73093C8D25DC012200B7915A /* PBXContainerItemProxy */;
+		};
 		732F303C25AAEA2200192822 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 7399BAA8258251A500B8CAFD /* Stylize */;
@@ -1707,6 +1854,26 @@
 			isa = PBXTargetDependency;
 			target = 7399BAA8258251A500B8CAFD /* Stylize */;
 			targetProxy = 732F304A25AAEA3B00192822 /* PBXContainerItemProxy */;
+		};
+		735CC70D25DC0793000EA7D6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 73093C2925DBFE3F00B7915A /* Umbrella */;
+			targetProxy = 735CC70C25DC0793000EA7D6 /* PBXContainerItemProxy */;
+		};
+		735CC71B25DC07B8000EA7D6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 73093C2925DBFE3F00B7915A /* Umbrella */;
+			targetProxy = 735CC71A25DC07B8000EA7D6 /* PBXContainerItemProxy */;
+		};
+		735CC72025DC07C4000EA7D6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 73093C2925DBFE3F00B7915A /* Umbrella */;
+			targetProxy = 735CC71F25DC07C4000EA7D6 /* PBXContainerItemProxy */;
+		};
+		735CC72525DC07D3000EA7D6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 73093C2925DBFE3F00B7915A /* Umbrella */;
+			targetProxy = 735CC72425DC07D3000EA7D6 /* PBXContainerItemProxy */;
 		};
 		735D4CD3258F4DFF0016F904 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1843,6 +2010,58 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		73093C3025DBFE3F00B7915A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = V6ESYGU6CV;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Umbrella/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Umbrella;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		73093C3125DBFE3F00B7915A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = V6ESYGU6CV;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Umbrella/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Umbrella;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		735D4CBE258F4D690016F904 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1857,18 +2076,14 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Browse/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.Browse;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -1886,14 +2101,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Browse/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.Browse;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1914,14 +2126,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Stylize/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.Stylize;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1942,14 +2151,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Stylize/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.Stylize;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1970,14 +2176,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Localize/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.Localize;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1998,14 +2201,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Localize/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.Localize;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -2020,7 +2220,6 @@
 				CURRENT_PROJECT_VERSION = 200008;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
 				INFOPLIST_FILE = Share_iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2045,7 +2244,6 @@
 				CURRENT_PROJECT_VERSION = 200008;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
 				INFOPLIST_FILE = Share_iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2079,7 +2277,6 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.share;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2106,7 +2303,6 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.share;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2132,14 +2328,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Snapshot/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.Snapshot;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -2161,14 +2354,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Snapshot/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.Snapshot;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -2226,6 +2416,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.0;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2287,6 +2480,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.0;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -2314,7 +2510,6 @@
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2324,10 +2519,6 @@
 				PRODUCT_NAME = Hipstapaper;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TVOS_DEPLOYMENT_TARGET = 14.0;
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
 			};
 			name = Debug;
 		};
@@ -2343,7 +2534,6 @@
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2353,11 +2543,6 @@
 				PRODUCT_NAME = Hipstapaper;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TVOS_DEPLOYMENT_TARGET = 14.0;
-				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
 			};
 			name = Release;
 		};
@@ -2380,15 +2565,11 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper;
 				PRODUCT_NAME = Hipstapaper;
 				SDKROOT = macosx;
 				SUPPORTED_PLATFORMS = macosx;
-				SWIFT_VERSION = 5.0;
-				TVOS_DEPLOYMENT_TARGET = 14.0;
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
 			};
 			name = Debug;
 		};
@@ -2411,15 +2592,11 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper;
 				PRODUCT_NAME = Hipstapaper;
 				SDKROOT = macosx;
 				SUPPORTED_PLATFORMS = macosx;
-				SWIFT_VERSION = 5.0;
-				TVOS_DEPLOYMENT_TARGET = 14.0;
-				WATCHOS_DEPLOYMENT_TARGET = 7.0;
 			};
 			name = Release;
 		};
@@ -2438,17 +2615,14 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Datum/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.Datum;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -2467,13 +2641,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Datum/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.Datum;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -2487,15 +2659,12 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
-				DRIVERKIT_DEPLOYMENT_TARGET = 19.0;
 				INFOPLIST_FILE = DatumTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.DatumTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -2508,15 +2677,12 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
-				DRIVERKIT_DEPLOYMENT_TARGET = 19.0;
 				INFOPLIST_FILE = DatumTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.DatumTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -2525,6 +2691,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		73093C2F25DBFE3F00B7915A /* Build configuration list for PBXNativeTarget "Umbrella" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				73093C3025DBFE3F00B7915A /* Debug */,
+				73093C3125DBFE3F00B7915A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		735D4CBD258F4D690016F904 /* Build configuration list for PBXNativeTarget "Browse" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -2646,12 +2821,12 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		7302C8F525745E1F00DA6614 /* ServerlessLogger */ = {
+		735CC6ED25DC06E7000EA7D6 /* ServerlessLogger */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7302C8F025745E1100DA6614 /* XCRemoteSwiftPackageReference "JSBServerlessLogger" */;
 			productName = ServerlessLogger;
 		};
-		739DD01025D2CF5D00177C49 /* XPList */ = {
+		735CC72725DC07DB000EA7D6 /* XPList */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 73F8B36D25BD677C001A6A09 /* XCRemoteSwiftPackageReference "XPList" */;
 			productName = XPList;
