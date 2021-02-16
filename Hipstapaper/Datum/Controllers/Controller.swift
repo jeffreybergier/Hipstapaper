@@ -23,6 +23,8 @@
 // https://developer.apple.com/documentation/swiftui/fetchedresults
 // https://www.raywenderlich.com/9335365-core-data-with-swiftui-tutorial-getting-started
 
+import Umbrella
+
 public func ControllerNew(isTesting: Bool = false) -> Result<Controller, Error> {
     do {
         return .success(try CD_Controller(isTesting: isTesting))

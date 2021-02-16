@@ -22,6 +22,7 @@
 import CoreData
 import Combine
 import CloudKit
+import Umbrella
 
 // Highly inspired by
 // https://github.com/ggruen/CloudKitSyncMonitor/blob/main/Sources/CloudKitSyncMonitor/SyncMonitor.swift

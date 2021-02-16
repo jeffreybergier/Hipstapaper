@@ -22,6 +22,7 @@
 #if DEBUG
 
 import Datum
+import Umbrella
 
 var p_query = Query()
 

@@ -21,7 +21,7 @@
 		73093C8825DC011B00B7915A /* Umbrella.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 73093C2A25DBFE3F00B7915A /* Umbrella.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		73093C8B25DC012200B7915A /* Umbrella.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73093C2A25DBFE3F00B7915A /* Umbrella.framework */; };
 		73093C8C25DC012200B7915A /* Umbrella.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 73093C2A25DBFE3F00B7915A /* Umbrella.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		73093CA225DC019600B7915A /* Umbrella.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73093CA125DC019600B7915A /* Umbrella.swift */; };
+		73093CA225DC019600B7915A /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73093CA125DC019600B7915A /* Logger.swift */; };
 		730CC989258650930002C50A /* PDG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730CC988258650930002C50A /* PDG.swift */; };
 		732CD60A25AAA09300DB842B /* Snapshot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A3DEC1257BBD83002EDEB4 /* Snapshot.framework */; };
 		732CF67525B45904008C0A96 /* BlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732CF67425B45904008C0A96 /* BlackBox.swift */; };
@@ -179,7 +179,6 @@
 		73DFCA2C25B08B630041F555 /* VIEW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DFCA2B25B08B630041F555 /* VIEW.swift */; };
 		73DFCA4C25B139380041F555 /* FNT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DFCA4B25B139380041F555 /* FNT.swift */; };
 		73DFCA5825B13C3D0041F555 /* CLR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DFCA5725B13C3D0041F555 /* CLR.swift */; };
-		73F2B03825745EFD009AC2AF /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2B03725745EFD009AC2AF /* Logger.swift */; };
 		73F2B03E257460AF009AC2AF /* Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2B03D257460AF009AC2AF /* Sort.swift */; };
 		73F2B044257460D2009AC2AF /* CD_Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2B043257460D2009AC2AF /* CD_Sort.swift */; };
 		73F2B04A25746386009AC2AF /* WebsiteObservationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2B04925746386009AC2AF /* WebsiteObservationTests.swift */; };
@@ -501,7 +500,7 @@
 		73093C2A25DBFE3F00B7915A /* Umbrella.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Umbrella.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		73093C2C25DBFE3F00B7915A /* Umbrella.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Umbrella.h; sourceTree = "<group>"; };
 		73093C2D25DBFE3F00B7915A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		73093CA125DC019600B7915A /* Umbrella.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Umbrella.swift; sourceTree = "<group>"; };
+		73093CA125DC019600B7915A /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		730CC988258650930002C50A /* PDG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDG.swift; sourceTree = "<group>"; };
 		732CF67425B45904008C0A96 /* BlackBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackBox.swift; sourceTree = "<group>"; };
 		732D529A25A5E7830028545F /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
@@ -610,7 +609,6 @@
 		73DFCA2B25B08B630041F555 /* VIEW.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VIEW.swift; sourceTree = "<group>"; };
 		73DFCA4B25B139380041F555 /* FNT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FNT.swift; sourceTree = "<group>"; };
 		73DFCA5725B13C3D0041F555 /* CLR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLR.swift; sourceTree = "<group>"; };
-		73F2B03725745EFD009AC2AF /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		73F2B03D257460AF009AC2AF /* Sort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sort.swift; sourceTree = "<group>"; };
 		73F2B043257460D2009AC2AF /* CD_Sort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_Sort.swift; sourceTree = "<group>"; };
 		73F2B04925746386009AC2AF /* WebsiteObservationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteObservationTests.swift; sourceTree = "<group>"; };
@@ -798,7 +796,7 @@
 			isa = PBXGroup;
 			children = (
 				73093C2C25DBFE3F00B7915A /* Umbrella.h */,
-				73093CA125DC019600B7915A /* Umbrella.swift */,
+				73093CA125DC019600B7915A /* Logger.swift */,
 				73093C2D25DBFE3F00B7915A /* Info.plist */,
 			);
 			path = Umbrella;
@@ -1087,7 +1085,6 @@
 				DBDCB384256BEBE700D005F6 /* Datum.h */,
 				DBDCB385256BEBE700D005F6 /* Info.plist */,
 				DBAA7735256C9A17005126C3 /* Error.swift */,
-				73F2B03725745EFD009AC2AF /* Logger.swift */,
 				DB111DA825772D5800365BEA /* Result.swift */,
 				73A3DEB6257B97E8002EDEB4 /* String+Datum.swift */,
 				735D4C8A258E2F9C0016F904 /* ToggleState.swift */,
@@ -1603,7 +1600,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				73093CA225DC019600B7915A /* Umbrella.swift in Sources */,
+				73093CA225DC019600B7915A /* Logger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1788,7 +1785,6 @@
 				7377B3D525C6DBC1003BE3F1 /* AnyList.swift in Sources */,
 				5031AF03256E894F00AC98AA /* Tag.swift in Sources */,
 				50D63AA8256FE3BF001C5985 /* AnyTag.swift in Sources */,
-				73F2B03825745EFD009AC2AF /* Logger.swift in Sources */,
 				DBFE5D26256F47EB00A23555 /* CD_Element.swift in Sources */,
 				73F2B044257460D2009AC2AF /* CD_Sort.swift in Sources */,
 				73F2B03E257460AF009AC2AF /* Sort.swift in Sources */,

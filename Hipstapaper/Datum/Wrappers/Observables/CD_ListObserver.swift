@@ -21,6 +21,7 @@
 
 import CoreData
 import Combine
+import Umbrella
 
 internal class CD_ListObserver<Output, Input: NSManagedObject>: NSObject,
                                                             ListObserver,

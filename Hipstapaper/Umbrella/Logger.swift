@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/30.
+//  Created by Jeffrey Bergier on 2021/02/16.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -21,8 +21,8 @@
 
 import XCGLogger
 
-internal let log: XCGLogger = {
-    let l = XCGLogger(identifier: "Hipstapaper.Datum.Logger", includeDefaultDestinations: true)
+public let log: XCGLogger = {
+    let l = XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
     #if DEBUG
     l.outputLevel = .verbose
     #else

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import Browse
 import Datum
 import Stylize

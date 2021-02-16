@@ -20,6 +20,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import Datum
 import Stylize
 

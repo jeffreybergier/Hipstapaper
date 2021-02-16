@@ -21,6 +21,7 @@
 
 import CoreData
 import Combine
+import Umbrella
 
 internal class CD_Element<Output, Input: NSManagedObject>: ElementObserver {
     

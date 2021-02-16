@@ -21,6 +21,7 @@
 
 import CoreData
 import Combine
+import Umbrella
 
 @objc(CD_Base) internal class CD_Base: NSManagedObject, Identifiable {
 

@@ -20,19 +20,9 @@
 //
 
 import SwiftUI
-import XCGLogger
+import Umbrella
 import Datum
 import Stylize
-
-internal let log: XCGLogger = {
-    let l = XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
-    #if DEBUG
-    l.outputLevel = .verbose
-    #else
-    l.outputLevel = .warning
-    #endif
-    return l
-}()
 
 @main
 struct HipstapaperApp: App {

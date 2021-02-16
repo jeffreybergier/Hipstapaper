@@ -17,8 +17,9 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import Datum
 import Combine
+import Umbrella
+import Datum
 
 class TagDataSource: DataSource {
     
