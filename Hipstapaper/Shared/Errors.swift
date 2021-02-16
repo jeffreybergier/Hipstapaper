@@ -42,4 +42,5 @@ protocol ErrorQ: class {
     func append<T, E: LocalizedError>(_ result: Result<T, E>) -> Result<T, E>
 }
 
+// TODO: Move errorQ to Umbrella
 extension STZ.ERR.ViewModel: ErrorQ {}

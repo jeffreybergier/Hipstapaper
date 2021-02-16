@@ -59,7 +59,7 @@ internal class CD_SyncMonitor: SyncMonitor {
             DispatchQueue.main.async {
                 self.objectWillChange.send()
                 if let error = error {
-                    self.errorQ.append(CocoaError(error: error as NSError))
+                    self.errorQ.append(error as NSError)
                 }
                 switch account {
                 case .available:
@@ -81,8 +81,7 @@ internal class CD_SyncMonitor: SyncMonitor {
             self.objectWillChange.send()
             if let error = event.error {
                 log.error(error)
-                let error = CocoaError(error: error as NSError)
-                self.errorQ.append(error)
+                self.errorQ.append(error as NSError)
             }
             if self.io.contains(event.identifier) {
                 log.debug("- \(event.identifier)")

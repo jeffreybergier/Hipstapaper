@@ -44,7 +44,10 @@ extension CD_Tag: Tag {
             self.cd_websitesCount = newWebsitesCount
         }
         
-        // TODO: validate name
+        // Validate Title
+        if let name = self.cd_name, name.nonEmptyString == nil {
+            self.cd_name = nil
+        }
     }
 }
 

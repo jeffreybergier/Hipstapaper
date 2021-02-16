@@ -20,6 +20,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import Stylize
 import Localize
 
@@ -31,17 +32,6 @@ internal struct Toolbar_iOS: ViewModifier {
     @State private var popoverAlignment: Alignment = .topTrailing
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
-    private var isCompact: Bool {
-        switch self.horizontalSizeClass ?? .compact {
-        case .regular:
-            return false
-        case .compact:
-            fallthrough
-        @unknown default:
-            return true
-        }
-    }
-    
     @ViewBuilder func body(content: Content) -> some View {
         NavigationView {
             ZStack(alignment: self.popoverAlignment) {
@@ -50,7 +40,7 @@ internal struct Toolbar_iOS: ViewModifier {
                         STZ.SHR(items: self.viewModel.originalURL.map { [$0] } ?? [],
                                 completion: { self.viewModel.browserDisplay.isSharing = false })
                     }
-                if self.isCompact {
+                if self.horizontalSizeClass?.isCompact == true {
                     content
                         .modifier(Toolbar_Compact(viewModel: self.viewModel,
                                                   popoverAlignment: self.$popoverAlignment))

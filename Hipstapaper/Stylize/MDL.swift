@@ -102,7 +102,6 @@ extension STZ.MDL {
                                         action: self.saveAction)
                 }
                 .modifier(STZ.VIEW.TB_HACK())
-                
                 content
                 Spacer(minLength: 0)
             }
@@ -127,34 +126,3 @@ extension STZ.MDL {
         #endif
     }
 }
-
-
-// TODO: Remove these when possible
-
-public struct ModalSelectionStyle: ViewModifier {
-    public init() {}
-    public func body(content: Content) -> some View {
-        #if os(macOS)
-        return content
-        #else
-        return content
-            .listStyle(PlainListStyle())
-            .modifier(ListEditMode())
-        #endif
-    }
-}
-
-#if canImport(UIKit)
-fileprivate struct ListEditMode: ViewModifier {
-    @State var editMode: EditMode = EditMode.active
-    func body(content: Content) -> some View {
-        content.environment((\.editMode), self.$editMode)
-    }
-}
-#else
-fileprivate struct ListEditMode: ViewModifier {
-    func body(content: Content) -> some View {
-        return content
-    }
-}
-#endif

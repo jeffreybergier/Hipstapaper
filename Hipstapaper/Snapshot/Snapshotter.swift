@@ -20,6 +20,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import Combine
 import Stylize
 import Localize

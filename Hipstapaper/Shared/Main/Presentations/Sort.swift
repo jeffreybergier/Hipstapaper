@@ -18,6 +18,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import Stylize
 import Localize
 import Datum
@@ -33,7 +34,8 @@ struct Sort: View {
             order.label.label()
                 .modifier(STZ.PDG.Default(ignore: [\.leading, \.trailing]))
         }
-        .modifier(ModalSelectionStyle())
+        .modifier(Force.PlainListStyle())
+        .modifier(Force.EditMode())
         .modifier(STZ.MDL.Done(kind: STZ.TB.Sort.self, done: self.doneAction))
         .modifier(__Size())
     }
