@@ -39,6 +39,8 @@ public struct _ErrorQ<Element> {
     
     private var _storage: Queue<Element> = []
     
+    public init() {}
+    
     public mutating func next() -> Element? {
         return _storage.pop()
     }

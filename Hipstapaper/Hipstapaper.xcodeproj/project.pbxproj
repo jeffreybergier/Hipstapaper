@@ -107,6 +107,7 @@
 		736FC9AA25DDDAAC004CF4C3 /* ErrorQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FC9A925DDDAAC004CF4C3 /* ErrorQ.swift */; };
 		736FC9F625DDDDC5004CF4C3 /* UmbrellaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FC9F525DDDDC5004CF4C3 /* UmbrellaTests.swift */; };
 		736FCA1125DDDDFF004CF4C3 /* Umbrella.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73093C2A25DBFE3F00B7915A /* Umbrella.framework */; };
+		736FCA1D25DDE1B7004CF4C3 /* ErrorQTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FCA1C25DDE1B7004CF4C3 /* ErrorQTests.swift */; };
 		7377B3D525C6DBC1003BE3F1 /* AnyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5031AF23256E8DEC00AC98AA /* AnyList.swift */; };
 		7377B3EA25C6DDB6003BE3F1 /* MappedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4C6C258E27870016F904 /* MappedList.swift */; };
 		73993E2E2595DFC7006FB612 /* BrowserWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73993E2D2595DFC2006FB612 /* BrowserWindowController.swift */; };
@@ -570,6 +571,7 @@
 		736FC9F325DDDDC5004CF4C3 /* UmbrellaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UmbrellaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		736FC9F525DDDDC5004CF4C3 /* UmbrellaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UmbrellaTests.swift; sourceTree = "<group>"; };
 		736FC9F725DDDDC5004CF4C3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		736FCA1C25DDE1B7004CF4C3 /* ErrorQTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorQTests.swift; sourceTree = "<group>"; };
 		73993E2D2595DFC2006FB612 /* BrowserWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserWindowController.swift; sourceTree = "<group>"; };
 		7399BAA9258251A500B8CAFD /* Stylize.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Stylize.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7399BAAB258251A500B8CAFD /* Stylize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stylize.h; sourceTree = "<group>"; };
@@ -864,6 +866,7 @@
 			isa = PBXGroup;
 			children = (
 				736FC9F525DDDDC5004CF4C3 /* UmbrellaTests.swift */,
+				736FCA1C25DDE1B7004CF4C3 /* ErrorQTests.swift */,
 				736FC9F725DDDDC5004CF4C3 /* Info.plist */,
 			);
 			path = UmbrellaTests;
@@ -1698,6 +1701,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				736FCA1D25DDE1B7004CF4C3 /* ErrorQTests.swift in Sources */,
 				736FC9F625DDDDC5004CF4C3 /* UmbrellaTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
