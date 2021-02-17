@@ -19,3 +19,24 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import SwiftUI
+
+public typealias UFError = UserFacingError
+
+public protocol UserFacingError: CustomNSError {
+    var title: LocalizedStringKey { get }
+    var description: LocalizedStringKey { get }
+}
+
+public protocol RecoverableError: UserFacingError {
+    var options: [RecoveryOption<Self>] { get }
+}
+
+public struct RecoveryOption<T> {
+    public var title: LocalizedStringKey
+    public var perform: (T) -> Void
+    public init(title: LocalizedStringKey, perform: @escaping (T) -> Void) {
+        self.title = title
+        self.perform = perform
+    }
+}
