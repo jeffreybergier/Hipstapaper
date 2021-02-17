@@ -21,6 +21,7 @@
 
 import SwiftUI
 
+#if canImport(UIKit)
 extension Binding where Value == EditMode {
     public var isEditing: Bool {
         switch self.wrappedValue {
@@ -46,6 +47,7 @@ extension UserInterfaceSizeClass {
         }
     }
 }
+#endif
 
 public enum Force {
     public struct EditMode: ViewModifier {
