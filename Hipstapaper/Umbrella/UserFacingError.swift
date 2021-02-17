@@ -25,18 +25,23 @@ public typealias UFError = UserFacingError
 
 public protocol UserFacingError: CustomNSError {
     var title: LocalizedStringKey { get }
-    var description: LocalizedStringKey { get }
+    var message: LocalizedStringKey { get }
 }
 
 public protocol RecoverableError: UserFacingError {
-    var options: [RecoveryOption<Self>] { get }
+    var options: [RecoveryOption] { get }
 }
 
-public struct RecoveryOption<T> {
+public struct RecoveryOption {
     public var title: LocalizedStringKey
-    public var perform: (T) -> Void
-    public init(title: LocalizedStringKey, perform: @escaping (T) -> Void) {
+    public var isDestructive: Bool
+    public var perform: () -> Void
+    public init(title: LocalizedStringKey,
+                isDestructive: Bool = false,
+                perform: @escaping () -> Void)
+    {
         self.title = title
+        self.isDestructive = isDestructive
         self.perform = perform
     }
 }
