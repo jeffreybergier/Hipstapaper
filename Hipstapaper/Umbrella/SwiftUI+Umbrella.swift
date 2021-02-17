@@ -19,7 +19,6 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-
 import SwiftUI
 
 extension Binding where Value == EditMode {
