@@ -20,19 +20,19 @@
 import SwiftUI
 
 extension Alert {
-    public init(_ error: UFError, dismissTitle: LocalizedStringKey = "Verb.Dismiss") {
+    public init(_ error: UFError, dismissAction: (() -> Void)?) {
         self.init(title: Text(error.title),
                   message: Text(error.message),
-                  dismissButton: .cancel(Text(dismissTitle)))
+                  dismissButton: .cancel(Text("Verb.Dismiss"), action: dismissAction))
     }
     
     /// Currently only 1 recovery option is supported
-    public init(_ error: RecoverableError, dismissTitle: LocalizedStringKey = "Verb.Dismiss") {
+    public init(_ error: RecoverableError, dismissAction: (() -> Void)?) {
         precondition(error.options.count == 1, "Currently only 1 recovery option is supported")
         self.init(title: Text(error.title),
                   message: Text(error.message),
                   primaryButton: .init(error.options[0]),
-                  secondaryButton: .cancel(Text(dismissTitle)))
+                  secondaryButton: .cancel(Text("Verb.Dismiss"), action: dismissAction))
     }
 }
 
