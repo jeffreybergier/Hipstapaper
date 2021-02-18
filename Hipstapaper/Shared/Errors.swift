@@ -19,13 +19,17 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import SwiftUI
+import Umbrella
+import Localize
 import Stylize
 
-enum Error: LocalizedError {
+enum Error: UserFacingError {
+    
     case shareExtensionAdd
     case cloudAccount
     
-    var errorDescription: String? {
+    var message: LocalizedStringKey {
         switch self {
         case .cloudAccount:
             // TODO: Fix this

@@ -19,19 +19,20 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import Foundation
+import SwiftUI
+import Umbrella
+import Localize
 
 internal let ISTESTING: Bool = NSClassFromString("XCTestCase") != nil
 
-// TODO: Conform to NSError Protocols
-public enum Error: Swift.Error {
+public enum Error: UserFacingError {
     case critical
     case unknown
 }
 
 // TODO: Add cases here
 extension Error: LocalizedError {
-    public var errorDescription: String? {
+    public var message: LocalizedStringKey {
         return "LOCALIZE THIS ERROR"
     }
 }

@@ -93,10 +93,7 @@ enum WebsiteHelper {
         guard wm.features.contains([.multipleWindows, .bulkActivation])
             else { return selection.first! }
         
-        wm.show(Set(urls)) { error in
-            errorQ.queue.append(error)
-            log.error(error)
-        }
+        wm.show(Set(urls))
         return nil
     }
     

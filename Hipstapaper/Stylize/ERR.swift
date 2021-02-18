@@ -158,9 +158,10 @@ import WebKit
 extension STZ.ERR {
     public class WKDelegate: NSObject, WKNavigationDelegate {
         
-        public enum Error: LocalizedError {
+        // TODO: Localize this error
+        public enum Error: UserFacingError {
             case invalidURL(URL)
-            public var errorDescription: String? {
+            public var message: LocalizedStringKey {
                 switch self {
                 case .invalidURL(let url):
                     return "Attempted to browse to an invalid URL: \(url.absoluteString)"

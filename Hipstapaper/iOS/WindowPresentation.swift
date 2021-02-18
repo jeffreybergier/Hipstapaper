@@ -26,7 +26,7 @@ class WindowPresentation: ObservableObject, WindowManagerProtocol {
         
     let features: Features = []
     
-    func show(_ urls: Set<URL>, error errorHandler: @escaping (Error) -> Void) {
+    func show(_ urls: Set<URL>) {
         fatalError("Not supported on iOS")
     }
 }

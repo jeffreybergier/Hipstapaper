@@ -22,14 +22,14 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import Foundation
+import SwiftUI
+import Umbrella
+import Localize
 
-internal enum Error: Swift.Error {
+internal enum Error: UserFacingError {
     case loadURL
-}
 
-extension Error: LocalizedError {
-    var errorDescription: String? {
+    var message: LocalizedStringKey {
         switch self {
         case .loadURL:
             // TODO: Localized this error

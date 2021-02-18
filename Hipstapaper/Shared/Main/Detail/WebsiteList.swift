@@ -58,7 +58,7 @@ extension WebsiteList {
     private func open(_ items: WH.Selection) {
         if self.windowPresentation.features.contains([.bulkActivation, .multipleWindows]) {
             let validURLs = Set(items.compactMap({ $0.value.preferredURL }))
-            self.windowPresentation.show(validURLs, error: { _ in })
+            self.windowPresentation.show(validURLs)
         } else {
             guard let validItem = items.first(where: { $0.value.preferredURL != nil }) else { return }
             self.modalPresentation.value = .browser(validItem)

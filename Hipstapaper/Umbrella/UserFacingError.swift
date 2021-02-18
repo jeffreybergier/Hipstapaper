@@ -23,7 +23,7 @@ import SwiftUI
 
 public typealias UFError = UserFacingError
 
-public protocol UserFacingError: CustomNSError {
+public protocol UserFacingError: CustomNSError, LocalizedError {
     var title: LocalizedStringKey { get }
     var message: LocalizedStringKey { get }
 }
@@ -43,5 +43,12 @@ public struct RecoveryOption {
         self.title = title
         self.isDestructive = isDestructive
         self.perform = perform
+    }
+}
+
+extension UserFacingError {
+    /// Default implementation. Override to provide your own `title`.
+    public var title: LocalizedStringKey {
+        return "Noun.Error"
     }
 }

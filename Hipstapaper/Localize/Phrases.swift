@@ -31,15 +31,9 @@ public enum Phrase {
     public static let FilterA: LocalizedStringKey                = "LCZ.Phrase.FilterA"
     public static let FilterB: LocalizedStringKey                = "LCZ.Phrase.FilterB"
     public static let ErrorScreenshot: LocalizedStringKey        = "LCZ.Phrase.ErrorScreenshot"
-    public static let ErrorScreenshot_L: String     = NSLocalizedString("LCZ.Phrase.ErrorScreenshot", comment: "")
     public static let ErrorConvertImage: LocalizedStringKey      = "LCZ.Phrase.ErrorConvertImage"
-    public static let ErrorConvertImage_L: String   = NSLocalizedString("LCZ.Phrase.ErrorConvertImage", comment: "")
     public static let ErrorImageSize: LocalizedStringKey         = "LCZ.Phrase.ImageSize"
-    public static let ErrorImageSize_L: String      = NSLocalizedString("LCZ.Phrase.ImageSize", comment: "")
     public static let ErrorUserCancel: LocalizedStringKey        = "LCZ.Phrase.UserCancel"
-    public static let ErrorUserCancel_L: String     = NSLocalizedString("LCZ.Phrase.UserCancel", comment: "")
     public static let ErrorProcessURL: LocalizedStringKey        = "LCZ.Phrase.ProcessURL"
-    public static let ErrorProcessURL_L: String     = NSLocalizedString("LCZ.Phrase.ProcessURL", comment: "")
     public static let ErrorSaveWebsite: LocalizedStringKey       = "LCZ.Phrase.SaveWebsite"
-    public static let ErrorSaveWebsite_L: String    = NSLocalizedString("LCZ.Phrase.SaveWebsite", comment: "")
 }
