@@ -17,51 +17,19 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-public struct Queue<Element>: ExpressibleByArrayLiteral {
-    // TODO: Use a more efficient data storage
-    // Internal for testing only
-    internal var _storage: [Element] = []
-    public init() {}
-    public init(arrayLiteral elements: Element...) {
-        _storage = elements
-    }
-    public mutating func append(_ element: Element) {
-        _storage.append(element)
-    }
-    public mutating func pop() -> Element? {
-        guard let next = _storage.first else { return nil }
-        _storage = Array(_storage.dropFirst())
-        return next
-    }
-}
-
-public struct _ErrorQ<Element> {
-    
-    private var _storage: Queue<Element> = []
-    
-    public init() {}
-    
-    public mutating func next() -> Element? {
-        return _storage.pop()
-    }
-    
-    public mutating func append(_ element: Element) {
-        return _storage.append(element)
-    }
-    
+extension QueueProtocol {
     @discardableResult
     public mutating func append<Ignored>(_ result: Result<Ignored, Element>) -> Result<Ignored, Element>
     {
         guard case .failure(let element) = result else { return result }
-        _storage.append(element)
+        self.append(element)
         return result
     }
-    
     @discardableResult
     public mutating func append<Ignored>(_ result: Result<Element, Ignored>) -> Result<Element, Ignored>
     {
         guard case .success(let element) = result else { return result }
-        _storage.append(element)
+        self.append(element)
         return result
     }
 }

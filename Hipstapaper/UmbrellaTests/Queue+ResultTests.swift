@@ -20,42 +20,24 @@
 import XCTest
 @testable import Umbrella
 
-class ErrorQTests: XCTestCase {
-    
-    func test_next() {
-        var q = _ErrorQ<Int>()
-        q.append(1)
-        XCTAssertEqual(q.next()!, 1)
-        XCTAssertNil(q.next())
-    }
-    
-    func test_append_raw() {
-        var q = _ErrorQ<Int>()
-        q.append(1)
-        q.append(2)
-        q.append(3)
-        XCTAssertEqual(q.next()!, 1)
-        XCTAssertEqual(q.next()!, 2)
-        XCTAssertEqual(q.next()!, 3)
-        XCTAssertNil(q.next())
-    }
+class QueueResultTests: XCTestCase {
     
     func test_append_failure() {
-        var q = _ErrorQ<Int>()
+        var q = Queue<Int>()
         let rO: Result<String, Int> = .failure(3)
         let rT = q.append(rO)
         XCTAssertEqual(rO, rT)
-        XCTAssertEqual(q.next()!, 3)
-        XCTAssertNil(q.next())
+        XCTAssertEqual(q.pop()!, 3)
+        XCTAssertNil(q.pop())
     }
     
     func test_append_success() {
-        var q = _ErrorQ<Int>()
+        var q = Queue<Int>()
         let rO: Result<Int, String> = .success(4)
         let rT = q.append(rO)
         XCTAssertEqual(rO, rT)
-        XCTAssertEqual(q.next()!, 4)
-        XCTAssertNil(q.next())
+        XCTAssertEqual(q.pop()!, 4)
+        XCTAssertNil(q.pop())
     }
 }
 

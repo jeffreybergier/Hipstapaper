@@ -104,10 +104,11 @@
 		736FC97725DC84FA004CF4C3 /* Foundation+Umbrella.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FC97625DC84FA004CF4C3 /* Foundation+Umbrella.swift */; };
 		736FC99425DD56A8004CF4C3 /* UserFacingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FC99325DD56A8004CF4C3 /* UserFacingError.swift */; };
 		736FC99F25DD5AA8004CF4C3 /* Alert+UFError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FC99E25DD5AA8004CF4C3 /* Alert+UFError.swift */; };
-		736FC9AA25DDDAAC004CF4C3 /* ErrorQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FC9A925DDDAAC004CF4C3 /* ErrorQ.swift */; };
-		736FC9F625DDDDC5004CF4C3 /* UmbrellaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FC9F525DDDDC5004CF4C3 /* UmbrellaTests.swift */; };
+		736FC9AA25DDDAAC004CF4C3 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FC9A925DDDAAC004CF4C3 /* Queue.swift */; };
+		736FC9F625DDDDC5004CF4C3 /* QueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FC9F525DDDDC5004CF4C3 /* QueueTests.swift */; };
 		736FCA1125DDDDFF004CF4C3 /* Umbrella.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73093C2A25DBFE3F00B7915A /* Umbrella.framework */; };
-		736FCA1D25DDE1B7004CF4C3 /* ErrorQTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FCA1C25DDE1B7004CF4C3 /* ErrorQTests.swift */; };
+		736FCA1D25DDE1B7004CF4C3 /* Queue+ResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FCA1C25DDE1B7004CF4C3 /* Queue+ResultTests.swift */; };
+		736FCA3325DE8CD7004CF4C3 /* Queue+Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FCA3225DE8CD7004CF4C3 /* Queue+Result.swift */; };
 		7377B3D525C6DBC1003BE3F1 /* AnyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5031AF23256E8DEC00AC98AA /* AnyList.swift */; };
 		7377B3EA25C6DDB6003BE3F1 /* MappedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4C6C258E27870016F904 /* MappedList.swift */; };
 		73993E2E2595DFC7006FB612 /* BrowserWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73993E2D2595DFC2006FB612 /* BrowserWindowController.swift */; };
@@ -567,11 +568,12 @@
 		736FC97625DC84FA004CF4C3 /* Foundation+Umbrella.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Foundation+Umbrella.swift"; sourceTree = "<group>"; };
 		736FC99325DD56A8004CF4C3 /* UserFacingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFacingError.swift; sourceTree = "<group>"; };
 		736FC99E25DD5AA8004CF4C3 /* Alert+UFError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alert+UFError.swift"; sourceTree = "<group>"; };
-		736FC9A925DDDAAC004CF4C3 /* ErrorQ.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorQ.swift; sourceTree = "<group>"; };
+		736FC9A925DDDAAC004CF4C3 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		736FC9F325DDDDC5004CF4C3 /* UmbrellaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UmbrellaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		736FC9F525DDDDC5004CF4C3 /* UmbrellaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UmbrellaTests.swift; sourceTree = "<group>"; };
+		736FC9F525DDDDC5004CF4C3 /* QueueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueTests.swift; sourceTree = "<group>"; };
 		736FC9F725DDDDC5004CF4C3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		736FCA1C25DDE1B7004CF4C3 /* ErrorQTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorQTests.swift; sourceTree = "<group>"; };
+		736FCA1C25DDE1B7004CF4C3 /* Queue+ResultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Queue+ResultTests.swift"; sourceTree = "<group>"; };
+		736FCA3225DE8CD7004CF4C3 /* Queue+Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Queue+Result.swift"; sourceTree = "<group>"; };
 		73993E2D2595DFC2006FB612 /* BrowserWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserWindowController.swift; sourceTree = "<group>"; };
 		7399BAA9258251A500B8CAFD /* Stylize.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Stylize.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7399BAAB258251A500B8CAFD /* Stylize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stylize.h; sourceTree = "<group>"; };
@@ -830,7 +832,8 @@
 				736FC97625DC84FA004CF4C3 /* Foundation+Umbrella.swift */,
 				736FC99325DD56A8004CF4C3 /* UserFacingError.swift */,
 				736FC99E25DD5AA8004CF4C3 /* Alert+UFError.swift */,
-				736FC9A925DDDAAC004CF4C3 /* ErrorQ.swift */,
+				736FC9A925DDDAAC004CF4C3 /* Queue.swift */,
+				736FCA3225DE8CD7004CF4C3 /* Queue+Result.swift */,
 				73093C2D25DBFE3F00B7915A /* Info.plist */,
 			);
 			path = Umbrella;
@@ -865,8 +868,8 @@
 		736FC9F425DDDDC5004CF4C3 /* UmbrellaTests */ = {
 			isa = PBXGroup;
 			children = (
-				736FC9F525DDDDC5004CF4C3 /* UmbrellaTests.swift */,
-				736FCA1C25DDE1B7004CF4C3 /* ErrorQTests.swift */,
+				736FC9F525DDDDC5004CF4C3 /* QueueTests.swift */,
+				736FCA1C25DDE1B7004CF4C3 /* Queue+ResultTests.swift */,
 				736FC9F725DDDDC5004CF4C3 /* Info.plist */,
 			);
 			path = UmbrellaTests;
@@ -1676,7 +1679,8 @@
 				736FC95825DC8345004CF4C3 /* SwiftUI+Umbrella.swift in Sources */,
 				736FC97725DC84FA004CF4C3 /* Foundation+Umbrella.swift in Sources */,
 				736FC96325DC8455004CF4C3 /* Swift+Umbrella.swift in Sources */,
-				736FC9AA25DDDAAC004CF4C3 /* ErrorQ.swift in Sources */,
+				736FCA3325DE8CD7004CF4C3 /* Queue+Result.swift in Sources */,
+				736FC9AA25DDDAAC004CF4C3 /* Queue.swift in Sources */,
 				736FC99F25DD5AA8004CF4C3 /* Alert+UFError.swift in Sources */,
 				736FC99425DD56A8004CF4C3 /* UserFacingError.swift in Sources */,
 			);
@@ -1701,8 +1705,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				736FCA1D25DDE1B7004CF4C3 /* ErrorQTests.swift in Sources */,
-				736FC9F625DDDDC5004CF4C3 /* UmbrellaTests.swift in Sources */,
+				736FCA1D25DDE1B7004CF4C3 /* Queue+ResultTests.swift in Sources */,
+				736FC9F625DDDDC5004CF4C3 /* QueueTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

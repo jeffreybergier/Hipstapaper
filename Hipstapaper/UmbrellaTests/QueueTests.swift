@@ -45,5 +45,19 @@ class QueueTests: XCTestCase {
         q.append(4)
         XCTAssertEqual(q._storage, [1,2,3,4])
     }
+    
+    func test_peek() {
+        var q: Queue<Int> = [1,2,3]
+        XCTAssertEqual(q.peek, 1)
+        q.append(4)
+        XCTAssertEqual(q.peek, 1)
+    }
+    
+    func test_isEmpty() {
+        var q: Queue<Int> = []
+        XCTAssertTrue(q.isEmpty)
+        q.append(4)
+        XCTAssertFalse(q.isEmpty)
+    }
 
 }
