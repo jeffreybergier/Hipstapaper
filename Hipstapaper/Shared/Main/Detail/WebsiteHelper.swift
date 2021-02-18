@@ -54,18 +54,27 @@ enum WebsiteHelper {
     }
     
     static func archive(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQ) {
-        let r = errorQ.append(controller.update(selection, .init(isArchived: true)))
-        log.error(r.error)
+        let result = controller.update(selection, .init(isArchived: true))
+        result.error.map {
+            errorQ.queue.append($0)
+            log.error($0)
+        }
     }
     
     static func unarchive(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQ) {
-        let r = errorQ.append(controller.update(selection, .init(isArchived: false)))
-        log.error(r.error)
+        let result = controller.update(selection, .init(isArchived: false))
+        result.error.map {
+            errorQ.queue.append($0)
+            log.error($0)
+        }
     }
     
     static func delete(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQ) {
-        let r = errorQ.append(controller.delete(selection))
-        log.error(r.error)
+        let result = controller.delete(selection)
+        result.error.map {
+            errorQ.queue.append($0)
+            log.error($0)
+        }
     }
     
     static func open(_ selection: Selection, in open: OpenURLAction) {
@@ -84,7 +93,10 @@ enum WebsiteHelper {
         guard wm.features.contains([.multipleWindows, .bulkActivation])
             else { return selection.first! }
         
-        wm.show(Set(urls)) { errorQ.append($0) }
+        wm.show(Set(urls)) { error in
+            errorQ.queue.append(error)
+            log.error(error)
+        }
         return nil
     }
     

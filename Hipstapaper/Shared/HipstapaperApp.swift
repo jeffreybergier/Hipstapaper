@@ -51,7 +51,7 @@ struct HipstapaperApp: App {
             self.controller = controller
             self.watcher = DropboxWatcher(controller: controller, errorQ: errorQ)
         case .failure(let error):
-            errorQ.append(error)
+            errorQ.queue.append(error)
             log.error(error)
             _errorQ = .init(wrappedValue: errorQ)
             self.controller = nil

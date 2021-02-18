@@ -17,19 +17,12 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-extension Queue {
-    @discardableResult
-    public mutating func append<Ignored>(_ result: Result<Ignored, Element>) -> Result<Ignored, Element>
-    {
-        guard case .failure(let element) = result else { return result }
-        self.append(element)
-        return result
-    }
-    @discardableResult
-    public mutating func append<Ignored>(_ result: Result<Element, Ignored>) -> Result<Element, Ignored>
-    {
-        guard case .success(let element) = result else { return result }
-        self.append(element)
-        return result
+import Combine
+
+public struct IdentBox<Value>: Identifiable {
+    public var id = UUID()
+    public var value: Value
+    public init(_ value: Value) {
+        self.value = value
     }
 }

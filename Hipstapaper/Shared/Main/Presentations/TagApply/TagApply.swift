@@ -35,8 +35,10 @@ struct TagApply: View {
     
     var body: some View {
         let result = self.controller.tagStatus(for: self.selection)
-        self.errorQ.append(result)
-        log.error(result.error)
+        result.error.map {
+            self.errorQ.queue.append($0)
+            log.error($0)
+        }
         return self.build(result)
     }
     
@@ -59,17 +61,12 @@ struct TagApply: View {
     
     private func process(newValue: Bool, for tag: AnyElementObserver<AnyTag>) {
         let selection = self.selection
-        let result: Result<Void, Datum.Error>
-        switch newValue {
-        case true:
-            result = self.errorQ.append(
-                self.controller.add(tag: tag, to: selection)
-            )
-        case false:
-            result = self.errorQ.append(
-                self.controller.remove(tag: tag, from: selection)
-            )
+        let result = newValue
+            ? self.controller.add(tag: tag, to: selection)
+            : self.controller.remove(tag: tag, from: selection)
+        result.error.map {
+            self.errorQ.queue.append($0)
+            log.error($0)
         }
-        log.error(result.error)
     }
 }

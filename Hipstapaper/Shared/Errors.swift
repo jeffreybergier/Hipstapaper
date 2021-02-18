@@ -36,11 +36,5 @@ enum Error: LocalizedError {
     }
 }
 
-protocol ErrorQ: class {
-    func append(_ error: LocalizedError)
-    @discardableResult
-    func append<T, E: LocalizedError>(_ result: Result<T, E>) -> Result<T, E>
-}
-
 // TODO: Move errorQ to Umbrella
-extension STZ.ERR.ViewModel: ErrorQ {}
+typealias ErrorQ = STZ.ERR.ViewModel

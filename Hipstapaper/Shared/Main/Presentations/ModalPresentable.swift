@@ -108,7 +108,7 @@ struct AddTagPresentable: ViewModifier {
         case .success:
             self.presentation.value = .none
         case .failure(let error):
-            self.errorQ.append(error)
+            self.errorQ.queue.append(error)
         }
     }
 }
@@ -127,11 +127,17 @@ struct AddWebsitePresentable: ViewModifier {
     
     private func snapshot(_ result: Result<Snapshot.ViewModel.Output, Snapshot.Error>) {
         defer { self.presentation.value = .none }
-        self.errorQ.append(result)
-        log.error(result.error)
-        guard let output = result.value else { return }
-        let result2 = self.errorQ.append(self.controller.createWebsite(.init(output)))
-        log.error(result2.error)
+        switch result {
+        case .success(let output):
+            let result2 = self.controller.createWebsite(.init(output))
+            result2.error.map {
+                self.errorQ.queue.append($0)
+                log.error($0)
+            }
+        case .failure(let error):
+            self.errorQ.queue.append(error)
+            log.error(error)
+        }
     }
 }
 

@@ -34,12 +34,12 @@ extension STZ.TB {
         @ViewBuilder var body: some View {
             if self.monitor.isLoggedIn == false {
                 STZ.TB.CloudAccountError.toolbar {
-                    self.errorQ.append(Error.cloudAccount)
+                    self.errorQ.queue.append(Error.cloudAccount)
                 }
             } else if self.monitor.errorQ.isEmpty == false {
                 STZ.TB.CloudSyncError.toolbar {
                     while !self.monitor.errorQ.isEmpty {
-                        self.errorQ.append(self.monitor.errorQ.next()!)
+                        self.errorQ.queue.append(self.monitor.errorQ.next()!)
                     }
                 }
             }

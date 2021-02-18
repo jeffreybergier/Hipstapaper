@@ -36,7 +36,10 @@ class TagDataSource: DataSource {
         guard self.observer == nil else { return }
         let result = controller.readTags()
         self.observer = result.value
-        errorQ?.append(result)
+        result.error.map {
+            errorQ?.queue.append($0)
+            log.error($0)
+        }
     }
     
     func deactivate() {

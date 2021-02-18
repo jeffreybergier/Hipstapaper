@@ -45,7 +45,10 @@ class WebsiteDataSource: DataSource {
         log.verbose(self.query.tag?.value.name ?? self.query.filter)
         let result = controller.readWebsites(query: self.query)
         self.observer = result.value
-        errorQ?.append(result)
+        result.error.map {
+            errorQ?.queue.append($0)
+            log.error($0)
+        }
     }
     
     func deactivate() {

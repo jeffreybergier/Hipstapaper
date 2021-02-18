@@ -45,7 +45,7 @@ class DropboxWatcher {
                 try FileManager.default.removeItem(at: url)
             } catch {
                 log.error(error)
-                errorQ?.append(Error.shareExtensionAdd)
+                errorQ?.queue.append(Error.shareExtensionAdd)
             }
         }
     }
