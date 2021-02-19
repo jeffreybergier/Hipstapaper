@@ -24,32 +24,31 @@ import SwiftUI
 /// This class is not thread-safe. Only use from Main thread.
 public class ErrorQueue: ObservableObject {
     
-    @Published public var current: IdentBox<UFError>?
+    @Published public var current: IdentBox<UFError>? { didSet { self.update() } }
     
-    public var queue: Queue<UFError> = [] {
-        didSet {
-            guard internalUpdateInProgress == false else { return }
-            self.update()
-        }
-    }
+    public var queue: Queue<UFError> = [] { didSet { self.update() } }
     
     public init() { }
     
-    private var internalUpdateInProgress = false
+    private var timer: Timer?
     public func update() {
-        self.internalUpdateInProgress = true
-        defer { self.internalUpdateInProgress = false }
-        self.current = self.queue.pop().map { IdentBox($0) }
+        guard self.current == nil, self.timer == nil else { return }
+        self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false)
+        { [weak self] timer in
+            self?.current = self?.queue.pop().map { IdentBox($0) }
+            timer.invalidate()
+            self?.timer = nil
+        }
     }
 }
 
 /// Gets ErrorQueue from Environment and presents errors
 public struct ErrorQueuePresenter: ViewModifier {
-    @EnvironmentObject private var viewModel: ErrorQueue
+    @EnvironmentObject private var errorQ: ErrorQueue
     public init() {}
     public func body(content: Content) -> some View {
-        content.alert(item: self.$viewModel.current) { box in
-            Alert(box.value, dismissAction: self.viewModel.update)
+        content.alert(item: self.$errorQ.current) { box in
+            Alert(box.value)
         }
     }
 }

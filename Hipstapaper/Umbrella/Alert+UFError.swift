@@ -20,7 +20,7 @@
 import SwiftUI
 
 extension Alert {
-    public init(_ error: UFError, dismissAction: (() -> Void)?) {
+    public init(_ error: UFError, dismissAction: @escaping () -> Void = {}) {
         self.init(title: Text(error.title),
                   message: Text(error.message),
                   dismissButton: .cancel(Text(error.dismissButtonTitle),
@@ -28,7 +28,7 @@ extension Alert {
     }
     
     /// Currently only 1 recovery option is supported
-    public init(_ error: RecoverableError, dismissAction: (() -> Void)?) {
+    public init(_ error: RecoverableError, dismissAction: @escaping () -> Void = {}) {
         precondition(error.options.count == 1, "Currently only 1 recovery option is supported")
         self.init(title: Text(error.title),
                   message: Text(error.message),
