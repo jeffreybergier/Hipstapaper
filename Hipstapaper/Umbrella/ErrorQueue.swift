@@ -49,7 +49,15 @@ public struct ErrorQueuePresenter: ViewModifier {
     public init() {}
     public func body(content: Content) -> some View {
         content.alert(item: self.$viewModel.current) { box in
-            return Alert(box.value, dismissAction: self.viewModel.update)
+            Alert(box.value, dismissAction: self.viewModel.update)
         }
+    }
+}
+
+/// Clear view that gets ErrorQueue from Environment and presents errors
+public struct ErrorQueuePresenterView: View {
+    public init() {}
+    public var body: some View {
+        Color.clear.modifier(ErrorQueuePresenter())
     }
 }

@@ -28,65 +28,6 @@ extension STZ {
     }
 }
 
-extension Alert {
-    fileprivate init(error: LocalizedError, dismissAction: Action?) {
-        self.init(title: Text(Noun.Error),
-                  message: Text(error.errorDescription!),
-                  dismissButton: .default(Text(Verb.Dismiss),
-                                          action: { dismissAction?() }))
-    }
-    fileprivate init(error: LocalizedError, dismissAction: STZ.ERR.Legacy.Action?) {
-        self.init(title: Text(Noun.Error),
-                  message: Text(error.errorDescription!),
-                  dismissButton: .default(Text(Verb.Dismiss),
-                                          action: { dismissAction?(error) }))
-    }
-}
-
-extension STZ.ERR {
-    public enum Legacy {
-        public typealias Action = (Error) -> Void
-        /// Set an error here to present an Alert when using with
-        /// Presenter / Modifier
-        public class ViewModel: ObservableObject {
-            @Published public var error: LocalizedError? {
-                didSet {
-                    let shouldBe = self.error != nil
-                    guard shouldBe != self.isPresented else { return }
-                    self.isPresented = shouldBe
-                }
-            }
-            @Published internal var isPresented = false {
-                didSet {
-                    guard self.isPresented == false else { return }
-                    self.error = nil
-                }
-            }
-            /// Closure is called when alert is dismissed
-            public var dismissAction: Action?
-            internal var alert: Alert? {
-                guard let error = self.error else { return nil }
-                return Alert(error: error, dismissAction: self.dismissAction)
-            }
-            public init() {}
-        }
-        
-        /// If the ViewModel contains an Error, this presents an Alert,
-        /// otherwise is transparent view.
-        /// Use when needing to present SwiftUI alert from UIKit
-        public struct Presenter: View {
-            @ObservedObject public var viewModel: ViewModel
-            public var body: some View {
-                Color.clear.alert(isPresented: self.$viewModel.isPresented,
-                                  content: { self.viewModel.alert! })
-            }
-            public init(_ viewModel: ViewModel) {
-                _viewModel = .init(wrappedValue: viewModel)
-            }
-        }
-    }
-}
-
 import WebKit
 
 extension STZ.ERR {
