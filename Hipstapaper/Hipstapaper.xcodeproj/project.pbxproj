@@ -111,6 +111,8 @@
 		736FCA3325DE8CD7004CF4C3 /* Queue+Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FCA3225DE8CD7004CF4C3 /* Queue+Result.swift */; };
 		736FCA5325DE91CD004CF4C3 /* IdentBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FCA5225DE91CD004CF4C3 /* IdentBox.swift */; };
 		736FCA5F25DE9D64004CF4C3 /* ErrorQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FCA5E25DE9D64004CF4C3 /* ErrorQueue.swift */; };
+		736FCA6B25DFDF68004CF4C3 /* GenericWebkiteNavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FCA6A25DFDF68004CF4C3 /* GenericWebkiteNavigationDelegate.swift */; };
+		736FCA7725DFDF81004CF4C3 /* GenericError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FCA7625DFDF81004CF4C3 /* GenericError.swift */; };
 		7377B3D525C6DBC1003BE3F1 /* AnyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5031AF23256E8DEC00AC98AA /* AnyList.swift */; };
 		7377B3EA25C6DDB6003BE3F1 /* MappedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4C6C258E27870016F904 /* MappedList.swift */; };
 		73993E2E2595DFC7006FB612 /* BrowserWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73993E2D2595DFC2006FB612 /* BrowserWindowController.swift */; };
@@ -578,6 +580,8 @@
 		736FCA3225DE8CD7004CF4C3 /* Queue+Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Queue+Result.swift"; sourceTree = "<group>"; };
 		736FCA5225DE91CD004CF4C3 /* IdentBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentBox.swift; sourceTree = "<group>"; };
 		736FCA5E25DE9D64004CF4C3 /* ErrorQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorQueue.swift; sourceTree = "<group>"; };
+		736FCA6A25DFDF68004CF4C3 /* GenericWebkiteNavigationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericWebkiteNavigationDelegate.swift; sourceTree = "<group>"; };
+		736FCA7625DFDF81004CF4C3 /* GenericError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericError.swift; sourceTree = "<group>"; };
 		73993E2D2595DFC2006FB612 /* BrowserWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserWindowController.swift; sourceTree = "<group>"; };
 		7399BAA9258251A500B8CAFD /* Stylize.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Stylize.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7399BAAB258251A500B8CAFD /* Stylize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stylize.h; sourceTree = "<group>"; };
@@ -835,10 +839,12 @@
 				736FC96225DC8455004CF4C3 /* Swift+Umbrella.swift */,
 				736FC97625DC84FA004CF4C3 /* Foundation+Umbrella.swift */,
 				736FC99325DD56A8004CF4C3 /* UserFacingError.swift */,
+				736FCA7625DFDF81004CF4C3 /* GenericError.swift */,
 				736FC99E25DD5AA8004CF4C3 /* Alert+UFError.swift */,
 				736FC9A925DDDAAC004CF4C3 /* Queue.swift */,
 				736FCA3225DE8CD7004CF4C3 /* Queue+Result.swift */,
 				736FCA5E25DE9D64004CF4C3 /* ErrorQueue.swift */,
+				736FCA6A25DFDF68004CF4C3 /* GenericWebkiteNavigationDelegate.swift */,
 				736FCA5225DE91CD004CF4C3 /* IdentBox.swift */,
 				73093C2D25DBFE3F00B7915A /* Info.plist */,
 			);
@@ -1681,6 +1687,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				736FCA7725DFDF81004CF4C3 /* GenericError.swift in Sources */,
 				73093CA225DC019600B7915A /* Logger.swift in Sources */,
 				736FCA5325DE91CD004CF4C3 /* IdentBox.swift in Sources */,
 				736FCA5F25DE9D64004CF4C3 /* ErrorQueue.swift in Sources */,
@@ -1690,6 +1697,7 @@
 				736FCA3325DE8CD7004CF4C3 /* Queue+Result.swift in Sources */,
 				736FC9AA25DDDAAC004CF4C3 /* Queue.swift in Sources */,
 				736FC99F25DD5AA8004CF4C3 /* Alert+UFError.swift in Sources */,
+				736FCA6B25DFDF68004CF4C3 /* GenericWebkiteNavigationDelegate.swift in Sources */,
 				736FC99425DD56A8004CF4C3 /* UserFacingError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
