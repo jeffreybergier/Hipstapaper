@@ -31,7 +31,7 @@ struct TagApply: View {
     let selection: WH.Selection
     let done: Action
     
-    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
+    @EnvironmentObject private var errorQ: ErrorQueue
     
     var body: some View {
         let result = self.controller.tagStatus(for: self.selection)

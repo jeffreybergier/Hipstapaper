@@ -92,7 +92,7 @@ struct AddTagPresentable: ViewModifier {
     
     let controller: Controller
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
-    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
+    @EnvironmentObject private var errorQ: ErrorQueue
 
     func body(content: Content) -> some View {
         content.popover(isPresented: self.$presentation.isAddTag)
@@ -116,7 +116,7 @@ struct AddTagPresentable: ViewModifier {
 struct AddWebsitePresentable: ViewModifier {
     
     let controller: Controller
-    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
+    @EnvironmentObject private var errorQ: ErrorQueue
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
 
     func body(content: Content) -> some View {

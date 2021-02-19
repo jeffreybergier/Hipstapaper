@@ -28,55 +28,6 @@ extension STZ {
     }
 }
 
-extension STZ.ERR {
-    
-    /// Add ViewModel to environment so any view can append errors.
-    /// Use PresenterA or B at a high level in the view hierarchy
-    /// to deque errors and present them to the user.
-    public class ViewModel: ObservableObject {
-        @Published public var current: IdentBox<LocalizedError>?
-        public var queue: Queue<LocalizedError> = [] {
-            didSet {
-                guard internalUpdateInProgress == false else { return }
-                self.update()
-            }
-        }
-        private var internalUpdateInProgress = false
-        public init() { }
-        public func update() {
-            self.internalUpdateInProgress = true
-            defer { self.internalUpdateInProgress = false }
-            self.current = self.queue.pop().map { IdentBox($0) }
-        }
-    }
-    
-    /// Gets STZ.ERR.ViewModel from Initializer.
-    /// Use `PresenterB` if you want to get ViewModel from Environment
-    public struct PresenterA: ViewModifier {
-        @ObservedObject private var viewModel: ViewModel
-        public init(_ queue: ViewModel) {
-            _viewModel = .init(initialValue: queue)
-        }
-        public func body(content: Content) -> some View {
-            content.alert(item: self.$viewModel.current) { box in
-                return Alert(error: box.value, dismissAction: self.viewModel.update)
-            }
-        }
-    }
-    
-    /// Gets STZ.ERR.ViewModel from Environment.
-    /// Use `PresenterA` if you don't want to use Environment
-    public struct PresenterB: ViewModifier {
-        @EnvironmentObject private var viewModel: ViewModel
-        public init() {}
-        public func body(content: Content) -> some View {
-            content.alert(item: self.$viewModel.current) { box in
-                return Alert(error: box.value, dismissAction: self.viewModel.update)
-            }
-        }
-    }
-}
-
 extension Alert {
     fileprivate init(error: LocalizedError, dismissAction: Action?) {
         self.init(title: Text(Noun.Error),
@@ -133,23 +84,6 @@ extension STZ.ERR {
                 _viewModel = .init(wrappedValue: viewModel)
             }
         }
-        
-        public struct LError: LocalizedError {
-            /// A localized message describing what error occurred.
-            public var errorDescription: String?
-
-            /// A localized message describing the reason for the failure.
-            public var failureReason: String?
-
-            /// A localized message providing "help" text if the user requests help.
-            public var helpAnchor: String?
-            
-            public init(error: NSError) {
-                self.errorDescription = error.localizedDescription
-                self.failureReason = error.localizedFailureReason
-                self.helpAnchor = error.helpAnchor
-            }
-        }
     }
 }
 
@@ -169,12 +103,12 @@ extension STZ.ERR {
             }
         }
         
-        public typealias OnError = (LocalizedError) -> Void
+        public typealias OnError = (UserFacingError) -> Void
         
-        public let viewModel: ViewModel
+        public let viewModel: ErrorQueue
         public var onError: OnError?
         
-        public init(viewModel: ViewModel, onError: OnError? = nil) {
+        public init(viewModel: ErrorQueue, onError: OnError? = nil) {
             self.viewModel = viewModel
             self.onError = onError
         }
@@ -202,7 +136,7 @@ extension STZ.ERR {
                             didFail navigation: WKNavigation!,
                             withError error: Swift.Error)
         {
-            let localizedError = STZ.ERR.Legacy.LError(error: error as NSError)
+            let localizedError = GenericError(error as NSError)
             self.viewModel.queue.append(localizedError)
             self.onError?(localizedError)
         }
@@ -211,7 +145,7 @@ extension STZ.ERR {
                             didFailProvisionalNavigation navigation: WKNavigation!,
                             withError error: Swift.Error)
         {
-            let localizedError = Legacy.LError(error: error as NSError)
+            let localizedError = GenericError(error as NSError)
             self.viewModel.queue.append(localizedError)
             self.onError?(localizedError)
         }

@@ -20,6 +20,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import Datum
 import Localize
 import Stylize
@@ -58,7 +59,7 @@ struct IndexToolbar_macOS: ViewModifier {
     let controller: Controller
     @Binding var selection: TH.Selection?
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
-    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
+    @EnvironmentObject private var errorQ: ErrorQueue
     
     func body(content: Content) -> some View {
         content.toolbar(id: "Index") {

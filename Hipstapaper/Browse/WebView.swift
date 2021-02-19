@@ -21,12 +21,13 @@
 
 import SwiftUI
 import WebKit
+import Umbrella
 import Stylize
 
 internal struct WebView: View {
     
     @ObservedObject var viewModel: ViewModel
-    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
+    @EnvironmentObject private var errorQ: ErrorQueue
     
     private func update(_ wv: WKWebView, context: Context) {
         if self.viewModel.browserControl.stop {
