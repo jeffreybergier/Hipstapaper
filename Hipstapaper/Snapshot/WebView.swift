@@ -23,7 +23,6 @@
 import SwiftUI
 import WebKit
 import Umbrella
-import Stylize
 
 struct WebView: View {
     
@@ -86,8 +85,8 @@ struct WebView: View {
         return wv
     }
     
-    func makeCoordinator() -> STZ.ERR.WKDelegate {
-        return .init(viewModel: self.errorQ) { [unowned viewModel] _ in
+    func makeCoordinator() -> GenericWebKitNavigationDelegate {
+        return .init(self.errorQ) { [unowned viewModel] _ in
             viewModel.control.shouldLoad = false
         }
     }
