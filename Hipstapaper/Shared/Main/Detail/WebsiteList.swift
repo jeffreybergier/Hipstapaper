@@ -20,6 +20,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import Datum
 import Localize
 import Stylize
@@ -32,7 +33,7 @@ struct WebsiteList: View {
     
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     @EnvironmentObject private var windowPresentation: WindowPresentation
-    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
+    @EnvironmentObject private var errorQ: ErrorQueue
     
     var body: some View {
         XPL1.List(data: self.dataSource.data,

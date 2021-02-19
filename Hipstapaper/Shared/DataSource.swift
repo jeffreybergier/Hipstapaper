@@ -19,6 +19,7 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import Umbrella
 import Datum
 
 protocol DataSource: ObservableObject {
@@ -32,7 +33,7 @@ protocol DataSource: ObservableObject {
     
     /// Causes the observer to be created and start observing.
     /// Pass errorQ if you want errors to be captured
-    func activate(_ errorQ: ErrorQ?)
+    func activate(_ errorQ: ErrorQueue?)
     /// Causes the observer to be deallocated and no longer be observed
     func deactivate()
 }

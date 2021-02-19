@@ -18,6 +18,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import Stylize
 import Datum
 
@@ -25,7 +26,7 @@ struct WebsiteDelete: ViewModifier {
     
     let controller: Controller
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
-    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
+    @EnvironmentObject private var errorQ: ErrorQueue
     
     func body(content: Content) -> some View {
         content.alert(item: self.$modalPresentation.isDeleteWebsite) { selection in
@@ -45,7 +46,7 @@ struct TagDelete: ViewModifier {
     
     let controller: Controller
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
-    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
+    @EnvironmentObject private var errorQ: ErrorQueue
     
     func body(content: Content) -> some View {
         content.alert(item: self.$modalPresentation.isDeleteTag) { selection in

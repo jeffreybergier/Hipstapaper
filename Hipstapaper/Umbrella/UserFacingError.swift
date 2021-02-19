@@ -24,8 +24,11 @@ import SwiftUI
 public typealias UFError = UserFacingError
 
 public protocol UserFacingError: CustomNSError, LocalizedError {
+    /// Default implementation is "Noun.Error"
     var title: LocalizedStringKey { get }
     var message: LocalizedStringKey { get }
+    /// Default implementation is "Verb.Dismiss"
+    var dismissButtonTitle: LocalizedStringKey { get }
 }
 
 public protocol RecoverableError: UserFacingError {
@@ -47,8 +50,46 @@ public struct RecoveryOption {
 }
 
 extension UserFacingError {
-    /// Default implementation. Override to provide your own `title`.
+    /// Default implementation. Override to customize
     public var title: LocalizedStringKey {
         return "Noun.Error"
+    }
+    /// Default implementation. Override to customize
+    public var dismissButtonTitle: LocalizedStringKey {
+        return "Verb.Dismiss"
+    }
+}
+
+public struct GenericError: RecoverableError {
+    /// Default value is `com.saturdayapps.JSBUmbrella`
+    public static var errorDomain: String = "com.saturdayapps.JSBUmbrella"
+    public var errorCode: Int
+    /// Only useful for debugging. Cocoa does not read this errorDomain.
+    /// See `static var errorDomain`
+    /// Default value is `com.saturdayapps.JSBUmbrella`
+    public var errorDomain: String
+    public var errorUserInfo: [String : Any]
+    public var message: LocalizedStringKey
+    public var options: [RecoveryOption]
+    
+    public init(errorCode: Int,
+                errorDomain: String = "com.saturdayapps.JSBUmbrella",
+                errorUserInfo: [String : Any] = [:],
+                message: LocalizedStringKey,
+                options: [RecoveryOption] = [])
+    {
+        self.errorCode = errorCode
+        self.errorDomain = errorDomain
+        self.errorUserInfo = errorUserInfo
+        self.message = message
+        self.options = options
+    }
+    
+    public init(_ error: NSError, options: [RecoveryOption] = []) {
+        self.errorCode = error.code
+        self.errorDomain = error.domain
+        self.errorUserInfo = error.userInfo
+        self.message = "\(error.localizedDescription)"
+        self.options = options
     }
 }

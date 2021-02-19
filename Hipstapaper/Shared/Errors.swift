@@ -39,6 +39,3 @@ enum Error: UserFacingError {
         }
     }
 }
-
-// TODO: Move errorQ to Umbrella
-typealias ErrorQ = STZ.ERR.ViewModel

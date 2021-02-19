@@ -31,7 +31,7 @@ class TagDataSource: DataSource {
         self.controller = controller
     }
     
-    func activate(_ errorQ: ErrorQ?) {
+    func activate(_ errorQ: ErrorQueue?) {
         log.verbose()
         guard self.observer == nil else { return }
         let result = controller.readTags()

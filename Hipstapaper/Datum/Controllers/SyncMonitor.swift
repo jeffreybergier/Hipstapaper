@@ -19,15 +19,16 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import CoreData
 import Combine
+import CoreData
+import Umbrella
 
 public protocol SyncMonitor: ObservableObject {
     // TODO: Change this to `persistentError`
     var isLoggedIn: Bool { get }
     var progress: Progress { get }
     // TODO: Change this to ephemeralError?
-    var errorQ: Queue<LocalizedError> { get }
+    var errorQ: Queue<UserFacingError> { get }
 }
 
 public class AnySyncMonitor: SyncMonitor {
@@ -35,11 +36,11 @@ public class AnySyncMonitor: SyncMonitor {
     public let objectWillChange: ObservableObjectPublisher
     public var isLoggedIn: Bool { _isLoggedIn() }
     public var progress: Progress { _progress() }
-    public var errorQ: Queue<LocalizedError> { _errorQ() }
+    public var errorQ: Queue<UserFacingError> { _errorQ() }
     
     private var _isLoggedIn: () -> Bool
     private var _progress: () -> Progress
-    private var _errorQ: () -> Queue<LocalizedError>
+    private var _errorQ: () -> Queue<UserFacingError>
     
     public init<T: SyncMonitor>(_ monitor: T) where T.ObjectWillChangePublisher == ObservableObjectPublisher {
         self.objectWillChange = monitor.objectWillChange
@@ -53,7 +54,7 @@ public class AnySyncMonitor: SyncMonitor {
 public class NoSyncMonitor: SyncMonitor {
     public let isLoggedIn: Bool = false
     public let progress: Progress = .init()
-    public let errorQ: Queue<LocalizedError> = []
+    public let errorQ: Queue<UserFacingError> = []
     public init() {}
 }
 

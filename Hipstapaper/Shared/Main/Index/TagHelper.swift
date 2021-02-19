@@ -34,7 +34,7 @@ enum TagHelper {
         guard let tag = selection else { return false }
         return tag.canDelete
     }
-    static func delete(_ selection: Selection?, _ controller: Controller, _ errorQ: ErrorQ) {
+    static func delete(_ selection: Selection?, _ controller: Controller, _ errorQ: ErrorQueue) {
         guard let tag = selection else { return }
         let result = controller.delete(tag)
         result.error.map {

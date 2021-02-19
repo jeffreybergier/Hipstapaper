@@ -23,7 +23,8 @@ extension Alert {
     public init(_ error: UFError, dismissAction: (() -> Void)?) {
         self.init(title: Text(error.title),
                   message: Text(error.message),
-                  dismissButton: .cancel(Text("Verb.Dismiss"), action: dismissAction))
+                  dismissButton: .cancel(Text(error.dismissButtonTitle),
+                                         action: dismissAction))
     }
     
     /// Currently only 1 recovery option is supported
@@ -32,7 +33,8 @@ extension Alert {
         self.init(title: Text(error.title),
                   message: Text(error.message),
                   primaryButton: .init(error.options[0]),
-                  secondaryButton: .cancel(Text("Verb.Dismiss"), action: dismissAction))
+                  secondaryButton: .cancel(Text(error.dismissButtonTitle),
+                                           action: dismissAction))
     }
 }
 

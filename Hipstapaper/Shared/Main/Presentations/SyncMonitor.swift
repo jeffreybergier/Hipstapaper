@@ -17,15 +17,16 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import Stylize
-import Datum
 import SwiftUI
+import Umbrella
+import Datum
+import Stylize
 
 extension STZ.TB {
     struct SyncMonitor: View {
         
         @ObservedObject var monitor: AnySyncMonitor
-        @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
+        @EnvironmentObject private var errorQ: ErrorQueue
         
         init(_ monitor: AnySyncMonitor) {
             _monitor = .init(wrappedValue: monitor)

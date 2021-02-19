@@ -32,7 +32,7 @@ internal class CD_SyncMonitor: SyncMonitor {
     
     internal var isLoggedIn: Bool = false
     internal let progress: Progress
-    internal var errorQ: Queue<LocalizedError> = []
+    internal var errorQ: Queue<UserFacingError> = []
     
     private let syncName = NSPersistentCloudKitContainer.eventChangedNotification
     private let accountName = Notification.Name.CKAccountChanged
@@ -59,7 +59,9 @@ internal class CD_SyncMonitor: SyncMonitor {
             DispatchQueue.main.async {
                 self.objectWillChange.send()
                 if let error = error {
-                    self.errorQ.append(error as NSError)
+                    log.error(error)
+                    let error = error as NSError
+                    self.errorQ.append(GenericError(error))
                 }
                 switch account {
                 case .available:
@@ -81,7 +83,8 @@ internal class CD_SyncMonitor: SyncMonitor {
             self.objectWillChange.send()
             if let error = event.error {
                 log.error(error)
-                self.errorQ.append(error as NSError)
+                let error = error as NSError
+                self.errorQ.append(GenericError(error))
             }
             if self.io.contains(event.identifier) {
                 log.debug("- \(event.identifier)")

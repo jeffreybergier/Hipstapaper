@@ -44,7 +44,6 @@ struct Main: View {
             }
         }
         .modifier(BrowserPresentable())
-        .modifier(STZ.ERR.PresenterB())
         .environmentObject(self.modalPresentation)
     }
 }

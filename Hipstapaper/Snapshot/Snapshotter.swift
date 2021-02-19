@@ -28,7 +28,7 @@ import Localize
 public struct Snapshotter: View {
     
     @StateObject var viewModel: ViewModel
-    @StateObject private var errorQ = STZ.ERR.ViewModel()
+    @StateObject private var errorQ = ErrorQueue()
     
     public init(_ viewModel: ViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -56,7 +56,7 @@ public struct Snapshotter: View {
             save: { self.viewModel.doneAction(.success(self.viewModel.output)) },
             canSave: { self.viewModel.output.currentURL != nil }
         ))
-        .modifier(STZ.ERR.PresenterB())
+        .modifier(ErrorQueuePresenter())
         .environmentObject(self.errorQ)
     }
 }

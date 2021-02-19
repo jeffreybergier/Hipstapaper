@@ -20,6 +20,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import Datum
 import Localize
 import Stylize
@@ -31,7 +32,7 @@ struct TagList<Nav: View>: View {
     @State private var selection: TH.Selection?
     @State private var initialSelection = true
     @StateObject private var dataSource: TagDataSource
-    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
+    @EnvironmentObject private var errorQ: ErrorQueue
 
     private let navigation: Navigation
     

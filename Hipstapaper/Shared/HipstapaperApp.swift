@@ -30,7 +30,7 @@ struct HipstapaperApp: App {
     let controller: Controller?
     let watcher: DropboxWatcher?
     @StateObject private var windowPresentation = WindowPresentation()
-    @StateObject private var errorQ: STZ.ERR.ViewModel
+    @StateObject private var errorQ: ErrorQueue
     
     /*
     init() {
@@ -43,7 +43,7 @@ struct HipstapaperApp: App {
     */
     
     init() {
-        let errorQ = STZ.ERR.ViewModel()
+        let errorQ = ErrorQueue()
         let result = ControllerNew()
         switch result {
         case .success(let controller):
@@ -67,11 +67,12 @@ struct HipstapaperApp: App {
     @ViewBuilder private func build() -> some View {
         if let controller = self.controller {
             Main(controller: controller)
+                .modifier(ErrorQueuePresenter())
                 .environmentObject(self.windowPresentation)
                 .environmentObject(self.errorQ)
         } else {
             Color.clear
-                .modifier(STZ.ERR.PresenterB())
+                .modifier(ErrorQueuePresenter())
                 .environmentObject(self.errorQ)
         }
     }
