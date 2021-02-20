@@ -68,9 +68,9 @@ internal struct WebThumbnail: View {
     // TODO: Fix this
     @ViewBuilder var body: some View {
         if self.viewModel.formState == .load {
-            STZ.IMG.Web.thumbnail(self.viewModel.output.thumbnail?.value)
+            STZ.ICN.web.thumbnail(self.viewModel.output.thumbnail?.value)
         } else {
-            STZ.IMG.WebError.thumbnail(self.viewModel.output.thumbnail?.value)
+            STZ.ICN.cloudError.thumbnail(self.viewModel.output.thumbnail?.value)
         }
     }
 }

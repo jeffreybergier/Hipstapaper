@@ -28,49 +28,49 @@ public protocol Presentable: Buttonable {
 
 extension STZ.TB {
     public enum TagApply: Presentable {
-        public static let icon: String? = "tag"
+        public static let icon: STZ.ICN? = .tag
         public static let phrase: LocalizedStringKey = Verb.AddAndRemoveTags
         public static let verb: LocalizedStringKey = Verb.AddAndRemoveTags
         public static let noun: LocalizedStringKey = Noun.ApplyTags
         public static let shortcut: KeyboardShortcut? = .init("t", modifiers: [.command, .shift])
     }
     public enum SearchInactive: Presentable {
-        public static let icon: String? = "magnifyingglass"
+        public static let icon: STZ.ICN? = .searchInactive
         public static let phrase: LocalizedStringKey = Verb.Search
         public static let verb: LocalizedStringKey = Verb.Search
         public static let noun: LocalizedStringKey = Noun.Search
         public static let shortcut: KeyboardShortcut? = .init("f", modifiers: [.command])
     }
     public enum SearchActive: Presentable {
-        public static let icon: String? = "magnifyingglass.circle.fill"
+        public static let icon: STZ.ICN? = .searchActive
         public static let phrase: LocalizedStringKey = Verb.Search
         public static let verb: LocalizedStringKey = Verb.Search
         public static let noun: LocalizedStringKey = Noun.Search
         public static let shortcut: KeyboardShortcut? = .init("f", modifiers: [.command])
     }
     public enum Sort: Presentable {
-        public static let icon: String? = "arrow.up.arrow.down.circle"
+        public static let icon: STZ.ICN? = .sort
         public static let phrase: LocalizedStringKey = Phrase.Sort
         public static let verb: LocalizedStringKey = Phrase.Sort
         public static let noun: LocalizedStringKey = Noun.Sort
         public static let shortcut: KeyboardShortcut? = nil
     }
     public enum AddChoice: Presentable {
-        public static let icon: String? = "plus"
+        public static let icon: STZ.ICN? = .addPlus
         public static let phrase: LocalizedStringKey = Phrase.AddChoice
         public static let verb: LocalizedStringKey = Phrase.AddChoice
         public static let noun: LocalizedStringKey = Phrase.AddChoice
         public static let shortcut: KeyboardShortcut? = .init("n", modifiers: [.command])
     }
     public enum AddTag: Presentable {
-        public static let icon: String? = "tag"
+        public static let icon: STZ.ICN? = .tag
         public static let phrase: LocalizedStringKey = Verb.AddTag
         public static let verb: LocalizedStringKey = Verb.AddTag
         public static let noun: LocalizedStringKey = Noun.AddTag
         public static let shortcut: KeyboardShortcut? = .init("n", modifiers: [.command, .option])
     }
     public enum AddWebsite: Presentable {
-        public static let icon: String? = "macwindow.badge.plus"
+        public static let icon: STZ.ICN? = .addPlus
         public static let phrase: LocalizedStringKey = Verb.AddWebsite
         public static let verb: LocalizedStringKey = Verb.AddWebsite
         public static let noun: LocalizedStringKey = Noun.AddWebsite

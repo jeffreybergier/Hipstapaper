@@ -69,15 +69,13 @@ struct SyncIndicator: ViewModifier {
         }
     }
     
-    // TODO: remove !
-    // maybe create imagable protocol?
-    @ViewBuilder private func build() -> some View {
+    private func build() -> some View {
         if self.monitor.errorQ.isEmpty {
-            Image(systemName: STZ.TB.CloudSyncSuccess.icon!)
+            return STZ.ICN.cloudSyncSuccess
         } else if self.barIsVisible {
-            Image(systemName: STZ.TB.CloudSyncInProgress.icon!)
+            return STZ.ICN.cloudSyncInProgress
         } else {
-            Image(systemName: STZ.TB.CloudSyncError.icon!)
+            return STZ.ICN.cloudError
         }
     }
 }

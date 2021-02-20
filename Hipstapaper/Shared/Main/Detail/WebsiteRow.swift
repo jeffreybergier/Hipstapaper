@@ -43,7 +43,7 @@ struct WebsiteRow: View {
                     .modifier(STZ.CLR.DetailRow.Text.foreground())
             }
             Spacer()
-            STZ.IMG.Placeholder.thumbnail(self.item.value.thumbnail)
+            STZ.ICN.placeholder.thumbnail(self.item.value.thumbnail)
                 .frame(width: 60)
         }
         .frame(minHeight: 60)

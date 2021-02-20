@@ -21,50 +21,23 @@
 
 import SwiftUI
 
-public protocol Imagable {
-    static var name: String { get }
-}
-
-extension Imagable {
-    fileprivate static var image: Image {
-        return Image(systemName: self.name)
-    }
-    
+extension STZ.ICN {
     /// Returns a thumbnail image of icon
     /// If data can be converted to image, it returns that instead
-    
     // TODO: Make this take a Result<Data, LocalizedError>
-    @ViewBuilder public static func thumbnail(_ data: Data? = nil) -> some View {
+    @ViewBuilder public func thumbnail(_ data: Data? = nil) -> some View {
         if let image = data?.imageValue {
             image
                 .modifier(STZ.CRN.Small.apply())
                 .aspectRatio(1, contentMode: .fit)
         } else {
-            self.image
+            self
                 .modifier(Thumbnail())
                 .modifier(STZ.CRN.Small.apply())
                 .aspectRatio(1, contentMode: .fit)
         }
     }
 }
-
-extension STZ {
-    public enum IMG {
-        public enum Web: Imagable {
-            public static let name: String = "globe"
-        }
-        public enum WebError: Imagable {
-            public static let name: String = "exclamationmark.icloud"
-        }
-        public enum Bug: Imagable {
-            public static let name: String = "ladybug"
-        }
-        public enum Placeholder: Imagable {
-            public static let name: String = "photo"
-        }
-    }
-}
-
 
 fileprivate struct Thumbnail: ViewModifier {
     @Environment(\.colorScheme) var colorScheme
