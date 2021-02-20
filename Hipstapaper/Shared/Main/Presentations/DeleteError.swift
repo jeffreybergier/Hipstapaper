@@ -22,22 +22,28 @@ import Umbrella
 import Stylize
 import Datum
 
-struct WebsiteDelete: ViewModifier {
+enum DeleteError: RecoverableUserFacingError {
     
-    let controller: Controller
-    @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
-    @EnvironmentObject private var errorQ: ErrorQueue
+    typealias OnConfirmation = () -> Void
     
-    func body(content: Content) -> some View {
-        content.alert(item: self.$modalPresentation.isDeleteWebsite) { selection in
-            Alert(
-                // TODO: Localized and fix this
-                title: Text("Delete \(selection.count) Website(s)"),
-                message: Text("This action cannot be undone."),
-                primaryButton: .destructive(Text("Delete"),
-                                            action: { WH.delete(selection, self.controller, self.errorQ) }),
-                secondaryButton: .cancel()
-            )
+    case website(OnConfirmation)
+    case tag(OnConfirmation)
+    
+    var title: LocalizedStringKey {
+        switch self {
+        case .tag:
+            return "Phrase.Delete Tag(s)?"
+        case .website:
+            return "Phrase.Delete Website(s)?"
+        }
+    }
+    var message: LocalizedStringKey {
+        "Phrase.Deleted item(s) will be deleted from all devices. This cannot be undone."
+    }
+    var options: [RecoveryOption] {
+        switch self {
+        case .tag(let onConfirm), .website(let onConfirm):
+            return [.init(title: "Verb.Delete", isDestructive: true, perform: onConfirm)]
         }
     }
 }

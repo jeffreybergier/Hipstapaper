@@ -21,7 +21,7 @@
 
 import SwiftUI
 
-public struct GenericError: RecoverableError {
+public struct GenericError: RecoverableUserFacingError {
     /// Default value is `com.saturdayapps.JSBUmbrella`
     public static var errorDomain: String = "com.saturdayapps.JSBUmbrella"
     public var errorCode: Int

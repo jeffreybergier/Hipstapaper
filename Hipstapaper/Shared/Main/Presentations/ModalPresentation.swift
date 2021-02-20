@@ -30,7 +30,6 @@ enum ModalPresentation: Equatable {
     case tagApply(WH.Selection)
     case share(WH.Selection)
     case sort
-    case deleteWebsite(WH.Selection)
     case deleteTag(TH.Selection)
     case browser(AnyElementObserver<AnyWebsite>)
     
@@ -135,8 +134,6 @@ enum ModalPresentation: Equatable {
                 switch self.value {
                 case .none:
                     break
-                case .deleteWebsite(let selection):
-                    self.isDeleteWebsite = selection
                 case .deleteTag(let selection):
                     self.isDeleteTag = selection
                 case .tagApply(let selection):

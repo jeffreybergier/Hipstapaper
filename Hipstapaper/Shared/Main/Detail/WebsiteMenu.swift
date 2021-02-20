@@ -72,7 +72,9 @@ struct WebsiteMenu: ViewModifier {
         }
         Group {
             STZ.TB.DeleteWebsite.context(isEnabled: WH.canDelete(selection)) {
-                self.modalPresentation.value = .deleteWebsite(selection)
+                self.errorQ.queue.append(DeleteError.website({ [controller, errorQ] in
+                    WH.delete(selection, controller, errorQ)
+                }))
             }
         }
     }

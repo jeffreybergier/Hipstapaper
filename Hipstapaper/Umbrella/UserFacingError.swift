@@ -22,6 +22,7 @@
 import SwiftUI
 
 public typealias UFError = UserFacingError
+public typealias RUFError = RecoverableUserFacingError
 
 public protocol UserFacingError: CustomNSError, LocalizedError {
     /// Default implementation is "Noun.Error"
@@ -31,7 +32,7 @@ public protocol UserFacingError: CustomNSError, LocalizedError {
     var dismissButtonTitle: LocalizedStringKey { get }
 }
 
-public protocol RecoverableError: UserFacingError {
+public protocol RecoverableUserFacingError: UserFacingError {
     var options: [RecoveryOption] { get }
 }
 
