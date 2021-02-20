@@ -49,6 +49,10 @@ public struct Queue<Element>: QueueProtocol, ExpressibleByArrayLiteral {
         _storage.append(element)
     }
     
+    public mutating func append(_ queue: Queue<Element>) {
+        _storage += queue._storage
+    }
+    
     @discardableResult
     public mutating func pop() -> Element? {
         guard let next = _storage.first else { return nil }

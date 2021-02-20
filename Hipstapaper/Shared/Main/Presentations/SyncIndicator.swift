@@ -70,7 +70,7 @@ struct SyncIndicator: ViewModifier {
     }
     
     private func build() -> some View {
-        if self.monitor.errorQ.isEmpty {
+        if self.monitor.errorQ.queue.isEmpty {
             return STZ.ICN.cloudSyncSuccess
         } else if self.barIsVisible {
             return STZ.ICN.cloudSyncInProgress

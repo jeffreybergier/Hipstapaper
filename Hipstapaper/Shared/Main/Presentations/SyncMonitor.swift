@@ -37,11 +37,9 @@ extension STZ.TB {
                 STZ.TB.CloudAccountError.toolbar {
                     self.errorQ.queue.append(Error.cloudAccount)
                 }
-            } else if self.monitor.errorQ.isEmpty == false {
+            } else if self.monitor.errorQ.queue.isEmpty == false {
                 STZ.TB.CloudSyncError.toolbar {
-                    while !self.monitor.errorQ.isEmpty {
-                        self.errorQ.queue.append(self.monitor.errorQ.next()!)
-                    }
+                    self.errorQ.queue.append(self.monitor.errorQ.queue)
                 }
             }
         }

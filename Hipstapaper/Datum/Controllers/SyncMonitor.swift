@@ -28,7 +28,7 @@ public protocol SyncMonitor: ObservableObject {
     var isLoggedIn: Bool { get }
     var progress: Progress { get }
     // TODO: Change this to ephemeralError?
-    var errorQ: Queue<UserFacingError> { get }
+    var errorQ: ErrorQueue { get set }
 }
 
 public class AnySyncMonitor: SyncMonitor {
@@ -36,17 +36,22 @@ public class AnySyncMonitor: SyncMonitor {
     public let objectWillChange: ObservableObjectPublisher
     public var isLoggedIn: Bool { _isLoggedIn() }
     public var progress: Progress { _progress() }
-    public var errorQ: Queue<UserFacingError> { _errorQ() }
+    public var errorQ: ErrorQueue {
+        get { _errorQ_get() }
+        set { _errorQ_set(newValue) }
+    }
     
     private var _isLoggedIn: () -> Bool
     private var _progress: () -> Progress
-    private var _errorQ: () -> Queue<UserFacingError>
+    private var _errorQ_get: () -> ErrorQueue
+    private var _errorQ_set: (ErrorQueue) -> Void
     
     public init<T: SyncMonitor>(_ monitor: T) where T.ObjectWillChangePublisher == ObservableObjectPublisher {
         self.objectWillChange = monitor.objectWillChange
         _isLoggedIn = { monitor.isLoggedIn }
         _progress = { monitor.progress }
-        _errorQ = { monitor.errorQ }
+        _errorQ_get = { monitor.errorQ }
+        _errorQ_set = { monitor.errorQ = $0 }
     }
     
 }
@@ -54,24 +59,6 @@ public class AnySyncMonitor: SyncMonitor {
 public class NoSyncMonitor: SyncMonitor {
     public let isLoggedIn: Bool = false
     public let progress: Progress = .init()
-    public let errorQ: Queue<UserFacingError> = []
+    public var errorQ: ErrorQueue = .init()
     public init() {}
-}
-
-public class Queue<Element>: ExpressibleByArrayLiteral {
-    private var storage: [Element] = []
-    public var isEmpty: Bool {
-        return self.storage.isEmpty
-    }
-    required public init(arrayLiteral elements: Element...) {
-        self.storage = elements
-    }
-    public func append(_ newValue: Element) {
-        self.storage.append(newValue)
-    }
-    public func next() -> Element? {
-        let next = self.storage.first
-        self.storage = Array(self.storage.dropFirst())
-        return next
-    }
 }
