@@ -53,6 +53,10 @@ public struct Queue<Element>: QueueProtocol, ExpressibleByArrayLiteral {
         _storage += queue._storage
     }
     
+    public mutating func removeAll() {
+        _storage = []
+    }
+    
     @discardableResult
     public mutating func pop() -> Element? {
         guard let next = _storage.first else { return nil }

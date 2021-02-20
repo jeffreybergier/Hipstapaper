@@ -40,6 +40,7 @@ extension STZ.TB {
             } else if self.progress.errorQ.queue.isEmpty == false {
                 STZ.TB.CloudSyncError.toolbar {
                     self.errorQ.queue.append(self.progress.errorQ.queue)
+                    self.progress.errorQ.queue.removeAll()
                 }
             }
         }
