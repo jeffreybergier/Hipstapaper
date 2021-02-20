@@ -48,23 +48,3 @@ enum DeleteError: RecoverableUserFacingError {
     }
 }
 
-struct TagDelete: ViewModifier {
-    
-    let controller: Controller
-    @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
-    @EnvironmentObject private var errorQ: ErrorQueue
-    
-    func body(content: Content) -> some View {
-        content.alert(item: self.$modalPresentation.isDeleteTag) { selection in
-            Alert(
-                // TODO: Localized and fix this
-                title: Text("Delete Tag"),
-                message: Text("This action cannot be undone."),
-                primaryButton: .destructive(Text("Delete"),
-                                            action: { TH.delete(selection, self.controller, self.errorQ) }),
-                secondaryButton: .cancel()
-            )
-        }
-    }
-}
-

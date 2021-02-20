@@ -68,7 +68,7 @@ struct TagList<Nav: View>: View {
                     NavigationLink(destination: self.navigation(item)) {
                         TagRow(item: item)
                             .environment(\.XPL_isSelected, self.selection == item)
-                            .modifier(TagMenu(selection: item))
+                            .modifier(TagMenu(controller: self.dataSource.controller, selection: item))
                     }
                 }
             }
