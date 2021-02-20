@@ -44,7 +44,7 @@ struct WebsiteList: View {
             WebsiteRow(item: item)
         }
         .modifier(If.iOS(_Animation(.default)))
-        .modifier(SyncIndicator(monitor: self.dataSource.controller.syncMonitor))
+        .modifier(SyncIndicator(progress: self.dataSource.controller.syncProgress))
         .modifier(WebsiteListTitle(query: self.dataSource.query))
         // TODO: Fix the choppy EditMode animation caused by overly complex toolbars
         .modifier(DetailToolbar.Shared(controller: self.dataSource.controller,

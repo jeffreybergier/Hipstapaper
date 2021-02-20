@@ -62,7 +62,7 @@ struct IndexToolbar_macOS: ViewModifier {
     func body(content: Content) -> some View {
         content.toolbar(id: "Index") {
             ToolbarItem(id: "Index.Sync") {
-                STZ.TB.SyncMonitor(self.controller.syncMonitor)
+                STZ.TB.Sync(self.controller.syncProgress)
             }
             ToolbarItem(id: "Index.FlexibleSpace") {
                 Spacer()

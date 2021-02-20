@@ -23,7 +23,7 @@ import Stylize
 
 struct SyncIndicator: ViewModifier {
     
-    @ObservedObject var monitor: AnySyncMonitor
+    @ObservedObject var progress: AnyContinousProgress
     @State private var iconIsVisible = false
     @State private var timer: Timer?
     
@@ -37,13 +37,13 @@ struct SyncIndicator: ViewModifier {
         self.iconIsVisible ? 1 : 0
     }
     private var barIsVisible: Bool {
-        return self.monitor.progress.completedUnitCount < self.monitor.progress.completedUnitCount
+        return self.progress.progress.completedUnitCount < self.progress.progress.completedUnitCount
     }
     
     func body(content: Content) -> some View {
         ZStack(alignment: .top) {
             content
-                .modifier(STZ.PRG.BarMod(progress: self.monitor.progress,
+                .modifier(STZ.PRG.BarMod(progress: self.progress.progress,
                                          isVisible: self.barIsVisible))
             STZ.VIEW.Oval {
                 self.build()
@@ -57,7 +57,7 @@ struct SyncIndicator: ViewModifier {
             .animation(.default)
             .allowsHitTesting(false)
         }
-        .onReceive(self.monitor.objectWillChange) { _ in
+        .onReceive(self.progress.objectWillChange) { _ in
             self.iconIsVisible = true
             self.timer?.invalidate()
             self.timer = nil
@@ -70,7 +70,7 @@ struct SyncIndicator: ViewModifier {
     }
     
     private func build() -> some View {
-        if self.monitor.errorQ.queue.isEmpty {
+        if self.progress.errorQ.queue.isEmpty {
             return STZ.ICN.cloudSyncSuccess
         } else if self.barIsVisible {
             return STZ.ICN.cloudSyncInProgress

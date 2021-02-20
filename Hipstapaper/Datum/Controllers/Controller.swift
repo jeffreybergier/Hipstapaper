@@ -35,7 +35,7 @@ public protocol Controller {
     static var storeExists: Bool { get }
     
     // MARK: Sync
-    var syncMonitor: AnySyncMonitor { get }
+    var syncProgress: AnyContinousProgress { get }
 
     // MARK: Websites CRUD
     func createWebsite(_: AnyWebsite.Raw) -> Result<AnyElementObserver<AnyWebsite>, Error>

@@ -23,7 +23,7 @@ import Combine
 import CoreData
 import Umbrella
 
-public protocol SyncMonitor: ObservableObject {
+public protocol ContinousProgress: ObservableObject {
     // TODO: Change this to `persistentError`
     var isLoggedIn: Bool { get }
     var progress: Progress { get }
@@ -31,7 +31,7 @@ public protocol SyncMonitor: ObservableObject {
     var errorQ: ErrorQueue { get set }
 }
 
-public class AnySyncMonitor: SyncMonitor {
+public class AnyContinousProgress: ContinousProgress {
     
     public let objectWillChange: ObservableObjectPublisher
     public var isLoggedIn: Bool { _isLoggedIn() }
@@ -46,7 +46,7 @@ public class AnySyncMonitor: SyncMonitor {
     private var _errorQ_get: () -> ErrorQueue
     private var _errorQ_set: (ErrorQueue) -> Void
     
-    public init<T: SyncMonitor>(_ monitor: T) where T.ObjectWillChangePublisher == ObservableObjectPublisher {
+    public init<T: ContinousProgress>(_ monitor: T) where T.ObjectWillChangePublisher == ObservableObjectPublisher {
         self.objectWillChange = monitor.objectWillChange
         _isLoggedIn = { monitor.isLoggedIn }
         _progress = { monitor.progress }
@@ -56,7 +56,7 @@ public class AnySyncMonitor: SyncMonitor {
     
 }
 
-public class NoSyncMonitor: SyncMonitor {
+public class NoContinousProgress: ContinousProgress {
     public let isLoggedIn: Bool = false
     public let progress: Progress = .init()
     public var errorQ: ErrorQueue = .init()

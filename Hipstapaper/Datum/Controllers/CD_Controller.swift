@@ -306,7 +306,7 @@ internal class CD_Controller {
         )
     }
 
-    internal let syncMonitor: AnySyncMonitor
+    internal let syncProgress: AnyContinousProgress
     internal let container: NSPersistentContainer
     
     internal class func new() -> Result<Controller, Error> {
@@ -346,7 +346,7 @@ internal class CD_Controller {
             fatalError("Cannot continue while using: initializeCloudKitSchema")
         }
         
-        self.syncMonitor = AnySyncMonitor(CD_SyncMonitor(container))
+        self.syncProgress = AnyContinousProgress(CD_ContinousProgress(container))
     }
     
     #if DEBUG

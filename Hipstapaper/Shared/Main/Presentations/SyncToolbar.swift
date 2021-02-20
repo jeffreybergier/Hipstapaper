@@ -23,23 +23,23 @@ import Datum
 import Stylize
 
 extension STZ.TB {
-    struct SyncMonitor: View {
+    struct Sync: View {
         
-        @ObservedObject var monitor: AnySyncMonitor
+        @ObservedObject var progress: AnyContinousProgress
         @EnvironmentObject private var errorQ: ErrorQueue
         
-        init(_ monitor: AnySyncMonitor) {
-            _monitor = .init(wrappedValue: monitor)
+        init(_ progress: AnyContinousProgress) {
+            _progress = .init(wrappedValue: progress)
         }
         
         @ViewBuilder var body: some View {
-            if self.monitor.isLoggedIn == false {
+            if self.progress.isLoggedIn == false {
                 STZ.TB.CloudAccountError.toolbar {
                     self.errorQ.queue.append(Error.cloudAccount)
                 }
-            } else if self.monitor.errorQ.queue.isEmpty == false {
+            } else if self.progress.errorQ.queue.isEmpty == false {
                 STZ.TB.CloudSyncError.toolbar {
-                    self.errorQ.queue.append(self.monitor.errorQ.queue)
+                    self.errorQ.queue.append(self.progress.errorQ.queue)
                 }
             }
         }

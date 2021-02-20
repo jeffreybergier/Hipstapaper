@@ -113,7 +113,7 @@ class P_Element<T>: ElementObserver {
 class P_Controller: Controller {
     static var storeDirectoryURL: URL { fatalError() }
     static var storeExists: Bool = true
-    var syncMonitor: AnySyncMonitor = AnySyncMonitor(NoSyncMonitor())
+    var syncProgress: AnyContinousProgress = AnyContinousProgress(NoContinousProgress())
     func createWebsite(_ raw: AnyWebsite.Raw) -> Result<AnyElementObserver<AnyWebsite>, Datum.Error>
     { log.debug("Create Site: \(raw)"); return .success(pp_sites.first!) }
     func readWebsites(query: Query) -> Result<AnyListObserver<AnyList<AnyElementObserver<AnyWebsite>>>, Datum.Error>

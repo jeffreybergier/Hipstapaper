@@ -28,7 +28,7 @@ import Umbrella
 // https://github.com/ggruen/CloudKitSyncMonitor/blob/main/Sources/CloudKitSyncMonitor/SyncMonitor.swift
 
 @available(iOS 14.0, OSX 11.0, *)
-internal class CD_SyncMonitor: SyncMonitor {
+internal class CD_ContinousProgress: ContinousProgress {
     
     internal var isLoggedIn: Bool = false
     internal let progress: Progress

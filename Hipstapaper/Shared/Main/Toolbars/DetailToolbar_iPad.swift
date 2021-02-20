@@ -82,7 +82,7 @@ extension DetailToolbar.iOS {
                 }
                 .toolbar(id: "Detail") { // TODO: Hack because toolbars only support 10 items
                     ToolbarItem(id: "Detail.Sync", placement: .cancellationAction) {
-                        STZ.TB.SyncMonitor(self.controller.syncMonitor)
+                        STZ.TB.Sync(self.controller.syncProgress)
                     }
                     ToolbarItem(id: "Detail.Sort") {
                         STZ.TB.Sort.toolbar() {
@@ -113,7 +113,7 @@ extension DetailToolbar.iOS {
         
         @Binding var query: Query
         @Binding var popoverAlignment: Alignment
-        @ObservedObject var syncMonitor: AnySyncMonitor
+        @ObservedObject var syncProgress: AnyContinousProgress
         
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
         
@@ -127,7 +127,7 @@ extension DetailToolbar.iOS {
                     EditButton()
                 }
                 ToolbarItem(id: "Detail.Sync", placement: .cancellationAction) {
-                    STZ.TB.SyncMonitor(self.syncMonitor)
+                    STZ.TB.Sync(self.syncProgress)
                 }
                 ToolbarItem(id: "Detail.Sort") {
                     STZ.TB.Sort.toolbar() {

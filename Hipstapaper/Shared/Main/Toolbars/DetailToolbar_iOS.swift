@@ -49,7 +49,7 @@ extension DetailToolbar.iOS {
             case (true, false): // iPhone not editing
                 content.modifier(iPhone(query: self.$query,
                                         popoverAlignment: self.$popoverAlignment,
-                                        syncMonitor: self.controller.syncMonitor))
+                                        syncProgress: self.controller.syncProgress))
             case (false, true): // iPad editing
                 content.modifier(iPadEdit(controller: self.controller,
                                           selection: self.$selection,
@@ -58,7 +58,7 @@ extension DetailToolbar.iOS {
             case (false, false): // iPad not editing
                 content.modifier(iPad(query: self.$query,
                                       popoverAlignment: self.$popoverAlignment,
-                                      syncMonitor: self.controller.syncMonitor))
+                                      syncProgress: self.controller.syncProgress))
             }
         }
     }
