@@ -22,18 +22,26 @@ import SwiftUI
 extension Alert {
     public init(_ error: UFError, dismissAction: @escaping () -> Void = {}) {
         if let error = error as? RUFError {
-            precondition(error.options.count == 1, "Currently only 1 recovery option is supported")
-            self.init(title: Text(error.title),
-                      message: Text(error.message),
-                      primaryButton: .init(error.options[0]),
-                      secondaryButton: .cancel(Text(error.dismissButtonTitle),
-                                               action: dismissAction))
+            self.init(RUFError: error, dismissAction: dismissAction)
         } else {
-            self.init(title: Text(error.title),
-                      message: Text(error.message),
-                      dismissButton: .cancel(Text(error.dismissButtonTitle),
-                                             action: dismissAction))
+            self.init(UFError: error, dismissAction: dismissAction)
         }
+    }
+    
+    private init(UFError error: UFError, dismissAction: @escaping () -> Void) {
+        self.init(title: Text(error.title),
+                  message: Text(error.message),
+                  dismissButton: .cancel(Text(error.dismissButtonTitle),
+                                         action: dismissAction))
+    }
+    
+    private init(RUFError error: RUFError, dismissAction: @escaping () -> Void) {
+        precondition(error.options.count == 1, "Currently only 1 recovery option is supported")
+        self.init(title: Text(error.title),
+                  message: Text(error.message),
+                  primaryButton: .init(error.options[0]),
+                  secondaryButton: .cancel(Text(error.dismissButtonTitle),
+                                           action: dismissAction))
     }
 }
 
