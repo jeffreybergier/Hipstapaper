@@ -30,7 +30,7 @@ import Umbrella
 @available(iOS 14.0, OSX 11.0, *)
 internal class CD_ContinousProgress: ContinousProgress {
     
-    internal var isLoggedIn: Bool = false
+    internal var initializeError: UserFacingError?
     internal let progress: Progress
     internal var errorQ = ErrorQueue()
     
@@ -47,7 +47,8 @@ internal class CD_ContinousProgress: ContinousProgress {
                        selector: #selector(self.observeSync(_:)),
                        name: self.syncName,
                        object: container)
-        nc.addObserver(self, selector: #selector(self.observeAccount),
+        nc.addObserver(self,
+                       selector: #selector(self.observeAccount),
                        name: self.accountName,
                        object: nil)
         self.observeAccount()
@@ -61,15 +62,19 @@ internal class CD_ContinousProgress: ContinousProgress {
                 if let error = error {
                     log.error(error)
                     let error = error as NSError
-                    self.errorQ.queue.append(GenericError(error))
+                    self.initializeError = GenericError(error)
+                    return
                 }
                 switch account {
                 case .available:
-                    self.isLoggedIn = true
+                    self.initializeError = nil
                 case .couldNotDetermine, .restricted, .noAccount:
                     fallthrough
                 @unknown default:
-                    self.isLoggedIn = false
+                    // TODO: Localize this
+                    let error = GenericError(errorCode: 1001,
+                                             message: "Phrase.You're not logged into iCloud. Sign into an iCloud account to sync.")
+                    self.initializeError = error
                 }
             }
         }

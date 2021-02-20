@@ -21,7 +21,7 @@ import SwiftUI
 
 extension Alert {
     public init(_ error: UFError, dismissAction: @escaping () -> Void = {}) {
-        if let error = error as? RUFError {
+        if let error = error as? RUFError, !error.options.isEmpty {
             self.init(RUFError: error, dismissAction: dismissAction)
         } else {
             self.init(UFError: error, dismissAction: dismissAction)

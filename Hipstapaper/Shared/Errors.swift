@@ -27,13 +27,9 @@ import Stylize
 enum Error: UserFacingError {
     
     case shareExtensionAdd
-    case cloudAccount
     
     var message: LocalizedStringKey {
         switch self {
-        case .cloudAccount:
-            // TODO: Fix this
-            return "You're not logged into iCloud. Sign into an iCloud account to sync."
         case .shareExtensionAdd:
             return "There was an error when adding a website saved by another application."
         }

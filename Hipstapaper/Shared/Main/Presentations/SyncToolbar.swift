@@ -33,9 +33,9 @@ extension STZ.TB {
         }
         
         @ViewBuilder var body: some View {
-            if self.progress.isLoggedIn == false {
+            if let error = self.progress.initializeError {
                 STZ.TB.CloudAccountError.toolbar {
-                    self.errorQ.queue.append(Error.cloudAccount)
+                    self.errorQ.queue.append(error)
                 }
             } else if self.progress.errorQ.queue.isEmpty == false {
                 STZ.TB.CloudSyncError.toolbar {

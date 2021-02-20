@@ -20,44 +20,52 @@
 //
 
 import Combine
+import Umbrella
 import CoreData
 import Umbrella
 
+/// Represents the progress of something that is long running and can produce
+/// errors upon startup and errors while running. I use this to reflect the status
+/// of NSPersistentCloudKitContainer sync. But its generic enough to be used for
+/// many types of long-running / background processes.
+/// Use `AnyContinousProgress` to get around AssociatedType compile errors.
 public protocol ContinousProgress: ObservableObject {
-    // TODO: Change this to `persistentError`
-    var isLoggedIn: Bool { get }
+    /// Fixed error that only occurs on startup and doesn't change
+    /// for the lifetime of the process.
+    var initializeError: UserFacingError? { get }
     var progress: Progress { get }
-    // TODO: Change this to ephemeralError?
+    /// When an error occurs, append it to the Queue.
     var errorQ: ErrorQueue { get set }
 }
 
 public class AnyContinousProgress: ContinousProgress {
     
     public let objectWillChange: ObservableObjectPublisher
-    public var isLoggedIn: Bool { _isLoggedIn() }
+    public var initializeError: UserFacingError? { _initializeError() }
     public var progress: Progress { _progress() }
     public var errorQ: ErrorQueue {
         get { _errorQ_get() }
         set { _errorQ_set(newValue) }
     }
     
-    private var _isLoggedIn: () -> Bool
+    private var _initializeError: () -> UserFacingError?
     private var _progress: () -> Progress
     private var _errorQ_get: () -> ErrorQueue
     private var _errorQ_set: (ErrorQueue) -> Void
     
-    public init<T: ContinousProgress>(_ monitor: T) where T.ObjectWillChangePublisher == ObservableObjectPublisher {
-        self.objectWillChange = monitor.objectWillChange
-        _isLoggedIn = { monitor.isLoggedIn }
-        _progress = { monitor.progress }
-        _errorQ_get = { monitor.errorQ }
-        _errorQ_set = { monitor.errorQ = $0 }
+    public init<T: ContinousProgress>(_ progress: T) where T.ObjectWillChangePublisher == ObservableObjectPublisher {
+        self.objectWillChange = progress.objectWillChange
+        _initializeError      = { progress.initializeError }
+        _progress             = { progress.progress }
+        _errorQ_get           = { progress.errorQ }
+        _errorQ_set           = { progress.errorQ = $0 }
     }
     
 }
 
+/// Use when you have no progress to report
 public class NoContinousProgress: ContinousProgress {
-    public let isLoggedIn: Bool = false
+    public let initializeError: UserFacingError? = nil
     public let progress: Progress = .init()
     public var errorQ: ErrorQueue = .init()
     public init() {}
