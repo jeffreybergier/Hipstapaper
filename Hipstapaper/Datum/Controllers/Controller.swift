@@ -25,13 +25,8 @@
 
 import Umbrella
 
-public func ControllerNew(isTesting: Bool = false) -> Result<Controller, Error> {
-    do {
-        return .success(try CD_Controller(isTesting: isTesting))
-    } catch {
-        log.emergency(error)
-        return .failure(.critical)
-    }
+public func ControllerNew() -> Result<Controller, Error> {
+    return CD_Controller.new()
 }
 
 public protocol Controller {

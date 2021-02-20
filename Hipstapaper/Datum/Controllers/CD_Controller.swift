@@ -77,23 +77,26 @@ extension CD_Controller: Controller {
                 )
             )
         } catch {
-            return .failure(.unknown)
+            return .failure(.read(error as NSError))
         }
     }
     
     func update(_ inputs: Set<AnyElementObserver<AnyWebsite>>, _ raw: AnyWebsite.Raw) -> Result<Void, Error> {
-        assert(Thread.isMainThread)
-        
         let context = self.container.viewContext
+        let check = inputs.firstIndex { !context.validate($0.value.wrappedValue,
+                                                          as: CD_Website.classForCoder()) }
+        guard check == nil else {
+            let message = "Wrong Input Type"
+            log.emergency(message)
+            fatalError(message)
+        }
+        
         var inputs = inputs
         var changesMade = false
         
         while !inputs.isEmpty {
             let input = inputs.popFirst()!
-            guard let website = input.value.wrappedValue as? CD_Website else {
-                log.error("Wrong type: \(input.value.wrappedValue)")
-                return .failure(.unknown)
-            }
+            let website = input.value.wrappedValue as! CD_Website
             
             if let title = raw.title {
                 changesMade = true
@@ -121,19 +124,21 @@ extension CD_Controller: Controller {
     }
     
     func delete(_ inputs: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error> {
-        assert(Thread.isMainThread)
-
         let context = self.container.viewContext
-
+        let check = inputs.firstIndex { !context.validate($0.value.wrappedValue,
+                                                          as: CD_Website.classForCoder()) }
+        guard check == nil else {
+            let message = "Wrong Input Type"
+            log.emergency(message)
+            fatalError(message)
+        }
+        
         var inputs = inputs
         var changesMade = false
         
         while !inputs.isEmpty {
             let input = inputs.popFirst()!
-            guard let website = input.value.wrappedValue as? CD_Website else {
-                log.error("Wrong type: \(input.value.wrappedValue)")
-                return .failure(.unknown)
-            }
+            let website = input.value.wrappedValue as! CD_Website
             changesMade = true
             context.delete(website)
         }
@@ -179,19 +184,19 @@ extension CD_Controller: Controller {
                 )
             )
         } catch {
-            return .failure(.unknown)
+            return .failure(.read(error as NSError))
         }
     }
 
     func update(_ input: AnyElementObserver<AnyTag>, name: Optional<String?>) -> Result<Void, Error> {
-        assert(Thread.isMainThread)
-
-        guard let tag = input.value.wrappedValue as? CD_Tag else {
-            log.error("Wrong type: \(input.value.wrappedValue)")
-            return .failure(.unknown)
-        }
         let context = self.container.viewContext
+        guard context.validate(input.value.wrappedValue, as: CD_Tag.classForCoder()) else {
+            let message = "Wrong Input Type"
+            log.emergency(message)
+            fatalError(message)
+        }
 
+        let tag = input.value.wrappedValue as! CD_Tag
         var changesMade = false
         if let newName = name {
             changesMade = true
@@ -202,30 +207,32 @@ extension CD_Controller: Controller {
     }
 
     func delete(_ input: AnyElementObserver<AnyTag>) -> Result<Void, Error> {
-        assert(Thread.isMainThread)
-
-        guard let tag = input.value.wrappedValue as? CD_Tag else {
-            log.error("Wrong type: \(input.value.wrappedValue)")
-            return .failure(.unknown)
-        }
         let context = self.container.viewContext
+        guard context.validate(input.value.wrappedValue, as: CD_Tag.classForCoder()) else {
+            let message = "Wrong Input Type"
+            log.emergency(message)
+            fatalError(message)
+        }
+        let tag = input.value.wrappedValue as! CD_Tag
         context.delete(tag)
         return context.datum_save()
     }
     
     // MARK: Custom Functions
     
-    func add(tag: AnyElementObserver<AnyTag>, to _sites: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error> {
-        let sites = _sites.compactMap { $0.value.wrappedValue as? CD_Website }
-        guard
-            sites.count == _sites.count,
-            let tag = tag.value.wrappedValue as? CD_Tag
-        else { return .failure(.unknown) }
-        
+    func add(tag: AnyElementObserver<AnyTag>, to sites: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error> {
         let context = self.container.viewContext
+        let check = sites.firstIndex { !context.validate($0.value.wrappedValue,
+                                                         as: CD_Website.classForCoder()) }
+        guard check == nil, let tag = tag.value.wrappedValue as? CD_Tag else {
+            let message = "Wrong Input Type"
+            log.emergency(message)
+            fatalError(message)
+        }
         
         var changesMade = false
         for site in sites {
+            let site = site.value.wrappedValue as! CD_Website
             guard site.cd_tags.contains(tag) == false else { continue }
             changesMade = true
             let tags = site.mutableSetValue(forKey: #keyPath(CD_Website.cd_tags))
@@ -235,17 +242,19 @@ extension CD_Controller: Controller {
         return changesMade ? context.datum_save() : .success(())
     }
     
-    func remove(tag: AnyElementObserver<AnyTag>, from _sites: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error> {
-        let sites = _sites.compactMap { $0.value.wrappedValue as? CD_Website }
-        guard
-            sites.count == _sites.count,
-            let tag = tag.value.wrappedValue as? CD_Tag
-        else { return .failure(.unknown) }
-        
+    func remove(tag: AnyElementObserver<AnyTag>, from sites: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error> {
         let context = self.container.viewContext
+        let check = sites.firstIndex { !context.validate($0.value.wrappedValue,
+                                                         as: CD_Website.classForCoder()) }
+        guard check == nil, let tag = tag.value.wrappedValue as? CD_Tag else {
+            let message = "Wrong Input Type"
+            log.emergency(message)
+            fatalError(message)
+        }
         
         var changesMade = false
         for site in sites {
+            let site = site.value.wrappedValue as! CD_Website
             guard site.cd_tags.contains(tag) == true else { continue }
             changesMade = true
             let tags = site.mutableSetValue(forKey: #keyPath(CD_Website.cd_tags))
@@ -255,18 +264,24 @@ extension CD_Controller: Controller {
         return changesMade ? context.datum_save() : .success(())
     }
     
-    func tagStatus(for _sites: Set<AnyElementObserver<AnyWebsite>>)
+    func tagStatus(for sites: Set<AnyElementObserver<AnyWebsite>>)
                   -> Result<AnyList<(AnyElementObserver<AnyTag>, ToggleState)>, Error>
 
     {
-        let sites = _sites.compactMap { $0.value.wrappedValue as? CD_Website }
-        guard sites.count == _sites.count else { return .failure(.unknown) }
+        let context = self.container.viewContext
+        let check = sites.firstIndex { !context.validate($0.value.wrappedValue,
+                                                         as: CD_Website.classForCoder()) }
+        guard check == nil else {
+            let message = "Wrong Input Type"
+            log.emergency(message)
+            fatalError(message)
+        }
         return self.readTags().map() { tags in
             return AnyList(
                 MappedList(tags.data) { tag in
                     let tag = tag.value.wrappedValue as! CD_Tag
                     return ToggleState(sites.map {
-                        $0.cd_tags.contains(tag)
+                        ($0.value.wrappedValue as! CD_Website).cd_tags.contains(tag)
                     })
                 }
             )
@@ -294,12 +309,23 @@ internal class CD_Controller {
     internal let syncMonitor: AnySyncMonitor
     internal let container: NSPersistentContainer
     
-    internal init(isTesting: Bool) throws {
+    internal class func new() -> Result<Controller, Error> {
+        do {
+            let controller = try CD_Controller()
+            return .success(controller)
+        } catch let error as Error {
+            return .failure(error)
+        } catch {
+            log.emergency(error)
+            fatalError("Unexpected error ocurred: \(error)")
+        }
+    }
+    
+    fileprivate init() throws {
         // debug only sanity checks
         assert(Thread.isMainThread)
 
-        guard let container = CD_Controller.container(isTesting: isTesting)
-            else { throw Error.critical }
+        let container = CD_Controller.container()
         let lock = DispatchSemaphore(value: 0)
         var error: Swift.Error?
         container.loadPersistentStores() { _, _error in
@@ -307,7 +333,7 @@ internal class CD_Controller {
             lock.signal()
         }
         lock.wait()
-        if let error = error { throw error }
+        if let error = error { throw Error.initialize(error as NSError) }
         container.viewContext.automaticallyMergesChangesFromParent = true
         self.container = container
         
@@ -320,11 +346,7 @@ internal class CD_Controller {
             fatalError("Cannot continue while using: initializeCloudKitSchema")
         }
         
-        if #available(iOS 14.0, OSX 11.0, *) {
-            self.syncMonitor = AnySyncMonitor(CD_SyncMonitor(container))
-        } else {
-            self.syncMonitor = AnySyncMonitor(NoSyncMonitor())
-        }
+        self.syncMonitor = AnySyncMonitor(CD_SyncMonitor(container))
     }
     
     #if DEBUG
@@ -337,21 +359,25 @@ internal class CD_Controller {
 extension CD_Controller {
 
     // If the MOM is loaded more than once, it prints warnings to the console
-    private static let mom: NSManagedObjectModel? = {
-        guard let url = Bundle(for: CD_Controller.self).url(forResource: "CD_MOM",
-                                                            withExtension: "momd")
-        else { log.emergency("Couldn't find MOM"); return nil }
-        return NSManagedObjectModel(contentsOf: url)
+    private static let mom: NSManagedObjectModel = {
+        guard
+            let url = Bundle(for: CD_Controller.self).url(forResource: "CD_MOM", withExtension: "momd"),
+            let mom = NSManagedObjectModel(contentsOf: url)
+        else {
+            let message = "Couldn't find MOM"
+            log.emergency(message)
+            fatalError(message)
+        }
+        return mom
     }()
 
-    private class func container(isTesting: Bool) -> NSPersistentContainer? {
+    private class func container() -> NSPersistentContainer {
         // debug only sanity checks
         assert(Thread.isMainThread)
 
-        guard let mom = CD_Controller.mom else { log.emergency("Couldn't find MOM"); return nil }
-
+        let mom = CD_Controller.mom
         // when not testing, return normal persistent container
-        guard isTesting else {
+        guard ISTESTING else {
             return Datum_PersistentContainer(name: "Store", managedObjectModel: mom)
         }
 
@@ -382,6 +408,18 @@ private class Datum_PersistentContainer: NSPersistentCloudKitContainer {
 }
 
 extension NSManagedObjectContext {
+    
+    /// Returns true if the object can be modified by this context.
+    fileprivate func validate(_ input: Any, as expected: AnyClass) -> Bool {
+        // debug only sanity checks
+        assert(Thread.isMainThread)
+        
+        let _input = input as AnyObject
+        guard _input.isKind(of: expected) else { return false }
+        guard let __input = _input as? NSManagedObject else { return false }
+        return self === __input.managedObjectContext
+    }
+    
     fileprivate func datum_save() -> Result<Void, Error> {
         do {
             try self.save()
@@ -389,7 +427,7 @@ extension NSManagedObjectContext {
         } catch {
             log.error(error)
             self.rollback()
-            return .failure(.unknown)
+            return .failure(.write(error as NSError))
         }
     }
 }

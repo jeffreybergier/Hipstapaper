@@ -23,16 +23,31 @@ import SwiftUI
 import Umbrella
 import Localize
 
-internal let ISTESTING: Bool = NSClassFromString("XCTestCase") != nil
-
+/// Programming errors like not being able to load MOM from bundle
+/// and updating values from different Context cause fatalError
+/// rather than throwing an error.
 public enum Error: UserFacingError {
-    case critical
-    case unknown
+    /// When an error is returned from `NSPersistentContainter`.
+    case initialize(NSError)
+    /// When asked to update values on the wrong type.
+    case write(NSError)
+    /// When NSManagedContext return an error while `performFetch()`
+    case read(NSError)
+    
+    var errorValue: NSError {
+        switch self {
+        case .initialize(let error), .read(let error), .write(let error):
+            return error
+        }
+    }
 }
 
-// TODO: Add cases here
 extension Error: LocalizedError {
+    public var title: LocalizedStringKey {
+        // TODO: Localize this error
+        return "Noun.Database Error"
+    }
     public var message: LocalizedStringKey {
-        return "LOCALIZE THIS ERROR"
+        return "\(self.errorValue.localizedDescription)"
     }
 }

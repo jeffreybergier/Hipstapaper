@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/23.
+//  Created by Jeffrey Bergier on 2021/02/20.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -19,22 +19,6 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import Datum
-import Combine
+import Foundation
 
-class ParentTestCase: AsyncDeprecateTestCase {
-
-    var controller: Datum.Controller!
-    var tokens: Set<AnyCancellable> = []
-
-    override func setUpWithError() throws {
-        try super.setUpWithError()
-        self.controller = try ControllerNew().get()
-    }
-
-    override func tearDownWithError() throws {
-        self.controller = nil
-        try super.tearDownWithError()
-    }
-
-}
+public let ISTESTING: Bool = NSClassFromString("XCTestCase") != nil
