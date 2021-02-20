@@ -30,7 +30,7 @@ struct HipstapaperApp: App {
     let controller: Controller?
     let watcher: DropboxWatcher?
     @StateObject private var windowPresentation = WindowPresentation()
-    @StateObject private var errorQ: ErrorQueue
+    @State private var initializeError: IdentBox<UserFacingError>?
     
     /*
     init() {
@@ -47,13 +47,12 @@ struct HipstapaperApp: App {
         let result = ControllerNew()
         switch result {
         case .success(let controller):
-            _errorQ = .init(wrappedValue: errorQ)
             self.controller = controller
             self.watcher = DropboxWatcher(controller: controller, errorQ: errorQ)
         case .failure(let error):
             errorQ.queue.append(error)
             log.error(error)
-            _errorQ = .init(wrappedValue: errorQ)
+            _initializeError = .init(initialValue: .init(error))
             self.controller = nil
             self.watcher = nil
         }
@@ -67,13 +66,10 @@ struct HipstapaperApp: App {
     @ViewBuilder private func build() -> some View {
         if let controller = self.controller {
             Main(controller: controller)
-                .modifier(ErrorQueuePresenter())
                 .environmentObject(self.windowPresentation)
-                .environmentObject(self.errorQ)
         } else {
             Color.clear
-                .modifier(ErrorQueuePresenter())
-                .environmentObject(self.errorQ)
+                .alert(item: self.$initializeError, content: { Alert($0.value) })
         }
     }
 }
