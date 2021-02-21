@@ -20,9 +20,7 @@
 //
 
 import Combine
-import Umbrella
 import CoreData
-import Umbrella
 
 /// Represents the progress of something that is long running and can produce
 /// errors upon startup and errors while running. I use this to reflect the status
@@ -60,7 +58,6 @@ public class AnyContinousProgress: ContinousProgress {
         _errorQ_get           = { progress.errorQ }
         _errorQ_set           = { progress.errorQ = $0 }
     }
-    
 }
 
 /// Use when you have no progress to report

@@ -19,29 +19,60 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import SwiftUI
 import CoreData
 import Combine
 import CloudKit
-import Umbrella
 
 // Highly inspired by
 // https://github.com/ggruen/CloudKitSyncMonitor/blob/main/Sources/CloudKitSyncMonitor/SyncMonitor.swift
 
-@available(iOS 14.0, OSX 11.0, *)
-internal class CD_ContinousProgress: ContinousProgress {
+/// Shows continuous progress of CloudKit syncing via NSPersistentCloudKitContainer
+public class CloudKitContainerContinuousProgress: ContinousProgress {
     
-    internal var initializeError: UserFacingError?
-    internal let progress: Progress
-    internal var errorQ = ErrorQueue()
+    public enum Error: UserFacingError {
+        public static var errorDomain: String = "com.saturdayapps.JSBUmbrella.CloudKitContainerContinuousProgress"
+        case accountStatusCritical(NSError)
+        case accountStatus(CKAccountStatus)
+        case sync(NSError)
+        public var errorCode: Int {
+            switch self {
+            case .accountStatusCritical:
+                return 1001
+            case .accountStatus:
+                return 1002
+            case .sync:
+                return 1003
+            }
+        }
+        // TODO: Localize this
+        public var title: LocalizedStringKey { "iCloud Sync Error" }
+        public var message: LocalizedStringKey {
+            switch self {
+            case .accountStatus:
+                return "Phrase.You're not logged into iCloud. Sign into an iCloud account to sync."
+            case .accountStatusCritical(let error), .sync(let error):
+                return "\(error.localizedDescription)"
+            }
+        }
+    }
+    
+    public var initializeError: UserFacingError?
+    public let progress: Progress
+    public var errorQ = ErrorQueue()
     
     private let syncName = NSPersistentCloudKitContainer.eventChangedNotification
     private let accountName = Notification.Name.CKAccountChanged
     private var io: Set<UUID> = []
     
-    internal init(_ container: NSPersistentContainer) {
+    /// If container is not NSPersistentCloudKitContainer this class never shows any progress.
+    public init(_ container: NSPersistentContainer) {
         self.progress = .init(totalUnitCount: 0)
         self.progress.completedUnitCount = 0
-        guard container is NSPersistentCloudKitContainer else { return }
+        guard container is NSPersistentCloudKitContainer else {
+            log.error("CloudKitContainerContinuousProgress can only be show progress of sync with NSPersistentCloudKitContainer")
+            return
+        }
         let nc = NotificationCenter.default
         nc.addObserver(self,
                        selector: #selector(self.observeSync(_:)),
@@ -62,7 +93,7 @@ internal class CD_ContinousProgress: ContinousProgress {
                 if let error = error {
                     log.error(error)
                     let error = error as NSError
-                    self.initializeError = GenericError(error)
+                    self.initializeError = Error.accountStatusCritical(error)
                     return
                 }
                 switch account {
@@ -71,10 +102,7 @@ internal class CD_ContinousProgress: ContinousProgress {
                 case .couldNotDetermine, .restricted, .noAccount:
                     fallthrough
                 @unknown default:
-                    // TODO: Localize this
-                    let error = GenericError(errorCode: 1001,
-                                             message: "Phrase.You're not logged into iCloud. Sign into an iCloud account to sync.")
-                    self.initializeError = error
+                    self.initializeError = Error.accountStatus(account)
                 }
             }
         }
@@ -89,7 +117,7 @@ internal class CD_ContinousProgress: ContinousProgress {
             if let error = event.error {
                 log.error(error)
                 let error = error as NSError
-                self.errorQ.queue.append(GenericError(error))
+                self.errorQ.queue.append(Error.sync(error))
             }
             if self.io.contains(event.identifier) {
                 log.debug("- \(event.identifier)")

@@ -96,8 +96,6 @@
 		736DD40125879FD100F0FBE0 /* TGL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736DD40025879FD100F0FBE0 /* TGL.swift */; };
 		736F67A325C19822006896DF /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 736F67A225C19822006896DF /* CloudKit.framework */; };
 		736F67A525C19979006896DF /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 736F67A425C19979006896DF /* CloudKit.framework */; };
-		736F67BB25C2F043006896DF /* ContinousProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736F67BA25C2F043006896DF /* ContinousProgress.swift */; };
-		736F67C725C2FE02006896DF /* CD_ContinousProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736F67C625C2FE02006896DF /* CD_ContinousProgress.swift */; };
 		736FC95825DC8345004CF4C3 /* SwiftUI+Umbrella.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FC95725DC8345004CF4C3 /* SwiftUI+Umbrella.swift */; };
 		736FC96325DC8455004CF4C3 /* Swift+Umbrella.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FC96225DC8455004CF4C3 /* Swift+Umbrella.swift */; };
 		736FC97725DC84FA004CF4C3 /* Foundation+Umbrella.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FC97625DC84FA004CF4C3 /* Foundation+Umbrella.swift */; };
@@ -114,6 +112,8 @@
 		736FCA7725DFDF81004CF4C3 /* GenericError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FCA7625DFDF81004CF4C3 /* GenericError.swift */; };
 		736FCAA125E0FC33004CF4C3 /* DebugConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FCAA025E0FC33004CF4C3 /* DebugConstants.swift */; };
 		736FCAAD25E0FE8E004CF4C3 /* ICN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FCAAC25E0FE8E004CF4C3 /* ICN.swift */; };
+		73760BA925E1EA6900C39DCE /* CloudKitContainerContinuousProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73760BA725E1EA6900C39DCE /* CloudKitContainerContinuousProgress.swift */; };
+		73760BAA25E1EA6900C39DCE /* ContinousProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73760BA825E1EA6900C39DCE /* ContinousProgress.swift */; };
 		7377B3D525C6DBC1003BE3F1 /* AnyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5031AF23256E8DEC00AC98AA /* AnyList.swift */; };
 		7377B3EA25C6DDB6003BE3F1 /* MappedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4C6C258E27870016F904 /* MappedList.swift */; };
 		73993E2E2595DFC7006FB612 /* BrowserWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73993E2D2595DFC2006FB612 /* BrowserWindowController.swift */; };
@@ -565,8 +565,6 @@
 		736DD40025879FD100F0FBE0 /* TGL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TGL.swift; sourceTree = "<group>"; };
 		736F67A225C19822006896DF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.2.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		736F67A425C19979006896DF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
-		736F67BA25C2F043006896DF /* ContinousProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinousProgress.swift; sourceTree = "<group>"; };
-		736F67C625C2FE02006896DF /* CD_ContinousProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_ContinousProgress.swift; sourceTree = "<group>"; };
 		736FC95725DC8345004CF4C3 /* SwiftUI+Umbrella.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftUI+Umbrella.swift"; sourceTree = "<group>"; };
 		736FC96225DC8455004CF4C3 /* Swift+Umbrella.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Swift+Umbrella.swift"; sourceTree = "<group>"; };
 		736FC97625DC84FA004CF4C3 /* Foundation+Umbrella.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Foundation+Umbrella.swift"; sourceTree = "<group>"; };
@@ -584,6 +582,8 @@
 		736FCA7625DFDF81004CF4C3 /* GenericError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericError.swift; sourceTree = "<group>"; };
 		736FCAA025E0FC33004CF4C3 /* DebugConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugConstants.swift; sourceTree = "<group>"; };
 		736FCAAC25E0FE8E004CF4C3 /* ICN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICN.swift; sourceTree = "<group>"; };
+		73760BA725E1EA6900C39DCE /* CloudKitContainerContinuousProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitContainerContinuousProgress.swift; sourceTree = "<group>"; };
+		73760BA825E1EA6900C39DCE /* ContinousProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContinousProgress.swift; sourceTree = "<group>"; };
 		73993E2D2595DFC2006FB612 /* BrowserWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserWindowController.swift; sourceTree = "<group>"; };
 		7399BAA9258251A500B8CAFD /* Stylize.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Stylize.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7399BAAB258251A500B8CAFD /* Stylize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stylize.h; sourceTree = "<group>"; };
@@ -849,6 +849,8 @@
 				736FCA5E25DE9D64004CF4C3 /* ErrorQueue.swift */,
 				736FCA6A25DFDF68004CF4C3 /* GenericWebKitNavigationDelegate.swift */,
 				736FCA5225DE91CD004CF4C3 /* IdentBox.swift */,
+				73760BA825E1EA6900C39DCE /* ContinousProgress.swift */,
+				73760BA725E1EA6900C39DCE /* CloudKitContainerContinuousProgress.swift */,
 				73093C2D25DBFE3F00B7915A /* Info.plist */,
 			);
 			path = Umbrella;
@@ -1049,8 +1051,6 @@
 				73F2B043257460D2009AC2AF /* CD_Sort.swift */,
 				DB21C202256C8F9100DF6AE7 /* Controller.swift */,
 				DBAA772F256C999B005126C3 /* CD_Controller.swift */,
-				736F67BA25C2F043006896DF /* ContinousProgress.swift */,
-				736F67C625C2FE02006896DF /* CD_ContinousProgress.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1700,9 +1700,11 @@
 				736FCA3325DE8CD7004CF4C3 /* Queue+Result.swift in Sources */,
 				736FC9AA25DDDAAC004CF4C3 /* Queue.swift in Sources */,
 				736FC99F25DD5AA8004CF4C3 /* Alert+UFError.swift in Sources */,
+				73760BA925E1EA6900C39DCE /* CloudKitContainerContinuousProgress.swift in Sources */,
 				736FCA6B25DFDF68004CF4C3 /* GenericWebKitNavigationDelegate.swift in Sources */,
 				736FC99425DD56A8004CF4C3 /* UserFacingError.swift in Sources */,
 				736FCAA125E0FC33004CF4C3 /* DebugConstants.swift in Sources */,
+				73760BAA25E1EA6900C39DCE /* ContinousProgress.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1903,14 +1905,12 @@
 				DB21C1FC256C8DC500DF6AE7 /* CD_Tag.swift in Sources */,
 				7377B3EA25C6DDB6003BE3F1 /* MappedList.swift in Sources */,
 				DBDCB3FA256C866200D005F6 /* CD_Base.swift in Sources */,
-				736F67C725C2FE02006896DF /* CD_ContinousProgress.swift in Sources */,
 				733E967925C6C7D500E108EE /* ListObserver.swift in Sources */,
 				73A3DE7F257B36C8002EDEB4 /* StaticElement.swift in Sources */,
 				5073F40425720C5F00AC4C6C /* Query.swift in Sources */,
 				735C92022577C0260033B4E8 /* FixedModels.swift in Sources */,
 				73DC73E0257290EF00EE72FA /* Base.swift in Sources */,
 				DBAA7736256C9A17005126C3 /* Error.swift in Sources */,
-				736F67BB25C2F043006896DF /* ContinousProgress.swift in Sources */,
 				5070E75D257217F100AF0968 /* CD_Query.swift in Sources */,
 				DBA3BE3025709D0A005A2379 /* Website.swift in Sources */,
 				DBA1993E256D452C00383EB1 /* CD_List.swift in Sources */,

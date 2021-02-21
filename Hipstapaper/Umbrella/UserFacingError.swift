@@ -24,7 +24,7 @@ import SwiftUI
 public typealias UFError = UserFacingError
 public typealias RUFError = RecoverableUserFacingError
 
-public protocol UserFacingError: CustomNSError, LocalizedError {
+public protocol UserFacingError: CustomNSError {
     /// Default implementation is "Noun.Error"
     var title: LocalizedStringKey { get }
     var message: LocalizedStringKey { get }

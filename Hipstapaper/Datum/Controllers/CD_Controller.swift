@@ -20,7 +20,6 @@
 //
 
 import CoreData
-import SwiftUI
 import CloudKit
 import Umbrella
 
@@ -337,6 +336,7 @@ internal class CD_Controller {
         container.viewContext.automaticallyMergesChangesFromParent = true
         self.container = container
         
+        #if DEBUG
         // initialize the CloudKit schema
         // only do this once per change to CD MOM
         let configureCKSchema = false
@@ -345,8 +345,9 @@ internal class CD_Controller {
             try! container.initializeCloudKitSchema(options: [.printSchema])
             fatalError("Cannot continue while using: initializeCloudKitSchema")
         }
+        #endif
         
-        self.syncProgress = AnyContinousProgress(CD_ContinousProgress(container))
+        self.syncProgress = AnyContinousProgress(CloudKitContainerContinuousProgress(container))
     }
     
     #if DEBUG
