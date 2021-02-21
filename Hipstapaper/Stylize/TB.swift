@@ -133,19 +133,19 @@ extension STZ {
         }
         public enum DeleteTag_Minus: Toolbarable {
             public static let icon: STZ.ICN? = .deleteMinus
-            public static let phrase: Phrase = .deleteTag
+            public static let phrase: Phrase = .deleteTagTip
             public static let verb: Verb = .deleteTag
             public static let shortcut: KeyboardShortcut? = .init(.delete, modifiers: [.command])
         }
         public enum DeleteWebsite: Toolbarable {
             public static let icon: STZ.ICN? = .deleteTrash
-            public static let phrase: Phrase = .deleteWebsite
+            public static let phrase: Phrase = .deleteWebsiteTip
             public static let verb: Verb = .deleteWebsite
             public static let shortcut: KeyboardShortcut? = .init(.delete, modifiers: [.command])
         }
         public enum DeleteTag_Trash: Toolbarable {
             public static let icon: STZ.ICN? = .deleteTrash
-            public static let phrase: Phrase = .deleteTag
+            public static let phrase: Phrase = .deleteTagTip
             public static let verb: Verb = .deleteTag
             public static let shortcut: KeyboardShortcut? = .init(.delete, modifiers: [.command])
         }

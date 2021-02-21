@@ -39,6 +39,8 @@ public enum Noun: LocalizedStringKey {
     case error         = "Noun.Error"
     case errorDatabase = "Noun.ErrorDatabase"
     case erroriCloud   = "Noun.iCloud"
+    case deleteTag     = "Noun.DeleteTag"
+    case deleteWebsite = "Noun.DeleteWebsite"
     
     public static let allItems_L: String = NSLocalizedString("Noun.AllItems", comment: "")
     public static let unreadItems_L: String = NSLocalizedString("Noun.UnreadItems", comment: "")

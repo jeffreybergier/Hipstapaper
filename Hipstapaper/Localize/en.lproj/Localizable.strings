@@ -81,7 +81,8 @@
 "Noun.AddChoice"     = "Add";
 "Noun.ErrorDatabase" = "Database Error";
 "Noun.iCloud"        = "Sync Error";
-
+"Noun.DeleteTag"     = "Delete Tag(s)";
+"Noun.DeleteWebsite" = "Delete Website(s)";
 //
 //
 ////
@@ -118,8 +119,10 @@
 "Phrase.JSInactive"             = "Enable Javascript";
 "Phrase.GoBack"                 = "Show the previous page";
 "Phrase.GoForward"              = "Show the next page";
-"Phrase.DeleteTag"              = "Delete selected tag(s)";
-"Phrase.DeleteWebsite"          = "Delete selected website(s)";
+"Phrase.DeleteTagTip"           = "Delete selected tag(s)";
+"Phrase.DeleteWebsiteTip"       = "Delete selected website(s)";
+"Phrase.DeleteTagConfirm"       = "The selected tag(s) will be deleted on all device. This cannot be undone.";
+"Phrase.DeleteWebsiteConfirm"   = "The selected website(s) will be deleted on all device. This cannot be undone.";
 "Phrase.ClearSearch"            = "Clear search";
 "Phrase.iCloudAccountError"     = "iCloud account error";
 "Phrase.iCloudSyncError"        = "iCloud sync error";

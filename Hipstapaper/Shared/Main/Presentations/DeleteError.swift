@@ -21,6 +21,7 @@ import SwiftUI
 import Umbrella
 import Stylize
 import Datum
+import Localize
 
 enum DeleteError: RecoverableUserFacingError {
     
@@ -32,18 +33,35 @@ enum DeleteError: RecoverableUserFacingError {
     var title: LocalizedStringKey {
         switch self {
         case .tag:
-            return "Phrase.Delete Tag(s)?"
+            return Noun.deleteTag.rawValue
         case .website:
-            return "Phrase.Delete Website(s)?"
+            return Noun.deleteWebsite.rawValue
         }
     }
     var message: LocalizedStringKey {
-        "Phrase.Deleted item(s) will be deleted from all devices. This cannot be undone."
+        switch self {
+        case .tag:
+            return Phrase.deleteTagConfirm.rawValue
+        case .website:
+            return Phrase.deleteWebsiteConfirm.rawValue
+        }
     }
     var options: [RecoveryOption] {
         switch self {
-        case .tag(let onConfirm), .website(let onConfirm):
-            return [.init(title: "Verb.Delete", isDestructive: true, perform: onConfirm)]
+        case .tag(let onConfirm):
+            return [.init(title: Verb.deleteTag.rawValue, isDestructive: true, perform: onConfirm)]
+        case .website(let onConfirm):
+            return [.init(title: Verb.deleteWebsite.rawValue, isDestructive: true, perform: onConfirm)]
+        }
+    }
+    
+    static var errorDomain: String = "com.saturdayapps.Hipstapaper.delete"
+    var errorCode: Int {
+        switch self {
+        case .tag:
+            return 1001
+        case .website:
+            return 1002
         }
     }
 }
