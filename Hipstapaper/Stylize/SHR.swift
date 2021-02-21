@@ -20,33 +20,41 @@
 //
 
 import SwiftUI
+import Umbrella
+import Localize
 
 extension STZ {
     public struct SHR: View {
+        
+        public enum Error: UserFacingError {
+            public static var errorDomain: String = "com.saturdayapps.Hipstapaper.Stylize.Share"
+            public var errorCode: Int               { 1001 }
+            public var message: LocalizedStringKey  { Phrase.errorShareItemCount.rawValue }
+            case itemCount
+        }
         
         public typealias Completion = () -> Void
         
         private let items: [URL]
         private let completion: Completion
         
-        @State private var isError: Bool
+        @StateObject private var errorQ = ErrorQueue()
         @Environment(\.presentationMode) private var presentationMode
         
         public var body: some View {
             Bridge(items: self.items, completion: self.completion)
                 .frame(width: self.forcedFrame, height: self.forcedFrame)
-                .alert(isPresented: self.$isError) {
-                    // TODO: Localize this error
-                    Alert(title: Text("Error"),
-                          message: Text("The selected item(s) contained no valid URLs."),
-                          dismissButton: .cancel({ self.presentationMode.wrappedValue.dismiss() }))
+                .modifier(ErrorQueuePresenter())
+                .environmentObject(self.errorQ)
+                .onAppear() {
+                    guard self.items.isEmpty else { return }
+                    self.errorQ.queue.append(Error.itemCount)
                 }
         }
         
         public init(items: [URL], completion: @escaping SHR.Completion) {
             self.items = items
             self.completion = completion
-            _isError = .init(initialValue: items.isEmpty)
         }
         
         private var forcedFrame: CGFloat? {

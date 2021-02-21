@@ -135,3 +135,4 @@
 "Phrase.Cancel"                 = "Cancel without saving changes";
 "Phrase.ErrorInvalidURL%@"      = "Attempted to browse to an invalid URL:\n%@";
 "Phrase.ErroriCloudAccount"     = "To enable syncing your Reading List with other devices, sign into iCloud.";
+"Phrase.ErrorShareItemCount"           = "The selected website(s) contained no URLs to share.";
