@@ -24,9 +24,13 @@ import SwiftUI
 import Localize
 
 public protocol Buttonable {
+    /// Icon in label or toolbar
     static var icon: STZ.ICN? { get }
+    /// Tooltip / Accessibility
     static var phrase: LocalizedStringKey { get }
+    /// Button title / Toolbar text
     static var verb: LocalizedStringKey { get }
+    /// Keyboard shortcut
     static var shortcut: KeyboardShortcut? { get }
 }
 

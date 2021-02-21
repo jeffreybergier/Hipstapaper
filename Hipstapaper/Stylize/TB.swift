@@ -55,31 +55,31 @@ extension STZ {
     public enum TB {
         public enum Share: Toolbarable {
             public static let icon: STZ.ICN? = .share
-            public static let phrase: LocalizedStringKey = Verb.Share
+            public static let phrase: LocalizedStringKey = Phrase.Share
             public static let verb: LocalizedStringKey = Verb.Share
             public static let shortcut: KeyboardShortcut? = .init("i", modifiers: [.command, .shift])
         }
         public enum Unarchive: Toolbarable {
             public static let icon: STZ.ICN? = .unarchive
-            public static let phrase: LocalizedStringKey = Verb.Unarchive
+            public static let phrase: LocalizedStringKey = Phrase.Unarchive
             public static let verb: LocalizedStringKey = Verb.Unarchive
             public static let shortcut: KeyboardShortcut? = .init("u", modifiers: [.command, .control])
         }
         public enum Archive: Toolbarable {
             public static let icon: STZ.ICN? = .archive
-            public static let phrase: LocalizedStringKey = Verb.Archive
+            public static let phrase: LocalizedStringKey = Phrase.Archive
             public static let verb: LocalizedStringKey = Verb.Archive
             public static let shortcut: KeyboardShortcut? = .init("a", modifiers: [.command, .control])
         }
         public enum OpenInBrowser: Toolbarable {
             public static let icon: STZ.ICN? = .openInBrowser
-            public static let phrase: LocalizedStringKey = Verb.Safari
+            public static let phrase: LocalizedStringKey = Phrase.Safari
             public static let verb: LocalizedStringKey = Verb.Safari
             public static let shortcut: KeyboardShortcut? = .init("o", modifiers: [.command, .shift])
         }
         public enum OpenInApp: Toolbarable {
             public static let icon: STZ.ICN? = .openInApp
-            public static let phrase: LocalizedStringKey = Verb.OpenInApp
+            public static let phrase: LocalizedStringKey = Phrase.OpenInApp
             public static let verb: LocalizedStringKey = Verb.OpenInApp
             public static let shortcut: KeyboardShortcut? = .init("o", modifiers: [.command])
         }
@@ -97,73 +97,73 @@ extension STZ {
         }
         public enum Stop: Toolbarable {
             public static let icon: STZ.ICN? = .stop
-            public static let phrase: LocalizedStringKey = "Stop"
+            public static let phrase: LocalizedStringKey = Phrase.StopLoading
             public static let verb: LocalizedStringKey = { fatalError() }()
             public static let shortcut: KeyboardShortcut? = .init(".", modifiers: [.command])
         }
         public enum Reload: Toolbarable {
             public static let icon: STZ.ICN? = .reload
-            public static let phrase: LocalizedStringKey = "Reload"
+            public static let phrase: LocalizedStringKey = Phrase.ReloadPage
             public static let verb: LocalizedStringKey = { fatalError() }()
             public static let shortcut: KeyboardShortcut? = .init("r", modifiers: [.command])
         }
         public enum JSActive: Toolbarable {
             public static let icon: STZ.ICN? = .jsActive
-            public static let phrase: LocalizedStringKey = "Disable Javascript"
+            public static let phrase: LocalizedStringKey = Phrase.JSActive
             public static let verb: LocalizedStringKey = "Javascript"
             public static let shortcut: KeyboardShortcut? = .init("j", modifiers: [.command, .option])
         }
         public enum JSInactive: Toolbarable {
             public static let icon: STZ.ICN? = .jsInactive
-            public static let phrase: LocalizedStringKey = "Enable Javascript"
+            public static let phrase: LocalizedStringKey = Phrase.JSInactive
             public static let verb: LocalizedStringKey = "Javascript"
             public static let shortcut: KeyboardShortcut? = .init("j", modifiers: [.command, .option])
         }
         public enum GoBack: Toolbarable {
             public static let icon: STZ.ICN? = .goBack
-            public static let phrase: LocalizedStringKey = "Show the previous page"
+            public static let phrase: LocalizedStringKey = Phrase.GoBack
             public static let verb: LocalizedStringKey = "Back"
             public static let shortcut: KeyboardShortcut? = .init("[", modifiers: [.command])
         }
         public enum GoForward: Toolbarable {
             public static let icon: STZ.ICN? = .goForward
-            public static let phrase: LocalizedStringKey = "Show the next page"
+            public static let phrase: LocalizedStringKey = Phrase.GoForward
             public static let verb: LocalizedStringKey = "Forward"
             public static let shortcut: KeyboardShortcut? = .init("]", modifiers: [.command])
         }
         public enum DeleteTag_Minus: Toolbarable {
             public static let icon: STZ.ICN? = .deleteMinus
-            public static let phrase: LocalizedStringKey = Verb.DeleteTag
+            public static let phrase: LocalizedStringKey = Phrase.DeleteTag
             public static let verb: LocalizedStringKey = Verb.DeleteTag
             public static let shortcut: KeyboardShortcut? = .init(.delete, modifiers: [.command])
         }
         public enum DeleteWebsite: Toolbarable {
             public static let icon: STZ.ICN? = .deleteTrash
-            public static let phrase: LocalizedStringKey = "Delete website"
+            public static let phrase: LocalizedStringKey = Phrase.DeleteWebsite
             public static let verb: LocalizedStringKey = "Delete Website"
             public static let shortcut: KeyboardShortcut? = .init(.delete, modifiers: [.command])
         }
         public enum DeleteTag_Trash: Toolbarable {
             public static let icon: STZ.ICN? = .deleteTrash
-            public static let phrase: LocalizedStringKey = "Delete tag"
+            public static let phrase: LocalizedStringKey = Phrase.DeleteTag
             public static let verb: LocalizedStringKey = "Delete Tag"
             public static let shortcut: KeyboardShortcut? = .init(.delete, modifiers: [.command])
         }
         public enum ClearSearch: Toolbarable {
             public static let icon: STZ.ICN? = .clearSearch
-            public static let phrase: LocalizedStringKey = Verb.ClearSearch
+            public static let phrase: LocalizedStringKey = Phrase.ClearSearch
             public static let verb: LocalizedStringKey = Verb.ClearSearch
             public static let shortcut: KeyboardShortcut? = .init(.escape, modifiers: [])
         }
         public enum CloudSyncError: Toolbarable {
             public static let icon: STZ.ICN? = .cloudError
-            public static let phrase: LocalizedStringKey = "iCloud Sync Error"
+            public static let phrase: LocalizedStringKey = Phrase.iCloudSyncError
             public static let verb: LocalizedStringKey = "iCloud Sync Error"
             public static let shortcut: KeyboardShortcut? = nil
         }
         public enum CloudAccountError: Toolbarable {
             public static let icon: STZ.ICN? = .cloudAccountError
-            public static let phrase: LocalizedStringKey = "No iCloud Account"
+            public static let phrase: LocalizedStringKey = Phrase.iCloudAccountError
             public static let verb: LocalizedStringKey = "No iCloud Account"
             public static let shortcut: KeyboardShortcut? = nil
         }
