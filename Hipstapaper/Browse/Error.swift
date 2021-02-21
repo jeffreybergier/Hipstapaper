@@ -32,8 +32,15 @@ internal enum Error: UserFacingError {
     var message: LocalizedStringKey {
         switch self {
         case .loadURL:
-            // TODO: Localized this error
-            return "This item did not contain a URL to load."
+            return Phrase.errorLoadURL.rawValue
+        }
+    }
+    
+    static var errorDomain: String = "com.saturdayapps.Hipstapaper.Browse"
+    var errorCode: Int {
+        switch self {
+        case .loadURL:
+            return 1001
         }
     }
 }

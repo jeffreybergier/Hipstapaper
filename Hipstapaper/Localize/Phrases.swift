@@ -65,4 +65,5 @@ public enum Phrase: LocalizedStringKey {
     case errorInvalidURL        = "Phrase.ErrorInvalidURL%@"
     case erroriCloudAccount     = "Phrase.ErroriCloudAccount"
     case errorShareItemCount    = "Phrase.ErrorShareItemCount"
+    case errorLoadURL           = "Phrase.ErrorLoadURL"
 }
