@@ -68,7 +68,7 @@ extension CD_Controller: Controller {
             try controller.performFetch()
             return .success(
                 AnyListObserver(
-                    CD_ListObserver(
+                    FetchedResultsControllerListObserver(
                         CD_List(controller) {
                             AnyElementObserver(CD_Element($0, { AnyWebsite($0) }))
                         }
@@ -175,7 +175,7 @@ extension CD_Controller: Controller {
             try controller.performFetch()
             return .success(
                 AnyListObserver(
-                    CD_ListObserver(
+                    FetchedResultsControllerListObserver(
                         CD_List(controller) {
                             AnyElementObserver(CD_Element($0, { AnyTag($0) }))
                         }

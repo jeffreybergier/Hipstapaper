@@ -23,12 +23,30 @@ import CoreData
 import Combine
 import Umbrella
 
-internal class CD_ListObserver<Output, Input: NSManagedObject>: NSObject,
-                                                            ListObserver,
-                                                            NSFetchedResultsControllerDelegate
+
+/**
+ Takes an `NSFetchedResultsController` and adapts it for use with SwiftUI.
+ This class has no way to return errors so you must call performFetch on your own before
+ The class is used.
+ To prevent your data model (Core Data) from leaking into your UI layer use `AnyListObserver`:
+ ```
+try controller.performFetch()
+return .success(
+    AnyListObserver(
+        FetchedResultsControllerListObserver(
+            CD_List(controller) {
+                AnyElementObserver(CD_Element($0, { AnyTag($0) }))
+            }
+        )
+    )
+)
+ ```
+ */
+public class FetchedResultsControllerListObserver<Output, Input: NSManagedObject>:
+    NSObject, ListObserver, NSFetchedResultsControllerDelegate
 {
 
-    internal var data: AnyList<Output>
+    public var data: AnyList<Output>
 
     internal init(_ list: CD_List<Output, Input>)
     {
@@ -39,17 +57,17 @@ internal class CD_ListObserver<Output, Input: NSManagedObject>: NSObject,
 
     // MARK: NSFetchedResultsControllerDelegate
     
-    internal func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    public func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         self.objectWillChange.send()
     }
     
+    #if DEBUG
     // MARK: Testing Only
-    internal var __objectDidChange = ObservableObjectPublisher()
-    internal func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    public var __objectDidChange = ObservableObjectPublisher()
+    public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         __objectDidChange.send()
     }
     
-    #if DEBUG
     deinit {
         log.verbose()
     }
