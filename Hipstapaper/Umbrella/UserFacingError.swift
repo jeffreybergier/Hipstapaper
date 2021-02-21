@@ -29,7 +29,7 @@ public protocol UserFacingError: CustomNSError {
     var title: LocalizedStringKey { get }
     var message: LocalizedStringKey { get }
     /// Default implementation is "Verb.Dismiss"
-    var dismissButtonTitle: LocalizedStringKey { get }
+    var dismissTitle: LocalizedStringKey { get }
 }
 
 public protocol RecoverableUserFacingError: UserFacingError {
@@ -56,7 +56,7 @@ extension UserFacingError {
         return "Noun.Error"
     }
     /// Default implementation. Override to customize
-    public var dismissButtonTitle: LocalizedStringKey {
+    public var dismissTitle: LocalizedStringKey {
         return "Verb.Dismiss"
     }
 }

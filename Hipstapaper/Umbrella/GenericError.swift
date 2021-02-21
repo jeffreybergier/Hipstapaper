@@ -23,7 +23,7 @@ import SwiftUI
 
 public struct GenericError: RecoverableUserFacingError {
     /// Default value is `com.saturdayapps.JSBUmbrella`
-    public static var errorDomain: String = "com.saturdayapps.JSBUmbrella"
+    public static var errorDomain: String = "com.saturdayapps.JSBUmbrella.generic"
     public var errorCode: Int
     /// Only useful for debugging. Cocoa does not read this errorDomain.
     /// See `static var errorDomain`
@@ -34,7 +34,7 @@ public struct GenericError: RecoverableUserFacingError {
     public var options: [RecoveryOption]
     
     public init(errorCode: Int,
-                errorDomain: String = "com.saturdayapps.JSBUmbrella",
+                errorDomain: String = "com.saturdayapps.JSBUmbrella.generic",
                 errorUserInfo: [String : Any] = [:],
                 message: LocalizedStringKey,
                 options: [RecoveryOption] = [])
@@ -50,7 +50,7 @@ public struct GenericError: RecoverableUserFacingError {
         self.errorCode = error.code
         self.errorDomain = error.domain
         self.errorUserInfo = error.userInfo
-        self.message = "\(error.localizedDescription)"
+        self.message = .init(error.localizedDescription)
         self.options = options
     }
 }

@@ -31,7 +31,7 @@ extension Alert {
     private init(UFError error: UFError, dismissAction: @escaping () -> Void) {
         self.init(title: Text(error.title),
                   message: Text(error.message),
-                  dismissButton: .cancel(Text(error.dismissButtonTitle),
+                  dismissButton: .cancel(Text(error.dismissTitle),
                                          action: dismissAction))
     }
     
@@ -40,7 +40,7 @@ extension Alert {
         self.init(title: Text(error.title),
                   message: Text(error.message),
                   primaryButton: .init(error.options[0]),
-                  secondaryButton: .cancel(Text(error.dismissButtonTitle),
+                  secondaryButton: .cancel(Text(error.dismissTitle),
                                            action: dismissAction))
     }
 }
