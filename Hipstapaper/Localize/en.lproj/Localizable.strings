@@ -80,6 +80,7 @@
 "Noun.Error"         = "Error";
 "Noun.AddChoice"     = "Add";
 "Noun.ErrorDatabase" = "Database Error";
+"Noun.iCloud"        = "Sync Error";
 
 //
 //
@@ -129,4 +130,5 @@
 "Phrase.Done"                   = "Finish and dismiss the screen";
 "Phrase.Save"                   = "Save changes";
 "Phrase.Cancel"                 = "Cancel without saving changes";
-"Phrase.ErrorInvalidURL%@"        = "Attempted to browse to an invalid URL:\n%@";
+"Phrase.ErrorInvalidURL%@"      = "Attempted to browse to an invalid URL:\n%@";
+"Phrase.ErroriCloudAccount"     = "To enable syncing your Reading List with other devices, sign into iCloud.";

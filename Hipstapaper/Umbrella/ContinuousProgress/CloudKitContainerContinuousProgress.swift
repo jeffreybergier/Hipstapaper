@@ -31,10 +31,11 @@ import CloudKit
 public class CloudKitContainerContinuousProgress: ContinousProgress {
     
     public enum Error: UserFacingError {
-        public static var errorDomain: String = "com.saturdayapps.JSBUmbrella.CloudKitContainerContinuousProgress"
         case accountStatusCritical(NSError)
         case accountStatus(CKAccountStatus)
         case sync(NSError)
+        
+        public static var errorDomain: String = "com.saturdayapps.JSBUmbrella.CloudKitContainerContinuousProgress"
         public var errorCode: Int {
             switch self {
             case .accountStatusCritical:
@@ -45,14 +46,13 @@ public class CloudKitContainerContinuousProgress: ContinousProgress {
                 return 1003
             }
         }
-        // TODO: Localize this
-        public var title: LocalizedStringKey { "iCloud Sync Error" }
+        public var title: LocalizedStringKey { "Noun.iCloud" }
         public var message: LocalizedStringKey {
             switch self {
             case .accountStatus:
-                return "Phrase.You're not logged into iCloud. Sign into an iCloud account to sync."
+                return "Phrase.ErroriCloudAccount"
             case .accountStatusCritical(let error), .sync(let error):
-                return "\(error.localizedDescription)"
+                return .init(error.localizedDescription)
             }
         }
     }
