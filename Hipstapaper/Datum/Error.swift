@@ -40,14 +40,25 @@ public enum Error: UserFacingError {
             return error
         }
     }
-}
-
-extension Error: LocalizedError {
-    public var title: LocalizedStringKey {
-        // TODO: Localize this error
-        return "Noun.Database Error"
+    
+    public static var errorDomain: String = "com.saturdayapps.Hipstapaper.Datum"
+    
+    public var errorCode: Int {
+        switch self {
+        case .initialize:
+            return 1001
+        case .read:
+            return 1002
+        case .write:
+            return 1003
+        }
     }
+    
+    public var title: LocalizedStringKey {
+        return Noun.errorDatabase.rawValue
+    }
+    
     public var message: LocalizedStringKey {
-        return "\(self.errorValue.localizedDescription)"
+        return .init(self.errorValue.localizedDescription)
     }
 }

@@ -62,23 +62,24 @@
 //
 //
 
-"Noun.Search"       = "Search";
-"Noun.ReadingList"  = "Reading List";
-"Noun.Tags"         = "Tags";
-"Noun.Untitled"     = "Untitled";
-"Noun.AllItems"     = "All Items";
-"Noun.UnreadItems"  = "Unread Items";
-"Noun.WebsiteURL"   = "Website URL";
-"Noun.WebsiteTitle" = "Website Title";
-"Noun.Hipstapaper"  = "Hipstapaper";
-"Noun.TagName"      = "Tag Name";
-"Noun.AddTag"       = "Add Tag";
-"Noun.AddWebsite"   = "Add Website";
-"Noun.ApplyTags"    = "Apply Tags";
-"Noun.Sort"         = "Sort Order";
-"Noun.Filter"       = "Filter";
-"Noun.Error"        = "Error";
-"Noun.AddChoice"    = "Add";
+"Noun.Search"        = "Search";
+"Noun.ReadingList"   = "Reading List";
+"Noun.Tags"          = "Tags";
+"Noun.Untitled"      = "Untitled";
+"Noun.AllItems"      = "All Items";
+"Noun.UnreadItems"   = "Unread Items";
+"Noun.WebsiteURL"    = "Website URL";
+"Noun.WebsiteTitle"  = "Website Title";
+"Noun.Hipstapaper"   = "Hipstapaper";
+"Noun.TagName"       = "Tag Name";
+"Noun.AddTag"        = "Add Tag";
+"Noun.AddWebsite"    = "Add Website";
+"Noun.ApplyTags"     = "Apply Tags";
+"Noun.Sort"          = "Sort Order";
+"Noun.Filter"        = "Filter";
+"Noun.Error"         = "Error";
+"Noun.AddChoice"     = "Add";
+"Noun.ErrorDatabase" = "Database Error";
 
 //
 //
