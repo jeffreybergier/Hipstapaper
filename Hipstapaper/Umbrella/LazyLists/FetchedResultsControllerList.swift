@@ -22,7 +22,27 @@
 import CoreData
 import Combine
 
-public struct CD_List<Output, Input: NSManagedObject>: RandomAccessCollection {
+/**
+ Takes `NSFetchedResultsController` and tranform closure. This list lazily converts values
+ with the provided closure. This way it is possible to not let NSManagedObjects leak into your UI
+ layer in an efficient way. You probably want to use the transform to wrap the NSManagedObject
+ in `ManagedObjectElementObserver` so that it can be observed.
+ This struct has no way to return errors so you must call `performFetch` on your own before using.
+ To prevent core data from leaking into your UI layer, use `AnyList`
+ ```
+try controller.performFetch()
+return .success(
+    AnyListObserver(
+        FetchedResultsControllerListObserver(
+            FetchedResultsControllerList(controller) {
+                AnyElementObserver(ManagedObjectElementObserver($0, { AnyTag($0) }))
+            }
+        )
+    )
+)
+ ```
+ */
+public struct FetchedResultsControllerList<Output, Input: NSManagedObject>: RandomAccessCollection {
     
     public typealias Index = Int
     public typealias Element = Output
@@ -43,5 +63,5 @@ public struct CD_List<Output, Input: NSManagedObject>: RandomAccessCollection {
     // MARK: Swift.Collection Boilerplate
     public var startIndex: Index { self.frc.fetchedObjects!.startIndex }
     public var endIndex: Index { self.frc.fetchedObjects!.endIndex }
-    public subscript(index: Index) -> Element { transform(self.frc.fetchedObjects![index]) }
+    public subscript(index: Index) -> Element { self.transform(self.frc.fetchedObjects![index]) }
 }

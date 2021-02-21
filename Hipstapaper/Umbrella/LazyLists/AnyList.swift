@@ -21,6 +21,8 @@
 
 import Combine
 
+/// Type eraser for customized lists.
+/// See `FetchedResultsControllerList` for more details
 public struct AnyList<Element>: RandomAccessCollection {
     
     public static var empty: AnyList<Element> {

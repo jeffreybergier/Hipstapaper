@@ -116,9 +116,9 @@
 		73760C1125E1F3AE00C39DCE /* AnyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73760C0B25E1F3AE00C39DCE /* AnyList.swift */; };
 		73760C1225E1F3AE00C39DCE /* MappedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73760C0C25E1F3AE00C39DCE /* MappedList.swift */; };
 		73760C1325E1F3AE00C39DCE /* ElementObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73760C0D25E1F3AE00C39DCE /* ElementObserver.swift */; };
-		73760C1425E1F3AE00C39DCE /* CD_List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73760C0E25E1F3AE00C39DCE /* CD_List.swift */; };
-		73760C1525E1F3AE00C39DCE /* StaticElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73760C0F25E1F3AE00C39DCE /* StaticElement.swift */; };
-		73760C1625E1F3AE00C39DCE /* CD_Element.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73760C1025E1F3AE00C39DCE /* CD_Element.swift */; };
+		73760C1425E1F3AE00C39DCE /* FetchedResultsControllerList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73760C0E25E1F3AE00C39DCE /* FetchedResultsControllerList.swift */; };
+		73760C1625E1F3AE00C39DCE /* ManagedObjectElementObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73760C1025E1F3AE00C39DCE /* ManagedObjectElementObserver.swift */; };
+		73760C6025E1F99F00C39DCE /* StaticElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73760C5F25E1F99F00C39DCE /* StaticElement.swift */; };
 		73993E2E2595DFC7006FB612 /* BrowserWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73993E2D2595DFC2006FB612 /* BrowserWindowController.swift */; };
 		7399BAAD258251A500B8CAFD /* Stylize.h in Headers */ = {isa = PBXBuildFile; fileRef = 7399BAAB258251A500B8CAFD /* Stylize.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7399BAC7258251D800B8CAFD /* Localize.h in Headers */ = {isa = PBXBuildFile; fileRef = 7399BAC5258251D800B8CAFD /* Localize.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -585,9 +585,9 @@
 		73760C0B25E1F3AE00C39DCE /* AnyList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyList.swift; sourceTree = "<group>"; };
 		73760C0C25E1F3AE00C39DCE /* MappedList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MappedList.swift; sourceTree = "<group>"; };
 		73760C0D25E1F3AE00C39DCE /* ElementObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElementObserver.swift; sourceTree = "<group>"; };
-		73760C0E25E1F3AE00C39DCE /* CD_List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CD_List.swift; sourceTree = "<group>"; };
-		73760C0F25E1F3AE00C39DCE /* StaticElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticElement.swift; sourceTree = "<group>"; };
-		73760C1025E1F3AE00C39DCE /* CD_Element.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CD_Element.swift; sourceTree = "<group>"; };
+		73760C0E25E1F3AE00C39DCE /* FetchedResultsControllerList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedResultsControllerList.swift; sourceTree = "<group>"; };
+		73760C1025E1F3AE00C39DCE /* ManagedObjectElementObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectElementObserver.swift; sourceTree = "<group>"; };
+		73760C5F25E1F99F00C39DCE /* StaticElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticElement.swift; sourceTree = "<group>"; };
 		73993E2D2595DFC2006FB612 /* BrowserWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserWindowController.swift; sourceTree = "<group>"; };
 		7399BAA9258251A500B8CAFD /* Stylize.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Stylize.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7399BAAB258251A500B8CAFD /* Stylize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stylize.h; sourceTree = "<group>"; };
@@ -804,19 +804,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5031AF01256E893B00AC98AA /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				73DC73DF257290EF00EE72FA /* Base.swift */,
-				5031AF02256E894F00AC98AA /* Tag.swift */,
-				50D63AA7256FE3BF001C5985 /* AnyTag.swift */,
-				DBA3BE2F25709D0A005A2379 /* Website.swift */,
-				DBA3BE3525709D3D005A2379 /* AnyWebsite.swift */,
-				735C92012577C0260033B4E8 /* FixedModels.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		73093C2B25DBFE3F00B7915A /* Umbrella */ = {
 			isa = PBXGroup;
 			children = (
@@ -901,7 +888,7 @@
 			isa = PBXGroup;
 			children = (
 				73760C0B25E1F3AE00C39DCE /* AnyList.swift */,
-				73760C0E25E1F3AE00C39DCE /* CD_List.swift */,
+				73760C0E25E1F3AE00C39DCE /* FetchedResultsControllerList.swift */,
 				73760C0C25E1F3AE00C39DCE /* MappedList.swift */,
 			);
 			path = LazyLists;
@@ -911,8 +898,7 @@
 			isa = PBXGroup;
 			children = (
 				73760C0D25E1F3AE00C39DCE /* ElementObserver.swift */,
-				73760C1025E1F3AE00C39DCE /* CD_Element.swift */,
-				73760C0F25E1F3AE00C39DCE /* StaticElement.swift */,
+				73760C1025E1F3AE00C39DCE /* ManagedObjectElementObserver.swift */,
 			);
 			path = ElementObserver;
 			sourceTree = "<group>";
@@ -1083,7 +1069,13 @@
 		DBA1993C256D446E00383EB1 /* Wrappers */ = {
 			isa = PBXGroup;
 			children = (
-				5031AF01256E893B00AC98AA /* Models */,
+				73DC73DF257290EF00EE72FA /* Base.swift */,
+				5031AF02256E894F00AC98AA /* Tag.swift */,
+				50D63AA7256FE3BF001C5985 /* AnyTag.swift */,
+				DBA3BE2F25709D0A005A2379 /* Website.swift */,
+				DBA3BE3525709D3D005A2379 /* AnyWebsite.swift */,
+				735C92012577C0260033B4E8 /* FixedModels.swift */,
+				73760C5F25E1F99F00C39DCE /* StaticElement.swift */,
 			);
 			path = Wrappers;
 			sourceTree = "<group>";
@@ -1717,17 +1709,16 @@
 				736FCA7725DFDF81004CF4C3 /* GenericError.swift in Sources */,
 				73760BE025E1F2C300C39DCE /* ListObserver.swift in Sources */,
 				73093CA225DC019600B7915A /* Logger.swift in Sources */,
-				73760C1625E1F3AE00C39DCE /* CD_Element.swift in Sources */,
+				73760C1625E1F3AE00C39DCE /* ManagedObjectElementObserver.swift in Sources */,
 				73760BDF25E1F2C300C39DCE /* FetchedResultsControllerListObserver.swift in Sources */,
 				736FCA5325DE91CD004CF4C3 /* IdentBox.swift in Sources */,
-				73760C1425E1F3AE00C39DCE /* CD_List.swift in Sources */,
+				73760C1425E1F3AE00C39DCE /* FetchedResultsControllerList.swift in Sources */,
 				736FCA5F25DE9D64004CF4C3 /* ErrorQueue.swift in Sources */,
 				73760C1125E1F3AE00C39DCE /* AnyList.swift in Sources */,
 				736FC95825DC8345004CF4C3 /* SwiftUI+Umbrella.swift in Sources */,
 				736FC97725DC84FA004CF4C3 /* Foundation+Umbrella.swift in Sources */,
 				736FC96325DC8455004CF4C3 /* Swift+Umbrella.swift in Sources */,
 				736FCA3325DE8CD7004CF4C3 /* Queue+Result.swift in Sources */,
-				73760C1525E1F3AE00C39DCE /* StaticElement.swift in Sources */,
 				736FC9AA25DDDAAC004CF4C3 /* Queue.swift in Sources */,
 				736FC99F25DD5AA8004CF4C3 /* Alert+UFError.swift in Sources */,
 				73760BA925E1EA6900C39DCE /* CloudKitContainerContinuousProgress.swift in Sources */,
@@ -1938,6 +1929,7 @@
 				735C92022577C0260033B4E8 /* FixedModels.swift in Sources */,
 				73DC73E0257290EF00EE72FA /* Base.swift in Sources */,
 				DBAA7736256C9A17005126C3 /* Error.swift in Sources */,
+				73760C6025E1F99F00C39DCE /* StaticElement.swift in Sources */,
 				5070E75D257217F100AF0968 /* CD_Query.swift in Sources */,
 				DBA3BE3025709D0A005A2379 /* Website.swift in Sources */,
 				DBDCB3FB256C866200D005F6 /* CD_Website.swift in Sources */,

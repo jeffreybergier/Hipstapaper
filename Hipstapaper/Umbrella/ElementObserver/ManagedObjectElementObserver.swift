@@ -22,7 +22,23 @@
 import CoreData
 import Combine
 
-public class CD_Element<Output, Input: NSManagedObject>: ElementObserver {
+/**
+ Observes an NSManagedObject in  a way that is useful to SwiftUI. Also provides a transform that
+ can be used so that NSManagedObject does not leak into your UI layer. Basic usage looks like:
+ ```
+try controller.performFetch()
+return .success(
+    AnyListObserver(
+        FetchedResultsControllerListObserver(
+            FetchedResultsControllerList(controller) {
+                AnyElementObserver(ManagedObjectElementObserver($0, { AnyTag($0) }))
+            }
+        )
+    )
+)
+ ```
+ */
+public class ManagedObjectElementObserver<Output, Input: NSManagedObject>: ElementObserver {
     
     public let objectWillChange: ObservableObjectPublisher
     public var value: Output { transform(_value) }
@@ -38,7 +54,7 @@ public class CD_Element<Output, Input: NSManagedObject>: ElementObserver {
         self.objectWillChange = input.objectWillChange
     }
     
-    public static func == (lhs: CD_Element<Output, Input>, rhs: CD_Element<Output, Input>) -> Bool {
+    public static func == (lhs: ManagedObjectElementObserver<Output, Input>, rhs: ManagedObjectElementObserver<Output, Input>) -> Bool {
         return lhs._value == rhs._value
     }
     

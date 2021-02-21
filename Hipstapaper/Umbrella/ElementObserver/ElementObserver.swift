@@ -21,6 +21,8 @@
 
 import Combine
 
+/// SwiftUI ObservableObject for a single item
+/// See `ManagedObjectElementObserver` for details on how to use.
 public protocol ElementObserver: ObservableObject, Identifiable, Hashable {
     associatedtype Value
     var value: Value { get }
@@ -28,6 +30,8 @@ public protocol ElementObserver: ObservableObject, Identifiable, Hashable {
     var canDelete: Bool { get }
 }
 
+/// Typeeraser for `ElementObserver`
+/// See `ManagedObjectElementObserver` for details on how to use.
 public class AnyElementObserver<Value: Identifiable & Hashable>: ElementObserver {
 
     public let objectWillChange: ObservableObjectPublisher

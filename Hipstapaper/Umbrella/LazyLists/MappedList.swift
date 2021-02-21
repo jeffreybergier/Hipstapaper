@@ -21,6 +21,9 @@
 
 import Combine
 
+/// Lazily maps from one collection to another without the type messy type signature
+/// of Swift Lazy Maps. Use AnyList to type erase:
+/// `return .success(AnyList(MappedList(p_tags, transform: { _ in .on })))`
 public struct MappedList<E, U>: RandomAccessCollection {
     
     public typealias Index = Int

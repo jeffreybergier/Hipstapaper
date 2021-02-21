@@ -32,8 +32,8 @@ try controller.performFetch()
 return .success(
     AnyListObserver(
         FetchedResultsControllerListObserver(
-            CD_List(controller) {
-                AnyElementObserver(CD_Element($0, { AnyTag($0) }))
+            FetchedResultsControllerList(controller) {
+                AnyElementObserver(ManagedObjectElementObserver($0, { AnyTag($0) }))
             }
         )
     )
@@ -46,7 +46,7 @@ public class FetchedResultsControllerListObserver<Output, Input: NSManagedObject
 
     public var data: AnyList<Output>
 
-    public init(_ list: CD_List<Output, Input>) {
+    public init(_ list: FetchedResultsControllerList<Output, Input>) {
         self.data = AnyList(list)
         super.init()
         list.frc.delegate = self

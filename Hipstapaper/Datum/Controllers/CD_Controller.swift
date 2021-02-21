@@ -48,7 +48,7 @@ extension CD_Controller: Controller {
             website.cd_thumbnail = thumbnail
         }
         return context.datum_save().map {
-            AnyElementObserver(CD_Element(website, { AnyWebsite($0) }))
+            AnyElementObserver(ManagedObjectElementObserver(website, { AnyWebsite($0) }))
         }
     }
 
@@ -69,8 +69,8 @@ extension CD_Controller: Controller {
             return .success(
                 AnyListObserver(
                     FetchedResultsControllerListObserver(
-                        CD_List(controller) {
-                            AnyElementObserver(CD_Element($0, { AnyWebsite($0) }))
+                        FetchedResultsControllerList(controller) {
+                            AnyElementObserver(ManagedObjectElementObserver($0, { AnyWebsite($0) }))
                         }
                     )
                 )
@@ -155,7 +155,7 @@ extension CD_Controller: Controller {
         let tag = CD_Tag(context: context)
         tag.cd_name = name
         return context.datum_save().map {
-            AnyElementObserver(CD_Element(tag, { AnyTag($0) }))
+            AnyElementObserver(ManagedObjectElementObserver(tag, { AnyTag($0) }))
         }
     }
 
@@ -176,8 +176,8 @@ extension CD_Controller: Controller {
             return .success(
                 AnyListObserver(
                     FetchedResultsControllerListObserver(
-                        CD_List(controller) {
-                            AnyElementObserver(CD_Element($0, { AnyTag($0) }))
+                        FetchedResultsControllerList(controller) {
+                            AnyElementObserver(ManagedObjectElementObserver($0, { AnyTag($0) }))
                         }
                     )
                 )

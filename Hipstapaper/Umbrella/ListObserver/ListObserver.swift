@@ -19,11 +19,15 @@
 
 import Combine
 
+/// SwiftUI ObservableObject for Lists of items
+/// See `FetchedResultsControllerList` for details on how to use.
 public protocol ListObserver: ObservableObject {
     associatedtype Collection: RandomAccessCollection
     var data: Collection { get }
 }
 
+/// Typeeraser for `ListObserver`
+/// See `FetchedResultsControllerList` for details on how to use.
 public class AnyListObserver<Collection: RandomAccessCollection>: ListObserver {
     
     public let objectWillChange: ObservableObjectPublisher

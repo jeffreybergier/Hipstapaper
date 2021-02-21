@@ -19,6 +19,8 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import Umbrella
+
 /// Element that does not properly observe its Value
 public class StaticElement<T: Hashable>: ElementObserver {
     public var value: T
@@ -27,7 +29,6 @@ public class StaticElement<T: Hashable>: ElementObserver {
     public init(_ value: T) {
         self.value = value
     }
-    
     public static func == (lhs: StaticElement<T>, rhs: StaticElement<T>) -> Bool {
         fatalError("Never Used")
     }
