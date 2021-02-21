@@ -25,7 +25,7 @@ import Localize
 public protocol TextFieldable {
     associatedtype Style: TextFieldStyle
     static var style: Style { get }
-    static var placeholder: LocalizedStringKey { get }
+    static var placeholder: Noun { get }
     static var autocorrection: Bool { get }
     #if canImport(UIKit)
     static var keyboard: UIKeyboardType { get }
@@ -35,13 +35,13 @@ public protocol TextFieldable {
 extension TextFieldable {
     #if os(macOS)
     public static func textfield(_ binding: Binding<String>) -> some View {
-        TextField(self.placeholder, text: binding)
+        TextField(self.placeholder.rawValue, text: binding)
             .textFieldStyle(self.style)
             .disableAutocorrection(!self.autocorrection)
     }
     #else
     public static func textfield(_ binding: Binding<String>) -> some View {
-        TextField(self.placeholder, text: binding)
+        TextField(self.placeholder.rawValue, text: binding)
             .textFieldStyle(self.style)
             .disableAutocorrection(!self.autocorrection)
             .keyboardType(self.keyboard)
@@ -53,7 +53,7 @@ extension STZ.VIEW {
     public enum TXTFLD {
         public enum WebURL: TextFieldable {
             public static var style = RoundedBorderTextFieldStyle()
-            public static var placeholder = Noun.WebsiteURL
+            public static var placeholder: Noun = .websiteURL
             public static var autocorrection = false
             #if canImport(UIKit)
             public static var keyboard: UIKeyboardType = .URL
@@ -61,7 +61,7 @@ extension STZ.VIEW {
         }
         public enum WebTitle: TextFieldable {
             public static var style = RoundedBorderTextFieldStyle()
-            public static var placeholder = Noun.WebsiteTitle
+            public static var placeholder: Noun = .websiteTitle
             public static var autocorrection = true
             #if canImport(UIKit)
             public static var keyboard: UIKeyboardType = .default
@@ -69,7 +69,7 @@ extension STZ.VIEW {
         }
         public enum Search: TextFieldable {
             public static var style = RoundedBorderTextFieldStyle()
-            public static var placeholder = Noun.Search
+            public static var placeholder: Noun = .search
             public static var autocorrection = true
             #if canImport(UIKit)
             public static var keyboard: UIKeyboardType = .default
@@ -77,7 +77,7 @@ extension STZ.VIEW {
         }
         public enum TagName: TextFieldable {
             public static var style = RoundedBorderTextFieldStyle()
-            public static var placeholder = Noun.TagName
+            public static var placeholder: Noun = .tagName
             public static var autocorrection = true
             #if canImport(UIKit)
             public static var keyboard: UIKeyboardType = .default

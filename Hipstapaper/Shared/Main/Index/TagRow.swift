@@ -29,7 +29,7 @@ struct TagRow: View {
     @ObservedObject var item: AnyElementObserver<AnyTag>
     var body: some View {
         HStack {
-            STZ.VIEW.TXT(self.item.value.name, or: Noun.Untitled)
+            STZ.VIEW.TXT(self.item.value.name, or: Noun.untitled.rawValue)
                 .modifier(STZ.CLR.IndexRow.Text.foreground())
                 .modifier(STZ.FNT.IndexRow.Title.apply())
             if let count = self.item.value.websitesCount {

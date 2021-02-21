@@ -32,9 +32,9 @@ extension Query.Filter: Tag {
     public var localizedDescription: String {
         switch self {
         case .all:
-            return Noun.AllItems_L
+            return Noun.allItems_L
         case .unarchived:
-            return Noun.UnreadItems_L
+            return Noun.unreadItems_L
         }
     }
     

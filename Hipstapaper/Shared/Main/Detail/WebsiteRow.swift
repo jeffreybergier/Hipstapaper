@@ -36,7 +36,7 @@ struct WebsiteRow: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 6) {
-                STZ.VIEW.TXT(self.item.value.title, or: Noun.Untitled)
+                STZ.VIEW.TXT(self.item.value.title, or: Noun.untitled.rawValue)
                     .modifier(STZ.FNT.DetailRow.Title.apply())
                     .modifier(STZ.CLR.DetailRow.Text.foreground())
                 STZ.VIEW.TXT(WebsiteRow.formatter.string(from: self.item.value.dateCreated))

@@ -28,15 +28,15 @@ struct WebsiteListTitle: ViewModifier {
     @ViewBuilder func body(content: Content) -> some View {
         if let tag = self.query.tag {
             content
-                .navigationTitle(tag.value.name ?? Noun.UnreadItems_L)
+                .navigationTitle(tag.value.name ?? Noun.unreadItems_L)
                 .modifier(TitleSize(isLarge: false))
         } else {
             switch self.query.filter! {
             case .all:
-                content.navigationTitle(Noun.AllItems)
+                content.navigationTitle(Noun.allItems.rawValue)
                     .modifier(TitleSize(isLarge: false))
             case .unarchived:
-                content.navigationTitle(Noun.Hipstapaper)
+                content.navigationTitle(Noun.hipstapaper.rawValue)
                     .modifier(TitleSize(isLarge: true))
             }
         }

@@ -43,7 +43,7 @@ struct TagList<Nav: View>: View {
 
     var body: some View {
         List(selection: self.$selection) {
-            Section(header: STZ.VIEW.TXT(Noun.ReadingList)
+            Section(header: STZ.VIEW.TXT(Noun.readingList.rawValue)
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
@@ -60,7 +60,7 @@ struct TagList<Nav: View>: View {
                         .environment(\.XPL_isSelected, self.selection == item1)
                 }
             }
-            Section(header: STZ.VIEW.TXT(Noun.Tags)
+            Section(header: STZ.VIEW.TXT(Noun.tags.rawValue)
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
@@ -73,7 +73,7 @@ struct TagList<Nav: View>: View {
                 }
             }
         }
-        .navigationTitle(Noun.Tags)
+        .navigationTitle(Noun.tags.rawValue)
         .modifier(SidebarStyle())
         .modifier(IndexToolbar(controller: self.dataSource.controller,
                                selection: self.$selection))
