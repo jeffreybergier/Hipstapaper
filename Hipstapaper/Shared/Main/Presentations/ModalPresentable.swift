@@ -159,7 +159,7 @@ struct AddChoicePresentable: ViewModifier {
     }
     
     private var addTagButton: STZ.ACTN.Wrapper.Button {
-        return .init(title: Verb.AddTag) {
+        return .init(title: Verb.addTag.rawValue) {
             self.presentation.value = .none
             // TODO: Remove this hack when possible
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -169,7 +169,7 @@ struct AddChoicePresentable: ViewModifier {
     }
     
     private var addWebsiteButton: STZ.ACTN.Wrapper.Button {
-        return .init(title: Verb.AddWebsite) {
+        return .init(title: Verb.addWebsite.rawValue) {
             self.presentation.value = .none
             // TODO: Remove this hack when possible
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {

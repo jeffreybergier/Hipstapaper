@@ -118,7 +118,7 @@ extension STZ.ACTN.Wrapper {
             message: self.message.map { Text($0) },
             buttons: self.buttons
                 .map { $0.nativeValue }
-                + [.cancel(Text(Verb.Cancel))]
+                + [.cancel(Text(Verb.cancel.rawValue))]
         )
     }
 }

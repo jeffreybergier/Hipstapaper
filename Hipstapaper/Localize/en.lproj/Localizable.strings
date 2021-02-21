@@ -111,6 +111,7 @@
 "Phrase.OpenInApp"              = "Open selected website(s)";
 "Phrase.StopLoading"            = "Stop loading";
 "Phrase.ReloadPage"             = "Reload page";
+"Phrase.LoadPage"               = "Load page";
 "Phrase.JSActive"               = "Disable Javascript";
 "Phrase.JSInactive"             = "Enable Javascript";
 "Phrase.GoBack"                 = "Show the previous page";
