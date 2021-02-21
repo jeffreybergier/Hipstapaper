@@ -37,13 +37,21 @@
 "Verb.Unarchive"        = "Unarchive";
 "Verb.Share"            = "Share";
 "Verb.DeleteTag"        = "Delete Tag(s)";
-"Verb.DeleteWebsite"    = "Delete Website(s)";
 "Verb.AddTag"           = "Add Tag";
 "Verb.Go"               = "Go";
 "Verb.ClearSearch"      = "Clear Search";
 "Verb.OpenInApp"        = "Open";
 "Verb.OpenInBrowser"    = "Open in Browser";
 "Verb.AddAndRemoveTags" = "Apply Tags";
+"Verb.Filter"           = "Filter";
+"Verb.StopLoading"      = "Stop";
+"Verb.ReloadPage"       = "Reload";
+"Verb.Javascript"       = "Javascript";
+"Verb.GoBack"           = "Back";
+"Verb.GoForward"        = "Forward";
+"Verb.DeleteWebsite"    = "Delete Website(s)";
+"Verb.iCloud"           = "iCloud";
+
 
 //
 //
