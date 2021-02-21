@@ -32,6 +32,7 @@ public enum Noun {
     public static let WebsiteTitle: LocalizedStringKey = "Noun.WebsiteTitle"
     public static let Hipstapaper: LocalizedStringKey  = "Noun.Hipstapaper"
     public static let TagName: LocalizedStringKey      = "Noun.TagName"
+    public static let AddChoice: LocalizedStringKey    = "Noun.AddChoice"
     public static let AddTag: LocalizedStringKey       = "Noun.AddTag"
     public static let AddWebsite: LocalizedStringKey   = "Noun.AddWebsite"
     public static let ApplyTags: LocalizedStringKey    = "Noun.ApplyTags"

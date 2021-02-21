@@ -52,4 +52,8 @@ public enum Phrase {
     public static let ClearSearch: LocalizedStringKey            = "Phrase.ClearSearch"
     public static let iCloudAccountError: LocalizedStringKey     = "Phrase.iCloudAccountError"
     public static let iCloudSyncError: LocalizedStringKey        = "Phrase.iCloudSyncError"
+    public static let AddAndRemoveTags: LocalizedStringKey       = "Phrase.AddAndRemoveTags"
+    public static let SearchWebsite: LocalizedStringKey          = "Phrase.SearchWebsite"
+    public static let AddTag: LocalizedStringKey                 = "Phrase.AddTag"
+    public static let AddWebsite: LocalizedStringKey             = "Phrase.AddWebsite"      
 }

@@ -51,6 +51,7 @@
 "Verb.GoForward"        = "Forward";
 "Verb.DeleteWebsite"    = "Delete Website(s)";
 "Verb.iCloud"           = "iCloud";
+"Verb.AddChoice"        = "Add";
 
 
 //
@@ -77,6 +78,7 @@
 "Noun.Sort"         = "Sort Order";
 "Noun.Filter"       = "Filter";
 "Noun.Error"        = "Error";
+"Noun.AddChoice"    = "Add";
 
 //
 //
@@ -86,14 +88,14 @@
 //
 //
 
-"Phrase.AddChoice"              = "Create new tag or add new website?";
+"Phrase.AddChoice"              = "Create new tag or add new website.";
 "Phrase.SortDateModifiedNewest" = "Most Recently Modified First";
 "Phrase.SortDateModifiedOldest" = "Most Recently Modified Last";
 "Phrase.SortDateCreatedNewest"  = "Most Recently Added First";
 "Phrase.SortDateCreatedOldest"  = "Most Recently Added Last";
 "Phrase.SortTitleA"             = "Page Titles Starting with A First";
 "Phrase.SortTitleZ"             = "Page Titles Starting with Z First";
-"Phrase.Sort"                   = "Sort Items";
+"Phrase.Sort"                   = "Change sort order of websites";
 "Phrase.FilterA"                = "Show all items";
 "Phrase.FilterB"                = "Show unread items";
 "Phrase.ErrorScreenshot"        = "An error ocurred when attempting to capture the thumbnail.";
@@ -118,3 +120,7 @@
 "Phrase.ClearSearch"            = "Clear search";
 "Phrase.iCloudAccountError"     = "iCloud account error";
 "Phrase.iCloudSyncError"        = "iCloud sync error";
+"Phrase.AddAndRemoveTags"       = "Add and remove tags from selected website(s)";
+"Phrase.SearchWebsite"          = "Search websites";
+"Phrase.AddTag"                 = "Add a new tag";
+"Phrase.AddWebsite"             = "Add a new website";
