@@ -23,6 +23,7 @@ import SwiftUI
 import Umbrella
 import Datum
 import Stylize
+import Localize
 
 @main
 struct HipstapaperApp: App {
@@ -59,8 +60,7 @@ struct HipstapaperApp: App {
     }
 
     @SceneBuilder var body: some Scene {
-        // TODO: Localize Reading List
-        WindowGroup("Reading List", id: "MainWindow", content: self.build)
+        WindowGroup(Noun.readingList.rawValue, id: "MainWindow", content: self.build)
     }
     
     @ViewBuilder private func build() -> some View {
