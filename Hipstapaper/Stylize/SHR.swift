@@ -46,7 +46,7 @@ extension STZ {
                 .frame(width: self.forcedFrame, height: self.forcedFrame)
                 .modifier(ErrorQueuePresenter())
                 .environmentObject(self.errorQ)
-                .onAppear() {
+                .onAppear {
                     guard self.items.isEmpty else { return }
                     self.errorQ.queue.append(Error.itemCount)
                 }

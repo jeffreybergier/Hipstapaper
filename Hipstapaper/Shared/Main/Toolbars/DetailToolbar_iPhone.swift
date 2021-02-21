@@ -120,6 +120,7 @@ extension DetailToolbar.iOS {
                 }
                 ToolbarItem(id: "Detail.Search", placement: .primaryAction) {
                     WH.searchToolbarItem(self.query) {
+                        self.popoverAlignment = .topTrailing
                         self.modalPresentation.value = .search
                     }
                 }

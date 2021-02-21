@@ -32,7 +32,7 @@
 "Verb.Cancel"           = "Cancel";
 "Verb.Dismiss"          = "Dismiss";
 "Verb.Search"           = "Search";
-"Verb.Add Website"      = "Add Website";
+"Verb.AddWebsite"      = "Add Website";
 "Verb.Archive"          = "Archive";
 "Verb.Unarchive"        = "Unarchive";
 "Verb.Share"            = "Share";
@@ -91,7 +91,7 @@
 //
 //
 
-"Phrase.AddChoice"              = "Create new tag or add new website.";
+"Phrase.AddChoice"              = "Create new tag or add new website";
 "Phrase.SortDateModifiedNewest" = "Most Recently Modified First";
 "Phrase.SortDateModifiedOldest" = "Most Recently Modified Last";
 "Phrase.SortDateCreatedNewest"  = "Most Recently Added First";

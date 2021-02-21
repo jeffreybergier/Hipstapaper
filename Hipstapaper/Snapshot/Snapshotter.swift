@@ -62,10 +62,7 @@ public struct Snapshotter: View {
 }
 
 internal struct WebThumbnail: View {
-    
     @ObservedObject var viewModel: ViewModel
-
-    // TODO: Fix this
     @ViewBuilder var body: some View {
         if self.viewModel.formState == .load {
             STZ.ICN.web.thumbnail(self.viewModel.output.thumbnail?.value)

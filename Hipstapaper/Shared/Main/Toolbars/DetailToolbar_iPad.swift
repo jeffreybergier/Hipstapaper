@@ -92,11 +92,13 @@ extension DetailToolbar.iOS {
                     }
                     ToolbarItem(id: "Detail.Filter") {
                         WH.filterToolbarItem(self.query.filter) {
+                            self.popoverAlignment = .topTrailing
                             self.query.filter.boolValue.toggle()
                         }
                     }
                     ToolbarItem(id: "Detail.Search") {
                         WH.searchToolbarItem(self.query) {
+                            self.popoverAlignment = .topTrailing
                             self.modalPresentation.value = .search
                         }
                     }
@@ -137,11 +139,13 @@ extension DetailToolbar.iOS {
                 }
                 ToolbarItem(id: "Detail.Filter") {
                     WH.filterToolbarItem(self.query.filter) {
+                        self.popoverAlignment = .topTrailing
                         self.query.filter.boolValue.toggle()
                     }
                 }
                 ToolbarItem(id: "Detail.Search") {
                     WH.searchToolbarItem(self.query) {
+                        self.popoverAlignment = .topTrailing
                         self.modalPresentation.value = .search
                     }
                 }
