@@ -79,8 +79,8 @@ extension STZ {
         }
         public enum OpenInApp: Toolbarable {
             public static let icon: STZ.ICN? = .openInApp
-            public static let phrase: LocalizedStringKey = Verb.Open
-            public static let verb: LocalizedStringKey = Verb.Open
+            public static let phrase: LocalizedStringKey = Verb.OpenInApp
+            public static let verb: LocalizedStringKey = Verb.OpenInApp
             public static let shortcut: KeyboardShortcut? = .init("o", modifiers: [.command])
         }
         public enum FilterActive: Toolbarable {

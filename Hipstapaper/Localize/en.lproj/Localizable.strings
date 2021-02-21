@@ -27,22 +27,23 @@
 //
 //
 
-"LCZ.Verb.Save"                = "Save";
-"LCZ.Verb.Done"                = "Done";
-"LCZ.Verb.Cancel"              = "Cancel";
-"LCZ.Verb.Search"              = "Search";
-"LCZ.Verb.Add Website"         = "Add Website";
-"LCZ.Verb.Archive"             = "Archive";
-"LCZ.Verb.Unarchive"           = "Unarchive";
-"LCZ.Verb.Share"               = "Share";
-"LCZ.Verb.Delete Tag"          = "Delete Tag";
-"LCZ.Verb.Add Tag"             = "Add Tag";
-"LCZ.Verb.Go"                  = "Go";
-"LCZ.Verb.Clear Search"        = "Clear Search";
-"LCZ.Verb.Open"                = "Open";
-"LCZ.Verb.Open in Browser"     = "Open in Browser";
-"LCZ.Verb.Add and Remove Tags" = "Add and Remove Tags";
-"LCZ.Verb.Dismiss"             = "Dismiss";
+"Verb.Save"             = "Save";
+"Verb.Done"             = "Done";
+"Verb.Cancel"           = "Cancel";
+"Verb.Dismiss"          = "Dismiss";
+"Verb.Search"           = "Search";
+"Verb.Add Website"      = "Add Website";
+"Verb.Archive"          = "Archive";
+"Verb.Unarchive"        = "Unarchive";
+"Verb.Share"            = "Share";
+"Verb.DeleteTag"        = "Delete Tag(s)";
+"Verb.DeleteWebsite"    = "Delete Website(s)";
+"Verb.AddTag"           = "Add Tag";
+"Verb.Go"               = "Go";
+"Verb.ClearSearch"      = "Clear Search";
+"Verb.OpenInApp"        = "Open";
+"Verb.OpenInBrowser"    = "Open in Browser";
+"Verb.AddAndRemoveTags" = "Apply Tags";
 
 //
 //
@@ -52,22 +53,22 @@
 //
 //
 
-"LCZ.Noun.Search"        = "Search";
-"LCZ.Noun.Reading List"  = "Reading List";
-"LCZ.Noun.Tags"          = "Tags";
-"LCZ.Noun.Untitled"      = "Untitled";
-"LCZ.Noun.All Items"     = "All Items";
-"LCZ.Noun.Unread Items"  = "Unread Items";
-"LCZ.Noun.Website URL"   = "Website URL";
-"LCZ.Noun.Website Title" = "Website Title";
-"LCZ.Noun.Hipstapaper"   = "Hipstapaper";
-"LCZ.Noun.Tag Name"      = "Tag Name";
-"LCZ.Noun.Add Tag"       = "Add Tag";
-"LCZ.Noun.Add Website"   = "Add Website";
-"LCZ.Noun.Apply Tags"    = "Apply Tags";
-"LCZ.Noun.Sort"          = "Sort";
-"LCZ.Noun.Filter"        = "Filter";
-"LCZ.Noun.Error"         = "Error";
+"Noun.Search"       = "Search";
+"Noun.ReadingList"  = "Reading List";
+"Noun.Tags"         = "Tags";
+"Noun.Untitled"     = "Untitled";
+"Noun.AllItems"     = "All Items";
+"Noun.UnreadItems"  = "Unread Items";
+"Noun.WebsiteURL"   = "Website URL";
+"Noun.WebsiteTitle" = "Website Title";
+"Noun.Hipstapaper"  = "Hipstapaper";
+"Noun.TagName"      = "Tag Name";
+"Noun.AddTag"       = "Add Tag";
+"Noun.AddWebsite"   = "Add Website";
+"Noun.ApplyTags"    = "Apply Tags";
+"Noun.Sort"         = "Sort Order";
+"Noun.Filter"       = "Filter";
+"Noun.Error"        = "Error";
 
 //
 //
@@ -77,19 +78,19 @@
 //
 //
 
-"LCZ.Phrase.AddChoice"              = "Create new tag or add new website?";
-"LCZ.Phrase.SortDateModifiedNewest" = "Most Recently Modified First";
-"LCZ.Phrase.SortDateModifiedOldest" = "Most Recently Modified Last";
-"LCZ.Phrase.SortDateCreatedNewest"  = "Most Recently Added First";
-"LCZ.Phrase.SortDateCreatedOldest"  = "Most Recently Added Last";
-"LCZ.Phrase.SortTitleA"             = "Page Titles Starting with A First";
-"LCZ.Phrase.SortTitleZ"             = "Page Titles Starting with Z First";
-"LCZ.Phrase.Sort"                   = "Sort Items";
-"LCZ.Phrase.FilterA"                = "Show all items";
-"LCZ.Phrase.FilterB"                = "Show unread items";
-"LCZ.Phrase.ErrorScreenshot"        = "An error ocurred when attempting to capture the thumbnail.";
-"LCZ.Phrase.ErrorConvertImage"      = "An error ocurred when attempting to convert the thumbnail into a compatible format.";
-"LCZ.Phrase.ImageSize"              = "An error ocurred when saving because the thumbnail was too large.";
-"LCZ.Phrase.UserCancel"             = "User cancelled the operation before it could complete.";
-"LCZ.Phrase.ProcessURL"             = "The sharing app did not provide a URL to save.";
-"LCZ.Phrase.SaveWebsite"            = "An error ocurred when attempting to save the website.";
+"Phrase.AddChoice"              = "Create new tag or add new website?";
+"Phrase.SortDateModifiedNewest" = "Most Recently Modified First";
+"Phrase.SortDateModifiedOldest" = "Most Recently Modified Last";
+"Phrase.SortDateCreatedNewest"  = "Most Recently Added First";
+"Phrase.SortDateCreatedOldest"  = "Most Recently Added Last";
+"Phrase.SortTitleA"             = "Page Titles Starting with A First";
+"Phrase.SortTitleZ"             = "Page Titles Starting with Z First";
+"Phrase.Sort"                   = "Sort Items";
+"Phrase.FilterA"                = "Show all items";
+"Phrase.FilterB"                = "Show unread items";
+"Phrase.ErrorScreenshot"        = "An error ocurred when attempting to capture the thumbnail.";
+"Phrase.ErrorConvertImage"      = "An error ocurred when attempting to convert the thumbnail into a compatible format.";
+"Phrase.ImageSize"              = "An error ocurred when saving because the thumbnail was too large.";
+"Phrase.UserCancel"             = "User cancelled the operation before it could complete.";
+"Phrase.ProcessURL"             = "The sharing app did not provide a URL to save.";
+"Phrase.SaveWebsite"            = "An error ocurred when attempting to save the website.";
