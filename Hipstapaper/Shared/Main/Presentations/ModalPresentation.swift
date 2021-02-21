@@ -20,6 +20,7 @@
 //
 
 import Datum
+import Umbrella
 
 enum ModalPresentation: Equatable {
     case none

@@ -21,11 +21,9 @@
 
 import CoreData
 import Combine
-import Umbrella
-
 
 /**
- Takes an `NSFetchedResultsController` and adapts it for use with SwiftUI.
+ Takes an `FetchedResultsControllerList` and adapts it for use with SwiftUI.
  This class has no way to return errors so you must call performFetch on your own before
  The class is used.
  To prevent your data model (Core Data) from leaking into your UI layer use `AnyListObserver`:
@@ -48,8 +46,7 @@ public class FetchedResultsControllerListObserver<Output, Input: NSManagedObject
 
     public var data: AnyList<Output>
 
-    internal init(_ list: CD_List<Output, Input>)
-    {
+    public init(_ list: CD_List<Output, Input>) {
         self.data = AnyList(list)
         super.init()
         list.frc.delegate = self

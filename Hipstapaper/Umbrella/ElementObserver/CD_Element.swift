@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/24.
+//  Created by Jeffrey Bergier on 2020/11/26.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -22,26 +22,33 @@
 import CoreData
 import Combine
 
-internal struct CD_List<Output, Input: NSManagedObject>: RandomAccessCollection {
+public class CD_Element<Output, Input: NSManagedObject>: ElementObserver {
     
-    internal typealias Index = Int
-    internal typealias Element = Output
+    public let objectWillChange: ObservableObjectPublisher
+    public var value: Output { transform(_value) }
+    public var isDeleted: Bool { _value.isDeleted }
+    public let canDelete: Bool = true
 
-    internal let frc: NSFetchedResultsController<Input>
+    private let _value: Input
     private let transform: (Input) -> Output
 
-    /// Init with `NSFetchedResultsController`
-    /// This class does not call `performFetch` on its own.
-    /// Call `performFetch()` yourself before this is used.
-    internal init(_ frc: NSFetchedResultsController<Input>,
-                  _ transform: @escaping (Input) -> Output)
-    {
-        self.frc = frc
+    public init(_ input: Input, _ transform: @escaping (Input) -> Output) {
+        self._value = input
         self.transform = transform
+        self.objectWillChange = input.objectWillChange
     }
-
-    // MARK: Swift.Collection Boilerplate
-    internal var startIndex: Index { self.frc.fetchedObjects!.startIndex }
-    internal var endIndex: Index { self.frc.fetchedObjects!.endIndex }
-    internal subscript(index: Index) -> Element { transform(self.frc.fetchedObjects![index]) }
+    
+    public static func == (lhs: CD_Element<Output, Input>, rhs: CD_Element<Output, Input>) -> Bool {
+        return lhs._value == rhs._value
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(_value)
+    }
+    
+    #if DEBUG
+    deinit {
+        log.verbose()
+    }
+    #endif
 }

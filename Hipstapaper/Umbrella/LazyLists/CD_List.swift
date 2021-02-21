@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/26.
+//  Created by Jeffrey Bergier on 2020/11/24.
 //
 //  Copyright © 2020 Saturday Apps.
 //
@@ -21,35 +21,27 @@
 
 import CoreData
 import Combine
-import Umbrella
 
-internal class CD_Element<Output, Input: NSManagedObject>: ElementObserver {
+public struct CD_List<Output, Input: NSManagedObject>: RandomAccessCollection {
     
-    internal let objectWillChange: ObservableObjectPublisher
-    internal var value: Output { transform(_value) }
-    internal var isDeleted: Bool { _value.isDeleted }
-    internal let canDelete: Bool = true
+    public typealias Index = Int
+    public typealias Element = Output
 
-    private let _value: Input
+    internal let frc: NSFetchedResultsController<Input>
     private let transform: (Input) -> Output
 
-    internal init(_ input: Input, _ transform: @escaping (Input) -> Output) {
-        self._value = input
+    /// Init with `NSFetchedResultsController`
+    /// This class does not call `performFetch` on its own.
+    /// Call `performFetch()` yourself before this is used.
+    public init(_ frc: NSFetchedResultsController<Input>,
+                _ transform: @escaping (Input) -> Output)
+    {
+        self.frc = frc
         self.transform = transform
-        self.objectWillChange = input.objectWillChange
     }
-    
-    static func == (lhs: CD_Element<Output, Input>, rhs: CD_Element<Output, Input>) -> Bool {
-        return lhs._value == rhs._value
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(_value)
-    }
-    
-    #if DEBUG
-    deinit {
-        log.verbose()
-    }
-    #endif
+
+    // MARK: Swift.Collection Boilerplate
+    public var startIndex: Index { self.frc.fetchedObjects!.startIndex }
+    public var endIndex: Index { self.frc.fetchedObjects!.endIndex }
+    public subscript(index: Index) -> Element { transform(self.frc.fetchedObjects![index]) }
 }

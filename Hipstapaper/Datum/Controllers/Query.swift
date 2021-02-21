@@ -20,6 +20,7 @@
 //
 
 import Foundation
+import Umbrella
 
 public struct Query {
     

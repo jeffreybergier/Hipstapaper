@@ -20,6 +20,7 @@
 //
 
 import Localize
+import Umbrella
 
 extension Query.Filter: Tag {
     
