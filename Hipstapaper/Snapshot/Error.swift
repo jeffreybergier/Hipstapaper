@@ -36,17 +36,17 @@ extension Error: LocalizedError {
     public var message: LocalizedStringKey {
         switch self {
         case .take:
-            return Phrase.ErrorScreenshot
+            return Phrase.errorScreenshot.rawValue
         case .convertImage:
-            return Phrase.ErrorConvertImage
+            return Phrase.errorConvertImage.rawValue
         case .size:
-            return Phrase.ErrorImageSize
+            return Phrase.errorImageSize.rawValue
         case .userCancelled:
-            return Phrase.ErrorUserCancel
+            return Phrase.errorUserCancel.rawValue
         case .sx_process:
-            return Phrase.ErrorProcessURL
+            return Phrase.errorProcessURL.rawValue
         case .sx_save:
-            return Phrase.ErrorSaveWebsite
+            return Phrase.errorSaveWebsite.rawValue
         }
     }
 }

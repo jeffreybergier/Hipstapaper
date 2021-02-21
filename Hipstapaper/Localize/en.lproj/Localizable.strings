@@ -52,7 +52,7 @@
 "Verb.DeleteWebsite"    = "Delete Website(s)";
 "Verb.iCloud"           = "iCloud";
 "Verb.AddChoice"        = "Add";
-
+"Verb.Sort"             = "Sort";
 
 //
 //
@@ -124,3 +124,6 @@
 "Phrase.SearchWebsite"          = "Search websites";
 "Phrase.AddTag"                 = "Add a new tag";
 "Phrase.AddWebsite"             = "Add a new website";
+"Phrase.Done"                   = "Finish and dismiss the screen";
+"Phrase.Save"                   = "Save changes";
+"Phrase.Cancel"                 = "Cancel without saving changes";

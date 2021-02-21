@@ -45,5 +45,6 @@ public enum Verb {
     public static let GoBack: LocalizedStringKey           = "Verb.GoBack"
     public static let GoForward: LocalizedStringKey        = "Verb.GoForward"
     public static let iCloud: LocalizedStringKey           = "Verb.iCloud"
+    public static let Sort: LocalizedStringKey             = "Verb.Sort"
 
 }

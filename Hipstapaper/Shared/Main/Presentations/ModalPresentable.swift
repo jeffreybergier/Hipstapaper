@@ -149,7 +149,7 @@ struct AddChoicePresentable: ViewModifier {
         content.modifier(
             STZ.ACTN.Modifier(isPresented: self.$presentation.isAddChoose)
             {
-                STZ.ACTN.Wrapper(title: Phrase.AddChoice,
+                STZ.ACTN.Wrapper(title: Phrase.addChoice.rawValue,
                                  buttons: [
                                     self.addTagButton,
                                     self.addWebsiteButton

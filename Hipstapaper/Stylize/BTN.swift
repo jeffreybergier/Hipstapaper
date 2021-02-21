@@ -27,7 +27,7 @@ public protocol Buttonable {
     /// Icon in label or toolbar
     static var icon: STZ.ICN? { get }
     /// Tooltip / Accessibility
-    static var phrase: LocalizedStringKey { get }
+    static var phrase: Phrase { get }
     /// Button title / Toolbar text
     static var verb: LocalizedStringKey { get }
     /// Keyboard shortcut
@@ -55,7 +55,7 @@ extension Buttonable {
                 .modifier(DoneStyle(enabled: doneStyle))
         }
         .disabled(!isEnabled)
-        .help(self.phrase)
+        .help(self.phrase.rawValue)
         .modifier(Shortcut(self.shortcut))
     }
     
@@ -109,31 +109,31 @@ extension STZ {
     public enum BTN {
         public enum Go: Buttonable {
             public static var icon: STZ.ICN? = nil
-            public static var phrase: LocalizedStringKey = Verb.Go
+            public static var phrase: Phrase = .goBack
             public static var verb: LocalizedStringKey = Verb.Go
             public static var shortcut: KeyboardShortcut? = .init(.defaultAction)
         }
         public enum Done: Buttonable {
             public static var icon: STZ.ICN? = nil
-            public static var phrase: LocalizedStringKey = Verb.Done
+            public static var phrase: Phrase = .done
             public static var verb: LocalizedStringKey = Verb.Done
             public static var shortcut: KeyboardShortcut? = .init(.defaultAction)
         }
         public enum BrowserDone: Buttonable {
             public static var icon: STZ.ICN? = nil
-            public static var phrase: LocalizedStringKey = Verb.Done
+            public static var phrase: Phrase = .done
             public static var verb: LocalizedStringKey = Verb.Done
             public static var shortcut: KeyboardShortcut? = .init("w")
         }
         public enum Save: Buttonable {
             public static var icon: STZ.ICN? = nil
-            public static var phrase: LocalizedStringKey = Verb.Save
+            public static var phrase: Phrase = .save
             public static var verb: LocalizedStringKey = Verb.Save
             public static var shortcut: KeyboardShortcut? = .init(.defaultAction)
         }
         public enum Cancel: Buttonable {
             public static var icon: STZ.ICN? = nil
-            public static var phrase: LocalizedStringKey = Verb.Cancel
+            public static var phrase: Phrase = .cancel
             public static var verb: LocalizedStringKey = Verb.Cancel
             public static var shortcut: KeyboardShortcut? = .init(.cancelAction)
         }
