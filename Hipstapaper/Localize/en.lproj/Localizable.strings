@@ -129,3 +129,4 @@
 "Phrase.Done"                   = "Finish and dismiss the screen";
 "Phrase.Save"                   = "Save changes";
 "Phrase.Cancel"                 = "Cancel without saving changes";
+"Phrase.ErrorInvalidURL%@"        = "Attempted to browse to an invalid URL:\n%@";

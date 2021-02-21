@@ -24,13 +24,20 @@ import SwiftUI
 
 public class GenericWebKitNavigationDelegate: NSObject, WKNavigationDelegate {
     
-    // TODO: Localize this error
     public enum Error: UserFacingError {
         case invalidURL(URL)
+        
+        public static var errorDomain: String = "com.saturdayapps.JSBUmbrella.WebKit"
+        public var errorCode: Int {
+            switch self {
+            case .invalidURL:
+                return 1001
+            }
+        }
         public var message: LocalizedStringKey {
             switch self {
             case .invalidURL(let url):
-                return "Attempted to browse to an invalid URL: \(url.absoluteString)"
+                return "Phrase.ErrorInvalidURL\(url.absoluteString)"
             }
         }
     }

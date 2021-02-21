@@ -60,4 +60,5 @@ public enum Phrase: LocalizedStringKey {
     case done                   = "Phrase.Done"
     case save                   = "Phrase.Save"
     case cancel                 = "Phrase.Cancel"
+    case errorInvalidURL        = "Phrase.ErrorInvalidURL%@"
 }
