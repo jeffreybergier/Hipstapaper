@@ -104,7 +104,7 @@
 		736FCA1D25DDE1B7004CF4C3 /* Queue+ResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FCA1C25DDE1B7004CF4C3 /* Queue+ResultTests.swift */; };
 		736FCA3325DE8CD7004CF4C3 /* Queue+Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FCA3225DE8CD7004CF4C3 /* Queue+Result.swift */; };
 		736FCA5325DE91CD004CF4C3 /* IdentBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FCA5225DE91CD004CF4C3 /* IdentBox.swift */; };
-		736FCA5F25DE9D64004CF4C3 /* ErrorQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FCA5E25DE9D64004CF4C3 /* ErrorQueue.swift */; };
+		736FCA5F25DE9D64004CF4C3 /* PublishQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FCA5E25DE9D64004CF4C3 /* PublishQueue.swift */; };
 		736FCA6B25DFDF68004CF4C3 /* GenericWebKitNavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FCA6A25DFDF68004CF4C3 /* GenericWebKitNavigationDelegate.swift */; };
 		736FCA7725DFDF81004CF4C3 /* GenericError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FCA7625DFDF81004CF4C3 /* GenericError.swift */; };
 		736FCAA125E0FC33004CF4C3 /* DebugConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FCAA025E0FC33004CF4C3 /* DebugConstants.swift */; };
@@ -578,7 +578,7 @@
 		736FCA1C25DDE1B7004CF4C3 /* Queue+ResultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Queue+ResultTests.swift"; sourceTree = "<group>"; };
 		736FCA3225DE8CD7004CF4C3 /* Queue+Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Queue+Result.swift"; sourceTree = "<group>"; };
 		736FCA5225DE91CD004CF4C3 /* IdentBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentBox.swift; sourceTree = "<group>"; };
-		736FCA5E25DE9D64004CF4C3 /* ErrorQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorQueue.swift; sourceTree = "<group>"; };
+		736FCA5E25DE9D64004CF4C3 /* PublishQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishQueue.swift; sourceTree = "<group>"; };
 		736FCA6A25DFDF68004CF4C3 /* GenericWebKitNavigationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericWebKitNavigationDelegate.swift; sourceTree = "<group>"; };
 		736FCA7625DFDF81004CF4C3 /* GenericError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericError.swift; sourceTree = "<group>"; };
 		736FCAA025E0FC33004CF4C3 /* DebugConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugConstants.swift; sourceTree = "<group>"; };
@@ -828,7 +828,7 @@
 				736FC99E25DD5AA8004CF4C3 /* Alert+UFError.swift */,
 				736FC9A925DDDAAC004CF4C3 /* Queue.swift */,
 				736FCA3225DE8CD7004CF4C3 /* Queue+Result.swift */,
-				736FCA5E25DE9D64004CF4C3 /* ErrorQueue.swift */,
+				736FCA5E25DE9D64004CF4C3 /* PublishQueue.swift */,
 				736FCA6A25DFDF68004CF4C3 /* GenericWebKitNavigationDelegate.swift */,
 				736FCA5225DE91CD004CF4C3 /* IdentBox.swift */,
 				73760BEB25E1F2C800C39DCE /* ContinuousProgress */,
@@ -869,13 +869,13 @@
 		736FC9F425DDDDC5004CF4C3 /* UmbrellaTests */ = {
 			isa = PBXGroup;
 			children = (
-				736FC9F525DDDDC5004CF4C3 /* QueueTests.swift */,
-				736FCA1C25DDE1B7004CF4C3 /* Queue+ResultTests.swift */,
 				73C651DB25E386CE00BE665A /* Swift+UmbrellaTests.swift */,
 				73C651E725E38FB400BE665A /* Foundation+UmbrellaTests.swift */,
 				73C651F325E3927400BE665A /* UserFacingErrorTests.swift */,
 				73C651FF25E3979200BE665A /* GenericErrorTests.swift */,
 				73C6520B25E39F6900BE665A /* Alert+UFErrorTests.swift */,
+				736FC9F525DDDDC5004CF4C3 /* QueueTests.swift */,
+				736FCA1C25DDE1B7004CF4C3 /* Queue+ResultTests.swift */,
 				736FC9F725DDDDC5004CF4C3 /* Info.plist */,
 			);
 			path = UmbrellaTests;
@@ -1728,7 +1728,7 @@
 				73760BDF25E1F2C300C39DCE /* FetchedResultsControllerListObserver.swift in Sources */,
 				736FCA5325DE91CD004CF4C3 /* IdentBox.swift in Sources */,
 				73760C1425E1F3AE00C39DCE /* FetchedResultsControllerList.swift in Sources */,
-				736FCA5F25DE9D64004CF4C3 /* ErrorQueue.swift in Sources */,
+				736FCA5F25DE9D64004CF4C3 /* PublishQueue.swift in Sources */,
 				73760C1125E1F3AE00C39DCE /* AnyList.swift in Sources */,
 				736FC95825DC8345004CF4C3 /* SwiftUI+Umbrella.swift in Sources */,
 				736FC97725DC84FA004CF4C3 /* Foundation+Umbrella.swift in Sources */,

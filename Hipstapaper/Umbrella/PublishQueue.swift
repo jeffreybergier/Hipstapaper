@@ -19,14 +19,14 @@
 
 import SwiftUI
 
+public typealias ErrorQueue = PublishQueue<UserFacingError>
 /// Add ErrorQueue to environment so any view can append errors.
 /// Use ErrorQueuePresenter at a high level in your SwiftUI structure to present errors.
 /// This class is not thread-safe. Only use from Main thread.
-public class ErrorQueue: ObservableObject {
+public class PublishQueue<T>: ObservableObject {
     
-    @Published public var current: IdentBox<UFError>? { didSet { self.update() } }
-    
-    public var queue: Queue<UFError> = [] { didSet { self.update() } }
+    @Published public var current: IdentBox<T>? { didSet { self.update() } }
+    public var queue: Queue<T> = [] { didSet { self.update() } }
     
     public init() { }
     
