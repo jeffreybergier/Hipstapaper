@@ -21,16 +21,16 @@
 
 
 import Combine
+import Umbrella
 import Snapshot
 import Datum
-import Foundation
 
 class DropboxWatcher {
     
     let observer: DirectoryPublisher
     private var token: AnyCancellable?
     
-    init(controller: Controller, errorQ: ErrorQ) {
+    init(controller: Controller, errorQ: ErrorQueue) {
         let dropbox = AppGroup.dropbox
         let fm = FileManager.default
         try? fm.createDirectory(at: dropbox,
@@ -45,7 +45,7 @@ class DropboxWatcher {
                 try FileManager.default.removeItem(at: url)
             } catch {
                 log.error(error)
-                errorQ?.append(Error.shareExtensionAdd)
+                errorQ?.queue.append(Error.shareExtensionAdd)
             }
         }
     }

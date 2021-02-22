@@ -21,12 +21,12 @@
 
 import SwiftUI
 import WebKit
-import Stylize
+import Umbrella
 
 internal struct WebView: View {
     
     @ObservedObject var viewModel: ViewModel
-    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
+    @EnvironmentObject private var errorQ: ErrorQueue
     
     private func update(_ wv: WKWebView, context: Context) {
         if self.viewModel.browserControl.stop {
@@ -87,8 +87,8 @@ internal struct WebView: View {
         return wv
     }
     
-    func makeCoordinator() -> STZ.ERR.WKDelegate {
-        return .init(viewModel: self.errorQ)
+    func makeCoordinator() -> GenericWebKitNavigationDelegate {
+        return .init(self.errorQ)
     }
     
 }

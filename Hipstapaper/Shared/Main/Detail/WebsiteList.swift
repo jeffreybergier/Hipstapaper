@@ -20,6 +20,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import Datum
 import Localize
 import Stylize
@@ -32,7 +33,7 @@ struct WebsiteList: View {
     
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     @EnvironmentObject private var windowPresentation: WindowPresentation
-    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
+    @EnvironmentObject private var errorQ: ErrorQueue
     
     var body: some View {
         XPL1.List(data: self.dataSource.data,
@@ -43,13 +44,13 @@ struct WebsiteList: View {
             WebsiteRow(item: item)
         }
         .modifier(If.iOS(_Animation(.default)))
-        .modifier(SyncIndicator(monitor: self.dataSource.controller.syncMonitor))
+        .modifier(SyncIndicator(progress: self.dataSource.controller.syncProgress))
         .modifier(WebsiteListTitle(query: self.dataSource.query))
         // TODO: Fix the choppy EditMode animation caused by overly complex toolbars
         .modifier(DetailToolbar.Shared(controller: self.dataSource.controller,
                                        selection: self.$selection,
                                        query: self.$dataSource.query))
-        .onAppear() { self.errorQ.append(self.dataSource.activate()) }
+        .onAppear() { self.dataSource.activate(self.errorQ) }
         .onDisappear(perform: self.dataSource.deactivate)
     }
 }
@@ -58,7 +59,7 @@ extension WebsiteList {
     private func open(_ items: WH.Selection) {
         if self.windowPresentation.features.contains([.bulkActivation, .multipleWindows]) {
             let validURLs = Set(items.compactMap({ $0.value.preferredURL }))
-            self.windowPresentation.show(validURLs, error: { _ in })
+            self.windowPresentation.show(validURLs)
         } else {
             guard let validItem = items.first(where: { $0.value.preferredURL != nil }) else { return }
             self.modalPresentation.value = .browser(validItem)

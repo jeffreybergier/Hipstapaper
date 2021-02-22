@@ -20,6 +20,7 @@
 //
 
 import Foundation
+import Umbrella
 
 public struct Query {
     
@@ -61,7 +62,7 @@ public struct Query {
 
 extension Query {
     public var isSearchActive: Bool {
-        return self.search.nonEmptyString == nil
+        return self.search.trimmed == nil
     }
     
     public enum Filter: Int, Identifiable, CaseIterable {

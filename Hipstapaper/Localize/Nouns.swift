@@ -19,23 +19,30 @@
 
 import SwiftUI
 
-public enum Noun {
-    public static let Search: LocalizedStringKey       = "LCZ.Noun.Search"
-    public static let ReadingList: LocalizedStringKey  = "LCZ.Noun.Reading List"
-    public static let Tags: LocalizedStringKey         = "LCZ.Noun.Tags"
-    public static let Untitled: LocalizedStringKey     = "LCZ.Noun.Untitled"
-    public static let AllItems: LocalizedStringKey     = "LCZ.Noun.All Items"
-    public static let AllItems_L: String = NSLocalizedString("LCZ.Noun.All Items", comment: "")
-    public static let UnreadItems: LocalizedStringKey  = "LCZ.Noun.Unread Items"
-    public static let UnreadItems_L: String = NSLocalizedString("LCZ.Noun.Unread Items", comment: "")
-    public static let WebsiteURL: LocalizedStringKey   = "LCZ.Noun.Website URL"
-    public static let WebsiteTitle: LocalizedStringKey = "LCZ.Noun.Website Title"
-    public static let Hipstapaper: LocalizedStringKey  = "LCZ.Noun.Hipstapaper"
-    public static let TagName: LocalizedStringKey      = "LCZ.Noun.Tag Name"
-    public static let AddTag: LocalizedStringKey       = "LCZ.Noun.Add Tag"
-    public static let AddWebsite: LocalizedStringKey   = "LCZ.Noun.Add Website"
-    public static let ApplyTags: LocalizedStringKey    = "LCZ.Noun.Apply Tags"
-    public static let Sort: LocalizedStringKey         = "LCZ.Noun.Sort"
-    public static let Filter: LocalizedStringKey       = "LCZ.Noun.Filter"
-    public static let Error: LocalizedStringKey        = "LCZ.Noun.Error"
+public enum Noun: LocalizedStringKey {
+    case search        = "Noun.Search"
+    case readingList   = "Noun.ReadingList"
+    case tags          = "Noun.Tags"
+    case untitled      = "Noun.Untitled"
+    case allItems      = "Noun.AllItems"
+    case unreadItems   = "Noun.UnreadItems"
+    case websiteURL    = "Noun.WebsiteURL"
+    case websiteTitle  = "Noun.WebsiteTitle"
+    case hipstapaper   = "Noun.Hipstapaper"
+    case tagName       = "Noun.TagName"
+    case addChoice     = "Noun.AddChoice"
+    case addTag        = "Noun.AddTag"
+    case addWebsite    = "Noun.AddWebsite"
+    case applyTags     = "Noun.ApplyTags"
+    case sort          = "Noun.Sort"
+    case filter        = "Noun.Filter"
+    case error         = "Noun.Error"
+    case errorDatabase = "Noun.ErrorDatabase"
+    case erroriCloud   = "Noun.iCloud"
+    case deleteTag     = "Noun.DeleteTag"
+    case deleteWebsite = "Noun.DeleteWebsite"
+    
+    public static let allItems_L: String = NSLocalizedString("Noun.AllItems", comment: "")
+    public static let unreadItems_L: String = NSLocalizedString("Noun.UnreadItems", comment: "")
+    public static let untitled_L: String = NSLocalizedString("Noun.Untitled", comment: "")
 }

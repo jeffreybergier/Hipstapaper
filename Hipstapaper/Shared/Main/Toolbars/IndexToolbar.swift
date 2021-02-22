@@ -20,6 +20,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import Datum
 import Localize
 import Stylize
@@ -39,8 +40,6 @@ struct IndexToolbar: ViewModifier {
                 .modifier(AddWebsitePresentable(controller: self.controller))
             Color.clear.frame(width: 1, height: 1)
                 .modifier(AddChoicePresentable())
-            Color.clear.frame(width: 1, height: 1)
-                .modifier(TagDelete(controller: self.controller))
             
             #if os(macOS)
             content.modifier(IndexToolbar_macOS(controller: self.controller,
@@ -58,22 +57,23 @@ struct IndexToolbar_macOS: ViewModifier {
     let controller: Controller
     @Binding var selection: TH.Selection?
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
-    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
+    @EnvironmentObject private var errorQ: ErrorQueue
     
     func body(content: Content) -> some View {
         content.toolbar(id: "Index") {
             ToolbarItem(id: "Index.Sync") {
-                STZ.TB.SyncMonitor(self.controller.syncMonitor)
+                STZ.TB.Sync(self.controller.syncProgress)
             }
             ToolbarItem(id: "Index.FlexibleSpace") {
                 Spacer()
             }
             ToolbarItem(id: "Index.DeleteTag", placement: .automatic) {
                 STZ.TB.DeleteTag_Minus.toolbar(isEnabled: TH.canDelete(self.selection),
-                                               action: {
-                                                guard let selection = self.selection else { return }
-                                                self.modalPresentation.value = .deleteTag(selection)
-                                               })
+                                               action: { self.errorQ.queue.append(DeleteError.tag({
+                                                self.errorQ.queue.append(DeleteError.tag({
+                                                    TH.delete(self.selection, self.controller, self.errorQ)
+                                                }))
+                                               }))})
             }
             ToolbarItem(id: "Index.AddChoice", placement: .primaryAction) {
                 STZ.TB.AddChoice.toolbar(action: { self.modalPresentation.value = .addChoose })

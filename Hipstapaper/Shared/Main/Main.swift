@@ -20,6 +20,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import Datum
 import Stylize
 
@@ -27,6 +28,8 @@ struct Main: View {
     
     let controller: Controller
     
+    @StateObject private var errorQ = ErrorQueue()
+    @StateObject private var modalPresentation = ModalPresentation.Wrap()
     @StateObject private var websiteControllerCache: BlackBoxCache<AnyElementObserver<AnyTag>, WebsiteDataSource> = .init()
 
     init(controller: Controller) {
@@ -41,9 +44,12 @@ struct Main: View {
                                       selectedTag: selectedTag)
                 })
             }
+            // TODO: Has to be here because of macOS bug
+            .modifier(ErrorQueuePresenter())
         }
         .modifier(BrowserPresentable())
-        .modifier(STZ.ERR.PresenterB())
+        .environmentObject(self.modalPresentation)
+        .environmentObject(self.errorQ)
     }
 }
 

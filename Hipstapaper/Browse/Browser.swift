@@ -20,12 +20,13 @@
 //
 
 import SwiftUI
+import Umbrella
 import Stylize
 
 public struct Browser: View {
     
     @StateObject public var viewModel: ViewModel
-    @StateObject private var errorQ = STZ.ERR.ViewModel()
+    @StateObject private var errorQ = ErrorQueue()
     
     public var body: some View {
         ZStack(alignment: .top) {
@@ -36,9 +37,13 @@ public struct Browser: View {
                 .modifier(STZ.PRG.BarMod(progress: self.viewModel.browserDisplay.progress,
                                          isVisible: self.viewModel.browserDisplay.isLoading))
         }
+        .onAppear() {
+            guard self.viewModel.originalURL == nil else { return }
+            self.errorQ.queue.append(Error.loadURL)
+        }
         // TODO: Toolbar leaks like crazy on iOS :(
         .modifier(Toolbar(viewModel: self.viewModel))
-        .modifier(STZ.ERR.PresenterB())
+        .modifier(ErrorQueuePresenter())
         .environmentObject(self.errorQ)
     }
     
@@ -46,7 +51,7 @@ public struct Browser: View {
         _viewModel = .init(wrappedValue: viewModel)
     }
     
-    public init(url: URL, doneAction: (() -> Void)?) {
+    public init(url: URL?, doneAction: (() -> Void)?) {
         _viewModel = .init(wrappedValue: .init(url: url, doneAction: doneAction))
     }
 }

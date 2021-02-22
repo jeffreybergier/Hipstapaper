@@ -20,28 +20,18 @@
 //
 
 import SwiftUI
-import XCGLogger
+import Umbrella
 import Datum
 import Stylize
-
-internal let log: XCGLogger = {
-    let l = XCGLogger(identifier: "Hipstapaper.App.Logger", includeDefaultDestinations: true)
-    #if DEBUG
-    l.outputLevel = .verbose
-    #else
-    l.outputLevel = .warning
-    #endif
-    return l
-}()
+import Localize
 
 @main
 struct HipstapaperApp: App {
     
     let controller: Controller?
     let watcher: DropboxWatcher?
-    @StateObject private var modalPresentation = ModalPresentation.Wrap()
     @StateObject private var windowPresentation = WindowPresentation()
-    @StateObject private var errorQ: STZ.ERR.ViewModel
+    @State private var initializeError: IdentBox<UserFacingError>?
     
     /*
     init() {
@@ -54,36 +44,32 @@ struct HipstapaperApp: App {
     */
     
     init() {
-        let errorQ = STZ.ERR.ViewModel()
+        let errorQ = ErrorQueue()
         let result = ControllerNew()
         switch result {
         case .success(let controller):
-            _errorQ = .init(wrappedValue: errorQ)
             self.controller = controller
             self.watcher = DropboxWatcher(controller: controller, errorQ: errorQ)
         case .failure(let error):
-            errorQ.append(error)
+            errorQ.queue.append(error)
             log.error(error)
-            _errorQ = .init(wrappedValue: errorQ)
+            _initializeError = .init(initialValue: .init(error))
             self.controller = nil
             self.watcher = nil
         }
     }
 
     @SceneBuilder var body: some Scene {
-        WindowGroup(content: self.build)
+        WindowGroup(Noun.readingList.rawValue, id: "MainWindow", content: self.build)
     }
     
     @ViewBuilder private func build() -> some View {
         if let controller = self.controller {
             Main(controller: controller)
                 .environmentObject(self.windowPresentation)
-                .environmentObject(self.modalPresentation)
-                .environmentObject(self.errorQ)
         } else {
             Color.clear
-                .modifier(STZ.ERR.PresenterB())
-                .environmentObject(self.errorQ)
+                .alert(item: self.$initializeError, content: { Alert($0.value) })
         }
     }
 }

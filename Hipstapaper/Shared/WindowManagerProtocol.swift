@@ -19,33 +19,19 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import Foundation
+import SwiftUI
+import Umbrella
+import Localize
 
 protocol WindowManagerProtocol {
     var features: WindowPresentation.Features { get }
-    func show(_: Set<URL>, error: @escaping (WindowPresentation.Error) -> Void)
+    func show(_: Set<URL>)
 }
 
 extension WindowPresentation {
-    enum Error: Swift.Error {
-        /// Occurs when the device does not support bulk opening multiple windwos
-        case bulkActivation
-        /// Occurs when the UIScene API returns an error on activation
-        case activation(Swift.Error)
-        /// Occurs when the device does not support multitple windows.
-        /// Please display your window modally in this case
-        case unsupported
-    }
-    
     struct Features: OptionSet {
         let rawValue: Int
         static let multipleWindows = Features(rawValue: 1 << 0)
         static let bulkActivation  = Features(rawValue: 1 << 1)
-    }
-}
-
-extension WindowPresentation.Error: LocalizedError {
-    var errorDescription: String? {
-        return "LOCALIZE THIS ERROR"
     }
 }

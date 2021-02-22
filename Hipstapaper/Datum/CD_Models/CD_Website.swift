@@ -47,9 +47,16 @@ extension CD_Website: Website {
     override func willSave() {
         super.willSave()
         
-        // TODO: validate title
+        // Validate Title
+        if let title = self.cd_title, title.trimmed == nil {
+            self.cd_title = nil
+        }
 
-        // TODO: validate thumbnail size
+        // Validate Thumbnail Size
+        // TODO: Centralize max thumbnail size
+        if let thumb = self.cd_thumbnail, thumb.count > 100_000 {
+            self.cd_thumbnail = nil
+        }
     }
 }
 

@@ -20,6 +20,7 @@
 //
 
 import Datum
+import Umbrella
 
 enum ModalPresentation: Equatable {
     case none
@@ -30,8 +31,6 @@ enum ModalPresentation: Equatable {
     case tagApply(WH.Selection)
     case share(WH.Selection)
     case sort
-    case deleteWebsite(WH.Selection)
-    case deleteTag(TH.Selection)
     case browser(AnyElementObserver<AnyWebsite>)
     
     // TODO: Remove this when SwiftUI doesn't suck at modals
@@ -76,22 +75,6 @@ enum ModalPresentation: Equatable {
             }
         }
         
-        @Published var isDeleteWebsite: WH.Selection? {
-            didSet {
-                guard !self.internalUpdateInProgress else { return }
-                guard self.isDeleteWebsite == nil else { return }
-                self.value = .none
-            }
-        }
-        
-        @Published var isDeleteTag: TH.Selection? {
-            didSet {
-                guard !self.internalUpdateInProgress else { return }
-                guard self.isDeleteTag == nil else { return }
-                self.value = .none
-            }
-        }
-        
         @Published var isShare: WH.Selection? {
             didSet {
                 guard !self.internalUpdateInProgress else { return }
@@ -127,18 +110,12 @@ enum ModalPresentation: Equatable {
                 self.isAddWebsite    = false
                 self.isAddTag        = false
                 self.isAddChoose     = false
-                self.isDeleteWebsite = nil
-                self.isDeleteTag     = nil
                 self.isTagApply      = nil
                 self.isBrowser       = nil
                 self.isShare         = nil
                 switch self.value {
                 case .none:
                     break
-                case .deleteWebsite(let selection):
-                    self.isDeleteWebsite = selection
-                case .deleteTag(let selection):
-                    self.isDeleteTag = selection
                 case .tagApply(let selection):
                     self.isTagApply = selection
                 case .share(let selection):

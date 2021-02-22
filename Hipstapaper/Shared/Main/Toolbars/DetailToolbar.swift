@@ -48,9 +48,6 @@ enum DetailToolbar {
                 Color.clear.frame(width: 1, height: 1).modifier(
                     SortPresentable(sort: self.$query.sort)
                 )
-                Color.clear.frame(width: 1, height: 1).modifier(
-                    WebsiteDelete(controller: self.controller)
-                )
                     
                 #if os(macOS)
                 content.modifier(macOS(controller: self.controller, selection: self.$selection, query: self.$query))

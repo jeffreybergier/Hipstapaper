@@ -20,6 +20,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import XPList
 import Datum
 import Stylize
@@ -28,7 +29,7 @@ struct WebsiteMenu: ViewModifier {
     
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     @EnvironmentObject private var windowPresentation: WindowPresentation
-    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
+    @EnvironmentObject private var errorQ: ErrorQueue
     @Environment(\.openURL) private var externalPresentation
     
     private let selection: WH.Selection
@@ -71,7 +72,9 @@ struct WebsiteMenu: ViewModifier {
         }
         Group {
             STZ.TB.DeleteWebsite.context(isEnabled: WH.canDelete(selection)) {
-                self.modalPresentation.value = .deleteWebsite(selection)
+                self.errorQ.queue.append(DeleteError.website({ [controller, errorQ] in
+                    WH.delete(selection, controller, errorQ)
+                }))
             }
         }
     }

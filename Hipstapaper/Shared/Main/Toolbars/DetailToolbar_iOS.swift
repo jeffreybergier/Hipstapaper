@@ -18,6 +18,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import Stylize
 import Datum
 
@@ -38,7 +39,7 @@ extension DetailToolbar.iOS {
         
         @ViewBuilder func body(content: Content) -> some View {
             switch (self.horizontalSizeClass?.isCompact ?? true,
-                    self.editMode?.wrappedValue.isEditing ?? false)
+                    self.editMode?.isEditing ?? false)
             {
             case (true, true): // iPhone editing
                 content.modifier(iPhoneEdit(controller: self.controller,
@@ -48,7 +49,7 @@ extension DetailToolbar.iOS {
             case (true, false): // iPhone not editing
                 content.modifier(iPhone(query: self.$query,
                                         popoverAlignment: self.$popoverAlignment,
-                                        syncMonitor: self.controller.syncMonitor))
+                                        syncProgress: self.controller.syncProgress))
             case (false, true): // iPad editing
                 content.modifier(iPadEdit(controller: self.controller,
                                           selection: self.$selection,
@@ -57,34 +58,8 @@ extension DetailToolbar.iOS {
             case (false, false): // iPad not editing
                 content.modifier(iPad(query: self.$query,
                                       popoverAlignment: self.$popoverAlignment,
-                                      syncMonitor: self.controller.syncMonitor))
+                                      syncProgress: self.controller.syncProgress))
             }
-        }
-    }
-}
-
-extension UserInterfaceSizeClass {
-    fileprivate var isCompact: Bool {
-        switch self {
-        case .regular:
-            return false
-        case .compact:
-            fallthrough
-        @unknown default:
-            return true
-        }
-    }
-}
-
-extension EditMode {
-    fileprivate var isEditing: Bool {
-        switch self {
-        case .transient, .active:
-            return true
-        case .inactive:
-            fallthrough
-        @unknown default:
-            return false
         }
     }
 }

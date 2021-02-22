@@ -19,9 +19,11 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+import SwiftUI
+import Umbrella
 import Localize
 
-public enum Error: Swift.Error {
+public enum Error: UserFacingError {
     case take(Swift.Error)
     case convertImage
     case size(Int)
@@ -31,20 +33,20 @@ public enum Error: Swift.Error {
 }
 
 extension Error: LocalizedError {
-    public var errorDescription: String? {
+    public var message: LocalizedStringKey {
         switch self {
         case .take:
-            return Phrase.ErrorScreenshot_L
+            return Phrase.errorScreenshot.rawValue
         case .convertImage:
-            return Phrase.ErrorConvertImage_L
+            return Phrase.errorConvertImage.rawValue
         case .size:
-            return Phrase.ErrorImageSize_L
+            return Phrase.errorImageSize.rawValue
         case .userCancelled:
-            return Phrase.ErrorUserCancel_L
+            return Phrase.errorUserCancel.rawValue
         case .sx_process:
-            return Phrase.ErrorProcessURL_L
+            return Phrase.errorProcessURL.rawValue
         case .sx_save:
-            return Phrase.ErrorSaveWebsite_L
+            return Phrase.errorSaveWebsite.rawValue
         }
     }
 }

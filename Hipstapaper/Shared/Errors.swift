@@ -19,27 +19,18 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import Stylize
+import SwiftUI
+import Umbrella
+import Localize
 
-enum Error: LocalizedError {
-    case shareExtensionAdd
-    case cloudAccount
+enum Error: UserFacingError {
     
-    var errorDescription: String? {
+    case shareExtensionAdd
+    
+    var message: LocalizedStringKey {
         switch self {
-        case .cloudAccount:
-            // TODO: Fix this
-            return "You're not logged into iCloud. Sign into an iCloud account to sync."
         case .shareExtensionAdd:
-            return "There was an error when adding a website saved by another application."
+            return Phrase.errorShareImport.rawValue
         }
     }
 }
-
-protocol ErrorQ: class {
-    func append(_ error: LocalizedError)
-    @discardableResult
-    func append<T, E: LocalizedError>(_ result: Result<T, E>) -> Result<T, E>
-}
-
-extension STZ.ERR.ViewModel: ErrorQ {}

@@ -23,13 +23,10 @@
 // https://developer.apple.com/documentation/swiftui/fetchedresults
 // https://www.raywenderlich.com/9335365-core-data-with-swiftui-tutorial-getting-started
 
-public func ControllerNew(isTesting: Bool = false) -> Result<Controller, Error> {
-    do {
-        return .success(try CD_Controller(isTesting: isTesting))
-    } catch {
-        log.emergency(error)
-        return .failure(.critical)
-    }
+import Umbrella
+
+public func ControllerNew() -> Result<Controller, Error> {
+    return CD_Controller.new()
 }
 
 public protocol Controller {
@@ -38,7 +35,7 @@ public protocol Controller {
     static var storeExists: Bool { get }
     
     // MARK: Sync
-    var syncMonitor: AnySyncMonitor { get }
+    var syncProgress: AnyContinousProgress { get }
 
     // MARK: Websites CRUD
     func createWebsite(_: AnyWebsite.Raw) -> Result<AnyElementObserver<AnyWebsite>, Error>

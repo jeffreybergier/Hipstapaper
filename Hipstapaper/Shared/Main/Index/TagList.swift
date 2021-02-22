@@ -20,6 +20,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import Datum
 import Localize
 import Stylize
@@ -31,7 +32,7 @@ struct TagList<Nav: View>: View {
     @State private var selection: TH.Selection?
     @State private var initialSelection = true
     @StateObject private var dataSource: TagDataSource
-    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
+    @EnvironmentObject private var errorQ: ErrorQueue
 
     private let navigation: Navigation
     
@@ -42,7 +43,7 @@ struct TagList<Nav: View>: View {
 
     var body: some View {
         List(selection: self.$selection) {
-            Section(header: STZ.VIEW.TXT(Noun.ReadingList)
+            Section(header: STZ.VIEW.TXT(Noun.readingList.rawValue)
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
@@ -59,7 +60,7 @@ struct TagList<Nav: View>: View {
                         .environment(\.XPL_isSelected, self.selection == item1)
                 }
             }
-            Section(header: STZ.VIEW.TXT(Noun.Tags)
+            Section(header: STZ.VIEW.TXT(Noun.tags.rawValue)
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
@@ -67,16 +68,16 @@ struct TagList<Nav: View>: View {
                     NavigationLink(destination: self.navigation(item)) {
                         TagRow(item: item)
                             .environment(\.XPL_isSelected, self.selection == item)
-                            .modifier(TagMenu(selection: item))
+                            .modifier(TagMenu(controller: self.dataSource.controller, selection: item))
                     }
                 }
             }
         }
-        .navigationTitle(Noun.Tags)
+        .navigationTitle(Noun.tags.rawValue)
         .modifier(SidebarStyle())
         .modifier(IndexToolbar(controller: self.dataSource.controller,
                                selection: self.$selection))
-        .onAppear() { self.errorQ.append(self.dataSource.activate()) }
+        .onAppear() { self.dataSource.activate(self.errorQ) }
         .onDisappear(perform: self.dataSource.deactivate)
     }
 }

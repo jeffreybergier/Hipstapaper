@@ -27,11 +27,11 @@ public typealias Toolbarable = Buttonable
 extension Toolbarable {
     public static func toolbar(isEnabled: Bool = true, action: @escaping Action) -> some View {
         return Button(action: action) {
-            Image(systemName: self.icon ?? STZ.IMG.Bug.name)
+            (self.icon ?? STZ.ICN.bug)
                 .modifier(__Hack_ToolbarButtonStyle())
         }
         .disabled(!isEnabled)
-        .help(self.phrase)
+        .help(self.phrase.rawValue)
         .modifier(Shortcut(self.shortcut))
     }
 }
@@ -54,129 +54,117 @@ fileprivate struct __Hack_ToolbarButtonStyle: ViewModifier {
 extension STZ {
     public enum TB {
         public enum Share: Toolbarable {
-            public static let icon: String? = "square.and.arrow.up"
-            public static let phrase: LocalizedStringKey = Verb.Share
-            public static let verb: LocalizedStringKey = Verb.Share
+            public static let icon: STZ.ICN? = .share
+            public static let phrase: Phrase = .share
+            public static let verb: Verb = .share
             public static let shortcut: KeyboardShortcut? = .init("i", modifiers: [.command, .shift])
         }
         public enum Unarchive: Toolbarable {
-            public static let icon: String? = "tray.and.arrow.up"
-            public static let phrase: LocalizedStringKey = Verb.Unarchive
-            public static let verb: LocalizedStringKey = Verb.Unarchive
+            public static let icon: STZ.ICN? = .unarchive
+            public static let phrase: Phrase = .unarchive
+            public static let verb: Verb = .unarchive
             public static let shortcut: KeyboardShortcut? = .init("u", modifiers: [.command, .control])
         }
         public enum Archive: Toolbarable {
-            public static let icon: String? = "tray.and.arrow.down"
-            public static let phrase: LocalizedStringKey = Verb.Archive
-            public static let verb: LocalizedStringKey = Verb.Archive
+            public static let icon: STZ.ICN? = .archive
+            public static let phrase: Phrase = .archive
+            public static let verb: Verb = .archive
             public static let shortcut: KeyboardShortcut? = .init("a", modifiers: [.command, .control])
         }
         public enum OpenInBrowser: Toolbarable {
-            public static let icon: String? = "safari.fill"
-            public static let phrase: LocalizedStringKey = Verb.Safari
-            public static let verb: LocalizedStringKey = Verb.Safari
+            public static let icon: STZ.ICN? = .openInBrowser
+            public static let phrase: Phrase = .safari
+            public static let verb: Verb = .safari
             public static let shortcut: KeyboardShortcut? = .init("o", modifiers: [.command, .shift])
         }
         public enum OpenInApp: Toolbarable {
-            public static let icon: String? = "safari"
-            public static let phrase: LocalizedStringKey = Verb.Open
-            public static let verb: LocalizedStringKey = Verb.Open
+            public static let icon: STZ.ICN? = .openInApp
+            public static let phrase: Phrase = .openInApp
+            public static let verb: Verb = .openInApp
             public static let shortcut: KeyboardShortcut? = .init("o", modifiers: [.command])
         }
         public enum FilterActive: Toolbarable {
-            public static let icon: String? = "line.horizontal.3.decrease.circle.fill"
-            public static let phrase: LocalizedStringKey = Phrase.FilterA
-            public static let verb: LocalizedStringKey = { fatalError() }()
+            public static let icon: STZ.ICN? = .filterActive
+            public static let phrase: Phrase = .filterA
+            public static let verb: Verb = .filter
             public static let shortcut: KeyboardShortcut? = .init("l", modifiers: [.command, .shift])
         }
         public enum FilterInactive: Toolbarable {
-            public static let icon: String? = "line.horizontal.3.decrease.circle"
-            public static let phrase: LocalizedStringKey = Phrase.FilterB
-            public static let verb: LocalizedStringKey = { fatalError() }()
+            public static let icon: STZ.ICN? = .filterInactive
+            public static let phrase: Phrase = .filterB
+            public static let verb: Verb = .filter
             public static let shortcut: KeyboardShortcut? = .init("l", modifiers: [.command, .shift])
         }
         public enum Stop: Toolbarable {
-            public static let icon: String? = "xmark"
-            public static let phrase: LocalizedStringKey = "Stop"
-            public static let verb: LocalizedStringKey = { fatalError() }()
+            public static let icon: STZ.ICN? = .stop
+            public static let phrase: Phrase = .stopLoading
+            public static let verb: Verb = .stopLoading
             public static let shortcut: KeyboardShortcut? = .init(".", modifiers: [.command])
         }
         public enum Reload: Toolbarable {
-            public static let icon: String? = "arrow.clockwise"
-            public static let phrase: LocalizedStringKey = "Reload"
-            public static let verb: LocalizedStringKey = { fatalError() }()
+            public static let icon: STZ.ICN? = .reload
+            public static let phrase: Phrase = .reloadPage
+            public static let verb: Verb = .reloadPage
             public static let shortcut: KeyboardShortcut? = .init("r", modifiers: [.command])
         }
         public enum JSActive: Toolbarable {
-            public static let icon: String? = "applescript.fill"
-            public static let phrase: LocalizedStringKey = "Disable Javascript"
-            public static let verb: LocalizedStringKey = "Javascript"
+            public static let icon: STZ.ICN? = .jsActive
+            public static let phrase: Phrase = .jsActive
+            public static let verb: Verb = .javascript
             public static let shortcut: KeyboardShortcut? = .init("j", modifiers: [.command, .option])
         }
         public enum JSInactive: Toolbarable {
-            public static let icon: String? = "applescript"
-            public static let phrase: LocalizedStringKey = "Enable Javascript"
-            public static let verb: LocalizedStringKey = "Javascript"
+            public static let icon: STZ.ICN? = .jsInactive
+            public static let phrase: Phrase = .jsInactive
+            public static let verb: Verb = .javascript
             public static let shortcut: KeyboardShortcut? = .init("j", modifiers: [.command, .option])
         }
         public enum GoBack: Toolbarable {
-            public static let icon: String? = "chevron.backward"
-            public static let phrase: LocalizedStringKey = "Show the previous page"
-            public static let verb: LocalizedStringKey = "Back"
+            public static let icon: STZ.ICN? = .goBack
+            public static let phrase: Phrase = .goBack
+            public static let verb: Verb = .goBack
             public static let shortcut: KeyboardShortcut? = .init("[", modifiers: [.command])
         }
         public enum GoForward: Toolbarable {
-            public static let icon: String? = "chevron.forward"
-            public static let phrase: LocalizedStringKey = "Show the next page"
-            public static let verb: LocalizedStringKey = "Forward"
+            public static let icon: STZ.ICN? = .goForward
+            public static let phrase: Phrase = .goForward
+            public static let verb: Verb = .goForward
             public static let shortcut: KeyboardShortcut? = .init("]", modifiers: [.command])
         }
         public enum DeleteTag_Minus: Toolbarable {
-            public static let icon: String? = "minus"
-            public static let phrase: LocalizedStringKey = Verb.DeleteTag
-            public static let verb: LocalizedStringKey = Verb.DeleteTag
+            public static let icon: STZ.ICN? = .deleteMinus
+            public static let phrase: Phrase = .deleteTagTip
+            public static let verb: Verb = .deleteTag
             public static let shortcut: KeyboardShortcut? = .init(.delete, modifiers: [.command])
         }
         public enum DeleteWebsite: Toolbarable {
-            public static let icon: String? = "trash"
-            public static let phrase: LocalizedStringKey = "Delete website"
-            public static let verb: LocalizedStringKey = "Delete Website"
+            public static let icon: STZ.ICN? = .deleteTrash
+            public static let phrase: Phrase = .deleteWebsiteTip
+            public static let verb: Verb = .deleteWebsite
             public static let shortcut: KeyboardShortcut? = .init(.delete, modifiers: [.command])
         }
         public enum DeleteTag_Trash: Toolbarable {
-            public static let icon: String? = "trash"
-            public static let phrase: LocalizedStringKey = "Delete tag"
-            public static let verb: LocalizedStringKey = "Delete Tag"
+            public static let icon: STZ.ICN? = .deleteTrash
+            public static let phrase: Phrase = .deleteTagTip
+            public static let verb: Verb = .deleteTag
             public static let shortcut: KeyboardShortcut? = .init(.delete, modifiers: [.command])
         }
         public enum ClearSearch: Toolbarable {
-            public static let icon: String? = "xmark.circle"
-            public static let phrase: LocalizedStringKey = Verb.ClearSearch
-            public static let verb: LocalizedStringKey = Verb.ClearSearch
+            public static let icon: STZ.ICN? = .clearSearch
+            public static let phrase: Phrase = .clearSearch
+            public static let verb: Verb = .clearSearch
             public static let shortcut: KeyboardShortcut? = .init(.escape, modifiers: [])
         }
         public enum CloudSyncError: Toolbarable {
-            public static let icon: String? = "exclamationmark.icloud"
-            public static let phrase: LocalizedStringKey = "iCloud Sync Error"
-            public static let verb: LocalizedStringKey = "iCloud Sync Error"
-            public static let shortcut: KeyboardShortcut? = nil
-        }
-        public enum CloudSyncSuccess: Toolbarable {
-            public static let icon: String? = "checkmark.icloud"
-            public static let phrase: LocalizedStringKey = "iCloud Sync Complete"
-            public static let verb: LocalizedStringKey = "iCloud Sync Complete"
-            public static let shortcut: KeyboardShortcut? = nil
-        }
-        public enum CloudSyncInProgress: Toolbarable {
-            public static let icon: String? = "arrow.clockwise.icloud"
-            public static let phrase: LocalizedStringKey = "iCloud Sync in Progress"
-            public static let verb: LocalizedStringKey = "iCloud Sync in Progress"
+            public static let icon: STZ.ICN? = .cloudError
+            public static let phrase: Phrase = .iCloudSyncError
+            public static let verb: Verb = .iCloud
             public static let shortcut: KeyboardShortcut? = nil
         }
         public enum CloudAccountError: Toolbarable {
-            public static let icon: String? = "icloud.slash"
-            public static let phrase: LocalizedStringKey = "No iCloud Account"
-            public static let verb: LocalizedStringKey = "No iCloud Account"
+            public static let icon: STZ.ICN? = .cloudAccountError
+            public static let phrase: Phrase = .iCloudAccountError
+            public static let verb: Verb = .iCloud
             public static let shortcut: KeyboardShortcut? = nil
         }
         

@@ -21,22 +21,21 @@
 
 import AppKit
 import SwiftUI
+import Umbrella
 import Snapshot
 import Stylize
 
 class ShareViewController: NSViewController {
 
     private let viewModel = Snapshot.ViewModel()
-    private let errorViewModel = STZ.ERR.Legacy.ViewModel()
-    private lazy var snapshotVC: NSViewController = NSHostingController(rootView: Snapshotter(self.viewModel))
-    private lazy var errorVC: NSViewController = NSHostingController(rootView: STZ.ERR.Legacy.Presenter(self.errorViewModel))
+    private let errorQ = ErrorQueue()
+    private lazy var snapshotVC: NSViewController =
+        NSHostingController(rootView: Snapshotter(self.viewModel))
+    private lazy var errorVC: NSViewController =
+        NSHostingController(rootView: ErrorQueuePresenterView().environmentObject(self.errorQ))
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.errorViewModel.dismissAction = { [unowned self] error in
-            self.extensionContext?.cancelRequest(withError: error)
-        }
         
         _ = { // Add SnapshotVC
             let vc = self.snapshotVC
@@ -71,7 +70,7 @@ class ShareViewController: NSViewController {
                 if case .userCancelled = error {
                     self.extensionContext?.cancelRequest(withError: error)
                 } else {
-                    self.errorViewModel.error = error
+                    self.errorQ.queue.append(error)
                 }
             case .success(let output):
                 do {
@@ -87,20 +86,20 @@ class ShareViewController: NSViewController {
                     self.extensionContext?.completeRequest(returningItems: nil,
                                                            completionHandler: nil)
                 } catch {
-                    self.errorViewModel.error = Snapshot.Error.sx_save
+                    self.errorQ.queue.append(Snapshot.Error.sx_save)
                 }
             }
             
         }
         
         guard let context = self.extensionContext?.inputItems.first as? NSExtensionItem else {
-            self.errorViewModel.error = Snapshot.Error.sx_process
+            self.errorQ.queue.append(Snapshot.Error.sx_process)
             return
         }
         
         context.urlValue() { url in
             guard let url = url else {
-                self.errorViewModel.error = Snapshot.Error.sx_process
+                self.errorQ.queue.append(Snapshot.Error.sx_process)
                 return
             }
             self.viewModel.setInputURL(url)

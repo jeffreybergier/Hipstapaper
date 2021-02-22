@@ -20,15 +20,20 @@
 //
 
 import SwiftUI
+import Datum
+import Umbrella
 import Stylize
 
 struct TagMenu: ViewModifier {
+    let controller: Controller
     @State var selection: TH.Selection
-    @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
+    @EnvironmentObject private var errorQ: ErrorQueue
     func body(content: Content) -> some View {
         content.contextMenu {
             STZ.TB.DeleteTag_Trash.context() {
-                self.modalPresentation.value = .deleteTag(selection)
+                self.errorQ.queue.append(DeleteError.tag({
+                    TH.delete(self.selection, self.controller, self.errorQ)
+                }))
             }
         }
     }

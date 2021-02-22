@@ -23,6 +23,7 @@ import WebKit
 
 public struct ThumbnailConfiguration {
     public var compressionFactor: CGFloat = 0.4
+    // TODO: Centralize max thumbnail size
     public var maxThumbSize: Int = 100_000
     public var snapConfig: WKSnapshotConfiguration = {
         let config = WKSnapshotConfiguration()

@@ -20,6 +20,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import Combine
 import Stylize
 import Localize
@@ -27,7 +28,7 @@ import Localize
 public struct Snapshotter: View {
     
     @StateObject var viewModel: ViewModel
-    @StateObject private var errorQ = STZ.ERR.ViewModel()
+    @StateObject private var errorQ = ErrorQueue()
     
     public init(_ viewModel: ViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -55,21 +56,18 @@ public struct Snapshotter: View {
             save: { self.viewModel.doneAction(.success(self.viewModel.output)) },
             canSave: { self.viewModel.output.currentURL != nil }
         ))
-        .modifier(STZ.ERR.PresenterB())
+        .modifier(ErrorQueuePresenter())
         .environmentObject(self.errorQ)
     }
 }
 
 internal struct WebThumbnail: View {
-    
     @ObservedObject var viewModel: ViewModel
-
-    // TODO: Fix this
     @ViewBuilder var body: some View {
         if self.viewModel.formState == .load {
-            STZ.IMG.Web.thumbnail(self.viewModel.output.thumbnail?.value)
+            STZ.ICN.web.thumbnail(self.viewModel.output.thumbnail?.value)
         } else {
-            STZ.IMG.WebError.thumbnail(self.viewModel.output.thumbnail?.value)
+            STZ.ICN.cloudError.thumbnail(self.viewModel.output.thumbnail?.value)
         }
     }
 }

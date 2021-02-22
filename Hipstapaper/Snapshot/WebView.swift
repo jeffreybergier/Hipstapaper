@@ -22,12 +22,12 @@
 
 import SwiftUI
 import WebKit
-import Stylize
+import Umbrella
 
 struct WebView: View {
     
     @ObservedObject var viewModel: ViewModel
-    @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
+    @EnvironmentObject private var errorQ: ErrorQueue
     
     private func update(_ wv: WKWebView, context: Context) {
         if self.viewModel.control.isJSEnabled != wv.configuration.preferences.javaScriptEnabled {
@@ -85,8 +85,8 @@ struct WebView: View {
         return wv
     }
     
-    func makeCoordinator() -> STZ.ERR.WKDelegate {
-        return .init(viewModel: self.errorQ) { [unowned viewModel] _ in
+    func makeCoordinator() -> GenericWebKitNavigationDelegate {
+        return .init(self.errorQ) { [unowned viewModel] _ in
             viewModel.control.shouldLoad = false
         }
     }

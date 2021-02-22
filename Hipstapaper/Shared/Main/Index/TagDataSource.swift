@@ -17,8 +17,9 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import Datum
 import Combine
+import Umbrella
+import Datum
 
 class TagDataSource: DataSource {
     
@@ -30,12 +31,15 @@ class TagDataSource: DataSource {
         self.controller = controller
     }
     
-    func activate() -> Result<Void, Datum.Error> {
+    func activate(_ errorQ: ErrorQueue?) {
         log.verbose()
-        guard self.observer == nil else { return .success(()) }
+        guard self.observer == nil else { return }
         let result = controller.readTags()
         self.observer = result.value
-        return result.map { _ in () }
+        result.error.map {
+            errorQ?.queue.append($0)
+            log.error($0)
+        }
     }
     
     func deactivate() {
@@ -43,8 +47,9 @@ class TagDataSource: DataSource {
         self.observer = nil
     }
     
+    #if DEBUG
     deinit {
-        // TODO: Remove later
-        log.emergency()
+        log.verbose()
     }
+    #endif
 }

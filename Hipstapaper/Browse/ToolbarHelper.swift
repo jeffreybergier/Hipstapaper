@@ -58,8 +58,9 @@ internal enum ToolbarHelper {
     }
     
     static func openExternalButton(_ viewModel: ViewModel, _ openURL: OpenURLAction) -> some View {
-        STZ.TB.OpenInBrowser.toolbar() {
-            let url = URL(string: viewModel.browserDisplay.urlString) ?? viewModel.originalURL
+        let urlBuilder = { URL(string: viewModel.browserDisplay.urlString) ?? viewModel.originalURL }
+        return STZ.TB.OpenInBrowser.toolbar(isEnabled: urlBuilder() != nil) {
+            guard let url = urlBuilder() else { return }
             openURL(url)
         }
     }

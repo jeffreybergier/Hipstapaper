@@ -20,6 +20,7 @@
 //
 
 import XCTest
+@testable import Umbrella
 @testable import Datum
 
 internal class WebsiteCollectionTests : ParentTestCase {
@@ -136,7 +137,7 @@ internal class WebsiteCollectionTests : ParentTestCase {
         }.store(in: &self.tokens)
         
         let wait2 = self.newWait()
-        let _tags = sites.__testingValue as! CD_ListObserver<AnyElementObserver<AnyWebsite>, CD_Website>
+        let _tags = sites.__testingValue as! FetchedResultsControllerListObserver<AnyElementObserver<AnyWebsite>, CD_Website>
         _tags.__objectDidChange.sink() {
             wait2() { XCTAssertEqual(sites.data.count, 5) }
         }.store(in: &self.tokens)
@@ -182,7 +183,7 @@ internal class WebsiteCollectionTests : ParentTestCase {
         }.store(in: &self.tokens)
         
         let wait2 = self.newWait()
-        let _tags = sites.__testingValue as! CD_ListObserver<AnyElementObserver<AnyWebsite>, CD_Website>
+        let _tags = sites.__testingValue as! FetchedResultsControllerListObserver<AnyElementObserver<AnyWebsite>, CD_Website>
         _tags.__objectDidChange.sink() {
             wait2() {
                 XCTAssertEqual(sites.data[0].value.title, "B")
@@ -236,7 +237,7 @@ internal class WebsiteCollectionTests : ParentTestCase {
         }.store(in: &self.tokens)
         
         let wait2 = self.newWait()
-        let _tags = sites.__testingValue as! CD_ListObserver<AnyElementObserver<AnyWebsite>, CD_Website>
+        let _tags = sites.__testingValue as! FetchedResultsControllerListObserver<AnyElementObserver<AnyWebsite>, CD_Website>
         _tags.__objectDidChange.sink() {
             wait2() {
                 XCTAssertEqual(sites.data[0].value.title, "B")

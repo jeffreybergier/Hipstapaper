@@ -20,6 +20,7 @@
 //
 
 import Combine
+import Umbrella
 
 public class ViewModel: ObservableObject {
     
@@ -47,20 +48,21 @@ public class ViewModel: ObservableObject {
         public var isArchived: Bool = false
     }
     
-    public let originalURL: URL
+    public let originalURL: URL?
     public let doneAction: (() -> Void)?
     @Published public var browserControl = BrowserControl()
     @Published public var browserDisplay = BrowserDisplay()
     @Published public var itemDisplay = ItemDisplay()
     
-    public init(url: URL, doneAction: (() -> Void)?) {
+    public init(url: URL?, doneAction: (() -> Void)?) {
         self.originalURL = url
         self.doneAction = doneAction
         self.browserControl.load = originalURL
     }
     
+    #if DEBUG
     deinit {
-        // TODO: Remove once toolbar leaks are fixed
-        print("Browser ViewModel DEINIT")
+        log.verbose()
     }
+    #endif
 }

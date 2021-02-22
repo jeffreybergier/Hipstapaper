@@ -18,6 +18,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import Stylize
 import Datum
 
@@ -31,7 +32,7 @@ extension DetailToolbar.iOS {
         
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
         @EnvironmentObject private var windowPresentation: WindowPresentation
-        @EnvironmentObject private var errorQ: STZ.ERR.ViewModel
+        @EnvironmentObject private var errorQ: ErrorQueue
         @Environment(\.openURL) private var externalPresentation
         
         func body(content: Content) -> some View {
@@ -81,7 +82,7 @@ extension DetailToolbar.iOS {
                 }
                 .toolbar(id: "Detail") { // TODO: Hack because toolbars only support 10 items
                     ToolbarItem(id: "Detail.Sync", placement: .cancellationAction) {
-                        STZ.TB.SyncMonitor(self.controller.syncMonitor)
+                        STZ.TB.Sync(self.controller.syncProgress)
                     }
                     ToolbarItem(id: "Detail.Sort") {
                         STZ.TB.Sort.toolbar() {
@@ -91,11 +92,13 @@ extension DetailToolbar.iOS {
                     }
                     ToolbarItem(id: "Detail.Filter") {
                         WH.filterToolbarItem(self.query.filter) {
+                            self.popoverAlignment = .topTrailing
                             self.query.filter.boolValue.toggle()
                         }
                     }
                     ToolbarItem(id: "Detail.Search") {
                         WH.searchToolbarItem(self.query) {
+                            self.popoverAlignment = .topTrailing
                             self.modalPresentation.value = .search
                         }
                     }
@@ -112,7 +115,7 @@ extension DetailToolbar.iOS {
         
         @Binding var query: Query
         @Binding var popoverAlignment: Alignment
-        @ObservedObject var syncMonitor: AnySyncMonitor
+        @ObservedObject var syncProgress: AnyContinousProgress
         
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
         
@@ -126,7 +129,7 @@ extension DetailToolbar.iOS {
                     EditButton()
                 }
                 ToolbarItem(id: "Detail.Sync", placement: .cancellationAction) {
-                    STZ.TB.SyncMonitor(self.syncMonitor)
+                    STZ.TB.Sync(self.syncProgress)
                 }
                 ToolbarItem(id: "Detail.Sort") {
                     STZ.TB.Sort.toolbar() {
@@ -136,11 +139,13 @@ extension DetailToolbar.iOS {
                 }
                 ToolbarItem(id: "Detail.Filter") {
                     WH.filterToolbarItem(self.query.filter) {
+                        self.popoverAlignment = .topTrailing
                         self.query.filter.boolValue.toggle()
                     }
                 }
                 ToolbarItem(id: "Detail.Search") {
                     WH.searchToolbarItem(self.query) {
+                        self.popoverAlignment = .topTrailing
                         self.modalPresentation.value = .search
                     }
                 }

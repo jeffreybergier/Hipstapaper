@@ -21,6 +21,7 @@
 
 
 import SwiftUI
+import Umbrella
 import Datum
 
 typealias TH = TagHelper
@@ -31,11 +32,14 @@ enum TagHelper {
     
     static func canDelete(_ selection: Selection?) -> Bool {
         guard let tag = selection else { return false }
-        return (tag.value.wrappedValue as? Query.Filter) == nil
+        return tag.canDelete
     }
-    static func delete(_ selection: Selection?, _ controller: Controller, _ errorQ: ErrorQ) {
+    static func delete(_ selection: Selection?, _ controller: Controller, _ errorQ: ErrorQueue) {
         guard let tag = selection else { return }
-        let r = errorQ.append(controller.delete(tag))
-        log.error(r.error)
+        let result = controller.delete(tag)
+        result.error.map {
+            errorQ.queue.append($0)
+            log.error($0)
+        }
     }
 }

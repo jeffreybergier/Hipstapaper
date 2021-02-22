@@ -83,12 +83,11 @@ extension STZ.ACTN {
 extension STZ.ACTN.Wrapper {
     internal var nativeValue: some View {
         VStack() {
-            // TODO: Make this text wrap
-            STZ.VIEW.TXT(self.title)
+            Text(self.title)
                 .modifier(STZ.FNT.ACTN.Body.apply())
                 .modifier(STZ.CLR.ACTN.Body.foreground())
-                .lineLimit(2) // TODO: Remove hack when possible
-                .fixedSize(horizontal: false, vertical: true) // TODO: Remove hack when possible
+                .lineLimit(2) // TODO: Figure out why text won't wrap properly
+                .fixedSize(horizontal: false, vertical: true) // TODO: Figure out why text won't wrap properly
                 .frame(maxWidth: 200)
             ForEach(0..<self.buttons.count, id: \.self) {
                 self.buttons[$0].nativeValue
@@ -119,7 +118,7 @@ extension STZ.ACTN.Wrapper {
             message: self.message.map { Text($0) },
             buttons: self.buttons
                 .map { $0.nativeValue }
-                + [.cancel(Text(Verb.Cancel))]
+                + [.cancel(Text(Verb.cancel.rawValue))]
         )
     }
 }

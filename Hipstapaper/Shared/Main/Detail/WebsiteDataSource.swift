@@ -20,11 +20,14 @@
 //
 
 import Combine
+import Umbrella
 import Datum
 
 class WebsiteDataSource: DataSource {
     
-    @Published var query: Query { didSet { self.activate() } }
+    private weak var errorQ: ErrorQueue?
+    
+    @Published var query: Query { didSet { self.activate(self.errorQ) } }
     @Published var observer: AnyListObserver<AnyList<AnyElementObserver<AnyWebsite>>>?
     var data: AnyList<AnyElementObserver<AnyWebsite>> { self.observer?.data ?? .empty }
     
@@ -37,11 +40,15 @@ class WebsiteDataSource: DataSource {
         self.controller = controller
     }
     
-    func activate() -> Result<Void, Datum.Error> {
+    func activate(_ errorQ: ErrorQueue?) {
+        self.errorQ = errorQ
         log.verbose(self.query.tag?.value.name ?? self.query.filter)
         let result = controller.readWebsites(query: self.query)
         self.observer = result.value
-        return result.map { _ in () }
+        result.error.map {
+            errorQ?.queue.append($0)
+            log.error($0)
+        }
     }
     
     func deactivate() {
@@ -49,8 +56,9 @@ class WebsiteDataSource: DataSource {
         self.observer = nil
     }
     
+    #if DEBUG
     deinit {
-        // TODO: Remove this
-        log.emergency()
+        log.verbose()
     }
+    #endif
 }

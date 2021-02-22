@@ -45,26 +45,26 @@ extension STZ {
 extension STZ.LBL.Sort {
     public enum TitleA: Labelable {
         public static let icon = "doc.richtext"
-        public static let text = Phrase.SortTitleA
+        public static let text = Phrase.sortTitleA.rawValue
     }
     public enum TitleZ: Labelable {
         public static let icon = "doc.richtext.fill"
-        public static let text = Phrase.SortTitleZ
+        public static let text = Phrase.sortTitleZ.rawValue
     }
     public enum ModifiedNewest: Labelable {
         public static let icon = "calendar.circle"
-        public static let text = Phrase.SortDateModifiedNewest
+        public static let text = Phrase.sortDateModifiedNewest.rawValue
     }
     public enum ModifiedOldest: Labelable {
         public static let icon = "calendar.circle.fill"
-        public static let text = Phrase.SortDateModifiedOldest
+        public static let text = Phrase.sortDateModifiedOldest.rawValue
     }
     public enum CreatedNewest: Labelable {
         public static let icon = "calendar.circle"
-        public static let text = Phrase.SortDateCreatedNewest
+        public static let text = Phrase.sortDateCreatedNewest.rawValue
     }
     public enum CreatedOldest: Labelable {
         public static let icon = "calendar.circle.fill"
-        public static let text = Phrase.SortDateCreatedOldest
+        public static let text = Phrase.sortDateCreatedOldest.rawValue
     }
 }

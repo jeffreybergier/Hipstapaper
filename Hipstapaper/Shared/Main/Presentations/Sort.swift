@@ -18,12 +18,10 @@
 //
 
 import SwiftUI
+import Umbrella
 import Stylize
 import Localize
 import Datum
-
-// TODO: Try to replace this with picker
-// https://medium.com/@luca.jon/swiftui-contextmenu-and-menu-for-ios-e01f90e525f6
 
 struct Sort: View {
     
@@ -36,7 +34,8 @@ struct Sort: View {
             order.label.label()
                 .modifier(STZ.PDG.Default(ignore: [\.leading, \.trailing]))
         }
-        .modifier(ModalSelectionStyle())
+        .modifier(Force.PlainListStyle())
+        .modifier(Force.EditMode())
         .modifier(STZ.MDL.Done(kind: STZ.TB.Sort.self, done: self.doneAction))
         .modifier(__Size())
     }

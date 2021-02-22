@@ -24,9 +24,13 @@ import SwiftUI
 import Localize
 
 public protocol Buttonable {
-    static var icon: String? { get }
-    static var phrase: LocalizedStringKey { get }
-    static var verb: LocalizedStringKey { get }
+    /// Icon in label or toolbar
+    static var icon: STZ.ICN? { get }
+    /// Tooltip / Accessibility
+    static var phrase: Phrase { get }
+    /// Button title / Toolbar text
+    static var verb: Verb { get }
+    /// Keyboard shortcut
     static var shortcut: KeyboardShortcut? { get }
 }
 
@@ -51,15 +55,15 @@ extension Buttonable {
                 .modifier(DoneStyle(enabled: doneStyle))
         }
         .disabled(!isEnabled)
-        .help(self.phrase)
+        .help(self.phrase.rawValue)
         .modifier(Shortcut(self.shortcut))
     }
     
     @ViewBuilder public static func view() -> some View {
         if let icon = self.icon {
-            Label(self.verb, systemImage: icon)
+            Label(self.verb.rawValue, systemImage: icon.rawValue)
         } else {
-            STZ.VIEW.TXT(self.verb)
+            STZ.VIEW.TXT(self.verb.rawValue)
         }
     }
 }
@@ -104,33 +108,33 @@ internal struct Shortcut: ViewModifier {
 extension STZ {
     public enum BTN {
         public enum Go: Buttonable {
-            public static var icon: String? = nil
-            public static var phrase: LocalizedStringKey = Verb.Go
-            public static var verb: LocalizedStringKey = Verb.Go
+            public static var icon: STZ.ICN? = nil
+            public static var phrase: Phrase = .loadPage
+            public static var verb: Verb = .go
             public static var shortcut: KeyboardShortcut? = .init(.defaultAction)
         }
         public enum Done: Buttonable {
-            public static var icon: String? = nil
-            public static var phrase: LocalizedStringKey = Verb.Done
-            public static var verb: LocalizedStringKey = Verb.Done
+            public static var icon: STZ.ICN? = nil
+            public static var phrase: Phrase = .done
+            public static var verb: Verb = .done
             public static var shortcut: KeyboardShortcut? = .init(.defaultAction)
         }
         public enum BrowserDone: Buttonable {
-            public static var icon: String? = nil
-            public static var phrase: LocalizedStringKey = Verb.Done
-            public static var verb: LocalizedStringKey = Verb.Done
+            public static var icon: STZ.ICN? = nil
+            public static var phrase: Phrase = .done
+            public static var verb: Verb = .done
             public static var shortcut: KeyboardShortcut? = .init("w")
         }
         public enum Save: Buttonable {
-            public static var icon: String? = nil
-            public static var phrase: LocalizedStringKey = Verb.Save
-            public static var verb: LocalizedStringKey = Verb.Save
+            public static var icon: STZ.ICN? = nil
+            public static var phrase: Phrase = .save
+            public static var verb: Verb = .save
             public static var shortcut: KeyboardShortcut? = .init(.defaultAction)
         }
         public enum Cancel: Buttonable {
-            public static var icon: String? = nil
-            public static var phrase: LocalizedStringKey = Verb.Cancel
-            public static var verb: LocalizedStringKey = Verb.Cancel
+            public static var icon: STZ.ICN? = nil
+            public static var phrase: Phrase = .cancel
+            public static var verb: Verb = .cancel
             public static var shortcut: KeyboardShortcut? = .init(.cancelAction)
         }
     }

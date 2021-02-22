@@ -19,26 +19,44 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-import Foundation
+import SwiftUI
+import Umbrella
+import Localize
 
-internal let ISTESTING: Bool = NSClassFromString("XCTestCase") != nil
-
-// TODO: Conform to NSError Protocols
-public enum Error: Swift.Error {
-    case critical
-    case unknown
-}
-
-// TODO: Add cases here
-extension Error: LocalizedError {
-    public var errorDescription: String? {
-        return "LOCALIZE THIS ERROR"
+/// Programming errors like not being able to load MOM from bundle
+/// and updating values from different Context cause fatalError
+/// rather than throwing an error.
+public enum Error: UserFacingError {
+    /// When an error is returned from `NSPersistentContainter` during inital setup.
+    case initialize(NSError)
+    /// When NSManagedContext return an error while `saveContext()`.
+    case write(NSError)
+    /// When NSManagedContext return an error while `performFetch()`.
+    case read(NSError)
+    
+    var errorValue: NSError {
+        switch self {
+        case .initialize(let error), .read(let error), .write(let error):
+            return error
+        }
     }
-}
-
-internal struct CocoaError: LocalizedError {
-    var error: NSError
-    var errorDescription: String? { error.localizedDescription }
-    var failureReason: String? { error.localizedFailureReason }
-    var recoverySuggestion: String? { error.localizedRecoverySuggestion }
+        
+    public var errorCode: Int {
+        switch self {
+        case .initialize:
+            return 1001
+        case .read:
+            return 1002
+        case .write:
+            return 1003
+        }
+    }
+    
+    public var title: LocalizedStringKey {
+        return Noun.errorDatabase.rawValue
+    }
+    
+    public var message: LocalizedStringKey {
+        return .init(self.errorValue.localizedDescription)
+    }
 }

@@ -20,6 +20,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import Datum
 import Stylize
 
@@ -52,19 +53,28 @@ enum WebsiteHelper {
         }
     }
     
-    static func archive(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQ) {
-        let r = errorQ.append(controller.update(selection, .init(isArchived: true)))
-        log.error(r.error)
+    static func archive(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQueue) {
+        let result = controller.update(selection, .init(isArchived: true))
+        result.error.map {
+            errorQ.queue.append($0)
+            log.error($0)
+        }
     }
     
-    static func unarchive(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQ) {
-        let r = errorQ.append(controller.update(selection, .init(isArchived: false)))
-        log.error(r.error)
+    static func unarchive(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQueue) {
+        let result = controller.update(selection, .init(isArchived: false))
+        result.error.map {
+            errorQ.queue.append($0)
+            log.error($0)
+        }
     }
     
-    static func delete(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQ) {
-        let r = errorQ.append(controller.delete(selection))
-        log.error(r.error)
+    static func delete(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQueue) {
+        let result = controller.delete(selection)
+        result.error.map {
+            errorQ.queue.append($0)
+            log.error($0)
+        }
     }
     
     static func open(_ selection: Selection, in open: OpenURLAction) {
@@ -75,7 +85,7 @@ enum WebsiteHelper {
     
     @discardableResult
     /// Item returned if device not capable of window presentation
-    static func open(_ selection: Selection, in wm: WindowPresentation, _ errorQ: ErrorQ) -> AnyElementObserver<AnyWebsite>? {
+    static func open(_ selection: Selection, in wm: WindowPresentation, _ errorQ: ErrorQueue) -> AnyElementObserver<AnyWebsite>? {
         guard selection.isEmpty == false else { return nil }
         let urls = selection.compactMap { $0.value.preferredURL }
         
@@ -83,7 +93,7 @@ enum WebsiteHelper {
         guard wm.features.contains([.multipleWindows, .bulkActivation])
             else { return selection.first! }
         
-        wm.show(Set(urls)) { errorQ.append($0) }
+        wm.show(Set(urls))
         return nil
     }
     
