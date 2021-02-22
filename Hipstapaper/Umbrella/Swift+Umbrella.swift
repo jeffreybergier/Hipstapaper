@@ -38,3 +38,34 @@ extension Result {
         }
     }
 }
+
+/// Returns the same output of `_typeName` but missing the framework name at the beginning
+public func __typeName(_ input: Any.Type) -> String {
+    return _typeName(input)
+        .components(separatedBy: ".")
+        .dropFirst()
+        .joined(separator: ".")
+}
+
+extension Bundle {
+    /// Uses fragile (and slow) method to find Bundle for a non-objective-c type
+    /// If you need the bundle for an Objective-C type, please use the correct initalizer
+    public static func `for`(type input: Any.Type) -> Bundle? {
+        let check1: (Bundle) -> Bool = {
+            let id = $0.bundleIdentifier ?? "com.apple"
+            return id.starts(with: "com.apple") == false
+        }
+        let check2: (Bundle) -> Bool = {
+            let id = $0.bundleIdentifier ?? ""
+            return id.lowercased().contains(Bundle._typeName_framework(input).lowercased())
+        }
+        let allBundles = Bundle.allBundles + Bundle.allFrameworks
+        return allBundles.first(where: { check1($0) && check2($0) })
+    }
+    
+    private static func _typeName_framework(_ input: Any.Type) -> String {
+        return _typeName(input)
+            .components(separatedBy: ".")
+            .first ?? "unknownbundle"
+    }
+}

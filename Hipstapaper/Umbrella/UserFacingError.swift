@@ -66,35 +66,10 @@ extension UserFacingError {
     /// Override if you want something custom or automatic implementation no longer works
     /// Automatic implementation uses fragile hackery.
     public static var errorDomain: String {
-        let typeString = self.typeName
-        let bundle = self.typeBundle.bundleIdentifier ?? "unknown.bundleid"
-        let domain = bundle + "." + typeString
+        let typeString = __typeName(self)
+        let bundle = Bundle.for(type: self) ?? .main
+        let id = bundle.bundleIdentifier ?? "unknown.bundleid"
+        let domain = id + "." + typeString
         return domain
-    }
-    
-    private static var _typeName_framework: String {
-        return _typeName(self)
-            .components(separatedBy: ".")
-            .first ?? "unknownbundle"
-    }
-    
-    private static var typeName: String {
-        return _typeName(self)
-            .components(separatedBy: ".")
-            .dropFirst()
-            .joined(separator: ".")
-    }
-    
-    private static var typeBundle: Bundle {
-        let check1: (Bundle) -> Bool = {
-            let id = $0.bundleIdentifier ?? "com.apple"
-            return id.starts(with: "com.apple") == false
-        }
-        let check2: (Bundle) -> Bool = {
-            let id = $0.bundleIdentifier ?? ""
-            return id.lowercased().contains(_typeName_framework.lowercased())
-        }
-        let allBundles = Bundle.allBundles + Bundle.allFrameworks
-        return allBundles.first(where: { check1($0) && check2($0) }) ?? .main
     }
 }
