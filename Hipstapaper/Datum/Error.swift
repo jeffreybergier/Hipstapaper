@@ -40,9 +40,7 @@ public enum Error: UserFacingError {
             return error
         }
     }
-    
-    public static var errorDomain: String = "com.saturdayapps.Hipstapaper.Datum"
-    
+        
     public var errorCode: Int {
         switch self {
         case .initialize:

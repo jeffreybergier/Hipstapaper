@@ -55,7 +55,6 @@ enum DeleteError: RecoverableUserFacingError {
         }
     }
     
-    static var errorDomain: String = "com.saturdayapps.Hipstapaper.delete"
     var errorCode: Int {
         switch self {
         case .tag:

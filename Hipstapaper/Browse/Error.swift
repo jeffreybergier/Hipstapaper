@@ -26,18 +26,17 @@ import SwiftUI
 import Umbrella
 import Localize
 
-internal enum Error: UserFacingError {
+public enum Error: UserFacingError {
     case loadURL
 
-    var message: LocalizedStringKey {
+    public var message: LocalizedStringKey {
         switch self {
         case .loadURL:
             return Phrase.errorLoadURL.rawValue
         }
     }
     
-    static var errorDomain: String = "com.saturdayapps.Hipstapaper.Browse"
-    var errorCode: Int {
+    public var errorCode: Int {
         switch self {
         case .loadURL:
             return 1001

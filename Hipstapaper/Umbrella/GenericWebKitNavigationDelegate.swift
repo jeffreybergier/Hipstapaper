@@ -27,7 +27,6 @@ public class GenericWebKitNavigationDelegate: NSObject, WKNavigationDelegate {
     public enum Error: UserFacingError {
         case invalidURL(URL)
         
-        public static var errorDomain: String = "com.saturdayapps.JSBUmbrella.WebKit"
         public var errorCode: Int {
             switch self {
             case .invalidURL:

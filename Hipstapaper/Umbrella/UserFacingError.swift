@@ -60,3 +60,49 @@ extension UserFacingError {
         return "Verb.Dismiss"
     }
 }
+
+extension UserFacingError {
+    /// Default implementation `com.your.bundle.id.ParentType.ErrorType`
+    /// Override if you want something custom or automatic implementation no longer works
+    /// Automatic implementation uses Swift.Mirror and other fragile hackery.
+    public static var errorDomain: String {
+        let mirror = Mirror(reflecting: self)
+        let typeString = mirror.typeDescription
+        let bundle = mirror.typeBundle.bundleIdentifier ?? "unknown.bundleid"
+        let domain = bundle + "." + typeString
+        return domain
+    }
+}
+
+extension Mirror {
+    
+    private var frameworkName: String {
+        return _full_typeDescription.components(separatedBy: ".").first ?? "unknownbundle"
+    }
+    
+    private var _full_typeDescription: String {
+        let typeString = _typeName(self.subjectType)
+        let _nameComponents = typeString.components(separatedBy: ".")
+        let nameComponents = _nameComponents.dropLast()
+        return nameComponents.joined(separator: ".")
+    }
+    
+    fileprivate var typeDescription: String {
+        let components = _full_typeDescription.components(separatedBy: ".")
+        let trimmed = Array(components.dropFirst())
+        let recombined = trimmed.joined(separator: ".")
+        return recombined
+    }
+    
+    fileprivate var typeBundle: Bundle {
+        let bundles = (Bundle.allBundles + Bundle.allFrameworks)
+                      .filter { !($0.bundleIdentifier ?? "com.apple").starts(with: "com.apple") }
+        let myFramwork = self.frameworkName.lowercased()
+        let _bundleMatch = bundles.filter { ($0.bundleIdentifier ?? "").lowercased().contains(myFramwork) }
+        guard let bundleMatch = _bundleMatch.first else {
+            log.error("Reflection Error")
+            return Bundle.main
+        }
+        return bundleMatch
+    }
+}

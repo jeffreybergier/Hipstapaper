@@ -35,7 +35,6 @@ public class CloudKitContainerContinuousProgress: ContinousProgress {
         case accountStatus(CKAccountStatus)
         case sync(NSError)
         
-        public static var errorDomain: String = "com.saturdayapps.JSBUmbrella.CloudKitContainerContinuousProgress"
         public var errorCode: Int {
             switch self {
             case .accountStatusCritical:

@@ -27,7 +27,6 @@ extension STZ {
     public struct SHR: View {
         
         public enum Error: UserFacingError {
-            public static var errorDomain: String = "com.saturdayapps.Hipstapaper.Stylize.Share"
             public var errorCode: Int               { 1001 }
             public var message: LocalizedStringKey  { Phrase.errorShareItemCount.rawValue }
             case itemCount
