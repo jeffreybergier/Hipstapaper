@@ -41,6 +41,7 @@ public struct GenericError: RecoverableUserFacingError {
     public init(_ error: NSError, options: [RecoveryOption] = []) {
         self.errorCode = error.code
         self.errorUserInfo = error.userInfo
+        // TODO: Add support for localizedFailureReason
         self.message = .init(error.localizedDescription)
         self.options = options
     }
