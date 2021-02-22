@@ -279,11 +279,12 @@ extension CD_Controller: Controller {
             return AnyList(
                 MappedList(tags.data) { tag in
                     let rawTag = tag.value.wrappedValue as! CD_Tag
-                    let state = ToggleState(sites.map { website in
+                    let websiteToggleStates = sites.map { website -> Bool in
                         let rawWebsite = website.value.wrappedValue as! CD_Website
                         return rawWebsite.cd_tags.contains(rawTag)
-                    })
-                    return (tag, state)
+                    }
+                    let websiteToggleState = ToggleState(websiteToggleStates)
+                    return (tag, websiteToggleState)
                 }
             )
         }
