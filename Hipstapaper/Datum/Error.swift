@@ -27,11 +27,11 @@ import Localize
 /// and updating values from different Context cause fatalError
 /// rather than throwing an error.
 public enum Error: UserFacingError {
-    /// When an error is returned from `NSPersistentContainter`.
+    /// When an error is returned from `NSPersistentContainter` during inital setup.
     case initialize(NSError)
-    /// When asked to update values on the wrong type.
+    /// When NSManagedContext return an error while `saveContext()`.
     case write(NSError)
-    /// When NSManagedContext return an error while `performFetch()`
+    /// When NSManagedContext return an error while `performFetch()`.
     case read(NSError)
     
     var errorValue: NSError {
