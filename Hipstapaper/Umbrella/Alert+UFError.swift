@@ -21,7 +21,7 @@ import SwiftUI
 
 extension Alert {
     public init(_ error: UFError, dismissAction: @escaping () -> Void = {}) {
-        if let error = error as? RUFError, !error.options.isEmpty {
+        if !error.options.isEmpty {
             self.init(RUFError: error, dismissAction: dismissAction)
         } else {
             self.init(UFError: error, dismissAction: dismissAction)
@@ -35,7 +35,7 @@ extension Alert {
                                          action: dismissAction))
     }
     
-    private init(RUFError error: RUFError, dismissAction: @escaping () -> Void) {
+    private init(RUFError error: UFError, dismissAction: @escaping () -> Void) {
         precondition(error.options.count == 1, "Currently only 1 recovery option is supported")
         self.init(title: Text(error.title),
                   message: Text(error.message),

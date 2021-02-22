@@ -21,7 +21,7 @@
 
 import SwiftUI
 
-public struct GenericError: RecoverableUserFacingError {
+public struct GenericError: UserFacingError {
     public var errorCode: Int
     public var errorUserInfo: [String : Any]
     public var message: LocalizedStringKey

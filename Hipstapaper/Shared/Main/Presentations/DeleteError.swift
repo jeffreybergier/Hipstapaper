@@ -23,7 +23,7 @@ import Stylize
 import Datum
 import Localize
 
-enum DeleteError: RecoverableUserFacingError {
+enum DeleteError: UserFacingError {
     
     typealias OnConfirmation = () -> Void
     

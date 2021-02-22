@@ -22,7 +22,6 @@
 import SwiftUI
 
 public typealias UFError = UserFacingError
-public typealias RUFError = RecoverableUserFacingError
 
 public protocol UserFacingError: CustomNSError {
     /// Default implementation is "Noun.Error"
@@ -30,9 +29,8 @@ public protocol UserFacingError: CustomNSError {
     var message: LocalizedStringKey { get }
     /// Default implementation is "Verb.Dismiss"
     var dismissTitle: LocalizedStringKey { get }
-}
-
-public protocol RecoverableUserFacingError: UserFacingError {
+    /// Default implementation is empty.
+    /// If options are present the Alert/UI for the error should show the options
     var options: [RecoveryOption] { get }
 }
 
@@ -58,6 +56,10 @@ extension UserFacingError {
     /// Default implementation. Override to customize
     public var dismissTitle: LocalizedStringKey {
         return "Verb.Dismiss"
+    }
+    
+    public var options: [RecoveryOption] {
+        return []
     }
 }
 

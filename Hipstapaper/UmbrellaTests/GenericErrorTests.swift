@@ -43,6 +43,5 @@ class GenericErrorTests: XCTestCase {
         XCTAssertEqual(self.realError.localizedDescription, "The folder “this-is-not-a-path” doesn’t exist.")
         XCTAssertEqual(self.realError.localizedFailureReason, "The folder doesn’t exist.")
         XCTAssertNil(self.realError.localizedRecoverySuggestion)
-
     }
 }
