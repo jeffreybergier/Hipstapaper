@@ -22,3 +22,10 @@
 import Foundation
 
 public let ISTESTING: Bool = NSClassFromString("XCTestCase") != nil
+public let ISDEBUG: Bool = {
+    #if DEBUG
+    return true
+    #else
+    return false
+    #endif
+}()
