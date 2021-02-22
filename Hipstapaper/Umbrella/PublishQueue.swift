@@ -33,7 +33,7 @@ public class PublishQueue<T>: ObservableObject {
     private var timer: Timer?
     public func update() {
         guard self.current == nil, self.timer == nil else { return }
-        self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false)
+        self.timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: false)
         { [weak self] timer in
             self?.current = self?.queue.pop().map { IdentBox($0) }
             timer.invalidate()

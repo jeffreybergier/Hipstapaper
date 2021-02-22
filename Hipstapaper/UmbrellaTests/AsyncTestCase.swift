@@ -25,9 +25,12 @@
 //
 //
 
+import Combine
 import XCTest
 
 internal class AsyncTestCase: AsyncDeprecateTestCase {
+    
+    public var tokens: Set<AnyCancellable> = []
     
     public enum Delay: TimeInterval {
         case instant = 0.0, short = 0.1, medium = 0.5, long = 1.0, superLong = 10.0
