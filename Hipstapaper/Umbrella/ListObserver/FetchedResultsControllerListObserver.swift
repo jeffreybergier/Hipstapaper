@@ -60,7 +60,16 @@ public class FetchedResultsControllerListObserver<Output, Input: NSManagedObject
     
     #if DEBUG
     // MARK: Testing Only
+    
+    /// for testing only
+    internal init(__TESTING: Bool) where Input == NSManagedObject, Output == Never {
+        self.data = AnyList([])
+    }
+    
+    /// for testing only
     public var __objectDidChange = ObservableObjectPublisher()
+    
+    /// for testing only
     public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         __objectDidChange.send()
     }
