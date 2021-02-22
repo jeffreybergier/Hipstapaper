@@ -33,7 +33,7 @@ enum ExplicitError: UserFacingError {
     var dismissTitle: LocalizedStringKey { "MyExplicitDismiss" }
     var errorCode: Int { 123_456_789 }
     var errorUserInfo: [String : Any] { ["A": 10] }
-    var options: [RecoveryOption] { [.init(title: "Option1", isDestructive: true, perform: {})] }
+    var options: [RecoveryOption] { [.init(title: "MyExplicitOption1", isDestructive: true, perform: {})] }
     case all
 }
 
@@ -68,7 +68,7 @@ class UserFacingErrorTests: XCTestCase {
         XCTAssertTrue(ImplicitError.all.options.isEmpty)
         XCTAssertFalse(ExplicitError.all.options.isEmpty)
         XCTAssertEqual(ExplicitError.all.options.first?.isDestructive, true)
-        XCTAssertEqual(ExplicitError.all.options.first?.title, "Option1")
+        XCTAssertEqual(ExplicitError.all.options.first?.title, "MyExplicitOption1")
     }
     
 }
