@@ -28,7 +28,8 @@ import Combine
  layer in an efficient way. You probably want to use the transform to wrap the NSManagedObject
  in `ManagedObjectElementObserver` so that it can be observed.
  This struct has no way to return errors so you must call `performFetch` on your own before using.
- To prevent core data from leaking into your UI layer, use `AnyList`
+ To prevent core data from leaking into your UI layer, use `AnyList`.
+ Note: this struct is not tested because it relies on NSFetchedResultsController
  ```
 try controller.performFetch()
 return .success(

@@ -25,6 +25,7 @@ import Combine
 /**
  Observes an NSManagedObject in  a way that is useful to SwiftUI. Also provides a transform that
  can be used so that NSManagedObject does not leak into your UI layer. Basic usage looks like:
+ Note: This class is not tested because it relies on NSManagedObject
  ```
 try controller.performFetch()
 return .success(
