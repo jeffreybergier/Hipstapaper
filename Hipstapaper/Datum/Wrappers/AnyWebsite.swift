@@ -45,7 +45,7 @@ public struct AnyWebsite: Website {
     private let _thumbnail:    () -> Data?
     private var _dateCreated:  () -> Date
     private var _dateModified: () -> Date
-    private var _hashValue:   (inout Hasher) -> ()
+    private var _hashValue:    (inout Hasher) -> ()
 
     /// Untyped storage for original database object
     internal let wrappedValue: Any
