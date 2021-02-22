@@ -48,7 +48,7 @@ extension CD_Website: Website {
         super.willSave()
         
         // Validate Title
-        if let title = self.cd_title, title.nonEmptyString == nil {
+        if let title = self.cd_title, title.trimmed == nil {
             self.cd_title = nil
         }
 

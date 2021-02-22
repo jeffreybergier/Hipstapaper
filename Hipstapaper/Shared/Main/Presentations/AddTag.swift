@@ -37,8 +37,8 @@ struct AddTag: View {
         .modifier(STZ.PDG.Equal())
         .modifier(STZ.MDL.Save(kind: STZ.TB.AddTag.self,
                                cancel: self.cancel,
-                               save: { self.save(self.tagName.nonEmptyString) },
-                               canSave: { self.tagName.nonEmptyString != nil }))
+                               save: { self.save(self.tagName.trimmed) },
+                               canSave: { self.tagName.trimmed != nil }))
         .frame(idealWidth: 375, idealHeight: self.__hack_height) // TODO: Remove height when this is not broken
     }
     

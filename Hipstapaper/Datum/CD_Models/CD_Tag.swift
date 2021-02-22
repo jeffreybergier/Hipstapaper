@@ -45,7 +45,7 @@ extension CD_Tag: Tag {
         }
         
         // Validate Title
-        if let name = self.cd_name, name.nonEmptyString == nil {
+        if let name = self.cd_name, name.trimmed == nil {
             self.cd_name = nil
         }
     }
