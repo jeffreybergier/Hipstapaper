@@ -278,10 +278,12 @@ extension CD_Controller: Controller {
         return self.readTags().map() { tags in
             return AnyList(
                 MappedList(tags.data) { tag in
-                    let tag = tag.value.wrappedValue as! CD_Tag
-                    return ToggleState(sites.map {
-                        ($0.value.wrappedValue as! CD_Website).cd_tags.contains(tag)
+                    let rawTag = tag.value.wrappedValue as! CD_Tag
+                    let state = ToggleState(sites.map { website in
+                        let rawWebsite = website.value.wrappedValue as! CD_Website
+                        return rawWebsite.cd_tags.contains(rawTag)
                     })
+                    return (tag, state)
                 }
             )
         }

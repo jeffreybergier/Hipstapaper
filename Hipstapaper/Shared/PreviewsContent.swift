@@ -140,7 +140,7 @@ class P_Controller: Controller {
     func remove(tag: AnyElementObserver<AnyTag>, from websites: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Datum.Error>
     { log.debug("Remove Tag: \(tag), from: \(websites)"); return .success(()) }    
     func tagStatus(for websites: Set<AnyElementObserver<AnyWebsite>>) -> Result<AnyList<(AnyElementObserver<AnyTag>, ToggleState)>, Datum.Error> {
-        return .success(AnyList(MappedList(p_tags, transform: { _ in .on })))
+        return .success(AnyList(MappedList(p_tags, transform: { ($0, .on) })))
     }
 }
 

@@ -27,25 +27,20 @@ class MappedListTests: AsyncTestCase {
         let wait = self.newWait(count: 3)
         let lazyMap: MappedList<Int, String> = MappedList(data) { input in
             wait() {
+                // Make sure items 2 and 3 are never accesed so we know its lazy
                 XCTAssertNotEqual(input, 3)
                 XCTAssertNotEqual(input, 5)
             }
             return String(input * 2)
         }
         self.do(after: .instant) {
-            let item = lazyMap[0]
-            XCTAssertEqual(item.0, 1)
-            XCTAssertEqual(item.1, "2")
+            XCTAssertEqual(lazyMap[0], "2")
         }
         self.do(after: .short) {
-            let item = lazyMap[3]
-            XCTAssertEqual(item.0, 9)
-            XCTAssertEqual(item.1, "18")
+            XCTAssertEqual(lazyMap[3], "18")
         }
         self.do(after: .short) {
-            let item = lazyMap[4]
-            XCTAssertEqual(item.0, 20)
-            XCTAssertEqual(item.1, "40")
+            XCTAssertEqual(lazyMap[4], "40")
         }
         self.wait(for: .medium)
     }

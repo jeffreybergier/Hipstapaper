@@ -24,18 +24,18 @@ import Combine
 /// Lazily maps from one collection to another without the type messy type signature
 /// of Swift Lazy Maps. Use AnyList to type erase:
 /// `return .success(AnyList(MappedList(p_tags, transform: { _ in .on })))`
-public struct MappedList<E, U>: RandomAccessCollection {
+public struct MappedList<Input, Output>: RandomAccessCollection {
     
     public typealias Index = Int
-    public typealias Element = (E, U)
+    public typealias Element = Output
 
     private let _startIndex: () -> Index
     private let _endIndex: () -> Index
-    private let _subscript: (Index) -> E
-    private let transform: (E) -> U
+    private let _subscript: (Index) -> Input
+    private let transform: (Input) -> Output
 
-    public init<T: RandomAccessCollection>(_ collection: T, transform: @escaping (E) -> U)
-    where T.Element == E,
+    public init<T: RandomAccessCollection>(_ collection: T, transform: @escaping (Input) -> Output)
+    where T.Element == Input,
           T.Index == Int
     {
         _startIndex = { collection.startIndex }
@@ -48,8 +48,8 @@ public struct MappedList<E, U>: RandomAccessCollection {
     public var startIndex: Index { _startIndex() }
     public var endIndex: Index { _endIndex() }
     public subscript(index: Index) -> Element {
-        let e = _subscript(index)
-        let u = transform(e)
-        return (e, u)
+        let input = _subscript(index)
+        let output = transform(input)
+        return output
     }
 }
