@@ -67,7 +67,7 @@ extension UserFacingError {
     /// Automatic implementation uses Swift.Mirror and other fragile hackery.
     public static var errorDomain: String {
         let mirror = Mirror(reflecting: self)
-        let typeString = mirror.typeDescription
+        let typeString = mirror.typeName
         let bundle = mirror.typeBundle.bundleIdentifier ?? "unknown.bundleid"
         let domain = bundle + "." + typeString
         return domain
@@ -76,33 +76,30 @@ extension UserFacingError {
 
 extension Mirror {
     
-    private var frameworkName: String {
-        return _full_typeDescription.components(separatedBy: ".").first ?? "unknownbundle"
+    private var _typeName_framework: String {
+        return _typeName(self.subjectType)
+            .components(separatedBy: ".")
+            .first ?? "unknownbundle"
     }
     
-    private var _full_typeDescription: String {
-        let typeString = _typeName(self.subjectType)
-        let _nameComponents = typeString.components(separatedBy: ".")
-        let nameComponents = _nameComponents.dropLast()
-        return nameComponents.joined(separator: ".")
-    }
-    
-    fileprivate var typeDescription: String {
-        let components = _full_typeDescription.components(separatedBy: ".")
-        let trimmed = Array(components.dropFirst())
-        let recombined = trimmed.joined(separator: ".")
-        return recombined
+    fileprivate var typeName: String {
+        return _typeName(self.subjectType)
+            .components(separatedBy: ".")
+            .dropLast()
+            .dropFirst()
+            .joined(separator: ".")
     }
     
     fileprivate var typeBundle: Bundle {
-        let bundles = (Bundle.allBundles + Bundle.allFrameworks)
-                      .filter { !($0.bundleIdentifier ?? "com.apple").starts(with: "com.apple") }
-        let myFramwork = self.frameworkName.lowercased()
-        let _bundleMatch = bundles.filter { ($0.bundleIdentifier ?? "").lowercased().contains(myFramwork) }
-        guard let bundleMatch = _bundleMatch.first else {
-            log.error("Reflection Error")
-            return Bundle.main
+        let check1: (Bundle) -> Bool = {
+            let id = $0.bundleIdentifier ?? "com.apple"
+            return id.starts(with: "com.apple") == false
         }
-        return bundleMatch
+        let check2: (Bundle) -> Bool = {
+            let id = $0.bundleIdentifier ?? ""
+            return id.lowercased().contains(_typeName_framework.lowercased())
+        }
+        let allBundles = Bundle.allBundles + Bundle.allFrameworks
+        return allBundles.first(where: { check1($0) && check2($0) }) ?? .main
     }
 }
