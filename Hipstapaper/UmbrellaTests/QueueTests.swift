@@ -21,6 +21,9 @@ import XCTest
 @testable import Umbrella
 
 class QueueTests: XCTestCase {
+    
+    // TODO: Add tests for append another quest
+    // TODO: Add tests for removeAll()
 
     func test_init() {
         let q: Queue<Int> = [1,2,3]

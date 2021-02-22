@@ -50,6 +50,7 @@ extension UserInterfaceSizeClass {
 #endif
 
 public enum Force {
+    // TODO: Add Sidebar Force
     public struct EditMode: ViewModifier {
         #if canImport(UIKit)
         @State var editMode: SwiftUI.EditMode = .active
