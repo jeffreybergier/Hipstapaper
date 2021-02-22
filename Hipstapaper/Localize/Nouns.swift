@@ -44,4 +44,5 @@ public enum Noun: LocalizedStringKey {
     
     public static let allItems_L: String = NSLocalizedString("Noun.AllItems", comment: "")
     public static let unreadItems_L: String = NSLocalizedString("Noun.UnreadItems", comment: "")
+    public static let untitled_L: String = NSLocalizedString("Noun.Untitled", comment: "")
 }

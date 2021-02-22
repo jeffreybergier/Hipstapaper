@@ -28,7 +28,7 @@ struct WebsiteListTitle: ViewModifier {
     @ViewBuilder func body(content: Content) -> some View {
         if let tag = self.query.tag {
             content
-                .navigationTitle(tag.value.name ?? Noun.unreadItems_L)
+                .navigationTitle(tag.value.name ?? Noun.untitled_L)
                 .modifier(TitleSize(isLarge: false))
         } else {
             switch self.query.filter! {
