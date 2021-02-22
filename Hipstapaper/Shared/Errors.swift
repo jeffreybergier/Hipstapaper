@@ -22,7 +22,6 @@
 import SwiftUI
 import Umbrella
 import Localize
-import Stylize
 
 enum Error: UserFacingError {
     
@@ -31,7 +30,7 @@ enum Error: UserFacingError {
     var message: LocalizedStringKey {
         switch self {
         case .shareExtensionAdd:
-            return "There was an error when adding a website saved by another application."
+            return Phrase.errorShareImport.rawValue
         }
     }
 }

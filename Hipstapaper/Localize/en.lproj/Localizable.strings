@@ -137,3 +137,4 @@
 "Phrase.ErroriCloudAccount"     = "To enable syncing your Reading List with other devices, sign into iCloud.";
 "Phrase.ErrorShareItemCount"    = "The selected website(s) contained no URLs to share.";
 "Phrase.ErrorLoadURL"           = "This website did not contain a URL.";
+"Phrase.ErrorShareImport"       = "There was an error importing the website shared by another app.";
