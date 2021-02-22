@@ -20,6 +20,7 @@
 //
 
 import XCTest
+@testable import Umbrella
 @testable import Datum
 
 internal class WebsiteCollectionTests : ParentTestCase {
