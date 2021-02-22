@@ -40,6 +40,10 @@ public class PublishQueue<T>: ObservableObject {
             self?.timer = nil
         }
     }
+    
+    deinit {
+        self.timer?.invalidate()
+    }
 }
 
 /// Gets ErrorQueue from Environment and presents errors
