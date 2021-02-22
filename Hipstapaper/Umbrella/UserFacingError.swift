@@ -64,33 +64,28 @@ extension UserFacingError {
 extension UserFacingError {
     /// Default implementation `com.your.bundle.id.ParentType.ErrorType`
     /// Override if you want something custom or automatic implementation no longer works
-    /// Automatic implementation uses Swift.Mirror and other fragile hackery.
+    /// Automatic implementation uses fragile hackery.
     public static var errorDomain: String {
-        let mirror = Mirror(reflecting: self)
-        let typeString = mirror.typeName
-        let bundle = mirror.typeBundle.bundleIdentifier ?? "unknown.bundleid"
+        let typeString = self.typeName
+        let bundle = self.typeBundle.bundleIdentifier ?? "unknown.bundleid"
         let domain = bundle + "." + typeString
         return domain
     }
-}
-
-extension Mirror {
     
-    private var _typeName_framework: String {
-        return _typeName(self.subjectType)
+    private static var _typeName_framework: String {
+        return _typeName(self)
             .components(separatedBy: ".")
             .first ?? "unknownbundle"
     }
     
-    fileprivate var typeName: String {
-        return _typeName(self.subjectType)
+    private static var typeName: String {
+        return _typeName(self)
             .components(separatedBy: ".")
-            .dropLast()
             .dropFirst()
             .joined(separator: ".")
     }
     
-    fileprivate var typeBundle: Bundle {
+    private static var typeBundle: Bundle {
         let check1: (Bundle) -> Bool = {
             let id = $0.bundleIdentifier ?? "com.apple"
             return id.starts(with: "com.apple") == false
