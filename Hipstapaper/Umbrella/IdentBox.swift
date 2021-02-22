@@ -19,6 +19,9 @@
 
 import Combine
 
+/// Takes any value and wraps it in an identifiable box.
+/// Identity means nothing here. But this is useful when using
+/// View.sheet/.alert/.popover with an item that is not identifiable
 public struct IdentBox<Value>: Identifiable {
     public var id = UUID()
     public var value: Value

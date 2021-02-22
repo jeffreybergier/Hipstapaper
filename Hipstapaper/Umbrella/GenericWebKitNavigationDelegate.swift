@@ -22,6 +22,8 @@
 import WebKit
 import SwiftUI
 
+/// Provides a basic WKNavigationDelegate with expected behavior for showing simple web views.
+/// Note, this class is not tested because there are too many custom types from WebKit.
 public class GenericWebKitNavigationDelegate: NSObject, WKNavigationDelegate {
     
     public enum Error: UserFacingError {
