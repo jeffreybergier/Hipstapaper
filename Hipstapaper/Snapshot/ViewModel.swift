@@ -20,8 +20,8 @@
 //
 
 import Combine
-import Foundation
 import WebKit
+import Umbrella
 
 public class ViewModel: ObservableObject {
     
@@ -101,8 +101,7 @@ public class ViewModel: ObservableObject {
     }
     
     deinit {
-        // TODO: Change this to logger
-        NSLog("DEINIT: Snapshotter ViewModel")
+        log.verbose()
         self.timer?.invalidate()
         self.kvo.forEach({ $0.invalidate() })
     }

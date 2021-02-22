@@ -20,6 +20,7 @@
 //
 
 import Combine
+import Umbrella
 
 public class ViewModel: ObservableObject {
     
@@ -61,7 +62,7 @@ public class ViewModel: ObservableObject {
     
     #if DEBUG
     deinit {
-        NSLog("DEINIT: Browse ViewModel")
+        log.verbose()
     }
     #endif
 }
