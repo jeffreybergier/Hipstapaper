@@ -40,19 +40,25 @@ class SwiftUmbrellaTests: XCTestCase {
                        "Umbrella.GenericWebKitNavigationDelegate.Error")
         XCTAssertEqual(__typeName(GenericWebKitNavigationDelegate.Error.self),
                        "GenericWebKitNavigationDelegate.Error")
+        XCTAssertEqual(_typeName(ImplicitError.self), "UmbrellaTests.ImplicitError")
+        XCTAssertEqual(__typeName(ImplicitError.self), "ImplicitError")
     }
     
     func test_typeName_framework() {
         XCTAssertEqual(__typeName_framework(String.self), "Swift")
         XCTAssertEqual(__typeName_framework(GenericWebKitNavigationDelegate.Error.self), "Umbrella")
+        XCTAssertEqual(__typeName_framework(ImplicitError.self), "UmbrellaTests")
     }
     
     func test_bundle_init() {
         // Apple frameworks are expected to return nil
         XCTAssertNil(Bundle.for(type: String.self))
-        let bundle = Bundle.for(type: GenericWebKitNavigationDelegate.Error.self)
-        XCTAssertNotNil(bundle)
-        XCTAssertEqual(bundle?.bundleIdentifier, "com.saturdayapps.Umbrella")
+        let bundle1 = Bundle.for(type: GenericWebKitNavigationDelegate.Error.self)
+        XCTAssertNotNil(bundle1)
+        XCTAssertEqual(bundle1?.bundleIdentifier, "com.saturdayapps.Umbrella")
+        let bundle2 = Bundle.for(type: ImplicitError.self)
+        XCTAssertNotNil(bundle2)
+        XCTAssertEqual(bundle2?.bundleIdentifier, "com.saturdayapps.UmbrellaTests")
     }
     
 }
