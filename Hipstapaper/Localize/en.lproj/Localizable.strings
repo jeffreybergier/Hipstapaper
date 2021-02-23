@@ -27,32 +27,38 @@
 //
 //
 
-"Verb.Save"             = "Save";
-"Verb.Done"             = "Done";
-"Verb.Cancel"           = "Cancel";
-"Verb.Dismiss"          = "Dismiss";
-"Verb.Search"           = "Search";
-"Verb.AddWebsite"      = "Add Website";
-"Verb.Archive"          = "Archive";
-"Verb.Unarchive"        = "Unarchive";
-"Verb.Share"            = "Share";
-"Verb.DeleteTag"        = "Delete Tag(s)";
-"Verb.AddTag"           = "Add Tag";
-"Verb.Go"               = "Go";
-"Verb.ClearSearch"      = "Clear Search";
-"Verb.OpenInApp"        = "Open";
-"Verb.OpenInBrowser"    = "Open in Browser";
-"Verb.AddAndRemoveTags" = "Apply Tags";
-"Verb.Filter"           = "Filter";
-"Verb.StopLoading"      = "Stop";
-"Verb.ReloadPage"       = "Reload";
-"Verb.Javascript"       = "Javascript";
-"Verb.GoBack"           = "Back";
-"Verb.GoForward"        = "Forward";
-"Verb.DeleteWebsite"    = "Delete Website(s)";
-"Verb.iCloud"           = "iCloud";
-"Verb.AddChoice"        = "Add";
-"Verb.Sort"             = "Sort";
+"Verb.Save"                   = "Save";
+"Verb.Done"                   = "Done";
+"Verb.Cancel"                 = "Cancel";
+"Verb.Dismiss"                = "Dismiss";
+"Verb.Search"                 = "Search";
+"Verb.AddWebsite"             = "Add Website";
+"Verb.Archive"                = "Archive";
+"Verb.Unarchive"              = "Unarchive";
+"Verb.Share"                  = "Share";
+"Verb.DeleteTag"              = "Delete Tag(s)";
+"Verb.AddTag"                 = "Add Tag";
+"Verb.Go"                     = "Go";
+"Verb.ClearSearch"            = "Clear Search";
+"Verb.OpenInApp"              = "Open";
+"Verb.OpenInBrowser"          = "Open in Browser";
+"Verb.AddAndRemoveTags"       = "Apply Tags";
+"Verb.Filter"                 = "Filter";
+"Verb.StopLoading"            = "Stop";
+"Verb.ReloadPage"             = "Reload";
+"Verb.Javascript"             = "Javascript";
+"Verb.GoBack"                 = "Back";
+"Verb.GoForward"              = "Forward";
+"Verb.DeleteWebsite"          = "Delete Website(s)";
+"Verb.iCloud"                 = "iCloud";
+"Verb.AddChoice"              = "Add";
+"Verb.Sort"                   = "Sort";
+"Verb.SortDateModifiedNewest" = "Most Recently Modified First";
+"Verb.SortDateModifiedOldest" = "Most Recently Modified Last";
+"Verb.SortDateCreatedNewest"  = "Most Recently Added First";
+"Verb.SortDateCreatedOldest"  = "Most Recently Added Last";
+"Verb.SortTitleA"             = "Page Titles Starting with A First";
+"Verb.SortTitleZ"             = "Page Titles Starting with Z First";
 
 //
 //
@@ -83,6 +89,7 @@
 "Noun.iCloud"        = "Sync Error";
 "Noun.DeleteTag"     = "Delete Tag(s)";
 "Noun.DeleteWebsite" = "Delete Website(s)";
+
 //
 //
 ////
@@ -92,12 +99,6 @@
 //
 
 "Phrase.AddChoice"              = "Create new tag or add new website";
-"Phrase.SortDateModifiedNewest" = "Most Recently Modified First";
-"Phrase.SortDateModifiedOldest" = "Most Recently Modified Last";
-"Phrase.SortDateCreatedNewest"  = "Most Recently Added First";
-"Phrase.SortDateCreatedOldest"  = "Most Recently Added Last";
-"Phrase.SortTitleA"             = "Page Titles Starting with A First";
-"Phrase.SortTitleZ"             = "Page Titles Starting with Z First";
 "Phrase.Sort"                   = "Change sort order of websites";
 "Phrase.FilterA"                = "Show all items";
 "Phrase.FilterB"                = "Show unread items";

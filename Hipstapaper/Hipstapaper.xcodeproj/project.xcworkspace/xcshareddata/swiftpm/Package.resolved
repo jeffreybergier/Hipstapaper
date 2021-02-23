@@ -11,6 +11,15 @@
         }
       },
       {
+        "package": "Umbrella",
+        "repositoryURL": "https://github.com/jeffreybergier/Umbrella.git",
+        "state": {
+          "branch": "main",
+          "revision": "a0e300530feb9424c372cc79c18a0bd77bcce31f",
+          "version": null
+        }
+      },
+      {
         "package": "XCGLogger",
         "repositoryURL": "https://github.com/DaveWoodCom/XCGLogger.git",
         "state": {

@@ -22,11 +22,6 @@
 import SwiftUI
 import Localize
 
-public protocol Presentable: Buttonable {
-    /// Title of presented view
-    static var noun: Noun { get }
-}
-
 extension STZ.TB {
     public enum TagApply: Presentable {
         public static let icon: STZ.ICN? = .tag

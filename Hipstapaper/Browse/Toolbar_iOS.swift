@@ -92,7 +92,7 @@ private struct Toolbar_Compact: ViewModifier {
                     STZ.TB.Separator.toolbar()
                 }
                 ToolbarItem(id: "Browser_Compact.Share", placement: .bottomBar) {
-                    STZ.TB.Share.toolbar() {
+                    TH.shareButton {
                         self.popoverAlignment = .bottomTrailing
                         self.viewModel.browserDisplay.isSharing = true
                     }
@@ -144,7 +144,7 @@ private struct Toolbar_Regular: ViewModifier {
                     TH.openExternalButton(self.viewModel, self.openURL)
                 }
                 ToolbarItem(id: "Browser_Regular.Share", placement: .automatic) {
-                    STZ.TB.Share.toolbar() {
+                    TH.shareButton {
                         self.popoverAlignment = .topTrailing
                         self.viewModel.browserDisplay.isSharing = true
                     }

@@ -91,7 +91,7 @@ extension DetailToolbar.iOS {
                         }
                     }
                     ToolbarItem(id: "Detail.Filter") {
-                        WH.filterToolbarItem(self.query.filter) {
+                        WH.filterToolbarItem(self.query) {
                             self.popoverAlignment = .topTrailing
                             self.query.filter.boolValue.toggle()
                         }
@@ -138,7 +138,7 @@ extension DetailToolbar.iOS {
                     }
                 }
                 ToolbarItem(id: "Detail.Filter") {
-                    WH.filterToolbarItem(self.query.filter) {
+                    WH.filterToolbarItem(self.query) {
                         self.popoverAlignment = .topTrailing
                         self.query.filter.boolValue.toggle()
                     }

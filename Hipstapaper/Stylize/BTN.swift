@@ -23,53 +23,8 @@
 import SwiftUI
 import Localize
 
-public protocol Buttonable {
-    /// Icon in label or toolbar
-    static var icon: STZ.ICN? { get }
-    /// Tooltip / Accessibility
-    static var phrase: Phrase { get }
-    /// Button title / Toolbar text
-    static var verb: Verb { get }
-    /// Keyboard shortcut
-    static var shortcut: KeyboardShortcut? { get }
-}
-
-extension Buttonable {
-    public static func button(doneStyle: Bool = false,
-                              isEnabled: Bool = true,
-                              action: @escaping Action) -> some View
-    {
-        context(doneStyle: doneStyle,
-                isEnabled: isEnabled,
-                action: action)
-            .modifier(DefaultStyle()) // if this modifier is used on context menu buttons everything breaks
-    }
-    
-    public static func context(doneStyle: Bool = false,
-                               isEnabled: Bool = true,
-                               action: @escaping Action)
-                               -> some View
-    {
-        Button(action: action) {
-            self.view()
-                .modifier(DoneStyle(enabled: doneStyle))
-        }
-        .disabled(!isEnabled)
-        .help(self.phrase.rawValue)
-        .modifier(Shortcut(self.shortcut))
-    }
-    
-    @ViewBuilder public static func view() -> some View {
-        if let icon = self.icon {
-            Label(self.verb.rawValue, systemImage: icon.rawValue)
-        } else {
-            STZ.VIEW.TXT(self.verb.rawValue)
-        }
-    }
-}
-
-fileprivate struct DefaultStyle: ViewModifier {
-    fileprivate func body(content: Content) -> some View {
+internal struct DefaultButtonStyle: ViewModifier {
+    internal func body(content: Content) -> some View {
         #if os(macOS)
         return content.buttonStyle(BorderedButtonStyle())
         #else
@@ -78,10 +33,10 @@ fileprivate struct DefaultStyle: ViewModifier {
     }
 }
 
-fileprivate struct DoneStyle: ViewModifier {
-    var enabled: Bool
-    func body(content: Content) -> some View {
-        if enabled {
+internal struct DoneStyle: ViewModifier {
+    internal var enabled: Bool
+    internal func body(content: Content) -> some View {
+        if self.enabled {
             return content
                 .modifier(STZ.FNT.Button.Done.apply())
         } else {

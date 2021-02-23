@@ -21,12 +21,6 @@ import SwiftUI
 
 public enum Phrase: LocalizedStringKey {
     case addChoice              = "Phrase.AddChoice"
-    case sortDateModifiedNewest = "Phrase.SortDateModifiedNewest"
-    case sortDateModifiedOldest = "Phrase.SortDateModifiedOldest"
-    case sortDateCreatedNewest  = "Phrase.SortDateCreatedNewest"
-    case sortDateCreatedOldest  = "Phrase.SortDateCreatedOldest"
-    case sortTitleA             = "Phrase.SortTitleA"
-    case sortTitleZ             = "Phrase.SortTitleZ"
     case sort                   = "Phrase.Sort"
     case filterA                = "Phrase.FilterA"
     case filterB                = "Phrase.FilterB"

@@ -71,7 +71,7 @@ extension DetailToolbar {
                     STZ.TB.Sort.toolbar(action: { self.modalPresentation.value = .sort })
                 }
                 ToolbarItem(id: "Detail.Filter") {
-                    WH.filterToolbarItem(self.query.filter) {
+                    WH.filterToolbarItem(self.query) {
                         self.query.filter.boolValue.toggle()
                     }
                 }
