@@ -96,7 +96,7 @@ extension DetailToolbar.iOS {
         func body(content: Content) -> some View {
             content.toolbar(id: "Detail") {
                 ToolbarItem(id: "Detail.Filter", placement: .bottomBar) {
-                    WH.filterToolbarItem(self.query.filter) {
+                    WH.filterToolbarItem(self.query) {
                         self.query.filter.boolValue.toggle()
                     }
                 }
