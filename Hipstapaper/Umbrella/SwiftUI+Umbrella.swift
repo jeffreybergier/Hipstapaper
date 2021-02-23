@@ -50,7 +50,6 @@ extension UserInterfaceSizeClass {
 #endif
 
 public enum Force {
-    // TODO: Add Sidebar Force
     public struct EditMode: ViewModifier {
         #if canImport(UIKit)
         @State var editMode: SwiftUI.EditMode = .active
@@ -73,5 +72,21 @@ public enum Force {
             return content
             #endif
         }
+    }
+    public struct SidebarStyle: ViewModifier {
+        public init() {}
+        #if os(macOS)
+        public func body(content: Content) -> some View {
+            content.listStyle(SidebarListStyle())
+        }
+        #else
+        @ViewBuilder public func body(content: Content) -> some View {
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                content.listStyle(SidebarListStyle())
+            } else {
+                content.listStyle(InsetGroupedListStyle())
+            }
+        }
+        #endif
     }
 }
