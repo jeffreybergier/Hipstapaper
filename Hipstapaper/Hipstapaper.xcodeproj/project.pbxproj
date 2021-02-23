@@ -31,6 +31,8 @@
 		734068212574B56700D4A343 /* WebsiteRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7340681F2574B56700D4A343 /* WebsiteRow.swift */; };
 		734068322574ED5800D4A343 /* TagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734068312574ED5800D4A343 /* TagList.swift */; };
 		734068332574ED5800D4A343 /* TagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734068312574ED5800D4A343 /* TagList.swift */; };
+		7340944A25E53B9100BD1E55 /* Umbrella in Frameworks */ = {isa = PBXBuildFile; productRef = 7340944925E53B9100BD1E55 /* Umbrella */; };
+		7340947225E53D1200BD1E55 /* TestUmbrella in Frameworks */ = {isa = PBXBuildFile; productRef = 7340947125E53D1200BD1E55 /* TestUmbrella */; };
 		7346696E259F4B790001E7C9 /* DetailToolbar_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7346696D259F4B790001E7C9 /* DetailToolbar_macOS.swift */; };
 		73466978259F4C820001E7C9 /* DetailToolbar_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73466977259F4C820001E7C9 /* DetailToolbar_iOS.swift */; };
 		73466983259F4DA20001E7C9 /* Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73466982259F4DA20001E7C9 /* Sort.swift */; };
@@ -210,7 +212,6 @@
 		DBDCB3BB256BEE3800D005F6 /* CD_MOM.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DBDCB3B9256BEE3800D005F6 /* CD_MOM.xcdatamodeld */; };
 		DBDCB3FA256C866200D005F6 /* CD_Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDCB3F8256C866200D005F6 /* CD_Base.swift */; };
 		DBDCB3FB256C866200D005F6 /* CD_Website.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBDCB3F9256C866200D005F6 /* CD_Website.swift */; };
-		DBFE5D2C256F567C00A23555 /* AsyncTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFE5D2B256F567C00A23555 /* AsyncTestCase.swift */; };
 		DBFE5D3A256F583200A23555 /* TagCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBFE5D39256F583200A23555 /* TagCollectionTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -228,6 +229,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 7399BAA8258251A500B8CAFD;
 			remoteInfo = Stylize;
+		};
+		7340949025E53D5D00BD1E55 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBDCB337256BE8E600D005F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DBDCB381256BEBE700D005F6;
+			remoteInfo = Datum;
 		};
 		735D4CD2258F4DFF0016F904 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -410,13 +418,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 73FE38C425E506F300A9516C;
 			remoteInfo = SPMShim;
-		};
-		DBDCB38C256BEBE700D005F6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DBDCB337256BE8E600D005F6 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DBDCB381256BEBE700D005F6;
-			remoteInfo = Datum;
 		};
 		DBDCB3A8256BEC5B00D005F6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -640,7 +641,6 @@
 		DBDCB3BA256BEE3800D005F6 /* CD_MOM.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CD_MOM.xcdatamodel; sourceTree = "<group>"; };
 		DBDCB3F8256C866200D005F6 /* CD_Base.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CD_Base.swift; sourceTree = "<group>"; };
 		DBDCB3F9256C866200D005F6 /* CD_Website.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CD_Website.swift; sourceTree = "<group>"; };
-		DBFE5D2B256F567C00A23555 /* AsyncTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncTestCase.swift; sourceTree = "<group>"; };
 		DBFE5D39256F583200A23555 /* TagCollectionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -751,7 +751,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7340944A25E53B9100BD1E55 /* Umbrella in Frameworks */,
 				DBDCB38B256BEBE700D005F6 /* Datum.framework in Frameworks */,
+				7340947225E53D1200BD1E55 /* TestUmbrella in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1064,7 +1066,6 @@
 		DBDCB38E256BEBE700D005F6 /* DatumTests */ = {
 			isa = PBXGroup;
 			children = (
-				DBFE5D2B256F567C00A23555 /* AsyncTestCase.swift */,
 				DBDCB38F256BEBE700D005F6 /* ParentTestCase.swift */,
 				DBFE5D39256F583200A23555 /* TagCollectionTests.swift */,
 				50D63AC3256FEA35001C5985 /* TagObservationTests.swift */,
@@ -1385,9 +1386,13 @@
 			buildRules = (
 			);
 			dependencies = (
-				DBDCB38D256BEBE700D005F6 /* PBXTargetDependency */,
+				7340949125E53D5D00BD1E55 /* PBXTargetDependency */,
 			);
 			name = DatumTests;
+			packageProductDependencies = (
+				7340944925E53B9100BD1E55 /* Umbrella */,
+				7340947125E53D1200BD1E55 /* TestUmbrella */,
+			);
 			productName = DatumTests;
 			productReference = DBDCB38A256BEBE700D005F6 /* DatumTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -1771,7 +1776,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DBFE5D2C256F567C00A23555 /* AsyncTestCase.swift in Sources */,
 				DBFE5D3A256F583200A23555 /* TagCollectionTests.swift in Sources */,
 				73F2B04A25746386009AC2AF /* WebsiteObservationTests.swift in Sources */,
 				73DC73DA25728B9F00EE72FA /* QueryTests.swift in Sources */,
@@ -1795,6 +1799,11 @@
 			isa = PBXTargetDependency;
 			target = 7399BAA8258251A500B8CAFD /* Stylize */;
 			targetProxy = 732F304A25AAEA3B00192822 /* PBXContainerItemProxy */;
+		};
+		7340949125E53D5D00BD1E55 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DBDCB381256BEBE700D005F6 /* Datum */;
+			targetProxy = 7340949025E53D5D00BD1E55 /* PBXContainerItemProxy */;
 		};
 		735D4CD3258F4DFF0016F904 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1925,11 +1934,6 @@
 			isa = PBXTargetDependency;
 			target = 73FE38C425E506F300A9516C /* SPMShim */;
 			targetProxy = 73FE38EB25E507A500A9516C /* PBXContainerItemProxy */;
-		};
-		DBDCB38D256BEBE700D005F6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DBDCB381256BEBE700D005F6 /* Datum */;
-			targetProxy = DBDCB38C256BEBE700D005F6 /* PBXContainerItemProxy */;
 		};
 		DBDCB3A9256BEC5B00D005F6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2779,6 +2783,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		7340944925E53B9100BD1E55 /* Umbrella */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 738DCF3625E500520076E722 /* XCRemoteSwiftPackageReference "Umbrella" */;
+			productName = Umbrella;
+		};
+		7340947125E53D1200BD1E55 /* TestUmbrella */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 738DCF3625E500520076E722 /* XCRemoteSwiftPackageReference "Umbrella" */;
+			productName = TestUmbrella;
+		};
 		73FE38DD25E5074500A9516C /* XPList */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 73F8B36D25BD677C001A6A09 /* XCRemoteSwiftPackageReference "XPList" */;

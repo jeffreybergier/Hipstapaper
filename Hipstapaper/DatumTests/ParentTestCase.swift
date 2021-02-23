@@ -20,12 +20,11 @@
 //
 
 import Datum
-import Combine
+import TestUmbrella
 
-class ParentTestCase: AsyncDeprecateTestCase {
+class ParentTestCase: AsyncTestCase {
 
     var controller: Datum.Controller!
-    var tokens: Set<AnyCancellable> = []
 
     override func setUpWithError() throws {
         try super.setUpWithError()
