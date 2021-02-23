@@ -388,6 +388,16 @@
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		73FE388F25E5057C00A9516C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DBDCB3AA256BEC5C00D005F6 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1221,6 +1231,7 @@
 				DBDCB37E256BEBE700D005F6 /* Sources */,
 				DBDCB37F256BEBE700D005F6 /* Frameworks */,
 				DBDCB380256BEBE700D005F6 /* Resources */,
+				73FE388F25E5057C00A9516C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
