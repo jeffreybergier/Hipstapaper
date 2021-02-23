@@ -38,7 +38,7 @@ internal struct Toolbar_macOS: ViewModifier {
                 TH.stopReloadButton(self.viewModel)
                 TH.jsButton(self.viewModel)
                 TH.addressBar(self.$viewModel.browserDisplay.title)
-                STZ.TB.Share.toolbar(action: { self.viewModel.browserDisplay.isSharing = true })
+                TH.shareButton(action: { self.viewModel.browserDisplay.isSharing = true })
                 TH.openExternalButton(self.viewModel, self.openURL)
                 if let done = self.viewModel.doneAction {
                     STZ.BTN.BrowserDone.button(action: done)

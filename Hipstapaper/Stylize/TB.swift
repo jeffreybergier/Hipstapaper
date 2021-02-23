@@ -22,25 +22,9 @@
 import SwiftUI
 import Localize
 
-public typealias Toolbarable = Buttonable
-
-extension Toolbarable {
-    public static func toolbar(isEnabled: Bool = true, action: @escaping Action) -> some View {
-        return Button(action: action) {
-            (self.icon ?? STZ.ICN.bug)
-                .modifier(__Hack_ToolbarButtonStyle())
-        }
-        .disabled(!isEnabled)
-        .help(self.phrase.rawValue)
-        .modifier(Shortcut(self.shortcut))
-    }
-}
-
-fileprivate struct __Hack_ToolbarButtonStyle: ViewModifier {
-    
-    @Environment(\.isEnabled) var isEnabled
-    
-    func body(content: Content) -> some View {
+internal struct __Hack_ToolbarButtonStyle: ViewModifier {
+    @Environment(\.isEnabled) private var isEnabled
+    internal func body(content: Content) -> some View {
         #if os(macOS)
         return content
             .modifier(STZ.CLR.TB.Tint.foreground())
