@@ -55,7 +55,7 @@ extension STZ.MDL {
         public func body(content: Content) -> some View {
             return NavigationView {
                 content
-                    .navigationBarTitle(self.kind.noun.rawValue, displayMode: .inline)
+                    .navigationBarTitle(self.kind.verb.rawValue, displayMode: .inline)
                     .toolbar(id: "Modal.Done") {
                         ToolbarItem(id: "Modal.Done.0", placement: .confirmationAction) {
                             STZ.BTN.Done.button(doneStyle: true, action: self.doneAction)
@@ -110,7 +110,7 @@ extension STZ.MDL {
         public func body(content: Content) -> some View {
             return NavigationView {
                 content
-                    .navigationBarTitle(self.kind.noun.rawValue, displayMode: .inline)
+                    .navigationBarTitle(self.kind.verb.rawValue, displayMode: .inline)
                     .toolbar(id: "Modal.Save") {
                         ToolbarItem(id: "Modal.Save.0", placement: .cancellationAction) {
                             STZ.BTN.Cancel.button(action: self.cancelAction)

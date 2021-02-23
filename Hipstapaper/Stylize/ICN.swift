@@ -52,5 +52,9 @@ extension STZ {
         case web = "globe"
         case bug = "ladybug"
         case placeholder = "photo"
+        case sortTitleA = "doc.richtext"
+        case sortTitleZ = "doc.richtext.fill"
+        case sortDateNewest = "calendar.circle"
+        case sortDateOldest = "calendar.circle.fill"
     }
 }

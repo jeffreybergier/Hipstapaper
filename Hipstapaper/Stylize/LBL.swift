@@ -22,49 +22,33 @@
 import SwiftUI
 import Localize
 
-public protocol Labelable {
-    static var icon: String { get }
-    static var text: LocalizedStringKey { get }
-}
-
-extension Labelable {
-    public static func label() -> some View {
-        Label(self.text, systemImage: self.icon)
-            .modifier(STZ.FNT.Sort.apply())
-    }
-}
-
 extension STZ {
     public enum LBL {
         public enum Sort {
-            
+            public enum TitleA: Labelable {
+                public static let icon: STZ.ICN? = .sortTitleA
+                public static let verb: Verb = .sortTitleA
+            }
+            public enum TitleZ: Labelable {
+                public static let icon: STZ.ICN? = .sortTitleZ
+                public static let verb: Verb = .sortTitleZ
+            }
+            public enum ModifiedNewest: Labelable {
+                public static let icon: STZ.ICN? = .sortDateNewest
+                public static let verb: Verb = .sortDateModifiedNewest
+            }
+            public enum ModifiedOldest: Labelable {
+                public static let icon: STZ.ICN? = .sortDateOldest
+                public static let verb: Verb = .sortDateModifiedOldest
+            }
+            public enum CreatedNewest: Labelable {
+                public static let icon: STZ.ICN? = .sortDateNewest
+                public static let verb: Verb = .sortDateCreatedNewest
+            }
+            public enum CreatedOldest: Labelable {
+                public static let icon: STZ.ICN? = .sortDateOldest
+                public static let verb: Verb = .sortDateCreatedOldest
+            }
         }
-    }
-}
-
-extension STZ.LBL.Sort {
-    public enum TitleA: Labelable {
-        public static let icon = "doc.richtext"
-        public static let text = Phrase.sortTitleA.rawValue
-    }
-    public enum TitleZ: Labelable {
-        public static let icon = "doc.richtext.fill"
-        public static let text = Phrase.sortTitleZ.rawValue
-    }
-    public enum ModifiedNewest: Labelable {
-        public static let icon = "calendar.circle"
-        public static let text = Phrase.sortDateModifiedNewest.rawValue
-    }
-    public enum ModifiedOldest: Labelable {
-        public static let icon = "calendar.circle.fill"
-        public static let text = Phrase.sortDateModifiedOldest.rawValue
-    }
-    public enum CreatedNewest: Labelable {
-        public static let icon = "calendar.circle"
-        public static let text = Phrase.sortDateCreatedNewest.rawValue
-    }
-    public enum CreatedOldest: Labelable {
-        public static let icon = "calendar.circle.fill"
-        public static let text = Phrase.sortDateCreatedOldest.rawValue
     }
 }
