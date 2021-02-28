@@ -1,6 +1,7 @@
-![Xcode: 12.4](https://img.shields.io/badge/Xcode-12.4-lightgrey.svg) ![Swift: 5.3](https://img.shields.io/badge/Swift-5.3-lightgrey.svg) ![SwiftUI](https://img.shields.io/badge/SwiftUI-lightgrey.svg) ![iOS: 14](https://img.shields.io/badge/iOS-14-lightgrey.svg) ![macOS: 11](https://img.shields.io/badge/macOS-11-lightgrey.svg) ![devices: iPhone & iPad & Mac](https://img.shields.io/badge/devices-iPad%20%26%20iPhone%20%26%20Mac-lightgrey.svg)
+![Xcode: 12.4](https://img.shields.io/badge/Xcode-12.4-lightgrey.svg) ![Swift: 5.3](https://img.shields.io/badge/Swift-5.3-lightgrey.svg) ![iOS: 14](https://img.shields.io/badge/iOS-14-lightgrey.svg) ![macOS: 11](https://img.shields.io/badge/macOS-11-lightgrey.svg) ![devices: iPhone & iPad & Mac](https://img.shields.io/badge/devices-iPad%20%26%20iPhone%20%26%20Mac-lightgrey.svg) ![UI: SwiftUI](https://img.shields.io/badge/UI-SwiftUI-lightgrey.svg) ![Data: CoreData](https://img.shields.io/badge/Data-CoreData-lightgrey.svg) ![Sync: iCloud](https://img.shields.io/badge/Sync-iCloud-lightgrey.svg)
 
 [![Hipstapaper Screenshots](/readme-screenshot.png)](http://www.jeffburg.com/cocoaassets/hipstapaper-devices.png)
+
 TODO: Screenshot outdated
 
 # Hipstapaper - iOS and Mac Reading List App
@@ -69,7 +70,7 @@ Please refer to an existing issue or create a new issue before beginning to work
 
 This project runs entirely in Xcode with any external dependencies handled by Swift Package Manager. Note that there may be issues running on physical devices because this project relies on iCloud entitlements.
 
-1. Clone the Repo: 
+1. Clone the Repo
 1. Open in Xcode
 1. Build and Run
 
