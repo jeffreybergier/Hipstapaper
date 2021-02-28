@@ -9,7 +9,7 @@ A macOS, iOS, and iPadOS app written 100% in SwiftUI. Hipstapaper is an app that
 
 ## How to Get the App
 
-Hipstapaper is not available on the App Store. Its not broadly usable in its current state because SwiftUI has many performance issues and bugs that I do not want to work around. I'm hoping Apple resolved many of them at WWDC 2021. That said, you are welcome to use it if you think its interesting.
+Hipstapaper is not available on the App Store. Its not broadly usable in its current state because SwiftUI has many performance issues and bugs that I do not want to work around. I'm hoping Apple resolved many of them at WWDC 2021. Also, I mostly created this app to learn and to use myself and it is not meant to be a commercial product. That said, you are welcome to use it if you think its interesting.
 - iOS:
     - TODO: Figure out testflight for iOS
 - macOS:
@@ -46,7 +46,7 @@ Hipstapaper is not available on the App Store. Its not broadly usable in its cur
 
 ## Contribution Guidelines
 
-I am happy to accept contributions. Please note that I always intend to be build safe and inclusive communities. I have a 0 tolerance policy towards harassment, meanness, sarcastic-ness toward any other member. Read the code of conduct for full details.
+I am happy to accept contributions. Please note that I always intend to be build safe and inclusive communities. I have a 0 tolerance policy towards harassment, meanness, sarcastic-ness toward any other member. Read the [code of conduct](CODE_OF_CONDUCT.md) for full details.
 
 Please refer to an existing issue or create a new issue before beginning to work on a contribution.
 
