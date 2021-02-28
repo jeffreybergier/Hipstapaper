@@ -1,65 +1,77 @@
-![Xcode: 9.3](https://img.shields.io/badge/Xcode-9.3-lightgrey.svg) ![Swift: 4.1](https://img.shields.io/badge/Swift-4.1-lightgrey.svg) ![iOS: 11.0](https://img.shields.io/badge/iOS-11.0-lightgrey.svg) ![macOS: 10.11](https://img.shields.io/badge/macOS-10.11-lightgrey.svg) ![devices: iPhone & iPad & Mac](https://img.shields.io/badge/devices-iPad%20%26%20iPhone%20%26%20Mac-lightgrey.svg)
+![Xcode: 12.4](https://img.shields.io/badge/Xcode-12.4-lightgrey.svg) ![Swift: 5.3](https://img.shields.io/badge/Swift-5.3-lightgrey.svg) ![iOS: 14](https://img.shields.io/badge/iOS-14-lightgrey.svg) ![macOS: 11](https://img.shields.io/badge/macOS-11-lightgrey.svg) ![devices: iPhone & iPad & Mac](https://img.shields.io/badge/devices-iPad%20%26%20iPhone%20%26%20Mac-lightgrey.svg) ![UI: SwiftUI](https://img.shields.io/badge/UI-SwiftUI-lightgrey.svg) ![Data: CoreData](https://img.shields.io/badge/Data-CoreData-lightgrey.svg) ![Sync: iCloud](https://img.shields.io/badge/Sync-iCloud-lightgrey.svg)
 
 [![Hipstapaper Screenshots](/readme-screenshot.png)](http://www.jeffburg.com/cocoaassets/hipstapaper-devices.png)
 
+TODO: Screenshot outdated
+
 # Hipstapaper - iOS and Mac Reading List App
-A native cross platform reading list app that I use for prototyping and learning.
+
+A macOS, iOS, and iPadOS app written 100% in SwiftUI. Hipstapaper is an app that takes a URL shared from another app via the share extension, loads the page to get the title, and a screenshot, and then saves the resulting bookmark via Core Data. Hipstapaper uses iCloud Core Data syncing via `NSPersistentCloudKitContainer` to sync all data between devices. Hipstapaper supports basic tagging and archiving for saved bookmarks.
 
 ## How to Get the App
-Hipstapaper is not available on the App Store. Its not broadly usable in its current state because it requires the user to provide their own Realm Object Server to start syncing. I use a TestFlight build to use the app on my own iOS devices and I have a developer signed and self-hosted binary for macOS.
+
+Hipstapaper is not available on the App Store. Its not broadly usable in its current state because SwiftUI has many performance issues and bugs that I do not want to work around. I'm hoping Apple resolved many of them at WWDC 2021. Also, I mostly created this app to learn and to use myself and it is not meant to be a commercial product. That said, you are welcome to use it if you think its interesting.
 - iOS:
-    - [Comment on this TestFlight Issue](/jeffreybergier/Hipstapaper/issues/1)
+    - TODO: Figure out testflight for iOS
 - macOS:
     - [Download](http://www.jeffburg.com/zzNotPortfolio/Hipstapaper/current/Hipstapaper.zip)
 
 ## Summary of Capabilities
-- All features implemented separately in UIKit and AppKit.
-- Add URL's into the application by using macOS and iOS system share sheet.
-- Perform Bulk CRUD and Tagging operations in the application.
+
+- All features implemented in a crossplatform way using SwiftUI
+   - Except toolbars. The "Unified Toolbar API" introduced in iOS14/macOS11 is pretty challenging to use well. So I ended up making different toolbars for macOS and iOS AND iPadOS. Hoping this is improved by Apple next round.
+- Add Bookmark into the application by using macOS and iOS system share sheet.
+   - Can also add via + toolbar icon in the application.
+- Basic tagging functionality.
 - Search, filter, and sort items in the application.
-- Syncronize list between devices using Ream Object Server
-    - Realm Object server is user provided currently.
-- Restore application state
+- Data sync via iCloud
 
 ## Why Did I Write This?
-- I wanted to learn how to make a Source-List / Splitview style app in both UIKit and AppKit.
-- I wanted to learn how to make a CRUD style application.
-- I wanted to learn how to provide search, filter, and sorting capabilities in an application.
-- I wanted to learn how to use Mac specific features like drag and drop, menus, contextual menus, etc.
-- I wanted to learn how to use Realm.
-- I wanted to learn how to use the Realm Object Server.
-- I wanted to learn how to make share extensions on macOS and iOS.
+
+- I wanted to learn how to use SwiftUI.
+- I wanted to learn how to use Core Data Sync.
+- I wanted to learn how to isolate my data layer from my UI layer.
+   - Core Data could easily be swapped for Realm or SQLite or anything else with the way its abstracted.
+
+## Known Issues
+
+- Crashes when deleting a tag (iOS)
+   - There is an issue with List in SwiftUI that is causing this crash.
+   - For the WebsiteList, I [wrote a workaround](https://github.com/jeffreybergier/XPList) but for sidebar lists there is too much detail to rewrite.
+- Can't rename tags
+- Performance is bad for large lists.
+   - Once the list exceeds 1000 items or so, the performance really slows down
+   - This is mostly due to how SwiftUI implements List and LazyVStack. They are lazy but not fully lazy. SwiftUI still tends to read all the items in the list, especially as you scroll down.
+- Toolbar for macOS browser doesn't work properly in SwiftUI yet
+- Window size is forgotten when closing the window on macOS. Interestingly it is preserved if quitting the app.
 
 ## Contribution Guidelines
-I'm so happy you're interested in contributing. However, I am not accepting any contributions to this project right now. I plan on replacing this app with a replacement where I want to learn some new concepts for the data management. When I start on that new project, I'll add a link here.
+
+I am happy to accept contributions. Please note that I always intend to be build safe and inclusive communities. I have a 0 tolerance policy towards harassment, meanness, sarcastic-ness toward any other member. Read the [code of conduct](CODE_OF_CONDUCT.md) for full details.
+
+Please refer to an existing issue or create a new issue before beginning to work on a contribution.
 
 ## Top Issues
-- [Improve how TableView selection works on iOS](/jeffreybergier/Hipstapaper/issues/3)
-- [Improve Saving Pages That Don't Load](/jeffreybergier/Hipstapaper/issues/2)
+
+- [investigation: see if NavigationLink can be used to open new windows](https://github.com/jeffreybergier/Hipstapaper/issues/22)
+- [enhancement: use real List instead of XPList](https://github.com/jeffreybergier/Hipstapaper/issues/21)
+- [enhancement: tag rename](https://github.com/jeffreybergier/Hipstapaper/issues/20)
+- [enhancement: figure out why window loses size after its closed](https://github.com/jeffreybergier/Hipstapaper/issues/23)
+- [enhancement: figure out crash on tag delete](https://github.com/jeffreybergier/Hipstapaper/issues/24)
+- [enhancement: figure out how to make SwiftUI toolbar work in Browser Window](https://github.com/jeffreybergier/Hipstapaper/issues/25)
 
 ## How to Clone and Run
 
 ### Requirements
 
-- Xcode 9.3 or higher
-- Cocoapods
+- Xcode 12.4 or higher
 
 ### Instructions
 
-1. Clone the Repo: 
-    ```
-    git clone 'https://github.com/jeffreybergier/Hipstapaper.git'
-    ```
-1. Install Cocoapods
-    ```
-    cd Hipstapaper/Hipstapaper/
-    pod install
-    ```
-1. Change Team to your AppleID (needed to run on your physical device)
-    1. Open `Hipstapaper.xcworkspace` in Xcode.
-    1. Go through both macOS targets and both iOS targets and…
-    1. Under Signing, change the team from its current setting to your AppleID.
+This project runs entirely in Xcode with any external dependencies handled by Swift Package Manager. Note that there may be issues running on physical devices because this project relies on iCloud entitlements.
+
+1. Clone the Repo
+1. Open in Xcode
 1. Build and Run
-    - Hipstapaper works in the simulator and on physical devices
 
 

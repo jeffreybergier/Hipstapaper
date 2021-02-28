@@ -166,6 +166,7 @@
 		73D1E70125E508D000B14C9E /* SPMShim.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 73FE38C525E506F300A9516C /* SPMShim.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		73DC73DA25728B9F00EE72FA /* QueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC73D925728B9F00EE72FA /* QueryTests.swift */; };
 		73DC73E0257290EF00EE72FA /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DC73DF257290EF00EE72FA /* Base.swift */; };
+		73DD930A25EB3B740050DBDD /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 73DD930925EB3B740050DBDD /* README.md */; };
 		73DFC99425AF24300041F555 /* ACTN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DFC99325AF24300041F555 /* ACTN.swift */; };
 		73DFCA2C25B08B630041F555 /* VIEW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DFCA2B25B08B630041F555 /* VIEW.swift */; };
 		73DFCA4C25B139380041F555 /* FNT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DFCA4B25B139380041F555 /* FNT.swift */; };
@@ -599,6 +600,7 @@
 		73D0F84A25B7160300D82D00 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		73DC73D925728B9F00EE72FA /* QueryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryTests.swift; sourceTree = "<group>"; };
 		73DC73DF257290EF00EE72FA /* Base.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
+		73DD930925EB3B740050DBDD /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		73DFC99325AF24300041F555 /* ACTN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACTN.swift; sourceTree = "<group>"; };
 		73DFCA2B25B08B630041F555 /* VIEW.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VIEW.swift; sourceTree = "<group>"; };
 		73DFCA4B25B139380041F555 /* FNT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FNT.swift; sourceTree = "<group>"; };
@@ -976,6 +978,7 @@
 		DBDCB336256BE8E600D005F6 = {
 			isa = PBXGroup;
 			children = (
+				73DD930925EB3B740050DBDD /* README.md */,
 				DBDCB33B256BE8E600D005F6 /* Shared */,
 				DBDCB345256BE8E700D005F6 /* iOS */,
 				DBDCB34C256BE8E700D005F6 /* macOS */,
@@ -1537,6 +1540,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73DD930A25EB3B740050DBDD /* README.md in Resources */,
 				DBDCB369256BE8E800D005F6 /* Assets.xcassets in Resources */,
 				739A873A258460690098DD72 /* Localizable.strings in Resources */,
 			);
@@ -2130,7 +2134,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Share_iOS/Share_iOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 200013;
+				CURRENT_PROJECT_VERSION = 200014;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
 				INFOPLIST_FILE = Share_iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2154,7 +2158,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Share_iOS/Share_iOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 200013;
+				CURRENT_PROJECT_VERSION = 200014;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
 				INFOPLIST_FILE = Share_iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2181,7 +2185,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 200013;
+				CURRENT_PROJECT_VERSION = 200014;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Share_macOS/Info.plist;
@@ -2207,7 +2211,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 200013;
+				CURRENT_PROJECT_VERSION = 200014;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Share_macOS/Info.plist;
@@ -2468,7 +2472,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/Hipstapaper.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 200013;
+				CURRENT_PROJECT_VERSION = 200014;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
@@ -2492,7 +2496,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/Hipstapaper.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 200013;
+				CURRENT_PROJECT_VERSION = 200014;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
@@ -2518,7 +2522,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 200013;
+				CURRENT_PROJECT_VERSION = 200014;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -2545,7 +2549,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 200013;
+				CURRENT_PROJECT_VERSION = 200014;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
