@@ -149,6 +149,7 @@ class P_Observer<T: RandomAccessCollection>: ListObserver {
     init(_ list: T) {
         self.data = list
     }
+    var __objectDidChange = ObjectWillChangePublisher()
 }
 
 private let fakeImageData: Data = {
