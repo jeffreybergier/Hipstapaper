@@ -33,9 +33,9 @@ struct FormLoaded: View {
                 STZ.VIEW.TXTFLD.WebURL.textfield(self.$viewModel.output.currentURLString)
                     .disabled(true)
                 if self.viewModel.control.isJSEnabled {
-                    STZ.TB.JSActive.toolbar(action: { self.viewModel.control.isJSEnabled = false })
+                    STZ.TB.JSActive.button_iconOnly(action: { self.viewModel.control.isJSEnabled = false })
                 } else {
-                    STZ.TB.JSInactive.toolbar(action: { self.viewModel.control.isJSEnabled = true })
+                    STZ.TB.JSInactive.button_iconOnly(action: { self.viewModel.control.isJSEnabled = true })
                 }
             }
         }

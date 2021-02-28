@@ -22,19 +22,6 @@
 import SwiftUI
 import Localize
 
-internal struct __Hack_ToolbarButtonStyle: ViewModifier {
-    @Environment(\.isEnabled) private var isEnabled
-    internal func body(content: Content) -> some View {
-        #if os(macOS)
-        return content
-            .modifier(STZ.CLR.TB.Tint.foreground())
-            .opacity(self.isEnabled ? 1.0 : 0.5 )
-        #else
-        return content
-        #endif
-    }
-}
-
 extension STZ {
     public enum TB {
         public enum Share: Toolbarable {

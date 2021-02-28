@@ -58,7 +58,8 @@ extension Labelable {
 extension Buttonable {
     public static func button(doneStyle: Bool = false,
                               isEnabled: Bool = true,
-                              action: @escaping Action) -> some View
+                              action: @escaping Action)
+                              -> some View
     {
         self.context(doneStyle: doneStyle,
                      isEnabled: isEnabled,
@@ -78,6 +79,20 @@ extension Buttonable {
         .disabled(!isEnabled)
         .help(self.phrase.rawValue)
         .modifier(Shortcut(self.shortcut))
+    }
+    /// crashes if Icon is NIL
+    public static func button_iconOnly(doneStyle: Bool = false,
+                                       isEnabled: Bool = true,
+                                       action: @escaping Action)
+                                       -> some View
+    {
+        Button(action: action) {
+            self.icon!
+        }
+        .disabled(!isEnabled)
+        .help(self.phrase.rawValue)
+        .modifier(Shortcut(self.shortcut))
+        .modifier(DefaultButtonStyle())
     }
 }
 
@@ -103,6 +118,19 @@ extension Toolbarable {
         .modifier(Shortcut(self.shortcut))
         #else
         return self.toolbar(isEnabled: isEnabled, action: action)
+        #endif
+    }
+}
+
+internal struct __Hack_ToolbarButtonStyle: ViewModifier {
+    @Environment(\.isEnabled) private var isEnabled
+    internal func body(content: Content) -> some View {
+        #if os(macOS)
+        return content
+            .modifier(STZ.CLR.TB.Tint.foreground())
+            .opacity(self.isEnabled ? 1.0 : 0.5 )
+        #else
+        return content
         #endif
     }
 }
