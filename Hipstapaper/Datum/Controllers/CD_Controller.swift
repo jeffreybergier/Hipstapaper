@@ -169,9 +169,11 @@ extension CD_Controller: Controller {
 
         let context = self.container.viewContext
         let request = CD_Tag.request
-        request.sortDescriptors = [
-            .init(key: #keyPath(CD_Tag.cd_name), ascending: true)
-        ]
+        request.sortDescriptors = [.init(
+            key: #keyPath(CD_Tag.cd_name),
+            ascending: true,
+            selector: #selector(NSString.localizedCaseInsensitiveCompare(_:))
+        )]
         let controller = NSFetchedResultsController(fetchRequest: request,
                                                     managedObjectContext: context,
                                                     sectionNameKeyPath: nil,

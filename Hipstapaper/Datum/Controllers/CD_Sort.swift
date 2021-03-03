@@ -38,9 +38,17 @@ extension Sort {
         case .dateCreatedOldest:
             return [.init(key: #keyPath(CD_Website.cd_dateCreated), ascending: true)]
         case .titleA:
-            return [.init(key: #keyPath(CD_Website.cd_title), ascending: true)]
+            return [.init(
+                key: #keyPath(CD_Website.cd_title),
+                ascending: true,
+                selector: #selector(NSString.localizedCaseInsensitiveCompare(_:))
+            )]
         case .titleZ:
-            return [.init(key: #keyPath(CD_Website.cd_title), ascending: false)]
+            return [.init(
+                key: #keyPath(CD_Website.cd_title),
+                ascending: false,
+                selector: #selector(NSString.localizedCaseInsensitiveCompare(_:))
+            )]
         }
     }
 }
