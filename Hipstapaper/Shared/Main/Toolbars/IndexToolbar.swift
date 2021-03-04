@@ -73,12 +73,14 @@ struct IndexToolbar_macOS: ViewModifier {
                 Spacer()
             }
             ToolbarItem(id: "Index.DeleteTag", placement: .automatic) {
+                let deleteAction: () -> Void = {
+                    let error = DeleteError.tag {
+                        TH.delete(self.selection, self.controller, self.errorQ)
+                    }
+                    self.errorQ.queue.append(error)
+                }
                 STZ.TB.DeleteTag_Minus.toolbar(isEnabled: TH.canDelete(self.selection),
-                                               action: { self.errorQ.queue.append(DeleteError.tag({
-                                                self.errorQ.queue.append(DeleteError.tag({
-                                                    TH.delete(self.selection, self.controller, self.errorQ)
-                                                }))
-                                               }))})
+                                               action: deleteAction)
             }
             ToolbarItem(id: "Index.AddChoice", placement: .primaryAction) {
                 STZ.TB.AddChoice.toolbar(action: { self.modalPresentation.value = .addChoose })

@@ -36,9 +36,10 @@ struct TagMenu: ViewModifier {
     func body(content: Content) -> some View {
         content.contextMenu {
             STZ.TB.DeleteTag_Trash.context() {
-                self.errorQ.queue.append(DeleteError.tag({
+                let error = DeleteError.tag {
                     TH.delete(self.selection, self.controller, self.errorQ)
-                }))
+                }
+                self.errorQ.queue.append(error)
             }
         }
     }
