@@ -427,9 +427,17 @@ extension NSManagedObjectContext {
         assert(Thread.isMainThread)
         
         let _input = input as AnyObject
-        guard _input.isKind(of: expected) else { return false }
-        guard let __input = _input as? NSManagedObject else { return false }
-        return self === __input.managedObjectContext
+        // this is overly debose so breakpoints can be set on failure
+        guard _input.isKind(of: expected) else {
+            return false
+        }
+        guard let __input = _input as? NSManagedObject else {
+            return false
+        }
+        guard self === __input.managedObjectContext else {
+            return false
+        }
+        return true
     }
     
     fileprivate func datum_save() -> Result<Void, Error> {
