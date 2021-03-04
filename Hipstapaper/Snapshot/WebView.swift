@@ -61,6 +61,7 @@ struct WebView: View {
         config.preferences.javaScriptEnabled = self.viewModel.control.isJSEnabled
         config.mediaTypesRequiringUserActionForPlayback = .all
         let wv = WKWebView(frame: .zero, configuration: config)
+        wv.configuration.websiteDataStore = .nonPersistent()
         wv.navigationDelegate = context.coordinator
         wv.allowsBackForwardNavigationGestures = false
         let token1 = wv.observe(\.isLoading)
