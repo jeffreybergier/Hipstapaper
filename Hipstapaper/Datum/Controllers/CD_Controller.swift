@@ -388,13 +388,14 @@ extension CD_Controller {
 
         let mom = CD_Controller.mom
         // when not testing, return normal persistent container
-        guard ISTESTING else {
+        let dataStoreEnvironment = ProcessInfo.processInfo.environment["DATA_STORE"] ?? "-1"
+        guard ISTESTING || dataStoreEnvironment == "IN_MEMORY" else {
             return Datum_PersistentContainer(name: "Store", managedObjectModel: mom)
         }
 
         // when testing make in-memory container
         let randomName = String(Int.random(in: 100_000...1_000_000))
-        let container = Datum_PersistentContainer(name: randomName, managedObjectModel: mom)
+        let container = NSPersistentContainer(name: randomName, managedObjectModel: mom)
         let description = NSPersistentStoreDescription()
         description.type = NSInMemoryStoreType
         container.persistentStoreDescriptions = [description]
