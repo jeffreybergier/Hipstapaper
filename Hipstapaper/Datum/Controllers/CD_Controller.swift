@@ -73,8 +73,10 @@ extension CD_Controller: Controller {
             try controller.performFetch()
             return .success(
                 AnyListObserver(
-                    FetchedResultsControllerListObserver(controller) {
-                        AnyElementObserver(ManagedObjectElementObserver($0, { AnyWebsite($0) }))
+                    FetchedResultsControllerListObserver(controller) { [websiteCache] site in
+                        AnyElementObserver(websiteCache[site.objectID] {
+                            ManagedObjectElementObserver(site, { AnyWebsite($0) })
+                        })
                     }
                 )
             )
@@ -180,8 +182,10 @@ extension CD_Controller: Controller {
             try controller.performFetch()
             return .success(
                 AnyListObserver(
-                    FetchedResultsControllerListObserver(controller) {
-                        AnyElementObserver(ManagedObjectElementObserver($0, { AnyTag($0) }))
+                    FetchedResultsControllerListObserver(controller) { [tagCache] tag in
+                        AnyElementObserver(tagCache[tag.objectID] {
+                            ManagedObjectElementObserver(tag, { AnyTag($0) })
+                        })
                     }
                 )
             )
@@ -312,6 +316,9 @@ internal class CD_Controller {
 
     internal let syncProgress: AnyContinousProgress
     internal let container: NSPersistentContainer
+    
+    private var websiteCache: Cache<NSManagedObjectID, ManagedObjectElementObserver<AnyWebsite, CD_Website>> = .init()
+    private var tagCache: Cache<NSManagedObjectID, ManagedObjectElementObserver<AnyTag, CD_Tag>> = .init()
     
     internal class func new() -> Result<Controller, Error> {
         do {
