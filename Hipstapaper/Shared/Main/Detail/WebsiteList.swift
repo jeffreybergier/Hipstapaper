@@ -41,7 +41,7 @@ struct WebsiteList: View {
     @EnvironmentObject private var errorQ: ErrorQueue
     
     var body: some View {
-        XPL1.List(data: self.dataSource.data,
+        XPL2.List(data: self.dataSource.data,
                   selection: self.$selection,
                   open: self.open,
                   menu: self.menu)
