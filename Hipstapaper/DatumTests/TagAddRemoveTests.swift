@@ -67,32 +67,40 @@ class TagAddRemoveTests: ParentTestCase {
         try self.controller.add(tag: tag1, to: [site1]).get()
         try self.controller.add(tag: tag2, to: [site2]).get()
         let status1 = try self.controller.tagStatus(for: [site1]).get()
+        let idx1_0 = status1.startIndex
+        let idx1_1 = status1.index(after: idx1_0)
         XCTAssertEqual(status1.count, 2)
-        XCTAssertEqual(status1[0].0, tag1)
-        XCTAssertEqual(status1[1].0, tag2)
-        XCTAssertEqual(status1[0].1, .on)
-        XCTAssertEqual(status1[1].1, .off)
+        XCTAssertEqual(status1[idx1_0].0, tag1)
+        XCTAssertEqual(status1[idx1_1].0, tag2)
+        XCTAssertEqual(status1[idx1_0].1, .on)
+        XCTAssertEqual(status1[idx1_1].1, .off)
         
         let status2 = try self.controller.tagStatus(for: [site2]).get()
+        let idx2_0 = status2.startIndex
+        let idx2_1 = status2.index(after: idx2_0)
         XCTAssertEqual(status2.count, 2)
-        XCTAssertEqual(status2[0].0, tag1)
-        XCTAssertEqual(status2[1].0, tag2)
-        XCTAssertEqual(status2[0].1, .off)
-        XCTAssertEqual(status2[1].1, .on)
+        XCTAssertEqual(status2[idx2_0].0, tag1)
+        XCTAssertEqual(status2[idx2_1].0, tag2)
+        XCTAssertEqual(status2[idx2_0].1, .off)
+        XCTAssertEqual(status2[idx2_1].1, .on)
         
         let status3 = try self.controller.tagStatus(for: [site1, site2]).get()
+        let idx3_0 = status3.startIndex
+        let idx3_1 = status3.index(after: idx3_0)
         XCTAssertEqual(status3.count, 2)
-        XCTAssertEqual(status3[0].0, tag1)
-        XCTAssertEqual(status3[1].0, tag2)
-        XCTAssertEqual(status3[0].1, .mixed)
-        XCTAssertEqual(status3[1].1, .mixed)
+        XCTAssertEqual(status3[idx3_0].0, tag1)
+        XCTAssertEqual(status3[idx3_1].0, tag2)
+        XCTAssertEqual(status3[idx3_0].1, .mixed)
+        XCTAssertEqual(status3[idx3_1].1, .mixed)
         
         let status4 = try self.controller.tagStatus(for: []).get()
+        let idx4_0 = status4.startIndex
+        let idx4_1 = status4.index(after: idx4_0)
         XCTAssertEqual(status4.count, 2)
-        XCTAssertEqual(status4[0].0, tag1)
-        XCTAssertEqual(status4[1].0, tag2)
-        XCTAssertEqual(status4[0].1, .off)
-        XCTAssertEqual(status4[1].1, .off)
+        XCTAssertEqual(status4[idx4_0].0, tag1)
+        XCTAssertEqual(status4[idx4_1].0, tag2)
+        XCTAssertEqual(status4[idx4_0].1, .off)
+        XCTAssertEqual(status4[idx4_1].1, .off)
     }
     
 }

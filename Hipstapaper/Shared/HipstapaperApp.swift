@@ -37,15 +37,13 @@ struct HipstapaperApp: App {
     let controller: Controller?
     let watcher: DropboxWatcher?
     @StateObject private var windowPresentation = WindowPresentation()
-    @State private var initializeError: IdentBox<UserFacingError>?
+    @StateObject private var dropBoxWatcherErrorQ: ErrorQueue
     
     /*
     init() {
-        let errorQ = STZ.ERR.ViewModel()
         let controller = P_Controller()
-        _errorQ = .init(wrappedValue: errorQ)
         self.controller = controller
-        self.watcher = DropboxWatcher(controller: controller, errorQ: errorQ)
+        self.watcher = nil
     }
     */
     
@@ -54,19 +52,25 @@ struct HipstapaperApp: App {
         let result = ControllerNew()
         switch result {
         case .success(let controller):
+            _dropBoxWatcherErrorQ = .init(wrappedValue: errorQ)
             self.controller = controller
             self.watcher = DropboxWatcher(controller: controller, errorQ: errorQ)
         case .failure(let error):
-            errorQ.queue.append(error)
             log.error(error)
-            _initializeError = .init(initialValue: .init(error))
+            errorQ.queue.append(error)
+            _dropBoxWatcherErrorQ = .init(wrappedValue: errorQ)
             self.controller = nil
             self.watcher = nil
         }
     }
 
     @SceneBuilder var body: some Scene {
-        WindowGroup(Noun.readingList.rawValue, id: "MainWindow", content: self.build)
+        WindowGroup(Noun.readingList.rawValue, id: "MainWindow") {
+            self.build()
+                .alert(item: self.$dropBoxWatcherErrorQ.current) {
+                    Alert($0.value)
+                }
+        }
     }
     
     @ViewBuilder private func build() -> some View {
@@ -75,7 +79,6 @@ struct HipstapaperApp: App {
                 .environmentObject(self.windowPresentation)
         } else {
             Color.clear
-                .alert(item: self.$initializeError, content: { Alert($0.value) })
         }
     }
 }

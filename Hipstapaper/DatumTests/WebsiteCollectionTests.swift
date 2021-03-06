@@ -64,47 +64,47 @@ internal class WebsiteCollectionTests : ParentTestCase {
         let sites = try self.controller.readWebsites(
             query: .init(isArchived: .all, sort: .titleA)
         ).get()
-        XCTAssertEqual(sites.data[0].value.title, "A")
-        XCTAssertEqual(sites.data[3].value.title, "D")
+        XCTAssertEqual(sites.data[AnyIndex(0)].value.title, "A")
+        XCTAssertEqual(sites.data[AnyIndex(3)].value.title, "D")
     }
     
     internal func test_collection_read_sort_titleZ() throws {
         let sites = try self.controller.readWebsites(query: .init(isArchived: .all,
                                                                   sort: .titleZ)).get()
-        XCTAssertEqual(sites.data[0].value.title, "D")
-        XCTAssertEqual(sites.data[3].value.title, "A")
+        XCTAssertEqual(sites.data[AnyIndex(0)].value.title, "D")
+        XCTAssertEqual(sites.data[AnyIndex(3)].value.title, "A")
     }
     
     internal func test_collection_read_sort_modifiedNew() throws {
         let sites = try self.controller.readWebsites(
             query: .init(isArchived: .all, sort: .dateModifiedNewest)
         ).get()
-        XCTAssertEqual(sites.data[0].value.title, "D")
-        XCTAssertEqual(sites.data[3].value.title, "A")
+        XCTAssertEqual(sites.data[AnyIndex(0)].value.title, "D")
+        XCTAssertEqual(sites.data[AnyIndex(3)].value.title, "A")
     }
     
     internal func test_collection_read_sort_modifiedOld() throws {
         let sites = try self.controller.readWebsites(
             query: .init(isArchived: .all, sort: .dateModifiedOldest)
         ).get()
-        XCTAssertEqual(sites.data[0].value.title, "A")
-        XCTAssertEqual(sites.data[3].value.title, "D")
+        XCTAssertEqual(sites.data[AnyIndex(0)].value.title, "A")
+        XCTAssertEqual(sites.data[AnyIndex(3)].value.title, "D")
     }
     
     internal func test_collection_read_sort_createdNew() throws {
         let sites = try self.controller.readWebsites(
             query: .init(isArchived: .all, sort: .dateCreatedNewest)
         ).get()
-        XCTAssertEqual(sites.data[0].value.title, "D")
-        XCTAssertEqual(sites.data[3].value.title, "A")
+        XCTAssertEqual(sites.data[AnyIndex(0)].value.title, "D")
+        XCTAssertEqual(sites.data[AnyIndex(3)].value.title, "A")
     }
     
     internal func test_collection_read_sort_createdOld() throws {
         let sites = try self.controller.readWebsites(
             query: .init(isArchived: .all, sort: .dateCreatedOldest)
         ).get()
-        XCTAssertEqual(sites.data[0].value.title, "A")
-        XCTAssertEqual(sites.data[3].value.title, "D")
+        XCTAssertEqual(sites.data[AnyIndex(0)].value.title, "A")
+        XCTAssertEqual(sites.data[AnyIndex(3)].value.title, "D")
     }
     
     // MARK: Create
@@ -155,23 +155,23 @@ internal class WebsiteCollectionTests : ParentTestCase {
         let sites = try self.controller.readWebsites(
             query: .init(isArchived: .all, sort: .titleA)
         ).get()
-        XCTAssertEqual(sites.data[0].value.title, "A")
-        try self.controller.update([sites.data[0]], .init(title: "Z")).get()
-        XCTAssertEqual(sites.data[0].value.title, "B")
-        XCTAssertEqual(sites.data[3].value.title, "Z")
+        XCTAssertEqual(sites.data[AnyIndex(0)].value.title, "A")
+        try self.controller.update([sites.data[AnyIndex(0)]], .init(title: "Z")).get()
+        XCTAssertEqual(sites.data[AnyIndex(0)].value.title, "B")
+        XCTAssertEqual(sites.data[AnyIndex(3)].value.title, "Z")
     }
     
     func test_collection_update_observation() throws {
         let sites = try self.controller.readWebsites(
             query: .init(isArchived: .all, sort: .titleA)
         ).get()
-        XCTAssertEqual(sites.data[0].value.title, "A")
-        XCTAssertEqual(sites.data[1].value.title, "B")
-        XCTAssertEqual(sites.data[2].value.title, "C")
-        XCTAssertEqual(sites.data[3].value.title, "D")
+        XCTAssertEqual(sites.data[AnyIndex(0)].value.title, "A")
+        XCTAssertEqual(sites.data[AnyIndex(1)].value.title, "B")
+        XCTAssertEqual(sites.data[AnyIndex(2)].value.title, "C")
+        XCTAssertEqual(sites.data[AnyIndex(3)].value.title, "D")
         self.do(after: .instant) {
             do {
-                try self.controller.update([sites.data[0]], .init(title: "Z")).get()
+                try self.controller.update([sites.data[AnyIndex(0)]], .init(title: "Z")).get()
             } catch {
                 XCTFail(String(describing: error))
             }
@@ -179,20 +179,20 @@ internal class WebsiteCollectionTests : ParentTestCase {
         let wait1 = self.newWait()
         sites.objectWillChange.sink() {
             wait1() {
-                XCTAssertEqual(sites.data[0].value.title, "Z")
-                XCTAssertEqual(sites.data[1].value.title, "B")
-                XCTAssertEqual(sites.data[2].value.title, "C")
-                XCTAssertEqual(sites.data[3].value.title, "D")
+                XCTAssertEqual(sites.data[AnyIndex(0)].value.title, "Z")
+                XCTAssertEqual(sites.data[AnyIndex(1)].value.title, "B")
+                XCTAssertEqual(sites.data[AnyIndex(2)].value.title, "C")
+                XCTAssertEqual(sites.data[AnyIndex(3)].value.title, "D")
             }
         }.store(in: &self.tokens)
         
         let wait2 = self.newWait()
         sites.__objectDidChange.sink() {
             wait2() {
-                XCTAssertEqual(sites.data[0].value.title, "B")
-                XCTAssertEqual(sites.data[1].value.title, "C")
-                XCTAssertEqual(sites.data[2].value.title, "D")
-                XCTAssertEqual(sites.data[3].value.title, "Z")
+                XCTAssertEqual(sites.data[AnyIndex(0)].value.title, "B")
+                XCTAssertEqual(sites.data[AnyIndex(1)].value.title, "C")
+                XCTAssertEqual(sites.data[AnyIndex(2)].value.title, "D")
+                XCTAssertEqual(sites.data[AnyIndex(3)].value.title, "Z")
             }
         }.store(in: &self.tokens)
         
@@ -206,24 +206,24 @@ internal class WebsiteCollectionTests : ParentTestCase {
             query: .init(isArchived: .all, sort: .titleA)
         ).get()
         XCTAssertEqual(sites.data.count, 4)
-        XCTAssertEqual(sites.data[0].value.title, "A")
-        try self.controller.delete([sites.data[0]]).get()
+        XCTAssertEqual(sites.data[AnyIndex(0)].value.title, "A")
+        try self.controller.delete([sites.data[AnyIndex(0)]]).get()
         XCTAssertEqual(sites.data.count, 3)
-        XCTAssertEqual(sites.data[0].value.title, "B")
-        XCTAssertEqual(sites.data[2].value.title, "D")
+        XCTAssertEqual(sites.data[AnyIndex(0)].value.title, "B")
+        XCTAssertEqual(sites.data[AnyIndex(2)].value.title, "D")
     }
     
     func test_collection_delete_observation() throws {
         let sites = try self.controller.readWebsites(
             query: .init(isArchived: .all, sort: .titleA)
         ).get()
-        XCTAssertEqual(sites.data[0].value.title, "A")
-        XCTAssertEqual(sites.data[1].value.title, "B")
-        XCTAssertEqual(sites.data[2].value.title, "C")
-        XCTAssertEqual(sites.data[3].value.title, "D")
+        XCTAssertEqual(sites.data[AnyIndex(0)].value.title, "A")
+        XCTAssertEqual(sites.data[AnyIndex(1)].value.title, "B")
+        XCTAssertEqual(sites.data[AnyIndex(2)].value.title, "C")
+        XCTAssertEqual(sites.data[AnyIndex(3)].value.title, "D")
         self.do(after: .instant) {
             do {
-                try self.controller.delete([sites.data[0]]).get()
+                try self.controller.delete([sites.data[AnyIndex(0)]]).get()
             } catch {
                 XCTFail(String(describing: error))
             }
@@ -231,20 +231,20 @@ internal class WebsiteCollectionTests : ParentTestCase {
         let wait1 = self.newWait()
         sites.objectWillChange.sink() {
             wait1() {
-                XCTAssertEqual(sites.data[0].value.title, "A")
-                XCTAssertEqual(sites.data[1].value.title, "B")
-                XCTAssertEqual(sites.data[2].value.title, "C")
-                XCTAssertEqual(sites.data[3].value.title, "D")
-                XCTAssertTrue(sites.data[0].isDeleted)
+                XCTAssertEqual(sites.data[AnyIndex(0)].value.title, "A")
+                XCTAssertEqual(sites.data[AnyIndex(1)].value.title, "B")
+                XCTAssertEqual(sites.data[AnyIndex(2)].value.title, "C")
+                XCTAssertEqual(sites.data[AnyIndex(3)].value.title, "D")
+                XCTAssertTrue(sites.data[AnyIndex(0)].isDeleted)
             }
         }.store(in: &self.tokens)
         
         let wait2 = self.newWait()
         sites.__objectDidChange.sink() {
             wait2() {
-                XCTAssertEqual(sites.data[0].value.title, "B")
-                XCTAssertEqual(sites.data[1].value.title, "C")
-                XCTAssertEqual(sites.data[2].value.title, "D")
+                XCTAssertEqual(sites.data[AnyIndex(0)].value.title, "B")
+                XCTAssertEqual(sites.data[AnyIndex(1)].value.title, "C")
+                XCTAssertEqual(sites.data[AnyIndex(2)].value.title, "D")
             }
         }.store(in: &self.tokens)
         
