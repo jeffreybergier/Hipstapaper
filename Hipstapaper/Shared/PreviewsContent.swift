@@ -31,7 +31,7 @@ import Umbrella
 
 var p_query = Query()
 
-let p_tags: AnyList<AnyElementObserver<AnyTag>> = {
+let p_tags: AnyRandomAccessCollection<AnyElementObserver<AnyTag>> = {
     let date1 = Date(timeIntervalSinceNow: -700)
     let date2 = Date(timeIntervalSinceNow: 0)
     let tag1 = P_Tag(name: "Videos", websitesCount: 1, dateCreated: date1, dateModified: date1, id: .init(NSString("A")))
@@ -41,14 +41,14 @@ let p_tags: AnyList<AnyElementObserver<AnyTag>> = {
     let element2 = AnyElementObserver(P_Element(AnyTag(tag2)))
     let element3 = AnyElementObserver(P_Element(AnyTag(tag3)))
     let collection = [element1, element2, element3]
-    return AnyList(collection)
+    return AnyRandomAccessCollection(collection)
 }()
 
-let p_sites: P_Observer<AnyList<AnyElementObserver<AnyWebsite>>> = {
+let p_sites: P_Observer<AnyRandomAccessCollection<AnyElementObserver<AnyWebsite>>> = {
     return P_Observer(pp_sites)
 }()
 
-let pp_sites: AnyList<AnyElementObserver<AnyWebsite>> = {
+let pp_sites: AnyRandomAccessCollection<AnyElementObserver<AnyWebsite>> = {
     let date1 = Date(timeIntervalSinceNow: -700)
     let date2 = Date(timeIntervalSinceNow: 0)
     let site1 = P_Website(.init(title: "Google.com", resolvedURL: URL(string: "https://www.google.com")!),
@@ -63,7 +63,7 @@ let pp_sites: AnyList<AnyElementObserver<AnyWebsite>> = {
                           dateCreated: date1,
                           dateModified: date2,
                           id: .init(NSString("C")))
-    return AnyList([
+    return AnyRandomAccessCollection([
         AnyElementObserver(P_Element(AnyWebsite(site1))),
         AnyElementObserver(P_Element(AnyWebsite(site2))),
         AnyElementObserver(P_Element(AnyWebsite(site3)))
@@ -121,7 +121,7 @@ class P_Controller: Controller {
     var syncProgress: AnyContinousProgress = AnyContinousProgress(NoContinousProgress())
     func createWebsite(_ raw: AnyWebsite.Raw) -> Result<AnyElementObserver<AnyWebsite>, Datum.Error>
     { log.debug("Create Site: \(raw)"); return .success(pp_sites.first!) }
-    func readWebsites(query: Query) -> Result<AnyListObserver<AnyList<AnyElementObserver<AnyWebsite>>>, Datum.Error>
+    func readWebsites(query: Query) -> Result<AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyWebsite>>>, Datum.Error>
     { log.debug("Read Websites, with: \(query)"); return .success(AnyListObserver(p_sites)) }
     func update(_ site: Set<AnyElementObserver<AnyWebsite>>, _ raw: AnyWebsite.Raw) -> Result<Void, Datum.Error>
     { log.debug("Update: \(site), with: \(raw)"); return .success(()) }
@@ -129,12 +129,12 @@ class P_Controller: Controller {
     {
         log.debug("Delete: \(site)");
         p_sites.objectWillChange.send()
-        p_sites.data = AnyList(p_sites.data.dropLast())
+        p_sites.data = AnyRandomAccessCollection(p_sites.data.dropLast())
         return .success(())
     }
     func createTag(name: String?) -> Result<AnyElementObserver<AnyTag>, Datum.Error>
     { log.debug("Create Tag: \(String(describing: name))"); return .success(p_tags.first!) }
-    func readTags() -> Result<AnyListObserver<AnyList<AnyElementObserver<AnyTag>>>, Datum.Error>
+    func readTags() -> Result<AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyTag>>>, Datum.Error>
     { log.debug("Read Tags"); return .success(AnyListObserver(P_Observer(p_tags))) }
     func update(_ tag: AnyElementObserver<AnyTag>, name: Optional<String?>) -> Result<Void, Datum.Error>
     { log.debug("Update: \(tag) with: \(String(describing:name))"); return .success(()) }
@@ -144,9 +144,9 @@ class P_Controller: Controller {
     { log.debug("Apply Tag: \(tag), to: \(websites)"); return .success(()) }
     func remove(tag: AnyElementObserver<AnyTag>, from websites: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Datum.Error>
     { log.debug("Remove Tag: \(tag), from: \(websites)"); return .success(()) }    
-    func tagStatus(for websites: Set<AnyElementObserver<AnyWebsite>>) -> Result<AnyList<(AnyElementObserver<AnyTag>, ToggleState)>, Datum.Error> {
-        return .success(AnyList(MappedList(p_tags, transform: { ($0, .on) })))
-    }
+    func tagStatus(for websites: Set<AnyElementObserver<AnyWebsite>>)
+                   -> Result<AnyRandomAccessCollection<(AnyElementObserver<AnyTag>, ToggleState)>, Datum.Error>
+    { return .success(p_tags.lazy.map({ ($0, .on) }).eraseToAnyRandomAccessCollection()) }
 }
 
 class P_Observer<T: RandomAccessCollection>: ListObserver {

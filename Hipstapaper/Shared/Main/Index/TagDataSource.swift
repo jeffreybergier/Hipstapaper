@@ -30,8 +30,8 @@ import Datum
 
 class TagDataSource: DataSource {
     
-    @Published var observer: AnyListObserver<AnyList<AnyElementObserver<AnyTag>>>?
-    var data: AnyList<AnyElementObserver<AnyTag>> { self.observer?.data ?? .empty }
+    @Published var observer: AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyTag>>>?
+    var data: AnyRandomAccessCollection<AnyElementObserver<AnyTag>> { self.observer?.data ?? .empty }
     let controller: Controller
     
     init(controller: Controller) {

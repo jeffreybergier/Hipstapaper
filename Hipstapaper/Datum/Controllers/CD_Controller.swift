@@ -57,7 +57,7 @@ extension CD_Controller: Controller {
         }
     }
 
-    func readWebsites(query: Query) -> Result<AnyListObserver<AnyList<AnyElementObserver<AnyWebsite>>>, Error> {
+    func readWebsites(query: Query) -> Result<AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyWebsite>>>, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
@@ -73,11 +73,9 @@ extension CD_Controller: Controller {
             try controller.performFetch()
             return .success(
                 AnyListObserver(
-                    FetchedResultsControllerListObserver(
-                        FetchedResultsControllerList(controller) {
-                            AnyElementObserver(ManagedObjectElementObserver($0, { AnyWebsite($0) }))
-                        }
-                    )
+                    FetchedResultsControllerListObserver(controller) {
+                        AnyElementObserver(ManagedObjectElementObserver($0, { AnyWebsite($0) }))
+                    }
                 )
             )
         } catch {
@@ -164,7 +162,7 @@ extension CD_Controller: Controller {
         }
     }
 
-    func readTags() -> Result<AnyListObserver<AnyList<AnyElementObserver<AnyTag>>>, Error> {
+    func readTags() -> Result<AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyTag>>>, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
@@ -182,11 +180,9 @@ extension CD_Controller: Controller {
             try controller.performFetch()
             return .success(
                 AnyListObserver(
-                    FetchedResultsControllerListObserver(
-                        FetchedResultsControllerList(controller) {
-                            AnyElementObserver(ManagedObjectElementObserver($0, { AnyTag($0) }))
-                        }
-                    )
+                    FetchedResultsControllerListObserver(controller) {
+                        AnyElementObserver(ManagedObjectElementObserver($0, { AnyTag($0) }))
+                    }
                 )
             )
         } catch {
@@ -271,7 +267,7 @@ extension CD_Controller: Controller {
     }
     
     func tagStatus(for sites: Set<AnyElementObserver<AnyWebsite>>)
-                  -> Result<AnyList<(AnyElementObserver<AnyTag>, ToggleState)>, Error>
+                  -> Result<AnyRandomAccessCollection<(AnyElementObserver<AnyTag>, ToggleState)>, Error>
 
     {
         let context = self.container.viewContext
@@ -283,17 +279,16 @@ extension CD_Controller: Controller {
             fatalError(message)
         }
         return self.readTags().map() { tags in
-            return AnyList(
-                MappedList(tags.data) { tag in
-                    let rawTag = tag.value.wrappedValue as! CD_Tag
-                    let websiteToggleStates = sites.map { website -> Bool in
-                        let rawWebsite = website.value.wrappedValue as! CD_Website
-                        return rawWebsite.cd_tags.contains(rawTag)
-                    }
-                    let websiteToggleState = ToggleState(websiteToggleStates)
-                    return (tag, websiteToggleState)
+            return tags.data.lazy.map { tag in
+                let rawTag = tag.value.wrappedValue as! CD_Tag
+                let websiteToggleStates = sites.map { website -> Bool in
+                    let rawWebsite = website.value.wrappedValue as! CD_Website
+                    return rawWebsite.cd_tags.contains(rawTag)
                 }
-            )
+                let websiteToggleState = ToggleState(websiteToggleStates)
+                return (tag, websiteToggleState)
+            }
+            .eraseToAnyRandomAccessCollection()
         }
     }
 }

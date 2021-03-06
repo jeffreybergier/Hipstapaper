@@ -59,12 +59,12 @@ struct WebsiteRow: View {
 #if DEBUG
 struct WebsiteRow_Preview1: PreviewProvider {
     static var previews: some View {
-        WebsiteRow(item: pp_sites[0])
+        WebsiteRow(item: pp_sites[AnyIndex(0)])
     }
 }
 struct WebsiteRow_Preview2: PreviewProvider {
     static var previews: some View {
-        WebsiteRow(item: pp_sites[2])
+        WebsiteRow(item: pp_sites[AnyIndex(2)])
     }
 }
 #endif

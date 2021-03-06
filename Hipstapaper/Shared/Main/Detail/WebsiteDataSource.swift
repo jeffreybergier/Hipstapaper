@@ -33,8 +33,8 @@ class WebsiteDataSource: DataSource {
     private weak var errorQ: ErrorQueue?
     
     @Published var query: Query { didSet { self.activate(self.errorQ) } }
-    @Published var observer: AnyListObserver<AnyList<AnyElementObserver<AnyWebsite>>>?
-    var data: AnyList<AnyElementObserver<AnyWebsite>> { self.observer?.data ?? .empty }
+    @Published var observer: AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyWebsite>>>?
+    var data: AnyRandomAccessCollection<AnyElementObserver<AnyWebsite>> { self.observer?.data ?? .empty }
     
     let controller: Controller
     

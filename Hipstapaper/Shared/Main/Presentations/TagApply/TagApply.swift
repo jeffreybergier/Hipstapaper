@@ -47,7 +47,7 @@ struct TagApply: View {
         return self.build(result)
     }
     
-    @ViewBuilder private func build(_ result: Result<AnyList<(AnyElementObserver<AnyTag>, ToggleState)>, Datum.Error>) -> some View {
+    @ViewBuilder private func build(_ result: Result<AnyRandomAccessCollection<(AnyElementObserver<AnyTag>, ToggleState)>, Datum.Error>) -> some View {
         switch result {
         case .success(let data):
             VStack(spacing: 0) {
