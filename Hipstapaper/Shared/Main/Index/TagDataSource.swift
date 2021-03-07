@@ -30,9 +30,10 @@ import Datum
 
 class TagDataSource: DataSource {
     
-    @Published var observer: AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyTag>>>?
+    var observer: AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyTag>>>?
     var data: AnyRandomAccessCollection<AnyElementObserver<AnyTag>> { self.observer?.data ?? .empty }
     let controller: Controller
+    private var observerToken: AnyCancellable?
     
     init(controller: Controller) {
         self.controller = controller
@@ -41,8 +42,23 @@ class TagDataSource: DataSource {
     func activate(_ errorQ: ErrorQueue?) {
         log.verbose()
         guard self.observer == nil else { return }
+        
+        // perform query
         let result = controller.readTags()
+        
+        // subscribe to willchange
+        self.observerToken = result.value?.objectWillChange.sink
+        { [unowned self] _ in
+            self.objectWillChange.send()
+        }
+        
+        // prepare to update my property
+        self.objectWillChange.send()
+        
+        // update my property
         self.observer = result.value
+        
+        // report any errors
         result.error.map {
             errorQ?.queue.append($0)
             log.error($0)

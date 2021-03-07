@@ -33,10 +33,11 @@ class WebsiteDataSource: DataSource {
     private weak var errorQ: ErrorQueue?
     
     @Published var query: Query { didSet { self.activate(self.errorQ) } }
-    @Published var observer: AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyWebsite>>>?
+    var observer: AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyWebsite>>>?
     var data: AnyRandomAccessCollection<AnyElementObserver<AnyWebsite>> { self.observer?.data ?? .empty }
     
     let controller: Controller
+    private var observerToken: AnyCancellable?
     
     init(controller: Controller,
          selectedTag: AnyElementObserver<AnyTag> = Query.Filter.anyTag_allCases[0])
@@ -48,8 +49,23 @@ class WebsiteDataSource: DataSource {
     func activate(_ errorQ: ErrorQueue?) {
         self.errorQ = errorQ
         log.verbose(self.query.tag?.value.name ?? self.query.filter)
+        
+        // perform query
         let result = controller.readWebsites(query: self.query)
+        
+        // subscribe to willchange
+        self.observerToken = result.value?.objectWillChange.sink
+        { [unowned self] _ in
+            self.objectWillChange.send()
+        }
+        
+        // prepare to update my property
+        self.objectWillChange.send()
+        
+        // update my property
         self.observer = result.value
+
+        // report any errors
         result.error.map {
             errorQ?.queue.append($0)
             log.error($0)
