@@ -317,8 +317,8 @@ internal class CD_Controller {
     internal let syncProgress: AnyContinousProgress
     internal let container: NSPersistentContainer
     
-    private var websiteCache: Cache<NSManagedObjectID, ManagedObjectElementObserver<AnyWebsite, CD_Website>> = .init()
-    private var tagCache: Cache<NSManagedObjectID, ManagedObjectElementObserver<AnyTag, CD_Tag>> = .init()
+    private var websiteCache = Cache<NSManagedObjectID, ManagedObjectElementObserver<AnyWebsite, CD_Website>>(clearAutomatically: true)
+    private var tagCache = Cache<NSManagedObjectID, ManagedObjectElementObserver<AnyTag, CD_Tag>>(clearAutomatically: true)
     
     internal class func new() -> Result<Controller, Error> {
         do {

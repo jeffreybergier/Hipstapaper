@@ -35,7 +35,7 @@ struct Main: View {
     
     @StateObject private var errorQ = ErrorQueue()
     @StateObject private var modalPresentation = ModalPresentation.Wrap()
-    @StateObject private var websiteControllerCache: Cache<AnyElementObserver<AnyTag>, WebsiteDataSource> = .init()
+    @StateObject private var websiteControllerCache = Cache<AnyElementObserver<AnyTag>, WebsiteDataSource>()
 
     init(controller: Controller) {
         self.controller = controller
