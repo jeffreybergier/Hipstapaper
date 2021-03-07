@@ -81,8 +81,8 @@ struct WebView: View {
             viewModel.progress.completedUnitCount = Int64(wv.estimatedProgress * 100)
         }
         self.viewModel.timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true)
-        { [unowned viewModel, weak wv] timer in
-            guard let wv = wv else { timer.invalidate(); return; }
+        { [weak viewModel, weak wv] timer in
+            guard let wv = wv, let viewModel = viewModel else { timer.invalidate(); return; }
             guard viewModel.control.shouldLoad else { return }
             wv.snap_takeSnapshot(with: viewModel.thumbnailConfiguration) { viewModel.output.thumbnail = $0 }
         }
