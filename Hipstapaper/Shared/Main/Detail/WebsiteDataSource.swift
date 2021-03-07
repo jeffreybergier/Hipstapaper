@@ -74,6 +74,9 @@ class WebsiteDataSource: DataSource {
     
     func deactivate() {
         log.verbose(self.query.tag?.value.name ?? self.query.filter)
+        self.objectWillChange.send()
+        self.observerToken?.cancel()
+        self.observerToken = nil
         self.observer = nil
     }
     

@@ -67,6 +67,9 @@ class TagDataSource: DataSource {
     
     func deactivate() {
         log.verbose()
+        self.objectWillChange.send()
+        self.observerToken?.cancel()
+        self.observerToken = nil
         self.observer = nil
     }
     
