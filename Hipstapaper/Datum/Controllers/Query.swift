@@ -27,7 +27,7 @@
 import Foundation
 import Umbrella
 
-public struct Query {
+public struct Query: Hashable {
     
     public var filter: Filter! // TODO: Hack for SwiftUI - Remove
     public var tag: AnyElementObserver<AnyTag>?
