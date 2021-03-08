@@ -34,17 +34,15 @@ struct TagList<Nav: View>: View {
     
     typealias Navigation = (AnyElementObserver<AnyTag>) -> Nav
     
+    let controller: Controller
+    let navigation: Navigation
+    
     @State private var selection: TH.Selection?
     @State private var initialSelection = true
-    @StateObject private var dataSource: TagDataSource
+    
     @EnvironmentObject private var errorQ: ErrorQueue
 
-    private let navigation: Navigation
-    
-    init(controller: Controller, @ViewBuilder navigation: @escaping Navigation) {
-        self.navigation = navigation
-        _dataSource = .init(wrappedValue: TagDataSource(controller: controller))
-    }
+    @StateObject var data: NilBox<AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyTag>>>> = .init()
 
     var body: some View {
         List(selection: self.$selection) {
@@ -69,21 +67,30 @@ struct TagList<Nav: View>: View {
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
-                ForEach(self.dataSource.data, id: \.self) { item in
+                ForEach(self.data.value?.data ?? .empty, id: \.self) { item in
                     NavigationLink(destination: self.navigation(item)) {
                         TagRow(item: item)
                             .environment(\.XPL_isSelected, self.selection == item)
-                            .modifier(TagMenu(controller: self.dataSource.controller, selection: item))
+                            .modifier(TagMenu(controller: self.controller, selection: item))
                     }
                 }
             }
         }
         .navigationTitle(Noun.tags.rawValue)
         .modifier(Force.SidebarStyle())
-        .modifier(IndexToolbar(controller: self.dataSource.controller,
+        .modifier(IndexToolbar(controller: self.controller,
                                selection: self.$selection))
-        .onAppear() { self.dataSource.activate(self.errorQ) }
-        .onDisappear(perform: self.dataSource.deactivate)
+        .onAppear { self.updateData() }
+        .onDisappear { self.data.value = nil }
+    }
+    
+    private func updateData() {
+        let result = self.controller.readTags()
+        self.data.value = result.value
+        result.error.map {
+            log.error($0)
+            self.errorQ.queue.append($0)
+        }
     }
 }
 
