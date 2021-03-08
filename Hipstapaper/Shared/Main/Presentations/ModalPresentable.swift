@@ -42,7 +42,7 @@ struct TagApplyPresentable: ViewModifier {
         content.popover(item: self.$presentation.isTagApply)
         { selection in
             TagApply(controller: self.controller,
-                     selection: selection,
+                     selection: selection.value,
                      done: { self.presentation.value = .none })
         }
     }
@@ -54,7 +54,7 @@ struct SharePresentable: ViewModifier {
     
     func body(content: Content) -> some View {
         content.popover(item: self.$presentation.isShare) { selection in
-            STZ.SHR(items: selection.compactMap { $0.value.preferredURL },
+            STZ.SHR(items: selection.value.compactMap { $0.value.preferredURL },
                     completion:  { self.presentation.value = .none })
         }
     }

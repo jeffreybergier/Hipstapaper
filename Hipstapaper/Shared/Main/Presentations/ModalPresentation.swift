@@ -80,7 +80,7 @@ enum ModalPresentation: Equatable {
             }
         }
         
-        @Published var isShare: WH.Selection? {
+        @Published var isShare: IdentBox<WH.Selection>? {
             didSet {
                 guard !self.internalUpdateInProgress else { return }
                 guard self.isShare == nil else { return }
@@ -88,7 +88,7 @@ enum ModalPresentation: Equatable {
             }
         }
         
-        @Published var isTagApply: WH.Selection? {
+        @Published var isTagApply: IdentBox<WH.Selection>? {
             didSet {
                 guard !internalUpdateInProgress else { return }
                 guard self.isTagApply == nil else { return }
@@ -122,9 +122,9 @@ enum ModalPresentation: Equatable {
                 case .none:
                     break
                 case .tagApply(let selection):
-                    self.isTagApply = selection
+                    self.isTagApply = .init(selection)
                 case .share(let selection):
-                    self.isShare = selection
+                    self.isShare = .init(selection)
                 case .browser(let item):
                     self.isBrowser = .init(item)
                 case .addWebsite:
