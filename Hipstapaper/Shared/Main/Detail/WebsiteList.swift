@@ -60,6 +60,7 @@ struct WebsiteList: View {
         // TODO: Fix the choppy EditMode animation caused by overly complex toolbars
         .modifier(DetailToolbar.Shared(controller: self.controller,
                                        selection: self.$selection))
+        .environment(\.toolbarFilterIsEnabled, self.query().tag != nil)
         .onAppear { self.updateData(self.query()) }
         .onDisappear { self.data.value = nil }
         .onChange(of: self.sort) { self.updateData(self.query(sort: $0)) }

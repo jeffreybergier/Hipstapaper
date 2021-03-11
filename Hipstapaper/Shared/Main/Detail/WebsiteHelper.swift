@@ -102,15 +102,19 @@ enum WebsiteHelper {
         return nil
     }
     
-    @ViewBuilder static func filterToolbarItem(_ filter: Query.Filter,
-                                               action: @escaping () -> Void) -> some View
+    @ViewBuilder static func filterToolbarItem(filter: Query.Filter,
+                                               toolbarFilterIsEnabled: Bool,
+                                               action: @escaping () -> Void)
+                                               -> some View
     {
         if filter.boolValue {
-            // TODO: Add disable filter when tag is NIL
-            STZ.TB.FilterActive.toolbar(isEnabled: true, action: action)
+            // disable this when there is no tag selected
+            STZ.TB.FilterActive.toolbar(isEnabled: toolbarFilterIsEnabled,
+                                        action: action)
         } else {
             // disable this when there is no tag selected
-            STZ.TB.FilterInactive.toolbar(isEnabled: true, action: action)
+            STZ.TB.FilterInactive.toolbar(isEnabled: toolbarFilterIsEnabled,
+                                          action: action)
         }
     }
     

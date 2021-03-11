@@ -95,11 +95,15 @@ extension DetailToolbar.iOS {
         @SceneSearch private var search
         
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
+        @Environment(\.toolbarFilterIsEnabled) private var toolbarFilterIsEnabled
+
         
         func body(content: Content) -> some View {
             content.toolbar(id: "Detail") {
                 ToolbarItem(id: "Detail.Filter", placement: .bottomBar) {
-                    WH.filterToolbarItem(self.filter) {
+                    WH.filterToolbarItem(filter: self.filter,
+                                         toolbarFilterIsEnabled: self.toolbarFilterIsEnabled)
+                    {
                         self.filter.boolValue.toggle()
                     }
                 }

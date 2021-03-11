@@ -63,3 +63,14 @@ enum DetailToolbar {
         }
     }
 }
+
+struct ToolbarFilterIsEnabled: EnvironmentKey {
+    static var defaultValue: Bool = true
+}
+
+extension EnvironmentValues {
+    var toolbarFilterIsEnabled: Bool {
+        get { self[ToolbarFilterIsEnabled.self] }
+        set { self[ToolbarFilterIsEnabled.self] = newValue }
+    }
+}
