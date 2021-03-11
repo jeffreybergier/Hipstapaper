@@ -102,22 +102,22 @@ enum WebsiteHelper {
         return nil
     }
     
-    @ViewBuilder static func filterToolbarItem(_ query: Query,
+    @ViewBuilder static func filterToolbarItem(_ filter: Query.Filter,
                                                action: @escaping () -> Void) -> some View
     {
-        if query.filter.boolValue {
-            // disable this when there is no tag selected
-            STZ.TB.FilterActive.toolbar(isEnabled: query.tag != nil, action: action)
+        if filter.boolValue {
+            // TODO: Add disable filter when tag is NIL
+            STZ.TB.FilterActive.toolbar(isEnabled: true, action: action)
         } else {
             // disable this when there is no tag selected
-            STZ.TB.FilterInactive.toolbar(isEnabled: query.tag != nil, action: action)
+            STZ.TB.FilterInactive.toolbar(isEnabled: true, action: action)
         }
     }
     
-    @ViewBuilder static func searchToolbarItem(_ query: Query,
+    @ViewBuilder static func searchToolbarItem(_ search: String,
                                                action: @escaping () -> Void) -> some View
     {
-        if query.isSearchActive {
+        if search.trimmed == nil {
             STZ.TB.SearchInactive.toolbar(action: action)
         } else {
             STZ.TB.SearchActive.toolbar(action: action)

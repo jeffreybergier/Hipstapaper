@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2021/01/01.
+//  Created by Jeffrey Bergier on 2020/12/05.
 //
 //  MIT License
 //
@@ -25,54 +25,36 @@
 //
 
 import SwiftUI
-import Umbrella
+import Datum
 import Stylize
 import Localize
-import Datum
 
-struct Sort: View {
+struct SearchPicker: View {
     
-    @Binding var selection: Datum.Sort!
     let doneAction: Action
+    @SceneSearch private var search
     
     var body: some View {
-        List(Datum.Sort.allCases, id: \.self, selection: self.$selection)
-        { order in
-            order.label.label()
-                .modifier(STZ.PDG.Default(ignore: [\.leading, \.trailing]))
+        VStack {
+            HStack {
+                STZ.VIEW.TXTFLD.Search.textfield(self.$search)
+                if self.search.trimmed != nil {
+                    STZ.TB.ClearSearch.button_iconOnly(action: { self.search = "" })
+                }
+            }
+            .animation(.default)
+            Spacer()
         }
-        .modifier(Force.PlainListStyle())
-        .modifier(Force.EditMode())
-        .modifier(STZ.MDL.Done(kind: STZ.TB.Sort.self, done: self.doneAction))
-        .modifier(__Size())
+        .modifier(STZ.PDG.Equal())
+        .modifier(STZ.MDL.Done(kind: STZ.TB.SearchActive.self, done: self.doneAction))
+        .frame(idealWidth: 375, idealHeight: self.__hack_height) // TODO: Remove height when this is not broken
     }
-}
-
-fileprivate struct __Size: ViewModifier {
-    fileprivate func body(content: Content) -> some View {
+    
+    private var __hack_height: CGFloat? {
         #if os(macOS)
-        return content.frame(idealWidth: 300, idealHeight: 300)
+        return nil
         #else
-        return content.frame(idealWidth: 400, idealHeight: 300)
+        return 120
         #endif
-    }
-}
-
-extension Datum.Sort {
-    fileprivate var label: Labelable.Type {
-        switch self {
-        case .dateModifiedNewest:
-            return STZ.LBL.Sort.ModifiedNewest.self
-        case .dateModifiedOldest:
-            return STZ.LBL.Sort.ModifiedOldest.self
-        case .dateCreatedNewest:
-            return STZ.LBL.Sort.CreatedNewest.self
-        case .dateCreatedOldest:
-            return STZ.LBL.Sort.CreatedOldest.self
-        case .titleA:
-            return STZ.LBL.Sort.TitleA.self
-        case .titleZ:
-            return STZ.LBL.Sort.TitleZ.self
-        }
     }
 }

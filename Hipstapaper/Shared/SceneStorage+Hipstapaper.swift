@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/12/05.
+//  Created by Jeffrey Bergier on 2021/03/11.
 //
 //  MIT License
 //
@@ -26,35 +26,39 @@
 
 import SwiftUI
 import Datum
-import Stylize
-import Localize
 
-struct Search: View {
-    
-    @Binding var searchString: String
-    let doneAction: Action
-    
-    var body: some View {
-        VStack {
-            HStack {
-                STZ.VIEW.TXTFLD.Search.textfield(self.$searchString)
-                if self.searchString.trimmed != nil {
-                    STZ.TB.ClearSearch.button_iconOnly(action: { self.searchString = "" })
-                }
-            }
-            .animation(.default)
-            Spacer()
-        }
-        .modifier(STZ.PDG.Equal())
-        .modifier(STZ.MDL.Done(kind: STZ.TB.SearchActive.self, done: self.doneAction))
-        .frame(idealWidth: 375, idealHeight: self.__hack_height) // TODO: Remove height when this is not broken
+@propertyWrapper
+struct SceneSearch: DynamicProperty {
+    @SceneStorage("query.search") private var search = ""
+    var wrappedValue: String {
+        get { self.search }
+        nonmutating set { self.search = newValue }
     }
-    
-    private var __hack_height: CGFloat? {
-        #if os(macOS)
-        return nil
-        #else
-        return 120
-        #endif
+    var projectedValue: Binding<String> {
+        self.$search
+    }
+}
+
+@propertyWrapper
+struct SceneFilter: DynamicProperty {
+    @SceneStorage("query.filter") private var filter = true
+    var wrappedValue: Query.Filter {
+        get { .init(boolValue: self.filter) }
+        nonmutating set { self.filter = newValue.boolValue }
+    }
+}
+
+@propertyWrapper
+struct SceneSort: DynamicProperty {
+    @SceneStorage("query.sort") private var sort = Sort.default
+    var wrappedValue: Sort {
+        get { self.sort }
+        nonmutating set { self.sort = newValue }
+    }
+    var projectedValue: Binding<Sort?> {
+        Binding(
+            get: { self.sort },
+            set: { self.sort = $0 ?? .default }
+        )
     }
 }

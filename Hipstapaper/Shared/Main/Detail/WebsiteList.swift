@@ -34,10 +34,14 @@ import XPList
 struct WebsiteList: View {
     
     let controller: Controller
-    @State var query: Datum.Query
-    @StateObject var data: NilBox<AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyWebsite>>>> = .init()
+    let selectedTag: AnyElementObserver<AnyTag>
+    @State private var selection: WH.Selection = []
+    @StateObject private var data: NilBox<AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyWebsite>>>> = .init()
     
-    @State var selection: WH.Selection = []
+    @SceneSort private var sort
+    @SceneFilter private var filter
+    @SceneSearch private var search
+    
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     @EnvironmentObject private var windowPresentation: WindowPresentation
     @EnvironmentObject private var errorQ: ErrorQueue
@@ -52,18 +56,33 @@ struct WebsiteList: View {
         }
         .modifier(If.iOS(_Animation(.default)))
         .modifier(SyncIndicator(progress: self.controller.syncProgress))
-        .modifier(WebsiteListTitle(query: self.query))
+        .modifier(WebsiteListTitle(query: self.query()))
         // TODO: Fix the choppy EditMode animation caused by overly complex toolbars
         .modifier(DetailToolbar.Shared(controller: self.controller,
-                                       selection: self.$selection,
-                                       query: self.$query))
-        .onAppear { self.updateData() }
+                                       selection: self.$selection))
+        .onAppear { self.updateData(self.query()) }
         .onDisappear { self.data.value = nil }
-        .onChange(of: self.query) { self.updateData($0) }
+        .onChange(of: self.sort) { self.updateData(self.query(sort: $0)) }
+        .onChange(of: self.filter) { self.updateData(self.query(filter: $0)) }
+        .onChange(of: self.search) { self.updateData(self.query(search: $0)) }
     }
     
-    private func updateData(_ newQuery: Query? = nil) {
-        let query = newQuery ?? self.query
+    private func query(sort: Sort? = nil,
+                       filter: Query.Filter? = nil,
+                       search: String? = nil)
+                       -> Query
+    {
+        var query = Query(specialTag: self.selectedTag)
+        query.sort = sort ?? self.sort
+        query.search = search ?? self.search
+        if query.tag != nil {
+            // only allow the filter to take effect if the user selected a tag
+            query.filter = filter ?? self.filter
+        }
+        return query
+    }
+    
+    private func updateData(_ query: Query) {
         let result = self.controller.readWebsites(query: query)
         self.data.value = result.value
         result.error.map {
@@ -91,7 +110,7 @@ extension WebsiteList {
 #if DEBUG
 struct WebsiteList_Preview: PreviewProvider {
     static var previews: some View {
-        WebsiteList(controller: P_Controller(), query: .init())
+        WebsiteList(controller: P_Controller(),selectedTag: p_tags.first!)
     }
 }
 #endif

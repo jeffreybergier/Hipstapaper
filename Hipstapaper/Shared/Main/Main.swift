@@ -43,7 +43,7 @@ struct Main: View {
     var body: some View {
         NavigationView {
             TagList(controller: self.controller) { selectedTag in
-                WebsiteList(controller: self.controller, query: Query(specialTag: selectedTag))
+                WebsiteList(controller: self.controller, selectedTag: selectedTag)
             }
             // TODO: Has to be here because of macOS bug
             .modifier(ErrorQueuePresenter())

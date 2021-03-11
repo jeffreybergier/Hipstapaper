@@ -34,8 +34,6 @@ enum DetailToolbar {
         
         let controller: Controller
         @Binding var selection: WH.Selection
-        @Binding var query: Query
-        
         @State private var popoverAlignment: Alignment = .topTrailing
 
         func body(content: Content) -> some View {
@@ -48,18 +46,17 @@ enum DetailToolbar {
                     SharePresentable()
                 )
                 Color.clear.frame(width: 1, height: 1).modifier(
-                    SearchPresentable(search: self.$query.search)
+                    SearchPickerPresentable()
                 )
                 Color.clear.frame(width: 1, height: 1).modifier(
-                    SortPresentable(sort: self.$query.sort)
+                    SortPickerPresentable()
                 )
                     
                 #if os(macOS)
-                content.modifier(macOS(controller: self.controller, selection: self.$selection, query: self.$query))
+                content.modifier(macOS(controller: self.controller, selection: self.$selection))
                 #else
                 content.modifier(iOS.Shared(controller: self.controller,
                                             selection: self.$selection,
-                                            query: self.$query,
                                             popoverAlignment: self.$popoverAlignment))
                 #endif
             }

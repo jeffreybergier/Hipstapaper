@@ -66,16 +66,16 @@ public struct Query: Hashable {
 }
 
 extension Query {
-    public var isSearchActive: Bool {
-        return self.search.trimmed == nil
-    }
     
     public enum Filter: Int, Identifiable, CaseIterable {
         case unarchived, all
         public var id: ObjectIdentifier { .init(NSNumber(value: self.rawValue)) }
         public var boolValue: Bool {
             get { return self == .unarchived }
-            set { self = newValue ? .unarchived : .all }
+            set { self = .init(boolValue: newValue) }
+        }
+        public init(boolValue: Bool) {
+            self = boolValue ? .unarchived : .all
         }
     }
 }

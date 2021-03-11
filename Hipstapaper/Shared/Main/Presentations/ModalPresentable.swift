@@ -60,31 +60,23 @@ struct SharePresentable: ViewModifier {
     }
 }
 
-struct SearchPresentable: ViewModifier {
+struct SearchPickerPresentable: ViewModifier {
     
-    @Binding var search: String
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
     
     func body(content: Content) -> some View {
         content.popover(isPresented: self.$presentation.isSearch)
-        {
-            Search(searchString: self.$search,
-                   doneAction: { self.presentation.value = .none })
-        }
+        { SearchPicker { self.presentation.value = .none } }
     }
 }
 
-struct SortPresentable: ViewModifier {
+struct SortPickerPresentable: ViewModifier {
     
-    @Binding var sort: Datum.Sort!
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
     
     func body(content: Content) -> some View {
         content.popover(isPresented: self.$presentation.isSort)
-        {
-            Sort(selection: self.$sort,
-                 doneAction: { self.presentation.value = .none })
-        }
+        { SortPicker { self.presentation.value = .none } }
     }
 }
 
