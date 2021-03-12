@@ -29,6 +29,7 @@ import Umbrella
 
 extension Query.Filter: Tag {
     
+    // TODO: delete later
     public static var anyTag_allCases: [AnyElementObserver<AnyTag>] {
         self.allCases.map { AnyElementObserver(StaticElement(AnyTag($0))) }
     }

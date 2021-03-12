@@ -77,5 +77,13 @@ extension Query {
         public init(boolValue: Bool) {
             self = boolValue ? .unarchived : .all
         }
+        public var uriRepresentation: URL {
+            switch self {
+            case .all:
+                return URL(string: "hipstapaper://com.saturdayapps.Hipstapaper.query.filter.all")!
+            case.unarchived:
+                return URL(string: "hipstapaper://com.saturdayapps.Hipstapaper.query.filter.unarchived")!
+            }
+        }
     }
 }
