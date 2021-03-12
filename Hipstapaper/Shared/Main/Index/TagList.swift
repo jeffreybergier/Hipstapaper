@@ -38,11 +38,9 @@ struct TagList<Nav: View>: View {
     let navigation: Navigation
     
     @State private var selection: TH.Selection?
-    @State private var initialSelection = true
-    
+    @StateObject var viewModel: NilBox<AnyTagViewModel> = .init()
+    @SceneTag private var selectedTag
     @EnvironmentObject private var errorQ: ErrorQueue
-
-    @StateObject var data: NilBox<AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyTag>>>> = .init()
 
     var body: some View {
         List(selection: self.$selection) {
@@ -50,28 +48,25 @@ struct TagList<Nav: View>: View {
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
-                let item0 = Query.Filter.anyTag_allCases[0]
-                let item1 = Query.Filter.anyTag_allCases[1]
-                NavigationLink(destination: self.navigation(item0),
-                               isActive: self.$initialSelection)
-                {
-                    TagRow(item: item0)
-                        .environment(\.XPL_isSelected, self.selection == item0)
-                }
-                NavigationLink(destination: self.navigation(item1)) {
-                    TagRow(item: item1)
-                        .environment(\.XPL_isSelected, self.selection == item1)
+                ForEach(self.viewModel.value?.fixed ?? .empty, id: \.tag) { output in
+                    NavigationLink(destination: self.navigation(output.tag),
+                                   isActive: output.binding)
+                    {
+                        TagRow(item: output.tag)
+                            .environment(\.XPL_isSelected, self.selection == output.tag)
+                    }
                 }
             }
             Section(header: STZ.VIEW.TXT(Noun.tags.rawValue)
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
-                ForEach(self.data.value?.data ?? .empty, id: \.self) { item in
-                    NavigationLink(destination: self.navigation(item)) {
-                        TagRow(item: item)
-                            .environment(\.XPL_isSelected, self.selection == item)
-                            .modifier(TagMenu(controller: self.controller, selection: item))
+                ForEach(self.viewModel.value?.data ?? .empty, id: \.tag) { output in
+                    NavigationLink(destination: self.navigation(output.tag),
+                                   isActive: output.binding)
+                    {
+                        TagRow(item: output.tag)
+                            .environment(\.XPL_isSelected, self.selection == output.tag)
                     }
                 }
             }
@@ -81,12 +76,23 @@ struct TagList<Nav: View>: View {
         .modifier(IndexToolbar(controller: self.controller,
                                selection: self.$selection))
         .onAppear { self.updateData() }
-        .onDisappear { self.data.value = nil }
+        .onDisappear { self.viewModel.value = nil }
     }
-    
+        
     private func updateData() {
+        
+        // TODO: With this backing store it works
+        // But with @State or @SceneStorage one it does not work :(
+        var selectedTag = self.selectedTag
+        
         let result = self.controller.readTags()
-        self.data.value = result.value
+        result.value?.getStorage = {
+            return selectedTag
+        }
+        result.value?.setStorage = { newValue in
+            selectedTag = newValue
+        }
+        self.viewModel.value = result.value
         result.error.map {
             log.error($0)
             self.errorQ.queue.append($0)

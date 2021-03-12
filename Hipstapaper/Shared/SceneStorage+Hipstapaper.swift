@@ -62,3 +62,15 @@ struct SceneSort: DynamicProperty {
         )
     }
 }
+
+@propertyWrapper
+struct SceneTag: DynamicProperty {
+    @SceneStorage("query.tag") private var tagURL = Query.Filter.unarchived.uriRepresentation
+    var wrappedValue: URL {
+        get { self.tagURL }
+        nonmutating set { self.tagURL = newValue }
+    }
+    var projectedValue: Binding<URL> {
+        self.$tagURL
+    }
+}
