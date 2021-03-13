@@ -37,13 +37,12 @@ struct TagList<Nav: View>: View {
     let controller: Controller
     let navigation: Navigation
     
-    @State private var selection: TH.Selection?
     @StateObject var viewModel: NilBox<AnyTagViewModel> = .init()
     @SceneTag private var selectedTag
     @EnvironmentObject private var errorQ: ErrorQueue
 
     var body: some View {
-        List(selection: self.$selection) {
+        List {
             Section(header: STZ.VIEW.TXT(Noun.readingList.rawValue)
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
@@ -53,7 +52,6 @@ struct TagList<Nav: View>: View {
                                    isActive: output.binding)
                     {
                         TagRow(item: output.tag)
-                            .environment(\.XPL_isSelected, self.selection == output.tag)
                     }
                 }
             }
@@ -66,15 +64,14 @@ struct TagList<Nav: View>: View {
                                    isActive: output.binding)
                     {
                         TagRow(item: output.tag)
-                            .environment(\.XPL_isSelected, self.selection == output.tag)
+                            .modifier(TagMenu(controller: self.controller, selection: output.tag))
                     }
                 }
             }
         }
         .navigationTitle(Noun.tags.rawValue)
         .modifier(Force.SidebarStyle())
-        .modifier(IndexToolbar(controller: self.controller,
-                               selection: self.$selection))
+        .modifier(IndexToolbar(controller: self.controller))
         .onAppear { self.updateData() }
         .onDisappear { self.viewModel.value = nil }
     }
