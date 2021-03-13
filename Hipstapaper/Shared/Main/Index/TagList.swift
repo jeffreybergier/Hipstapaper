@@ -36,10 +36,10 @@ struct TagList<Nav: View>: View {
     
     let controller: Controller
     let navigation: Navigation
-    
+        
     @State private var selection: TH.Selection?
-    @StateObject var viewModel: NilBox<AnyTagViewModel> = .init()
     @SceneTag private var selectedTag
+    @StateObject private var viewModel = NilBox<AnyTagViewModel>()
     @EnvironmentObject private var errorQ: ErrorQueue
 
     var body: some View {
