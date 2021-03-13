@@ -41,7 +41,7 @@ internal class CD_TagViewModel: TagViewModel {
                 get: { filter.uriRepresentation == self?.getStorage?() },
                 set: { if $0 { self?.setStorage?(filter.uriRepresentation) } }
             )
-            return .init(tag: AnyElementObserver(StaticElement(AnyTag(filter))), binding: binding)
+            return (tag: AnyElementObserver(StaticElement(AnyTag(filter))), binding: binding)
         }.eraseToAnyRandomAccessCollection()
     }()
     private var _data: AnyRandomAccessCollection<TagViewModelOutput>?
@@ -53,7 +53,7 @@ internal class CD_TagViewModel: TagViewModel {
                 get: { tag.objectID.uriRepresentation() == self?.getStorage?() },
                 set: { if $0 { self?.setStorage?(tag.objectID.uriRepresentation()) } }
             )
-            return .init(tag: obs, binding: binding)
+            return (tag: obs, binding: binding)
         }.eraseToAnyRandomAccessCollection()
         return _data!
     }

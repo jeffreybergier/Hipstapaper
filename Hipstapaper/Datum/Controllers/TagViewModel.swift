@@ -28,17 +28,7 @@ import Combine
 import SwiftUI
 import Umbrella
 
-public struct TagViewModelOutput: Identifiable {
-    public var id: AnyElementObserver<AnyTag>.ID
-    public var tag: AnyElementObserver<AnyTag>
-    public var binding: Binding<Bool>
-    public init(tag: AnyElementObserver<AnyTag>, binding: Binding<Bool>) {
-        self.tag = tag
-        self.binding = binding
-        self.id = tag.id
-    }
-}
-
+public typealias TagViewModelOutput = (tag: AnyElementObserver<AnyTag>, binding: Binding<Bool>)
 public typealias TagViewModelGetStorage = () -> URL?
 public typealias TagViewModelSetStorage = (URL) -> Void
 
