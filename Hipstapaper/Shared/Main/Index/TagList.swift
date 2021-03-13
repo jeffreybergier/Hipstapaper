@@ -77,10 +77,10 @@ struct TagList<Nav: View>: View {
         .modifier(IndexToolbar(controller: self.controller,
                                selection: self.$selection))
         .onAppear { self.updateData() }
-        .onDisappear { self.viewModel.value = nil }
     }
         
-    private func updateData() {        
+    private func updateData() {
+        guard self.viewModel.value == nil else { return }
         let result = self.controller.readTags()
         result.value?.getStorage = {
             return self.selectedTag
