@@ -76,18 +76,13 @@ struct TagList<Nav: View>: View {
         .onDisappear { self.viewModel.value = nil }
     }
         
-    private func updateData() {
-        
-        // TODO: With this backing store it works
-        // But with @State or @SceneStorage one it does not work :(
-        var selectedTag = self.selectedTag
-        
+    private func updateData() {        
         let result = self.controller.readTags()
         result.value?.getStorage = {
-            return selectedTag
+            return self.selectedTag
         }
         result.value?.setStorage = { newValue in
-            selectedTag = newValue
+            self.selectedTag = newValue
         }
         self.viewModel.value = result.value
         result.error.map {
