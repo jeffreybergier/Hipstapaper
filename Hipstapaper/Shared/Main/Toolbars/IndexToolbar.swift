@@ -34,6 +34,7 @@ import Snapshot
 struct IndexToolbar: ViewModifier {
     
     let controller: Controller
+    @Binding var selection: TH.Selection?
     
     func body(content: Content) -> some View {
         return ZStack(alignment: .topTrailing) {
@@ -46,7 +47,8 @@ struct IndexToolbar: ViewModifier {
                 .modifier(AddChoicePresentable())
             
             #if os(macOS)
-            content.modifier(IndexToolbar_macOS(controller: self.controller))
+            content.modifier(IndexToolbar_macOS(controller: self.controller,
+                                                selection: self.$selection))
             #else
             content.modifier(IndexToolbar_iOS())
             #endif
@@ -58,6 +60,7 @@ struct IndexToolbar: ViewModifier {
 struct IndexToolbar_macOS: ViewModifier {
     
     let controller: Controller
+    @Binding var selection: TH.Selection?
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     @EnvironmentObject private var errorQ: ErrorQueue
     
@@ -68,6 +71,16 @@ struct IndexToolbar_macOS: ViewModifier {
             }
             ToolbarItem(id: "Index.FlexibleSpace") {
                 Spacer()
+            }
+            ToolbarItem(id: "Index.DeleteTag", placement: .automatic) {
+                let deleteAction: () -> Void = {
+                    let error = DeleteError.tag {
+                        TH.delete(self.selection, self.controller, self.errorQ)
+                    }
+                    self.errorQ.queue.append(error)
+                }
+                STZ.TB.DeleteTag_Minus.toolbar(isEnabled: TH.canDelete(self.selection),
+                                               action: deleteAction)
             }
             ToolbarItem(id: "Index.AddChoice", placement: .primaryAction) {
                 STZ.TB.AddChoice.toolbar(action: { self.modalPresentation.value = .addChoose })
