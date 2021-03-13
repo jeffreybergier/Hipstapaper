@@ -83,6 +83,7 @@ struct P_Tag: Tag {
     var dateCreated: Date
     var dateModified: Date
     var id: ObjectIdentifier
+    var uri: URL { fatalError() }
 }
 
 struct P_Website: Website {
@@ -95,6 +96,7 @@ struct P_Website: Website {
     var dateCreated: Date
     var dateModified: Date
     var id: ObjectIdentifier
+    var uri: URL { fatalError() }
     
     init(_ raw: AnyWebsite.Raw, dateCreated: Date, dateModified: Date, id: ObjectIdentifier) {
         self.isArchived = raw.isArchived ?? false

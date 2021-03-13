@@ -30,18 +30,20 @@ public struct AnyWebsite: Website {
 
     public typealias ID = ObjectIdentifier
 
-    public var id:          ID      { _id() }
-    public var isArchived:  Bool    { _isArchived() }
-    public var originalURL: URL?    { _originalURL() }
-    public var resolvedURL: URL?    { _resolvedURL() }
-    public var preferredURL: URL?   { _preferredURL() }
-    public var title:       String? { _title() }
-    public var thumbnail:   Data?   { _thumbnail() }
-    public var dateCreated: Date    { _dateCreated() }
-    public var dateModified: Date   { _dateModified() }
+    public var id:           ID      { _id() }
+    public var uri:          URL     { _uri() }
+    public var isArchived:   Bool    { _isArchived() }
+    public var originalURL:  URL?    { _originalURL() }
+    public var resolvedURL:  URL?    { _resolvedURL() }
+    public var preferredURL: URL?    { _preferredURL() }
+    public var title:        String? { _title() }
+    public var thumbnail:    Data?   { _thumbnail() }
+    public var dateCreated:  Date    { _dateCreated() }
+    public var dateModified: Date    { _dateModified() }
     public func hash(into hasher: inout Hasher) { _hashValue(&hasher) }
 
     private let _id:           () -> ID
+    private let _uri:          () -> URL
     private let _isArchived:   () -> Bool
     private let _originalURL:  () -> URL?
     private let _resolvedURL:  () -> URL?
@@ -56,7 +58,8 @@ public struct AnyWebsite: Website {
     internal let wrappedValue: Any
 
     public init<T: Website>(_ website: T) where T.ID == ID {
-        _id = { website.id }
+        _id           = { website.id }
+        _uri          = { website.uri }
         _isArchived   = { website.isArchived }
         _originalURL  = { website.originalURL }
         _resolvedURL  = { website.resolvedURL }

@@ -38,8 +38,8 @@ internal class CD_TagViewModel: TagViewModel {
         assert(all.count == 2)
         return all.map { [weak self] filter -> TagViewModelOutput in
             let binding = Binding<Bool>(
-                get: { filter.uriRepresentation == self?.getStorage?() },
-                set: { if $0 { self?.setStorage?(filter.uriRepresentation) } }
+                get: { filter.uri == self?.getStorage?() },
+                set: { if $0 { self?.setStorage?(filter.uri) } }
             )
             return (tag: AnyElementObserver(StaticElement(AnyTag(filter))), binding: binding)
         }.eraseToAnyRandomAccessCollection()
@@ -48,10 +48,10 @@ internal class CD_TagViewModel: TagViewModel {
     var data: AnyRandomAccessCollection<TagViewModelOutput> {
         if let data = _data { return data }
         _data = self.input.data.lazy.map { [weak self] obs -> TagViewModelOutput in
-            let tag = obs.value.wrappedValue as! CD_Tag
+            let tag = obs.value
             let binding = Binding<Bool>(
-                get: { tag.objectID.uriRepresentation() == self?.getStorage?() },
-                set: { if $0 { self?.setStorage?(tag.objectID.uriRepresentation()) } }
+                get: { tag.uri == self?.getStorage?() },
+                set: { if $0 { self?.setStorage?(tag.uri) } }
             )
             return (tag: obs, binding: binding)
         }.eraseToAnyRandomAccessCollection()

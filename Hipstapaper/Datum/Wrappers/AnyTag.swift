@@ -31,6 +31,7 @@ public struct AnyTag: Tag {
     public typealias ID = ObjectIdentifier
 
     public var id: ID              { _id() }
+    public var uri: URL            { _uri() }
     public var name: String?       { _name() }
     public var websitesCount: Int? { _websitesCount() }
     public var dateCreated: Date   { _dateCreated() }
@@ -38,6 +39,7 @@ public struct AnyTag: Tag {
     public func hash(into hasher: inout Hasher) { _hashValue(&hasher) }
 
     private var _id:            () -> ID
+    private var _uri:           () -> URL
     private var _name:          () -> String?
     private var _websitesCount: () -> Int?
     private var _dateCreated:   () -> Date
@@ -48,6 +50,7 @@ public struct AnyTag: Tag {
 
     public init<T: Tag>(_ tag: T) where T.ID == ID {
         _id            = { tag.id }
+        _uri           = { tag.uri }
         _name          = { tag.name }
         _websitesCount = { tag.websitesCount }
         _dateCreated   = { tag.dateCreated }

@@ -50,7 +50,8 @@ struct TagList<Nav: View>: View {
             {
                 ForEach(self.viewModel.value?.fixed ?? .empty, id: \.tag) { output in
                     NavigationLink(destination: self.navigation(output.tag),
-                                   isActive: output.binding)
+                                   tag: output.tag.value.uri,
+                                   selection: self.$selectedTag)
                     {
                         TagRow(item: output.tag)
                             .environment(\.XPL_isSelected, self.selection == output.tag)
@@ -63,7 +64,8 @@ struct TagList<Nav: View>: View {
             {
                 ForEach(self.viewModel.value?.data ?? .empty, id: \.tag) { output in
                     NavigationLink(destination: self.navigation(output.tag),
-                                   isActive: output.binding)
+                                   tag: output.tag.value.uri,
+                                   selection: self.$selectedTag)
                     {
                         TagRow(item: output.tag)
                             .environment(\.XPL_isSelected, self.selection == output.tag)
@@ -82,12 +84,6 @@ struct TagList<Nav: View>: View {
     private func updateData() {
         guard self.viewModel.value == nil else { return }
         let result = self.controller.readTags()
-        result.value?.getStorage = {
-            return self.selectedTag
-        }
-        result.value?.setStorage = { newValue in
-            self.selectedTag = newValue
-        }
         self.viewModel.value = result.value
         result.error.map {
             log.error($0)

@@ -48,18 +48,13 @@ extension Query.Filter: Tag {
     public var websitesCount: Int? { return nil }
     public var dateCreated: Date { fatalError() }
     public var dateModified: Date { fatalError() }
-}
-
-fileprivate struct Blank: Tag, Website {
-    var name: String?
-    var websitesCount: Int?
-    var isArchived: Bool = false
-    var originalURL: URL?
-    var resolvedURL: URL?
-    var preferredURL: URL?
-    var title: String?
-    var thumbnail: Data?
-    var dateCreated: Date = Date()
-    var dateModified: Date = Date()
-    var id: ObjectIdentifier = ObjectIdentifier(String(Int.random(in: 0...100_000)) as NSString)
+    
+    public var uri: URL {
+        switch self {
+        case .all:
+            return URL(string: "hipstapaper://com.saturdayapps.Hipstapaper.query.filter.all")!
+        case.unarchived:
+            return URL(string: "hipstapaper://com.saturdayapps.Hipstapaper.query.filter.unarchived")!
+        }
+    }
 }
