@@ -50,7 +50,7 @@ public protocol Controller {
 
     // MARK: Tags CRUD
     func createTag(name: String?) -> Result<AnyElementObserver<AnyTag>, Error>
-    func readTags() -> Result<AnyTagViewModel, Error>
+    func readTags() -> Result<AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyTag>>>, Error>
     func update(_: AnyElementObserver<AnyTag>, name: Optional<String?>) -> Result<Void, Error>
     func delete(_: AnyElementObserver<AnyTag>) -> Result<Void, Error>
     

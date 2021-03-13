@@ -70,12 +70,6 @@ let pp_sites: AnyRandomAccessCollection<AnyElementObserver<AnyWebsite>> = {
     ])
 }()
 
-class P_TagViewModel: TagViewModel {
-    var getStorage: TagViewModelGetStorage?
-    var setStorage: TagViewModelSetStorage?
-    var fixed: AnyRandomAccessCollection<TagViewModelOutput> = [].eraseToAnyRandomAccessCollection()
-    var data: AnyRandomAccessCollection<TagViewModelOutput> = [].eraseToAnyRandomAccessCollection()
-}
 
 struct P_Tag: Tag {
     var name: String?
@@ -142,8 +136,8 @@ class P_Controller: Controller {
     }
     func createTag(name: String?) -> Result<AnyElementObserver<AnyTag>, Datum.Error>
     { log.debug("Create Tag: \(String(describing: name))"); return .success(p_tags.first!) }
-    func readTags() -> Result<AnyTagViewModel, Datum.Error>
-    { log.debug("Read Tags"); return .success(AnyTagViewModel(P_TagViewModel())) }
+    func readTags() -> Result<AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyTag>>>, Datum.Error>
+    { log.debug("Read Tags"); return .success(AnyListObserver(P_Observer(p_tags))) }
     func update(_ tag: AnyElementObserver<AnyTag>, name: Optional<String?>) -> Result<Void, Datum.Error>
     { log.debug("Update: \(tag) with: \(String(describing:name))"); return .success(()) }
     func delete(_ tag: AnyElementObserver<AnyTag>) -> Result<Void, Datum.Error>

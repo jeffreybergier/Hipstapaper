@@ -37,24 +37,23 @@ struct TagList<Nav: View>: View {
     let controller: Controller
     let navigation: Navigation
         
-    @State private var selection: TH.Selection?
     @SceneTag private var selectedTag
-    @StateObject private var viewModel = NilBox<AnyTagViewModel>()
+    @StateObject var data = NilBox<AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyTag>>>>()
     @EnvironmentObject private var errorQ: ErrorQueue
 
     var body: some View {
-        List(selection: self.$selection) {
+        List {
             Section(header: STZ.VIEW.TXT(Noun.readingList.rawValue)
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
-                ForEach(self.viewModel.value?.fixed ?? .empty, id: \.tag) { output in
-                    NavigationLink(destination: self.navigation(output.tag),
-                                   tag: output.tag.value.uri,
+                ForEach(Query.Filter.anyTag_allCases) { tag in
+                    NavigationLink(destination: self.navigation(tag),
+                                   tag: tag.value.uri,
                                    selection: self.$selectedTag)
                     {
-                        TagRow(item: output.tag)
-                            .environment(\.XPL_isSelected, self.selection == output.tag)
+                        TagRow(item: tag)
+                            .environment(\.XPL_isSelected, self.selectedTag == tag.value.uri)
                     }
                 }
             }
@@ -62,29 +61,28 @@ struct TagList<Nav: View>: View {
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
-                ForEach(self.viewModel.value?.data ?? .empty, id: \.tag) { output in
-                    NavigationLink(destination: self.navigation(output.tag),
-                                   tag: output.tag.value.uri,
+                ForEach(self.data.value?.data ?? .empty) { tag in
+                    NavigationLink(destination: self.navigation(tag),
+                                   tag: tag.value.uri,
                                    selection: self.$selectedTag)
                     {
-                        TagRow(item: output.tag)
-                            .environment(\.XPL_isSelected, self.selection == output.tag)
-                            .modifier(TagMenu(controller: self.controller, selection: output.tag))
+                        TagRow(item: tag)
+                            .environment(\.XPL_isSelected, self.selectedTag == tag.value.uri)
+                            .modifier(TagMenu(controller: self.controller, selection: tag))
                     }
                 }
             }
         }
         .navigationTitle(Noun.tags.rawValue)
         .modifier(Force.SidebarStyle())
-        .modifier(IndexToolbar(controller: self.controller,
-                               selection: self.$selection))
+        .modifier(IndexToolbar(controller: self.controller))
         .onAppear { self.updateData() }
     }
         
     private func updateData() {
-        guard self.viewModel.value == nil else { return }
+        guard self.data.value == nil else { return }
         let result = self.controller.readTags()
-        self.viewModel.value = result.value
+        self.data.value = result.value
         result.error.map {
             log.error($0)
             self.errorQ.queue.append($0)

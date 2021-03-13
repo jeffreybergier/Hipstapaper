@@ -83,8 +83,6 @@
 		736F67A525C19979006896DF /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 736F67A425C19979006896DF /* CloudKit.framework */; };
 		736FCAAD25E0FE8E004CF4C3 /* ICN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736FCAAC25E0FE8E004CF4C3 /* ICN.swift */; };
 		73760C6025E1F99F00C39DCE /* StaticElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73760C5F25E1F99F00C39DCE /* StaticElement.swift */; };
-		7389909225FB637C0001FACD /* TagViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7389909125FB637C0001FACD /* TagViewModel.swift */; };
-		7389909D25FB9A190001FACD /* CD_TagViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7389909C25FB9A190001FACD /* CD_TagViewModel.swift */; };
 		738DCF2B25E493860076E722 /* Labelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738DCF2A25E493860076E722 /* Labelable.swift */; };
 		73993E2E2595DFC7006FB612 /* BrowserWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73993E2D2595DFC2006FB612 /* BrowserWindowController.swift */; };
 		7399BAAD258251A500B8CAFD /* Stylize.h in Headers */ = {isa = PBXBuildFile; fileRef = 7399BAAB258251A500B8CAFD /* Stylize.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -541,8 +539,6 @@
 		736F67A425C19979006896DF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		736FCAAC25E0FE8E004CF4C3 /* ICN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICN.swift; sourceTree = "<group>"; };
 		73760C5F25E1F99F00C39DCE /* StaticElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticElement.swift; sourceTree = "<group>"; };
-		7389909125FB637C0001FACD /* TagViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagViewModel.swift; sourceTree = "<group>"; };
-		7389909C25FB9A190001FACD /* CD_TagViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CD_TagViewModel.swift; sourceTree = "<group>"; };
 		738DCF2A25E493860076E722 /* Labelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Labelable.swift; sourceTree = "<group>"; };
 		73993E2D2595DFC2006FB612 /* BrowserWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserWindowController.swift; sourceTree = "<group>"; };
 		7399BAA9258251A500B8CAFD /* Stylize.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Stylize.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -950,8 +946,6 @@
 				73F2B043257460D2009AC2AF /* CD_Sort.swift */,
 				DB21C202256C8F9100DF6AE7 /* Controller.swift */,
 				DBAA772F256C999B005126C3 /* CD_Controller.swift */,
-				7389909125FB637C0001FACD /* TagViewModel.swift */,
-				7389909C25FB9A190001FACD /* CD_TagViewModel.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1744,11 +1738,9 @@
 			files = (
 				DBA3BE3625709D3D005A2379 /* AnyWebsite.swift in Sources */,
 				DBAA7730256C999B005126C3 /* CD_Controller.swift in Sources */,
-				7389909D25FB9A190001FACD /* CD_TagViewModel.swift in Sources */,
 				5031AF03256E894F00AC98AA /* Tag.swift in Sources */,
 				50D63AA8256FE3BF001C5985 /* AnyTag.swift in Sources */,
 				73F2B044257460D2009AC2AF /* CD_Sort.swift in Sources */,
-				7389909225FB637C0001FACD /* TagViewModel.swift in Sources */,
 				73F2B03E257460AF009AC2AF /* Sort.swift in Sources */,
 				DB21C203256C8F9100DF6AE7 /* Controller.swift in Sources */,
 				DBDCB3BB256BEE3800D005F6 /* CD_MOM.xcdatamodeld in Sources */,

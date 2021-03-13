@@ -164,7 +164,7 @@ extension CD_Controller: Controller {
         }
     }
 
-    func readTags() -> Result<AnyTagViewModel, Error> {
+    func readTags() -> Result<AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyTag>>>, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
@@ -181,14 +181,12 @@ extension CD_Controller: Controller {
         do {
             try controller.performFetch()
             return .success(
-                AnyTagViewModel(
-                    CD_TagViewModel(
-                        FetchedResultsControllerListObserver(controller) { [tagCache] tag in
-                            AnyElementObserver(tagCache[tag.objectID] {
-                                ManagedObjectElementObserver(tag, { AnyTag($0) })
-                            })
-                        }
-                    )
+                AnyListObserver(
+                    FetchedResultsControllerListObserver(controller) { [tagCache] tag in
+                        AnyElementObserver(tagCache[tag.objectID] {
+                            ManagedObjectElementObserver(tag, { AnyTag($0) })
+                        })
+                    }
                 )
             )
         } catch {
@@ -284,15 +282,15 @@ extension CD_Controller: Controller {
             log.emergency(message)
             fatalError(message)
         }
-        return self.readTags().map() { viewModel in
-            return viewModel.data.lazy.map { output in
-                let rawTag = output.tag.value.wrappedValue as! CD_Tag
+        return self.readTags().map() { tags in
+            return tags.data.lazy.map { tag in
+                let rawTag = tag.value.wrappedValue as! CD_Tag
                 let websiteToggleStates = sites.map { website -> Bool in
                     let rawWebsite = website.value.wrappedValue as! CD_Website
                     return rawWebsite.cd_tags.contains(rawTag)
                 }
                 let websiteToggleState = ToggleState(websiteToggleStates)
-                return (output.tag, websiteToggleState)
+                return (tag, websiteToggleState)
             }
             .eraseToAnyRandomAccessCollection()
         }
