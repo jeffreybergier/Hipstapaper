@@ -55,9 +55,9 @@ Please refer to an existing issue or create a new issue before beginning to work
 
 - [investigation: see if NavigationLink can be used to open new windows](https://github.com/jeffreybergier/Hipstapaper/issues/22)
 - [enhancement: use real List instead of XPList](https://github.com/jeffreybergier/Hipstapaper/issues/21)
-- [enhancement: tag rename](https://github.com/jeffreybergier/Hipstapaper/issues/20)
+- [~~enhancement: tag rename~~](https://github.com/jeffreybergier/Hipstapaper/issues/20)
 - [enhancement: figure out why window loses size after its closed](https://github.com/jeffreybergier/Hipstapaper/issues/23)
-- [enhancement: figure out crash on tag delete](https://github.com/jeffreybergier/Hipstapaper/issues/24)
+- [~~enhancement: figure out crash on tag delete~~](https://github.com/jeffreybergier/Hipstapaper/issues/24)
 - [enhancement: figure out how to make SwiftUI toolbar work in Browser Window](https://github.com/jeffreybergier/Hipstapaper/issues/25)
 
 ## How to Clone and Run
