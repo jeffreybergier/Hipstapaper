@@ -44,10 +44,10 @@ class TagCollectionTests: ParentTestCase {
     func test_collection_read() throws {
         let tags = try self.controller.readTags().get()
         XCTAssertEqual(tags.data.count, 4)
-        XCTAssertEqual(tags.data[0].value.name, nil)
-        XCTAssertEqual(tags.data[1].value.name, "A")
-        XCTAssertEqual(tags.data[2].value.name, "B")
-        XCTAssertEqual(tags.data[3].value.name, "C")
+        XCTAssertEqual(tags.data[AnyIndex(0)].value.name, nil)
+        XCTAssertEqual(tags.data[AnyIndex(1)].value.name, "A")
+        XCTAssertEqual(tags.data[AnyIndex(2)].value.name, "B")
+        XCTAssertEqual(tags.data[AnyIndex(3)].value.name, "C")
     }
 
     // MARK: Create
@@ -89,26 +89,26 @@ class TagCollectionTests: ParentTestCase {
 
     func test_collection_update() throws {
         let tags = try self.controller.readTags().get()
-        XCTAssertEqual(tags.data[0].value.name, nil)
-        XCTAssertEqual(tags.data[1].value.name, "A")
-        XCTAssertEqual(tags.data[2].value.name, "B")
-        XCTAssertEqual(tags.data[3].value.name, "C")
-        try self.controller.update(tags.data[2], name: "Z").get()
-        XCTAssertEqual(tags.data[0].value.name, nil)
-        XCTAssertEqual(tags.data[1].value.name, "A")
-        XCTAssertEqual(tags.data[2].value.name, "C")
-        XCTAssertEqual(tags.data[3].value.name, "Z")
+        XCTAssertEqual(tags.data[AnyIndex(0)].value.name, nil)
+        XCTAssertEqual(tags.data[AnyIndex(1)].value.name, "A")
+        XCTAssertEqual(tags.data[AnyIndex(2)].value.name, "B")
+        XCTAssertEqual(tags.data[AnyIndex(3)].value.name, "C")
+        try self.controller.update(tags.data[AnyIndex(2)], name: "Z").get()
+        XCTAssertEqual(tags.data[AnyIndex(0)].value.name, nil)
+        XCTAssertEqual(tags.data[AnyIndex(1)].value.name, "A")
+        XCTAssertEqual(tags.data[AnyIndex(2)].value.name, "C")
+        XCTAssertEqual(tags.data[AnyIndex(3)].value.name, "Z")
     }
 
     func test_collection_update_observation() throws {
         let tags = try self.controller.readTags().get()
-        XCTAssertEqual(tags.data[0].value.name, nil)
-        XCTAssertEqual(tags.data[1].value.name, "A")
-        XCTAssertEqual(tags.data[2].value.name, "B")
-        XCTAssertEqual(tags.data[3].value.name, "C")
+        XCTAssertEqual(tags.data[AnyIndex(0)].value.name, nil)
+        XCTAssertEqual(tags.data[AnyIndex(1)].value.name, "A")
+        XCTAssertEqual(tags.data[AnyIndex(2)].value.name, "B")
+        XCTAssertEqual(tags.data[AnyIndex(3)].value.name, "C")
         self.do(after: .instant) {
             do {
-                try self.controller.update(tags.data[2], name: "Z").get()
+                try self.controller.update(tags.data[AnyIndex(2)], name: "Z").get()
             } catch {
                 XCTFail(String(describing: error))
             }
@@ -118,10 +118,10 @@ class TagCollectionTests: ParentTestCase {
         let wait1 = self.newWait()
         tags.objectWillChange.sink() {
             wait1() {
-                XCTAssertEqual(tags.data[0].value.name, nil)
-                XCTAssertEqual(tags.data[1].value.name, "A")
-                XCTAssertEqual(tags.data[2].value.name, "Z")
-                XCTAssertEqual(tags.data[3].value.name, "C")
+                XCTAssertEqual(tags.data[AnyIndex(0)].value.name, nil)
+                XCTAssertEqual(tags.data[AnyIndex(1)].value.name, "A")
+                XCTAssertEqual(tags.data[AnyIndex(2)].value.name, "Z")
+                XCTAssertEqual(tags.data[AnyIndex(3)].value.name, "C")
             }
         }.store(in: &self.tokens)
         
@@ -129,10 +129,10 @@ class TagCollectionTests: ParentTestCase {
         let wait2 = self.newWait()
         tags.__objectDidChange.sink() {
             wait2() {
-                XCTAssertEqual(tags.data[0].value.name, nil)
-                XCTAssertEqual(tags.data[1].value.name, "A")
-                XCTAssertEqual(tags.data[2].value.name, "C")
-                XCTAssertEqual(tags.data[3].value.name, "Z")
+                XCTAssertEqual(tags.data[AnyIndex(0)].value.name, nil)
+                XCTAssertEqual(tags.data[AnyIndex(1)].value.name, "A")
+                XCTAssertEqual(tags.data[AnyIndex(2)].value.name, "C")
+                XCTAssertEqual(tags.data[AnyIndex(3)].value.name, "Z")
             }
         }.store(in: &self.tokens)
         
@@ -143,25 +143,25 @@ class TagCollectionTests: ParentTestCase {
 
     func test_collection_delete() throws {
         let tags = try self.controller.readTags().get()
-        XCTAssertEqual(tags.data[0].value.name, nil)
-        XCTAssertEqual(tags.data[1].value.name, "A")
-        XCTAssertEqual(tags.data[2].value.name, "B")
-        XCTAssertEqual(tags.data[3].value.name, "C")
-        try self.controller.delete(tags.data[2]).get()
-        XCTAssertEqual(tags.data[0].value.name, nil)
-        XCTAssertEqual(tags.data[1].value.name, "A")
-        XCTAssertEqual(tags.data[2].value.name, "C")
+        XCTAssertEqual(tags.data[AnyIndex(0)].value.name, nil)
+        XCTAssertEqual(tags.data[AnyIndex(1)].value.name, "A")
+        XCTAssertEqual(tags.data[AnyIndex(2)].value.name, "B")
+        XCTAssertEqual(tags.data[AnyIndex(3)].value.name, "C")
+        try self.controller.delete(tags.data[AnyIndex(2)]).get()
+        XCTAssertEqual(tags.data[AnyIndex(0)].value.name, nil)
+        XCTAssertEqual(tags.data[AnyIndex(1)].value.name, "A")
+        XCTAssertEqual(tags.data[AnyIndex(2)].value.name, "C")
     }
 
     func test_collection_delete_observation() throws {
         let tags = try self.controller.readTags().get()
-        XCTAssertEqual(tags.data[0].value.name, nil)
-        XCTAssertEqual(tags.data[1].value.name, "A")
-        XCTAssertEqual(tags.data[2].value.name, "B")
-        XCTAssertEqual(tags.data[3].value.name, "C")
+        XCTAssertEqual(tags.data[AnyIndex(0)].value.name, nil)
+        XCTAssertEqual(tags.data[AnyIndex(1)].value.name, "A")
+        XCTAssertEqual(tags.data[AnyIndex(2)].value.name, "B")
+        XCTAssertEqual(tags.data[AnyIndex(3)].value.name, "C")
         self.do(after: .instant) {
             do {
-                try self.controller.delete(tags.data[2]).get()
+                try self.controller.delete(tags.data[AnyIndex(2)]).get()
             } catch {
                 XCTFail(String(describing: error))
             }
@@ -171,11 +171,11 @@ class TagCollectionTests: ParentTestCase {
         let wait1 = self.newWait()
         tags.objectWillChange.sink() {
             wait1() {
-                XCTAssertEqual(tags.data[0].value.name, nil)
-                XCTAssertEqual(tags.data[1].value.name, "A")
-                XCTAssertEqual(tags.data[2].value.name, "B")
-                XCTAssertEqual(tags.data[3].value.name, "C")
-                XCTAssertTrue(tags.data[2].isDeleted)
+                XCTAssertEqual(tags.data[AnyIndex(0)].value.name, nil)
+                XCTAssertEqual(tags.data[AnyIndex(1)].value.name, "A")
+                XCTAssertEqual(tags.data[AnyIndex(2)].value.name, "B")
+                XCTAssertEqual(tags.data[AnyIndex(3)].value.name, "C")
+                XCTAssertTrue(tags.data[AnyIndex(2)].isDeleted)
             }
         }.store(in: &self.tokens)
         
@@ -183,9 +183,9 @@ class TagCollectionTests: ParentTestCase {
         let wait2 = self.newWait()
         tags.__objectDidChange.sink() {
             wait2() {
-                XCTAssertEqual(tags.data[0].value.name, nil)
-                XCTAssertEqual(tags.data[1].value.name, "A")
-                XCTAssertEqual(tags.data[2].value.name, "C")
+                XCTAssertEqual(tags.data[AnyIndex(0)].value.name, nil)
+                XCTAssertEqual(tags.data[AnyIndex(1)].value.name, "A")
+                XCTAssertEqual(tags.data[AnyIndex(2)].value.name, "C")
             }
         }.store(in: &self.tokens)
         

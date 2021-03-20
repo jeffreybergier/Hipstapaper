@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/12/29.
+//  Created by Jeffrey Bergier on 2020/12/20.
 //
 //  MIT License
 //
@@ -24,39 +24,35 @@
 //  SOFTWARE.
 //
 
-import Combine
-import Umbrella
-import Datum
+import SwiftUI
+import Stylize
+import Localize
 
-class TagDataSource: DataSource {
+struct TagNamePicker: View {
     
-    @Published var observer: AnyListObserver<AnyList<AnyElementObserver<AnyTag>>>?
-    var data: AnyList<AnyElementObserver<AnyTag>> { self.observer?.data ?? .empty }
-    let controller: Controller
+    @State var originalName: String = ""
+    let source: Presentable.Type
+    let cancel: Action
+    let save: (String?) -> Void
     
-    init(controller: Controller) {
-        self.controller = controller
-    }
-    
-    func activate(_ errorQ: ErrorQueue?) {
-        log.verbose()
-        guard self.observer == nil else { return }
-        let result = controller.readTags()
-        self.observer = result.value
-        result.error.map {
-            errorQ?.queue.append($0)
-            log.error($0)
+    var body: some View {
+        VStack(spacing: 0) {
+            STZ.VIEW.TXTFLD.TagName.textfield(self.$originalName)
+            Spacer()
         }
+        .modifier(STZ.PDG.Equal())
+        .modifier(STZ.MDL.Save(kind: self.source,
+                               cancel: self.cancel,
+                               save: { self.save(self.originalName.trimmed) },
+                               canSave: { self.originalName.trimmed != nil }))
+        .frame(idealWidth: 375, idealHeight: self.__hack_height) // TODO: Remove height when this is not broken
     }
     
-    func deactivate() {
-        log.verbose()
-        self.observer = nil
+    private var __hack_height: CGFloat? {
+        #if os(macOS)
+        return nil
+        #else
+        return 120
+        #endif
     }
-    
-    #if DEBUG
-    deinit {
-        log.verbose()
-    }
-    #endif
 }

@@ -30,12 +30,12 @@ import Umbrella
 enum ModalPresentation: Equatable {
     case none
     case addWebsite
-    case addTag
     case addChoose
     case search
+    case sort
+    case tagName(TH.Selection?)
     case tagApply(WH.Selection)
     case share(WH.Selection)
-    case sort
     case browser(AnyElementObserver<AnyWebsite>)
     
     // TODO: Remove this when SwiftUI doesn't suck at modals
@@ -64,10 +64,10 @@ enum ModalPresentation: Equatable {
             }
         }
         
-        @Published var isAddTag = false {
+        @Published var isTagName: IdentBox<TH.Selection?>? = nil {
             didSet {
                 guard !internalUpdateInProgress else { return }
-                guard !self.isAddTag else { return }
+                guard self.isTagName == nil else { return }
                 self.value = .none
             }
         }
@@ -80,7 +80,7 @@ enum ModalPresentation: Equatable {
             }
         }
         
-        @Published var isShare: WH.Selection? {
+        @Published var isShare: IdentBox<WH.Selection>? {
             didSet {
                 guard !self.internalUpdateInProgress else { return }
                 guard self.isShare == nil else { return }
@@ -88,7 +88,7 @@ enum ModalPresentation: Equatable {
             }
         }
         
-        @Published var isTagApply: WH.Selection? {
+        @Published var isTagApply: IdentBox<WH.Selection>? {
             didSet {
                 guard !internalUpdateInProgress else { return }
                 guard self.isTagApply == nil else { return }
@@ -113,8 +113,8 @@ enum ModalPresentation: Equatable {
                 self.isSearch        = false
                 self.isSort          = false
                 self.isAddWebsite    = false
-                self.isAddTag        = false
                 self.isAddChoose     = false
+                self.isTagName       = nil
                 self.isTagApply      = nil
                 self.isBrowser       = nil
                 self.isShare         = nil
@@ -122,15 +122,15 @@ enum ModalPresentation: Equatable {
                 case .none:
                     break
                 case .tagApply(let selection):
-                    self.isTagApply = selection
+                    self.isTagApply = .init(selection)
                 case .share(let selection):
-                    self.isShare = selection
+                    self.isShare = .init(selection)
                 case .browser(let item):
                     self.isBrowser = .init(item)
                 case .addWebsite:
                     self.isAddWebsite = true
-                case .addTag:
-                    self.isAddTag = true
+                case .tagName(let item):
+                    self.isTagName = .init(item)
                 case .addChoose:
                     self.isAddChoose = true
                 case .search:

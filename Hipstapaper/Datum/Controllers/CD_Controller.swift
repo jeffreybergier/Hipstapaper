@@ -57,7 +57,7 @@ extension CD_Controller: Controller {
         }
     }
 
-    func readWebsites(query: Query) -> Result<AnyListObserver<AnyList<AnyElementObserver<AnyWebsite>>>, Error> {
+    func readWebsites(query: Query) -> Result<AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyWebsite>>>, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
@@ -73,11 +73,11 @@ extension CD_Controller: Controller {
             try controller.performFetch()
             return .success(
                 AnyListObserver(
-                    FetchedResultsControllerListObserver(
-                        FetchedResultsControllerList(controller) {
-                            AnyElementObserver(ManagedObjectElementObserver($0, { AnyWebsite($0) }))
-                        }
-                    )
+                    FetchedResultsControllerListObserver(controller) { [websiteCache] site in
+                        AnyElementObserver(websiteCache[site.objectID] {
+                            ManagedObjectElementObserver(site, { AnyWebsite($0) })
+                        })
+                    }
                 )
             )
         } catch {
@@ -164,14 +164,16 @@ extension CD_Controller: Controller {
         }
     }
 
-    func readTags() -> Result<AnyListObserver<AnyList<AnyElementObserver<AnyTag>>>, Error> {
+    func readTags() -> Result<AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyTag>>>, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
         let request = CD_Tag.request
-        request.sortDescriptors = [
-            .init(key: #keyPath(CD_Tag.cd_name), ascending: true)
-        ]
+        request.sortDescriptors = [.init(
+            key: #keyPath(CD_Tag.cd_name),
+            ascending: true,
+            selector: #selector(NSString.localizedCaseInsensitiveCompare(_:))
+        )]
         let controller = NSFetchedResultsController(fetchRequest: request,
                                                     managedObjectContext: context,
                                                     sectionNameKeyPath: nil,
@@ -180,11 +182,11 @@ extension CD_Controller: Controller {
             try controller.performFetch()
             return .success(
                 AnyListObserver(
-                    FetchedResultsControllerListObserver(
-                        FetchedResultsControllerList(controller) {
-                            AnyElementObserver(ManagedObjectElementObserver($0, { AnyTag($0) }))
-                        }
-                    )
+                    FetchedResultsControllerListObserver(controller) { [tagCache] tag in
+                        AnyElementObserver(tagCache[tag.objectID] {
+                            ManagedObjectElementObserver(tag, { AnyTag($0) })
+                        })
+                    }
                 )
             )
         } catch {
@@ -269,7 +271,7 @@ extension CD_Controller: Controller {
     }
     
     func tagStatus(for sites: Set<AnyElementObserver<AnyWebsite>>)
-                  -> Result<AnyList<(AnyElementObserver<AnyTag>, ToggleState)>, Error>
+                  -> Result<AnyRandomAccessCollection<(AnyElementObserver<AnyTag>, ToggleState)>, Error>
 
     {
         let context = self.container.viewContext
@@ -281,17 +283,16 @@ extension CD_Controller: Controller {
             fatalError(message)
         }
         return self.readTags().map() { tags in
-            return AnyList(
-                MappedList(tags.data) { tag in
-                    let rawTag = tag.value.wrappedValue as! CD_Tag
-                    let websiteToggleStates = sites.map { website -> Bool in
-                        let rawWebsite = website.value.wrappedValue as! CD_Website
-                        return rawWebsite.cd_tags.contains(rawTag)
-                    }
-                    let websiteToggleState = ToggleState(websiteToggleStates)
-                    return (tag, websiteToggleState)
+            return tags.data.lazy.map { tag in
+                let rawTag = tag.value.wrappedValue as! CD_Tag
+                let websiteToggleStates = sites.map { website -> Bool in
+                    let rawWebsite = website.value.wrappedValue as! CD_Website
+                    return rawWebsite.cd_tags.contains(rawTag)
                 }
-            )
+                let websiteToggleState = ToggleState(websiteToggleStates)
+                return (tag, websiteToggleState)
+            }
+            .eraseToAnyRandomAccessCollection()
         }
     }
 }
@@ -315,6 +316,9 @@ internal class CD_Controller {
 
     internal let syncProgress: AnyContinousProgress
     internal let container: NSPersistentContainer
+    
+    private var websiteCache = Cache<NSManagedObjectID, ManagedObjectElementObserver<AnyWebsite, CD_Website>>(clearAutomatically: true)
+    private var tagCache = Cache<NSManagedObjectID, ManagedObjectElementObserver<AnyTag, CD_Tag>>(clearAutomatically: true)
     
     internal class func new() -> Result<Controller, Error> {
         do {
@@ -386,13 +390,14 @@ extension CD_Controller {
 
         let mom = CD_Controller.mom
         // when not testing, return normal persistent container
-        guard ISTESTING else {
+        let dataStoreEnvironment = ProcessInfo.processInfo.environment["DATA_STORE"] ?? "-1"
+        guard ISTESTING || dataStoreEnvironment == "IN_MEMORY" else {
             return Datum_PersistentContainer(name: "Store", managedObjectModel: mom)
         }
 
         // when testing make in-memory container
         let randomName = String(Int.random(in: 100_000...1_000_000))
-        let container = Datum_PersistentContainer(name: randomName, managedObjectModel: mom)
+        let container = NSPersistentContainer(name: randomName, managedObjectModel: mom)
         let description = NSPersistentStoreDescription()
         description.type = NSInMemoryStoreType
         container.persistentStoreDescriptions = [description]
@@ -424,9 +429,17 @@ extension NSManagedObjectContext {
         assert(Thread.isMainThread)
         
         let _input = input as AnyObject
-        guard _input.isKind(of: expected) else { return false }
-        guard let __input = _input as? NSManagedObject else { return false }
-        return self === __input.managedObjectContext
+        // this is overly debose so breakpoints can be set on failure
+        guard _input.isKind(of: expected) else {
+            return false
+        }
+        guard let __input = _input as? NSManagedObject else {
+            return false
+        }
+        guard self === __input.managedObjectContext else {
+            return false
+        }
+        return true
     }
     
     fileprivate func datum_save() -> Result<Void, Error> {

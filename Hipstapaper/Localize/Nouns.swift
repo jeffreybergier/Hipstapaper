@@ -39,6 +39,7 @@ public enum Noun: LocalizedStringKey {
     case tagName       = "Noun.TagName"
     case addChoice     = "Noun.AddChoice"
     case addTag        = "Noun.AddTag"
+    case editTag       = "Noun.EditTag"
     case addWebsite    = "Noun.AddWebsite"
     case applyTags     = "Noun.ApplyTags"
     case sort          = "Noun.Sort"

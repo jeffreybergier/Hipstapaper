@@ -17,8 +17,6 @@
 		73093ACB25D92D2800B7915A /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73093ACA25D92D2800B7915A /* Error.swift */; };
 		730CC989258650930002C50A /* PDG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 730CC988258650930002C50A /* PDG.swift */; };
 		732CD60A25AAA09300DB842B /* Snapshot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A3DEC1257BBD83002EDEB4 /* Snapshot.framework */; };
-		732CF67525B45904008C0A96 /* BlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732CF67425B45904008C0A96 /* BlackBox.swift */; };
-		732CF67625B45904008C0A96 /* BlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732CF67425B45904008C0A96 /* BlackBox.swift */; };
 		732D529B25A5E7830028545F /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732D529A25A5E7830028545F /* ViewModel.swift */; };
 		732F303925AAEA2200192822 /* Stylize.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7399BAA9258251A500B8CAFD /* Stylize.framework */; };
 		732F304825AAEA3B00192822 /* Stylize.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7399BAA9258251A500B8CAFD /* Stylize.framework */; };
@@ -35,8 +33,8 @@
 		7340947225E53D1200BD1E55 /* TestUmbrella in Frameworks */ = {isa = PBXBuildFile; productRef = 7340947125E53D1200BD1E55 /* TestUmbrella */; };
 		7346696E259F4B790001E7C9 /* DetailToolbar_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7346696D259F4B790001E7C9 /* DetailToolbar_macOS.swift */; };
 		73466978259F4C820001E7C9 /* DetailToolbar_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73466977259F4C820001E7C9 /* DetailToolbar_iOS.swift */; };
-		73466983259F4DA20001E7C9 /* Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73466982259F4DA20001E7C9 /* Sort.swift */; };
-		73466984259F4DA20001E7C9 /* Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73466982259F4DA20001E7C9 /* Sort.swift */; };
+		73466983259F4DA20001E7C9 /* SortPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73466982259F4DA20001E7C9 /* SortPicker.swift */; };
+		73466984259F4DA20001E7C9 /* SortPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73466982259F4DA20001E7C9 /* SortPicker.swift */; };
 		73466DED25CF656C0026D91A /* ToolbarHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73466DEC25CF656C0026D91A /* ToolbarHelper.swift */; };
 		734942AF2592078E00AD292E /* SHR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734942AE2592078E00AD292E /* SHR.swift */; };
 		7350B37D25C4274300C61716 /* SyncToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7350B37C25C4274300C61716 /* SyncToolbar.swift */; };
@@ -45,15 +43,15 @@
 		73550A4D25B2A01000B6FA9F /* ModalPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73550A4B25B2A01000B6FA9F /* ModalPresentation.swift */; };
 		73550A8B25B2A7EA00B6FA9F /* ModalPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73550A8A25B2A7EA00B6FA9F /* ModalPresentable.swift */; };
 		73550A8C25B2A7EA00B6FA9F /* ModalPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73550A8A25B2A7EA00B6FA9F /* ModalPresentable.swift */; };
+		7355F8A925FA302000844CF6 /* SceneStorage+Hipstapaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355F8A825FA302000844CF6 /* SceneStorage+Hipstapaper.swift */; };
+		7355F8AA25FA302000844CF6 /* SceneStorage+Hipstapaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7355F8A825FA302000844CF6 /* SceneStorage+Hipstapaper.swift */; };
 		735C91C02574F1790033B4E8 /* WebsiteList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C91BF2574F1790033B4E8 /* WebsiteList.swift */; };
 		735C91C12574F1790033B4E8 /* WebsiteList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C91BF2574F1790033B4E8 /* WebsiteList.swift */; };
 		735C92022577C0260033B4E8 /* FixedModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C92012577C0260033B4E8 /* FixedModels.swift */; };
-		735CA02925CBE88600B3F04B /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735CA02825CBE88600B3F04B /* DataSource.swift */; };
-		735CA02A25CBE88600B3F04B /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735CA02825CBE88600B3F04B /* DataSource.swift */; };
 		735D4C64258DF9D00016F904 /* TagAddRemoveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4C63258DF9D00016F904 /* TagAddRemoveTests.swift */; };
 		735D4C8B258E2F9C0016F904 /* ToggleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4C8A258E2F9C0016F904 /* ToggleState.swift */; };
-		735D4CA3258F1ECE0016F904 /* AddTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4C93258F1E2F0016F904 /* AddTag.swift */; };
-		735D4CAB258F1ECF0016F904 /* AddTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4C93258F1E2F0016F904 /* AddTag.swift */; };
+		735D4CA3258F1ECE0016F904 /* TagNamePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4C93258F1E2F0016F904 /* TagNamePicker.swift */; };
+		735D4CAB258F1ECF0016F904 /* TagNamePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4C93258F1E2F0016F904 /* TagNamePicker.swift */; };
 		735D4CBC258F4D690016F904 /* Browse.h in Headers */ = {isa = PBXBuildFile; fileRef = 735D4CBA258F4D690016F904 /* Browse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		735D4CD0258F4DFF0016F904 /* Stylize.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7399BAA9258251A500B8CAFD /* Stylize.framework */; };
 		735D4CD5258F4E070016F904 /* Localize.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7399BAC3258251D800B8CAFD /* Localize.framework */; };
@@ -120,8 +118,8 @@
 		73A3DE7925792604002EDEB4 /* DetailToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DE7725792604002EDEB4 /* DetailToolbar.swift */; };
 		73A3DE94257B77C8002EDEB4 /* IndexToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DE93257B77C8002EDEB4 /* IndexToolbar.swift */; };
 		73A3DE95257B77C8002EDEB4 /* IndexToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DE93257B77C8002EDEB4 /* IndexToolbar.swift */; };
-		73A3DEB0257B9351002EDEB4 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DEAF257B9351002EDEB4 /* Search.swift */; };
-		73A3DEB1257B9351002EDEB4 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DEAF257B9351002EDEB4 /* Search.swift */; };
+		73A3DEB0257B9351002EDEB4 /* SearchPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DEAF257B9351002EDEB4 /* SearchPicker.swift */; };
+		73A3DEB1257B9351002EDEB4 /* SearchPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DEAF257B9351002EDEB4 /* SearchPicker.swift */; };
 		73A3DED1257BBD83002EDEB4 /* Snapshot.h in Headers */ = {isa = PBXBuildFile; fileRef = 73A3DEC3257BBD83002EDEB4 /* Snapshot.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		73A3DEE5257BC138002EDEB4 /* Snapshotter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A3DEE4257BC138002EDEB4 /* Snapshotter.swift */; };
 		73A3DEEC257BC184002EDEB4 /* Snapshot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A3DEC1257BBD83002EDEB4 /* Snapshot.framework */; };
@@ -144,10 +142,6 @@
 		73C2751A25A9FB300028FE3A /* DropboxWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C2751925A9FB300028FE3A /* DropboxWatcher.swift */; };
 		73C2751B25A9FB300028FE3A /* DropboxWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C2751925A9FB300028FE3A /* DropboxWatcher.swift */; };
 		73C6BC1D25982FA0006B7A6D /* MDL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC1C25982FA0006B7A6D /* MDL.swift */; };
-		73C6BC6D259A16F3006B7A6D /* WebsiteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC6C259A16F3006B7A6D /* WebsiteDataSource.swift */; };
-		73C6BC6E259A16F3006B7A6D /* WebsiteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BC6C259A16F3006B7A6D /* WebsiteDataSource.swift */; };
-		73C6BCAE259AC172006B7A6D /* TagDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BCAD259AC172006B7A6D /* TagDataSource.swift */; };
-		73C6BCAF259AC172006B7A6D /* TagDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BCAD259AC172006B7A6D /* TagDataSource.swift */; };
 		73C6BCC5259B5E0D006B7A6D /* WindowPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BCC4259B5E0D006B7A6D /* WindowPresentation.swift */; };
 		73C6BCFA259B6AE6006B7A6D /* WindowPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BCF9259B6AE6006B7A6D /* WindowPresentation.swift */; };
 		73C6BD1E259C0530006B7A6D /* WindowManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C6BD1D259C0530006B7A6D /* WindowManagerProtocol.swift */; };
@@ -503,7 +497,6 @@
 		7302C8EA2573A29500DA6614 /* SortTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortTests.swift; sourceTree = "<group>"; };
 		73093ACA25D92D2800B7915A /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		730CC988258650930002C50A /* PDG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDG.swift; sourceTree = "<group>"; };
-		732CF67425B45904008C0A96 /* BlackBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackBox.swift; sourceTree = "<group>"; };
 		732D529A25A5E7830028545F /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		732FDD1B25D4034B006BDFE5 /* Colorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colorable.swift; sourceTree = "<group>"; };
 		73406811257491E600D4A343 /* PreviewsContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewsContent.swift; sourceTree = "<group>"; };
@@ -512,18 +505,18 @@
 		734068312574ED5800D4A343 /* TagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagList.swift; sourceTree = "<group>"; };
 		7346696D259F4B790001E7C9 /* DetailToolbar_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailToolbar_macOS.swift; sourceTree = "<group>"; };
 		73466977259F4C820001E7C9 /* DetailToolbar_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailToolbar_iOS.swift; sourceTree = "<group>"; };
-		73466982259F4DA20001E7C9 /* Sort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sort.swift; sourceTree = "<group>"; };
+		73466982259F4DA20001E7C9 /* SortPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortPicker.swift; sourceTree = "<group>"; };
 		73466DEC25CF656C0026D91A /* ToolbarHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarHelper.swift; sourceTree = "<group>"; };
 		734942AE2592078E00AD292E /* SHR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHR.swift; sourceTree = "<group>"; };
 		7350B37C25C4274300C61716 /* SyncToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncToolbar.swift; sourceTree = "<group>"; };
 		73550A4B25B2A01000B6FA9F /* ModalPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalPresentation.swift; sourceTree = "<group>"; };
 		73550A8A25B2A7EA00B6FA9F /* ModalPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalPresentable.swift; sourceTree = "<group>"; };
+		7355F8A825FA302000844CF6 /* SceneStorage+Hipstapaper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneStorage+Hipstapaper.swift"; sourceTree = "<group>"; };
 		735C91BF2574F1790033B4E8 /* WebsiteList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteList.swift; sourceTree = "<group>"; };
 		735C92012577C0260033B4E8 /* FixedModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedModels.swift; sourceTree = "<group>"; };
-		735CA02825CBE88600B3F04B /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		735D4C63258DF9D00016F904 /* TagAddRemoveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagAddRemoveTests.swift; sourceTree = "<group>"; };
 		735D4C8A258E2F9C0016F904 /* ToggleState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleState.swift; sourceTree = "<group>"; };
-		735D4C93258F1E2F0016F904 /* AddTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTag.swift; sourceTree = "<group>"; };
+		735D4C93258F1E2F0016F904 /* TagNamePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagNamePicker.swift; sourceTree = "<group>"; };
 		735D4CB8258F4D690016F904 /* Browse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Browse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		735D4CBA258F4D690016F904 /* Browse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Browse.h; sourceTree = "<group>"; };
 		735D4CBB258F4D690016F904 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -570,7 +563,7 @@
 		739F044D25A94CB3001826F8 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		73A3DE7725792604002EDEB4 /* DetailToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailToolbar.swift; sourceTree = "<group>"; };
 		73A3DE93257B77C8002EDEB4 /* IndexToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexToolbar.swift; sourceTree = "<group>"; };
-		73A3DEAF257B9351002EDEB4 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
+		73A3DEAF257B9351002EDEB4 /* SearchPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPicker.swift; sourceTree = "<group>"; };
 		73A3DEC1257BBD83002EDEB4 /* Snapshot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Snapshot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		73A3DEC3257BBD83002EDEB4 /* Snapshot.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Snapshot.h; sourceTree = "<group>"; };
 		73A3DEC4257BBD83002EDEB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -591,8 +584,6 @@
 		73C274E625A9DA6A0028FE3A /* Share_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Share_iOS.entitlements; sourceTree = "<group>"; };
 		73C2751925A9FB300028FE3A /* DropboxWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropboxWatcher.swift; sourceTree = "<group>"; };
 		73C6BC1C25982FA0006B7A6D /* MDL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MDL.swift; sourceTree = "<group>"; };
-		73C6BC6C259A16F3006B7A6D /* WebsiteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsiteDataSource.swift; sourceTree = "<group>"; };
-		73C6BCAD259AC172006B7A6D /* TagDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDataSource.swift; sourceTree = "<group>"; };
 		73C6BCC4259B5E0D006B7A6D /* WindowPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowPresentation.swift; sourceTree = "<group>"; };
 		73C6BCF9259B6AE6006B7A6D /* WindowPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowPresentation.swift; sourceTree = "<group>"; };
 		73C6BD1D259C0530006B7A6D /* WindowManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManagerProtocol.swift; sourceTree = "<group>"; };
@@ -871,7 +862,6 @@
 			children = (
 				734068312574ED5800D4A343 /* TagList.swift */,
 				734068182574981200D4A343 /* TagRow.swift */,
-				73C6BCAD259AC172006B7A6D /* TagDataSource.swift */,
 				73FFA2B525CEB01A00BC78BB /* TagHelper.swift */,
 				73FFA2C225CEC7D100BC78BB /* TagMenu.swift */,
 			);
@@ -884,7 +874,6 @@
 				735C91BF2574F1790033B4E8 /* WebsiteList.swift */,
 				736450D325BDBFE3000B9B06 /* WebsiteListTitle.swift */,
 				7340681F2574B56700D4A343 /* WebsiteRow.swift */,
-				73C6BC6C259A16F3006B7A6D /* WebsiteDataSource.swift */,
 				73FFA26625CD934B00BC78BB /* WebsiteHelper.swift */,
 				739DD00325D2BE4B00177C49 /* WebsiteMenu.swift */,
 			);
@@ -909,9 +898,9 @@
 			children = (
 				73550A4B25B2A01000B6FA9F /* ModalPresentation.swift */,
 				73550A8A25B2A7EA00B6FA9F /* ModalPresentable.swift */,
-				73A3DEAF257B9351002EDEB4 /* Search.swift */,
-				735D4C93258F1E2F0016F904 /* AddTag.swift */,
-				73466982259F4DA20001E7C9 /* Sort.swift */,
+				73A3DEAF257B9351002EDEB4 /* SearchPicker.swift */,
+				735D4C93258F1E2F0016F904 /* TagNamePicker.swift */,
+				73466982259F4DA20001E7C9 /* SortPicker.swift */,
 				7350B37C25C4274300C61716 /* SyncToolbar.swift */,
 				73BFB62325D5746B0030C2DA /* SyncIndicator.swift */,
 				73FFA2A825CEAE8D00BC78BB /* DeleteError.swift */,
@@ -1005,9 +994,8 @@
 				736DD3EC258793C200F0FBE0 /* Website+Hipstapaper.swift */,
 				73C6BD1D259C0530006B7A6D /* WindowManagerProtocol.swift */,
 				73C2751925A9FB300028FE3A /* DropboxWatcher.swift */,
-				732CF67425B45904008C0A96 /* BlackBox.swift */,
 				73D0F84A25B7160300D82D00 /* Errors.swift */,
-				735CA02825CBE88600B3F04B /* DataSource.swift */,
+				7355F8A825FA302000844CF6 /* SceneStorage+Hipstapaper.swift */,
 				DBDCB33E256BE8E700D005F6 /* Assets.xcassets */,
 			);
 			path = Shared;
@@ -1677,7 +1665,7 @@
 				73406812257491E600D4A343 /* PreviewsContent.swift in Sources */,
 				739DD00425D2BE4B00177C49 /* WebsiteMenu.swift in Sources */,
 				734068322574ED5800D4A343 /* TagList.swift in Sources */,
-				73466983259F4DA20001E7C9 /* Sort.swift in Sources */,
+				73466983259F4DA20001E7C9 /* SortPicker.swift in Sources */,
 				736450D425BDBFE3000B9B06 /* WebsiteListTitle.swift in Sources */,
 				735C91C02574F1790033B4E8 /* WebsiteList.swift in Sources */,
 				736DD3F725879D1800F0FBE0 /* TagApplyRow.swift in Sources */,
@@ -1692,18 +1680,15 @@
 				73FFA26725CD934B00BC78BB /* WebsiteHelper.swift in Sources */,
 				73466978259F4C820001E7C9 /* DetailToolbar_iOS.swift in Sources */,
 				7350B37D25C4274300C61716 /* SyncToolbar.swift in Sources */,
-				735CA02925CBE88600B3F04B /* DataSource.swift in Sources */,
-				73C6BCAE259AC172006B7A6D /* TagDataSource.swift in Sources */,
-				73A3DEB0257B9351002EDEB4 /* Search.swift in Sources */,
+				73A3DEB0257B9351002EDEB4 /* SearchPicker.swift in Sources */,
 				73AFCBE925B31E6100832F31 /* DetailToolbar_iPad.swift in Sources */,
 				73FFA2A925CEAE8D00BC78BB /* DeleteError.swift in Sources */,
 				73C2751A25A9FB300028FE3A /* DropboxWatcher.swift in Sources */,
 				DBDCB365256BE8E800D005F6 /* HipstapaperApp.swift in Sources */,
-				735D4CA3258F1ECE0016F904 /* AddTag.swift in Sources */,
+				735D4CA3258F1ECE0016F904 /* TagNamePicker.swift in Sources */,
 				734068192574981200D4A343 /* TagRow.swift in Sources */,
-				73C6BC6D259A16F3006B7A6D /* WebsiteDataSource.swift in Sources */,
+				7355F8A925FA302000844CF6 /* SceneStorage+Hipstapaper.swift in Sources */,
 				736DD3E3258790A000F0FBE0 /* TagApply.swift in Sources */,
-				732CF67525B45904008C0A96 /* BlackBox.swift in Sources */,
 				736DD3ED258793C200F0FBE0 /* Website+Hipstapaper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1720,29 +1705,26 @@
 				73550A8C25B2A7EA00B6FA9F /* ModalPresentable.swift in Sources */,
 				73FFA2B725CEB01A00BC78BB /* TagHelper.swift in Sources */,
 				73BFB62525D5746B0030C2DA /* SyncIndicator.swift in Sources */,
+				7355F8AA25FA302000844CF6 /* SceneStorage+Hipstapaper.swift in Sources */,
 				73C6BCC5259B5E0D006B7A6D /* WindowPresentation.swift in Sources */,
 				734068332574ED5800D4A343 /* TagList.swift in Sources */,
-				73466984259F4DA20001E7C9 /* Sort.swift in Sources */,
+				73466984259F4DA20001E7C9 /* SortPicker.swift in Sources */,
 				73FFA26825CD934B00BC78BB /* WebsiteHelper.swift in Sources */,
 				735C91C12574F1790033B4E8 /* WebsiteList.swift in Sources */,
 				736DD3F825879D1800F0FBE0 /* TagApplyRow.swift in Sources */,
-				73C6BCAF259AC172006B7A6D /* TagDataSource.swift in Sources */,
 				73C2751B25A9FB300028FE3A /* DropboxWatcher.swift in Sources */,
 				73A3DE95257B77C8002EDEB4 /* IndexToolbar.swift in Sources */,
 				73993E2E2595DFC7006FB612 /* BrowserWindowController.swift in Sources */,
 				736450D525BDBFE3000B9B06 /* WebsiteListTitle.swift in Sources */,
 				739DD00525D2BE4B00177C49 /* WebsiteMenu.swift in Sources */,
-				73C6BC6E259A16F3006B7A6D /* WebsiteDataSource.swift in Sources */,
 				734068212574B56700D4A343 /* WebsiteRow.swift in Sources */,
 				DBDCB368256BE8E800D005F6 /* Main.swift in Sources */,
-				73A3DEB1257B9351002EDEB4 /* Search.swift in Sources */,
+				73A3DEB1257B9351002EDEB4 /* SearchPicker.swift in Sources */,
 				73D0F84C25B7160300D82D00 /* Errors.swift in Sources */,
 				DBDCB366256BE8E800D005F6 /* HipstapaperApp.swift in Sources */,
 				73FFA2AA25CEAE8D00BC78BB /* DeleteError.swift in Sources */,
-				735D4CAB258F1ECF0016F904 /* AddTag.swift in Sources */,
-				732CF67625B45904008C0A96 /* BlackBox.swift in Sources */,
+				735D4CAB258F1ECF0016F904 /* TagNamePicker.swift in Sources */,
 				7340681A2574981200D4A343 /* TagRow.swift in Sources */,
-				735CA02A25CBE88600B3F04B /* DataSource.swift in Sources */,
 				73FFA2C425CEC7D100BC78BB /* TagMenu.swift in Sources */,
 				736DD3E4258790A000F0FBE0 /* TagApply.swift in Sources */,
 				7346696E259F4B790001E7C9 /* DetailToolbar_macOS.swift in Sources */,
@@ -2134,7 +2116,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Share_iOS/Share_iOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 200014;
+				CURRENT_PROJECT_VERSION = 200031;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
 				INFOPLIST_FILE = Share_iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2158,7 +2140,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Share_iOS/Share_iOS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 200014;
+				CURRENT_PROJECT_VERSION = 200031;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
 				INFOPLIST_FILE = Share_iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2185,7 +2167,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 200014;
+				CURRENT_PROJECT_VERSION = 200031;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Share_macOS/Info.plist;
@@ -2211,7 +2193,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 200014;
+				CURRENT_PROJECT_VERSION = 200031;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Share_macOS/Info.plist;
@@ -2472,7 +2454,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/Hipstapaper.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 200014;
+				CURRENT_PROJECT_VERSION = 200031;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
@@ -2496,7 +2478,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iOS/Hipstapaper.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 200014;
+				CURRENT_PROJECT_VERSION = 200031;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/Info.plist;
@@ -2522,7 +2504,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 200014;
+				CURRENT_PROJECT_VERSION = 200031;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -2549,7 +2531,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 200014;
+				CURRENT_PROJECT_VERSION = 200031;
 				DEVELOPMENT_TEAM = V6ESYGU6CV;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;

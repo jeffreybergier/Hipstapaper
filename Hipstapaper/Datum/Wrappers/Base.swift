@@ -25,11 +25,13 @@
 //
 
 public protocol Base: Identifiable, Hashable {
+    var uri: URL { get }
     var dateCreated: Date { get }
     var dateModified: Date { get }
 }
 
 extension CD_Base: Base {
+    var uri: URL { self.objectID.uriRepresentation() }
     var dateCreated: Date { cd_dateCreated ?? Date() }
     var dateModified: Date { cd_dateModified ?? Date() }
 }

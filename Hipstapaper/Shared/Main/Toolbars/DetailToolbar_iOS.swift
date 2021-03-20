@@ -38,7 +38,6 @@ extension DetailToolbar.iOS {
         
         let controller: Controller
         @Binding var selection: WH.Selection
-        @Binding var query: Query
         @Binding var popoverAlignment: Alignment
         
         @Environment(\.editMode) private var editMode
@@ -51,20 +50,16 @@ extension DetailToolbar.iOS {
             case (true, true): // iPhone editing
                 content.modifier(iPhoneEdit(controller: self.controller,
                                             selection: self.$selection,
-                                            query: self.$query,
                                             popoverAlignment: self.$popoverAlignment))
             case (true, false): // iPhone not editing
-                content.modifier(iPhone(query: self.$query,
-                                        popoverAlignment: self.$popoverAlignment,
+                content.modifier(iPhone(popoverAlignment: self.$popoverAlignment,
                                         syncProgress: self.controller.syncProgress))
             case (false, true): // iPad editing
                 content.modifier(iPadEdit(controller: self.controller,
                                           selection: self.$selection,
-                                          query: self.$query,
                                           popoverAlignment: self.$popoverAlignment))
             case (false, false): // iPad not editing
-                content.modifier(iPad(query: self.$query,
-                                      popoverAlignment: self.$popoverAlignment,
+                content.modifier(iPad(popoverAlignment: self.$popoverAlignment,
                                       syncProgress: self.controller.syncProgress))
             }
         }

@@ -34,56 +34,60 @@ struct TagList<Nav: View>: View {
     
     typealias Navigation = (AnyElementObserver<AnyTag>) -> Nav
     
-    @State private var selection: TH.Selection?
-    @State private var initialSelection = true
-    @StateObject private var dataSource: TagDataSource
+    let controller: Controller
+    let navigation: Navigation
+        
+    @SceneTag private var selectedTag
+    @StateObject var data = NilBox<AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyTag>>>>()
     @EnvironmentObject private var errorQ: ErrorQueue
 
-    private let navigation: Navigation
-    
-    init(controller: Controller, @ViewBuilder navigation: @escaping Navigation) {
-        self.navigation = navigation
-        _dataSource = .init(wrappedValue: TagDataSource(controller: controller))
-    }
-
     var body: some View {
-        List(selection: self.$selection) {
+        List {
             Section(header: STZ.VIEW.TXT(Noun.readingList.rawValue)
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
-                let item0 = Query.Filter.anyTag_allCases[0]
-                let item1 = Query.Filter.anyTag_allCases[1]
-                NavigationLink(destination: self.navigation(item0),
-                               isActive: self.$initialSelection)
-                {
-                    TagRow(item: item0)
-                        .environment(\.XPL_isSelected, self.selection == item0)
-                }
-                NavigationLink(destination: self.navigation(item1)) {
-                    TagRow(item: item1)
-                        .environment(\.XPL_isSelected, self.selection == item1)
+                ForEach(Query.Filter.anyTag_allCases) { tag in
+                    NavigationLink(destination: self.navigation(tag),
+                                   tag: tag.value.uri,
+                                   selection: self.$selectedTag)
+                    {
+                        TagRow(item: tag)
+                            .environment(\.XPL_isSelected, self.selectedTag == tag.value.uri)
+                    }
                 }
             }
             Section(header: STZ.VIEW.TXT(Noun.tags.rawValue)
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
-                ForEach(self.dataSource.data, id: \.self) { item in
-                    NavigationLink(destination: self.navigation(item)) {
-                        TagRow(item: item)
-                            .environment(\.XPL_isSelected, self.selection == item)
-                            .modifier(TagMenu(controller: self.dataSource.controller, selection: item))
+                ForEach(self.data.value?.data ?? .empty) { tag in
+                    NavigationLink(destination: self.navigation(tag),
+                                   tag: tag.value.uri,
+                                   selection: self.$selectedTag)
+                    {
+                        TagRow(item: tag)
+                            .environment(\.XPL_isSelected, self.selectedTag == tag.value.uri)
                     }
+                    // FB9048743: Makes context menu work on macOS
+                    .modifier(TagMenu(controller: self.controller, selection: tag))
                 }
             }
         }
         .navigationTitle(Noun.tags.rawValue)
         .modifier(Force.SidebarStyle())
-        .modifier(IndexToolbar(controller: self.dataSource.controller,
-                               selection: self.$selection))
-        .onAppear() { self.dataSource.activate(self.errorQ) }
-        .onDisappear(perform: self.dataSource.deactivate)
+        .modifier(IndexToolbar(controller: self.controller))
+        .onAppear { self.updateData() }
+    }
+        
+    private func updateData() {
+        guard self.data.value == nil else { return }
+        let result = self.controller.readTags()
+        self.data.value = result.value
+        result.error.map {
+            log.error($0)
+            self.errorQ.queue.append($0)
+        }
     }
 }
 

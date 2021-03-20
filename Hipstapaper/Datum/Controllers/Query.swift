@@ -27,7 +27,7 @@
 import Foundation
 import Umbrella
 
-public struct Query {
+public struct Query: Hashable {
     
     public var filter: Filter! // TODO: Hack for SwiftUI - Remove
     public var tag: AnyElementObserver<AnyTag>?
@@ -66,16 +66,16 @@ public struct Query {
 }
 
 extension Query {
-    public var isSearchActive: Bool {
-        return self.search.trimmed == nil
-    }
     
     public enum Filter: Int, Identifiable, CaseIterable {
         case unarchived, all
         public var id: ObjectIdentifier { .init(NSNumber(value: self.rawValue)) }
         public var boolValue: Bool {
             get { return self == .unarchived }
-            set { self = newValue ? .unarchived : .all }
+            set { self = .init(boolValue: newValue) }
+        }
+        public init(boolValue: Bool) {
+            self = boolValue ? .unarchived : .all
         }
     }
 }

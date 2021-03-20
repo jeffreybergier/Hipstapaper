@@ -44,6 +44,7 @@
 "Verb.Share"                  = "Share";
 "Verb.DeleteTag"              = "Delete Tag(s)";
 "Verb.AddTag"                 = "Add Tag";
+"Verb.EditTag"                = "Edit Tag";
 "Verb.Go"                     = "Go";
 "Verb.ClearSearch"            = "Clear Search";
 "Verb.OpenInApp"              = "Open";
@@ -85,6 +86,7 @@
 "Noun.Hipstapaper"   = "Hipstapaper";
 "Noun.TagName"       = "Tag Name";
 "Noun.AddTag"        = "Add Tag";
+"Noun.EditTag"       = "Edit Tag";
 "Noun.AddWebsite"    = "Add Website";
 "Noun.ApplyTags"     = "Apply Tags";
 "Noun.Sort"          = "Sort Order";
@@ -136,6 +138,7 @@
 "Phrase.AddAndRemoveTags"       = "Add and remove tags from selected website(s)";
 "Phrase.SearchWebsite"          = "Search websites";
 "Phrase.AddTag"                 = "Add a new tag";
+"Phrase.EditTag"                = "Edit the name of the selected tag.";
 "Phrase.AddWebsite"             = "Add a new website";
 "Phrase.Done"                   = "Finish and dismiss the screen";
 "Phrase.Save"                   = "Save changes";

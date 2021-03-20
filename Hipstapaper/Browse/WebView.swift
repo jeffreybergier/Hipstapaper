@@ -63,6 +63,7 @@ internal struct WebView: View {
     private func makeWebView(context: Context) -> WKWebView {
         let config = WKWebViewConfiguration()
         let wv = WKWebView(frame: .zero, configuration: config)
+        wv.configuration.websiteDataStore = .nonPersistent()
         wv.navigationDelegate = context.coordinator
         let token1 = wv.observe(\.isLoading)
         { [unowned vm = viewModel] wv, _ in

@@ -24,7 +24,7 @@
 //  SOFTWARE.
 //
 
-public enum Sort: CaseIterable {
+public enum Sort: String, CaseIterable {
     public static let `default`: Sort = .dateCreatedNewest
     case dateCreatedNewest, dateCreatedOldest
     case dateModifiedNewest, dateModifiedOldest

@@ -35,10 +35,6 @@ enum TagHelper {
     
     typealias Selection = AnyElementObserver<AnyTag>
     
-    static func canDelete(_ selection: Selection?) -> Bool {
-        guard let tag = selection else { return false }
-        return tag.canDelete
-    }
     static func delete(_ selection: Selection?, _ controller: Controller, _ errorQ: ErrorQueue) {
         guard let tag = selection else { return }
         let result = controller.delete(tag)

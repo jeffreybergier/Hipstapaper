@@ -34,13 +34,16 @@ extension DetailToolbar.iOS {
         
         let controller: Controller
         @Binding var selection: WH.Selection
-        @Binding var query: Query
         @Binding var popoverAlignment: Alignment
+        
+        @SceneFilter private var filter
+        @SceneSearch private var search
         
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
         @EnvironmentObject private var windowPresentation: WindowPresentation
         @EnvironmentObject private var errorQ: ErrorQueue
         @Environment(\.openURL) private var externalPresentation
+        @Environment(\.toolbarFilterIsEnabled) private var toolbarFilterIsEnabled
         
         func body(content: Content) -> some View {
             content
@@ -98,33 +101,33 @@ extension DetailToolbar.iOS {
                         }
                     }
                     ToolbarItem(id: "Detail.Filter") {
-                        WH.filterToolbarItem(self.query) {
+                        WH.filterToolbarItem(filter: self.filter,
+                                             toolbarFilterIsEnabled: self.toolbarFilterIsEnabled)
+                        {
                             self.popoverAlignment = .topTrailing
-                            self.query.filter.boolValue.toggle()
+                            self.filter.boolValue.toggle()
                         }
                     }
                     ToolbarItem(id: "Detail.Search") {
-                        WH.searchToolbarItem(self.query) {
+                        WH.searchToolbarItem(self.search) {
                             self.popoverAlignment = .topTrailing
                             self.modalPresentation.value = .search
                         }
                     }
                 }
         }
-        
-        private func search() {
-            self.popoverAlignment = .topTrailing
-            self.modalPresentation.value = .search
-        }
     }
     
     struct iPad: ViewModifier {
         
-        @Binding var query: Query
         @Binding var popoverAlignment: Alignment
         @ObservedObject var syncProgress: AnyContinousProgress
         
+        @SceneFilter private var filter
+        @SceneSearch private var search
+        
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
+        @Environment(\.toolbarFilterIsEnabled) private var toolbarFilterIsEnabled
         
         func body(content: Content) -> some View {
             // TODO: Remove combined ToolbarItems when it supoprts more than 10 items
@@ -145,23 +148,20 @@ extension DetailToolbar.iOS {
                     }
                 }
                 ToolbarItem(id: "Detail.Filter") {
-                    WH.filterToolbarItem(self.query) {
+                    WH.filterToolbarItem(filter: self.filter,
+                                         toolbarFilterIsEnabled: self.toolbarFilterIsEnabled)
+                    {
                         self.popoverAlignment = .topTrailing
-                        self.query.filter.boolValue.toggle()
+                        self.filter.boolValue.toggle()
                     }
                 }
                 ToolbarItem(id: "Detail.Search") {
-                    WH.searchToolbarItem(self.query) {
+                    WH.searchToolbarItem(self.search) {
                         self.popoverAlignment = .topTrailing
                         self.modalPresentation.value = .search
                     }
                 }
             }
-        }
-        
-        private func search() {
-            self.popoverAlignment = .topTrailing
-            self.modalPresentation.value = .search
         }
     }
 }

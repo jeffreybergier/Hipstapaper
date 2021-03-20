@@ -42,7 +42,7 @@ struct TagApplyPresentable: ViewModifier {
         content.popover(item: self.$presentation.isTagApply)
         { selection in
             TagApply(controller: self.controller,
-                     selection: selection,
+                     selection: selection.value,
                      done: { self.presentation.value = .none })
         }
     }
@@ -54,61 +54,59 @@ struct SharePresentable: ViewModifier {
     
     func body(content: Content) -> some View {
         content.popover(item: self.$presentation.isShare) { selection in
-            STZ.SHR(items: selection.compactMap { $0.value.preferredURL },
+            STZ.SHR(items: selection.value.compactMap { $0.value.preferredURL },
                     completion:  { self.presentation.value = .none })
         }
     }
 }
 
-struct SearchPresentable: ViewModifier {
+struct SearchPickerPresentable: ViewModifier {
     
-    @Binding var search: String
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
     
     func body(content: Content) -> some View {
         content.popover(isPresented: self.$presentation.isSearch)
-        {
-            Search(searchString: self.$search,
-                   doneAction: { self.presentation.value = .none })
-        }
+        { SearchPicker { self.presentation.value = .none } }
     }
 }
 
-struct SortPresentable: ViewModifier {
+struct SortPickerPresentable: ViewModifier {
     
-    @Binding var sort: Datum.Sort!
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
     
     func body(content: Content) -> some View {
         content.popover(isPresented: self.$presentation.isSort)
-        {
-            Sort(selection: self.$sort,
-                 doneAction: { self.presentation.value = .none })
-        }
+        { SortPicker { self.presentation.value = .none } }
     }
 }
 
-struct AddTagPresentable: ViewModifier {
+struct TagNamePickerPresentable: ViewModifier {
     
     let controller: Controller
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
     @EnvironmentObject private var errorQ: ErrorQueue
 
     func body(content: Content) -> some View {
-        content.popover(isPresented: self.$presentation.isAddTag)
-        {
-            AddTag(cancel: { self.presentation.value = .none },
-                   save: self.save)
+        content.popover(item: self.$presentation.isTagName)
+        { item in
+            TagNamePicker(originalName: item.value?.value.name ?? "",
+                          source: item.value == nil ? STZ.TB.AddTag.self : STZ.TB.EditTag.self,
+                          cancel: { self.presentation.value = .none },
+                          save: { self.presentation.value = .none
+                                  self.save(item.value, $0) })
         }
     }
     
-    private func save(_ name: String?) {
-        let result = self.controller.createTag(name: name)
-        switch result {
-        case .success:
-            self.presentation.value = .none
-        case .failure(let error):
-            self.errorQ.queue.append(error)
+    private func save(_ item: TH.Selection?, _ name: String?) {
+        let result: Result<Void, Datum.Error>
+        if let item = item {
+            result = self.controller.update(item, name: name)
+        } else {
+            result = self.controller.createTag(name: name).map { _ in () }
+        }
+        result.error.map {
+            log.error($0)
+            self.errorQ.queue.append($0)
         }
     }
 }
@@ -163,7 +161,7 @@ struct AddChoicePresentable: ViewModifier {
             self.presentation.value = .none
             // TODO: Remove this hack when possible
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                self.presentation.value = .addTag
+                self.presentation.value = .tagName(nil)
             }
         }
     }

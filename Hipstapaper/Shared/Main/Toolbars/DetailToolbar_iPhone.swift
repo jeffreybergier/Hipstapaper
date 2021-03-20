@@ -34,7 +34,6 @@ extension DetailToolbar.iOS {
         
         let controller: Controller
         @Binding var selection: WH.Selection
-        @Binding var query: Query
         @Binding var popoverAlignment: Alignment
         
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
@@ -85,26 +84,27 @@ extension DetailToolbar.iOS {
                     }
                 }
         }
-        
-        private func search() {
-            self.popoverAlignment = .topTrailing
-            self.modalPresentation.value = .search
-        }
     }
     
     struct iPhone: ViewModifier {
         
-        @Binding var query: Query
         @Binding var popoverAlignment: Alignment
         @ObservedObject var syncProgress: AnyContinousProgress
         
+        @SceneFilter private var filter
+        @SceneSearch private var search
+        
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
+        @Environment(\.toolbarFilterIsEnabled) private var toolbarFilterIsEnabled
+
         
         func body(content: Content) -> some View {
             content.toolbar(id: "Detail") {
                 ToolbarItem(id: "Detail.Filter", placement: .bottomBar) {
-                    WH.filterToolbarItem(self.query) {
-                        self.query.filter.boolValue.toggle()
+                    WH.filterToolbarItem(filter: self.filter,
+                                         toolbarFilterIsEnabled: self.toolbarFilterIsEnabled)
+                    {
+                        self.filter.boolValue.toggle()
                     }
                 }
                 ToolbarItem(id: "Detail.Separator", placement: .bottomBar) {
@@ -126,17 +126,12 @@ extension DetailToolbar.iOS {
                     STZ.TB.Sync(self.syncProgress)
                 }
                 ToolbarItem(id: "Detail.Search", placement: .primaryAction) {
-                    WH.searchToolbarItem(self.query) {
+                    WH.searchToolbarItem(self.search) {
                         self.popoverAlignment = .topTrailing
                         self.modalPresentation.value = .search
                     }
                 }
             }
-        }
-        
-        private func search() {
-            self.popoverAlignment = .topTrailing
-            self.modalPresentation.value = .search
         }
     }
 }

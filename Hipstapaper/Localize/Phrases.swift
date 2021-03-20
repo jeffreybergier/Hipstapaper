@@ -59,6 +59,7 @@ public enum Phrase: LocalizedStringKey {
     case addAndRemoveTags       = "Phrase.AddAndRemoveTags"
     case searchWebsite          = "Phrase.SearchWebsite"
     case addTag                 = "Phrase.AddTag"
+    case editTag                = "Phrase.EditTag"
     case addWebsite             = "Phrase.AddWebsite"
     case done                   = "Phrase.Done"
     case save                   = "Phrase.Save"

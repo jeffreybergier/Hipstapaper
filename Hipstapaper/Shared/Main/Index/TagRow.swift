@@ -49,12 +49,12 @@ struct TagRow: View {
 #if DEBUG
 struct TagRow_Preview1: PreviewProvider {
     static var previews: some View {
-        TagRow(item: p_tags[0])
+        TagRow(item: p_tags[AnyIndex(0)])
     }
 }
 struct TagRow_Preview2: PreviewProvider {
     static var previews: some View {
-        TagRow(item: p_tags[2])
+        TagRow(item: p_tags[AnyIndex(2)])
     }
 }
 #endif

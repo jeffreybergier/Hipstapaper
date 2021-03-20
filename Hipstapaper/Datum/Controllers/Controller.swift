@@ -44,18 +44,18 @@ public protocol Controller {
 
     // MARK: Websites CRUD
     func createWebsite(_: AnyWebsite.Raw) -> Result<AnyElementObserver<AnyWebsite>, Error>
-    func readWebsites(query: Query) -> Result<AnyListObserver<AnyList<AnyElementObserver<AnyWebsite>>>, Error>
+    func readWebsites(query: Query) -> Result<AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyWebsite>>>, Error>
     func update(_: Set<AnyElementObserver<AnyWebsite>>, _: AnyWebsite.Raw) -> Result<Void, Error>
     func delete(_: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error>
 
     // MARK: Tags CRUD
     func createTag(name: String?) -> Result<AnyElementObserver<AnyTag>, Error>
-    func readTags() -> Result<AnyListObserver<AnyList<AnyElementObserver<AnyTag>>>, Error>
+    func readTags() -> Result<AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyTag>>>, Error>
     func update(_: AnyElementObserver<AnyTag>, name: Optional<String?>) -> Result<Void, Error>
     func delete(_: AnyElementObserver<AnyTag>) -> Result<Void, Error>
     
     // MARK: Custom Functions
     func add(tag: AnyElementObserver<AnyTag>, to websites: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error>
     func remove(tag: AnyElementObserver<AnyTag>, from websites: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error>
-    func tagStatus(for websites: Set<AnyElementObserver<AnyWebsite>>) -> Result<AnyList<(AnyElementObserver<AnyTag>, ToggleState)>, Error>
+    func tagStatus(for websites: Set<AnyElementObserver<AnyWebsite>>) -> Result<AnyRandomAccessCollection<(AnyElementObserver<AnyTag>, ToggleState)>, Error>
 }

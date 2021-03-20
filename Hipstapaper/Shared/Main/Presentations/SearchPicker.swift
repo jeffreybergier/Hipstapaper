@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2021/02/04.
+//  Created by Jeffrey Bergier on 2020/12/05.
 //
 //  MIT License
 //
@@ -24,21 +24,37 @@
 //  SOFTWARE.
 //
 
-import Umbrella
+import SwiftUI
 import Datum
+import Stylize
+import Localize
 
-protocol DataSource: ObservableObject {
-    associatedtype Observer: ListObserver where Observer.Collection.Element: Hashable & Identifiable
+struct SearchPicker: View {
     
-    var controller: Controller { get }
-    /// Should be @Published
-    var observer: Observer? { get }
-    /// Computed property that `{ observer?.data ?? .empty }`
-    var data: Observer.Collection { get }
+    let doneAction: Action
+    @SceneSearch private var search
     
-    /// Causes the observer to be created and start observing.
-    /// Pass errorQ if you want errors to be captured
-    func activate(_ errorQ: ErrorQueue?)
-    /// Causes the observer to be deallocated and no longer be observed
-    func deactivate()
+    var body: some View {
+        VStack {
+            HStack {
+                STZ.VIEW.TXTFLD.Search.textfield(self.$search)
+                if self.search.trimmed != nil {
+                    STZ.TB.ClearSearch.button_iconOnly(action: { self.search = "" })
+                }
+            }
+            .animation(.default)
+            Spacer()
+        }
+        .modifier(STZ.PDG.Equal())
+        .modifier(STZ.MDL.Done(kind: STZ.TB.SearchActive.self, done: self.doneAction))
+        .frame(idealWidth: 375, idealHeight: self.__hack_height) // TODO: Remove height when this is not broken
+    }
+    
+    private var __hack_height: CGFloat? {
+        #if os(macOS)
+        return nil
+        #else
+        return 120
+        #endif
+    }
 }

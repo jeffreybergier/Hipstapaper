@@ -35,7 +35,6 @@ struct Main: View {
     
     @StateObject private var errorQ = ErrorQueue()
     @StateObject private var modalPresentation = ModalPresentation.Wrap()
-    @StateObject private var websiteControllerCache: BlackBoxCache<AnyElementObserver<AnyTag>, WebsiteDataSource> = .init()
 
     init(controller: Controller) {
         self.controller = controller
@@ -44,10 +43,7 @@ struct Main: View {
     var body: some View {
         NavigationView {
             TagList(controller: self.controller) { selectedTag in
-                WebsiteList(dataSource: self.websiteControllerCache[selectedTag] {
-                    WebsiteDataSource(controller: self.controller,
-                                      selectedTag: selectedTag)
-                })
+                WebsiteList(controller: self.controller, selectedTag: selectedTag)
             }
             // TODO: Has to be here because of macOS bug
             .modifier(ErrorQueuePresenter())

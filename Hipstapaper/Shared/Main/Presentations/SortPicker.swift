@@ -30,13 +30,15 @@ import Stylize
 import Localize
 import Datum
 
-struct Sort: View {
+struct SortPicker: View {
     
-    @Binding var selection: Datum.Sort!
     let doneAction: Action
+    @SceneSort private var sort
     
     var body: some View {
-        List(Datum.Sort.allCases, id: \.self, selection: self.$selection)
+        List(Sort.allCases,
+             id: \.self,
+             selection: self.$sort)
         { order in
             order.label.label()
                 .modifier(STZ.PDG.Default(ignore: [\.leading, \.trailing]))
@@ -58,7 +60,7 @@ fileprivate struct __Size: ViewModifier {
     }
 }
 
-extension Datum.Sort {
+extension Sort {
     fileprivate var label: Labelable.Type {
         switch self {
         case .dateModifiedNewest:

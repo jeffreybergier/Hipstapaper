@@ -30,16 +30,30 @@ import Umbrella
 import Stylize
 
 struct TagMenu: ViewModifier {
+    
     let controller: Controller
     @State var selection: TH.Selection
+    
+    @StateObject private var modalPresentation = ModalPresentation.Wrap()
     @EnvironmentObject private var errorQ: ErrorQueue
+    
     func body(content: Content) -> some View {
-        content.contextMenu {
-            STZ.TB.DeleteTag_Trash.context() {
-                self.errorQ.queue.append(DeleteError.tag({
-                    TH.delete(self.selection, self.controller, self.errorQ)
-                }))
+        ZStack {
+            // TODO: Hack when toolbars work properly with popovers
+            Color.clear.frame(width: 1, height: 1)
+                .modifier(TagNamePickerPresentable(controller: self.controller))
+            content.contextMenu {
+                STZ.TB.EditTag.context() {
+                    self.modalPresentation.value = .tagName(self.selection)
+                }
+                STZ.TB.DeleteTag_Trash.context() {
+                    let error = DeleteError.tag {
+                        TH.delete(self.selection, self.controller, self.errorQ)
+                    }
+                    self.errorQ.queue.append(error)
+                }
             }
         }
+        .environmentObject(self.modalPresentation)
     }
 }
