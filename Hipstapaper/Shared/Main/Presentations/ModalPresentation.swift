@@ -30,12 +30,12 @@ import Umbrella
 enum ModalPresentation: Equatable {
     case none
     case addWebsite
-    case tagName
     case addChoose
     case search
+    case sort
+    case tagName(TH.Selection?)
     case tagApply(WH.Selection)
     case share(WH.Selection)
-    case sort
     case browser(AnyElementObserver<AnyWebsite>)
     
     // TODO: Remove this when SwiftUI doesn't suck at modals
@@ -64,10 +64,10 @@ enum ModalPresentation: Equatable {
             }
         }
         
-        @Published var isTagName = false {
+        @Published var isTagName: IdentBox<TH.Selection?>? = nil {
             didSet {
                 guard !internalUpdateInProgress else { return }
-                guard !self.isTagName else { return }
+                guard self.isTagName == nil else { return }
                 self.value = .none
             }
         }
@@ -113,8 +113,8 @@ enum ModalPresentation: Equatable {
                 self.isSearch        = false
                 self.isSort          = false
                 self.isAddWebsite    = false
-                self.isTagName       = false
                 self.isAddChoose     = false
+                self.isTagName       = nil
                 self.isTagApply      = nil
                 self.isBrowser       = nil
                 self.isShare         = nil
@@ -129,8 +129,8 @@ enum ModalPresentation: Equatable {
                     self.isBrowser = .init(item)
                 case .addWebsite:
                     self.isAddWebsite = true
-                case .tagName:
-                    self.isTagName = true
+                case .tagName(let item):
+                    self.isTagName = .init(item)
                 case .addChoose:
                     self.isAddChoose = true
                 case .search:

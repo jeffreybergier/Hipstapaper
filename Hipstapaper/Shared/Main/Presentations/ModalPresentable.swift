@@ -82,29 +82,28 @@ struct SortPickerPresentable: ViewModifier {
 
 struct TagNamePickerPresentable: ViewModifier {
     
-    var item: TH.Selection? = nil
     let controller: Controller
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
     @EnvironmentObject private var errorQ: ErrorQueue
 
     func body(content: Content) -> some View {
-        content.popover(isPresented: self.$presentation.isTagName)
-        {
-            TagNamePicker(originalName: self.item?.value.name ?? "",
-                          source: self.item == nil ? STZ.TB.AddTag.self : STZ.TB.EditTag.self,
+        content.popover(item: self.$presentation.isTagName)
+        { item in
+            TagNamePicker(originalName: item.value?.value.name ?? "",
+                          source: item.value == nil ? STZ.TB.AddTag.self : STZ.TB.EditTag.self,
                           cancel: { self.presentation.value = .none },
-                          save: self.save)
+                          save: { self.presentation.value = .none
+                                  self.save(item.value, $0) })
         }
     }
     
-    private func save(_ name: String?) {
+    private func save(_ item: TH.Selection?, _ name: String?) {
         let result: Result<Void, Datum.Error>
-        if let item = self.item {
+        if let item = item {
             result = self.controller.update(item, name: name)
         } else {
             result = self.controller.createTag(name: name).map { _ in () }
         }
-        self.presentation.value = .none
         result.error.map {
             log.error($0)
             self.errorQ.queue.append($0)
@@ -162,7 +161,7 @@ struct AddChoicePresentable: ViewModifier {
             self.presentation.value = .none
             // TODO: Remove this hack when possible
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                self.presentation.value = .tagName
+                self.presentation.value = .tagName(nil)
             }
         }
     }
