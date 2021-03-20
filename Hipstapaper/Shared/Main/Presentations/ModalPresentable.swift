@@ -80,17 +80,19 @@ struct SortPickerPresentable: ViewModifier {
     }
 }
 
-struct AddTagPresentable: ViewModifier {
+struct TagNamePickerPresentable: ViewModifier {
     
     let controller: Controller
+    let source: Presentable.Type
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
     @EnvironmentObject private var errorQ: ErrorQueue
 
     func body(content: Content) -> some View {
         content.popover(isPresented: self.$presentation.isAddTag)
         {
-            AddTag(cancel: { self.presentation.value = .none },
-                   save: self.save)
+            TagNamePicker(source: source,
+                          cancel: { self.presentation.value = .none },
+                          save: self.save)
         }
     }
     

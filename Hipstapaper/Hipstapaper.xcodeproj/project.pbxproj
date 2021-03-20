@@ -50,8 +50,8 @@
 		735C92022577C0260033B4E8 /* FixedModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C92012577C0260033B4E8 /* FixedModels.swift */; };
 		735D4C64258DF9D00016F904 /* TagAddRemoveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4C63258DF9D00016F904 /* TagAddRemoveTests.swift */; };
 		735D4C8B258E2F9C0016F904 /* ToggleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4C8A258E2F9C0016F904 /* ToggleState.swift */; };
-		735D4CA3258F1ECE0016F904 /* AddTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4C93258F1E2F0016F904 /* AddTag.swift */; };
-		735D4CAB258F1ECF0016F904 /* AddTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4C93258F1E2F0016F904 /* AddTag.swift */; };
+		735D4CA3258F1ECE0016F904 /* TagNamePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4C93258F1E2F0016F904 /* TagNamePicker.swift */; };
+		735D4CAB258F1ECF0016F904 /* TagNamePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735D4C93258F1E2F0016F904 /* TagNamePicker.swift */; };
 		735D4CBC258F4D690016F904 /* Browse.h in Headers */ = {isa = PBXBuildFile; fileRef = 735D4CBA258F4D690016F904 /* Browse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		735D4CD0258F4DFF0016F904 /* Stylize.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7399BAA9258251A500B8CAFD /* Stylize.framework */; };
 		735D4CD5258F4E070016F904 /* Localize.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7399BAC3258251D800B8CAFD /* Localize.framework */; };
@@ -516,7 +516,7 @@
 		735C92012577C0260033B4E8 /* FixedModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixedModels.swift; sourceTree = "<group>"; };
 		735D4C63258DF9D00016F904 /* TagAddRemoveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagAddRemoveTests.swift; sourceTree = "<group>"; };
 		735D4C8A258E2F9C0016F904 /* ToggleState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleState.swift; sourceTree = "<group>"; };
-		735D4C93258F1E2F0016F904 /* AddTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTag.swift; sourceTree = "<group>"; };
+		735D4C93258F1E2F0016F904 /* TagNamePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagNamePicker.swift; sourceTree = "<group>"; };
 		735D4CB8258F4D690016F904 /* Browse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Browse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		735D4CBA258F4D690016F904 /* Browse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Browse.h; sourceTree = "<group>"; };
 		735D4CBB258F4D690016F904 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -899,7 +899,7 @@
 				73550A4B25B2A01000B6FA9F /* ModalPresentation.swift */,
 				73550A8A25B2A7EA00B6FA9F /* ModalPresentable.swift */,
 				73A3DEAF257B9351002EDEB4 /* SearchPicker.swift */,
-				735D4C93258F1E2F0016F904 /* AddTag.swift */,
+				735D4C93258F1E2F0016F904 /* TagNamePicker.swift */,
 				73466982259F4DA20001E7C9 /* SortPicker.swift */,
 				7350B37C25C4274300C61716 /* SyncToolbar.swift */,
 				73BFB62325D5746B0030C2DA /* SyncIndicator.swift */,
@@ -1685,7 +1685,7 @@
 				73FFA2A925CEAE8D00BC78BB /* DeleteError.swift in Sources */,
 				73C2751A25A9FB300028FE3A /* DropboxWatcher.swift in Sources */,
 				DBDCB365256BE8E800D005F6 /* HipstapaperApp.swift in Sources */,
-				735D4CA3258F1ECE0016F904 /* AddTag.swift in Sources */,
+				735D4CA3258F1ECE0016F904 /* TagNamePicker.swift in Sources */,
 				734068192574981200D4A343 /* TagRow.swift in Sources */,
 				7355F8A925FA302000844CF6 /* SceneStorage+Hipstapaper.swift in Sources */,
 				736DD3E3258790A000F0FBE0 /* TagApply.swift in Sources */,
@@ -1723,7 +1723,7 @@
 				73D0F84C25B7160300D82D00 /* Errors.swift in Sources */,
 				DBDCB366256BE8E800D005F6 /* HipstapaperApp.swift in Sources */,
 				73FFA2AA25CEAE8D00BC78BB /* DeleteError.swift in Sources */,
-				735D4CAB258F1ECF0016F904 /* AddTag.swift in Sources */,
+				735D4CAB258F1ECF0016F904 /* TagNamePicker.swift in Sources */,
 				7340681A2574981200D4A343 /* TagRow.swift in Sources */,
 				73FFA2C425CEC7D100BC78BB /* TagMenu.swift in Sources */,
 				736DD3E4258790A000F0FBE0 /* TagApply.swift in Sources */,

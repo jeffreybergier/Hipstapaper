@@ -28,22 +28,23 @@ import SwiftUI
 import Stylize
 import Localize
 
-struct AddTag: View {
+struct TagNamePicker: View {
     
-    @State private var tagName: String = ""
+    @State var originalName: String = ""
+    let source: Presentable.Type
     let cancel: Action
     let save: (String?) -> Void
     
     var body: some View {
         VStack(spacing: 0) {
-            STZ.VIEW.TXTFLD.TagName.textfield(self.$tagName)
+            STZ.VIEW.TXTFLD.TagName.textfield(self.$originalName)
             Spacer()
         }
         .modifier(STZ.PDG.Equal())
-        .modifier(STZ.MDL.Save(kind: STZ.TB.AddTag.self,
+        .modifier(STZ.MDL.Save(kind: self.source,
                                cancel: self.cancel,
-                               save: { self.save(self.tagName.trimmed) },
-                               canSave: { self.tagName.trimmed != nil }))
+                               save: { self.save(self.originalName.trimmed) },
+                               canSave: { self.originalName.trimmed != nil }))
         .frame(idealWidth: 375, idealHeight: self.__hack_height) // TODO: Remove height when this is not broken
     }
     
