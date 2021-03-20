@@ -68,8 +68,9 @@ struct TagList<Nav: View>: View {
                     {
                         TagRow(item: tag)
                             .environment(\.XPL_isSelected, self.selectedTag == tag.value.uri)
-                            .modifier(TagMenu(controller: self.controller, selection: tag))
                     }
+                    // FB9048743: Makes context menu work on macOS
+                    .modifier(TagMenu(controller: self.controller, selection: tag))
                 }
             }
         }
