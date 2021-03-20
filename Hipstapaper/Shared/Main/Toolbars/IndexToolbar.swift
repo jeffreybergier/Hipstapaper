@@ -39,8 +39,7 @@ struct IndexToolbar: ViewModifier {
         return ZStack(alignment: .topTrailing) {
             // TODO: Hack when toolbars work properly with popovers
             Color.clear.frame(width: 1, height: 1)
-                .modifier(TagNamePickerPresentable(controller: self.controller,
-                                                   source:  STZ.TB.AddTag.self))
+                .modifier(TagNamePickerPresentable(controller: self.controller))
             Color.clear.frame(width: 1, height: 1)
                 .modifier(AddWebsitePresentable(controller: self.controller))
             Color.clear.frame(width: 1, height: 1)

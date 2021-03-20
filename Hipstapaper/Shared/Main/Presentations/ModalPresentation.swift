@@ -30,7 +30,7 @@ import Umbrella
 enum ModalPresentation: Equatable {
     case none
     case addWebsite
-    case addTag
+    case tagName
     case addChoose
     case search
     case tagApply(WH.Selection)
@@ -64,10 +64,10 @@ enum ModalPresentation: Equatable {
             }
         }
         
-        @Published var isAddTag = false {
+        @Published var isTagName = false {
             didSet {
                 guard !internalUpdateInProgress else { return }
-                guard !self.isAddTag else { return }
+                guard !self.isTagName else { return }
                 self.value = .none
             }
         }
@@ -113,7 +113,7 @@ enum ModalPresentation: Equatable {
                 self.isSearch        = false
                 self.isSort          = false
                 self.isAddWebsite    = false
-                self.isAddTag        = false
+                self.isTagName       = false
                 self.isAddChoose     = false
                 self.isTagApply      = nil
                 self.isBrowser       = nil
@@ -129,8 +129,8 @@ enum ModalPresentation: Equatable {
                     self.isBrowser = .init(item)
                 case .addWebsite:
                     self.isAddWebsite = true
-                case .addTag:
-                    self.isAddTag = true
+                case .tagName:
+                    self.isTagName = true
                 case .addChoose:
                     self.isAddChoose = true
                 case .search:

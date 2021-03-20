@@ -68,7 +68,14 @@ extension STZ.TB {
         public static let phrase: Phrase = .addTag
         public static let verb: Verb = .addTag
         public static let noun: Noun = .addTag
-        public static let shortcut: KeyboardShortcut? = .init("n", modifiers: [.command, .option])
+        public static let shortcut: KeyboardShortcut? = nil
+    }
+    public enum EditTag: Presentable {
+        public static let icon: STZ.ICN? = .tag
+        public static let phrase: Phrase = .editTag
+        public static let verb: Verb = .editTag
+        public static let noun: Noun = .editTag
+        public static let shortcut: KeyboardShortcut? = nil
     }
     public enum AddWebsite: Presentable {
         public static let icon: STZ.ICN? = .addPlus

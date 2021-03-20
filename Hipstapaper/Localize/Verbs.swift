@@ -37,6 +37,7 @@ public enum Verb: LocalizedStringKey {
     case share                  = "Verb.Share"
     case addChoice              = "Verb.AddChoice"
     case addTag                 = "Verb.AddTag"
+    case editTag                = "Verb.EditTag"
     case addWebsite             = "Verb.AddWebsite"
     case deleteTag              = "Verb.DeleteTag"
     case deleteWebsite          = "Verb.DeleteWebsite"
