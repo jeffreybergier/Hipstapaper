@@ -49,13 +49,18 @@ public protocol Presentable: Buttonable {
 }
 
 extension Labelable {
-    @ViewBuilder public static func label() -> some View {
+    // TODO: Remove AnyView. For some reason, it is failing to build when using `some View`
+    public static func label() -> AnyView {
         if let icon = self.icon {
-            Label(self.verb.rawValue, systemImage: icon.rawValue)
-                .modifier(STZ.FNT.Sort.apply())
+            return AnyView(
+                Label(self.verb.rawValue, systemImage: icon.rawValue)
+                    .modifier(STZ.FNT.Sort.apply())
+            )
         } else {
-            STZ.VIEW.TXT(self.verb.rawValue)
-                .modifier(STZ.FNT.Sort.apply())
+            return AnyView(
+                STZ.VIEW.TXT(self.verb.rawValue)
+                    .modifier(STZ.FNT.Sort.apply())
+            )
         }
     }
 }
