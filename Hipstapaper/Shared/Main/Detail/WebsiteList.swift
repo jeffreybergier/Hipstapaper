@@ -54,6 +54,7 @@ struct WebsiteList: View {
         { item in
             WebsiteRow(item: item)
         }
+        .listStyle(PlainListStyle())
         .modifier(If.iOS(_Animation(.default)))
         .modifier(SyncIndicator(progress: self.controller.syncProgress))
         .modifier(WebsiteListTitle(query: self.query()))
