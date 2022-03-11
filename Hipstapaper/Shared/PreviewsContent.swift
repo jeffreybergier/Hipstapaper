@@ -26,6 +26,7 @@
 
 #if DEBUG
 
+import Foundation
 import Datum
 import Umbrella
 

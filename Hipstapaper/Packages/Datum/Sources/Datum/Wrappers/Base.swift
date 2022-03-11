@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/23.
+//  Created by Jeffrey Bergier on 2020/11/28.
 //
 //  MIT License
 //
@@ -24,14 +24,16 @@
 //  SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+import Foundation
 
-//! Project version number for Datum.
-FOUNDATION_EXPORT double DatumVersionNumber;
+public protocol Base: Identifiable, Hashable {
+    var uri: URL { get }
+    var dateCreated: Date { get }
+    var dateModified: Date { get }
+}
 
-//! Project version string for Datum.
-FOUNDATION_EXPORT const unsigned char DatumVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <Datum/PublicHeader.h>
-
-
+extension CD_Base: Base {
+    var uri: URL { self.objectID.uriRepresentation() }
+    var dateCreated: Date { cd_dateCreated ?? Date() }
+    var dateModified: Date { cd_dateModified ?? Date() }
+}

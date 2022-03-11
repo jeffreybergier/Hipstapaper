@@ -28,6 +28,7 @@
 // https://developer.apple.com/documentation/swiftui/fetchedresults
 // https://www.raywenderlich.com/9335365-core-data-with-swiftui-tutorial-getting-started
 
+import Foundation
 import Umbrella
 
 public func ControllerNew() -> Result<Controller, Error> {

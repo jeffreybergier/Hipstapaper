@@ -24,6 +24,7 @@
 //  SOFTWARE.
 //
 
+import Foundation
 import Combine
 import Umbrella
 

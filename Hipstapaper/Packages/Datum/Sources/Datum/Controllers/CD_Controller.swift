@@ -374,7 +374,7 @@ extension CD_Controller {
     // If the MOM is loaded more than once, it prints warnings to the console
     private static let mom: NSManagedObjectModel = {
         guard
-            let url = Bundle(for: CD_Controller.self).url(forResource: "CD_MOM", withExtension: "momd"),
+            let url = Bundle.module.url(forResource: "CD_MOM", withExtension: "momd"),
             let mom = NSManagedObjectModel(contentsOf: url)
         else {
             let message = "Couldn't find MOM"

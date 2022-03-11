@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2021/02/23.
+//  Created by Jeffrey Bergier on 2020/11/23.
 //
 //  MIT License
 //
@@ -24,14 +24,14 @@
 //  SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+import Foundation
 
-//! Project version number for SPMShim.
-FOUNDATION_EXPORT double SPMShimVersionNumber;
-
-//! Project version string for SPMShim.
-FOUNDATION_EXPORT const unsigned char SPMShimVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <SPMShim/PublicHeader.h>
-
+public protocol Website: Base {
+    var isArchived: Bool { get }
+    var originalURL: URL? { get }
+    var resolvedURL: URL? { get }
+    var preferredURL: URL? { get }
+    var title: String? { get }
+    var thumbnail: Data? { get }
+}
 

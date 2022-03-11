@@ -24,6 +24,7 @@
 //  SOFTWARE.
 //
 
+import Foundation
 import Combine
 
 public struct AnyTag: Tag {

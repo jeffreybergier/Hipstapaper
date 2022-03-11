@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/28.
+//  Created by Jeffrey Bergier on 2020/12/02.
 //
 //  MIT License
 //
@@ -24,14 +24,38 @@
 //  SOFTWARE.
 //
 
-public protocol Base: Identifiable, Hashable {
-    var uri: URL { get }
-    var dateCreated: Date { get }
-    var dateModified: Date { get }
-}
+import Foundation
+import Localize
+import Umbrella
 
-extension CD_Base: Base {
-    var uri: URL { self.objectID.uriRepresentation() }
-    var dateCreated: Date { cd_dateCreated ?? Date() }
-    var dateModified: Date { cd_dateModified ?? Date() }
+extension Query.Filter: Tag {
+    
+    // TODO: delete later
+    public static var anyTag_allCases: [AnyElementObserver<AnyTag>] {
+        self.allCases.map { AnyElementObserver(StaticElement(AnyTag($0))) }
+    }
+    
+    // TODO: See if its possible change type to LocalizedString
+    public var localizedDescription: String {
+        switch self {
+        case .all:
+            return Noun.allItems_L
+        case .unarchived:
+            return Noun.unreadItems_L
+        }
+    }
+    
+    public var name: String? { self.localizedDescription }
+    public var websitesCount: Int? { return nil }
+    public var dateCreated: Date { fatalError() }
+    public var dateModified: Date { fatalError() }
+    
+    public var uri: URL {
+        switch self {
+        case .all:
+            return URL(string: "hipstapaper://com.saturdayapps.Hipstapaper.query.filter.all")!
+        case.unarchived:
+            return URL(string: "hipstapaper://com.saturdayapps.Hipstapaper.query.filter.unarchived")!
+        }
+    }
 }
