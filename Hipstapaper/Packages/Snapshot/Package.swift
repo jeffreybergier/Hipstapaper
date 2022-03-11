@@ -15,7 +15,7 @@ let package = Package(
     dependencies: [
         .package(path: "../Localize"),
         .package(path: "../Stylize"),
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", .branchItem("main"))
+        .package(url: "https://github.com/jeffreybergier/Umbrella.git", .branch("main"))
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.

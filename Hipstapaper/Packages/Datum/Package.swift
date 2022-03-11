@@ -14,7 +14,7 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../Localize"),
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", .branchItem("main"))
+        .package(url: "https://github.com/jeffreybergier/Umbrella.git", .branch("main"))
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -28,6 +28,10 @@ let package = Package(
         ),
         .testTarget(
             name: "DatumTests",
-            dependencies: ["Datum"]),
+            dependencies: [
+                .byNameItem(name: "Datum", condition: nil),
+//                .byNameItem(name: "TestUmbrella", condition: nil), // TODO: Why doesn't this work?
+            ]
+        ),
     ]
 )
