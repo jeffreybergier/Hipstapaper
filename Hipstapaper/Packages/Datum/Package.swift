@@ -53,7 +53,7 @@ let package = Package(
             name: "DatumTests",
             dependencies: [
                 .byNameItem(name: "Datum", condition: nil),
-//                .byNameItem(name: "TestUmbrella", condition: nil), // TODO: Why doesn't this work?
+                .product(name: "TestUmbrella", package: "Umbrella", condition: nil),
             ]
         ),
     ]
