@@ -95,6 +95,7 @@
 
 /* Begin PBXFileReference section */
 		7350800D27DB49E800E8D5AC /* Stylize */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Stylize; path = Packages/Stylize; sourceTree = "<group>"; };
+		7351BE3F27DCB36200D94BEA /* Datum2 */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Datum2; path = Packages/Datum2; sourceTree = "<group>"; };
 		7369CBF627DC1B6A00871EBE /* Interface */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Interface; path = Packages/Interface; sourceTree = "<group>"; };
 		7369CBF927DC287A00871EBE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7369CC0027DC2AD900871EBE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -199,6 +200,7 @@
 			children = (
 				7369CBF627DC1B6A00871EBE /* Interface */,
 				DBDCB33B256BE8E600D005F6 /* Shared */,
+				7351BE3F27DCB36200D94BEA /* Datum2 */,
 				73A4AB6C27DB6F29003B22E1 /* Datum */,
 				73868A5527DB6AAD00183A56 /* Snapshot */,
 				73868A5227DB68FC00183A56 /* Browse */,
