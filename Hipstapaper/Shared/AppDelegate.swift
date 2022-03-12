@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/23.
+//  Created by Jeffrey Bergier on 2022/03/12.
 //
 //  MIT License
 //
@@ -25,39 +25,11 @@
 //
 
 import SwiftUI
-import Umbrella
-import Datum
-import Stylize
+import Interface
 
-struct Root: View {
-    
-    let controller: Controller
-    
-    @StateObject private var errorQ = ErrorQueue()
-    @StateObject private var modalPresentation = ModalPresentation.Wrap()
-
-    init(controller: Controller) {
-        self.controller = controller
-    }
-    
-    var body: some View {
-        NavigationView {
-            TagList(controller: self.controller) { selectedTag in
-                WebsiteList(controller: self.controller, selectedTag: selectedTag)
-            }
-            // TODO: Has to be here because of macOS bug
-            .modifier(ErrorQueuePresenter())
-        }
-        .modifier(BrowserPresentable())
-        .environmentObject(self.modalPresentation)
-        .environmentObject(self.errorQ)
+@main
+struct AppDelegate: App {
+    var body: some Scene {
+        Interface()
     }
 }
-
-#if DEBUG
-struct Main_Previews: PreviewProvider {
-    static var previews: some View {
-        Root(controller: P_Controller())
-    }
-}
-#endif

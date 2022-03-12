@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		73451E9E27DB72E400F169EA /* Datum in Frameworks */ = {isa = PBXBuildFile; productRef = 73451E9D27DB72E400F169EA /* Datum */; };
 		7369CBF827DC1F6800871EBE /* Interface in Frameworks */ = {isa = PBXBuildFile; productRef = 7369CBF727DC1F6800871EBE /* Interface */; };
+		7369CBFA27DC287A00871EBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369CBF927DC287A00871EBE /* AppDelegate.swift */; };
+		7369CBFB27DC291E00871EBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369CBF927DC287A00871EBE /* AppDelegate.swift */; };
+		7369CBFD27DC29CD00871EBE /* Interface in Frameworks */ = {isa = PBXBuildFile; productRef = 7369CBFC27DC29CD00871EBE /* Interface */; };
 		736F67A325C19822006896DF /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 736F67A225C19822006896DF /* CloudKit.framework */; };
 		736F67A525C19979006896DF /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 736F67A425C19979006896DF /* CloudKit.framework */; };
-		73868A5727DB6B3900183A56 /* Snapshot in Frameworks */ = {isa = PBXBuildFile; productRef = 73868A5627DB6B3900183A56 /* Snapshot */; };
 		739F03AE25A87F49001826F8 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739F03AD25A87F49001826F8 /* ShareViewController.swift */; };
 		739F03B125A87F49001826F8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 739F03AF25A87F49001826F8 /* MainInterface.storyboard */; };
 		739F03B525A87F49001826F8 /* Share_iOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 739F03AB25A87F49001826F8 /* Share_iOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -91,6 +92,7 @@
 /* Begin PBXFileReference section */
 		7350800D27DB49E800E8D5AC /* Stylize */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Stylize; path = Packages/Stylize; sourceTree = "<group>"; };
 		7369CBF627DC1B6A00871EBE /* Interface */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Interface; path = Packages/Interface; sourceTree = "<group>"; };
+		7369CBF927DC287A00871EBE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		736F67A225C19822006896DF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.2.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		736F67A425C19979006896DF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		737C724127DB46EA008B5969 /* Localize */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Localize; path = Packages/Localize; sourceTree = "<group>"; };
@@ -116,7 +118,6 @@
 		DBDCB34B256BE8E700D005F6 /* Hipstapaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hipstapaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBDCB34D256BE8E700D005F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DBDCB34E256BE8E700D005F6 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
-		DBDCB38A256BEBE700D005F6 /* DatumTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DatumTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,8 +141,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				73451E9E27DB72E400F169EA /* Datum in Frameworks */,
-				73868A5727DB6B3900183A56 /* Snapshot in Frameworks */,
+				7369CBFD27DC29CD00871EBE /* Interface in Frameworks */,
 				736F67A325C19822006896DF /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -152,13 +152,6 @@
 			files = (
 				7369CBF827DC1F6800871EBE /* Interface in Frameworks */,
 				736F67A525C19979006896DF /* CloudKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DBDCB387256BEBE700D005F6 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,6 +205,7 @@
 			isa = PBXGroup;
 			children = (
 				DBDCB33E256BE8E700D005F6 /* Assets.xcassets */,
+				7369CBF927DC287A00871EBE /* AppDelegate.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -221,7 +215,6 @@
 			children = (
 				DBDCB343256BE8E700D005F6 /* Hipstapaper.app */,
 				DBDCB34B256BE8E700D005F6 /* Hipstapaper.app */,
-				DBDCB38A256BEBE700D005F6 /* DatumTests.xctest */,
 				739F03AB25A87F49001826F8 /* Share_iOS.appex */,
 				739F03C725A87FE4001826F8 /* Share_macOS.appex */,
 			);
@@ -315,8 +308,7 @@
 			);
 			name = "Hipstapaper (iOS)";
 			packageProductDependencies = (
-				73868A5627DB6B3900183A56 /* Snapshot */,
-				73451E9D27DB72E400F169EA /* Datum */,
+				7369CBFC27DC29CD00871EBE /* Interface */,
 			);
 			productName = "Hipstapaper (iOS)";
 			productReference = DBDCB343256BE8E700D005F6 /* Hipstapaper.app */;
@@ -345,25 +337,6 @@
 			productReference = DBDCB34B256BE8E700D005F6 /* Hipstapaper.app */;
 			productType = "com.apple.product-type.application";
 		};
-		DBDCB389256BEBE700D005F6 /* DatumTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DBDCB396256BEBE800D005F6 /* Build configuration list for PBXNativeTarget "DatumTests" */;
-			buildPhases = (
-				DBDCB386256BEBE700D005F6 /* Sources */,
-				DBDCB387256BEBE700D005F6 /* Frameworks */,
-				DBDCB388256BEBE700D005F6 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = DatumTests;
-			packageProductDependencies = (
-			);
-			productName = DatumTests;
-			productReference = DBDCB38A256BEBE700D005F6 /* DatumTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -384,9 +357,7 @@
 					};
 					DBDCB34A256BE8E700D005F6 = {
 						CreatedOnToolsVersion = 12.2;
-					};
-					DBDCB389256BEBE700D005F6 = {
-						CreatedOnToolsVersion = 12.2;
+						LastSwiftMigration = 1320;
 					};
 				};
 			};
@@ -407,7 +378,6 @@
 			targets = (
 				DBDCB342256BE8E700D005F6 /* Hipstapaper (iOS) */,
 				DBDCB34A256BE8E700D005F6 /* Hipstapaper (macOS) */,
-				DBDCB389256BEBE700D005F6 /* DatumTests */,
 				739F03AA25A87F49001826F8 /* Share_iOS */,
 				739F03C625A87FE4001826F8 /* Share_macOS */,
 			);
@@ -449,13 +419,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DBDCB388256BEBE700D005F6 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -479,6 +442,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7369CBFB27DC291E00871EBE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,13 +450,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DBDCB386256BEBE700D005F6 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				7369CBFA27DC287A00871EBE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -819,6 +777,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -837,6 +796,8 @@
 				PRODUCT_NAME = Hipstapaper;
 				SDKROOT = macosx;
 				SUPPORTED_PLATFORMS = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -846,6 +807,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -864,42 +826,7 @@
 				PRODUCT_NAME = Hipstapaper;
 				SDKROOT = macosx;
 				SUPPORTED_PLATFORMS = macosx;
-			};
-			name = Release;
-		};
-		DBDCB397256BEBE800D005F6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = V6ESYGU6CV;
-				INFOPLIST_FILE = DatumTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.DatumTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		DBDCB398256BEBE800D005F6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = V6ESYGU6CV;
-				INFOPLIST_FILE = DatumTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.DatumTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -951,29 +878,16 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DBDCB396256BEBE800D005F6 /* Build configuration list for PBXNativeTarget "DatumTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DBDCB397256BEBE800D005F6 /* Debug */,
-				DBDCB398256BEBE800D005F6 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		73451E9D27DB72E400F169EA /* Datum */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Datum;
-		};
 		7369CBF727DC1F6800871EBE /* Interface */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Interface;
 		};
-		73868A5627DB6B3900183A56 /* Snapshot */ = {
+		7369CBFC27DC29CD00871EBE /* Interface */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Snapshot;
+			productName = Interface;
 		};
 		73A4AB6627DB6CF4003B22E1 /* Snapshot */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -31,8 +31,7 @@ import Datum
 import Stylize
 import Localize
 
-@main
-struct HipstapaperApp: App {
+public struct Interface: Scene {
     
     let controller: Controller?
     let watcher: DropboxWatcher?
@@ -47,7 +46,7 @@ struct HipstapaperApp: App {
     }
     */
     
-    init() {
+    public init() {
         let errorQ = ErrorQueue()
         let result = ControllerNew()
         switch result {
@@ -64,7 +63,7 @@ struct HipstapaperApp: App {
         }
     }
 
-    @SceneBuilder var body: some Scene {
+    @SceneBuilder public var body: some Scene {
         WindowGroup(Noun.readingList.rawValue, id: "MainWindow") {
             self.build()
                 .alert(item: self.$dropBoxWatcherErrorQ.current) {
@@ -75,7 +74,7 @@ struct HipstapaperApp: App {
     
     @ViewBuilder private func build() -> some View {
         if let controller = self.controller {
-            Main(controller: controller)
+            Root(controller: controller)
                 .environmentObject(self.windowPresentation)
         } else {
             Color.clear
