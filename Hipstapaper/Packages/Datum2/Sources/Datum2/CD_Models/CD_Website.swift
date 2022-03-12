@@ -1,7 +1,5 @@
-// swift-tools-version:5.5
-
 //
-//  Created by Jeffrey Bergier on 2022/03/11.
+//  Created by Jeffrey Bergier on 2020/11/23.
 //
 //  MIT License
 //
@@ -26,35 +24,36 @@
 //  SOFTWARE.
 //
 
-import PackageDescription
+import CoreData
 
-let package = Package(
-    name: "Datum2",
-    platforms: [.iOS(.v15), .macOS(.v12)],
-    products: [
-        .library(
-            name: "Datum2",
-            targets: ["Datum2"]
-        ),
-    ],
-    dependencies: [
-        .package(path: "../Localize"),
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", .branch("v2"))
-    ],
-    targets: [
-        .target(
-            name: "Datum2",
-            dependencies: [
-                .byNameItem(name: "Localize", condition: nil),
-                .byNameItem(name: "Umbrella", condition: nil),
-            ]
-        ),
-        .testTarget(
-            name: "Datum2Tests",
-            dependencies: [
-                .byNameItem(name: "Datum2", condition: nil),
-                .product(name: "TestUmbrella", package: "Umbrella", condition: nil),
-            ]
-        ),
-    ]
-)
+@objc(CD_Website) internal class CD_Website: CD_Base {
+
+    internal class override var entityName: String { "CD_Website" }
+    internal class var request: NSFetchRequest<CD_Website> {
+        NSFetchRequest<CD_Website>(entityName: self.entityName)
+    }
+
+    @NSManaged internal var cd_isArchived:  Bool
+    @NSManaged internal var cd_originalURL: URL?
+    @NSManaged internal var cd_resolvedURL: URL?
+    @NSManaged internal var cd_title:       String?
+    @NSManaged internal var cd_thumbnail:   Data?
+    @NSManaged internal var cd_tags:        NSSet
+    
+    override func willSave() {
+        super.willSave()
+        
+        // Validate Title
+        if let title = self.cd_title, title.trimmed == nil {
+            self.cd_title = nil
+        }
+
+        // Validate Thumbnail Size
+        // TODO: Centralize max thumbnail size
+        if let thumb = self.cd_thumbnail, thumb.count > 100_000 {
+            self.cd_thumbnail = nil
+        }
+    }
+}
+
+

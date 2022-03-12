@@ -1,7 +1,5 @@
-// swift-tools-version:5.5
-
 //
-//  Created by Jeffrey Bergier on 2022/03/11.
+//  Created by Jeffrey Bergier on 2022/03/12.
 //
 //  MIT License
 //
@@ -26,35 +24,22 @@
 //  SOFTWARE.
 //
 
-import PackageDescription
+import Foundation
 
-let package = Package(
-    name: "Datum2",
-    platforms: [.iOS(.v15), .macOS(.v12)],
-    products: [
-        .library(
-            name: "Datum2",
-            targets: ["Datum2"]
-        ),
-    ],
-    dependencies: [
-        .package(path: "../Localize"),
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", .branch("v2"))
-    ],
-    targets: [
-        .target(
-            name: "Datum2",
-            dependencies: [
-                .byNameItem(name: "Localize", condition: nil),
-                .byNameItem(name: "Umbrella", condition: nil),
-            ]
-        ),
-        .testTarget(
-            name: "Datum2Tests",
-            dependencies: [
-                .byNameItem(name: "Datum2", condition: nil),
-                .product(name: "TestUmbrella", package: "Umbrella", condition: nil),
-            ]
-        ),
-    ]
-)
+public struct Website: Identifiable, Hashable {
+    public var isArchived: Bool
+    public var originalURL: URL?
+    public var resolvedURL: URL?
+    public var preferredURL: URL?
+    public var title: String?
+    public var thumbnail: Data?
+    
+    public var id: String { self.uuid.id }
+    public var uuid: Ident
+    public var dateCreated: Date
+    public var dateModified: Date
+    
+    public struct Ident: Hashable {
+        public var id: String
+    }
+}

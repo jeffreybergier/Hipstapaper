@@ -1,7 +1,5 @@
-// swift-tools-version:5.5
-
 //
-//  Created by Jeffrey Bergier on 2022/03/11.
+//  Created by Jeffrey Bergier on 2020/11/23.
 //
 //  MIT License
 //
@@ -26,35 +24,45 @@
 //  SOFTWARE.
 //
 
-import PackageDescription
+import CoreData
+import Combine
+import Umbrella
 
-let package = Package(
-    name: "Datum2",
-    platforms: [.iOS(.v15), .macOS(.v12)],
-    products: [
-        .library(
-            name: "Datum2",
-            targets: ["Datum2"]
-        ),
-    ],
-    dependencies: [
-        .package(path: "../Localize"),
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", .branch("v2"))
-    ],
-    targets: [
-        .target(
-            name: "Datum2",
-            dependencies: [
-                .byNameItem(name: "Localize", condition: nil),
-                .byNameItem(name: "Umbrella", condition: nil),
-            ]
-        ),
-        .testTarget(
-            name: "Datum2Tests",
-            dependencies: [
-                .byNameItem(name: "Datum2", condition: nil),
-                .product(name: "TestUmbrella", package: "Umbrella", condition: nil),
-            ]
-        ),
-    ]
-)
+@objc(CD_Base) internal class CD_Base: NSManagedObject, Identifiable {
+
+    /// Template for fetch request in subclasses
+    internal class var entityName: String { "CD_Base" }
+    private class var request: NSFetchRequest<CD_Base> {
+        NSFetchRequest<CD_Base>(entityName: self.entityName)
+    }
+
+    @NSManaged internal var cd_dateCreated: Date?
+    @NSManaged internal var cd_dateModified: Date?
+
+    override internal func awakeFromInsert() {
+        super.awakeFromInsert()
+        let date = Date()
+        self.cd_dateModified = date
+        self.cd_dateCreated = date
+    }
+    
+    override func willSave() {
+        super.willSave()
+        
+        let now = Date()
+        
+        if self.cd_dateCreated == nil {
+            log.error()
+            self.cd_dateCreated = now
+        }
+        
+        if self.cd_dateModified == nil {
+            log.error()
+            self.cd_dateModified = now
+        }
+        
+        if abs(self.cd_dateModified!.timeIntervalSince(now)) > 3 {
+            self.cd_dateModified = now
+        }
+    }
+}

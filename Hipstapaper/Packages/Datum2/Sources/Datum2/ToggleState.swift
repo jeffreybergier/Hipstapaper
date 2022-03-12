@@ -1,7 +1,5 @@
-// swift-tools-version:5.5
-
 //
-//  Created by Jeffrey Bergier on 2022/03/11.
+//  Created by Jeffrey Bergier on 2020/12/19.
 //
 //  MIT License
 //
@@ -26,35 +24,54 @@
 //  SOFTWARE.
 //
 
-import PackageDescription
+public enum ToggleState {
+    case off
+    case mixed
+    case on
+    
+    public init(_ input: [Bool]) {
+        let setValue = Set(input)
+        switch (setValue.contains(true), setValue.contains(false)) {
+        case (true, true): // contains true and false
+            self = .mixed
+        case (true, false): // contains true but no false
+            self = .on
+        case (false, true): // contains false but no true
+            self = .off
+        case (false, false): // empty
+            self = .off
+        }
+    }
+    
+    public var boolValue: Bool {
+        switch self {
+        case .off:
+            return false
+        case .on, .mixed:
+            return true
+        }
+    }
+}
 
-let package = Package(
-    name: "Datum2",
-    platforms: [.iOS(.v15), .macOS(.v12)],
-    products: [
-        .library(
-            name: "Datum2",
-            targets: ["Datum2"]
-        ),
-    ],
-    dependencies: [
-        .package(path: "../Localize"),
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", .branch("v2"))
-    ],
-    targets: [
-        .target(
-            name: "Datum2",
-            dependencies: [
-                .byNameItem(name: "Localize", condition: nil),
-                .byNameItem(name: "Umbrella", condition: nil),
-            ]
-        ),
-        .testTarget(
-            name: "Datum2Tests",
-            dependencies: [
-                .byNameItem(name: "Datum2", condition: nil),
-                .product(name: "TestUmbrella", package: "Umbrella", condition: nil),
-            ]
-        ),
-    ]
-)
+#if canImport(AppKit)
+import AppKit
+extension ToggleState {
+    public var nativeValue: NSControl.StateValue {
+        switch self {
+        case .mixed:
+            return .mixed
+        case .off:
+            return .off
+        case .on:
+            return .on
+        }
+    }
+}
+#else
+import UIKit
+extension ToggleState {
+    public var nativeValue: Bool {
+        return self.boolValue
+    }
+}
+#endif
