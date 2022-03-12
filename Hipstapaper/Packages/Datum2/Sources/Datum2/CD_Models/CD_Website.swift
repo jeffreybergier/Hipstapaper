@@ -56,4 +56,16 @@ import CoreData
     }
 }
 
-
+extension Website {
+    internal init(_ cd: CD_Website) {
+        self.dateCreated = cd.cd_dateCreated ?? Date.init(timeIntervalSince1970: 0)
+        self.dateModified = cd.cd_dateModified ?? Date.init(timeIntervalSince1970: 0)
+        self.uuid = .init(cd.objectID)
+        
+        self.isArchived = cd.cd_isArchived
+        self.originalURL = cd.cd_originalURL
+        self.resolvedURL = cd.cd_resolvedURL
+        self.title = cd.cd_title
+        self.thumbnail = cd.cd_thumbnail
+    }
+}

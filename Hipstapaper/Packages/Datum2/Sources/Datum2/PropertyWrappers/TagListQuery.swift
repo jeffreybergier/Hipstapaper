@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/24.
+//  Created by Jeffrey Bergier on 2022/03/12.
 //
 //  MIT License
 //
@@ -24,39 +24,25 @@
 //  SOFTWARE.
 //
 
-import CoreData
+import SwiftUI
+import Umbrella
 
-@objc(CD_Tag) internal class CD_Tag: CD_Base {
-
-    internal class override var entityName: String { "CD_Tag" }
-    internal class var request: NSFetchRequest<CD_Tag> {
-        NSFetchRequest<CD_Tag>(entityName: self.entityName)
-    }
-
-    @NSManaged internal var cd_websitesCount: Int32
-    @NSManaged internal var cd_name: String?
-    @NSManaged internal var cd_websites: NSSet
+@propertyWrapper
+public struct TagListQuery: DynamicProperty {
     
-    override func willSave() {
-        super.willSave()
-        let newWebsitesCount = Int32(self.cd_websites.count)
-        if self.cd_websitesCount != newWebsitesCount {
-            self.cd_websitesCount = newWebsitesCount
-        }
-        
-        // Validate Title
-        if let name = self.cd_name, name.trimmed == nil {
-            self.cd_name = nil
-        }
+    @FetchRequest private var data: FetchedResults<CD_Tag>
+    @Environment(\.managedObjectContext) private var context
+    
+    public init() {
+        let sort = NSSortDescriptor(keyPath: \CD_Tag.cd_name, ascending: true)
+        let fr = FetchRequest<CD_Tag>(sortDescriptors: [sort],
+                                      predicate:  nil,
+                                      animation: .default)
+        _data = fr
     }
-}
-
-extension Tag {
-    internal init(_ cd: CD_Tag) {
-        self.dateCreated = cd.cd_dateCreated ?? Date.init(timeIntervalSince1970: 0)
-        self.dateModified = cd.cd_dateModified ?? Date.init(timeIntervalSince1970: 0)
-        self.name = cd.cd_name
-        self.websitesCount = Int(cd.cd_websitesCount)
-        self.uuid = .init(cd.objectID)
+    
+    public var wrappedValue: AnyRandomAccessCollection<Tag> {
+        TransformCollection(collection: self.data){ Tag($0) }
+            .eraseToAnyRandomAccessCollection()
     }
 }

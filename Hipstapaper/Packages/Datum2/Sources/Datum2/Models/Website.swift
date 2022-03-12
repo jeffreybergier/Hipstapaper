@@ -30,7 +30,7 @@ public struct Website: Identifiable, Hashable {
     public var isArchived: Bool
     public var originalURL: URL?
     public var resolvedURL: URL?
-    public var preferredURL: URL?
+    public var preferredURL: URL? { self.resolvedURL ?? self.originalURL }
     public var title: String?
     public var thumbnail: Data?
     
