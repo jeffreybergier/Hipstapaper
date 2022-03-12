@@ -62,10 +62,10 @@
             testExecutionOrdering = "random">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DBDCB389256BEBE700D005F6"
-               BuildableName = "DatumTests.xctest"
+               BlueprintIdentifier = "DatumTests"
+               BuildableName = "DatumTests"
                BlueprintName = "DatumTests"
-               ReferencedContainer = "container:Hipstapaper.xcodeproj">
+               ReferencedContainer = "container:Packages/Datum">
             </BuildableReference>
          </TestableReference>
       </Testables>
