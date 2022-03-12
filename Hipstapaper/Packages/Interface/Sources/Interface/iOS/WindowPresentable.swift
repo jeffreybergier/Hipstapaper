@@ -19,6 +19,7 @@
 //  along with Hipstapaper.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+/*
 import UIKit
 import Combine
 
@@ -30,3 +31,4 @@ class WindowPresentation: ObservableObject, WindowManagerProtocol {
         fatalError("Not supported on iOS")
     }
 }
+*/

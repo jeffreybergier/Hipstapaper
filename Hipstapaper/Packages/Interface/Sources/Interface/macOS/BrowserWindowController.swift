@@ -24,6 +24,8 @@
 //  SOFTWARE.
 //
 
+#if os(macOS)
+
 import Combine
 import AppKit
 import SwiftUI
@@ -70,3 +72,5 @@ extension BrowserWindowController: NSWindowDelegate {
         self.windowWillClose?(self.url)
     }
 }
+
+#endif

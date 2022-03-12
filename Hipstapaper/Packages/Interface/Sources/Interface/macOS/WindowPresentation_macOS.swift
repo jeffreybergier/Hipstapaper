@@ -24,6 +24,8 @@
 //  SOFTWARE.
 //
 
+#if os(macOS)
+
 import AppKit
 import Combine
 
@@ -44,3 +46,5 @@ class WindowPresentation: ObservableObject, WindowManagerProtocol {
         }
     }
 }
+
+#endif

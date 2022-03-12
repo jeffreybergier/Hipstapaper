@@ -24,6 +24,8 @@
 //  SOFTWARE.
 //
 
+#if os(iOS)
+
 import UIKit
 import Combine
 
@@ -35,3 +37,5 @@ class WindowPresentation: ObservableObject, WindowManagerProtocol {
         fatalError("Not supported on iOS")
     }
 }
+
+#endif

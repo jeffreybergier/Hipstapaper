@@ -24,6 +24,8 @@
 //  SOFTWARE.
 //
 
+#if os(iOS)
+
 import SwiftUI
 import Umbrella
 import Stylize
@@ -65,3 +67,5 @@ extension DetailToolbar.iOS {
         }
     }
 }
+
+#endif
