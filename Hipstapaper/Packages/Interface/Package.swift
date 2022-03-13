@@ -30,7 +30,7 @@ import PackageDescription
 
 let package = Package(
     name: "Interface",
-    platforms: [.iOS(.v14), .macOS(.v11)],
+    platforms: [.iOS(.v15), .macOS(.v12)],
     products: [
         .library(
             name: "Interface",
@@ -38,7 +38,7 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(path: "../Datum"),
+        .package(path: "../Datum2"),
         .package(path: "../Browse"),
         .package(path: "../Snapshot"),
     ],
@@ -46,7 +46,7 @@ let package = Package(
         .target(
             name: "Interface",
             dependencies: [
-                .byNameItem(name: "Datum", condition: nil),
+                .byNameItem(name: "Datum2", condition: nil),
                 .byNameItem(name: "Browse", condition: nil),
                 .byNameItem(name: "Snapshot", condition: nil),
             ]

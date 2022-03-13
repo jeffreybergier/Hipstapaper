@@ -5,17 +5,26 @@
         "package": "ServerlessLogger",
         "repositoryURL": "https://github.com/jeffreybergier/JSBServerlessLogger.git",
         "state": {
-          "branch": "master",
-          "revision": "1dbd4243d9c760d577712ad2ca1b540c2f899507",
+          "branch": "2.0",
+          "revision": "435e6d7f03ffc93f67c5e2159be003564bb5d532",
           "version": null
+        }
+      },
+      {
+        "package": "swift-collections",
+        "repositoryURL": "https://github.com/apple/swift-collections.git",
+        "state": {
+          "branch": null,
+          "revision": "48254824bb4248676bf7ce56014ff57b142b77eb",
+          "version": "1.0.2"
         }
       },
       {
         "package": "Umbrella",
         "repositoryURL": "https://github.com/jeffreybergier/Umbrella.git",
         "state": {
-          "branch": "main",
-          "revision": "f602f56bb5cf154b78b6a403665ba4fe54420fa1",
+          "branch": "v2",
+          "revision": "eb8736240118c9340164ae8ce4cd03b8702594ce",
           "version": null
         }
       },

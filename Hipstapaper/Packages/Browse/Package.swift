@@ -30,7 +30,7 @@ import PackageDescription
 
 let package = Package(
     name: "Browse",
-    platforms: [.iOS(.v14), .macOS(.v11)],
+    platforms: [.iOS(.v15), .macOS(.v12)],
     products: [
         .library(
             name: "Browse",
@@ -39,7 +39,7 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../Stylize"),
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", .branch("main"))
+        .package(url: "https://github.com/jeffreybergier/Umbrella.git", .branch("v2"))
     ],
     targets: [
         .target(
