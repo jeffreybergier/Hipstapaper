@@ -25,7 +25,7 @@
 //
 
 import SwiftUI
-import Datum
+import Datum2
 
 @propertyWrapper
 struct SceneSearch: DynamicProperty {

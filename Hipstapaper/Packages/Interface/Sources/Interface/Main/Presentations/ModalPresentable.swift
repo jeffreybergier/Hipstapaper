@@ -8,7 +8,7 @@
 import SwiftUI
 import Umbrella
 import Browse
-import Datum
+import Datum2
 import Stylize
 import Snapshot
 import Localize

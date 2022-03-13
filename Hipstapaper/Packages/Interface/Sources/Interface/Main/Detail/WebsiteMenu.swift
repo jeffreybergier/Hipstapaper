@@ -27,7 +27,7 @@
 import SwiftUI
 import Umbrella
 import XPList
-import Datum
+import Datum2
 import Stylize
 
 struct WebsiteMenu: ViewModifier {

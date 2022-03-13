@@ -31,10 +31,10 @@ import Localize
 public enum Error: UserFacingError {
     case loadURL
 
-    public var message: LocalizedStringKey {
+    public var message: LocalizationKey {
         switch self {
         case .loadURL:
-            return Phrase.errorLoadURL.rawValue
+            return "// TODO: Fix this" // Phrase.errorLoadURL.rawValue
         }
     }
     

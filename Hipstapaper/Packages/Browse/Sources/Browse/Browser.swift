@@ -27,11 +27,12 @@
 import SwiftUI
 import Umbrella
 import Stylize
+import Collections
 
 public struct Browser: View {
     
     @StateObject public var viewModel: ViewModel
-    @StateObject private var errorQ = ErrorQueue()
+    @State private var errorQ = Deque<UserFacingError>()
     
     public var body: some View {
         ZStack(alignment: .top) {
@@ -44,12 +45,13 @@ public struct Browser: View {
         }
         .onAppear() {
             guard self.viewModel.originalURL == nil else { return }
-            self.errorQ.queue.append(Error.loadURL)
+            // self.errorQ.queue.append(Error.loadURL)
         }
         // TODO: Toolbar leaks like crazy on iOS :(
         .modifier(Toolbar(viewModel: self.viewModel))
-        .modifier(ErrorQueuePresenter())
-        .environmentObject(self.errorQ)
+        // TODO: Fix error presentation
+        // .modifier(ErrorQueuePresenter())
+        // .environmentObject(self.errorQ)
     }
     
     public init(_ viewModel: ViewModel) {

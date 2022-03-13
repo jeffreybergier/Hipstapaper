@@ -27,11 +27,12 @@
 import SwiftUI
 import WebKit
 import Umbrella
+import Collections
 
 struct WebView: View {
     
     @ObservedObject var viewModel: ViewModel
-    @EnvironmentObject private var errorQ: ErrorQueue
+    @State private var errorQ = Deque<UserFacingError>()
     
     private func update(_ wv: WKWebView, context: Context) {
         if self.viewModel.control.isJSEnabled != wv.configuration.preferences.javaScriptEnabled {

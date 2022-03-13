@@ -25,7 +25,7 @@
 //
 
 import Foundation
-import Datum
+import Datum2
 import Umbrella
 
 enum ModalPresentation: Equatable {

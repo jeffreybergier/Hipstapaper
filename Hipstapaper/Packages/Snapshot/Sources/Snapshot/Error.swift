@@ -38,7 +38,9 @@ public enum Error: UserFacingError {
 }
 
 extension Error: LocalizedError {
-    public var message: LocalizedStringKey {
+    public var message: LocalizationKey {
+        return "// TODO: Fix this"
+        /*
         switch self {
         case .take:
             return Phrase.errorScreenshot.rawValue
@@ -53,5 +55,6 @@ extension Error: LocalizedError {
         case .sx_save:
             return Phrase.errorSaveWebsite.rawValue
         }
+        */
     }
 }

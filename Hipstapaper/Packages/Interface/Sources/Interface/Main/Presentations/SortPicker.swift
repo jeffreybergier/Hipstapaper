@@ -28,7 +28,7 @@ import SwiftUI
 import Umbrella
 import Stylize
 import Localize
-import Datum
+import Datum2
 
 struct SortPicker: View {
     

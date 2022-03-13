@@ -27,7 +27,7 @@
 #if DEBUG
 
 import Foundation
-import Datum
+import Datum2
 import Umbrella
 
 var p_query = Query()

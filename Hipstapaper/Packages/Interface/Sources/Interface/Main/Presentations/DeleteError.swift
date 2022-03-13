@@ -27,7 +27,7 @@
 import SwiftUI
 import Umbrella
 import Stylize
-import Datum
+import Datum2
 import Localize
 
 enum DeleteError: UserFacingError {
