@@ -49,8 +49,7 @@ extension STZ {
         public var body: some View {
             Bridge(items: self.items, completion: self.completion)
                 .frame(width: self.forcedFrame, height: self.forcedFrame)
-                // .modifier(ErrorQueuePresenter()) TODO: Fix error presentation
-                // .environmentObject(self.errorQ)
+                .modifier(ErrorPresentation(self.$errorQ.first))
                 .onAppear {
                     guard self.items.isEmpty else { return }
                     self.errorQ.append(Error.itemCount)

@@ -38,8 +38,8 @@ class ShareViewController: NSViewController {
     @ErrorQueue private var errorQ
     private lazy var snapshotVC: NSViewController =
         NSHostingController(rootView: Snapshotter(self.viewModel))
-//    private lazy var errorVC: NSViewController =
-//        NSHostingController(rootView: ErrorQueuePresenterView().environmentObject(self.errorQ))
+    private lazy var errorVC: NSViewController = NSHostingController(rootView: EmptyView().modifier(ErrorPresentation(self.$errorQ.first))
+)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,7 +58,6 @@ class ShareViewController: NSViewController {
             self.addChild(vc)
         }()
         
-        /* // TODO: Fix error presentation
         _ = { // Add ErrorVC
             let vc = self.errorVC
             vc.view.translatesAutoresizingMaskIntoConstraints = false
@@ -71,7 +70,6 @@ class ShareViewController: NSViewController {
             ])
             self.addChild(vc)
         }()
-        */
         
         self.viewModel.doneAction = { [unowned self] result in
             switch result {
