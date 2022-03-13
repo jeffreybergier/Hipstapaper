@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7330FA3F27DC2BEA00ECE2F4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7369CBFF27DC2AD900871EBE /* Localizable.strings */; };
-		7330FA4027DC2BEB00ECE2F4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7369CBFF27DC2AD900871EBE /* Localizable.strings */; };
-		7330FA4127DC2BEC00ECE2F4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7369CBFF27DC2AD900871EBE /* Localizable.strings */; };
-		7330FA4227DC2BED00ECE2F4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7369CBFF27DC2AD900871EBE /* Localizable.strings */; };
 		7369CBF827DC1F6800871EBE /* Interface in Frameworks */ = {isa = PBXBuildFile; productRef = 7369CBF727DC1F6800871EBE /* Interface */; };
 		7369CBFA27DC287A00871EBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369CBF927DC287A00871EBE /* AppDelegate.swift */; };
 		7369CBFB27DC291E00871EBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369CBF927DC287A00871EBE /* AppDelegate.swift */; };
@@ -98,7 +94,6 @@
 		7351BE3F27DCB36200D94BEA /* Datum2 */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Datum2; path = Packages/Datum2; sourceTree = "<group>"; };
 		7369CBF627DC1B6A00871EBE /* Interface */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Interface; path = Packages/Interface; sourceTree = "<group>"; };
 		7369CBF927DC287A00871EBE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7369CC0027DC2AD900871EBE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		736F67A225C19822006896DF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.2.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		736F67A425C19979006896DF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		737C724127DB46EA008B5969 /* Localize */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Localize; path = Packages/Localize; sourceTree = "<group>"; };
@@ -163,14 +158,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7369CBFE27DC2AD900871EBE /* Base.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				7369CBFF27DC2AD900871EBE /* Localizable.strings */,
-			);
-			path = Base.lproj;
-			sourceTree = "<group>";
-		};
 		739F03AC25A87F49001826F8 /* Share_iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -219,7 +206,6 @@
 			children = (
 				DBDCB33E256BE8E700D005F6 /* Assets.xcassets */,
 				7369CBF927DC287A00871EBE /* AppDelegate.swift */,
-				7369CBFE27DC2AD900871EBE /* Base.lproj */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -404,7 +390,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				739F03B125A87F49001826F8 /* MainInterface.storyboard in Resources */,
-				7330FA4127DC2BEC00ECE2F4 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -413,7 +398,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				739F03CF25A87FE4001826F8 /* ShareViewController.xib in Resources */,
-				7330FA4227DC2BED00ECE2F4 /* Localizable.strings in Resources */,
 				739F03CA25A87FE4001826F8 /* icon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -423,7 +407,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				73DD930A25EB3B740050DBDD /* README.md in Resources */,
-				7330FA4027DC2BEB00ECE2F4 /* Localizable.strings in Resources */,
 				DBDCB369256BE8E800D005F6 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -433,7 +416,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DBDCB36A256BE8E800D005F6 /* Assets.xcassets in Resources */,
-				7330FA3F27DC2BEA00ECE2F4 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,14 +470,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		7369CBFF27DC2AD900871EBE /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7369CC0027DC2AD900871EBE /* en */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
 		739F03AF25A87F49001826F8 /* MainInterface.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

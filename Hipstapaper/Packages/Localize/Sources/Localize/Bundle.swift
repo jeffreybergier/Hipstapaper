@@ -1,7 +1,5 @@
-// swift-tools-version:5.5
-
 //
-//  Created by Jeffrey Bergier on 2022/03/11.
+//  Created by Jeffrey Bergier on 2022/03/13.
 //
 //  MIT License
 //
@@ -26,27 +24,10 @@
 //  SOFTWARE.
 //
 
-import PackageDescription
+import Foundation
+import Umbrella
 
-let package = Package(
-    name: "Localize",
-    defaultLocalization: "en",
-    platforms: [.iOS(.v15), .macOS(.v12)],
-    products: [
-        .library(
-            name: "Localize",
-            targets: ["Localize"]
-        ),
-    ],
-    dependencies: [
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", .branch("v2")),
-    ],
-    targets: [
-        .target(
-            name: "Localize",
-            dependencies: [
-                .byNameItem(name: "Umbrella", condition: nil),
-            ]
-        ),
-    ]
-)
+public class LocalizeBundle: EnvironmentBundleProtocol {
+    public let bundle: Bundle = Bundle.module
+    public init() {}
+}
