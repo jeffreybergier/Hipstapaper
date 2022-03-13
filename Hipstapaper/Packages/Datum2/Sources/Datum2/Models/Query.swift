@@ -31,7 +31,7 @@ public struct Query: Codable {
     
     public var tag: Tag.Ident?
     public var sort: Sort
-    public var search: String?
+    public var search: String
     public var isOnlyNotArchived: Bool
     
     public init(tag: Tag.Ident? = nil,
@@ -41,7 +41,7 @@ public struct Query: Codable {
     {
         self.tag = tag
         self.sort = sort
-        self.search = search
+        self.search = search ?? ""
         self.isOnlyNotArchived = isOnlyNotArchived
     }
 }

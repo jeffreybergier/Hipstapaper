@@ -33,12 +33,13 @@ import Datum2
 struct SortPicker: View {
     
     let doneAction: Action
-    @SceneSort private var sort
+    @QueryProperty private var query
     
     var body: some View {
-        List(Sort.allCases,
-             id: \.self,
-             selection: self.$sort)
+        List(Sort.allCases)
+        // TODO: Fix DATUM
+             // id: \.self,
+             // selection: self.$query.sort)
         { order in
             order.label.label()
                 .modifier(STZ.PDG.Default(ignore: [\.leading, \.trailing]))

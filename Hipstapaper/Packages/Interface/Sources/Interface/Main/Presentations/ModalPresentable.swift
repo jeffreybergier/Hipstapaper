@@ -18,7 +18,7 @@ struct BrowserPresentable: ViewModifier {
     func body(content: Content) -> some View {
         #if os(macOS)
         return content.sheet(item: self.$presentation.isBrowser) { item in
-            self.browser(item.value.value.preferredURL)
+            self.browser(item.preferredURL)
         }
         #else
         return content.fullScreenCover(item: self.$presentation.isBrowser) { item in
@@ -54,7 +54,7 @@ struct SharePresentable: ViewModifier {
     
     func body(content: Content) -> some View {
         content.popover(item: self.$presentation.isShare) { selection in
-            STZ.SHR(items: selection.value.compactMap { $0.value.preferredURL },
+            STZ.SHR(items: selection.value.compactMap { $0.preferredURL },
                     completion:  { self.presentation.value = .none })
         }
     }
@@ -75,8 +75,10 @@ struct SortPickerPresentable: ViewModifier {
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
     
     func body(content: Content) -> some View {
-        content.popover(isPresented: self.$presentation.isSort)
-        { SortPicker { self.presentation.value = .none } }
+        content
+            .popover(isPresented: self.$presentation.isSort) {
+                SortPicker { self.presentation.value = .none }
+            }
     }
 }
 
@@ -84,20 +86,23 @@ struct TagNamePickerPresentable: ViewModifier {
     
     let controller: Controller
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
-    @EnvironmentObject private var errorQ: ErrorQueue
+    @EnvironmentObject private var errorEnvironment: ErrorQueueEnvironment
 
     func body(content: Content) -> some View {
         content.popover(item: self.$presentation.isTagName)
         { item in
-            TagNamePicker(originalName: item.value?.value.name ?? "",
-                          source: item.value == nil ? STZ.TB.AddTag.self : STZ.TB.EditTag.self,
+            // TODO: Fix DATUM
+            TagNamePicker(originalName: item.id,
+                          source: STZ.TB.AddTag.self, // item.value == nil ? STZ.TB.AddTag.self : STZ.TB.EditTag.self,
                           cancel: { self.presentation.value = .none },
                           save: { self.presentation.value = .none
-                                  self.save(item.value, $0) })
+                                  self.save(item, $0) })
         }
     }
     
     private func save(_ item: TH.Selection?, _ name: String?) {
+        // TODO: Fix DATUM
+        /*
         let result: Result<Void, Datum.Error>
         if let item = item {
             result = self.controller.update(item, name: name)
@@ -108,14 +113,15 @@ struct TagNamePickerPresentable: ViewModifier {
             log.error($0)
             self.errorQ.queue.append($0)
         }
+        */
     }
 }
 
 struct AddWebsitePresentable: ViewModifier {
     
     let controller: Controller
-    @EnvironmentObject private var errorQ: ErrorQueue
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
+    @EnvironmentObject private var errorEnvironment: ErrorQueueEnvironment
 
     func body(content: Content) -> some View {
         content.sheet(isPresented: self.$presentation.isAddWebsite) {
@@ -127,13 +133,17 @@ struct AddWebsitePresentable: ViewModifier {
         defer { self.presentation.value = .none }
         switch result {
         case .success(let output):
+            break
+            // TODO: Fix DATUM
+            /*
             let result2 = self.controller.createWebsite(.init(output))
             result2.error.map {
                 self.errorQ.queue.append($0)
                 log.error($0)
             }
+            */
         case .failure(let error):
-            self.errorQ.queue.append(error)
+            self.errorEnvironment.value.append(error)
             log.error(error)
         }
     }

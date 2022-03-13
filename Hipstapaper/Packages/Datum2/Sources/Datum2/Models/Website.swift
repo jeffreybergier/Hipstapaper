@@ -39,7 +39,30 @@ public struct Website: Identifiable, Hashable, Codable {
     public var dateCreated: Date
     public var dateModified: Date
     
+    public init(isArchived: Bool = false,
+                originalURL: URL?,
+                resolvedURL: URL?,
+                title: String?,
+                thumbnail: Data?,
+                uuid: Ident = .init("TEMP://"),
+                dateCreated: Date = Date(),
+                dateModified: Date = Date())
+    {
+        self.isArchived = isArchived
+        self.originalURL = originalURL
+        self.resolvedURL = resolvedURL
+        self.title = title
+        self.thumbnail = thumbnail
+        self.uuid = uuid
+        self.dateCreated = dateCreated
+        self.dateModified = dateModified
+    }
+    
     public struct Ident: Identifiable, Hashable, Codable {
         public var id: String
+        
+        public init(_ id: String) {
+            self.id = id
+        }
     }
 }

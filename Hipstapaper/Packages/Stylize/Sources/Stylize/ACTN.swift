@@ -56,10 +56,10 @@ extension STZ.ACTN {
             public enum Kind {
                 case destructive, `default`, cancel
             }
-            public var title: LocalizedStringKey
+            public var title: String
             public var kind: Kind
             public var action: () -> Void
-            public init(title: LocalizedStringKey,
+            public init(title: String,
                         kind: Kind = .default,
                         action: @escaping () -> Void)
             {
@@ -69,12 +69,12 @@ extension STZ.ACTN {
             }
         }
         
-        public var title: LocalizedStringKey
-        public var message: LocalizedStringKey? = nil
+        public var title: String
+        public var message: String? = nil
         public var buttons: [Button]
         
-        public init(title: LocalizedStringKey,
-                    message: LocalizedStringKey? = nil,
+        public init(title: String,
+                    message: String? = nil,
                     buttons: [Button])
         {
             self.title = title

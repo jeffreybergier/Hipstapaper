@@ -31,13 +31,13 @@ import Stylize
 import Localize
 
 struct TagRow: View {
-    @ObservedObject var item: AnyElementObserver<AnyTag>
+    var item: Tag
     var body: some View {
         HStack {
-            STZ.VIEW.TXT(self.item.value.name, or: Noun.untitled.rawValue)
+            STZ.VIEW.TXT(self.item.name, or: Noun.untitled.rawValue)
                 .modifier(STZ.CLR.IndexRow.Text.foreground())
                 .modifier(STZ.FNT.IndexRow.Title.apply())
-            if let count = self.item.value.websitesCount {
+            if let count = self.item.websitesCount {
                 Spacer()
                 STZ.VIEW.NumberOval(count)
             }
@@ -45,17 +45,3 @@ struct TagRow: View {
         .frame(height: 30)
     }
 }
-
-#if DEBUG
-struct TagRow_Preview1: PreviewProvider {
-    static var previews: some View {
-        TagRow(item: p_tags[AnyIndex(0)])
-    }
-}
-struct TagRow_Preview2: PreviewProvider {
-    static var previews: some View {
-        TagRow(item: p_tags[AnyIndex(2)])
-    }
-}
-#endif
-

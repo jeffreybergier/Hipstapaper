@@ -59,7 +59,6 @@ struct IndexToolbar_macOS: ViewModifier {
     
     let controller: Controller
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
-    @EnvironmentObject private var errorQ: ErrorQueue
     
     func body(content: Content) -> some View {
         content.toolbar(id: "Index") {

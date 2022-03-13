@@ -27,11 +27,11 @@
 import Datum2
 import Snapshot
 
-extension AnyWebsite.Raw {
+extension Website {
     init(_ output: Snapshot.ViewModel.Output) {
-        self.init(title: output.title,
-                  originalURL: output.inputURL,
+        self.init(originalURL: output.inputURL,
                   resolvedURL: output.currentURL,
+                  title: output.title,
                   thumbnail: output.thumbnail?.value)
     }
 }

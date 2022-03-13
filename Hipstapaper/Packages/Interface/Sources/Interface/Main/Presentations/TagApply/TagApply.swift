@@ -36,8 +36,14 @@ struct TagApply: View {
     let selection: WH.Selection
     let done: Action
     
-    @EnvironmentObject private var errorQ: ErrorQueue
+    @EnvironmentObject private var errorEnvironment: ErrorQueueEnvironment
     
+    var body: some View {
+        Text("// TODO: Fix DATUM")
+    }
+    
+    // TODO: Fix DATUM
+    /*
     var body: some View {
         let result = self.controller.tagStatus(for: self.selection)
         result.error.map {
@@ -74,4 +80,5 @@ struct TagApply: View {
             log.error($0)
         }
     }
+    */
 }

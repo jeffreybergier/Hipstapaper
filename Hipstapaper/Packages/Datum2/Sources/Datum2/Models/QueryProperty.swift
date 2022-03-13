@@ -64,6 +64,8 @@ extension Query: RawRepresentable {
     
     public var rawValue: String {
         do {
+            return ""
+            // TODO: Fix DATUM
             let data = try PropertyListEncoder().encode(self)
             return String(data: data, encoding: .utf8) ?? ""
         } catch {

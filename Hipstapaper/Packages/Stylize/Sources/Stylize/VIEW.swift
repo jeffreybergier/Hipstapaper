@@ -50,12 +50,18 @@ extension STZ.VIEW {
                 .lineLimit(1)
         }
     }
+    @ViewBuilder public static func TXT(_ string: String?, or fallback: String) -> some View {
+        if let string = string {
+            Text(string)
+                .lineLimit(1)
+        } else {
+            Text(fallback)
+                .preference(key: STZ.isFallbackKey.self, value: true)
+                .lineLimit(1)
+        }
+    }
     public static func TXT(_ string: String) -> some View {
         return Text(string)
-            .lineLimit(1)
-    }
-    public static func TXT(_ localized: LocalizedStringKey) -> some View {
-        return Text(localized)
             .lineLimit(1)
     }
 }

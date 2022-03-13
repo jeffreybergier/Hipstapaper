@@ -28,23 +28,26 @@ import SwiftUI
 import Umbrella
 import Collections
 
+public typealias ErrorQueueEnvironment = BlackBox<ErrorQueueCollection>
+public typealias ErrorQueueCollection = Deque<UserFacingError>
+
 @propertyWrapper
 public struct ErrorQueue: DynamicProperty {
     
-    public static func newEnvirementObject() -> BlackBox<Deque<UserFacingError>> {
+    public static func newEnvirementObject() -> ErrorQueueEnvironment {
         return BlackBox(Deque<UserFacingError>(), isObservingValue: true)
     }
     
-    @EnvironmentObject private var errorQ: BlackBox<Deque<UserFacingError>>
+    @EnvironmentObject private var errorQ: ErrorQueueEnvironment
     
     public init() {}
     
-    public var wrappedValue: Deque<UserFacingError> {
+    public var wrappedValue: ErrorQueueCollection {
         get { self.errorQ.value }
         nonmutating set { self.errorQ.value = newValue }
     }
     
-    public var projectedValue: Binding<Deque<UserFacingError>> {
+    public var projectedValue: Binding<ErrorQueueCollection> {
         Binding {
             self.wrappedValue
         } set: {

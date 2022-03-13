@@ -28,6 +28,7 @@ import SwiftUI
 import Datum2
 import Umbrella
 import Stylize
+import Localize
 
 struct TagMenu: ViewModifier {
     
@@ -35,7 +36,7 @@ struct TagMenu: ViewModifier {
     @State var selection: TH.Selection
     
     @StateObject private var modalPresentation = ModalPresentation.Wrap()
-    @EnvironmentObject private var errorQ: ErrorQueue
+    @EnvironmentObject private var errorEnvironment: ErrorQueueEnvironment
     
     func body(content: Content) -> some View {
         ZStack {
@@ -48,9 +49,9 @@ struct TagMenu: ViewModifier {
                 }
                 STZ.TB.DeleteTag_Trash.context() {
                     let error = DeleteError.tag {
-                        TH.delete(self.selection, self.controller, self.errorQ)
+                        TH.delete(self.selection, self.controller, self.errorEnvironment)
                     }
-                    self.errorQ.queue.append(error)
+                    self.errorEnvironment.value.append(error)
                 }
             }
         }

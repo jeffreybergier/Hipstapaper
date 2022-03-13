@@ -37,34 +37,21 @@ struct WebsiteRow: View {
         df.timeStyle = .short
         return df
     }()
-    @ObservedObject var item: AnyElementObserver<AnyWebsite>
+    var item: Website
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 6) {
-                STZ.VIEW.TXT(self.item.value.title, or: Noun.untitled.rawValue)
+                STZ.VIEW.TXT(self.item.title, or: Noun.untitled.rawValue)
                     .modifier(STZ.FNT.DetailRow.Title.apply())
                     .modifier(STZ.CLR.DetailRow.Text.foreground())
-                STZ.VIEW.TXT(WebsiteRow.formatter.string(from: self.item.value.dateCreated))
+                STZ.VIEW.TXT(WebsiteRow.formatter.string(from: self.item.dateCreated))
                     .modifier(STZ.FNT.DetailRow.Subtitle.apply())
                     .modifier(STZ.CLR.DetailRow.Text.foreground())
             }
             Spacer()
-            STZ.ICN.placeholder.thumbnail(self.item.value.thumbnail)
+            STZ.ICN.placeholder.thumbnail(self.item.thumbnail)
                 .frame(width: 60)
         }
         .frame(minHeight: 60)
     }
 }
-
-#if DEBUG
-struct WebsiteRow_Preview1: PreviewProvider {
-    static var previews: some View {
-        WebsiteRow(item: pp_sites[AnyIndex(0)])
-    }
-}
-struct WebsiteRow_Preview2: PreviewProvider {
-    static var previews: some View {
-        WebsiteRow(item: pp_sites[AnyIndex(2)])
-    }
-}
-#endif

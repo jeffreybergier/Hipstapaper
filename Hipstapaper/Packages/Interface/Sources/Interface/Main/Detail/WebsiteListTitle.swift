@@ -33,14 +33,15 @@ struct WebsiteListTitle: ViewModifier {
     @ViewBuilder func body(content: Content) -> some View {
         if let tag = self.query.tag {
             content
-                .navigationTitle(tag.value.name ?? Noun.untitled_L)
+                // TODO: Fix DATUM
+                .navigationTitle(Noun.untitled_L)
                 .modifier(TitleSize(isLarge: false))
         } else {
-            switch self.query.filter! {
-            case .all:
+            switch self.query.isOnlyNotArchived {
+            case false:
                 content.navigationTitle(Noun.allItems.rawValue)
                     .modifier(TitleSize(isLarge: false))
-            case .unarchived:
+            case true:
                 content.navigationTitle(Noun.hipstapaper.rawValue)
                     .modifier(TitleSize(isLarge: true))
             }

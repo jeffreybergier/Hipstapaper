@@ -37,7 +37,7 @@ enum DeleteError: UserFacingError {
     case website(OnConfirmation)
     case tag(OnConfirmation)
     
-    var title: LocalizedStringKey {
+    var title: LocalizationKey {
         switch self {
         case .tag:
             return Noun.deleteTag.rawValue
@@ -45,7 +45,7 @@ enum DeleteError: UserFacingError {
             return Noun.deleteWebsite.rawValue
         }
     }
-    var message: LocalizedStringKey {
+    var message: LocalizationKey {
         switch self {
         case .tag:
             return Phrase.deleteTagConfirm.rawValue

@@ -36,7 +36,11 @@ public struct Interface: Scene {
     let controller: Controller?
     let watcher: DropboxWatcher?
     @StateObject private var windowPresentation = WindowPresentation()
-    @StateObject private var dropBoxWatcherErrorQ: ErrorQueue
+    @StateObject private var dropboxErrorEnvironment: ErrorQueueEnvironment
+    
+    @StateObject private var errorEnvironment = ErrorQueue.newEnvirementObject()
+    @StateObject private var modalPresentation = ModalPresentation.Wrap()
+    @StateObject private var localizationBundle = LocalizeBundle()
     
     /*
     init() {
@@ -47,17 +51,17 @@ public struct Interface: Scene {
     */
     
     public init() {
-        let errorQ = ErrorQueue()
+        let errorQ = ErrorQueue.newEnvirementObject()
         let result = ControllerNew()
         switch result {
         case .success(let controller):
-            _dropBoxWatcherErrorQ = .init(wrappedValue: errorQ)
+            _dropboxErrorEnvironment = .init(wrappedValue: errorQ)
             self.controller = controller
             self.watcher = DropboxWatcher(controller: controller, errorQ: errorQ)
         case .failure(let error):
             log.error(error)
-            errorQ.queue.append(error)
-            _dropBoxWatcherErrorQ = .init(wrappedValue: errorQ)
+            errorQ.value.append(error)
+            _dropboxErrorEnvironment = .init(wrappedValue: errorQ)
             self.controller = nil
             self.watcher = nil
         }
@@ -66,9 +70,10 @@ public struct Interface: Scene {
     @SceneBuilder public var body: some Scene {
         WindowGroup(Noun.readingList.rawValue, id: "MainWindow") {
             self.build()
-                .alert(item: self.$dropBoxWatcherErrorQ.current) {
-                    Alert($0.value)
-                }
+                .modifier(ErrorPresentation(self.$dropboxErrorEnvironment.value.first))
+                .environmentObject(self.modalPresentation)
+                .environmentObject(self.errorEnvironment)
+                .environmentObject(self.localizationBundle)
         }
     }
     

@@ -29,12 +29,13 @@ import Umbrella
 import XPList
 import Datum2
 import Stylize
+import Localize
 
 struct WebsiteMenu: ViewModifier {
     
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     @EnvironmentObject private var windowPresentation: WindowPresentation
-    @EnvironmentObject private var errorQ: ErrorQueue
+    @EnvironmentObject private var errorQ: ErrorQueueEnvironment
     @Environment(\.openURL) private var externalPresentation
     
     private let selection: WH.Selection
@@ -80,7 +81,7 @@ struct WebsiteMenu: ViewModifier {
                 let error = DeleteError.website {
                     WH.delete(self.selection, self.controller, self.errorQ)
                 }
-                self.errorQ.queue.append(error)
+                self.errorQ.value.append(error)
             }
         }
     }

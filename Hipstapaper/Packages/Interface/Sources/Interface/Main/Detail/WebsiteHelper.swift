@@ -28,71 +28,81 @@ import SwiftUI
 import Umbrella
 import Datum2
 import Stylize
+import Localize
 
 typealias WH = WebsiteHelper
 
 enum WebsiteHelper {
     
-    typealias Selection = Set<AnyElementObserver<AnyWebsite>>
+    typealias Selection = Set<Website>
     
     static func canShare(_ selection: Selection) -> Bool {
-        return selection.first(where: { $0.value.preferredURL != nil }) != nil
+        return selection.first(where: { $0.preferredURL != nil }) != nil
     }
     static func canTag(_ selection: Selection) -> Bool {
         return selection.isEmpty == false
     }
     static func canArchive(_ selection: Selection) -> Bool {
-        return selection.first(where: { $0.value.isArchived == false }) != nil
+        return selection.first(where: { $0.isArchived == false }) != nil
     }
     static func canUnarchive(_ selection: Selection) -> Bool {
-        return selection.first(where: { $0.value.isArchived == true }) != nil
+        return selection.first(where: { $0.isArchived == true }) != nil
     }
     static func canDelete(_ selection: Selection) -> Bool {
         return selection.isEmpty == false
     }
     static func canOpen(_ selection: Selection, in wm: WindowPresentation) -> Bool {
         if wm.features.contains(.bulkActivation) {
-            return selection.first(where: { $0.value.preferredURL != nil }) != nil
+            return selection.first(where: { $0.preferredURL != nil }) != nil
         } else {
-            return selection.compactMap { $0.value.preferredURL != nil }.count == 1
+            return selection.compactMap { $0.preferredURL != nil }.count == 1
         }
     }
     
-    static func archive(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQueue) {
+    static func archive(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQueueEnvironment) {
+        // TODO: Fix DATUM
+        /*
         let result = controller.update(selection, .init(isArchived: true))
         result.error.map {
             errorQ.queue.append($0)
             log.error($0)
         }
+        */
     }
     
-    static func unarchive(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQueue) {
+    static func unarchive(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQueueEnvironment) {
+        // TODO: Fix DATUM
+        /*
         let result = controller.update(selection, .init(isArchived: false))
         result.error.map {
             errorQ.queue.append($0)
             log.error($0)
         }
+        */
     }
     
-    static func delete(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQueue) {
+    static func delete(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQueueEnvironment) {
+        // TODO: Fix DATUM
+        /*
         let result = controller.delete(selection)
         result.error.map {
             errorQ.queue.append($0)
             log.error($0)
         }
+        */
     }
     
     static func open(_ selection: Selection, in open: OpenURLAction) {
         selection
-            .compactMap { $0.value.preferredURL }
+            .compactMap { $0.preferredURL }
             .forEach { open($0) }
     }
     
     @discardableResult
     /// Item returned if device not capable of window presentation
-    static func open(_ selection: Selection, in wm: WindowPresentation, _ errorQ: ErrorQueue) -> AnyElementObserver<AnyWebsite>? {
+    static func open(_ selection: Selection, in wm: WindowPresentation, _ errorQ: ErrorQueueEnvironment) -> Website? {
         guard selection.isEmpty == false else { return nil }
-        let urls = selection.compactMap { $0.value.preferredURL }
+        let urls = selection.compactMap { $0.preferredURL }
         
         guard urls.isEmpty == false else { fatalError("Maybe present an error?") }
         guard wm.features.contains([.multipleWindows, .bulkActivation])
@@ -102,12 +112,12 @@ enum WebsiteHelper {
         return nil
     }
     
-    @ViewBuilder static func filterToolbarItem(filter: Query.Filter,
+    @ViewBuilder static func filterToolbarItem(query: Query,
                                                toolbarFilterIsEnabled: Bool,
                                                action: @escaping () -> Void)
                                                -> some View
     {
-        if filter.boolValue {
+        if query.isOnlyNotArchived == true {
             // disable this when there is no tag selected
             STZ.TB.FilterActive.toolbar(isEnabled: toolbarFilterIsEnabled,
                                         action: action)

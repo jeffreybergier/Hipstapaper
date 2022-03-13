@@ -28,6 +28,7 @@ import SwiftUI
 import Umbrella
 import Stylize
 import Datum2
+import Localize
 
 extension DetailToolbar {
     struct macOS: ViewModifier {
@@ -35,12 +36,11 @@ extension DetailToolbar {
         let controller: Controller
         @Binding var selection: WH.Selection
         
-        @SceneFilter private var filter
-        @SceneSearch private var search
+        @QueryProperty private var query
         
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
         @EnvironmentObject private var windowPresentation: WindowPresentation
-        @EnvironmentObject private var errorQ: ErrorQueue
+        @EnvironmentObject private var errorEnvironment: ErrorQueueEnvironment
         @Environment(\.openURL) private var externalPresentation
         @Environment(\.toolbarFilterIsEnabled) private var toolbarFilterIsEnabled
         
@@ -50,7 +50,7 @@ extension DetailToolbar {
                 ToolbarItem(id: "Detail.Open") {
                     HStack {
                         STZ.TB.OpenInApp.toolbar(isEnabled: WH.canOpen(self.selection, in: self.windowPresentation),
-                                                 action: { WH.open(self.selection, in: self.windowPresentation, self.errorQ) })
+                                                 action: { WH.open(self.selection, in: self.windowPresentation, self.errorEnvironment) })
                         STZ.TB.OpenInBrowser.toolbar(isEnabled: WH.canOpen(self.selection, in: self.windowPresentation),
                                                      action: { WH.open(self.selection, in: self.externalPresentation) })
                     }
@@ -65,9 +65,9 @@ extension DetailToolbar {
                 ToolbarItem(id: "Detail.Archive") {
                     HStack {
                         STZ.TB.Archive.toolbar(isEnabled: WH.canArchive(self.selection),
-                                               action: { WH.archive(self.selection, self.controller, self.errorQ) })
+                                               action: { WH.archive(self.selection, self.controller, self.errorEnvironment) })
                         STZ.TB.Unarchive.toolbar(isEnabled: WH.canUnarchive(self.selection),
-                                                 action: { WH.unarchive(self.selection, self.controller, self.errorQ) })
+                                                 action: { WH.unarchive(self.selection, self.controller, self.errorEnvironment) })
                     }
                 }
                 ToolbarItem(id: "Detail.Tag") {
@@ -81,14 +81,12 @@ extension DetailToolbar {
                     STZ.TB.Sort.toolbar(action: { self.modalPresentation.value = .sort })
                 }
                 ToolbarItem(id: "Detail.Filter") {
-                    WH.filterToolbarItem(filter: self.filter,
-                                         toolbarFilterIsEnabled: self.toolbarFilterIsEnabled)
-                    {
-                        self.filter.boolValue.toggle()
+                    WH.filterToolbarItem(query: self.query, toolbarFilterIsEnabled: self.toolbarFilterIsEnabled) {
+                        self.query.isOnlyNotArchived.toggle()
                     }
                 }
                 ToolbarItem(id: "Detail.Search") {
-                    WH.searchToolbarItem(self.search) {
+                    WH.searchToolbarItem(self.query.search) {
                         self.modalPresentation.value = .search
                     }
                 }

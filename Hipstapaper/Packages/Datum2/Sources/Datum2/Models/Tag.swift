@@ -39,3 +39,7 @@ public struct Tag: Identifiable, Hashable, Codable {
         public var id: String
     }
 }
+
+extension Tag.Ident {
+    public static let specialTags: [Tag.Ident] = [.init(id: "unread"), .init(id: "all")]
+}
