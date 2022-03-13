@@ -34,7 +34,7 @@ extension STZ {
         
         public enum Error: UserFacingError {
             public var errorCode: Int               { 1001 }
-            public var message: String  { "// TODO: Fix this" } // Phrase.errorShareItemCount.rawValue }
+            public var message: LocalizationKey  { Phrase.errorShareItemCount.rawValue }
             case itemCount
         }
         

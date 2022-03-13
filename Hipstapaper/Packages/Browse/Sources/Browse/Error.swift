@@ -34,7 +34,7 @@ public enum Error: UserFacingError {
     public var message: LocalizationKey {
         switch self {
         case .loadURL:
-            return "// TODO: Fix this" // Phrase.errorLoadURL.rawValue
+            return Phrase.errorLoadURL.rawValue
         }
     }
     
