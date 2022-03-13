@@ -1,7 +1,5 @@
-// swift-tools-version:5.5
-
 //
-//  Created by Jeffrey Bergier on 2022/03/11.
+//  Created by Jeffrey Bergier on 2022/03/13.
 //
 //  MIT License
 //
@@ -26,26 +24,31 @@
 //  SOFTWARE.
 //
 
-import PackageDescription
+import SwiftUI
+import Umbrella
+import Collections
 
-let package = Package(
-    name: "Localize",
-    platforms: [.iOS(.v15), .macOS(.v12)],
-    products: [
-        .library(
-            name: "Localize",
-            targets: ["Localize"]
-        ),
-    ],
-    dependencies: [
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", .branch("v2")),
-    ],
-    targets: [
-        .target(
-            name: "Localize",
-            dependencies: [
-                .byNameItem(name: "Umbrella", condition: nil),
-            ]
-        ),
-    ]
-)
+@propertyWrapper
+public struct ErrorQueue: DynamicProperty {
+    
+    public static func newEnvirementObject() -> BlackBox<Deque<UserFacingError>> {
+        return BlackBox(Deque<UserFacingError>(), isObservingValue: true)
+    }
+    
+    @EnvironmentObject private var errorQ: BlackBox<Deque<UserFacingError>>
+    
+    public init() {}
+    
+    public var wrappedValue: Deque<UserFacingError> {
+        get { self.errorQ.value }
+        nonmutating set { self.errorQ.value = newValue }
+    }
+    
+    public var projectedValue: Binding<Deque<UserFacingError>> {
+        Binding {
+            self.wrappedValue
+        } set: {
+            self.wrappedValue = $0
+        }
+    }
+}
