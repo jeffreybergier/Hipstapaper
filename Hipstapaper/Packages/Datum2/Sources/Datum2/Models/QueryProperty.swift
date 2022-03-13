@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/03/12.
+//  Created by Jeffrey Bergier on 2022/03/13.
 //
 //  MIT License
 //
@@ -25,24 +25,50 @@
 //
 
 import SwiftUI
-import Umbrella
 
 @propertyWrapper
-public struct WebsiteListQuery: DynamicProperty {
+public struct QueryProperty: DynamicProperty {
     
-    @QueryProperty private var query
-    @FetchRequest private var data: FetchedResults<CD_Website>
+    @SceneStorage("Query") private var query = Query.unreadItems
     
-    public init() {
-        let sort = NSSortDescriptor(keyPath: \CD_Website.cd_dateCreated, ascending: true)
-        let fr = FetchRequest<CD_Website>(sortDescriptors: [sort],
-                                          predicate:  nil,
-                                          animation: .default)
-        _data = fr
+    public init() {}
+    
+    public var wrappedValue: Query {
+        get { self.query }
+        nonmutating set { self.query = newValue }
     }
     
-    public var wrappedValue: AnyRandomAccessCollection<Website> {
-        TransformCollection(collection: self.data) { Website($0) }
-            .eraseToAnyRandomAccessCollection()
+    public var projectedValue: Binding<Query> {
+        Binding {
+            self.query
+        } set: {
+            self.query = $0
+        }
+    }
+}
+
+extension Query: RawRepresentable {
+    public init?(rawValue: String) {
+        do {
+            let data = rawValue.data(using: .utf8) ?? Data()
+            let query = try PropertyListDecoder().decode(Query.self, from: data)
+            self.tag = query.tag
+            self.sort = query.sort
+            self.search = query.search
+            self.isOnlyNotArchived = query.isOnlyNotArchived
+        } catch {
+            error.log()
+            return nil
+        }
+    }
+    
+    public var rawValue: String {
+        do {
+            let data = try PropertyListEncoder().encode(self)
+            return String(data: data, encoding: .utf8) ?? ""
+        } catch {
+            error.log()
+            return ""
+        }
     }
 }

@@ -26,19 +26,22 @@
 
 public struct Query: Codable {
     
-    public static let allItems: Query = .init(isOnlyNotArchived: false, tag: nil, search: nil)
-    public static let unreadItems: Query = .init(isOnlyNotArchived: true, tag: nil, search: nil)
+    public static let allItems: Query = .init(isOnlyNotArchived: false)
+    public static let unreadItems: Query = .init(isOnlyNotArchived: true)
     
-    public var isOnlyNotArchived: Bool
     public var tag: Tag.Ident?
+    public var sort: Sort
     public var search: String?
+    public var isOnlyNotArchived: Bool
     
-    public init(isOnlyNotArchived: Bool = true,
-                tag: Tag.Ident? = nil,
-                search: String? = nil)
+    public init(tag: Tag.Ident? = nil,
+                sort: Sort = Sort.default,
+                search: String? = nil,
+                isOnlyNotArchived: Bool = true)
     {
-        self.isOnlyNotArchived = isOnlyNotArchived
         self.tag = tag
+        self.sort = sort
         self.search = search
+        self.isOnlyNotArchived = isOnlyNotArchived
     }
 }
