@@ -34,11 +34,18 @@ public struct WebsiteListQuery: DynamicProperty {
     @FetchRequest private var data: FetchedResults<CD_Website>
     
     public init() {
-        let sort = NSSortDescriptor(keyPath: \CD_Website.cd_dateCreated, ascending: true)
-        let fr = FetchRequest<CD_Website>(sortDescriptors: [sort],
-                                          predicate:  nil,
+        let query = QueryProperty()
+        let fr = FetchRequest<CD_Website>(sortDescriptors: query.wrappedValue.cd_sortDescriptors,
+                                          predicate:  query.wrappedValue.cd_predicate,
                                           animation: .default)
+        _query = query
         _data = fr
+    }
+    
+    public mutating func update() {
+        _data = FetchRequest<CD_Website>(sortDescriptors: self.query.cd_sortDescriptors,
+                                         predicate:  self.query.cd_predicate,
+                                         animation: .default)
     }
     
     public var wrappedValue: AnyRandomAccessCollection<Website> {

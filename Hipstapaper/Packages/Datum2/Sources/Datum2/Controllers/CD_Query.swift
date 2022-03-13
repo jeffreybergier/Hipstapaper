@@ -26,17 +26,16 @@
 
 import Foundation
 
-/*
 extension Query {
     internal var cd_sortDescriptors: [NSSortDescriptor] { self.sort.cd_sortDescriptors }
     internal var cd_predicate: NSPredicate? {
         let predicates: [NSPredicate] = [
             {
-                guard case .unarchived = self.filter else { return nil }
+                guard self.isOnlyNotArchived == true else { return nil }
                 return NSPredicate(format: "%K == NO", #keyPath(CD_Website.cd_isArchived))
             }(),
             {
-                guard let search = self.search.trimmed else { return nil }
+                guard let search = self.search?.trimmed else { return nil }
                 return NSCompoundPredicate(orPredicateWithSubpredicates: [
                     NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(CD_Website.cd_title), search),
                     NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(CD_Website.cd_resolvedURL), search),
@@ -44,15 +43,12 @@ extension Query {
                 ])
             }(),
             {
-                guard let _tag = self.tag else { return nil }
-                guard let tag = _tag.value.wrappedValue as? CD_Tag
-                else { assertionFailure("Invalid TAG Object"); return nil; }
-                return NSPredicate(format: "%K CONTAINS %@", #keyPath(CD_Website.cd_tags), tag)
+                // TODO: Not sure if this works
+                guard let _tagID = self.tag?.id else { return nil }
+                return NSPredicate(format: "%K CONTAINS %@", #keyPath(CD_Website.cd_tags), _tagID)
             }(),
         ].compactMap { $0 }
         guard predicates.isEmpty == false else { return nil }
         return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
     }
 }
-
-*/
