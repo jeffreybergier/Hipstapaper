@@ -24,17 +24,17 @@
 //  SOFTWARE.
 //
 
+import Collections
 import SwiftUI
 import WebKit
 import Umbrella
-import Collections
+import Localize
 
 internal struct WebView: View {
     
     @ObservedObject var viewModel: ViewModel
-    // TODO: Fix error presentation
-    @State private var errorQ: Deque<UserFacingError> = []
-    
+    @ErrorQueue private var errorQ
+
     private func update(_ wv: WKWebView, context: Context) {
         if self.viewModel.browserControl.stop {
             wv.stopLoading()

@@ -43,7 +43,7 @@ extension STZ {
         private let items: [URL]
         private let completion: Completion
         
-        @State private var errorQ: Deque<UserFacingError> = []
+        @ErrorQueue private var errorQ
         @Environment(\.presentationMode) private var presentationMode
         
         public var body: some View {
@@ -53,7 +53,7 @@ extension STZ {
                 // .environmentObject(self.errorQ)
                 .onAppear {
                     guard self.items.isEmpty else { return }
-                    // self.errorQ.queue.append(Error.itemCount)
+                    self.errorQ.append(Error.itemCount)
                 }
         }
         

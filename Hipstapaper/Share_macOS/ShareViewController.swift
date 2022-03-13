@@ -30,11 +30,12 @@ import Umbrella
 import Snapshot
 import Stylize
 import Collections
+import Localize
 
 class ShareViewController: NSViewController {
-
+    
     private let viewModel = Snapshot.ViewModel()
-    private var errorQ = Deque<UserFacingError>()
+    @ErrorQueue private var errorQ
     private lazy var snapshotVC: NSViewController =
         NSHostingController(rootView: Snapshotter(self.viewModel))
 //    private lazy var errorVC: NSViewController =

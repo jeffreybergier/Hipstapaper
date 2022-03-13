@@ -34,7 +34,7 @@ import Collections
 public struct Snapshotter: View {
     
     @StateObject var viewModel: ViewModel
-    @State private var errorQ = Deque<UserFacingError>()
+    @ErrorQueue private var errorQ
     
     public init(_ viewModel: ViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)

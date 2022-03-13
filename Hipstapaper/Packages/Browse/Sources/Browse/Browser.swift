@@ -28,12 +28,13 @@ import SwiftUI
 import Umbrella
 import Stylize
 import Collections
+import Localize
 
 public struct Browser: View {
     
     @StateObject public var viewModel: ViewModel
-    @State private var errorQ = Deque<UserFacingError>()
-    
+    @ErrorQueue private var errorQ
+
     public var body: some View {
         ZStack(alignment: .top) {
             WebView(viewModel: self.viewModel)
