@@ -26,7 +26,7 @@
 
 import Foundation
 
-public struct Tag: Identifiable, Hashable {
+public struct Tag: Identifiable, Hashable, Codable {
     public var name: String?
     public var websitesCount: Int?
     
@@ -35,7 +35,7 @@ public struct Tag: Identifiable, Hashable {
     public var dateCreated: Date
     public var dateModified: Date
     
-    public struct Ident: Hashable {
+    public struct Ident: Identifiable, Hashable, Codable {
         public var id: String
     }
 }

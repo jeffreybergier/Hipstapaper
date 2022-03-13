@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/03/12.
+//  Created by Jeffrey Bergier on 2022/03/13.
 //
 //  MIT License
 //
@@ -24,22 +24,21 @@
 //  SOFTWARE.
 //
 
-import Foundation
-
-public struct Website: Identifiable, Hashable, Codable {
-    public var isArchived: Bool
-    public var originalURL: URL?
-    public var resolvedURL: URL?
-    public var preferredURL: URL? { self.resolvedURL ?? self.originalURL }
-    public var title: String?
-    public var thumbnail: Data?
+public struct Query: Codable {
     
-    public var id: String { self.uuid.id }
-    public var uuid: Ident
-    public var dateCreated: Date
-    public var dateModified: Date
+    public static let allItems: Query = .init(isOnlyNotArchived: false, tag: nil, search: nil)
+    public static let unreadItems: Query = .init(isOnlyNotArchived: true, tag: nil, search: nil)
     
-    public struct Ident: Identifiable, Hashable, Codable {
-        public var id: String
+    public var isOnlyNotArchived: Bool
+    public var tag: Tag.Ident?
+    public var search: String?
+    
+    public init(isOnlyNotArchived: Bool = true,
+                tag: Tag.Ident? = nil,
+                search: String? = nil)
+    {
+        self.isOnlyNotArchived = isOnlyNotArchived
+        self.tag = tag
+        self.search = search
     }
 }
