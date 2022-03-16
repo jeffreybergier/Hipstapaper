@@ -33,12 +33,11 @@ import Stylize
 struct TagList<Nav: View>: View {
     
     typealias Navigation = (Tag.Ident) -> Nav
-    
-    let controller: Controller
     let navigation: Navigation
-        
-    @QueryProperty private var query
+
     @TagListQuery private var data
+    @QueryProperty private var query
+    @ControllerProperty private var controller
     
     @State private var selectedTag: Tag.Ident?
 

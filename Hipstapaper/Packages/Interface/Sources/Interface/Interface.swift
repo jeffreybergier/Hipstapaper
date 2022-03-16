@@ -33,8 +33,9 @@ import Localize
 
 public struct Interface: Scene {
     
-    let controller: Controller?
     let watcher: DropboxWatcher?
+    
+    @StateObject private var controllerBox: BlackBox<Controller?>
     @StateObject private var windowPresentation = WindowPresentation()
     @StateObject private var dropboxErrorEnvironment: ErrorQueueEnvironment
     
@@ -56,13 +57,13 @@ public struct Interface: Scene {
         switch result {
         case .success(let controller):
             _dropboxErrorEnvironment = .init(wrappedValue: errorQ)
-            self.controller = controller
+            _controllerBox = .init(wrappedValue: BlackBox(controller))
             self.watcher = DropboxWatcher(controller: controller, errorQ: errorQ)
         case .failure(let error):
             log.error(error)
             errorQ.value.append(error)
             _dropboxErrorEnvironment = .init(wrappedValue: errorQ)
-            self.controller = nil
+            _controllerBox = .init(wrappedValue: BlackBox(nil))
             self.watcher = nil
         }
     }
@@ -74,13 +75,15 @@ public struct Interface: Scene {
                 .environmentObject(self.modalPresentation)
                 .environmentObject(self.errorEnvironment)
                 .environmentObject(self.localizationBundle)
+                .environmentObject(self.windowPresentation)
         }
     }
     
     @ViewBuilder private func build() -> some View {
-        if let controller = self.controller {
-            Root(controller: controller)
-                .environmentObject(self.windowPresentation)
+        if let controller = self.controllerBox.value {
+            Root()
+                .environmentObject(self.controllerBox)
+                .environment(\.managedObjectContext, controller.ENVIRONMENTONLY_managedObjectContext)
         } else {
             Color.clear
         }

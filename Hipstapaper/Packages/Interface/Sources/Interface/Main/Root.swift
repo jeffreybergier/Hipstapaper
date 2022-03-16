@@ -32,17 +32,12 @@ import Localize
 
 struct Root: View {
     
-    let controller: Controller
     @ErrorQueue private var errorQ
-
-    init(controller: Controller) {
-        self.controller = controller
-    }
     
     var body: some View {
         NavigationView {
-            TagList(controller: self.controller) { selectedTag in
-                WebsiteList(controller: self.controller, selectedTag: selectedTag)
+            TagList { selectedTag in
+                WebsiteList(selectedTag: selectedTag)
             }
             // TODO: Has to be here because of macOS bug
             .modifier(ErrorPresentation(self.$errorQ.first))

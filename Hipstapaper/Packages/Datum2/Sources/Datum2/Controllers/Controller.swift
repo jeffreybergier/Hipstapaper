@@ -30,6 +30,7 @@
 
 import Foundation
 import Umbrella
+import SwiftUI
 
 public func ControllerNew() -> Result<Controller, Error> {
     return CD_Controller.new()
@@ -39,6 +40,8 @@ public protocol Controller {
 
     static var storeDirectoryURL: URL { get }
     static var storeExists: Bool { get }
+    
+    var ENVIRONMENTONLY_managedObjectContext: NSManagedObjectContext { get }
     
     // MARK: Sync
     var syncProgress: AnyContinousProgress { get }
@@ -55,4 +58,17 @@ public protocol Controller {
 //    func add(tag: AnyElementObserver<AnyTag>, to websites: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error>
 //    func remove(tag: AnyElementObserver<AnyTag>, from websites: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error>
 //    func tagStatus(for websites: Set<AnyElementObserver<AnyWebsite>>) -> Result<AnyRandomAccessCollection<(AnyElementObserver<AnyTag>, ToggleState)>, Error>
+}
+
+@propertyWrapper
+public struct ControllerProperty: DynamicProperty {
+    
+    @EnvironmentObject private var controller: BlackBox<Controller?>
+    
+    public init() { }
+    
+    public var wrappedValue: Controller {
+        self.controller.value!
+    }
+    
 }

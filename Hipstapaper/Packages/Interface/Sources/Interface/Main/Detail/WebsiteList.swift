@@ -33,12 +33,12 @@ import XPList
 
 struct WebsiteList: View {
     
-    let controller: Controller
     let selectedTag: Tag.Ident
     
     @State private var selection: WH.Selection = []
     @QueryProperty private var query
     @WebsiteListQuery private var data
+    @ControllerProperty private var controller
     
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     @EnvironmentObject private var windowPresentation: WindowPresentation

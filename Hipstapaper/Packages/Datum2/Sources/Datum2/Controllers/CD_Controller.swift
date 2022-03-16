@@ -30,6 +30,10 @@ import Umbrella
 
 extension CD_Controller: Controller {
     
+    internal var ENVIRONMENTONLY_managedObjectContext: NSManagedObjectContext {
+        self.container.viewContext
+    }
+    
     /*
 
     // MARK: Website CRUD
