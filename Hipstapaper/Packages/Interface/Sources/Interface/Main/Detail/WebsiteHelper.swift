@@ -82,14 +82,11 @@ enum WebsiteHelper {
     }
     
     static func delete(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQueue.Environment) {
-        // TODO: Fix DATUM
-        /*
-        let result = controller.delete(selection)
+        let result = controller.delete(Set(selection.map { $0.uuid }))
         result.error.map {
-            errorQ.queue.append($0)
+            errorQ.value.append($0)
             log.error($0)
         }
-        */
     }
     
     static func open(_ selection: Selection, in open: OpenURLAction) {

@@ -112,15 +112,11 @@ struct AddWebsitePresentable: ViewModifier {
         defer { self.presentation.value = .none }
         switch result {
         case .success(let output):
-            break
-            // TODO: Fix DATUM
-            /*
             let result2 = self.controller.createWebsite(.init(output))
             result2.error.map {
-                self.errorQ.queue.append($0)
+                self.errorQ = $0
                 log.error($0)
             }
-            */
         case .failure(let error):
             self.errorQ = error
             log.error(error)

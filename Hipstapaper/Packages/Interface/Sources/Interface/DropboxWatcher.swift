@@ -48,9 +48,8 @@ class DropboxWatcher {
             do {
                 let data = try Data(contentsOf: url)
                 let output = try PropertyListDecoder().decode(Snapshot.ViewModel.Output.self, from: data)
-                // TODO: Fix DATUM
-                // _ = try controller.createWebsite(.init(output)).get()
-                // try FileManager.default.removeItem(at: url)
+                 _ = try controller.createWebsite(.init(output)).get()
+                 try FileManager.default.removeItem(at: url)
             } catch {
                 log.error(error)
                 errorQ?.value.append(Error.shareExtensionAdd)

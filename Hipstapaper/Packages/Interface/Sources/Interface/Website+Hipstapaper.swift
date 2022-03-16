@@ -32,6 +32,7 @@ extension Website {
         self.init(originalURL: output.inputURL,
                   resolvedURL: output.currentURL,
                   title: output.title,
-                  thumbnail: output.thumbnail?.value)
+                  thumbnail: output.thumbnail?.value,
+                  dateCreated: output.dateCreated)
     }
 }
