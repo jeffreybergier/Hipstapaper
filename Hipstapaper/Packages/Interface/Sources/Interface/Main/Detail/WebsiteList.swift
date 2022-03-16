@@ -43,6 +43,11 @@ struct WebsiteList: View {
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     @EnvironmentObject private var windowPresentation: WindowPresentation
     
+    init(query: Query) {
+        _data = WebsiteListQuery(query: query)
+        self.onLoadQuery = query
+    }
+    
     var body: some View {
         XPL2.List(data: self.data,
                   selection: self.$selection,

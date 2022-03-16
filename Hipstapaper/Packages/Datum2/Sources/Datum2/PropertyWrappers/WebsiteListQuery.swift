@@ -30,18 +30,17 @@ import Umbrella
 @propertyWrapper
 public struct WebsiteListQuery: DynamicProperty {
     
-    @QueryProperty private var query
     @FetchRequest private var data: FetchedResults<CD_Website>
     
-    public init() {
-        let query = Query()
+    public init(query: Query? = nil) {
+        let query = query ?? Query()
         let fr = FetchRequest<CD_Website>(sortDescriptors: query.cd_sortDescriptors,
                                           predicate:  query.cd_predicate,
                                           animation: .default)
         _data = fr
     }
     
-    public func update() {
+    public func update(query: Query) {
         print("UPDATING!!!")
         if self.data.nsSortDescriptors != query.cd_sortDescriptors {
             self.data.nsSortDescriptors = query.cd_sortDescriptors

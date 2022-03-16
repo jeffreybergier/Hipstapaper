@@ -37,7 +37,7 @@ struct Root: View {
     var body: some View {
         NavigationView {
             TagList { query in
-                WebsiteList(onLoadQuery: query)
+                WebsiteList(query: query)
             }
             // TODO: Has to be here because of macOS bug
             .modifier(ErrorPresentation(self.$errorQ))
