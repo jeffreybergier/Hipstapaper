@@ -22,7 +22,7 @@ struct BrowserPresentable: ViewModifier {
         }
         #else
         return content.fullScreenCover(item: self.$presentation.isBrowser) { item in
-            self.browser(item.value.value.preferredURL)
+            self.browser(item.preferredURL)
         }
         #endif
     }

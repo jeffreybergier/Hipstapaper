@@ -29,15 +29,15 @@ import SwiftUI
 import Umbrella
 import Snapshot
 import Stylize
+import Localize
 
 class ShareViewController: UIViewController {
     
     private let viewModel = Snapshot.ViewModel()
-    private let errorQ = ErrorQueue()
+    @ErrorQueue private var errorQ
     private lazy var snapshotVC: UIViewController =
         UIHostingController(rootView: Snapshotter(self.viewModel))
-    private lazy var errorVC: UIViewController =
-        UIHostingController(rootView: ErrorQueuePresenterView().environmentObject(self.errorQ))
+    private lazy var errorVC: UIViewController = UIHostingController(rootView: EmptyView().modifier(ErrorPresentation(self.$errorQ)))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,7 +77,7 @@ class ShareViewController: UIViewController {
                 if case .userCancelled = error {
                     self.extensionContext?.cancelRequest(withError: error)
                 } else {
-                    self.errorQ.queue.append(error)
+                    self.errorQ = error
                 }
             case .success(let output):
                 do {
@@ -93,20 +93,20 @@ class ShareViewController: UIViewController {
                     self.extensionContext?.completeRequest(returningItems: nil,
                                                            completionHandler: nil)
                 } catch {
-                    self.errorQ.queue.append(Snapshot.Error.sx_save)
+                    self.errorQ = Snapshot.Error.sx_save
                 }
             }
             
         }
         
         guard let context = self.extensionContext?.inputItems.first as? NSExtensionItem else {
-            self.errorQ.queue.append(Snapshot.Error.sx_process)
+            self.errorQ = Snapshot.Error.sx_process
             return
         }
         
         context.urlValue() { url in
             guard let url = url else {
-                self.errorQ.queue.append(Snapshot.Error.sx_process)
+                self.errorQ = Snapshot.Error.sx_process
                 return
             }
             self.viewModel.setInputURL(url)

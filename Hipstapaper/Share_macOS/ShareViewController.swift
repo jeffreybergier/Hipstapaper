@@ -38,8 +38,7 @@ class ShareViewController: NSViewController {
     @ErrorQueue private var errorQ
     private lazy var snapshotVC: NSViewController =
         NSHostingController(rootView: Snapshotter(self.viewModel))
-    private lazy var errorVC: NSViewController = NSHostingController(rootView: EmptyView().modifier(ErrorPresentation(self.$errorQ))
-)
+    private lazy var errorVC: NSViewController = NSHostingController(rootView: EmptyView().modifier(ErrorPresentation(self.$errorQ)))
     
     override func viewDidLoad() {
         super.viewDidLoad()

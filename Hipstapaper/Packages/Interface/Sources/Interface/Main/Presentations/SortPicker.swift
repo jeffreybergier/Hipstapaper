@@ -34,7 +34,6 @@ struct SortPicker: View {
     
     let doneAction: Action
     @QueryProperty private var query
-    @State private var sortSelection: Sort?
     
     var body: some View {
         List(Sort.allCases, id: \.self, selection: self.$query.sort)

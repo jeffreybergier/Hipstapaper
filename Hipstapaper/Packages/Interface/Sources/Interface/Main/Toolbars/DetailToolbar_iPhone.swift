@@ -29,7 +29,7 @@
 import SwiftUI
 import Umbrella
 import Stylize
-import Datum
+import Datum2
 
 extension DetailToolbar.iOS {
     struct iPhoneEdit: ViewModifier {
@@ -38,9 +38,9 @@ extension DetailToolbar.iOS {
         @Binding var selection: WH.Selection
         @Binding var popoverAlignment: Alignment
         
+        @ErrorQueue private var errorQ
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
         @EnvironmentObject private var windowPresentation: WindowPresentation
-        @EnvironmentObject private var errorQ: ErrorQueue
         @Environment(\.openURL) private var externalPresentation
         
         func body(content: Content) -> some View {
@@ -48,11 +48,11 @@ extension DetailToolbar.iOS {
                 .toolbar(id: "Detail_Bottom") {
                     ToolbarItem(id: "Detail.Archive", placement: .bottomBar) {
                         STZ.TB.Archive.toolbar(isEnabled: WH.canArchive(self.selection),
-                                               action: { WH.archive(self.selection, self.controller, self.errorQ) })
+                                               action: { WH.archive(self.selection, self.controller, self._errorQ.environment) })
                     }
                     ToolbarItem(id: "Detail.Unarchive", placement: .bottomBar) {
                         STZ.TB.Unarchive.toolbar(isEnabled: WH.canUnarchive(self.selection),
-                                                 action: { WH.unarchive(self.selection, self.controller, self.errorQ) })
+                                                 action: { WH.unarchive(self.selection, self.controller, self._errorQ.environment) })
                     }
                     ToolbarItem(id: "Detail.Separator", placement: .bottomBar) {
                         STZ.TB.Separator.toolbar()
@@ -93,9 +93,7 @@ extension DetailToolbar.iOS {
         @Binding var popoverAlignment: Alignment
         @ObservedObject var syncProgress: AnyContinousProgress
         
-        @SceneFilter private var filter
-        @SceneSearch private var search
-        
+        @QueryProperty private var query
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
         @Environment(\.toolbarFilterIsEnabled) private var toolbarFilterIsEnabled
 
@@ -103,10 +101,10 @@ extension DetailToolbar.iOS {
         func body(content: Content) -> some View {
             content.toolbar(id: "Detail") {
                 ToolbarItem(id: "Detail.Filter", placement: .bottomBar) {
-                    WH.filterToolbarItem(filter: self.filter,
+                    WH.filterToolbarItem(query: self.query,
                                          toolbarFilterIsEnabled: self.toolbarFilterIsEnabled)
                     {
-                        self.filter.boolValue.toggle()
+                        self.query.isOnlyNotArchived.toggle()
                     }
                 }
                 ToolbarItem(id: "Detail.Separator", placement: .bottomBar) {
@@ -128,7 +126,7 @@ extension DetailToolbar.iOS {
                     STZ.TB.Sync(self.syncProgress)
                 }
                 ToolbarItem(id: "Detail.Search", placement: .primaryAction) {
-                    WH.searchToolbarItem(self.search) {
+                    WH.searchToolbarItem(self.query.search) {
                         self.popoverAlignment = .topTrailing
                         self.modalPresentation.value = .search
                     }
