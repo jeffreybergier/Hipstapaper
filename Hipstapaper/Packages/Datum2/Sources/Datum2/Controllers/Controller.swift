@@ -47,8 +47,8 @@ public protocol Controller {
     var syncProgress: AnyContinousProgress { get }
 
     // MARK: Websites CRUD
-//    func createWebsite(_: AnyWebsite.Raw) -> Result<AnyElementObserver<AnyWebsite>, Error>
-//    func delete(_: Set<Website.Ident>) -> Result<Void, Error>
+    func createWebsite(_ website: Website?) -> Result<Website.Ident, Error>
+    func delete(_: Set<Website.Ident>) -> Result<Void, Error>
 
     // MARK: Tags CRUD
     func createTag() -> Result<Tag.Ident, Error>
