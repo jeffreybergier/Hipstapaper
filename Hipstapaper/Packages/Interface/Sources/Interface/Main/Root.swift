@@ -33,6 +33,7 @@ import Localize
 struct Root: View {
     
     @ErrorQueue private var errorQ
+    @EnvironmentObject private var errorEnvironment: ErrorQueueEnvironment
     
     var body: some View {
         NavigationView {
@@ -40,7 +41,7 @@ struct Root: View {
                 WebsiteList(selectedTag: selectedTag)
             }
             // TODO: Has to be here because of macOS bug
-            .modifier(ErrorPresentation(self.$errorQ.first))
+            .modifier(ErrorPresentation(self.$errorQ))
         }
         .modifier(BrowserPresentable())
     }

@@ -217,17 +217,22 @@ extension CD_Controller: Controller {
         return changesMade ? context.datum_save() : .success(())
     }
 
-    func delete(_ input: AnyElementObserver<AnyTag>) -> Result<Void, Error> {
+ */
+    internal func delete(_ input: Set<Tag.Ident>) -> Result<Void, Error> {
         let context = self.container.viewContext
-        guard context.validate(input.value.wrappedValue, as: CD_Tag.classForCoder()) else {
-            let message = "Wrong Input Type"
-            log.emergency(message)
-            fatalError(message)
+        let coordinator = self.container.persistentStoreCoordinator
+        let cd_ids = input.compactMap {
+            coordinator.managedObjectID(forURIRepresentation: URL(string: $0.id)!)
         }
-        let tag = input.value.wrappedValue as! CD_Tag
-        context.delete(tag)
+        let cd_tags = cd_ids.compactMap {
+            context.object(with: $0) as? CD_Tag
+        }
+        cd_tags.forEach {
+            context.delete($0)
+        }
         return context.datum_save()
     }
+/*
     
     // MARK: Custom Functions
     
@@ -425,25 +430,6 @@ private class Datum_PersistentContainer: NSPersistentCloudKitContainer {
 }
 
 extension NSManagedObjectContext {
-    
-    /// Returns true if the object can be modified by this context.
-    fileprivate func validate(_ input: Any, as expected: AnyClass) -> Bool {
-        // debug only sanity checks
-        assert(Thread.isMainThread)
-        
-        let _input = input as AnyObject
-        // this is overly debose so breakpoints can be set on failure
-        guard _input.isKind(of: expected) else {
-            return false
-        }
-        guard let __input = _input as? NSManagedObject else {
-            return false
-        }
-        guard self === __input.managedObjectContext else {
-            return false
-        }
-        return true
-    }
     
     internal func datum_save() -> Result<Void, Error> {
         do {

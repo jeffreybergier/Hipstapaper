@@ -38,7 +38,7 @@ class ShareViewController: NSViewController {
     @ErrorQueue private var errorQ
     private lazy var snapshotVC: NSViewController =
         NSHostingController(rootView: Snapshotter(self.viewModel))
-    private lazy var errorVC: NSViewController = NSHostingController(rootView: EmptyView().modifier(ErrorPresentation(self.$errorQ.first))
+    private lazy var errorVC: NSViewController = NSHostingController(rootView: EmptyView().modifier(ErrorPresentation(self.$errorQ))
 )
     
     override func viewDidLoad() {
@@ -77,7 +77,7 @@ class ShareViewController: NSViewController {
                 if case .userCancelled = error {
                     self.extensionContext?.cancelRequest(withError: error)
                 } else {
-                    self.errorQ.append(error)
+                    self.errorQ = error
                 }
             case .success(let output):
                 do {
@@ -93,20 +93,20 @@ class ShareViewController: NSViewController {
                     self.extensionContext?.completeRequest(returningItems: nil,
                                                            completionHandler: nil)
                 } catch {
-                    self.errorQ.append(Snapshot.Error.sx_save)
+                    self.errorQ = Snapshot.Error.sx_save
                 }
             }
             
         }
         
         guard let context = self.extensionContext?.inputItems.first as? NSExtensionItem else {
-            self.errorQ.append(Snapshot.Error.sx_process)
+            self.errorQ = Snapshot.Error.sx_process
             return
         }
         
         context.urlValue() { url in
             guard let url = url else {
-                self.errorQ.append(Snapshot.Error.sx_process)
+                self.errorQ = Snapshot.Error.sx_process
                 return
             }
             self.viewModel.setInputURL(url)

@@ -38,16 +38,29 @@ public struct ErrorQueue: DynamicProperty {
         return BlackBox(Deque<UserFacingError>(), isObservingValue: true)
     }
     
-    @EnvironmentObject private var errorQ: ErrorQueueEnvironment
+    @EnvironmentObject public var environment: ErrorQueueEnvironment
     
     public init() {}
     
-    public var wrappedValue: ErrorQueueCollection {
-        get { self.errorQ.value }
-        nonmutating set { self.errorQ.value = newValue }
+    public var wrappedValue: UserFacingError? {
+        get {
+            print("ERRORQ: \(self.environment.value.count)")//
+            return self.environment.value.first
+        }
+        nonmutating set {
+            if let newValue = newValue {
+                self.environment.value.append(newValue)
+            } else {
+                guard self.environment.value.isEmpty == false else {
+                    "Tried to remove error from queue when it was already empty".log()
+                    return
+                }
+                self.environment.value.removeFirst()
+            }
+        }
     }
     
-    public var projectedValue: Binding<ErrorQueueCollection> {
+    public var projectedValue: Binding<UserFacingError?> {
         Binding {
             self.wrappedValue
         } set: {

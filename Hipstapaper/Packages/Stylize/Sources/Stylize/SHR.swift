@@ -49,10 +49,10 @@ extension STZ {
         public var body: some View {
             Bridge(items: self.items, completion: self.completion)
                 .frame(width: self.forcedFrame, height: self.forcedFrame)
-                .modifier(ErrorPresentation(self.$errorQ.first))
+                .modifier(ErrorPresentation(self.$errorQ))
                 .onAppear {
                     guard self.items.isEmpty else { return }
-                    self.errorQ.append(Error.itemCount)
+                    self.errorQ = Error.itemCount
                 }
         }
         

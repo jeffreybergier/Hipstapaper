@@ -62,7 +62,7 @@ public struct Snapshotter: View {
             save: { self.viewModel.doneAction(.success(self.viewModel.output)) },
             canSave: { self.viewModel.output.currentURL != nil }
         ))
-        .modifier(ErrorPresentation(self.$errorQ.first))
+        .modifier(ErrorPresentation(self.$errorQ))
     }
 }
 

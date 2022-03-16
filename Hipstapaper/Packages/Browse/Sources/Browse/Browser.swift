@@ -50,7 +50,7 @@ public struct Browser: View {
         }
         // TODO: Toolbar leaks like crazy on iOS :(
         .modifier(Toolbar(viewModel: self.viewModel))
-        .modifier(ErrorPresentation(self.$errorQ.first))
+        .modifier(ErrorPresentation(self.$errorQ))
     }
     
     public init(_ viewModel: ViewModel) {

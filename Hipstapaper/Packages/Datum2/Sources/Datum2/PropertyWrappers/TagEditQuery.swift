@@ -32,10 +32,10 @@ import Localize
 public struct TagEditQuery: DynamicProperty {
     
     private let id: Tag.Ident
+    @ErrorQueue private var errorQ
+    @ControllerProperty private var controller
     @ObservedObject private var cd_tag: NilBox<CD_Tag> = .init()
     @Environment(\.managedObjectContext) private var context
-    @EnvironmentObject private var errorQ: ErrorQueueEnvironment
-    @ControllerProperty private var controller
 
     // TODO: Move controller into the environment
     public init(id: Tag.Ident) {
@@ -59,7 +59,7 @@ public struct TagEditQuery: DynamicProperty {
             set: { newValue in
                 self.cd_tag.value!.cd_name = newValue.name
                 guard case .failure(let error) = self.context.datum_save() else { return }
-                self.errorQ.value.append(error)
+                self.errorQ = error
             }
         )
     }

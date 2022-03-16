@@ -130,9 +130,9 @@ struct AddWebsitePresentable: ViewModifier {
 
 struct AddChoicePresentable: ViewModifier {
     
+    @ErrorQueue private var errorQ
     @ControllerProperty private var controller
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
-    @EnvironmentObject private var errorQ: ErrorQueueEnvironment
     
     func body(content: Content) -> some View {
         content.modifier(
@@ -156,7 +156,7 @@ struct AddChoicePresentable: ViewModifier {
                 case .success(let id):
                     self.presentation.value = .tagName(id)
                 case .failure(let error):
-                    self.errorQ.value.append(error)
+                    self.errorQ = error
                 }
             }
         }

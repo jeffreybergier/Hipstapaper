@@ -52,7 +52,7 @@ public protocol Controller {
 
     // MARK: Tags CRUD
     func createTag() -> Result<Tag.Ident, Error>
-//    func delete(_: Set<Tag.Ident>) -> Result<Void, Error>
+    func delete(_: Set<Tag.Ident>) -> Result<Void, Error>
     
     // MARK: Custom Functions
 //    func add(tag: AnyElementObserver<AnyTag>, to websites: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error>
