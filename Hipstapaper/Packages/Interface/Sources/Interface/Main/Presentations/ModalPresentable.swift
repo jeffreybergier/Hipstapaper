@@ -84,7 +84,8 @@ struct SortPickerPresentable: ViewModifier {
 
 struct TagNamePickerPresentable: ViewModifier {
     
-    let controller: Controller
+    @ControllerProperty private var controller
+    @EnvironmentObject private var errorQ: ErrorQueueEnvironment
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
     @EnvironmentObject private var errorEnvironment: ErrorQueueEnvironment
 
@@ -92,28 +93,31 @@ struct TagNamePickerPresentable: ViewModifier {
         content.popover(item: self.$presentation.isTagName)
         { item in
             // TODO: Fix DATUM
-            TagNamePicker(originalName: item.id,
-                          source: STZ.TB.AddTag.self, // item.value == nil ? STZ.TB.AddTag.self : STZ.TB.EditTag.self,
-                          cancel: { self.presentation.value = .none },
-                          save: { self.presentation.value = .none
-                                  self.save(item, $0) })
+            TagNamePicker(
+                originalName: item.value?.id ?? "-1",
+                source: STZ.TB.AddTag.self, // item.value == nil ? STZ.TB.AddTag.self : STZ.TB.EditTag.self,
+                cancel: { self.presentation.value = .none },
+                save: {
+                    self.presentation.value = .none
+                    self.save(item.value, $0)
+                }
+            )
         }
     }
     
     private func save(_ item: TH.Selection?, _ name: String?) {
         // TODO: Fix DATUM
-        /*
-        let result: Result<Void, Datum.Error>
-        if let item = item {
-            result = self.controller.update(item, name: name)
-        } else {
+        
+        let result: Result<Void, Datum2.Error>
+        // if let item = item {
+           // result = self.controller.update(item, name: name)
+        //} else {
             result = self.controller.createTag(name: name).map { _ in () }
-        }
+        //}
         result.error.map {
             log.error($0)
-            self.errorQ.queue.append($0)
+            self.errorQ.value.append($0)
         }
-        */
     }
 }
 

@@ -42,7 +42,7 @@ struct TagMenu: ViewModifier {
         ZStack {
             // TODO: Hack when toolbars work properly with popovers
             Color.clear.frame(width: 1, height: 1)
-                .modifier(TagNamePickerPresentable(controller: self.controller))
+                .modifier(TagNamePickerPresentable())
             content.contextMenu {
                 STZ.TB.EditTag.context() {
                     self.modalPresentation.value = .tagName(self.selection)

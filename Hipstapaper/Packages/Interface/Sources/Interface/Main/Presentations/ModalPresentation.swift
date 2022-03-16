@@ -65,7 +65,7 @@ enum ModalPresentation: Equatable {
             }
         }
         
-        @Published var isTagName: TH.Selection? = nil {
+        @Published var isTagName: IdentBox<TH.Selection?>? = nil {
             didSet {
                 guard !internalUpdateInProgress else { return }
                 guard self.isTagName == nil else { return }
@@ -131,7 +131,7 @@ enum ModalPresentation: Equatable {
                 case .addWebsite:
                     self.isAddWebsite = true
                 case .tagName(let item):
-                    self.isTagName = item
+                    self.isTagName = .init(item)
                 case .addChoose:
                     self.isAddChoose = true
                 case .search:

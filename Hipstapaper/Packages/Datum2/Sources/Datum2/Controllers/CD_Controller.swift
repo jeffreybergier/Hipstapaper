@@ -155,10 +155,10 @@ extension CD_Controller: Controller {
 
         return changesMade ? context.datum_save() : .success(())
     }
-
+*/
     // MARK: Tag CRUD
-
-    func createTag(name: String?) -> Result<AnyElementObserver<AnyTag>, Error> {
+    
+    func createTag(name: String?) -> Result<Tag.Ident, Error> {
         assert(Thread.isMainThread)
 
         let context = self.container.viewContext
@@ -166,10 +166,10 @@ extension CD_Controller: Controller {
         let tag = CD_Tag(context: context)
         tag.cd_name = name
         return context.datum_save().map {
-            AnyElementObserver(ManagedObjectElementObserver(tag, { AnyTag($0) }))
+            Tag.Ident(tag.objectID)
         }
     }
-
+/*
     func readTags() -> Result<AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyTag>>>, Error> {
         assert(Thread.isMainThread)
 

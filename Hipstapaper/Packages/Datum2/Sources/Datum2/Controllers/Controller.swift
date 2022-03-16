@@ -51,7 +51,7 @@ public protocol Controller {
 //    func delete(_: Set<Website.Ident>) -> Result<Void, Error>
 
     // MARK: Tags CRUD
-//    func createTag(name: String?) -> Result<AnyElementObserver<AnyTag>, Error>
+    func createTag(name: String?) -> Result<Tag.Ident, Error>
 //    func delete(_: Set<Tag.Ident>) -> Result<Void, Error>
     
     // MARK: Custom Functions
