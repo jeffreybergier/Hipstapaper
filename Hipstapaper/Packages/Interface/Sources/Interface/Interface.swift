@@ -37,9 +37,7 @@ public struct Interface: Scene {
     
     @StateObject private var controllerBox: BlackBox<Controller?>
     @StateObject private var windowPresentation = WindowPresentation()
-    @StateObject private var dropboxErrorEnvironment: ErrorQueueEnvironment
-    
-    @StateObject private var errorEnvironment = ErrorQueue.newEnvirementObject()
+    @StateObject private var errorEnvironment: ErrorQueue.Environment
     @StateObject private var modalPresentation = ModalPresentation.Wrap()
     @StateObject private var localizationBundle = LocalizeBundle()
     
@@ -56,13 +54,13 @@ public struct Interface: Scene {
         let result = ControllerNew()
         switch result {
         case .success(let controller):
-            _dropboxErrorEnvironment = .init(wrappedValue: errorQ)
+            _errorEnvironment = .init(wrappedValue: errorQ)
             _controllerBox = .init(wrappedValue: BlackBox(controller))
             self.watcher = DropboxWatcher(controller: controller, errorQ: errorQ)
         case .failure(let error):
             log.error(error)
             errorQ.value.append(error)
-            _dropboxErrorEnvironment = .init(wrappedValue: errorQ)
+            _errorEnvironment = .init(wrappedValue: errorQ)
             _controllerBox = .init(wrappedValue: BlackBox(nil))
             self.watcher = nil
         }
@@ -71,7 +69,6 @@ public struct Interface: Scene {
     @SceneBuilder public var body: some Scene {
         WindowGroup(Noun.readingList.rawValue, id: "MainWindow") {
             self.build()
-                .modifier(ErrorPresentation(self.$dropboxErrorEnvironment.value.first))
                 .environmentObject(self.modalPresentation)
                 .environmentObject(self.errorEnvironment)
                 .environmentObject(self.localizationBundle)

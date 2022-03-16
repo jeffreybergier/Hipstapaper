@@ -33,7 +33,6 @@ struct TagNamePicker: View {
     
     let done: Action
     @TagEditQuery private var tag: Tag
-    @EnvironmentObject private var errorQ: ErrorQueueEnvironment
     
     init(id: Tag.Ident, done: @escaping Action) {
         self.done = done

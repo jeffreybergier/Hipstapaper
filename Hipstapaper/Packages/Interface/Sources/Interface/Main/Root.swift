@@ -33,7 +33,6 @@ import Localize
 struct Root: View {
     
     @ErrorQueue private var errorQ
-    @EnvironmentObject private var errorEnvironment: ErrorQueueEnvironment
     
     var body: some View {
         NavigationView {

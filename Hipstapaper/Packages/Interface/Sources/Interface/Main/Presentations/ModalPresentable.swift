@@ -99,8 +99,8 @@ struct TagNamePickerPresentable: ViewModifier {
 struct AddWebsitePresentable: ViewModifier {
     
     let controller: Controller
+    @ErrorQueue private var errorQ
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
-    @EnvironmentObject private var errorEnvironment: ErrorQueueEnvironment
 
     func body(content: Content) -> some View {
         content.sheet(isPresented: self.$presentation.isAddWebsite) {
@@ -122,7 +122,7 @@ struct AddWebsitePresentable: ViewModifier {
             }
             */
         case .failure(let error):
-            self.errorEnvironment.value.append(error)
+            self.errorQ = error
             log.error(error)
         }
     }

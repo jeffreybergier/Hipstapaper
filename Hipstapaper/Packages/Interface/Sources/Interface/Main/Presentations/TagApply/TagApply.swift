@@ -36,8 +36,8 @@ struct TagApply: View {
     let selection: WH.Selection
     let done: Action
     
-    @EnvironmentObject private var errorEnvironment: ErrorQueueEnvironment
-    
+    @ErrorQueue private var errorQ
+
     var body: some View {
         Text("// TODO: Fix DATUM")
     }

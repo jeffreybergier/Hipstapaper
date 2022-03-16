@@ -36,7 +36,7 @@ enum TagHelper {
     
     typealias Selection = Tag.Ident
     
-    static func delete(_ selection: Selection?, _ controller: Controller, _ errorQ: ErrorQueueEnvironment) {
+    static func delete(_ selection: Selection?, _ controller: Controller, _ errorQ: ErrorQueue.Environment) {
         guard let id = selection else { return }
         let result = controller.delete([id])
         result.error.map {

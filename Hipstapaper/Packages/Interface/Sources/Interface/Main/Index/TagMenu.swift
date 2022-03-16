@@ -34,9 +34,8 @@ struct TagMenu: ViewModifier {
     
     let controller: Controller
     @State var selection: TH.Selection
-    
+    @ErrorQueue private var errorQ
     @StateObject private var modalPresentation = ModalPresentation.Wrap()
-    @EnvironmentObject private var errorEnvironment: ErrorQueueEnvironment
     
     func body(content: Content) -> some View {
         ZStack {
@@ -49,9 +48,9 @@ struct TagMenu: ViewModifier {
                 }
                 STZ.TB.DeleteTag_Trash.context() {
                     let error = DeleteError.tag {
-                        TH.delete(self.selection, self.controller, self.errorEnvironment)
+                        TH.delete(self.selection, self.controller, self._errorQ.environment)
                     }
-                    self.errorEnvironment.value.append(error)
+                    self.errorQ = error
                 }
             }
         }

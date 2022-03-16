@@ -59,7 +59,7 @@ enum WebsiteHelper {
         }
     }
     
-    static func archive(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQueueEnvironment) {
+    static func archive(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQueue.Environment) {
         // TODO: Fix DATUM
         /*
         let result = controller.update(selection, .init(isArchived: true))
@@ -70,7 +70,7 @@ enum WebsiteHelper {
         */
     }
     
-    static func unarchive(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQueueEnvironment) {
+    static func unarchive(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQueue.Environment) {
         // TODO: Fix DATUM
         /*
         let result = controller.update(selection, .init(isArchived: false))
@@ -81,7 +81,7 @@ enum WebsiteHelper {
         */
     }
     
-    static func delete(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQueueEnvironment) {
+    static func delete(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQueue.Environment) {
         // TODO: Fix DATUM
         /*
         let result = controller.delete(selection)
@@ -100,7 +100,7 @@ enum WebsiteHelper {
     
     @discardableResult
     /// Item returned if device not capable of window presentation
-    static func open(_ selection: Selection, in wm: WindowPresentation, _ errorQ: ErrorQueueEnvironment) -> Website? {
+    static func open(_ selection: Selection, in wm: WindowPresentation, _ errorQ: ErrorQueue.Environment) -> Website? {
         guard selection.isEmpty == false else { return nil }
         let urls = selection.compactMap { $0.preferredURL }
         

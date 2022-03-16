@@ -33,7 +33,7 @@ import Localize
 internal struct WebView: View {
     
     @ObservedObject var viewModel: ViewModel
-    @EnvironmentObject private var errorQ: ErrorQueueEnvironment
+    @ErrorQueue private var errorQ
 
     private func update(_ wv: WKWebView, context: Context) {
         if self.viewModel.browserControl.stop {
@@ -96,7 +96,7 @@ internal struct WebView: View {
     }
     
     func makeCoordinator() -> GenericWebKitNavigationDelegate {
-        return .init(self.errorQ.value)
+        return .init(self._errorQ.environment.value)
     }
     
 }

@@ -37,7 +37,7 @@ class DropboxWatcher {
     let observer: DirectoryPublisher
     private var token: AnyCancellable?
     
-    init(controller: Controller, errorQ: ErrorQueueEnvironment) {
+    init(controller: Controller, errorQ: ErrorQueue.Environment) {
         let dropbox = AppGroup.dropbox
         let fm = FileManager.default
         try? fm.createDirectory(at: dropbox,

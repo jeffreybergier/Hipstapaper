@@ -33,9 +33,9 @@ import Localize
 
 struct WebsiteMenu: ViewModifier {
     
+    @ErrorQueue private var errorQ
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     @EnvironmentObject private var windowPresentation: WindowPresentation
-    @EnvironmentObject private var errorQ: ErrorQueueEnvironment
     @Environment(\.openURL) private var externalPresentation
     
     private let selection: WH.Selection
@@ -56,7 +56,7 @@ struct WebsiteMenu: ViewModifier {
         STZ.VIEW.TXT("\(selection.count) selected")
         Group {
             STZ.TB.OpenInApp.context(isEnabled: WH.canOpen(selection, in: self.windowPresentation)) {
-                guard let fail = WH.open(selection, in: self.windowPresentation, self.errorQ) else { return }
+                guard let fail = WH.open(selection, in: self.windowPresentation, self._errorQ.environment) else { return }
                 self.modalPresentation.value = .browser(fail)
             }
             STZ.TB.OpenInBrowser.context(isEnabled: WH.canOpen(selection, in: self.windowPresentation),
@@ -64,9 +64,9 @@ struct WebsiteMenu: ViewModifier {
         }
         Group {
             STZ.TB.Archive.context(isEnabled: WH.canArchive(selection),
-                                   action: { WH.archive(selection, self.controller, self.errorQ) })
+                                   action: { WH.archive(selection, self.controller, self._errorQ.environment) })
             STZ.TB.Unarchive.context(isEnabled: WH.canUnarchive(selection),
-                                     action: { WH.unarchive(selection, self.controller, self.errorQ) })
+                                     action: { WH.unarchive(selection, self.controller, self._errorQ.environment) })
         }
         Group {
             STZ.TB.Share.context(isEnabled: WH.canShare(selection)) {
@@ -79,9 +79,9 @@ struct WebsiteMenu: ViewModifier {
         Group {
             STZ.TB.DeleteWebsite.context(isEnabled: WH.canDelete(selection)) {
                 let error = DeleteError.website {
-                    WH.delete(self.selection, self.controller, self.errorQ)
+                    WH.delete(self.selection, self.controller, self._errorQ.environment)
                 }
-                self.errorQ.value.append(error)
+                self.errorQ = error
             }
         }
     }

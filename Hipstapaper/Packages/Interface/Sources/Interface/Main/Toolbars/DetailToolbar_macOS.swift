@@ -36,11 +36,10 @@ extension DetailToolbar {
         let controller: Controller
         @Binding var selection: WH.Selection
         
+        @ErrorQueue private var errorQ
         @QueryProperty private var query
-        
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
         @EnvironmentObject private var windowPresentation: WindowPresentation
-        @EnvironmentObject private var errorEnvironment: ErrorQueueEnvironment
         @Environment(\.openURL) private var externalPresentation
         @Environment(\.toolbarFilterIsEnabled) private var toolbarFilterIsEnabled
         
@@ -50,7 +49,7 @@ extension DetailToolbar {
                 ToolbarItem(id: "Detail.Open") {
                     HStack {
                         STZ.TB.OpenInApp.toolbar(isEnabled: WH.canOpen(self.selection, in: self.windowPresentation),
-                                                 action: { WH.open(self.selection, in: self.windowPresentation, self.errorEnvironment) })
+                                                 action: { WH.open(self.selection, in: self.windowPresentation, self._errorQ.environment) })
                         STZ.TB.OpenInBrowser.toolbar(isEnabled: WH.canOpen(self.selection, in: self.windowPresentation),
                                                      action: { WH.open(self.selection, in: self.externalPresentation) })
                     }
@@ -65,9 +64,9 @@ extension DetailToolbar {
                 ToolbarItem(id: "Detail.Archive") {
                     HStack {
                         STZ.TB.Archive.toolbar(isEnabled: WH.canArchive(self.selection),
-                                               action: { WH.archive(self.selection, self.controller, self.errorEnvironment) })
+                                               action: { WH.archive(self.selection, self.controller, self._errorQ.environment) })
                         STZ.TB.Unarchive.toolbar(isEnabled: WH.canUnarchive(self.selection),
-                                                 action: { WH.unarchive(self.selection, self.controller, self.errorEnvironment) })
+                                                 action: { WH.unarchive(self.selection, self.controller, self._errorQ.environment) })
                     }
                 }
                 ToolbarItem(id: "Detail.Tag") {
