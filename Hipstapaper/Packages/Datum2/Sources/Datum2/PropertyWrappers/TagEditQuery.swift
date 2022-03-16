@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/12/20.
+//  Created by Jeffrey Bergier on 2022/03/16.
 //
 //  MIT License
 //
@@ -25,36 +25,42 @@
 //
 
 import SwiftUI
-import Datum2
-import Stylize
+import Umbrella
 import Localize
 
-struct TagNamePicker: View {
+@propertyWrapper
+public struct TagEditQuery: DynamicProperty {
     
-    let done: Action
-    @TagEditQuery private var tag: Tag
+    private let id: Tag.Ident
+    @ObservedObject private var cd_tag: NilBox<CD_Tag> = .init()
+    @Environment(\.managedObjectContext) private var context
     @EnvironmentObject private var errorQ: ErrorQueueEnvironment
-    
-    init(id: Tag.Ident, done: @escaping Action) {
-        self.done = done
-        _tag = .init(id: id)
+    @ControllerProperty private var controller
+
+    // TODO: Move controller into the environment
+    public init(id: Tag.Ident) {
+        self.id = id
     }
     
-    var body: some View {
-        VStack(spacing: 0) {
-            STZ.VIEW.TXTFLD.TagName.textfield(self.$tag.name)
-            Spacer()
-        }
-        .modifier(STZ.PDG.Equal())
-        .modifier(STZ.MDL.Done(kind: STZ.TB.EditTag.self, done: self.done))
-        .frame(idealWidth: 375, idealHeight: self.__hack_height) // TODO: Remove height when this is not broken
+    public func update() {
+        guard self.cd_tag.value == nil else { return }
+        let controller = self.controller as! CD_Controller
+        let id = controller.container.persistentStoreCoordinator.managedObjectID(forURIRepresentation: URL(string: id.id)!)!
+        let cd_tag = controller.container.viewContext.object(with: id) as! CD_Tag
+        self.cd_tag.value = cd_tag
     }
     
-    private var __hack_height: CGFloat? {
-        #if os(macOS)
-        return nil
-        #else
-        return 120
-        #endif
+    public var wrappedValue: Tag {
+        Tag(self.cd_tag.value!)
+    }
+    public var projectedValue: Binding<Tag> {
+        Binding(
+            get: { self.wrappedValue },
+            set: { newValue in
+                self.cd_tag.value!.cd_name = newValue.name
+                guard case .failure(let error) = self.context.datum_save() else { return }
+                self.errorQ.value.append(error)
+            }
+        )
     }
 }

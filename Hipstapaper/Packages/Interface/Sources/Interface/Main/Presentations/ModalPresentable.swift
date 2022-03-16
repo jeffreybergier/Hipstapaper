@@ -84,40 +84,15 @@ struct SortPickerPresentable: ViewModifier {
 
 struct TagNamePickerPresentable: ViewModifier {
     
-    @ControllerProperty private var controller
-    @EnvironmentObject private var errorQ: ErrorQueueEnvironment
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
-    @EnvironmentObject private var errorEnvironment: ErrorQueueEnvironment
 
     func body(content: Content) -> some View {
-        content.popover(item: self.$presentation.isTagName)
-        { item in
-            // TODO: Fix DATUM
-            TagNamePicker(
-                originalName: item.value?.id ?? "-1",
-                source: STZ.TB.AddTag.self, // item.value == nil ? STZ.TB.AddTag.self : STZ.TB.EditTag.self,
-                cancel: { self.presentation.value = .none },
-                save: {
+        content
+            .popover(item: self.$presentation.isTagName) { id in
+                TagNamePicker(id: id.value) {
                     self.presentation.value = .none
-                    self.save(item.value, $0)
                 }
-            )
-        }
-    }
-    
-    private func save(_ item: TH.Selection?, _ name: String?) {
-        // TODO: Fix DATUM
-        
-        let result: Result<Void, Datum2.Error>
-        // if let item = item {
-           // result = self.controller.update(item, name: name)
-        //} else {
-            result = self.controller.createTag(name: name).map { _ in () }
-        //}
-        result.error.map {
-            log.error($0)
-            self.errorQ.value.append($0)
-        }
+            }
     }
 }
 
@@ -155,7 +130,9 @@ struct AddWebsitePresentable: ViewModifier {
 
 struct AddChoicePresentable: ViewModifier {
     
+    @ControllerProperty private var controller
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
+    @EnvironmentObject private var errorQ: ErrorQueueEnvironment
     
     func body(content: Content) -> some View {
         content.modifier(
@@ -175,7 +152,12 @@ struct AddChoicePresentable: ViewModifier {
             self.presentation.value = .none
             // TODO: Remove this hack when possible
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                self.presentation.value = .tagName(nil)
+                switch self.controller.createTag() {
+                case .success(let id):
+                    self.presentation.value = .tagName(id)
+                case .failure(let error):
+                    self.errorQ.value.append(error)
+                }
             }
         }
     }

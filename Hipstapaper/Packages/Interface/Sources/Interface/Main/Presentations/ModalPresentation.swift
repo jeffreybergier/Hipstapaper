@@ -34,7 +34,7 @@ enum ModalPresentation: Equatable {
     case addChoose
     case search
     case sort
-    case tagName(TH.Selection?)
+    case tagName(TH.Selection)
     case tagApply(WH.Selection)
     case share(WH.Selection)
     case browser(Website)
@@ -65,7 +65,7 @@ enum ModalPresentation: Equatable {
             }
         }
         
-        @Published var isTagName: IdentBox<TH.Selection?>? = nil {
+        @Published var isTagName: IdentBox<TH.Selection>? = nil {
             didSet {
                 guard !internalUpdateInProgress else { return }
                 guard self.isTagName == nil else { return }

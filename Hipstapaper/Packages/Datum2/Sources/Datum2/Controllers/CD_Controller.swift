@@ -158,16 +158,15 @@ extension CD_Controller: Controller {
 */
     // MARK: Tag CRUD
     
-    func createTag(name: String?) -> Result<Tag.Ident, Error> {
+    internal func createTag() -> Result<Tag.Ident, Error> {
+        return self.cd_createTag().map { Tag.Ident($0.objectID) }
+    }
+    
+    internal func cd_createTag() -> Result<CD_Tag, Error> {
         assert(Thread.isMainThread)
-
         let context = self.container.viewContext
-
         let tag = CD_Tag(context: context)
-        tag.cd_name = name
-        return context.datum_save().map {
-            Tag.Ident(tag.objectID)
-        }
+        return context.datum_save().map { tag }
     }
 /*
     func readTags() -> Result<AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyTag>>>, Error> {
@@ -446,7 +445,7 @@ extension NSManagedObjectContext {
         return true
     }
     
-    fileprivate func datum_save() -> Result<Void, Error> {
+    internal func datum_save() -> Result<Void, Error> {
         do {
             try self.save()
             return .success(())

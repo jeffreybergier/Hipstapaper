@@ -25,6 +25,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import Localize
 
 public protocol TextFieldable {
@@ -44,9 +45,20 @@ extension TextFieldable {
             .textFieldStyle(self.style)
             .disableAutocorrection(!self.autocorrection)
     }
+    public static func textfield(_ binding: Binding<String?>) -> some View {
+        JSBTextField(self.placeholder.rawValue, text: binding)
+            .textFieldStyle(self.style)
+            .disableAutocorrection(!self.autocorrection)
+    }
     #else
     public static func textfield(_ binding: Binding<String>) -> some View {
         TextField(self.placeholder.rawValue, text: binding)
+            .textFieldStyle(self.style)
+            .disableAutocorrection(!self.autocorrection)
+            .keyboardType(self.keyboard)
+    }
+    public static func textfield(_ binding: Binding<String?>) -> some View {
+        JSBTextField(self.placeholder.rawValue, text: binding)
             .textFieldStyle(self.style)
             .disableAutocorrection(!self.autocorrection)
             .keyboardType(self.keyboard)
