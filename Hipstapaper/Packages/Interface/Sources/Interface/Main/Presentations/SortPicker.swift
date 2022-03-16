@@ -34,14 +34,12 @@ struct SortPicker: View {
     
     let doneAction: Action
     @QueryProperty private var query
+    @State private var sortSelection: Sort?
     
     var body: some View {
-        List(Sort.allCases)
-        // TODO: Fix DATUM
-             // id: \.self,
-             // selection: self.$query.sort)
-        { order in
-            order.label.label()
+        List(Sort.allCases, id: \.self, selection: self.$query.sort)
+        { sort in
+            sort.label.label()
                 .modifier(STZ.PDG.Default(ignore: [\.leading, \.trailing]))
         }
         .modifier(Force.PlainListStyle())

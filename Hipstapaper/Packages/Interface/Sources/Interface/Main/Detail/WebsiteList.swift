@@ -33,7 +33,7 @@ import XPList
 
 struct WebsiteList: View {
     
-    let selectedTag: Tag.Ident
+    let onLoadQuery: Query
     
     @State private var selection: WH.Selection = []
     @QueryProperty private var query
@@ -58,7 +58,9 @@ struct WebsiteList: View {
         // TODO: Fix the choppy EditMode animation caused by overly complex toolbars
         .modifier(DetailToolbar.Shared(controller: self.controller,
                                        selection: self.$selection))
-        .environment(\.toolbarFilterIsEnabled, self.query.tag != nil)
+        // TODO: Uncomment this later
+        .environment(\.toolbarFilterIsEnabled, true /*self.query.tag != nil */)
+        .onAppear { self.query = self.onLoadQuery }
     }
 }
 

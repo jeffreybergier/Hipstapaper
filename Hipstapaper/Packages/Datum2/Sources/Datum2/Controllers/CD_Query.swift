@@ -42,11 +42,13 @@ extension Query {
                     NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(CD_Website.cd_originalURL), search),
                 ])
             }(),
+            /*
             {
                 // TODO: Not sure if this works
                 guard let _tagID = self.tag?.id else { return nil }
                 return NSPredicate(format: "%K CONTAINS %@", #keyPath(CD_Website.cd_tags), _tagID)
             }(),
+             */
         ].compactMap { $0 }
         guard predicates.isEmpty == false else { return nil }
         return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)

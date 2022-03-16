@@ -32,7 +32,7 @@ import Stylize
 
 struct TagList<Nav: View>: View {
     
-    typealias Navigation = (Tag.Ident) -> Nav
+    typealias Navigation = (Query) -> Nav
     let navigation: Navigation
 
     @TagListQuery private var data
@@ -48,7 +48,7 @@ struct TagList<Nav: View>: View {
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
                 ForEach(Tag.Ident.specialTags) { tag in
-                    NavigationLink(destination: self.navigation(tag),
+                    NavigationLink(destination: self.navigator(tag),
                                    tag: tag,
                                    selection: self.$selectedTag)
                     {
@@ -64,7 +64,7 @@ struct TagList<Nav: View>: View {
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
                 ForEach(self.data) { tag in
-                    NavigationLink(destination: self.navigation(tag.uuid),
+                    NavigationLink(destination: self.navigator(tag.uuid),
                                    tag: tag.uuid,
                                    selection: self.$selectedTag)
                     {
@@ -79,5 +79,13 @@ struct TagList<Nav: View>: View {
         .navigationTitle(Noun.tags.rawValue)
         .modifier(Force.SidebarStyle())
         .modifier(IndexToolbar(controller: self.controller))
+    }
+    
+    private var navigator: (Tag.Ident) -> Nav {
+        {
+            var query = self.query
+            query.tag = $0
+            return self.navigation(query)
+        }
     }
 }

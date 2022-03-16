@@ -37,9 +37,17 @@ public struct Tag: Identifiable, Hashable, Codable {
     
     public struct Ident: Identifiable, Hashable, Codable {
         public var id: String
+        internal init(_ id: String) {
+            self.id = id
+        }
     }
 }
 
 extension Tag.Ident {
-    public static let specialTags: [Tag.Ident] = [.init(id: "unread"), .init(id: "all")]
+    public static let unread = Tag.Ident("unread")
+    public static let all = Tag.Ident("all")
+    public static let specialTags: [Tag.Ident] = [unread, all]
+    public var isSpecialTag: Bool {
+        return Self.specialTags.contains(self)
+    }
 }

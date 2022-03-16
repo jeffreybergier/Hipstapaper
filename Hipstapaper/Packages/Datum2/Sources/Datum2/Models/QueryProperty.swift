@@ -29,29 +29,36 @@ import SwiftUI
 @propertyWrapper
 public struct QueryProperty: DynamicProperty {
     
-    @SceneStorage("Query") private var query = Query.unreadItems
+    // TODO: Change this back to SceneStorage
+    @AppStorage("Query") private var query = Query.unreadItems
     
     public init() {}
     
     public var wrappedValue: Query {
         get { self.query }
-        nonmutating set { self.query = newValue }
+        nonmutating set {
+            self.query = newValue
+        }
     }
     
     public var projectedValue: Binding<Query> {
         Binding {
-            self.query
+            self.wrappedValue
         } set: {
-            self.query = $0
+            self.wrappedValue = $0
         }
     }
 }
 
 extension Query: RawRepresentable {
+    
+    private static var HACK_becauseRRIsNotWorking: Query = .unreadItems
+    
     public init?(rawValue: String) {
         do {
-            let data = rawValue.data(using: .utf8) ?? Data()
-            let query = try PropertyListDecoder().decode(Query.self, from: data)
+            // let data = rawValue.data(using: .utf8) ?? Data()
+            // let query = try PropertyListDecoder().decode(Query.self, from: data)
+            let query = Query.HACK_becauseRRIsNotWorking
             self.tag = query.tag
             self.sort = query.sort
             self.search = query.search
@@ -64,6 +71,7 @@ extension Query: RawRepresentable {
     
     public var rawValue: String {
         do {
+            Query.HACK_becauseRRIsNotWorking = self
             return ""
             // TODO: Fix DATUM
             let data = try PropertyListEncoder().encode(self)

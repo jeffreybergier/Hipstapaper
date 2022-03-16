@@ -31,12 +31,7 @@ import Localize
 struct WebsiteListTitle: ViewModifier {
     let query: Query
     @ViewBuilder func body(content: Content) -> some View {
-        if let tag = self.query.tag {
-            content
-                // TODO: Fix DATUM
-                .navigationTitle(Noun.untitled_L)
-                .modifier(TitleSize(isLarge: false))
-        } else {
+        if self.query.tag.isSpecialTag {
             switch self.query.isOnlyNotArchived {
             case false:
                 content.navigationTitle(Noun.allItems.rawValue)
@@ -45,6 +40,11 @@ struct WebsiteListTitle: ViewModifier {
                 content.navigationTitle(Noun.hipstapaper.rawValue)
                     .modifier(TitleSize(isLarge: true))
             }
+        } else {
+            content
+                // TODO: Fix DATUM
+                .navigationTitle(Noun.untitled_L)
+                .modifier(TitleSize(isLarge: false))
         }
     }
 }
