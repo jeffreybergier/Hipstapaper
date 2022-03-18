@@ -56,6 +56,7 @@ public protocol Controller {
     func delete(_: Set<Tag.Ident>) -> Result<Void, Error>
     
     // MARK: Custom Functions
+    func setArchive(_: Bool, on websites: Set<Website.Ident>) -> Result<Void, Error>
 //    func add(tag: AnyElementObserver<AnyTag>, to websites: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error>
 //    func remove(tag: AnyElementObserver<AnyTag>, from websites: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error>
 //    func tagStatus(for websites: Set<AnyElementObserver<AnyWebsite>>) -> Result<AnyRandomAccessCollection<(AnyElementObserver<AnyTag>, ToggleState)>, Error>

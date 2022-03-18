@@ -60,25 +60,19 @@ enum WebsiteHelper {
     }
     
     static func archive(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQueue.Environment) {
-        // TODO: Fix DATUM
-        /*
-        let result = controller.update(selection, .init(isArchived: true))
+        let result = controller.setArchive(true, on: Set(selection.map { $0.uuid }))
         result.error.map {
-            errorQ.queue.append($0)
+            errorQ.value.append($0)
             log.error($0)
         }
-        */
     }
     
     static func unarchive(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQueue.Environment) {
-        // TODO: Fix DATUM
-        /*
-        let result = controller.update(selection, .init(isArchived: false))
+        let result = controller.setArchive(false, on: Set(selection.map { $0.uuid }))
         result.error.map {
-            errorQ.queue.append($0)
+            errorQ.value.append($0)
             log.error($0)
         }
-        */
     }
     
     static func delete(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQueue.Environment) {

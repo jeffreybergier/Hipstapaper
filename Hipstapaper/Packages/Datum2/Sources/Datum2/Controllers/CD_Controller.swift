@@ -78,24 +78,30 @@ extension CD_Controller: Controller {
     }
     
     internal func delete(_ input: Set<Tag.Ident>) -> Result<Void, Error> {
+        assert(Thread.isMainThread)
         let context = self.container.viewContext
-        let coordinator = self.container.persistentStoreCoordinator
-        let cd_ids = input.compactMap {
-            coordinator.managedObjectID(forURIRepresentation: URL(string: $0.id)!)
-        }
-        let cd_tags = cd_ids.compactMap {
-            context.object(with: $0) as? CD_Tag
-        }
+        let cd_tags = self.search(input, from: context)
         guard cd_tags.isEmpty == false else { return .success(()) }
         cd_tags.forEach {
             context.delete($0)
         }
         return context.datum_save()
     }
-/*
     
     // MARK: Custom Functions
     
+    internal func setArchive(_ newValue: Bool, on input: Set<Website.Ident>) -> Result<Void, Error> {
+        assert(Thread.isMainThread)
+        let context = self.container.viewContext
+        let cd_websites = self.search(input, from: context)
+        guard cd_websites.isEmpty == false else { return .success(()) }
+        cd_websites.forEach {
+            $0.cd_isArchived = newValue
+        }
+        return context.datum_save()
+    }
+    
+    /*
     func add(tag: AnyElementObserver<AnyTag>, to sites: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error> {
         let context = self.container.viewContext
         let check = sites.firstIndex { !context.validate($0.value.wrappedValue,
@@ -166,6 +172,28 @@ extension CD_Controller: Controller {
         }
     }
     */
+    
+    // MARK: Search
+    
+    private func search(_ input: Set<Website.Ident>, from context: NSManagedObjectContext) -> [CD_Website] {
+        let coordinator = self.container.persistentStoreCoordinator
+        let cd_ids = input.compactMap {
+            coordinator.managedObjectID(forURIRepresentation: URL(string: $0.id)!)
+        }
+        return cd_ids.compactMap {
+            context.object(with: $0) as? CD_Website
+        }
+    }
+    
+    private func search(_ input: Set<Tag.Ident>, from context: NSManagedObjectContext) -> [CD_Tag] {
+        let coordinator = self.container.persistentStoreCoordinator
+        let cd_ids = input.compactMap {
+            coordinator.managedObjectID(forURIRepresentation: URL(string: $0.id)!)
+        }
+        return cd_ids.compactMap {
+            context.object(with: $0) as? CD_Tag
+        }
+    }
 }
 
 internal class CD_Controller {
