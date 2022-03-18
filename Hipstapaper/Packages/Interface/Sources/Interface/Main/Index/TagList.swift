@@ -52,9 +52,7 @@ struct TagList<Nav: View>: View {
                                    tag: tag,
                                    selection: self.$selectedTag)
                     {
-                        // TODO: Fix DATUM
-                        // TagRow(item: tag)
-                        Text("// TODO: Fix Datum")
+                        SpecialTagRow(item: tag)
                             .environment(\.XPL_isSelected, self.selectedTag == tag)
                     }
                 }

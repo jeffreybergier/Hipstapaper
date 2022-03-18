@@ -45,3 +45,24 @@ struct TagRow: View {
         .frame(height: 30)
     }
 }
+
+struct SpecialTagRow: View {
+    var item: Tag.Ident
+    private var name: String {
+        switch self.item {
+        case .unread:
+            return Noun.unreadItems_L
+        case .all:
+            return Noun.allItems_L
+        default:
+            assertionFailure()
+            return "-1"
+        }
+    }
+    var body: some View {
+        STZ.VIEW.TXT(self.name)
+            .modifier(STZ.CLR.IndexRow.Text.foreground())
+            .modifier(STZ.FNT.IndexRow.Title.apply())
+            .frame(height: 30)
+    }
+}
