@@ -101,77 +101,33 @@ extension CD_Controller: Controller {
         return context.datum_save()
     }
     
-    /*
-    func add(tag: AnyElementObserver<AnyTag>, to sites: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error> {
+    internal func addTag(_ cd_tag: CD_Tag, to input: Set<Website.Ident>) -> Result<Void, Error> {
+        assert(Thread.isMainThread)
         let context = self.container.viewContext
-        let check = sites.firstIndex { !context.validate($0.value.wrappedValue,
-                                                         as: CD_Website.classForCoder()) }
-        guard check == nil, let tag = tag.value.wrappedValue as? CD_Tag else {
-            let message = "Wrong Input Type"
-            log.emergency(message)
-            fatalError(message)
-        }
-        
+        let websites = self.search(input, from: context)
         var changesMade = false
-        for site in sites {
-            let site = site.value.wrappedValue as! CD_Website
-            guard site.cd_tags.contains(tag) == false else { continue }
+        for site in websites {
+            guard site.cd_tags.contains(cd_tag) == false else { continue }
             changesMade = true
             let tags = site.mutableSetValue(forKey: #keyPath(CD_Website.cd_tags))
-            tags.add(tag)
+            tags.add(cd_tag)
         }
-        
         return changesMade ? context.datum_save() : .success(())
     }
     
-    func remove(tag: AnyElementObserver<AnyTag>, from sites: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error> {
+    internal func removeTag(_ cd_tag: CD_Tag, to input: Set<Website.Ident>) -> Result<Void, Error> {
+        assert(Thread.isMainThread)
         let context = self.container.viewContext
-        let check = sites.firstIndex { !context.validate($0.value.wrappedValue,
-                                                         as: CD_Website.classForCoder()) }
-        guard check == nil, let tag = tag.value.wrappedValue as? CD_Tag else {
-            let message = "Wrong Input Type"
-            log.emergency(message)
-            fatalError(message)
-        }
-        
+        let websites = self.search(input, from: context)
         var changesMade = false
-        for site in sites {
-            let site = site.value.wrappedValue as! CD_Website
-            guard site.cd_tags.contains(tag) == true else { continue }
+        for site in websites {
+            guard site.cd_tags.contains(cd_tag) == true else { continue }
             changesMade = true
             let tags = site.mutableSetValue(forKey: #keyPath(CD_Website.cd_tags))
-            tags.remove(tag)
+            tags.remove(cd_tag)
         }
-        
         return changesMade ? context.datum_save() : .success(())
     }
-    
-    func tagStatus(for sites: Set<AnyElementObserver<AnyWebsite>>)
-                  -> Result<AnyRandomAccessCollection<(AnyElementObserver<AnyTag>, ToggleState)>, Error>
-
-    {
-        let context = self.container.viewContext
-        let check = sites.firstIndex { !context.validate($0.value.wrappedValue,
-                                                         as: CD_Website.classForCoder()) }
-        guard check == nil else {
-            let message = "Wrong Input Type"
-            log.emergency(message)
-            fatalError(message)
-        }
-        return self.readTags().map() { tags in
-            return tags.data.lazy.map { tag in
-                let rawTag = tag.value.wrappedValue as! CD_Tag
-                let websiteToggleStates = sites.map { website -> Bool in
-                    let rawWebsite = website.value.wrappedValue as! CD_Website
-                    return rawWebsite.cd_tags.contains(rawTag)
-                }
-                let websiteToggleState = ToggleState(websiteToggleStates)
-                return (tag, websiteToggleState)
-            }
-            .eraseToAnyRandomAccessCollection()
-        }
-    }
-    */
     
     // MARK: Search
     

@@ -30,7 +30,12 @@ import Umbrella
 @propertyWrapper
 public struct TagApplyQuery: DynamicProperty {
     
+    @ErrorQueue private var errorQ
     @FetchRequest private var data: FetchedResults<CD_Tag>
+    @EnvironmentObject private var _controller: BlackBox<Controller?>
+    private var controller: CD_Controller {
+        _controller.value as! CD_Controller
+    }
     
     private let selection: Set<Website.Ident>
     
@@ -42,9 +47,28 @@ public struct TagApplyQuery: DynamicProperty {
         self.selection = selection
     }
     
-    public var wrappedValue: AnyRandomAccessCollection<TagApply> {
-        TransformCollection(collection: self.data) {
-            TagApply(tag: $0, selection: self.selection)
+    public var wrappedValue: AnyRandomAccessCollection<Binding<TagApply>> {
+        TransformCollection(collection: self.data) { cd_tag in
+            Binding {
+                TagApply(tag: cd_tag, selection: self.selection)
+            } set: { newValue in
+                switch newValue.status {
+                case .all:
+                    self.controller.addTag(cd_tag, to: self.selection)
+                        .error.map {
+                            self.errorQ = $0
+                            log.error($0)
+                        }
+                case .none:
+                    self.controller.removeTag(cd_tag, to: self.selection)
+                        .error.map {
+                            self.errorQ = $0
+                            log.error($0)
+                        }
+                case .some:
+                    "Invalid change".log()
+                }
+            }
         }
         .eraseToAnyRandomAccessCollection()
     }

@@ -33,7 +33,7 @@ import Localize
 struct TagApply: View {
     
     @ErrorQueue private var errorQ
-    @TagApplyQuery private var data: AnyRandomAccessCollection<Datum2.TagApply>
+    @TagApplyQuery private var data: AnyRandomAccessCollection<Binding<Datum2.TagApply>>
     
     let done: Action
     
@@ -44,26 +44,9 @@ struct TagApply: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            List(self.data) { apply in
-                TagApplyRow(name: apply.tag.name,
-                            value: apply.status.boolValue,
-                            valueChanged: { _ in /* self.process(newValue: $0, for: tuple.0) */ })
-            }
-            .modifier(STZ.MDL.Done(kind: STZ.TB.TagApply.self, done: self.done))
-            .frame(idealWidth: 300, idealHeight: 300)
+            List(self.data) { TagApplyRow(value: $0) }
+              .modifier(STZ.MDL.Done(kind: STZ.TB.TagApply.self, done: self.done))
+              .frame(idealWidth: 300, idealHeight: 300)
         }
     }
-    
-    /*
-    private func process(newValue: Bool, for tag: AnyElementObserver<AnyTag>) {
-        let selection = self.selection
-        let result = newValue
-            ? self.controller.add(tag: tag, to: selection)
-            : self.controller.remove(tag: tag, from: selection)
-        result.error.map {
-            self.errorQ.queue.append($0)
-            log.error($0)
-        }
-    }
-    */
 }

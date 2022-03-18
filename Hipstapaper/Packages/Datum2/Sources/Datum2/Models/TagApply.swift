@@ -34,6 +34,14 @@ public struct TagApply: Identifiable, Hashable, Codable {
     public enum Status: Hashable, Codable {
         case all, some, none
         
+        public mutating func set(_ newValue: Bool) {
+            switch newValue {
+            case true:
+                self = .all
+            case false:
+                self = .none
+            }
+        }
         public var boolValue: Bool {
             switch self {
             case .none: return false
