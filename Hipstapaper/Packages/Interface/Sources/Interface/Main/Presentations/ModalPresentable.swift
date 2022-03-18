@@ -41,8 +41,7 @@ struct TagApplyPresentable: ViewModifier {
     func body(content: Content) -> some View {
         content.popover(item: self.$presentation.isTagApply)
         { selection in
-            TagApply(controller: self.controller,
-                     selection: selection.value,
+            TagApply(selection: selection.value,
                      done: { self.presentation.value = .none })
         }
     }

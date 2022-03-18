@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/03/12.
+//  Created by Jeffrey Bergier on 2022/03/18.
 //
 //  MIT License
 //
@@ -24,24 +24,21 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
-import Umbrella
+import Foundation
 
-@propertyWrapper
-public struct TagListQuery: DynamicProperty {
+public struct TagApply: Identifiable, Hashable, Codable {
+    public var id: Tag.Ident { self.tag.uuid }
+    public var tag: Tag
+    public var status: Status
     
-    @FetchRequest private var data: FetchedResults<CD_Tag>
-    @Environment(\.managedObjectContext) private var context
-    
-    public init() {
-        let sort = NSSortDescriptor(keyPath: \CD_Tag.cd_name, ascending: true)
-        _data = FetchRequest<CD_Tag>(sortDescriptors: [sort],
-                                     predicate:  nil,
-                                     animation: .default)
-    }
-    
-    public var wrappedValue: AnyRandomAccessCollection<Tag> {
-        TransformCollection(collection: self.data){ Tag($0) }
-            .eraseToAnyRandomAccessCollection()
+    public enum Status: Hashable, Codable {
+        case all, some, none
+        
+        public var boolValue: Bool {
+            switch self {
+            case .none: return false
+            case .all, .some: return true
+            }
+        }
     }
 }

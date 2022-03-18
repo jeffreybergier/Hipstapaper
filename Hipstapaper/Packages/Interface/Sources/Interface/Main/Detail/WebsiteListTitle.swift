@@ -42,7 +42,6 @@ struct WebsiteListTitle: ViewModifier {
             }
         } else {
             content
-                // TODO: Fix DATUM
                 .navigationTitle(Noun.untitled_L)
                 .modifier(TitleSize(isLarge: false))
         }

@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/03/12.
+//  Created by Jeffrey Bergier on 2022/03/18.
 //
 //  MIT License
 //
@@ -28,20 +28,44 @@ import SwiftUI
 import Umbrella
 
 @propertyWrapper
-public struct TagListQuery: DynamicProperty {
+public struct TagApplyQuery: DynamicProperty {
     
     @FetchRequest private var data: FetchedResults<CD_Tag>
-    @Environment(\.managedObjectContext) private var context
     
-    public init() {
+    private let selection: Set<Website.Ident>
+    
+    public init(selection: Set<Website.Ident>) {
         let sort = NSSortDescriptor(keyPath: \CD_Tag.cd_name, ascending: true)
         _data = FetchRequest<CD_Tag>(sortDescriptors: [sort],
                                      predicate:  nil,
                                      animation: .default)
+        self.selection = selection
     }
     
-    public var wrappedValue: AnyRandomAccessCollection<Tag> {
-        TransformCollection(collection: self.data){ Tag($0) }
-            .eraseToAnyRandomAccessCollection()
+    public var wrappedValue: AnyRandomAccessCollection<TagApply> {
+        TransformCollection(collection: self.data) {
+            TagApply(tag: $0, selection: self.selection)
+        }
+        .eraseToAnyRandomAccessCollection()
+    }
+}
+
+extension TagApply {
+    fileprivate init(tag: CD_Tag, selection rhs: Set<Website.Ident>) {
+        let _lhs = tag.cd_websites
+            .compactMap { $0 as? CD_Website }
+            .map { Website.Ident($0.objectID) }
+        let lhs = Set(_lhs)
+        let compare = lhs.subtracting(rhs)
+        switch compare.count {
+        case 0:
+            self.status = .none
+        case lhs.count:
+            self.status = .all
+        default:
+            self.status = .some
+        }
+        
+        self.tag = .init(tag)
     }
 }
