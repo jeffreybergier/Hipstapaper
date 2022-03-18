@@ -30,14 +30,20 @@ import Umbrella
 @propertyWrapper
 public struct WebsiteListQuery: DynamicProperty {
     
+    @QueryProperty private var query
     @FetchRequest private var data: FetchedResults<CD_Website>
     
-    public init(query: Query = .default) {
-        let query = query
-        let fr = FetchRequest<CD_Website>(sortDescriptors: [query.cd_sortDescriptor],
-                                          predicate:  query.cd_predicate,
-                                          animation: .default)
-        _data = fr
+    public init() {
+        let query = Query.default
+        _data = FetchRequest<CD_Website>(sortDescriptors: [query.cd_sortDescriptor],
+                                         predicate:  query.cd_predicate,
+                                         animation: .default)
+    }
+    
+    public func update() {
+        self.data.nsPredicate = self.query.cd_predicate
+        self.data.nsSortDescriptors = [self.query.cd_sortDescriptor]
+        "Updated Predicate & Sort Descriptors".log(as: .debug)
     }
     
     public var wrappedValue: AnyRandomAccessCollection<Website> {

@@ -45,7 +45,6 @@ struct WebsiteList: View {
     @EnvironmentObject private var windowPresentation: WindowPresentation
     
     init(query: Query) {
-        _data = WebsiteListQuery(query: query)
         self.onLoadQuery = query
     }
     
@@ -65,8 +64,10 @@ struct WebsiteList: View {
         .modifier(DetailToolbar.Shared(controller: self.controller,
                                        selection: self.$selection))
         // TODO: Uncomment this later
-        .environment(\.toolbarFilterIsEnabled, true /*self.query.tag != nil */)
+        .environment(\.toolbarFilterIsEnabled, !self.query.tag.isSpecialTag)
         .onAppear {
+            // Its not possible to update the state on NavigationLink
+            // TODO: switch to NavigationLink in TagList when possible
             guard self.didAppearOnce == false else { return }
             self.query = self.onLoadQuery
             self.didAppearOnce = true
