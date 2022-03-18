@@ -28,7 +28,7 @@ import Foundation
 
 extension Query {
     internal var cd_sortDescriptor: NSSortDescriptor { self.sort.cd_sortDescriptor }
-    internal var cd_predicate: NSPredicate? {
+    internal func cd_predicate(_ tag: CD_Tag?) -> NSPredicate? {
         let predicates: [NSPredicate] = [
             {
                 guard self.isOnlyNotArchived == true else { return nil }
@@ -42,13 +42,10 @@ extension Query {
                     NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(CD_Website.cd_originalURL), search),
                 ])
             }(),
-            /*
             {
-                // TODO: Not sure if this works
-                guard let _tagID = self.tag?.id else { return nil }
-                return NSPredicate(format: "%K CONTAINS %@", #keyPath(CD_Website.cd_tags), _tagID)
+                guard let tag = tag else { return nil }
+                return NSPredicate(format: "%K CONTAINS %@", #keyPath(CD_Website.cd_tags), tag)
             }(),
-             */
         ].compactMap { $0 }
         guard predicates.isEmpty == false else { return nil }
         return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)

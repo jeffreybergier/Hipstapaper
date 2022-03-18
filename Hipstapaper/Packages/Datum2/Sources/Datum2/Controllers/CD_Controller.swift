@@ -131,7 +131,8 @@ extension CD_Controller: Controller {
     
     // MARK: Search
     
-    private func search(_ input: Set<Website.Ident>, from context: NSManagedObjectContext) -> [CD_Website] {
+    internal func search(_ input: Set<Website.Ident>, from context: NSManagedObjectContext? = nil) -> [CD_Website] {
+        let context = context ?? self.container.viewContext
         let coordinator = self.container.persistentStoreCoordinator
         let cd_ids = input.compactMap {
             coordinator.managedObjectID(forURIRepresentation: URL(string: $0.id)!)
@@ -141,7 +142,8 @@ extension CD_Controller: Controller {
         }
     }
     
-    private func search(_ input: Set<Tag.Ident>, from context: NSManagedObjectContext) -> [CD_Tag] {
+    internal func search(_ input: Set<Tag.Ident>, from context: NSManagedObjectContext? = nil) -> [CD_Tag] {
+        let context = context ?? self.container.viewContext
         let coordinator = self.container.persistentStoreCoordinator
         let cd_ids = input.compactMap {
             coordinator.managedObjectID(forURIRepresentation: URL(string: $0.id)!)

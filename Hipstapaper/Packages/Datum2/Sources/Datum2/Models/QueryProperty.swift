@@ -32,7 +32,6 @@ public struct QueryProperty: DynamicProperty {
     // For some reason Query as an entire object is not saving well.
     // Going to convert it to primitives manually.
     // TODO: Convert back into single scenestorage property
-    @SceneStorage("Query.Tag") private var tag: String?
     @SceneStorage("Query.Sort") private var sort: String?
     @SceneStorage("Query.Search") private var search: String?
     @SceneStorage("Query.isOnlyNotArchived") private var isOnlyNotArchived: Bool?
@@ -41,13 +40,11 @@ public struct QueryProperty: DynamicProperty {
     
     public var wrappedValue: Query {
         get {
-            Query(tag: self.tag.map { Tag.Ident($0) },
-                  sort: self.sort.map { Sort(rawValue: $0) } ?? nil,
+            Query(sort: self.sort.map { Sort(rawValue: $0) } ?? nil,
                   search: self.search,
                   isOnlyNotArchived: self.isOnlyNotArchived)
         }
         nonmutating set {
-            self.tag = newValue.tag.id
             self.sort = newValue.sort.rawValue
             self.search = newValue.search
             self.isOnlyNotArchived = newValue.isOnlyNotArchived

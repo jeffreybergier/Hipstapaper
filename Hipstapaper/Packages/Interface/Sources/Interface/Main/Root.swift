@@ -33,11 +33,13 @@ import Localize
 struct Root: View {
     
     @ErrorQueue private var errorQ
+    @QueryProperty private var query
+    @ControllerProperty private var controller
     
     var body: some View {
         NavigationView {
-            TagList { query in
-                WebsiteList(query: query)
+            TagList { tag in
+                WebsiteList(tag: tag, query: self.query, controller: self.controller)
             }
             // TODO: Has to be here because of macOS bug
             .modifier(ErrorPresentation(self.$errorQ))

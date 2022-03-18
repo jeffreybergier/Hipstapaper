@@ -33,19 +33,21 @@ import XPList
 
 struct WebsiteList: View {
     
-    let onLoadQuery: Query
+    private let tag: Tag.Ident
     
-    @State private var didAppearOnce = false
     @State private var selection: WH.Selection = []
     @QueryProperty private var query
-    @WebsiteListQuery private var data
+    @WebsiteListQuery private var data: AnyRandomAccessCollection<Website>
     @ControllerProperty private var controller
     
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     @EnvironmentObject private var windowPresentation: WindowPresentation
     
-    init(query: Query) {
-        self.onLoadQuery = query
+    init(tag: Tag.Ident, query: Query, controller: Controller) {
+        self.tag = tag
+        _data = .init(query: query.configured(for: tag),
+                      tag: tag,
+                      controller: controller)
     }
     
     var body: some View {
@@ -59,19 +61,12 @@ struct WebsiteList: View {
         .listStyle(PlainListStyle())
         .modifier(If.iOS(_Animation(.default)))
         .modifier(SyncIndicator(progress: self.controller.syncProgress))
-        .modifier(WebsiteListTitle(query: self.query))
+        .modifier(WebsiteListTitle(tag: self.tag, isOnlyNotArchived: self.query.isOnlyNotArchived))
         // TODO: Fix the choppy EditMode animation caused by overly complex toolbars
         .modifier(DetailToolbar.Shared(controller: self.controller,
                                        selection: self.$selection))
         // TODO: Uncomment this later
-        .environment(\.toolbarFilterIsEnabled, !self.query.tag.isSpecialTag)
-        .onAppear {
-            // Its not possible to update the state on NavigationLink
-            // TODO: switch to NavigationLink in TagList when possible
-            guard self.didAppearOnce == false else { return }
-            self.query = self.onLoadQuery
-            self.didAppearOnce = true
-        }
+        .environment(\.toolbarFilterIsEnabled, !self.tag.isSpecialTag)
     }
 }
 

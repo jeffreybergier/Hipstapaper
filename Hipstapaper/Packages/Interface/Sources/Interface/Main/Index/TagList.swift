@@ -32,14 +32,14 @@ import Stylize
 
 struct TagList<Nav: View>: View {
     
-    typealias Navigation = (Query) -> Nav
+    typealias Navigation = (Tag.Ident) -> Nav
     let navigation: Navigation
 
     @TagListQuery private var data
     @QueryProperty private var query
     @ControllerProperty private var controller
     
-    @State private var selectedTag: Tag.Ident?
+    @SceneStorage("SelectedTag") private var selectedTag: Tag.Ident?
 
     var body: some View {
         List {
@@ -48,7 +48,7 @@ struct TagList<Nav: View>: View {
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
                 ForEach(Tag.Ident.specialTags) { tag in
-                    NavigationLink(destination: self.navigator(tag),
+                    NavigationLink(destination: self.navigation(tag),
                                    tag: tag,
                                    selection: self.$selectedTag)
                     {
@@ -62,12 +62,12 @@ struct TagList<Nav: View>: View {
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
                 ForEach(self.data) { tag in
-                    NavigationLink(destination: self.navigator(tag.uuid),
+                    NavigationLink(destination: self.navigation(tag.uuid),
                                    tag: tag.uuid,
                                    selection: self.$selectedTag)
                     {
                         TagRow(item: tag)
-                            .environment(\.XPL_isSelected, self.query.tag == tag.uuid)
+                            .environment(\.XPL_isSelected, self.selectedTag == tag.uuid)
                     }
                     // FB9048743: Makes context menu work on macOS
                     .modifier(TagMenu(controller: self.controller, selection: tag.uuid))
@@ -77,13 +77,5 @@ struct TagList<Nav: View>: View {
         .navigationTitle(Noun.tags.rawValue)
         .modifier(Force.SidebarStyle())
         .modifier(IndexToolbar(controller: self.controller))
-    }
-    
-    private var navigator: (Tag.Ident) -> Nav {
-        {
-            var query = self.query
-            query.tag = $0
-            return self.navigation(query)
-        }
     }
 }

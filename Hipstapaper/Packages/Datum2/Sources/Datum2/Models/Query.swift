@@ -29,32 +29,31 @@ public struct Query: Codable, Hashable {
     public static let allItems: Query = .init(isOnlyNotArchived: false)
     public static let unreadItems: Query = .init(isOnlyNotArchived: true)
     
-    public var tag: Tag.Ident {
-        didSet {
-            switch self.tag {
-            case .unread:
-                self.isOnlyNotArchived = true
-            case .all:
-                self.isOnlyNotArchived = false
-            default:
-                self.isOnlyNotArchived = false
-            }
-        }
-    }
     public var sort: Sort! // Hack for SwiftUI
     public var search: String
     public var isOnlyNotArchived: Bool
     
-    public init(tag: Tag.Ident? = nil,
-                sort: Sort? = nil,
+    internal init(sort: Sort? = nil,
                 search: String? = nil,
                 isOnlyNotArchived: Bool?)
     {
-        self.tag = tag ?? .unread
         self.sort = sort ?? .default
         self.search = search ?? ""
         self.isOnlyNotArchived = isOnlyNotArchived ?? true
     }
     
-    public static let `default`: Query = Query(tag: nil, sort: nil, search: nil, isOnlyNotArchived: nil)
+    public static let `default`: Query = Query(sort: nil, search: nil, isOnlyNotArchived: nil)
+    
+    public func configured(for tag: Tag.Ident) -> Query {
+        var copy = self
+        switch tag {
+        case .all:
+            copy.isOnlyNotArchived = false
+        case .unread:
+            copy.isOnlyNotArchived = true
+        default:
+            break
+        }
+        return copy
+    }
 }
