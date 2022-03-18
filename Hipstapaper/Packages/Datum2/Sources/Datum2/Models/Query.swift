@@ -45,14 +45,16 @@ public struct Query: Codable, Hashable {
     public var search: String
     public var isOnlyNotArchived: Bool
     
-    public init(tag: Tag.Ident = .unread,
-                sort: Sort = Sort.default,
+    public init(tag: Tag.Ident? = nil,
+                sort: Sort? = nil,
                 search: String? = nil,
-                isOnlyNotArchived: Bool = true)
+                isOnlyNotArchived: Bool?)
     {
-        self.tag = tag
-        self.sort = sort
+        self.tag = tag ?? .unread
+        self.sort = sort ?? .default
         self.search = search ?? ""
-        self.isOnlyNotArchived = isOnlyNotArchived
+        self.isOnlyNotArchived = isOnlyNotArchived ?? true
     }
+    
+    public static let `default`: Query = Query(tag: nil, sort: nil, search: nil, isOnlyNotArchived: nil)
 }

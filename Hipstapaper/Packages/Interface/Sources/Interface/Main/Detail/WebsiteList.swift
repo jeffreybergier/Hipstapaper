@@ -35,6 +35,7 @@ struct WebsiteList: View {
     
     let onLoadQuery: Query
     
+    @State private var didAppearOnce = false
     @State private var selection: WH.Selection = []
     @QueryProperty private var query
     @WebsiteListQuery private var data
@@ -65,7 +66,11 @@ struct WebsiteList: View {
                                        selection: self.$selection))
         // TODO: Uncomment this later
         .environment(\.toolbarFilterIsEnabled, true /*self.query.tag != nil */)
-        .onAppear { self.query = self.onLoadQuery }
+        .onAppear {
+            guard self.didAppearOnce == false else { return }
+            self.query = self.onLoadQuery
+            self.didAppearOnce = true
+        }
     }
 }
 

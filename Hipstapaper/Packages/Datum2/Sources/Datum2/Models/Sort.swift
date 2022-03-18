@@ -24,7 +24,7 @@
 //  SOFTWARE.
 //
 
-public enum Sort: String, CaseIterable, Identifiable, Hashable {
+public enum Sort: String, CaseIterable, Identifiable, Hashable, Codable {
     public var id: String { self.rawValue }
     public static let `default`: Sort = .dateCreatedNewest
     case dateCreatedNewest, dateCreatedOldest

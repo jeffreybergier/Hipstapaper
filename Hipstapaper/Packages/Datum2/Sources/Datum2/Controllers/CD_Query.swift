@@ -27,7 +27,7 @@
 import Foundation
 
 extension Query {
-    internal var cd_sortDescriptors: [NSSortDescriptor] { self.sort.cd_sortDescriptors }
+    internal var cd_sortDescriptor: NSSortDescriptor { self.sort.cd_sortDescriptor }
     internal var cd_predicate: NSPredicate? {
         let predicates: [NSPredicate] = [
             {

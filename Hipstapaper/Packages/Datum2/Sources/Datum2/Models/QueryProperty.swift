@@ -29,15 +29,28 @@ import SwiftUI
 @propertyWrapper
 public struct QueryProperty: DynamicProperty {
     
-    // TODO: Change this back to SceneStorage
-    @AppStorage("Query") private var query = Query.unreadItems
+    // For some reason Query as an entire object is not saving well.
+    // Going to convert it to primitives manually.
+    // TODO: Convert back into single scenestorage property
+    @SceneStorage("Query.Tag") private var tag: String?
+    @SceneStorage("Query.Sort") private var sort: String?
+    @SceneStorage("Query.Search") private var search: String?
+    @SceneStorage("Query.isOnlyNotArchived") private var isOnlyNotArchived: Bool?
     
     public init() {}
     
     public var wrappedValue: Query {
-        get { self.query }
+        get {
+            Query(tag: self.tag.map { Tag.Ident($0) },
+                  sort: self.sort.map { Sort(rawValue: $0) } ?? nil,
+                  search: self.search,
+                  isOnlyNotArchived: self.isOnlyNotArchived)
+        }
         nonmutating set {
-            self.query = newValue
+            self.tag = newValue.tag.id
+            self.sort = newValue.sort.rawValue
+            self.search = newValue.search
+            self.isOnlyNotArchived = newValue.isOnlyNotArchived
         }
     }
     
@@ -46,39 +59,6 @@ public struct QueryProperty: DynamicProperty {
             self.wrappedValue
         } set: {
             self.wrappedValue = $0
-        }
-    }
-}
-
-extension Query: RawRepresentable {
-    
-    private static var HACK_becauseRRIsNotWorking: Query = .unreadItems
-    
-    public init?(rawValue: String) {
-        do {
-            // let data = rawValue.data(using: .utf8) ?? Data()
-            // let query = try PropertyListDecoder().decode(Query.self, from: data)
-            let query = Query.HACK_becauseRRIsNotWorking
-            self.tag = query.tag
-            self.sort = query.sort
-            self.search = query.search
-            self.isOnlyNotArchived = query.isOnlyNotArchived
-        } catch {
-            error.log()
-            return nil
-        }
-    }
-    
-    public var rawValue: String {
-        do {
-            Query.HACK_becauseRRIsNotWorking = self
-            return ""
-            // TODO: Fix DATUM
-            let data = try PropertyListEncoder().encode(self)
-            return String(data: data, encoding: .utf8) ?? ""
-        } catch {
-            error.log()
-            return ""
         }
     }
 }

@@ -32,22 +32,12 @@ public struct WebsiteListQuery: DynamicProperty {
     
     @FetchRequest private var data: FetchedResults<CD_Website>
     
-    public init(query: Query? = nil) {
-        let query = query ?? Query()
-        let fr = FetchRequest<CD_Website>(sortDescriptors: query.cd_sortDescriptors,
+    public init(query: Query = .default) {
+        let query = query
+        let fr = FetchRequest<CD_Website>(sortDescriptors: [query.cd_sortDescriptor],
                                           predicate:  query.cd_predicate,
                                           animation: .default)
         _data = fr
-    }
-    
-    public func update(query: Query) {
-        print("UPDATING!!!")
-        if self.data.nsSortDescriptors != query.cd_sortDescriptors {
-            self.data.nsSortDescriptors = query.cd_sortDescriptors
-        }
-        if self.data.nsPredicate != query.cd_predicate {
-            self.data.nsPredicate = query.cd_predicate
-        }
     }
     
     public var wrappedValue: AnyRandomAccessCollection<Website> {
