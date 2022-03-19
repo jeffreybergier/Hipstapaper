@@ -41,8 +41,10 @@ struct WebsiteListTitle: ViewModifier {
                 content.navigationTitle(Noun.allItems.loc(self.text))
                     .modifier(TitleSize(isLarge: false))
             case true:
+                // For some reason on iOS, large here causes a lock up on WebsiteList
+                // TODO: Make this large again
                 content.navigationTitle(Noun.hipstapaper.loc(self.text))
-                    .modifier(TitleSize(isLarge: true))
+                    .modifier(TitleSize(isLarge: false))
             }
         } else {
             content
