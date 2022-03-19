@@ -33,8 +33,9 @@ import Localize
 struct TagMenu: ViewModifier {
     
     let controller: Controller
-    @State var selection: TH.Selection
+    @Localize private var text
     @ErrorQueue private var errorQ
+    @State var selection: TH.Selection
     @StateObject private var modalPresentation = ModalPresentation.Wrap()
     
     func body(content: Content) -> some View {
@@ -43,10 +44,10 @@ struct TagMenu: ViewModifier {
             Color.clear.frame(width: 1, height: 1)
                 .modifier(TagNamePickerPresentable())
             content.contextMenu {
-                STZ.TB.EditTag.context() {
+                STZ.TB.EditTag.context(bundle: self.text) {
                     self.modalPresentation.value = .tagName(self.selection)
                 }
-                STZ.TB.DeleteTag_Trash.context() {
+                STZ.TB.DeleteTag_Trash.context(bundle: self.text) {
                     let error = DeleteError.tag {
                         TH.delete(self.selection, self.controller, self._errorQ.environment)
                     }

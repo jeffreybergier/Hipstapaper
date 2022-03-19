@@ -111,7 +111,7 @@ private struct Toolbar_Compact: ViewModifier {
                     TH.jsButton(self.viewModel, bundle: self.text)
                 }
                 ToolbarItem(id: "Browser_Compact.Done", placement: .confirmationAction) {
-                    TH.doneButton(self.viewModel)
+                    TH.doneButton(self.viewModel, bundle: self.text)
                 }
             }
     }
@@ -157,7 +157,7 @@ private struct Toolbar_Regular: ViewModifier {
                     }
                 }
                 ToolbarItem(id: "Browser_Regular.Done", placement: .confirmationAction) {
-                    TH.doneButton(self.viewModel)
+                    TH.doneButton(self.viewModel, bundle: self.text)
                 }
             }
     }

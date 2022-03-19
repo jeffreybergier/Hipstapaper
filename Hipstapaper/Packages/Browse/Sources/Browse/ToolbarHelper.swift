@@ -79,10 +79,15 @@ internal enum ToolbarHelper {
         }
     }
     
-    static func doneButton(_ viewModel: ViewModel) -> some View {
+    static func doneButton(_ viewModel: ViewModel,
+                           bundle: LocalizeBundle) -> some View
+    {
         STZ.BTN.BrowserDone.button(doneStyle: true,
                                    isEnabled: viewModel.doneAction != nil,
-                                   action: { viewModel.doneAction?() })
+                                   bundle: bundle)
+        {
+            viewModel.doneAction?()
+        }
     }
     
     static func shareButton(bundle: LocalizeBundle,

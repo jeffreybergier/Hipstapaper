@@ -50,7 +50,7 @@ internal struct Toolbar_macOS: ViewModifier {
                 }
                 TH.openExternalButton(self.viewModel, bundle: self.text, self.openURL)
                 if let done = self.viewModel.doneAction {
-                    STZ.BTN.BrowserDone.button(action: done)
+                    STZ.BTN.BrowserDone.button(bundle: self.text, action: done)
                 }
             }
             .modifier(STZ.VIEW.TB_HACK())

@@ -68,17 +68,20 @@ extension Labelable {
 extension Buttonable {
     public static func button(doneStyle: Bool = false,
                               isEnabled: Bool = true,
+                              bundle: LocalizeBundle,
                               action: @escaping Action)
                               -> some View
     {
         self.context(doneStyle: doneStyle,
                      isEnabled: isEnabled,
+                     bundle: bundle,
                      action: action)
             .modifier(DefaultButtonStyle()) // if this modifier is used on context menu buttons everything breaks
     }
     
     public static func context(doneStyle: Bool = false,
                                isEnabled: Bool = true,
+                               bundle: LocalizeBundle,
                                action: @escaping Action)
                                -> some View
     {
@@ -87,7 +90,7 @@ extension Buttonable {
                 .modifier(DoneStyle(enabled: doneStyle))
         }
         .disabled(!isEnabled)
-        .help(self.phrase.rawValue)
+        .help(self.phrase.loc(bundle))
         .modifier(Shortcut(self.shortcut))
     }
     /// crashes if Icon is NIL
