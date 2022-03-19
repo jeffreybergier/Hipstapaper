@@ -50,7 +50,7 @@ public protocol Presentable: Buttonable {
 
 extension Labelable {
     // TODO: Remove AnyView. For some reason, it is failing to build when using `some View`
-    public static func label() -> AnyView {
+    public static func label(bundle: LocalizeBundle) -> AnyView {
         if let icon = self.icon {
             return AnyView(
                 Label(self.verb.rawValue, systemImage: icon.rawValue)
@@ -58,7 +58,7 @@ extension Labelable {
             )
         } else {
             return AnyView(
-                STZ.VIEW.TXT(self.verb.rawValue)
+                STZ.VIEW.TXT(self.verb.loc(bundle))
                     .modifier(STZ.FNT.Sort.apply())
             )
         }
@@ -86,7 +86,7 @@ extension Buttonable {
                                -> some View
     {
         Button(action: action) {
-            self.label()
+            self.label(bundle: bundle)
                 .modifier(DoneStyle(enabled: doneStyle))
         }
         .disabled(!isEnabled)
@@ -115,7 +115,7 @@ extension Toolbarable {
                                bundle: LocalizeBundle,
                                action: @escaping Action) -> some View {
         return Button(action: action) {
-            self.label()
+            self.label(bundle: bundle)
                 .modifier(__Hack_ToolbarButtonStyle())
         }
         .disabled(!isEnabled)
