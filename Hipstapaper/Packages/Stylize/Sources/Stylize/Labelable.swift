@@ -107,7 +107,9 @@ extension Buttonable {
 }
 
 extension Toolbarable {
-    public static func toolbar(isEnabled: Bool = true, action: @escaping Action) -> some View {
+    public static func toolbar(isEnabled: Bool = true,
+                               bundle: LocalizeBundle,
+                               action: @escaping Action) -> some View {
         return Button(action: action) {
             self.label()
                 .modifier(__Hack_ToolbarButtonStyle())
@@ -117,17 +119,22 @@ extension Toolbarable {
         .modifier(Shortcut(self.shortcut))
     }
     
-    public static func __fake_macOS_toolbar(isEnabled: Bool = true, action: @escaping Action) -> some View {
+    public static func __fake_macOS_toolbar(isEnabled: Bool = true,
+                                            bundle: LocalizeBundle,
+                                            action: @escaping Action) -> some View
+    {
         #if os(macOS)
         return Button(action: action) {
             self.icon!
                 .modifier(__Hack_ToolbarButtonStyle())
         }
         .disabled(!isEnabled)
-        .help(self.phrase.rawValue)
+        .help(self.phrase.loc(bundle))
         .modifier(Shortcut(self.shortcut))
         #else
-        return self.toolbar(isEnabled: isEnabled, action: action)
+        return self.toolbar(isEnabled: isEnabled,
+                            bundle: bundle,
+                            action: action)
         #endif
     }
 }

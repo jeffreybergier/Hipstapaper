@@ -26,34 +26,57 @@
 
 import SwiftUI
 import Stylize
+import Localize
 
 internal typealias TH = ToolbarHelper
 
 internal enum ToolbarHelper {
-    @ViewBuilder static func stopReloadButton(_ viewModel: ViewModel) -> some View {
+    @ViewBuilder static func stopReloadButton(_ viewModel: ViewModel,
+                                              bundle: LocalizeBundle) -> some View
+    {
         if viewModel.browserDisplay.isLoading {
-            STZ.TB.Stop.__fake_macOS_toolbar(action: { viewModel.browserControl.stop = true })
+            STZ.TB.Stop.__fake_macOS_toolbar(bundle: bundle) {
+                viewModel.browserControl.stop = true
+            }
         } else {
-            STZ.TB.Reload.__fake_macOS_toolbar(action: { viewModel.browserControl.reload = true })
+            STZ.TB.Reload.__fake_macOS_toolbar(bundle: bundle) {
+                viewModel.browserControl.reload = true
+            }
         }
     }
     
-    @ViewBuilder static func jsButton(_ viewModel: ViewModel) -> some View {
+    @ViewBuilder static func jsButton(_ viewModel: ViewModel,
+                                      bundle: LocalizeBundle) -> some View
+    {
         if viewModel.itemDisplay.isJSEnabled {
-            STZ.TB.JSActive.__fake_macOS_toolbar(action: { viewModel.itemDisplay.isJSEnabled = false })
+            STZ.TB.JSActive.__fake_macOS_toolbar(bundle: bundle) {
+                viewModel.itemDisplay.isJSEnabled = false
+            }
         } else {
-            STZ.TB.JSInactive.__fake_macOS_toolbar(action: { viewModel.itemDisplay.isJSEnabled = true })
+            STZ.TB.JSInactive.__fake_macOS_toolbar(bundle: bundle) {
+                viewModel.itemDisplay.isJSEnabled = true
+            }
         }
     }
     
-    static func goForwardButton(_ viewModel: ViewModel) -> some View {
+    static func goForwardButton(_ viewModel: ViewModel,
+                                bundle: LocalizeBundle) -> some View
+    {
         STZ.TB.GoForward.__fake_macOS_toolbar(isEnabled: viewModel.browserDisplay.canGoForward,
-                                              action: { viewModel.browserControl.goForward = true })
+                                              bundle: bundle)
+        {
+            viewModel.browserControl.goForward = true
+        }
     }
     
-    static func goBackButton(_ viewModel: ViewModel) -> some View {
+    static func goBackButton(_ viewModel: ViewModel,
+                             bundle: LocalizeBundle) -> some View
+    {
         STZ.TB.GoBack.__fake_macOS_toolbar(isEnabled: viewModel.browserDisplay.canGoBack,
-                                           action: { viewModel.browserControl.goBack = true })
+                                           bundle: bundle)
+        {
+            viewModel.browserControl.goBack = true
+        }
     }
     
     static func doneButton(_ viewModel: ViewModel) -> some View {
@@ -62,13 +85,19 @@ internal enum ToolbarHelper {
                                    action: { viewModel.doneAction?() })
     }
     
-    static func shareButton(action: @escaping Action) -> some View {
-        STZ.TB.Share.__fake_macOS_toolbar(action: action)
+    static func shareButton(bundle: LocalizeBundle,
+                            action: @escaping Action) -> some View {
+        STZ.TB.Share.__fake_macOS_toolbar(bundle: bundle, action: action)
     }
     
-    static func openExternalButton(_ viewModel: ViewModel, _ openURL: OpenURLAction) -> some View {
+    static func openExternalButton(_ viewModel: ViewModel,
+                                   bundle: LocalizeBundle,
+                                   _ openURL: OpenURLAction) -> some View
+    {
         let urlBuilder = { URL(string: viewModel.browserDisplay.urlString) ?? viewModel.originalURL }
-        return STZ.TB.OpenInBrowser.__fake_macOS_toolbar(isEnabled: urlBuilder() != nil) {
+        return STZ.TB.OpenInBrowser.__fake_macOS_toolbar(isEnabled: urlBuilder() != nil,
+                                                         bundle: bundle)
+        {
             guard let url = urlBuilder() else { return }
             openURL(url)
         }

@@ -62,6 +62,7 @@ internal struct Toolbar_iOS: ViewModifier {
 
 private struct Toolbar_Compact: ViewModifier {
     
+    @Localize private var text
     @ObservedObject var viewModel: ViewModel
     @Binding var popoverAlignment: Alignment
     @Environment(\.openURL) private var openURL
@@ -75,29 +76,29 @@ private struct Toolbar_Compact: ViewModifier {
                 // Bottom Navigation
                 //
                 ToolbarItem(id: "Browser_Compact.Back", placement: .bottomBar) {
-                    TH.goBackButton(self.viewModel)
+                    TH.goBackButton(self.viewModel, bundle: self.text)
                 }
                 ToolbarItem(id: "Browser_Compact.Forward", placement: .bottomBar) {
-                    TH.goForwardButton(self.viewModel)
+                    TH.goForwardButton(self.viewModel, bundle: self.text)
                 }
                 ToolbarItem(id: "Detail.Separator", placement: .bottomBar) {
                     STZ.TB.Separator.toolbar()
                 }
                 ToolbarItem(id: "Browser_Compact.Reload", placement: .bottomBar) {
-                    TH.stopReloadButton(self.viewModel)
+                    TH.stopReloadButton(self.viewModel, bundle: self.text)
                 }
                 ToolbarItem(id: "Detail.FlexibleSpace", placement: .bottomBar) {
                     Spacer()
                 }
                 // TODO: LEAKING!
                 ToolbarItem(id: "Browser_Compact.OpenInExternal", placement: .bottomBar) {
-                    TH.openExternalButton(self.viewModel, self.openURL)
+                    TH.openExternalButton(self.viewModel, bundle: self.text, self.openURL)
                 }
                 ToolbarItem(id: "Detail.Separator", placement: .bottomBar) {
                     STZ.TB.Separator.toolbar()
                 }
                 ToolbarItem(id: "Browser_Compact.Share", placement: .bottomBar) {
-                    TH.shareButton {
+                    TH.shareButton(bundle: self.text) {
                         self.popoverAlignment = .bottomTrailing
                         self.viewModel.browserDisplay.isSharing = true
                     }
@@ -107,7 +108,7 @@ private struct Toolbar_Compact: ViewModifier {
                 //
                 // TODO: LEAKING!
                 ToolbarItem(id: "Browser_Compact.JS", placement: .cancellationAction) {
-                    TH.jsButton(self.viewModel)
+                    TH.jsButton(self.viewModel, bundle: self.text)
                 }
                 ToolbarItem(id: "Browser_Compact.Done", placement: .confirmationAction) {
                     TH.doneButton(self.viewModel)
@@ -118,6 +119,7 @@ private struct Toolbar_Compact: ViewModifier {
 
 private struct Toolbar_Regular: ViewModifier {
     
+    @Localize private var text
     @ObservedObject var viewModel: ViewModel
     @Binding var popoverAlignment: Alignment
     @Environment(\.openURL) private var openURL
@@ -128,17 +130,17 @@ private struct Toolbar_Regular: ViewModifier {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(id: "Browser_Regular") {
                 ToolbarItem(id: "Browser_Regular.Back", placement: .cancellationAction) {
-                    TH.goBackButton(self.viewModel)
+                    TH.goBackButton(self.viewModel, bundle: self.text)
                 }
                 ToolbarItem(id: "Browser_Regular.Forward", placement: .cancellationAction) {
-                    TH.goForwardButton(self.viewModel)
+                    TH.goForwardButton(self.viewModel, bundle: self.text)
                 }
                 ToolbarItem(id: "Browser_Compact.Reload", placement: .cancellationAction) {
-                    TH.stopReloadButton(self.viewModel)
+                    TH.stopReloadButton(self.viewModel, bundle: self.text)
                 }
                 // TODO: LEAKING!
                 ToolbarItem(id: "Browser_Regular.JS", placement: .cancellationAction) {
-                    TH.jsButton(self.viewModel)
+                    TH.jsButton(self.viewModel, bundle: self.text)
                 }
                 ToolbarItem(id: "Browser_Regular.AddressBar", placement: .principal) {
                     TH.addressBar(self.$viewModel.browserDisplay.title)
@@ -146,10 +148,10 @@ private struct Toolbar_Regular: ViewModifier {
                 }
                 // TODO: LEAKING!
                 ToolbarItem(id: "Browser_Regular.OpenInExternal", placement: .automatic) {
-                    TH.openExternalButton(self.viewModel, self.openURL)
+                    TH.openExternalButton(self.viewModel, bundle: self.text, self.openURL)
                 }
                 ToolbarItem(id: "Browser_Regular.Share", placement: .automatic) {
-                    TH.shareButton {
+                    TH.shareButton(bundle: self.text) {
                         self.popoverAlignment = .topTrailing
                         self.viewModel.browserDisplay.isSharing = true
                     }

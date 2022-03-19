@@ -33,6 +33,7 @@ import Localize
 extension STZ.TB {
     struct Sync: View {
         
+        @Localize private var text
         @ErrorQueue private var errorQ
         @ObservedObject var progress: AnyContinousProgress
 
@@ -42,11 +43,11 @@ extension STZ.TB {
         
         @ViewBuilder var body: some View {
             if let error = self.progress.initializeError {
-                STZ.TB.CloudAccountError.toolbar {
+                STZ.TB.CloudAccountError.toolbar(bundle: self.text) {
                     self.errorQ = error
                 }
             } else if self.progress.errors.isEmpty == false {
-                STZ.TB.CloudSyncError.toolbar {
+                STZ.TB.CloudSyncError.toolbar(bundle: self.text) {
                     self._errorQ.environment.value.append(contentsOf: self.progress.errors)
                     self.progress.errors.removeAll()
                 }

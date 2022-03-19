@@ -57,7 +57,8 @@ struct IndexToolbar: ViewModifier {
 #if os(macOS)
 struct IndexToolbar_macOS: ViewModifier {
     
-    let controller: Controller
+    let controller: Controller // TODO: fix datum
+    @Localize private var text
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     
     func body(content: Content) -> some View {
@@ -69,7 +70,9 @@ struct IndexToolbar_macOS: ViewModifier {
                 Spacer()
             }
             ToolbarItem(id: "Index.AddChoice", placement: .primaryAction) {
-                STZ.TB.AddChoice.toolbar(action: { self.modalPresentation.value = .addChoose })
+                STZ.TB.AddChoice.toolbar(bundle: self.text) {
+                    self.modalPresentation.value = .addChoose
+                }
             }
         }
     }
@@ -77,12 +80,13 @@ struct IndexToolbar_macOS: ViewModifier {
 #else
 struct IndexToolbar_iOS: ViewModifier {
     
+    @Localize private var text
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     
     func body(content: Content) -> some View {
         content.toolbar(id: "Index") {
             ToolbarItem(id: "iOS.AddChoice", placement: .primaryAction) {
-                STZ.TB.AddChoice.toolbar() {
+                STZ.TB.AddChoice.toolbar(bundle: self.text) {
                     self.modalPresentation.value = .addChoose
                 }
             }

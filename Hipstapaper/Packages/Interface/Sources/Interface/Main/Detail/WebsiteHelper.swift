@@ -105,27 +105,31 @@ enum WebsiteHelper {
     
     @ViewBuilder static func filterToolbarItem(query: Query,
                                                toolbarFilterIsEnabled: Bool,
+                                               bundle: LocalizeBundle,
                                                action: @escaping () -> Void)
                                                -> some View
     {
         if query.isOnlyNotArchived == true {
             // disable this when there is no tag selected
             STZ.TB.FilterActive.toolbar(isEnabled: toolbarFilterIsEnabled,
+                                        bundle: bundle,
                                         action: action)
         } else {
             // disable this when there is no tag selected
             STZ.TB.FilterInactive.toolbar(isEnabled: toolbarFilterIsEnabled,
+                                          bundle: bundle,
                                           action: action)
         }
     }
     
     @ViewBuilder static func searchToolbarItem(_ search: String,
+                                               bundle: LocalizeBundle,
                                                action: @escaping () -> Void) -> some View
     {
         if search.trimmed == nil {
-            STZ.TB.SearchInactive.toolbar(action: action)
+            STZ.TB.SearchInactive.toolbar(bundle: bundle, action: action)
         } else {
-            STZ.TB.SearchActive.toolbar(action: action)
+            STZ.TB.SearchActive.toolbar(bundle: bundle, action: action)
         }
     }
 }
