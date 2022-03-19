@@ -29,21 +29,24 @@ import Datum2
 import Localize
 
 struct WebsiteListTitle: ViewModifier {
+    
+    @Localize private var text
+    
     let tag: Tag.Ident
     let isOnlyNotArchived: Bool
     @ViewBuilder func body(content: Content) -> some View {
         if self.tag.isSpecialTag {
             switch self.isOnlyNotArchived {
             case false:
-                content.navigationTitle(Noun.allItems.rawValue)
+                content.navigationTitle(Noun.allItems.loc(self.text))
                     .modifier(TitleSize(isLarge: false))
             case true:
-                content.navigationTitle(Noun.hipstapaper.rawValue)
+                content.navigationTitle(Noun.hipstapaper.loc(self.text))
                     .modifier(TitleSize(isLarge: true))
             }
         } else {
             content
-                .navigationTitle(Noun.untitled_L)
+                .navigationTitle(Noun.untitled.loc(self.text))
                 .modifier(TitleSize(isLarge: false))
         }
     }

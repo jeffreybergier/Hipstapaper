@@ -31,10 +31,11 @@ import Localize
 
 struct TagApplyRow: View {
     
+    @Localize private var text
     @Binding var value: Datum2.TagApply
     
     var body: some View {
-        STZ.VIEW.TXT(self.value.tag.name, or: Noun.untitled.rawValue)
+        STZ.VIEW.TXT(self.value.tag.name, or: Noun.untitled.loc(self.text))
             .modifier(
                 STZ.TGL(
                     initialValue: self.value.status.boolValue,

@@ -31,10 +31,13 @@ import Stylize
 import Localize
 
 struct TagRow: View {
+    
     var item: Tag
+    @Localize private var text
+    
     var body: some View {
         HStack {
-            STZ.VIEW.TXT(self.item.name, or: Noun.untitled.rawValue)
+            STZ.VIEW.TXT(self.item.name, or: Noun.untitled.loc(self.text))
                 .modifier(STZ.CLR.IndexRow.Text.foreground())
                 .modifier(STZ.FNT.IndexRow.Title.apply())
             if let count = self.item.websitesCount {
@@ -47,13 +50,16 @@ struct TagRow: View {
 }
 
 struct SpecialTagRow: View {
+    
     var item: Tag.Ident
+    @Localize private var text
+    
     private var name: String {
         switch self.item {
         case .unread:
-            return Noun.unreadItems_L
+            return Noun.unreadItems.loc(self.text)
         case .all:
-            return Noun.allItems_L
+            return Noun.allItems.loc(self.text)
         default:
             assertionFailure()
             return "-1"

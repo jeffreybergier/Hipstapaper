@@ -33,8 +33,12 @@ extension STZ {
 
 extension STZ.MDL {
     public struct Done: ViewModifier {
+        
         public let kind: Presentable.Type
         public let doneAction: Action
+        
+        @Localize private var text
+        
         public init(kind: Presentable.Type, done: @escaping Action) {
             self.kind = kind
             self.doneAction = done
@@ -45,7 +49,7 @@ extension STZ.MDL {
             return VStack(spacing: 0) {
                 HStack {
                     Spacer()
-                    STZ.VIEW.TXT(self.kind.noun.rawValue)
+                    STZ.VIEW.TXT(self.kind.noun.loc(self.text))
                         .modifier(STZ.FNT.MDL.Title.apply())
                         .modifier(STZ.CLR.MDL.Title.foreground())
                     Spacer()
@@ -60,7 +64,7 @@ extension STZ.MDL {
         public func body(content: Content) -> some View {
             return NavigationView {
                 content
-                    .navigationBarTitle(self.kind.verb.rawValue, displayMode: .inline)
+                    .navigationBarTitle(self.kind.verb.loc(self.text), displayMode: .inline)
                     .toolbar(id: "Modal.Done") {
                         ToolbarItem(id: "Modal.Done.0", placement: .confirmationAction) {
                             STZ.BTN.Done.button(doneStyle: true, action: self.doneAction)
@@ -80,6 +84,9 @@ extension STZ.MDL {
         public let saveAction: Action
         public let cancelAction: Action
         public let canSave: CanSave
+        
+        @Localize private var text
+        
         public init(kind: Presentable.Type,
                     cancel: @escaping Action,
                     save: @escaping Action,
@@ -98,7 +105,7 @@ extension STZ.MDL {
                 HStack {
                     STZ.BTN.Cancel.button(action: self.cancelAction)
                     Spacer()
-                    STZ.VIEW.TXT(self.kind.noun.rawValue)
+                    STZ.VIEW.TXT(self.kind.noun.loc(self.text))
                         .modifier(STZ.FNT.MDL.Title.apply())
                         .modifier(STZ.CLR.MDL.Title.foreground())
                     Spacer()
@@ -115,7 +122,7 @@ extension STZ.MDL {
         public func body(content: Content) -> some View {
             return NavigationView {
                 content
-                    .navigationBarTitle(self.kind.verb.rawValue, displayMode: .inline)
+                    .navigationBarTitle(self.kind.verb.loc(self.text), displayMode: .inline)
                     .toolbar(id: "Modal.Save") {
                         ToolbarItem(id: "Modal.Save.0", placement: .cancellationAction) {
                             STZ.BTN.Cancel.button(action: self.cancelAction)

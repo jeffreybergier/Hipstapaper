@@ -67,7 +67,7 @@ public struct Interface: Scene {
     }
 
     @SceneBuilder public var body: some Scene {
-        WindowGroup(Noun.readingList.rawValue, id: "MainWindow") {
+        WindowGroup(Noun.readingList.loc(self.localizationBundle), id: "MainWindow") {
             self.build()
                 .environmentObject(self.modalPresentation)
                 .environmentObject(self.errorEnvironment)

@@ -31,17 +31,22 @@ import Stylize
 import Localize
 
 struct WebsiteRow: View {
+    
     private static let formatter: DateFormatter = {
         let df = DateFormatter()
         df.dateStyle = .long
         df.timeStyle = .short
         return df
     }()
+    
+    @Localize private var text
+    
     var item: Website
+    
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 6) {
-                STZ.VIEW.TXT(self.item.title, or: Noun.untitled.rawValue)
+                STZ.VIEW.TXT(self.item.title, or: Noun.untitled.loc(self.text))
                     .modifier(STZ.FNT.DetailRow.Title.apply())
                     .modifier(STZ.CLR.DetailRow.Text.foreground())
                 STZ.VIEW.TXT(WebsiteRow.formatter.string(from: self.item.dateCreated))

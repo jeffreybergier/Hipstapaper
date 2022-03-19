@@ -35,6 +35,7 @@ struct TagList<Nav: View>: View {
     typealias Navigation = (Tag.Ident) -> Nav
     let navigation: Navigation
 
+    @Localize private var text
     @TagListQuery private var data
     @QueryProperty private var query
     @ControllerProperty private var controller
@@ -43,7 +44,7 @@ struct TagList<Nav: View>: View {
 
     var body: some View {
         List {
-            Section(header: STZ.VIEW.TXT(Noun.readingList.rawValue)
+            Section(header: STZ.VIEW.TXT(Noun.readingList.loc(self.text))
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
@@ -57,7 +58,7 @@ struct TagList<Nav: View>: View {
                     }
                 }
             }
-            Section(header: STZ.VIEW.TXT(Noun.tags.rawValue)
+            Section(header: STZ.VIEW.TXT(Noun.tags.loc(self.text))
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
@@ -74,7 +75,7 @@ struct TagList<Nav: View>: View {
                 }
             }
         }
-        .navigationTitle(Noun.tags.rawValue)
+        .navigationTitle(Noun.tags.loc(self.text))
         .modifier(Force.SidebarStyle())
         .modifier(IndexToolbar(controller: self.controller))
     }

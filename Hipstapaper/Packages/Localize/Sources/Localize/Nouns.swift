@@ -50,8 +50,4 @@ public enum Noun: LocalizationKey {
     case erroriCloud   = "Noun.iCloud"
     case deleteTag     = "Noun.DeleteTag"
     case deleteWebsite = "Noun.DeleteWebsite"
-    
-    public static let allItems_L: String = NSLocalizedString("Noun.AllItems", comment: "")
-    public static let unreadItems_L: String = NSLocalizedString("Noun.UnreadItems", comment: "")
-    public static let untitled_L: String = NSLocalizedString("Noun.Untitled", comment: "")
 }

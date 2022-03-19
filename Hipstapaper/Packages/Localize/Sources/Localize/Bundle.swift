@@ -31,3 +31,23 @@ public class LocalizeBundle: EnvironmentBundleProtocol {
     public let bundle: Bundle = Bundle.module
     public init() {}
 }
+
+public typealias Localize = EnvironmentBundle<LocalizeBundle>
+
+extension Noun {
+    public func loc(_ bundle: LocalizeBundle) -> LocalizedString {
+        bundle.localized(key: self.rawValue)
+    }
+}
+
+extension Phrase {
+    public func loc(_ bundle: LocalizeBundle) -> LocalizedString {
+        bundle.localized(key: self.rawValue)
+    }
+}
+
+extension Verb {
+    public func loc(_ bundle: LocalizeBundle) -> LocalizedString {
+        bundle.localized(key: self.rawValue)
+    }
+}
