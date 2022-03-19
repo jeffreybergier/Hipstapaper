@@ -36,6 +36,8 @@ struct WebsiteList: View {
     private let tag: Tag.Ident
     
     @State private var selection: WH.Selection = []
+    @Localize private var text
+    @ErrorQueue private var errorQ
     @QueryProperty private var query
     @WebsiteListQuery private var data: AnyRandomAccessCollection<Website>
     @ControllerProperty private var controller
@@ -74,7 +76,7 @@ extension WebsiteList {
     private func open(_ items: WH.Selection) {
         if self.windowPresentation.features.contains([.bulkActivation, .multipleWindows]) {
             let validURLs = Set(items.compactMap({ $0.preferredURL }))
-            self.windowPresentation.show(validURLs)
+            self.windowPresentation.show(validURLs, bundle: self.text, errorQ: self._errorQ.environment)
         } else {
             guard let validItem = items.first(where: { $0.preferredURL != nil }) else { return }
             self.modalPresentation.value = .browser(validItem)

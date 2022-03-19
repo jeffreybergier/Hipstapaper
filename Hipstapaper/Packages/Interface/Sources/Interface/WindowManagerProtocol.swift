@@ -30,7 +30,7 @@ import Localize
 
 protocol WindowManagerProtocol {
     var features: WindowPresentation.Features { get }
-    func show(_: Set<URL>)
+    func show(_ urls: Set<URL>, bundle: LocalizeBundle, errorQ: ErrorQueue.Environment)
 }
 
 extension WindowPresentation {

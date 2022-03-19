@@ -46,7 +46,7 @@ public struct Browser: View {
         }
         .onAppear() {
             guard self.viewModel.originalURL == nil else { return }
-            // self.errorQ.queue.append(Error.loadURL)
+            self.errorQ = Error.loadURL
         }
         // TODO: Toolbar leaks like crazy on iOS :(
         .modifier(Toolbar(viewModel: self.viewModel))

@@ -59,7 +59,11 @@ struct WebsiteMenu: ViewModifier {
             STZ.TB.OpenInApp.context(isEnabled: WH.canOpen(selection, in: self.windowPresentation),
                                      bundle: self.text)
             {
-                guard let fail = WH.open(selection, in: self.windowPresentation, self._errorQ.environment) else { return }
+                guard let fail = WH.open(selection,
+                                         in: self.windowPresentation,
+                                         bundle: self.text,
+                                         errorQ: self._errorQ.environment)
+                else { return }
                 self.modalPresentation.value = .browser(fail)
             }
             STZ.TB.OpenInBrowser.context(isEnabled: WH.canOpen(selection, in: self.windowPresentation),

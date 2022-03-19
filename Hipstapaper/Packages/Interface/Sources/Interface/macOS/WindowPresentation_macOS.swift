@@ -26,8 +26,10 @@
 
 #if os(macOS)
 
-import AppKit
 import Combine
+import AppKit
+import Umbrella
+import Localize
 
 class WindowPresentation: ObservableObject, WindowManagerProtocol {
     
@@ -35,9 +37,9 @@ class WindowPresentation: ObservableObject, WindowManagerProtocol {
     
     let features: Features = [.multipleWindows, .bulkActivation]
 
-    func show(_ urls: Set<URL>) {
+    func show(_ urls: Set<URL>, bundle: LocalizeBundle, errorQ: ErrorQueue.Environment) {
         for url in urls {
-            let window = self.windows[url] ?? BrowserWindowController(url: url)
+            let window = self.windows[url] ?? BrowserWindowController(url: url, bundle: bundle, errorQ: errorQ)
             self.windows[url] = window
             window.windowWillClose = { [unowned self] url in
                 self.windows.removeValue(forKey: url)

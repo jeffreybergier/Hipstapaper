@@ -26,14 +26,16 @@
 
 #if os(iOS)
 
-import UIKit
+import Foundation
 import Combine
+import Umbrella
+import Localize
 
 class WindowPresentation: ObservableObject, WindowManagerProtocol {
         
     let features: Features = []
     
-    func show(_ urls: Set<URL>) {
+    func show(_ urls: Set<URL>, bundle: LocalizeBundle, errorQ: ErrorQueue.Environment) {
         fatalError("Not supported on iOS")
     }
 }

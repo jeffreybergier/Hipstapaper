@@ -29,16 +29,22 @@
 import Combine
 import AppKit
 import SwiftUI
+import Umbrella
+import Localize
 import Browse
 
 class BrowserWindowController: NSWindowController {
     
     let url: URL
     var windowWillClose: ((URL) -> Void)?
-    var browserToken: AnyCancellable?
+    private let text: LocalizeBundle
+    private let errorQ: ErrorQueue.Environment
+    private var browserToken: AnyCancellable?
     
-    init(url: URL) {
+    init(url: URL, bundle: LocalizeBundle, errorQ: ErrorQueue.Environment) {
         self.url = url
+        self.text = bundle
+        self.errorQ = errorQ
         super.init(window: nil)
         self.windowFrameAutosaveName = url.absoluteString
     }
@@ -51,6 +57,8 @@ class BrowserWindowController: NSWindowController {
                 self.window?.title = display.title
             }
             let browser = Browser(vm)
+                .environmentObject(self.text)
+                .environmentObject(self.errorQ)
             let vc = NSHostingController(rootView: browser)
             let window = NSWindow(contentViewController: vc)
             window.delegate = self
