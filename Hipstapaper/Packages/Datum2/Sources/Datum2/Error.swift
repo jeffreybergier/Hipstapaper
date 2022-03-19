@@ -58,7 +58,7 @@ public enum Error: UserFacingError {
     }
     
     public var title: LocalizationKey {
-        return Noun.errorDatabase.rawValue
+        return Noun.errorDatabase.key
     }
     
     public var message: LocalizedString {

@@ -33,8 +33,10 @@ extension STZ {
     public struct SHR: View {
         
         public enum Error: UserFacingError {
-            public var errorCode: Int               { 1001 }
-            public var message: LocalizationKey  { Phrase.errorShareItemCount.rawValue }
+            public var errorCode: Int { 1001 }
+            public var message: LocalizationKey {
+                Phrase.errorShareItemCount.key
+            }
             case itemCount
         }
         

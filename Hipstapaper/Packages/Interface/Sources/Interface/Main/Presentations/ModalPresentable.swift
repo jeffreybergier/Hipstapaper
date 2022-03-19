@@ -138,7 +138,8 @@ struct AddChoicePresentable: ViewModifier {
                                  buttons: [
                                     self.addTagButton,
                                     self.addWebsiteButton
-                                 ])
+                                 ],
+                                 bundle: self.text)
             }
         )
     }

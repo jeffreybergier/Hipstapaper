@@ -53,7 +53,7 @@ extension Labelable {
     public static func label(bundle: LocalizeBundle) -> AnyView {
         if let icon = self.icon {
             return AnyView(
-                Label(self.verb.rawValue, systemImage: icon.rawValue)
+                Label(self.verb.loc(bundle), systemImage: icon.rawValue)
                     .modifier(STZ.FNT.Sort.apply())
             )
         } else {

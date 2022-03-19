@@ -26,17 +26,21 @@
 
 
 import SwiftUI
+import Localize
 import Stylize
 
 struct FormLoading: View {
     
+    @Localize private var text
     @ObservedObject var viewModel: ViewModel
     
     var body: some View {
         VStack {
-            STZ.VIEW.TXTFLD.WebTitle.textfield(self.$viewModel.output.title)
+            STZ.VIEW.TXTFLD.WebTitle.textfield(self.$viewModel.output.title,
+                                               bundle: self.text)
                 .disabled(true)
-            STZ.VIEW.TXTFLD.WebURL.textfield(self.$viewModel.output.currentURLString)
+            STZ.VIEW.TXTFLD.WebURL.textfield(self.$viewModel.output.currentURLString,
+                                             bundle: self.text)
                 .disabled(true)
         }
     }

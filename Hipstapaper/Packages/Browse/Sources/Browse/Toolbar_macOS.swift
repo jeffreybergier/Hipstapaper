@@ -44,7 +44,7 @@ internal struct Toolbar_macOS: ViewModifier {
                 TH.goForwardButton(self.viewModel, bundle: self.text)
                 TH.stopReloadButton(self.viewModel, bundle: self.text)
                 TH.jsButton(self.viewModel, bundle: self.text)
-                TH.addressBar(self.$viewModel.browserDisplay.title)
+                TH.addressBar(self.$viewModel.browserDisplay.title, bundle: self.text)
                 TH.shareButton(bundle: self.text) {
                     self.viewModel.browserDisplay.isSharing = true
                 }

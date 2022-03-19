@@ -32,6 +32,7 @@ import Localize
 struct TagNamePicker: View {
     
     let done: Action
+    @Localize private var text
     @TagEditQuery private var tag: Tag
     
     init(id: Tag.Ident, done: @escaping Action) {
@@ -41,7 +42,8 @@ struct TagNamePicker: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            STZ.VIEW.TXTFLD.TagName.textfield(self.$tag.name)
+            STZ.VIEW.TXTFLD.TagName.textfield(self.$tag.name,
+                                              bundle: self.text)
             Spacer()
         }
         .modifier(STZ.PDG.Equal())

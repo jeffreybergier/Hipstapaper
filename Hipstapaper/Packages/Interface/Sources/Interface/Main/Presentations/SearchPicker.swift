@@ -38,7 +38,8 @@ struct SearchPicker: View {
     var body: some View {
         VStack {
             HStack {
-                STZ.VIEW.TXTFLD.Search.textfield(self.$query.search)
+                STZ.VIEW.TXTFLD.Search.textfield(self.$query.search,
+                                                 bundle: self.text)
                 if self.query.search.trimmed != nil {
                     STZ.TB.ClearSearch.button_iconOnly(bundle: self.text) {
                         self.query.search = ""

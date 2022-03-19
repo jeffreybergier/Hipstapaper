@@ -143,7 +143,8 @@ private struct Toolbar_Regular: ViewModifier {
                     TH.jsButton(self.viewModel, bundle: self.text)
                 }
                 ToolbarItem(id: "Browser_Regular.AddressBar", placement: .principal) {
-                    TH.addressBar(self.$viewModel.browserDisplay.title)
+                    TH.addressBar(self.$viewModel.browserDisplay.title,
+                                  bundle: self.text)
                         .frame(width: 400) // TODO: Remove hack when toolbar can manage width properly
                 }
                 // TODO: LEAKING!

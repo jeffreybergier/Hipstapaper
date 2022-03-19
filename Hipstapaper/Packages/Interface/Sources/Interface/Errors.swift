@@ -35,7 +35,7 @@ enum Error: UserFacingError {
     var message: LocalizationKey {
         switch self {
         case .shareExtensionAdd:
-            return Phrase.errorShareImport.rawValue
+            return Phrase.errorShareImport.key
         }
     }
 }

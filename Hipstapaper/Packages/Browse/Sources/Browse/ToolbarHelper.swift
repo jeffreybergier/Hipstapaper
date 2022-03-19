@@ -108,8 +108,8 @@ internal enum ToolbarHelper {
         }
     }
     
-    static func addressBar(_ title: Binding<String>) -> some View {
-        STZ.VIEW.TXTFLD.WebTitle.textfield(title)
+    static func addressBar(_ title: Binding<String>, bundle: LocalizeBundle) -> some View {
+        STZ.VIEW.TXTFLD.WebTitle.textfield(title, bundle: bundle)
             .disabled(true)
     }
 }

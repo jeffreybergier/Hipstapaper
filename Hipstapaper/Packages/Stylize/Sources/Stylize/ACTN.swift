@@ -72,14 +72,17 @@ extension STZ.ACTN {
         public var title: String
         public var message: String? = nil
         public var buttons: [Button]
+        public var bundle: LocalizeBundle
         
         public init(title: String,
                     message: String? = nil,
-                    buttons: [Button])
+                    buttons: [Button],
+                    bundle: LocalizeBundle)
         {
             self.title = title
             self.message = message
             self.buttons = buttons
+            self.bundle = bundle
         }
     }
 }
@@ -123,7 +126,7 @@ extension STZ.ACTN.Wrapper {
             message: self.message.map { Text($0) },
             buttons: self.buttons
                 .map { $0.nativeValue }
-                + [.cancel(Text(Verb.cancel.rawValue))]
+            + [.cancel(Text(Verb.cancel.loc(self.bundle)))]
         )
     }
 }
