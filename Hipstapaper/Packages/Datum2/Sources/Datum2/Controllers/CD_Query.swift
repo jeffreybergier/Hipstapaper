@@ -38,8 +38,8 @@ extension Query {
                 guard let search = self.search.trimmed else { return nil }
                 return NSCompoundPredicate(orPredicateWithSubpredicates: [
                     NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(CD_Website.cd_title), search),
-                    NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(CD_Website.cd_resolvedURL), search),
-                    NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(CD_Website.cd_originalURL), search),
+                    NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(CD_Website.cd_resolvedURL.absoluteString), search),
+                    NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(CD_Website.cd_originalURL.absoluteString), search),
                 ])
             }(),
             {
