@@ -113,7 +113,7 @@ extension Toolbarable {
                 .modifier(__Hack_ToolbarButtonStyle())
         }
         .disabled(!isEnabled)
-        .help(self.phrase.rawValue)
+        .help(self.phrase.loc(bundle))
         .modifier(Shortcut(self.shortcut))
     }
     

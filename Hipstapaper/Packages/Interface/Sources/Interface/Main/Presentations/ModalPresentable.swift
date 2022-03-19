@@ -125,6 +125,7 @@ struct AddWebsitePresentable: ViewModifier {
 
 struct AddChoicePresentable: ViewModifier {
     
+    @Localize private var text
     @ErrorQueue private var errorQ
     @ControllerProperty private var controller
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
@@ -133,7 +134,7 @@ struct AddChoicePresentable: ViewModifier {
         content.modifier(
             STZ.ACTN.Modifier(isPresented: self.$presentation.isAddChoose)
             {
-                STZ.ACTN.Wrapper(title: Phrase.addChoice.rawValue,
+                STZ.ACTN.Wrapper(title: Phrase.addChoice.loc(self.text),
                                  buttons: [
                                     self.addTagButton,
                                     self.addWebsiteButton
@@ -143,7 +144,7 @@ struct AddChoicePresentable: ViewModifier {
     }
     
     private var addTagButton: STZ.ACTN.Wrapper.Button {
-        return .init(title: Verb.addTag.rawValue) {
+        return .init(title: Verb.addTag.loc(self.text)) {
             self.presentation.value = .none
             // TODO: Remove this hack when possible
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -158,7 +159,7 @@ struct AddChoicePresentable: ViewModifier {
     }
     
     private var addWebsiteButton: STZ.ACTN.Wrapper.Button {
-        return .init(title: Verb.addWebsite.rawValue) {
+        return .init(title: Verb.addWebsite.loc(self.text)) {
             self.presentation.value = .none
             // TODO: Remove this hack when possible
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
