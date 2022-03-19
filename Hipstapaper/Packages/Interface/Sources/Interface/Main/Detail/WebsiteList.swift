@@ -61,7 +61,6 @@ struct WebsiteList: View {
             WebsiteRow(item: item)
         }
         .listStyle(PlainListStyle())
-        .modifier(If.iOS(_Animation(.default)))
         .modifier(SyncIndicator(progress: self.controller.syncProgress))
         .modifier(WebsiteListTitle(tag: self.tag, isOnlyNotArchived: self.query.isOnlyNotArchived))
         // TODO: Fix the choppy EditMode animation caused by overly complex toolbars
@@ -84,15 +83,5 @@ extension WebsiteList {
     }
     private func menu(_ items: WH.Selection) -> WebsiteMenu {
         WebsiteMenu(items, self.controller)
-    }
-}
-
-internal struct _Animation: ViewModifier {
-    let animation: Animation
-    init(_ animation: Animation) {
-        self.animation = animation
-    }
-    func body(content: Content) -> some View {
-        content.animation(self.animation)
     }
 }

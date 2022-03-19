@@ -48,6 +48,5 @@ struct FormSwitcher: View {
                 FormLoaded(viewModel: self.viewModel)
             }
         }
-        .animation(.default)
     }
 }

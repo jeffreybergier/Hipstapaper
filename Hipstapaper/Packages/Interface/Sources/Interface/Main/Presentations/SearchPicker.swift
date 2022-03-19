@@ -46,7 +46,6 @@ struct SearchPicker: View {
                     }
                 }
             }
-            .animation(.default)
             Spacer()
         }
         .modifier(STZ.PDG.Equal())
