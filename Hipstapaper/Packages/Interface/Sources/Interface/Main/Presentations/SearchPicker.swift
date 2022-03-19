@@ -32,6 +32,7 @@ import Localize
 struct SearchPicker: View {
     
     let doneAction: Action
+    @Localize private var text
     @QueryProperty private var query
     
     var body: some View {
@@ -39,7 +40,9 @@ struct SearchPicker: View {
             HStack {
                 STZ.VIEW.TXTFLD.Search.textfield(self.$query.search)
                 if self.query.search.trimmed != nil {
-                    STZ.TB.ClearSearch.button_iconOnly(action: { self.query.search = "" })
+                    STZ.TB.ClearSearch.button_iconOnly(bundle: self.text) {
+                        self.query.search = ""
+                    }
                 }
             }
             .animation(.default)

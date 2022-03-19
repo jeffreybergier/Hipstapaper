@@ -93,6 +93,7 @@ extension Buttonable {
     /// crashes if Icon is NIL
     public static func button_iconOnly(doneStyle: Bool = false,
                                        isEnabled: Bool = true,
+                                       bundle: LocalizeBundle,
                                        action: @escaping Action)
                                        -> some View
     {
@@ -100,7 +101,7 @@ extension Buttonable {
             self.icon!
         }
         .disabled(!isEnabled)
-        .help(self.phrase.rawValue)
+        .help(self.phrase.loc(bundle))
         .modifier(Shortcut(self.shortcut))
         .modifier(DefaultButtonStyle())
     }
