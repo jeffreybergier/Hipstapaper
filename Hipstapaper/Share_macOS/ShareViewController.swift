@@ -35,10 +35,20 @@ import Localize
 class ShareViewController: NSViewController {
     
     private let viewModel = Snapshot.ViewModel()
-    @ErrorQueue private var errorQ
+    private let errorQ = ErrorQueue.newEnvirementObject()
+    private lazy var text = LocalizeBundle()
+    
     private lazy var snapshotVC: NSViewController =
-        NSHostingController(rootView: Snapshotter(self.viewModel))
-    private lazy var errorVC: NSViewController = NSHostingController(rootView: EmptyView().modifier(ErrorPresentation(self.$errorQ)))
+        NSHostingController(
+            rootView: Snapshotter(self.viewModel)
+                .environmentObject(self.errorQ)
+                .environmentObject(self.text)
+        )
+    private lazy var errorVC: NSViewController = NSHostingController(
+        rootView: EmptyView()
+            .modifier(ErrorPresentation(ErrorQueue.legacyBinding(self.errorQ)))
+            .environmentObject(self.text)
+    )
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,7 +86,7 @@ class ShareViewController: NSViewController {
                 if case .userCancelled = error {
                     self.extensionContext?.cancelRequest(withError: error)
                 } else {
-                    self.errorQ = error
+                    self.errorQ.value.append(error)
                 }
             case .success(let output):
                 do {
@@ -92,20 +102,20 @@ class ShareViewController: NSViewController {
                     self.extensionContext?.completeRequest(returningItems: nil,
                                                            completionHandler: nil)
                 } catch {
-                    self.errorQ = Snapshot.Error.sx_save
+                    self.errorQ.value.append(Snapshot.Error.sx_save)
                 }
             }
             
         }
         
         guard let context = self.extensionContext?.inputItems.first as? NSExtensionItem else {
-            self.errorQ = Snapshot.Error.sx_process
+            self.errorQ.value.append(Snapshot.Error.sx_process)
             return
         }
         
         context.urlValue() { url in
             guard let url = url else {
-                self.errorQ = Snapshot.Error.sx_process
+                self.errorQ.value.append(Snapshot.Error.sx_process)
                 return
             }
             self.viewModel.setInputURL(url)
@@ -114,9 +124,11 @@ class ShareViewController: NSViewController {
 
 }
 
+import UniformTypeIdentifiers
+
 extension NSExtensionItem {
     fileprivate func urlValue(completion: @escaping (URL?) -> Void) {
-        let contentType = kUTTypeURL as String
+        let contentType = UTType.url.identifier
         let _a = self.attachments?.first(where: { $0.hasItemConformingToTypeIdentifier(contentType) })
         guard let attachment = _a else {
             completion(nil)
