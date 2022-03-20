@@ -32,7 +32,7 @@ import Stylize
 
 struct TagList<Nav: View>: View {
     
-    typealias Navigation = (Tag.Ident) -> Nav
+    typealias Navigation = (TagListSelection) -> Nav
     let navigation: Navigation
 
     @Localize private var text
@@ -48,13 +48,12 @@ struct TagList<Nav: View>: View {
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
-                ForEach(Tag.Ident.specialTags) { tag in
-                    NavigationLink(destination: self.navigation(tag),
-                                   tag: tag,
-                                   selection: self.$selectedTag)
+                ForEach(NotATag.allCases) { tag in
+                    NavigationLink(destination: self.navigation(.notATag(tag)))
+//                                   selection: self.$selectedTag)
                     {
-                        SpecialTagRow(item: tag)
-                            .environment(\.XPL_isSelected, self.selectedTag == tag)
+                        NotATagRow(item: tag)
+//                            .environment(\.XPL_isSelected, self.selectedTag == tag)
                     }
                 }
             }
@@ -63,7 +62,7 @@ struct TagList<Nav: View>: View {
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
                 ForEach(self.data) { tag in
-                    NavigationLink(destination: self.navigation(tag.uuid),
+                    NavigationLink(destination: self.navigation(.tag(tag: tag.uuid, name: tag.name)),
                                    tag: tag.uuid,
                                    selection: self.$selectedTag)
                     {

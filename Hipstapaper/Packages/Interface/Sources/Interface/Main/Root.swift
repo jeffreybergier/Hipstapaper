@@ -38,8 +38,8 @@ struct Root: View {
     
     var body: some View {
         NavigationView {
-            TagList { tag in
-                WebsiteList(tag: tag, query: self.query, controller: self.controller)
+            TagList { selection in
+                WebsiteList(selection: selection, onInitQuery: self.query, controller: self.controller)
             }
             // TODO: Has to be here because of macOS bug
             .modifier(ErrorPresentation(self.$errorQ))

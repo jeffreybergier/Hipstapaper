@@ -40,15 +40,6 @@ public struct Tag: Identifiable, Hashable, Codable {
     }
 }
 
-extension Tag.Ident {
-    public static let unread = Tag.Ident(rawValue: "unread")
-    public static let all = Tag.Ident(rawValue: "all")
-    public static let specialTags: [Tag.Ident] = [unread, all]
-    public var isSpecialTag: Bool {
-        return Self.specialTags.contains(self)
-    }
-}
-
 extension Tag.Ident: RawRepresentable {
     public var rawValue: String {
         return self.id
@@ -56,4 +47,47 @@ extension Tag.Ident: RawRepresentable {
     public init(rawValue: String) {
         self.id = rawValue
     }
+}
+
+public enum TagListSelection: RawRepresentable {
+
+    case notATag(NotATag), tag(tag: Tag.Ident, name: String?)
+    
+    public var identValue: Tag.Ident? {
+        switch self {
+        case .notATag:
+            return nil
+        case .tag(let tag, _):
+            return tag
+        }
+    }
+    
+    public var rawValue: String {
+        switch self {
+        case .notATag(let tag):
+            return tag.id
+        case .tag(let tag, let name):
+            if let name = name {
+                return tag.id + "~~" + name
+            } else {
+                return tag.id
+            }
+        }
+    }
+    
+    public init?(rawValue: String) {
+        if let notATag = NotATag(rawValue: rawValue) {
+            self = .notATag(notATag)
+            return
+        }
+        let pieces = rawValue.components(separatedBy: "~~")
+        self = .tag(tag: .init(rawValue: pieces[0]), name: pieces.last)
+    }
+
+}
+
+public enum NotATag: String, Identifiable, CaseIterable {
+    case unread = "NotATag.Unread"
+    case all = "NotATag.All"
+    public var id: String { self.rawValue }
 }

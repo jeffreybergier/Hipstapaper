@@ -30,23 +30,24 @@ import Localize
 
 struct WebsiteListTitle: ViewModifier {
     
+    let selection: TagListSelection
+    
     @Localize private var text
     
-    let tag: Tag.Ident
-    let isOnlyNotArchived: Bool
     @ViewBuilder func body(content: Content) -> some View {
-        if self.tag.isSpecialTag {
-            switch self.isOnlyNotArchived {
-            case false:
-                content.navigationTitle(Noun.allItems.loc(self.text))
-                    .modifier(TitleSize(isLarge: false))
-            case true:
+        switch self.selection {
+        case .notATag(let tag):
+            switch tag {
+            case .unread:
                 content.navigationTitle(Noun.hipstapaper.loc(self.text))
                     .modifier(TitleSize(isLarge: true))
+            case .all:
+                content.navigationTitle(Noun.allItems.loc(self.text))
+                    .modifier(TitleSize(isLarge: false))
             }
-        } else {
+        case .tag(_, let name):
             content
-                .navigationTitle(Noun.untitled.loc(self.text))
+                .navigationTitle(name ?? Noun.untitled.loc(self.text))
                 .modifier(TitleSize(isLarge: false))
         }
     }

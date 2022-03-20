@@ -33,7 +33,7 @@ import XPList
 
 struct WebsiteList: View {
     
-    private let tag: Tag.Ident
+    private let selectedTag: TagListSelection
     
     @State private var selection: WH.Selection = []
     @Localize private var text
@@ -45,11 +45,9 @@ struct WebsiteList: View {
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     @EnvironmentObject private var windowPresentation: WindowPresentation
     
-    init(tag: Tag.Ident, query: Query, controller: Controller) {
-        self.tag = tag
-        _data = .init(query: query.configured(for: tag),
-                      tag: tag,
-                      controller: controller)
+    init(selection: TagListSelection, onInitQuery query: Query, controller: Controller) {
+        self.selectedTag = selection
+        _data = .init(query: query, tag: selection, controller: controller)
     }
     
     var body: some View {
@@ -62,12 +60,12 @@ struct WebsiteList: View {
         }
         .listStyle(PlainListStyle())
         .modifier(SyncIndicator(progress: self.controller.syncProgress))
-        .modifier(WebsiteListTitle(tag: self.tag, isOnlyNotArchived: self.query.isOnlyNotArchived))
+        .modifier(WebsiteListTitle(selection: self.selectedTag))
         // TODO: Fix the choppy EditMode animation caused by overly complex toolbars
         .modifier(DetailToolbar.Shared(controller: self.controller,
                                        selection: self.$selection))
         // TODO: Uncomment this later
-        .environment(\.toolbarFilterIsEnabled, !self.tag.isSpecialTag)
+        .environment(\.toolbarFilterIsEnabled, self.selectedTag.identValue != nil)
     }
 }
 

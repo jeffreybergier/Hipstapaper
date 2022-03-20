@@ -49,9 +49,9 @@ struct TagRow: View {
     }
 }
 
-struct SpecialTagRow: View {
+struct NotATagRow: View {
     
-    var item: Tag.Ident
+    var item: NotATag
     @Localize private var text
     
     private var name: String {
@@ -60,9 +60,6 @@ struct SpecialTagRow: View {
             return Noun.unreadItems.loc(self.text)
         case .all:
             return Noun.allItems.loc(self.text)
-        default:
-            assertionFailure()
-            return "-1"
         }
     }
     var body: some View {

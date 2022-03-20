@@ -43,17 +43,4 @@ public struct Query: Codable, Hashable {
     }
     
     public static let `default`: Query = Query(sort: nil, search: nil, isOnlyNotArchived: nil)
-    
-    public func configured(for tag: Tag.Ident) -> Query {
-        var copy = self
-        switch tag {
-        case .all:
-            copy.isOnlyNotArchived = false
-        case .unread:
-            copy.isOnlyNotArchived = true
-        default:
-            break
-        }
-        return copy
-    }
 }

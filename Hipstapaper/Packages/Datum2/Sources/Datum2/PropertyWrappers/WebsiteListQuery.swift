@@ -32,17 +32,19 @@ public struct WebsiteListQuery: DynamicProperty {
     
     @FetchRequest private var data: FetchedResults<CD_Website>
     
-    public init(query: Query, tag: Tag.Ident, controller: Controller) {
-        let controller = controller as! CD_Controller
-        let tag: CD_Tag? = {
-            guard
-                tag.isSpecialTag == false,
-                let tag = controller.search([tag]).first
-            else { return nil }
-            return tag
-        }()
+    public init(query: Query, tag: TagListSelection, controller: Controller) {
+        var query = query
+        let cd_tag: CD_Tag?
+        switch tag {
+        case .tag(let tag, _):
+            let controller = controller as! CD_Controller
+            cd_tag = controller.search([tag]).first
+        case .notATag(let tag):
+            cd_tag = nil
+            query.isOnlyNotArchived = tag == .unread ? true : false
+        }
         _data = FetchRequest<CD_Website>(sortDescriptors: [query.cd_sortDescriptor],
-                                         predicate:  query.cd_predicate(tag),
+                                         predicate:  query.cd_predicate(cd_tag),
                                          animation: .default)
     }
     
