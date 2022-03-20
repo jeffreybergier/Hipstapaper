@@ -39,7 +39,7 @@ struct WebsiteList: View {
     @Localize private var text
     @ErrorQueue private var errorQ
     @QueryProperty private var query
-    @WebsiteListQuery private var data: AnyRandomAccessCollection<Website>
+    @WebsiteListQuery private var data: AnyRandomAccessCollection<FAST_Website>
     @ControllerProperty private var controller
     
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
@@ -76,7 +76,7 @@ extension WebsiteList {
             self.windowPresentation.show(validURLs, bundle: self.text, errorQ: self._errorQ.environment)
         } else {
             guard let validItem = items.first(where: { $0.preferredURL != nil }) else { return }
-            self.modalPresentation.value = .browser(validItem)
+            self.modalPresentation.value = .browser(validItem.websiteValue)
         }
     }
     private func menu(_ items: WH.Selection) -> WebsiteMenu {

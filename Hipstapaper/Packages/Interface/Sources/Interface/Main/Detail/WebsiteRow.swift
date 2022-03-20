@@ -41,7 +41,7 @@ struct WebsiteRow: View {
     
     @Localize private var text
     
-    var item: Website
+    var item: FAST_Website
     
     var body: some View {
         HStack {

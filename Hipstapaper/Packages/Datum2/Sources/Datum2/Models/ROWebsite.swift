@@ -24,32 +24,33 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
-import Umbrella
+import Foundation
 
-@propertyWrapper
-public struct WebsiteListQuery: DynamicProperty {
+private let backupDate = Date(timeIntervalSince1970: 0)
+
+// This is a hack created to improve performance when there are
+// thousands of items.
+public struct FAST_Website: Identifiable, Hashable {
     
-    @FetchRequest private var data: FetchedResults<CD_Website>
+    private var model: CD_Website
     
-    public init(query: Query, tag: TagListSelection, controller: Controller) {
-        var query = query
-        let cd_tag: CD_Tag?
-        switch tag {
-        case .tag(let tag, _):
-            let controller = controller as! CD_Controller
-            cd_tag = controller.search([tag]).first
-        case .notATag(let tag):
-            cd_tag = nil
-            query.isOnlyNotArchived = tag == .unread ? true : false
-        }
-        _data = FetchRequest<CD_Website>(sortDescriptors: [query.cd_sortDescriptor],
-                                         predicate:  query.cd_predicate(cd_tag),
-                                         animation: .default)
+    public var uuid: Website.Ident
+    public var id: String         { self.uuid.id }
+    public var preferredURL: URL? { self.resolvedURL ?? self.originalURL }
+    
+    public var isArchived: Bool   { self.model.cd_isArchived }
+    public var originalURL: URL?  { self.model.cd_originalURL }
+    public var resolvedURL: URL?  { self.model.cd_resolvedURL }
+    public var title: String?     { self.model.cd_title }
+    public var thumbnail: Data?   { self.model.cd_thumbnail }
+    public var dateCreated: Date  { self.model.cd_dateCreated ?? backupDate }
+    public var dateModified: Date { self.model.cd_dateModified ?? backupDate }
+    
+    
+    internal init(_ model: CD_Website) {
+        self.model = model
+        self.uuid = .init(model.objectID)
     }
     
-    public var wrappedValue: AnyRandomAccessCollection<FAST_Website> {
-        TransformCollection(collection: self.data) { FAST_Website($0) }
-            .eraseToAnyRandomAccessCollection()
-    }
+    public var websiteValue: Website { .init(self.model) }
 }

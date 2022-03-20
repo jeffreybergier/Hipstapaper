@@ -34,7 +34,7 @@ typealias WH = WebsiteHelper
 
 enum WebsiteHelper {
     
-    typealias Selection = Set<Website>
+    typealias Selection = Set<FAST_Website>
     
     static func canShare(_ selection: Selection) -> Bool {
         return selection.first(where: { $0.preferredURL != nil }) != nil
@@ -101,7 +101,7 @@ enum WebsiteHelper {
         
         guard urls.isEmpty == false else { fatalError("Maybe present an error?") }
         guard wm.features.contains([.multipleWindows, .bulkActivation])
-            else { return selection.first! }
+            else { return selection.first?.websiteValue }
         
         wm.show(Set(urls), bundle: bundle, errorQ: errorQ)
         return nil
