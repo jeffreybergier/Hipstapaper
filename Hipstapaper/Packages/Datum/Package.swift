@@ -29,12 +29,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "Datum2",
+    name: "Datum",
     platforms: [.iOS(.v15), .macOS(.v12)],
     products: [
         .library(
-            name: "Datum2",
-            targets: ["Datum2"]
+            name: "Datum",
+            targets: ["Datum"]
         ),
     ],
     dependencies: [
@@ -43,16 +43,16 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "Datum2",
+            name: "Datum",
             dependencies: [
                 .byNameItem(name: "Localize", condition: nil),
                 .byNameItem(name: "Umbrella", condition: nil),
             ]
         ),
         .testTarget(
-            name: "Datum2Tests",
+            name: "DatumTests",
             dependencies: [
-                .byNameItem(name: "Datum2", condition: nil),
+                .byNameItem(name: "Datum", condition: nil),
                 .product(name: "TestUmbrella", package: "Umbrella", condition: nil),
             ]
         ),

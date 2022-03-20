@@ -26,14 +26,14 @@
 
 import SwiftUI
 import Umbrella
-import Datum2
+import Datum
 import Stylize
 import Localize
 
 struct TagApply: View {
     
     @ErrorQueue private var errorQ
-    @TagApplyQuery private var data: AnyRandomAccessCollection<Binding<Datum2.TagApply>>
+    @TagApplyQuery private var data: AnyRandomAccessCollection<Binding<Datum.TagApply>>
     
     let done: Action
     

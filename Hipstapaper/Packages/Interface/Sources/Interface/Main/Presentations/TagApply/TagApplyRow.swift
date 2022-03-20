@@ -25,14 +25,14 @@
 //
 
 import SwiftUI
-import Datum2
+import Datum
 import Stylize
 import Localize
 
 struct TagApplyRow: View {
     
     @Localize private var text
-    @Binding var value: Datum2.TagApply
+    @Binding var value: Datum.TagApply
     
     var body: some View {
         STZ.VIEW.TXT(self.value.tag.name, or: Noun.untitled.loc(self.text))

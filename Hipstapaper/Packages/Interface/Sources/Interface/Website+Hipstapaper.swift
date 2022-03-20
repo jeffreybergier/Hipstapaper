@@ -24,7 +24,7 @@
 //  SOFTWARE.
 //
 
-import Datum2
+import Datum
 import Snapshot
 
 extension Website {

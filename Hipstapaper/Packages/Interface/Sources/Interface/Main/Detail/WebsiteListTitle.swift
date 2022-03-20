@@ -25,7 +25,7 @@
 //
 
 import SwiftUI
-import Datum2
+import Datum
 import Localize
 
 struct WebsiteListTitle: ViewModifier {

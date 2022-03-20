@@ -38,7 +38,7 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(path: "../Datum2"),
+        .package(path: "../Datum"),
         .package(path: "../Browse"),
         .package(path: "../Snapshot"),
     ],
@@ -46,7 +46,7 @@ let package = Package(
         .target(
             name: "Interface",
             dependencies: [
-                .byNameItem(name: "Datum2", condition: nil),
+                .byNameItem(name: "Datum", condition: nil),
                 .byNameItem(name: "Browse", condition: nil),
                 .byNameItem(name: "Snapshot", condition: nil),
             ]

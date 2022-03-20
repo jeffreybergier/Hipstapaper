@@ -27,7 +27,7 @@
 import SwiftUI
 import Umbrella
 import XPList
-import Datum2
+import Datum
 import Stylize
 import Localize
 

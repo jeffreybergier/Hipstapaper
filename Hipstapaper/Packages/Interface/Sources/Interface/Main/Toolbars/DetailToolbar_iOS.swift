@@ -29,7 +29,7 @@
 import SwiftUI
 import Umbrella
 import Stylize
-import Datum2
+import Datum
 
 extension DetailToolbar {
     enum iOS { }
