@@ -48,6 +48,10 @@ internal struct Toolbar_macOS: ViewModifier {
                 TH.shareButton(bundle: self.text) {
                     self.viewModel.browserDisplay.isSharing = true
                 }
+                // TODO: Add functionality
+                TH.archiveButton(isArchived: true, bundle: self.text) {
+                    print("toggle")
+                }
                 TH.openExternalButton(self.viewModel, bundle: self.text, self.openURL)
                 if let done = self.viewModel.doneAction {
                     STZ.BTN.BrowserDone.button(bundle: self.text, action: done)

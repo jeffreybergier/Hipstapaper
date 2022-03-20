@@ -71,7 +71,7 @@ private struct Toolbar_Compact: ViewModifier {
         content
             .navigationTitle(self.viewModel.browserDisplay.title)
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar(id: "Browser_Compact") {
+            .toolbar(id: "Browser_Compact_Bottom") {
                 //
                 // Bottom Navigation
                 //
@@ -86,6 +86,9 @@ private struct Toolbar_Compact: ViewModifier {
                 }
                 ToolbarItem(id: "Browser_Compact.Reload", placement: .bottomBar) {
                     TH.stopReloadButton(self.viewModel, bundle: self.text)
+                }
+                ToolbarItem(id: "Browser_Compact.JS", placement: .bottomBar) {
+                    TH.jsButton(self.viewModel, bundle: self.text)
                 }
                 ToolbarItem(id: "Detail.FlexibleSpace", placement: .bottomBar) {
                     Spacer()
@@ -103,12 +106,16 @@ private struct Toolbar_Compact: ViewModifier {
                         self.viewModel.browserDisplay.isSharing = true
                     }
                 }
+            }
+            .toolbar(id: "Browser_Compact_Top") {
                 //
                 // Top bar
                 //
                 // TODO: LEAKING!
-                ToolbarItem(id: "Browser_Compact.JS", placement: .cancellationAction) {
-                    TH.jsButton(self.viewModel, bundle: self.text)
+                ToolbarItem(id: "Browser_Compact.Archive", placement: .cancellationAction) {
+                    STZ.TB.Archive.toolbar(bundle: self.text) {
+                        print("toggle")
+                    }
                 }
                 ToolbarItem(id: "Browser_Compact.Done", placement: .confirmationAction) {
                     TH.doneButton(self.viewModel, bundle: self.text)
@@ -143,9 +150,7 @@ private struct Toolbar_Regular: ViewModifier {
                     TH.jsButton(self.viewModel, bundle: self.text)
                 }
                 ToolbarItem(id: "Browser_Regular.AddressBar", placement: .principal) {
-                    TH.addressBar(self.$viewModel.browserDisplay.title,
-                                  bundle: self.text)
-                        .frame(width: 400) // TODO: Remove hack when toolbar can manage width properly
+                    TH.addressBar(self.$viewModel.browserDisplay.title, bundle: self.text)
                 }
                 // TODO: LEAKING!
                 ToolbarItem(id: "Browser_Regular.OpenInExternal", placement: .automatic) {
@@ -155,6 +160,11 @@ private struct Toolbar_Regular: ViewModifier {
                     TH.shareButton(bundle: self.text) {
                         self.popoverAlignment = .topTrailing
                         self.viewModel.browserDisplay.isSharing = true
+                    }
+                }
+                ToolbarItem(id: "Browser_Regular.Archive", placement: .automatic) {
+                    STZ.TB.Archive.toolbar(bundle: self.text) {
+                        print("toggle")
                     }
                 }
                 ToolbarItem(id: "Browser_Regular.Done", placement: .confirmationAction) {

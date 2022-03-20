@@ -108,6 +108,17 @@ internal enum ToolbarHelper {
         }
     }
     
+    @ViewBuilder static func archiveButton(isArchived: Bool,
+                                           bundle: LocalizeBundle,
+                                           action: @escaping Action) -> some View
+    {
+        if isArchived {
+            STZ.TB.Unarchive.__fake_macOS_toolbar(bundle: bundle, action: action)
+        } else {
+            STZ.TB.Archive.__fake_macOS_toolbar(bundle: bundle, action: action)
+        }
+    }
+    
     static func addressBar(_ title: Binding<String>, bundle: LocalizeBundle) -> some View {
         STZ.VIEW.TXTFLD.WebTitle.textfield(title, bundle: bundle)
             .disabled(true)
