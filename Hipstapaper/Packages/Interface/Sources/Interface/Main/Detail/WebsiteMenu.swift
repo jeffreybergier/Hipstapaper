@@ -56,14 +56,9 @@ struct WebsiteMenu: ViewModifier {
     @ViewBuilder private func contextMenu() -> some View {
         STZ.VIEW.TXT("\(selection.count) selected")
         Group {
-            STZ.TB.OpenInApp.context(isEnabled: WH.canOpen(selection, in: self.windowPresentation),
-                                     bundle: self.text)
+            STZ.TB.OpenInApp.context(isEnabled: WH.canOpen(selection, in: self.windowPresentation), bundle: self.text)
             {
-                guard let fail = WH.open(selection,
-                                         in: self.windowPresentation,
-                                         bundle: self.text,
-                                         errorQ: self._errorQ.environment)
-                else { return }
+                guard let fail = WH.open(selection, in: self.windowPresentation) else { return }
                 self.modalPresentation.value = .browser(fail)
             }
             STZ.TB.OpenInBrowser.context(isEnabled: WH.canOpen(selection, in: self.windowPresentation),

@@ -49,13 +49,9 @@ extension DetailToolbar {
             content.toolbar(id: "Detail") {
                 ToolbarItem(id: "Detail.Open") {
                     HStack {
-                        STZ.TB.OpenInApp.toolbar(isEnabled: WH.canOpen(self.selection, in: self.windowPresentation),
-                                                 bundle: self.text)
+                        STZ.TB.OpenInApp.toolbar(isEnabled: WH.canOpen(self.selection, in: self.windowPresentation), bundle: self.text)
                         {
-                            WH.open(self.selection,
-                                    in: self.windowPresentation,
-                                    bundle: self.text,
-                                    errorQ: self._errorQ.environment)
+                            WH.open(self.selection, in: self.windowPresentation)
                         }
                         STZ.TB.OpenInBrowser.toolbar(isEnabled: WH.canOpen(self.selection, in: self.windowPresentation),
                                                      bundle: self.text)

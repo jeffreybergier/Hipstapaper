@@ -92,9 +92,7 @@ enum WebsiteHelper {
     @discardableResult
     /// Item returned if device not capable of window presentation
     static func open(_ selection: Selection,
-                     in wm: WindowPresentation,
-                     bundle: LocalizeBundle,
-                     errorQ: ErrorQueue.Environment) -> Website?
+                     in wm: WindowPresentation) -> Website?
     {
         guard selection.isEmpty == false else { return nil }
         let urls = selection.compactMap { $0.preferredURL }
@@ -103,7 +101,7 @@ enum WebsiteHelper {
         guard wm.features.contains([.multipleWindows, .bulkActivation])
             else { return selection.first?.websiteValue }
         
-        wm.show(Set(urls), bundle: bundle, errorQ: errorQ)
+        wm.show(Set(urls))
         return nil
     }
     

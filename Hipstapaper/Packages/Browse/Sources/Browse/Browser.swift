@@ -27,31 +27,13 @@
 import SwiftUI
 import Umbrella
 import Stylize
-import Collections
 import Localize
 
 public struct Browser: View {
     
     @StateObject public var viewModel: ViewModel
-    @ErrorQueue private var errorQ
-
-    public var body: some View {
-        ZStack(alignment: .top) {
-            WebView(viewModel: self.viewModel)
-                .frame(minWidth: 300, idealWidth: 768, minHeight: 300, idealHeight: 768)
-                .edgesIgnoringSafeArea(.all)
-            Color.clear // needed so the progress bar doesn't also ignore safe areas
-                .modifier(STZ.PRG.BarMod(progress: self.viewModel.browserDisplay.progress,
-                                         isVisible: self.viewModel.browserDisplay.isLoading))
-        }
-        .onAppear() {
-            guard self.viewModel.originalURL == nil else { return }
-            self.errorQ = Error.loadURL
-        }
-        // TODO: Toolbar leaks like crazy on iOS :(
-        .modifier(Toolbar(viewModel: self.viewModel))
-        .modifier(ErrorPresentation(self.$errorQ))
-    }
+    @StateObject private var errorEnvironment = ErrorQueue.newEnvirementObject()
+    @StateObject private var localizationBundle = LocalizeBundle()
     
     public init(_ viewModel: ViewModel) {
         _viewModel = .init(wrappedValue: viewModel)
@@ -59,5 +41,49 @@ public struct Browser: View {
     
     public init(url: URL?, doneAction: (() -> Void)?) {
         _viewModel = .init(wrappedValue: .init(url: url, doneAction: doneAction))
+    }
+    
+    public var body: some View {
+        RealBrowser()
+            .environmentObject(self.viewModel)
+            .environmentObject(self.errorEnvironment)
+            .environmentObject(self.localizationBundle)
+    }
+    
+}
+
+internal struct RealBrowser: View {
+    
+    @ViewModelProperty private var viewModel
+    @ErrorQueue private var errorQ
+
+    public var body: some View {
+        Group {
+            ZStack(alignment: .top) {
+                WebView(viewModel: self.viewModel)
+                    .frame(minWidth: 300, idealWidth: 768, minHeight: 300, idealHeight: 768)
+                    .edgesIgnoringSafeArea(.all)
+                Color.clear // needed so the progress bar doesn't also ignore safe areas
+                    .modifier(STZ.PRG.BarMod(progress: self.viewModel.browserDisplay.progress,
+                                             isVisible: self.viewModel.browserDisplay.isLoading))
+            }
+            .onAppear() {
+                guard self.viewModel.originalURL == nil else { return }
+                self.errorQ = Error.loadURL
+            }
+            // TODO: Toolbar leaks like crazy on iOS :(
+            .modifier(Toolbar(viewModel: self.viewModel))
+            .modifier(ErrorPresentation(self.$errorQ))
+        }
+    }
+}
+
+@propertyWrapper
+internal struct ViewModelProperty: DynamicProperty {
+    
+    @EnvironmentObject private var viewModel: ViewModel
+    
+    internal var wrappedValue: ViewModel {
+        self.viewModel
     }
 }

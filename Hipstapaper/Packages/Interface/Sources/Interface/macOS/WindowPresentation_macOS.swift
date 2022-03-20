@@ -37,9 +37,9 @@ class WindowPresentation: ObservableObject, WindowManagerProtocol {
     
     let features: Features = [.multipleWindows, .bulkActivation]
 
-    func show(_ urls: Set<URL>, bundle: LocalizeBundle, errorQ: ErrorQueue.Environment) {
+    func show(_ urls: Set<URL>) {
         for url in urls {
-            let window = self.windows[url] ?? BrowserWindowController(url: url, bundle: bundle, errorQ: errorQ)
+            let window = self.windows[url] ?? BrowserWindowController(url: url)
             self.windows[url] = window
             window.windowWillClose = { [unowned self] url in
                 self.windows.removeValue(forKey: url)

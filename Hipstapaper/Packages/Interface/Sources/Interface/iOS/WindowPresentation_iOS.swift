@@ -35,7 +35,7 @@ class WindowPresentation: ObservableObject, WindowManagerProtocol {
         
     let features: Features = []
     
-    func show(_ urls: Set<URL>, bundle: LocalizeBundle, errorQ: ErrorQueue.Environment) {
+    func show(_ urls: Set<URL>) {
         fatalError("Not supported on iOS")
     }
 }
