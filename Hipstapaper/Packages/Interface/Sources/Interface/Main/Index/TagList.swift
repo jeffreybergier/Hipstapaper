@@ -40,7 +40,7 @@ struct TagList<Nav: View>: View {
     @QueryProperty private var query
     @ControllerProperty private var controller
     
-    @SceneStorage("SelectedTag") private var selectedTag: Tag.Ident?
+    @TagListSelectionProperty private var selectedTag
 
     var body: some View {
         List {
@@ -48,12 +48,16 @@ struct TagList<Nav: View>: View {
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
-                ForEach(NotATag.allCases) { tag in
-                    NavigationLink(destination: self.navigation(.notATag(tag)))
-//                                   selection: self.$selectedTag)
+                ForEach(NotATag.allCases) { notATag in
+                    NavigationLink(destination: self.navigation(.notATag(notATag)),
+                                   tag: TagListSelection.notATag(notATag),
+                                   selection: self.$selectedTag)
                     {
-                        NotATagRow(item: tag)
-//                            .environment(\.XPL_isSelected, self.selectedTag == tag)
+                        NotATagRow(item: notATag)
+                            .environment(
+                                \.XPL_isSelected,
+                                 self.selectedTag == .notATag(notATag)
+                            )
                     }
                 }
             }
@@ -63,11 +67,14 @@ struct TagList<Nav: View>: View {
             {
                 ForEach(self.data) { tag in
                     NavigationLink(destination: self.navigation(.tag(tag: tag.uuid, name: tag.name)),
-                                   tag: tag.uuid,
+                                   tag: TagListSelection.tag(tag: tag.uuid, name: tag.name),
                                    selection: self.$selectedTag)
                     {
                         TagRow(item: tag)
-                            .environment(\.XPL_isSelected, self.selectedTag == tag.uuid)
+                            .environment(
+                                \.XPL_isSelected,
+                                 self.selectedTag == .tag(tag: tag.uuid, name: tag.name)
+                            )
                     }
                     // FB9048743: Makes context menu work on macOS
                     .modifier(TagMenu(controller: self.controller, selection: tag.uuid))
