@@ -36,9 +36,9 @@ public struct WebsiteListQuery: DynamicProperty {
         var query = query
         let cd_tag: CD_Tag?
         switch tag {
-        case .tag(let tag, _):
+        case .tag(let tag):
             let controller = controller as! CD_Controller
-            cd_tag = controller.search([tag]).first
+            cd_tag = controller.search([tag.uuid]).first
         case .notATag(let tag):
             cd_tag = nil
             query.isOnlyNotArchived = tag == .unread ? true : false

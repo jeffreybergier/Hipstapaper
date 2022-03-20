@@ -57,14 +57,14 @@ public enum NotATag: String, Identifiable, CaseIterable {
 
 public enum TagListSelection: RawRepresentable, Hashable {
 
-    case notATag(NotATag), tag(tag: Tag.Ident, name: String?)
+    case notATag(NotATag), tag(Tag)
     
     public var identValue: Tag.Ident? {
         switch self {
         case .notATag:
             return nil
-        case .tag(let tag, _):
-            return tag
+        case .tag(let tag):
+            return tag.uuid
         }
     }
     
@@ -72,11 +72,13 @@ public enum TagListSelection: RawRepresentable, Hashable {
         switch self {
         case .notATag(let tag):
             return tag.id
-        case .tag(let tag, let name):
-            if let name = name {
-                return tag.id + "~~" + name
-            } else {
-                return tag.id
+        case .tag(let tag):
+            do {
+                let data = try PropertyListEncoder().encode(tag)
+                return data.base64EncodedString()
+            } catch {
+                error.log()
+                return ""
             }
         }
     }
@@ -86,8 +88,13 @@ public enum TagListSelection: RawRepresentable, Hashable {
             self = .notATag(notATag)
             return
         }
-        let pieces = rawValue.components(separatedBy: "~~")
-        self = .tag(tag: .init(rawValue: pieces[0]), name: pieces.last)
+        do {
+            let data = Data(base64Encoded: rawValue) ?? Data()
+            let tag = try PropertyListDecoder().decode(Tag.self, from: data)
+            self = .tag(tag)
+        } catch {
+            return nil
+        }
     }
 
 }

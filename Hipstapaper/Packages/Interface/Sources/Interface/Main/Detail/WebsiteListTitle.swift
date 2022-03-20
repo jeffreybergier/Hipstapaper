@@ -45,9 +45,9 @@ struct WebsiteListTitle: ViewModifier {
                 content.navigationTitle(Noun.allItems.loc(self.text))
                     .modifier(TitleSize(isLarge: false))
             }
-        case .tag(_, let name):
+        case .tag(let tag):
             content
-                .navigationTitle(name ?? Noun.untitled.loc(self.text))
+                .navigationTitle(tag.name ?? Noun.untitled.loc(self.text))
                 .modifier(TitleSize(isLarge: false))
         }
     }

@@ -66,14 +66,14 @@ struct TagList<Nav: View>: View {
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
                 ForEach(self.data) { tag in
-                    NavigationLink(destination: self.navigation(.tag(tag: tag.uuid, name: tag.name)),
-                                   tag: TagListSelection.tag(tag: tag.uuid, name: tag.name),
+                    NavigationLink(destination: self.navigation(.tag(tag)),
+                                   tag: TagListSelection.tag(tag),
                                    selection: self.$selectedTag)
                     {
                         TagRow(item: tag)
                             .environment(
                                 \.XPL_isSelected,
-                                 self.selectedTag == .tag(tag: tag.uuid, name: tag.name)
+                                 self.selectedTag == .tag(tag)
                             )
                     }
                     // FB9048743: Makes context menu work on macOS
