@@ -62,6 +62,7 @@ struct SyncIndicator: ViewModifier {
             .offset(x: 0, y: self.offset)
             .scaleEffect(x: self.scaleEffect, y: self.scaleEffect, anchor: .top)
             .opacity(self.opacity)
+            .animation(.default)
             .allowsHitTesting(false)
         }
         .onReceive(self.progress.objectWillChange) { _ in
