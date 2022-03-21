@@ -32,6 +32,8 @@ public struct TagListSelectionProperty: DynamicProperty {
     
     @SceneStorage("TagListSelection") private var selection: String?
     
+    private let defaultValue = TagListSelection.notATag(.unread)
+    
     public init() { }
     
     public var wrappedValue: TagListSelection {
@@ -41,10 +43,11 @@ public struct TagListSelectionProperty: DynamicProperty {
     
     public var projectedValue: Binding<TagListSelection?> {
         Binding {
-            guard let rawValue = self.selection else { return nil }
-            return TagListSelection(rawValue: rawValue)
+            self.selection
+                .map { TagListSelection(rawValue: $0) ?? self.defaultValue }
+                ?? self.defaultValue
         } set: {
-            self.selection = $0?.rawValue
+            self.selection = $0?.rawValue ?? self.defaultValue.rawValue
         }
     }
 }
