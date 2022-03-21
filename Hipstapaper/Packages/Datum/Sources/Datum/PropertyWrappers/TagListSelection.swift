@@ -30,26 +30,66 @@ import Umbrella
 @propertyWrapper
 public struct TagListSelectionProperty: DynamicProperty {
     
+    private static let defaultValue = TagListSelection.notATag(.unread)
+    
     @SceneStorage("TagListSelection") private var selection: String?
-    
-    private let defaultValue = TagListSelection.notATag(.unread)
-    
+        
     public init() { }
     
-    public var wrappedValue: TagListSelection {
-        get { self.projectedValue.wrappedValue ?? .notATag(.unread) }
-        nonmutating set { self.projectedValue.wrappedValue = newValue }
+    private var strictValue: TagListSelection? {
+        nonmutating set { self.selection = newValue?.rawValue ?? Self.defaultValue.rawValue }
+        get {
+            return self.selection
+                .map { TagListSelection(rawValue: $0) ?? Self.defaultValue }
+                ?? Self.defaultValue
+        }
+    }
+    
+    private var looseValue: TagListSelection? {
+        nonmutating set { self.selection = newValue?.rawValue }
+        get {
+            guard let rawValue = self.selection else { return nil }
+            return TagListSelection(rawValue: rawValue)
+        }
     }
     
     public var projectedValue: Binding<TagListSelection?> {
         Binding {
-            self.selection
-                .map { TagListSelection(rawValue: $0) ?? self.defaultValue }
-                ?? self.defaultValue
+            self.wrappedValue
         } set: {
-            self.selection = $0?.rawValue ?? self.defaultValue.rawValue
+            self.wrappedValue = $0
         }
     }
+    
+    // TODO: Remove terrible hack
+    // Due to how iOS handles this value when in compact size mode
+    // it needs to be allowed to be NIL for iPhones and iPad in Split Screen.
+    // But for better UX I want it to never be NIL so it automatically loads
+    // the correct default setting.
+    #if os(iOS)
+    @Environment(\.horizontalSizeClass) private var size
+    public var wrappedValue: TagListSelection? {
+        get {
+            if case .compact = self.size {
+                return self.looseValue
+            } else {
+                return self.strictValue
+            }
+        }
+        nonmutating set {
+            if case .compact = self.size {
+                self.looseValue = newValue
+            } else {
+                self.strictValue = newValue
+            }
+        }
+    }
+    #elseif os(macOS)
+    public var wrappedValue: TagListSelection? {
+        get { self.wrappedValue }
+        nonmutating set { self.wrappedValue = newValue }
+    }
+    #endif
 }
 
 public enum NotATag: String, Identifiable, CaseIterable {
