@@ -44,7 +44,7 @@ public struct Website: Identifiable, Hashable, Codable {
                 resolvedURL: URL?,
                 title: String?,
                 thumbnail: Data?,
-                uuid: Ident = .init("TEMP://"),
+                uuid: Ident,
                 dateCreated: Date = Date(),
                 dateModified: Date = Date())
     {

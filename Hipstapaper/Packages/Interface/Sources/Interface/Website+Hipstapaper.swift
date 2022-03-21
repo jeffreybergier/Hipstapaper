@@ -33,6 +33,7 @@ extension Website {
                   resolvedURL: output.currentURL,
                   title: output.title,
                   thumbnail: output.thumbnail?.value,
+                  uuid: .init("FAKE://"),
                   dateCreated: output.dateCreated)
     }
 }
