@@ -39,6 +39,7 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../Stylize"),
+        .package(path: "../Datum"),
         .package(url: "https://github.com/jeffreybergier/Umbrella.git", .branch("v2"))
     ],
     targets: [
@@ -46,6 +47,7 @@ let package = Package(
             name: "Browse",
             dependencies: [
                 .byNameItem(name: "Stylize", condition: nil),
+                .byNameItem(name: "Datum", condition: nil),
                 .byNameItem(name: "Umbrella", condition: nil),
             ]
         ),

@@ -33,12 +33,12 @@ import Localize
 extension DetailToolbar {
     struct macOS: ViewModifier {
         
-        let controller: Controller
         @Binding var selection: WH.Selection
         
         @Localize private var text
         @ErrorQueue private var errorQ
         @QueryProperty private var query
+        @ControllerProperty private var controller
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
         @EnvironmentObject private var windowPresentation: WindowPresentation
         @Environment(\.openURL) private var externalPresentation
@@ -51,7 +51,7 @@ extension DetailToolbar {
                     HStack {
                         STZ.TB.OpenInApp.toolbar(isEnabled: WH.canOpen(self.selection, in: self.windowPresentation), bundle: self.text)
                         {
-                            WH.open(self.selection, in: self.windowPresentation)
+                            WH.open(self.selection, in: self.windowPresentation, controller: self.controller)
                         }
                         STZ.TB.OpenInBrowser.toolbar(isEnabled: WH.canOpen(self.selection, in: self.windowPresentation),
                                                      bundle: self.text)

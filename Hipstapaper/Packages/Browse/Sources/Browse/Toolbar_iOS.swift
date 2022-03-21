@@ -26,6 +26,7 @@
 
 import SwiftUI
 import Umbrella
+import Datum
 import Stylize
 import Localize
 
@@ -34,6 +35,8 @@ import Localize
 internal struct Toolbar_iOS: ViewModifier {
     
     @ObservedObject var viewModel: ViewModel
+    @Binding var website: Website
+    
     @State private var popoverAlignment: Alignment = .topTrailing
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
@@ -48,10 +51,12 @@ internal struct Toolbar_iOS: ViewModifier {
                 if self.horizontalSizeClass?.isCompact == true {
                     content
                         .modifier(Toolbar_Compact(viewModel: self.viewModel,
+                                                  website: self.$website,
                                                   popoverAlignment: self.$popoverAlignment))
                 } else {
                     content
                         .modifier(Toolbar_Regular(viewModel: self.viewModel,
+                                                  website: self.$website,
                                                   popoverAlignment: self.$popoverAlignment))
                 }
             }
@@ -62,9 +67,11 @@ internal struct Toolbar_iOS: ViewModifier {
 
 private struct Toolbar_Compact: ViewModifier {
     
-    @Localize private var text
     @ObservedObject var viewModel: ViewModel
+    @Binding var website: Website
     @Binding var popoverAlignment: Alignment
+    
+    @Localize private var text
     @Environment(\.openURL) private var openURL
     
     func body(content: Content) -> some View {
@@ -113,8 +120,14 @@ private struct Toolbar_Compact: ViewModifier {
                 //
                 // TODO: LEAKING!
                 ToolbarItem(id: "Browser_Compact.Archive", placement: .cancellationAction) {
-                    STZ.TB.Archive.toolbar(bundle: self.text) {
-                        print("toggle")
+                    if self.website.isArchived {
+                        STZ.TB.Unarchive.toolbar(bundle: self.text) {
+                            self.website.isArchived = false
+                        }
+                    } else {
+                        STZ.TB.Archive.toolbar(bundle: self.text) {
+                            self.website.isArchived = true
+                        }
                     }
                 }
                 ToolbarItem(id: "Browser_Compact.Done", placement: .confirmationAction) {
@@ -126,9 +139,11 @@ private struct Toolbar_Compact: ViewModifier {
 
 private struct Toolbar_Regular: ViewModifier {
     
-    @Localize private var text
     @ObservedObject var viewModel: ViewModel
+    @Binding var website: Website
     @Binding var popoverAlignment: Alignment
+    
+    @Localize private var text
     @Environment(\.openURL) private var openURL
     
     func body(content: Content) -> some View {
@@ -163,8 +178,14 @@ private struct Toolbar_Regular: ViewModifier {
                     }
                 }
                 ToolbarItem(id: "Browser_Regular.Archive", placement: .automatic) {
-                    STZ.TB.Archive.toolbar(bundle: self.text) {
-                        print("toggle")
+                    if self.website.isArchived {
+                        STZ.TB.Unarchive.toolbar(bundle: self.text) {
+                            self.website.isArchived = false
+                        }
+                    } else {
+                        STZ.TB.Archive.toolbar(bundle: self.text) {
+                            self.website.isArchived = true
+                        }
                     }
                 }
                 ToolbarItem(id: "Browser_Regular.Done", placement: .confirmationAction) {

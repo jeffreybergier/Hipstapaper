@@ -30,29 +30,32 @@ import Combine
 import AppKit
 import SwiftUI
 import Umbrella
+import Datum
 import Localize
 import Browse
 
 class BrowserWindowController: NSWindowController {
     
-    let url: URL
-    var windowWillClose: ((URL) -> Void)?
+    let website: Website
+    let controller: Controller
+    var windowWillClose: ((Website) -> Void)?
     private var browserToken: AnyCancellable?
     
-    init(url: URL) {
-        self.url = url
+    init(website: Website, controller: Controller) {
+        self.website = website
+        self.controller = controller
         super.init(window: nil)
-        self.windowFrameAutosaveName = url.absoluteString
+        self.windowFrameAutosaveName = website.uuid.id
     }
     
     override func showWindow(_ sender: Any?) {
         if self.window == nil {
-            let vm = Browse.ViewModel(url: self.url, doneAction: nil)
+            let vm = Browse.ViewModel(website: self.website, doneAction: nil)
             self.browserToken = vm.$browserDisplay.sink()
             { [unowned self] display in
                 self.window?.title = display.title
             }
-            let browser = Browser(vm)
+            let browser = Browser(viewModel: vm, controller: self.controller)
             let vc = NSHostingController(rootView: browser)
             let window = NSWindow(contentViewController: vc)
             window.delegate = self
@@ -71,7 +74,7 @@ class BrowserWindowController: NSWindowController {
 
 extension BrowserWindowController: NSWindowDelegate {
     func windowWillClose(_ notification: Notification) {
-        self.windowWillClose?(self.url)
+        self.windowWillClose?(self.website)
     }
 }
 

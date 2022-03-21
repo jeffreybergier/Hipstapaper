@@ -70,14 +70,14 @@ struct WebsiteList: View {
 extension WebsiteList {
     private func open(_ items: WH.Selection) {
         if self.windowPresentation.features.contains([.bulkActivation, .multipleWindows]) {
-            let validURLs = Set(items.compactMap({ $0.preferredURL }))
-            self.windowPresentation.show(validURLs)
+            let websites = Set(items.map({ $0.websiteValue }))
+            self.windowPresentation.show(websites, controller: self.controller)
         } else {
             guard let validItem = items.first(where: { $0.preferredURL != nil }) else { return }
             self.modalPresentation.value = .browser(validItem.websiteValue)
         }
     }
     private func menu(_ items: WH.Selection) -> WebsiteMenu {
-        WebsiteMenu(items, self.controller)
+        WebsiteMenu(items)
     }
 }

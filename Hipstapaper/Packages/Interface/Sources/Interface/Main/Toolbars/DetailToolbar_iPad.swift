@@ -35,13 +35,13 @@ import Stylize
 extension DetailToolbar.iOS {
     struct iPadEdit: ViewModifier {
         
-        let controller: Controller
         @Binding var selection: WH.Selection
         @Binding var popoverAlignment: Alignment
         
         @Localize private var text
         @ErrorQueue private var errorQ
         @QueryProperty private var query
+        @ControllerProperty private var controller
         
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
         @EnvironmentObject private var windowPresentation: WindowPresentation

@@ -25,6 +25,7 @@
 //
 
 import SwiftUI
+import Datum
 import Localize
 import Stylize
 
@@ -34,6 +35,7 @@ internal struct Toolbar_macOS: ViewModifier {
     
     @Localize private var text
     @ObservedObject var viewModel: ViewModel
+    @Binding var website: Website
     @Environment(\.openURL) var openURL
     
     // TODO: Remove this copy paste BS when NSWindow works properly
@@ -49,8 +51,8 @@ internal struct Toolbar_macOS: ViewModifier {
                     self.viewModel.browserDisplay.isSharing = true
                 }
                 // TODO: Add functionality
-                TH.archiveButton(isArchived: true, bundle: self.text) {
-                    print("toggle")
+                TH.archiveButton(isArchived: self.website.isArchived, bundle: self.text) {
+                    self.website.isArchived.toggle()
                 }
                 TH.openExternalButton(self.viewModel, bundle: self.text, self.openURL)
                 if let done = self.viewModel.doneAction {

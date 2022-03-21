@@ -29,20 +29,23 @@
 import Combine
 import AppKit
 import Umbrella
+import Datum
 import Localize
 
 class WindowPresentation: ObservableObject, WindowManagerProtocol {
     
-    private var windows: [URL: BrowserWindowController] = [:]
+    private var windows: [Website.Ident: BrowserWindowController] = [:]
     
     let features: Features = [.multipleWindows, .bulkActivation]
 
-    func show(_ urls: Set<URL>) {
-        for url in urls {
-            let window = self.windows[url] ?? BrowserWindowController(url: url)
-            self.windows[url] = window
-            window.windowWillClose = { [unowned self] url in
-                self.windows.removeValue(forKey: url)
+    func show(_ websites: Set<Website>, controller: Controller) {
+        for website in websites {
+            let window = self.windows[website.uuid]
+                         ?? BrowserWindowController(website: website,
+                                                    controller: controller)
+            self.windows[website.uuid] = window
+            window.windowWillClose = { [unowned self] website in
+                self.windows.removeValue(forKey: website.uuid)
             }
             window.showWindow(self)
         }

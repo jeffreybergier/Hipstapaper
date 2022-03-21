@@ -25,19 +25,26 @@
 //
 
 import SwiftUI
+import Datum
 import Stylize
 
 struct Toolbar: ViewModifier {
     
     @ObservedObject var viewModel: ViewModel
-
+    @WebsiteEditQuery private var website: Website
+    
+    init(viewModel: ViewModel) {
+        _viewModel = .init(wrappedValue: viewModel)
+        _website = .init(id: viewModel.ident)
+    }
+    
     #if os(macOS)
     func body(content: Content) -> some View {
-        return content.modifier(Toolbar_macOS(viewModel: self.viewModel))
+        return content.modifier(Toolbar_macOS(viewModel: self.viewModel, website: self.$website))
     }
     #else
     func body(content: Content) -> some View {
-        return content.modifier(Toolbar_iOS(viewModel: self.viewModel))
+        return content.modifier(Toolbar_iOS(viewModel: self.viewModel, website: self.$website))
     }
     #endif
 }

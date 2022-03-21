@@ -35,9 +35,9 @@ import Stylize
 extension DetailToolbar.iOS {
     struct iPhoneEdit: ViewModifier {
         
-        let controller: Controller // fix datum
         @Binding var selection: WH.Selection
         @Binding var popoverAlignment: Alignment
+        @ControllerProperty private var controller
         
         @Localize private var text
         @ErrorQueue private var errorQ

@@ -35,16 +35,15 @@ struct WebsiteMenu: ViewModifier {
     
     @Localize private var text
     @ErrorQueue private var errorQ
+    @ControllerProperty private var controller
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     @EnvironmentObject private var windowPresentation: WindowPresentation
     @Environment(\.openURL) private var externalPresentation
     
     private let selection: WH.Selection
-    private let controller: Controller
     
-    init(_ selection: WH.Selection, _ controller: Controller) {
+    init(_ selection: WH.Selection) {
         self.selection = selection
-        self.controller = controller
     }
     
     func body(content: Content) -> some View {
@@ -58,7 +57,10 @@ struct WebsiteMenu: ViewModifier {
         Group {
             STZ.TB.OpenInApp.context(isEnabled: WH.canOpen(selection, in: self.windowPresentation), bundle: self.text)
             {
-                guard let fail = WH.open(selection, in: self.windowPresentation) else { return }
+                guard let fail = WH.open(selection,
+                                         in: self.windowPresentation,
+                                         controller: self.controller)
+                else { return }
                 self.modalPresentation.value = .browser(fail)
             }
             STZ.TB.OpenInBrowser.context(isEnabled: WH.canOpen(selection, in: self.windowPresentation),

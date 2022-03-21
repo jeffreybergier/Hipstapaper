@@ -26,28 +26,34 @@
 
 import SwiftUI
 import Umbrella
+import Datum
 import Stylize
 import Localize
 
 public struct Browser: View {
     
     @StateObject public var viewModel: ViewModel
+    @StateObject public var controller: BlackBox<Controller?>
     @StateObject private var errorEnvironment = ErrorQueue.newEnvirementObject()
     @StateObject private var localizationBundle = LocalizeBundle()
     
-    public init(_ viewModel: ViewModel) {
+    public init(viewModel: ViewModel, controller: Controller) {
         _viewModel = .init(wrappedValue: viewModel)
+        _controller = .init(wrappedValue: .init(controller, isObservingValue: false))
     }
     
-    public init(url: URL?, doneAction: (() -> Void)?) {
-        _viewModel = .init(wrappedValue: .init(url: url, doneAction: doneAction))
+    public init(website: Website, controller: Controller, doneAction: (() -> Void)?) {
+        _viewModel = .init(wrappedValue: .init(website: website, doneAction: doneAction))
+        _controller = .init(wrappedValue: .init(controller, isObservingValue: false))
     }
     
     public var body: some View {
         RealBrowser()
             .environmentObject(self.viewModel)
+            .environmentObject(self.controller)
             .environmentObject(self.errorEnvironment)
             .environmentObject(self.localizationBundle)
+            .environment(\.managedObjectContext, self.controller.value!.ENVIRONMENTONLY_managedObjectContext)
     }
     
 }

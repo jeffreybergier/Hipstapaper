@@ -7,28 +7,33 @@
 
 import SwiftUI
 import Umbrella
-import Browse
 import Datum
 import Stylize
-import Snapshot
 import Localize
+import Browse
+import Snapshot
 
 struct BrowserPresentable: ViewModifier {
+    
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
+    @ControllerProperty private var controller
+    
     func body(content: Content) -> some View {
         #if os(macOS)
         return content.sheet(item: self.$presentation.isBrowser) { item in
-            self.browser(item.preferredURL)
+            self.browser(item)
         }
         #else
         return content.fullScreenCover(item: self.$presentation.isBrowser) { item in
-            self.browser(item.preferredURL)
+            self.browser(item)
         }
         #endif
     }
     
-    private func browser(_ url: URL?) -> some View {
-        Browser(url: url, doneAction: { self.presentation.value = .none })
+    private func browser(_ website: Website) -> some View {
+        Browser(website: website,
+                controller: self.controller,
+                doneAction: { self.presentation.value = .none })
     }
 }
 

@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/03/16.
+//  Created by Jeffrey Bergier on 2022/03/20.
 //
 //  MIT License
 //
@@ -29,35 +29,39 @@ import Umbrella
 import Localize
 
 @propertyWrapper
-public struct TagEditQuery: DynamicProperty {
+public struct WebsiteEditQuery: DynamicProperty {
     
-    private let id: Tag.Ident
+    private let id: Website.Ident
     @ErrorQueue private var errorQ
     @ControllerProperty private var controller
-    @ObservedObject private var cd_tag: NilBox<CD_Tag> = .init()
+    @ObservedObject private var cd_website: NilBox<CD_Website> = .init()
     @Environment(\.managedObjectContext) private var context
 
-    public init(id: Tag.Ident) {
+    public init(id: Website.Ident) {
         self.id = id
     }
     
     public func update() {
-        guard self.cd_tag.value == nil else { return }
+        guard self.cd_website.value == nil else { return }
         let controller = self.controller as! CD_Controller
         let id = controller.container.persistentStoreCoordinator.managedObjectID(forURIRepresentation: URL(string: id.id)!)!
-        let cd_tag = controller.container.viewContext.object(with: id) as! CD_Tag
-        self.cd_tag.value = cd_tag
+        let cd_website = controller.container.viewContext.object(with: id) as! CD_Website
+        self.cd_website.value = cd_website
     }
     
-    public var wrappedValue: Tag {
+    public var wrappedValue: Website {
         // TODO: Make not unwrapped?
-        Tag(self.cd_tag.value!)
+        Website(self.cd_website.value!)
     }
-    public var projectedValue: Binding<Tag> {
+    public var projectedValue: Binding<Website> {
         Binding(
             get: { self.wrappedValue },
             set: { newValue in
-                self.cd_tag.value!.cd_name = newValue.name
+                self.cd_website.value!.cd_title = newValue.title
+                self.cd_website.value!.cd_isArchived = newValue.isArchived
+                self.cd_website.value!.cd_resolvedURL = newValue.resolvedURL
+                self.cd_website.value!.cd_originalURL = newValue.originalURL
+                self.cd_website.value!.cd_thumbnail = newValue.thumbnail
                 guard case .failure(let error) = self.context.datum_save() else { return }
                 self.errorQ = error
             }

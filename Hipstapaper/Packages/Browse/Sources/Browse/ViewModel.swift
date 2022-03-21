@@ -27,6 +27,7 @@
 import Foundation
 import Combine
 import Umbrella
+import Datum
 
 public class ViewModel: ObservableObject {
     
@@ -55,15 +56,17 @@ public class ViewModel: ObservableObject {
     }
     
     public let originalURL: URL?
+    public let ident: Website.Ident
     public let doneAction: (() -> Void)?
     @Published public var browserControl = BrowserControl()
     @Published public var browserDisplay = BrowserDisplay()
     @Published public var itemDisplay = ItemDisplay()
     
-    public init(url: URL?, doneAction: (() -> Void)?) {
-        self.originalURL = url
+    public init(website: Website, doneAction: (() -> Void)?) {
+        self.originalURL = website.preferredURL
+        self.ident = website.uuid
         self.doneAction = doneAction
-        self.browserControl.load = originalURL
+        self.browserControl.load = website.preferredURL
     }
     
     #if DEBUG

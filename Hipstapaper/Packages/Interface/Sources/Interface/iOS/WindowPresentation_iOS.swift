@@ -29,13 +29,13 @@
 import Foundation
 import Combine
 import Umbrella
-import Localize
+import Datum
 
 class WindowPresentation: ObservableObject, WindowManagerProtocol {
         
     let features: Features = []
     
-    func show(_ urls: Set<URL>) {
+    func show(_ websites: Set<Website>, controller: Controller) {
         fatalError("Not supported on iOS")
     }
 }

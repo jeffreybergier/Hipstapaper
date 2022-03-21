@@ -53,10 +53,9 @@ enum DetailToolbar {
                 )
                     
                 #if os(macOS)
-                content.modifier(macOS(controller: self.controller, selection: self.$selection))
+                content.modifier(macOS(selection: self.$selection))
                 #else
-                content.modifier(iOS.Shared(controller: self.controller,
-                                            selection: self.$selection,
+                content.modifier(iOS.Shared(selection: self.$selection,
                                             popoverAlignment: self.$popoverAlignment))
                 #endif
             }
