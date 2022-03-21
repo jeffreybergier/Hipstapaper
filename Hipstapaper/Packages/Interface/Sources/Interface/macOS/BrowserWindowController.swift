@@ -50,7 +50,9 @@ class BrowserWindowController: NSWindowController {
     
     override func showWindow(_ sender: Any?) {
         if self.window == nil {
-            let vm = Browse.ViewModel(website: self.website, doneAction: nil)
+            let vm = Browse.ViewModel(website: self.website) {
+                self.close()
+            }
             self.browserToken = vm.$browserDisplay.sink()
             { [unowned self] display in
                 self.window?.title = display.title

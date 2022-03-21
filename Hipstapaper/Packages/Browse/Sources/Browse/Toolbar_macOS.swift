@@ -53,11 +53,9 @@ internal struct Toolbar_macOS: ViewModifier {
                 // TODO: Add functionality
                 TH.archiveButton(isArchived: self.website.isArchived, bundle: self.text) {
                     self.website.isArchived.toggle()
+                    self.viewModel.doneAction?()
                 }
                 TH.openExternalButton(self.viewModel, bundle: self.text, self.openURL)
-                if let done = self.viewModel.doneAction {
-                    STZ.BTN.BrowserDone.button(bundle: self.text, action: done)
-                }
             }
             .modifier(STZ.VIEW.TB_HACK())
             .buttonStyle(BorderedButtonStyle())

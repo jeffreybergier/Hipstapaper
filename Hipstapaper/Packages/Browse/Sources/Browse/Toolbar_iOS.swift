@@ -120,14 +120,14 @@ private struct Toolbar_Compact: ViewModifier {
                 //
                 // TODO: LEAKING!
                 ToolbarItem(id: "Browser_Compact.Archive", placement: .cancellationAction) {
+                    let action = {
+                        self.website.isArchived.toggle()
+                        self.viewModel.doneAction?()
+                    }
                     if self.website.isArchived {
-                        STZ.TB.Unarchive.toolbar(bundle: self.text) {
-                            self.website.isArchived = false
-                        }
+                        STZ.TB.Unarchive.toolbar(bundle: self.text, action: action)
                     } else {
-                        STZ.TB.Archive.toolbar(bundle: self.text) {
-                            self.website.isArchived = true
-                        }
+                        STZ.TB.Archive.toolbar(bundle: self.text, action: action)
                     }
                 }
                 ToolbarItem(id: "Browser_Compact.Done", placement: .confirmationAction) {
@@ -178,14 +178,14 @@ private struct Toolbar_Regular: ViewModifier {
                     }
                 }
                 ToolbarItem(id: "Browser_Regular.Archive", placement: .automatic) {
+                    let action = {
+                        self.website.isArchived.toggle()
+                        self.viewModel.doneAction?()
+                    }
                     if self.website.isArchived {
-                        STZ.TB.Unarchive.toolbar(bundle: self.text) {
-                            self.website.isArchived = false
-                        }
+                        STZ.TB.Unarchive.toolbar(bundle: self.text, action: action)
                     } else {
-                        STZ.TB.Archive.toolbar(bundle: self.text) {
-                            self.website.isArchived = true
-                        }
+                        STZ.TB.Archive.toolbar(bundle: self.text, action: action)
                     }
                 }
                 ToolbarItem(id: "Browser_Regular.Done", placement: .confirmationAction) {
