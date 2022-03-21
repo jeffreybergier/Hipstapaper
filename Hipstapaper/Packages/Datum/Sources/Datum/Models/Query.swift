@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/28.
+//  Created by Jeffrey Bergier on 2022/03/13.
 //
 //  MIT License
 //
@@ -24,16 +24,23 @@
 //  SOFTWARE.
 //
 
-import Foundation
-
-public protocol Base: Identifiable, Hashable {
-    var uri: URL { get }
-    var dateCreated: Date { get }
-    var dateModified: Date { get }
-}
-
-extension CD_Base: Base {
-    var uri: URL { self.objectID.uriRepresentation() }
-    var dateCreated: Date { cd_dateCreated ?? Date() }
-    var dateModified: Date { cd_dateModified ?? Date() }
+public struct Query: Codable, Hashable {
+    
+    public static let allItems: Query = .init(isOnlyNotArchived: false)
+    public static let unreadItems: Query = .init(isOnlyNotArchived: true)
+    
+    public var sort: Sort! // Hack for SwiftUI
+    public var search: String
+    public var isOnlyNotArchived: Bool
+    
+    internal init(sort: Sort? = nil,
+                search: String? = nil,
+                isOnlyNotArchived: Bool?)
+    {
+        self.sort = sort ?? .default
+        self.search = search ?? ""
+        self.isOnlyNotArchived = isOnlyNotArchived ?? true
+    }
+    
+    public static let `default`: Query = Query(sort: nil, search: nil, isOnlyNotArchived: nil)
 }

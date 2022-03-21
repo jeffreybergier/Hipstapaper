@@ -32,10 +32,10 @@ enum Error: UserFacingError {
     
     case shareExtensionAdd
     
-    var message: LocalizedStringKey {
+    var message: LocalizationKey {
         switch self {
         case .shareExtensionAdd:
-            return Phrase.errorShareImport.rawValue
+            return Phrase.errorShareImport.key
         }
     }
 }

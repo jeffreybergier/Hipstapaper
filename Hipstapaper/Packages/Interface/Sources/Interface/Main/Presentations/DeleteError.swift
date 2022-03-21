@@ -37,28 +37,28 @@ enum DeleteError: UserFacingError {
     case website(OnConfirmation)
     case tag(OnConfirmation)
     
-    var title: LocalizedStringKey {
+    var title: LocalizationKey {
         switch self {
         case .tag:
-            return Noun.deleteTag.rawValue
+            return Noun.deleteTag.key
         case .website:
-            return Noun.deleteWebsite.rawValue
+            return Noun.deleteWebsite.key
         }
     }
-    var message: LocalizedStringKey {
+    var message: LocalizationKey {
         switch self {
         case .tag:
-            return Phrase.deleteTagConfirm.rawValue
+            return Phrase.deleteTagConfirm.key
         case .website:
-            return Phrase.deleteWebsiteConfirm.rawValue
+            return Phrase.deleteWebsiteConfirm.key
         }
     }
     var options: [RecoveryOption] {
         switch self {
         case .tag(let onConfirm):
-            return [.init(title: Verb.deleteTag.rawValue, isDestructive: true, perform: onConfirm)]
+            return [.init(title: Verb.deleteTag.key, isDestructive: true, perform: onConfirm)]
         case .website(let onConfirm):
-            return [.init(title: Verb.deleteWebsite.rawValue, isDestructive: true, perform: onConfirm)]
+            return [.init(title: Verb.deleteWebsite.key, isDestructive: true, perform: onConfirm)]
         }
     }
     

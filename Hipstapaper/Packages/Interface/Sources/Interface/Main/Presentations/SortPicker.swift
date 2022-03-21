@@ -26,21 +26,20 @@
 
 import SwiftUI
 import Umbrella
+import Datum
 import Stylize
 import Localize
-import Datum
 
 struct SortPicker: View {
     
     let doneAction: Action
-    @SceneSort private var sort
+    @Localize private var text
+    @QueryProperty private var query
     
     var body: some View {
-        List(Sort.allCases,
-             id: \.self,
-             selection: self.$sort)
-        { order in
-            order.label.label()
+        List(Sort.allCases, id: \.self, selection: self.$query.sort)
+        { sort in
+            sort.label.label(bundle: self.text)
                 .modifier(STZ.PDG.Default(ignore: [\.leading, \.trailing]))
         }
         .modifier(Force.PlainListStyle())

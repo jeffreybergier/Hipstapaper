@@ -28,26 +28,28 @@ import SwiftUI
 import Umbrella
 import Datum
 import Stylize
+import Localize
 
 extension STZ.TB {
     struct Sync: View {
         
+        @Localize private var text
+        @ErrorQueue private var errorQ
         @ObservedObject var progress: AnyContinousProgress
-        @EnvironmentObject private var errorQ: ErrorQueue
-        
+
         init(_ progress: AnyContinousProgress) {
             _progress = .init(wrappedValue: progress)
         }
         
         @ViewBuilder var body: some View {
             if let error = self.progress.initializeError {
-                STZ.TB.CloudAccountError.toolbar {
-                    self.errorQ.queue.append(error)
+                STZ.TB.CloudAccountError.toolbar(bundle: self.text) {
+                    self.errorQ = error
                 }
-            } else if self.progress.errorQ.queue.isEmpty == false {
-                STZ.TB.CloudSyncError.toolbar {
-                    self.errorQ.queue.append(self.progress.errorQ.queue)
-                    self.progress.errorQ.queue.removeAll()
+            } else if self.progress.errors.isEmpty == false {
+                STZ.TB.CloudSyncError.toolbar(bundle: self.text) {
+                    self._errorQ.environment.value.append(contentsOf: self.progress.errors)
+                    self.progress.errors.removeAll()
                 }
             }
         }

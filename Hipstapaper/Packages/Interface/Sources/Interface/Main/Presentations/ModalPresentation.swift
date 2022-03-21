@@ -34,10 +34,10 @@ enum ModalPresentation: Equatable {
     case addChoose
     case search
     case sort
-    case tagName(TH.Selection?)
+    case tagName(TH.Selection)
     case tagApply(WH.Selection)
     case share(WH.Selection)
-    case browser(AnyElementObserver<AnyWebsite>)
+    case browser(Website)
     
     // TODO: Remove this when SwiftUI doesn't suck at modals
     class Wrap: ObservableObject {
@@ -65,7 +65,7 @@ enum ModalPresentation: Equatable {
             }
         }
         
-        @Published var isTagName: IdentBox<TH.Selection?>? = nil {
+        @Published var isTagName: IdentBox<TH.Selection>? = nil {
             didSet {
                 guard !internalUpdateInProgress else { return }
                 guard self.isTagName == nil else { return }
@@ -97,7 +97,7 @@ enum ModalPresentation: Equatable {
             }
         }
         
-        @Published var isBrowser: BlackBox<AnyElementObserver<AnyWebsite>>? {
+        @Published var isBrowser: Website? {
             didSet {
                 guard !self.internalUpdateInProgress else { return }
                 guard self.isBrowser == nil else { return }
@@ -127,7 +127,7 @@ enum ModalPresentation: Equatable {
                 case .share(let selection):
                     self.isShare = .init(selection)
                 case .browser(let item):
-                    self.isBrowser = .init(item)
+                    self.isBrowser = item
                 case .addWebsite:
                     self.isAddWebsite = true
                 case .tagName(let item):

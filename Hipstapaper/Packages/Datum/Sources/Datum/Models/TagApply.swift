@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/25.
+//  Created by Jeffrey Bergier on 2022/03/18.
 //
 //  MIT License
 //
@@ -24,7 +24,29 @@
 //  SOFTWARE.
 //
 
-public protocol Tag: Base {
-    var name: String? { get }
-    var websitesCount: Int? { get }
+import Foundation
+
+public struct TagApply: Identifiable, Hashable, Codable {
+    public var id: Tag.Ident { self.tag.uuid }
+    public var tag: Tag
+    public var status: Status
+    
+    public enum Status: Hashable, Codable {
+        case all, some, none
+        
+        public mutating func set(_ newValue: Bool) {
+            switch newValue {
+            case true:
+                self = .all
+            case false:
+                self = .none
+            }
+        }
+        public var boolValue: Bool {
+            switch self {
+            case .none: return false
+            case .all, .some: return true
+            }
+        }
+    }
 }

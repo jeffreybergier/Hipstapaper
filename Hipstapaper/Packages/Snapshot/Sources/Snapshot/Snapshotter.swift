@@ -29,11 +29,12 @@ import Umbrella
 import Combine
 import Stylize
 import Localize
+import Collections
 
 public struct Snapshotter: View {
     
     @StateObject var viewModel: ViewModel
-    @StateObject private var errorQ = ErrorQueue()
+    @ErrorQueue private var errorQ
     
     public init(_ viewModel: ViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -61,8 +62,7 @@ public struct Snapshotter: View {
             save: { self.viewModel.doneAction(.success(self.viewModel.output)) },
             canSave: { self.viewModel.output.currentURL != nil }
         ))
-        .modifier(ErrorQueuePresenter())
-        .environmentObject(self.errorQ)
+        .modifier(ErrorPresentation(self.$errorQ))
     }
 }
 

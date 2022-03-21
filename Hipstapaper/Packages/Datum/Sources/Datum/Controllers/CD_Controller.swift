@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/24.
+//  Created by Jeffrey Bergier on 2022/03/12.
 //
 //  MIT License
 //
@@ -29,270 +29,127 @@ import CloudKit
 import Umbrella
 
 extension CD_Controller: Controller {
+    
+    internal var ENVIRONMENTONLY_managedObjectContext: NSManagedObjectContext {
+        self.container.viewContext
+    }
 
     // MARK: Website CRUD
 
-    func createWebsite(_ raw: AnyWebsite.Raw) -> Result<AnyElementObserver<AnyWebsite>, Error> {
+    internal func createWebsite(_ input: Website?) -> Result<Website.Ident, Error> {
         assert(Thread.isMainThread)
-
         let context = self.container.viewContext
-        let website = CD_Website(context: context)
-        if let title = raw.title {
-            website.cd_title = title
-        }
-        if let originalURL = raw.originalURL {
-            website.cd_originalURL = originalURL
-        }
-        if let resolvedURL = raw.resolvedURL {
-            website.cd_resolvedURL = resolvedURL
-        }
-        if let isArchived = raw.isArchived {
-            website.cd_isArchived = isArchived
-        }
-        if let thumbnail = raw.thumbnail {
-            website.cd_thumbnail = thumbnail
+        let cd_website = CD_Website(context: context)
+        if let input = input {
+            cd_website.cd_title       = input.title
+            cd_website.cd_originalURL = input.originalURL
+            cd_website.cd_resolvedURL = input.resolvedURL
+            cd_website.cd_thumbnail   = input.thumbnail
+            cd_website.cd_dateCreated = input.dateCreated
         }
         return context.datum_save().map {
-            AnyElementObserver(ManagedObjectElementObserver(website, { AnyWebsite($0) }))
-        }
-    }
-
-    func readWebsites(query: Query) -> Result<AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyWebsite>>>, Error> {
-        assert(Thread.isMainThread)
-
-        let context = self.container.viewContext
-        let request = CD_Website.request
-        request.predicate = query.cd_predicate
-        request.sortDescriptors = query.cd_sortDescriptors
-
-        let controller = NSFetchedResultsController(fetchRequest: request,
-                                                    managedObjectContext: context,
-                                                    sectionNameKeyPath: nil,
-                                                    cacheName: nil)
-        do {
-            try controller.performFetch()
-            return .success(
-                AnyListObserver(
-                    FetchedResultsControllerListObserver(controller) { [websiteCache] site in
-                        AnyElementObserver(websiteCache[site.objectID] {
-                            ManagedObjectElementObserver(site, { AnyWebsite($0) })
-                        })
-                    }
-                )
-            )
-        } catch {
-            return .failure(.read(error as NSError))
+            Website.Ident(cd_website.objectID)
         }
     }
     
-    func update(_ inputs: Set<AnyElementObserver<AnyWebsite>>, _ raw: AnyWebsite.Raw) -> Result<Void, Error> {
+    func delete(_ input: Set<Website.Ident>) -> Result<Void, Error> {
         let context = self.container.viewContext
-        let check = inputs.firstIndex { !context.validate($0.value.wrappedValue,
-                                                          as: CD_Website.classForCoder()) }
-        guard check == nil else {
-            let message = "Wrong Input Type"
-            log.emergency(message)
-            fatalError(message)
+        let coordinator = self.container.persistentStoreCoordinator
+        let cd_ids = input.compactMap {
+            coordinator.managedObjectID(forURIRepresentation: URL(string: $0.id)!)
         }
-        
-        var inputs = inputs
-        var changesMade = false
-        
-        while !inputs.isEmpty {
-            let input = inputs.popFirst()!
-            let website = input.value.wrappedValue as! CD_Website
-            
-            if let title = raw.title {
-                changesMade = true
-                website.cd_title = title
-            }
-            if let originalURL = raw.originalURL {
-                changesMade = true
-                website.cd_originalURL = originalURL
-            }
-            if let resolvedURL = raw.resolvedURL {
-                changesMade = true
-                website.cd_resolvedURL = resolvedURL
-            }
-            if let isArchived = raw.isArchived {
-                changesMade = true
-                website.cd_isArchived = isArchived
-            }
-            if let thumbnail = raw.thumbnail {
-                changesMade = true
-                website.cd_thumbnail = thumbnail
-            }
+        let cd_tags = cd_ids.compactMap {
+            context.object(with: $0) as? CD_Website
         }
-        
-        return changesMade ? context.datum_save() : .success(())
-    }
-    
-    func delete(_ inputs: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error> {
-        let context = self.container.viewContext
-        let check = inputs.firstIndex { !context.validate($0.value.wrappedValue,
-                                                          as: CD_Website.classForCoder()) }
-        guard check == nil else {
-            let message = "Wrong Input Type"
-            log.emergency(message)
-            fatalError(message)
+        guard cd_tags.isEmpty == false else { return .success(()) }
+        cd_tags.forEach {
+            context.delete($0)
         }
-        
-        var inputs = inputs
-        var changesMade = false
-        
-        while !inputs.isEmpty {
-            let input = inputs.popFirst()!
-            let website = input.value.wrappedValue as! CD_Website
-            changesMade = true
-            context.delete(website)
-        }
-
-        return changesMade ? context.datum_save() : .success(())
+        return context.datum_save()
     }
 
     // MARK: Tag CRUD
-
-    func createTag(name: String?) -> Result<AnyElementObserver<AnyTag>, Error> {
+    
+    internal func createTag() -> Result<Tag.Ident, Error> {
         assert(Thread.isMainThread)
-
         let context = self.container.viewContext
-
         let tag = CD_Tag(context: context)
-        tag.cd_name = name
-        return context.datum_save().map {
-            AnyElementObserver(ManagedObjectElementObserver(tag, { AnyTag($0) }))
-        }
+        return context.datum_save().map { Tag.Ident(tag.objectID) }
     }
-
-    func readTags() -> Result<AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyTag>>>, Error> {
+    
+    internal func delete(_ input: Set<Tag.Ident>) -> Result<Void, Error> {
         assert(Thread.isMainThread)
-
         let context = self.container.viewContext
-        let request = CD_Tag.request
-        request.sortDescriptors = [.init(
-            key: #keyPath(CD_Tag.cd_name),
-            ascending: true,
-            selector: #selector(NSString.localizedCaseInsensitiveCompare(_:))
-        )]
-        let controller = NSFetchedResultsController(fetchRequest: request,
-                                                    managedObjectContext: context,
-                                                    sectionNameKeyPath: nil,
-                                                    cacheName: nil)
-        do {
-            try controller.performFetch()
-            return .success(
-                AnyListObserver(
-                    FetchedResultsControllerListObserver(controller) { [tagCache] tag in
-                        AnyElementObserver(tagCache[tag.objectID] {
-                            ManagedObjectElementObserver(tag, { AnyTag($0) })
-                        })
-                    }
-                )
-            )
-        } catch {
-            return .failure(.read(error as NSError))
+        let cd_tags = self.search(input, from: context)
+        guard cd_tags.isEmpty == false else { return .success(()) }
+        cd_tags.forEach {
+            context.delete($0)
         }
-    }
-
-    func update(_ input: AnyElementObserver<AnyTag>, name: Optional<String?>) -> Result<Void, Error> {
-        let context = self.container.viewContext
-        guard context.validate(input.value.wrappedValue, as: CD_Tag.classForCoder()) else {
-            let message = "Wrong Input Type"
-            log.emergency(message)
-            fatalError(message)
-        }
-
-        let tag = input.value.wrappedValue as! CD_Tag
-        var changesMade = false
-        if let newName = name {
-            changesMade = true
-            tag.cd_name = newName
-        }
-
-        return changesMade ? context.datum_save() : .success(())
-    }
-
-    func delete(_ input: AnyElementObserver<AnyTag>) -> Result<Void, Error> {
-        let context = self.container.viewContext
-        guard context.validate(input.value.wrappedValue, as: CD_Tag.classForCoder()) else {
-            let message = "Wrong Input Type"
-            log.emergency(message)
-            fatalError(message)
-        }
-        let tag = input.value.wrappedValue as! CD_Tag
-        context.delete(tag)
         return context.datum_save()
     }
     
     // MARK: Custom Functions
     
-    func add(tag: AnyElementObserver<AnyTag>, to sites: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error> {
+    internal func setArchive(_ newValue: Bool, on input: Set<Website.Ident>) -> Result<Void, Error> {
+        assert(Thread.isMainThread)
         let context = self.container.viewContext
-        let check = sites.firstIndex { !context.validate($0.value.wrappedValue,
-                                                         as: CD_Website.classForCoder()) }
-        guard check == nil, let tag = tag.value.wrappedValue as? CD_Tag else {
-            let message = "Wrong Input Type"
-            log.emergency(message)
-            fatalError(message)
+        let cd_websites = self.search(input, from: context)
+        guard cd_websites.isEmpty == false else { return .success(()) }
+        cd_websites.forEach {
+            $0.cd_isArchived = newValue
         }
-        
+        return context.datum_save()
+    }
+    
+    internal func addTag(_ cd_tag: CD_Tag, to input: Set<Website.Ident>) -> Result<Void, Error> {
+        assert(Thread.isMainThread)
+        let context = self.container.viewContext
+        let websites = self.search(input, from: context)
         var changesMade = false
-        for site in sites {
-            let site = site.value.wrappedValue as! CD_Website
-            guard site.cd_tags.contains(tag) == false else { continue }
+        for site in websites {
+            guard site.cd_tags.contains(cd_tag) == false else { continue }
             changesMade = true
             let tags = site.mutableSetValue(forKey: #keyPath(CD_Website.cd_tags))
-            tags.add(tag)
+            tags.add(cd_tag)
         }
-        
         return changesMade ? context.datum_save() : .success(())
     }
     
-    func remove(tag: AnyElementObserver<AnyTag>, from sites: Set<AnyElementObserver<AnyWebsite>>) -> Result<Void, Error> {
+    internal func removeTag(_ cd_tag: CD_Tag, to input: Set<Website.Ident>) -> Result<Void, Error> {
+        assert(Thread.isMainThread)
         let context = self.container.viewContext
-        let check = sites.firstIndex { !context.validate($0.value.wrappedValue,
-                                                         as: CD_Website.classForCoder()) }
-        guard check == nil, let tag = tag.value.wrappedValue as? CD_Tag else {
-            let message = "Wrong Input Type"
-            log.emergency(message)
-            fatalError(message)
-        }
-        
+        let websites = self.search(input, from: context)
         var changesMade = false
-        for site in sites {
-            let site = site.value.wrappedValue as! CD_Website
-            guard site.cd_tags.contains(tag) == true else { continue }
+        for site in websites {
+            guard site.cd_tags.contains(cd_tag) == true else { continue }
             changesMade = true
             let tags = site.mutableSetValue(forKey: #keyPath(CD_Website.cd_tags))
-            tags.remove(tag)
+            tags.remove(cd_tag)
         }
-        
         return changesMade ? context.datum_save() : .success(())
     }
     
-    func tagStatus(for sites: Set<AnyElementObserver<AnyWebsite>>)
-                  -> Result<AnyRandomAccessCollection<(AnyElementObserver<AnyTag>, ToggleState)>, Error>
-
-    {
-        let context = self.container.viewContext
-        let check = sites.firstIndex { !context.validate($0.value.wrappedValue,
-                                                         as: CD_Website.classForCoder()) }
-        guard check == nil else {
-            let message = "Wrong Input Type"
-            log.emergency(message)
-            fatalError(message)
+    // MARK: Search
+    
+    internal func search(_ input: Set<Website.Ident>, from context: NSManagedObjectContext? = nil) -> [CD_Website] {
+        let context = context ?? self.container.viewContext
+        let coordinator = self.container.persistentStoreCoordinator
+        let cd_ids = input.compactMap {
+            coordinator.managedObjectID(forURIRepresentation: URL(string: $0.id)!)
         }
-        return self.readTags().map() { tags in
-            return tags.data.lazy.map { tag in
-                let rawTag = tag.value.wrappedValue as! CD_Tag
-                let websiteToggleStates = sites.map { website -> Bool in
-                    let rawWebsite = website.value.wrappedValue as! CD_Website
-                    return rawWebsite.cd_tags.contains(rawTag)
-                }
-                let websiteToggleState = ToggleState(websiteToggleStates)
-                return (tag, websiteToggleState)
-            }
-            .eraseToAnyRandomAccessCollection()
+        return cd_ids.compactMap {
+            context.object(with: $0) as? CD_Website
+        }
+    }
+    
+    internal func search(_ input: Set<Tag.Ident>, from context: NSManagedObjectContext? = nil) -> [CD_Tag] {
+        let context = context ?? self.container.viewContext
+        let coordinator = self.container.persistentStoreCoordinator
+        let cd_ids = input.compactMap {
+            coordinator.managedObjectID(forURIRepresentation: URL(string: $0.id)!)
+        }
+        return cd_ids.compactMap {
+            context.object(with: $0) as? CD_Tag
         }
     }
 }
@@ -316,9 +173,6 @@ internal class CD_Controller {
 
     internal let syncProgress: AnyContinousProgress
     internal let container: NSPersistentContainer
-    
-    private var websiteCache = Cache<NSManagedObjectID, ManagedObjectElementObserver<AnyWebsite, CD_Website>>(clearAutomatically: true)
-    private var tagCache = Cache<NSManagedObjectID, ManagedObjectElementObserver<AnyTag, CD_Tag>>(clearAutomatically: true)
     
     internal class func new() -> Result<Controller, Error> {
         do {
@@ -423,26 +277,7 @@ private class Datum_PersistentContainer: NSPersistentCloudKitContainer {
 
 extension NSManagedObjectContext {
     
-    /// Returns true if the object can be modified by this context.
-    fileprivate func validate(_ input: Any, as expected: AnyClass) -> Bool {
-        // debug only sanity checks
-        assert(Thread.isMainThread)
-        
-        let _input = input as AnyObject
-        // this is overly debose so breakpoints can be set on failure
-        guard _input.isKind(of: expected) else {
-            return false
-        }
-        guard let __input = _input as? NSManagedObject else {
-            return false
-        }
-        guard self === __input.managedObjectContext else {
-            return false
-        }
-        return true
-    }
-    
-    fileprivate func datum_save() -> Result<Void, Error> {
+    internal func datum_save() -> Result<Void, Error> {
         do {
             try self.save()
             return .success(())

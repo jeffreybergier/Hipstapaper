@@ -24,15 +24,17 @@
 //  SOFTWARE.
 //
 
+import Collections
 import SwiftUI
 import WebKit
 import Umbrella
+import Localize
 
 internal struct WebView: View {
     
     @ObservedObject var viewModel: ViewModel
-    @EnvironmentObject private var errorQ: ErrorQueue
-    
+    @ErrorQueue private var errorQ
+
     private func update(_ wv: WKWebView, context: Context) {
         if self.viewModel.browserControl.stop {
             wv.stopLoading()
@@ -94,7 +96,7 @@ internal struct WebView: View {
     }
     
     func makeCoordinator() -> GenericWebKitNavigationDelegate {
-        return .init(self.errorQ)
+        return .init(self._errorQ.environment.value)
     }
     
 }

@@ -26,6 +26,7 @@
 
 import SwiftUI
 import Umbrella
+import Datum
 import Stylize
 import Localize
 
@@ -34,6 +35,8 @@ import Localize
 internal struct Toolbar_iOS: ViewModifier {
     
     @ObservedObject var viewModel: ViewModel
+    @Binding var website: Website
+    
     @State private var popoverAlignment: Alignment = .topTrailing
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
@@ -48,10 +51,12 @@ internal struct Toolbar_iOS: ViewModifier {
                 if self.horizontalSizeClass?.isCompact == true {
                     content
                         .modifier(Toolbar_Compact(viewModel: self.viewModel,
+                                                  website: self.$website,
                                                   popoverAlignment: self.$popoverAlignment))
                 } else {
                     content
                         .modifier(Toolbar_Regular(viewModel: self.viewModel,
+                                                  website: self.$website,
                                                   popoverAlignment: self.$popoverAlignment))
                 }
             }
@@ -63,54 +68,70 @@ internal struct Toolbar_iOS: ViewModifier {
 private struct Toolbar_Compact: ViewModifier {
     
     @ObservedObject var viewModel: ViewModel
+    @Binding var website: Website
     @Binding var popoverAlignment: Alignment
+    
+    @Localize private var text
     @Environment(\.openURL) private var openURL
     
     func body(content: Content) -> some View {
         content
             .navigationTitle(self.viewModel.browserDisplay.title)
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar(id: "Browser_Compact") {
+            .toolbar(id: "Browser_Compact_Bottom") {
                 //
                 // Bottom Navigation
                 //
                 ToolbarItem(id: "Browser_Compact.Back", placement: .bottomBar) {
-                    TH.goBackButton(self.viewModel)
+                    TH.goBackButton(self.viewModel, bundle: self.text)
                 }
                 ToolbarItem(id: "Browser_Compact.Forward", placement: .bottomBar) {
-                    TH.goForwardButton(self.viewModel)
+                    TH.goForwardButton(self.viewModel, bundle: self.text)
                 }
                 ToolbarItem(id: "Detail.Separator", placement: .bottomBar) {
                     STZ.TB.Separator.toolbar()
                 }
                 ToolbarItem(id: "Browser_Compact.Reload", placement: .bottomBar) {
-                    TH.stopReloadButton(self.viewModel)
+                    TH.stopReloadButton(self.viewModel, bundle: self.text)
+                }
+                ToolbarItem(id: "Browser_Compact.JS", placement: .bottomBar) {
+                    TH.jsButton(self.viewModel, bundle: self.text)
                 }
                 ToolbarItem(id: "Detail.FlexibleSpace", placement: .bottomBar) {
                     Spacer()
                 }
                 // TODO: LEAKING!
                 ToolbarItem(id: "Browser_Compact.OpenInExternal", placement: .bottomBar) {
-                    TH.openExternalButton(self.viewModel, self.openURL)
+                    TH.openExternalButton(self.viewModel, bundle: self.text, self.openURL)
                 }
                 ToolbarItem(id: "Detail.Separator", placement: .bottomBar) {
                     STZ.TB.Separator.toolbar()
                 }
                 ToolbarItem(id: "Browser_Compact.Share", placement: .bottomBar) {
-                    TH.shareButton {
+                    TH.shareButton(bundle: self.text) {
                         self.popoverAlignment = .bottomTrailing
                         self.viewModel.browserDisplay.isSharing = true
                     }
                 }
+            }
+            .toolbar(id: "Browser_Compact_Top") {
                 //
                 // Top bar
                 //
                 // TODO: LEAKING!
-                ToolbarItem(id: "Browser_Compact.JS", placement: .cancellationAction) {
-                    TH.jsButton(self.viewModel)
+                ToolbarItem(id: "Browser_Compact.Archive", placement: .cancellationAction) {
+                    let action = {
+                        self.website.isArchived.toggle()
+                        self.viewModel.doneAction?()
+                    }
+                    if self.website.isArchived {
+                        STZ.TB.Unarchive.toolbar(bundle: self.text, action: action)
+                    } else {
+                        STZ.TB.Archive.toolbar(bundle: self.text, action: action)
+                    }
                 }
                 ToolbarItem(id: "Browser_Compact.Done", placement: .confirmationAction) {
-                    TH.doneButton(self.viewModel)
+                    TH.doneButton(self.viewModel, bundle: self.text)
                 }
             }
     }
@@ -119,7 +140,10 @@ private struct Toolbar_Compact: ViewModifier {
 private struct Toolbar_Regular: ViewModifier {
     
     @ObservedObject var viewModel: ViewModel
+    @Binding var website: Website
     @Binding var popoverAlignment: Alignment
+    
+    @Localize private var text
     @Environment(\.openURL) private var openURL
     
     func body(content: Content) -> some View {
@@ -128,34 +152,44 @@ private struct Toolbar_Regular: ViewModifier {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(id: "Browser_Regular") {
                 ToolbarItem(id: "Browser_Regular.Back", placement: .cancellationAction) {
-                    TH.goBackButton(self.viewModel)
+                    TH.goBackButton(self.viewModel, bundle: self.text)
                 }
                 ToolbarItem(id: "Browser_Regular.Forward", placement: .cancellationAction) {
-                    TH.goForwardButton(self.viewModel)
+                    TH.goForwardButton(self.viewModel, bundle: self.text)
                 }
                 ToolbarItem(id: "Browser_Compact.Reload", placement: .cancellationAction) {
-                    TH.stopReloadButton(self.viewModel)
+                    TH.stopReloadButton(self.viewModel, bundle: self.text)
                 }
                 // TODO: LEAKING!
                 ToolbarItem(id: "Browser_Regular.JS", placement: .cancellationAction) {
-                    TH.jsButton(self.viewModel)
+                    TH.jsButton(self.viewModel, bundle: self.text)
                 }
                 ToolbarItem(id: "Browser_Regular.AddressBar", placement: .principal) {
-                    TH.addressBar(self.$viewModel.browserDisplay.title)
-                        .frame(width: 400) // TODO: Remove hack when toolbar can manage width properly
+                    TH.addressBar(self.$viewModel.browserDisplay.title, bundle: self.text)
                 }
                 // TODO: LEAKING!
                 ToolbarItem(id: "Browser_Regular.OpenInExternal", placement: .automatic) {
-                    TH.openExternalButton(self.viewModel, self.openURL)
+                    TH.openExternalButton(self.viewModel, bundle: self.text, self.openURL)
                 }
                 ToolbarItem(id: "Browser_Regular.Share", placement: .automatic) {
-                    TH.shareButton {
+                    TH.shareButton(bundle: self.text) {
                         self.popoverAlignment = .topTrailing
                         self.viewModel.browserDisplay.isSharing = true
                     }
                 }
+                ToolbarItem(id: "Browser_Regular.Archive", placement: .automatic) {
+                    let action = {
+                        self.website.isArchived.toggle()
+                        self.viewModel.doneAction?()
+                    }
+                    if self.website.isArchived {
+                        STZ.TB.Unarchive.toolbar(bundle: self.text, action: action)
+                    } else {
+                        STZ.TB.Archive.toolbar(bundle: self.text, action: action)
+                    }
+                }
                 ToolbarItem(id: "Browser_Regular.Done", placement: .confirmationAction) {
-                    TH.doneButton(self.viewModel)
+                    TH.doneButton(self.viewModel, bundle: self.text)
                 }
             }
     }

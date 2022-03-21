@@ -31,13 +31,16 @@ import Stylize
 import Localize
 
 struct TagRow: View {
-    @ObservedObject var item: AnyElementObserver<AnyTag>
+    
+    var item: Tag
+    @Localize private var text
+    
     var body: some View {
         HStack {
-            STZ.VIEW.TXT(self.item.value.name, or: Noun.untitled.rawValue)
+            STZ.VIEW.TXT(self.item.name, or: Noun.untitled.loc(self.text))
                 .modifier(STZ.CLR.IndexRow.Text.foreground())
                 .modifier(STZ.FNT.IndexRow.Title.apply())
-            if let count = self.item.value.websitesCount {
+            if let count = self.item.websitesCount {
                 Spacer()
                 STZ.VIEW.NumberOval(count)
             }
@@ -46,16 +49,23 @@ struct TagRow: View {
     }
 }
 
-#if DEBUG
-struct TagRow_Preview1: PreviewProvider {
-    static var previews: some View {
-        TagRow(item: p_tags[AnyIndex(0)])
+struct NotATagRow: View {
+    
+    var item: NotATag
+    @Localize private var text
+    
+    private var name: String {
+        switch self.item {
+        case .unread:
+            return Noun.unreadItems.loc(self.text)
+        case .all:
+            return Noun.allItems.loc(self.text)
+        }
+    }
+    var body: some View {
+        STZ.VIEW.TXT(self.name)
+            .modifier(STZ.CLR.IndexRow.Text.foreground())
+            .modifier(STZ.FNT.IndexRow.Title.apply())
+            .frame(height: 30)
     }
 }
-struct TagRow_Preview2: PreviewProvider {
-    static var previews: some View {
-        TagRow(item: p_tags[AnyIndex(2)])
-    }
-}
-#endif
-

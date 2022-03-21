@@ -50,15 +50,15 @@ public protocol Presentable: Buttonable {
 
 extension Labelable {
     // TODO: Remove AnyView. For some reason, it is failing to build when using `some View`
-    public static func label() -> AnyView {
+    public static func label(bundle: LocalizeBundle) -> AnyView {
         if let icon = self.icon {
             return AnyView(
-                Label(self.verb.rawValue, systemImage: icon.rawValue)
+                Label(self.verb.loc(bundle), systemImage: icon.rawValue)
                     .modifier(STZ.FNT.Sort.apply())
             )
         } else {
             return AnyView(
-                STZ.VIEW.TXT(self.verb.rawValue)
+                STZ.VIEW.TXT(self.verb.loc(bundle))
                     .modifier(STZ.FNT.Sort.apply())
             )
         }
@@ -68,31 +68,35 @@ extension Labelable {
 extension Buttonable {
     public static func button(doneStyle: Bool = false,
                               isEnabled: Bool = true,
+                              bundle: LocalizeBundle,
                               action: @escaping Action)
                               -> some View
     {
         self.context(doneStyle: doneStyle,
                      isEnabled: isEnabled,
+                     bundle: bundle,
                      action: action)
             .modifier(DefaultButtonStyle()) // if this modifier is used on context menu buttons everything breaks
     }
     
     public static func context(doneStyle: Bool = false,
                                isEnabled: Bool = true,
+                               bundle: LocalizeBundle,
                                action: @escaping Action)
                                -> some View
     {
         Button(action: action) {
-            self.label()
+            self.label(bundle: bundle)
                 .modifier(DoneStyle(enabled: doneStyle))
         }
         .disabled(!isEnabled)
-        .help(self.phrase.rawValue)
+        .help(self.phrase.loc(bundle))
         .modifier(Shortcut(self.shortcut))
     }
     /// crashes if Icon is NIL
     public static func button_iconOnly(doneStyle: Bool = false,
                                        isEnabled: Bool = true,
+                                       bundle: LocalizeBundle,
                                        action: @escaping Action)
                                        -> some View
     {
@@ -100,34 +104,41 @@ extension Buttonable {
             self.icon!
         }
         .disabled(!isEnabled)
-        .help(self.phrase.rawValue)
+        .help(self.phrase.loc(bundle))
         .modifier(Shortcut(self.shortcut))
         .modifier(DefaultButtonStyle())
     }
 }
 
 extension Toolbarable {
-    public static func toolbar(isEnabled: Bool = true, action: @escaping Action) -> some View {
+    public static func toolbar(isEnabled: Bool = true,
+                               bundle: LocalizeBundle,
+                               action: @escaping Action) -> some View {
         return Button(action: action) {
-            self.label()
+            self.label(bundle: bundle)
                 .modifier(__Hack_ToolbarButtonStyle())
         }
         .disabled(!isEnabled)
-        .help(self.phrase.rawValue)
+        .help(self.phrase.loc(bundle))
         .modifier(Shortcut(self.shortcut))
     }
     
-    public static func __fake_macOS_toolbar(isEnabled: Bool = true, action: @escaping Action) -> some View {
+    public static func __fake_macOS_toolbar(isEnabled: Bool = true,
+                                            bundle: LocalizeBundle,
+                                            action: @escaping Action) -> some View
+    {
         #if os(macOS)
         return Button(action: action) {
             self.icon!
                 .modifier(__Hack_ToolbarButtonStyle())
         }
         .disabled(!isEnabled)
-        .help(self.phrase.rawValue)
+        .help(self.phrase.loc(bundle))
         .modifier(Shortcut(self.shortcut))
         #else
-        return self.toolbar(isEnabled: isEnabled, action: action)
+        return self.toolbar(isEnabled: isEnabled,
+                            bundle: bundle,
+                            action: action)
         #endif
     }
 }

@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/23.
+//  Created by Jeffrey Bergier on 2022/03/12.
 //
 //  MIT License
 //
@@ -26,12 +26,31 @@
 
 import Foundation
 
-public protocol Website: Base {
-    var isArchived: Bool { get }
-    var originalURL: URL? { get }
-    var resolvedURL: URL? { get }
-    var preferredURL: URL? { get }
-    var title: String? { get }
-    var thumbnail: Data? { get }
-}
+private let backupDate = Date(timeIntervalSince1970: 0)
 
+// This is a hack created to improve performance when there are
+// thousands of items.
+public struct FAST_Website: Identifiable, Hashable {
+    
+    private var model: CD_Website
+    
+    public var uuid: Website.Ident
+    public var id: String         { self.uuid.id }
+    public var preferredURL: URL? { self.resolvedURL ?? self.originalURL }
+    
+    public var isArchived: Bool   { self.model.cd_isArchived }
+    public var originalURL: URL?  { self.model.cd_originalURL }
+    public var resolvedURL: URL?  { self.model.cd_resolvedURL }
+    public var title: String?     { self.model.cd_title }
+    public var thumbnail: Data?   { self.model.cd_thumbnail }
+    public var dateCreated: Date  { self.model.cd_dateCreated ?? backupDate }
+    public var dateModified: Date { self.model.cd_dateModified ?? backupDate }
+    
+    
+    internal init(_ model: CD_Website) {
+        self.model = model
+        self.uuid = .init(model.objectID)
+    }
+    
+    public var websiteValue: Website { .init(self.model) }
+}

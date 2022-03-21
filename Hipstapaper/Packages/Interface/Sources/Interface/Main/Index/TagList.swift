@@ -32,70 +32,57 @@ import Stylize
 
 struct TagList<Nav: View>: View {
     
-    typealias Navigation = (AnyElementObserver<AnyTag>) -> Nav
-    
-    let controller: Controller
+    typealias Navigation = (TagListSelection) -> Nav
     let navigation: Navigation
-        
-    @SceneTag private var selectedTag
-    @StateObject var data = NilBox<AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyTag>>>>()
-    @EnvironmentObject private var errorQ: ErrorQueue
+
+    @Localize private var text
+    @TagListQuery private var data
+    @QueryProperty private var query
+    @ControllerProperty private var controller
+    
+    @TagListSelectionProperty private var selectedTag
 
     var body: some View {
         List {
-            Section(header: STZ.VIEW.TXT(Noun.readingList.rawValue)
+            Section(header: STZ.VIEW.TXT(Noun.readingList.loc(self.text))
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
-                ForEach(Query.Filter.anyTag_allCases) { tag in
-                    NavigationLink(destination: self.navigation(tag),
-                                   tag: tag.value.uri,
+                ForEach(NotATag.allCases) { notATag in
+                    NavigationLink(destination: self.navigation(.notATag(notATag)),
+                                   tag: TagListSelection.notATag(notATag),
                                    selection: self.$selectedTag)
                     {
-                        TagRow(item: tag)
-                            .environment(\.XPL_isSelected, self.selectedTag == tag.value.uri)
+                        NotATagRow(item: notATag)
+                            .environment(
+                                \.XPL_isSelected,
+                                 self.selectedTag == .notATag(notATag)
+                            )
                     }
                 }
             }
-            Section(header: STZ.VIEW.TXT(Noun.tags.rawValue)
+            Section(header: STZ.VIEW.TXT(Noun.tags.loc(self.text))
                         .modifier(STZ.CLR.IndexSection.Text.foreground())
                         .modifier(STZ.FNT.IndexSection.Title.apply()))
             {
-                ForEach(self.data.value?.data ?? .empty) { tag in
-                    NavigationLink(destination: self.navigation(tag),
-                                   tag: tag.value.uri,
+                ForEach(self.data) { tag in
+                    NavigationLink(destination: self.navigation(.tag(tag)),
+                                   tag: TagListSelection.tag(tag),
                                    selection: self.$selectedTag)
                     {
                         TagRow(item: tag)
-                            .environment(\.XPL_isSelected, self.selectedTag == tag.value.uri)
+                            .environment(
+                                \.XPL_isSelected,
+                                 self.selectedTag == .tag(tag)
+                            )
                     }
                     // FB9048743: Makes context menu work on macOS
-                    .modifier(TagMenu(controller: self.controller, selection: tag))
+                    .modifier(TagMenu(selection: tag.uuid))
                 }
             }
         }
-        .navigationTitle(Noun.tags.rawValue)
+        .navigationTitle(Noun.tags.loc(self.text))
         .modifier(Force.SidebarStyle())
-        .modifier(IndexToolbar(controller: self.controller))
-        .onAppear { self.updateData() }
-    }
-        
-    private func updateData() {
-        guard self.data.value == nil else { return }
-        let result = self.controller.readTags()
-        self.data.value = result.value
-        result.error.map {
-            log.error($0)
-            self.errorQ.queue.append($0)
-        }
+        .modifier(IndexToolbar())
     }
 }
-
-#if DEBUG
-struct TagList_Preview: PreviewProvider {
-    static var previews: some View {
-        TagList(controller: P_Controller(),
-                navigation: { _ in STZ.VIEW.TXT("Swift Previews") })
-    }
-}
-#endif

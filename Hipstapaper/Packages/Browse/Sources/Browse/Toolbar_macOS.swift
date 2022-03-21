@@ -25,29 +25,37 @@
 //
 
 import SwiftUI
+import Datum
+import Localize
 import Stylize
 
 #if os(macOS)
 
 internal struct Toolbar_macOS: ViewModifier {
     
+    @Localize private var text
     @ObservedObject var viewModel: ViewModel
+    @Binding var website: Website
     @Environment(\.openURL) var openURL
     
     // TODO: Remove this copy paste BS when NSWindow works properly
     func body(content: Content) -> some View {
         VStack(spacing: 0) {
             HStack(spacing: 16) {
-                TH.goBackButton(self.viewModel)
-                TH.goForwardButton(self.viewModel)
-                TH.stopReloadButton(self.viewModel)
-                TH.jsButton(self.viewModel)
-                TH.addressBar(self.$viewModel.browserDisplay.title)
-                TH.shareButton(action: { self.viewModel.browserDisplay.isSharing = true })
-                TH.openExternalButton(self.viewModel, self.openURL)
-                if let done = self.viewModel.doneAction {
-                    STZ.BTN.BrowserDone.button(action: done)
+                TH.goBackButton(self.viewModel, bundle: self.text)
+                TH.goForwardButton(self.viewModel, bundle: self.text)
+                TH.stopReloadButton(self.viewModel, bundle: self.text)
+                TH.jsButton(self.viewModel, bundle: self.text)
+                TH.addressBar(self.$viewModel.browserDisplay.title, bundle: self.text)
+                TH.shareButton(bundle: self.text) {
+                    self.viewModel.browserDisplay.isSharing = true
                 }
+                // TODO: Add functionality
+                TH.archiveButton(isArchived: self.website.isArchived, bundle: self.text) {
+                    self.website.isArchived.toggle()
+                    self.viewModel.doneAction?()
+                }
+                TH.openExternalButton(self.viewModel, bundle: self.text, self.openURL)
             }
             .modifier(STZ.VIEW.TB_HACK())
             .buttonStyle(BorderedButtonStyle())

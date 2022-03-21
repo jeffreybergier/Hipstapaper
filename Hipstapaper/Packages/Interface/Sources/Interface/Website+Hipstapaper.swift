@@ -27,11 +27,13 @@
 import Datum
 import Snapshot
 
-extension AnyWebsite.Raw {
+extension Website {
     init(_ output: Snapshot.ViewModel.Output) {
-        self.init(title: output.title,
-                  originalURL: output.inputURL,
+        self.init(originalURL: output.inputURL,
                   resolvedURL: output.currentURL,
-                  thumbnail: output.thumbnail?.value)
+                  title: output.title,
+                  thumbnail: output.thumbnail?.value,
+                  uuid: .init("FAKE://"),
+                  dateCreated: output.dateCreated)
     }
 }

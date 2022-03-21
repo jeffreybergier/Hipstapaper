@@ -26,43 +26,52 @@
 
 import SwiftUI
 import Umbrella
-import Stylize
 import Datum
+import Localize
+import Stylize
 
 #if os(iOS)
 
 extension DetailToolbar.iOS {
     struct iPadEdit: ViewModifier {
         
-        let controller: Controller
         @Binding var selection: WH.Selection
         @Binding var popoverAlignment: Alignment
         
-        @SceneFilter private var filter
-        @SceneSearch private var search
+        @Localize private var text
+        @ErrorQueue private var errorQ
+        @QueryProperty private var query
+        @ControllerProperty private var controller
+        @TagListSelectionProperty private var tagListSelection
         
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
         @EnvironmentObject private var windowPresentation: WindowPresentation
-        @EnvironmentObject private var errorQ: ErrorQueue
         @Environment(\.openURL) private var externalPresentation
-        @Environment(\.toolbarFilterIsEnabled) private var toolbarFilterIsEnabled
         
         func body(content: Content) -> some View {
             content
                 .toolbar(id: "Detail_Bottom") {
                     ToolbarItem(id: "Detail.Archive", placement: .bottomBar) {
                         STZ.TB.Archive.toolbar(isEnabled: WH.canArchive(self.selection),
-                                               action: { WH.archive(self.selection, self.controller, self.errorQ) })
+                                               bundle: self.text)
+                        {
+                            WH.archive(self.selection, self.controller, self._errorQ.environment)
+                        }
                     }
                     ToolbarItem(id: "Detail.Unarchive", placement: .bottomBar) {
                         STZ.TB.Unarchive.toolbar(isEnabled: WH.canUnarchive(self.selection),
-                                                 action: { WH.unarchive(self.selection, self.controller, self.errorQ) })
+                                                 bundle: self.text)
+                        {
+                            WH.unarchive(self.selection, self.controller, self._errorQ.environment)
+                        }
                     }
                     ToolbarItem(id: "Detail.Separator", placement: .bottomBar) {
                         STZ.TB.Separator.toolbar()
                     }
                     ToolbarItem(id: "Detail.Tag", placement: .bottomBar) {
-                        STZ.TB.TagApply.toolbar(isEnabled: WH.canTag(self.selection)) {
+                        STZ.TB.TagApply.toolbar(isEnabled: WH.canTag(self.selection),
+                                                bundle: self.text)
+                        {
                             self.popoverAlignment = .bottomLeading
                             self.modalPresentation.value = .tagApply(self.selection)
                         }
@@ -71,19 +80,26 @@ extension DetailToolbar.iOS {
                         Spacer()
                     }
                     ToolbarItem(id: "Detail.OpenInApp", placement: .bottomBar) {
-                        STZ.TB.OpenInApp.toolbar(isEnabled: WH.canOpen(self.selection, in: self.windowPresentation)) {
-                            self.modalPresentation.value = .browser(selection.first!)
+                        STZ.TB.OpenInApp.toolbar(isEnabled: WH.canOpen(self.selection, in: self.windowPresentation),
+                                                 bundle: self.text)
+                        {
+                            self.modalPresentation.value = .browser(selection.first!.websiteValue)
                         }
                     }
                     ToolbarItem(id: "Detail.OpenExternal", placement: .bottomBar) {
                         STZ.TB.OpenInBrowser.toolbar(isEnabled: WH.canOpen(self.selection, in: self.windowPresentation),
-                                                     action: { WH.open(self.selection, in: self.externalPresentation) })
+                                                     bundle: self.text)
+                        {
+                            WH.open(self.selection, in: self.externalPresentation)
+                        }
                     }
                     ToolbarItem(id: "Detail.Separator", placement: .bottomBar) {
                         STZ.TB.Separator.toolbar()
                     }
                     ToolbarItem(id: "Detail.Share", placement: .bottomBar) {
-                        STZ.TB.Share.toolbar(isEnabled: WH.canShare(self.selection)) {
+                        STZ.TB.Share.toolbar(isEnabled: WH.canShare(self.selection),
+                                             bundle: self.text)
+                        {
                             self.popoverAlignment = .bottomTrailing
                             self.modalPresentation.value = .share(self.selection)
                         }
@@ -97,21 +113,22 @@ extension DetailToolbar.iOS {
                         STZ.TB.Sync(self.controller.syncProgress)
                     }
                     ToolbarItem(id: "Detail.Sort") {
-                        STZ.TB.Sort.toolbar() {
+                        STZ.TB.Sort.toolbar(bundle: self.text) {
                             self.popoverAlignment = .topTrailing
                             self.modalPresentation.value = .sort
                         }
                     }
                     ToolbarItem(id: "Detail.Filter") {
-                        WH.filterToolbarItem(filter: self.filter,
-                                             toolbarFilterIsEnabled: self.toolbarFilterIsEnabled)
+                        WH.filterToolbarItem(query: self.query,
+                                             selection: self.tagListSelection ?? .default,
+                                             bundle: self.text)
                         {
                             self.popoverAlignment = .topTrailing
-                            self.filter.boolValue.toggle()
+                            self.query.isOnlyNotArchived.toggle()
                         }
                     }
                     ToolbarItem(id: "Detail.Search") {
-                        WH.searchToolbarItem(self.search) {
+                        WH.searchToolbarItem(self.query.search, bundle: self.text) {
                             self.popoverAlignment = .topTrailing
                             self.modalPresentation.value = .search
                         }
@@ -125,11 +142,11 @@ extension DetailToolbar.iOS {
         @Binding var popoverAlignment: Alignment
         @ObservedObject var syncProgress: AnyContinousProgress
         
-        @SceneFilter private var filter
-        @SceneSearch private var search
+        @Localize private var text
+        @QueryProperty private var query
+        @TagListSelectionProperty private var tagListSelection
         
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
-        @Environment(\.toolbarFilterIsEnabled) private var toolbarFilterIsEnabled
         
         func body(content: Content) -> some View {
             // TODO: Remove combined ToolbarItems when it supoprts more than 10 items
@@ -144,21 +161,22 @@ extension DetailToolbar.iOS {
                     STZ.TB.Sync(self.syncProgress)
                 }
                 ToolbarItem(id: "Detail.Sort") {
-                    STZ.TB.Sort.toolbar() {
+                    STZ.TB.Sort.toolbar(bundle: self.text) {
                         self.popoverAlignment = .topTrailing
                         self.modalPresentation.value = .sort
                     }
                 }
                 ToolbarItem(id: "Detail.Filter") {
-                    WH.filterToolbarItem(filter: self.filter,
-                                         toolbarFilterIsEnabled: self.toolbarFilterIsEnabled)
+                    WH.filterToolbarItem(query: self.query,
+                                         selection: self.tagListSelection,
+                                         bundle: self.text)
                     {
                         self.popoverAlignment = .topTrailing
-                        self.filter.boolValue.toggle()
+                        self.query.isOnlyNotArchived.toggle()
                     }
                 }
                 ToolbarItem(id: "Detail.Search") {
-                    WH.searchToolbarItem(self.search) {
+                    WH.searchToolbarItem(self.query.search, bundle: self.text) {
                         self.popoverAlignment = .topTrailing
                         self.modalPresentation.value = .search
                     }

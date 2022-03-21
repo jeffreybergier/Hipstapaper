@@ -31,13 +31,17 @@ import Localize
 
 struct TagApplyRow: View {
     
-    let name: String?
-    let value: Bool
-    let valueChanged: STZ.TGL.Action
+    @Localize private var text
+    @Binding var value: Datum.TagApply
     
     var body: some View {
-        STZ.VIEW.TXT(self.name, or: Noun.untitled.rawValue)
-            .modifier(STZ.TGL(initialValue: self.value, action: self.valueChanged))
+        STZ.VIEW.TXT(self.value.tag.name, or: Noun.untitled.loc(self.text))
+            .modifier(
+                STZ.TGL(
+                    initialValue: self.value.status.boolValue,
+                    action: { self.value.status.set($0) }
+                )
+            )
             .modifier(STZ.PDG.Default(ignore: [\.leading, \.trailing]))
     }
 }

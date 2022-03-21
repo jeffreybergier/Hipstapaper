@@ -27,28 +27,28 @@
 import Foundation
 
 extension Sort {
-    internal var cd_sortDescriptors: [NSSortDescriptor] {
+    internal var cd_sortDescriptor: NSSortDescriptor {
         switch self {
         case .dateModifiedNewest:
-            return [.init(key: #keyPath(CD_Website.cd_dateModified), ascending: false)]
+            return .init(key: #keyPath(CD_Website.cd_dateModified), ascending: false)
         case .dateModifiedOldest:
-            return [.init(key: #keyPath(CD_Website.cd_dateModified), ascending: true)]
+            return .init(key: #keyPath(CD_Website.cd_dateModified), ascending: true)
         case .dateCreatedNewest:
-            return [.init(key: #keyPath(CD_Website.cd_dateCreated), ascending: false)]
+            return .init(key: #keyPath(CD_Website.cd_dateCreated), ascending: false)
         case .dateCreatedOldest:
-            return [.init(key: #keyPath(CD_Website.cd_dateCreated), ascending: true)]
+            return .init(key: #keyPath(CD_Website.cd_dateCreated), ascending: true)
         case .titleA:
-            return [.init(
+            return .init(
                 key: #keyPath(CD_Website.cd_title),
                 ascending: true,
                 selector: #selector(NSString.localizedCaseInsensitiveCompare(_:))
-            )]
+            )
         case .titleZ:
-            return [.init(
+            return .init(
                 key: #keyPath(CD_Website.cd_title),
                 ascending: false,
                 selector: #selector(NSString.localizedCaseInsensitiveCompare(_:))
-            )]
+            )
         }
     }
 }

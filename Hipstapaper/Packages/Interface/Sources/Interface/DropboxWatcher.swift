@@ -30,13 +30,14 @@ import Combine
 import Umbrella
 import Snapshot
 import Datum
+import Localize
 
 class DropboxWatcher {
     
     let observer: DirectoryPublisher
     private var token: AnyCancellable?
     
-    init(controller: Controller, errorQ: ErrorQueue) {
+    init(controller: Controller, errorQ: ErrorQueue.Environment) {
         let dropbox = AppGroup.dropbox
         let fm = FileManager.default
         try? fm.createDirectory(at: dropbox,
@@ -47,11 +48,11 @@ class DropboxWatcher {
             do {
                 let data = try Data(contentsOf: url)
                 let output = try PropertyListDecoder().decode(Snapshot.ViewModel.Output.self, from: data)
-                _ = try controller.createWebsite(.init(output)).get()
-                try FileManager.default.removeItem(at: url)
+                 _ = try controller.createWebsite(.init(output)).get()
+                 try FileManager.default.removeItem(at: url)
             } catch {
                 log.error(error)
-                errorQ?.queue.append(Error.shareExtensionAdd)
+                errorQ?.value.append(Error.shareExtensionAdd)
             }
         }
     }

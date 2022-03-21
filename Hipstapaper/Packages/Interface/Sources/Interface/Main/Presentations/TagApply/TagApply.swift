@@ -32,46 +32,21 @@ import Localize
 
 struct TagApply: View {
     
-    let controller: Controller
-    let selection: WH.Selection
+    @ErrorQueue private var errorQ
+    @TagApplyQuery private var data: AnyRandomAccessCollection<Binding<Datum.TagApply>>
+    
     let done: Action
     
-    @EnvironmentObject private var errorQ: ErrorQueue
-    
+    init(selection: WH.Selection, done: @escaping Action) {
+        _data = .init(selection: Set(selection.map { $0.uuid }))
+        self.done = done
+    }
+
     var body: some View {
-        let result = self.controller.tagStatus(for: self.selection)
-        result.error.map {
-            self.errorQ.queue.append($0)
-            log.error($0)
-        }
-        return self.build(result)
-    }
-    
-    @ViewBuilder private func build(_ result: Result<AnyRandomAccessCollection<(AnyElementObserver<AnyTag>, ToggleState)>, Datum.Error>) -> some View {
-        switch result {
-        case .success(let data):
-            VStack(spacing: 0) {
-                List(data, id: \.0) { tuple in
-                    TagApplyRow(name: tuple.0.value.name,
-                                value: tuple.1.boolValue,
-                                valueChanged: { self.process(newValue: $0, for: tuple.0) })
-                }
-                .modifier(STZ.MDL.Done(kind: STZ.TB.TagApply.self, done: self.done))
-                .frame(idealWidth: 300, idealHeight: 300)
-            }
-        case .failure:
-            EmptyView()
-        }
-    }
-    
-    private func process(newValue: Bool, for tag: AnyElementObserver<AnyTag>) {
-        let selection = self.selection
-        let result = newValue
-            ? self.controller.add(tag: tag, to: selection)
-            : self.controller.remove(tag: tag, from: selection)
-        result.error.map {
-            self.errorQ.queue.append($0)
-            log.error($0)
+        VStack(spacing: 0) {
+            List(self.data) { TagApplyRow(value: $0) }
+              .modifier(STZ.MDL.Done(kind: STZ.TB.TagApply.self, done: self.done))
+              .frame(idealWidth: 300, idealHeight: 300)
         }
     }
 }

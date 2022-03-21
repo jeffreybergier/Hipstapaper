@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/28.
+//  Created by Jeffrey Bergier on 2022/03/12.
 //
 //  MIT License
 //
@@ -27,25 +27,23 @@
 import Foundation
 
 extension Query {
-    internal var cd_sortDescriptors: [NSSortDescriptor] { self.sort.cd_sortDescriptors }
-    internal var cd_predicate: NSPredicate? {
+    internal var cd_sortDescriptor: NSSortDescriptor { self.sort.cd_sortDescriptor }
+    internal func cd_predicate(_ tag: CD_Tag?) -> NSPredicate? {
         let predicates: [NSPredicate] = [
             {
-                guard case .unarchived = self.filter else { return nil }
+                guard self.isOnlyNotArchived == true else { return nil }
                 return NSPredicate(format: "%K == NO", #keyPath(CD_Website.cd_isArchived))
             }(),
             {
                 guard let search = self.search.trimmed else { return nil }
                 return NSCompoundPredicate(orPredicateWithSubpredicates: [
                     NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(CD_Website.cd_title), search),
-                    NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(CD_Website.cd_resolvedURL), search),
-                    NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(CD_Website.cd_originalURL), search),
+                    NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(CD_Website.cd_resolvedURL.absoluteString), search),
+                    NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(CD_Website.cd_originalURL.absoluteString), search),
                 ])
             }(),
             {
-                guard let _tag = self.tag else { return nil }
-                guard let tag = _tag.value.wrappedValue as? CD_Tag
-                else { assertionFailure("Invalid TAG Object"); return nil; }
+                guard let tag = tag else { return nil }
                 return NSPredicate(format: "%K CONTAINS %@", #keyPath(CD_Website.cd_tags), tag)
             }(),
         ].compactMap { $0 }

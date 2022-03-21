@@ -27,13 +27,16 @@
 import SwiftUI
 import Umbrella
 import Localize
+import Collections
 
 extension STZ {
     public struct SHR: View {
         
         public enum Error: UserFacingError {
-            public var errorCode: Int               { 1001 }
-            public var message: LocalizedStringKey  { Phrase.errorShareItemCount.rawValue }
+            public var errorCode: Int { 1001 }
+            public var message: LocalizationKey {
+                Phrase.errorShareItemCount.key
+            }
             case itemCount
         }
         
@@ -42,17 +45,16 @@ extension STZ {
         private let items: [URL]
         private let completion: Completion
         
-        @StateObject private var errorQ = ErrorQueue()
+        @ErrorQueue private var errorQ
         @Environment(\.presentationMode) private var presentationMode
         
         public var body: some View {
             Bridge(items: self.items, completion: self.completion)
                 .frame(width: self.forcedFrame, height: self.forcedFrame)
-                .modifier(ErrorQueuePresenter())
-                .environmentObject(self.errorQ)
+                .modifier(ErrorPresentation(self.$errorQ))
                 .onAppear {
                     guard self.items.isEmpty else { return }
-                    self.errorQ.queue.append(Error.itemCount)
+                    self.errorQ = Error.itemCount
                 }
         }
         

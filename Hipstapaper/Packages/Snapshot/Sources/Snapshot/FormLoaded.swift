@@ -25,22 +25,30 @@
 //
 
 import SwiftUI
+import Localize
 import Stylize
 
 struct FormLoaded: View {
     
+    @Localize private var text
     @ObservedObject var viewModel: ViewModel
     
     @ViewBuilder var body: some View {
         VStack {
-            STZ.VIEW.TXTFLD.WebTitle.textfield(self.$viewModel.output.title)
+            STZ.VIEW.TXTFLD.WebTitle.textfield(self.$viewModel.output.title,
+                                               bundle: self.text)
             HStack {
-                STZ.VIEW.TXTFLD.WebURL.textfield(self.$viewModel.output.currentURLString)
+                STZ.VIEW.TXTFLD.WebURL.textfield(self.$viewModel.output.currentURLString,
+                                                 bundle: self.text)
                     .disabled(true)
                 if self.viewModel.control.isJSEnabled {
-                    STZ.TB.JSActive.button_iconOnly(action: { self.viewModel.control.isJSEnabled = false })
+                    STZ.TB.JSActive.button_iconOnly(bundle: self.text) {
+                        self.viewModel.control.isJSEnabled = false
+                    }
                 } else {
-                    STZ.TB.JSInactive.button_iconOnly(action: { self.viewModel.control.isJSEnabled = true })
+                    STZ.TB.JSInactive.button_iconOnly(bundle: self.text) {
+                        self.viewModel.control.isJSEnabled = true
+                    }
                 }
             }
         }

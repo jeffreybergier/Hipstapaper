@@ -57,11 +57,11 @@ public enum Error: UserFacingError {
         }
     }
     
-    public var title: LocalizedStringKey {
-        return Noun.errorDatabase.rawValue
+    public var title: LocalizationKey {
+        return Noun.errorDatabase.key
     }
     
-    public var message: LocalizedStringKey {
-        return .init(self.errorValue.localizedDescription)
+    public var message: LocalizedString {
+        return self.errorValue.localizedDescription
     }
 }

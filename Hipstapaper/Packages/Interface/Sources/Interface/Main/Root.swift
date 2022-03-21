@@ -28,36 +28,22 @@ import SwiftUI
 import Umbrella
 import Datum
 import Stylize
+import Localize
 
 struct Root: View {
     
-    let controller: Controller
-    
-    @StateObject private var errorQ = ErrorQueue()
-    @StateObject private var modalPresentation = ModalPresentation.Wrap()
-
-    init(controller: Controller) {
-        self.controller = controller
-    }
+    @ErrorQueue private var errorQ
+    @QueryProperty private var query
+    @ControllerProperty private var controller
     
     var body: some View {
         NavigationView {
-            TagList(controller: self.controller) { selectedTag in
-                WebsiteList(controller: self.controller, selectedTag: selectedTag)
+            TagList { selection in
+                WebsiteList(selection: selection, onInitQuery: self.query, controller: self.controller)
             }
             // TODO: Has to be here because of macOS bug
-            .modifier(ErrorQueuePresenter())
+            .modifier(ErrorPresentation(self.$errorQ))
         }
         .modifier(BrowserPresentable())
-        .environmentObject(self.modalPresentation)
-        .environmentObject(self.errorQ)
     }
 }
-
-#if DEBUG
-struct Main_Previews: PreviewProvider {
-    static var previews: some View {
-        Root(controller: P_Controller())
-    }
-}
-#endif

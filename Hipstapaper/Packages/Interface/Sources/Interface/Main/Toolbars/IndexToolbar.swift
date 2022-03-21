@@ -32,21 +32,19 @@ import Stylize
 import Snapshot
 
 struct IndexToolbar: ViewModifier {
-    
-    let controller: Controller
-    
+        
     func body(content: Content) -> some View {
         return ZStack(alignment: .topTrailing) {
             // TODO: Hack when toolbars work properly with popovers
             Color.clear.frame(width: 1, height: 1)
-                .modifier(TagNamePickerPresentable(controller: self.controller))
+                .modifier(TagNamePickerPresentable())
             Color.clear.frame(width: 1, height: 1)
-                .modifier(AddWebsitePresentable(controller: self.controller))
+                .modifier(AddWebsitePresentable())
             Color.clear.frame(width: 1, height: 1)
                 .modifier(AddChoicePresentable())
             
             #if os(macOS)
-            content.modifier(IndexToolbar_macOS(controller: self.controller))
+            content.modifier(IndexToolbar_macOS())
             #else
             content.modifier(IndexToolbar_iOS())
             #endif
@@ -57,9 +55,9 @@ struct IndexToolbar: ViewModifier {
 #if os(macOS)
 struct IndexToolbar_macOS: ViewModifier {
     
-    let controller: Controller
+    @Localize private var text
+    @ControllerProperty private var controller
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
-    @EnvironmentObject private var errorQ: ErrorQueue
     
     func body(content: Content) -> some View {
         content.toolbar(id: "Index") {
@@ -70,7 +68,9 @@ struct IndexToolbar_macOS: ViewModifier {
                 Spacer()
             }
             ToolbarItem(id: "Index.AddChoice", placement: .primaryAction) {
-                STZ.TB.AddChoice.toolbar(action: { self.modalPresentation.value = .addChoose })
+                STZ.TB.AddChoice.toolbar(bundle: self.text) {
+                    self.modalPresentation.value = .addChoose
+                }
             }
         }
     }
@@ -78,12 +78,13 @@ struct IndexToolbar_macOS: ViewModifier {
 #else
 struct IndexToolbar_iOS: ViewModifier {
     
+    @Localize private var text
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     
     func body(content: Content) -> some View {
         content.toolbar(id: "Index") {
             ToolbarItem(id: "iOS.AddChoice", placement: .primaryAction) {
-                STZ.TB.AddChoice.toolbar() {
+                STZ.TB.AddChoice.toolbar(bundle: self.text) {
                     self.modalPresentation.value = .addChoose
                 }
             }

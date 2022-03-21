@@ -32,17 +32,20 @@ import Localize
 struct SearchPicker: View {
     
     let doneAction: Action
-    @SceneSearch private var search
+    @Localize private var text
+    @QueryProperty private var query
     
     var body: some View {
         VStack {
             HStack {
-                STZ.VIEW.TXTFLD.Search.textfield(self.$search)
-                if self.search.trimmed != nil {
-                    STZ.TB.ClearSearch.button_iconOnly(action: { self.search = "" })
+                STZ.VIEW.TXTFLD.Search.textfield(self.$query.search,
+                                                 bundle: self.text)
+                if self.query.search.trimmed != nil {
+                    STZ.TB.ClearSearch.button_iconOnly(bundle: self.text) {
+                        self.query.search = ""
+                    }
                 }
             }
-            .animation(.default)
             Spacer()
         }
         .modifier(STZ.PDG.Equal())

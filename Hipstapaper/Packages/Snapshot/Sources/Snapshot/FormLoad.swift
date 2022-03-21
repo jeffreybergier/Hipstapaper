@@ -25,18 +25,24 @@
 //
 
 import SwiftUI
+import Localize
 import Stylize
 
 struct FormLoad: View {
     
+    @Localize private var text
     @ObservedObject var viewModel: ViewModel
     
     var body: some View {
         HStack() {
-            STZ.VIEW.TXTFLD.WebURL.textfield(self.$viewModel.output.inputURLString)
+            STZ.VIEW.TXTFLD.WebURL.textfield(self.$viewModel.output.inputURLString,
+                                             bundle: self.text)
             STZ.BTN.Go.button(doneStyle: true,
                               isEnabled: self.viewModel.output.inputURL != nil,
-                              action: { self.viewModel.control.shouldLoad.toggle() })
+                              bundle: self.text)
+            {
+                self.viewModel.control.shouldLoad.toggle()
+            }
         }
     }
 }

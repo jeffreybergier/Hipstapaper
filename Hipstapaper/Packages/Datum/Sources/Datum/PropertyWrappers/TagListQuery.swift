@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/12/05.
+//  Created by Jeffrey Bergier on 2022/03/12.
 //
 //  MIT License
 //
@@ -24,20 +24,23 @@
 //  SOFTWARE.
 //
 
+import SwiftUI
 import Umbrella
 
-/// Element that does not properly observe its Value
-public class StaticElement<T: Hashable>: ElementObserver {
-    public var value: T
-    public var isDeleted: Bool { fatalError("StaticElement does not know this") }
-    public let canDelete = false
-    public init(_ value: T) {
-        self.value = value
+@propertyWrapper
+public struct TagListQuery: DynamicProperty {
+    
+    @FetchRequest private var data: FetchedResults<CD_Tag>
+    @Environment(\.managedObjectContext) private var context
+    
+    public init() {
+        _data = FetchRequest<CD_Tag>(sortDescriptors: [CD_Tag.defaultSort],
+                                     predicate:  nil,
+                                     animation: .default)
     }
-    public static func == (lhs: StaticElement<T>, rhs: StaticElement<T>) -> Bool {
-        fatalError("Never Used")
-    }
-    public func hash(into hasher: inout Hasher) {
-        fatalError("Never Used")
+    
+    public var wrappedValue: AnyRandomAccessCollection<Tag> {
+        TransformCollection(collection: self.data){ Tag($0) }
+            .eraseToAnyRandomAccessCollection()
     }
 }

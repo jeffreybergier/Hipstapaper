@@ -7,42 +7,44 @@
 
 import SwiftUI
 import Umbrella
-import Browse
 import Datum
 import Stylize
-import Snapshot
 import Localize
+import Browse
+import Snapshot
 
 struct BrowserPresentable: ViewModifier {
+    
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
+    @ControllerProperty private var controller
+    
     func body(content: Content) -> some View {
         #if os(macOS)
         return content.sheet(item: self.$presentation.isBrowser) { item in
-            self.browser(item.value.value.preferredURL)
+            self.browser(item)
         }
         #else
         return content.fullScreenCover(item: self.$presentation.isBrowser) { item in
-            self.browser(item.value.value.preferredURL)
+            self.browser(item)
         }
         #endif
     }
     
-    private func browser(_ url: URL?) -> some View {
-        Browser(url: url, doneAction: { self.presentation.value = .none })
+    private func browser(_ website: Website) -> some View {
+        Browser(website: website,
+                controller: self.controller,
+                doneAction: { self.presentation.value = .none })
     }
 }
 
 struct TagApplyPresentable: ViewModifier {
-    
-    let controller: Controller
-    
+        
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
     
     func body(content: Content) -> some View {
         content.popover(item: self.$presentation.isTagApply)
         { selection in
-            TagApply(controller: self.controller,
-                     selection: selection.value,
+            TagApply(selection: selection.value,
                      done: { self.presentation.value = .none })
         }
     }
@@ -54,7 +56,7 @@ struct SharePresentable: ViewModifier {
     
     func body(content: Content) -> some View {
         content.popover(item: self.$presentation.isShare) { selection in
-            STZ.SHR(items: selection.value.compactMap { $0.value.preferredURL },
+            STZ.SHR(items: selection.value.compactMap { $0.preferredURL },
                     completion:  { self.presentation.value = .none })
         }
     }
@@ -75,46 +77,31 @@ struct SortPickerPresentable: ViewModifier {
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
     
     func body(content: Content) -> some View {
-        content.popover(isPresented: self.$presentation.isSort)
-        { SortPicker { self.presentation.value = .none } }
+        content
+            .popover(isPresented: self.$presentation.isSort) {
+                SortPicker { self.presentation.value = .none }
+            }
     }
 }
 
 struct TagNamePickerPresentable: ViewModifier {
     
-    let controller: Controller
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
-    @EnvironmentObject private var errorQ: ErrorQueue
 
     func body(content: Content) -> some View {
-        content.popover(item: self.$presentation.isTagName)
-        { item in
-            TagNamePicker(originalName: item.value?.value.name ?? "",
-                          source: item.value == nil ? STZ.TB.AddTag.self : STZ.TB.EditTag.self,
-                          cancel: { self.presentation.value = .none },
-                          save: { self.presentation.value = .none
-                                  self.save(item.value, $0) })
-        }
-    }
-    
-    private func save(_ item: TH.Selection?, _ name: String?) {
-        let result: Result<Void, Datum.Error>
-        if let item = item {
-            result = self.controller.update(item, name: name)
-        } else {
-            result = self.controller.createTag(name: name).map { _ in () }
-        }
-        result.error.map {
-            log.error($0)
-            self.errorQ.queue.append($0)
-        }
+        content
+            .popover(item: self.$presentation.isTagName) { id in
+                TagNamePicker(id: id.value) {
+                    self.presentation.value = .none
+                }
+            }
     }
 }
 
 struct AddWebsitePresentable: ViewModifier {
     
-    let controller: Controller
-    @EnvironmentObject private var errorQ: ErrorQueue
+    @ErrorQueue private var errorQ
+    @ControllerProperty private var controller
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
 
     func body(content: Content) -> some View {
@@ -129,11 +116,11 @@ struct AddWebsitePresentable: ViewModifier {
         case .success(let output):
             let result2 = self.controller.createWebsite(.init(output))
             result2.error.map {
-                self.errorQ.queue.append($0)
+                self.errorQ = $0
                 log.error($0)
             }
         case .failure(let error):
-            self.errorQ.queue.append(error)
+            self.errorQ = error
             log.error(error)
         }
     }
@@ -141,33 +128,42 @@ struct AddWebsitePresentable: ViewModifier {
 
 struct AddChoicePresentable: ViewModifier {
     
+    @Localize private var text
+    @ErrorQueue private var errorQ
+    @ControllerProperty private var controller
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
     
     func body(content: Content) -> some View {
         content.modifier(
             STZ.ACTN.Modifier(isPresented: self.$presentation.isAddChoose)
             {
-                STZ.ACTN.Wrapper(title: Phrase.addChoice.rawValue,
+                STZ.ACTN.Wrapper(title: Phrase.addChoice.loc(self.text),
                                  buttons: [
                                     self.addTagButton,
                                     self.addWebsiteButton
-                                 ])
+                                 ],
+                                 bundle: self.text)
             }
         )
     }
     
     private var addTagButton: STZ.ACTN.Wrapper.Button {
-        return .init(title: Verb.addTag.rawValue) {
+        return .init(title: Verb.addTag.loc(self.text)) {
             self.presentation.value = .none
             // TODO: Remove this hack when possible
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                self.presentation.value = .tagName(nil)
+                switch self.controller.createTag() {
+                case .success(let id):
+                    self.presentation.value = .tagName(id)
+                case .failure(let error):
+                    self.errorQ = error
+                }
             }
         }
     }
     
     private var addWebsiteButton: STZ.ACTN.Wrapper.Button {
-        return .init(title: Verb.addWebsite.rawValue) {
+        return .init(title: Verb.addWebsite.loc(self.text)) {
             self.presentation.value = .none
             // TODO: Remove this hack when possible
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {

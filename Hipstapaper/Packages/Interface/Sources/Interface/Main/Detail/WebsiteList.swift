@@ -33,21 +33,23 @@ import XPList
 
 struct WebsiteList: View {
     
-    let controller: Controller
-    let selectedTag: AnyElementObserver<AnyTag>
-    @State private var selection: WH.Selection = []
-    @StateObject private var data: NilBox<AnyListObserver<AnyRandomAccessCollection<AnyElementObserver<AnyWebsite>>>> = .init()
+    private let selectedTag: TagListSelection
     
-    @SceneSort private var sort
-    @SceneFilter private var filter
-    @SceneSearch private var search
+    @State private var selection: WH.Selection = []
+    @QueryProperty private var query
+    @WebsiteListQuery private var data: AnyRandomAccessCollection<FAST_Website>
+    @ControllerProperty private var controller
     
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     @EnvironmentObject private var windowPresentation: WindowPresentation
-    @EnvironmentObject private var errorQ: ErrorQueue
+    
+    init(selection: TagListSelection, onInitQuery query: Query, controller: Controller) {
+        self.selectedTag = selection
+        _data = .init(query: query, tag: selection, controller: controller)
+    }
     
     var body: some View {
-        XPL2.List(data: self.data.value?.data ?? .empty,
+        XPL2.List(data: self.data,
                   selection: self.$selection,
                   open: self.open,
                   menu: self.menu)
@@ -55,74 +57,24 @@ struct WebsiteList: View {
             WebsiteRow(item: item)
         }
         .listStyle(PlainListStyle())
-        .modifier(If.iOS(_Animation(.default)))
         .modifier(SyncIndicator(progress: self.controller.syncProgress))
-        .modifier(WebsiteListTitle(query: self.query()))
+        .modifier(WebsiteListTitle(selection: self.selectedTag))
         // TODO: Fix the choppy EditMode animation caused by overly complex toolbars
-        .modifier(DetailToolbar.Shared(controller: self.controller,
-                                       selection: self.$selection))
-        .environment(\.toolbarFilterIsEnabled, self.query().tag != nil)
-        .onAppear { self.updateData(self.query()) }
-        .onDisappear { self.data.value = nil }
-        .onChange(of: self.sort) { self.updateData(self.query(sort: $0)) }
-        .onChange(of: self.filter) { self.updateData(self.query(filter: $0)) }
-        .onChange(of: self.search) { self.updateData(self.query(search: $0)) }
-    }
-    
-    private func query(sort: Sort? = nil,
-                       filter: Query.Filter? = nil,
-                       search: String? = nil)
-                       -> Query
-    {
-        var query = Query(specialTag: self.selectedTag)
-        query.sort = sort ?? self.sort
-        query.search = search ?? self.search
-        if query.tag != nil {
-            // only allow the filter to take effect if the user selected a tag
-            query.filter = filter ?? self.filter
-        }
-        return query
-    }
-    
-    private func updateData(_ query: Query) {
-        let result = self.controller.readWebsites(query: query)
-        self.data.value = result.value
-        result.error.map {
-            log.error($0)
-            self.errorQ.queue.append($0)
-        }
+        .modifier(DetailToolbar.Shared(selection: self.$selection))
     }
 }
 
 extension WebsiteList {
     private func open(_ items: WH.Selection) {
         if self.windowPresentation.features.contains([.bulkActivation, .multipleWindows]) {
-            let validURLs = Set(items.compactMap({ $0.value.preferredURL }))
-            self.windowPresentation.show(validURLs)
+            let websites = Set(items.map({ $0.websiteValue }))
+            self.windowPresentation.show(websites, controller: self.controller)
         } else {
-            guard let validItem = items.first(where: { $0.value.preferredURL != nil }) else { return }
-            self.modalPresentation.value = .browser(validItem)
+            guard let validItem = items.first(where: { $0.preferredURL != nil }) else { return }
+            self.modalPresentation.value = .browser(validItem.websiteValue)
         }
     }
     private func menu(_ items: WH.Selection) -> WebsiteMenu {
-        WebsiteMenu(items, self.controller)
-    }
-}
-
-#if DEBUG
-struct WebsiteList_Preview: PreviewProvider {
-    static var previews: some View {
-        WebsiteList(controller: P_Controller(),selectedTag: p_tags.first!)
-    }
-}
-#endif
-
-internal struct _Animation: ViewModifier {
-    let animation: Animation
-    init(_ animation: Animation) {
-        self.animation = animation
-    }
-    func body(content: Content) -> some View {
-        content.animation(self.animation)
+        WebsiteMenu(items)
     }
 }

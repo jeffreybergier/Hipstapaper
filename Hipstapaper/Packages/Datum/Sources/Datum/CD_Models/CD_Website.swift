@@ -26,15 +26,6 @@
 
 import CoreData
 
-extension CD_Website: Website {
-    var isArchived: Bool { cd_isArchived }
-    var originalURL: URL? { cd_originalURL }
-    var resolvedURL: URL? { cd_resolvedURL }
-    var preferredURL: URL? { cd_resolvedURL ?? cd_originalURL }
-    var title: String? { cd_title }
-    var thumbnail: Data? { cd_thumbnail }
-}
-
 @objc(CD_Website) internal class CD_Website: CD_Base {
 
     internal class override var entityName: String { "CD_Website" }
@@ -65,4 +56,16 @@ extension CD_Website: Website {
     }
 }
 
-
+extension Website {
+    internal init(_ cd: CD_Website) {
+        self.dateCreated = cd.cd_dateCreated ?? Date.init(timeIntervalSince1970: 0)
+        self.dateModified = cd.cd_dateModified ?? Date.init(timeIntervalSince1970: 0)
+        self.uuid = .init(cd.objectID)
+        
+        self.isArchived = cd.cd_isArchived
+        self.originalURL = cd.cd_originalURL
+        self.resolvedURL = cd.cd_resolvedURL
+        self.title = cd.cd_title
+        self.thumbnail = cd.cd_thumbnail
+    }
+}

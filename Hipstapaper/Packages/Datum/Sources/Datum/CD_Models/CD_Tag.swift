@@ -26,13 +26,12 @@
 
 import CoreData
 
-extension CD_Tag: Tag {
-    var name: String? { cd_name }
-    var websitesCount: Int? { Int(self.cd_websitesCount) }
-}
-
 @objc(CD_Tag) internal class CD_Tag: CD_Base {
 
+    internal static let defaultSort = NSSortDescriptor(key: #keyPath(CD_Tag.cd_name),
+                                                      ascending: true,
+                                                      selector: #selector(NSString.localizedStandardCompare))
+    
     internal class override var entityName: String { "CD_Tag" }
     internal class var request: NSFetchRequest<CD_Tag> {
         NSFetchRequest<CD_Tag>(entityName: self.entityName)
@@ -56,3 +55,12 @@ extension CD_Tag: Tag {
     }
 }
 
+extension Tag {
+    internal init(_ cd: CD_Tag) {
+        self.dateCreated = cd.cd_dateCreated ?? Date.init(timeIntervalSince1970: 0)
+        self.dateModified = cd.cd_dateModified ?? Date.init(timeIntervalSince1970: 0)
+        self.name = cd.cd_name
+        self.websitesCount = Int(cd.cd_websitesCount)
+        self.uuid = .init(cd.objectID)
+    }
+}

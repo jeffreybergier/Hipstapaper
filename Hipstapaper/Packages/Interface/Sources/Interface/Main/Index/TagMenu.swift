@@ -28,29 +28,31 @@ import SwiftUI
 import Datum
 import Umbrella
 import Stylize
+import Localize
 
 struct TagMenu: ViewModifier {
     
-    let controller: Controller
-    @State var selection: TH.Selection
+    @Localize private var text
+    @ErrorQueue private var errorQ
+    @ControllerProperty private var controller
     
+    @State var selection: TH.Selection
     @StateObject private var modalPresentation = ModalPresentation.Wrap()
-    @EnvironmentObject private var errorQ: ErrorQueue
     
     func body(content: Content) -> some View {
         ZStack {
             // TODO: Hack when toolbars work properly with popovers
             Color.clear.frame(width: 1, height: 1)
-                .modifier(TagNamePickerPresentable(controller: self.controller))
+                .modifier(TagNamePickerPresentable())
             content.contextMenu {
-                STZ.TB.EditTag.context() {
+                STZ.TB.EditTag.context(bundle: self.text) {
                     self.modalPresentation.value = .tagName(self.selection)
                 }
-                STZ.TB.DeleteTag_Trash.context() {
+                STZ.TB.DeleteTag_Trash.context(bundle: self.text) {
                     let error = DeleteError.tag {
-                        TH.delete(self.selection, self.controller, self.errorQ)
+                        TH.delete(self.selection, self.controller, self._errorQ.environment)
                     }
-                    self.errorQ.queue.append(error)
+                    self.errorQ = error
                 }
             }
         }

@@ -56,6 +56,7 @@ public class ViewModel: ObservableObject {
                 self.inputURL = URL(string: self.inputURLString)
             }
         }
+        public var dateCreated: Date = Date()
     }
     
     @Published public var control: Control

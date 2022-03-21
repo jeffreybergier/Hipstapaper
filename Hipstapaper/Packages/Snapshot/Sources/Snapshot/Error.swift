@@ -38,20 +38,20 @@ public enum Error: UserFacingError {
 }
 
 extension Error: LocalizedError {
-    public var message: LocalizedStringKey {
+    public var message: LocalizationKey {
         switch self {
         case .take:
-            return Phrase.errorScreenshot.rawValue
+            return Phrase.errorScreenshot.key
         case .convertImage:
-            return Phrase.errorConvertImage.rawValue
+            return Phrase.errorConvertImage.key
         case .size:
-            return Phrase.errorImageSize.rawValue
+            return Phrase.errorImageSize.key
         case .userCancelled:
-            return Phrase.errorUserCancel.rawValue
+            return Phrase.errorUserCancel.key
         case .sx_process:
-            return Phrase.errorProcessURL.rawValue
+            return Phrase.errorProcessURL.key
         case .sx_save:
-            return Phrase.errorSaveWebsite.rawValue
+            return Phrase.errorSaveWebsite.key
         }
     }
 }

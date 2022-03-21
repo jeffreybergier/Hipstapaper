@@ -38,9 +38,9 @@ extension DetailToolbar {
 extension DetailToolbar.iOS {
     struct Shared: ViewModifier {
         
-        let controller: Controller
         @Binding var selection: WH.Selection
         @Binding var popoverAlignment: Alignment
+        @ControllerProperty private var controller
         
         @Environment(\.editMode) private var editMode
         @Environment(\.horizontalSizeClass) private var horizontalSizeClass
@@ -50,15 +50,13 @@ extension DetailToolbar.iOS {
                     self.editMode?.isEditing ?? false)
             {
             case (true, true): // iPhone editing
-                content.modifier(iPhoneEdit(controller: self.controller,
-                                            selection: self.$selection,
+                content.modifier(iPhoneEdit(selection: self.$selection,
                                             popoverAlignment: self.$popoverAlignment))
             case (true, false): // iPhone not editing
                 content.modifier(iPhone(popoverAlignment: self.$popoverAlignment,
                                         syncProgress: self.controller.syncProgress))
             case (false, true): // iPad editing
-                content.modifier(iPadEdit(controller: self.controller,
-                                          selection: self.$selection,
+                content.modifier(iPadEdit(selection: self.$selection,
                                           popoverAlignment: self.$popoverAlignment))
             case (false, false): // iPad not editing
                 content.modifier(iPad(popoverAlignment: self.$popoverAlignment,

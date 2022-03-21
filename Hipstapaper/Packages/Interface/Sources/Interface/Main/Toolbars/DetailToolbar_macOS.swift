@@ -28,36 +28,44 @@ import SwiftUI
 import Umbrella
 import Stylize
 import Datum
+import Localize
 
 extension DetailToolbar {
     struct macOS: ViewModifier {
         
-        let controller: Controller
         @Binding var selection: WH.Selection
         
-        @SceneFilter private var filter
-        @SceneSearch private var search
-        
+        @Localize private var text
+        @ErrorQueue private var errorQ
+        @QueryProperty private var query
+        @ControllerProperty private var controller
+        @TagListSelectionProperty private var tagListSelection
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
         @EnvironmentObject private var windowPresentation: WindowPresentation
-        @EnvironmentObject private var errorQ: ErrorQueue
         @Environment(\.openURL) private var externalPresentation
-        @Environment(\.toolbarFilterIsEnabled) private var toolbarFilterIsEnabled
         
         func body(content: Content) -> some View {
             // TODO: Remove combined ToolbarItems when it supoprts more than 10 items
             content.toolbar(id: "Detail") {
                 ToolbarItem(id: "Detail.Open") {
                     HStack {
-                        STZ.TB.OpenInApp.toolbar(isEnabled: WH.canOpen(self.selection, in: self.windowPresentation),
-                                                 action: { WH.open(self.selection, in: self.windowPresentation, self.errorQ) })
+                        STZ.TB.OpenInApp.toolbar(isEnabled: WH.canOpen(self.selection, in: self.windowPresentation), bundle: self.text)
+                        {
+                            WH.open(self.selection, in: self.windowPresentation, controller: self.controller)
+                        }
                         STZ.TB.OpenInBrowser.toolbar(isEnabled: WH.canOpen(self.selection, in: self.windowPresentation),
-                                                     action: { WH.open(self.selection, in: self.externalPresentation) })
+                                                     bundle: self.text)
+                        {
+                            WH.open(self.selection, in: self.externalPresentation)
+                        }
                     }
                 }
                 ToolbarItem(id: "Detail.Share") {
                     STZ.TB.Share.toolbar(isEnabled: WH.canShare(self.selection),
-                                         action: { self.modalPresentation.value = .share(self.selection) })
+                                         bundle: self.text)
+                    {
+                        self.modalPresentation.value = .share(self.selection)
+                    }
                 }
                 ToolbarItem(id: "Detail.Separator") {
                     STZ.TB.Separator.toolbar()
@@ -65,30 +73,42 @@ extension DetailToolbar {
                 ToolbarItem(id: "Detail.Archive") {
                     HStack {
                         STZ.TB.Archive.toolbar(isEnabled: WH.canArchive(self.selection),
-                                               action: { WH.archive(self.selection, self.controller, self.errorQ) })
+                                               bundle: self.text)
+                        {
+                            WH.archive(self.selection, self.controller, self._errorQ.environment)
+                        }
                         STZ.TB.Unarchive.toolbar(isEnabled: WH.canUnarchive(self.selection),
-                                                 action: { WH.unarchive(self.selection, self.controller, self.errorQ) })
+                                                 bundle: self.text)
+                        {
+                            WH.unarchive(self.selection, self.controller, self._errorQ.environment)
+                        }
                     }
                 }
                 ToolbarItem(id: "Detail.Tag") {
                     STZ.TB.TagApply.toolbar(isEnabled: WH.canTag(self.selection),
-                                            action: { self.modalPresentation.value = .tagApply(selection) })
+                                            bundle: self.text)
+                    {
+                        self.modalPresentation.value = .tagApply(selection)
+                    }
                 }
                 ToolbarItem(id: "Detail.Separator") {
                     STZ.TB.Separator.toolbar()
                 }
                 ToolbarItem(id: "Detail.Sort") {
-                    STZ.TB.Sort.toolbar(action: { self.modalPresentation.value = .sort })
+                    STZ.TB.Sort.toolbar(bundle: self.text) {
+                        self.modalPresentation.value = .sort
+                    }
                 }
                 ToolbarItem(id: "Detail.Filter") {
-                    WH.filterToolbarItem(filter: self.filter,
-                                         toolbarFilterIsEnabled: self.toolbarFilterIsEnabled)
+                    WH.filterToolbarItem(query: self.query,
+                                         selection: self.tagListSelection,
+                                         bundle: self.text)
                     {
-                        self.filter.boolValue.toggle()
+                        self.query.isOnlyNotArchived.toggle()
                     }
                 }
                 ToolbarItem(id: "Detail.Search") {
-                    WH.searchToolbarItem(self.search) {
+                    WH.searchToolbarItem(self.query.search, bundle: self.text) {
                         self.modalPresentation.value = .search
                     }
                 }

@@ -29,21 +29,26 @@ import Datum
 import Localize
 
 struct WebsiteListTitle: ViewModifier {
-    let query: Query
+    
+    let selection: TagListSelection
+    
+    @Localize private var text
+    
     @ViewBuilder func body(content: Content) -> some View {
-        if let tag = self.query.tag {
-            content
-                .navigationTitle(tag.value.name ?? Noun.untitled_L)
-                .modifier(TitleSize(isLarge: false))
-        } else {
-            switch self.query.filter! {
-            case .all:
-                content.navigationTitle(Noun.allItems.rawValue)
-                    .modifier(TitleSize(isLarge: false))
-            case .unarchived:
-                content.navigationTitle(Noun.hipstapaper.rawValue)
+        switch self.selection {
+        case .notATag(let tag):
+            switch tag {
+            case .unread:
+                content.navigationTitle(Noun.hipstapaper.loc(self.text))
                     .modifier(TitleSize(isLarge: true))
+            case .all:
+                content.navigationTitle(Noun.allItems.loc(self.text))
+                    .modifier(TitleSize(isLarge: false))
             }
+        case .tag(let tag):
+            content
+                .navigationTitle(tag.name ?? Noun.untitled.loc(self.text))
+                .modifier(TitleSize(isLarge: false))
         }
     }
 }

@@ -28,18 +28,19 @@
 import SwiftUI
 import Umbrella
 import Datum
+import Localize
 
 typealias TH = TagHelper
 
 enum TagHelper {
     
-    typealias Selection = AnyElementObserver<AnyTag>
+    typealias Selection = Tag.Ident
     
-    static func delete(_ selection: Selection?, _ controller: Controller, _ errorQ: ErrorQueue) {
-        guard let tag = selection else { return }
-        let result = controller.delete(tag)
+    static func delete(_ selection: Selection?, _ controller: Controller, _ errorQ: ErrorQueue.Environment) {
+        guard let id = selection else { return }
+        let result = controller.delete([id])
         result.error.map {
-            errorQ.queue.append($0)
+            errorQ.value.append($0)
             log.error($0)
         }
     }

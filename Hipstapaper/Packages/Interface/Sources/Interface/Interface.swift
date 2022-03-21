@@ -33,10 +33,13 @@ import Localize
 
 public struct Interface: Scene {
     
-    let controller: Controller?
     let watcher: DropboxWatcher?
+    
+    @StateObject private var controllerBox: BlackBox<Controller?>
     @StateObject private var windowPresentation = WindowPresentation()
-    @StateObject private var dropBoxWatcherErrorQ: ErrorQueue
+    @StateObject private var errorEnvironment: ErrorQueue.Environment
+    @StateObject private var modalPresentation = ModalPresentation.Wrap()
+    @StateObject private var localizationBundle = LocalizeBundle()
     
     /*
     init() {
@@ -47,35 +50,37 @@ public struct Interface: Scene {
     */
     
     public init() {
-        let errorQ = ErrorQueue()
+        let errorQ = ErrorQueue.newEnvirementObject()
         let result = ControllerNew()
         switch result {
         case .success(let controller):
-            _dropBoxWatcherErrorQ = .init(wrappedValue: errorQ)
-            self.controller = controller
+            _errorEnvironment = .init(wrappedValue: errorQ)
+            _controllerBox = .init(wrappedValue: BlackBox(controller))
             self.watcher = DropboxWatcher(controller: controller, errorQ: errorQ)
         case .failure(let error):
             log.error(error)
-            errorQ.queue.append(error)
-            _dropBoxWatcherErrorQ = .init(wrappedValue: errorQ)
-            self.controller = nil
+            errorQ.value.append(error)
+            _errorEnvironment = .init(wrappedValue: errorQ)
+            _controllerBox = .init(wrappedValue: BlackBox(nil))
             self.watcher = nil
         }
     }
 
     @SceneBuilder public var body: some Scene {
-        WindowGroup(Noun.readingList.rawValue, id: "MainWindow") {
+        WindowGroup(Noun.readingList.loc(self.localizationBundle), id: "MainWindow") {
             self.build()
-                .alert(item: self.$dropBoxWatcherErrorQ.current) {
-                    Alert($0.value)
-                }
+                .environmentObject(self.modalPresentation)
+                .environmentObject(self.errorEnvironment)
+                .environmentObject(self.localizationBundle)
+                .environmentObject(self.windowPresentation)
         }
     }
     
     @ViewBuilder private func build() -> some View {
-        if let controller = self.controller {
-            Root(controller: controller)
-                .environmentObject(self.windowPresentation)
+        if let controller = self.controllerBox.value {
+            Root()
+                .environmentObject(self.controllerBox)
+                .environment(\.managedObjectContext, controller.ENVIRONMENTONLY_managedObjectContext)
         } else {
             Color.clear
         }

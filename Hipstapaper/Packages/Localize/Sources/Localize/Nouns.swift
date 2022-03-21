@@ -25,8 +25,9 @@
 //
 
 import SwiftUI
+import Umbrella
 
-public enum Noun: LocalizedStringKey {
+public enum Noun: LocalizationKey {
     case search        = "Noun.Search"
     case readingList   = "Noun.ReadingList"
     case tags          = "Noun.Tags"
@@ -49,8 +50,4 @@ public enum Noun: LocalizedStringKey {
     case erroriCloud   = "Noun.iCloud"
     case deleteTag     = "Noun.DeleteTag"
     case deleteWebsite = "Noun.DeleteWebsite"
-    
-    public static let allItems_L: String = NSLocalizedString("Noun.AllItems", comment: "")
-    public static let unreadItems_L: String = NSLocalizedString("Noun.UnreadItems", comment: "")
-    public static let untitled_L: String = NSLocalizedString("Noun.Untitled", comment: "")
 }

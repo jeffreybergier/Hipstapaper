@@ -66,3 +66,15 @@ import Umbrella
         }
     }
 }
+
+extension Tag.Ident {
+    internal init(_ id: NSManagedObjectID) {
+        self.id = id.uriRepresentation().absoluteString
+    }
+}
+
+extension Website.Ident {
+    internal init(_ id: NSManagedObjectID) {
+        self.id = id.uriRepresentation().absoluteString
+    }
+}

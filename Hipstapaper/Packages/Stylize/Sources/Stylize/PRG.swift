@@ -84,7 +84,6 @@ extension STZ.PRG {
                 content
                 Bar(self.progress, height: self.height, isEdgeToEdge: self.isEdgeToEdge)
                     .opacity(self.isVisible ? 1 : 0)
-                    .animation(.default)
             }
         }
     }

@@ -25,26 +25,29 @@
 //
 
 import SwiftUI
+import Datum
 import Stylize
 import Localize
 
 struct TagNamePicker: View {
     
-    @State var originalName: String = ""
-    let source: Presentable.Type
-    let cancel: Action
-    let save: (String?) -> Void
+    let done: Action
+    @Localize private var text
+    @TagEditQuery private var tag: Tag
+    
+    init(id: Tag.Ident, done: @escaping Action) {
+        self.done = done
+        _tag = .init(id: id)
+    }
     
     var body: some View {
         VStack(spacing: 0) {
-            STZ.VIEW.TXTFLD.TagName.textfield(self.$originalName)
+            STZ.VIEW.TXTFLD.TagName.textfield(self.$tag.name,
+                                              bundle: self.text)
             Spacer()
         }
         .modifier(STZ.PDG.Equal())
-        .modifier(STZ.MDL.Save(kind: self.source,
-                               cancel: self.cancel,
-                               save: { self.save(self.originalName.trimmed) },
-                               canSave: { self.originalName.trimmed != nil }))
+        .modifier(STZ.MDL.Done(kind: STZ.TB.EditTag.self, done: self.done))
         .frame(idealWidth: 375, idealHeight: self.__hack_height) // TODO: Remove height when this is not broken
     }
     

@@ -30,7 +30,8 @@ import PackageDescription
 
 let package = Package(
     name: "Localize",
-    platforms: [.iOS(.v13), .macOS(.v11)],
+    defaultLocalization: "en",
+    platforms: [.iOS(.v15), .macOS(.v12)],
     products: [
         .library(
             name: "Localize",
@@ -38,12 +39,14 @@ let package = Package(
         ),
     ],
     dependencies: [
-    
+        .package(url: "https://github.com/jeffreybergier/Umbrella.git", .branch("v2")),
     ],
     targets: [
         .target(
             name: "Localize",
-            dependencies: []
+            dependencies: [
+                .byNameItem(name: "Umbrella", condition: nil),
+            ]
         ),
     ]
 )

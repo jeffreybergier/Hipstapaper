@@ -30,7 +30,7 @@ import PackageDescription
 
 let package = Package(
     name: "Interface",
-    platforms: [.iOS(.v14), .macOS(.v11)],
+    platforms: [.iOS(.v15), .macOS(.v12)],
     products: [
         .library(
             name: "Interface",

@@ -26,11 +26,12 @@
 
 import SwiftUI
 import Umbrella
+import Datum
 import Localize
 
 protocol WindowManagerProtocol {
     var features: WindowPresentation.Features { get }
-    func show(_: Set<URL>)
+    func show(_ websites: Set<Website>, controller: Controller)
 }
 
 extension WindowPresentation {
