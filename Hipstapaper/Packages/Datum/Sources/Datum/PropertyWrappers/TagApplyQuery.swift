@@ -40,8 +40,7 @@ public struct TagApplyQuery: DynamicProperty {
     private let selection: Set<Website.Ident>
     
     public init(selection: Set<Website.Ident>) {
-        let sort = NSSortDescriptor(keyPath: \CD_Tag.cd_name, ascending: true)
-        _data = FetchRequest<CD_Tag>(sortDescriptors: [sort],
+        _data = FetchRequest<CD_Tag>(sortDescriptors: [CD_Tag.defaultSort],
                                      predicate:  nil,
                                      animation: .default)
         self.selection = selection

@@ -34,8 +34,7 @@ public struct TagListQuery: DynamicProperty {
     @Environment(\.managedObjectContext) private var context
     
     public init() {
-        let sort = NSSortDescriptor(keyPath: \CD_Tag.cd_name, ascending: true)
-        _data = FetchRequest<CD_Tag>(sortDescriptors: [sort],
+        _data = FetchRequest<CD_Tag>(sortDescriptors: [CD_Tag.defaultSort],
                                      predicate:  nil,
                                      animation: .default)
     }

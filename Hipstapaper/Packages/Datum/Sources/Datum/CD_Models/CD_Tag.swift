@@ -28,6 +28,10 @@ import CoreData
 
 @objc(CD_Tag) internal class CD_Tag: CD_Base {
 
+    internal static let defaultSort = NSSortDescriptor(key: #keyPath(CD_Tag.cd_name),
+                                                      ascending: true,
+                                                      selector: #selector(NSString.localizedStandardCompare))
+    
     internal class override var entityName: String { "CD_Tag" }
     internal class var request: NSFetchRequest<CD_Tag> {
         NSFetchRequest<CD_Tag>(entityName: self.entityName)
