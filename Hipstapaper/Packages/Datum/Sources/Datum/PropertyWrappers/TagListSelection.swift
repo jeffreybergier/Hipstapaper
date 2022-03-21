@@ -30,18 +30,16 @@ import Umbrella
 @propertyWrapper
 public struct TagListSelectionProperty: DynamicProperty {
     
-    private static let defaultValue = TagListSelection.notATag(.unread)
-    
     @SceneStorage("TagListSelection") private var selection: String?
         
     public init() { }
     
     private var strictValue: TagListSelection? {
-        nonmutating set { self.selection = newValue?.rawValue ?? Self.defaultValue.rawValue }
+        nonmutating set { self.selection = newValue?.rawValue ?? TagListSelection.default.rawValue }
         get {
             return self.selection
-                .map { TagListSelection(rawValue: $0) ?? Self.defaultValue }
-                ?? Self.defaultValue
+                .map { TagListSelection(rawValue: $0) ?? TagListSelection.default }
+                ?? TagListSelection.default
         }
     }
     
@@ -86,8 +84,8 @@ public struct TagListSelectionProperty: DynamicProperty {
     }
     #elseif os(macOS)
     public var wrappedValue: TagListSelection? {
-        get { self.wrappedValue }
-        nonmutating set { self.wrappedValue = newValue }
+        get { self.strictValue }
+        nonmutating set { self.strictValue = newValue }
     }
     #endif
 }
@@ -99,6 +97,8 @@ public enum NotATag: String, Identifiable, CaseIterable {
 }
 
 public enum TagListSelection: RawRepresentable, Hashable {
+    
+    public static let `default` = TagListSelection.notATag(.unread)
 
     case notATag(NotATag), tag(Tag)
     

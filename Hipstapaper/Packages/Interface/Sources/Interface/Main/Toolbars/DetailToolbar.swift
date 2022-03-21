@@ -32,15 +32,16 @@ import Browse
 enum DetailToolbar {
     struct Shared: ViewModifier {
         
-        let controller: Controller
         @Binding var selection: WH.Selection
         @State private var popoverAlignment: Alignment = .topTrailing
+        
+        @ControllerProperty private var controller
 
         func body(content: Content) -> some View {
             return ZStack(alignment: self.popoverAlignment) {
                 // TODO: Hack when toolbars work properly with popovers
                 Color.clear.frame(width: 1, height: 1).modifier(
-                    TagApplyPresentable(controller: self.controller)
+                    TagApplyPresentable()
                 )
                 Color.clear.frame(width: 1, height: 1).modifier(
                     SharePresentable()
@@ -60,16 +61,5 @@ enum DetailToolbar {
                 #endif
             }
         }
-    }
-}
-
-struct ToolbarFilterIsEnabled: EnvironmentKey {
-    static var defaultValue: Bool = true
-}
-
-extension EnvironmentValues {
-    var toolbarFilterIsEnabled: Bool {
-        get { self[ToolbarFilterIsEnabled.self] }
-        set { self[ToolbarFilterIsEnabled.self] = newValue }
     }
 }

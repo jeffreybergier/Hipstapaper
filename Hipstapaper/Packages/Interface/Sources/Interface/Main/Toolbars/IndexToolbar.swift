@@ -32,21 +32,19 @@ import Stylize
 import Snapshot
 
 struct IndexToolbar: ViewModifier {
-    
-    let controller: Controller
-    
+        
     func body(content: Content) -> some View {
         return ZStack(alignment: .topTrailing) {
             // TODO: Hack when toolbars work properly with popovers
             Color.clear.frame(width: 1, height: 1)
                 .modifier(TagNamePickerPresentable())
             Color.clear.frame(width: 1, height: 1)
-                .modifier(AddWebsitePresentable(controller: self.controller))
+                .modifier(AddWebsitePresentable())
             Color.clear.frame(width: 1, height: 1)
                 .modifier(AddChoicePresentable())
             
             #if os(macOS)
-            content.modifier(IndexToolbar_macOS(controller: self.controller))
+            content.modifier(IndexToolbar_macOS())
             #else
             content.modifier(IndexToolbar_iOS())
             #endif
@@ -57,8 +55,8 @@ struct IndexToolbar: ViewModifier {
 #if os(macOS)
 struct IndexToolbar_macOS: ViewModifier {
     
-    let controller: Controller // TODO: fix datum
     @Localize private var text
+    @ControllerProperty private var controller
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     
     func body(content: Content) -> some View {

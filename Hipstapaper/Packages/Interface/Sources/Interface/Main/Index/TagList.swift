@@ -77,12 +77,12 @@ struct TagList<Nav: View>: View {
                             )
                     }
                     // FB9048743: Makes context menu work on macOS
-                    .modifier(TagMenu(controller: self.controller, selection: tag.uuid))
+                    .modifier(TagMenu(selection: tag.uuid))
                 }
             }
         }
         .navigationTitle(Noun.tags.loc(self.text))
         .modifier(Force.SidebarStyle())
-        .modifier(IndexToolbar(controller: self.controller))
+        .modifier(IndexToolbar())
     }
 }

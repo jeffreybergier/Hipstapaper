@@ -42,11 +42,11 @@ extension DetailToolbar.iOS {
         @ErrorQueue private var errorQ
         @QueryProperty private var query
         @ControllerProperty private var controller
+        @TagListSelectionProperty private var tagListSelection
         
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
         @EnvironmentObject private var windowPresentation: WindowPresentation
         @Environment(\.openURL) private var externalPresentation
-        @Environment(\.toolbarFilterIsEnabled) private var toolbarFilterIsEnabled
         
         func body(content: Content) -> some View {
             content
@@ -120,7 +120,7 @@ extension DetailToolbar.iOS {
                     }
                     ToolbarItem(id: "Detail.Filter") {
                         WH.filterToolbarItem(query: self.query,
-                                             toolbarFilterIsEnabled: self.toolbarFilterIsEnabled,
+                                             selection: self.tagListSelection ?? .default,
                                              bundle: self.text)
                         {
                             self.popoverAlignment = .topTrailing
@@ -144,9 +144,9 @@ extension DetailToolbar.iOS {
         
         @Localize private var text
         @QueryProperty private var query
+        @TagListSelectionProperty private var tagListSelection
         
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
-        @Environment(\.toolbarFilterIsEnabled) private var toolbarFilterIsEnabled
         
         func body(content: Content) -> some View {
             // TODO: Remove combined ToolbarItems when it supoprts more than 10 items
@@ -168,7 +168,7 @@ extension DetailToolbar.iOS {
                 }
                 ToolbarItem(id: "Detail.Filter") {
                     WH.filterToolbarItem(query: self.query,
-                                         toolbarFilterIsEnabled: self.toolbarFilterIsEnabled,
+                                         selection: self.tagListSelection,
                                          bundle: self.text)
                     {
                         self.popoverAlignment = .topTrailing

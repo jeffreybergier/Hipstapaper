@@ -32,9 +32,10 @@ import Localize
 
 struct TagMenu: ViewModifier {
     
-    let controller: Controller
     @Localize private var text
     @ErrorQueue private var errorQ
+    @ControllerProperty private var controller
+    
     @State var selection: TH.Selection
     @StateObject private var modalPresentation = ModalPresentation.Wrap()
     

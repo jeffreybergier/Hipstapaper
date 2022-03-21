@@ -110,15 +110,15 @@ extension DetailToolbar.iOS {
         
         @Localize private var text
         @QueryProperty private var query
+        @TagListSelectionProperty private var tagListSelection
         @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
-        @Environment(\.toolbarFilterIsEnabled) private var toolbarFilterIsEnabled
 
         
         func body(content: Content) -> some View {
             content.toolbar(id: "Detail") {
                 ToolbarItem(id: "Detail.Filter", placement: .bottomBar) {
                     WH.filterToolbarItem(query: self.query,
-                                         toolbarFilterIsEnabled: self.toolbarFilterIsEnabled,
+                                         selection: self.tagListSelection,
                                          bundle: self.text)
                     {
                         self.query.isOnlyNotArchived.toggle()

@@ -60,10 +60,7 @@ struct WebsiteList: View {
         .modifier(SyncIndicator(progress: self.controller.syncProgress))
         .modifier(WebsiteListTitle(selection: self.selectedTag))
         // TODO: Fix the choppy EditMode animation caused by overly complex toolbars
-        .modifier(DetailToolbar.Shared(controller: self.controller,
-                                       selection: self.$selection))
-        // TODO: Uncomment this later
-        .environment(\.toolbarFilterIsEnabled, self.selectedTag.identValue != nil)
+        .modifier(DetailToolbar.Shared(selection: self.$selection))
     }
 }
 

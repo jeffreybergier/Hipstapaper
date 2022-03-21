@@ -38,9 +38,7 @@ struct BrowserPresentable: ViewModifier {
 }
 
 struct TagApplyPresentable: ViewModifier {
-    
-    let controller: Controller
-    
+        
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
     
     func body(content: Content) -> some View {
@@ -102,8 +100,8 @@ struct TagNamePickerPresentable: ViewModifier {
 
 struct AddWebsitePresentable: ViewModifier {
     
-    let controller: Controller
     @ErrorQueue private var errorQ
+    @ControllerProperty private var controller
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
 
     func body(content: Content) -> some View {

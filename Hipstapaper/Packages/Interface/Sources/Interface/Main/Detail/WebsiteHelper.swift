@@ -107,21 +107,25 @@ enum WebsiteHelper {
     }
     
     @ViewBuilder static func filterToolbarItem(query: Query,
-                                               toolbarFilterIsEnabled: Bool,
+                                               selection: TagListSelection?,
                                                bundle: LocalizeBundle,
                                                action: @escaping () -> Void)
                                                -> some View
     {
-        if query.isOnlyNotArchived == true {
-            // disable this when there is no tag selected
-            STZ.TB.FilterActive.toolbar(isEnabled: toolbarFilterIsEnabled,
-                                        bundle: bundle,
-                                        action: action)
-        } else {
-            // disable this when there is no tag selected
-            STZ.TB.FilterInactive.toolbar(isEnabled: toolbarFilterIsEnabled,
-                                          bundle: bundle,
-                                          action: action)
+        switch selection ?? .default {
+        case .notATag(let tag):
+            switch tag {
+            case .unread:
+                STZ.TB.FilterActive.toolbar(isEnabled: false, bundle: bundle, action: action)
+            case .all:
+                STZ.TB.FilterInactive.toolbar(isEnabled: false, bundle: bundle, action: action)
+            }
+        case .tag(_):
+            if query.isOnlyNotArchived == true {
+                STZ.TB.FilterActive.toolbar(bundle: bundle, action: action)
+            } else {
+                STZ.TB.FilterInactive.toolbar(bundle: bundle, action: action)
+            }
         }
     }
     
