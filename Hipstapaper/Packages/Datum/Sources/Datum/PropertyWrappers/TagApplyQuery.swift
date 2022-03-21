@@ -82,10 +82,10 @@ extension TagApply {
         let lhs = Set(_lhs)
         let compare = lhs.subtracting(rhs)
         switch compare.count {
-        case 0:
-            self.status = .none
-        case lhs.count:
+        case lhs.count-rhs.count:
             self.status = .all
+        case lhs.count:
+            self.status = .none
         default:
             self.status = .some
         }
