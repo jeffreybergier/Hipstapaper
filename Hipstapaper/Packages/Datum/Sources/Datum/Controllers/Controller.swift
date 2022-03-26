@@ -70,4 +70,8 @@ public struct ControllerProperty: DynamicProperty {
         self.controller.value!
     }
     
+    internal var cdController: CD_Controller {
+        self.controller.value as! CD_Controller
+    }
+    
 }

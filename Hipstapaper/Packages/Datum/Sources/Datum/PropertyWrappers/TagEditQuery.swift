@@ -31,36 +31,31 @@ import Localize
 @propertyWrapper
 public struct TagEditQuery: DynamicProperty {
     
-    private let id: Tag.Ident
-    @ErrorQueue private var errorQ
-    @ControllerProperty private var controller
-    @ObservedObject private var cd_tag: NilBox<CD_Tag> = .init()
     @Environment(\.managedObjectContext) private var context
+    @CDObjectQuery<CD_Tag, Tag, Error> private var object: Tag?
+    @ControllerProperty private var controller
 
     public init(id: Tag.Ident) {
-        self.id = id
+        _object = .init(objectIDURL: id.url) { Tag($0) }
     }
     
     public func update() {
-        guard self.cd_tag.value == nil else { return }
-        let controller = self.controller as! CD_Controller
-        let id = controller.container.persistentStoreCoordinator.managedObjectID(forURIRepresentation: URL(string: id.id)!)!
-        let cd_tag = controller.container.viewContext.object(with: id) as! CD_Tag
-        self.cd_tag.value = cd_tag
+        guard _object.onWrite.value == nil else { return }
+        _object.onWrite.value = self.write(_:with:)
     }
     
     public var wrappedValue: Tag {
-        // TODO: Make not unwrapped?
-        Tag(self.cd_tag.value!)
+        get { self.object! }
+        nonmutating set { self.object = newValue }
     }
+    
     public var projectedValue: Binding<Tag> {
-        Binding(
-            get: { self.wrappedValue },
-            set: { newValue in
-                self.cd_tag.value!.cd_name = newValue.name
-                guard case .failure(let error) = self.context.datum_save() else { return }
-                self.errorQ = error
-            }
-        )
+        self.$object!
+    }
+    
+    // TODO: Move to Controller
+    private func write(_ cd: CD_Tag?, with newValue: Tag?) -> Result<Void, Error> {
+        cd!.cd_name        = newValue!.name
+        return self.context.datum_save()
     }
 }

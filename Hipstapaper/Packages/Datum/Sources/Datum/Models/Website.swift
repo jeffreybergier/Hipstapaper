@@ -64,5 +64,9 @@ public struct Website: Identifiable, Hashable, Codable {
         public init(_ id: String) {
             self.id = id
         }
+        
+        internal var url: URL {
+            URL(string: self.id)!
+        }
     }
 }

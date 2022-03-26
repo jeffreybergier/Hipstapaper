@@ -30,7 +30,7 @@ import Umbrella
 @propertyWrapper
 public struct WebsiteListQuery: DynamicProperty {
     
-    @FetchRequest private var data: FetchedResults<CD_Website>
+    @CDListQuery<CD_Website, FAST_Website, Error> private var data: AnyRandomAccessCollection<FAST_Website>
     
     public init(query: Query, tag: TagListSelection, controller: Controller) {
         var query = query
@@ -43,13 +43,15 @@ public struct WebsiteListQuery: DynamicProperty {
             cd_tag = nil
             query.isOnlyNotArchived = tag == .unread ? true : false
         }
-        _data = FetchRequest<CD_Website>(sortDescriptors: [query.cd_sortDescriptor],
-                                         predicate:  query.cd_predicate(cd_tag),
-                                         animation: .default)
+        _data = .init(sort: [query.cd_sortDescriptor],
+                      predicate: query.cd_predicate(cd_tag),
+                      animation: .default)
+        {
+            FAST_Website($0)
+        }
     }
     
     public var wrappedValue: AnyRandomAccessCollection<FAST_Website> {
-        TransformCollection(collection: self.data) { FAST_Website($0) }
-            .eraseToAnyRandomAccessCollection()
+        self.data
     }
 }

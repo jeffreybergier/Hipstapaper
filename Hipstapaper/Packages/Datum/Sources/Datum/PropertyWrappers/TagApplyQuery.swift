@@ -30,46 +30,41 @@ import Umbrella
 @propertyWrapper
 public struct TagApplyQuery: DynamicProperty {
     
-    @ErrorQueue private var errorQ
-    @FetchRequest private var data: FetchedResults<CD_Tag>
-    @EnvironmentObject private var _controller: BlackBox<Controller?>
-    private var controller: CD_Controller {
-        _controller.value as! CD_Controller
-    }
-    
+    @CDListQuery<CD_Tag, TagApply, Error> private var data: AnyRandomAccessCollection<TagApply>
+    @ControllerProperty private var controller
     private let selection: Set<Website.Ident>
     
     public init(selection: Set<Website.Ident>) {
-        _data = FetchRequest<CD_Tag>(sortDescriptors: [CD_Tag.defaultSort],
-                                     predicate:  nil,
-                                     animation: .default)
+        _data = .init(sort: [CD_Tag.defaultSort], animation: .default) {
+            TagApply(tag: $0, selection: selection)
+        }
         self.selection = selection
     }
     
-    public var wrappedValue: AnyRandomAccessCollection<Binding<TagApply>> {
-        TransformCollection(collection: self.data) { cd_tag in
-            Binding {
-                TagApply(tag: cd_tag, selection: self.selection)
-            } set: { newValue in
-                switch newValue.status {
-                case .all:
-                    self.controller.addTag(cd_tag, to: self.selection)
-                        .error.map {
-                            self.errorQ = $0
-                            log.error($0)
-                        }
-                case .none:
-                    self.controller.removeTag(cd_tag, to: self.selection)
-                        .error.map {
-                            self.errorQ = $0
-                            log.error($0)
-                        }
-                case .some:
-                    "Invalid change".log()
-                }
-            }
+    public func update() {
+        guard _data.onWrite.value == nil else { return }
+         _data.onWrite.value = self.write(_:with:)
+    }
+    
+    public var wrappedValue: AnyRandomAccessCollection<TagApply> {
+        self.data
+    }
+    
+    public var projectedValue: AnyRandomAccessCollection<Binding<TagApply>> {
+        self.$data
+    }
+    
+    // TODO: Move to controller. Also save changes to tag
+    private func write(_ cd: CD_Tag!, with newValue: TagApply!) -> Result<Void, Error> {
+        switch newValue.status {
+        case .all:
+            return self._controller.cdController.addTag(cd, to: self.selection)
+        case .none:
+            return self._controller.cdController.removeTag(cd, to: self.selection)
+        case .some:
+            "Invalid change".log()
+            return .success(())
         }
-        .eraseToAnyRandomAccessCollection()
     }
 }
 

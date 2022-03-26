@@ -47,4 +47,7 @@ extension Tag.Ident: RawRepresentable {
     public init(rawValue: String) {
         self.id = rawValue
     }
+    internal var url: URL {
+        URL(string: self.id)!
+    }
 }

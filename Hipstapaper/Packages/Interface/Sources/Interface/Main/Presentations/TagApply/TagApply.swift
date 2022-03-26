@@ -33,7 +33,7 @@ import Localize
 struct TagApply: View {
     
     @ErrorQueue private var errorQ
-    @TagApplyQuery private var data: AnyRandomAccessCollection<Binding<Datum.TagApply>>
+    @TagApplyQuery private var data: AnyRandomAccessCollection<Datum.TagApply>
     
     let done: Action
     
@@ -44,7 +44,7 @@ struct TagApply: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            List(self.data) { TagApplyRow(value: $0) }
+            List(self.$data) { TagApplyRow(value: $0) }
               .modifier(STZ.MDL.Done(kind: STZ.TB.TagApply.self, done: self.done))
               .frame(idealWidth: 300, idealHeight: 300)
         }

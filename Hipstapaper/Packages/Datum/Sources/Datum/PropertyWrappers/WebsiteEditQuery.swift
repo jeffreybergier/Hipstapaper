@@ -31,40 +31,35 @@ import Localize
 @propertyWrapper
 public struct WebsiteEditQuery: DynamicProperty {
     
-    private let id: Website.Ident
-    @ErrorQueue private var errorQ
-    @ControllerProperty private var controller
-    @ObservedObject private var cd_website: NilBox<CD_Website> = .init()
     @Environment(\.managedObjectContext) private var context
+    @CDObjectQuery<CD_Website, Website, Error> private var object: Website?
+    @ControllerProperty private var controller
 
     public init(id: Website.Ident) {
-        self.id = id
+        _object = .init(objectIDURL: id.url) { Website($0) }
     }
     
     public func update() {
-        guard self.cd_website.value == nil else { return }
-        let controller = self.controller as! CD_Controller
-        let id = controller.container.persistentStoreCoordinator.managedObjectID(forURIRepresentation: URL(string: id.id)!)!
-        let cd_website = controller.container.viewContext.object(with: id) as! CD_Website
-        self.cd_website.value = cd_website
+        guard _object.onWrite.value == nil else { return }
+        _object.onWrite.value = self.write(_:with:)
     }
     
     public var wrappedValue: Website {
-        // TODO: Make not unwrapped?
-        Website(self.cd_website.value!)
+        get { self.object! }
+        nonmutating set { self.object = newValue }
     }
+    
     public var projectedValue: Binding<Website> {
-        Binding(
-            get: { self.wrappedValue },
-            set: { newValue in
-                self.cd_website.value!.cd_title = newValue.title
-                self.cd_website.value!.cd_isArchived = newValue.isArchived
-                self.cd_website.value!.cd_resolvedURL = newValue.resolvedURL
-                self.cd_website.value!.cd_originalURL = newValue.originalURL
-                self.cd_website.value!.cd_thumbnail = newValue.thumbnail
-                guard case .failure(let error) = self.context.datum_save() else { return }
-                self.errorQ = error
-            }
-        )
+        self.$object!
+    }
+    
+    // TODO: Move to Controller
+    private func write(_ cd: CD_Website?, with newValue: Website?) -> Result<Void, Error> {
+        cd!.cd_title       = newValue!.title
+        cd!.cd_isArchived  = newValue!.isArchived
+        cd!.cd_resolvedURL = newValue!.resolvedURL
+        cd!.cd_originalURL = newValue!.originalURL
+        cd!.cd_thumbnail   = newValue!.thumbnail
+        return self.context.datum_save()
     }
 }

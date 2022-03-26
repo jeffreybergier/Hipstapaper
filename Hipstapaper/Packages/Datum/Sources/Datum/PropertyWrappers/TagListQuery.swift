@@ -30,17 +30,25 @@ import Umbrella
 @propertyWrapper
 public struct TagListQuery: DynamicProperty {
     
-    @FetchRequest private var data: FetchedResults<CD_Tag>
-    @Environment(\.managedObjectContext) private var context
-    
+    @CDListQuery<CD_Tag, Tag, Error> private var data: AnyRandomAccessCollection<Tag>
+
     public init() {
-        _data = FetchRequest<CD_Tag>(sortDescriptors: [CD_Tag.defaultSort],
-                                     predicate:  nil,
-                                     animation: .default)
+        _data = .init(sort: [CD_Tag.defaultSort], animation: .default) {
+            Tag($0)
+        }
+    }
+    
+    public func update() {
+        guard _data.onWrite.value == nil else { return }
+        // TODO: Make this writable
+        // _object.onWrite.value = self.write(_:with:)
     }
     
     public var wrappedValue: AnyRandomAccessCollection<Tag> {
-        TransformCollection(collection: self.data){ Tag($0) }
-            .eraseToAnyRandomAccessCollection()
+        self.data
+    }
+    
+    public var projectedValue: AnyRandomAccessCollection<Binding<Tag>> {
+        self.$data
     }
 }
