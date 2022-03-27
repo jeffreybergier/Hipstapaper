@@ -152,6 +152,49 @@ extension CD_Controller: Controller {
             context.object(with: $0) as? CD_Tag
         }
     }
+    
+    // MARK: Internal for Property Wrappers
+    
+    internal func writeOpt(_ cd: CD_Website?, with newValue: Website?) -> Result<Void, Error> {
+        return self.write(cd!, with: newValue!)
+    }
+    
+    internal func write(_ cd: CD_Website, with newValue: Website) -> Result<Void, Error> {
+        cd.cd_title       = newValue.title
+        cd.cd_isArchived  = newValue.isArchived
+        cd.cd_resolvedURL = newValue.resolvedURL
+        cd.cd_originalURL = newValue.originalURL
+        cd.cd_thumbnail   = newValue.thumbnail
+        return self.container.viewContext.datum_save()
+    }
+    
+    internal func writeOpt(_ cd: CD_Tag?, with newValue: Tag?) -> Result<Void, Error> {
+        return self.write(cd!, with: newValue!)
+    }
+    
+    internal func write(_ cd: CD_Tag, with newValue: Tag) -> Result<Void, Error> {
+        cd.cd_name = newValue.name
+        return self.container.viewContext.datum_save()
+    }
+    
+    internal func write(_ cd: CD_Tag?, with newValue: TagApply?) -> Result<Void, Error> {
+        let cd = cd!
+        let newValue = newValue!
+        let result1 = self.write(cd, with: newValue.tag)
+        switch newValue.status {
+        case .all:
+            return result1.reduce {
+                self.addTag(cd, to: newValue.selection)
+            }
+        case .none:
+            return result1.reduce {
+                return self.removeTag(cd, to: newValue.selection)
+            }
+        case .some:
+            "Invalid change".log()
+            return result1
+        }
+    }
 }
 
 internal class CD_Controller {

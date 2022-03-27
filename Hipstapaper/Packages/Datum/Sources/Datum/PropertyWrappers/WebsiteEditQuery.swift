@@ -31,7 +31,6 @@ import Localize
 @propertyWrapper
 public struct WebsiteEditQuery: DynamicProperty {
     
-    @Environment(\.managedObjectContext) private var context
     @CDObjectQuery<CD_Website, Website, Error> private var object: Website?
     @ControllerProperty private var controller
 
@@ -41,7 +40,7 @@ public struct WebsiteEditQuery: DynamicProperty {
     
     public func update() {
         guard _object.onWrite.value == nil else { return }
-        _object.onWrite.value = self.write(_:with:)
+        _object.onWrite.value = _controller.cdController.writeOpt(_:with:)
     }
     
     public var wrappedValue: Website {
@@ -51,15 +50,5 @@ public struct WebsiteEditQuery: DynamicProperty {
     
     public var projectedValue: Binding<Website> {
         self.$object!
-    }
-    
-    // TODO: Move to Controller
-    private func write(_ cd: CD_Website?, with newValue: Website?) -> Result<Void, Error> {
-        cd!.cd_title       = newValue!.title
-        cd!.cd_isArchived  = newValue!.isArchived
-        cd!.cd_resolvedURL = newValue!.resolvedURL
-        cd!.cd_originalURL = newValue!.originalURL
-        cd!.cd_thumbnail   = newValue!.thumbnail
-        return self.context.datum_save()
     }
 }

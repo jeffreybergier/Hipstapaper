@@ -31,7 +31,6 @@ import Localize
 @propertyWrapper
 public struct TagEditQuery: DynamicProperty {
     
-    @Environment(\.managedObjectContext) private var context
     @CDObjectQuery<CD_Tag, Tag, Error> private var object: Tag?
     @ControllerProperty private var controller
 
@@ -41,7 +40,7 @@ public struct TagEditQuery: DynamicProperty {
     
     public func update() {
         guard _object.onWrite.value == nil else { return }
-        _object.onWrite.value = self.write(_:with:)
+        _object.onWrite.value = _controller.cdController.writeOpt(_:with:)
     }
     
     public var wrappedValue: Tag {
@@ -51,11 +50,5 @@ public struct TagEditQuery: DynamicProperty {
     
     public var projectedValue: Binding<Tag> {
         self.$object!
-    }
-    
-    // TODO: Move to Controller
-    private func write(_ cd: CD_Tag?, with newValue: Tag?) -> Result<Void, Error> {
-        cd!.cd_name        = newValue!.name
-        return self.context.datum_save()
     }
 }

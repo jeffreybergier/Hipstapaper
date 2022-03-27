@@ -30,6 +30,7 @@ public struct TagApply: Identifiable, Hashable, Codable {
     public var id: Tag.Ident { self.tag.uuid }
     public var tag: Tag
     public var status: Status
+    internal var selection: Set<Website.Ident>
     
     public enum Status: Hashable, Codable {
         case all, some, none

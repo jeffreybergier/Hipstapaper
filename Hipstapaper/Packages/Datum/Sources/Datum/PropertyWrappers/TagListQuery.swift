@@ -31,6 +31,7 @@ import Umbrella
 public struct TagListQuery: DynamicProperty {
     
     @CDListQuery<CD_Tag, Tag, Error> private var data: AnyRandomAccessCollection<Tag>
+    @ControllerProperty private var controller
 
     public init() {
         _data = .init(sort: [CD_Tag.defaultSort], animation: .default) {
@@ -40,8 +41,7 @@ public struct TagListQuery: DynamicProperty {
     
     public func update() {
         guard _data.onWrite.value == nil else { return }
-        // TODO: Make this writable
-        // _object.onWrite.value = self.write(_:with:)
+        _data.onWrite.value = _controller.cdController.write(_:with:)
     }
     
     public var wrappedValue: AnyRandomAccessCollection<Tag> {

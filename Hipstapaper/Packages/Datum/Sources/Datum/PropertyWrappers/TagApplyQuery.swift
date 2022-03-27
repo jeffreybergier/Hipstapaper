@@ -32,18 +32,16 @@ public struct TagApplyQuery: DynamicProperty {
     
     @CDListQuery<CD_Tag, TagApply, Error> private var data: AnyRandomAccessCollection<TagApply>
     @ControllerProperty private var controller
-    private let selection: Set<Website.Ident>
     
     public init(selection: Set<Website.Ident>) {
         _data = .init(sort: [CD_Tag.defaultSort], animation: .default) {
             TagApply(tag: $0, selection: selection)
         }
-        self.selection = selection
     }
     
     public func update() {
         guard _data.onWrite.value == nil else { return }
-         _data.onWrite.value = self.write(_:with:)
+        _data.onWrite.value = _controller.cdController.write(_:with:)
     }
     
     public var wrappedValue: AnyRandomAccessCollection<TagApply> {
@@ -52,19 +50,6 @@ public struct TagApplyQuery: DynamicProperty {
     
     public var projectedValue: AnyRandomAccessCollection<Binding<TagApply>> {
         self.$data
-    }
-    
-    // TODO: Move to controller. Also save changes to tag
-    private func write(_ cd: CD_Tag!, with newValue: TagApply!) -> Result<Void, Error> {
-        switch newValue.status {
-        case .all:
-            return self._controller.cdController.addTag(cd, to: self.selection)
-        case .none:
-            return self._controller.cdController.removeTag(cd, to: self.selection)
-        case .some:
-            "Invalid change".log()
-            return .success(())
-        }
     }
 }
 
@@ -85,5 +70,6 @@ extension TagApply {
         }
         
         self.tag = .init(tag)
+        self.selection = rhs
     }
 }
