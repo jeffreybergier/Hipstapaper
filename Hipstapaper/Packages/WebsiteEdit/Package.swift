@@ -1,4 +1,4 @@
-// swift-tools-version:5.5
+// swift-tools-version:5.6
 
 //
 //  Created by Jeffrey Bergier on 2022/03/11.
@@ -29,28 +29,28 @@
 import PackageDescription
 
 let package = Package(
-    name: "Interface",
+    name: "WebsiteEdit",
     platforms: [.iOS(.v15), .macOS(.v12)],
     products: [
         .library(
-            name: "Interface",
-            targets: ["Interface"]
+            name: "WebsiteEdit",
+            targets: ["WebsiteEdit"]
         ),
     ],
     dependencies: [
         .package(path: "../Datum"),
-        .package(path: "../Browse"),
-        .package(path: "../Snapshot"),
-        .package(path: "../WebsiteEdit"),
+        .package(path: "../Localize"),
+        .package(path: "../Stylize"),
+        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "v2")
     ],
     targets: [
         .target(
-            name: "Interface",
+            name: "WebsiteEdit",
             dependencies: [
                 .byNameItem(name: "Datum", condition: nil),
-                .byNameItem(name: "Browse", condition: nil),
-                .byNameItem(name: "Snapshot", condition: nil),
-                .byNameItem(name: "WebsiteEdit", condition: nil),
+                .byNameItem(name: "Localize", condition: nil),
+                .byNameItem(name: "Stylize", condition: nil),
+                .byNameItem(name: "Umbrella", condition: nil),
             ]
         ),
     ]

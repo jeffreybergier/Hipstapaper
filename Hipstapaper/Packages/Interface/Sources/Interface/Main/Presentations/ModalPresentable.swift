@@ -12,6 +12,7 @@ import Stylize
 import Localize
 import Browse
 import Snapshot
+import WebsiteEdit
 
 struct BrowserPresentable: ViewModifier {
     
@@ -105,8 +106,8 @@ struct AddWebsitePresentable: ViewModifier {
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
 
     func body(content: Content) -> some View {
-        content.sheet(isPresented: self.$presentation.isAddWebsite) {
-            Snapshotter(.init(doneAction: self.snapshot))
+        content.sheet(item: self.$presentation.isEditWebsite) { selection in
+            WebsiteEdit(selection.value.first!) // TODO: Make multiedit
         }
     }
     
@@ -167,7 +168,12 @@ struct AddChoicePresentable: ViewModifier {
             self.presentation.value = .none
             // TODO: Remove this hack when possible
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                self.presentation.value = .addWebsite
+                switch self.controller.createWebsite(nil) {
+                case .success(let website):
+                    self.presentation.value = .editWebsite([website])
+                case .failure(let error):
+                    self.errorQ = error
+                }
             }
         }
     }

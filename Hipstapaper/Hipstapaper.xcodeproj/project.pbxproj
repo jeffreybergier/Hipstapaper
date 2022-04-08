@@ -90,6 +90,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		732A8E6A280032AF00BB905E /* WebsiteEdit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = WebsiteEdit; path = Packages/WebsiteEdit; sourceTree = "<group>"; };
 		7350800D27DB49E800E8D5AC /* Stylize */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Stylize; path = Packages/Stylize; sourceTree = "<group>"; };
 		7351BE3F27DCB36200D94BEA /* Datum */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Datum; path = Packages/Datum; sourceTree = "<group>"; };
 		7369CBF627DC1B6A00871EBE /* Interface */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Interface; path = Packages/Interface; sourceTree = "<group>"; };
@@ -187,6 +188,7 @@
 				7369CBF627DC1B6A00871EBE /* Interface */,
 				DBDCB33B256BE8E600D005F6 /* Shared */,
 				7351BE3F27DCB36200D94BEA /* Datum */,
+				732A8E6A280032AF00BB905E /* WebsiteEdit */,
 				73868A5527DB6AAD00183A56 /* Snapshot */,
 				73868A5227DB68FC00183A56 /* Browse */,
 				7350800D27DB49E800E8D5AC /* Stylize */,

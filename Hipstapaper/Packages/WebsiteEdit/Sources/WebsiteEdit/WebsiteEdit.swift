@@ -1,7 +1,5 @@
-// swift-tools-version:5.5
-
 //
-//  Created by Jeffrey Bergier on 2022/03/11.
+//  Created by Jeffrey Bergier on 2022/04/08.
 //
 //  MIT License
 //
@@ -26,32 +24,18 @@
 //  SOFTWARE.
 //
 
-import PackageDescription
+import SwiftUI
+import Datum
 
-let package = Package(
-    name: "Interface",
-    platforms: [.iOS(.v15), .macOS(.v12)],
-    products: [
-        .library(
-            name: "Interface",
-            targets: ["Interface"]
-        ),
-    ],
-    dependencies: [
-        .package(path: "../Datum"),
-        .package(path: "../Browse"),
-        .package(path: "../Snapshot"),
-        .package(path: "../WebsiteEdit"),
-    ],
-    targets: [
-        .target(
-            name: "Interface",
-            dependencies: [
-                .byNameItem(name: "Datum", condition: nil),
-                .byNameItem(name: "Browse", condition: nil),
-                .byNameItem(name: "Snapshot", condition: nil),
-                .byNameItem(name: "WebsiteEdit", condition: nil),
-            ]
-        ),
-    ]
-)
+public struct WebsiteEdit: View {
+    
+    public let ident: Website.Ident
+    
+    public init(_ ident: Website.Ident) {
+        self.ident = ident
+    }
+    
+    public var body: some View {
+        Text("WebsiteEdit!")
+    }
+}
