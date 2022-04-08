@@ -54,6 +54,15 @@ extension TextFieldable {
             .textFieldStyle(self.style)
             .disableAutocorrection(!self.autocorrection)
     }
+    public static func textfield(_ binding: Binding<URL?>,
+                                 bundle: LocalizeBundle) -> some View
+    {
+        let map = binding.map(forward: { $0?.absoluteString },
+                              reverse: { URL(string: $0 ?? "") })
+        return JSBTextField(self.placeholder.loc(bundle), text: map)
+            .textFieldStyle(self.style)
+            .disableAutocorrection(!self.autocorrection)
+    }
     #else
     public static func textfield(_ binding: Binding<String>,
                                  bundle: LocalizeBundle) -> some View
@@ -67,6 +76,16 @@ extension TextFieldable {
                                  bundle: LocalizeBundle) -> some View
     {
         JSBTextField(self.placeholder.loc(bundle), text: binding)
+            .textFieldStyle(self.style)
+            .disableAutocorrection(!self.autocorrection)
+            .keyboardType(self.keyboard)
+    }
+    public static func textfield(_ binding: Binding<URL?>,
+                                 bundle: LocalizeBundle) -> some View
+    {
+        let map = binding.map(forward: { $0?.absoluteString },
+                              reverse: { URL(string: $0 ?? "") })
+        return JSBTextField(self.placeholder.loc(bundle), text: map)
             .textFieldStyle(self.style)
             .disableAutocorrection(!self.autocorrection)
             .keyboardType(self.keyboard)

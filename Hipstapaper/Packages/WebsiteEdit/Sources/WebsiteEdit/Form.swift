@@ -25,42 +25,38 @@
 //
 
 import SwiftUI
-import Umbrella
 import Datum
 import Localize
 import Stylize
 
-public struct WebsiteEdit: View {
+struct Form: View {
     
-    @WebsiteEditQuery private var website: Website
-    @ErrorQueue private var errorQ
+    @Localize private var text
+    @Binding var website: Website
     
-    public init(_ ident: Website.Ident) {
-        _website = .init(id: ident)
-    }
-    
-    public var body: some View {
-        ScrollView {
-            VStack(alignment: .center) {
-                Form(website: self.$website)
-                    .modifier(STZ.PDG.Equal(ignore: [\.bottom]))
-                ZStack(alignment: .top) {
-//                    WebView(viewModel: self.viewModel)
-//                    WebThumbnail(viewModel: self.viewModel)
-//                        .modifier(STZ.PRG.BarMod(progress: self.viewModel.progress,
-//                                                 isVisible: self.viewModel.isLoading))
+    var body: some View {
+        VStack {
+            STZ.VIEW.TXTFLD.WebTitle.textfield(self.$website.title, bundle: self.text)
+            HStack {
+                STZ.VIEW.TXTFLD.WebURL.textfield(self.$website.originalURL, bundle: self.text)
+                if true {
+                    STZ.TB.JSActive.button_iconOnly(bundle: self.text) {
+                        // TODO: Fix
+                    }
+                } else {
+                    STZ.TB.JSInactive.button_iconOnly(bundle: self.text) {
+                        // TODO: Fix
+                    }
                 }
-                .frame(width: 300, height: 300)
-                .modifier(STZ.CRN.Medium.apply())
-                .modifier(STZ.PDG.Equal(ignore: [\.top]))
+                STZ.BTN.Go.button(doneStyle: true,
+                                  isEnabled: true,
+                                  bundle: self.text)
+                {
+                    // TODO: Fix
+                }
             }
+            STZ.VIEW.TXTFLD.WebURL.textfield(self.$website.resolvedURL, bundle: self.text)
+                .disabled(true)
         }
-        .modifier(STZ.MDL.Save(
-            kind: STZ.TB.AddWebsite.self,
-            cancel: { /* TODO: FIX */ },
-            save: { /* TODO: FIX */ },
-            canSave: { true }
-        ))
-        .modifier(ErrorPresentation(self.$errorQ))
     }
 }
