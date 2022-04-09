@@ -32,8 +32,8 @@ import Stylize
 struct Form: View {
     
     @Localize private var text
-    @Binding var website: Website
-    @Binding var control: Control
+    @Binding internal var website: Website
+    @Binding internal var control: Control
     
     var body: some View {
         VStack {

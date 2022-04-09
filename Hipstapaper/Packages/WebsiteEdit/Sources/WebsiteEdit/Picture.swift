@@ -24,19 +24,17 @@
 //  SOFTWARE.
 //
 
-import Foundation
+import SwiftUI
+import Datum
 
-internal struct Control {
-    // Status
-    internal var isLoading = false
-    internal var isJSEnabled = false
-    internal var pageLoadProgress = Progress(totalUnitCount: 100)
-    internal var resolvedURL: URL?
+internal struct Picture: View {
     
-    // Control
-    internal var shouldLoad = false
-    internal var configuration = ThumbnailConfiguration()
+    @Binding internal var website: Website
+    @Binding internal var control: Control
     
-    // Temp
-    internal var timer: Timer?
+    internal var body: some View {
+        ZStack {
+            WebView(website: self.$website, control: self.$control)
+        }
+    }
 }

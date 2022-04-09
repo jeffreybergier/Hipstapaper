@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/04/09.
+//  Created by Jeffrey Bergier on 2020/12/06.
 //
 //  MIT License
 //
@@ -24,19 +24,34 @@
 //  SOFTWARE.
 //
 
-import Foundation
+import SwiftUI
+import Umbrella
+import Localize
 
-internal struct Control {
-    // Status
-    internal var isLoading = false
-    internal var isJSEnabled = false
-    internal var pageLoadProgress = Progress(totalUnitCount: 100)
-    internal var resolvedURL: URL?
-    
-    // Control
-    internal var shouldLoad = false
-    internal var configuration = ThumbnailConfiguration()
-    
-    // Temp
-    internal var timer: Timer?
+public enum Error: UserFacingError {
+    case take(Swift.Error)
+    case convertImage
+    case size(Int)
+    case userCancelled
+    case sx_save
+    case sx_process
+}
+
+extension Error: LocalizedError {
+    public var message: LocalizationKey {
+        switch self {
+        case .take:
+            return Phrase.errorScreenshot.key
+        case .convertImage:
+            return Phrase.errorConvertImage.key
+        case .size:
+            return Phrase.errorImageSize.key
+        case .userCancelled:
+            return Phrase.errorUserCancel.key
+        case .sx_process:
+            return Phrase.errorProcessURL.key
+        case .sx_save:
+            return Phrase.errorSaveWebsite.key
+        }
+    }
 }

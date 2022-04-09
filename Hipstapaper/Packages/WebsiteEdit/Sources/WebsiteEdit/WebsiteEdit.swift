@@ -46,6 +46,7 @@ public struct WebsiteEdit: View {
                 Form(website: self.$website, control: self.$control)
                     .modifier(STZ.PDG.Equal(ignore: [\.bottom]))
                 ZStack(alignment: .top) {
+                    Picture(website: self.$website, control: self.$control)
 //                    WebView(viewModel: self.viewModel)
 //                    WebThumbnail(viewModel: self.viewModel)
 //                        .modifier(STZ.PRG.BarMod(progress: self.viewModel.progress,
