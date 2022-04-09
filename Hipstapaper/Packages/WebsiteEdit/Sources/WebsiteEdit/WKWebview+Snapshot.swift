@@ -47,24 +47,26 @@ extension WKWebView {
                                     completion: @escaping (Result<Data, Error>) -> Void)
     {
         self.takeSnapshot(with: config.snapConfig) { image, error in
-            if let error = error {
-                completion(.failure(.take(error)))
-                return
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(.take(error)))
+                    return
+                }
+                guard
+                    let tiff = image?.tiffRepresentation,
+                    let rep = NSBitmapImageRep(data: tiff),
+                    let data = rep.representation(using: NSBitmapImageRep.FileType.jpeg,
+                                                  properties: [.compressionFactor: config.compressionFactor])
+                else {
+                    completion(.failure(.convertImage))
+                    return
+                }
+                guard data.count <= config.maxThumbSize else {
+                    completion(.failure(.size(data.count)))
+                    return
+                }
+                completion(.success(data))
             }
-            guard
-                let tiff = image?.tiffRepresentation,
-                let rep = NSBitmapImageRep(data: tiff),
-                let data = rep.representation(using: NSBitmapImageRep.FileType.jpeg,
-                                              properties: [.compressionFactor: config.compressionFactor])
-            else {
-                completion(.failure(.convertImage))
-                return
-            }
-            guard data.count <= config.maxThumbSize else {
-                completion(.failure(.size(data.count)))
-                return
-            }
-            completion(.success(data))
         }
     }
 }
@@ -80,20 +82,21 @@ extension WKWebView {
                                     completion: @escaping (Result<Data, Error>) -> Void)
     {
         self.takeSnapshot(with: config.snapConfig) { image, error in
-            if let error = error {
-                completion(.failure(.take(error)))
-                return
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(.take(error)))
+                    return
+                }
+                guard let data = image?.jpegData(compressionQuality: config.compressionFactor) else {
+                    completion(.failure(.convertImage))
+                    return
+                }
+                guard data.count <= config.maxThumbSize else {
+                    completion(.failure(.size(data.count)))
+                    return
+                }
+                completion(.success(data))
             }
-            // TODO: Convert this to JPEG Compression
-            guard let data = image?.jpegData(compressionQuality: config.compressionFactor) else {
-                completion(.failure(.convertImage))
-                return
-            }
-            guard data.count <= config.maxThumbSize else {
-                completion(.failure(.size(data.count)))
-                return
-            }
-            completion(.success(data))
         }
     }
 }

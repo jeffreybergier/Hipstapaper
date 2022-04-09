@@ -30,11 +30,11 @@ import Datum
 internal struct Picture: View {
     
     @Binding internal var website: Website
-    @Binding internal var control: Control
-    
+    @ObservedObject internal var control: Control
+
     internal var body: some View {
         ZStack {
-            WebView(website: self.$website, control: self.$control)
+            WebView(website: self.$website, control: self.control)
         }
     }
 }

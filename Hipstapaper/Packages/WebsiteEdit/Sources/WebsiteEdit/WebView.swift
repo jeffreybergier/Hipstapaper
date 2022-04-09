@@ -30,19 +30,20 @@ import WebKit
 import Umbrella
 import Datum
 
-struct WebView: View {
+internal struct WebView: View {
 
     @Binding internal var website: Website
-    @Binding internal var control: Control
+    @ObservedObject internal var control: Control
     
     // TODO: Update to modern error env
     @State private var errorQ = Deque<UserFacingError>()
-    @State private var kvo: [NSKeyValueObservation] = []
+    @StateObject private var timer = BlackBox<Timer?>(nil, isObservingValue: false)
+    @StateObject private var kvo = BlackBox<[NSKeyValueObservation]>([], isObservingValue: false)
     
     private func update(_ wv: WKWebView, context: Context) {
         if self.control.isJSEnabled != wv.configuration.preferences.javaScriptEnabled {
             wv.configuration.preferences.javaScriptEnabled = self.control.isJSEnabled
-            self.control.shouldLoad = true
+            guard self.control.shouldLoad else { return }
             wv.reload()
             return
         }
@@ -54,9 +55,10 @@ struct WebView: View {
         
         guard
             let originalURL = self.website.originalURL,
-            !wv.isLoading
+            wv.isLoading == false
         else { return }
         
+        print("__ORIGINAL: \(self.website.originalURL)")
         let request = URLRequest(url: originalURL)
         wv.load(request)
     }
@@ -70,11 +72,12 @@ struct WebView: View {
         wv.navigationDelegate = context.coordinator
         wv.allowsBackForwardNavigationGestures = false
         let token1 = wv.observe(\.isLoading)
-        { wv, _ in
-            self.control.isLoading = wv.isLoading
+        { [weak control] wv, _ in
+            control?.isLoading = wv.isLoading
         }
         let token2 = wv.observe(\.url)
         { wv, _ in
+            print("_ORIGINAL: \(self.website.originalURL)")
             self.website.resolvedURL = wv.url
         }
         let token3 = wv.observe(\.title)
@@ -82,25 +85,26 @@ struct WebView: View {
             self.website.title = wv.title
         }
         let token4 = wv.observe(\.estimatedProgress)
-        { wv, _ in
-            self.control.pageLoadProgress.completedUnitCount = Int64(wv.estimatedProgress * 100)
+        { [weak control] wv, _ in
+            control?.pageLoadProgress.completedUnitCount = Int64(wv.estimatedProgress * 100)
         }
-        self.control.timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true)
-        { [weak wv] timer in
-            guard let wv = wv else { timer.invalidate(); return; }
-            guard self.control.shouldLoad else { return }
+        self.timer.value = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true)
+        { [weak control, weak wv] timer in
+            guard let wv = wv, control?.shouldLoad == true else { return }
             wv.snap_takeSnapshot(with: self.control.configuration) {
                 // TODO: Capture error
                 self.website.thumbnail = $0.value
+                guard control?.pageLoadProgress.fractionCompleted ?? -1 > 0.98 else { return }
+                control?.shouldLoad = false
             }
         }
-        self.kvo = [token1, token2, token3, token4]
+        self.kvo.value = [token1, token2, token3, token4]
         return wv
     }
     
-    func makeCoordinator() -> GenericWebKitNavigationDelegate {
-        return .init(self.errorQ) { error in
-            self.control.shouldLoad = false
+    internal func makeCoordinator() -> GenericWebKitNavigationDelegate {
+        return .init(self.errorQ) { [weak control] error in
+            control?.shouldLoad = false
             // TODO: Capture error
         }
     }

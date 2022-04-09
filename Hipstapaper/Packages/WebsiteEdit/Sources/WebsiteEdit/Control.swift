@@ -26,17 +26,13 @@
 
 import Foundation
 
-internal struct Control {
+internal class Control: ObservableObject {
     // Status
-    internal var isLoading = false
-    internal var isJSEnabled = false
+    @Published internal var isLoading = false
+    @Published internal var isJSEnabled = false
     internal var pageLoadProgress = Progress(totalUnitCount: 100)
-    internal var resolvedURL: URL?
     
     // Control
-    internal var shouldLoad = false
-    internal var configuration = ThumbnailConfiguration()
-    
-    // Temp
-    internal var timer: Timer?
+    @Published internal var shouldLoad = false
+    @Published internal var configuration = ThumbnailConfiguration()
 }

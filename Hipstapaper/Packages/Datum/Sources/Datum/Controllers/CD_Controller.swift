@@ -160,6 +160,9 @@ extension CD_Controller: Controller {
     }
     
     internal func write(_ cd: CD_Website, with newValue: Website) -> Result<Void, Error> {
+        if newValue.originalURL == nil {
+            print("why is this NIL??")
+        }
         cd.cd_title       = newValue.title
         cd.cd_isArchived  = newValue.isArchived
         cd.cd_resolvedURL = newValue.resolvedURL

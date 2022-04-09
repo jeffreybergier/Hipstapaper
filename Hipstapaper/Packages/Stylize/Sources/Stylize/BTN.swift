@@ -73,6 +73,12 @@ extension STZ {
             public static var verb: Verb = .go
             public static var shortcut: KeyboardShortcut? = .init(.defaultAction)
         }
+        public enum Stop: Buttonable {
+            public static var icon: STZ.ICN? = .stop
+            public static var phrase: Phrase = .stopLoading
+            public static var verb: Verb = .stopLoading
+            public static var shortcut: KeyboardShortcut? = nil
+        }
         public enum Done: Buttonable {
             public static var icon: STZ.ICN? = nil
             public static var phrase: Phrase = .done

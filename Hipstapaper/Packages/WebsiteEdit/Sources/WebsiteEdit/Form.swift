@@ -29,15 +29,15 @@ import Datum
 import Localize
 import Stylize
 
-struct Form: View {
+internal struct Form: View {
+    
+    @Binding internal var website: Website
+    @ObservedObject internal var control: Control
     
     @Localize private var text
-    @Binding internal var website: Website
-    @Binding internal var control: Control
     
-    var body: some View {
+    internal var body: some View {
         VStack {
-            STZ.VIEW.TXTFLD.WebTitle.textfield(self.$website.title, bundle: self.text)
             HStack {
                 STZ.VIEW.TXTFLD.WebURL.textfield(self.$website.originalURL, bundle: self.text)
                 if self.control.isJSEnabled {
@@ -49,13 +49,24 @@ struct Form: View {
                         self.control.isJSEnabled = true
                     }
                 }
-                STZ.BTN.Go.button(doneStyle: true,
-                                  isEnabled: true,
-                                  bundle: self.text)
-                {
-                    self.control.shouldLoad = true
+                if self.control.isLoading {
+                    STZ.BTN.Stop.button(doneStyle: false,
+                                        isEnabled: true,
+                                        bundle: self.text)
+                    {
+                        self.control.shouldLoad = false
+                    }
+                } else {
+                    STZ.BTN.Go.button(doneStyle: true,
+                                      isEnabled: self.website.originalURL != nil,
+                                      bundle: self.text)
+                    {
+                        self.control.shouldLoad = true
+                    }
                 }
             }
+            STZ.VIEW.TXTFLD.WebTitle.textfield(self.$website.title, bundle: self.text)
+            STZ.VIEW.TXTFLD.WebURL.textfield(self.$website.resolvedURL, bundle: self.text)
         }
     }
 }

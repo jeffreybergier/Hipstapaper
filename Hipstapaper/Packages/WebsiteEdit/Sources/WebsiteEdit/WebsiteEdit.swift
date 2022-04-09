@@ -32,21 +32,24 @@ import Stylize
 
 public struct WebsiteEdit: View {
     
-    @State private var control = Control()
     @WebsiteEditQuery private var website: Website
-    @ErrorQueue private var errorQ
+    private let onDone: Action
     
-    public init(_ ident: Website.Ident) {
+    @ErrorQueue private var errorQ
+    @StateObject private var control = Control()
+    
+    public init(_ ident: Website.Ident, onDone: @escaping Action) {
         _website = .init(id: ident)
+        self.onDone = onDone
     }
     
     public var body: some View {
         ScrollView {
             VStack(alignment: .center) {
-                Form(website: self.$website, control: self.$control)
+                Form(website: self.$website, control: self.control)
                     .modifier(STZ.PDG.Equal(ignore: [\.bottom]))
                 ZStack(alignment: .top) {
-                    Picture(website: self.$website, control: self.$control)
+                    Picture(website: self.$website, control: self.control)
 //                    WebView(viewModel: self.viewModel)
 //                    WebThumbnail(viewModel: self.viewModel)
 //                        .modifier(STZ.PRG.BarMod(progress: self.viewModel.progress,
@@ -57,12 +60,7 @@ public struct WebsiteEdit: View {
                 .modifier(STZ.PDG.Equal(ignore: [\.top]))
             }
         }
-        .modifier(STZ.MDL.Save(
-            kind: STZ.TB.AddWebsite.self,
-            cancel: { /* TODO: FIX */ },
-            save: { /* TODO: FIX */ },
-            canSave: { true }
-        ))
+        .modifier(STZ.MDL.Done(kind: STZ.TB.AddWebsite.self, done: self.onDone))
         .modifier(ErrorPresentation(self.$errorQ))
     }
 }
