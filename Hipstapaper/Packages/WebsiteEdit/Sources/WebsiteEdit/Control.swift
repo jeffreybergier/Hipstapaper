@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/04/08.
+//  Created by Jeffrey Bergier on 2022/04/09.
 //
 //  MIT License
 //
@@ -24,38 +24,15 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
-import Datum
-import Localize
-import Stylize
+import Foundation
 
-struct Form: View {
+internal struct Control {
+    // Status
+    internal var isLoading = false
+    internal var isJSEnabled = false
+    internal var pageLoadProgress = Progress()
+    internal var resolvedURL: URL?
     
-    @Localize private var text
-    @Binding var website: Website
-    @Binding var control: Control
-    
-    var body: some View {
-        VStack {
-            STZ.VIEW.TXTFLD.WebTitle.textfield(self.$website.title, bundle: self.text)
-            HStack {
-                STZ.VIEW.TXTFLD.WebURL.textfield(self.$website.originalURL, bundle: self.text)
-                if self.control.isJSEnabled {
-                    STZ.TB.JSActive.button_iconOnly(bundle: self.text) {
-                        self.control.isJSEnabled = false
-                    }
-                } else {
-                    STZ.TB.JSInactive.button_iconOnly(bundle: self.text) {
-                        self.control.isJSEnabled = true
-                    }
-                }
-                STZ.BTN.Go.button(doneStyle: true,
-                                  isEnabled: true,
-                                  bundle: self.text)
-                {
-                    self.control.shouldLoad = true
-                }
-            }
-        }
-    }
+    // Control
+    internal var shouldLoad = false
 }

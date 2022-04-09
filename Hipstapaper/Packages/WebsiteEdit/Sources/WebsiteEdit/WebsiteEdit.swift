@@ -32,6 +32,7 @@ import Stylize
 
 public struct WebsiteEdit: View {
     
+    @State private var control = Control()
     @WebsiteEditQuery private var website: Website
     @ErrorQueue private var errorQ
     
@@ -42,7 +43,7 @@ public struct WebsiteEdit: View {
     public var body: some View {
         ScrollView {
             VStack(alignment: .center) {
-                Form(website: self.$website)
+                Form(website: self.$website, control: self.$control)
                     .modifier(STZ.PDG.Equal(ignore: [\.bottom]))
                 ZStack(alignment: .top) {
 //                    WebView(viewModel: self.viewModel)
