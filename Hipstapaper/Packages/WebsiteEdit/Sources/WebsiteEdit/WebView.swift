@@ -58,7 +58,6 @@ internal struct WebView: View {
             wv.isLoading == false
         else { return }
         
-        print("__STARTING: \(self.website.originalURL)")
         let request = URLRequest(url: originalURL)
         wv.load(request)
     }
@@ -79,8 +78,6 @@ internal struct WebView: View {
         }
         let token2 = wv.observe(\.url)
         { wv, _ in
-            print("_ORIGINAL: \(self.website.originalURL)")
-            self.website.originalURL = wv.reques
             self.website.resolvedURL = wv.url
         }
         let token3 = wv.observe(\.title)
