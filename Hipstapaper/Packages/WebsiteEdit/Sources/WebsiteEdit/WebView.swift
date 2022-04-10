@@ -43,7 +43,7 @@ internal struct WebView: View {
     private func update(_ wv: WKWebView, context: Context) {
         if self.control.isJSEnabled != wv.configuration.preferences.javaScriptEnabled {
             wv.configuration.preferences.javaScriptEnabled = self.control.isJSEnabled
-            guard self.control.shouldLoad else { return }
+            guard self.control.shouldLoad, wv.isLoading else { return }
             wv.reload()
             return
         }
@@ -58,7 +58,7 @@ internal struct WebView: View {
             wv.isLoading == false
         else { return }
         
-        print("__ORIGINAL: \(self.website.originalURL)")
+        print("__STARTING: \(self.website.originalURL)")
         let request = URLRequest(url: originalURL)
         wv.load(request)
     }
@@ -74,10 +74,13 @@ internal struct WebView: View {
         let token1 = wv.observe(\.isLoading)
         { [weak control] wv, _ in
             control?.isLoading = wv.isLoading
+            guard wv.isLoading == false else { return }
+            control?.shouldLoad = false
         }
         let token2 = wv.observe(\.url)
         { wv, _ in
             print("_ORIGINAL: \(self.website.originalURL)")
+            self.website.originalURL = wv.reques
             self.website.resolvedURL = wv.url
         }
         let token3 = wv.observe(\.title)
