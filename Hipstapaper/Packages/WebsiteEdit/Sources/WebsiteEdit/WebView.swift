@@ -32,13 +32,21 @@ import Datum
 
 internal struct WebView: View {
 
-    @Binding internal var website: Website
+    // TODO: Turn this back into Binding
+    // When this is a binding, the orginalURL value gets set to NIL when
+    // setting resolvedURL.
+    @WebsiteEditQuery private var website: Website
     @ObservedObject internal var control: Control
     
     // TODO: Update to modern error env
     @State private var errorQ = Deque<UserFacingError>()
     @StateObject private var timer = BlackBox<Timer?>(nil, isObservingValue: false)
     @StateObject private var kvo = BlackBox<[NSKeyValueObservation]>([], isObservingValue: false)
+    
+    internal init(id: Website.Ident, control: Control) {
+        _website = .init(id: id)
+        _control = .init(wrappedValue: control)
+    }
     
     private func update(_ wv: WKWebView, context: Context) {
         if self.control.isJSEnabled != wv.configuration.preferences.javaScriptEnabled {

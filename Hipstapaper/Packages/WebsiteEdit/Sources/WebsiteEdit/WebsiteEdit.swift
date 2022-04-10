@@ -49,7 +49,6 @@ public struct WebsiteEdit: View {
                 Form(website: self.$website, control: self.control)
                     .modifier(STZ.PDG.Equal(ignore: [\.bottom]))
                 Picture(website: self.$website, control: self.control)
-//              WebThumbnail(viewModel: self.viewModel)
                     .frame(width: 300, height: 300)
                     .modifier(STZ.CRN.Medium.apply())
                     .modifier(STZ.PDG.Equal(ignore: [\.top]))

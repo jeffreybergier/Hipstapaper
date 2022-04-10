@@ -35,9 +35,10 @@ internal struct Picture: View {
 
     internal var body: some View {
         ZStack {
-            WebView(website: self.$website, control: self.control)
-                .modifier(STZ.PRG.BarMod(progress: self.control.pageLoadProgress,
-                                         isVisible: self.control.isLoading))
+            WebView(id: self.website.uuid, control: self.control)
+            STZ.ICN.web.thumbnail(self.website.thumbnail)
         }
+        .modifier(STZ.PRG.BarMod(progress: self.control.pageLoadProgress,
+                                 isVisible: self.control.isLoading))
     }
 }
