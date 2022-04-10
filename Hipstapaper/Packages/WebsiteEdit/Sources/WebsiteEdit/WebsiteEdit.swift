@@ -48,16 +48,11 @@ public struct WebsiteEdit: View {
             VStack(alignment: .center) {
                 Form(website: self.$website, control: self.control)
                     .modifier(STZ.PDG.Equal(ignore: [\.bottom]))
-                ZStack(alignment: .top) {
-                    Picture(website: self.$website, control: self.control)
-//                    WebView(viewModel: self.viewModel)
-//                    WebThumbnail(viewModel: self.viewModel)
-//                        .modifier(STZ.PRG.BarMod(progress: self.viewModel.progress,
-//                                                 isVisible: self.viewModel.isLoading))
-                }
-                .frame(width: 300, height: 300)
-                .modifier(STZ.CRN.Medium.apply())
-                .modifier(STZ.PDG.Equal(ignore: [\.top]))
+                Picture(website: self.$website, control: self.control)
+//              WebThumbnail(viewModel: self.viewModel)
+                    .frame(width: 300, height: 300)
+                    .modifier(STZ.CRN.Medium.apply())
+                    .modifier(STZ.PDG.Equal(ignore: [\.top]))
             }
         }
         .modifier(STZ.MDL.Done(kind: STZ.TB.AddWebsite.self, done: self.onDone))

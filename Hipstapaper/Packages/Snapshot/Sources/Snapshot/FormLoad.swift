@@ -35,8 +35,8 @@ struct FormLoad: View {
     
     var body: some View {
         HStack() {
-            STZ.VIEW.TXTFLD.WebURL.textfield(self.$viewModel.output.inputURLString,
-                                             bundle: self.text)
+            STZ.VIEW.TXTFLD.AutofillURL.textfield(self.$viewModel.output.inputURLString,
+                                                  bundle: self.text)
             STZ.BTN.Go.button(doneStyle: true,
                               isEnabled: self.viewModel.output.inputURL != nil,
                               bundle: self.text)

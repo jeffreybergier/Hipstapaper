@@ -95,9 +95,17 @@ extension TextFieldable {
 
 extension STZ.VIEW {
     public enum TXTFLD {
-        public enum WebURL: TextFieldable {
+        public enum AutofillURL: TextFieldable {
             public static var style = RoundedBorderTextFieldStyle()
-            public static var placeholder: Noun = .websiteURL
+            public static var placeholder: Noun = .autofillURL
+            public static var autocorrection = false
+            #if canImport(UIKit)
+            public static var keyboard: UIKeyboardType = .URL
+            #endif
+        }
+        public enum FilledURL: TextFieldable {
+            public static var style = RoundedBorderTextFieldStyle()
+            public static var placeholder: Noun = .filledURL
             public static var autocorrection = false
             #if canImport(UIKit)
             public static var keyboard: UIKeyboardType = .URL

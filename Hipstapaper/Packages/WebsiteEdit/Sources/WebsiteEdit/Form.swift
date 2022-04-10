@@ -37,21 +37,25 @@ internal struct Form: View {
     @Localize private var text
     
     internal var body: some View {
-        VStack {
-            HStack {
-                STZ.VIEW.TXTFLD.WebURL.textfield(self.$website.originalURL, bundle: self.text)
-                if self.control.isJSEnabled {
-                    STZ.TB.JSActive.button_iconOnly(bundle: self.text) {
-                        self.control.isJSEnabled = false
-                    }
-                } else {
-                    STZ.TB.JSInactive.button_iconOnly(bundle: self.text) {
-                        self.control.isJSEnabled = true
+        SwiftUI.Form {
+            Section {
+                HStack {
+                    STZ.VIEW.TXTFLD.AutofillURL.textfield(self.$website.originalURL,
+                                                          bundle: self.text)
+                    if self.control.isJSEnabled {
+                        STZ.TB.JSActive.button_iconOnly(bundle: self.text) {
+                            self.control.isJSEnabled = false
+                        }
+                    } else {
+                        STZ.TB.JSInactive.button_iconOnly(bundle: self.text) {
+                            self.control.isJSEnabled = true
+                        }
                     }
                 }
                 if self.control.isLoading {
                     STZ.BTN.Stop.button(doneStyle: false,
                                         isEnabled: true,
+                                        maxWidth: .infinity,
                                         bundle: self.text)
                     {
                         self.control.shouldLoad = false
@@ -59,14 +63,20 @@ internal struct Form: View {
                 } else {
                     STZ.BTN.Go.button(doneStyle: true,
                                       isEnabled: self.website.originalURL != nil,
+                                      maxWidth: .infinity,
                                       bundle: self.text)
                     {
                         self.control.shouldLoad = true
                     }
+                    .scaledToFill()
                 }
             }
-            STZ.VIEW.TXTFLD.WebTitle.textfield(self.$website.title, bundle: self.text)
-            STZ.VIEW.TXTFLD.WebURL.textfield(self.$website.resolvedURL, bundle: self.text)
+            Section {
+                STZ.VIEW.TXTFLD.WebTitle.textfield(self.$website.title,
+                                                   bundle: self.text)
+                STZ.VIEW.TXTFLD.FilledURL.textfield(self.$website.resolvedURL,
+                                                    bundle: self.text)
+            }
         }
     }
 }

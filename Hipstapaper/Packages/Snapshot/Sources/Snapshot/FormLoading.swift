@@ -39,8 +39,8 @@ struct FormLoading: View {
             STZ.VIEW.TXTFLD.WebTitle.textfield(self.$viewModel.output.title,
                                                bundle: self.text)
                 .disabled(true)
-            STZ.VIEW.TXTFLD.WebURL.textfield(self.$viewModel.output.currentURLString,
-                                             bundle: self.text)
+            STZ.VIEW.TXTFLD.AutofillURL.textfield(self.$viewModel.output.currentURLString,
+                                                  bundle: self.text)
                 .disabled(true)
         }
     }

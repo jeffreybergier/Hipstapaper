@@ -68,12 +68,14 @@ extension Labelable {
 extension Buttonable {
     public static func button(doneStyle: Bool = false,
                               isEnabled: Bool = true,
+                              maxWidth: CGFloat? = nil,
                               bundle: LocalizeBundle,
                               action: @escaping Action)
                               -> some View
     {
         self.context(doneStyle: doneStyle,
                      isEnabled: isEnabled,
+                     maxWidth: maxWidth,
                      bundle: bundle,
                      action: action)
             .modifier(DefaultButtonStyle()) // if this modifier is used on context menu buttons everything breaks
@@ -81,6 +83,7 @@ extension Buttonable {
     
     public static func context(doneStyle: Bool = false,
                                isEnabled: Bool = true,
+                               maxWidth: CGFloat? = nil,
                                bundle: LocalizeBundle,
                                action: @escaping Action)
                                -> some View
@@ -88,6 +91,7 @@ extension Buttonable {
         Button(action: action) {
             self.label(bundle: bundle)
                 .modifier(DoneStyle(enabled: doneStyle))
+                .frame(maxWidth: maxWidth)
         }
         .disabled(!isEnabled)
         .help(self.phrase.loc(bundle))

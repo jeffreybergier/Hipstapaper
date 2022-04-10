@@ -81,8 +81,9 @@
 "Noun.Untitled"      = "Untitled";
 "Noun.AllItems"      = "All Items";
 "Noun.UnreadItems"   = "Unread Items";
-"Noun.WebsiteURL"    = "Website URL";
-"Noun.WebsiteTitle"  = "Website Title";
+"Noun.AutofillURL"   = "Autofill URL";
+"Noun.FilledURL"     = "Filled URL";
+"Noun.WebsiteTitle"  = "Page Title";
 "Noun.Hipstapaper"   = "Hipstapaper";
 "Noun.TagName"       = "Tag Name";
 "Noun.AddTag"        = "Add Tag";

@@ -70,7 +70,7 @@ extension STZ.PRG {
         ///   - isEdgeToEdge: If `NO`, the bar has rounded corner radius. Default = `YES`
         public init(progress: Progress,
                     isVisible: Bool,
-                    height: Sizeable.Type = STZ.CRN.Medium.self,
+                    height: Sizeable.Type = STZ.CRN.Small.self,
                     isEdgeToEdge: Bool = true)
         {
             self.progress = progress

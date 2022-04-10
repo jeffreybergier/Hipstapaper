@@ -26,6 +26,7 @@
 
 import SwiftUI
 import Datum
+import Stylize
 
 internal struct Picture: View {
     
@@ -35,6 +36,8 @@ internal struct Picture: View {
     internal var body: some View {
         ZStack {
             WebView(website: self.$website, control: self.control)
+                .modifier(STZ.PRG.BarMod(progress: self.control.pageLoadProgress,
+                                         isVisible: self.control.isLoading))
         }
     }
 }
