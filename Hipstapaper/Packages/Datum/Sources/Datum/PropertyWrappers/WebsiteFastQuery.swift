@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/30.
+//  Created by Jeffrey Bergier on 2022/05/11.
 //
 //  MIT License
 //
@@ -26,41 +26,18 @@
 
 import SwiftUI
 import Umbrella
-import Datum
-import Stylize
-import Localize
 
-struct WebsiteRow: View {
+@propertyWrapper
+public struct WebsiteFastQuery: DynamicProperty {
     
-    private static let formatter: DateFormatter = {
-        let df = DateFormatter()
-        df.dateStyle = .long
-        df.timeStyle = .short
-        return df
-    }()
-    
-    
-    @WebsiteFastQuery private var item: FAST_Website
-    @Localize private var text
-    
-    internal init(id: Website.Ident) {
-        _item = .init(id: id)
+    @CDObjectQuery<CD_Website, FAST_Website, Error> private var object: FAST_Website?
+    @ControllerProperty private var controller
+
+    public init(id: Website.Ident) {
+        _object = .init(objectIDURL: id.url) { FAST_Website($0) }
     }
-        
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 6) {
-                STZ.VIEW.TXT(self.item.title, or: Noun.untitled.loc(self.text))
-                    .modifier(STZ.FNT.DetailRow.Title.apply())
-                    .modifier(STZ.CLR.DetailRow.Text.foreground())
-                STZ.VIEW.TXT(WebsiteRow.formatter.string(from: self.item.dateCreated))
-                    .modifier(STZ.FNT.DetailRow.Subtitle.apply())
-                    .modifier(STZ.CLR.DetailRow.Text.foreground())
-            }
-            Spacer()
-            STZ.ICN.placeholder.thumbnail(self.item.thumbnail)
-                .frame(width: 60)
-        }
-        .frame(minHeight: 60)
+    
+    public var wrappedValue: FAST_Website {
+        self.object!
     }
 }

@@ -43,6 +43,7 @@ extension STZ.VIEW {
     @ViewBuilder public static func TXT(_ string: String?, or fallback: LocalizedStringKey) -> some View {
         if let string = string {
             Text(string)
+                .preference(key: STZ.isFallbackKey.self, value: false)
                 .lineLimit(1)
         } else {
             Text(fallback)
@@ -53,6 +54,7 @@ extension STZ.VIEW {
     @ViewBuilder public static func TXT(_ string: String?, or fallback: String) -> some View {
         if let string = string {
             Text(string)
+                .preference(key: STZ.isFallbackKey.self, value: false)
                 .lineLimit(1)
         } else {
             Text(fallback)
