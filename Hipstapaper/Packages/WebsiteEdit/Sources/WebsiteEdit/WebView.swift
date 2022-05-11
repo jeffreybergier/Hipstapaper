@@ -65,7 +65,14 @@ internal struct WebView: View {
             let originalURL = self.website.originalURL,
             wv.isLoading == false
         else { return }
+        // Ok now we're ready to load the page
         
+        // Put existing webview info into Website object.
+        // This prevents an issue where KVO doesn't update Title or URL
+        // if they remain the same.
+        self.website.title = wv.title
+        self.website.resolvedURL = originalURL
+        // Load page
         let request = URLRequest(url: originalURL)
         wv.load(request)
     }
