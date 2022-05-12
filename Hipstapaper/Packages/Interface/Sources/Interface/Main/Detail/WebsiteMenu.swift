@@ -97,7 +97,7 @@ struct WebsiteMenu: ViewModifier {
             STZ.TB.EditWebsite.context(isEnabled: WH.canEdit(selection),
                                        bundle: self.text)
             {
-                self.modalPresentation.value = .editWebsite(Set(selection.map { $0.uuid }))
+                self.modalPresentation.value = .editWebsite(.edit, Set(selection.map { $0.uuid }))
             }
         }
         Group {

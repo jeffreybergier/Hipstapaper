@@ -105,9 +105,9 @@ struct AddWebsitePresentable: ViewModifier {
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
 
     func body(content: Content) -> some View {
-        content.sheet(item: self.$presentation.isEditWebsite) { selection in
+        content.sheet(item: self.$presentation.isEditWebsite) { payload in
             // TODO: Make multiedit
-            WebsiteEdit(selection.value) {
+            WebsiteEdit(payload.value.0, payload.value.1) {
                 self.presentation.isEditWebsite = nil
             }
         }
@@ -157,7 +157,7 @@ struct AddChoicePresentable: ViewModifier {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 switch self.controller.createWebsite(nil) {
                 case .success(let website):
-                    self.presentation.value = .editWebsite([website])
+                    self.presentation.value = .editWebsite(.add, [website])
                 case .failure(let error):
                     self.errorQ = error
                 }

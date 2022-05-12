@@ -26,17 +26,24 @@
 
 import SwiftUI
 import Datum
+import Localize
 import Stylize
 
 internal struct Picture: View {
     
     @Binding internal var website: Website
     @ObservedObject internal var control: Control
+    @Localize private var text
 
     internal var body: some View {
         ZStack {
             WebView(id: self.website.uuid, control: self.control)
             STZ.ICN.web.thumbnail(self.website.thumbnail)
+            if self.control.shouldLoad == false, self.website.thumbnail != nil {
+                STZ.TB.DeleteImage.button_iconOnly(bundle: self.text) {
+                    self.website.thumbnail = nil
+                }
+            }
         }
         .modifier(STZ.PRG.BarMod(progress: self.control.pageLoadProgress,
                                  isVisible: self.control.isLoading))

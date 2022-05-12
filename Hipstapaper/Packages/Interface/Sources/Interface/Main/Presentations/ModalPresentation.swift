@@ -27,13 +27,14 @@
 import Foundation
 import Datum
 import Umbrella
+import WebsiteEdit
 
 enum ModalPresentation: Equatable {
     case none
     case addChoose
     case search
     case sort
-    case editWebsite(Set<Website.Ident>)
+    case editWebsite(Mode, Set<Website.Ident>)
     case tagName(TH.Selection)
     case tagApply(WH.Selection)
     case share(WH.Selection)
@@ -65,7 +66,7 @@ enum ModalPresentation: Equatable {
             }
         }
         
-        @Published var isEditWebsite: IdentBox<Set<Website.Ident>>? {
+        @Published var isEditWebsite: IdentBox<(Mode, Set<Website.Ident>)>? {
             didSet {
                 guard !internalUpdateInProgress else { return }
                 guard self.isEditWebsite == nil else { return }
@@ -128,8 +129,8 @@ enum ModalPresentation: Equatable {
                     self.isShare = .init(selection)
                 case .browser(let item):
                     self.isBrowser = item
-                case .editWebsite(let item):
-                    self.isEditWebsite = .init(item)
+                case .editWebsite(let mode, let item):
+                    self.isEditWebsite = .init((mode, item))
                 case .tagName(let item):
                     self.isTagName = .init(item)
                 case .addChoose:

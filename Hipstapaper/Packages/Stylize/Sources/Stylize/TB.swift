@@ -125,12 +125,6 @@ extension STZ {
             public static let verb: Verb = .deleteImage
             public static let shortcut: KeyboardShortcut? = nil
         }
-        public enum EditWebsite: Toolbarable {
-            public static let icon: STZ.ICN? = .editPencil
-            public static let phrase: Phrase = .editWebsiteTip
-            public static let verb: Verb = .editWebsite
-            public static let shortcut: KeyboardShortcut? = .init(.return, modifiers: [.command])
-        }
         public enum DeleteTag_Trash: Toolbarable {
             public static let icon: STZ.ICN? = .deleteTrash
             public static let phrase: Phrase = .deleteTagTip

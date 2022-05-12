@@ -50,7 +50,7 @@ internal struct ManualForm: View {
             }
             ZStack {
                 STZ.ICN.placeholder.thumbnail(self.website.thumbnail)
-                    .frame(width: 80)
+                    .frame(width: 112)
                 if self.website.thumbnail != nil {
                     STZ.TB.DeleteImage.button_iconOnly(bundle: self.text) {
                         self.website.thumbnail = nil

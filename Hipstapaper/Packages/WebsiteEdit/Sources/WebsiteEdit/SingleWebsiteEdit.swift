@@ -33,13 +33,15 @@ import Stylize
 internal struct SingleWebsiteEdit: View {
     
     @WebsiteEditQuery private var website: Website
+    private let mode: Mode
     private let onDone: Action
     
     @ErrorQueue private var errorQ
     @StateObject private var control = Control()
     
-    internal init(_ ident: Website.Ident, onDone: @escaping Action) {
+    internal init(_ mode: Mode, _ ident: Website.Ident, onDone: @escaping Action) {
         _website = .init(id: ident)
+        self.mode = mode
         self.onDone = onDone
     }
     
@@ -55,7 +57,10 @@ internal struct SingleWebsiteEdit: View {
             }
         }
         // TODO: Add delete button
-        .modifier(STZ.MDL.Done(kind: STZ.TB.AddWebsite.self, done: self.onDone))
+        .modifier(STZ.MDL.Done(
+            kind: self.mode == .add ? STZ.TB.AddWebsite.self : STZ.TB.EditWebsite.self,
+            done: self.onDone)
+        )
         .modifier(ErrorPresentation(self.$errorQ))
     }
 }

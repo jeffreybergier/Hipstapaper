@@ -35,20 +35,27 @@ internal struct MultiWebsiteEdit: View {
     @ErrorQueue private var errorQ
     
     private let selection: [Website.Ident]
+    private let mode: Mode
     private let onDone: Action
     
-    public init(_ selection: Set<Website.Ident>, onDone: @escaping Action) {
+    public init(_ mode: Mode, _ selection: Set<Website.Ident>, onDone: @escaping Action) {
         self.selection = Array(selection)
+        self.mode = mode
         self.onDone = onDone
     }
     
     internal var body: some View {
         List(self.selection) { id in
             ManualForm(id)
+                .modifier(Force.ListRowSeparatorHidden())
+                .modifier(STZ.PDG.Equal(ignore: [\.top, \.leading, \.trailing]))
         }
-        .frame(width: 500, height: 300)
-        .modifier(STZ.MDL.Done(kind: STZ.TB.AddWebsite.self, done: self.onDone))
+        .listStyle(.plain)
+        .if(.macOS) { $0.frame(width: 500, height: 300) }
+        .modifier(STZ.MDL.Done(
+            kind: self.mode == .add ? STZ.TB.AddWebsite.self : STZ.TB.EditWebsite.self,
+            done: self.onDone)
+        )
         .modifier(ErrorPresentation(self.$errorQ))
     }
-    
 }

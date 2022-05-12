@@ -93,6 +93,7 @@
 "Noun.AddTag"        = "Add Tag";
 "Noun.EditTag"       = "Edit Tag";
 "Noun.AddWebsite"    = "Add Website";
+"Noun.EditWebsite"   = "Edit Website";
 "Noun.ApplyTags"     = "Apply Tags";
 "Noun.Sort"          = "Sort Order";
 "Noun.Filter"        = "Filter";

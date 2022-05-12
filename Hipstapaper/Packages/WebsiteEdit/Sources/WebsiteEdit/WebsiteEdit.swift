@@ -28,21 +28,27 @@ import SwiftUI
 import Datum
 import Stylize
 
+public enum Mode {
+    case add, edit
+}
+
 public struct WebsiteEdit: View {
     
     private let selection: Set<Website.Ident>
+    private let mode: Mode
     private let onDone: Action
     
-    public init(_ selection: Set<Website.Ident>, onDone: @escaping Action) {
+    public init(_ mode: Mode, _ selection: Set<Website.Ident>, onDone: @escaping Action) {
         self.selection = selection
+        self.mode = mode
         self.onDone = onDone
     }
 
     public var body: some View {
         switch self.selection.count {
         case 0: fatalError("// TODO: Show Error")
-        case 1: SingleWebsiteEdit(self.selection.first!, onDone: self.onDone)
-        default: MultiWebsiteEdit(self.selection, onDone: self.onDone)
+        case 1: SingleWebsiteEdit(self.mode, self.selection.first!, onDone: self.onDone)
+        default: MultiWebsiteEdit(self.mode, self.selection, onDone: self.onDone)
         }
     }
 }
