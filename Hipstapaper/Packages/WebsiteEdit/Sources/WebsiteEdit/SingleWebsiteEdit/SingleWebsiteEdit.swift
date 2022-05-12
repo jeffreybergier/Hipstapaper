@@ -51,11 +51,11 @@ internal struct SingleWebsiteEdit: View {
                 AutoloadForm(website: self.$website, control: self.control)
                     .modifier(STZ.PDG.Equal(ignore: [\.bottom]))
                 Picture(website: self.$website, control: self.control)
-                    .frame(width: 300, height: 300)
                     .modifier(STZ.CRN.Medium.apply())
                     .modifier(STZ.PDG.Equal(ignore: [\.top]))
             }
         }
+        .if(.macOS) { $0.frame(width: 8*45, height: 8*56) }
         // TODO: Add delete button
         .modifier(STZ.MDL.Done(
             kind: self.mode == .add ? STZ.TB.AddWebsite.self : STZ.TB.EditWebsite.self,
