@@ -25,9 +25,20 @@
 //
 
 import SwiftUI
+import Datum
+import WebsiteEdit
 
 internal struct Root: View {
+    
+    private let ident: Website.Ident
+    
+    internal init(id: Website.Ident) {
+        self.ident = id
+    }
+    
     internal var body: some View {
-        Color.blue
+        WebsiteEditor(.add, [self.ident]) {
+            print("Should Dismiss")
+        }
     }
 }
