@@ -29,7 +29,6 @@ import Umbrella
 import Datum
 import Localize
 import Stylize
-import Snapshot
 
 struct IndexToolbar: ViewModifier {
         

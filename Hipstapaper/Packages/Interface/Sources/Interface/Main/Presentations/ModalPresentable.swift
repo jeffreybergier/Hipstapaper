@@ -11,7 +11,6 @@ import Datum
 import Stylize
 import Localize
 import Browse
-import Snapshot
 import WebsiteEdit
 
 struct BrowserPresentable: ViewModifier {
@@ -111,21 +110,6 @@ struct AddWebsitePresentable: ViewModifier {
             WebsiteEdit(selection.value.first!) {
                 self.presentation.isEditWebsite = nil
             }
-        }
-    }
-    
-    private func snapshot(_ result: Result<Snapshot.ViewModel.Output, Snapshot.Error>) {
-        defer { self.presentation.value = .none }
-        switch result {
-        case .success(let output):
-            let result2 = self.controller.createWebsite(.init(output))
-            result2.error.map {
-                self.errorQ = $0
-                log.error($0)
-            }
-        case .failure(let error):
-            self.errorQ = error
-            log.error(error)
         }
     }
 }
