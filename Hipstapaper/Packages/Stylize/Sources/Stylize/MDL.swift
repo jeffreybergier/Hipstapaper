@@ -145,3 +145,65 @@ extension STZ.MDL {
         #endif
     }
 }
+
+extension STZ.MDL {
+    public struct DoneDelete: ViewModifier {
+        
+        public let kind: Presentable.Type
+        public let doneAction: Action
+        public let deleteAction: Action
+        
+        @Localize private var text
+        
+        public init(kind: Presentable.Type,
+                    delete: @escaping Action,
+                    done: @escaping Action)
+        {
+            self.kind = kind
+            self.deleteAction = delete
+            self.doneAction = done
+        }
+        
+        #if os(macOS)
+        // TODO: Remove this once its not broken on the mac
+        public func body(content: Content) -> some View {
+            return VStack(spacing: 0) {
+                HStack {
+                    STZ.BTN.Delete.button(bundle: self.text,
+                                          action: self.deleteAction)
+                    Spacer()
+                    STZ.VIEW.TXT(self.kind.noun.loc(self.text))
+                        .modifier(STZ.FNT.MDL.Title.apply())
+                        .modifier(STZ.CLR.MDL.Title.foreground())
+                    Spacer()
+                    STZ.BTN.Done.button(doneStyle: true,
+                                        isEnabled: true,
+                                        bundle: self.text,
+                                        action: self.doneAction)
+                }
+                .modifier(STZ.VIEW.TB_HACK())
+                content
+                Spacer(minLength: 0)
+            }
+        }
+        #else
+        public func body(content: Content) -> some View {
+            return NavigationView {
+                content
+                    .navigationBarTitle(self.kind.verb.loc(self.text), displayMode: .inline)
+                    .toolbar(id: "Modal.Save") {
+                        ToolbarItem(id: "Modal.Save.0", placement: .cancellationAction) {
+                            STZ.BTN.DeleteWebsite.button(bundle: self.text, action: self.deleteAction)
+                        }
+                        ToolbarItem(id: "Modal.Save.1", placement: .confirmationAction) {
+                            STZ.BTN.Done.button(doneStyle: true,
+                                                isEnabled: true,
+                                                bundle: self.text,
+                                                action: self.doneAction)
+                        }
+                    }
+            }.navigationViewStyle(StackNavigationViewStyle())
+        }
+        #endif
+    }
+}

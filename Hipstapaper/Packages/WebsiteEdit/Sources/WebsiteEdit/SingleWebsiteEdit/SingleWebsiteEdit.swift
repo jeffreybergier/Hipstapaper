@@ -33,6 +33,7 @@ import Stylize
 internal struct SingleWebsiteEdit: View {
     
     @WebsiteEditQuery private var website: Website
+    @ControllerProperty private var controller
     private let mode: Mode
     private let onDone: Action
     
@@ -56,11 +57,20 @@ internal struct SingleWebsiteEdit: View {
             }
         }
         .if(.macOS) { $0.frame(width: 8*45, height: 8*56) }
-        // TODO: Add delete button
-        .modifier(STZ.MDL.Done(
+        .modifier(STZ.MDL.DoneDelete(
             kind: self.mode == .add ? STZ.TB.AddWebsite.self : STZ.TB.EditWebsite.self,
+            delete: self.onDelete,
             done: self.onDone)
         )
         .modifier(ErrorPresentation(self.$errorQ))
+    }
+    
+    private func onDelete() {
+        switch self.controller.delete([self.website.uuid]) {
+        case .success:
+            self.onDone()
+        case .failure(let error):
+            self.errorQ = error
+        }
     }
 }

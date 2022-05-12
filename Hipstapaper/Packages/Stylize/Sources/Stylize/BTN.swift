@@ -103,5 +103,11 @@ extension STZ {
             public static var verb: Verb = .cancel
             public static var shortcut: KeyboardShortcut? = .init(.cancelAction)
         }
+        public enum DeleteWebsite: Buttonable {
+            public static var icon: STZ.ICN? = nil
+            public static var phrase: Phrase = .deleteWebsiteTip
+            public static var verb: Verb = .deleteGeneric
+            public static var shortcut: KeyboardShortcut? = .init(.delete, modifiers: .command)
+        }
     }
 }

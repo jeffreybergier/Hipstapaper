@@ -58,6 +58,7 @@
 "Verb.GoForward"              = "Forward";
 "Verb.DeleteWebsite"          = "Delete Website(s)";
 "Verb.DeleteImage"            = "Delete Image";
+"Verb.DeleteGeneric"          = "Delete";
 "Verb.EditWebsite"            = "Edit Website(s)";
 "Verb.iCloud"                 = "iCloud";
 "Verb.AddChoice"              = "Add";
