@@ -37,45 +37,46 @@ internal struct Form: View {
     @Localize private var text
     
     internal var body: some View {
-        SwiftUI.Form {
-            Section {
-                HStack {
-                    STZ.VIEW.TXTFLD.AutofillURL.textfield(self.$website.originalURL,
-                                                          bundle: self.text)
-                    if self.control.isJSEnabled {
-                        STZ.TB.JSActive.button_iconOnly(bundle: self.text) {
-                            self.control.isJSEnabled = false
-                        }
-                    } else {
-                        STZ.TB.JSInactive.button_iconOnly(bundle: self.text) {
-                            self.control.isJSEnabled = true
-                        }
-                    }
-                }
-                if self.control.isLoading {
-                    STZ.BTN.Stop.button(doneStyle: false,
-                                        isEnabled: true,
-                                        maxWidth: .infinity,
-                                        bundle: self.text)
-                    {
-                        self.control.shouldLoad = false
-                    }
-                } else {
-                    STZ.BTN.Go.button(doneStyle: true,
-                                      isEnabled: self.website.originalURL != nil,
-                                      maxWidth: .infinity,
-                                      bundle: self.text)
-                    {
-                        self.control.shouldLoad = true
-                    }
-                    .scaledToFill()
-                }
+        VStack {
+            HStack {
+                STZ.VIEW.TXTFLD.AutofillURL.textfield(self.$website.originalURL,
+                                                      bundle: self.text)
+                self.jsButton()
+                self.goButton()
             }
-            Section {
-                STZ.VIEW.TXTFLD.WebTitle.textfield(self.$website.title,
-                                                   bundle: self.text)
-                STZ.VIEW.TXTFLD.FilledURL.textfield(self.$website.resolvedURL,
-                                                    bundle: self.text)
+            STZ.VIEW.TXTFLD.WebTitle.textfield(self.$website.title,
+                                               bundle: self.text)
+            STZ.VIEW.TXTFLD.FilledURL.textfield(self.$website.resolvedURL,
+                                                bundle: self.text)
+        }
+    }
+    
+    @ViewBuilder private func jsButton() -> some View {
+        if self.control.isJSEnabled {
+            STZ.TB.JSActive.button_iconOnly(bundle: self.text) {
+                self.control.isJSEnabled = false
+            }
+        } else {
+            STZ.TB.JSInactive.button_iconOnly(bundle: self.text) {
+                self.control.isJSEnabled = true
+            }
+        }
+    }
+    
+    @ViewBuilder private func goButton() -> some View {
+        if self.control.isLoading {
+            STZ.BTN.Stop.button(doneStyle: false,
+                                isEnabled: true,
+                                bundle: self.text)
+            {
+                self.control.shouldLoad = false
+            }
+        } else {
+            STZ.BTN.Go.button(doneStyle: true,
+                              isEnabled: self.website.originalURL != nil,
+                              bundle: self.text)
+            {
+                self.control.shouldLoad = true
             }
         }
     }
