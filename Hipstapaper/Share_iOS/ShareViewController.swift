@@ -27,10 +27,14 @@
 import UIKit
 import SwiftUI
 import ShareUI
+import WebsiteEdit
 
 class ShareViewController: UIViewController {
         
-    private lazy var shareUIVC: UIViewController = UIHostingController(rootView: Interface())
+    private let control = Control()
+    private lazy var shareUIVC: UIViewController = UIHostingController(
+        rootView: Interface(control: self.control)
+    )
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,19 +53,22 @@ class ShareViewController: UIViewController {
             self.addChild(vc)
         }()
         
+        self.control.onDone = { [weak extensionContext] in
+            extensionContext?.completeRequest(returningItems: nil,
+                                              completionHandler: nil)
+        }
+        
         guard let context = self.extensionContext?.inputItems.first as? NSExtensionItem else {
-            // TODO: Do something with this error
-            // self.errorQ.value.append(WebsiteEdit.Error.sx_process)
+            self.control.extensionError = WebsiteEdit.Error.sx_process
             return
         }
         
         context.urlValue() { url in
             guard let url = url else {
-                // TODO: Do something with this error
-                // self.errorQ.value.append(WebsiteEdit.Error.sx_process)
+                self.control.extensionError = WebsiteEdit.Error.sx_process
                 return
             }
-            // TODO: Get the url into the website some how
+            self.control.extensionURL = url
         }
     }
 }

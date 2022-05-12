@@ -26,30 +26,19 @@
 
 import SwiftUI
 import Umbrella
-import Datum
 import WebsiteEdit
 
-internal struct Root: View {
-    
-    @ControlProperty private var control
-    @WebsiteEditQuery private var website: Website
-    @ErrorQueue private var errorQ
-        
-    internal init(id: Website.Ident) {
-        _website = .init(id: id)
-    }
-    
-    internal var body: some View {
-        WebsiteEditor(.add, [self.website.uuid], onDone: self.control.onDone ?? {})
-            .onChange(of: self.control.extensionURL) { newURL in
-                guard let newURL = newURL else { return }
-                self.website.originalURL = newURL
-                self.control.extensionURL = nil
-            }
-            .onChange(of: self.control.extensionError) { newError in
-                guard let newError = newError else { return }
-                self.errorQ = newError
-                self.control.extensionError = nil
-            }
+public class Control: ObservableObject {
+    @Published public var onDone: (() -> Void)?
+    @Published public var extensionURL: URL?
+    @Published public var extensionError: WebsiteEdit.Error?
+    public init() {}
+}
+
+@propertyWrapper
+internal struct ControlProperty: DynamicProperty {
+    @EnvironmentObject private var control: Control
+    internal var wrappedValue: Control {
+        self.control
     }
 }

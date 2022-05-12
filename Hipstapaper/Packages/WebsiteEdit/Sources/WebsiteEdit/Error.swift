@@ -55,3 +55,9 @@ extension Error: LocalizedError {
         }
     }
 }
+
+extension Error: Equatable {
+    public static func == (lhs: Error, rhs: Error) -> Bool {
+        lhs.message == rhs.message
+    }
+}

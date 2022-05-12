@@ -35,9 +35,10 @@ public struct Interface: View {
     @StateObject private var controllerBox: BlackBox<Controller?>
     @StateObject private var errorEnvironment: ErrorQueue.Environment
     @StateObject private var localizationBundle = LocalizeBundle()
+    @ObservedObject private var control: Control
     private let websiteIdent: Website.Ident?
     
-    public init() {
+    public init(control: Control) {
         let errorQ = ErrorQueue.newEnvirementObject()
         let result1 = ControllerNew()
         let result2 = result1.flatMap { $0.createWebsite(nil) }
@@ -55,12 +56,14 @@ public struct Interface: View {
             _controllerBox = .init(wrappedValue: BlackBox(nil))
             self.websiteIdent = nil
         }
+        _control = .init(wrappedValue: control)
     }
 
     public var body: some View {
         self.build()
             .environmentObject(self.errorEnvironment)
             .environmentObject(self.localizationBundle)
+            .environmentObject(self.control)
     }
     
     @ViewBuilder private func build() -> some View {
