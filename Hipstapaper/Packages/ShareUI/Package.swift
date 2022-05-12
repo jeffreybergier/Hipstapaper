@@ -1,5 +1,7 @@
+// swift-tools-version: 5.6
+
 //
-//  Created by Jeffrey Bergier on 2022/05/11.
+//  Created by Jeffrey Bergier on 2022/05/12.
 //
 //  MIT License
 //
@@ -24,31 +26,28 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
-import Datum
-import Stylize
+import PackageDescription
 
-public enum Mode {
-    case add, edit
-}
-
-public struct WebsiteEdit: View {
-    
-    private let selection: Set<Website.Ident>
-    private let mode: Mode
-    private let onDone: Action
-    
-    public init(_ mode: Mode, _ selection: Set<Website.Ident>, onDone: @escaping Action) {
-        self.selection = selection
-        self.mode = mode
-        self.onDone = onDone
-    }
-
-    public var body: some View {
-        switch self.selection.count {
-        case 0: fatalError("// TODO: Show Error")
-        case 1: SingleWebsiteEdit(self.mode, self.selection.first!, onDone: self.onDone)
-        default: MultiWebsiteEdit(self.mode, self.selection, onDone: self.onDone)
-        }
-    }
-}
+let package = Package(
+    name: "ShareUI",
+    platforms: [.iOS(.v15), .macOS(.v12)],
+    products: [
+        .library(
+            name: "ShareUI",
+            targets: ["ShareUI"]
+        ),
+    ],
+    dependencies: [
+        .package(path: "../Datum"),
+        .package(path: "../WebsiteEdit"),
+    ],
+    targets: [
+        .target(
+            name: "ShareUI",
+            dependencies: [
+                .byNameItem(name: "Datum", condition: nil),
+                .byNameItem(name: "WebsiteEdit", condition: nil),
+            ]
+        ),
+    ]
+)

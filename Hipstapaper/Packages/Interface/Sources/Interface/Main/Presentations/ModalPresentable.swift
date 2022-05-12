@@ -107,7 +107,7 @@ struct AddWebsitePresentable: ViewModifier {
     func body(content: Content) -> some View {
         content.sheet(item: self.$presentation.isEditWebsite) { payload in
             // TODO: Make multiedit
-            WebsiteEdit(payload.value.0, payload.value.1) {
+            WebsiteEditor(payload.value.0, payload.value.1) {
                 self.presentation.isEditWebsite = nil
             }
         }

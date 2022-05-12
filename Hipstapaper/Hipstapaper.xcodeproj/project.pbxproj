@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		730D1060282DB4CB00F6780A /* ShareUI in Frameworks */ = {isa = PBXBuildFile; productRef = 730D105F282DB4CB00F6780A /* ShareUI */; };
 		7369CBF827DC1F6800871EBE /* Interface in Frameworks */ = {isa = PBXBuildFile; productRef = 7369CBF727DC1F6800871EBE /* Interface */; };
 		7369CBFA27DC287A00871EBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369CBF927DC287A00871EBE /* AppDelegate.swift */; };
 		7369CBFB27DC291E00871EBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369CBF927DC287A00871EBE /* AppDelegate.swift */; };
@@ -20,7 +21,6 @@
 		739F03CC25A87FE4001826F8 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739F03CB25A87FE4001826F8 /* ShareViewController.swift */; };
 		739F03CF25A87FE4001826F8 /* ShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 739F03CD25A87FE4001826F8 /* ShareViewController.xib */; };
 		739F03D425A87FE4001826F8 /* Share_macOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 739F03C725A87FE4001826F8 /* Share_macOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		73A4AB6727DB6CF4003B22E1 /* Snapshot in Frameworks */ = {isa = PBXBuildFile; productRef = 73A4AB6627DB6CF4003B22E1 /* Snapshot */; };
 		73A4AB6927DB6CFA003B22E1 /* Snapshot in Frameworks */ = {isa = PBXBuildFile; productRef = 73A4AB6827DB6CFA003B22E1 /* Snapshot */; };
 		73DD930A25EB3B740050DBDD /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 73DD930925EB3B740050DBDD /* README.md */; };
 		DBDCB369256BE8E800D005F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBDCB33E256BE8E700D005F6 /* Assets.xcassets */; };
@@ -90,6 +90,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		730D105E282DB44A00F6780A /* ShareUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ShareUI; path = Packages/ShareUI; sourceTree = "<group>"; };
 		732A8E6A280032AF00BB905E /* WebsiteEdit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = WebsiteEdit; path = Packages/WebsiteEdit; sourceTree = "<group>"; };
 		7350800D27DB49E800E8D5AC /* Stylize */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Stylize; path = Packages/Stylize; sourceTree = "<group>"; };
 		7351BE3F27DCB36200D94BEA /* Datum */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Datum; path = Packages/Datum; sourceTree = "<group>"; };
@@ -126,7 +127,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				73A4AB6727DB6CF4003B22E1 /* Snapshot in Frameworks */,
+				730D1060282DB4CB00F6780A /* ShareUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,6 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				7369CBF627DC1B6A00871EBE /* Interface */,
+				730D105E282DB44A00F6780A /* ShareUI */,
 				DBDCB33B256BE8E600D005F6 /* Shared */,
 				7351BE3F27DCB36200D94BEA /* Datum */,
 				732A8E6A280032AF00BB905E /* WebsiteEdit */,
@@ -267,7 +269,7 @@
 			);
 			name = Share_iOS;
 			packageProductDependencies = (
-				73A4AB6627DB6CF4003B22E1 /* Snapshot */,
+				730D105F282DB4CB00F6780A /* ShareUI */,
 			);
 			productName = Share_iOS;
 			productReference = 739F03AB25A87F49001826F8 /* Share_iOS.appex */;
@@ -883,6 +885,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		730D105F282DB4CB00F6780A /* ShareUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ShareUI;
+		};
 		7369CBF727DC1F6800871EBE /* Interface */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Interface;
@@ -890,10 +896,6 @@
 		7369CBFC27DC29CD00871EBE /* Interface */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Interface;
-		};
-		73A4AB6627DB6CF4003B22E1 /* Snapshot */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Snapshot;
 		};
 		73A4AB6827DB6CFA003B22E1 /* Snapshot */ = {
 			isa = XCSwiftPackageProductDependency;
