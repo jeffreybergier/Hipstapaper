@@ -94,6 +94,13 @@ struct WebsiteMenu: ViewModifier {
             }
         }
         Group {
+            STZ.TB.EditWebsite.context(isEnabled: WH.canEdit(selection),
+                                       bundle: self.text)
+            {
+                self.modalPresentation.value = .editWebsite(Set(selection.map { $0.uuid }))
+            }
+        }
+        Group {
             STZ.TB.DeleteWebsite.context(isEnabled: WH.canDelete(selection),
                                          bundle: self.text)
             {

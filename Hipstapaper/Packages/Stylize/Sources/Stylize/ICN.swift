@@ -44,6 +44,7 @@ extension STZ {
         case goForward = "chevron.forward"
         case deleteMinus = "minus"
         case deleteTrash = "trash"
+        case editPencil = "rectangle.and.pencil.and.ellipsis"
         case clearSearch = "xmark.circle"
         case cloudError = "exclamationmark.icloud"
         case cloudSyncSuccess = "checkmark.icloud"

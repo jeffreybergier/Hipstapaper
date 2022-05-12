@@ -57,6 +57,7 @@
 "Verb.GoBack"                 = "Back";
 "Verb.GoForward"              = "Forward";
 "Verb.DeleteWebsite"          = "Delete Website(s)";
+"Verb.EditWebsite"            = "Edit Website(s)";
 "Verb.iCloud"                 = "iCloud";
 "Verb.AddChoice"              = "Add";
 "Verb.Sort"                   = "Sort";
@@ -133,6 +134,7 @@
 "Phrase.DeleteWebsiteTip"       = "Delete selected website(s)";
 "Phrase.DeleteTagConfirm"       = "The selected tag(s) will be deleted on all device. This cannot be undone.";
 "Phrase.DeleteWebsiteConfirm"   = "The selected website(s) will be deleted on all device. This cannot be undone.";
+"Phrase.EditWebsiteTip"         = "Edit selected website(s)";
 "Phrase.ClearSearch"            = "Clear search";
 "Phrase.iCloudAccountError"     = "iCloud account error";
 "Phrase.iCloudSyncError"        = "iCloud sync error";
