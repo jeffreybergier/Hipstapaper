@@ -107,7 +107,7 @@ struct AddWebsitePresentable: ViewModifier {
     func body(content: Content) -> some View {
         content.sheet(item: self.$presentation.isEditWebsite) { selection in
             // TODO: Make multiedit
-            WebsiteEdit(selection.value.first!) {
+            WebsiteEdit(selection.value) {
                 self.presentation.isEditWebsite = nil
             }
         }

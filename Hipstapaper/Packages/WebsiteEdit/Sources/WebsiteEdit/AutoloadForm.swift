@@ -29,7 +29,7 @@ import Datum
 import Localize
 import Stylize
 
-internal struct Form: View {
+internal struct AutoloadForm: View {
     
     @Binding internal var website: Website
     @ObservedObject internal var control: Control
