@@ -42,7 +42,7 @@ public struct WebsiteEdit: View {
         switch self.selection.count {
         case 0: fatalError("// TODO: Show Error")
         case 1: SingleWebsiteEdit(self.selection.first!, onDone: self.onDone)
-        default: fatalError("// TODO: Add multiselection")
+        default: MultiWebsiteEdit(self.selection, onDone: self.onDone)
         }
     }
 }

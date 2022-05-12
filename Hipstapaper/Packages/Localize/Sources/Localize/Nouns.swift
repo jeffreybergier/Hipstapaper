@@ -36,6 +36,8 @@ public enum Noun: LocalizationKey {
     case unreadItems   = "Noun.UnreadItems"
     case autofillURL   = "Noun.AutofillURL"
     case filledURL     = "Noun.FilledURL"
+    case originalURL   = "Noun.OriginalURL"
+    case resolvedURL   = "Noun.ResolvedURL"
     case websiteTitle  = "Noun.WebsiteTitle"
     case hipstapaper   = "Noun.Hipstapaper"
     case tagName       = "Noun.TagName"

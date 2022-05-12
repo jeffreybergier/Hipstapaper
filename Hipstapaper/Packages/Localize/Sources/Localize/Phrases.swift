@@ -54,6 +54,7 @@ public enum Phrase: LocalizationKey {
     case deleteWebsiteTip       = "Phrase.DeleteWebsiteTip"
     case deleteTagConfirm       = "Phrase.DeleteTagConfirm"
     case deleteWebsiteConfirm   = "Phrase.DeleteWebsiteConfirm"
+    case deleteImageTip         = "Phrase.DeleteImageTip"
     case editWebsiteTip         = "Phrase.EditWebsiteTip"
     case clearSearch            = "Phrase.ClearSearch"
     case iCloudAccountError     = "Phrase.iCloudAccountError"

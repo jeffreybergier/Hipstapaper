@@ -57,6 +57,7 @@
 "Verb.GoBack"                 = "Back";
 "Verb.GoForward"              = "Forward";
 "Verb.DeleteWebsite"          = "Delete Website(s)";
+"Verb.DeleteImage"            = "Delete Image";
 "Verb.EditWebsite"            = "Edit Website(s)";
 "Verb.iCloud"                 = "iCloud";
 "Verb.AddChoice"              = "Add";
@@ -84,6 +85,8 @@
 "Noun.UnreadItems"   = "Unread Items";
 "Noun.AutofillURL"   = "Autofill URL";
 "Noun.FilledURL"     = "Filled URL";
+"Noun.OriginalURL"   = "Original URL";
+"Noun.ResolvedURL"   = "Resolved URL";
 "Noun.WebsiteTitle"  = "Page Title";
 "Noun.Hipstapaper"   = "Hipstapaper";
 "Noun.TagName"       = "Tag Name";
@@ -134,6 +137,7 @@
 "Phrase.DeleteWebsiteTip"       = "Delete selected website(s)";
 "Phrase.DeleteTagConfirm"       = "The selected tag(s) will be deleted on all device. This cannot be undone.";
 "Phrase.DeleteWebsiteConfirm"   = "The selected website(s) will be deleted on all device. This cannot be undone.";
+"Phrase.DeleteImageTip"         = "Delete this image. This cannot be undone.";
 "Phrase.EditWebsiteTip"         = "Edit selected website(s)";
 "Phrase.ClearSearch"            = "Clear search";
 "Phrase.iCloudAccountError"     = "iCloud account error";

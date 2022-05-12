@@ -25,37 +25,38 @@
 //
 
 import SwiftUI
-import Umbrella
 import Datum
 import Localize
 import Stylize
 
-internal struct SingleWebsiteEdit: View {
+internal struct ManualForm: View {
     
     @WebsiteEditQuery private var website: Website
-    private let onDone: Action
+    @Localize private var text
     
-    @ErrorQueue private var errorQ
-    @StateObject private var control = Control()
-    
-    internal init(_ ident: Website.Ident, onDone: @escaping Action) {
-        _website = .init(id: ident)
-        self.onDone = onDone
+    internal init(_ id: Website.Ident) {
+        _website = .init(id: id)
     }
     
     internal var body: some View {
-        ScrollView {
-            VStack(alignment: .center) {
-                AutoloadForm(website: self.$website, control: self.control)
-                    .modifier(STZ.PDG.Equal(ignore: [\.bottom]))
-                Picture(website: self.$website, control: self.control)
-                    .frame(width: 300, height: 300)
-                    .modifier(STZ.CRN.Medium.apply())
-                    .modifier(STZ.PDG.Equal(ignore: [\.top]))
+        HStack {
+            VStack {
+                STZ.VIEW.TXTFLD.WebTitle.textfield(self.$website.title,
+                                                   bundle: self.text)
+                STZ.VIEW.TXTFLD.OriginalURL.textfield(self.$website.originalURL,
+                                                      bundle: self.text)
+                STZ.VIEW.TXTFLD.ResolvedURL.textfield(self.$website.resolvedURL,
+                                                      bundle: self.text)
+            }
+            ZStack {
+                STZ.ICN.placeholder.thumbnail(self.website.thumbnail)
+                    .frame(width: 80)
+                if self.website.thumbnail != nil {
+                    STZ.TB.DeleteImage.button_iconOnly(bundle: self.text) {
+                        self.website.thumbnail = nil
+                    }
+                }
             }
         }
-        // TODO: Add delete button
-        .modifier(STZ.MDL.Done(kind: STZ.TB.AddWebsite.self, done: self.onDone))
-        .modifier(ErrorPresentation(self.$errorQ))
     }
 }
