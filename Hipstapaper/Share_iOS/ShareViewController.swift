@@ -30,7 +30,7 @@ import ShareUI
 
 class ShareViewController: UIViewController {
         
-    private lazy var shareUIVC: UIViewController = UIHostingController(rootView: ShareUI())
+    private lazy var shareUIVC: UIViewController = UIHostingController(rootView: Interface())
     
     override func viewDidLoad() {
         super.viewDidLoad()

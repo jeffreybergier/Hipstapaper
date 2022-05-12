@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		730D1060282DB4CB00F6780A /* ShareUI in Frameworks */ = {isa = PBXBuildFile; productRef = 730D105F282DB4CB00F6780A /* ShareUI */; };
+		732C9B5A282DBAEF00F0B183 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 736F67A425C19979006896DF /* CloudKit.framework */; };
 		7369CBF827DC1F6800871EBE /* Interface in Frameworks */ = {isa = PBXBuildFile; productRef = 7369CBF727DC1F6800871EBE /* Interface */; };
 		7369CBFA27DC287A00871EBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369CBF927DC287A00871EBE /* AppDelegate.swift */; };
 		7369CBFB27DC291E00871EBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369CBF927DC287A00871EBE /* AppDelegate.swift */; };
@@ -128,6 +129,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				730D1060282DB4CB00F6780A /* ShareUI in Frameworks */,
+				732C9B5A282DBAEF00F0B183 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

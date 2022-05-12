@@ -26,7 +26,7 @@
 
 import SwiftUI
 
-public struct ShareUI: View {
+public struct Interface: View {
     
     public init() {}
     
