@@ -25,13 +25,53 @@
 //
 
 import SwiftUI
+import Umbrella
+import Datum
+import Stylize
+import Localize
 
 public struct Interface: View {
+        
+    @StateObject private var controllerBox: BlackBox<Controller?>
+    @StateObject private var errorEnvironment: ErrorQueue.Environment
+    @StateObject private var localizationBundle = LocalizeBundle()
     
-    public init() {}
+    /*
+    init() {
+        let controller = P_Controller()
+        self.controller = controller
+        self.watcher = nil
+    }
+    */
     
+    public init() {
+        let errorQ = ErrorQueue.newEnvirementObject()
+        let result = ControllerNew()
+        switch result {
+        case .success(let controller):
+            _errorEnvironment = .init(wrappedValue: errorQ)
+            _controllerBox = .init(wrappedValue: BlackBox(controller))
+        case .failure(let error):
+            log.error(error)
+            errorQ.value.append(error)
+            _errorEnvironment = .init(wrappedValue: errorQ)
+            _controllerBox = .init(wrappedValue: BlackBox(nil))
+        }
+    }
+
     public var body: some View {
-        Color.red
+        self.build()
+            .environmentObject(self.errorEnvironment)
+            .environmentObject(self.localizationBundle)
     }
     
+    @ViewBuilder private func build() -> some View {
+        if let controller = self.controllerBox.value {
+            Root()
+                .environmentObject(self.controllerBox)
+                .environment(\.managedObjectContext, controller.ENVIRONMENTONLY_managedObjectContext)
+        } else {
+            Color.clear
+        }
+    }
 }
