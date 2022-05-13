@@ -70,6 +70,8 @@ class ShareViewController: UIViewController {
             }
             self.control.extensionURL = url
         }
+        
+        self.control.extensionError = WebsiteEdit.Error.sx_process
     }
 }
 

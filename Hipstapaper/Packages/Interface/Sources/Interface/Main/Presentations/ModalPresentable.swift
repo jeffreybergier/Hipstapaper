@@ -103,6 +103,7 @@ struct AddWebsitePresentable: ViewModifier {
     @ErrorQueue private var errorQ
     @ControllerProperty private var controller
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
+    @StateObject private var editorErrorQueue = ErrorQueue.newEnvirementObject()
 
     func body(content: Content) -> some View {
         content.sheet(item: self.$presentation.isEditWebsite) { payload in
@@ -110,6 +111,7 @@ struct AddWebsitePresentable: ViewModifier {
             WebsiteEditor(payload.value.0, payload.value.1) {
                 self.presentation.isEditWebsite = nil
             }
+            .environmentObject(self.editorErrorQueue)
         }
     }
 }
