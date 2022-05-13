@@ -102,7 +102,6 @@
 		736F67A425C19979006896DF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		737C724127DB46EA008B5969 /* Localize */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Localize; path = Packages/Localize; sourceTree = "<group>"; };
 		73868A5227DB68FC00183A56 /* Browse */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Browse; path = Packages/Browse; sourceTree = "<group>"; };
-		73868A5527DB6AAD00183A56 /* Snapshot */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Snapshot; path = Packages/Snapshot; sourceTree = "<group>"; };
 		739F03AB25A87F49001826F8 /* Share_iOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Share_iOS.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		739F03AD25A87F49001826F8 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		739F03B025A87F49001826F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -196,7 +195,6 @@
 				DBDCB33B256BE8E600D005F6 /* Shared */,
 				7351BE3F27DCB36200D94BEA /* Datum */,
 				732A8E6A280032AF00BB905E /* WebsiteEdit */,
-				73868A5527DB6AAD00183A56 /* Snapshot */,
 				73868A5227DB68FC00183A56 /* Browse */,
 				7350800D27DB49E800E8D5AC /* Stylize */,
 				737C724127DB46EA008B5969 /* Localize */,

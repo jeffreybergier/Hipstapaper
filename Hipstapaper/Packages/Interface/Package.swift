@@ -40,7 +40,6 @@ let package = Package(
     dependencies: [
         .package(path: "../Datum"),
         .package(path: "../Browse"),
-        .package(path: "../Snapshot"),
         .package(path: "../WebsiteEdit"),
     ],
     targets: [
@@ -49,7 +48,6 @@ let package = Package(
             dependencies: [
                 .byNameItem(name: "Datum", condition: nil),
                 .byNameItem(name: "Browse", condition: nil),
-                .byNameItem(name: "Snapshot", condition: nil),
                 .byNameItem(name: "WebsiteEdit", condition: nil),
             ]
         ),

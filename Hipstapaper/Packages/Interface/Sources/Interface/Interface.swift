@@ -32,9 +32,7 @@ import Stylize
 import Localize
 
 public struct Interface: Scene {
-    
-    let watcher: DropboxWatcher?
-    
+        
     @StateObject private var controllerBox: BlackBox<Controller?>
     @StateObject private var windowPresentation = WindowPresentation()
     @StateObject private var errorEnvironment: ErrorQueue.Environment
@@ -56,13 +54,11 @@ public struct Interface: Scene {
         case .success(let controller):
             _errorEnvironment = .init(wrappedValue: errorQ)
             _controllerBox = .init(wrappedValue: BlackBox(controller))
-            self.watcher = DropboxWatcher(controller: controller, errorQ: errorQ)
         case .failure(let error):
             log.error(error)
             errorQ.value.append(error)
             _errorEnvironment = .init(wrappedValue: errorQ)
             _controllerBox = .init(wrappedValue: BlackBox(nil))
-            self.watcher = nil
         }
     }
 
