@@ -169,8 +169,8 @@ extension STZ.MDL {
         public func body(content: Content) -> some View {
             return VStack(spacing: 0) {
                 HStack {
-                    STZ.BTN.Delete.button(bundle: self.text,
-                                          action: self.deleteAction)
+                    STZ.BTN.DeleteWebsite.button(bundle: self.text,
+                                                 action: self.deleteAction)
                     Spacer()
                     STZ.VIEW.TXT(self.kind.noun.loc(self.text))
                         .modifier(STZ.FNT.MDL.Title.apply())
