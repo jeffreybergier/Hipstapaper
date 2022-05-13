@@ -51,5 +51,13 @@ internal struct Root: View {
                 self.errorQ = newError
                 self.control.extensionError = nil
             }
+            .onAppear() {
+                if self.website.originalURL == nil {
+                    self.website.originalURL = self.control.extensionURL
+                }
+                if self.errorQ == nil {
+                    self.errorQ = self.control.extensionError
+                }
+            }
     }
 }
