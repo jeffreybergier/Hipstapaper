@@ -93,7 +93,7 @@
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "DATA_STORE"
-            value = "IN_MEMORYY"
+            value = "IN_MEMORY"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
