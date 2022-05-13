@@ -33,27 +33,43 @@ import Stylize
 internal struct SingleWebsiteEdit: View {
     
     @WebsiteEditQuery private var website: Website
+    @TagApplyQuery private var tags: AnyRandomAccessCollection<Datum.TagApply>
     @ControllerProperty private var controller
+    
     private let mode: Mode
     private let onDone: Action
     
+    @Localize private var text
     @ErrorQueue private var errorQ
     @StateObject private var control = Control()
     
     internal init(_ mode: Mode, _ ident: Website.Ident, onDone: @escaping Action) {
         _website = .init(id: ident)
+        _tags = .init(selection: [ident])
         self.mode = mode
         self.onDone = onDone
     }
     
     internal var body: some View {
         ScrollView {
-            VStack(alignment: .center) {
+            VStack(alignment: .leading) {
                 AutoloadForm(website: self.$website, control: self.control)
                     .modifier(STZ.PDG.Equal(ignore: [\.bottom]))
                 Picture(website: self.$website, control: self.control)
                     .modifier(STZ.CRN.Medium.apply())
                     .modifier(STZ.PDG.Equal(ignore: [\.top]))
+                if self.tags.isEmpty == false {
+                    Section {
+                        ForEach(self.$tags) {
+                            TagApplyRow(value: $0)
+                                .modifier(STZ.PDG.Default())
+                        }
+                    } header: {
+                        Text(self.text.localized(key: Noun.applyTags.key))
+                            .modifier(STZ.FNT.IndexRow.Title.apply())
+                            .modifier(STZ.PDG.Default())
+                    }
+                }
             }
         }
         .if(.macOS) { $0.frame(width: 8*45, height: 8*56) }

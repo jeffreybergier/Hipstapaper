@@ -51,7 +51,7 @@ internal struct MultiWebsiteEdit: View {
                 .modifier(STZ.PDG.Equal(ignore: [\.top, \.leading, \.trailing]))
         }
         .listStyle(.plain)
-        .if(.macOS) { $0.frame(width: 500, height: 300) }
+        .if(.macOS) { $0.frame(idealWidth: 500, idealHeight: 300) }
         .modifier(STZ.MDL.Done(
             kind: self.mode == .add ? STZ.TB.AddWebsite.self : STZ.TB.EditWebsite.self,
             done: self.onDone)
