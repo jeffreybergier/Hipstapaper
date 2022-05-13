@@ -54,7 +54,7 @@ struct WebsiteList: View {
                   open: self.open,
                   menu: self.menu)
         { item in
-            WebsiteRow(item: item)
+            WebsiteRow(id: item.uuid)
         }
         .listStyle(PlainListStyle())
         .modifier(SyncIndicator(progress: self.controller.syncProgress))

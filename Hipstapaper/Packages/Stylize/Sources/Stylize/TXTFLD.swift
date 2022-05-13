@@ -54,6 +54,15 @@ extension TextFieldable {
             .textFieldStyle(self.style)
             .disableAutocorrection(!self.autocorrection)
     }
+    public static func textfield(_ binding: Binding<URL?>,
+                                 bundle: LocalizeBundle) -> some View
+    {
+        let map = binding.map(forward: { $0?.absoluteString },
+                              reverse: { URL(string: $0 ?? "") })
+        return JSBTextField(self.placeholder.loc(bundle), text: map)
+            .textFieldStyle(self.style)
+            .disableAutocorrection(!self.autocorrection)
+    }
     #else
     public static func textfield(_ binding: Binding<String>,
                                  bundle: LocalizeBundle) -> some View
@@ -71,14 +80,48 @@ extension TextFieldable {
             .disableAutocorrection(!self.autocorrection)
             .keyboardType(self.keyboard)
     }
+    public static func textfield(_ binding: Binding<URL?>,
+                                 bundle: LocalizeBundle) -> some View
+    {
+        let map = binding.map(forward: { $0?.absoluteString },
+                              reverse: { URL(string: $0 ?? "") })
+        return JSBTextField(self.placeholder.loc(bundle), text: map)
+            .textFieldStyle(self.style)
+            .disableAutocorrection(!self.autocorrection)
+            .keyboardType(self.keyboard)
+    }
     #endif
 }
 
 extension STZ.VIEW {
     public enum TXTFLD {
-        public enum WebURL: TextFieldable {
+        public enum OriginalURL: TextFieldable {
             public static var style = RoundedBorderTextFieldStyle()
-            public static var placeholder: Noun = .websiteURL
+            public static var placeholder: Noun = .originalURL
+            public static var autocorrection = false
+            #if canImport(UIKit)
+            public static var keyboard: UIKeyboardType = .URL
+            #endif
+        }
+        public enum ResolvedURL: TextFieldable {
+            public static var style = RoundedBorderTextFieldStyle()
+            public static var placeholder: Noun = .resolvedURL
+            public static var autocorrection = false
+            #if canImport(UIKit)
+            public static var keyboard: UIKeyboardType = .URL
+            #endif
+        }
+        public enum AutofillURL: TextFieldable {
+            public static var style = RoundedBorderTextFieldStyle()
+            public static var placeholder: Noun = .autofillURL
+            public static var autocorrection = false
+            #if canImport(UIKit)
+            public static var keyboard: UIKeyboardType = .URL
+            #endif
+        }
+        public enum FilledURL: TextFieldable {
+            public static var style = RoundedBorderTextFieldStyle()
+            public static var placeholder: Noun = .filledURL
             public static var autocorrection = false
             #if canImport(UIKit)
             public static var keyboard: UIKeyboardType = .URL

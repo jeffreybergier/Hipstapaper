@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/12/14.
+//  Created by Jeffrey Bergier on 2022/05/11.
 //
 //  MIT License
 //
@@ -24,16 +24,38 @@
 //  SOFTWARE.
 //
 
+import SwiftUI
+import Umbrella
 import Datum
-import Snapshot
+import Stylize
+import Localize
 
-extension Website {
-    init(_ output: Snapshot.ViewModel.Output) {
-        self.init(originalURL: output.inputURL,
-                  resolvedURL: output.currentURL,
-                  title: output.title,
-                  thumbnail: output.thumbnail?.value,
-                  uuid: .init("FAKE://"),
-                  dateCreated: output.dateCreated)
+internal struct MultiWebsiteEdit: View {
+    
+    @ErrorQueue private var errorQ
+    
+    private let selection: [Website.Ident]
+    private let mode: Mode
+    private let onDone: Action
+    
+    public init(_ mode: Mode, _ selection: Set<Website.Ident>, onDone: @escaping Action) {
+        self.selection = Array(selection)
+        self.mode = mode
+        self.onDone = onDone
+    }
+    
+    internal var body: some View {
+        List(self.selection) { id in
+            ManualForm(id)
+                .modifier(Force.ListRowSeparatorHidden())
+                .modifier(STZ.PDG.Equal(ignore: [\.top, \.leading, \.trailing]))
+        }
+        .listStyle(.plain)
+        .if(.macOS) { $0.frame(width: 500, height: 300) }
+        .modifier(STZ.MDL.Done(
+            kind: self.mode == .add ? STZ.TB.AddWebsite.self : STZ.TB.EditWebsite.self,
+            done: self.onDone)
+        )
+        .modifier(ErrorPresentation(self.$errorQ))
     }
 }

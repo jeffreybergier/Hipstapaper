@@ -11,7 +11,7 @@ import Datum
 import Stylize
 import Localize
 import Browse
-import Snapshot
+import WebsiteEdit
 
 struct BrowserPresentable: ViewModifier {
     
@@ -105,23 +105,11 @@ struct AddWebsitePresentable: ViewModifier {
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
 
     func body(content: Content) -> some View {
-        content.sheet(isPresented: self.$presentation.isAddWebsite) {
-            Snapshotter(.init(doneAction: self.snapshot))
-        }
-    }
-    
-    private func snapshot(_ result: Result<Snapshot.ViewModel.Output, Snapshot.Error>) {
-        defer { self.presentation.value = .none }
-        switch result {
-        case .success(let output):
-            let result2 = self.controller.createWebsite(.init(output))
-            result2.error.map {
-                self.errorQ = $0
-                log.error($0)
+        content.sheet(item: self.$presentation.isEditWebsite) { payload in
+            // TODO: Make multiedit
+            WebsiteEditor(payload.value.0, payload.value.1) {
+                self.presentation.isEditWebsite = nil
             }
-        case .failure(let error):
-            self.errorQ = error
-            log.error(error)
         }
     }
 }
@@ -167,7 +155,12 @@ struct AddChoicePresentable: ViewModifier {
             self.presentation.value = .none
             // TODO: Remove this hack when possible
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                self.presentation.value = .addWebsite
+                switch self.controller.createWebsite(nil) {
+                case .success(let website):
+                    self.presentation.value = .editWebsite(.add, [website])
+                case .failure(let error):
+                    self.errorQ = error
+                }
             }
         }
     }

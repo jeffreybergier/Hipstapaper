@@ -1,5 +1,7 @@
+// swift-tools-version:5.6
+
 //
-//  Created by Jeffrey Bergier on 2020/12/06.
+//  Created by Jeffrey Bergier on 2022/03/11.
 //
 //  MIT License
 //
@@ -24,29 +26,32 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
+import PackageDescription
 
-enum Form {
-    
-    typealias Completion = (Result<Void, Error>) -> Void
-    case load, loading, loaded
-    
-}
-
-struct FormSwitcher: View {
-    
-    @ObservedObject var viewModel: ViewModel
-    
-    @ViewBuilder var body: some View {
-        Group {
-            switch self.viewModel.formState {
-            case .load:
-                FormLoad(viewModel: self.viewModel)
-            case .loading:
-                FormLoading(viewModel: self.viewModel)
-            case .loaded:
-                FormLoaded(viewModel: self.viewModel)
-            }
-        }
-    }
-}
+let package = Package(
+    name: "WebsiteEdit",
+    platforms: [.iOS(.v15), .macOS(.v12)],
+    products: [
+        .library(
+            name: "WebsiteEdit",
+            targets: ["WebsiteEdit"]
+        ),
+    ],
+    dependencies: [
+        .package(path: "../Datum"),
+        .package(path: "../Localize"),
+        .package(path: "../Stylize"),
+        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "v2")
+    ],
+    targets: [
+        .target(
+            name: "WebsiteEdit",
+            dependencies: [
+                .byNameItem(name: "Datum", condition: nil),
+                .byNameItem(name: "Localize", condition: nil),
+                .byNameItem(name: "Stylize", condition: nil),
+                .byNameItem(name: "Umbrella", condition: nil),
+            ]
+        ),
+    ]
+)

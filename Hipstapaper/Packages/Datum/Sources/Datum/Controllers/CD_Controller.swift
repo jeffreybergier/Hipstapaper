@@ -198,12 +198,19 @@ extension CD_Controller: Controller {
 }
 
 internal class CD_Controller {
+    
+    internal static let appGroupURL: URL = {
+        let fm = FileManager.default
+        #if os(macOS)
+        let id = "V6ESYGU6CV.com.saturdayapps.Hipstapaper"
+        #else
+        let id = "group.com.saturdayapps.Hipstapaper"
+        #endif
+        return fm.containerURL(forSecurityApplicationGroupIdentifier: id)!
+    }()
 
     static internal let storeDirectoryURL: URL = {
-        return FileManager
-            .default
-            .urls(for: .applicationSupportDirectory, in: .userDomainMask)
-            .first!
+        return appGroupURL
             .appendingPathComponent("Hipstapaper", isDirectory: true)
             .appendingPathComponent("CoreData", isDirectory: true)
     }()

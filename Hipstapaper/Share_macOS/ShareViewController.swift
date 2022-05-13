@@ -26,102 +26,50 @@
 
 import AppKit
 import SwiftUI
-import Umbrella
-import Snapshot
-import Stylize
-import Collections
-import Localize
+import ShareUI
+import WebsiteEdit
 
 class ShareViewController: NSViewController {
-    
-    private let viewModel = Snapshot.ViewModel()
-    private let errorQ = ErrorQueue.newEnvirementObject()
-    private lazy var text = LocalizeBundle()
-    
-    private lazy var snapshotVC: NSViewController =
-        NSHostingController(
-            rootView: Snapshotter(self.viewModel)
-                .environmentObject(self.errorQ)
-                .environmentObject(self.text)
-        )
-    private lazy var errorVC: NSViewController = NSHostingController(
-        rootView: EmptyView()
-            .modifier(ErrorPresentation(ErrorQueue.legacyBinding(self.errorQ)))
-            .environmentObject(self.text)
+        
+    private let control = Control()
+    private lazy var shareUIVC: NSViewController = NSHostingController(
+        rootView: Interface(control: self.control)
     )
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         _ = { // Add SnapshotVC
-            let vc = self.snapshotVC
-            vc.view.translatesAutoresizingMaskIntoConstraints = false
-            self.view.addSubview(vc.view)
-            self.view.addConstraints([
-                self.view.topAnchor.constraint(equalTo: vc.view.topAnchor, constant: 0),
-                self.view.bottomAnchor.constraint(greaterThanOrEqualTo: vc.view.bottomAnchor, constant: 0),
-                self.view.leadingAnchor.constraint(greaterThanOrEqualTo: vc.view.leadingAnchor, constant: 0),
-                self.view.trailingAnchor.constraint(greaterThanOrEqualTo: vc.view.trailingAnchor, constant: 0),
-                self.view.centerXAnchor.constraint(equalTo: vc.view.centerXAnchor, constant: 0),
-            ])
-            self.addChild(vc)
-        }()
-        
-        _ = { // Add ErrorVC
-            let vc = self.errorVC
+            let vc = self.shareUIVC
             vc.view.translatesAutoresizingMaskIntoConstraints = false
             self.view.addSubview(vc.view)
             self.view.addConstraints([
                 self.view.topAnchor.constraint(equalTo: vc.view.topAnchor, constant: 0),
                 self.view.bottomAnchor.constraint(equalTo: vc.view.bottomAnchor, constant: 0),
                 self.view.leadingAnchor.constraint(equalTo: vc.view.leadingAnchor, constant: 0),
-                self.view.trailingAnchor.constraint(equalTo: vc.view.trailingAnchor, constant: 0),
+                self.view.trailingAnchor.constraint(equalTo: vc.view.trailingAnchor, constant: 0)
             ])
             self.addChild(vc)
         }()
         
-        self.viewModel.doneAction = { [unowned self] result in
-            switch result {
-            case .failure(let error):
-                if case .userCancelled = error {
-                    self.extensionContext?.cancelRequest(withError: error)
-                } else {
-                    self.errorQ.value.append(error)
-                }
-            case .success(let output):
-                do {
-                    let dropbox = AppGroup.dropbox
-                    let dateString = ISO8601DateFormatter().string(from: Date())
-                    let data = try PropertyListEncoder().encode(output)
-                    let fm = FileManager.default
-                    try fm.createDirectory(at: dropbox,
-                                           withIntermediateDirectories: true,
-                                           attributes: nil)
-                    let dataURL = dropbox.appendingPathComponent(dateString + ".plist")
-                    try data.write(to: dataURL)
-                    self.extensionContext?.completeRequest(returningItems: nil,
-                                                           completionHandler: nil)
-                } catch {
-                    self.errorQ.value.append(Snapshot.Error.sx_save)
-                }
-            }
-            
+        self.control.onDone = { [weak extensionContext] in
+            extensionContext?.completeRequest(returningItems: nil,
+                                              completionHandler: nil)
         }
         
         guard let context = self.extensionContext?.inputItems.first as? NSExtensionItem else {
-            self.errorQ.value.append(Snapshot.Error.sx_process)
+            self.control.extensionError = WebsiteEdit.Error.sx_process
             return
         }
         
         context.urlValue() { url in
             guard let url = url else {
-                self.errorQ.value.append(Snapshot.Error.sx_process)
+                self.control.extensionError = WebsiteEdit.Error.sx_process
                 return
             }
-            self.viewModel.setInputURL(url)
+            self.control.extensionURL = url
         }
     }
-
 }
 
 import UniformTypeIdentifiers

@@ -1,7 +1,5 @@
-// swift-tools-version:5.5
-
 //
-//  Created by Jeffrey Bergier on 2022/03/11.
+//  Created by Jeffrey Bergier on 2022/04/09.
 //
 //  MIT License
 //
@@ -26,30 +24,15 @@
 //  SOFTWARE.
 //
 
-import PackageDescription
+import Foundation
 
-let package = Package(
-    name: "Interface",
-    platforms: [.iOS(.v15), .macOS(.v12)],
-    products: [
-        .library(
-            name: "Interface",
-            targets: ["Interface"]
-        ),
-    ],
-    dependencies: [
-        .package(path: "../Datum"),
-        .package(path: "../Browse"),
-        .package(path: "../WebsiteEdit"),
-    ],
-    targets: [
-        .target(
-            name: "Interface",
-            dependencies: [
-                .byNameItem(name: "Datum", condition: nil),
-                .byNameItem(name: "Browse", condition: nil),
-                .byNameItem(name: "WebsiteEdit", condition: nil),
-            ]
-        ),
-    ]
-)
+internal class Control: ObservableObject {
+    // Status
+    @Published internal var isLoading = false
+    @Published internal var isJSEnabled = false
+    internal var pageLoadProgress = Progress(totalUnitCount: 100)
+    
+    // Control
+    @Published internal var shouldLoad = false
+    @Published internal var configuration = ThumbnailConfiguration()
+}

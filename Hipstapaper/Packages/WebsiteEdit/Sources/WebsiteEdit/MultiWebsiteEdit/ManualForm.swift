@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/12/06.
+//  Created by Jeffrey Bergier on 2022/04/08.
 //
 //  MIT License
 //
@@ -25,46 +25,38 @@
 //
 
 import SwiftUI
+import Datum
 import Localize
 import Stylize
 
-struct FormLoad: View {
+internal struct ManualForm: View {
     
+    @WebsiteEditQuery private var website: Website
     @Localize private var text
-    @ObservedObject var viewModel: ViewModel
     
-    var body: some View {
-        HStack() {
-            STZ.VIEW.TXTFLD.WebURL.textfield(self.$viewModel.output.inputURLString,
-                                             bundle: self.text)
-            STZ.BTN.Go.button(doneStyle: true,
-                              isEnabled: self.viewModel.output.inputURL != nil,
-                              bundle: self.text)
-            {
-                self.viewModel.control.shouldLoad.toggle()
+    internal init(_ id: Website.Ident) {
+        _website = .init(id: id)
+    }
+    
+    internal var body: some View {
+        HStack {
+            VStack {
+                STZ.VIEW.TXTFLD.WebTitle.textfield(self.$website.title,
+                                                   bundle: self.text)
+                STZ.VIEW.TXTFLD.OriginalURL.textfield(self.$website.originalURL,
+                                                      bundle: self.text)
+                STZ.VIEW.TXTFLD.ResolvedURL.textfield(self.$website.resolvedURL,
+                                                      bundle: self.text)
+            }
+            ZStack {
+                STZ.ICN.placeholder.thumbnail(self.website.thumbnail)
+                    .frame(width: 112)
+                if self.website.thumbnail != nil {
+                    STZ.TB.DeleteImage.button_iconOnly(bundle: self.text) {
+                        self.website.thumbnail = nil
+                    }
+                }
             }
         }
     }
 }
-
-#if DEBUG
-struct FormLoad_Preview1: PreviewProvider {
-    static var viewModel = ViewModel(prepopulatedURL: nil, doneAction: { _ in })
-    static var previews: some View {
-        FormLoad(viewModel: viewModel)
-            .previewLayout(.fixed(width: 300, height: 100.0))
-    }
-}
-struct FormLoad_Preview2: PreviewProvider {
-    static let viewModel: ViewModel = {
-        let vm = ViewModel(prepopulatedURL: nil,
-                           doneAction: { _ in })
-        vm.output.inputURLString = "https://www.google.com"
-        return vm
-    }()
-    static var previews: some View {
-        FormLoad(viewModel: viewModel)
-            .previewLayout(.fixed(width: 300, height: 100.0))
-    }
-}
-#endif

@@ -84,4 +84,11 @@ extension STZ.TB {
         public static let noun: Noun = .addWebsite
         public static let shortcut: KeyboardShortcut? = .init("n", modifiers: [.command, .shift])
     }
+    public enum EditWebsite: Presentable {
+        public static let icon: STZ.ICN? = .editPencil
+        public static let phrase: Phrase = .editWebsiteTip
+        public static let verb: Verb = .editWebsite
+        public static let noun: Noun = .editWebsite
+        public static let shortcut: KeyboardShortcut? = .init(.return, modifiers: [.command])
+    }
 }

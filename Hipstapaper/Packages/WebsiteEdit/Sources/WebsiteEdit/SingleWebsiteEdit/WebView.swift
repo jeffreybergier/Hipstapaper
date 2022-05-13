@@ -24,76 +24,103 @@
 //  SOFTWARE.
 //
 
+import Collections
 import SwiftUI
 import WebKit
 import Umbrella
-import Collections
+import Datum
 
-struct WebView: View {
+internal struct WebView: View {
+
+    // TODO: Turn this back into Binding
+    // When this is a binding, the orginalURL value gets set to NIL when
+    // setting resolvedURL.
+    @WebsiteEditQuery private var website: Website
+    @ObservedObject internal var control: Control
     
-    @ObservedObject var viewModel: ViewModel
+    // TODO: Update to modern error env
     @State private var errorQ = Deque<UserFacingError>()
+    @StateObject private var timer = BlackBox<Timer?>(nil, isObservingValue: false)
+    @StateObject private var kvo = BlackBox<[NSKeyValueObservation]>([], isObservingValue: false)
+    
+    internal init(id: Website.Ident, control: Control) {
+        _website = .init(id: id)
+        _control = .init(wrappedValue: control)
+    }
     
     private func update(_ wv: WKWebView, context: Context) {
-        if self.viewModel.control.isJSEnabled != wv.configuration.preferences.javaScriptEnabled {
-            wv.configuration.preferences.javaScriptEnabled = self.viewModel.control.isJSEnabled
-            viewModel.control.shouldLoad = true
+        if self.control.isJSEnabled != wv.configuration.preferences.javaScriptEnabled {
+            wv.configuration.preferences.javaScriptEnabled = self.control.isJSEnabled
+            guard self.control.shouldLoad, wv.isLoading else { return }
             wv.reload()
             return
         }
         
-        guard self.viewModel.control.shouldLoad else {
+        guard self.control.shouldLoad else {
             wv.stopLoading()
             return
         }
         
         guard
-            self.viewModel.output.currentURL == nil,
-            let originalURL = self.viewModel.output.inputURL,
-            !wv.isLoading
+            let originalURL = self.website.originalURL,
+            wv.isLoading == false
         else { return }
+        // Ok now we're ready to load the page
         
+        // Put existing webview info into Website object.
+        // This prevents an issue where KVO doesn't update Title or URL
+        // if they remain the same.
+        self.website.title = wv.title
+        self.website.resolvedURL = originalURL
+        // Load page
         let request = URLRequest(url: originalURL)
         wv.load(request)
     }
     
     private func makeWebView(context: Context) -> WKWebView {
         let config = WKWebViewConfiguration()
-        config.preferences.javaScriptEnabled = self.viewModel.control.isJSEnabled
+        config.preferences.javaScriptEnabled = self.control.isJSEnabled
         config.mediaTypesRequiringUserActionForPlayback = .all
         let wv = WKWebView(frame: .zero, configuration: config)
         wv.configuration.websiteDataStore = .nonPersistent()
         wv.navigationDelegate = context.coordinator
         wv.allowsBackForwardNavigationGestures = false
         let token1 = wv.observe(\.isLoading)
-        { [unowned viewModel] wv, _ in
-            viewModel.isLoading = wv.isLoading
+        { [weak control] wv, _ in
+            control?.isLoading = wv.isLoading
+            guard wv.isLoading == false else { return }
+            control?.shouldLoad = false
         }
         let token2 = wv.observe(\.url)
-        { [unowned viewModel] wv, _ in
-            viewModel.output.currentURL = wv.url
+        { wv, _ in
+            self.website.resolvedURL = wv.url
         }
         let token3 = wv.observe(\.title)
-        { [unowned viewModel] wv, _ in
-            viewModel.output.title = wv.title ?? ""
+        { wv, _ in
+            self.website.title = wv.title
         }
         let token4 = wv.observe(\.estimatedProgress)
-        { [unowned viewModel] wv, _ in
-            viewModel.progress.completedUnitCount = Int64(wv.estimatedProgress * 100)
+        { [weak control] wv, _ in
+            control?.pageLoadProgress.completedUnitCount = Int64(wv.estimatedProgress * 100)
         }
-        self.viewModel.timer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true)
-        { [weak viewModel, weak wv] timer in
-            guard let wv = wv, let viewModel = viewModel else { timer.invalidate(); return; }
-            guard viewModel.control.shouldLoad else { return }
-            wv.snap_takeSnapshot(with: viewModel.thumbnailConfiguration) { viewModel.output.thumbnail = $0 }
+        self.timer.value = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true)
+        { [weak control, weak wv] timer in
+            guard let wv = wv, control?.shouldLoad == true else { return }
+            wv.snap_takeSnapshot(with: self.control.configuration) {
+                // TODO: Capture error
+                self.website.thumbnail = $0.value
+                guard control?.pageLoadProgress.fractionCompleted ?? -1 > 0.98 else { return }
+                control?.shouldLoad = false
+            }
         }
-        self.viewModel.kvo = [token1, token2, token3, token4]
+        self.kvo.value = [token1, token2, token3, token4]
         return wv
     }
     
-    func makeCoordinator() -> GenericWebKitNavigationDelegate {
-        return .init(self.errorQ) { [unowned viewModel] _ in
-            viewModel.control.shouldLoad = false
+    internal func makeCoordinator() -> GenericWebKitNavigationDelegate {
+        return .init(self.errorQ) { [weak control] error in
+            control?.shouldLoad = false
+            // TODO: Capture error
         }
     }
 }

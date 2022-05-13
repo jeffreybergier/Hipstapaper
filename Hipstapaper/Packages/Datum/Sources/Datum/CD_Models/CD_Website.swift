@@ -50,7 +50,7 @@ import CoreData
 
         // Validate Thumbnail Size
         // TODO: Centralize max thumbnail size
-        if let thumb = self.cd_thumbnail, thumb.count > 100_000 {
+        if let thumb = self.cd_thumbnail, thumb.count > 200_000 {
             self.cd_thumbnail = nil
         }
     }

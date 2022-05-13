@@ -27,13 +27,14 @@
 import Foundation
 import Datum
 import Umbrella
+import WebsiteEdit
 
 enum ModalPresentation: Equatable {
     case none
-    case addWebsite
     case addChoose
     case search
     case sort
+    case editWebsite(Mode, Set<Website.Ident>)
     case tagName(TH.Selection)
     case tagApply(WH.Selection)
     case share(WH.Selection)
@@ -57,10 +58,18 @@ enum ModalPresentation: Equatable {
             }
         }
         
-        @Published var isAddWebsite = false {
+        @Published var isAddChoose = false {
             didSet {
                 guard !internalUpdateInProgress else { return }
-                guard !self.isAddWebsite else { return }
+                guard !self.isAddChoose else { return }
+                self.value = .none
+            }
+        }
+        
+        @Published var isEditWebsite: IdentBox<(Mode, Set<Website.Ident>)>? {
+            didSet {
+                guard !internalUpdateInProgress else { return }
+                guard self.isEditWebsite == nil else { return }
                 self.value = .none
             }
         }
@@ -69,14 +78,6 @@ enum ModalPresentation: Equatable {
             didSet {
                 guard !internalUpdateInProgress else { return }
                 guard self.isTagName == nil else { return }
-                self.value = .none
-            }
-        }
-        
-        @Published var isAddChoose = false {
-            didSet {
-                guard !internalUpdateInProgress else { return }
-                guard !self.isAddChoose else { return }
                 self.value = .none
             }
         }
@@ -113,8 +114,8 @@ enum ModalPresentation: Equatable {
                 
                 self.isSearch        = false
                 self.isSort          = false
-                self.isAddWebsite    = false
                 self.isAddChoose     = false
+                self.isEditWebsite   = nil
                 self.isTagName       = nil
                 self.isTagApply      = nil
                 self.isBrowser       = nil
@@ -128,8 +129,8 @@ enum ModalPresentation: Equatable {
                     self.isShare = .init(selection)
                 case .browser(let item):
                     self.isBrowser = item
-                case .addWebsite:
-                    self.isAddWebsite = true
+                case .editWebsite(let mode, let item):
+                    self.isEditWebsite = .init((mode, item))
                 case .tagName(let item):
                     self.isTagName = .init(item)
                 case .addChoose:

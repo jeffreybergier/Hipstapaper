@@ -1,7 +1,5 @@
-// swift-tools-version:5.5
-
 //
-//  Created by Jeffrey Bergier on 2022/03/11.
+//  Created by Jeffrey Bergier on 2022/04/09.
 //
 //  MIT License
 //
@@ -26,30 +24,28 @@
 //  SOFTWARE.
 //
 
-import PackageDescription
+import SwiftUI
+import Datum
+import Localize
+import Stylize
 
-let package = Package(
-    name: "Snapshot",
-    platforms: [.iOS(.v15), .macOS(.v12)],
-    products: [
-        .library(
-            name: "Snapshot",
-            targets: ["Snapshot"]
-        ),
-    ],
-    dependencies: [
-        .package(path: "../Localize"),
-        .package(path: "../Stylize"),
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", .branch("v2"))
-    ],
-    targets: [
-        .target(
-            name: "Snapshot",
-            dependencies: [
-                .byNameItem(name: "Localize", condition: nil),
-                .byNameItem(name: "Stylize", condition: nil),
-                .byNameItem(name: "Umbrella", condition: nil),
-            ]
-        ),
-    ]
-)
+internal struct Picture: View {
+    
+    @Binding internal var website: Website
+    @ObservedObject internal var control: Control
+    @Localize private var text
+
+    internal var body: some View {
+        ZStack {
+            WebView(id: self.website.uuid, control: self.control)
+            STZ.ICN.web.thumbnail(self.website.thumbnail)
+            if self.control.shouldLoad == false, self.website.thumbnail != nil {
+                STZ.TB.DeleteImage.button_iconOnly(bundle: self.text) {
+                    self.website.thumbnail = nil
+                }
+            }
+        }
+        .modifier(STZ.PRG.BarMod(progress: self.control.pageLoadProgress,
+                                 isVisible: self.control.isLoading))
+    }
+}

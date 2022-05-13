@@ -1,5 +1,7 @@
+// swift-tools-version: 5.6
+
 //
-//  Created by Jeffrey Bergier on 2021/01/09.
+//  Created by Jeffrey Bergier on 2022/05/12.
 //
 //  MIT License
 //
@@ -24,36 +26,28 @@
 //  SOFTWARE.
 //
 
+import PackageDescription
 
-import Foundation
-import Combine
-import Umbrella
-import Snapshot
-import Datum
-import Localize
-
-class DropboxWatcher {
-    
-    let observer: DirectoryPublisher
-    private var token: AnyCancellable?
-    
-    init(controller: Controller, errorQ: ErrorQueue.Environment) {
-        let dropbox = AppGroup.dropbox
-        let fm = FileManager.default
-        try? fm.createDirectory(at: dropbox,
-                                withIntermediateDirectories: true,
-                                attributes: nil)
-        self.observer = DirectoryPublisher(url: dropbox)
-        self.token = self.observer.publisher.sink() { [weak errorQ] url in
-            do {
-                let data = try Data(contentsOf: url)
-                let output = try PropertyListDecoder().decode(Snapshot.ViewModel.Output.self, from: data)
-                 _ = try controller.createWebsite(.init(output)).get()
-                 try FileManager.default.removeItem(at: url)
-            } catch {
-                log.error(error)
-                errorQ?.value.append(Error.shareExtensionAdd)
-            }
-        }
-    }
-}
+let package = Package(
+    name: "ShareUI",
+    platforms: [.iOS(.v15), .macOS(.v12)],
+    products: [
+        .library(
+            name: "ShareUI",
+            targets: ["ShareUI"]
+        ),
+    ],
+    dependencies: [
+        .package(path: "../Datum"),
+        .package(path: "../WebsiteEdit"),
+    ],
+    targets: [
+        .target(
+            name: "ShareUI",
+            dependencies: [
+                .byNameItem(name: "Datum", condition: nil),
+                .byNameItem(name: "WebsiteEdit", condition: nil),
+            ]
+        ),
+    ]
+)

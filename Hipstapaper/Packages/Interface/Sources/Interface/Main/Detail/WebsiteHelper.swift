@@ -51,6 +51,9 @@ enum WebsiteHelper {
     static func canDelete(_ selection: Selection) -> Bool {
         return selection.isEmpty == false
     }
+    static func canEdit(_ selection: Selection) -> Bool {
+        return selection.isEmpty == false
+    }
     static func canOpen(_ selection: Selection, in wm: WindowPresentation) -> Bool {
         if wm.features.contains(.bulkActivation) {
             return selection.first(where: { $0.preferredURL != nil }) != nil

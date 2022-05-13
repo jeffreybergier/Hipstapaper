@@ -26,7 +26,6 @@
 
 import SwiftUI
 import Umbrella
-import Localize
 
 @propertyWrapper
 public struct WebsiteEditQuery: DynamicProperty {

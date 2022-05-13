@@ -46,7 +46,6 @@ public struct FAST_Website: Identifiable, Hashable {
     public var dateCreated: Date  { self.model.cd_dateCreated ?? backupDate }
     public var dateModified: Date { self.model.cd_dateModified ?? backupDate }
     
-    
     internal init(_ model: CD_Website) {
         self.model = model
         self.uuid = .init(model.objectID)

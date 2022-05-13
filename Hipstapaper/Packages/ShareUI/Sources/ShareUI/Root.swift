@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/11/30.
+//  Created by Jeffrey Bergier on 2022/05/12.
 //
 //  MIT License
 //
@@ -27,40 +27,37 @@
 import SwiftUI
 import Umbrella
 import Datum
-import Stylize
-import Localize
+import WebsiteEdit
 
-struct WebsiteRow: View {
+internal struct Root: View {
     
-    private static let formatter: DateFormatter = {
-        let df = DateFormatter()
-        df.dateStyle = .long
-        df.timeStyle = .short
-        return df
-    }()
-    
-    
-    @WebsiteFastQuery private var item: FAST_Website
-    @Localize private var text
-    
-    internal init(id: Website.Ident) {
-        _item = .init(id: id)
-    }
+    @ControlProperty private var control
+    @WebsiteEditQuery private var website: Website
+    @ErrorQueue private var errorQ
         
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 6) {
-                STZ.VIEW.TXT(self.item.title, or: Noun.untitled.loc(self.text))
-                    .modifier(STZ.FNT.DetailRow.Title.apply())
-                    .modifier(STZ.CLR.DetailRow.Text.foreground())
-                STZ.VIEW.TXT(WebsiteRow.formatter.string(from: self.item.dateCreated))
-                    .modifier(STZ.FNT.DetailRow.Subtitle.apply())
-                    .modifier(STZ.CLR.DetailRow.Text.foreground())
+    internal init(id: Website.Ident) {
+        _website = .init(id: id)
+    }
+    
+    internal var body: some View {
+        WebsiteEditor(.add, [self.website.uuid], onDone: self.control.onDone ?? {})
+            .onChange(of: self.control.extensionURL) { newURL in
+                guard let newURL = newURL else { return }
+                self.website.originalURL = newURL
+                self.control.extensionURL = nil
             }
-            Spacer()
-            STZ.ICN.placeholder.thumbnail(self.item.thumbnail)
-                .frame(width: 60)
-        }
-        .frame(minHeight: 60)
+            .onChange(of: self.control.extensionError) { newError in
+                guard let newError = newError else { return }
+                self.errorQ = newError
+                self.control.extensionError = nil
+            }
+            .onAppear() {
+                if self.website.originalURL == nil {
+                    self.website.originalURL = self.control.extensionURL
+                }
+                if self.errorQ == nil {
+                    self.errorQ = self.control.extensionError
+                }
+            }
     }
 }
