@@ -22,7 +22,8 @@
 		739F03CC25A87FE4001826F8 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739F03CB25A87FE4001826F8 /* ShareViewController.swift */; };
 		739F03CF25A87FE4001826F8 /* ShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 739F03CD25A87FE4001826F8 /* ShareViewController.xib */; };
 		739F03D425A87FE4001826F8 /* Share_macOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 739F03C725A87FE4001826F8 /* Share_macOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		73A4AB6927DB6CFA003B22E1 /* Snapshot in Frameworks */ = {isa = PBXBuildFile; productRef = 73A4AB6827DB6CFA003B22E1 /* Snapshot */; };
+		73DBEC2B282ECC220091DA3C /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73DBEC2A282ECC220091DA3C /* CloudKit.framework */; };
+		73DBEC2D282ECD960091DA3C /* ShareUI in Frameworks */ = {isa = PBXBuildFile; productRef = 73DBEC2C282ECD960091DA3C /* ShareUI */; };
 		73DD930A25EB3B740050DBDD /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 73DD930925EB3B740050DBDD /* README.md */; };
 		DBDCB369256BE8E800D005F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBDCB33E256BE8E700D005F6 /* Assets.xcassets */; };
 		DBDCB36A256BE8E800D005F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBDCB33E256BE8E700D005F6 /* Assets.xcassets */; };
@@ -114,6 +115,7 @@
 		739F03D125A87FE4001826F8 /* Share_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Share_macOS.entitlements; sourceTree = "<group>"; };
 		73C274DB25A9DA440028FE3A /* Hipstapaper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper.entitlements; sourceTree = "<group>"; };
 		73C274E625A9DA6A0028FE3A /* Share_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Share_iOS.entitlements; sourceTree = "<group>"; };
+		73DBEC2A282ECC220091DA3C /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		73DD930925EB3B740050DBDD /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		DBDCB33E256BE8E700D005F6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DBDCB343256BE8E700D005F6 /* Hipstapaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hipstapaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,7 +139,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				73A4AB6927DB6CFA003B22E1 /* Snapshot in Frameworks */,
+				73DBEC2D282ECD960091DA3C /* ShareUI in Frameworks */,
+				73DBEC2B282ECC220091DA3C /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,6 +251,7 @@
 		DBDCB3A5256BEC5B00D005F6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				73DBEC2A282ECC220091DA3C /* CloudKit.framework */,
 				736F67A425C19979006896DF /* CloudKit.framework */,
 				736F67A225C19822006896DF /* CloudKit.framework */,
 			);
@@ -291,7 +295,7 @@
 			);
 			name = Share_macOS;
 			packageProductDependencies = (
-				73A4AB6827DB6CFA003B22E1 /* Snapshot */,
+				73DBEC2C282ECD960091DA3C /* ShareUI */,
 			);
 			productName = Share_macOS;
 			productReference = 739F03C725A87FE4001826F8 /* Share_macOS.appex */;
@@ -899,9 +903,9 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Interface;
 		};
-		73A4AB6827DB6CFA003B22E1 /* Snapshot */ = {
+		73DBEC2C282ECD960091DA3C /* ShareUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Snapshot;
+			productName = ShareUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
