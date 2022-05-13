@@ -25,14 +25,18 @@
 //
 
 import SwiftUI
+import Umbrella
 import Datum
 import Stylize
+import Localize
 
 public enum Mode {
     case add, edit
 }
 
 public struct WebsiteEditor: View {
+    
+    @ErrorQueue private var errorQ
     
     private let selection: Set<Website.Ident>
     private let mode: Mode
@@ -43,8 +47,13 @@ public struct WebsiteEditor: View {
         self.mode = mode
         self.onDone = onDone
     }
-
+    
     public var body: some View {
+        self.build
+            .modifier(ErrorPresentation(self.$errorQ))
+    }
+
+    @ViewBuilder private var build: some View {
         switch self.selection.count {
         case 0: fatalError("// TODO: Show Error")
         case 1: SingleWebsiteEdit(self.mode, self.selection.first!, onDone: self.onDone)
