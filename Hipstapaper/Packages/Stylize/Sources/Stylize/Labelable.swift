@@ -119,6 +119,7 @@ extension Buttonable {
     {
         Button(action: action) {
             self.label(bundle: bundle)
+                .if(.macOS) { $0.modifier(STZ.PDG.Equal(ignore: [\.leading, \.trailing])) }
         }
         .buttonStyle(.borderless)
         .disabled(!isEnabled)
