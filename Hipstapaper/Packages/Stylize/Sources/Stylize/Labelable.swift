@@ -112,6 +112,19 @@ extension Buttonable {
         .modifier(Shortcut(self.shortcut))
         .modifier(DefaultButtonStyle())
     }
+    public static func button_sidebar(isEnabled: Bool = true,
+                                      bundle: LocalizeBundle,
+                                      action: @escaping Action)
+                                      -> some View
+    {
+        Button(action: action) {
+            self.label(bundle: bundle)
+        }
+        .buttonStyle(.borderless)
+        .disabled(!isEnabled)
+        .help(self.phrase.loc(bundle))
+        .modifier(Shortcut(self.shortcut))
+    }
 }
 
 extension Toolbarable {

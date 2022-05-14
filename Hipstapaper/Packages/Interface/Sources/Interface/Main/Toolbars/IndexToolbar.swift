@@ -39,8 +39,6 @@ struct IndexToolbar: ViewModifier {
                 .modifier(TagNamePickerPresentable())
             Color.clear.frame(width: 1, height: 1)
                 .modifier(AddWebsitePresentable())
-            Color.clear.frame(width: 1, height: 1)
-                .modifier(AddChoicePresentable())
             
             #if os(macOS)
             content.modifier(IndexToolbar_macOS())
@@ -54,40 +52,21 @@ struct IndexToolbar: ViewModifier {
 #if os(macOS)
 struct IndexToolbar_macOS: ViewModifier {
     
-    @Localize private var text
     @ControllerProperty private var controller
-    @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     
     func body(content: Content) -> some View {
+        // TODO: Is this sync thing real?
         content.toolbar(id: "Index") {
             ToolbarItem(id: "Index.Sync") {
                 STZ.TB.Sync(self.controller.syncProgress)
-            }
-            ToolbarItem(id: "Index.FlexibleSpace") {
-                Spacer()
-            }
-            ToolbarItem(id: "Index.AddChoice", placement: .primaryAction) {
-                STZ.TB.AddChoice.toolbar(bundle: self.text) {
-                    self.modalPresentation.value = .addChoose
-                }
             }
         }
     }
 }
 #else
 struct IndexToolbar_iOS: ViewModifier {
-    
-    @Localize private var text
-    @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
-    
     func body(content: Content) -> some View {
-        content.toolbar(id: "Index") {
-            ToolbarItem(id: "iOS.AddChoice", placement: .primaryAction) {
-                STZ.TB.AddChoice.toolbar(bundle: self.text) {
-                    self.modalPresentation.value = .addChoose
-                }
-            }
-        }
+        content
     }
 }
 #endif

@@ -40,14 +40,13 @@ struct TagList<Nav: View>: View {
     @QueryProperty private var query
     @ControllerProperty private var controller
     
+    @ErrorQueue private var errorQ
     @TagListSelectionProperty private var selectedTag
+    @EnvironmentObject private var presentation: ModalPresentation.Wrap
 
     var body: some View {
         List {
-            Section(header: STZ.VIEW.TXT(Noun.readingList.loc(self.text))
-                        .modifier(STZ.CLR.IndexSection.Text.foreground())
-                        .modifier(STZ.FNT.IndexSection.Title.apply()))
-            {
+            Section {
                 ForEach(NotATag.allCases) { notATag in
                     NavigationLink(destination: self.navigation(.notATag(notATag)),
                                    tag: TagListSelection.notATag(notATag),
@@ -60,11 +59,20 @@ struct TagList<Nav: View>: View {
                             )
                     }
                 }
+            } header: {
+                STZ.TB.AddWebsite.button_sidebar(bundle: self.text) {
+                    // TODO: Remove this hack when possible
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        switch self.controller.createWebsite(nil) {
+                        case .success(let website):
+                            self.presentation.value = .editWebsite(.add, [website])
+                        case .failure(let error):
+                            self.errorQ = error
+                        }
+                    }
+                }
             }
-            Section(header: STZ.VIEW.TXT(Noun.tags.loc(self.text))
-                        .modifier(STZ.CLR.IndexSection.Text.foreground())
-                        .modifier(STZ.FNT.IndexSection.Title.apply()))
-            {
+            Section {
                 ForEach(self.data) { tag in
                     NavigationLink(destination: self.navigation(.tag(tag)),
                                    tag: TagListSelection.tag(tag),
@@ -78,6 +86,18 @@ struct TagList<Nav: View>: View {
                     }
                     // FB9048743: Makes context menu work on macOS
                     .modifier(TagMenu(selection: tag.uuid))
+                }
+            } header: {
+                STZ.TB.AddTag.button_sidebar(bundle: self.text) {
+                    // TODO: Remove this hack when possible
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        switch self.controller.createTag() {
+                        case .success(let id):
+                            self.presentation.value = .tagName(id)
+                        case .failure(let error):
+                            self.errorQ = error
+                        }
+                    }
                 }
             }
         }

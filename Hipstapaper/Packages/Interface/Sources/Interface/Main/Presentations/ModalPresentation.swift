@@ -31,7 +31,6 @@ import WebsiteEdit
 
 enum ModalPresentation: Equatable {
     case none
-    case addChoose
     case search
     case sort
     case editWebsite(Mode, Set<Website.Ident>)
@@ -54,14 +53,6 @@ enum ModalPresentation: Equatable {
             didSet {
                 guard !internalUpdateInProgress else { return }
                 guard !self.isSort else { return }
-                self.value = .none
-            }
-        }
-        
-        @Published var isAddChoose = false {
-            didSet {
-                guard !internalUpdateInProgress else { return }
-                guard !self.isAddChoose else { return }
                 self.value = .none
             }
         }
@@ -114,7 +105,6 @@ enum ModalPresentation: Equatable {
                 
                 self.isSearch        = false
                 self.isSort          = false
-                self.isAddChoose     = false
                 self.isEditWebsite   = nil
                 self.isTagName       = nil
                 self.isTagApply      = nil
@@ -133,8 +123,6 @@ enum ModalPresentation: Equatable {
                     self.isEditWebsite = .init((mode, item))
                 case .tagName(let item):
                     self.isTagName = .init(item)
-                case .addChoose:
-                    self.isAddChoose = true
                 case .search:
                     self.isSearch = true
                 case .sort:
