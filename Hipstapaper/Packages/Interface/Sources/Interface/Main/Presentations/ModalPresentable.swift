@@ -86,6 +86,8 @@ struct SortPickerPresentable: ViewModifier {
 
 struct TagNamePickerPresentable: ViewModifier {
     
+    @ControllerProperty private var controller
+    @ErrorQueue private var errorQ
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
 
     func body(content: Content) -> some View {
@@ -93,6 +95,15 @@ struct TagNamePickerPresentable: ViewModifier {
             .popover(item: self.$presentation.isTagName) { id in
                 TagNamePicker(id: id.value) {
                     self.presentation.value = .none
+                } delete: {
+                    self.presentation.value = .none
+                    let error = DeleteError.tag {
+                        TH.delete(id.value, self.controller, self._errorQ.environment)
+                    }
+                    // TODO: Delete this hack when its not needed
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        self.errorQ = error
+                    }
                 }
             }
     }
@@ -103,6 +114,7 @@ struct AddWebsitePresentable: ViewModifier {
     @ErrorQueue private var errorQ
     @ControllerProperty private var controller
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
+    @StateObject private var editorErrorQueue = ErrorQueue.newEnvirementObject()
 
     func body(content: Content) -> some View {
         content.sheet(item: self.$presentation.isEditWebsite) { payload in
@@ -110,58 +122,7 @@ struct AddWebsitePresentable: ViewModifier {
             WebsiteEditor(payload.value.0, payload.value.1) {
                 self.presentation.isEditWebsite = nil
             }
-        }
-    }
-}
-
-struct AddChoicePresentable: ViewModifier {
-    
-    @Localize private var text
-    @ErrorQueue private var errorQ
-    @ControllerProperty private var controller
-    @EnvironmentObject private var presentation: ModalPresentation.Wrap
-    
-    func body(content: Content) -> some View {
-        content.modifier(
-            STZ.ACTN.Modifier(isPresented: self.$presentation.isAddChoose)
-            {
-                STZ.ACTN.Wrapper(title: Phrase.addChoice.loc(self.text),
-                                 buttons: [
-                                    self.addTagButton,
-                                    self.addWebsiteButton
-                                 ],
-                                 bundle: self.text)
-            }
-        )
-    }
-    
-    private var addTagButton: STZ.ACTN.Wrapper.Button {
-        return .init(title: Verb.addTag.loc(self.text)) {
-            self.presentation.value = .none
-            // TODO: Remove this hack when possible
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                switch self.controller.createTag() {
-                case .success(let id):
-                    self.presentation.value = .tagName(id)
-                case .failure(let error):
-                    self.errorQ = error
-                }
-            }
-        }
-    }
-    
-    private var addWebsiteButton: STZ.ACTN.Wrapper.Button {
-        return .init(title: Verb.addWebsite.loc(self.text)) {
-            self.presentation.value = .none
-            // TODO: Remove this hack when possible
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                switch self.controller.createWebsite(nil) {
-                case .success(let website):
-                    self.presentation.value = .editWebsite(.add, [website])
-                case .failure(let error):
-                    self.errorQ = error
-                }
-            }
+            .environmentObject(self.editorErrorQueue)
         }
     }
 }

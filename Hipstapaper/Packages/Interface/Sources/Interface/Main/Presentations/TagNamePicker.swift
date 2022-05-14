@@ -30,13 +30,16 @@ import Stylize
 import Localize
 
 struct TagNamePicker: View {
-    
-    let done: Action
+
     @Localize private var text
     @TagEditQuery private var tag: Tag
     
-    init(id: Tag.Ident, done: @escaping Action) {
+    private let done: Action
+    private let delete: Action
+    
+    init(id: Tag.Ident, done: @escaping Action, delete: @escaping Action) {
         self.done = done
+        self.delete = delete
         _tag = .init(id: id)
     }
     
@@ -47,7 +50,9 @@ struct TagNamePicker: View {
             Spacer()
         }
         .modifier(STZ.PDG.Equal())
-        .modifier(STZ.MDL.Done(kind: STZ.TB.EditTag.self, done: self.done))
+        .modifier(STZ.MDL.DoneDelete(kind: STZ.TB.EditTag.self,
+                                     delete: self.delete,
+                                     done: self.done))
         .frame(idealWidth: 375, idealHeight: self.__hack_height) // TODO: Remove height when this is not broken
     }
     

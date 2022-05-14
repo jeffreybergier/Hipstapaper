@@ -110,7 +110,7 @@ extension DetailToolbar.iOS {
                 }
                 .toolbar(id: "Detail") { // TODO: Hack because toolbars only support 10 items
                     ToolbarItem(id: "Detail.Sync", placement: .cancellationAction) {
-                        STZ.TB.Sync(self.controller.syncProgress)
+                        STZ.TB.SyncError(self.controller.syncProgress)
                     }
                     ToolbarItem(id: "Detail.Sort") {
                         STZ.TB.Sort.toolbar(bundle: self.text) {
@@ -158,7 +158,7 @@ extension DetailToolbar.iOS {
                     EditButton()
                 }
                 ToolbarItem(id: "Detail.Sync", placement: .cancellationAction) {
-                    STZ.TB.Sync(self.syncProgress)
+                    STZ.TB.SyncError(self.syncProgress)
                 }
                 ToolbarItem(id: "Detail.Sort") {
                     STZ.TB.Sort.toolbar(bundle: self.text) {

@@ -30,23 +30,27 @@ import Datum
 import Stylize
 import Localize
 
-struct TagApply: View {
+public struct TagApply: View {
     
     @ErrorQueue private var errorQ
     @TagApplyQuery private var data: AnyRandomAccessCollection<Datum.TagApply>
     
-    let done: Action
+    private let done: Action?
     
-    init(selection: WH.Selection, done: @escaping Action) {
-        _data = .init(selection: Set(selection.map { $0.uuid }))
+    public init(selection: Set<FAST_Website>, done: Action? = nil) {
+        self.init(selection: Set(selection.map { $0.uuid }), done: done)
+    }
+    
+    public init(selection: Set<Website.Ident>, done: Action? = nil) {
+        _data = .init(selection: selection)
         self.done = done
     }
 
-    var body: some View {
-        VStack(spacing: 0) {
-            List(self.$data) { TagApplyRow(value: $0) }
-              .modifier(STZ.MDL.Done(kind: STZ.TB.TagApply.self, done: self.done))
-              .frame(idealWidth: 300, idealHeight: 300)
+    public var body: some View {
+        List(self.$data) {
+            TagApplyRow(value: $0)
         }
+        .frame(idealWidth: 300, idealHeight: 300)
+        .if(self.done) { $0.modifier(STZ.MDL.Done(kind: STZ.TB.TagApply.self, done: $1)) }
     }
 }

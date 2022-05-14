@@ -26,18 +26,15 @@
 
 import SwiftUI
 import Umbrella
-import Stylize
-import Datum
-import Localize
 
-enum DeleteError: UserFacingError {
+public enum DeleteError: UserFacingError {
     
-    typealias OnConfirmation = () -> Void
+    public typealias OnConfirmation = () -> Void
     
     case website(OnConfirmation)
     case tag(OnConfirmation)
     
-    var title: LocalizationKey {
+    public var title: LocalizationKey {
         switch self {
         case .tag:
             return Noun.deleteTag.key
@@ -45,7 +42,7 @@ enum DeleteError: UserFacingError {
             return Noun.deleteWebsite.key
         }
     }
-    var message: LocalizationKey {
+    public var message: LocalizationKey {
         switch self {
         case .tag:
             return Phrase.deleteTagConfirm.key
@@ -53,7 +50,7 @@ enum DeleteError: UserFacingError {
             return Phrase.deleteWebsiteConfirm.key
         }
     }
-    var options: [RecoveryOption] {
+    public var options: [RecoveryOption] {
         switch self {
         case .tag(let onConfirm):
             return [.init(title: Verb.deleteTag.key, isDestructive: true, perform: onConfirm)]
@@ -61,8 +58,7 @@ enum DeleteError: UserFacingError {
             return [.init(title: Verb.deleteWebsite.key, isDestructive: true, perform: onConfirm)]
         }
     }
-    
-    var errorCode: Int {
+    public var errorCode: Int {
         switch self {
         case .tag:
             return 1001
