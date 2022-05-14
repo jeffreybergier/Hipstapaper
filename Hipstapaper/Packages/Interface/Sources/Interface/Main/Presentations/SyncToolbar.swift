@@ -31,7 +31,7 @@ import Stylize
 import Localize
 
 extension STZ.TB {
-    struct Sync: View {
+    struct SyncError: View {
         
         @Localize private var text
         @ErrorQueue private var errorQ

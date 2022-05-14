@@ -55,10 +55,9 @@ struct IndexToolbar_macOS: ViewModifier {
     @ControllerProperty private var controller
     
     func body(content: Content) -> some View {
-        // TODO: Is this sync thing real?
         content.toolbar(id: "Index") {
             ToolbarItem(id: "Index.Sync") {
-                STZ.TB.Sync(self.controller.syncProgress)
+                STZ.TB.SyncError(self.controller.syncProgress)
             }
         }
     }
