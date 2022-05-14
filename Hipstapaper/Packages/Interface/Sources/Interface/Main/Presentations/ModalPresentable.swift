@@ -86,6 +86,8 @@ struct SortPickerPresentable: ViewModifier {
 
 struct TagNamePickerPresentable: ViewModifier {
     
+    @ControllerProperty private var controller
+    @ErrorQueue private var errorQ
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
 
     func body(content: Content) -> some View {
@@ -93,6 +95,15 @@ struct TagNamePickerPresentable: ViewModifier {
             .popover(item: self.$presentation.isTagName) { id in
                 TagNamePicker(id: id.value) {
                     self.presentation.value = .none
+                } delete: {
+                    self.presentation.value = .none
+                    let error = DeleteError.tag {
+                        TH.delete(id.value, self.controller, self._errorQ.environment)
+                    }
+                    // TODO: Delete this hack when its not needed
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        self.errorQ = error
+                    }
                 }
             }
     }

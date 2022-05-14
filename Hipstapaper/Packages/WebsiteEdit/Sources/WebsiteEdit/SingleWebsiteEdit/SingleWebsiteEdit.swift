@@ -82,11 +82,14 @@ internal struct SingleWebsiteEdit: View {
     }
     
     private func onDelete() {
-        switch self.controller.delete([self.website.uuid]) {
-        case .success:
-            self.onDone()
-        case .failure(let error):
-            self.errorQ = error
+        let error = DeleteError.tag {
+            switch self.controller.delete([self.website.uuid]) {
+            case .success:
+                self.onDone()
+            case .failure(let error):
+                self.errorQ = error
+            }
         }
+        self.errorQ = error
     }
 }

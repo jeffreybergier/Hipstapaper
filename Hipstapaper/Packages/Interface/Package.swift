@@ -41,6 +41,7 @@ let package = Package(
         .package(path: "../Datum"),
         .package(path: "../Browse"),
         .package(path: "../WebsiteEdit"),
+        .package(path: "../Localize"),
     ],
     targets: [
         .target(
@@ -49,6 +50,7 @@ let package = Package(
                 .byNameItem(name: "Datum", condition: nil),
                 .byNameItem(name: "Browse", condition: nil),
                 .byNameItem(name: "WebsiteEdit", condition: nil),
+                .byNameItem(name: "Localize", condition: nil),
             ]
         ),
     ]

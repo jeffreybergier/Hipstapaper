@@ -50,7 +50,6 @@ let package = Package(
                 .byNameItem(name: "Datum", condition: nil),
                 .byNameItem(name: "Localize", condition: nil),
                 .byNameItem(name: "Stylize", condition: nil),
-                .byNameItem(name: "Umbrella", condition: nil),
             ]
         ),
     ]
