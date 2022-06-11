@@ -191,7 +191,7 @@ extension CD_Controller: Controller {
                 return self.removeTag(cd, to: newValue.selection)
             }
         case .some:
-            "Invalid change".log()
+            NSLog("Invalid Change")
             return result1
         }
     }
@@ -231,7 +231,7 @@ internal class CD_Controller {
         } catch let error as Error {
             return .failure(error)
         } catch {
-            log.emergency(error)
+            NSLog("\(error)")
             fatalError("Unexpected error ocurred: \(error)")
         }
     }
@@ -268,7 +268,7 @@ internal class CD_Controller {
     
     #if DEBUG
     deinit {
-        log.verbose()
+        NSLog("CD_Controller: DEINIT")
     }
     #endif
 }
@@ -281,9 +281,8 @@ extension CD_Controller {
             let url = Bundle.module.url(forResource: "CD_MOM", withExtension: "momd"),
             let mom = NSManagedObjectModel(contentsOf: url)
         else {
-            let message = "Couldn't find MOM"
-            log.emergency(message)
-            fatalError(message)
+            NSLog("Couldn't find MOM")
+            fatalError()
         }
         return mom
     }()
@@ -312,7 +311,7 @@ extension CD_Controller {
 private class Datum_PersistentContainer: NSPersistentCloudKitContainer {
     override class func defaultDirectoryURL() -> URL {
         let url = CD_Controller.storeDirectoryURL
-        log.debug(url)
+        NSLog("\(url)")
         return url
     }
     
@@ -332,7 +331,7 @@ extension NSManagedObjectContext {
             try self.save()
             return .success(())
         } catch {
-            log.error(error)
+            NSLog("\(error)")
             self.rollback()
             return .failure(.write(error as NSError))
         }

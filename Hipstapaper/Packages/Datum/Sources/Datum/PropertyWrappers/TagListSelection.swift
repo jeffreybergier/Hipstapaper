@@ -120,7 +120,7 @@ public enum TagListSelection: RawRepresentable, Hashable {
                 let data = try PropertyListEncoder().encode(tag)
                 return data.base64EncodedString()
             } catch {
-                error.log()
+                NSLog("\(error)")
                 return ""
             }
         }

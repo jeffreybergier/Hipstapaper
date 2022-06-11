@@ -52,12 +52,12 @@ import Umbrella
         let now = Date()
         
         if self.cd_dateCreated == nil {
-            log.error()
+            NSLog("Date was NIL")
             self.cd_dateCreated = now
         }
         
         if self.cd_dateModified == nil {
-            log.error()
+            NSLog("Date was NIL")
             self.cd_dateModified = now
         }
         
