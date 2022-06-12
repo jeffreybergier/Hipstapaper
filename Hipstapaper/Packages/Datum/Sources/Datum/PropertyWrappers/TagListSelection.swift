@@ -141,3 +141,12 @@ public enum TagListSelection: RawRepresentable, Hashable {
     }
 
 }
+
+// Allows for easy mapping to SwiftUI selection bindings
+extension NotATag {
+    public var selectionValue: TagListSelection { .notATag(self) }
+}
+
+extension Tag {
+    public var selectionValue: TagListSelection { .tag(self) }
+}

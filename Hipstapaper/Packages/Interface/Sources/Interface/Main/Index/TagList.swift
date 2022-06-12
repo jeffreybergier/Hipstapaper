@@ -30,10 +30,9 @@ import Datum
 import Localize
 import Stylize
 
-struct TagList<Nav: View>: View {
+struct TagList: View {
     
-    typealias Navigation = (TagListSelection) -> Nav
-    let navigation: Navigation
+    @Binding var selectedTag: TagListSelection?
 
     @Localize private var text
     @TagListQuery private var data
@@ -41,17 +40,17 @@ struct TagList<Nav: View>: View {
     @ControllerProperty private var controller
     
     @ErrorQueue private var errorQ
-    @TagListSelectionProperty private var selectedTag
     @EnvironmentObject private var presentation: ModalPresentation.Wrap
+    
+    init(_ selectedTag: Binding<TagListSelection?>) {
+        _selectedTag = selectedTag
+    }
 
     var body: some View {
-        List {
+        List(selection: self.$selectedTag) {
             Section {
-                ForEach(NotATag.allCases) { notATag in
-                    NavigationLink(destination: self.navigation(.notATag(notATag)),
-                                   tag: TagListSelection.notATag(notATag),
-                                   selection: self.$selectedTag)
-                    {
+                ForEach(NotATag.allCases, id: \.selectionValue) { notATag in
+                    NavigationLink(value: notATag.selectionValue) {
                         NotATagRow(item: notATag)
                             .environment(
                                 \.XPL_isSelected,
@@ -73,11 +72,8 @@ struct TagList<Nav: View>: View {
                 }
             }
             Section {
-                ForEach(self.data) { tag in
-                    NavigationLink(destination: self.navigation(.tag(tag)),
-                                   tag: TagListSelection.tag(tag),
-                                   selection: self.$selectedTag)
-                    {
+                ForEach(self.data, id: \.selectionValue) { tag in
+                    NavigationLink(value: tag.selectionValue) {
                         TagRow(item: tag)
                             .environment(
                                 \.XPL_isSelected,

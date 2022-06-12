@@ -35,15 +35,22 @@ struct Root: View {
     @ErrorQueue private var errorQ
     @QueryProperty private var query
     @ControllerProperty private var controller
+    @TagListSelectionProperty private var selectedTag
     
     var body: some View {
-        NavigationView {
-            TagList { selection in
-                WebsiteList(selection: selection, onInitQuery: self.query, controller: self.controller)
+        NavigationSplitView {
+            TagList(self.$selectedTag)
+        } content: {
+            if let selectedTag {
+                WebsiteList(selection: selectedTag, onInitQuery: self.query, controller: self.controller)
+            } else {
+                Text("No Selection")
             }
-            // TODO: Has to be here because of macOS bug
-            .modifier(ErrorPresentation(self.$errorQ))
+        } detail: {
+            Text("Browse")
         }
+        // TODO: Has to be here because of macOS bug
+        .modifier(ErrorPresentation(self.$errorQ))
         .modifier(BrowserPresentable())
     }
 }
