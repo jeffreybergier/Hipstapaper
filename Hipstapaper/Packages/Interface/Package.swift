@@ -1,4 +1,4 @@
-// swift-tools-version:5.5
+// swift-tools-version:5.7
 
 //
 //  Created by Jeffrey Bergier on 2022/03/11.
@@ -30,7 +30,7 @@ import PackageDescription
 
 let package = Package(
     name: "Interface",
-    platforms: [.iOS(.v15), .macOS(.v12)],
+    platforms: [.iOS(.v16), .macOS(.v13)],
     products: [
         .library(
             name: "Interface",
