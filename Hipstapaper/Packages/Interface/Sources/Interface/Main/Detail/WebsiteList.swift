@@ -34,8 +34,8 @@ import XPList
 struct WebsiteList: View {
     
     private let selectedTag: TagListSelection
+    @Binding private var selectedWebsites: WH.Selection
     
-    @State private var selection: WH.Selection = []
     @QueryProperty private var query
     @WebsiteListQuery private var data: AnyRandomAccessCollection<FAST_Website>
     @ControllerProperty private var controller
@@ -43,12 +43,41 @@ struct WebsiteList: View {
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     @EnvironmentObject private var windowPresentation: WindowPresentation
     
-    init(selection: TagListSelection, onInitQuery query: Query, controller: Controller) {
+    init(selection: TagListSelection,
+         selectedWebsites: Binding<WH.Selection>,
+         onInitQuery query: Query,
+         controller: Controller)
+    {
         self.selectedTag = selection
+        _selectedWebsites = Binding {
+            // TODO: Delete binding wrapping
+            print("GET")
+            return selectedWebsites.wrappedValue
+        } set: {
+            print("SET: \($0.count)")
+            selectedWebsites.wrappedValue = $0
+        }
         _data = .init(query: query, tag: selection, controller: controller)
     }
     
     var body: some View {
+        List(self.data, id: \.self, selection: self.$selectedWebsites) { item in
+            NavigationLink(value: item) {
+                WebsiteRow(id: item.uuid)
+            }
+        }
+        .listStyle(.plain)
+        .contextMenu(forSelectionType: WH.Selection.self) { selected in
+            Text("item count: \(selected.count)")
+        }
+        .modifier(WebsiteListTitle(selection: selectedTag))
+        .modifier(SyncIndicator(progress: self.controller.syncProgress))
+        .modifier(DetailToolbar.Shared(selection: self.$selectedWebsites))
+    }
+}
+
+/*
+        
         XPL2.List(data: self.data,
                   selection: self.$selection,
                   open: self.open,
@@ -78,3 +107,4 @@ extension WebsiteList {
         WebsiteMenu(items)
     }
 }
+*/

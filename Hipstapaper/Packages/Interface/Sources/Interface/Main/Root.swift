@@ -29,6 +29,7 @@ import Umbrella
 import Datum
 import Stylize
 import Localize
+import Browse
 
 struct Root: View {
     
@@ -36,18 +37,26 @@ struct Root: View {
     @QueryProperty private var query
     @ControllerProperty private var controller
     @TagListSelectionProperty private var selectedTag
+    @State private var selectedWebsites: WH.Selection = []
     
     var body: some View {
         NavigationSplitView {
             TagList(self.$selectedTag)
         } content: {
             if let selectedTag {
-                WebsiteList(selection: selectedTag, onInitQuery: self.query, controller: self.controller)
+                WebsiteList(selection: selectedTag,
+                            selectedWebsites: self.$selectedWebsites,
+                            onInitQuery: self.query,
+                            controller: self.controller)
             } else {
                 Text("No Selection")
             }
         } detail: {
-            Text("Browse")
+            if let website = self.selectedWebsites.first {
+                Browser(website: website.websiteValue, controller: self.controller, doneAction: nil)
+            } else {
+                Text("No Website")
+            }
         }
         // TODO: Has to be here because of macOS bug
         .modifier(ErrorPresentation(self.$errorQ))
