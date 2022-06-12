@@ -51,7 +51,7 @@ struct WebsiteList: View {
         self.selectedTag = selection
         _selectedWebsites = Binding {
             // TODO: Delete binding wrapping
-            print("GET")
+            print("GET: \(selectedWebsites.wrappedValue.count)")
             return selectedWebsites.wrappedValue
         } set: {
             print("SET: \($0.count)")
@@ -67,9 +67,7 @@ struct WebsiteList: View {
             }
         }
         .listStyle(.plain)
-        .contextMenu(forSelectionType: WH.Selection.self) { selected in
-            Text("item count: \(selected.count)")
-        }
+        .modifier(WebsiteMenu())
         .modifier(WebsiteListTitle(selection: selectedTag))
         .modifier(SyncIndicator(progress: self.controller.syncProgress))
         .modifier(DetailToolbar.Shared(selection: self.$selectedWebsites))
@@ -102,9 +100,6 @@ extension WebsiteList {
             guard let validItem = items.first(where: { $0.preferredURL != nil }) else { return }
             self.modalPresentation.value = .browser(validItem.websiteValue)
         }
-    }
-    private func menu(_ items: WH.Selection) -> WebsiteMenu {
-        WebsiteMenu(items)
     }
 }
 */

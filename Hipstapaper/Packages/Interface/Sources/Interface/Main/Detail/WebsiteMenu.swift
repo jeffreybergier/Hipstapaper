@@ -39,20 +39,14 @@ struct WebsiteMenu: ViewModifier {
     @EnvironmentObject private var modalPresentation: ModalPresentation.Wrap
     @EnvironmentObject private var windowPresentation: WindowPresentation
     @Environment(\.openURL) private var externalPresentation
-    
-    private let selection: WH.Selection
-    
-    init(_ selection: WH.Selection) {
-        self.selection = selection
-    }
-    
+
     func body(content: Content) -> some View {
-        content.contextMenu() {
-            self.contextMenu()
+        content.contextMenu(forSelectionType: WH.Selection.Element.self) { selection in
+            self.contextMenu(selection)
         }
     }
     
-    @ViewBuilder private func contextMenu() -> some View {
+    @ViewBuilder private func contextMenu(_ selection: WH.Selection) -> some View {
         STZ.VIEW.TXT("\(selection.count) selected")
         Group {
             STZ.TB.OpenInApp.context(isEnabled: WH.canOpen(selection, in: self.windowPresentation), bundle: self.text)
@@ -105,7 +99,7 @@ struct WebsiteMenu: ViewModifier {
                                          bundle: self.text)
             {
                 let error = DeleteError.website {
-                    WH.delete(self.selection, self.controller, self._errorQ.environment)
+                    WH.delete(selection, self.controller, self._errorQ.environment)
                 }
                 self.errorQ = error
             }
