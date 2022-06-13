@@ -43,19 +43,33 @@ struct Root: View {
         NavigationSplitView {
             TagList(self.$selectedTag)
         } content: {
-            if let selectedTag {
-                WebsiteList(selection: selectedTag,
-                            selectedWebsites: self.$selectedWebsites,
-                            onInitQuery: self.query,
-                            controller: self.controller)
-            } else {
-                Text("No Selection")
+            // TODO: Remove ZStack
+            // Workaround for a known issue where `NavigationSplitView` and
+            // `NavigationStack` fail to update when their contents are conditional.
+            // For more information, see the iOS 16 Release Notes and
+            // macOS 13 Release Notes. (91311311)"
+            ZStack {
+                if let selectedTag {
+                    WebsiteList(selection: selectedTag,
+                                selectedWebsites: self.$selectedWebsites,
+                                onInitQuery: self.query,
+                                controller: self.controller)
+                } else {
+                    Text("No Selection")
+                }
             }
         } detail: {
-            if let website = self.selectedWebsites.first {
-                Browser(website: website.websiteValue, controller: self.controller, doneAction: nil)
-            } else {
-                Text("No Website")
+            // TODO: Remove ZStack
+            // Workaround for a known issue where `NavigationSplitView` and
+            // `NavigationStack` fail to update when their contents are conditional.
+            // For more information, see the iOS 16 Release Notes and
+            // macOS 13 Release Notes. (91311311)"
+            ZStack {
+                if let website = self.selectedWebsites.first {
+                    Browser(website: website.websiteValue, controller: self.controller, doneAction: nil)
+                } else {
+                    Text("No Website")
+                }
             }
         }
         // TODO: Has to be here because of macOS bug
