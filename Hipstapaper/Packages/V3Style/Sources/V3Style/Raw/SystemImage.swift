@@ -24,6 +24,9 @@
 //  SOFTWARE.
 //
 
-public enum TEMP {
-	case STYLE
+internal enum SystemImage: String {
+    case tag = "tag"
+    case plus = "plus"
+    case document = "doc.text.image"
+    case trash = "trash"
 }

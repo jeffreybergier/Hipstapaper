@@ -25,26 +25,22 @@
 //
 
 import SwiftUI
-import V3Model
-import V3Style
 
-extension ViewModifier where Self == SidebarContextMenu {
-    internal static var sidebarContextMenu: Self { Self.init() }
-}
-
-internal struct SidebarContextMenu: ViewModifier {
+@propertyWrapper
+public struct Sidebar: DynamicProperty {
     
-    @Nav private var nav
-    @V3Style.Sidebar private var style
+    public init() {}
     
-    internal func body(content: Content) -> some View {
-        content.contextMenu(forSelectionType: Tag.Selection.Element.self) { items in
-            self.style.menuTagEdit.button("Edit Tag(s)") {
-                self.nav.sidebarNav.tagsEdit = items
-            }
-            self.style.menuTagDelete.button("Delete Tag(s)", role: .destructive) {
-                // TODO: Hook up deletions
-            }
-        }
+    public struct Value {
+        public var toolbarTagEdit = Toolbar.tagEdit
+        public var toolbarTagAdd = Toolbar.tagAdd
+        public var toolbarWebsiteAdd = Toolbar.websiteAdd
+        public var toolbarAdd = Toolbar.genericAdd
+        public var menuTagDelete = Toolbar.genericDelete
+        public var menuTagEdit = Toolbar.tagEdit
+    }
+    
+    public var wrappedValue: Value {
+        Value()
     }
 }
