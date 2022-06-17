@@ -25,11 +25,9 @@
 //
 
 import SwiftUI
-import V3Interface
 
-@main
-struct HipstapaperApp: App {
-    var body: some Scene {
-        MainWindow()
+internal struct Detail: View {
+    internal var body: some View {
+        Text("Content")
     }
 }

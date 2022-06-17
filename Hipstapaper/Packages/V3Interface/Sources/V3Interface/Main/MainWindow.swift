@@ -25,11 +25,16 @@
 //
 
 import SwiftUI
-import V3Interface
 
-@main
-struct HipstapaperApp: App {
-    var body: some Scene {
-        MainWindow()
+public struct MainWindow: Scene {
+    public init() {}
+    public var body: some Scene {
+        WindowGroup {
+            NavigationSplitView {
+                Sidebar()
+            } detail: {
+                Detail()
+            }
+        }
     }
 }

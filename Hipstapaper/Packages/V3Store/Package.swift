@@ -1,3 +1,5 @@
+// swift-tools-version:5.7
+
 //
 //  Created by Jeffrey Bergier on 2022/06/17.
 //
@@ -24,12 +26,35 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
-import V3Interface
+import PackageDescription
 
-@main
-struct HipstapaperApp: App {
-    var body: some Scene {
-        MainWindow()
-    }
-}
+let package = Package(
+    name: "V3Store",
+    platforms: [.iOS(.v16), .macOS(.v13)],
+    products: [
+        .library(
+            name: "V3Store",
+            targets: ["V3Store"]
+        ),
+    ],
+    dependencies: [
+        .package(path: "../V3Model"),
+        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "v2"),
+    ],
+    targets: [
+        .target(
+            name: "V3Store",
+            dependencies: [
+                .byNameItem(name: "V3Model", condition: nil),
+                .byNameItem(name: "Umbrella", condition: nil),
+            ]
+        ),
+        .testTarget(
+            name: "V3StoreTests",
+            dependencies: [
+                .byNameItem(name: "V3Store", condition: nil),
+                .product(name: "TestUmbrella", package: "Umbrella", condition: nil),
+            ]
+        ),
+    ]
+)

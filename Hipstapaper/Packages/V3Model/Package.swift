@@ -1,3 +1,5 @@
+// swift-tools-version:5.7
+
 //
 //  Created by Jeffrey Bergier on 2022/06/17.
 //
@@ -24,12 +26,24 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
-import V3Interface
+import PackageDescription
 
-@main
-struct HipstapaperApp: App {
-    var body: some Scene {
-        MainWindow()
-    }
-}
+let package = Package(
+    name: "V3Model",
+    platforms: [.iOS(.v16), .macOS(.v13)],
+    products: [
+        .library(
+            name: "V3Model",
+            targets: ["V3Model"]
+        ),
+    ],
+    dependencies: [
+    ],
+    targets: [
+        .target(
+            name: "V3Model",
+            dependencies: [
+            ]
+        ),
+    ]
+)

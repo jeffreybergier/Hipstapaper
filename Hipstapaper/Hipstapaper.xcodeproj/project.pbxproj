@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		730D1060282DB4CB00F6780A /* ShareUI in Frameworks */ = {isa = PBXBuildFile; productRef = 730D105F282DB4CB00F6780A /* ShareUI */; };
 		7317DF1C285C684F009DA81A /* HipstapaperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7317DF1B285C684F009DA81A /* HipstapaperApp.swift */; };
-		7317DF1E285C684F009DA81A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7317DF1D285C684F009DA81A /* ContentView.swift */; };
 		7317DF20285C684F009DA81A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7317DF1F285C684F009DA81A /* Assets.xcassets */; };
 		7317DF24285C684F009DA81A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7317DF23285C684F009DA81A /* Preview Assets.xcassets */; };
 		732C9B5A282DBAEF00F0B183 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 736F67A425C19979006896DF /* CloudKit.framework */; };
@@ -26,6 +25,7 @@
 		739F03CC25A87FE4001826F8 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739F03CB25A87FE4001826F8 /* ShareViewController.swift */; };
 		739F03CF25A87FE4001826F8 /* ShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 739F03CD25A87FE4001826F8 /* ShareViewController.xib */; };
 		739F03D425A87FE4001826F8 /* Share_macOS.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 739F03C725A87FE4001826F8 /* Share_macOS.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		73BCF647285C6C9E00448B19 /* V3Interface in Frameworks */ = {isa = PBXBuildFile; productRef = 73BCF646285C6C9E00448B19 /* V3Interface */; };
 		73DBEC2B282ECC220091DA3C /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73DBEC2A282ECC220091DA3C /* CloudKit.framework */; };
 		73DBEC2D282ECD960091DA3C /* ShareUI in Frameworks */ = {isa = PBXBuildFile; productRef = 73DBEC2C282ECD960091DA3C /* ShareUI */; };
 		73DD930A25EB3B740050DBDD /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 73DD930925EB3B740050DBDD /* README.md */; };
@@ -99,10 +99,12 @@
 		730D105E282DB44A00F6780A /* ShareUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ShareUI; path = Packages/ShareUI; sourceTree = "<group>"; };
 		7317DF19285C684F009DA81A /* Hipstapaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hipstapaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7317DF1B285C684F009DA81A /* HipstapaperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HipstapaperApp.swift; sourceTree = "<group>"; };
-		7317DF1D285C684F009DA81A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7317DF1F285C684F009DA81A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7317DF21285C684F009DA81A /* Hipstapaper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper.entitlements; sourceTree = "<group>"; };
 		7317DF23285C684F009DA81A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		7317DF28285C6B67009DA81A /* V3Store */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = V3Store; path = Packages/V3Store; sourceTree = "<group>"; };
+		7317DF29285C6B67009DA81A /* V3Interface */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = V3Interface; path = Packages/V3Interface; sourceTree = "<group>"; };
+		7317DF2A285C6B67009DA81A /* V3Model */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = V3Model; path = Packages/V3Model; sourceTree = "<group>"; };
 		732A8E6A280032AF00BB905E /* WebsiteEdit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = WebsiteEdit; path = Packages/WebsiteEdit; sourceTree = "<group>"; };
 		7350800D27DB49E800E8D5AC /* Stylize */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Stylize; path = Packages/Stylize; sourceTree = "<group>"; };
 		7351BE3F27DCB36200D94BEA /* Datum */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Datum; path = Packages/Datum; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73BCF647285C6C9E00448B19 /* V3Interface in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,7 +188,6 @@
 			isa = PBXGroup;
 			children = (
 				7317DF1B285C684F009DA81A /* HipstapaperApp.swift */,
-				7317DF1D285C684F009DA81A /* ContentView.swift */,
 				7317DF1F285C684F009DA81A /* Assets.xcassets */,
 				7317DF21285C684F009DA81A /* Hipstapaper.entitlements */,
 				7317DF22285C684F009DA81A /* Preview Content */,
@@ -227,6 +229,10 @@
 		DBDCB336256BE8E600D005F6 = {
 			isa = PBXGroup;
 			children = (
+				7317DF1A285C684F009DA81A /* Hipstapaper */,
+				7317DF29285C6B67009DA81A /* V3Interface */,
+				7317DF2A285C6B67009DA81A /* V3Model */,
+				7317DF28285C6B67009DA81A /* V3Store */,
 				7369CBF627DC1B6A00871EBE /* Interface */,
 				730D105E282DB44A00F6780A /* ShareUI */,
 				DBDCB33B256BE8E600D005F6 /* Shared */,
@@ -240,7 +246,6 @@
 				739F03AC25A87F49001826F8 /* Share_iOS */,
 				739F03C825A87FE4001826F8 /* Share_macOS */,
 				73DD930925EB3B740050DBDD /* README.md */,
-				7317DF1A285C684F009DA81A /* Hipstapaper */,
 				DBDCB344256BE8E700D005F6 /* Products */,
 				DBDCB3A5256BEC5B00D005F6 /* Frameworks */,
 			);
@@ -311,6 +316,9 @@
 			dependencies = (
 			);
 			name = Hipstapaper;
+			packageProductDependencies = (
+				73BCF646285C6C9E00448B19 /* V3Interface */,
+			);
 			productName = Hipstapaper;
 			productReference = 7317DF19285C684F009DA81A /* Hipstapaper.app */;
 			productType = "com.apple.product-type.application";
@@ -503,7 +511,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7317DF1E285C684F009DA81A /* ContentView.swift in Sources */,
 				7317DF1C285C684F009DA81A /* HipstapaperApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1063,6 +1070,10 @@
 		7369CBFC27DC29CD00871EBE /* Interface */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Interface;
+		};
+		73BCF646285C6C9E00448B19 /* V3Interface */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = V3Interface;
 		};
 		73DBEC2C282ECD960091DA3C /* ShareUI */ = {
 			isa = XCSwiftPackageProductDependency;
