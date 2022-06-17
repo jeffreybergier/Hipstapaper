@@ -29,7 +29,7 @@ import V3Model
 
 internal struct Navigation: Codable {
     
-    internal var selectedTags: Tag.Selection = []
+    internal var selectedTags: Tag.Selection = [.default]
     internal var selectedWebsites: Website.Selection = []
     internal var sidebarNav: Sidebar = .init()
 

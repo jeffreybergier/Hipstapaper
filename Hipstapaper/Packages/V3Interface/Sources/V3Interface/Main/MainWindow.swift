@@ -37,14 +37,7 @@ public struct MainWindow: Scene {
             NavigationSplitView {
                 Sidebar()
             } detail: {
-                // TODO: Remove ZStack
-                // Workaround for a known issue where `NavigationSplitView` and
-                // `NavigationStack` fail to update when their contents are conditional.
-                // For more information, see the iOS 16 Release Notes and
-                // macOS 13 Release Notes. (91311311)"
-                ZStack {
-                    Detail()
-                }
+                Detail()
             }
         }
     }

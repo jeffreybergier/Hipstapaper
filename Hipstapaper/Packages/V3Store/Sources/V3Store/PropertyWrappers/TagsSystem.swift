@@ -41,6 +41,7 @@ public struct TagsSystem: DynamicProperty {
 }
 
 extension Tag.Identifier {
+    public static let `default`: Tag.Identifier = .systemUnread
     internal static let systemAll = Tag.Identifier(rawValue: "hipstapaper://tag/system/all")
     internal static let systemUnread = Tag.Identifier(rawValue: "hipstapaper://tag/system/unread")
 }

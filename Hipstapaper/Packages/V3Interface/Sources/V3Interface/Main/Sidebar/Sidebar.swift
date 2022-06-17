@@ -34,7 +34,6 @@ internal struct Sidebar: View {
     @Nav private var nav
     @TagsUser private var tagsUser
     @TagsSystem private var tagsSystem
-    @V3Style.Sidebar private var style
     
     internal var body: some View {
         NavigationStack {
