@@ -1,3 +1,5 @@
+// swift-tools-version:5.7
+
 //
 //  Created by Jeffrey Bergier on 2022/06/17.
 //
@@ -24,41 +26,24 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
-import V3Model
-import V3Store
-import V3Style
+import PackageDescription
 
-let temp = TEMP.STYLE
-
-internal struct Sidebar: View {
-    
-    @Nav private var nav
-    @TagsUser private var tagsUser
-    @TagsSystem private var tagsSystem
-    
-    internal var body: some View {
-        NavigationStack {
-            List(selection: self.$nav.selectedTags) {
-                Section("Reading List") {
-                    ForEach(self.tagsSystem) { item in
-                        NavigationLink(value: item.id) {
-                            Text(item.id.rawValue).tag(item.id)
-                        }
-                    }
-                }
-                Section("Tags") {
-                    ForEach(self.tagsUser) { item in
-                        NavigationLink(value: item.id) {
-                            Text(item.id.rawValue).tag(item.id)
-                        }
-                    }
-                }
-            }
-            .modifier(.tagsEditPopover(self.$nav.sidebarNav.tagsEdit))
-            .modifier(.sidebarContextMenu)
-            .modifier(.sidebarToolbar)
-            .navigationTitle("Tags")
-        }
-    }
-}
+let package = Package(
+    name: "V3Style",
+    platforms: [.iOS(.v16), .macOS(.v13)],
+    products: [
+        .library(
+            name: "V3Style",
+            targets: ["V3Style"]
+        ),
+    ],
+    dependencies: [
+    ],
+    targets: [
+        .target(
+            name: "V3Style",
+            dependencies: [
+            ]
+        ),
+    ]
+)

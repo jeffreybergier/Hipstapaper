@@ -105,6 +105,7 @@
 		7317DF28285C6B67009DA81A /* V3Store */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = V3Store; path = Packages/V3Store; sourceTree = "<group>"; };
 		7317DF29285C6B67009DA81A /* V3Interface */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = V3Interface; path = Packages/V3Interface; sourceTree = "<group>"; };
 		7317DF2A285C6B67009DA81A /* V3Model */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = V3Model; path = Packages/V3Model; sourceTree = "<group>"; };
+		73205DDD285CDCCC002FBDFB /* V3Style */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = V3Style; path = Packages/V3Style; sourceTree = "<group>"; };
 		732A8E6A280032AF00BB905E /* WebsiteEdit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = WebsiteEdit; path = Packages/WebsiteEdit; sourceTree = "<group>"; };
 		7350800D27DB49E800E8D5AC /* Stylize */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Stylize; path = Packages/Stylize; sourceTree = "<group>"; };
 		7351BE3F27DCB36200D94BEA /* Datum */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Datum; path = Packages/Datum; sourceTree = "<group>"; };
@@ -233,6 +234,7 @@
 				7317DF29285C6B67009DA81A /* V3Interface */,
 				7317DF2A285C6B67009DA81A /* V3Model */,
 				7317DF28285C6B67009DA81A /* V3Store */,
+				73205DDD285CDCCC002FBDFB /* V3Style */,
 				7369CBF627DC1B6A00871EBE /* Interface */,
 				730D105E282DB44A00F6780A /* ShareUI */,
 				DBDCB33B256BE8E600D005F6 /* Shared */,

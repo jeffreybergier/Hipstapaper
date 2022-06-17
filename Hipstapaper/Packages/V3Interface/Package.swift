@@ -40,6 +40,7 @@ let package = Package(
     dependencies: [
         .package(path: "../V3Store"),
         .package(path: "../V3Model"),
+        .package(path: "../V3Style"),
     ],
     targets: [
         .target(
@@ -47,6 +48,7 @@ let package = Package(
             dependencies: [
                 .byNameItem(name: "V3Store", condition: nil),
                 .byNameItem(name: "V3Model", condition: nil),
+                .byNameItem(name: "V3Style", condition: nil),
             ]
         ),
     ]
