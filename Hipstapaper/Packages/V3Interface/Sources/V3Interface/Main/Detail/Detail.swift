@@ -27,7 +27,14 @@
 import SwiftUI
 
 internal struct Detail: View {
+    
+    @Nav private var nav
+    
     internal var body: some View {
-        Text("Content")
+        if let tag = self.nav.selectedTags.first {
+            Text(tag.rawValue)
+        } else {
+            Text("No Selection")
+        }
     }
 }

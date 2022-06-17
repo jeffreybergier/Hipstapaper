@@ -24,28 +24,42 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
+import Foundation
 
-public struct MainWindow: Scene {
+public struct Tag: Identifiable, Hashable, Equatable {
     
-    @Nav private var nav
+    public typealias Selection = Set<Tag.Identifier>
     
-    public init() {}
-    
-    public var body: some Scene {
-        WindowGroup {
-            NavigationSplitView {
-                Sidebar()
-            } detail: {
-                // TODO: Remove ZStack
-                // Workaround for a known issue where `NavigationSplitView` and
-                // `NavigationStack` fail to update when their contents are conditional.
-                // For more information, see the iOS 16 Release Notes and
-                // macOS 13 Release Notes. (91311311)"
-                ZStack {
-                    Detail()
-                }
-            }
+    public struct Identifier: Hashable, Equatable, Codable, RawRepresentable {
+        public var rawValue: String
+        public init(rawValue: String) {
+            self.rawValue = rawValue
         }
+    }
+    
+    public enum Kind {
+        case systemAll, systemUnread, user
+    }
+    
+    public var id: Identifier
+    public var kind: Kind
+    public var name: String?
+    public var websitesCount: Int?
+    public var dateCreated: Date?
+    public var dateModified: Date?
+    
+    public init(id: Identifier,
+                kind: Kind = .user,
+                name: String? = nil,
+                websitesCount: Int? = nil,
+                dateCreated: Date? = nil,
+                dateModified: Date? = nil)
+    {
+        self.id = id
+        self.kind = kind
+        self.name = name
+        self.websitesCount = websitesCount
+        self.dateCreated = dateCreated
+        self.dateModified = dateModified
     }
 }

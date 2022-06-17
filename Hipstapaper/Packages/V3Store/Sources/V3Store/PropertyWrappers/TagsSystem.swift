@@ -25,27 +25,22 @@
 //
 
 import SwiftUI
+import V3Model
 
-public struct MainWindow: Scene {
-    
-    @Nav private var nav
+@propertyWrapper
+public struct TagsSystem: DynamicProperty {
     
     public init() {}
     
-    public var body: some Scene {
-        WindowGroup {
-            NavigationSplitView {
-                Sidebar()
-            } detail: {
-                // TODO: Remove ZStack
-                // Workaround for a known issue where `NavigationSplitView` and
-                // `NavigationStack` fail to update when their contents are conditional.
-                // For more information, see the iOS 16 Release Notes and
-                // macOS 13 Release Notes. (91311311)"
-                ZStack {
-                    Detail()
-                }
-            }
-        }
+    public var wrappedValue: some RandomAccessCollection<Tag> {
+        [
+            Tag(id: .systemUnread, kind: .systemUnread),
+            Tag(id: .systemAll, kind: .systemAll),
+        ]
     }
+}
+
+extension Tag.Identifier {
+    internal static let systemAll = Tag.Identifier(rawValue: "hipstapaper://tag/system/all")
+    internal static let systemUnread = Tag.Identifier(rawValue: "hipstapaper://tag/system/unread")
 }

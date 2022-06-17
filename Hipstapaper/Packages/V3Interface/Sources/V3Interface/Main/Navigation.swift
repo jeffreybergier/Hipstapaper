@@ -25,27 +25,47 @@
 //
 
 import SwiftUI
+import V3Model
 
-public struct MainWindow: Scene {
+internal struct Navigation: Codable {
+    internal var selectedTags: Tag.Selection
     
-    @Nav private var nav
+    internal init(selectedTags: Tag.Selection? = nil)
+    {
+        self.selectedTags = selectedTags ?? []
+    }
+}
+
+@propertyWrapper
+internal struct Nav: DynamicProperty {
     
-    public init() {}
+    @SceneStorage("com.hipstapaper.nav") private var nav: String?
     
-    public var body: some Scene {
-        WindowGroup {
-            NavigationSplitView {
-                Sidebar()
-            } detail: {
-                // TODO: Remove ZStack
-                // Workaround for a known issue where `NavigationSplitView` and
-                // `NavigationStack` fail to update when their contents are conditional.
-                // For more information, see the iOS 16 Release Notes and
-                // macOS 13 Release Notes. (91311311)"
-                ZStack {
-                    Detail()
-                }
-            }
+    var wrappedValue: Navigation {
+        get { self.nav?.decodeNavigation ?? .init() }
+        nonmutating set { self.nav = newValue.encodeString }
+    }
+    
+    var projectedValue: Binding<Navigation> {
+        Binding {
+            self.wrappedValue
+        } set: {
+            self.wrappedValue = $0
         }
+    }
+    
+}
+
+extension String {
+    fileprivate var decodeNavigation: Navigation? {
+        guard let data = Data(base64Encoded: self) else { return nil }
+        return try? PropertyListDecoder().decode(Navigation.self, from: data)
+    }
+}
+
+extension Navigation {
+    fileprivate var encodeString: String? {
+        guard let data = try? PropertyListEncoder().encode(self) else { return nil }
+        return data.base64EncodedString()
     }
 }

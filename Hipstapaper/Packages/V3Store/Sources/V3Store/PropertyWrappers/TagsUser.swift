@@ -25,27 +25,26 @@
 //
 
 import SwiftUI
+import V3Model
 
-public struct MainWindow: Scene {
+@propertyWrapper
+public struct TagsUser: DynamicProperty {
     
-    @Nav private var nav
+    // TODO: Hook up core data
     
     public init() {}
     
-    public var body: some Scene {
-        WindowGroup {
-            NavigationSplitView {
-                Sidebar()
-            } detail: {
-                // TODO: Remove ZStack
-                // Workaround for a known issue where `NavigationSplitView` and
-                // `NavigationStack` fail to update when their contents are conditional.
-                // For more information, see the iOS 16 Release Notes and
-                // macOS 13 Release Notes. (91311311)"
-                ZStack {
-                    Detail()
-                }
-            }
-        }
+    public var wrappedValue: some RandomAccessCollection<Tag> {
+        fakeData
     }
 }
+
+#if DEBUG
+fileprivate let fakeData: [Tag] = [
+        Tag(id: .init(rawValue: "coredata://fake1"), name: "Cool Stuff", websitesCount: 400000),
+        Tag(id: .init(rawValue: "coredata://fake2"), name: "Bad Things", websitesCount: 2),
+        Tag(id: .init(rawValue: "coredata://fake3"), name: "👨‍👩‍👧‍👧", websitesCount: -80),
+        Tag(id: .init(rawValue: "coredata://fake4"), name: "日本語", websitesCount: 200),
+        Tag(id: .init(rawValue: "coredata://fake5"), name: "Accounts", websitesCount: 30),
+    ]
+#endif

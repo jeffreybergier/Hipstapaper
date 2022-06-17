@@ -25,9 +25,28 @@
 //
 
 import SwiftUI
+import V3Store
 
 internal struct Sidebar: View {
+    
+    @Nav private var nav
+    @TagsUser private var tagsUser
+    @TagsSystem private var tagsSystem
+    
     internal var body: some View {
-        Text("Sidebar")
+        List(selection: self.$nav.selectedTags) {
+            Section("Reading List") {
+                ForEach(self.tagsSystem) { tag in
+                    Text(tag.id.rawValue)
+                        .tag(tag.id)
+                }
+            }
+            Section("Tags") {
+                ForEach(self.tagsUser) { tag in
+                    Text(tag.id.rawValue)
+                        .tag(tag.id)
+                }
+            }
+        }
     }
 }
