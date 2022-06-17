@@ -25,37 +25,40 @@
 //
 
 import SwiftUI
-import V3Store
-import V3Model
 
-internal struct Sidebar: View {
+extension ViewModifier where Self == SidebarToolbar {
+    internal static var sidebarToolbar: Self { Self.init() }
+}
+
+internal struct SidebarToolbar: ViewModifier {
     
     @Nav private var nav
-    @TagsUser private var tagsUser
-    @TagsSystem private var tagsSystem
     
-    internal var body: some View {
-        NavigationStack {
-            List(selection: self.$nav.selectedTags) {
-                Section("Reading List") {
-                    ForEach(self.tagsSystem) { item in
-                        NavigationLink(value: item.id) {
-                            Text(item.id.rawValue).tag(item.id)
-                        }
+    internal func body(content: Content) -> some View {
+        content.toolbar {
+            ToolbarItem(id: "sidebar.tag.add", placement: .primaryAction) {
+                Menu {
+                    Button {
+                        // TODO: Add tag to CD here
+                        self.nav.sidebarNav.tagAdd = .init(rawValue: "coredata://testing123")
+                    } label: {
+                        Label("Add Tag", systemImage: "tag")
                     }
+                    Button {
+                        // TODO: Add tag to CD here
+                        self.nav.sidebarNav.websiteAdd = .init(rawValue: "coredata://testing123")
+                    } label: {
+                        Label("Add Website", systemImage: "tag")
+                    }
+                } label: {
+                    Label("Add Tags and Websites", systemImage: "plus")
                 }
-                Section("Tags") {
-                    ForEach(self.tagsUser) { item in
-                        NavigationLink(value: item.id) {
-                            Text(item.id.rawValue).tag(item.id)
-                        }
-                    }
+                .modifier(.tagAddPopover(self.$nav.sidebarNav.tagAdd))
+                .popover(item: self.$nav.sidebarNav.websiteAdd) { id in
+                    // TODO: Add website screen
+                    Text("Add a website")
                 }
             }
-            .modifier(.tagsEditPopover(self.$nav.sidebarNav.tagsEdit))
-            .modifier(.sidebarContextMenu)
-            .modifier(.sidebarToolbar)
-            .navigationTitle("Tags")
         }
     }
 }

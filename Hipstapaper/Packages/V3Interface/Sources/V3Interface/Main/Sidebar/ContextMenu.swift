@@ -25,37 +25,28 @@
 //
 
 import SwiftUI
-import V3Store
 import V3Model
 
-internal struct Sidebar: View {
+extension ViewModifier where Self == SidebarContextMenu {
+    internal static var sidebarContextMenu: Self { Self.init() }
+}
+
+internal struct SidebarContextMenu: ViewModifier {
     
     @Nav private var nav
-    @TagsUser private var tagsUser
-    @TagsSystem private var tagsSystem
     
-    internal var body: some View {
-        NavigationStack {
-            List(selection: self.$nav.selectedTags) {
-                Section("Reading List") {
-                    ForEach(self.tagsSystem) { item in
-                        NavigationLink(value: item.id) {
-                            Text(item.id.rawValue).tag(item.id)
-                        }
-                    }
-                }
-                Section("Tags") {
-                    ForEach(self.tagsUser) { item in
-                        NavigationLink(value: item.id) {
-                            Text(item.id.rawValue).tag(item.id)
-                        }
-                    }
-                }
+    internal func body(content: Content) -> some View {
+        content.contextMenu(forSelectionType: Tag.Selection.Element.self) { items in
+            Button {
+                self.nav.sidebarNav.tagsEdit = items
+            } label: {
+                Label("Edit Tag(s)", systemImage: "tag")
             }
-            .modifier(.tagsEditPopover(self.$nav.sidebarNav.tagsEdit))
-            .modifier(.sidebarContextMenu)
-            .modifier(.sidebarToolbar)
-            .navigationTitle("Tags")
+            Button(role: .destructive) {
+                // TODO: Hook up deletions
+            } label: {
+                Label("Delete Tag(s)", systemImage: "tag")
+            }
         }
     }
 }

@@ -47,5 +47,38 @@ internal struct TagsEdit: View {
         .frame(idealWidth: 320, minHeight: 320)
 
     }
-    
+}
+
+internal struct TagsEditPresentation: ViewModifier {
+    @Binding private var identifiers: Tag.Selection
+    internal init(_ identifiers: Binding<Tag.Selection>) {
+        _identifiers = identifiers
+    }
+    internal func body(content: Content) -> some View {
+        content.popover(items: self.$identifiers) {
+            TagsEdit($0)
+                .presentationDetents([.medium])
+        }
+    }
+}
+
+internal struct TagAddPresentation: ViewModifier {
+    @Binding private var identifier: Tag.Selection.Element?
+    internal init(_ identifier: Binding<Tag.Selection.Element?>) {
+        _identifier = identifier
+    }
+    internal func body(content: Content) -> some View {
+        content.popover(item: self.$identifier) {
+            TagsEdit([$0])
+                .presentationDetents([.medium])
+        }
+    }
+}
+
+extension ViewModifier where Self == TagsEditPresentation {
+    internal static func tagsEditPopover(_ identifiers: Binding<Tag.Selection>) -> Self { Self.init(identifiers) }
+}
+
+extension ViewModifier where Self == TagAddPresentation {
+    internal static func tagAddPopover(_ identifier: Binding<Tag.Selection.Element?>) -> Self { Self.init(identifier) }
 }

@@ -39,7 +39,7 @@ extension Navigation {
     internal struct Sidebar: Codable {
         internal var tagAdd: Tag.Identifier?
         internal var tagsEdit: Tag.Selection = []
-        internal var websiteAdd: Website.Identifier?
+        internal var websiteAdd: Website.Selection.Element?
     }
 }
 
