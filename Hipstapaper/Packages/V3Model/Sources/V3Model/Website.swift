@@ -30,7 +30,8 @@ public struct Website: Identifiable, Hashable, Equatable {
     
     public typealias Selection = Set<Website.Identifier>
 
-    public struct Identifier: Hashable, Equatable, Codable, RawRepresentable {
+    public struct Identifier: Hashable, Equatable, Codable, RawRepresentable, Identifiable {
+        public var id: String { self.rawValue }
         public var rawValue: String
         public init(rawValue: String) {
             self.rawValue = rawValue

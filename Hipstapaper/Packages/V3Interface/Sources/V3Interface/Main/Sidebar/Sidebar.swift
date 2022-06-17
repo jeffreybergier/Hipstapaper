@@ -26,6 +26,18 @@
 
 import SwiftUI
 import V3Store
+import V3Model
+
+extension View {
+    func popover<C: Collection, V: View>(items: Binding<C>, @ViewBuilder content: @escaping (C) -> V) -> some View where C.Element: Identifiable {
+        let newBinding: Binding<C?> = Binding {
+            items.wrappedValue
+        } set: {
+            items.wrappedValue = $0!
+        }
+        return self.popover(item: newBinding, content: content)
+    }
+}
 
 internal struct Sidebar: View {
     
@@ -34,17 +46,60 @@ internal struct Sidebar: View {
     @TagsSystem private var tagsSystem
     
     internal var body: some View {
-        List(selection: self.$nav.selectedTags) {
-            Section("Reading List") {
-                ForEach(self.tagsSystem) { tag in
-                    Text(tag.id.rawValue)
-                        .tag(tag.id)
+        NavigationStack {
+            List(selection: self.$nav.selectedTags) {
+                Section("Reading List") {
+                    ForEach(self.tagsSystem) { item in
+                        NavigationLink(value: item.id) {
+                            Text(item.id.rawValue).tag(item.id)
+                        }
+                    }
+                }
+                Section("Tags") {
+                    ForEach(self.tagsUser) { item in
+                        NavigationLink(value: item.id) {
+                            Text(item.id.rawValue).tag(item.id)
+                                .popover(item: self.$nav.sidebarNav.tagsEdit) { items in
+                                    TagsEdit(items)
+                                }
+                        }
+                    }
                 }
             }
-            Section("Tags") {
-                ForEach(self.tagsUser) { tag in
-                    Text(tag.id.rawValue)
-                        .tag(tag.id)
+            .contextMenu(forSelectionType: Tag.Selection.Element.self) { items in
+                Button {
+                    self.nav.sidebarNav.tagsEdit = items
+                } label: {
+                    Label("Edit Tag(s)", systemImage: "tag")
+                }
+                Button(role: .destructive) {
+                    // TODO: Hook up deletions
+                } label: {
+                    Label("Delete Tag(s)", systemImage: "tag")
+                }
+            }
+            .navigationTitle("Tags")
+            .toolbar {
+                ToolbarItem(id: "sidebar.tag.add", placement: .primaryAction) {
+                    Menu {
+                        Button {
+                            // TODO: Add tag to CD here
+                            self.nav.sidebarNav.tagAdd = .init(rawValue: "coredata://testing123")
+                        } label: {
+                            Label("Add Tag", systemImage: "tag")
+                        }
+                        Button {
+                            // TODO: Add tag to CD here
+                            self.nav.sidebarNav.websiteAdd = .init(rawValue: "coredata://testing123")
+                        } label: {
+                            Label("Add Website", systemImage: "tag")
+                        }
+                    } label: {
+                        Label("Add Tags and Websites", systemImage: "plus")
+                    }
+                    .popover(item: self.$nav.sidebarNav.tagAdd) { id in
+                        TagsEdit([id])
+                    }
                 }
             }
         }

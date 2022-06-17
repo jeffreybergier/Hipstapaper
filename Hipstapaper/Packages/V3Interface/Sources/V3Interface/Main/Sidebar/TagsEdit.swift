@@ -24,43 +24,28 @@
 //  SOFTWARE.
 //
 
-import Foundation
+import SwiftUI
+import V3Model
 
-public struct Tag: Identifiable, Hashable, Equatable {
+internal struct TagsEdit: View {
     
-    public typealias Selection = Set<Tag.Identifier>
+    internal let selection: Tag.Selection
+    internal let data: [Tag.Selection.Element]
+        
+    init(_ selection: Tag.Selection) {
+        self.selection = selection
+        self.data = Array(selection)
+    }
     
-    public struct Identifier: Hashable, Equatable, Codable, RawRepresentable, Identifiable {
-        public var id: String { self.rawValue }
-        public var rawValue: String
-        public init(rawValue: String) {
-            self.rawValue = rawValue
+    internal var body: some View {
+        NavigationStack {
+            List(self.data) { ident in
+                Text(ident.rawValue)
+            }
+            .navigationTitle("Edit Tag(s)")
         }
+        .frame(idealWidth: 320, minHeight: 320)
+
     }
     
-    public enum Kind {
-        case systemAll, systemUnread, user
-    }
-    
-    public var id: Identifier
-    public var kind: Kind
-    public var name: String?
-    public var websitesCount: Int?
-    public var dateCreated: Date?
-    public var dateModified: Date?
-    
-    public init(id: Identifier,
-                kind: Kind = .user,
-                name: String? = nil,
-                websitesCount: Int? = nil,
-                dateCreated: Date? = nil,
-                dateModified: Date? = nil)
-    {
-        self.id = id
-        self.kind = kind
-        self.name = name
-        self.websitesCount = websitesCount
-        self.dateCreated = dateCreated
-        self.dateModified = dateModified
-    }
 }

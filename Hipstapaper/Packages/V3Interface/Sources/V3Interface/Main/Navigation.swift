@@ -28,11 +28,18 @@ import SwiftUI
 import V3Model
 
 internal struct Navigation: Codable {
-    internal var selectedTags: Tag.Selection
     
-    internal init(selectedTags: Tag.Selection? = nil)
-    {
-        self.selectedTags = selectedTags ?? []
+    internal var selectedTags: Tag.Selection = []
+    internal var selectedWebsites: Website.Selection = []
+    internal var sidebarNav: Sidebar = .init()
+
+}
+
+extension Navigation {
+    internal struct Sidebar: Codable {
+        internal var tagAdd: Tag.Identifier?
+        internal var tagsEdit: Tag.Selection = []
+        internal var websiteAdd: Website.Identifier?
     }
 }
 
