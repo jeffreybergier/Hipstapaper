@@ -28,17 +28,6 @@ import SwiftUI
 import V3Store
 import V3Model
 
-extension View {
-    func popover<C: Collection, V: View>(items: Binding<C>, @ViewBuilder content: @escaping (C) -> V) -> some View where C.Element: Identifiable {
-        let newBinding: Binding<C?> = Binding {
-            items.wrappedValue
-        } set: {
-            items.wrappedValue = $0!
-        }
-        return self.popover(item: newBinding, content: content)
-    }
-}
-
 internal struct Sidebar: View {
     
     @Nav private var nav
@@ -59,12 +48,12 @@ internal struct Sidebar: View {
                     ForEach(self.tagsUser) { item in
                         NavigationLink(value: item.id) {
                             Text(item.id.rawValue).tag(item.id)
-                                .popover(item: self.$nav.sidebarNav.tagsEdit) { items in
-                                    TagsEdit(items)
-                                }
                         }
                     }
                 }
+            }
+            .popover(items: self.$nav.sidebarNav.tagsEdit) { items in
+                TagsEdit(items)
             }
             .contextMenu(forSelectionType: Tag.Selection.Element.self) { items in
                 Button {
@@ -99,6 +88,11 @@ internal struct Sidebar: View {
                     }
                     .popover(item: self.$nav.sidebarNav.tagAdd) { id in
                         TagsEdit([id])
+                            .presentationDetents([.medium])
+                    }
+                    .popover(item: self.$nav.sidebarNav.websiteAdd) { id in
+                        // TODO: Add website screen
+                        Text("Add a website")
                     }
                 }
             }
