@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		730D1060282DB4CB00F6780A /* ShareUI in Frameworks */ = {isa = PBXBuildFile; productRef = 730D105F282DB4CB00F6780A /* ShareUI */; };
+		7317DF1C285C684F009DA81A /* HipstapaperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7317DF1B285C684F009DA81A /* HipstapaperApp.swift */; };
+		7317DF1E285C684F009DA81A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7317DF1D285C684F009DA81A /* ContentView.swift */; };
+		7317DF20285C684F009DA81A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7317DF1F285C684F009DA81A /* Assets.xcassets */; };
+		7317DF24285C684F009DA81A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7317DF23285C684F009DA81A /* Preview Assets.xcassets */; };
 		732C9B5A282DBAEF00F0B183 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 736F67A425C19979006896DF /* CloudKit.framework */; };
 		7369CBF827DC1F6800871EBE /* Interface in Frameworks */ = {isa = PBXBuildFile; productRef = 7369CBF727DC1F6800871EBE /* Interface */; };
 		7369CBFA27DC287A00871EBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7369CBF927DC287A00871EBE /* AppDelegate.swift */; };
@@ -93,6 +97,12 @@
 
 /* Begin PBXFileReference section */
 		730D105E282DB44A00F6780A /* ShareUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ShareUI; path = Packages/ShareUI; sourceTree = "<group>"; };
+		7317DF19285C684F009DA81A /* Hipstapaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hipstapaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7317DF1B285C684F009DA81A /* HipstapaperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HipstapaperApp.swift; sourceTree = "<group>"; };
+		7317DF1D285C684F009DA81A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		7317DF1F285C684F009DA81A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7317DF21285C684F009DA81A /* Hipstapaper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper.entitlements; sourceTree = "<group>"; };
+		7317DF23285C684F009DA81A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		732A8E6A280032AF00BB905E /* WebsiteEdit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = WebsiteEdit; path = Packages/WebsiteEdit; sourceTree = "<group>"; };
 		7350800D27DB49E800E8D5AC /* Stylize */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Stylize; path = Packages/Stylize; sourceTree = "<group>"; };
 		7351BE3F27DCB36200D94BEA /* Datum */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Datum; path = Packages/Datum; sourceTree = "<group>"; };
@@ -125,6 +135,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		7317DF16285C684F009DA81A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		739F03A825A87F49001826F8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -164,6 +181,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7317DF1A285C684F009DA81A /* Hipstapaper */ = {
+			isa = PBXGroup;
+			children = (
+				7317DF1B285C684F009DA81A /* HipstapaperApp.swift */,
+				7317DF1D285C684F009DA81A /* ContentView.swift */,
+				7317DF1F285C684F009DA81A /* Assets.xcassets */,
+				7317DF21285C684F009DA81A /* Hipstapaper.entitlements */,
+				7317DF22285C684F009DA81A /* Preview Content */,
+			);
+			path = Hipstapaper;
+			sourceTree = "<group>";
+		};
+		7317DF22285C684F009DA81A /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				7317DF23285C684F009DA81A /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		739F03AC25A87F49001826F8 /* Share_iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -203,6 +240,7 @@
 				739F03AC25A87F49001826F8 /* Share_iOS */,
 				739F03C825A87FE4001826F8 /* Share_macOS */,
 				73DD930925EB3B740050DBDD /* README.md */,
+				7317DF1A285C684F009DA81A /* Hipstapaper */,
 				DBDCB344256BE8E700D005F6 /* Products */,
 				DBDCB3A5256BEC5B00D005F6 /* Frameworks */,
 			);
@@ -224,6 +262,7 @@
 				DBDCB34B256BE8E700D005F6 /* Hipstapaper.app */,
 				739F03AB25A87F49001826F8 /* Share_iOS.appex */,
 				739F03C725A87FE4001826F8 /* Share_macOS.appex */,
+				7317DF19285C684F009DA81A /* Hipstapaper.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -259,6 +298,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		7317DF18285C684F009DA81A /* Hipstapaper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7317DF27285C684F009DA81A /* Build configuration list for PBXNativeTarget "Hipstapaper" */;
+			buildPhases = (
+				7317DF15285C684F009DA81A /* Sources */,
+				7317DF16285C684F009DA81A /* Frameworks */,
+				7317DF17285C684F009DA81A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Hipstapaper;
+			productName = Hipstapaper;
+			productReference = 7317DF19285C684F009DA81A /* Hipstapaper.app */;
+			productType = "com.apple.product-type.application";
+		};
 		739F03AA25A87F49001826F8 /* Share_iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 739F03B925A87F49001826F8 /* Build configuration list for PBXNativeTarget "Share_iOS" */;
@@ -351,9 +407,12 @@
 		DBDCB337256BE8E600D005F6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1240;
+				LastSwiftUpdateCheck = 1400;
 				LastUpgradeCheck = 1240;
 				TargetAttributes = {
+					7317DF18285C684F009DA81A = {
+						CreatedOnToolsVersion = 14.0;
+					};
 					739F03AA25A87F49001826F8 = {
 						CreatedOnToolsVersion = 12.2;
 					};
@@ -388,11 +447,21 @@
 				DBDCB34A256BE8E700D005F6 /* Hipstapaper (macOS) */,
 				739F03AA25A87F49001826F8 /* Share_iOS */,
 				739F03C625A87FE4001826F8 /* Share_macOS */,
+				7317DF18285C684F009DA81A /* Hipstapaper */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		7317DF17285C684F009DA81A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7317DF24285C684F009DA81A /* Preview Assets.xcassets in Resources */,
+				7317DF20285C684F009DA81A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		739F03A925A87F49001826F8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -430,6 +499,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		7317DF15285C684F009DA81A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7317DF1E285C684F009DA81A /* ContentView.swift in Sources */,
+				7317DF1C285C684F009DA81A /* HipstapaperApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		739F03A725A87F49001826F8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -497,6 +575,74 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		7317DF25285C684F009DA81A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_ENTITLEMENTS = Hipstapaper/Hipstapaper.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 300001;
+				DEVELOPMENT_ASSET_PATHS = "\"Hipstapaper/Preview Content\"";
+				DEVELOPMENT_TEAM = V6ESYGU6CV;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 3.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.v3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7317DF26285C684F009DA81A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_ENTITLEMENTS = Hipstapaper/Hipstapaper.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 300001;
+				DEVELOPMENT_ASSET_PATHS = "\"Hipstapaper/Preview Content\"";
+				DEVELOPMENT_TEAM = V6ESYGU6CV;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 3.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.saturdayapps.Hipstapaper.v3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		739F03B725A87F49001826F8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -849,6 +995,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		7317DF27285C684F009DA81A /* Build configuration list for PBXNativeTarget "Hipstapaper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7317DF25285C684F009DA81A /* Debug */,
+				7317DF26285C684F009DA81A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		739F03B925A87F49001826F8 /* Build configuration list for PBXNativeTarget "Share_iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
