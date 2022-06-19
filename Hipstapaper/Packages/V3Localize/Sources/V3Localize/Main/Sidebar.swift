@@ -34,16 +34,22 @@ public struct Sidebar: DynamicProperty {
         static let navigationTitle = Noun.tags
         static let sectionTitleTagsSystem = Noun.readingList
         static let sectionTitleTagsUser = Noun.tags
+        static let rowTitleTagSystemUnread = Noun.unreadItems
+        static let rowTitleTagSystemAll = Noun.allItems
     }
     
     public struct Value {
         public var navigationTitle: LocalizedString
         public var sectionTitleTagsSystem: LocalizedString
         public var sectionTitleTagsUser: LocalizedString
+        public var rowTitleTagSystemUnread: LocalizedString
+        public var rowTitleTagSystemAll: LocalizedString
         internal init(_ b: LocalizeBundle) {
             self.navigationTitle = b.localized(key: RV.navigationTitle.rawValue)
             self.sectionTitleTagsSystem = b.localized(key: RV.sectionTitleTagsSystem.rawValue)
             self.sectionTitleTagsUser = b.localized(key: RV.sectionTitleTagsUser.rawValue)
+            self.rowTitleTagSystemUnread = b.localized(key: RV.rowTitleTagSystemUnread.rawValue)
+            self.rowTitleTagSystemAll = b.localized(key: RV.rowTitleTagSystemAll.rawValue)
         }
     }
     

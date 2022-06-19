@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/17.
+//  Created by Jeffrey Bergier on 2022/06/19.
 //
 //  MIT License
 //
@@ -26,39 +26,16 @@
 
 import SwiftUI
 import V3Model
-import V3Store
-import V3Style
-import V3Localize
 
-internal struct Sidebar: View {
+internal struct TagUserRow: View {
     
-    @Nav private var nav
-    @TagsUser private var tagsUser
-    @TagsSystem private var tagsSystem
-    @V3Localize.Sidebar private var text
+    private let id: Tag.Identifier
+    
+    internal init(_ id: Tag.Identifier) {
+        self.id = id
+    }
     
     internal var body: some View {
-        NavigationStack {
-            List(selection: self.$nav.selectedTags) {
-                Section(self.text.sectionTitleTagsSystem) {
-                    ForEach(self.tagsSystem) { item in
-                        NavigationLink(value: item.id) {
-                            TagSystemRow(item.kind).tag(item.id)
-                        }
-                    }
-                }
-                Section(self.text.sectionTitleTagsUser) {
-                    ForEach(self.tagsUser) { item in
-                        NavigationLink(value: item.id) {
-                            TagUserRow(item.id).tag(item.id)
-                        }
-                    }
-                }
-            }
-            .modifier(.tagsEditPopover(self.$nav.sidebarNav.tagsEdit))
-            .modifier(.sidebarContextMenu)
-            .modifier(.sidebarToolbar)
-            .navigationTitle(self.text.navigationTitle)
-        }
+        Text("")
     }
 }
