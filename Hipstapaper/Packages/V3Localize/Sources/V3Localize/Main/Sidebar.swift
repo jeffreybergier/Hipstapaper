@@ -30,13 +30,28 @@ import Umbrella
 @propertyWrapper
 public struct Sidebar: DynamicProperty {
     
-    public struct Value {}
+    internal struct RV {
+        static let navigationTitle = Noun.tags
+        static let sectionTitleTagsSystem = Noun.readingList
+        static let sectionTitleTagsUser = Noun.tags
+    }
+    
+    public struct Value {
+        public var navigationTitle: LocalizedString
+        public var sectionTitleTagsSystem: LocalizedString
+        public var sectionTitleTagsUser: LocalizedString
+        internal init(_ b: LocalizeBundle) {
+            self.navigationTitle = b.localized(key: RV.navigationTitle.rawValue)
+            self.sectionTitleTagsSystem = b.localized(key: RV.sectionTitleTagsSystem.rawValue)
+            self.sectionTitleTagsUser = b.localized(key: RV.sectionTitleTagsUser.rawValue)
+        }
+    }
     
     @Localize private var bundle
     
     public init() {}
     
     public var wrappedValue: Value {
-        Value()
+        Value(self.bundle)
     }
 }

@@ -40,14 +40,14 @@ internal struct Sidebar: View {
     internal var body: some View {
         NavigationStack {
             List(selection: self.$nav.selectedTags) {
-                Section("Reading List") {
+                Section(self.text.sectionTitleTagsSystem) {
                     ForEach(self.tagsSystem) { item in
                         NavigationLink(value: item.id) {
                             Text(item.id.rawValue).tag(item.id)
                         }
                     }
                 }
-                Section("Tags") {
+                Section(self.text.sectionTitleTagsUser) {
                     ForEach(self.tagsUser) { item in
                         NavigationLink(value: item.id) {
                             Text(item.id.rawValue).tag(item.id)
@@ -58,7 +58,7 @@ internal struct Sidebar: View {
             .modifier(.tagsEditPopover(self.$nav.sidebarNav.tagsEdit))
             .modifier(.sidebarContextMenu)
             .modifier(.sidebarToolbar)
-            .navigationTitle("Tags")
+            .navigationTitle(self.text.navigationTitle)
         }
     }
 }
