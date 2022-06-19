@@ -96,7 +96,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		730D105E282DB44A00F6780A /* ShareUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ShareUI; path = Packages/ShareUI; sourceTree = "<group>"; };
 		7317DF19285C684F009DA81A /* Hipstapaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hipstapaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7317DF1B285C684F009DA81A /* HipstapaperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HipstapaperApp.swift; sourceTree = "<group>"; };
 		7317DF1F285C684F009DA81A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -106,15 +105,10 @@
 		7317DF29285C6B67009DA81A /* V3Interface */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = V3Interface; path = Packages/V3Interface; sourceTree = "<group>"; };
 		7317DF2A285C6B67009DA81A /* V3Model */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = V3Model; path = Packages/V3Model; sourceTree = "<group>"; };
 		73205DDD285CDCCC002FBDFB /* V3Style */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = V3Style; path = Packages/V3Style; sourceTree = "<group>"; };
-		732A8E6A280032AF00BB905E /* WebsiteEdit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = WebsiteEdit; path = Packages/WebsiteEdit; sourceTree = "<group>"; };
-		7350800D27DB49E800E8D5AC /* Stylize */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Stylize; path = Packages/Stylize; sourceTree = "<group>"; };
-		7351BE3F27DCB36200D94BEA /* Datum */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Datum; path = Packages/Datum; sourceTree = "<group>"; };
-		7369CBF627DC1B6A00871EBE /* Interface */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Interface; path = Packages/Interface; sourceTree = "<group>"; };
 		7369CBF927DC287A00871EBE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		736F67A225C19822006896DF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.2.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		736F67A425C19979006896DF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
-		737C724127DB46EA008B5969 /* Localize */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Localize; path = Packages/Localize; sourceTree = "<group>"; };
-		73868A5227DB68FC00183A56 /* Browse */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Browse; path = Packages/Browse; sourceTree = "<group>"; };
+		737C724127DB46EA008B5969 /* V3Localize */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = V3Localize; path = Packages/V3Localize; sourceTree = "<group>"; };
 		739F03AB25A87F49001826F8 /* Share_iOS.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Share_iOS.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		739F03AD25A87F49001826F8 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		739F03B025A87F49001826F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -235,14 +229,8 @@
 				7317DF2A285C6B67009DA81A /* V3Model */,
 				7317DF28285C6B67009DA81A /* V3Store */,
 				73205DDD285CDCCC002FBDFB /* V3Style */,
-				7369CBF627DC1B6A00871EBE /* Interface */,
-				730D105E282DB44A00F6780A /* ShareUI */,
+				737C724127DB46EA008B5969 /* V3Localize */,
 				DBDCB33B256BE8E600D005F6 /* Shared */,
-				7351BE3F27DCB36200D94BEA /* Datum */,
-				732A8E6A280032AF00BB905E /* WebsiteEdit */,
-				73868A5227DB68FC00183A56 /* Browse */,
-				7350800D27DB49E800E8D5AC /* Stylize */,
-				737C724127DB46EA008B5969 /* Localize */,
 				DBDCB345256BE8E700D005F6 /* iOS */,
 				DBDCB34C256BE8E700D005F6 /* macOS */,
 				739F03AC25A87F49001826F8 /* Share_iOS */,

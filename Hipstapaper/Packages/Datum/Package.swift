@@ -38,14 +38,12 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(path: "../Localize"),
         .package(url: "https://github.com/jeffreybergier/Umbrella.git", .branch("v2"))
     ],
     targets: [
         .target(
             name: "Datum",
             dependencies: [
-                .byNameItem(name: "Localize", condition: nil),
                 .byNameItem(name: "Umbrella", condition: nil),
             ]
         ),

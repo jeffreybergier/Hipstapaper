@@ -41,6 +41,7 @@ let package = Package(
         .package(path: "../V3Store"),
         .package(path: "../V3Model"),
         .package(path: "../V3Style"),
+        .package(path: "../V3Localize"),
     ],
     targets: [
         .target(
@@ -49,6 +50,7 @@ let package = Package(
                 .byNameItem(name: "V3Store", condition: nil),
                 .byNameItem(name: "V3Model", condition: nil),
                 .byNameItem(name: "V3Style", condition: nil),
+                .byNameItem(name: "V3Localize", condition: nil),
             ]
         ),
     ]

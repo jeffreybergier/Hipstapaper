@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2021/02/06.
+//  Created by Jeffrey Bergier on 2022/03/13.
 //
 //  MIT License
 //
@@ -24,47 +24,6 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
 import Umbrella
 
-public enum DeleteError: UserFacingError {
-    
-    public typealias OnConfirmation = () -> Void
-    
-    case website(OnConfirmation)
-    case tag(OnConfirmation)
-    
-    public var title: LocalizationKey {
-        switch self {
-        case .tag:
-            return Noun.deleteTag.key
-        case .website:
-            return Noun.deleteWebsite.key
-        }
-    }
-    public var message: LocalizationKey {
-        switch self {
-        case .tag:
-            return Phrase.deleteTagConfirm.key
-        case .website:
-            return Phrase.deleteWebsiteConfirm.key
-        }
-    }
-    public var options: [RecoveryOption] {
-        switch self {
-        case .tag(let onConfirm):
-            return [.init(title: Verb.deleteTag.key, isDestructive: true, perform: onConfirm)]
-        case .website(let onConfirm):
-            return [.init(title: Verb.deleteWebsite.key, isDestructive: true, perform: onConfirm)]
-        }
-    }
-    public var errorCode: Int {
-        switch self {
-        case .tag:
-            return 1001
-        case .website:
-            return 1002
-        }
-    }
-}
-
+// public typealias ErrorPresentation = UserFacingErrorAlert<LocalizeBundle>

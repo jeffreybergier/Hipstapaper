@@ -1,52 +1,41 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "ServerlessLogger",
-        "repositoryURL": "https://github.com/jeffreybergier/JSBServerlessLogger.git",
-        "state": {
-          "branch": "2.0",
-          "revision": "435e6d7f03ffc93f67c5e2159be003564bb5d532",
-          "version": null
-        }
-      },
-      {
-        "package": "swift-collections",
-        "repositoryURL": "https://github.com/apple/swift-collections.git",
-        "state": {
-          "branch": null,
-          "revision": "48254824bb4248676bf7ce56014ff57b142b77eb",
-          "version": "1.0.2"
-        }
-      },
-      {
-        "package": "Umbrella",
-        "repositoryURL": "https://github.com/jeffreybergier/Umbrella.git",
-        "state": {
-          "branch": "v2",
-          "revision": "8612c736981ab0134da0369aeac02f0c24ddc5f9",
-          "version": null
-        }
-      },
-      {
-        "package": "XCGLogger",
-        "repositoryURL": "https://github.com/DaveWoodCom/XCGLogger.git",
-        "state": {
-          "branch": null,
-          "revision": "a9c4667b247928a29bdd41be2ec2c8d304215a54",
-          "version": "7.0.1"
-        }
-      },
-      {
-        "package": "XPList",
-        "repositoryURL": "https://github.com/jeffreybergier/XPList.git",
-        "state": {
-          "branch": "main",
-          "revision": "29cd097a982f4ad208b4a4e74e6ecc6fbe900504",
-          "version": null
-        }
+  "pins" : [
+    {
+      "identity" : "jsbserverlesslogger",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jeffreybergier/JSBServerlessLogger.git",
+      "state" : {
+        "branch" : "2.0",
+        "revision" : "435e6d7f03ffc93f67c5e2159be003564bb5d532"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "swift-collections",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-collections.git",
+      "state" : {
+        "revision" : "48254824bb4248676bf7ce56014ff57b142b77eb",
+        "version" : "1.0.2"
+      }
+    },
+    {
+      "identity" : "umbrella",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jeffreybergier/Umbrella.git",
+      "state" : {
+        "branch" : "v2",
+        "revision" : "8612c736981ab0134da0369aeac02f0c24ddc5f9"
+      }
+    },
+    {
+      "identity" : "xcglogger",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/DaveWoodCom/XCGLogger.git",
+      "state" : {
+        "revision" : "a9c4667b247928a29bdd41be2ec2c8d304215a54",
+        "version" : "7.0.1"
+      }
+    }
+  ],
+  "version" : 2
 }

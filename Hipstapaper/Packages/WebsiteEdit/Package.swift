@@ -39,7 +39,6 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../Datum"),
-        .package(path: "../Localize"),
         .package(path: "../Stylize"),
         .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "v2")
     ],
@@ -48,7 +47,6 @@ let package = Package(
             name: "WebsiteEdit",
             dependencies: [
                 .byNameItem(name: "Datum", condition: nil),
-                .byNameItem(name: "Localize", condition: nil),
                 .byNameItem(name: "Stylize", condition: nil),
             ]
         ),

@@ -1,4 +1,4 @@
-// swift-tools-version:5.5
+// swift-tools-version:5.7
 
 //
 //  Created by Jeffrey Bergier on 2022/03/11.
@@ -29,21 +29,21 @@
 import PackageDescription
 
 let package = Package(
-    name: "Localize",
+    name: "V3Localize",
     defaultLocalization: "en",
-    platforms: [.iOS(.v15), .macOS(.v12)],
+    platforms: [.iOS(.v16), .macOS(.v13)],
     products: [
         .library(
-            name: "Localize",
-            targets: ["Localize"]
+            name: "V3Localize",
+            targets: ["V3Localize"]
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", .branch("v2")),
+        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "v2"),
     ],
     targets: [
         .target(
-            name: "Localize",
+            name: "V3Localize",
             dependencies: [
                 .byNameItem(name: "Umbrella", condition: nil),
             ]
