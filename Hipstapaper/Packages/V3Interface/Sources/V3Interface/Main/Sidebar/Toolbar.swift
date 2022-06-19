@@ -25,6 +25,7 @@
 //
 
 import SwiftUI
+import V3Localize
 import V3Style
 
 extension ViewModifier where Self == SidebarToolbar {
@@ -35,20 +36,21 @@ internal struct SidebarToolbar: ViewModifier {
     
     @Nav private var nav
     @V3Style.Sidebar private var style
+    @V3Localize.Sidebar private var text
     
     internal func body(content: Content) -> some View {
         content.toolbar {
             ToolbarItem(id: "sidebar.tag.add", placement: .primaryAction) {
                 Menu {
-                    self.style.toolbarTagAdd.button("Add Tag") {
+                    self.style.toolbarTagAdd.button(self.text.toolbarAddTag) {
                         // TODO: Add tag to CD here
                         self.nav.sidebarNav.tagAdd = .init(rawValue: "coredata://testing123")
                     }
-                    self.style.toolbarWebsiteAdd.button("Add Website") {
+                    self.style.toolbarWebsiteAdd.button(self.text.toolbarAddWebsite) {
                         self.nav.sidebarNav.websiteAdd = .init(rawValue: "coredata://testing123")
                     }
                 } label: {
-                    self.style.toolbarAdd.label("Add Websites and Tags")
+                    self.style.toolbarAdd.label(self.text.toolbarAddGeneric)
                 }
                 .modifier(.tagAddPopover(self.$nav.sidebarNav.tagAdd))
                 .popover(item: self.$nav.sidebarNav.websiteAdd) { id in

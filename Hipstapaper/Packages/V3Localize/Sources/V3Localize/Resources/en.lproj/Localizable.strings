@@ -44,7 +44,7 @@
 "Verb.Share"                  = "Share";
 "Verb.DeleteTag"              = "Delete Tag(s)";
 "Verb.AddTag"                 = "Add Tag";
-"Verb.EditTag"                = "Edit Tag";
+"Verb.EditTags"               = "Edit Tag(s)";
 "Verb.Go"                     = "Go";
 "Verb.ClearSearch"            = "Clear Search";
 "Verb.OpenInApp"              = "Open";

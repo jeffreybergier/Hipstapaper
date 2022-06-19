@@ -25,39 +25,20 @@
 //
 
 import SwiftUI
+import Umbrella
 
-public typealias Action = () -> Void
+public typealias AC = Action.Closure
 
-public struct Toolbar {
+public struct Action {
+    public typealias Closure = () -> Void
     public var systemImage: String
     public var shortcut: KeyboardShortcut?
-    
-    internal static let tagEdit = Toolbar(
-        systemImage: SystemImage.tag.rawValue,
-        shortcut: nil
-    )
-    internal static let tagAdd = Toolbar(
-        systemImage: SystemImage.tag.rawValue,
-        shortcut: nil
-    )
-    internal static let websiteAdd = Toolbar(
-        systemImage: SystemImage.document.rawValue,
-        shortcut: nil
-    )
-    internal static let genericAdd = Toolbar(
-        systemImage: SystemImage.plus.rawValue,
-        shortcut: .init("n", modifiers: .command)
-    )
-    internal static let genericDelete = Toolbar(
-        systemImage: SystemImage.trash.rawValue,
-        shortcut: .init("n", modifiers: .command)
-    )
 }
 
-extension Toolbar {
-    public func button(_ titleKey: LocalizedStringKey,
+extension Action {
+    public func button(_ titleKey: LocalizationKey,
                        role: ButtonRole? = nil,
-                       action: @escaping Action) -> some View
+                       action: @escaping Closure) -> some View
     {
         Button(role: role, action: action) {
             self.label(titleKey)
@@ -65,7 +46,7 @@ extension Toolbar {
         .keyboardShortcut(self.shortcut)
     }
     
-    public func label(_ titleKey: LocalizedStringKey) -> some View {
+    public func label(_ titleKey: LocalizationKey) -> some View {
         Label(titleKey, systemImage: self.systemImage)
     }
 }

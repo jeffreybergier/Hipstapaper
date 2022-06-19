@@ -1,7 +1,5 @@
-// swift-tools-version:5.7
-
 //
-//  Created by Jeffrey Bergier on 2022/06/17.
+//  Created by Jeffrey Bergier on 2022/06/19.
 //
 //  MIT License
 //
@@ -26,26 +24,25 @@
 //  SOFTWARE.
 //
 
-import PackageDescription
-
-let package = Package(
-    name: "V3Style",
-    platforms: [.iOS(.v16), .macOS(.v13)],
-    products: [
-        .library(
-            name: "V3Style",
-            targets: ["V3Style"]
-        ),
-    ],
-    dependencies: [
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "v2"),
-    ],
-    targets: [
-        .target(
-            name: "V3Style",
-            dependencies: [
-                .byNameItem(name: "Umbrella", condition: nil),
-            ]
-        ),
-    ]
-)
+extension Action {
+    internal static let tagEdit = Self(
+        systemImage: SystemImage.tag.rawValue,
+        shortcut: nil
+    )
+    internal static let tagAdd = Self(
+        systemImage: SystemImage.tag.rawValue,
+        shortcut: nil
+    )
+    internal static let websiteAdd = Self(
+        systemImage: SystemImage.document.rawValue,
+        shortcut: nil
+    )
+    internal static let genericAdd = Self(
+        systemImage: SystemImage.plus.rawValue,
+        shortcut: .init("n", modifiers: .command)
+    )
+    internal static let genericDelete = Self(
+        systemImage: SystemImage.trash.rawValue,
+        shortcut: .init("n", modifiers: .command)
+    )
+}

@@ -26,25 +26,41 @@
 
 import SwiftUI
 import V3Model
+import V3Localize
 import V3Style
-
-extension ViewModifier where Self == SidebarContextMenu {
-    internal static var sidebarContextMenu: Self { Self.init() }
-}
 
 internal struct SidebarContextMenu: ViewModifier {
     
     @Nav private var nav
     @V3Style.Sidebar private var style
+    @V3Localize.Sidebar private var text
     
     internal func body(content: Content) -> some View {
         content.contextMenu(forSelectionType: Tag.Selection.Element.self) { items in
-            self.style.menuTagEdit.button("Edit Tag(s)") {
-                self.nav.sidebarNav.tagsEdit = items
-            }
-            self.style.menuTagDelete.button("Delete Tag(s)", role: .destructive) {
-                // TODO: Hook up deletions
+            if self.canShowMenu(items) {
+                self.style.menuTagEdit.button(self.text.menuEditTags) {
+                    self.nav.sidebarNav.tagsEdit = items
+                }
+                self.style.menuTagDelete.button(self.text.menuDeleteTags, role: .destructive) {
+                    // TODO: Hook up deletions
+                }
+            } else {
+                EmptyView()
             }
         }
     }
+    
+    private func canShowMenu(_ items: Tag.Selection) -> Bool {
+        if items.isEmpty {
+            return false // No Selection
+        } else if items.filter({ $0.isSystem }).isEmpty == false {
+            return false // System items in the selection
+        } else {
+            return true
+        }
+    }
+}
+
+extension ViewModifier where Self == SidebarContextMenu {
+    internal static var sidebarContextMenu: Self { Self.init() }
 }

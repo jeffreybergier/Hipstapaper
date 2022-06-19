@@ -32,12 +32,12 @@ public struct Sidebar: DynamicProperty {
     public init() {}
     
     public struct Value {
-        public var toolbarTagEdit = Toolbar.tagEdit
-        public var toolbarTagAdd = Toolbar.tagAdd
-        public var toolbarWebsiteAdd = Toolbar.websiteAdd
-        public var toolbarAdd = Toolbar.genericAdd
-        public var menuTagDelete = Toolbar.genericDelete
-        public var menuTagEdit = Toolbar.tagEdit
+        public var toolbarTagEdit    = Action.tagEdit
+        public var toolbarTagAdd     = Action.tagAdd
+        public var toolbarWebsiteAdd = Action.websiteAdd
+        public var toolbarAdd        = Action.genericAdd
+        public var menuTagDelete     = Action.genericDelete
+        public var menuTagEdit       = Action.tagEdit
         public var itemCountFont: some ViewModifier = FontMonospacedDigit()
     }
     
