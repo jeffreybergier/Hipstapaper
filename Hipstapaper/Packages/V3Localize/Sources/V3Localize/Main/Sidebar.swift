@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2020/12/24.
+//  Created by Jeffrey Bergier on 2022/06/19.
 //
 //  MIT License
 //
@@ -27,31 +27,16 @@
 import SwiftUI
 import Umbrella
 
-public enum Noun: LocalizationKey {
-    case search        = "Noun.Search"
-    case readingList   = "Noun.ReadingList"
-    case tags          = "Noun.Tags"
-    case untitled      = "Noun.Untitled"
-    case allItems      = "Noun.AllItems"
-    case unreadItems   = "Noun.UnreadItems"
-    case autofillURL   = "Noun.AutofillURL"
-    case filledURL     = "Noun.FilledURL"
-    case originalURL   = "Noun.OriginalURL"
-    case resolvedURL   = "Noun.ResolvedURL"
-    case websiteTitle  = "Noun.WebsiteTitle"
-    case hipstapaper   = "Noun.Hipstapaper"
-    case tagName       = "Noun.TagName"
-    case addChoice     = "Noun.AddChoice"
-    case addTag        = "Noun.AddTag"
-    case editTag       = "Noun.EditTag"
-    case addWebsite    = "Noun.AddWebsite"
-    case editWebsite   = "Noun.EditWebsite"
-    case applyTags     = "Noun.ApplyTags"
-    case sort          = "Noun.Sort"
-    case filter        = "Noun.Filter"
-    case error         = "Noun.Error"
-    case errorDatabase = "Noun.ErrorDatabase"
-    case erroriCloud   = "Noun.iCloud"
-    case deleteTag     = "Noun.DeleteTag"
-    case deleteWebsite = "Noun.DeleteWebsite"
+@propertyWrapper
+public struct Sidebar: DynamicProperty {
+    
+    public struct Value {}
+    
+    @Localize private var bundle
+    
+    public init() {}
+    
+    public var wrappedValue: Value {
+        Value()
+    }
 }

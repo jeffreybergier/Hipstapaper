@@ -28,12 +28,14 @@ import SwiftUI
 import V3Model
 import V3Store
 import V3Style
+import V3Localize
 
 internal struct Sidebar: View {
     
     @Nav private var nav
     @TagsUser private var tagsUser
     @TagsSystem private var tagsSystem
+    @V3Localize.Sidebar private var text
     
     internal var body: some View {
         NavigationStack {
