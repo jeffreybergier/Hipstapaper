@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/19.
+//  Created by Jeffrey Bergier on 2022/06/17.
 //
 //  MIT License
 //
@@ -25,32 +25,19 @@
 //
 
 import SwiftUI
-import Umbrella
 import V3Model
-import V3Store
-import V3Localize
-import V3Style
 
-internal struct TagUserRow: View {
-        
-    @TagUser private var item: Tag?
-    @V3Style.Sidebar private var style
-    @V3Localize.Sidebar private var text
+@propertyWrapper
+public struct TagUser: DynamicProperty {
     
-    internal init(_ id: Tag.Identifier) {
-        _item = .init(id)
+    // TODO: Hook up core data
+    private let id: Tag.Identifier
+    
+    public init(_ id: Tag.Identifier) {
+        self.id = id
     }
     
-    internal var body: some View {
-        if let item, let count = item.websitesCount {
-            HStack {
-                JSBText(self.text.rowTitleUntitled, text: item.name)
-                Spacer()
-                Text("\(count)")
-                    .modifier(self.style.itemCountFont)
-            }
-        } else {
-            JSBText(self.text.rowTitleUntitled, text: self.item?.name)
-        }
+    public var wrappedValue: Tag? {
+        fakeData.filter { $0.id == self.id }.first
     }
 }

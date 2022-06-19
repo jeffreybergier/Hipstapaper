@@ -57,6 +57,7 @@ struct Preview_TagSystemRow_01: PreviewProvider {
             TagSystemRow(.systemUnread)
             TagSystemRow(.systemAll)
         }
+        .environmentObject(LocalizeBundle())
     }
 }
 #endif

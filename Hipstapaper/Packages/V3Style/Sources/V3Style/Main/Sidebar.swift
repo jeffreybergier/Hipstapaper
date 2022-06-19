@@ -38,6 +38,7 @@ public struct Sidebar: DynamicProperty {
         public var toolbarAdd = Toolbar.genericAdd
         public var menuTagDelete = Toolbar.genericDelete
         public var menuTagEdit = Toolbar.tagEdit
+        public var itemCountFont: some ViewModifier = FontMonospacedDigit()
     }
     
     public var wrappedValue: Value {

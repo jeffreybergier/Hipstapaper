@@ -25,32 +25,10 @@
 //
 
 import SwiftUI
-import Umbrella
-import V3Model
-import V3Store
-import V3Localize
-import V3Style
 
-internal struct TagUserRow: View {
-        
-    @TagUser private var item: Tag?
-    @V3Style.Sidebar private var style
-    @V3Localize.Sidebar private var text
-    
-    internal init(_ id: Tag.Identifier) {
-        _item = .init(id)
-    }
-    
-    internal var body: some View {
-        if let item, let count = item.websitesCount {
-            HStack {
-                JSBText(self.text.rowTitleUntitled, text: item.name)
-                Spacer()
-                Text("\(count)")
-                    .modifier(self.style.itemCountFont)
-            }
-        } else {
-            JSBText(self.text.rowTitleUntitled, text: self.item?.name)
-        }
+internal struct FontMonospacedDigit: ViewModifier {
+    internal func body(content: Content) -> some View {
+        content
+            .monospacedDigit()
     }
 }

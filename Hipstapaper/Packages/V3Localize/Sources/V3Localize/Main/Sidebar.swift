@@ -30,26 +30,21 @@ import Umbrella
 @propertyWrapper
 public struct Sidebar: DynamicProperty {
     
-    internal struct RV {
-        static let navigationTitle = Noun.tags
-        static let sectionTitleTagsSystem = Noun.readingList
-        static let sectionTitleTagsUser = Noun.tags
-        static let rowTitleTagSystemUnread = Noun.unreadItems
-        static let rowTitleTagSystemAll = Noun.allItems
-    }
-    
     public struct Value {
         public var navigationTitle: LocalizedString
         public var sectionTitleTagsSystem: LocalizedString
         public var sectionTitleTagsUser: LocalizedString
         public var rowTitleTagSystemUnread: LocalizedString
         public var rowTitleTagSystemAll: LocalizedString
+        public var rowTitleUntitled: LocalizedString
+        
         internal init(_ b: LocalizeBundle) {
-            self.navigationTitle = b.localized(key: RV.navigationTitle.rawValue)
-            self.sectionTitleTagsSystem = b.localized(key: RV.sectionTitleTagsSystem.rawValue)
-            self.sectionTitleTagsUser = b.localized(key: RV.sectionTitleTagsUser.rawValue)
-            self.rowTitleTagSystemUnread = b.localized(key: RV.rowTitleTagSystemUnread.rawValue)
-            self.rowTitleTagSystemAll = b.localized(key: RV.rowTitleTagSystemAll.rawValue)
+            self.navigationTitle         = b.localized(key: Noun.tags.rawValue)
+            self.sectionTitleTagsSystem  = b.localized(key: Noun.readingList.rawValue)
+            self.sectionTitleTagsUser    = b.localized(key: Noun.tags.rawValue)
+            self.rowTitleTagSystemUnread = b.localized(key: Noun.unreadItems.rawValue)
+            self.rowTitleTagSystemAll    = b.localized(key: Noun.allItems.rawValue)
+            self.rowTitleUntitled        = b.localized(key: Noun.untitled.rawValue)
         }
     }
     

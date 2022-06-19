@@ -40,11 +40,13 @@ public struct TagsUser: DynamicProperty {
 }
 
 #if DEBUG
-fileprivate let fakeData: [Tag] = [
+internal let fakeData: [Tag] = [
         Tag(id: .init(rawValue: "coredata://fake1"), name: "Cool Stuff", websitesCount: 400000),
         Tag(id: .init(rawValue: "coredata://fake2"), name: "Bad Things", websitesCount: 2),
         Tag(id: .init(rawValue: "coredata://fake3"), name: "👨‍👩‍👧‍👧", websitesCount: -80),
         Tag(id: .init(rawValue: "coredata://fake4"), name: "日本語", websitesCount: 200),
         Tag(id: .init(rawValue: "coredata://fake5"), name: "Accounts", websitesCount: 30),
+        Tag(id: .init(rawValue: "coredata://fake6"), name: "No Count", websitesCount: nil),
+        Tag(id: .init(rawValue: "coredata://fake7"), name: nil, websitesCount: 0101),
     ]
 #endif
