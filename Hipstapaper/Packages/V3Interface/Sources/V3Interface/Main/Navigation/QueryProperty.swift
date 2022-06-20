@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/03/13.
+//  Created by Jeffrey Bergier on 2022/06/20.
 //
 //  MIT License
 //
@@ -24,23 +24,39 @@
 //  SOFTWARE.
 //
 
-public struct Query: Codable, Hashable {
+import SwiftUI
+import V3Model
+
+@propertyWrapper
+internal struct QueryProperty: DynamicProperty {
     
-    public static let allItems: Query = .init(isOnlyNotArchived: false)
-    public static let unreadItems: Query = .init(isOnlyNotArchived: true)
+    @SceneStorage("com.hipstapaper.query") private var data: String?
     
-    public var sort: Sort! // Hack for SwiftUI
-    public var search: String
-    public var isOnlyNotArchived: Bool
-    
-    internal init(sort: Sort? = nil,
-                search: String? = nil,
-                isOnlyNotArchived: Bool?)
-    {
-        self.sort = sort ?? .default
-        self.search = search ?? ""
-        self.isOnlyNotArchived = isOnlyNotArchived ?? true
+    var wrappedValue: Query {
+        get { self.data?.decodeQuery ?? .unreadItems }
+        nonmutating set { self.data = newValue.encodeString }
     }
     
-    public static let `default`: Query = Query(sort: nil, search: nil, isOnlyNotArchived: nil)
+    var projectedValue: Binding<Query> {
+        Binding {
+            self.wrappedValue
+        } set: {
+            self.wrappedValue = $0
+        }
+    }
+    
+}
+
+extension String {
+    fileprivate var decodeQuery: Query? {
+        guard let data = Data(base64Encoded: self) else { return nil }
+        return try? PropertyListDecoder().decode(Query.self, from: data)
+    }
+}
+
+extension Query {
+    fileprivate var encodeString: String? {
+        guard let data = try? PropertyListEncoder().encode(self) else { return nil }
+        return data.base64EncodedString()
+    }
 }

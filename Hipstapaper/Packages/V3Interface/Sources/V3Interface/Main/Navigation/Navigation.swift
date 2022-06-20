@@ -32,6 +32,7 @@ internal struct Navigation: Codable {
     internal var selectedTags: Tag.Selection = [.default]
     internal var selectedWebsites: Website.Selection = []
     internal var sidebarNav: Sidebar = .init()
+    internal var detailNav: Detail = .init()
 
 }
 
@@ -41,16 +42,19 @@ extension Navigation {
         internal var tagsEdit: Tag.Selection = []
         internal var websiteAdd: Website.Selection.Element?
     }
+    internal struct Detail: Codable {
+        
+    }
 }
 
 @propertyWrapper
 internal struct Nav: DynamicProperty {
     
-    @SceneStorage("com.hipstapaper.nav") private var nav: String?
+    @SceneStorage("com.hipstapaper.nav") private var data: String?
     
     var wrappedValue: Navigation {
-        get { self.nav?.decodeNavigation ?? .init() }
-        nonmutating set { self.nav = newValue.encodeString }
+        get { self.data?.decodeNavigation ?? .init() }
+        nonmutating set { self.data = newValue.encodeString }
     }
     
     var projectedValue: Binding<Navigation> {
