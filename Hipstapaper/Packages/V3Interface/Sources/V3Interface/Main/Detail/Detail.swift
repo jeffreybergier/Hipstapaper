@@ -25,21 +25,54 @@
 //
 
 import SwiftUI
+import Umbrella
+import V3Model
+import V3Store
 
 internal struct Detail: View {
     
     @Nav private var nav
+    @QueryProperty private var query
+    @Websites private var data
+    
+    @State private var tagName = "Testing123" // TODO: change to tag name
+    @State private var selection = Set<Website.Identifier>()
+    @State private var sort: [KeyPathComparator<Website>] = [
+        .init(\.dateCreated)
+    ]
     
     internal var body: some View {
         NavigationStack {
-            Group {
-                if let tag = self.nav.selectedTags.first {
-                    Text(tag.rawValue)
-                } else {
-                    Text("No Selection")
+            Table(self.data, selection: self.$selection, sortOrder: self.$sort) {
+                TableColumn("Title", sortUsing: KeyPathComparator(\Website.title)) { item in
+                    JSBText("Untited", text: item.title)
+                }
+                TableColumn("URL") { item in
+                    JSBText("No URL", text: item.preferredURL?.absoluteString)
+                }
+                TableColumn("Date Added", sortUsing: KeyPathComparator(\Website.dateCreated)) { item in
+                    JSBText("No Date", text: "\(item.dateCreated ?? Date(timeIntervalSince1970: 0))")
                 }
             }
-            .navigationTitle("Hipstapaper")
+            .navigationTitle(self.$tagName) {
+                Button {} label: { Text("A Button") }
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Text("X")
+                }
+                ToolbarItem(placement: .secondaryAction) {
+                    Text("Y")
+                }
+            }
+            .toolbarRole(.editor)
+        }
+        .onChange(of: self.query) {
+            self._data.query = $0
+        }
+        .onChange(of: self.nav.selectedTags.first) {
+            self._data.identifier = $0
         }
     }
 }

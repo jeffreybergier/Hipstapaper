@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/03/13.
+//  Created by Jeffrey Bergier on 2022/06/20.
 //
 //  MIT License
 //
@@ -24,23 +24,30 @@
 //  SOFTWARE.
 //
 
-public struct Query: Codable, Hashable {
+import SwiftUI
+import V3Model
+
+@propertyWrapper
+public struct Websites: DynamicProperty {
     
-    public static let systemAll: Query = .init(isOnlyNotArchived: false)
-    public static let systemUnread: Query = .init(isOnlyNotArchived: true)
+    @State public var query: Query = .systemUnread
+    @State public var identifier: Tag.Identifier? = nil
     
-    public var sort: Sort
-    public var search: String
-    public var isOnlyNotArchived: Bool
+    // TODO: Hook up core data
     
-    internal init(sort: Sort? = nil,
-                  search: String? = nil,
-                  isOnlyNotArchived: Bool?)
-    {
-        self.sort = sort ?? .default
-        self.search = search ?? ""
-        self.isOnlyNotArchived = isOnlyNotArchived ?? true
+    public init() {}
+    
+    public var wrappedValue: some RandomAccessCollection<Website> {
+        websiteFakeData[self.identifier ?? .systemUnread] ?? []
     }
-    
-    public static let `default`: Query = Query(sort: nil, search: nil, isOnlyNotArchived: nil)
 }
+
+#if DEBUG
+internal let websiteFakeData: [Tag.Identifier: [Website]] = [
+    fakeData[0].id: [
+        Website(id: .init(rawValue: "0"), title: String(describing: fakeData[0].name) + "0"),
+        Website(id: .init(rawValue: ""), title: String(describing: fakeData[0].name) + "1")
+    ],
+
+]
+#endif

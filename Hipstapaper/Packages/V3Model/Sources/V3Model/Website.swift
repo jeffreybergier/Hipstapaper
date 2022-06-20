@@ -48,7 +48,7 @@ public struct Website: Identifiable, Hashable, Equatable {
     public var dateModified: Date?
     
     public init(id: Identifier,
-                isArchived: Bool,
+                isArchived: Bool = false,
                 originalURL: URL? = nil,
                 resolvedURL: URL? = nil,
                 title: String? = nil,

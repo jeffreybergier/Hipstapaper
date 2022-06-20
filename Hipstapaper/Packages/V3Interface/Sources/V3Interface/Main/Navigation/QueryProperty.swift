@@ -33,7 +33,7 @@ internal struct QueryProperty: DynamicProperty {
     @SceneStorage("com.hipstapaper.query") private var data: String?
     
     var wrappedValue: Query {
-        get { self.data?.decodeQuery ?? .unreadItems }
+        get { self.data?.decodeQuery ?? .systemUnread }
         nonmutating set { self.data = newValue.encodeString }
     }
     
