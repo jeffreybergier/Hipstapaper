@@ -61,3 +61,23 @@ internal struct SidebarToolbar: ViewModifier {
         }
     }
 }
+
+// TODO: Change to this
+/*
+ToolbarItemGroup(placement: .primaryAction) {
+    self.style.toolbarTagAdd.button(self.text.toolbarAddTag) {
+        // TODO: Add tag to CD here
+        self.nav.sidebarNav.tagAdd = .init(rawValue: "coredata://testing123")
+    }
+    self.style.toolbarWebsiteAdd.button(self.text.toolbarAddWebsite) {
+        self.nav.sidebarNav.websiteAdd = .init(rawValue: "coredata://testing123")
+    }
+    .modifier(.tagAddPopover(self.$nav.sidebarNav.tagAdd))
+    .popover(item: self.$nav.sidebarNav.websiteAdd) { id in
+        // TODO: Add website screen
+        Text("Add a website")
+    }
+} label: {
+    self.style.toolbarAdd.label(self.text.toolbarAddGeneric)
+}
+*/
