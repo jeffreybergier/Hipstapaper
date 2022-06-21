@@ -29,15 +29,21 @@ import Umbrella
 import V3Model
 import V3Store
 
+// TODO: Move to Umbrella
+extension View {
+    /// Performs onChange but also performs on initial load via `.task` modifier
+    public func onLoadChange<T: Equatable>(of change: T, perform: @escaping (T) -> Void) -> some View {
+        self
+            .onChange(of: change, perform: perform)
+            .task { perform(change) }
+        
+    }
+}
+
 internal struct TagsEdit: View {
     
-    private let selection: Tag.Selection
-    @TagUserListQuery private var data
     @Nav private var nav
-        
-    init(_ selection: Tag.Selection) {
-        self.selection = selection
-    }
+    @TagUserListQuery private var data
     
     internal var body: some View {
         NavigationStack {
@@ -50,8 +56,8 @@ internal struct TagsEdit: View {
             .navigationBarTitleDisplayMode(.inline)
         }
         .frame(idealWidth: 320, minHeight: 320)
-        .task {
-            _data.filter = self.selection
+        .onLoadChange(of: self.nav.sidebarNav.tagsEdit) {
+            _data.filter = $0
         }
     }
 }
@@ -69,8 +75,8 @@ internal struct TagsEditPresentation: ViewModifier {
         }
     }
     internal func body(content: Content) -> some View {
-        content.popover(items: self.$identifiers) {
-            TagsEdit($0)
+        content.popover(items: self.$identifiers) { _ in
+            TagsEdit()
                 .presentationDetents([.medium])
         }
     }

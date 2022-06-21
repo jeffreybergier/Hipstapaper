@@ -68,14 +68,11 @@ internal struct Detail: View {
             }
             .toolbarRole(.editor)
         }
-        .onChange(of: self.query) {
+        .onLoadChange(of: self.query) {
             _data.query = $0
         }
-        .onChange(of: self.nav.selectedTags) {
+        .onLoadChange(of: self.nav.selectedTags) {
             _data.identifier = $0
-        }
-        .task {
-            _data.identifier = self.nav.selectedTags
         }
     }
 }
