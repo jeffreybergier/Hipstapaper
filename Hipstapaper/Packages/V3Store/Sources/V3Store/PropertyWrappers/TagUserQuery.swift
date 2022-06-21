@@ -32,12 +32,9 @@ public struct TagUserQuery: DynamicProperty {
     
     // TODO: Hook up core data
     @ObservedObject private var _data = tagEnvironment
+    @State public var identifier: Tag.Identifier?
     
-    private let id: Tag.Identifier
-    
-    public init(_ id: Tag.Identifier) {
-        self.id = id
-    }
+    public init() { }
     
     public var wrappedValue: Tag? {
         index.map { _data.value[$0] }
@@ -53,6 +50,6 @@ public struct TagUserQuery: DynamicProperty {
     }
     
     private var index: Int? {
-        _data.value.firstIndex(where: { $0.id == self.id })
+        _data.value.firstIndex(where: { $0.id == self.identifier })
     }
 }

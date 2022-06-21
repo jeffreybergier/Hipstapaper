@@ -35,7 +35,7 @@ internal struct Detail: View {
     @QueryProperty private var query
     @WebsiteListQuery private var data
     
-    @State private var tagName = "Testing123" // TODO: change to tag name
+    @TagUserQuery private var tag: Tag?
     @State private var selection = Set<Website.Identifier>()
     @State private var sort: [KeyPathComparator<Website>] = [
         .init(\.dateCreated)
@@ -54,9 +54,10 @@ internal struct Detail: View {
                     JSBText("No Date", text: "\(item.dateCreated ?? Date(timeIntervalSince1970: 0))")
                 }
             }
-            .navigationTitle(self.$tagName) {
-                Button {} label: { Text("A Button") }
-            }
+            .navigationTitleQ(self.$tag?.name)
+//            .navigationTitle(self.$tag.name ?? Binding<String> { "" }, set: {_ in}) {
+//                Button {} label: { Text("A Button") }
+//            }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
@@ -74,5 +75,19 @@ internal struct Detail: View {
         .onLoadChange(of: self.nav.selectedTags) {
             _data.identifier = $0
         }
+        .onLoadChange(of: self.nav.selectedTags) {
+            _tag.identifier = $0
+        }
+    }
+}
+
+extension View {
+    func navigationTitleQ(_ input: Binding<String?>?) -> some View {
+        let newBinding = Binding<String> {
+            input?.wrappedValue ?? "Untitled"
+        } set: {
+            input?.wrappedValue = $0
+        }
+        return self.navigationTitle(newBinding)
     }
 }

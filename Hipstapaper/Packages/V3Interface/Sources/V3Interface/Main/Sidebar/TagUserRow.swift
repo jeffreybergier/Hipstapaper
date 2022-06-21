@@ -37,20 +37,27 @@ internal struct TagUserRow: View {
     @V3Style.Sidebar private var style
     @V3Localize.Sidebar private var text
     
+    private let identifier: Tag.Identifier
+    
     internal init(_ id: Tag.Identifier) {
-        _item = .init(id)
+        self.identifier = id
     }
     
     internal var body: some View {
-        if let item, let count = item.websitesCount {
-            HStack {
-                JSBText(self.text.rowTitleUntitled, text: item.name)
-                Spacer()
-                Text("\(count)")
-                    .modifier(self.style.itemCountFont)
+        Group {
+            if let item, let count = item.websitesCount {
+                HStack {
+                    JSBText(self.text.rowTitleUntitled, text: item.name)
+                    Spacer()
+                    Text("\(count)")
+                        .modifier(self.style.itemCountFont)
+                }
+            } else {
+                JSBText(self.text.rowTitleUntitled, text: self.item?.name)
             }
-        } else {
-            JSBText(self.text.rowTitleUntitled, text: self.item?.name)
+        }
+        .onLoadChange(of: self.identifier) {
+            _item.identifier = $0
         }
     }
 }
