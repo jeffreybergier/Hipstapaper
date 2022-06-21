@@ -38,16 +38,6 @@ public struct WebsiteListQuery: DynamicProperty {
     public init() {}
     
     public var wrappedValue: some RandomAccessCollection<Website> {
-        websiteFakeData[self.identifier ?? .systemUnread] ?? []
+        [] //websiteFakeData[self.identifier ?? .systemUnread] ?? []
     }
 }
-
-#if DEBUG
-internal let websiteFakeData: [Tag.Identifier: [Website]] = [
-    fakeData[0].id: [
-        Website(id: .init(rawValue: "0"), title: String(describing: fakeData[0].name) + "0"),
-        Website(id: .init(rawValue: ""), title: String(describing: fakeData[0].name) + "1")
-    ],
-
-]
-#endif

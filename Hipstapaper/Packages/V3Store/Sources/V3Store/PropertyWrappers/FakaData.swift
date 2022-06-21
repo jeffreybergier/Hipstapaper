@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/17.
+//  Created by Jeffrey Bergier on 2022/06/21.
 //
 //  MIT License
 //
@@ -24,35 +24,35 @@
 //  SOFTWARE.
 //
 
+#if DEBUG
+
+import Foundation
 import SwiftUI
+import Umbrella
 import V3Model
 
-@propertyWrapper
-public struct TagUserQuery: DynamicProperty {
-    
-    // TODO: Hook up core data
-    @ObservedObject private var _data = tagEnvironment
-    
-    private let id: Tag.Identifier
-    
-    public init(_ id: Tag.Identifier) {
-        self.id = id
-    }
-    
-    public var wrappedValue: Tag? {
-        index.map { _data.value[$0] }
-    }
-    
-    public var projectedValue: Binding<Tag>? {
-        guard let index else { return nil }
-        return Binding {
-            _data.value[index]
-        } set: {
-            _data.value[index] = $0
+internal let tagEnvironment = BlackBox(fakeTags, isObservingValue: true)
+
+fileprivate let fakeTags: [Tag] = [
+        Tag(id: .init(rawValue: "tag01"), name: "Cool Stuff", websitesCount: 400000),
+        Tag(id: .init(rawValue: "tag02"), name: "Bad Things", websitesCount: 2),
+        Tag(id: .init(rawValue: "tag03"), name: "👨‍👩‍👧‍👧", websitesCount: -80),
+        Tag(id: .init(rawValue: "tag04"), name: "日本語", websitesCount: 200),
+        Tag(id: .init(rawValue: "tag05"), name: "Accounts", websitesCount: 30),
+        Tag(id: .init(rawValue: "tag06"), name: "No Count", websitesCount: nil),
+        Tag(id: .init(rawValue: "tag07"), name: nil, websitesCount: 0101),
+    ]
+
+extension BlackBox where Value: RandomAccessCollection & MutableCollection, Value.Index == Int {
+    internal var projectedValue: some RandomAccessCollection<Binding<Value.Element>> {
+        self.value.enumerated().map { (index, item) in
+            Binding {
+                item
+            } set: {
+                self.value[index] = $0
+            }
         }
     }
-    
-    private var index: Int? {
-        _data.value.firstIndex(where: { $0.id == self.id })
-    }
 }
+
+#endif
