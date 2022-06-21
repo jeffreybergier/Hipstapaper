@@ -34,10 +34,49 @@ public struct WebsiteListQuery: DynamicProperty {
     @State public var identifier: Tag.Identifier? = nil
     
     // TODO: Hook up core data
+    @ObservedObject private var sites1 = site1Environment
+    @ObservedObject private var sites2 = site2Environment
     
     public init() {}
     
     public var wrappedValue: some RandomAccessCollection<Website> {
-        [] //websiteFakeData[self.identifier ?? .systemUnread] ?? []
+        switch delete_which {
+        case 0:
+            return sites1.value + sites2.value
+        case 1:
+            return sites1.value
+        case 2:
+            return sites2.value
+        default:
+            fatalError()
+        }
+    }
+    
+    public var projectedValue: some RandomAccessCollection<Binding<Website>> {
+        switch delete_which {
+        case 0:
+            return sites1.projectedValue + sites2.projectedValue
+        case 1:
+            return sites1.projectedValue
+        case 2:
+            return sites2.projectedValue
+        default:
+            fatalError()
+        }
+    }
+    
+    private var delete_which: Int {
+        guard
+            let tag = identifier,
+            tag != Tag.Identifier.systemUnread,
+            tag != Tag.Identifier.systemAll
+        else {
+            return 0
+        }
+        if tag.rawValue == tagEnvironment.value.first?.id.rawValue {
+            return 1
+        } else {
+            return 2
+        }
     }
 }

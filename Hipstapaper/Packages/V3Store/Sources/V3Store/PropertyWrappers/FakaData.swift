@@ -32,16 +32,42 @@ import Umbrella
 import V3Model
 
 internal let tagEnvironment = BlackBox(fakeTags, isObservingValue: true)
+internal let site1Environment = BlackBox(fakeWebsites1, isObservingValue: true)
+internal let site2Environment = BlackBox(fakeWebsites2, isObservingValue: true)
 
 fileprivate let fakeTags: [Tag] = [
-        Tag(id: .init(rawValue: "tag01"), name: "Cool Stuff", websitesCount: 400000),
-        Tag(id: .init(rawValue: "tag02"), name: "Bad Things", websitesCount: 2),
-        Tag(id: .init(rawValue: "tag03"), name: "👨‍👩‍👧‍👧", websitesCount: -80),
-        Tag(id: .init(rawValue: "tag04"), name: "日本語", websitesCount: 200),
-        Tag(id: .init(rawValue: "tag05"), name: "Accounts", websitesCount: 30),
-        Tag(id: .init(rawValue: "tag06"), name: "No Count", websitesCount: nil),
-        Tag(id: .init(rawValue: "tag07"), name: nil, websitesCount: 0101),
+        Tag(id: .init(rawValue: "tag01"), name: "No Count", websitesCount: nil),
+        Tag(id: .init(rawValue: "tag02"), name: nil, websitesCount: 0101),
     ]
+
+fileprivate let fakeWebsites1: [Website] = [
+        Website(id: .init(rawValue: "tag01.website01"),
+                originalURL: URL(string: "https://www.google.com"),
+                resolvedURL: URL(string: "https://www.google.com/something"),
+                title: "Google",
+                dateCreated: Date(timeIntervalSince1970: 0),
+                dateModified: Date(timeIntervalSince1970: 100)),
+        Website(id: .init(rawValue: "tag01.website02"),
+                originalURL: URL(string: "https://www.theverge.com"),
+                resolvedURL: URL(string: "https://www.theverge.com/something"),
+                title: "The Verge",
+                dateCreated: Date(timeIntervalSince1970: 1000),
+                dateModified: Date(timeIntervalSince1970: 2000)),
+        ]
+fileprivate let fakeWebsites2: [Website] = [
+        Website(id: .init(rawValue: "tag02.website01"),
+                originalURL: URL(string: "https://www.apple.com"),
+                resolvedURL: URL(string: "https://www.apple.com/something"),
+                title: nil,
+                dateCreated: Date(timeIntervalSince1970: 0),
+                dateModified: Date(timeIntervalSince1970: 100)),
+        Website(id: .init(rawValue: "tag02.website02"),
+                originalURL: URL(string: "https://www.microsoft.com"),
+                resolvedURL: URL(string: "https://www.microsoft.com/something"),
+                title: "Microsoft",
+                dateCreated: Date(timeIntervalSince1970: 1000),
+                dateModified: Date(timeIntervalSince1970: 2000))
+]
 
 extension BlackBox where Value: RandomAccessCollection & MutableCollection, Value.Index == Int {
     internal var projectedValue: Array<Binding<Value.Element>> {
