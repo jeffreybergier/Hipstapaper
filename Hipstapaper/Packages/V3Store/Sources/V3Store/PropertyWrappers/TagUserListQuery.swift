@@ -28,16 +28,25 @@ import SwiftUI
 import V3Model
 
 @propertyWrapper
-public struct TagUser: DynamicProperty {
+public struct TagUserListQuery: DynamicProperty {
     
     // TODO: Hook up core data
-    private let id: Tag.Identifier
     
-    public init(_ id: Tag.Identifier) {
-        self.id = id
-    }
+    public init() {}
     
-    public var wrappedValue: Tag? {
-        fakeData.filter { $0.id == self.id }.first
+    public var wrappedValue: some RandomAccessCollection<Tag> {
+        fakeData
     }
 }
+
+#if DEBUG
+internal let fakeData: [Tag] = [
+        Tag(id: .init(rawValue: "coredata://fake1"), name: "Cool Stuff", websitesCount: 400000),
+        Tag(id: .init(rawValue: "coredata://fake2"), name: "Bad Things", websitesCount: 2),
+        Tag(id: .init(rawValue: "coredata://fake3"), name: "👨‍👩‍👧‍👧", websitesCount: -80),
+        Tag(id: .init(rawValue: "coredata://fake4"), name: "日本語", websitesCount: 200),
+        Tag(id: .init(rawValue: "coredata://fake5"), name: "Accounts", websitesCount: 30),
+        Tag(id: .init(rawValue: "coredata://fake6"), name: "No Count", websitesCount: nil),
+        Tag(id: .init(rawValue: "coredata://fake7"), name: nil, websitesCount: 0101),
+    ]
+#endif

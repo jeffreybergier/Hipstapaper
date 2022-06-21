@@ -28,23 +28,16 @@ import SwiftUI
 import V3Model
 
 @propertyWrapper
-public struct TagsSystem: DynamicProperty {
+public struct TagUserQuery: DynamicProperty {
     
-    public init() {}
+    // TODO: Hook up core data
+    private let id: Tag.Identifier
     
-    public var wrappedValue: some RandomAccessCollection<Tag> {
-        [
-            Tag(id: .systemUnread, kind: .systemUnread),
-            Tag(id: .systemAll, kind: .systemAll),
-        ]
+    public init(_ id: Tag.Identifier) {
+        self.id = id
     }
-}
-
-extension Tag.Identifier {
-    public static let `default`: Tag.Identifier = .systemUnread
-    internal static let systemAll = Tag.Identifier(rawValue: "hipstapaper://tag/system/all")
-    internal static let systemUnread = Tag.Identifier(rawValue: "hipstapaper://tag/system/unread")
-    public var isSystem: Bool {
-        self == type(of: self).systemAll || self == type(of: self).systemUnread
+    
+    public var wrappedValue: Tag? {
+        fakeData.filter { $0.id == self.id }.first
     }
 }

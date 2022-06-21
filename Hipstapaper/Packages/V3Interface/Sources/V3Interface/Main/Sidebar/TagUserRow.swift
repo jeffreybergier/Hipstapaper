@@ -33,7 +33,7 @@ import V3Style
 
 internal struct TagUserRow: View {
         
-    @TagUser private var item: Tag?
+    @TagUserQuery private var item: Tag?
     @V3Style.Sidebar private var style
     @V3Localize.Sidebar private var text
     

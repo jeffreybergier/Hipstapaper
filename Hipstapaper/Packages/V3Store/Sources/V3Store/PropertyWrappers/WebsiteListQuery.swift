@@ -28,7 +28,7 @@ import SwiftUI
 import V3Model
 
 @propertyWrapper
-public struct Websites: DynamicProperty {
+public struct WebsiteListQuery: DynamicProperty {
     
     @State public var query: Query = .systemUnread
     @State public var identifier: Tag.Identifier? = nil

@@ -33,8 +33,8 @@ import V3Localize
 internal struct Sidebar: View {
     
     @Nav private var nav
-    @TagsUser private var tagsUser
-    @TagsSystem private var tagsSystem
+    @TagUserListQuery private var tagsUser
+    @TagSystemListQuery private var tagsSystem
     @V3Localize.Sidebar private var text
     
     internal var body: some View {

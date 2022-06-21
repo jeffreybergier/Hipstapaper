@@ -33,7 +33,7 @@ internal struct Detail: View {
     
     @Nav private var nav
     @QueryProperty private var query
-    @Websites private var data
+    @WebsiteListQuery private var data
     
     @State private var tagName = "Testing123" // TODO: change to tag name
     @State private var selection = Set<Website.Identifier>()

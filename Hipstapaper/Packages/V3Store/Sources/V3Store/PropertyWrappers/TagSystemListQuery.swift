@@ -28,25 +28,23 @@ import SwiftUI
 import V3Model
 
 @propertyWrapper
-public struct TagsUser: DynamicProperty {
-    
-    // TODO: Hook up core data
+public struct TagSystemListQuery: DynamicProperty {
     
     public init() {}
     
     public var wrappedValue: some RandomAccessCollection<Tag> {
-        fakeData
+        [
+            Tag(id: .systemUnread, kind: .systemUnread),
+            Tag(id: .systemAll, kind: .systemAll),
+        ]
     }
 }
 
-#if DEBUG
-internal let fakeData: [Tag] = [
-        Tag(id: .init(rawValue: "coredata://fake1"), name: "Cool Stuff", websitesCount: 400000),
-        Tag(id: .init(rawValue: "coredata://fake2"), name: "Bad Things", websitesCount: 2),
-        Tag(id: .init(rawValue: "coredata://fake3"), name: "👨‍👩‍👧‍👧", websitesCount: -80),
-        Tag(id: .init(rawValue: "coredata://fake4"), name: "日本語", websitesCount: 200),
-        Tag(id: .init(rawValue: "coredata://fake5"), name: "Accounts", websitesCount: 30),
-        Tag(id: .init(rawValue: "coredata://fake6"), name: "No Count", websitesCount: nil),
-        Tag(id: .init(rawValue: "coredata://fake7"), name: nil, websitesCount: 0101),
-    ]
-#endif
+extension Tag.Identifier {
+    public static let `default`: Tag.Identifier = .systemUnread
+    internal static let systemAll = Tag.Identifier(rawValue: "hipstapaper://tag/system/all")
+    internal static let systemUnread = Tag.Identifier(rawValue: "hipstapaper://tag/system/unread")
+    public var isSystem: Bool {
+        self == type(of: self).systemAll || self == type(of: self).systemUnread
+    }
+}
