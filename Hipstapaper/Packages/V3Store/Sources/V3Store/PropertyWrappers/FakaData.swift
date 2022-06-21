@@ -44,7 +44,7 @@ fileprivate let fakeTags: [Tag] = [
     ]
 
 extension BlackBox where Value: RandomAccessCollection & MutableCollection, Value.Index == Int {
-    internal var projectedValue: some RandomAccessCollection<Binding<Value.Element>> {
+    internal var projectedValue: Array<Binding<Value.Element>> {
         self.value.enumerated().map { (index, item) in
             Binding {
                 item

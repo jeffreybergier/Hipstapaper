@@ -32,14 +32,17 @@ public struct TagUserListQuery: DynamicProperty {
     
     // TODO: Hook up core data
     @ObservedObject private var _data = tagEnvironment
+    @State public var filter: Set<Tag.Identifier> = []
     
     public init() {}
     
     public var wrappedValue: some RandomAccessCollection<Tag> {
-        _data.value
+        guard filter.isEmpty == false else { return _data.value }
+        return _data.value.filter { filter.contains($0.id) }
     }
     
     public var projectedValue: some RandomAccessCollection<Binding<Tag>> {
-        _data.projectedValue
+        guard filter.isEmpty == false else { return _data.projectedValue }
+        return _data.projectedValue.filter { filter.contains($0.id) }
     }
 }

@@ -25,27 +25,34 @@
 //
 
 import SwiftUI
+import Umbrella
 import V3Model
+import V3Store
 
 internal struct TagsEdit: View {
     
-    internal let selection: Tag.Selection
-    internal let data: [Tag.Selection.Element]
+    private let selection: Tag.Selection
+    @TagUserListQuery private var data
+    @Nav private var nav
         
     init(_ selection: Tag.Selection) {
         self.selection = selection
-        self.data = Array(selection)
     }
     
     internal var body: some View {
         NavigationStack {
-            List(self.data) { ident in
-                Text(ident.rawValue)
+            Form {
+                ForEach(self.$data) { item in
+                    JSBTextField("Tag Name", text: item.name)
+                }
             }
             .navigationTitle("Edit Tag(s)")
+            .navigationBarTitleDisplayMode(.inline)
         }
         .frame(idealWidth: 320, minHeight: 320)
-
+        .task {
+            _data.filter = self.selection
+        }
     }
 }
 
