@@ -54,10 +54,7 @@ internal struct Detail: View {
                     JSBText("No Date", text: "\(item.dateCreated ?? Date(timeIntervalSince1970: 0))")
                 }
             }
-            .navigationTitleQ(self.$tag?.name)
-//            .navigationTitle(self.$tag.name ?? Binding<String> { "" }, set: {_ in}) {
-//                Button {} label: { Text("A Button") }
-//            }
+            .modifier(.detailTitle(self.$tag?.name))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
@@ -78,16 +75,5 @@ internal struct Detail: View {
         .onLoadChange(of: self.nav.selectedTags) {
             _tag.identifier = $0
         }
-    }
-}
-
-extension View {
-    func navigationTitleQ(_ input: Binding<String?>?) -> some View {
-        let newBinding = Binding<String> {
-            input?.wrappedValue ?? "Untitled"
-        } set: {
-            input?.wrappedValue = $0
-        }
-        return self.navigationTitle(newBinding)
     }
 }

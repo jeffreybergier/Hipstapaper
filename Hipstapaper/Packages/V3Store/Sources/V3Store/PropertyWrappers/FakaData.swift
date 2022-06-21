@@ -36,8 +36,8 @@ internal let site1Environment = BlackBox(fakeWebsites1, isObservingValue: true)
 internal let site2Environment = BlackBox(fakeWebsites2, isObservingValue: true)
 
 fileprivate let fakeTags: [Tag] = [
-        Tag(id: .init(rawValue: "tag01"), name: "No Count", websitesCount: nil),
-        Tag(id: .init(rawValue: "tag02"), name: nil, websitesCount: 0101),
+        Tag(id: .init("tag01"), name: "No Count", websitesCount: nil),
+        Tag(id: .init("tag02"), name: nil, websitesCount: 0101),
     ]
 
 fileprivate let fakeWebsites1: [Website] = [

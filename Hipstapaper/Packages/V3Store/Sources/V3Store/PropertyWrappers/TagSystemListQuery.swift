@@ -34,16 +34,16 @@ public struct TagSystemListQuery: DynamicProperty {
     
     public var wrappedValue: some RandomAccessCollection<Tag> {
         [
-            Tag(id: .systemUnread, kind: .systemUnread),
-            Tag(id: .systemAll, kind: .systemAll),
+            Tag(id: .systemUnread),
+            Tag(id: .systemAll),
         ]
     }
 }
 
 extension Tag.Identifier {
     public static let `default`: Tag.Identifier = .systemUnread
-    internal static let systemAll = Tag.Identifier(rawValue: "hipstapaper://tag/system/all")
-    internal static let systemUnread = Tag.Identifier(rawValue: "hipstapaper://tag/system/unread")
+    internal static let systemAll = Tag.Identifier("hipstapaper://tag/system/all", kind: .systemAll)
+    internal static let systemUnread = Tag.Identifier("hipstapaper://tag/system/unread", kind: .systemUnread)
     public var isSystem: Bool {
         self == type(of: self).systemAll || self == type(of: self).systemUnread
     }

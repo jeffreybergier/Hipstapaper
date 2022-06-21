@@ -32,9 +32,9 @@ internal struct TagSystemRow: View {
     
     @V3Localize.Sidebar private var text
     
-    private let kind: Tag.Kind
+    private let kind: Tag.Identifier.Kind
     
-    internal init(_ kind: Tag.Kind) {
+    internal init(_ kind: Tag.Identifier.Kind) {
         self.kind = kind
     }
     

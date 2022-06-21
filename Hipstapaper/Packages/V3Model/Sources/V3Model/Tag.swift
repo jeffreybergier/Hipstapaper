@@ -31,33 +31,48 @@ public struct Tag: Identifiable, Hashable, Equatable {
     public typealias Selection = Set<Tag.Identifier>
     
     public struct Identifier: Hashable, Equatable, Codable, RawRepresentable, Identifiable {
-        public var id: String { self.rawValue }
-        public var rawValue: String
-        public init(rawValue: String) {
-            self.rawValue = rawValue
+        
+        public enum Kind: String {
+            case systemAll, systemUnread, user
+        }
+        
+        public var id: String
+        public var kind: Kind = .user
+        
+        public init(_ rawValue: String, kind: Kind = .user) {
+            self.id = rawValue
+            self.kind = kind
+        }
+        
+        public var rawValue: String {
+            self.kind.rawValue + "|.|.|" + self.id
+        }
+        public init?(rawValue: String) {
+            let comps = rawValue.components(separatedBy: "|.|.|")
+            guard
+                comps.count == 2,
+                let kind = Kind(rawValue: comps[0])
+            else {
+                return nil
+            }
+            self.id = comps[1]
+            self.kind = kind
         }
     }
     
-    public enum Kind {
-        case systemAll, systemUnread, user
-    }
-    
     public var id: Identifier
-    public var kind: Kind
     public var name: String?
     public var websitesCount: Int?
     public var dateCreated: Date?
     public var dateModified: Date?
     
     public init(id: Identifier,
-                kind: Kind = .user,
                 name: String? = nil,
                 websitesCount: Int? = nil,
                 dateCreated: Date? = nil,
                 dateModified: Date? = nil)
     {
         self.id = id
-        self.kind = kind
         self.name = name
         self.websitesCount = websitesCount
         self.dateCreated = dateCreated

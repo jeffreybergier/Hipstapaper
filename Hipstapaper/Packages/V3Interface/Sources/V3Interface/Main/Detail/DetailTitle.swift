@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/17.
+//  Created by Jeffrey Bergier on 2022/06/22.
 //
 //  MIT License
 //
@@ -25,40 +25,38 @@
 //
 
 import SwiftUI
-import V3Model
 import V3Store
-import V3Style
-import V3Localize
 
-internal struct Sidebar: View {
-    
+extension ViewModifier where Self == DetailTitle {
+    internal static func detailTitle(_ input: Binding<String?>?) -> Self { Self.init(input) }
+}
+
+internal struct DetailTitle: ViewModifier {
+
     @Nav private var nav
-    @TagUserListQuery private var tagsUser
-    @TagSystemListQuery private var tagsSystem
-    @V3Localize.Sidebar private var text
+    @QueryProperty private var query
     
-    internal var body: some View {
-        NavigationStack {
-            List(selection: self.$nav.selectedTags) {
-                Section(self.text.sectionTitleTagsSystem) {
-                    ForEach(self.tagsSystem) { item in
-                        NavigationLink(value: item.id) {
-                            TagSystemRow(item.id.kind).tag(item.id)
-                        }
-                    }
-                }
-                Section(self.text.sectionTitleTagsUser) {
-                    ForEach(self.tagsUser) { item in
-                        NavigationLink(value: item.id) {
-                            TagUserRow(item.id).tag(item.id)
-                        }
-                    }
-                }
+    @Binding private var name: String?
+    
+    internal init(_ input: Binding<String?>?) {
+        _name = input ?? Binding(get: { nil }, set: { _ in })
+    }
+    
+    internal func body(content: Content) -> some View {
+        switch self.nav.selectedTags?.kind ?? .user {
+        case .systemUnread:
+            content.navigationTitle("Unread Items")
+        case .systemAll:
+            content.navigationTitle("All Items")
+        case .user:
+            let new = Binding<String> {
+                self.name ?? "Untitled Tag"
+            } set: {
+                self.name = $0
             }
-            .modifier(.tagsEditPopover(self.$nav.sidebarNav.tagsEdit))
-            .modifier(.sidebarContextMenu)
-            .modifier(.sidebarToolbar)
-            .navigationTitle(self.text.navigationTitle)
+            content.navigationTitle(new) {
+                Text("// TODO: Add Delete Option")
+            }
         }
     }
 }
