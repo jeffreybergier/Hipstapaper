@@ -36,11 +36,13 @@ internal struct Detail: View {
     @WebsiteListQuery private var data
     
     @TagUserQuery private var tag: Tag?
-    @State private var selection = Set<Website.Identifier>()
     
     internal var body: some View {
         NavigationStack {
-            Table(self.data, selection: self.$selection, sortOrder: self.$query.sort) {
+            Table(self.data,
+                  selection: self.$nav.detail.selectedWebsites,
+                  sortOrder: self.$query.sort)
+            {
                 TableColumn("Title", sortUsing: .titleA) { item in
                     JSBText("Untited", text: item.title)
                 }
@@ -70,7 +72,7 @@ internal struct Detail: View {
         .onLoadChange(of: self.query) {
             _data.query = $0
         }
-        .onLoadChange(of: self.nav.selectedTags) {
+        .onLoadChange(of: self.nav.sidebar.selectedTag) {
             _data.identifier = $0
         }
     }

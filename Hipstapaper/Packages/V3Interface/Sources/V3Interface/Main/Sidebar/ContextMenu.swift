@@ -39,7 +39,7 @@ internal struct SidebarContextMenu: ViewModifier {
         content.contextMenu(forSelectionType: Tag.Selection.Element.self) { items in
             if self.canShowMenu(items) {
                 self.style.menuTagEdit.button(self.text.menuEditTags) {
-                    self.nav.sidebarNav.tagsEdit = items
+                    self.nav.sidebar.isTagsEdit = items
                 }
                 self.style.menuTagDelete.button(self.text.menuDeleteTags, role: .destructive) {
                     // TODO: Hook up deletions

@@ -43,7 +43,7 @@ internal struct DetailTitle: ViewModifier {
     }
     
     internal func body(content: Content) -> some View {
-        switch self.nav.selectedTags?.kind ?? .user {
+        switch self.nav.sidebar.selectedTag?.kind ?? .user {
         case .systemUnread:
             content.navigationTitle("Unread Items")
         case .systemAll:

@@ -44,16 +44,16 @@ internal struct SidebarToolbar: ViewModifier {
                 Menu {
                     self.style.toolbarTagAdd.button(self.text.toolbarAddTag) {
                         // TODO: Add tag to CD here
-                        self.nav.sidebarNav.tagAdd = .init("coredata://testing123")
+                        self.nav.sidebar.isTagAdd = .init("coredata://testing123")
                     }
                     self.style.toolbarWebsiteAdd.button(self.text.toolbarAddWebsite) {
-                        self.nav.sidebarNav.websiteAdd = .init(rawValue: "coredata://testing123")
+                        self.nav.sidebar.isWebsiteAdd = .init(rawValue: "coredata://testing123")
                     }
                 } label: {
                     self.style.toolbarAdd.label(self.text.toolbarAddGeneric)
                 }
-                .modifier(.tagAddPopover(self.$nav.sidebarNav.tagAdd))
-                .popover(item: self.$nav.sidebarNav.websiteAdd) { id in
+                .modifier(.tagAddPopover(self.$nav.sidebar.isTagAdd))
+                .popover(item: self.$nav.sidebar.isWebsiteAdd) { id in
                     // TODO: Add website screen
                     Text("Add a website")
                 }

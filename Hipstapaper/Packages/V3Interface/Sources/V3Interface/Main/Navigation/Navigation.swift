@@ -28,22 +28,19 @@ import SwiftUI
 import V3Model
 
 internal struct Navigation: Codable {
-    
-    internal var selectedTags: Tag.Selection.Element? = .default
-    internal var selectedWebsites: Website.Selection = []
-    internal var sidebarNav: Sidebar = .init()
-    internal var detailNav: Detail = .init()
-
+    internal var sidebar: Sidebar = .init()
+    internal var detail: Detail = .init()
 }
 
 extension Navigation {
     internal struct Sidebar: Codable {
-        internal var tagAdd: Tag.Identifier?
-        internal var tagsEdit: Tag.Selection = []
-        internal var websiteAdd: Website.Selection.Element?
+        internal var selectedTag: Tag.Selection.Element? = .default
+        internal var isTagAdd: Tag.Identifier?
+        internal var isTagsEdit: Tag.Selection = []
+        internal var isWebsiteAdd: Website.Selection.Element?
     }
     internal struct Detail: Codable {
-        
+        internal var selectedWebsites = Set<Website.Identifier>()
     }
 }
 

@@ -39,7 +39,7 @@ internal struct Sidebar: View {
     
     internal var body: some View {
         NavigationStack {
-            List(selection: self.$nav.selectedTags) {
+            List(selection: self.$nav.sidebar.selectedTag) {
                 Section(self.text.sectionTitleTagsSystem) {
                     ForEach(self.tagsSystem) { item in
                         NavigationLink(value: item.id) {
@@ -55,7 +55,7 @@ internal struct Sidebar: View {
                     }
                 }
             }
-            .modifier(.tagsEditPopover(self.$nav.sidebarNav.tagsEdit))
+            .modifier(.tagsEditPopover(self.$nav.sidebar.isTagsEdit))
             .modifier(.sidebarContextMenu)
             .modifier(.sidebarToolbar)
             .navigationTitle(self.text.navigationTitle)

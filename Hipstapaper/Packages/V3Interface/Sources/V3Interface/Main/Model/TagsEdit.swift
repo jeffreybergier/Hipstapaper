@@ -56,7 +56,7 @@ internal struct TagsEdit: View {
             .navigationBarTitleDisplayMode(.inline)
         }
         .frame(idealWidth: 320, minHeight: 320)
-        .onLoadChange(of: self.nav.sidebarNav.tagsEdit) {
+        .onLoadChange(of: self.nav.sidebar.isTagsEdit) {
             _data.filter = $0
         }
     }
