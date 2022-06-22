@@ -37,21 +37,21 @@ internal struct Detail: View {
     
     @TagUserQuery private var tag: Tag?
     @State private var selection = Set<Website.Identifier>()
-    @State private var sort: [KeyPathComparator<Website>] = [
-        .init(\.dateCreated)
-    ]
     
     internal var body: some View {
         NavigationStack {
-            Table(self.data, selection: self.$selection, sortOrder: self.$sort) {
-                TableColumn("Title", sortUsing: KeyPathComparator(\Website.title)) { item in
+            Table(self.data, selection: self.$selection, sortOrder: self.$query.sort) {
+                TableColumn("Title", sortUsing: .titleA) { item in
                     JSBText("Untited", text: item.title)
                 }
                 TableColumn("URL") { item in
                     JSBText("No URL", text: item.preferredURL?.absoluteString)
                 }
-                TableColumn("Date Added", sortUsing: KeyPathComparator(\Website.dateCreated)) { item in
+                TableColumn("Date Added", sortUsing: .dateCreatedNewest) { item in
                     JSBText("No Date", text: "\(item.dateCreated ?? Date(timeIntervalSince1970: 0))")
+                }
+                TableColumn("Date Modified", sortUsing: .dateModifiedNewest) { item in
+                    JSBText("No Date", text: "\(item.dateModified ?? Date(timeIntervalSince1970: 0))")
                 }
             }
             .modifier(.detailTitle(self.$tag?.name))
@@ -71,9 +71,6 @@ internal struct Detail: View {
         }
         .onLoadChange(of: self.nav.selectedTags) {
             _data.identifier = $0
-        }
-        .onLoadChange(of: self.nav.selectedTags) {
-            _tag.identifier = $0
         }
     }
 }

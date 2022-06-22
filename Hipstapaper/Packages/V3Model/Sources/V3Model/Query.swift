@@ -29,7 +29,7 @@ public struct Query: Codable, Hashable {
     public static let systemAll: Query = .init(isOnlyNotArchived: false)
     public static let systemUnread: Query = .init(isOnlyNotArchived: true)
     
-    public var sort: Sort
+    public var sort: [Sort]
     public var search: String
     public var isOnlyNotArchived: Bool
     
@@ -37,7 +37,7 @@ public struct Query: Codable, Hashable {
                   search: String? = nil,
                   isOnlyNotArchived: Bool?)
     {
-        self.sort = sort ?? .default
+        self.sort = sort.map { [$0] } ?? [.default]
         self.search = search ?? ""
         self.isOnlyNotArchived = isOnlyNotArchived ?? true
     }

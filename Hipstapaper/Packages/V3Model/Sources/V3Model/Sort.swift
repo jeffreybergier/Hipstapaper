@@ -24,10 +24,55 @@
 //  SOFTWARE.
 //
 
+import Foundation
+
 public enum Sort: String, CaseIterable, Identifiable, Hashable, Codable {
     public var id: String { self.rawValue }
     public static let `default`: Sort = .dateCreatedNewest
     case dateCreatedNewest, dateCreatedOldest
     case dateModifiedNewest, dateModifiedOldest
     case titleA, titleZ
+}
+
+extension Sort: SortComparator {
+        
+    public var order: SortOrder {
+        get {
+            switch self {
+            case .dateCreatedOldest, .dateModifiedOldest, .titleZ:
+                return .forward
+            case .dateCreatedNewest, .dateModifiedNewest, .titleA:
+                return .reverse
+            }
+        }
+        set {
+            switch self {
+            case .dateCreatedNewest, .dateCreatedOldest:
+                switch newValue {
+                case .forward:
+                    self = .dateCreatedOldest
+                case .reverse:
+                    self = .dateCreatedNewest
+                }
+            case .dateModifiedNewest, .dateModifiedOldest:
+                switch newValue {
+                case .forward:
+                    self = .dateModifiedOldest
+                case .reverse:
+                    self = .dateModifiedNewest
+                }
+            case .titleA, .titleZ:
+                switch newValue {
+                case .forward:
+                    self = .titleZ
+                case .reverse:
+                    self = .titleA
+                }
+            }
+        }
+    }
+    
+    public func compare(_ lhs: Website, _ rhs: Website) -> ComparisonResult {
+        fatalError()
+    }
 }
