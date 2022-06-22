@@ -34,6 +34,7 @@ internal struct Detail: View {
     @Nav private var nav
     @QueryProperty private var query
     @WebsiteListQuery private var data
+    @EditModeProperty private var editMode
 
     internal var body: some View {
         NavigationStack {
@@ -58,11 +59,18 @@ internal struct Detail: View {
             .modifier(.detailTitle)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    Text("X")
+                if self.editMode {
+                    // TODO: Editmode not working right
+                    ToolbarItem(placement: .secondaryAction) {
+                        Text("Editing")
+                    }
+                } else {
+                    ToolbarItem(placement: .secondaryAction) {
+                        Text("NotEditing")
+                    }
                 }
-                ToolbarItem(placement: .secondaryAction) {
-                    Text("Y")
+                ToolbarItem(placement: .primaryAction) {
+                    EditButton()
                 }
             }
             .toolbarRole(.editor)
@@ -72,6 +80,19 @@ internal struct Detail: View {
         }
         .onLoadChange(of: self.nav.sidebar.selectedTag) {
             _data.identifier = $0
+        }
+    }
+}
+
+// TODO: Move this to umbrella
+@propertyWrapper
+public struct EditModeProperty: DynamicProperty {
+    @Environment(\.editMode) private var editMode
+    public init() {}
+    public var wrappedValue: Bool {
+        get { self.editMode?.wrappedValue == .active }
+        nonmutating set {
+            self.editMode?.wrappedValue = newValue ? .active : .inactive
         }
     }
 }
