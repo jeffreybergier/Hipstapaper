@@ -34,9 +34,7 @@ internal struct Detail: View {
     @Nav private var nav
     @QueryProperty private var query
     @WebsiteListQuery private var data
-    
-    @TagUserQuery private var tag: Tag?
-    
+
     internal var body: some View {
         NavigationStack {
             Table(self.data,
@@ -57,7 +55,7 @@ internal struct Detail: View {
                 }
             }
             .searchable(text: self.$query.search, prompt: "Search")
-            .modifier(.detailTitle(self.$tag?.name))
+            .modifier(.detailTitle)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {

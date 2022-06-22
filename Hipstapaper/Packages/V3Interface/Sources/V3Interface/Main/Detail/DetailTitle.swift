@@ -26,37 +26,41 @@
 
 import SwiftUI
 import V3Store
+import V3Model
 
 extension ViewModifier where Self == DetailTitle {
-    internal static func detailTitle(_ input: Binding<String?>?) -> Self { Self.init(input) }
+    internal static var detailTitle: Self { Self.init() }
 }
 
 internal struct DetailTitle: ViewModifier {
 
     @Nav private var nav
     @QueryProperty private var query
+    @TagUserQuery private var tag: Tag?
     
-    @Binding private var name: String?
-    
-    internal init(_ input: Binding<String?>?) {
-        _name = input ?? Binding(get: { nil }, set: { _ in })
+    private var repairedBinding: Binding<String> {
+        return Binding<String> {
+            self.tag?.name ?? "Untitled Tag"
+        } set: {
+            self.tag?.name = $0
+        }
     }
     
     internal func body(content: Content) -> some View {
-        switch self.nav.sidebar.selectedTag?.kind ?? .user {
-        case .systemUnread:
-            content.navigationTitle("Unread Items")
-        case .systemAll:
-            content.navigationTitle("All Items")
-        case .user:
-            let new = Binding<String> {
-                self.name ?? "Untitled Tag"
-            } set: {
-                self.name = $0
+        Group {
+            switch self.nav.sidebar.selectedTag?.kind ?? .user {
+            case .systemUnread:
+                content.navigationTitle("Unread Items")
+            case .systemAll:
+                content.navigationTitle("All Items")
+            case .user:
+                content.navigationTitle(self.repairedBinding) {
+                    Text("// TODO: Add Delete Option")
+                }
             }
-            content.navigationTitle(new) {
-                Text("// TODO: Add Delete Option")
-            }
+        }
+        .onLoadChange(of: self.nav.sidebar.selectedTag) {
+            _tag.identifier = $0
         }
     }
 }

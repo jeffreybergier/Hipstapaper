@@ -37,7 +37,15 @@ public struct TagUserQuery: DynamicProperty {
     public init() { }
     
     public var wrappedValue: Tag? {
-        index.map { _data.value[$0] }
+        get { index.map { _data.value[$0] }}
+        nonmutating set {
+            guard let index else { return }
+            if let newValue {
+                _data.value[index] = newValue
+            } else {
+                _data.value.remove(at: index)
+            }
+        }
     }
     
     public var projectedValue: Binding<Tag>? {
