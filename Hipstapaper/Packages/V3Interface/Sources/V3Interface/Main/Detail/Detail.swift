@@ -54,6 +54,7 @@ internal struct Detail: View {
                     JSBText("No Date", text: "\(item.dateModified ?? Date(timeIntervalSince1970: 0))")
                 }
             }
+            .searchable(text: self.$query.search, prompt: "Search")
             .modifier(.detailTitle(self.$tag?.name))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
