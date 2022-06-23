@@ -42,7 +42,39 @@ extension Action {
         shortcut: .init("n", modifiers: .command)
     )
     internal static let genericDelete = Self(
-        systemImage: SystemImage.trash.rawValue,
+        systemImage: SystemImage.deleteTrash.rawValue,
         shortcut: .init("n", modifiers: .command)
+    )
+    internal static let openInApp = Self(
+        systemImage: SystemImage.openInApp.rawValue,
+        shortcut: .init("o", modifiers: .command)
+    )
+    internal static let openExternal = Self(
+        systemImage: SystemImage.openExternal.rawValue,
+        shortcut: .init("O", modifiers: .command)
+    )
+    internal static let archiveYes = Self(
+        systemImage: SystemImage.archiveYes.rawValue,
+        shortcut: .init("a", modifiers: [.command, .control])
+    )
+    internal static let archiveNo = Self(
+        systemImage: SystemImage.archiveNo.rawValue,
+        shortcut: .init("u", modifiers: [.command, .control])
+    )
+    internal static let share = Self(
+        systemImage: SystemImage.share.rawValue,
+        shortcut: .init("I", modifiers: .command)
+    )
+    internal static let applyTags = Self(
+        systemImage: SystemImage.tag.rawValue,
+        shortcut: .init("I", modifiers: .command)
+    )
+    internal static let edit = Self(
+        systemImage: SystemImage.editPencil.rawValue,
+        shortcut: .init(.return, modifiers: .command)
+    )
+    internal static let delete = Self(
+        systemImage: SystemImage.deleteTrash.rawValue,
+        shortcut: .init(.delete, modifiers: .command)
     )
 }

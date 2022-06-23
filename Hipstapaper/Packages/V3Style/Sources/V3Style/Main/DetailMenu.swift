@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/17.
+//  Created by Jeffrey Bergier on 2022/06/23.
 //
 //  MIT License
 //
@@ -25,30 +25,24 @@
 //
 
 import SwiftUI
-import Umbrella
 
-public typealias AC = Action.Closure
-
-public struct Action {
-    public typealias Closure = () -> Void
-    public var systemImage: String
-    public var shortcut: KeyboardShortcut?
-}
-
-extension Action {
-    public func button(_ titleKey: LocalizationKey,
-                       role: ButtonRole? = nil,
-                       enabled: Bool = true,
-                       action: @escaping Closure) -> some View
-    {
-        Button(role: role, action: action) {
-            self.label(titleKey)
-        }
-        .keyboardShortcut(self.shortcut)
-        .disabled(!enabled)
+@propertyWrapper
+public struct DetailMenu: DynamicProperty {
+    
+    public init() {}
+    
+    public struct Value {
+        public var openInApp    = Action.openInApp
+        public var openExternal = Action.openExternal
+        public var archiveYes   = Action.archiveYes
+        public var archiveNo    = Action.archiveNo
+        public var share        = Action.share
+        public var applyTags    = Action.applyTags
+        public var edit         = Action.edit
+        public var delete       = Action.delete
     }
     
-    public func label(_ titleKey: LocalizationKey) -> some View {
-        Label(titleKey, systemImage: self.systemImage)
+    public var wrappedValue: Value {
+        Value()
     }
 }

@@ -25,8 +25,8 @@
 //
 
 import SwiftUI
-import V3Store
 import V3Model
+import V3Style
 
 extension ViewModifier where Self == DetailMenu {
     internal static var detailMenu: Self { Self.init() }
@@ -35,11 +35,36 @@ extension ViewModifier where Self == DetailMenu {
 internal struct DetailMenu: ViewModifier {
 
     @Nav private var nav
+    @V3Style.DetailMenu private var style
     
     internal func body(content: Content) -> some View {
         content
             .contextMenu(forSelectionType: Website.Selection.Element.self) { items in
                 Text("\(items.count) selected")
+                self.style.openInApp.button("Open") {
+                    
+                }
+                self.style.openExternal.button("Open in Browser") {
+                    
+                }
+                self.style.archiveYes.button("Archive", enabled: true) {
+                    
+                }
+                self.style.archiveNo.button("Unarchive", enabled: false) {
+                    
+                }
+                self.style.share.button("Share") {
+                    
+                }
+                self.style.applyTags.button("Apply Tags") {
+                    
+                }
+                self.style.edit.button("Edit") {
+                    
+                }
+                self.style.delete.button("Delete") {
+                    
+                }
             }
     }
 }
