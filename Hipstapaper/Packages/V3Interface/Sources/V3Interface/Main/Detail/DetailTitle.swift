@@ -59,9 +59,11 @@ internal struct DetailTitle: ViewModifier {
                 }
             }
         }
-        .navigationBarTitleDisplayMode(.inline)
         .onLoadChange(of: self.nav.sidebar.selectedTag) {
             _tag.identifier = $0
         }
+        #if !os(macOS)
+        .navigationBarTitleDisplayMode(.inline)
+        #endif
     }
 }

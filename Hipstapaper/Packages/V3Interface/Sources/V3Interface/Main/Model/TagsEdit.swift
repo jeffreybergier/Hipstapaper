@@ -53,7 +53,9 @@ internal struct TagsEdit: View {
                 }
             }
             .navigationTitle("Edit Tag(s)")
+            #if !os(macOS)
             .navigationBarTitleDisplayMode(.inline)
+            #endif
         }
         .frame(idealWidth: 320, minHeight: 320)
         .onLoadChange(of: self.nav.sidebar.isTagsEdit) {

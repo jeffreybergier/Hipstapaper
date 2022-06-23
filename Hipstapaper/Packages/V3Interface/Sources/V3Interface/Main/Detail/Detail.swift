@@ -70,7 +70,9 @@ internal struct Detail: View {
                     }
                 }
                 ToolbarItem(placement: .primaryAction) {
+                    #if !os(macOS)
                     EditButton()
+                    #endif
                 }
             }
             .toolbarRole(.editor)
@@ -87,12 +89,18 @@ internal struct Detail: View {
 // TODO: Move this to umbrella
 @propertyWrapper
 public struct EditModeProperty: DynamicProperty {
-    @Environment(\.editMode) private var editMode
+    
     public init() {}
+
+    #if !os(macOS)
+    @Environment(\.editMode) private var editMode
     public var wrappedValue: Bool {
         get { self.editMode?.wrappedValue == .active }
         nonmutating set {
             self.editMode?.wrappedValue = newValue ? .active : .inactive
         }
     }
+    #else
+    public var wrappedValue: Bool { true }
+    #endif
 }
