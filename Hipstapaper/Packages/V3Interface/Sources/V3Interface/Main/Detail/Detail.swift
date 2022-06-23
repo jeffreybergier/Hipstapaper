@@ -57,7 +57,6 @@ internal struct Detail: View {
             }
             .searchable(text: self.$query.search, prompt: "Search")
             .modifier(.detailTitle)
-            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 if self.editMode {
                     // TODO: Editmode not working right
