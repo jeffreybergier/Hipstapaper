@@ -58,24 +58,7 @@ internal struct Detail: View {
             .searchable(text: self.$query.search, prompt: "Search")
             .modifier(.detailTitle)
             .modifier(.detailMenu)
-            .toolbar {
-                if self.editMode {
-                    // TODO: Editmode not working right
-                    ToolbarItem(placement: .secondaryAction) {
-                        Text("Editing")
-                    }
-                } else {
-                    ToolbarItem(placement: .secondaryAction) {
-                        Text("NotEditing")
-                    }
-                }
-                ToolbarItem(placement: .primaryAction) {
-                    #if !os(macOS)
-                    EditButton()
-                    #endif
-                }
-            }
-            .toolbarRole(.editor)
+            .modifier(DetailToolbar()) // TODO: change back to (.detailToolbar)
         }
         .onLoadChange(of: self.query) {
             _data.query = $0
