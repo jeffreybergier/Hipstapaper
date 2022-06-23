@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/23.
+//  Created by Jeffrey Bergier on 2022/06/19.
 //
 //  MIT License
 //
@@ -25,24 +25,38 @@
 //
 
 import SwiftUI
+import Umbrella
 
 @propertyWrapper
-public struct DetailMenu: DynamicProperty {
+public struct DetailToolbar: DynamicProperty {
+    
+    public struct Value {
+        public var openInApp: LocalizedString
+        public var openExternal: LocalizedString
+        public var archiveYes: LocalizedString
+        public var archiveNo: LocalizedString
+        public var share: LocalizedString
+        public var applyTags: LocalizedString
+        public var edit: LocalizedString
+        public var delete: LocalizedString
+        
+        internal init(_ b: LocalizeBundle) {
+            self.openInApp    = b.localized(key: Verb.openInApp.rawValue)
+            self.openExternal = b.localized(key: Verb.openExternal.rawValue)
+            self.archiveYes   = b.localized(key: Verb.archiveYes.rawValue)
+            self.archiveNo    = b.localized(key: Verb.archiveNo.rawValue)
+            self.share        = b.localized(key: Verb.share.rawValue)
+            self.applyTags    = b.localized(key: Verb.applyTags.rawValue)
+            self.edit         = b.localized(key: Verb.editWebsite.rawValue)
+            self.delete       = b.localized(key: Verb.deleteWebsite.rawValue)
+        }
+    }
+    
+    @Localize private var bundle
     
     public init() {}
     
-    public struct Value {
-        public var openInApp    = Action.openInApp
-        public var openExternal = Action.openExternal
-        public var archiveYes   = Action.archiveYes
-        public var archiveNo    = Action.archiveNo
-        public var share        = Action.share
-        public var applyTags    = Action.applyTags
-        public var edit         = Action.edit
-        public var delete       = Action.delete
-    }
-    
     public var wrappedValue: Value {
-        Value()
+        Value(self.bundle)
     }
 }

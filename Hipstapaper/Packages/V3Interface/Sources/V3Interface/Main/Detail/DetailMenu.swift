@@ -27,6 +27,7 @@
 import SwiftUI
 import V3Model
 import V3Style
+import V3Localize
 
 extension ViewModifier where Self == DetailMenu {
     internal static var detailMenu: Self { Self.init() }
@@ -35,34 +36,35 @@ extension ViewModifier where Self == DetailMenu {
 internal struct DetailMenu: ViewModifier {
 
     @Nav private var nav
-    @V3Style.DetailMenu private var style
+    @V3Style.DetailToolbar private var style
+    @V3Localize.DetailToolbar private var text
     
     internal func body(content: Content) -> some View {
         content
             .contextMenu(forSelectionType: Website.Selection.Element.self) { items in
                 Text("\(items.count) selected")
-                self.style.openInApp.button("Open") {
+                self.style.openInApp.button(self.text.openInApp) {
                     
                 }
-                self.style.openExternal.button("Open in Browser") {
+                self.style.openExternal.button(self.text.openExternal) {
                     
                 }
-                self.style.archiveYes.button("Archive", enabled: true) {
+                self.style.archiveYes.button(self.text.archiveYes, enabled: true) {
                     
                 }
-                self.style.archiveNo.button("Unarchive", enabled: false) {
+                self.style.archiveNo.button(self.text.archiveNo, enabled: false) {
                     
                 }
-                self.style.share.button("Share") {
+                self.style.share.button(self.text.share) {
                     
                 }
-                self.style.applyTags.button("Apply Tags") {
+                self.style.applyTags.button(self.text.applyTags) {
                     
                 }
-                self.style.edit.button("Edit") {
+                self.style.edit.button(self.text.edit) {
                     
                 }
-                self.style.delete.button("Delete") {
+                self.style.delete.button(self.text.edit) {
                     
                 }
             }
