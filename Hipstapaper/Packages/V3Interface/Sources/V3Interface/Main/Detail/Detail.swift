@@ -32,7 +32,7 @@ import V3Store
 internal struct Detail: View {
     
     @Nav private var nav
-    @QueryProperty private var query
+    @Query private var query
     @WebsiteListQuery private var data
     @EditModeProperty private var editMode
 

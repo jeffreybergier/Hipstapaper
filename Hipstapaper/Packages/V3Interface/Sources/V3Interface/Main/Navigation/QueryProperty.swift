@@ -28,16 +28,16 @@ import SwiftUI
 import V3Model
 
 @propertyWrapper
-internal struct QueryProperty: DynamicProperty {
+internal struct Query: DynamicProperty {
     
     @SceneStorage("com.hipstapaper.query") private var data: String?
     
-    var wrappedValue: Query {
+    var wrappedValue: V3Model.Query {
         get { self.data?.decodeQuery ?? .systemUnread }
         nonmutating set { self.data = newValue.encodeString }
     }
     
-    var projectedValue: Binding<Query> {
+    var projectedValue: Binding<V3Model.Query> {
         Binding {
             self.wrappedValue
         } set: {
@@ -48,13 +48,13 @@ internal struct QueryProperty: DynamicProperty {
 }
 
 extension String {
-    fileprivate var decodeQuery: Query? {
+    fileprivate var decodeQuery: V3Model.Query? {
         guard let data = Data(base64Encoded: self) else { return nil }
-        return try? PropertyListDecoder().decode(Query.self, from: data)
+        return try? PropertyListDecoder().decode(V3Model.Query.self, from: data)
     }
 }
 
-extension Query {
+extension V3Model.Query {
     fileprivate var encodeString: String? {
         guard let data = try? PropertyListEncoder().encode(self) else { return nil }
         return data.base64EncodedString()

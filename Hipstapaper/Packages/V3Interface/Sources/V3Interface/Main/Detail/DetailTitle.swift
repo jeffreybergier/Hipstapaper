@@ -35,7 +35,7 @@ extension ViewModifier where Self == DetailTitle {
 internal struct DetailTitle: ViewModifier {
 
     @Nav private var nav
-    @QueryProperty private var query
+    @Query private var query
     @TagUserQuery private var tag: Tag?
     
     private var repairedBinding: Binding<String> {
