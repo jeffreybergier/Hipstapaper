@@ -59,7 +59,7 @@ internal struct DetailMenu: ViewModifier {
                     
                 }
                 self.style.applyTags.button(self.text.applyTags) {
-                    
+                    self.nav.detail.isApplyTags = items
                 }
                 self.style.edit.button(self.text.edit) {
                     

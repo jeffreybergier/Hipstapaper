@@ -70,7 +70,10 @@ internal struct DetailToolbar: ViewModifier {
                 }
                 ToolbarItem(id: "applyTags", placement: .secondaryAction) {
                     self.style.applyTags.button(self.text.applyTags, enabled: self.isSelection) {
-                        
+                        self.nav.detail.isApplyTags = self.nav.detail.selectedWebsites
+                    }
+                    .popover(items: self.$nav.detail.isApplyTags) { selection in
+                        Text("\(selection.count) selected")
                     }
                 }
                 ToolbarItem(id: "share", placement: .secondaryAction) {

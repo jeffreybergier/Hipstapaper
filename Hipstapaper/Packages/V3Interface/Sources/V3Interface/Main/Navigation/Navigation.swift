@@ -40,7 +40,8 @@ extension Navigation {
         internal var isWebsiteAdd: Website.Selection.Element?
     }
     internal struct Detail: Codable {
-        internal var selectedWebsites = Set<Website.Identifier>()
+        internal var selectedWebsites: Website.Selection = []
+        internal var isApplyTags: Website.Selection = []
     }
 }
 
