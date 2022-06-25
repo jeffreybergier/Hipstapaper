@@ -49,7 +49,7 @@ internal enum Verb: LocalizationKey {
     case clearSearch            = "Verb.ClearSearch"
     case openInApp              = "Verb.OpenInApp"
     case openExternal           = "Verb.OpenInBrowser"
-    case applyTags              = "Verb.AddAndRemoveTags"
+    case tagApply               = "Verb.AddAndRemoveTags"
     case filter                 = "Verb.Filter"
     case stopLoading            = "Verb.StopLoading"
     case reloadPage             = "Verb.ReloadPage"

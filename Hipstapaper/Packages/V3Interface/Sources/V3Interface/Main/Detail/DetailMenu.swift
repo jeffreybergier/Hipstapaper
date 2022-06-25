@@ -66,8 +66,8 @@ internal struct DetailMenu: ViewModifier {
                 self.style.share.button(self.text.share) {
                     
                 }
-                self.style.applyTags.button(self.text.applyTags) {
-                    self.nav.detail.isApplyTags = items
+                self.style.tagApply.button(self.text.tagApply) {
+                    self.nav.detail.isTagApply = items
                 }
                 self.style.edit.button(self.text.edit) {
                     

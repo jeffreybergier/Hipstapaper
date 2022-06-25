@@ -36,7 +36,7 @@ public struct DetailToolbar: DynamicProperty {
         public var archiveYes: LocalizedString
         public var archiveNo: LocalizedString
         public var share: LocalizedString
-        public var applyTags: LocalizedString
+        public var tagApply: LocalizedString
         public var edit: LocalizedString
         public var delete: LocalizedString
         public var sort: LocalizedString
@@ -48,7 +48,7 @@ public struct DetailToolbar: DynamicProperty {
             self.archiveYes   = b.localized(key: Verb.archiveYes.rawValue)
             self.archiveNo    = b.localized(key: Verb.archiveNo.rawValue)
             self.share        = b.localized(key: Verb.share.rawValue)
-            self.applyTags    = b.localized(key: Verb.applyTags.rawValue)
+            self.tagApply     = b.localized(key: Verb.tagApply.rawValue)
             self.edit         = b.localized(key: Verb.editWebsite.rawValue)
             self.delete       = b.localized(key: Verb.deleteWebsite.rawValue)
             self.sort         = b.localized(key: Verb.sort.rawValue)

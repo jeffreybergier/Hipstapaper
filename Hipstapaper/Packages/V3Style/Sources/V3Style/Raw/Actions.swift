@@ -65,7 +65,7 @@ extension Action {
         systemImage: SystemImage.share.rawValue,
         shortcut: .init("I", modifiers: .command)
     )
-    internal static let applyTags = Self(
+    internal static let tagApply = Self(
         systemImage: SystemImage.tag.rawValue,
         shortcut: .init("I", modifiers: .command)
     )

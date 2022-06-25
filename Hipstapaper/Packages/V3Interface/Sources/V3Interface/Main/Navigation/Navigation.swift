@@ -41,7 +41,7 @@ extension Navigation {
     }
     internal struct Detail: Codable {
         internal var selectedWebsites: Website.Selection = []
-        internal var isApplyTags: Website.Selection = []
+        internal var isTagApply: Website.Selection = []
         internal var isBrowse: Website.Selection.Element? = nil
     }
 }

@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/23.
+//  Created by Jeffrey Bergier on 2022/06/25.
 //
 //  MIT License
 //
@@ -25,27 +25,32 @@
 //
 
 import SwiftUI
+import V3Model
 
-@propertyWrapper
-public struct DetailToolbar: DynamicProperty {
+internal struct TagApply: View {
     
-    public init() {}
+    private let selection: Website.Selection
     
-    public struct Value {
-        public var openInApp    = Action.openInApp
-        public var openExternal = Action.openExternal
-        public var archiveYes   = Action.archiveYes
-        public var archiveNo    = Action.archiveNo
-        public var share        = Action.share
-        public var tagApply    = Action.tagApply
-        public var edit         = Action.edit
-        public var delete       = Action.delete
-        public var sort         = Action.sort
-        public var filterYes    = Action.filterYes
-        public var filterNo     = Action.filterNo
+    init(_ selection: Website.Selection) {
+        self.selection = selection
     }
     
-    public var wrappedValue: Value {
-        Value()
+    internal var body: some View {
+        Text("TagApply")
     }
+}
+
+internal struct TagApplyPresentation: ViewModifier {
+    
+    @Nav private var nav
+    
+    internal func body(content: Content) -> some View {
+        content.popover(items: self.$nav.detail.isTagApply) { selection in
+            TagApply(selection)
+        }
+    }
+}
+
+extension ViewModifier where Self == TagApplyPresentation {
+    internal static var tagApplyPopover: Self { Self.init() }
 }

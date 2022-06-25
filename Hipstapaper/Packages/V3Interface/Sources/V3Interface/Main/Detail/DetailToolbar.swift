@@ -80,13 +80,11 @@ internal struct DetailToolbar: ViewModifier {
                         self._data.setArchive(false)
                     }
                 }
-                ToolbarItem(id: "applyTags", placement: .secondaryAction) {
-                    self.style.applyTags.button(self.text.applyTags, enabled: self.isSelection) {
-                        self.nav.detail.isApplyTags = self.nav.detail.selectedWebsites
+                ToolbarItem(id: "tagApply", placement: .secondaryAction) {
+                    self.style.tagApply.button(self.text.tagApply, enabled: self.isSelection) {
+                        self.nav.detail.isTagApply = self.nav.detail.selectedWebsites
                     }
-                    .popover(items: self.$nav.detail.isApplyTags) { selection in
-                        Text("\(selection.count) selected")
-                    }
+                    .modifier(TagApplyPresentation()) // TODO: Change to .tagApplyPopover
                 }
                 ToolbarItem(id: "share", placement: .secondaryAction) {
                     self.style.share.button(self.text.share, enabled: self.isSelection) {
