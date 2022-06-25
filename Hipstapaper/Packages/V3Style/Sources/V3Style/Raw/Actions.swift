@@ -77,4 +77,16 @@ extension Action {
         systemImage: SystemImage.deleteTrash.rawValue,
         shortcut: .init(.delete, modifiers: .command)
     )
+    internal static let sort = Self(
+        systemImage: SystemImage.sort.rawValue,
+        shortcut: nil
+    )
+    internal static let filterYes = Self(
+        systemImage: SystemImage.filterYes.rawValue,
+        shortcut: nil
+    )
+    internal static let filterNo = Self(
+        systemImage: SystemImage.filterNo.rawValue,
+        shortcut: nil
+    )
 }

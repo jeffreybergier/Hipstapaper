@@ -39,6 +39,8 @@ public struct DetailToolbar: DynamicProperty {
         public var applyTags: LocalizedString
         public var edit: LocalizedString
         public var delete: LocalizedString
+        public var sort: LocalizedString
+        public var filter: LocalizedString
         
         internal init(_ b: LocalizeBundle) {
             self.openInApp    = b.localized(key: Verb.openInApp.rawValue)
@@ -49,6 +51,8 @@ public struct DetailToolbar: DynamicProperty {
             self.applyTags    = b.localized(key: Verb.applyTags.rawValue)
             self.edit         = b.localized(key: Verb.editWebsite.rawValue)
             self.delete       = b.localized(key: Verb.deleteWebsite.rawValue)
+            self.sort         = b.localized(key: Verb.sort.rawValue)
+            self.filter       = b.localized(key: Verb.filter.rawValue)
         }
     }
     

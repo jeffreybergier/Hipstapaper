@@ -34,6 +34,7 @@ internal enum SystemImage: String {
     case archiveNo = "tray.and.arrow.up"
     case filterYes = "line.horizontal.3.decrease.circle.fill"
     case filterNo = "line.horizontal.3.decrease.circle"
+    case sort = "arrow.up.arrow.down.circle"
     case share = "square.and.arrow.up"
     case deleteMinus = "minus"
     case deleteTrash = "trash"

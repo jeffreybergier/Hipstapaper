@@ -40,6 +40,9 @@ public struct DetailToolbar: DynamicProperty {
         public var applyTags    = Action.applyTags
         public var edit         = Action.edit
         public var delete       = Action.delete
+        public var sort         = Action.sort
+        public var filterYes    = Action.filterYes
+        public var filterNo     = Action.filterNo
     }
     
     public var wrappedValue: Value {

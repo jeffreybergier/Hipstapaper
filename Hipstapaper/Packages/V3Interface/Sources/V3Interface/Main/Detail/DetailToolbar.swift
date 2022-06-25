@@ -36,6 +36,7 @@ extension ViewModifier where Self == DetailToolbar {
 internal struct DetailToolbar: ViewModifier {
 
     @Nav private var nav
+    @QueryProperty private var query
     @V3Style.DetailToolbar private var style
     @V3Localize.DetailToolbar private var text
     
@@ -76,6 +77,23 @@ internal struct DetailToolbar: ViewModifier {
                     self.style.share.button(self.text.share, enabled: self.isSelection) {
                         
                     }
+                }
+                ToolbarItem(id: "sort", placement: .secondaryAction) {
+                    self.style.sort.button(self.text.sort) {
+                        
+                    }
+                }
+                ToolbarItem(id: "filter", placement: .primaryAction) {
+                    if self.query.isOnlyNotArchived {
+                        self.style.filterYes.button(self.text.filter) {
+                            self.query.isOnlyNotArchived = false
+                        }
+                    } else {
+                        self.style.filterNo.button(self.text.filter) {
+                            self.query.isOnlyNotArchived = true
+                        }
+                    }
+
                 }
             }
     }
