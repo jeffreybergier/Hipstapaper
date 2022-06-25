@@ -26,27 +26,34 @@
 
 import Foundation
 
-public struct TagApply: Identifiable, Hashable, Codable {
-    public var id: Tag.Ident { self.tag.uuid }
+public struct TagApply: Identifiable, Hashable {
+    
+    public var id: Tag.Identifier { self.tag.id }
     public var tag: Tag
     public var status: Status
-    internal var selection: Set<Website.Ident>
+    
+    public init(tag: Tag, status: Status) {
+        self.tag = tag
+        self.status = status
+    }
     
     public enum Status: Hashable, Codable {
         case all, some, none
         
-        public mutating func set(_ newValue: Bool) {
-            switch newValue {
-            case true:
-                self = .all
-            case false:
-                self = .none
-            }
-        }
         public var boolValue: Bool {
-            switch self {
-            case .none: return false
-            case .all, .some: return true
+            get {
+                switch self {
+                case .none: return false
+                case .all, .some: return true
+                }
+            }
+            set {
+                switch newValue {
+                case true:
+                    self = .all
+                case false:
+                    self = .none
+                }
             }
         }
     }

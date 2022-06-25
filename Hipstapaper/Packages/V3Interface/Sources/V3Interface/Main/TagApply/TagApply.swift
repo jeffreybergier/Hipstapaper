@@ -25,25 +25,45 @@
 //
 
 import SwiftUI
+import Umbrella
+import V3Localize
 import V3Model
+import V3Store
 
 internal struct TagApply: View {
     
     private let selection: Website.Selection
     
-    init(_ selection: Website.Selection) {
+    @TagApplyQuery private var data
+    @V3Localize.TagApply private var text
+    @Environment(\.dismiss) private var dismiss
+    
+    internal init(_ selection: Website.Selection) {
         self.selection = selection
     }
     
     internal var body: some View {
-        Text("TagApply")
+        NavigationStack {
+            Form {
+                ForEach(self.$data) { item in
+                    // TODO: Fix JSBToggle to suppport NIL strings
+                    JSBToggle(item.wrappedValue.tag.name ?? self.text.untitled,
+                              isOn: item.status.boolValue)
+                }
+            }
+            .modifier(DoneToolbar(title: self.text.title,
+                                  done: self.text.done,
+                                  doneAction: { self.dismiss() }))
+        }
+        .frame(idealWidth: 320, minHeight: 320)
+        .onLoadChange(of: self.selection) {
+            _data.selection = $0
+        }
     }
 }
 
 internal struct TagApplyPresentation: ViewModifier {
-    
     @Nav private var nav
-    
     internal func body(content: Content) -> some View {
         content.popover(items: self.$nav.detail.isTagApply) { selection in
             TagApply(selection)
