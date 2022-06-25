@@ -26,6 +26,7 @@
 
 import SwiftUI
 import V3Localize
+import V3Model
 
 public struct MainWindow: Scene {
     

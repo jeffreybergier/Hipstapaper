@@ -45,8 +45,10 @@ internal struct DetailMenu: ViewModifier {
         content
             .contextMenu(forSelectionType: Website.Selection.Element.self) { items in
                 Text("\(items.count) selected")
-                self.style.openInApp.button(self.text.openInApp) {
-                    
+                self.style.openInApp.button(self.text.openInApp,
+                                            enabled: items.count == 1)
+                {
+                    self.nav.detail.isBrowse = items.first
                 }
                 self.style.openExternal.button(self.text.openExternal) {
                     

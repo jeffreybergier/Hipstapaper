@@ -56,8 +56,10 @@ internal struct DetailToolbar: ViewModifier {
             .toolbarRole(.editor)
             .toolbar(id: "detail") {
                 ToolbarItem(id: "openInApp", placement: .secondaryAction) {
-                    self.style.openInApp.button(self.text.openInApp, enabled: self.isSelection) {
-                        
+                    self.style.openInApp.button(self.text.openInApp,
+                                                enabled: self.data.count == 1)
+                    {
+                        self.nav.detail.isBrowse = self.data.first?.id
                     }
                 }
                 ToolbarItem(id: "openExternal", placement: .secondaryAction) {
