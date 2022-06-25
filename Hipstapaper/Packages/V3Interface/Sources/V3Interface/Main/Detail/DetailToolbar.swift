@@ -42,6 +42,7 @@ internal struct DetailToolbar: ViewModifier {
     @V3Localize.DetailToolbar private var text
     
     @WebsiteSearchListQuery private var data
+    @Environment(\.openURL) private var openExternal
     
     private var isSelection: Bool {
         !self.nav.detail.selectedWebsites.isEmpty
@@ -60,8 +61,11 @@ internal struct DetailToolbar: ViewModifier {
                     }
                 }
                 ToolbarItem(id: "openExternal", placement: .secondaryAction) {
-                    self.style.openExternal.button(self.text.openExternal, enabled: self.isSelection) {
-                        
+                    self.style.openExternal.button(self.text.openExternal,
+                                                   enabled: self.data.count == 1)
+                    {
+                        guard let url = self.data.first?.preferredURL else { return }
+                        self.openExternal(url)
                     }
                 }
                 ToolbarItem(id: "archiveYes", placement: .secondaryAction) {
