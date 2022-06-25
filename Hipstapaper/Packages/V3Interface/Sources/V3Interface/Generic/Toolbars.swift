@@ -87,7 +87,6 @@ public struct DoneToolbar: ViewModifier {
     public func body(content: Content) -> some View {
         content
             .navigationTitle(self.title)
-            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button(self.done.title, action: self.done.action)
@@ -102,5 +101,8 @@ public struct DoneToolbar: ViewModifier {
                     }
                 }
             }
+#if !os(macOS)
+    .navigationBarTitleDisplayMode(.inline)
+#endif
     }
 }

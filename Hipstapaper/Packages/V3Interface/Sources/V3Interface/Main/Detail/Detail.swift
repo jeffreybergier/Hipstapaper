@@ -59,9 +59,11 @@ internal struct Detail: View {
             .modifier(.detailTitle)
             .modifier(.detailMenu)
             .modifier(DetailToolbar()) // TODO: change back to (.detailToolbar)
+#if !os(macOS) // TODO: Make Cross Platform
             .fullScreenCover(item: self.$nav.detail.isBrowse) { ident in
                 Text("Browser: \(ident.rawValue)")
             }
+#endif
         }
         .onLoadChange(of: self.query) {
             _data.query = $0
