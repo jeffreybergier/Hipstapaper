@@ -29,7 +29,7 @@ import V3Model
 import V3Localize
 import V3Style
 
-internal struct SidebarContextMenu: ViewModifier {
+internal struct SidebarMenu: ViewModifier {
     
     @Nav private var nav
     @V3Style.Sidebar private var style
@@ -61,6 +61,6 @@ internal struct SidebarContextMenu: ViewModifier {
     }
 }
 
-extension ViewModifier where Self == SidebarContextMenu {
-    internal static var sidebarContextMenu: Self { Self.init() }
+extension ViewModifier where Self == SidebarMenu {
+    internal static var sidebarMenu: Self { Self.init() }
 }

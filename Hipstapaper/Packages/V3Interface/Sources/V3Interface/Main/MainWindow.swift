@@ -29,7 +29,6 @@ import V3Localize
 
 public struct MainWindow: Scene {
     
-    @Nav private var nav
     @StateObject private var localizeBundle = LocalizeBundle()
     
     public init() {}

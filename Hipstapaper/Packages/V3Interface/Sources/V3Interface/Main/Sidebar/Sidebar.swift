@@ -56,7 +56,7 @@ internal struct Sidebar: View {
                 }
             }
             .modifier(.tagsEditPopover(self.$nav.sidebar.isTagsEdit))
-            .modifier(.sidebarContextMenu)
+            .modifier(.sidebarMenu)
             .modifier(.sidebarToolbar)
             .navigationTitle(self.text.navigationTitle)
         }
