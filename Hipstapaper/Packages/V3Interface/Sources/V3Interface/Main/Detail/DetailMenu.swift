@@ -39,6 +39,8 @@ internal struct DetailMenu: ViewModifier {
     @V3Style.DetailToolbar private var style
     @V3Localize.DetailToolbar private var text
     
+    // TODO: Add Data Controller
+        
     internal func body(content: Content) -> some View {
         content
             .contextMenu(forSelectionType: Website.Selection.Element.self) { items in
@@ -49,10 +51,14 @@ internal struct DetailMenu: ViewModifier {
                 self.style.openExternal.button(self.text.openExternal) {
                     
                 }
-                self.style.archiveYes.button(self.text.archiveYes, enabled: true) {
+                self.style.archiveYes.button(self.text.archiveYes,
+                                             enabled: false)
+                {
                     
                 }
-                self.style.archiveNo.button(self.text.archiveNo, enabled: false) {
+                self.style.archiveNo.button(self.text.archiveNo,
+                                            enabled: false)
+                {
                     
                 }
                 self.style.share.button(self.text.share) {

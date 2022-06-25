@@ -26,6 +26,7 @@
 
 import SwiftUI
 import V3Model
+import V3Store
 import V3Style
 import V3Localize
 
@@ -40,12 +41,17 @@ internal struct DetailToolbar: ViewModifier {
     @V3Style.DetailToolbar private var style
     @V3Localize.DetailToolbar private var text
     
+    @WebsiteSearchListQuery private var data
+    
     private var isSelection: Bool {
         !self.nav.detail.selectedWebsites.isEmpty
     }
     
     internal func body(content: Content) -> some View {
         content
+            .onChange(of: self.nav.detail.selectedWebsites) {
+                _data.search = $0
+            }
             .toolbarRole(.editor)
             .toolbar(id: "detail") {
                 ToolbarItem(id: "openInApp", placement: .secondaryAction) {
@@ -59,13 +65,13 @@ internal struct DetailToolbar: ViewModifier {
                     }
                 }
                 ToolbarItem(id: "archiveYes", placement: .secondaryAction) {
-                    self.style.archiveYes.button(self.text.archiveYes, enabled: self.isSelection) {
-                        
+                    self.style.archiveYes.button(self.text.archiveYes, enabled: self._data.canArchiveYes) {
+                        self._data.setArchive(true)
                     }
                 }
                 ToolbarItem(id: "archiveNo", placement: .secondaryAction) {
-                    self.style.archiveNo.button(self.text.archiveNo, enabled: self.isSelection) {
-                        
+                    self.style.archiveNo.button(self.text.archiveNo, enabled: self._data.canArchiveNo) {
+                        self._data.setArchive(false)
                     }
                 }
                 ToolbarItem(id: "applyTags", placement: .secondaryAction) {

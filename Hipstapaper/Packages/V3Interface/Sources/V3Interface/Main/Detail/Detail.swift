@@ -64,7 +64,7 @@ internal struct Detail: View {
             _data.query = $0
         }
         .onLoadChange(of: self.nav.sidebar.selectedTag) {
-            _data.identifier = $0
+            _data.containsTag = $0
         }
     }
 }

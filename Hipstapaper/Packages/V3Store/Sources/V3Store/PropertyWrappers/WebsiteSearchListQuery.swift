@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/20.
+//  Created by Jeffrey Bergier on 2022/06/25.
 //
 //  MIT License
 //
@@ -28,55 +28,34 @@ import SwiftUI
 import V3Model
 
 @propertyWrapper
-public struct WebsiteListQuery: DynamicProperty {
+public struct WebsiteSearchListQuery: DynamicProperty {
     
-    @State public var query: Query = .systemUnread
-    @State public var containsTag: Tag.Identifier? = nil
+    @State public var search: Website.Selection = []
+    
+    public var canArchiveYes: Bool {
+        self.wrappedValue.contains(where: { $0.isArchived == false })
+    }
+    public var canArchiveNo: Bool {
+        self.wrappedValue.contains(where: { $0.isArchived == true })
+    }
+    public var selectionValue: Website.Selection {
+        Set(self.wrappedValue.map { $0.id })
+    }
+    public func setArchive(_ newValue: Bool) {
+        self.projectedValue.forEach { $0.wrappedValue.isArchived = newValue }
+    }
+    public var wrappedValue: some RandomAccessCollection<Website> {
+        return (sites1.value + sites2.value)
+            .filter { self.search.contains($0.id) }
+    }
+    public var projectedValue: some RandomAccessCollection<Binding<Website>> {
+        return (sites1.projectedValue + sites2.projectedValue)
+            .filter { self.search.contains($0.wrappedValue.id) }
+    }
+    public init() {}
     
     // TODO: Hook up core data
     @ObservedObject private var sites1 = site1Environment
     @ObservedObject private var sites2 = site2Environment
     
-    public init() {}
-    
-    public var wrappedValue: some RandomAccessCollection<Website> {
-        switch delete_which {
-        case 0:
-            return sites1.value + sites2.value
-        case 1:
-            return sites1.value
-        case 2:
-            return sites2.value
-        default:
-            fatalError()
-        }
-    }
-    
-    public var projectedValue: some RandomAccessCollection<Binding<Website>> {
-        switch delete_which {
-        case 0:
-            return sites1.projectedValue + sites2.projectedValue
-        case 1:
-            return sites1.projectedValue
-        case 2:
-            return sites2.projectedValue
-        default:
-            fatalError()
-        }
-    }
-    
-    private var delete_which: Int {
-        guard
-            let tag = containsTag,
-            tag != Tag.Identifier.systemUnread,
-            tag != Tag.Identifier.systemAll
-        else {
-            return 0
-        }
-        if tag.rawValue == tagEnvironment.value.first?.id.rawValue {
-            return 1
-        } else {
-            return 2
-        }
-    }
 }
