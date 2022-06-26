@@ -51,6 +51,10 @@ internal struct Detail: View {
             .sheetCover(item: self.$nav.detail.isBrowse) { ident in
                 Text("Browser: \(ident.rawValue)")
             }
+            .onChange(of: self.nav.detail.selectedWebsites) { selection in
+                guard selection.count == 1, self.editMode == false else { return }
+                self.nav.detail.isBrowse = selection.first!
+            }
         }
     }
 }

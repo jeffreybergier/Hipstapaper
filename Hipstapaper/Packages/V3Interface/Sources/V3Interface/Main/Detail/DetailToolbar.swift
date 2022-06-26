@@ -55,6 +55,20 @@ internal struct DetailToolbar: ViewModifier {
             }
             .toolbarRole(.editor)
             .toolbar(id: "detail") {
+                ToolbarItem(id: "editButton", placement: .primaryAction) {
+                    EditButton()
+                }
+                ToolbarItem(id: "filter", placement: .secondaryAction) {
+                    if self.query.isOnlyNotArchived {
+                        self.style.filterYes.button(self.text.filter) {
+                            self.query.isOnlyNotArchived = false
+                        }
+                    } else {
+                        self.style.filterNo.button(self.text.filter) {
+                            self.query.isOnlyNotArchived = true
+                        }
+                    }
+                }
                 ToolbarItem(id: "openInApp", placement: .secondaryAction) {
                     self.style.openInApp.button(self.text.openInApp,
                                                 enabled: self.data.count == 1)
@@ -95,18 +109,6 @@ internal struct DetailToolbar: ViewModifier {
                     self.style.sort.button(self.text.sort) {
                         
                     }
-                }
-                ToolbarItem(id: "filter", placement: .primaryAction) {
-                    if self.query.isOnlyNotArchived {
-                        self.style.filterYes.button(self.text.filter) {
-                            self.query.isOnlyNotArchived = false
-                        }
-                    } else {
-                        self.style.filterNo.button(self.text.filter) {
-                            self.query.isOnlyNotArchived = true
-                        }
-                    }
-
                 }
             }
     }
