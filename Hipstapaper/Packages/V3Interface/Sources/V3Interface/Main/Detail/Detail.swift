@@ -32,37 +32,25 @@ import V3Store
 internal struct Detail: View {
     
     @Nav private var nav
-    @EditModeProperty private var editMode
+    @EditMode private var editMode
+    @SizeClass private var sizeClass
     
     internal var body: some View {
         NavigationStack {
-            // DetailTable()
-            DetailList()
-                .modifier(.detailTitle)
-                .modifier(.detailMenu)
-                .modifier(DetailToolbar()) // TODO: change back to (.detailToolbar)
-                .sheetCover(item: self.$nav.detail.isBrowse) { ident in
-                    Text("Browser: \(ident.rawValue)")
+            Group {
+                switch self.sizeClass.horizontal {
+                case .regular:
+                    DetailTable()
+                case .compact:
+                    DetailList()
                 }
+            }
+            .modifier(.detailTitle)
+            .modifier(.detailMenu)
+            .modifier(DetailToolbar()) // TODO: change back to (.detailToolbar)
+            .sheetCover(item: self.$nav.detail.isBrowse) { ident in
+                Text("Browser: \(ident.rawValue)")
+            }
         }
     }
-}
-
-// TODO: Move this to umbrella
-@propertyWrapper
-public struct EditModeProperty: DynamicProperty {
-    
-    public init() {}
-
-    #if !os(macOS)
-    @Environment(\.editMode) private var editMode
-    public var wrappedValue: Bool {
-        get { self.editMode?.wrappedValue == .active }
-        nonmutating set {
-            self.editMode?.wrappedValue = newValue ? .active : .inactive
-        }
-    }
-    #else
-    public var wrappedValue: Bool { true }
-    #endif
 }
