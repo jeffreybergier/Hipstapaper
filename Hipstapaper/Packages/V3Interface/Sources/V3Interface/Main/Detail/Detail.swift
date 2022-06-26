@@ -32,8 +32,8 @@ import V3Store
 internal struct Detail: View {
     
     @Nav private var nav
-    @EditMode private var editMode
     @SizeClass private var sizeClass
+    @Umbrella.EditMode private var editMode
     
     internal var body: some View {
         NavigationStack {
