@@ -119,6 +119,7 @@
 		739F03CE25A87FE4001826F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ShareViewController.xib; sourceTree = "<group>"; };
 		739F03D025A87FE4001826F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		739F03D125A87FE4001826F8 /* Share_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Share_macOS.entitlements; sourceTree = "<group>"; };
+		73BCB62228683BD5004B985E /* Umbrella */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Umbrella; path = Packages/Umbrella; sourceTree = "<group>"; };
 		73C274DB25A9DA440028FE3A /* Hipstapaper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Hipstapaper.entitlements; sourceTree = "<group>"; };
 		73C274E625A9DA6A0028FE3A /* Share_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Share_iOS.entitlements; sourceTree = "<group>"; };
 		73DBEC2A282ECC220091DA3C /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -230,6 +231,7 @@
 				7317DF28285C6B67009DA81A /* V3Store */,
 				73205DDD285CDCCC002FBDFB /* V3Style */,
 				737C724127DB46EA008B5969 /* V3Localize */,
+				73BCB62228683BD5004B985E /* Umbrella */,
 				DBDCB33B256BE8E600D005F6 /* Shared */,
 				DBDCB345256BE8E700D005F6 /* iOS */,
 				DBDCB34C256BE8E700D005F6 /* macOS */,

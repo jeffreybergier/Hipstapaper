@@ -39,7 +39,8 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../V3Model"),
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "v2"),
+        .package(path: "../Umbrella"),
+        // .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "v2"),
     ],
     targets: [
         .target(

@@ -1,0 +1,3 @@
+[submodule "Hipstapaper/Packages/Umbrella"]
+	path = Hipstapaper/Packages/Umbrella
+	url = https://jeffreybergier@github.com/jeffreybergier/Umbrella.git
