@@ -29,17 +29,6 @@ import Umbrella
 import V3Model
 import V3Store
 
-// TODO: Move to Umbrella
-extension View {
-    /// Performs onChange but also performs on initial load via `.task` modifier
-    public func onLoadChange<T: Equatable>(of change: T, perform: @escaping (T) -> Void) -> some View {
-        self
-            .onChange(of: change, perform: perform)
-            .task { perform(change) }
-        
-    }
-}
-
 internal struct TagsEdit: View {
     
     @Nav private var nav
