@@ -32,15 +32,14 @@ import Umbrella
 import V3Model
 
 internal let tagEnvironment = BlackBox(fakeTags, isObservingValue: true)
-internal let site1Environment = BlackBox(fakeWebsites1, isObservingValue: true)
-internal let site2Environment = BlackBox(fakeWebsites2, isObservingValue: true)
+internal let siteEnvironment = BlackBox(fakeWebsites, isObservingValue: true)
 
 fileprivate let fakeTags: [Tag] = [
         Tag(id: .init("tag01"), name: "No Count", websitesCount: nil),
         Tag(id: .init("tag02"), name: nil, websitesCount: 0101),
     ]
 
-fileprivate let fakeWebsites1: [Website] = [
+fileprivate let fakeWebsites: [Website] = [
         Website(id: .init(rawValue: "tag01.website01"),
                 originalURL: URL(string: "https://www.google.com"),
                 resolvedURL: URL(string: "https://www.google.com/something"),
@@ -54,8 +53,6 @@ fileprivate let fakeWebsites1: [Website] = [
                 title: "The Verge",
                 dateCreated: Date(timeIntervalSince1970: 1000),
                 dateModified: Date(timeIntervalSince1970: 2000)),
-        ]
-fileprivate let fakeWebsites2: [Website] = [
         Website(id: .init(rawValue: "tag02.website01"),
                 originalURL: URL(string: "https://www.apple.com"),
                 resolvedURL: URL(string: "https://www.apple.com/something"),

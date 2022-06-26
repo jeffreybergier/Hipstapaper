@@ -45,17 +45,15 @@ public struct WebsiteSearchListQuery: DynamicProperty {
         self.projectedValue.forEach { $0.wrappedValue.isArchived = newValue }
     }
     public var wrappedValue: some RandomAccessCollection<Website> {
-        return (sites1.value + sites2.value)
-            .filter { self.search.contains($0.id) }
+        return data.value.filter { self.search.contains($0.id) }
     }
     public var projectedValue: some RandomAccessCollection<Binding<Website>> {
-        return (sites1.projectedValue + sites2.projectedValue)
+        return data.projectedValue
             .filter { self.search.contains($0.wrappedValue.id) }
     }
     public init() {}
     
     // TODO: Hook up core data
-    @ObservedObject private var sites1 = site1Environment
-    @ObservedObject private var sites2 = site2Environment
+    @ObservedObject private var data = siteEnvironment
     
 }

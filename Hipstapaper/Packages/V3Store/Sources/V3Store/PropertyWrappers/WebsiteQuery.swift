@@ -25,44 +25,40 @@
 //
 
 import SwiftUI
-import Umbrella
 import V3Model
-import V3Store
 
-internal struct Detail: View {
-    
-    @Nav private var nav
-    @EditModeProperty private var editMode
-    
-    internal var body: some View {
-        NavigationStack {
-            // DetailTable()
-            DetailList()
-                .modifier(.detailTitle)
-                .modifier(.detailMenu)
-                .modifier(DetailToolbar()) // TODO: change back to (.detailToolbar)
-                .sheetCover(item: self.$nav.detail.isBrowse) { ident in
-                    Text("Browser: \(ident.rawValue)")
-                }
-        }
-    }
-}
-
-// TODO: Move this to umbrella
 @propertyWrapper
-public struct EditModeProperty: DynamicProperty {
+public struct WebsiteQuery: DynamicProperty {
     
-    public init() {}
-
-    #if !os(macOS)
-    @Environment(\.editMode) private var editMode
-    public var wrappedValue: Bool {
-        get { self.editMode?.wrappedValue == .active }
+    // TODO: Hook up core data
+    @ObservedObject private var data = siteEnvironment
+    
+    @State public var identifier: Website.Identifier?
+    
+    public init() { }
+    
+    public var wrappedValue: Website? {
+        get { index.map { data.value[$0] }}
         nonmutating set {
-            self.editMode?.wrappedValue = newValue ? .active : .inactive
+            guard let index else { return }
+            if let newValue {
+                data.value[index] = newValue
+            } else {
+                data.value.remove(at: index)
+            }
         }
     }
-    #else
-    public var wrappedValue: Bool { true }
-    #endif
+    
+    public var projectedValue: Binding<Website>? {
+        guard let index else { return nil }
+        return Binding {
+            data.value[index]
+        } set: {
+            data.value[index] = $0
+        }
+    }
+    
+    private var index: Int? {
+        data.value.firstIndex(where: { $0.id == self.identifier })
+    }
 }

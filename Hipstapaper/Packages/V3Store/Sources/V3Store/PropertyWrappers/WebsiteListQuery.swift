@@ -34,19 +34,18 @@ public struct WebsiteListQuery: DynamicProperty {
     @State public var containsTag: Tag.Identifier? = nil
     
     // TODO: Hook up core data
-    @ObservedObject private var sites1 = site1Environment
-    @ObservedObject private var sites2 = site2Environment
-    
+    @ObservedObject private var data = siteEnvironment
+
     public init() {}
     
     public var wrappedValue: some RandomAccessCollection<Website> {
         switch delete_which {
         case 0:
-            return sites1.value + sites2.value
+            return data.value
         case 1:
-            return sites1.value
+            return Array(data.value[0...1])
         case 2:
-            return sites2.value
+            return Array(data.value[2...3])
         default:
             fatalError()
         }
@@ -55,11 +54,11 @@ public struct WebsiteListQuery: DynamicProperty {
     public var projectedValue: some RandomAccessCollection<Binding<Website>> {
         switch delete_which {
         case 0:
-            return sites1.projectedValue + sites2.projectedValue
+            return data.projectedValue
         case 1:
-            return sites1.projectedValue
+            return data.projectedValue
         case 2:
-            return sites2.projectedValue
+            return data.projectedValue
         default:
             fatalError()
         }
