@@ -25,6 +25,7 @@
 //
 
 import SwiftUI
+import Umbrella
 
 extension Set: Identifiable where Element: Identifiable, Element.ID == String {
     public var id: Self.Element.ID { self.first?.id ?? UUID().uuidString }
@@ -66,5 +67,30 @@ extension View {
 #else
         self.fullScreenCover(item: item, onDismiss: onDismiss, content: content)
 #endif
+    }
+}
+
+extension EnvironmentValues {
+    public var errorChain: (CodableError) -> Void {
+        get { self[EnvironmentResponderCodableError.self] }
+        set { self[EnvironmentResponderCodableError.self] = newValue }
+    }
+}
+
+// TODO: Is this needed?
+internal struct ErrorResponder: ViewModifier {
+    @Binding private var errorBinding: CodableError?
+    @Environment(\.errorChain) private var errorChain
+    internal init(_ binding: Binding<CodableError?>) {
+        _errorBinding = binding
+    }
+    internal func body(content: Content) -> some View {
+        content.environment(\.errorChain) { error in
+            if errorBinding == nil {
+                self.errorBinding = error
+            } else {
+                self.errorChain(error)
+            }
+        }
     }
 }

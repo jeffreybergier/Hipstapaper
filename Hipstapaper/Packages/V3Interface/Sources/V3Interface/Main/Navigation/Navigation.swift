@@ -25,9 +25,11 @@
 //
 
 import SwiftUI
+import Umbrella
 import V3Model
 
 internal struct Navigation: Codable {
+    internal var errors: [CodableError] = []
     internal var sidebar: Sidebar = .init()
     internal var detail: Detail = .init()
 }
@@ -38,11 +40,13 @@ extension Navigation {
         internal var isTagAdd: Tag.Identifier?
         internal var isTagsEdit: Tag.Selection = []
         internal var isWebsiteAdd: Website.Selection.Element?
+        internal var isError: CodableError?
     }
     internal struct Detail: Codable {
         internal var selectedWebsites: Website.Selection = []
         internal var isTagApply: Website.Selection = []
         internal var isBrowse: Website.Selection.Element? = nil
+        internal var isError: CodableError?
     }
 }
 

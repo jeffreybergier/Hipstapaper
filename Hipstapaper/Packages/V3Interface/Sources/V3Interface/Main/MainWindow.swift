@@ -25,12 +25,15 @@
 //
 
 import SwiftUI
+import Umbrella
 import V3Localize
 import V3Model
 
 public struct MainWindow: Scene {
     
+    @Nav private var nav
     @StateObject private var localizeBundle = LocalizeBundle()
+    @Environment(\.errorChain) private var errorChain
     
     public init() {}
     
@@ -42,6 +45,10 @@ public struct MainWindow: Scene {
                 Detail()
             }
             .environmentObject(self.localizeBundle)
+            .environment(\.errorChain) { error in
+                NSLog("Uncaught error: \(error)")
+                self.nav.errors.append(error)
+            }
         }
     }
 }
