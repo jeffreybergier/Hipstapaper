@@ -53,3 +53,18 @@ extension View {
         return self.popover(item: newBinding, content: content)
     }
 }
+
+extension View {
+    internal func sheetCover<T: Identifiable>(
+        item: Binding<T?>,
+        onDismiss: (() -> Void)? = nil,
+        @ViewBuilder content: @escaping (T) -> some View
+    ) -> some View
+    {
+#if os(macOS)
+        self.sheet(item: item, onDismiss: onDismiss, content: content)
+#else
+        self.fullScreenCover(item: item, onDismiss: onDismiss, content: content)
+#endif
+    }
+}

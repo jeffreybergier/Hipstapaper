@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/17.
+//  Created by Jeffrey Bergier on 2022/06/26.
 //
 //  MIT License
 //
@@ -26,42 +26,38 @@
 
 import SwiftUI
 import Umbrella
-import V3Model
 import V3Store
 
-internal struct Detail: View {
+internal struct DetailTable: View {
     
     @Nav private var nav
-    @EditModeProperty private var editMode
+    @Query private var query
+    @WebsiteListQuery private var data
     
     internal var body: some View {
-        NavigationStack {
-            DetailTable()
-                .modifier(.detailTitle)
-                .modifier(.detailMenu)
-                .modifier(DetailToolbar()) // TODO: change back to (.detailToolbar)
-                .sheetCover(item: self.$nav.detail.isBrowse) { ident in
-                    Text("Browser: \(ident.rawValue)")
-                }
+        Table(self.data,
+              selection: self.$nav.detail.selectedWebsites,
+              sortOrder: self.$query.sort)
+        {
+            TableColumn("Title", sortUsing: .titleA) { item in
+                JSBText("Untited", text: item.title)
+            }
+            TableColumn("URL") { item in
+                JSBText("No URL", text: item.preferredURL?.absoluteString)
+            }
+            TableColumn("Date Added", sortUsing: .dateCreatedNewest) { item in
+                JSBText("No Date", text: "\(item.dateCreated ?? Date(timeIntervalSince1970: 0))")
+            }
+            TableColumn("Date Modified", sortUsing: .dateModifiedNewest) { item in
+                JSBText("No Date", text: "\(item.dateModified ?? Date(timeIntervalSince1970: 0))")
+            }
+        }
+        .searchable(text: self.$query.search, prompt: "Search")
+        .onLoadChange(of: self.query) {
+            _data.query = $0
+        }
+        .onLoadChange(of: self.nav.sidebar.selectedTag) {
+            _data.containsTag = $0
         }
     }
-}
-
-// TODO: Move this to umbrella
-@propertyWrapper
-public struct EditModeProperty: DynamicProperty {
-    
-    public init() {}
-
-    #if !os(macOS)
-    @Environment(\.editMode) private var editMode
-    public var wrappedValue: Bool {
-        get { self.editMode?.wrappedValue == .active }
-        nonmutating set {
-            self.editMode?.wrappedValue = newValue ? .active : .inactive
-        }
-    }
-    #else
-    public var wrappedValue: Bool { true }
-    #endif
 }
