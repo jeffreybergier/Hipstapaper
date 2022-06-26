@@ -26,8 +26,8 @@
 
 import Foundation
 
-public enum Sort: String, CaseIterable, Identifiable, Hashable, Codable {
-    public var id: String { self.rawValue }
+public enum Sort: Int, CaseIterable, Identifiable, Hashable, Codable {
+    public var id: Int { self.rawValue }
     public static let `default`: Sort = .dateCreatedNewest
     case dateCreatedNewest, dateCreatedOldest
     case dateModifiedNewest, dateModifiedOldest

@@ -89,4 +89,20 @@ extension Action {
         systemImage: SystemImage.filterNo.rawValue,
         shortcut: nil
     )
+    internal static let sortTitleA = Self(
+        systemImage: SystemImage.sortTitleA.rawValue,
+        shortcut: nil
+    )
+    internal static let sortTitleZ = Self(
+        systemImage: SystemImage.sortTitleZ.rawValue,
+        shortcut: nil
+    )
+    internal static let sortDateNewest = Self(
+        systemImage: SystemImage.sortDateNewest.rawValue,
+        shortcut: nil
+    )
+    internal static let sortDateOldest = Self(
+        systemImage: SystemImage.sortDateOldest.rawValue,
+        shortcut: nil
+    )
 }

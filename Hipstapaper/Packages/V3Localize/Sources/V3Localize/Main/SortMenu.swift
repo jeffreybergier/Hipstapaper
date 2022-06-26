@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/23.
+//  Created by Jeffrey Bergier on 2022/06/26.
 //
 //  MIT License
 //
@@ -25,26 +25,36 @@
 //
 
 import SwiftUI
+import Umbrella
 
 @propertyWrapper
-public struct DetailToolbar: DynamicProperty {
+public struct SortMenu: DynamicProperty {
+    
+    public struct Value {
+        public var menu: LocalizedString
+        public var sortTitleA: LocalizedString
+        public var sortTitleZ: LocalizedString
+        public var sortDateCreatedNewest: LocalizedString
+        public var sortDateCreatedOldest: LocalizedString
+        public var sortDateModifiedNewest: LocalizedString
+        public var sortDateModifiedOldest: LocalizedString
+        
+        internal init(_ b: LocalizeBundle) {
+            self.menu = b.localized(key: Verb.sort.rawValue)
+            self.sortTitleA = b.localized(key: Verb.sortTitleA.rawValue)
+            self.sortTitleZ = b.localized(key: Verb.sortTitleZ.rawValue)
+            self.sortDateCreatedNewest = b.localized(key: Verb.sortDateCreatedNewest.rawValue)
+            self.sortDateCreatedOldest = b.localized(key: Verb.sortDateCreatedOldest.rawValue)
+            self.sortDateModifiedNewest = b.localized(key: Verb.sortDateModifiedNewest.rawValue)
+            self.sortDateModifiedOldest = b.localized(key: Verb.sortDateModifiedOldest.rawValue)
+        }
+    }
+    
+    @Localize private var bundle
     
     public init() {}
     
-    public struct Value {
-        public var openInApp    = Action.openInApp
-        public var openExternal = Action.openExternal
-        public var archiveYes   = Action.archiveYes
-        public var archiveNo    = Action.archiveNo
-        public var share        = Action.share
-        public var tagApply    = Action.tagApply
-        public var edit         = Action.edit
-        public var delete       = Action.delete
-        public var filterYes    = Action.filterYes
-        public var filterNo     = Action.filterNo
-    }
-    
     public var wrappedValue: Value {
-        Value()
+        Value(self.bundle)
     }
 }

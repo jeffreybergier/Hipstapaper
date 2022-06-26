@@ -39,6 +39,10 @@ internal enum SystemImage: String {
     case deleteMinus = "minus"
     case deleteTrash = "trash"
     case editPencil = "rectangle.and.pencil.and.ellipsis"
+    case sortTitleA = "doc.richtext"
+    case sortTitleZ = "doc.richtext.fill"
+    case sortDateNewest = "calendar.circle"
+    case sortDateOldest = "calendar.circle.fill"
 }
 
 /*
