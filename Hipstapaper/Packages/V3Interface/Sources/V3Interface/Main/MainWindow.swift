@@ -31,24 +31,35 @@ import V3Model
 
 public struct MainWindow: Scene {
     
-    @Nav private var nav
     @StateObject private var localizeBundle = LocalizeBundle()
-    @Environment(\.errorChain) private var errorChain
     
     public init() {}
     
     public var body: some Scene {
         WindowGroup {
-            NavigationSplitView {
-                Sidebar()
-            } detail: {
-                Detail()
-            }
-            .environmentObject(self.localizeBundle)
-            .environment(\.errorChain) { error in
-                NSLog("Uncaught error: \(error)")
-                self.nav.errors.append(error)
-            }
+            MainView()
+                .environmentObject(self.localizeBundle)
+        }
+    }
+}
+
+internal struct MainView: View {
+    
+    @Nav private var nav
+    @Environment(\.errorChain) private var errorChain
+    
+    internal var body: some View {
+        NavigationSplitView {
+            Sidebar()
+                .modifier(ErrorResponder(self.$nav.sidebar.isError))
+        } detail: {
+            Detail()
+                .modifier(ErrorResponder(self.$nav.detail.isError))
+        }
+        .environment(\.errorChain) { error in
+            NSLog("Uncaught error: \(error)")
+            self.nav.errors.append(error)
+            // self.errorChain(error) // TODO: Remove once I know how to handle this properly
         }
     }
 }

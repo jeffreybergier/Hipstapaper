@@ -36,7 +36,10 @@ internal struct Sidebar: View {
     @TagUserListQuery private var tagsUser
     @TagSystemListQuery private var tagsSystem
     @V3Localize.Sidebar private var text
+    @Environment(\.errorChain) private var errorChain
     
+    @ErrorProducer private var __
+        
     internal var body: some View {
         NavigationStack {
             List(selection: self.$nav.sidebar.selectedTag) {
@@ -58,6 +61,12 @@ internal struct Sidebar: View {
             .modifier(.tagsEditPopover(self.$nav.sidebar.isTagsEdit))
             .modifier(.sidebarMenu)
             .modifier(.sidebarToolbar)
+            .sheet(item: self.$nav.sidebar.isError) { error in
+                VStack {
+                    Text(error.errorDomain)
+                    Text("\(error.errorCode)")
+                }
+            }
             .navigationTitle(self.text.navigationTitle)
         }
     }
