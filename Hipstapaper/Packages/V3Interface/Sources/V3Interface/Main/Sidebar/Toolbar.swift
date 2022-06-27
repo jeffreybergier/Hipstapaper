@@ -44,7 +44,7 @@ internal struct SidebarToolbar: ViewModifier {
                 Menu {
                     self.style.toolbarTagAdd.button(self.text.toolbarAddTag) {
                         // TODO: Add tag to CD here
-                        self.nav.sidebar.isTagAdd = .init("coredata://testing123")
+                        self.nav.sidebar.isTagsEdit.editing = [.init("coredata://testing123")]
                     }
                     self.style.toolbarWebsiteAdd.button(self.text.toolbarAddWebsite) {
                         self.nav.sidebar.isWebsiteAdd = .init(rawValue: "coredata://testing123")
@@ -52,7 +52,7 @@ internal struct SidebarToolbar: ViewModifier {
                 } label: {
                     self.style.toolbarAdd.label(self.text.toolbarAddGeneric)
                 }
-                .modifier(.tagAddPopover(self.$nav.sidebar.isTagAdd))
+                .modifier(.tagsEditPopover(self.$nav.sidebar.isTagsEdit.editing))
                 .popover(item: self.$nav.sidebar.isWebsiteAdd) { id in
                     // TODO: Add website screen
                     Text("Add a website")

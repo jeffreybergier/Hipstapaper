@@ -34,6 +34,8 @@ internal struct TagsEdit: View {
     @Nav private var nav
     @TagUserListQuery private var data
     
+    @ErrorProducer private var __
+    
     internal var body: some View {
         NavigationStack {
             Form {
@@ -47,33 +49,31 @@ internal struct TagsEdit: View {
             #endif
         }
         .frame(idealWidth: 320, minHeight: 320)
-        .onLoadChange(of: self.nav.sidebar.isTagsEdit) {
+        .onLoadChange(of: self.nav.sidebar.isTagsEdit.editing) {
             _data.filter = $0
         }
     }
 }
 
 internal struct TagsEditPresentation: ViewModifier {
+    
+    @Nav private var nav
     @Binding private var identifiers: Tag.Selection
+    
     internal init(_ identifiers: Binding<Tag.Selection>) {
         _identifiers = identifiers
     }
-    internal init(_ identifier: Binding<Tag.Selection.Element?>) {
-        _identifiers = Binding {
-            identifier.wrappedValue.map { [$0] } ?? []
-        } set: {
-            identifier.wrappedValue = $0.first
-        }
-    }
+    
     internal func body(content: Content) -> some View {
         content.popover(items: self.$identifiers) { _ in
-            TagsEdit()
-                .presentationDetents([.medium])
+            ErrorResponder(self.$nav.sidebar.isTagsEdit.isError) {
+                TagsEdit()
+            }
+            .presentationDetents([.medium])
         }
     }
 }
 
 extension ViewModifier where Self == TagsEditPresentation {
     internal static func tagsEditPopover(_ identifiers: Binding<Tag.Selection>) -> Self { Self.init(identifiers) }
-    internal static func tagAddPopover(_ identifier: Binding<Tag.Selection.Element?>) -> Self { Self.init(identifier) }
 }

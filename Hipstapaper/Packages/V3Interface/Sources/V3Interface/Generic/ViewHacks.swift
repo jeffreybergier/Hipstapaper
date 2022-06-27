@@ -70,27 +70,40 @@ extension View {
     }
 }
 
-extension EnvironmentValues {
-    public var errorChain: (CodableError) -> Void {
-        get { self[EnvironmentResponderCodableError.self] }
-        set { self[EnvironmentResponderCodableError.self] = newValue }
-    }
-}
-
-// TODO: Is this needed?
-internal struct ErrorResponder: ViewModifier {
+internal struct ErrorResponder<V: View>: View {
+    
+    @Nav private var nav
     @Binding private var errorBinding: CodableError?
-    @Environment(\.errorChain) private var errorChain
-    internal init(_ binding: Binding<CodableError?>) {
+    @Environment(\.codableErrorResponder) private var errorChain
+    
+    private let content: () -> V
+    
+    internal init(_ binding: Binding<CodableError?>,
+                  @ViewBuilder content: @escaping () -> V)
+    {
+        self.content = content
         _errorBinding = binding
     }
-    internal func body(content: Content) -> some View {
-        content.environment(\.errorChain) { error in
-            if errorBinding == nil {
-                self.errorBinding = error
-            } else {
-                self.errorChain(error)
+    internal var body: some View {
+        self.content()
+            .environment(\.codableErrorResponder) { error in
+                if errorBinding == nil {
+                    self.errorBinding = error
+                } else {
+                    // Note to future self: Don't pass down the chain
+                    // If this view can't respond to an error,
+                    // no view down the chain can either.
+                    // Just put it straight into the errorStorage
+                    // self.errorChain(error)
+                    self.nav.errors.append(error)
+                }
+            } // TODO: Change to Error Alert
+            .sheet(item: self.$errorBinding) { error in
+                VStack {
+                    Text(error.errorDomain)
+                    Text("\(error.errorCode)")
+                }
+                .presentationDetents([.medium])
             }
-        }
     }
 }

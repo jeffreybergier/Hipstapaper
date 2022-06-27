@@ -37,8 +37,7 @@ internal struct Navigation: Codable {
 extension Navigation {
     internal struct Sidebar: Codable {
         internal var selectedTag: Tag.Selection.Element? = .default
-        internal var isTagAdd: Tag.Identifier?
-        internal var isTagsEdit: Tag.Selection = []
+        internal var isTagsEdit: TagsEdit = .init()
         internal var isWebsiteAdd: Website.Selection.Element?
         internal var isError: CodableError?
     }
@@ -46,6 +45,10 @@ extension Navigation {
         internal var selectedWebsites: Website.Selection = []
         internal var isTagApply: Website.Selection = []
         internal var isBrowse: Website.Selection.Element? = nil
+        internal var isError: CodableError?
+    }
+    internal struct TagsEdit: Codable {
+        internal var editing: Tag.Selection = []
         internal var isError: CodableError?
     }
 }
