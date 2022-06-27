@@ -46,18 +46,20 @@ public struct MainWindow: Scene {
 internal struct MainView: View {
     
     @Nav private var nav
-    @Environment(\.codableErrorResponder) private var errorChain
     
     internal var body: some View {
         NavigationSplitView {
-            Sidebar()
+            ErrorResponder(self.$nav.sidebar.isError) {
+                Sidebar()
+            }
         } detail: {
-            Detail()
+            ErrorResponder(self.$nav.detail.isError) {
+                Detail()
+            }
         }
         .environment(\.codableErrorResponder) { error in
             NSLog("Uncaught error: \(error)")
             self.nav.errors.append(error)
-            // self.errorChain(error) // TODO: Remove once I know how to handle this properly
         }
     }
 }

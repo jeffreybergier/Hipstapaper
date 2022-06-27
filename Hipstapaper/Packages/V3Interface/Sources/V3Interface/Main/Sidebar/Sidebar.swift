@@ -39,6 +39,7 @@ internal struct Sidebar: View {
             
     internal var body: some View {
         NavigationStack {
+            ErrorProducer(location: "Sidebar")
             List(selection: self.$nav.sidebar.selectedTag) {
                 Section(self.text.sectionTitleTagsSystem) {
                     ForEach(self.tagsSystem) { item in

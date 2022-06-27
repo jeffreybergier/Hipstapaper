@@ -80,26 +80,24 @@ extension BlackBox where Value: RandomAccessCollection & MutableCollection, Valu
     }
 }
 
-@propertyWrapper
-public struct ErrorProducer: DynamicProperty {
+public struct ErrorProducer: View {
     
+    @State private var count = 0
+    @State private var timer = Timer.publish(every: TimeInterval.random(in: 3...10), on: .main, in: .common).autoconnect()
     @Environment(\.codableErrorResponder) private var errorChain
-    private var timer: Timer?
     
-    public init() {}
+    private let location: String
     
-    public mutating func update() {
-        guard self.timer == nil else { return }
-        var count = 0
-        self.timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [errorChain] timer in
-            errorChain(.init(domain: "Datum", code: count))
-            count += 1
-            guard count > 2 else { return }
-            timer.invalidate()
-        }
+    public init(location: String) {
+        self.location = location
     }
     
-    public var wrappedValue: Void { () }
+    public var body: some View {
+        EmptyView().onReceive(self.timer) { _ in
+            self.errorChain(.init(domain: self.location, code: self.count))
+            self.count += 1
+        }
+    }
 }
 
 #endif
