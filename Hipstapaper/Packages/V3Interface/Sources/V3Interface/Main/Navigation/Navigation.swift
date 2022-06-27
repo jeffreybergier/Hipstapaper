@@ -28,28 +28,45 @@ import SwiftUI
 import Umbrella
 import V3Model
 
-internal struct Navigation: Codable {
-    internal var errors: [CodableError] = []
+internal struct Navigation: Codable, ErrorPresentable {
     internal var sidebar: Sidebar = .init()
     internal var detail: Detail = .init()
+    internal var errorQueue: [CodableError] = []
+    internal var isError: CodableError?
+    internal var isPresenting: Bool {
+        self.detail.isPresenting || self.sidebar.isPresenting || self.isError != nil
+    }
 }
 
 extension Navigation {
-    internal struct Sidebar: Codable {
+    internal struct Sidebar: Codable, ErrorPresentable {
         internal var selectedTag: Tag.Selection.Element? = .default
         internal var isTagsEdit: TagsEdit = .init()
         internal var isWebsiteAdd: Website.Selection.Element?
-        internal var isError: CodableError?
+        internal var isError: CodableError? // Not used
+        internal var isPresenting: Bool {
+            !self.isTagsEdit.editing.isEmpty
+            || self.isWebsiteAdd != nil
+            || self.isError != nil
+        }
     }
-    internal struct Detail: Codable {
+    internal struct Detail: Codable, ErrorPresentable {
         internal var selectedWebsites: Website.Selection = []
         internal var isTagApply: Website.Selection = []
         internal var isBrowse: Website.Selection.Element? = nil
-        internal var isError: CodableError?
+        internal var isError: CodableError? // Not used
+        internal var isPresenting: Bool {
+            !self.isTagApply.isEmpty
+            || self.isBrowse != nil
+            || self.isError != nil
+        }
     }
-    internal struct TagsEdit: Codable {
+    internal struct TagsEdit: Codable, ErrorPresentable {
         internal var editing: Tag.Selection = []
         internal var isError: CodableError?
+        internal var isPresenting: Bool {
+            self.isError != nil
+        }
     }
 }
 

@@ -48,18 +48,12 @@ internal struct MainView: View {
     @Nav private var nav
     
     internal var body: some View {
-        NavigationSplitView {
-            ErrorResponder(self.$nav.sidebar.isError) {
+        ErrorResponder(self.$nav) {
+            NavigationSplitView {
                 Sidebar()
-            }
-        } detail: {
-            ErrorResponder(self.$nav.detail.isError) {
+            } detail: {
                 Detail()
             }
-        }
-        .environment(\.codableErrorResponder) { error in
-            NSLog("Uncaught error: \(error)")
-            self.nav.errors.append(error)
         }
     }
 }

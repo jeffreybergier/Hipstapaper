@@ -65,7 +65,7 @@ internal struct TagsEditPresentation: ViewModifier {
     
     internal func body(content: Content) -> some View {
         content.popover(items: self.$identifiers) { _ in
-            ErrorResponder(self.$nav.sidebar.isTagsEdit.isError) {
+            ErrorResponder(self.$nav.sidebar.isTagsEdit) {
                 TagsEdit()
             }
             .presentationDetents([.medium])
