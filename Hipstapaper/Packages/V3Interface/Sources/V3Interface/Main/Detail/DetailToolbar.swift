@@ -54,7 +54,7 @@ internal struct DetailToolbar: ViewModifier {
                 _data.search = $0
             }
             .toolbarRole(.editor)
-            .toolbar(id: "detail") {
+            .toolbar(id: "detailTop") {
                 ToolbarItem(id: "editButton", placement: .primaryAction) {
                     EditButton()
                 }
@@ -92,6 +92,17 @@ internal struct DetailToolbar: ViewModifier {
                 ToolbarItem(id: "share", placement: .secondaryAction) {
                     self.style.share.button(self.text.share, enabled: self.isSelection) {
                         
+                    }
+                }
+            }
+            .toolbar(id: "detailBottom") {
+                ToolbarItem(id: "error", placement: .bottomBar) {
+                    if self.nav.errorQueue.isEmpty == false {
+                        self.style.error.button(self.text.error, enabled: !self.nav.isPresenting) {
+                            // TODO: Change to popFirst
+                            // Or create list screen
+                            self.nav.isError = self.nav.errorQueue.popLast()
+                        }
                     }
                 }
                 ToolbarItem(id: "spacer", placement: .bottomBar) {

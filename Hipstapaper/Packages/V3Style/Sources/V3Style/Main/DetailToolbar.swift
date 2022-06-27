@@ -42,6 +42,7 @@ public struct DetailToolbar: DynamicProperty {
         public var delete       = Action.delete
         public var filterYes    = Action.filterYes
         public var filterNo     = Action.filterNo
+        public var error        = Action.errorPresent
     }
     
     public var wrappedValue: Value {

@@ -69,6 +69,7 @@
 "Verb.SortDateCreatedOldest"  = "Most Recently Added Last";
 "Verb.SortTitleA"             = "Page Titles Starting with A First";
 "Verb.SortTitleZ"             = "Page Titles Starting with Z First";
+"Verb.ErrorsPresent"          = "Show Errors";
 
 //
 //

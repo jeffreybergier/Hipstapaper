@@ -105,4 +105,8 @@ extension Action {
         systemImage: SystemImage.sortDateOldest.rawValue,
         shortcut: nil
     )
+    internal static let errorPresent = Self(
+        systemImage: SystemImage.errorGeneric.rawValue,
+        shortcut: nil
+    )
 }
