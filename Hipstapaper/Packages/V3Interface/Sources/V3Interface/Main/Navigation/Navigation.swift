@@ -31,8 +31,8 @@ import V3Model
 internal struct Navigation: Codable, ErrorPresentable {
     internal var sidebar: Sidebar = .init()
     internal var detail: Detail = .init()
-    internal var errorQueue: [CodableError] = []
     internal var isError: CodableError?
+    internal var errorQueue: [CodableError] = []
     internal var isPresenting: Bool {
         self.detail.isPresenting || self.sidebar.isPresenting || self.isError != nil
     }
@@ -67,39 +67,5 @@ extension Navigation {
         internal var isPresenting: Bool {
             self.isError != nil
         }
-    }
-}
-
-@propertyWrapper
-internal struct Nav: DynamicProperty {
-    
-    @SceneStorage("com.hipstapaper.nav") private var data: String?
-    
-    var wrappedValue: Navigation {
-        get { self.data?.decodeNavigation ?? .init() }
-        nonmutating set { self.data = newValue.encodeString }
-    }
-    
-    var projectedValue: Binding<Navigation> {
-        Binding {
-            self.wrappedValue
-        } set: {
-            self.wrappedValue = $0
-        }
-    }
-    
-}
-
-extension String {
-    fileprivate var decodeNavigation: Navigation? {
-        guard let data = Data(base64Encoded: self) else { return nil }
-        return try? PropertyListDecoder().decode(Navigation.self, from: data)
-    }
-}
-
-extension Navigation {
-    fileprivate var encodeString: String? {
-        guard let data = try? PropertyListEncoder().encode(self) else { return nil }
-        return data.base64EncodedString()
     }
 }
