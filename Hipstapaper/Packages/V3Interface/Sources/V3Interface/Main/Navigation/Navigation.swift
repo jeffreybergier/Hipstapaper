@@ -52,6 +52,7 @@ extension Navigation {
     }
     internal struct Detail: Codable, ErrorPresentable {
         internal var selectedWebsites: Website.Selection = []
+        internal var isErrorList: Basic = .init()
         internal var isTagApply: Website.Selection = []
         internal var isBrowse: Website.Selection.Element? = nil
         internal var isError: CodableError? // Not used
@@ -64,6 +65,13 @@ extension Navigation {
     internal struct TagsEdit: Codable, ErrorPresentable {
         internal var editing: Tag.Selection = []
         internal var isError: CodableError?
+        internal var isPresenting: Bool {
+            self.isError != nil
+        }
+    }
+    internal struct Basic: Codable, ErrorPresentable {
+        internal var isError: CodableError?
+        internal var isPresented: Bool = false
         internal var isPresenting: Bool {
             self.isError != nil
         }

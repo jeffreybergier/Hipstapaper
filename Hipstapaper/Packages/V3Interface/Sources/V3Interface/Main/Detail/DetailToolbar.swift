@@ -99,10 +99,9 @@ internal struct DetailToolbar: ViewModifier {
                 ToolbarItem(id: "error", placement: .bottomBar) {
                     if self.nav.errorQueue.isEmpty == false {
                         self.style.error.button(self.text.error, enabled: !self.nav.isPresenting) {
-                            // TODO: Change to popFirst
-                            // Or create list screen
-                            self.nav.isError = self.nav.errorQueue.popLast()
+                            self.nav.detail.isErrorList.isPresented = true
                         }
+                        .modifier(ErrorListPresentation()) // TODO: Change to .errorListPresentation
                     }
                 }
                 ToolbarItem(id: "spacer", placement: .bottomBar) {
