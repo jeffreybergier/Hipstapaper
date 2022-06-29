@@ -65,4 +65,5 @@ internal enum Verb: LocalizationKey {
     case sortTitleA             = "Verb.SortTitleA"
     case sortTitleZ             = "Verb.SortTitleZ"
     case errorsPresent          = "Verb.ErrorsPresent"
+    case clearAll               = "Verb.ClearAll"
 }

@@ -28,16 +28,20 @@ import SwiftUI
 import Umbrella
 import V3Model
 import V3Store
+import V3Localize
 
 internal struct ErrorList: View {
     
     @Nav private var nav
+    @V3Localize.ErrorList private var text
     @Environment(\.dismiss) private var dismiss
         
     internal var body: some View {
         NavigationStack {
             VStack {
-                List(self.nav.errorQueue, id: \.self, selection: self.$nav.detail.isErrorList.isError) { error in
+                List(self.nav.errorQueue,
+                     selection: self.$nav.detail.isErrorList.isError)
+                { error in
                     HStack{
                         // TODO: Convert to UserFacingError
                         // to enhance display
@@ -63,7 +67,10 @@ internal struct ErrorList: View {
     }
     
     private var toolbar: DoneToolbar {
-        DoneToolbar(title: "Errors", done: "Done", delete: "Clear All") {
+        .init(title: self.text.title,
+              done: self.text.done,
+              delete: self.text.clearAll)
+        {
             self.dismiss()
         } deleteAction: {
             self.nav.errorQueue = []
