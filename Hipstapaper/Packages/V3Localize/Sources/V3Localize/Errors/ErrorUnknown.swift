@@ -24,33 +24,21 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
 import Umbrella
 
-@propertyWrapper
-public struct ErrorList: DynamicProperty {
+public struct ErrorUnknown: UserFacingError {
+    public var title: Umbrella.LocalizationKey        = Noun.error.rawValue
+    public var message: Umbrella.LocalizationKey      = Phrase.errorUnknown.rawValue
+    public var dismissTitle: Umbrella.LocalizationKey = Verb.dismiss.rawValue
+    public var isCritical: Bool { false }
+    public var options: [Umbrella.RecoveryOption]     = []
     
-    public struct Value {
-        public var title: LocalizedString
-        public var done: LocalizedString
-        public var clearAll: LocalizedString
-        
-        internal init(_ b: LocalizeBundle) {
-            self.title    = b.localized(key: Noun.errors.rawValue)
-            self.done     = b.localized(key: Verb.done.rawValue)
-            self.clearAll = b.localized(key: Verb.clearAll.rawValue)
-        }
+    public init(_ error: CodableError) {
+        self.errorCode = error.errorCode
+        self.errorDomain = error.errorDomain
     }
     
-    @Localize private var bundle
-    
-    public init() {}
-    
-    public var wrappedValue: Value {
-        Value(self.bundle)
-    }
-    
-    public func key(_ input: LocalizationKey) -> LocalizedString {
-        self.bundle.localized(key: input)
-    }
+    public static var errorDomain: String { "com.saturdayapps.Hipstapaper.Unknown" }
+    public var errorDomain: String
+    public var errorCode: Int
 }

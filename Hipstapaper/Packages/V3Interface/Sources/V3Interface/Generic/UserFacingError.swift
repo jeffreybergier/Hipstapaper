@@ -24,33 +24,14 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
 import Umbrella
+import V3Localize
 
-@propertyWrapper
-public struct ErrorList: DynamicProperty {
-    
-    public struct Value {
-        public var title: LocalizedString
-        public var done: LocalizedString
-        public var clearAll: LocalizedString
-        
-        internal init(_ b: LocalizeBundle) {
-            self.title    = b.localized(key: Noun.errors.rawValue)
-            self.done     = b.localized(key: Verb.done.rawValue)
-            self.clearAll = b.localized(key: Verb.clearAll.rawValue)
+extension CodableError {
+    internal var userFacingError: UserFacingError {
+        switch self.errorDomain {
+        default:
+            return ErrorUnknown(self)
         }
-    }
-    
-    @Localize private var bundle
-    
-    public init() {}
-    
-    public var wrappedValue: Value {
-        Value(self.bundle)
-    }
-    
-    public func key(_ input: LocalizationKey) -> LocalizedString {
-        self.bundle.localized(key: input)
     }
 }

@@ -40,16 +40,8 @@ internal struct ErrorList: View {
         NavigationStack {
             VStack {
                 List(self.nav.errorQueue,
-                     selection: self.$nav.detail.isErrorList.isError)
-                { error in
-                    HStack{
-                        // TODO: Convert to UserFacingError
-                        // to enhance display
-                        Text(error.errorDomain)
-                        Spacer()
-                        Text("\(error.errorCode)")
-                    }
-                }
+                     selection: self.$nav.detail.isErrorList.isError,
+                     rowContent: ErrorListRow.init)
                 .listStyle(.plain)
             }
             .sheet(item: self.$nav.detail.isErrorList.isError) { error in
@@ -75,6 +67,29 @@ internal struct ErrorList: View {
         } deleteAction: {
             self.nav.errorQueue = []
             self.dismiss()
+        }
+    }
+}
+
+internal struct ErrorListRow: View {
+    
+    @V3Localize.ErrorList private var text
+    
+    private let error: UserFacingError
+    
+    internal init(_ error: CodableError) {
+        self.error = error.userFacingError
+    }
+    
+    // TODO: Improve appearance
+    internal var body: some View {
+        HStack{
+            VStack(alignment: .leading) {
+                Text(_text.key(self.error.title))
+                Text(_text.key(self.error.message))
+            }
+            Spacer()
+            Text(String(describing: error.errorCode))
         }
     }
 }

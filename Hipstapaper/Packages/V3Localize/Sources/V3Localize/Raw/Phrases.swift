@@ -38,6 +38,7 @@ internal enum Phrase: LocalizationKey {
     case errorUserCancel        = "Phrase.UserCancel"
     case errorProcessURL        = "Phrase.ProcessURL"
     case errorSaveWebsite       = "Phrase.SaveWebsite"
+    case errorUnknown           = "Phrase.ErrorUnknown"
     case share                  = "Phrase.Share"
     case unarchive              = "Phrase.Unarchive"
     case archive                = "Phrase.Archive"

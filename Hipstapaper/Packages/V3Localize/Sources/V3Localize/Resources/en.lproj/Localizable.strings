@@ -126,6 +126,7 @@
 "Phrase.UserCancel"             = "User cancelled the operation before it could complete.";
 "Phrase.ProcessURL"             = "The sharing app did not provide a URL to save.";
 "Phrase.SaveWebsite"            = "An error ocurred when attempting to save the website.";
+"Phrase.ErrorUnknown"           = "An unknown error ocurred. Please try again later.";
 "Phrase.Share"                  = "Share selected website(s)";
 "Phrase.Unarchive"              = "Mark selected website(s) as unread";
 "Phrase.Archive"                = "Mark selected website(s) as read";
