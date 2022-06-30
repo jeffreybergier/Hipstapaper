@@ -1,7 +1,7 @@
 // swift-tools-version:5.7
 
 //
-//  Created by Jeffrey Bergier on 2022/06/17.
+//  Created by Jeffrey Bergier on 2022/07/01.
 //
 //  MIT License
 //
@@ -29,31 +29,32 @@
 import PackageDescription
 
 let package = Package(
-    name: "V3Interface",
+    name: "V3Browser",
     platforms: [.iOS(.v16), .macOS(.v13)],
     products: [
         .library(
-            name: "V3Interface",
-            targets: ["V3Interface"]
-        ),
+            name: "V3Browser",
+            targets: ["V3Browser"]),
     ],
     dependencies: [
-        .package(path: "../V3Store"),
         .package(path: "../V3Model"),
-        .package(path: "../V3Style"),
         .package(path: "../V3Localize"),
-        .package(path: "../V3Browser"),
+        .package(path: "../V3Style"),
+        .package(path: "../V3Store"),
+        .package(path: "../Umbrella"),
+        // .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "v2"),
     ],
     targets: [
+        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
+        // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
-            name: "V3Interface",
+            name: "V3Browser",
             dependencies: [
-                .byNameItem(name: "V3Store", condition: nil),
                 .byNameItem(name: "V3Model", condition: nil),
-                .byNameItem(name: "V3Style", condition: nil),
                 .byNameItem(name: "V3Localize", condition: nil),
-                .byNameItem(name: "V3Browser", condition: nil),
-            ]
-        ),
+                .byNameItem(name: "V3Style", condition: nil),
+                .byNameItem(name: "V3Store", condition: nil),
+                .byNameItem(name: "Umbrella", condition: nil),
+            ]),
     ]
 )
