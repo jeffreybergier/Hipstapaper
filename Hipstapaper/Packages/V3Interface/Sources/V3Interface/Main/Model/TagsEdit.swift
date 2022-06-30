@@ -36,7 +36,6 @@ internal struct TagsEdit: View {
         
     internal var body: some View {
         NavigationStack {
-            ErrorProducer(location: "TagsEdit")
             Form {
                 ForEach(self.$data) { item in
                     JSBTextField("Tag Name", text: item.name)

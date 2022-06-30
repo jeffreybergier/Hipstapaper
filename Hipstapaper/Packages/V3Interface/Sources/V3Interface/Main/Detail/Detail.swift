@@ -37,7 +37,6 @@ internal struct Detail: View {
     
     internal var body: some View {
         NavigationStack {
-            ErrorProducer(location: "Detail")
             Group {
                 switch self.sizeClass.horizontal {
                 case .regular:
