@@ -25,6 +25,7 @@
 //
 
 import SwiftUI
+import Collections
 import Umbrella
 
 @propertyWrapper
@@ -79,7 +80,7 @@ fileprivate struct SceneStorageNavigation: Codable {
 }
 
 fileprivate struct AppStorageNavigation: Codable {
-    fileprivate var errorQueue: [CodableError]
+    fileprivate var errorQueue: Deque<CodableError>
 }
 
 extension String {

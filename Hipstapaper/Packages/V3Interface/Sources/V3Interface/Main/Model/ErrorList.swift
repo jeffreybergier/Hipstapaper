@@ -40,20 +40,13 @@ internal struct ErrorList: View {
         NavigationStack {
             VStack {
                 List(self.nav.errorQueue,
+                     id: \.self,
                      selection: self.$nav.detail.isErrorList.isError,
                      rowContent: ErrorListRow.init)
                 .listStyle(.plain)
             }
-            .sheet(item: self.$nav.detail.isErrorList.isError) { error in
-                HStack{
-                    // TODO: Convert to UserFacingError
-                    // to show alert
-                    Text(error.errorDomain)
-                    Spacer()
-                    Text("\(error.errorCode)")
-                }
-            }
             .modifier(self.toolbar)
+            .modifier(self.alert)
         }
         .frame(idealWidth: 320, minHeight: 320)
     }
@@ -67,6 +60,16 @@ internal struct ErrorList: View {
         } deleteAction: {
             self.nav.errorQueue = []
             self.dismiss()
+        }
+    }
+    
+    // Move this to be an internal function
+    private var alert: UserFacingErrorAlert<LocalizeBundle, CodableError> {
+        UserFacingErrorAlert(self.$nav.detail.isErrorList.isError) {
+            $0.userFacingError
+        } dismissAction: {
+            // TODO: Add logic to delete errors from nav
+             self.nav.delete(error: $0)
         }
     }
 }

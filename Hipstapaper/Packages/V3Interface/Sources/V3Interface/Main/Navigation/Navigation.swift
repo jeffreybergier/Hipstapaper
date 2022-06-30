@@ -25,16 +25,27 @@
 //
 
 import SwiftUI
+import Collections
 import Umbrella
 import V3Model
 
 internal struct Navigation: Codable, ErrorPresentable {
+    
     internal var sidebar: Sidebar = .init()
     internal var detail: Detail = .init()
     internal var isError: CodableError?
-    internal var errorQueue: [CodableError] = []
+    internal var errorQueue: Deque<CodableError> = []
+    
     internal var isPresenting: Bool {
         self.detail.isPresenting || self.sidebar.isPresenting || self.isError != nil
+    }
+    
+    mutating func delete(error: CodableError) {
+        guard let index = self.errorQueue.firstIndex(of: error) else {
+            assertionFailure()
+            return
+        }
+        self.errorQueue.remove(at: index)
     }
 }
 
