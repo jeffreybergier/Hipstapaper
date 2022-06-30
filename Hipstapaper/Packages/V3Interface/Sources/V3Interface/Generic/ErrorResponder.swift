@@ -26,6 +26,7 @@
 
 import SwiftUI
 import Umbrella
+import V3Localize
 
 internal protocol ErrorPresentable {
     var isError: CodableError? { get set }
@@ -46,6 +47,7 @@ internal struct ErrorResponder<V: View, EP: ErrorPresentable>: View {
         self.content = content
         _errorPresentable = binding
     }
+    
     internal var body: some View {
         self.content()
             .environment(\.codableErrorResponder) { error in
@@ -63,13 +65,13 @@ internal struct ErrorResponder<V: View, EP: ErrorPresentable>: View {
                     self.nav.errorQueue.append(error)
                     print("Uncaught Errors: \(self.nav.errorQueue.count)") // TODO: Delete print statement
                 }
-            } // TODO: Change to Error Alert
-            .sheet(item: self.$errorPresentable.isError) { error in
-                VStack {
-                    Text(error.errorDomain)
-                    Text("\(error.errorCode)")
-                }
-                .presentationDetents([.medium])
             }
+            .modifier(self.alert)
+    }
+    
+    private var alert: some ViewModifier {
+        UserFacingErrorAlert<LocalizeBundle, CodableError>(self.$errorPresentable.isError) {
+            $0.userFacingError
+        }
     }
 }

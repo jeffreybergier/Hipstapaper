@@ -45,6 +45,7 @@ internal struct ErrorList: View {
                      rowContent: ErrorListRow.init)
                 .listStyle(.plain)
             }
+            .animation(.default, value: self.nav.errorQueue)
             .modifier(self.toolbar)
             .modifier(self.alert)
         }
@@ -63,13 +64,11 @@ internal struct ErrorList: View {
         }
     }
     
-    // Move this to be an internal function
-    private var alert: UserFacingErrorAlert<LocalizeBundle, CodableError> {
-        UserFacingErrorAlert(self.$nav.detail.isErrorList.isError) {
+    private var alert: some ViewModifier {
+        UserFacingErrorAlert<LocalizeBundle, CodableError>(self.$nav.detail.isErrorList.isError) {
+            self.nav.delete(error: $0)
+        } transform: {
             $0.userFacingError
-        } dismissAction: {
-            // TODO: Add logic to delete errors from nav
-             self.nav.delete(error: $0)
         }
     }
 }
