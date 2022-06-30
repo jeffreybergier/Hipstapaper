@@ -31,8 +31,11 @@ import V3Store
 
 internal struct TagsEdit: View {
     
+    // TODO: Localize
+    
     @Nav private var nav
     @TagUserListQuery private var data
+    @Environment(\.dismiss) private var dismiss
         
     internal var body: some View {
         NavigationStack {
@@ -41,14 +44,19 @@ internal struct TagsEdit: View {
                     JSBTextField("Tag Name", text: item.name)
                 }
             }
-            .navigationTitle("Edit Tag(s)")
-            #if !os(macOS)
-            .navigationBarTitleDisplayMode(.inline)
-            #endif
+            .modifier(self.toolbar)
         }
         .frame(idealWidth: 320, minHeight: 320)
         .onLoadChange(of: self.nav.sidebar.isTagsEdit.editing) {
             _data.filter = $0
+        }
+    }
+    
+    private var toolbar: some ViewModifier {
+        DoneToolbar(title: "Edit Tag(s)",
+                    done: "Done")
+        {
+            self.dismiss()
         }
     }
 }

@@ -33,6 +33,8 @@ extension ViewModifier where Self == DetailTitle {
 }
 
 internal struct DetailTitle: ViewModifier {
+    
+    // TODO: Localize
 
     @Nav private var nav
     @Query private var query
@@ -62,6 +64,7 @@ internal struct DetailTitle: ViewModifier {
         .onLoadChange(of: self.nav.sidebar.selectedTag) {
             _tag.identifier = $0
         }
+        // TODO: Make cross-platform
         #if !os(macOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif

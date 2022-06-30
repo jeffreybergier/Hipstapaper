@@ -47,7 +47,7 @@ internal struct Detail: View {
             }
             .modifier(.detailTitle)
             .modifier(.detailMenu)
-            .modifier(DetailToolbar()) // TODO: change back to (.detailToolbar)
+            .modifier(.detailToolbar)
             .sheetCover(item: self.$nav.detail.isBrowse) { ident in
                 Text("Browser: \(ident.rawValue)")
             }

@@ -30,6 +30,8 @@ import V3Store
 
 internal struct DetailTable: View {
     
+    // TODO: Localize
+    
     @Nav private var nav
     @Query private var query
     @WebsiteListQuery private var data
