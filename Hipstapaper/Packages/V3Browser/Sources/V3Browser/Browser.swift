@@ -36,6 +36,10 @@ public struct Browser: View {
     }
     
     public var body: some View {
-        Text(self.identifier.rawValue)
+        NavigationStack {
+            Text(self.identifier.rawValue)
+                .navigationTitle("Browser")
+                .modifier(Toolbar())
+        }
     }
 }
