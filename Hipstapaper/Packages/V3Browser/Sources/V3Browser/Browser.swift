@@ -25,6 +25,8 @@
 //
 
 import SwiftUI
+import Umbrella
+import V3Store
 import V3Model
 
 public struct Browser: View {
@@ -47,6 +49,7 @@ public struct Browser: View {
 internal struct BBrowser: View {
     
     @Nav private var nav
+    @WebsiteQuery private var website
     private let identifier: Website.Identifier
     
     internal init(_ identifier: Website.Identifier) {
@@ -58,9 +61,12 @@ internal struct BBrowser: View {
             VStack {
                 Text(self.identifier.rawValue)
                 Text(self.nav.currentTitle)
+                Text(String(describing: self.website?.preferredURL))
             }
-            .navigationTitle("Browser")
             .modifier(Toolbar())
+        }
+        .onLoadChange(of: self.identifier) {
+            _website.identifier = $0
         }
     }
 }

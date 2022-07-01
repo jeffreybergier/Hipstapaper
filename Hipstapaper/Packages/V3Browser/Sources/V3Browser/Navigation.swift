@@ -33,7 +33,7 @@ internal struct Navigation {
     internal var shouldGoBack    = false
     internal var shouldGoForward = false
     internal var shouldStop      = false
-    internal var shouldReload    = false
+    internal var shouldReload    = true
     internal var isLoading       = false
     internal var isJSEnabled     = false
     internal var currentTitle    = "Loading..."

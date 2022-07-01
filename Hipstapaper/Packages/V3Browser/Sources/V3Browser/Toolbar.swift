@@ -38,6 +38,7 @@ internal struct Toolbar: ViewModifier {
     
     internal func body(content: Content) -> some View {
         content
+            .navigationTitle(self.nav.currentTitle)
             .navigationBarTitleDisplayMode(.inline)
             .toolbarRole(.navigationStack)
             .toolbar {
