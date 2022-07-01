@@ -33,7 +33,7 @@ extension ViewModifier where Self == Toolbar {
 
 internal struct Toolbar: ViewModifier {
     
-    @State private var websiteURL: String = "http://www.google.com/this.is.a.super.long.url.can.you.see.it.all"
+    @Nav private var nav
     @SizeClass private var sizeclass
     
     internal func body(content: Content) -> some View {
@@ -112,27 +112,46 @@ internal struct Toolbar: ViewModifier {
     }
     
     private var itemBack: some View {
-        Button("<") {}
+        Button("<") {
+            self.nav.shouldGoBack = true
+        }
+        .disabled(!self.nav.canGoBack)
     }
     
     private var itemForward: some View {
-        Button(">") {}
-    }
-    
-    private var itemLabelBackForward: some View {
-        Text("Back and Forward")
+        Button(">") {
+            self.nav.shouldGoForward = true
+        }
+        .disabled(!self.nav.canGoForward)
     }
     
     private var itemStopReload: some View {
-        Button("R") {}
+        if self.nav.isLoading {
+            return Button("X") {
+                self.nav.shouldStop = true
+            }
+        } else {
+            return Button("R") {
+                self.nav.shouldReload = true
+            }
+        }
     }
     
     private var itemJavaScript: some View {
-        Button("JS") {}
+        if self.nav.isJSEnabled {
+            return Button("JSOn") {
+                self.nav.isJSEnabled = false
+            }
+        } else {
+            return Button("JSOff") {
+                self.nav.isJSEnabled = true
+            }
+        }
     }
     
     private var itemStatus: some View {
-        TextField("Page Title", text: self.$websiteURL)
+        TextField("Page Title", text: self.$nav.currentTitle)
+            .disabled(true)
     }
     
     private var itemOpenExternal: some View {

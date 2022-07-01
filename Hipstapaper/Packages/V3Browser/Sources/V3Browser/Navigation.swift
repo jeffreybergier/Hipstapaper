@@ -25,42 +25,42 @@
 //
 
 import SwiftUI
-import V3Model
+import Umbrella
 
-public struct Browser: View {
-    
-    private let identifier: Website.Identifier
-    
-    @StateObject private var nav = Nav.newEnvironment()
-    
-    public init(_ identifier: Website.Identifier) {
-        self.identifier = identifier
-    }
-    
-    public var body: some View {
-        BBrowser(self.identifier)
-            .environmentObject(self.nav)
-    }
-    
+internal struct Navigation {
+    internal var canGoBack       = false
+    internal var canGoForward    = false
+    internal var shouldGoBack    = false
+    internal var shouldGoForward = false
+    internal var shouldStop      = false
+    internal var shouldReload    = false
+    internal var isLoading       = false
+    internal var isJSEnabled     = false
+    internal var currentTitle    = "Loading..."
+    internal var currentPath: URL?
 }
 
-internal struct BBrowser: View {
+@propertyWrapper
+internal struct Nav: DynamicProperty {
     
-    @Nav private var nav
-    private let identifier: Website.Identifier
+    internal static func newEnvironment() -> BlackBox<Navigation> {
+        BlackBox(Navigation(), isObservingValue: true)
+    }
+
+    @EnvironmentObject internal var raw: BlackBox<Navigation>
     
-    internal init(_ identifier: Website.Identifier) {
-        self.identifier = identifier
+    internal init() {}
+    
+    internal var wrappedValue: Navigation {
+        get { self.raw.value }
+        nonmutating set { self.raw.value = newValue }
     }
     
-    internal var body: some View {
-        NavigationStack {
-            VStack {
-                Text(self.identifier.rawValue)
-                Text(self.nav.currentTitle)
-            }
-            .navigationTitle("Browser")
-            .modifier(Toolbar())
+    internal var projectedValue: Binding<Navigation> {
+        .init {
+            self.wrappedValue
+        } set: {
+            self.wrappedValue = $0
         }
     }
 }
