@@ -39,7 +39,6 @@ internal struct Navigation {
     internal var shouldLoadURL: URL?
     internal var currentURL: URL?
     internal var currentTitle          = ""
-    internal var currentLoadPercentage = Double(0)
 }
 
 @propertyWrapper

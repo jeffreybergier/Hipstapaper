@@ -31,7 +31,26 @@ import Umbrella
 internal struct Web: View {
     
     @Nav private var nav
-    @StateObject private var kvo = BlackBox(Array<NSObjectProtocol>(), isObservingValue: false)
+    @StateObject private var progress = BlackBox<Double>(0, isObservingValue: true)
+    
+    internal var body: some View {
+        ZStack(alignment: .top) {
+            _Web(progress: self.progress)
+                .ignoresSafeArea()
+            ProgressView(value: self.progress.value, total: 1)
+                .opacity(self.nav.isLoading ? 1 : 0)
+                .animation(.default, value: self.progress.value)
+                .animation(.default, value: self.nav.isLoading)
+        }
+    }
+}
+
+fileprivate struct _Web: View {
+    
+    @Nav private var nav
+    @ObservedObject fileprivate var progress: BlackBox<Double>
+    @StateObject private var kvo = BlackBox(Array<NSObjectProtocol>(),
+                                            isObservingValue: false)
 
     private func update(_ wv: WKWebView, context: Context) {
         if self.nav.shouldStop {
@@ -78,8 +97,8 @@ internal struct Web: View {
             nav.value.currentTitle = wv.title ?? ""
         }
         let token4 = wv.observe(\.estimatedProgress)
-        { [unowned nav = _nav.raw] wv, _ in
-            nav.value.currentLoadPercentage = wv.estimatedProgress
+        { [unowned progress] wv, _ in
+            progress.value = wv.estimatedProgress
         }
         let token5 = wv.observe(\.canGoBack)
         { [unowned nav = _nav.raw] wv, _ in
@@ -102,7 +121,7 @@ internal struct Web: View {
 }
 
 #if canImport(AppKit)
-extension Web: NSViewRepresentable {
+extension _Web: NSViewRepresentable {
     func makeNSView(context: Context) -> WKWebView {
         return self.makeWebView(context: context)
     }
@@ -112,7 +131,7 @@ extension Web: NSViewRepresentable {
     }
 }
 #else
-extension Web: UIViewRepresentable {
+extension _Web: UIViewRepresentable {
     func makeUIView(context: Context) -> WKWebView {
         return self.makeWebView(context: context)
     }
