@@ -28,16 +28,18 @@ import SwiftUI
 import Umbrella
 
 internal struct Navigation {
-    internal var canGoBack       = false
-    internal var canGoForward    = false
-    internal var shouldGoBack    = false
-    internal var shouldGoForward = false
-    internal var shouldStop      = false
-    internal var shouldReload    = true
-    internal var isLoading       = false
-    internal var isJSEnabled     = false
-    internal var currentTitle    = "Loading..."
-    internal var currentPath: URL?
+    internal var isLoading             = false
+    internal var canGoBack             = false
+    internal var canGoForward          = false
+    internal var isJSEnabled           = false
+    internal var shouldGoBack          = false
+    internal var shouldGoForward       = false
+    internal var shouldStop            = false
+    internal var shouldReload          = true
+    internal var shouldLoadURL: URL?
+    internal var currentURL: URL?
+    internal var currentTitle          = ""
+    internal var currentLoadPercentage = Double(0)
 }
 
 @propertyWrapper

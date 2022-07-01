@@ -35,6 +35,10 @@ internal struct Toolbar: ViewModifier {
     
     @Nav private var nav
     @SizeClass private var sizeclass
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.openURL) private var openURL
+    
+    internal var isArchived: Binding<Bool>?
     
     internal func body(content: Content) -> some View {
         content
@@ -156,7 +160,12 @@ internal struct Toolbar: ViewModifier {
     }
     
     private var itemOpenExternal: some View {
-        Button("O") {}
+        let urlToOpen = self.nav.currentURL ?? self.nav.shouldLoadURL
+        return Button("O") {
+            guard let urlToOpen else { return }
+            self.openURL(urlToOpen)
+        }
+        .disabled(urlToOpen == nil)
     }
     
     private var itemShare: some View {
@@ -164,11 +173,16 @@ internal struct Toolbar: ViewModifier {
     }
     
     private var itemArchiveAndClose: some View {
-        Button("Archive") {}
+        Button("Archive") {
+            self.isArchived?.wrappedValue = true
+            self.dismiss()
+        }
     }
     
     private var itemClose: some View {
-        Button("Close") {}
+        Button("Close") {
+            self.dismiss()
+        }
     }
     
     private var itemSpacer: some View {

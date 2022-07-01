@@ -40,13 +40,13 @@ public struct Browser: View {
     }
     
     public var body: some View {
-        BBrowser(self.identifier)
+        _Browser(self.identifier)
             .environmentObject(self.nav)
     }
     
 }
 
-internal struct BBrowser: View {
+fileprivate struct _Browser: View {
     
     @Nav private var nav
     @WebsiteQuery private var website
@@ -58,15 +58,14 @@ internal struct BBrowser: View {
     
     internal var body: some View {
         NavigationStack {
-            VStack {
-                Text(self.identifier.rawValue)
-                Text(self.nav.currentTitle)
-                Text(String(describing: self.website?.preferredURL))
-            }
-            .modifier(Toolbar())
+            Web()
+                .modifier(Toolbar(isArchived: self.$website?.isArchived))
         }
         .onLoadChange(of: self.identifier) {
             _website.identifier = $0
+        }
+        .onLoadChange(of: self.website?.preferredURL) {
+            self.nav.shouldLoadURL = $0
         }
     }
 }
