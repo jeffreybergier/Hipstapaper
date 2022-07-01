@@ -44,6 +44,12 @@ internal enum SystemImage: String {
     case sortDateNewest = "calendar.circle"
     case sortDateOldest = "calendar.circle.fill"
     case errorGeneric   = "exclamationmark.triangle"
+    case browseBack     = "chevron.backward"
+    case browseForward  = "chevron.forward"
+    case browseReload   = "arrow.clockwise"
+    case browseStop     = "xmark"
+    case javascriptYes  = "applescript.fill"
+    case javascriptNo   = "applescript"
 }
 
 /*

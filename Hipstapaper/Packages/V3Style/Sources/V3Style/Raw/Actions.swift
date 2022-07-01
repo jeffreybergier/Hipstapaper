@@ -109,4 +109,28 @@ extension Action {
         systemImage: SystemImage.errorGeneric.rawValue,
         shortcut: nil
     )
+    internal static let browseBack = Self(
+        systemImage: SystemImage.browseBack.rawValue,
+        shortcut: .init("[", modifiers: .command)
+    )
+    internal static let browseForward = Self(
+        systemImage: SystemImage.browseForward.rawValue,
+        shortcut: .init("]", modifiers: .command)
+    )
+    internal static let browseStop = Self(
+        systemImage: SystemImage.browseStop.rawValue,
+        shortcut: .init(".", modifiers: .command)
+    )
+    internal static let browseReload = Self(
+        systemImage: SystemImage.browseReload.rawValue,
+        shortcut: .init("r", modifiers: .command)
+    )
+    internal static let javascriptYes = Self(
+        systemImage: SystemImage.javascriptYes.rawValue,
+        shortcut: nil
+    )
+    internal static let javascriptNo = Self(
+        systemImage: SystemImage.javascriptNo.rawValue,
+        shortcut: nil
+    )
 }

@@ -26,6 +26,7 @@
 
 import SwiftUI
 import Umbrella
+import V3Style
 
 extension ViewModifier where Self == Toolbar {
     internal static var toolbar: Self { Self.init() }
@@ -35,6 +36,7 @@ internal struct Toolbar: ViewModifier {
     
     @Nav private var nav
     @SizeClass private var sizeclass
+    @V3Style.Browser private var style
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
     
@@ -117,26 +119,28 @@ internal struct Toolbar: ViewModifier {
     }
     
     private var itemBack: some View {
-        Button("<") {
+        self.style.back.button("Go Back",
+                               enabled: self.nav.canGoBack)
+        {
             self.nav.shouldGoBack = true
         }
-        .disabled(!self.nav.canGoBack)
     }
     
     private var itemForward: some View {
-        Button(">") {
+        self.style.forward.button("Go Forward",
+                                  enabled: self.nav.canGoForward)
+        {
             self.nav.shouldGoForward = true
         }
-        .disabled(!self.nav.canGoForward)
     }
     
     private var itemStopReload: some View {
         if self.nav.isLoading {
-            return Button("X") {
+            return self.style.stop.button("Stop") {
                 self.nav.shouldStop = true
             }
         } else {
-            return Button("R") {
+            return self.style.reload.button("Reload") {
                 self.nav.shouldReload = true
             }
         }
@@ -144,43 +148,48 @@ internal struct Toolbar: ViewModifier {
     
     private var itemJavaScript: some View {
         if self.nav.isJSEnabled {
-            return Button("JSOn") {
+            return self.style.jsYes.button("Disable Javascript") {
                 self.nav.isJSEnabled = false
             }
         } else {
-            return Button("JSOff") {
+            return self.style.jsNo.button("Enable Javascript") {
                 self.nav.isJSEnabled = true
             }
         }
     }
     
     private var itemStatus: some View {
-        TextField("Page Title", text: self.$nav.currentTitle)
+        TextField("Loading...", text: self.$nav.currentTitle)
             .disabled(true)
     }
     
     private var itemOpenExternal: some View {
         let urlToOpen = self.nav.currentURL ?? self.nav.shouldLoadURL
-        return Button("O") {
+        return self.style.openExternal.button("Open in Browser",
+                                              enabled: urlToOpen != nil)
+        {
             guard let urlToOpen else { return }
             self.openURL(urlToOpen)
         }
-        .disabled(urlToOpen == nil)
     }
     
     private var itemShare: some View {
-        Button("⬆") {}
+        self.style.share.button("Share") {
+            
+        }
     }
     
     private var itemArchiveAndClose: some View {
-        Button("Archive") {
+        self.style.archiveYes.button("Archive and Close",
+                                     enabled: self.isArchived?.wrappedValue == false)
+        {
             self.isArchived?.wrappedValue = true
             self.dismiss()
         }
     }
     
     private var itemClose: some View {
-        Button("Close") {
+        Button("Done") {
             self.dismiss()
         }
     }
