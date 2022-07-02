@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/07/01.
+//  Created by Jeffrey Bergier on 2022/07/03.
 //
 //  MIT License
 //
@@ -31,11 +31,7 @@ import V3Errors
 
 internal struct Navigation: ErrorPresentable {
     internal var isLoading             = false
-    internal var canGoBack             = false
-    internal var canGoForward          = false
     internal var isJSEnabled           = false
-    internal var shouldGoBack          = false
-    internal var shouldGoForward       = false
     internal var shouldStop            = false
     internal var shouldReload          = true
     internal var shouldLoadURL: URL?

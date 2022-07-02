@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/07/01.
+//  Created by Jeffrey Bergier on 2022/07/03.
 //
 //  MIT License
 //
@@ -37,7 +37,6 @@ internal struct Web: View {
     internal var body: some View {
         ZStack(alignment: .top) {
             _Web(progress: self.progress)
-                .ignoresSafeArea()
             ProgressView(value: self.progress.value, total: 1)
                 .opacity(self.nav.isLoading ? 1 : 0)
                 .animation(.default, value: self.progress.value)
@@ -62,14 +61,6 @@ fileprivate struct _Web: View {
         if self.nav.shouldReload {
             wv.reload()
             self.nav.shouldReload = false
-        }
-        if self.nav.shouldGoBack {
-            wv.goBack()
-            self.nav.shouldGoBack = false
-        }
-        if self.nav.shouldGoForward {
-            wv.goForward()
-            self.nav.shouldGoForward = false
         }
         if wv.configuration.preferences.javaScriptEnabled != self.nav.isJSEnabled {
             wv.configuration.preferences.javaScriptEnabled = self.nav.isJSEnabled
@@ -102,15 +93,7 @@ fileprivate struct _Web: View {
         { [unowned progress] wv, _ in
             progress.value = wv.estimatedProgress
         }
-        let token5 = wv.observe(\.canGoBack)
-        { [unowned nav = _nav.raw] wv, _ in
-            nav.value.canGoBack = wv.canGoBack
-        }
-        let token6 = wv.observe(\.canGoForward)
-        { [unowned nav = _nav.raw] wv, _ in
-            nav.value.canGoForward = wv.canGoForward
-        }
-        self.kvo.value = [token1, token2, token3, token4, token5, token6]
+        self.kvo.value = [token1, token2, token3, token4]
         return wv
     }
     

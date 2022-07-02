@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/07/01.
+//  Created by Jeffrey Bergier on 2022/07/03.
 //
 //  MIT License
 //
@@ -42,100 +42,32 @@ internal struct Toolbar: ViewModifier {
     
     internal func body(content: Content) -> some View {
         content
-            .navigationTitle(self.nav.currentTitle)
+            .navigationTitle("Edit Website(s)")
             .navigationBarTitleDisplayMode(.inline)
             .toolbarRole(.navigationStack)
             .toolbar {
-                ToolbarItem(id: .itemArchiveAndClose, placement: .primaryAction) {
-                    self.itemArchiveAndClose
-                }
                 ToolbarItem(id: .itemClose, placement: .primaryAction) {
                     self.itemClose
                 }
-                switch self.sizeclass.horizontal {
-                case .regular:
-                    ToolbarItem(id: .itemStatus, placement: .principal) {
-                        self.itemStatus
-                    }
-                    ToolbarItem(id: .itemBack, placement: .navigation) {
-                        self.itemBack
-                    }
-                    ToolbarItem(id: .itemForward, placement: .navigation) {
-                        self.itemForward
-                    }
-                    ToolbarItem(id: .itemStopReload, placement: .navigation) {
-                        self.itemStopReload
-                    }
-                    ToolbarItem(id: .itemErrors, placement: .navigation) {
-                        self.itemErrors
-                    }
-                    ToolbarItem(id: .itemJavaScript, placement: .bottomBar) {
-                        self.itemJavaScript
-                    }
-                    ToolbarItem(id: .itemSpacer1, placement: .bottomBar) {
-                        self.itemSpacer
-                    }
-                    ToolbarItem(id: .itemOpenExternal, placement: .bottomBar) {
-                        self.itemOpenExternal
-                    }
-                    ToolbarItem(id: .itemSeparator1, placement: .bottomBar) {
-                        self.itemSeparator
-                    }
-                    ToolbarItem(id: .itemShare, placement: .bottomBar) {
-                        self.itemShare
-                    }
-                case .compact:
-                    if true { // hack to stop compiler failures for too many items
-                        ToolbarItem(id: .itemErrors, placement: .cancellationAction) {
-                            self.itemErrors
-                        }
-                        ToolbarItem(id: .itemStatus, placement: .principal) {
-                            self.itemStatus
-                        }
-                    }
-                    ToolbarItem(id: .itemBack, placement: .bottomBar) {
-                        self.itemBack
-                    }
-                    ToolbarItem(id: .itemForward, placement: .bottomBar) {
-                        self.itemForward
-                    }
-                    ToolbarItem(id: .itemSeparator1, placement: .bottomBar) {
-                        self.itemSeparator
-                    }
-                    ToolbarItem(id: .itemStopReload, placement: .bottomBar) {
-                        self.itemStopReload
-                    }
-                    ToolbarItem(id: .itemJavaScript, placement: .bottomBar) {
-                        self.itemJavaScript
-                    }
-                    ToolbarItem(id: .itemSpacer1, placement: .bottomBar) {
-                        self.itemSpacer
-                    }
-                    ToolbarItem(id: .itemOpenExternal, placement: .bottomBar) {
-                        self.itemOpenExternal
-                    }
-                    ToolbarItem(id: .itemSeparator2, placement: .bottomBar) {
-                        self.itemSeparator
-                    }
-                    ToolbarItem(id: .itemShare, placement: .bottomBar) {
-                        self.itemShare
-                    }
+                ToolbarItem(id: .itemClose, placement: .cancellationAction) {
+                    self.itemDelete
+                }
+                ToolbarItem(id: .itemJavaScript, placement: .bottomBar) {
+                    self.itemJavaScript
+                }
+                ToolbarItem(id: .itemSpacer1, placement: .bottomBar) {
+                    self.itemSpacer
+                }
+                ToolbarItem(id: .itemErrors, placement: .bottomBar) {
+                    self.itemErrors
+                }
+                ToolbarItem(id: .itemSpacer1, placement: .bottomBar) {
+                    self.itemSpacer
+                }
+                ToolbarItem(id: .itemStopReload, placement: .bottomBar) {
+                    self.itemStopReload
                 }
             }
-    }
-    
-    private var itemBack: some View {
-        self.style.back.button(self.text.back, enabled: self.nav.canGoBack) {
-            self.nav.shouldGoBack = true
-        }
-    }
-    
-    private var itemForward: some View {
-        self.style.forward.button(self.text.forward,
-                                  enabled: self.nav.canGoForward)
-        {
-            self.nav.shouldGoForward = true
-        }
     }
     
     private var itemStopReload: some View {
@@ -162,36 +94,6 @@ internal struct Toolbar: ViewModifier {
         }
     }
     
-    private var itemStatus: some View {
-        TextField(self.text.loading, text: self.$nav.currentTitle)
-            .disabled(true)
-    }
-    
-    private var itemOpenExternal: some View {
-        let urlToOpen = self.nav.currentURL ?? self.nav.shouldLoadURL
-        return self.style.openExternal.button(self.text.openExternal,
-                                              enabled: urlToOpen != nil)
-        {
-            guard let urlToOpen else { return }
-            self.openURL(urlToOpen)
-        }
-    }
-    
-    private var itemShare: some View {
-        self.style.share.button(self.text.share) {
-            
-        }
-    }
-    
-    private var itemArchiveAndClose: some View {
-        self.style.archiveYes.button(self.text.archiveYes,
-                                     enabled: self.isArchived?.wrappedValue == false)
-        {
-            self.isArchived?.wrappedValue = true
-            self.dismiss()
-        }
-    }
-    
     @ViewBuilder private var itemErrors: some View {
         if self.nav.errorQueue.isEmpty == false {
             self.style.error.button(self.text.error) {
@@ -207,6 +109,12 @@ internal struct Toolbar: ViewModifier {
         }
     }
     
+    private var itemDelete: some View {
+        Button("DDelete") {
+            
+        }
+    }
+    
     private var itemSpacer: some View {
         Spacer()
     }
@@ -217,20 +125,12 @@ internal struct Toolbar: ViewModifier {
 }
 
 extension String {
-    fileprivate static let itemBack            = "toolbar.back"
-    fileprivate static let itemForward         = "toolbar.forward"
-    fileprivate static let itemBackForward     = "toolbar.backforward"
     fileprivate static let itemStopReload      = "toolbar.stopreload"
     fileprivate static let itemJavaScript      = "toolbar.javascript"
-    fileprivate static let itemStatus          = "toolbar.status"
-    fileprivate static let itemOpenExternal    = "toolbar.openExternal"
-    fileprivate static let itemShare           = "toolbar.share"
-    fileprivate static let itemArchiveAndClose = "toolbar.itemArchiveAndClose"
     fileprivate static let itemClose           = "toolbar.close"
     fileprivate static let itemErrors          = "toolbar.errors"
     fileprivate static let itemSpacer1         = "toolbar.spacer1"
     fileprivate static let itemSeparator1      = "toolbar.separator1"
-    fileprivate static let itemSeparator2      = "toolbar.separator2"
 }
 
 extension ViewModifier where Self == Toolbar {
