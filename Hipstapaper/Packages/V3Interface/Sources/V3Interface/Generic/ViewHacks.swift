@@ -53,6 +53,23 @@ extension View {
         }
         return self.popover(item: newBinding, content: content)
     }
+    public func sheet<T: Identifiable, V: View>(items: Binding<Set<T>>, @ViewBuilder content: @escaping (Set<T>) -> V) -> some View where T.ID == String {
+        let newBinding: Binding<Set<T>?> = Binding {
+            items.wrappedValue.isEmpty ? nil : items.wrappedValue
+        } set: {
+            items.wrappedValue = $0 ?? []
+        }
+        return self.sheet(item: newBinding, content: content)
+    }
+    
+    public func sheet<T: Identifiable, V: View>(items: Binding<Array<T>>, @ViewBuilder content: @escaping (Array<T>) -> V) -> some View where T.ID == String {
+        let newBinding: Binding<Array<T>?> = Binding {
+            items.wrappedValue.isEmpty ? nil : items.wrappedValue
+        } set: {
+            items.wrappedValue = $0 ?? []
+        }
+        return self.sheet(item: newBinding, content: content)
+    }
 }
 
 extension View {

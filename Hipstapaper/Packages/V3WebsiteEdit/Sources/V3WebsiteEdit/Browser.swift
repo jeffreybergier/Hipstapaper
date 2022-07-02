@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/17.
+//  Created by Jeffrey Bergier on 2022/07/01.
 //
 //  MIT License
 //
@@ -26,40 +26,54 @@
 
 import SwiftUI
 import Umbrella
-import V3Model
 import V3Store
-import V3Browser
-import V3WebsiteEdit
+import V3Model
+import V3Errors
 
-internal struct Detail: View {
+public struct WebsiteEdit: View {
+    
+    private let selection: Website.Selection
+    
+    @StateObject private var nav = Nav.newEnvironment()
+    
+    public init(_ selection: Website.Selection) {
+        self.selection = selection
+    }
+    
+    public var body: some View {
+        _Browser(self.selection.first!)
+            .environmentObject(self.nav)
+    }
+    
+}
+
+fileprivate struct _Browser: View {
     
     @Nav private var nav
-    @SizeClass private var sizeClass
-    @Umbrella.EditMode private var editMode
+    @WebsiteQuery private var website
+    private let identifier: Website.Identifier
+    
+    internal init(_ identifier: Website.Identifier) {
+        self.identifier = identifier
+    }
     
     internal var body: some View {
-        NavigationStack {
-            Group {
-                switch self.sizeClass.horizontal {
-                case .regular:
-                    DetailTable()
-                case .compact:
-                    DetailList()
-                }
-            }
-            .modifier(.detailTitle)
-            .modifier(.detailMenu)
-            .modifier(.detailToolbar)
-            .sheetCover(item: self.$nav.detail.isBrowse) { ident in
-                Browser(ident)
-            }
-            .sheet(items: self.$nav.detail.isWebsitesEdit.editing) { selection in
-                WebsiteEdit(selection)
-            }
-            .onChange(of: self.nav.detail.selectedWebsites) { selection in
-                guard selection.count == 1, self.editMode == false else { return }
-                self.nav.detail.isBrowse = selection.first!
+        ErrorResponder(presenter: self.$nav,
+                       storage: self.$nav.errorQueue)
+        {
+            NavigationStack {
+                Web().modifier(self.toolbar)
             }
         }
+        .onLoadChange(of: self.identifier) {
+            _website.identifier = $0
+        }
+        .onLoadChange(of: self.website?.preferredURL) {
+            self.nav.shouldLoadURL = $0
+        }
+    }
+    
+    private var toolbar: some ViewModifier {
+        Toolbar(isArchived: self.$website?.isArchived)
     }
 }

@@ -70,9 +70,9 @@ internal struct DetailMenu: ViewModifier {
                     self.nav.detail.isTagApply = items
                 }
                 self.style.edit.button(self.text.edit) {
-                    
+                    self.nav.detail.isWebsitesEdit.editing = items
                 }
-                self.style.delete.button(self.text.edit) {
+                self.style.delete.button(self.text.delete) {
                     
                 }
             }

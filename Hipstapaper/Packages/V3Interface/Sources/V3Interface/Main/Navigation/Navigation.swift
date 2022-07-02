@@ -66,16 +66,25 @@ extension Navigation {
         internal var selectedWebsites: Website.Selection = []
         internal var isErrorList: Basic = .init()
         internal var isTagApply: Website.Selection = []
+        internal var isWebsitesEdit: WebsitesEdit = .init()
         internal var isBrowse: Website.Selection.Element? = nil
         internal var isError: CodableError? // Not used
         internal var isPresenting: Bool {
             !self.isTagApply.isEmpty
+            || !self.isWebsitesEdit.editing.isEmpty
             || self.isBrowse != nil
             || self.isError != nil
         }
     }
     internal struct TagsEdit: Codable, ErrorPresentable {
         internal var editing: Tag.Selection = []
+        internal var isError: CodableError?
+        internal var isPresenting: Bool {
+            self.isError != nil
+        }
+    }
+    internal struct WebsitesEdit: Codable, ErrorPresentable {
+        internal var editing: Website.Selection = []
         internal var isError: CodableError?
         internal var isPresenting: Bool {
             self.isError != nil

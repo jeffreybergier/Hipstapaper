@@ -29,12 +29,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "V3Browser",
+    name: "V3WebsiteEdit",
     platforms: [.iOS(.v16), .macOS(.v13)],
     products: [
         .library(
-            name: "V3Browser",
-            targets: ["V3Browser"]),
+            name: "V3WebsiteEdit",
+            targets: ["V3WebsiteEdit"]),
     ],
     dependencies: [
         .package(path: "../V3Model"),
@@ -47,7 +47,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "V3Browser",
+            name: "V3WebsiteEdit",
             dependencies: [
                 .byNameItem(name: "V3Model", condition: nil),
                 .byNameItem(name: "V3Localize", condition: nil),
