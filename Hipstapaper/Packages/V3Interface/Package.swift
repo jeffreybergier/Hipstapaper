@@ -43,6 +43,7 @@ let package = Package(
         .package(path: "../V3Style"),
         .package(path: "../V3Localize"),
         .package(path: "../V3Browser"),
+        .package(path: "../V3Errors"),
     ],
     targets: [
         .target(
@@ -53,6 +54,7 @@ let package = Package(
                 .byNameItem(name: "V3Style", condition: nil),
                 .byNameItem(name: "V3Localize", condition: nil),
                 .byNameItem(name: "V3Browser", condition: nil),
+                .byNameItem(name: "V3Errors", condition: nil),
             ]
         ),
     ]

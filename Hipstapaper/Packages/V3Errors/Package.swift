@@ -1,5 +1,7 @@
+// swift-tools-version: 5.7
+
 //
-//  Created by Jeffrey Bergier on 2022/06/29.
+//  Created by Jeffrey Bergier on 2022/07/02.
 //
 //  MIT License
 //
@@ -24,14 +26,27 @@
 //  SOFTWARE.
 //
 
-import Umbrella
-import V3Localize
+import PackageDescription
 
-extension CodableError {
-    internal var userFacingError: UserFacingError {
-        switch self.errorDomain {
-        default:
-            return ErrorUnknown(self)
-        }
-    }
-}
+let package = Package(
+    name: "V3Errors",
+    platforms: [.iOS(.v16), .macOS(.v13)],
+    products: [
+        .library(
+            name: "V3Errors",
+            targets: ["V3Errors"]),
+    ],
+    dependencies: [
+        .package(path: "../V3Localize"),
+        .package(path: "../Umbrella"),
+        // .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "v2"),
+    ],
+    targets: [
+        .target(
+            name: "V3Errors",
+            dependencies: [
+                .byNameItem(name: "V3Localize", condition: nil),
+                .byNameItem(name: "Umbrella", condition: nil),
+            ]),
+    ]
+)

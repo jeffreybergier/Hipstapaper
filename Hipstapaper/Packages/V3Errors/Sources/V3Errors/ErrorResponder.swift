@@ -28,27 +28,29 @@ import SwiftUI
 import Umbrella
 import V3Localize
 
-internal protocol ErrorPresentable {
+public protocol ErrorPresentable {
     var isError: CodableError? { get set }
     var isPresenting: Bool { get }
 }
 
-internal struct ErrorResponder<V: View, EP: ErrorPresentable>: View {
+public struct ErrorResponder<V: View, EP: ErrorPresentable, EC: RangeReplaceableCollection>: View where EC.Element == CodableError {
     
-    @Nav private var nav
+    @Binding private var errorStorage: EC
     @Binding private var errorPresentable: EP
     @Environment(\.codableErrorResponder) private var errorChain
     
     private let content: () -> V
     
-    internal init(_ binding: Binding<EP>,
-                  @ViewBuilder content: @escaping () -> V)
+    public init(presenter: Binding<EP>,
+                storage: Binding<EC>,
+                @ViewBuilder content: @escaping () -> V)
     {
         self.content = content
-        _errorPresentable = binding
+        _errorPresentable = presenter
+        _errorStorage = storage
     }
     
-    internal var body: some View {
+    public var body: some View {
         self.content()
             .environment(\.codableErrorResponder) { error in
                 if
@@ -62,8 +64,8 @@ internal struct ErrorResponder<V: View, EP: ErrorPresentable>: View {
                     // no view down the chain can either.
                     // Just put it straight into the errorStorage
                     // self.errorChain(error)
-                    self.nav.errorQueue.append(error)
-                    print("Uncaught Errors: \(self.nav.errorQueue.count)") // TODO: Delete print statement
+                    self.errorStorage.append(error)
+                    print("Uncaught Errors: \(self.errorStorage.count)") // TODO: Delete print statement
                 }
             }
             .modifier(self.alert)

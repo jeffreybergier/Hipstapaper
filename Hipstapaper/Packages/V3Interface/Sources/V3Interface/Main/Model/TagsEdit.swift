@@ -28,6 +28,7 @@ import SwiftUI
 import Umbrella
 import V3Model
 import V3Store
+import V3Errors
 
 internal struct TagsEdit: View {
     
@@ -72,10 +73,11 @@ internal struct TagsEditPresentation: ViewModifier {
     
     internal func body(content: Content) -> some View {
         content.popover(items: self.$identifiers) { _ in
-            ErrorResponder(self.$nav.sidebar.isTagsEdit) {
+            ErrorResponder(presenter: self.$nav.sidebar.isTagsEdit,
+                           storage: self.$nav.errorQueue) {
                 TagsEdit()
+                    .presentationDetents([.medium])
             }
-            .presentationDetents([.medium])
         }
     }
 }

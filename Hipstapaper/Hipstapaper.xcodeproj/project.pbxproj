@@ -125,6 +125,7 @@
 		73DBEC2A282ECC220091DA3C /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		73DD930925EB3B740050DBDD /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		73F5E210286E698D00B88A9E /* V3Browser */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = V3Browser; path = Packages/V3Browser; sourceTree = "<group>"; };
+		73F5E211286FC99200B88A9E /* V3Errors */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = V3Errors; path = Packages/V3Errors; sourceTree = "<group>"; };
 		DBDCB33E256BE8E700D005F6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DBDCB343256BE8E700D005F6 /* Hipstapaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hipstapaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBDCB346256BE8E700D005F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -228,6 +229,7 @@
 			children = (
 				7317DF1A285C684F009DA81A /* Hipstapaper */,
 				7317DF29285C6B67009DA81A /* V3Interface */,
+				73F5E211286FC99200B88A9E /* V3Errors */,
 				73F5E210286E698D00B88A9E /* V3Browser */,
 				7317DF2A285C6B67009DA81A /* V3Model */,
 				7317DF28285C6B67009DA81A /* V3Store */,

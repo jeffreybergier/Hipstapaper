@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/17.
+//  Created by Jeffrey Bergier on 2022/06/29.
 //
 //  MIT License
 //
@@ -24,37 +24,14 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
 import Umbrella
 import V3Localize
-import V3Model
-import V3Errors
 
-public struct MainWindow: Scene {
-    
-    @StateObject private var localizeBundle = LocalizeBundle()
-    
-    public init() {}
-    
-    public var body: some Scene {
-        WindowGroup {
-            MainView()
-                .environmentObject(self.localizeBundle)
-        }
-    }
-}
-
-internal struct MainView: View {
-    
-    @Nav private var nav
-    
-    internal var body: some View {
-        ErrorResponder(presenter: self.$nav, storage: self.$nav.errorQueue) {
-            NavigationSplitView {
-                Sidebar()
-            } detail: {
-                Detail()
-            }
+extension CodableError {
+    public var userFacingError: UserFacingError {
+        switch self.errorDomain {
+        default:
+            return ErrorUnknown(self)
         }
     }
 }
