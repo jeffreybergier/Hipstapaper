@@ -98,10 +98,10 @@ internal struct DetailToolbar: ViewModifier {
             .toolbar(id: "detailBottom") {
                 ToolbarItem(id: "error", placement: .bottomBar) {
                     if self.nav.errorQueue.isEmpty == false {
-                        self.style.error.button(self.text.error, enabled: !self.nav.isPresenting) {
+                        self.style.error.button(self.text.error) {
                             self.nav.detail.isErrorList.isPresented = true
                         }
-                        .modifier(ErrorListPresentation()) // TODO: Change to .errorListPresentation
+                        .modifier(self.errorList)
                     }
                 }
                 ToolbarItem(id: "spacer", placement: .bottomBar) {
@@ -122,5 +122,9 @@ internal struct DetailToolbar: ViewModifier {
                     }
                 }
             }
+    }
+    
+    private var errorList: some ViewModifier {
+        DetailErrorListPresentation()
     }
 }

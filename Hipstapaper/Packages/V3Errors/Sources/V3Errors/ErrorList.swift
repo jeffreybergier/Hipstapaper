@@ -30,22 +30,29 @@ import V3Model
 import V3Store
 import V3Localize
 
-internal struct ErrorList: View {
+public struct ErrorList<Nav: ErrorPresentable,
+                        ES: RandomAccessCollection & RangeReplaceableCollection>: View
+                        where ES.Element == CodableError
+{
     
-    @Nav private var nav
+    @Binding private var nav: Nav
+    @Binding private var errorQueue: ES
     @V3Localize.ErrorList private var text
     @Environment(\.dismiss) private var dismiss
+    
+    public init(nav: Binding<Nav>, errorQueue: Binding<ES>) {
+        _nav = nav
+        _errorQueue = errorQueue
+    }
         
-    internal var body: some View {
+    public var body: some View {
         NavigationStack {
-            VStack {
-                List(self.nav.errorQueue,
-                     id: \.self,
-                     selection: self.$nav.detail.isErrorList.isError,
-                     rowContent: ErrorListRow.init)
-                .listStyle(.plain)
-            }
-            .animation(.default, value: self.nav.errorQueue)
+            List(self.errorQueue,
+                 id: \.self,
+                 selection: self.$nav.isError,
+                 rowContent: ErrorListRow.init)
+            .listStyle(.plain)
+            .animation(.default, value: self.errorQueue.count)
             .modifier(self.toolbar)
             .modifier(self.alert)
         }
@@ -59,14 +66,15 @@ internal struct ErrorList: View {
         {
             self.dismiss()
         } deleteAction: {
-            self.nav.errorQueue = []
+            self.errorQueue.removeAll(where: { _ in true })
             self.dismiss()
         }
     }
     
     private var alert: some ViewModifier {
-        UserFacingErrorAlert<LocalizeBundle, CodableError>(self.$nav.detail.isErrorList.isError) {
-            self.nav.delete(error: $0)
+        UserFacingErrorAlert<LocalizeBundle, CodableError>(self.$nav.isError) { error in
+            guard let index = self.errorQueue.firstIndex(where: { $0.id == error.id }) else { return }
+            self.errorQueue.remove(at: index)
         } transform: {
             $0.userFacingError
         }
@@ -94,17 +102,4 @@ internal struct ErrorListRow: View {
             Text(String(describing: error.errorCode))
         }
     }
-}
-
-internal struct ErrorListPresentation: ViewModifier {
-    @Nav private var nav
-    internal func body(content: Content) -> some View {
-        content.popover(isPresented: self.$nav.detail.isErrorList.isPresented) {
-            ErrorList()
-        }
-    }
-}
-
-extension ViewModifier {
-    internal static var errorListPresentation: ErrorListPresentation { .init() }
 }
