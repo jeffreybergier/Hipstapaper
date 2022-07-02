@@ -25,9 +25,11 @@
 //
 
 import SwiftUI
+import Collections
 import Umbrella
+import V3Errors
 
-internal struct Navigation {
+internal struct Navigation: ErrorPresentable {
     internal var isLoading             = false
     internal var canGoBack             = false
     internal var canGoForward          = false
@@ -39,6 +41,10 @@ internal struct Navigation {
     internal var shouldLoadURL: URL?
     internal var currentURL: URL?
     internal var currentTitle          = ""
+    
+    internal var errorQueue: Deque<CodableError> = []
+    internal var isError: CodableError?
+    internal var isPresenting: Bool { self.isError != nil }
 }
 
 @propertyWrapper

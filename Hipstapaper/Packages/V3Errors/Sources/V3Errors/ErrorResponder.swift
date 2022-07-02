@@ -37,7 +37,6 @@ public struct ErrorResponder<V: View, EP: ErrorPresentable, EC: RangeReplaceable
     
     @Binding private var errorStorage: EC
     @Binding private var errorPresentable: EP
-    @Environment(\.codableErrorResponder) private var errorChain
     
     private let content: () -> V
     

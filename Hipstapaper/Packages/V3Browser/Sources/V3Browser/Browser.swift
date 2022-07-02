@@ -28,6 +28,7 @@ import SwiftUI
 import Umbrella
 import V3Store
 import V3Model
+import V3Errors
 
 public struct Browser: View {
     
@@ -57,9 +58,12 @@ fileprivate struct _Browser: View {
     }
     
     internal var body: some View {
-        NavigationStack {
-            Web()
-                .modifier(Toolbar(isArchived: self.$website?.isArchived))
+        ErrorResponder(presenter: self.$nav,
+                       storage: self.$nav.errorQueue)
+        {
+            NavigationStack {
+                Web().modifier(self.toolbar)
+            }
         }
         .onLoadChange(of: self.identifier) {
             _website.identifier = $0
@@ -67,5 +71,9 @@ fileprivate struct _Browser: View {
         .onLoadChange(of: self.website?.preferredURL) {
             self.nav.shouldLoadURL = $0
         }
+    }
+    
+    private var toolbar: some ViewModifier {
+        Toolbar(isArchived: self.$website?.isArchived)
     }
 }
