@@ -34,6 +34,7 @@ internal enum Verb: LocalizationKey {
     case dismiss                = "Verb.Dismiss"
     case search                 = "Verb.Search"
     case archiveYes             = "Verb.Archive"
+    case archiveClose           = "Verb.ArchiveClose"
     case archiveNo              = "Verb.Unarchive"
     case share                  = "Verb.Share"
     case addChoice              = "Verb.AddChoice"

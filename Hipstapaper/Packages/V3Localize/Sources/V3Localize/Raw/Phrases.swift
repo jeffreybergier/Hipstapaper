@@ -46,6 +46,7 @@ internal enum Phrase: LocalizationKey {
     case openInApp              = "Phrase.OpenInApp"
     case stopLoading            = "Phrase.StopLoading"
     case loadPage               = "Phrase.LoadPage"
+    case loadingPage            = "Phrase.LoadingPage"
     case reloadPage             = "Phrase.ReloadPage"
     case jsActive               = "Phrase.JSActive"
     case jsInactive             = "Phrase.JSInactive"

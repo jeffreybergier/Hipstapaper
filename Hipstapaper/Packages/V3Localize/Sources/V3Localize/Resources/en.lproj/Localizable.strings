@@ -40,6 +40,7 @@
 "Verb.Search"                 = "Search";
 "Verb.AddWebsite"             = "Add Website";
 "Verb.Archive"                = "Archive";
+"Verb.ArchiveClose"           = "Archive and Close";
 "Verb.Unarchive"              = "Unarchive";
 "Verb.Share"                  = "Share";
 "Verb.DeleteTag"              = "Delete Tag(s)";
@@ -135,6 +136,7 @@
 "Phrase.StopLoading"            = "Stop loading";
 "Phrase.ReloadPage"             = "Reload page";
 "Phrase.LoadPage"               = "Load page";
+"Phrase.LoadingPage"            = "Loading…";
 "Phrase.JSActive"               = "Disable Javascript";
 "Phrase.JSInactive"             = "Enable Javascript";
 "Phrase.GoBack"                 = "Show the previous page";

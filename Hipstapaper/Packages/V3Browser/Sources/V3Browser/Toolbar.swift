@@ -27,16 +27,14 @@
 import SwiftUI
 import Umbrella
 import V3Style
-
-extension ViewModifier where Self == Toolbar {
-    internal static var toolbar: Self { Self.init() }
-}
+import V3Localize
 
 internal struct Toolbar: ViewModifier {
     
     @Nav private var nav
     @SizeClass private var sizeclass
     @V3Style.Browser private var style
+    @V3Localize.Browser private var text
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
     
@@ -127,15 +125,13 @@ internal struct Toolbar: ViewModifier {
     }
     
     private var itemBack: some View {
-        self.style.back.button("Go Back",
-                               enabled: self.nav.canGoBack)
-        {
+        self.style.back.button(self.text.back, enabled: self.nav.canGoBack) {
             self.nav.shouldGoBack = true
         }
     }
     
     private var itemForward: some View {
-        self.style.forward.button("Go Forward",
+        self.style.forward.button(self.text.forward,
                                   enabled: self.nav.canGoForward)
         {
             self.nav.shouldGoForward = true
@@ -144,11 +140,11 @@ internal struct Toolbar: ViewModifier {
     
     private var itemStopReload: some View {
         if self.nav.isLoading {
-            return self.style.stop.button("Stop") {
+            return self.style.stop.button(self.text.stop) {
                 self.nav.shouldStop = true
             }
         } else {
-            return self.style.reload.button("Reload") {
+            return self.style.reload.button(self.text.reload) {
                 self.nav.shouldReload = true
             }
         }
@@ -156,24 +152,24 @@ internal struct Toolbar: ViewModifier {
     
     private var itemJavaScript: some View {
         if self.nav.isJSEnabled {
-            return self.style.jsYes.button("Disable Javascript") {
+            return self.style.jsYes.button(self.text.jsYes) {
                 self.nav.isJSEnabled = false
             }
         } else {
-            return self.style.jsNo.button("Enable Javascript") {
+            return self.style.jsNo.button(self.text.jsNo) {
                 self.nav.isJSEnabled = true
             }
         }
     }
     
     private var itemStatus: some View {
-        TextField("Loading...", text: self.$nav.currentTitle)
+        TextField(self.text.loading, text: self.$nav.currentTitle)
             .disabled(true)
     }
     
     private var itemOpenExternal: some View {
         let urlToOpen = self.nav.currentURL ?? self.nav.shouldLoadURL
-        return self.style.openExternal.button("Open in Browser",
+        return self.style.openExternal.button(self.text.openExternal,
                                               enabled: urlToOpen != nil)
         {
             guard let urlToOpen else { return }
@@ -182,13 +178,13 @@ internal struct Toolbar: ViewModifier {
     }
     
     private var itemShare: some View {
-        self.style.share.button("Share") {
+        self.style.share.button(self.text.share) {
             
         }
     }
     
     private var itemArchiveAndClose: some View {
-        self.style.archiveYes.button("Archive and Close",
+        self.style.archiveYes.button(self.text.archiveYes,
                                      enabled: self.isArchived?.wrappedValue == false)
         {
             self.isArchived?.wrappedValue = true
@@ -198,7 +194,7 @@ internal struct Toolbar: ViewModifier {
     
     @ViewBuilder private var itemErrors: some View {
         if self.nav.errorQueue.isEmpty == false {
-            self.style.error.button("Errors") {
+            self.style.error.button(self.text.error) {
                 self.nav.isErrorList.isPresented = true
             }
             .modifier(ErrorListPresentation())
@@ -206,7 +202,7 @@ internal struct Toolbar: ViewModifier {
     }
     
     private var itemClose: some View {
-        Button("Done") {
+        Button(self.text.done) {
             self.dismiss()
         }
     }
@@ -235,4 +231,8 @@ extension String {
     fileprivate static let itemSpacer1         = "toolbar.spacer1"
     fileprivate static let itemSeparator1      = "toolbar.separator1"
     fileprivate static let itemSeparator2      = "toolbar.separator2"
+}
+
+extension ViewModifier where Self == Toolbar {
+    internal static var toolbar: Self { Self.init() }
 }
