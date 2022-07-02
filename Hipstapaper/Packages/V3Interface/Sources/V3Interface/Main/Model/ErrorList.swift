@@ -52,10 +52,10 @@ internal struct ErrorList: View {
         .frame(idealWidth: 320, minHeight: 320)
     }
     
-    private var toolbar: DoneToolbar {
-        .init(title: self.text.title,
-              done: self.text.done,
-              delete: self.text.clearAll)
+    private var toolbar: some ViewModifier {
+        JSBToolbar(title: self.text.title,
+                   done: self.text.done,
+                   delete: self.text.clearAll)
         {
             self.dismiss()
         } deleteAction: {

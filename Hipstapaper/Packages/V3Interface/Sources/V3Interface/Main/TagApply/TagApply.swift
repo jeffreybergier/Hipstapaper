@@ -51,14 +51,18 @@ internal struct TagApply: View {
                               isOn: item.status.boolValue)
                 }
             }
-            .modifier(DoneToolbar(title: self.text.title,
-                                  done: self.text.done,
-                                  doneAction: { self.dismiss() }))
+            .modifier(self.toolbar)
         }
         .frame(idealWidth: 320, minHeight: 320)
         .onLoadChange(of: self.selection) {
             _data.selection = $0
         }
+    }
+    
+    private var toolbar: some ViewModifier {
+        JSBToolbar(title: self.text.title,
+                   done: self.text.done,
+                   doneAction: { self.dismiss() })
     }
 }
 

@@ -54,8 +54,8 @@ internal struct TagsEdit: View {
     }
     
     private var toolbar: some ViewModifier {
-        DoneToolbar(title: "Edit Tag(s)",
-                    done: "Done")
+        JSBToolbar(title: "Edit Tag(s)",
+                   done: "Done")
         {
             self.dismiss()
         }
