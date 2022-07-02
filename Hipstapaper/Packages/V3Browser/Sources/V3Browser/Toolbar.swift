@@ -68,6 +68,9 @@ internal struct Toolbar: ViewModifier {
                     ToolbarItem(id: .itemStopReload, placement: .navigation) {
                         self.itemStopReload
                     }
+                    ToolbarItem(id: .itemErrors, placement: .navigation) {
+                        self.itemErrors
+                    }
                     ToolbarItem(id: .itemJavaScript, placement: .bottomBar) {
                         self.itemJavaScript
                     }
@@ -84,8 +87,13 @@ internal struct Toolbar: ViewModifier {
                         self.itemShare
                     }
                 case .compact:
-                    ToolbarItem(id: .itemStatus, placement: .principal) {
-                        self.itemStatus
+                    if true { // hack to stop compiler failures for too many items
+                        ToolbarItem(id: .itemErrors, placement: .cancellationAction) {
+                            self.itemErrors
+                        }
+                        ToolbarItem(id: .itemStatus, placement: .principal) {
+                            self.itemStatus
+                        }
                     }
                     ToolbarItem(id: .itemBack, placement: .bottomBar) {
                         self.itemBack
@@ -188,6 +196,15 @@ internal struct Toolbar: ViewModifier {
         }
     }
     
+    @ViewBuilder private var itemErrors: some View {
+        if self.nav.errorQueue.isEmpty == false {
+            self.style.error.button("Errors") {
+                self.nav.isErrorList.isPresented = true
+            }
+            .modifier(ErrorListPresentation())
+        }
+    }
+    
     private var itemClose: some View {
         Button("Done") {
             self.dismiss()
@@ -214,6 +231,7 @@ extension String {
     fileprivate static let itemShare           = "toolbar.share"
     fileprivate static let itemArchiveAndClose = "toolbar.itemArchiveAndClose"
     fileprivate static let itemClose           = "toolbar.close"
+    fileprivate static let itemErrors          = "toolbar.errors"
     fileprivate static let itemSpacer1         = "toolbar.spacer1"
     fileprivate static let itemSeparator1      = "toolbar.separator1"
     fileprivate static let itemSeparator2      = "toolbar.separator2"

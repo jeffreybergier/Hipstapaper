@@ -44,6 +44,7 @@ internal struct Navigation: ErrorPresentable {
     
     internal var errorQueue: Deque<CodableError> = []
     internal var isError: CodableError?
+    internal var isErrorList = Basic()
     internal var isPresenting: Bool { self.isError != nil }
 }
 
@@ -68,6 +69,16 @@ internal struct Nav: DynamicProperty {
             self.wrappedValue
         } set: {
             self.wrappedValue = $0
+        }
+    }
+}
+
+extension Navigation {
+    internal struct Basic: Codable, ErrorPresentable {
+        internal var isError: CodableError?
+        internal var isPresented: Bool = false
+        internal var isPresenting: Bool {
+            self.isError != nil
         }
     }
 }
