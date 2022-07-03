@@ -65,7 +65,7 @@ fileprivate struct _WebsiteEdit: View {
                     case 0:
                         EmptyState()
                     case 1:
-                        Text("1 Item")
+                        FormSingle(self.selection.first!)
                     default:
                         FormMulti(self.selection)
                     }
@@ -80,10 +80,7 @@ fileprivate struct _WebsiteEdit: View {
     }
 }
 
-fileprivate struct EmptyState: View {
-    internal init() {
-        assertionFailure()
-    }
+internal struct EmptyState: View {
     internal var body: some View {
         Label("Nothing Selected", systemImage: "rectangle.on.rectangle.slash")
     }

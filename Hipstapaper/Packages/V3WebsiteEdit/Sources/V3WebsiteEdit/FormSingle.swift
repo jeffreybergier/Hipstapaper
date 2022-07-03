@@ -29,49 +29,57 @@ import Umbrella
 import V3Model
 import V3Store
 
-internal struct FormMulti: View {
+internal struct FormSingle: View {
     
-    private let selection: Website.Selection
-    @WebsiteSearchListQuery private var data
+    @Nav private var nav
+    @WebsiteQuery private var item
+    private let identifier: Website.Selection.Element
     
-    internal init(_ selection: Website.Selection) {
-        self.selection = selection
+    internal init(_ identifier: Website.Selection.Element) {
+        self.identifier = identifier
     }
     
     internal var body: some View {
         Form {
-            ForEach(self.$data) { item in
-                Section {
-                    JSBTextField("Title",    text: item.title)
-                    JSBTextField("Original", text: item.originalURL.toString)
-                    JSBTextField("Resolved", text: item.resolvedURL.toString)
-                    ImageDelete(item.thumbnail)
-                } header: {
-                    JSBText("Untitled",      text: item.title.wrappedValue)
-                }
+            ErrorProducer(location: "FORMSingle")
+            _FormSingle(self.$item)
+            Button("Go") {
+                self.nav.shouldLoadURL = self.item?.originalURL
             }
+            Web()
+                .frame(idealWidth: 320, idealHeight: 320)
         }
-        .onLoadChange(of: self.selection) {
-            _data.search = $0
+        .onLoadChange(of: self.identifier) {
+            _item.identifier = $0
+        }
+    }
+    
+    private func mapURL(_ binding: Binding<URL?>) -> Binding<String?> {
+        binding.map(get: { $0?.absoluteString }, set: { URL(string: $0 ?? "") })
+    }
+}
+
+fileprivate struct _FormSingle: View {
+    
+    private let item: Binding<Website>?
+    
+    internal init(_ binding: Binding<Website>?) {
+        self.item = binding
+    }
+    
+    internal var body: some View {
+        if let item {
+            JSBTextField("Title",    text: item.title)
+            JSBTextField("Original", text: item.originalURL.toString)
+            JSBTextField("Resolved", text: item.resolvedURL.toString)
+        } else {
+            EmptyState()
         }
     }
 }
 
-fileprivate struct ImageDelete: View {
-    @Binding private var data: Data?
-    internal init(_ binding: Binding<Data?>) {
-        _data = binding
-    }
-    internal var body: some View {
-        if let data {
-            HStack {
-                Image(data: data)
-                Spacer()
-                Button("Delete Thumbnail") {
-                    self.data = nil
-                }
-            }
-            .frame(height: 128)
-        }
+extension Binding where Value == Optional<URL> {
+    internal var toString: Binding<String?> {
+        self.map(get: { $0?.absoluteString }, set: { URL(string: $0 ?? "") })
     }
 }
