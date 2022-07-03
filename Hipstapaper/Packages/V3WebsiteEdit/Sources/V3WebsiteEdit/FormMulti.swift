@@ -65,13 +65,13 @@ fileprivate struct ImageDelete: View {
     internal var body: some View {
         if let data {
             HStack {
-                Image(data: data)
+                Image(data: data)?.resizable()
+                    .frame(width: 128, height: 128)
                 Spacer()
                 Button("Delete Thumbnail") {
                     self.data = nil
                 }
             }
-            .frame(height: 128)
         }
     }
 }

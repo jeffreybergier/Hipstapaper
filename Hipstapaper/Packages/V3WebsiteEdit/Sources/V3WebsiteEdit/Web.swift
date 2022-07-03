@@ -48,7 +48,7 @@ internal struct Web: View {
 fileprivate struct _Web: View {
     
     @Nav private var nav
-    @WebData private var webData
+    @WebState private var webState
     @Environment(\.errorResponder) private var errorChain
     @ObservedObject fileprivate var progress: BlackBox<Double>
     @StateObject private var kvo = BlackBox(Array<NSObjectProtocol>(),
@@ -65,10 +65,10 @@ fileprivate struct _Web: View {
         }
         if self.nav.shouldSnapshot {
             self.nav.shouldSnapshot = false
-            wv.snapshot { [errorChain, data = _webData.raw] result in
+            wv.snapshot { [errorChain, state = _webState.raw] result in
                 switch result {
                 case .success(let image):
-                    data.value.currentThumbnail = image
+                    state.value.currentThumbnail = image
                 case .failure(let error):
                     errorChain(error)
                 }
@@ -95,12 +95,12 @@ fileprivate struct _Web: View {
             nav.value.isLoading = wv.isLoading
         }
         let token2 = wv.observe(\.url)
-        { [unowned data = _webData.raw] wv, _ in
-            data.value.currentURL = wv.url
+        { [unowned state = _webState.raw] wv, _ in
+            state.value.currentURL = wv.url
         }
         let token3 = wv.observe(\.title)
-        { [unowned data = _webData.raw] wv, _ in
-            data.value.currentTitle = wv.title ?? ""
+        { [unowned state = _webState.raw] wv, _ in
+            state.value.currentTitle = wv.title ?? ""
         }
         let token4 = wv.observe(\.estimatedProgress)
         { [unowned progress] wv, _ in

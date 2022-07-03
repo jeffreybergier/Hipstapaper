@@ -24,6 +24,7 @@
 //  SOFTWARE.
 //
 
+import Combine
 import SwiftUI
 import Umbrella
 import V3Model
@@ -32,8 +33,10 @@ import V3Store
 internal struct FormSingle: View {
     
     @Nav private var nav
-    @WebData private var webData
+    @WebState private var webState
     @WebsiteQuery private var item
+    @State private var timer = Timer.publish(every: 5, on: .main, in: .common)
+    @State private var timerToken: Cancellable?
     
     private let identifier: Website.Selection.Element
     
@@ -43,50 +46,73 @@ internal struct FormSingle: View {
     
     internal var body: some View {
         Form {
-            FormSingleRow(self.$item)
-            self.goButton
-            WebSnapshot(self.$item?.thumbnail)
+            self.rowEditForm
+            self.rowGoButton
+            self.rowWebSnapshot
+            self.rowDeleteButton
+            self.rowResolvedURL
         }
         .onLoadChange(of: self.identifier) {
             _item.identifier = $0
         }
-        .onChange(of: self.webData.currentThumbnail) {
+        .onChange(of: self.webState.currentThumbnail) {
             self.item?.thumbnail = $0?.pngData()
         }
-        .onChange(of: self.webData.currentTitle) {
+        .onChange(of: self.webState.currentTitle) {
             self.item?.title = $0
         }
-        .onChange(of: self.webData.currentURL) {
+        .onChange(of: self.webState.currentURL) {
             self.item?.resolvedURL = $0
+        }
+        .onChange(of: self.nav.shouldLoadURL) {
+            guard $0 != nil else { return }
+            self.timerToken = self.timer.connect()
+        }
+        .onReceive(self.timer) { _ in
+            self.nav.shouldSnapshot = true
+        }
+    }
+    
+    @ViewBuilder private var rowEditForm: some View {
+        if let item = self.$item {
+            JSBTextField("Title",    text: item.title)
+            JSBTextField("Original", text: item.originalURL.mapString)
+        } else {
+            EmptyState()
+        }
+    }
+    
+    @ViewBuilder private var rowResolvedURL: some View {
+        if let item = self.$item {
+            JSBTextField("Resolved", text: item.resolvedURL.mapString)
+        }
+    }
+    
+    private var rowWebSnapshot: some View {
+        ZStack {
+            Web()
+            Image(data: self.item?.thumbnail)?.resizable()
+        }
+        .frame(width: 320, height: 320)
+    }
+    
+    private var rowGoButton: some View {
+        Button("Go") {
+            self.nav.shouldLoadURL = self.item?.originalURL
+        }
+    }
+    
+    @ViewBuilder private var rowDeleteButton: some View {
+        if self.item?.thumbnail != nil {
+            Button("Delete Thumbnail") {
+                self.item?.thumbnail = nil
+                self.timerToken?.cancel()
+                self.timer = Timer.publish(every: 5, on: .main, in: .common)
+            }
         }
     }
     
     private func mapURL(_ binding: Binding<URL?>) -> Binding<String?> {
         binding.map(get: { $0?.absoluteString }, set: { URL(string: $0 ?? "") })
-    }
-    
-    private var goButton: some View {
-        Button("Go") {
-            self.nav.shouldLoadURL = self.item?.originalURL
-        }
-    }
-}
-
-fileprivate struct FormSingleRow: View {
-    
-    private let item: Binding<Website>?
-    
-    internal init(_ binding: Binding<Website>?) {
-        self.item = binding
-    }
-    
-    internal var body: some View {
-        if let item {
-            JSBTextField("Title",    text: item.title)
-            JSBTextField("Original", text: item.originalURL.mapString)
-            JSBTextField("Resolved", text: item.resolvedURL.mapString)
-        } else {
-            EmptyState()
-        }
     }
 }

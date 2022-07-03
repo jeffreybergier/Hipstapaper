@@ -25,26 +25,35 @@
 //
 
 import SwiftUI
+import Umbrella
 
-internal struct WebSnapshot: View {
+@propertyWrapper
+internal struct WebState: DynamicProperty {
     
-    @Nav private var nav
-    @WebData private var webData
-    @Binding private var imageData: Data?
-    @State private var timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
+    internal struct Value {
+        internal var currentURL:       URL?
+        internal var currentTitle:     String?
+        internal var currentThumbnail: JSBImage?
+    }
+        
+    internal static func newEnvironment() -> BlackBox<Value> {
+        BlackBox(Value(), isObservingValue: true)
+    }
+
+    @EnvironmentObject internal var raw: BlackBox<Value>
     
-    internal init(_ binding: Binding<Data?>?) {
-        _imageData = binding ?? .constant(nil)
+    internal init() {}
+    
+    internal var wrappedValue: Value {
+        get { self.raw.value }
+        nonmutating set { self.raw.value = newValue }
     }
     
-    internal var body: some View {
-        ZStack {
-            Web()
-            Image(data: self.imageData)?.resizable()
-        }
-        .frame(width: 320, height: 320)
-        .onReceive(self.timer) { _ in
-            self.nav.shouldSnapshot = true
+    internal var projectedValue: Binding<Value> {
+        .init {
+            self.wrappedValue
+        } set: {
+            self.wrappedValue = $0
         }
     }
 }

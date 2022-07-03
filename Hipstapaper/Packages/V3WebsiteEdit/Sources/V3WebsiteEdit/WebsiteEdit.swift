@@ -31,7 +31,6 @@ import V3Errors
 
 public struct WebsiteEdit: View {
         
-    @StateObject private var data = WebData.newEnvironment()
     @StateObject private var nav = Nav.newEnvironment()
     
     private let selection: Website.Selection
@@ -43,7 +42,6 @@ public struct WebsiteEdit: View {
     public var body: some View {
         _WebsiteEdit(self.selection)
             .environmentObject(self.nav)
-            .environmentObject(self.data)
     }
     
 }
@@ -51,6 +49,8 @@ public struct WebsiteEdit: View {
 fileprivate struct _WebsiteEdit: View {
     
     @Nav private var nav
+    @StateObject private var webState = WebState.newEnvironment()
+    
     private let selection: Website.Selection
 
     internal init(_ selection: Website.Selection) {
@@ -68,6 +68,7 @@ fileprivate struct _WebsiteEdit: View {
                         EmptyState()
                     case 1:
                         FormSingle(self.selection.first!)
+                            .environmentObject(self.webState)
                     default:
                         FormMulti(self.selection)
                     }
