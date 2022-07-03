@@ -27,64 +27,46 @@
 import SwiftUI
 import Umbrella
 import V3Model
-import V3Errors
+import V3Store
 
-public struct WebsiteEdit: View {
+internal struct FormMulti: View {
     
     private let selection: Website.Selection
+    @WebsiteSearchListQuery private var data
     
-    @StateObject private var nav = Nav.newEnvironment()
-    
-    public init(_ selection: Website.Selection) {
-        self.selection = selection
-    }
-    
-    public var body: some View {
-        _WebsiteEdit(self.selection)
-            .environmentObject(self.nav)
-    }
-    
-}
-
-fileprivate struct _WebsiteEdit: View {
-    
-    @Nav private var nav
-    private let selection: Website.Selection
-
     internal init(_ selection: Website.Selection) {
         self.selection = selection
     }
     
     internal var body: some View {
-        ErrorResponder(presenter: self.$nav,
-                       storage: self.$nav.errorQueue)
-        {
-            NavigationStack {
-                Group {
-                    switch self.selection.count {
-                    case 0:
-                        EmptyState()
-                    case 1:
-                        Text("1 Item")
-                    default:
-                        FormMulti(self.selection)
+        Form {
+            ForEach(self.$data) { item in
+                Section {
+                    HStack {
+                        VStack {
+                            JSBTextField("Title",    text: item.title)
+                            JSBTextField("Original", text: self.mapURL(item.originalURL))
+                            JSBTextField("Resolved", text: self.mapURL(item.resolvedURL))
+                        }
+                        if let image = item.thumbnail.wrappedValue {
+                            Spacer()
+                            ZStack {
+                                Button("DDelete") {}
+                                Image(data: image)
+                            }
+                        }
                     }
+                } header: {
+                    JSBText("Untitled",      text: item.title.wrappedValue)
                 }
-                .modifier(self.toolbar)
             }
+        }
+        .onLoadChange(of: self.selection) {
+            _data.search = $0
         }
     }
     
-    private var toolbar: some ViewModifier {
-        Toolbar(self.selection)
-    }
-}
-
-fileprivate struct EmptyState: View {
-    internal init() {
-        assertionFailure()
-    }
-    internal var body: some View {
-        Label("Nothing Selected", systemImage: "rectangle.on.rectangle.slash")
+    private func mapURL(_ binding: Binding<URL?>) -> Binding<String?> {
+        binding.map(get: { $0?.absoluteString }, set: { URL(string: $0 ?? "") })
     }
 }

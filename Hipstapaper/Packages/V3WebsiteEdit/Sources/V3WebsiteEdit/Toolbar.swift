@@ -26,46 +26,51 @@
 
 import SwiftUI
 import Umbrella
+import V3Model
 import V3Style
 import V3Localize
 
 internal struct Toolbar: ViewModifier {
     
     @Nav private var nav
-    @SizeClass private var sizeclass
     @V3Style.Browser private var style
     @V3Localize.Browser private var text
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.openURL) private var openURL
     
-    internal var isArchived: Binding<Bool>?
+    private var selection: Website.Selection
     
+    internal init(_ selection: Website.Selection) {
+        self.selection = selection
+    }
+        
     internal func body(content: Content) -> some View {
         content
             .navigationTitle("Edit Website(s)")
             .navigationBarTitleDisplayMode(.inline)
             .toolbarRole(.navigationStack)
             .toolbar {
+                ToolbarItem(id: .itemErrors, placement: .primaryAction) {
+                    self.itemErrors
+                }
                 ToolbarItem(id: .itemClose, placement: .primaryAction) {
                     self.itemClose
                 }
                 ToolbarItem(id: .itemClose, placement: .cancellationAction) {
                     self.itemDelete
                 }
-                ToolbarItem(id: .itemJavaScript, placement: .bottomBar) {
-                    self.itemJavaScript
-                }
-                ToolbarItem(id: .itemSpacer1, placement: .bottomBar) {
-                    self.itemSpacer
-                }
-                ToolbarItem(id: .itemErrors, placement: .bottomBar) {
-                    self.itemErrors
-                }
-                ToolbarItem(id: .itemSpacer1, placement: .bottomBar) {
-                    self.itemSpacer
-                }
-                ToolbarItem(id: .itemStopReload, placement: .bottomBar) {
-                    self.itemStopReload
+                if self.selection.count == 1 {
+                    ToolbarItem(id: .itemSpacer1, placement: .bottomBar) {
+                        self.itemSpacer
+                    }
+                    ToolbarItem(id: .itemJavaScript, placement: .bottomBar) {
+                        self.itemJavaScript
+                    }
+                    ToolbarItem(id: .itemSeparator1, placement: .bottomBar) {
+                        self.itemSeparator
+                    }
+                    ToolbarItem(id: .itemStopReload, placement: .bottomBar) {
+                        self.itemStopReload
+                    }
                 }
             }
     }
@@ -131,8 +136,4 @@ extension String {
     fileprivate static let itemErrors          = "toolbar.errors"
     fileprivate static let itemSpacer1         = "toolbar.spacer1"
     fileprivate static let itemSeparator1      = "toolbar.separator1"
-}
-
-extension ViewModifier where Self == Toolbar {
-    internal static var toolbar: Self { Self.init() }
 }
