@@ -57,6 +57,7 @@ public struct ErrorList<Nav: ErrorPresentable,
             .modifier(self.alert)
         }
         .frame(idealWidth: 320, minHeight: 320)
+        .presentationDetents([.medium, .large])
     }
     
     private var toolbar: some ViewModifier {

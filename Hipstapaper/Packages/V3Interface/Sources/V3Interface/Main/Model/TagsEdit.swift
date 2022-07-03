@@ -76,7 +76,7 @@ internal struct TagsEditPresentation: ViewModifier {
             ErrorResponder(presenter: self.$nav.sidebar.isTagsEdit,
                            storage: self.$nav.errorQueue) {
                 TagsEdit()
-                    .presentationDetents([.medium])
+                    .presentationDetents([.medium, .large])
             }
         }
     }
