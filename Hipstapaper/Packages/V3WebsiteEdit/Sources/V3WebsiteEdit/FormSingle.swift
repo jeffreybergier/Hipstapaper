@@ -32,7 +32,9 @@ import V3Store
 internal struct FormSingle: View {
     
     @Nav private var nav
+    @WebData private var webData
     @WebsiteQuery private var item
+    
     private let identifier: Website.Selection.Element
     
     internal init(_ identifier: Website.Selection.Element) {
@@ -41,25 +43,36 @@ internal struct FormSingle: View {
     
     internal var body: some View {
         Form {
-            ErrorProducer(location: "FORMSingle")
-            _FormSingle(self.$item)
-            Button("Go") {
-                self.nav.shouldLoadURL = self.item?.originalURL
-            }
-            Web()
-                .frame(idealWidth: 320, idealHeight: 320)
+            FormSingleRow(self.$item)
+            self.goButton
+            WebSnapshot(self.$item?.thumbnail)
         }
         .onLoadChange(of: self.identifier) {
             _item.identifier = $0
+        }
+        .onChange(of: self.webData.currentThumbnail) {
+            self.item?.thumbnail = $0?.pngData()
+        }
+        .onChange(of: self.webData.currentTitle) {
+            self.item?.title = $0
+        }
+        .onChange(of: self.webData.currentURL) {
+            self.item?.resolvedURL = $0
         }
     }
     
     private func mapURL(_ binding: Binding<URL?>) -> Binding<String?> {
         binding.map(get: { $0?.absoluteString }, set: { URL(string: $0 ?? "") })
     }
+    
+    private var goButton: some View {
+        Button("Go") {
+            self.nav.shouldLoadURL = self.item?.originalURL
+        }
+    }
 }
 
-fileprivate struct _FormSingle: View {
+fileprivate struct FormSingleRow: View {
     
     private let item: Binding<Website>?
     
@@ -70,16 +83,10 @@ fileprivate struct _FormSingle: View {
     internal var body: some View {
         if let item {
             JSBTextField("Title",    text: item.title)
-            JSBTextField("Original", text: item.originalURL.toString)
-            JSBTextField("Resolved", text: item.resolvedURL.toString)
+            JSBTextField("Original", text: item.originalURL.mapString)
+            JSBTextField("Resolved", text: item.resolvedURL.mapString)
         } else {
             EmptyState()
         }
-    }
-}
-
-extension Binding where Value == Optional<URL> {
-    internal var toString: Binding<String?> {
-        self.map(get: { $0?.absoluteString }, set: { URL(string: $0 ?? "") })
     }
 }

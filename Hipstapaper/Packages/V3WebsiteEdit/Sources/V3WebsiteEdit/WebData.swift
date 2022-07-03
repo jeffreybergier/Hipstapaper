@@ -25,55 +25,35 @@
 //
 
 import SwiftUI
-import Collections
 import Umbrella
-import V3Errors
-
-internal struct Navigation: ErrorPresentable {
-    internal var isLoading             = false
-    internal var isJSEnabled           = false
-    internal var shouldStop            = false
-    internal var shouldReload          = true
-    internal var shouldSnapshot        = false
-    internal var shouldLoadURL: URL?
-    
-    internal var errorQueue: Deque<CodableError> = []
-    internal var isError: CodableError?
-    internal var isErrorList = Basic()
-    internal var isPresenting: Bool { self.isError != nil }
-}
 
 @propertyWrapper
-internal struct Nav: DynamicProperty {
+internal struct WebData: DynamicProperty {
     
-    internal static func newEnvironment() -> BlackBox<Navigation> {
-        BlackBox(Navigation(), isObservingValue: true)
+    internal struct Value {
+        internal var currentURL:       URL?
+        internal var currentTitle:     String?
+        internal var currentThumbnail: JSBImage?
+    }
+        
+    internal static func newEnvironment() -> BlackBox<Value> {
+        BlackBox(Value(), isObservingValue: true)
     }
 
-    @EnvironmentObject internal var raw: BlackBox<Navigation>
+    @EnvironmentObject internal var raw: BlackBox<Value>
     
     internal init() {}
     
-    internal var wrappedValue: Navigation {
+    internal var wrappedValue: Value {
         get { self.raw.value }
         nonmutating set { self.raw.value = newValue }
     }
     
-    internal var projectedValue: Binding<Navigation> {
+    internal var projectedValue: Binding<Value> {
         .init {
             self.wrappedValue
         } set: {
             self.wrappedValue = $0
-        }
-    }
-}
-
-extension Navigation {
-    internal struct Basic: Codable, ErrorPresentable {
-        internal var isError: CodableError?
-        internal var isPresented: Bool = false
-        internal var isPresenting: Bool {
-            self.isError != nil
         }
     }
 }

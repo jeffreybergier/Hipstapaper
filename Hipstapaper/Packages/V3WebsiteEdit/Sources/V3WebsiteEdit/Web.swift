@@ -48,6 +48,7 @@ internal struct Web: View {
 fileprivate struct _Web: View {
     
     @Nav private var nav
+    @WebData private var webData
     @Environment(\.errorResponder) private var errorChain
     @ObservedObject fileprivate var progress: BlackBox<Double>
     @StateObject private var kvo = BlackBox(Array<NSObjectProtocol>(),
@@ -61,6 +62,17 @@ fileprivate struct _Web: View {
         if self.nav.shouldReload {
             wv.reload()
             self.nav.shouldReload = false
+        }
+        if self.nav.shouldSnapshot {
+            self.nav.shouldSnapshot = false
+            wv.snapshot { [errorChain, data = _webData.raw] result in
+                switch result {
+                case .success(let image):
+                    data.value.currentThumbnail = image
+                case .failure(let error):
+                    errorChain(error)
+                }
+            }
         }
         if wv.configuration.preferences.javaScriptEnabled != self.nav.isJSEnabled {
             wv.configuration.preferences.javaScriptEnabled = self.nav.isJSEnabled
@@ -77,17 +89,18 @@ fileprivate struct _Web: View {
         let wv = WKWebView(frame: .zero, configuration: config)
         wv.configuration.websiteDataStore = .nonPersistent()
         wv.navigationDelegate = context.coordinator
+        wv.isUserInteractionEnabled = false
         let token1 = wv.observe(\.isLoading)
         { [unowned nav = _nav.raw] wv, _ in
             nav.value.isLoading = wv.isLoading
         }
         let token2 = wv.observe(\.url)
-        { [unowned nav = _nav.raw] wv, _ in
-            nav.value.currentURL = wv.url
+        { [unowned data = _webData.raw] wv, _ in
+            data.value.currentURL = wv.url
         }
         let token3 = wv.observe(\.title)
-        { [unowned nav = _nav.raw] wv, _ in
-            nav.value.currentTitle = wv.title ?? ""
+        { [unowned data = _webData.raw] wv, _ in
+            data.value.currentTitle = wv.title ?? ""
         }
         let token4 = wv.observe(\.estimatedProgress)
         { [unowned progress] wv, _ in
@@ -126,3 +139,21 @@ extension _Web: UIViewRepresentable {
     }
 }
 #endif
+
+extension WKWebView {
+    fileprivate func snapshot(completion: @escaping (Result<JSBImage, Error>) -> Void) {
+        self.takeSnapshot(with: nil) { image, error in
+            DispatchQueue.main.async {
+                if let error {
+                    completion(.failure(error))
+                    return
+                }
+                guard let image else {
+                    // completion(.failure(error)) // TODO: Create error here
+                    return
+                }
+                completion(.success(image))
+            }
+        }
+    }
+}

@@ -25,53 +25,26 @@
 //
 
 import SwiftUI
-import Umbrella
-import V3Model
-import V3Store
 
-internal struct FormMulti: View {
+internal struct WebSnapshot: View {
     
-    private let selection: Website.Selection
-    @WebsiteSearchListQuery private var data
+    @Nav private var nav
+    @WebData private var webData
+    @Binding private var imageData: Data?
+    @State private var timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
     
-    internal init(_ selection: Website.Selection) {
-        self.selection = selection
+    internal init(_ binding: Binding<Data?>?) {
+        _imageData = binding ?? .constant(nil)
     }
     
     internal var body: some View {
-        Form {
-            ForEach(self.$data) { item in
-                Section {
-                    JSBTextField("Title",    text: item.title)
-                    JSBTextField("Original", text: item.originalURL.mapString)
-                    JSBTextField("Resolved", text: item.resolvedURL.mapString)
-                    ImageDelete(item.thumbnail)
-                } header: {
-                    JSBText("Untitled",      text: item.title.wrappedValue)
-                }
-            }
+        ZStack {
+            Web()
+            Image(data: self.imageData)?.resizable()
         }
-        .onLoadChange(of: self.selection) {
-            _data.search = $0
-        }
-    }
-}
-
-fileprivate struct ImageDelete: View {
-    @Binding private var data: Data?
-    internal init(_ binding: Binding<Data?>) {
-        _data = binding
-    }
-    internal var body: some View {
-        if let data {
-            HStack {
-                Image(data: data)
-                Spacer()
-                Button("Delete Thumbnail") {
-                    self.data = nil
-                }
-            }
-            .frame(height: 128)
+        .frame(width: 320, height: 320)
+        .onReceive(self.timer) { _ in
+            self.nav.shouldSnapshot = true
         }
     }
 }

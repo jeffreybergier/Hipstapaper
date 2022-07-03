@@ -30,10 +30,11 @@ import V3Model
 import V3Errors
 
 public struct WebsiteEdit: View {
+        
+    @StateObject private var data = WebData.newEnvironment()
+    @StateObject private var nav = Nav.newEnvironment()
     
     private let selection: Website.Selection
-    
-    @StateObject private var nav = Nav.newEnvironment()
     
     public init(_ selection: Website.Selection) {
         self.selection = selection
@@ -42,6 +43,7 @@ public struct WebsiteEdit: View {
     public var body: some View {
         _WebsiteEdit(self.selection)
             .environmentObject(self.nav)
+            .environmentObject(self.data)
     }
     
 }
