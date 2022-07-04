@@ -57,6 +57,7 @@ internal struct FormSingle: View {
             self.rowDeleteButton
             self.rowResolvedURL
         }
+        .animation(.default, value: self.nav.isLoading)
         .onLoadChange(of: self.identifier) {
             _item.identifier = $0
         }
