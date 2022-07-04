@@ -29,12 +29,17 @@ import SwiftUI
 import Umbrella
 import V3Model
 import V3Store
+import V3Style
+import V3Localize
 
 internal struct FormSingle: View {
     
     @Nav private var nav
     @WebState private var webState
     @WebsiteQuery private var item
+    @V3Style.Browser private var style
+    @V3Localize.Browser private var text
+
     @State private var timer = Timer.publish(every: 5, on: .main, in: .common)
     @State private var timerToken: Cancellable?
     
@@ -47,7 +52,7 @@ internal struct FormSingle: View {
     internal var body: some View {
         Form {
             self.rowEditForm
-            self.rowGoButton
+            self.rowAutofill
             self.rowWebSnapshot
             self.rowDeleteButton
             self.rowResolvedURL
@@ -76,7 +81,7 @@ internal struct FormSingle: View {
     @ViewBuilder private var rowEditForm: some View {
         if let item = self.$item {
             JSBTextField("Title",    text: item.title)
-            JSBTextField("Original", text: item.originalURL.mapString)
+            JSBTextField("Address", text: item.originalURL.mapString)
         } else {
             EmptyState()
         }
@@ -84,7 +89,7 @@ internal struct FormSingle: View {
     
     @ViewBuilder private var rowResolvedURL: some View {
         if let item = self.$item {
-            JSBTextField("Resolved", text: item.resolvedURL.mapString)
+            JSBTextField("Loaded Address", text: item.resolvedURL.mapString)
         }
     }
     
@@ -96,9 +101,17 @@ internal struct FormSingle: View {
         .frame(width: 320, height: 320)
     }
     
-    private var rowGoButton: some View {
-        Button("Go") {
-            self.nav.shouldLoadURL = self.item?.originalURL
+    @ViewBuilder private var rowAutofill: some View {
+        if self.nav.isLoading {
+            self.style.stop.button(self.text.stop) {
+                self.nav.shouldStop = true
+            }
+        } else {
+            Button {
+                self.nav.shouldLoadURL = self.item?.originalURL
+            } label: {
+                Label("Autofill", systemImage: "wand.and.stars")
+            }
         }
     }
     

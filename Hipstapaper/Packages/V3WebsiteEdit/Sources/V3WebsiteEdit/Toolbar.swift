@@ -65,25 +65,16 @@ internal struct Toolbar: ViewModifier {
                     ToolbarItem(id: .itemJavaScript, placement: .bottomBar) {
                         self.itemJavaScript
                     }
-                    ToolbarItem(id: .itemSeparator1, placement: .bottomBar) {
-                        self.itemSeparator
-                    }
-                    ToolbarItem(id: .itemStopReload, placement: .bottomBar) {
-                        self.itemStopReload
-                    }
                 }
             }
     }
     
-    private var itemStopReload: some View {
-        if self.nav.isLoading {
-            return self.style.stop.button(self.text.stop) {
-                self.nav.shouldStop = true
+    @ViewBuilder private var itemErrors: some View {
+        if self.nav.errorQueue.isEmpty == false {
+            self.style.error.button(self.text.error) {
+                self.nav.isErrorList.isPresented = true
             }
-        } else {
-            return self.style.reload.button(self.text.reload) {
-                self.nav.shouldReload = true
-            }
+            .modifier(ErrorListPresentation())
         }
     }
     
@@ -96,15 +87,6 @@ internal struct Toolbar: ViewModifier {
             return self.style.jsNo.button(self.text.jsNo) {
                 self.nav.isJSEnabled = true
             }
-        }
-    }
-    
-    @ViewBuilder private var itemErrors: some View {
-        if self.nav.errorQueue.isEmpty == false {
-            self.style.error.button(self.text.error) {
-                self.nav.isErrorList.isPresented = true
-            }
-            .modifier(ErrorListPresentation())
         }
     }
     
@@ -122,10 +104,6 @@ internal struct Toolbar: ViewModifier {
     
     private var itemSpacer: some View {
         Spacer()
-    }
-    
-    private var itemSeparator: some View {
-        Text("|")
     }
 }
 

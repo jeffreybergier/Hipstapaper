@@ -30,33 +30,49 @@ import Umbrella
 public typealias AC = Action.Closure
 
 public struct Action {
+    
+    public enum Style {
+        case label, icon, text
+    }
+    
     public typealias Closure = () -> Void
     public var systemImage: String
     public var shortcut: KeyboardShortcut?
 }
 
 extension Action {
-    public func button(_ titleKey: LocalizationKey,
+    public func button(_ titleKey: LocalizedString,
+                       style: Style = .label,
                        role: ButtonRole? = nil,
                        enabled: Bool = true,
                        action: @escaping Closure) -> some View
     {
         Button(role: role, action: action) {
-            self.label(titleKey)
+            self.label(titleKey, style: style)
         }
         .keyboardShortcut(self.shortcut)
         .disabled(!enabled)
     }
     
-    public func menu(_ titleKey: LocalizationKey,
+    public func menu(_ titleKey: LocalizedString,
+                     style: Style = .label,
                      @ViewBuilder content: @escaping () -> some View)
                      -> some View
     {
-        Menu(content: content, label: { self.label(titleKey) })
+        Menu(content: content, label: { self.label(titleKey, style: style) })
             .keyboardShortcut(self.shortcut)
     }
     
-    public func label(_ titleKey: LocalizationKey) -> some View {
-        Label(titleKey, systemImage: self.systemImage)
+    @ViewBuilder public func label(_ titleKey: LocalizedString,
+                                   style: Style = .label) -> some View
+    {
+        switch style {
+        case .label:
+            Label(titleKey, systemImage: self.systemImage)
+        case .icon:
+            Image(systemName: self.systemImage)
+        case .text:
+            Text(titleKey)
+        }
     }
 }
