@@ -80,8 +80,8 @@ internal struct FormSingle: View {
     
     @ViewBuilder private var rowEditForm: some View {
         if let item = self.$item {
-            JSBTextField("Title",    text: item.title)
-            JSBTextField("Address", text: item.originalURL.mapString)
+            TextField("Title",    text: item.title.compactMap())
+            TextField("Address", text: item.originalURL.mapString())
         } else {
             EmptyState()
         }
@@ -89,7 +89,7 @@ internal struct FormSingle: View {
     
     @ViewBuilder private var rowResolvedURL: some View {
         if let item = self.$item {
-            JSBTextField("Loaded Address", text: item.resolvedURL.mapString)
+            TextField("Loaded Address", text: item.resolvedURL.mapString())
         }
     }
     

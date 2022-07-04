@@ -42,9 +42,9 @@ internal struct FormMulti: View {
         Form {
             ForEach(self.$data) { item in
                 Section {
-                    JSBTextField("Title",    text: item.title)
-                    JSBTextField("Original", text: item.originalURL.mapString)
-                    JSBTextField("Resolved", text: item.resolvedURL.mapString)
+                    TextField("Title",    text: item.title.compactMap())
+                    TextField("Original", text: item.originalURL.mapString())
+                    TextField("Resolved", text: item.resolvedURL.mapString())
                     ImageDelete(item.thumbnail)
                 } header: {
                     JSBText("Untitled",      text: item.title.wrappedValue)

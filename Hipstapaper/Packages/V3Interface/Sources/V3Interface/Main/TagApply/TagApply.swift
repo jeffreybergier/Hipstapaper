@@ -47,8 +47,8 @@ internal struct TagApply: View {
             Form {
                 ForEach(self.$data) { item in
                     // TODO: Fix JSBToggle to suppport NIL strings
-                    JSBToggle(item.wrappedValue.tag.name ?? self.text.untitled,
-                              isOn: item.status.boolValue)
+                    Toggle(item.wrappedValue.tag.name ?? self.text.untitled,
+                           isOn: item.status.boolValue.flipped)
                 }
             }
             .modifier(self.toolbar)

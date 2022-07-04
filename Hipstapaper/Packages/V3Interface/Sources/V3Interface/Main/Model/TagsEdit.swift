@@ -42,7 +42,7 @@ internal struct TagsEdit: View {
         NavigationStack {
             Form {
                 ForEach(self.$data) { item in
-                    JSBTextField("Tag Name", text: item.name)
+                    TextField("Tag Name", text: item.name.compactMap())
                 }
             }
             .modifier(self.toolbar)
