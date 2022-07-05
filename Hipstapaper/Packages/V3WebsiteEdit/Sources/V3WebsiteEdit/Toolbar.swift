@@ -33,7 +33,7 @@ import V3Localize
 internal struct Toolbar: ViewModifier {
     
     @Nav private var nav
-    @V3Style.Browser private var style
+    @V3Style.WebsiteEdit private var style
     @V3Localize.Browser private var text
     @Environment(\.dismiss) private var dismiss
     
@@ -91,14 +91,19 @@ internal struct Toolbar: ViewModifier {
     }
     
     private var itemClose: some View {
-        Button(self.text.done) {
+        self.style.done.button(self.text.done,
+                               style: .text)
+        {
             self.dismiss()
         }
     }
     
     private var itemDelete: some View {
-        Button("DDelete") {
-            
+        self.style.deleteWebsite.button("DDelete",
+                                        style: .text,
+                                        role: .destructive)
+        {
+            // TODO: Add delete
         }
     }
     

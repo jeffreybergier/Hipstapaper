@@ -43,7 +43,11 @@ extension Action {
     )
     internal static let genericDelete = Self(
         systemImage: SystemImage.deleteTrash.rawValue,
-        shortcut: .init("n", modifiers: .command)
+        shortcut: .init(.delete, modifiers: .command)
+    )
+    internal static let genericDone = Self(
+        systemImage: SystemImage.checkmark.rawValue,
+        shortcut: .init(.escape)
     )
     internal static let openInApp = Self(
         systemImage: SystemImage.openInApp.rawValue,
@@ -72,10 +76,6 @@ extension Action {
     internal static let edit = Self(
         systemImage: SystemImage.editPencil.rawValue,
         shortcut: .init(.return, modifiers: .command)
-    )
-    internal static let delete = Self(
-        systemImage: SystemImage.deleteTrash.rawValue,
-        shortcut: .init(.delete, modifiers: .command)
     )
     internal static let sort = Self(
         systemImage: SystemImage.sort.rawValue,
@@ -131,6 +131,14 @@ extension Action {
     )
     internal static let javascriptNo = Self(
         systemImage: SystemImage.javascriptNo.rawValue,
+        shortcut: nil
+    )
+    internal static let autofill = Self(
+        systemImage: SystemImage.javascriptNo.rawValue,
+        shortcut: nil
+    )
+    internal static let deleteThumbnail = Self(
+        systemImage: SystemImage.minusRectangle.rawValue,
         shortcut: nil
     )
 }

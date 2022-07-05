@@ -37,7 +37,7 @@ internal struct FormSingle: View {
     @Nav private var nav
     @WebState private var webState
     @WebsiteQuery private var item
-    @V3Style.Browser private var style
+    @V3Style.WebsiteEdit private var style
     @V3Localize.Browser private var text
 
     @State private var timer = Timer.publish(every: 5, on: .main, in: .common)
@@ -99,6 +99,7 @@ internal struct FormSingle: View {
             Web()
             Image(data: self.item?.thumbnail)?.resizable()
         }
+        .modifier(self.style.thumbnailMod) // TODO: Need to fix
         .frame(width: 320, height: 320)
     }
     
@@ -108,17 +109,15 @@ internal struct FormSingle: View {
                 self.nav.shouldStop = true
             }
         } else {
-            Button {
+            self.style.autofill.button("Autofill") {
                 self.nav.shouldLoadURL = self.item?.originalURL
-            } label: {
-                Label("Autofill", systemImage: "wand.and.stars")
             }
         }
     }
     
     @ViewBuilder private var rowDeleteButton: some View {
         if self.item?.thumbnail != nil {
-            Button("Delete Thumbnail") {
+            self.style.deleteThumbnail.button("Delete Thumbnail") {
                 self.item?.thumbnail = nil
                 self.timerToken?.cancel()
                 self.timer = Timer.publish(every: 5, on: .main, in: .common)

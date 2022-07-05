@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/23.
+//  Created by Jeffrey Bergier on 2022/07/01.
 //
 //  MIT License
 //
@@ -27,22 +27,21 @@
 import SwiftUI
 
 @propertyWrapper
-public struct DetailToolbar: DynamicProperty {
+public struct WebsiteEdit: DynamicProperty {
     
     public init() {}
     
     public struct Value {
-        public var openInApp    = Action.openInApp
-        public var openExternal = Action.openExternal
-        public var archiveYes   = Action.archiveYes
-        public var archiveNo    = Action.archiveNo
-        public var share        = Action.share
-        public var tagApply    = Action.tagApply
-        public var edit         = Action.edit
-        public var delete       = Action.genericDelete
-        public var filterYes    = Action.filterYes
-        public var filterNo     = Action.filterNo
-        public var error        = Action.errorPresent
+        public var stop            = Action.browseStop
+        public var jsYes           = Action.javascriptYes
+        public var jsNo            = Action.javascriptNo
+        public var autofill        = Action.autofill
+        public var deleteThumbnail = Action.deleteThumbnail
+        public var deleteWebsite   = Action.genericDelete
+        public var done            = Action.genericDone
+        public var error           = Action.errorPresent
+        
+        public var thumbnailMod: some ViewModifier = Thumbnail()
     }
     
     public var wrappedValue: Value {

@@ -28,11 +28,14 @@ import SwiftUI
 import Umbrella
 import V3Model
 import V3Store
+import V3Style
 
 internal struct FormMulti: View {
     
     private let selection: Website.Selection
+    
     @WebsiteSearchListQuery private var data
+    @V3Style.WebsiteEdit private var style
     
     internal init(_ selection: Website.Selection) {
         self.selection = selection
@@ -45,33 +48,20 @@ internal struct FormMulti: View {
                     TextField("Title",    text: item.title.compactMap())
                     TextField("Original", text: item.originalURL.mapString())
                     TextField("Resolved", text: item.resolvedURL.mapString())
-                    ImageDelete(item.thumbnail)
+                    if let thumbnail = item.thumbnail.wrappedValue {
+                        self.style.deleteThumbnail.button("Delete Thumbnail") {
+                            item.thumbnail.wrappedValue = nil
+                        }
+                        Image(data: thumbnail)?.resizable()
+                            .frame(width: 128, height: 128)
+                    }
                 } header: {
-                    JSBText("Untitled",      text: item.title.wrappedValue)
+                    JSBText("Untitled", text: item.title.wrappedValue)
                 }
             }
         }
         .onLoadChange(of: self.selection) {
             _data.search = $0
-        }
-    }
-}
-
-fileprivate struct ImageDelete: View {
-    @Binding private var data: Data?
-    internal init(_ binding: Binding<Data?>) {
-        _data = binding
-    }
-    internal var body: some View {
-        if let data {
-            HStack {
-                Image(data: data)?.resizable()
-                    .frame(width: 128, height: 128)
-                Spacer()
-                Button("Delete Thumbnail") {
-                    self.data = nil
-                }
-            }
         }
     }
 }

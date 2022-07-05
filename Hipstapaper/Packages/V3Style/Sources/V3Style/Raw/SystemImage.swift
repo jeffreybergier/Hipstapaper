@@ -50,6 +50,10 @@ internal enum SystemImage: String {
     case browseStop     = "xmark"
     case javascriptYes  = "applescript.fill"
     case javascriptNo   = "applescript"
+    case magic          = "wand.and.stars"
+    case minusRectangle = "rectangle.badge.minus"
+    case checkmark      = "checkmark"
+    case photo          = "photo"
 }
 
 /*
