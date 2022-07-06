@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/07/01.
+//  Created by Jeffrey Bergier on 2022/07/06.
 //
 //  MIT License
 //
@@ -26,26 +26,26 @@
 
 import SwiftUI
 
-@propertyWrapper
-public struct WebsiteEdit: DynamicProperty {
-    
-    public init() {}
-    
-    public struct Value {
-        public var stop            = Action.browseStop
-        public var jsYes           = Action.javascriptYes
-        public var jsNo            = Action.javascriptNo
-        public var autofill        = Action.autofill
-        public var deleteThumbnail = Action.deleteThumbnail
-        public var deleteWebsite   = Action.genericDelete
-        public var done            = Action.genericDone
-        public var error           = Action.errorPresent
-        
-        public var placeholder: some ViewModifier = Thumbnail()
-        public var thumbnail: some ViewModifier = CornerRadius()
+extension CGFloat {
+    internal static let cornerRadius: CGFloat = 8
+}
+
+extension Color {
+    internal static func lightGray(_ scheme: ColorScheme) -> Color {
+        scheme.isLight ? Color(red: 0.9, green: 0.9, blue: 0.9)
+                       : Color(red: 0.25, green: 0.25, blue: 0.25)
     }
-    
-    public var wrappedValue: Value {
-        Value()
+}
+
+extension ColorScheme {
+    fileprivate var isLight: Bool {
+        switch self {
+        case .dark:
+            return false
+        case .light:
+            fallthrough
+        @unknown default:
+            return true
+        }
     }
 }

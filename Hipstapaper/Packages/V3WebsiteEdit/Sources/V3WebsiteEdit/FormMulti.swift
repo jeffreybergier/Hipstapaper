@@ -52,7 +52,9 @@ internal struct FormMulti: View {
                         self.style.deleteThumbnail.button("Delete Thumbnail") {
                             item.thumbnail.wrappedValue = nil
                         }
-                        Image(data: thumbnail)?.resizable()
+                        Image(data: thumbnail)?
+                            .resizable()
+                            .modifier(self.style.thumbnail)
                             .frame(width: 128, height: 128)
                     }
                 } header: {

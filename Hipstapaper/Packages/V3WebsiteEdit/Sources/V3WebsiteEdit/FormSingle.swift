@@ -40,7 +40,7 @@ internal struct FormSingle: View {
     @V3Style.WebsiteEdit private var style
     @V3Localize.Browser private var text
 
-    @State private var timer = Timer.publish(every: 5, on: .main, in: .common)
+    @State private var timer = Timer.publish(every: 1, on: .main, in: .common)
     @State private var timerToken: Cancellable?
     
     private let identifier: Website.Selection.Element
@@ -72,7 +72,7 @@ internal struct FormSingle: View {
         }
         .onChange(of: self.nav.shouldLoadURL) {
             guard $0 != nil else { return }
-            self.timerToken = self.timer.connect()
+            self.timerStart()
         }
         .onReceive(self.timer) { _ in
             self.nav.shouldSnapshot = true
@@ -96,11 +96,20 @@ internal struct FormSingle: View {
     
     private var rowWebSnapshot: some View {
         ZStack {
-            Web()
-            Image(data: self.item?.thumbnail)?.resizable()
+            Web() // TODO: Fix some pixel yucky in dark mode around edges
+            _thumbnailImage
+                .modifier(self.style.placeholder)
         }
-        .modifier(self.style.thumbnailMod) // TODO: Need to fix
+        .modifier(self.style.thumbnail)
         .frame(width: 320, height: 320)
+    }
+    
+    @ViewBuilder private var _thumbnailImage: some View {
+        if let image = Image(data: self.item?.thumbnail) {
+            image.resizable()
+        } else {
+            EmptyView()
+        }
     }
     
     @ViewBuilder private var rowAutofill: some View {
@@ -119,13 +128,22 @@ internal struct FormSingle: View {
         if self.item?.thumbnail != nil {
             self.style.deleteThumbnail.button("Delete Thumbnail") {
                 self.item?.thumbnail = nil
-                self.timerToken?.cancel()
-                self.timer = Timer.publish(every: 5, on: .main, in: .common)
+                self.timerStop()
             }
         }
     }
     
     private func mapURL(_ binding: Binding<URL?>) -> Binding<String?> {
         binding.map(get: { $0?.absoluteString }, set: { URL(string: $0 ?? "") })
+    }
+    
+    private func timerStop() {
+        self.timerToken?.cancel()
+        self.timerToken = nil
+    }
+    
+    private func timerStart() {
+        self.timer = Timer.publish(every: 1, on: .main, in: .common)
+        self.timerToken = self.timer.connect()
     }
 }

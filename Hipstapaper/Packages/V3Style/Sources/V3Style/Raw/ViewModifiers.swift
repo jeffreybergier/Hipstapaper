@@ -34,12 +34,20 @@ internal struct FontMonospacedDigit: ViewModifier {
 }
 
 internal struct Thumbnail: ViewModifier {
+    
+    @Environment(\.colorScheme) private var scheme
+    
     internal func body(content: Content) -> some View {
         ZStack {
-            Color.gray
+            Color.lightGray(self.scheme)
             Image(systemName: SystemImage.photo.rawValue)
             content
         }
-        .cornerRadius(8)
+    }
+}
+
+internal struct CornerRadius: ViewModifier {
+    func body(content: Content) -> some View {
+        content.cornerRadius(.cornerRadius)
     }
 }
