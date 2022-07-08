@@ -54,7 +54,7 @@ internal struct FormSingle: View {
             self.rowEditForm
             self.rowAutofill
             self.rowWebSnapshot
-            self.rowDeleteButton
+            self.rowDeleteThumbnail
             self.rowResolvedURL
         }
         .animation(.default, value: self.nav.isLoading)
@@ -124,10 +124,11 @@ internal struct FormSingle: View {
         }
     }
     
-    @ViewBuilder private var rowDeleteButton: some View {
+    @ViewBuilder private var rowDeleteThumbnail: some View {
         if self.item?.thumbnail != nil {
             self.style.deleteThumbnail.button("Delete Thumbnail") {
                 self.item?.thumbnail = nil
+                self.nav.shouldStop = true
                 self.timerStop()
             }
         }

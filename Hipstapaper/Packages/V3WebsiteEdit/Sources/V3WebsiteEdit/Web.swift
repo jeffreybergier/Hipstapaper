@@ -76,7 +76,9 @@ fileprivate struct _Web: View {
         }
         if wv.configuration.preferences.javaScriptEnabled != self.nav.isJSEnabled {
             wv.configuration.preferences.javaScriptEnabled = self.nav.isJSEnabled
-            wv.reload()
+            if wv.isLoading {
+                wv.reload()
+            }
         }
         if let load = self.nav.shouldLoadURL {
             wv.load(URLRequest(url: load))
