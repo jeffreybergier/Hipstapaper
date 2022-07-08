@@ -27,15 +27,13 @@
 import SwiftUI
 import Umbrella
 import V3Model
-import V3Store
 import V3Browser
 import V3WebsiteEdit
 
 internal struct Detail: View {
     
     @Nav private var nav
-    @SizeClass private var sizeClass
-    @Umbrella.EditMode private var editMode
+    @JSBSizeClass private var sizeClass
     
     internal var body: some View {
         NavigationStack {
@@ -55,10 +53,6 @@ internal struct Detail: View {
             }
             .sheet(items: self.$nav.detail.isWebsitesEdit.editing) { selection in
                 WebsiteEdit(selection)
-            }
-            .onChange(of: self.nav.detail.selectedWebsites) { selection in
-                guard selection.count == 1, self.editMode == false else { return }
-                self.nav.detail.isBrowse = selection.first!
             }
         }
     }

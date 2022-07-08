@@ -32,7 +32,7 @@ import V3Localize
 internal struct Toolbar: ViewModifier {
     
     @Nav private var nav
-    @SizeClass private var sizeclass
+    @JSBSizeClass private var sizeclass
     @V3Style.Browser private var style
     @V3Localize.Browser private var text
     @Environment(\.dismiss) private var dismiss

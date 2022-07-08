@@ -41,6 +41,7 @@ internal struct DetailList: View {
         List(self.data, selection: self.$nav.detail.selectedWebsites) { item in
             WebsiteListRow(item.id)
         }
+        .listStyle(.plain)
         .searchable(text: self.$query.search, prompt: "Search")
         .onLoadChange(of: self.query) {
             _data.query = $0

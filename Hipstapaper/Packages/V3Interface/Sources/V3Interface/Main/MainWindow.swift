@@ -25,9 +25,7 @@
 //
 
 import SwiftUI
-import Umbrella
 import V3Localize
-import V3Model
 import V3Errors
 
 public struct MainWindow: Scene {
@@ -54,6 +52,10 @@ internal struct MainView: View {
                 Sidebar()
             } detail: {
                 Detail()
+                    // Force editMode on the detail table
+                    // TODO: Find better way to create a
+                    // Modal NavigationLink for websites
+                    .environment(\.editMode, .constant(.active))
             }
         }
     }

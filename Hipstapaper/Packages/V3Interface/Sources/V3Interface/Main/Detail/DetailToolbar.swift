@@ -25,7 +25,6 @@
 //
 
 import SwiftUI
-import V3Model
 import V3Store
 import V3Style
 import V3Localize
@@ -55,10 +54,7 @@ internal struct DetailToolbar: ViewModifier {
             }
             .toolbarRole(.editor)
             .toolbar(id: "detailTop") {
-                ToolbarItem(id: "editButton", placement: .primaryAction) {
-                    EditButton()
-                }
-                ToolbarItem(id: "openInApp", placement: .secondaryAction) {
+                ToolbarItem(id: "openInApp", placement: .primaryAction) {
                     self.style.openInApp.button(self.text.openInApp,
                                                 enabled: self.data.count == 1)
                     {
