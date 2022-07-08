@@ -49,7 +49,7 @@ fileprivate struct _Web: View {
     
     @Nav private var nav
     @WebState private var webState
-    @Environment(\.errorResponder) private var errorChain
+    @Environment(\.codableErrorResponder) private var errorChain
     @ObservedObject fileprivate var progress: BlackBox<Double>
     @StateObject private var kvo = BlackBox(Array<NSObjectProtocol>(),
                                             isObservingValue: false)
@@ -70,7 +70,7 @@ fileprivate struct _Web: View {
                 case .success(let image):
                     state.value.currentThumbnail = image
                 case .failure(let error):
-                    errorChain(error)
+                    errorChain(.init(error as NSError))
                 }
             }
         }
@@ -112,7 +112,7 @@ fileprivate struct _Web: View {
     
     func makeCoordinator() -> GenericWebKitNavigationDelegate {
         return .init { [errorChain] error in
-            errorChain(error)
+            errorChain(.init(error as NSError))
         }
     }
     
