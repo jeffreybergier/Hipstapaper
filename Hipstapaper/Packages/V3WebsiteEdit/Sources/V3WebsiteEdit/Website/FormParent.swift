@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/07/03.
+//  Created by Jeffrey Bergier on 2022/07/08.
 //
 //  MIT License
 //
@@ -25,32 +25,42 @@
 //
 
 import SwiftUI
-import Umbrella
 import V3Model
 import V3Errors
 
-public struct WebsiteEdit: View {
-        
-    @StateObject private var nav = Nav.newEnvironment()
+internal struct FormParent: View {
+    
+    @Nav private var nav
+    @StateObject private var webState = WebState.newEnvironment()
     
     private let selection: Website.Selection
-    
-    public init(_ selection: Website.Selection) {
+
+    internal init(_ selection: Website.Selection) {
         self.selection = selection
     }
     
-    public var body: some View {
-        TabView {
-            FormParent(self.selection)
-                .environmentObject(self.nav)
-                .tabItem {
-                    Label("Website(s)", systemImage: "doc.richtext")
+    internal var body: some View {
+        ErrorResponder(presenter: self.$nav,
+                       storage: self.$nav.errorQueue)
+        {
+            NavigationStack {
+                Group {
+                    switch self.selection.count {
+                    case 0:
+                        EmptyState()
+                    case 1:
+                        FormSingle(self.selection.first!)
+                            .environmentObject(self.webState)
+                    default:
+                        FormMulti(self.selection)
+                    }
                 }
-            Color.red
-                .tabItem {
-                    Label("Tags", systemImage: "tag")
-                }
+                .modifier(self.toolbar)
+            }
         }
     }
     
+    private var toolbar: some ViewModifier {
+        Toolbar(self.selection)
+    }
 }

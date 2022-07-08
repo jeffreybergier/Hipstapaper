@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/07/03.
+//  Created by Jeffrey Bergier on 2022/07/08.
 //
 //  MIT License
 //
@@ -25,32 +25,10 @@
 //
 
 import SwiftUI
-import Umbrella
-import V3Model
-import V3Errors
 
-public struct WebsiteEdit: View {
-        
-    @StateObject private var nav = Nav.newEnvironment()
-    
-    private let selection: Website.Selection
-    
-    public init(_ selection: Website.Selection) {
-        self.selection = selection
+internal struct EmptyState: View {
+    internal var body: some View {
+        // TODO: Localize
+        Label("Nothing Selected", systemImage: "rectangle.on.rectangle.slash")
     }
-    
-    public var body: some View {
-        TabView {
-            FormParent(self.selection)
-                .environmentObject(self.nav)
-                .tabItem {
-                    Label("Website(s)", systemImage: "doc.richtext")
-                }
-            Color.red
-                .tabItem {
-                    Label("Tags", systemImage: "tag")
-                }
-        }
-    }
-    
 }
