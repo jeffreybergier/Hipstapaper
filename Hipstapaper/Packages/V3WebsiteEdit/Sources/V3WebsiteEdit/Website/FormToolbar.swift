@@ -42,21 +42,21 @@ internal struct FormToolbar: ViewModifier {
     internal init(deletable: Bool) {
         self.deletable = deletable
     }
-        
+    
     internal func body(content: Content) -> some View {
         content
             .navigationTitle(self.text.titleWebsite)
             .navigationBarTitleDisplayMode(.inline)
             .toolbarRole(.navigationStack)
             .toolbar {
-                ToolbarItem(id: .itemErrors, placement: .primaryAction) {
+                ToolbarItem(placement: .primaryAction) {
                     self.itemErrors
                 }
-                ToolbarItem(id: .itemDone, placement: .confirmationAction) {
+                ToolbarItem(placement: .confirmationAction) {
                     self.itemClose
                 }
                 if self.deletable {
-                    ToolbarItem(id: .itemClose, placement: .cancellationAction) {
+                    ToolbarItem(placement: .cancellationAction) {
                         self.itemDelete
                     }
                 }
@@ -88,14 +88,4 @@ internal struct FormToolbar: ViewModifier {
             // TODO: Add delete
         }
     }
-    
-    private var itemSpacer: some View {
-        Spacer()
-    }
-}
-
-extension String {
-    fileprivate static let itemDone   = "toolbar.done"
-    fileprivate static let itemClose  = "toolbar.close"
-    fileprivate static let itemErrors = "toolbar.errors"
 }
