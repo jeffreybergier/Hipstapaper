@@ -42,7 +42,6 @@ public struct WebsiteEdit: View {
     public var body: some View {
         TabView {
             FormParent(self.selection)
-                .environmentObject(self.nav)
                 .tabItem {
                     Label("Website(s)", systemImage: "doc.richtext")
                 }
@@ -51,6 +50,7 @@ public struct WebsiteEdit: View {
                     Label("Tags", systemImage: "tag")
                 }
         }
+        .environmentObject(self.nav)
     }
     
 }

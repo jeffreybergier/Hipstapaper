@@ -46,7 +46,6 @@ internal struct TagApply: View {
         NavigationStack {
             Form {
                 ForEach(self.$data) { item in
-                    // TODO: Fix JSBToggle to suppport NIL strings
                     Toggle(item.wrappedValue.tag.name ?? self.text.untitled,
                            isOn: item.status.boolValue.flipped)
                 }
@@ -64,17 +63,4 @@ internal struct TagApply: View {
                    done: self.text.done,
                    doneAction: { self.dismiss() })
     }
-}
-
-internal struct TagApplyPresentation: ViewModifier {
-    @Nav private var nav
-    internal func body(content: Content) -> some View {
-        content.popover(items: self.$nav.detail.isTagApply) { selection in
-            TagApply(selection)
-        }
-    }
-}
-
-extension ViewModifier where Self == TagApplyPresentation {
-    internal static var tagApplyPopover: Self { Self.init() }
 }

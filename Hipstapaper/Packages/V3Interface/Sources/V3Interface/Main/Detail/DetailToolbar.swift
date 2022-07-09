@@ -124,3 +124,17 @@ internal struct DetailToolbar: ViewModifier {
         DetailErrorListPresentation()
     }
 }
+
+internal struct TagApplyPresentation: ViewModifier {
+    @Nav private var nav
+    internal func body(content: Content) -> some View {
+        content.popover(items: self.$nav.detail.isTagApply) { selection in
+            Color.blue
+            // TagApply(selection)
+        }
+    }
+}
+
+extension ViewModifier where Self == TagApplyPresentation {
+    internal static var tagApplyPopover: Self { Self.init() }
+}
