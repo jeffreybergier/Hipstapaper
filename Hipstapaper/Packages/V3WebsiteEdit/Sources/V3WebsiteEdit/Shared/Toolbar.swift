@@ -36,12 +36,6 @@ internal struct Toolbar: ViewModifier {
     @V3Style.WebsiteEdit private var style
     @V3Localize.Browser private var text
     @Environment(\.dismiss) private var dismiss
-    
-    private var selection: Website.Selection
-    
-    internal init(_ selection: Website.Selection) {
-        self.selection = selection
-    }
         
     internal func body(content: Content) -> some View {
         content
@@ -52,19 +46,11 @@ internal struct Toolbar: ViewModifier {
                 ToolbarItem(id: .itemErrors, placement: .primaryAction) {
                     self.itemErrors
                 }
-                ToolbarItem(id: .itemClose, placement: .primaryAction) {
+                ToolbarItem(id: .itemDone, placement: .primaryAction) {
                     self.itemClose
                 }
                 ToolbarItem(id: .itemClose, placement: .cancellationAction) {
                     self.itemDelete
-                }
-                if self.selection.count == 1 {
-                    ToolbarItem(id: .itemSpacer1, placement: .bottomBar) {
-                        self.itemSpacer
-                    }
-                    ToolbarItem(id: .itemJavaScript, placement: .bottomBar) {
-                        self.itemJavaScript
-                    }
                 }
             }
     }
@@ -75,18 +61,6 @@ internal struct Toolbar: ViewModifier {
                 self.nav.isErrorList.isPresented = true
             }
             .modifier(ErrorListPresentation())
-        }
-    }
-    
-    private var itemJavaScript: some View {
-        if self.nav.isJSEnabled {
-            return self.style.jsYes.button(self.text.jsYes) {
-                self.nav.isJSEnabled = false
-            }
-        } else {
-            return self.style.jsNo.button(self.text.jsNo) {
-                self.nav.isJSEnabled = true
-            }
         }
     }
     
@@ -113,10 +87,7 @@ internal struct Toolbar: ViewModifier {
 }
 
 extension String {
-    fileprivate static let itemStopReload      = "toolbar.stopreload"
-    fileprivate static let itemJavaScript      = "toolbar.javascript"
+    fileprivate static let itemDone            = "toolbar.done"
     fileprivate static let itemClose           = "toolbar.close"
     fileprivate static let itemErrors          = "toolbar.errors"
-    fileprivate static let itemSpacer1         = "toolbar.spacer1"
-    fileprivate static let itemSeparator1      = "toolbar.separator1"
 }

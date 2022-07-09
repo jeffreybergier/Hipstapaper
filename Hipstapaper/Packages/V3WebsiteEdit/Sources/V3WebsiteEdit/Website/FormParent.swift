@@ -55,12 +55,8 @@ internal struct FormParent: View {
                         FormMulti(self.selection)
                     }
                 }
-                .modifier(self.toolbar)
+                .modifier(Toolbar())
             }
         }
-    }
-    
-    private var toolbar: some ViewModifier {
-        Toolbar(self.selection)
     }
 }

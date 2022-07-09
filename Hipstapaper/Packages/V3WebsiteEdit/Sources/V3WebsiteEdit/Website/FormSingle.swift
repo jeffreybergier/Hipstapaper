@@ -55,6 +55,7 @@ internal struct FormSingle: View {
             self.rowAutofill
             self.rowWebSnapshot
             self.rowDeleteThumbnail
+            self.rowJavascript
             self.rowResolvedURL
         }
         .animation(.default, value: self.nav.isLoading)
@@ -130,6 +131,18 @@ internal struct FormSingle: View {
                 self.item?.thumbnail = nil
                 self.nav.shouldStop = true
                 self.timerStop()
+            }
+        }
+    }
+    
+    private var rowJavascript: some View {
+        if self.nav.isJSEnabled {
+            return self.style.jsYes.button(self.text.jsYes) {
+                self.nav.isJSEnabled = false
+            }
+        } else {
+            return self.style.jsNo.button(self.text.jsNo) {
+                self.nav.isJSEnabled = true
             }
         }
     }

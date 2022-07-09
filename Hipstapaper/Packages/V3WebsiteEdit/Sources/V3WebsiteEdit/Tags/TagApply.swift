@@ -31,12 +31,11 @@ import V3Model
 import V3Store
 
 internal struct TagApply: View {
-    
-    private let selection: Website.Selection
-    
+        
     @TagApplyQuery private var data
     @V3Localize.TagApply private var text
-    @Environment(\.dismiss) private var dismiss
+    
+    private let selection: Website.Selection
     
     internal init(_ selection: Website.Selection) {
         self.selection = selection
@@ -50,17 +49,11 @@ internal struct TagApply: View {
                            isOn: item.status.boolValue.flipped)
                 }
             }
-            .modifier(self.toolbar)
+            .modifier(Toolbar())
         }
         .frame(idealWidth: 320, minHeight: 320)
         .onLoadChange(of: self.selection) {
             _data.selection = $0
         }
-    }
-    
-    private var toolbar: some ViewModifier {
-        JSBToolbar(title: self.text.title,
-                   done: self.text.done,
-                   doneAction: { self.dismiss() })
     }
 }

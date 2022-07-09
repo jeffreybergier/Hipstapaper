@@ -45,7 +45,7 @@ public struct WebsiteEdit: View {
                 .tabItem {
                     Label("Website(s)", systemImage: "doc.richtext")
                 }
-            Color.red
+            TagApply(self.selection)
                 .tabItem {
                     Label("Tags", systemImage: "tag")
                 }
