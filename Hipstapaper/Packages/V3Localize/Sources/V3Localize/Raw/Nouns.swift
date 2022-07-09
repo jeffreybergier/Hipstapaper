@@ -31,6 +31,7 @@ internal enum Noun: LocalizationKey {
     case search        = "Noun.Search"
     case readingList   = "Noun.ReadingList"
     case tags          = "Noun.Tags"
+    case website       = "Noun.Website"
     case untitled      = "Noun.Untitled"
     case allItems      = "Noun.AllItems"
     case unreadItems   = "Noun.UnreadItems"

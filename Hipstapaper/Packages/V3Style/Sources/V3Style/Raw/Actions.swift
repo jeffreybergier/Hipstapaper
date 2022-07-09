@@ -31,11 +31,11 @@ extension Action {
     )
     internal static let tagAdd = Self(
         systemImage: SystemImage.tag.rawValue,
-        shortcut: nil
+        shortcut: .init("n", modifiers: [.command, .shift])
     )
     internal static let websiteAdd = Self(
-        systemImage: SystemImage.document.rawValue,
-        shortcut: nil
+        systemImage: SystemImage.website.rawValue,
+        shortcut: .init("n", modifiers: .command)
     )
     internal static let genericAdd = Self(
         systemImage: SystemImage.plus.rawValue,
@@ -90,19 +90,19 @@ extension Action {
         shortcut: nil
     )
     internal static let sortTitleA = Self(
-        systemImage: SystemImage.sortTitleA.rawValue,
+        systemImage: SystemImage.document.rawValue,
         shortcut: nil
     )
     internal static let sortTitleZ = Self(
-        systemImage: SystemImage.sortTitleZ.rawValue,
+        systemImage: SystemImage.documentFill.rawValue,
         shortcut: nil
     )
     internal static let sortDateNewest = Self(
-        systemImage: SystemImage.sortDateNewest.rawValue,
+        systemImage: SystemImage.calendar.rawValue,
         shortcut: nil
     )
     internal static let sortDateOldest = Self(
-        systemImage: SystemImage.sortDateOldest.rawValue,
+        systemImage: SystemImage.calendarFill.rawValue,
         shortcut: nil
     )
     internal static let errorPresent = Self(
@@ -143,6 +143,14 @@ extension Action {
     )
     internal static let noContent = Self(
         systemImage: SystemImage.rectangleSlash.rawValue,
+        shortcut: nil
+    )
+    internal static let websiteGeneric = Self(
+        systemImage: SystemImage.website.rawValue,
+        shortcut: nil
+    )
+    internal static let tagGeneric = Self(
+        systemImage: SystemImage.tag.rawValue,
         shortcut: nil
     )
 }

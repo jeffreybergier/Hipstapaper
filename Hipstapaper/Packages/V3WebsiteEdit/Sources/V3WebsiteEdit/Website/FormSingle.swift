@@ -51,14 +51,12 @@ internal struct FormSingle: View {
     
     internal var body: some View {
         Form {
-            self.rowEditForm
-            self.rowAutofill
-            self.rowWebSnapshot
-            self.rowDeleteThumbnail
-            self.rowJavascript
-            self.rowResolvedURL
+            if self.item == nil {
+                EmptyState()
+            } else {
+                self.form
+            }
         }
-        .animation(.default, value: self.nav.isLoading)
         .onLoadChange(of: self.identifier) {
             _item.identifier = $0
         }
@@ -80,10 +78,20 @@ internal struct FormSingle: View {
         }
     }
     
+    @ViewBuilder private var form: some View {
+        self.rowEditForm
+        self.rowAutofill
+        self.rowWebSnapshot
+        self.rowDeleteThumbnail
+        self.rowJavascript
+        self.rowResolvedURL
+    }
+    
     @ViewBuilder private var rowEditForm: some View {
         if let item = self.$item {
             TextField("Title",    text: item.title.compactMap())
             TextField("Address", text: item.originalURL.mapString())
+                .textContentType(.URL)
         } else {
             EmptyState()
         }
@@ -92,6 +100,7 @@ internal struct FormSingle: View {
     @ViewBuilder private var rowResolvedURL: some View {
         if let item = self.$item {
             TextField("Loaded Address", text: item.resolvedURL.mapString())
+                .textContentType(.URL)
         }
     }
     

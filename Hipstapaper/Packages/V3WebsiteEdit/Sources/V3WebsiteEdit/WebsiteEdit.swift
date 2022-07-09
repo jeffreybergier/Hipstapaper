@@ -28,6 +28,8 @@ import SwiftUI
 import Umbrella
 import V3Model
 import V3Errors
+import V3Style
+import V3Localize
 
 public struct WebsiteEdit: View {
     
@@ -35,9 +37,11 @@ public struct WebsiteEdit: View {
         case website
         case tag
     }
-        
-    @StateObject private var nav = Nav.newEnvironment()
+
     @State private var screen: Screen
+    @StateObject private var nav = Nav.newEnvironment()
+    @V3Style.WebsiteEdit private var style
+    @V3Localize.WebsiteEdit private var text
     
     private let selection: Website.Selection
     
@@ -51,17 +55,17 @@ public struct WebsiteEdit: View {
             FormParent(self.selection)
                 .tag(Screen.website)
                 .tabItem {
-                    Label("Website(s)", systemImage: "doc.richtext")
+                    self.style.tabWebsite.label(self.text.tabWebsite)
                 }
             Tag(self.selection)
                 .frame(idealWidth: 320, idealHeight: 480)
                 .tag(Screen.tag)
                 .tabItem {
-                    Label("Tags", systemImage: "tag")
+                    self.style.tabTag.label(self.text.tabTag)
                 }
         }
-        .environmentObject(self.nav)
         .frame(idealWidth: self.idealWidth, idealHeight: self.idealHeight)
+        .environmentObject(self.nav)
     }
     
     private var idealWidth: CGFloat {

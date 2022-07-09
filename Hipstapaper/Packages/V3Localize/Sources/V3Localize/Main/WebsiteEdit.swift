@@ -33,6 +33,8 @@ public struct WebsiteEdit: DynamicProperty {
     public struct Value {
         public var titleWebsite: LocalizedString
         public var titleTag:     LocalizedString
+        public var tabWebsite:   LocalizedString
+        public var tabTag:       LocalizedString
         public var done:         LocalizedString
         public var delete:       LocalizedString
         public var untitled:     LocalizedString
@@ -44,6 +46,8 @@ public struct WebsiteEdit: DynamicProperty {
         internal init(_ b: LocalizeBundle) {
             self.titleWebsite = b.localized(key: Noun.editWebsite.rawValue)
             self.titleTag     = b.localized(key: Noun.tagApply.rawValue)
+            self.tabWebsite   = b.localized(key: Noun.website.rawValue)
+            self.tabTag       = b.localized(key: Noun.tags.rawValue)
             self.done         = b.localized(key: Verb.done.rawValue)
             self.delete       = b.localized(key: Verb.deleteGeneric.rawValue)
             self.untitled     = b.localized(key: Noun.untitled.rawValue)

@@ -43,27 +43,37 @@ internal struct FormMulti: View {
     
     internal var body: some View {
         Form {
-            ForEach(self.$data) { item in
-                Section {
-                    TextField("Title",    text: item.title.compactMap())
-                    TextField("Original", text: item.originalURL.mapString())
-                    TextField("Resolved", text: item.resolvedURL.mapString())
-                    if let thumbnail = item.thumbnail.wrappedValue {
-                        self.style.deleteThumbnail.button("Delete Thumbnail") {
-                            item.thumbnail.wrappedValue = nil
-                        }
-                        Image(data: thumbnail)?
-                            .resizable()
-                            .modifier(self.style.thumbnail)
-                            .frame(width: 128, height: 128)
-                    }
-                } header: {
-                    JSBText("Untitled", text: item.title.wrappedValue)
-                }
+            if self.data.isEmpty {
+                EmptyState()
+            } else {
+                self.form
             }
         }
         .onLoadChange(of: self.selection) {
             _data.search = $0
+        }
+    }
+    
+    @ViewBuilder private var form: some View {
+        ForEach(self.$data) { item in
+            Section {
+                TextField("Title",    text: item.title.compactMap())
+                TextField("Original", text: item.originalURL.mapString())
+                    .textContentType(.URL)
+                TextField("Resolved", text: item.resolvedURL.mapString())
+                    .textContentType(.URL)
+                if let thumbnail = item.thumbnail.wrappedValue {
+                    self.style.deleteThumbnail.button("Delete Thumbnail") {
+                        item.thumbnail.wrappedValue = nil
+                    }
+                    Image(data: thumbnail)?
+                        .resizable()
+                        .modifier(self.style.thumbnail)
+                        .frame(width: 128, height: 128)
+                }
+            } header: {
+                JSBText("Untitled", text: item.title.wrappedValue)
+            }
         }
     }
 }
