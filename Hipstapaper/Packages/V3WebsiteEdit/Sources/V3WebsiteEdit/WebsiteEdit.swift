@@ -30,27 +30,52 @@ import V3Model
 import V3Errors
 
 public struct WebsiteEdit: View {
+    
+    public enum Screen {
+        case website
+        case tag
+    }
         
     @StateObject private var nav = Nav.newEnvironment()
+    @State private var screen: Screen
     
     private let selection: Website.Selection
     
-    public init(_ selection: Website.Selection) {
+    public init(selection: Website.Selection, start screen: Screen) {
         self.selection = selection
+        _screen = .init(initialValue: screen)
     }
     
     public var body: some View {
-        TabView {
+        TabView(selection: self.$screen) {
             FormParent(self.selection)
+                .tag(Screen.website)
                 .tabItem {
                     Label("Website(s)", systemImage: "doc.richtext")
                 }
             TagApply(self.selection)
+                .frame(idealWidth: 320, idealHeight: 480)
+                .tag(Screen.tag)
                 .tabItem {
                     Label("Tags", systemImage: "tag")
                 }
         }
         .environmentObject(self.nav)
+        .frame(idealWidth: self.idealWidth, idealHeight: self.idealHeight)
+    }
+    
+    private var idealWidth: CGFloat {
+        switch self.screen {
+        case .website: return 480
+        case .tag: return 320
+        }
+    }
+    
+    private var idealHeight: CGFloat {
+        switch self.screen {
+        case .website: return 720
+        case .tag: return 480
+        }
     }
     
 }

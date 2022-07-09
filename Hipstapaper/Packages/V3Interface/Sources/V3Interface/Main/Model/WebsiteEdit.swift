@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/17.
+//  Created by Jeffrey Bergier on 2022/07/09.
 //
 //  MIT License
 //
@@ -25,32 +25,30 @@
 //
 
 import SwiftUI
-import Umbrella
-import V3Model
-import V3Browser
+import V3WebsiteEdit
 
-internal struct Detail: View {
-    
+internal struct TagApply: ViewModifier {
     @Nav private var nav
-    @JSBSizeClass private var sizeClass
-    
-    internal var body: some View {
-        NavigationStack {
-            Group {
-                switch self.sizeClass.horizontal {
-                case .regular:
-                    DetailTable()
-                case .compact:
-                    DetailList()
-                }
-            }
-            .modifier(.detailTitle)
-            .modifier(.detailMenu)
-            .modifier(.detailToolbar)
-            .modifier(WebsiteEdit.sheet)
-            .sheetCover(item: self.$nav.detail.isBrowse) { ident in
-                Browser(ident)
-            }
+    internal func body(content: Content) -> some View {
+        content.popover(items: self.$nav.detail.isTagApply) { selection in
+            V3WebsiteEdit.WebsiteEdit(selection: selection, start: .tag)
         }
     }
+}
+
+extension ViewModifier where Self == TagApply {
+    internal static var popover: Self { Self.init() }
+}
+
+internal struct WebsiteEdit: ViewModifier {
+    @Nav private var nav
+    internal func body(content: Content) -> some View {
+        content.sheet(items: self.$nav.detail.isWebsitesEdit.editing) { selection in
+            V3WebsiteEdit.WebsiteEdit(selection: selection, start: .website)
+        }
+    }
+}
+
+extension ViewModifier where Self == WebsiteEdit {
+    internal static var sheet: Self { Self.init() }
 }

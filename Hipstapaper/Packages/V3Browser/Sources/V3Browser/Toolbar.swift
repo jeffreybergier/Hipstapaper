@@ -232,7 +232,3 @@ extension String {
     fileprivate static let itemSeparator1      = "toolbar.separator1"
     fileprivate static let itemSeparator2      = "toolbar.separator2"
 }
-
-extension ViewModifier where Self == Toolbar {
-    internal static var toolbar: Self { Self.init() }
-}

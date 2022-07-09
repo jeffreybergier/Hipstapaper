@@ -83,7 +83,7 @@ internal struct DetailToolbar: ViewModifier {
                     self.style.tagApply.button(self.text.tagApply, enabled: self.isSelection) {
                         self.nav.detail.isTagApply = self.nav.detail.selectedWebsites
                     }
-                    .modifier(TagApplyPresentation()) // TODO: Change to .tagApplyPopover
+                    .modifier(TagApply.popover) // TODO: Change to .tagApplyPopover
                 }
                 ToolbarItem(id: "share", placement: .secondaryAction) {
                     self.style.share.button(self.text.share, enabled: self.isSelection) {
@@ -123,18 +123,4 @@ internal struct DetailToolbar: ViewModifier {
     private var errorList: some ViewModifier {
         DetailErrorListPresentation()
     }
-}
-
-internal struct TagApplyPresentation: ViewModifier {
-    @Nav private var nav
-    internal func body(content: Content) -> some View {
-        content.popover(items: self.$nav.detail.isTagApply) { selection in
-            Color.blue
-            // TagApply(selection)
-        }
-    }
-}
-
-extension ViewModifier where Self == TagApplyPresentation {
-    internal static var tagApplyPopover: Self { Self.init() }
 }
