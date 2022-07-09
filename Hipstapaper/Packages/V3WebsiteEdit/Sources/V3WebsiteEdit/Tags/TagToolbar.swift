@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/25.
+//  Created by Jeffrey Bergier on 2022/07/09.
 //
 //  MIT License
 //
@@ -26,34 +26,44 @@
 
 import SwiftUI
 import Umbrella
+import V3Style
 import V3Localize
-import V3Model
-import V3Store
 
-internal struct TagApply: View {
-        
-    @TagApplyQuery private var data
-    @V3Localize.TagApply private var text
+internal struct TagToolbar: ViewModifier {
     
-    private let selection: Website.Selection
+    @Nav private var nav
+    @V3Style.WebsiteEdit private var style
+    @V3Localize.WebsiteEdit private var text
+    @Environment(\.dismiss) private var dismiss
     
-    internal init(_ selection: Website.Selection) {
-        self.selection = selection
-    }
-    
-    internal var body: some View {
-        NavigationStack {
-            Form {
-                ForEach(self.$data) { item in
-                    Toggle(item.wrappedValue.tag.name ?? self.text.untitled,
-                           isOn: item.status.boolValue.flipped)
+    internal func body(content: Content) -> some View {
+        content
+            .modifier(self.itemGeneric)
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    self.itemErrors
                 }
             }
-            .modifier(Toolbar())
-        }
-        .frame(idealWidth: 320, minHeight: 320)
-        .onLoadChange(of: self.selection) {
-            _data.selection = $0
+    }
+    
+    private var itemGeneric: some ViewModifier {
+        JSBToolbar(
+            title: self.text.titleTag,
+            done: self.text.done,
+            doneAction: { self.dismiss() }
+        )
+    }
+
+    @ViewBuilder private var itemErrors: some View {
+        if self.nav.errorQueue.isEmpty == false {
+            self.style.error.button(self.text.error) {
+                self.nav.isErrorList.isPresented = true
+            }
+            .modifier(ErrorList.popover)
         }
     }
+}
+
+extension ViewModifier where Self == TagToolbar {
+    internal static var toolbar: Self { .init() }
 }

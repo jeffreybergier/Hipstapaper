@@ -55,6 +55,8 @@
 "Verb.StopLoading"            = "Stop";
 "Verb.ReloadPage"             = "Reload";
 "Verb.Javascript"             = "Javascript";
+"Verb.JavascriptYes"          = "Disable Javascript";
+"Verb.JavascriptNo"           = "Enable Javascript";
 "Verb.GoBack"                 = "Back";
 "Verb.GoForward"              = "Forward";
 "Verb.DeleteWebsite"          = "Delete Website(s)";
@@ -117,6 +119,7 @@
 //
 //
 
+"Phrase.NoSelection"            = "Nothing selected";
 "Phrase.AddChoice"              = "Create new tag or add new website";
 "Phrase.Sort"                   = "Change sort order of websites";
 "Phrase.FilterA"                = "Show all items";
@@ -137,8 +140,6 @@
 "Phrase.ReloadPage"             = "Reload page";
 "Phrase.LoadPage"               = "Load page";
 "Phrase.LoadingPage"            = "Loading…";
-"Phrase.JSActive"               = "Disable Javascript";
-"Phrase.JSInactive"             = "Enable Javascript";
 "Phrase.GoBack"                 = "Show the previous page";
 "Phrase.GoForward"              = "Show the next page";
 "Phrase.DeleteTagTip"           = "Delete selected tag(s)";

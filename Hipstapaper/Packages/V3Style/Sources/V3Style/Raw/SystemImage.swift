@@ -54,6 +54,7 @@ internal enum SystemImage: String {
     case minusRectangle = "rectangle.badge.minus"
     case checkmark      = "checkmark"
     case photo          = "photo"
+    case rectangleSlash = "rectangle.on.rectangle.slash"
 }
 
 /*

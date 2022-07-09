@@ -134,11 +134,15 @@ extension Action {
         shortcut: nil
     )
     internal static let autofill = Self(
-        systemImage: SystemImage.javascriptNo.rawValue,
+        systemImage: SystemImage.magic.rawValue,
         shortcut: nil
     )
     internal static let deleteThumbnail = Self(
         systemImage: SystemImage.minusRectangle.rawValue,
+        shortcut: nil
+    )
+    internal static let noContent = Self(
+        systemImage: SystemImage.rectangleSlash.rawValue,
         shortcut: nil
     )
 }

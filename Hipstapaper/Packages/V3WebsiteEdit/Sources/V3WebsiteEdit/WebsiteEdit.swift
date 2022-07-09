@@ -53,7 +53,7 @@ public struct WebsiteEdit: View {
                 .tabItem {
                     Label("Website(s)", systemImage: "doc.richtext")
                 }
-            TagApply(self.selection)
+            Tag(self.selection)
                 .frame(idealWidth: 320, idealHeight: 480)
                 .tag(Screen.tag)
                 .tabItem {

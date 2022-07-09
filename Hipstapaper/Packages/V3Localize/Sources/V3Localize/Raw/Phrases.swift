@@ -74,4 +74,5 @@ internal enum Phrase: LocalizationKey {
     case errorShareItemCount    = "Phrase.ErrorShareItemCount"
     case errorLoadURL           = "Phrase.ErrorLoadURL"
     case errorShareImport       = "Phrase.ErrorShareImport"
+    case noSelection            = "Phrase.NoSelection"
 }

@@ -28,17 +28,29 @@ import SwiftUI
 import Umbrella
 
 @propertyWrapper
-public struct TagApply: DynamicProperty {
+public struct WebsiteEdit: DynamicProperty {
     
     public struct Value {
-        public var title: LocalizedString
-        public var done: LocalizedString
-        public var untitled: LocalizedString
+        public var titleWebsite: LocalizedString
+        public var titleTag:     LocalizedString
+        public var done:         LocalizedString
+        public var delete:       LocalizedString
+        public var untitled:     LocalizedString
+        public var jsYes:        LocalizedString
+        public var jsNo:         LocalizedString
+        public var empty:        LocalizedString
+        public var error:        LocalizedString
         
         internal init(_ b: LocalizeBundle) {
-            self.title    = b.localized(key: Noun.tagApply.rawValue)
-            self.done     = b.localized(key: Verb.done.rawValue)
-            self.untitled = b.localized(key: Noun.untitled.rawValue)
+            self.titleWebsite = b.localized(key: Noun.editWebsite.rawValue)
+            self.titleTag     = b.localized(key: Noun.tagApply.rawValue)
+            self.done         = b.localized(key: Verb.done.rawValue)
+            self.delete       = b.localized(key: Verb.deleteGeneric.rawValue)
+            self.untitled     = b.localized(key: Noun.untitled.rawValue)
+            self.jsYes        = b.localized(key: Verb.javascriptYes.rawValue)
+            self.jsNo         = b.localized(key: Verb.javascriptNo.rawValue)
+            self.empty        = b.localized(key: Phrase.noSelection.rawValue)
+            self.error        = b.localized(key: Verb.errorsPresent.rawValue)
         }
     }
     

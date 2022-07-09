@@ -25,10 +25,16 @@
 //
 
 import SwiftUI
+import V3Localize
+import V3Style
 
 internal struct EmptyState: View {
+    
+    @V3Style.WebsiteEdit private var style
+    @V3Localize.WebsiteEdit private var text
+    
     internal var body: some View {
         // TODO: Localize
-        Label("Nothing Selected", systemImage: "rectangle.on.rectangle.slash")
+        self.style.empty.label(self.text.empty)
     }
 }

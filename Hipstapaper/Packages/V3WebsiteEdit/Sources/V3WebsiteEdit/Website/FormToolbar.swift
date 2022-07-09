@@ -30,27 +30,35 @@ import V3Model
 import V3Style
 import V3Localize
 
-internal struct Toolbar: ViewModifier {
+internal struct FormToolbar: ViewModifier {
     
     @Nav private var nav
     @V3Style.WebsiteEdit private var style
-    @V3Localize.Browser private var text
+    @V3Localize.WebsiteEdit private var text
     @Environment(\.dismiss) private var dismiss
+    
+    private let deletable: Bool
+    
+    internal init(deletable: Bool) {
+        self.deletable = deletable
+    }
         
     internal func body(content: Content) -> some View {
         content
-            .navigationTitle("Edit Website(s)")
+            .navigationTitle(self.text.titleWebsite)
             .navigationBarTitleDisplayMode(.inline)
             .toolbarRole(.navigationStack)
             .toolbar {
                 ToolbarItem(id: .itemErrors, placement: .primaryAction) {
                     self.itemErrors
                 }
-                ToolbarItem(id: .itemDone, placement: .primaryAction) {
+                ToolbarItem(id: .itemDone, placement: .confirmationAction) {
                     self.itemClose
                 }
-                ToolbarItem(id: .itemClose, placement: .cancellationAction) {
-                    self.itemDelete
+                if self.deletable {
+                    ToolbarItem(id: .itemClose, placement: .cancellationAction) {
+                        self.itemDelete
+                    }
                 }
             }
     }
@@ -60,7 +68,7 @@ internal struct Toolbar: ViewModifier {
             self.style.error.button(self.text.error) {
                 self.nav.isErrorList.isPresented = true
             }
-            .modifier(ErrorListPresentation())
+            .modifier(ErrorList.popover)
         }
     }
     
@@ -73,7 +81,7 @@ internal struct Toolbar: ViewModifier {
     }
     
     private var itemDelete: some View {
-        self.style.deleteWebsite.button("DDelete",
+        self.style.deleteWebsite.button(self.text.delete,
                                         style: .text,
                                         role: .destructive)
         {
@@ -87,7 +95,7 @@ internal struct Toolbar: ViewModifier {
 }
 
 extension String {
-    fileprivate static let itemDone            = "toolbar.done"
-    fileprivate static let itemClose           = "toolbar.close"
-    fileprivate static let itemErrors          = "toolbar.errors"
+    fileprivate static let itemDone   = "toolbar.done"
+    fileprivate static let itemClose  = "toolbar.close"
+    fileprivate static let itemErrors = "toolbar.errors"
 }

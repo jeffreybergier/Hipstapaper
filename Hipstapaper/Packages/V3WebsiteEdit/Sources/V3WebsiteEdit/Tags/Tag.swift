@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/07/08.
+//  Created by Jeffrey Bergier on 2022/06/25.
 //
 //  MIT License
 //
@@ -25,42 +25,42 @@
 //
 
 import SwiftUI
+import Umbrella
+import V3Localize
+import V3Style
 import V3Model
-import V3Errors
+import V3Store
 
-internal struct FormParent: View {
+internal struct Tag: View {
     
-    @Nav private var nav
-    @StateObject private var webState = WebState.newEnvironment()
+    @TagApplyQuery private var data
+    @V3Localize.WebsiteEdit private var text
     
     private let selection: Website.Selection
-
+    
     internal init(_ selection: Website.Selection) {
         self.selection = selection
     }
     
     internal var body: some View {
-        ErrorResponder(presenter: self.$nav,
-                       storage: self.$nav.errorQueue)
-        {
-            NavigationStack {
-                Group {
-                    switch self.selection.count {
-                    case 0:
-                        EmptyState()
-                    case 1:
-                        FormSingle(self.selection.first!)
-                            .environmentObject(self.webState)
-                    default:
-                        FormMulti(self.selection)
+        NavigationStack {
+            Group {
+                if self.data.isEmpty {
+                    EmptyState()
+                } else {
+                    Form {
+                        ForEach(self.$data) { item in
+                            Toggle(item.wrappedValue.tag.name ?? self.text.untitled,
+                                   isOn: item.status.boolValue.flipped)
+                        }
                     }
                 }
-                .modifier(self.toolbar)
             }
+            .modifier(TagToolbar.toolbar)
         }
-    }
-    
-    private var toolbar: some ViewModifier {
-        FormToolbar(deletable: self.selection.count == 1)
+        .frame(idealWidth: 320, minHeight: 320)
+        .onLoadChange(of: self.selection) {
+            _data.selection = $0
+        }
     }
 }
