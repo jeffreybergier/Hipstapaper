@@ -38,7 +38,7 @@ internal struct FormSingle: View {
     @WebState private var webState
     @WebsiteQuery private var item
     @V3Style.WebsiteEdit private var style
-    @V3Localize.Browser private var text
+    @V3Localize.WebsiteEdit private var text
 
     @State private var timer = Timer.publish(every: 1, on: .main, in: .common)
     @State private var timerToken: Cancellable?
@@ -89,8 +89,8 @@ internal struct FormSingle: View {
     
     @ViewBuilder private var rowEditForm: some View {
         if let item = self.$item {
-            TextField("Title",    text: item.title.compactMap())
-            TextField("Address", text: item.originalURL.mapString())
+            TextField(self.text.websiteTitle, text: item.title.compactMap())
+            TextField(self.text.originalURL, text: item.originalURL.mapString())
                 .textContentType(.URL)
         } else {
             EmptyState()
@@ -99,7 +99,7 @@ internal struct FormSingle: View {
     
     @ViewBuilder private var rowResolvedURL: some View {
         if let item = self.$item {
-            TextField("Loaded Address", text: item.resolvedURL.mapString())
+            TextField(self.text.resolvedURL, text: item.resolvedURL.mapString())
                 .textContentType(.URL)
         }
     }
@@ -128,7 +128,7 @@ internal struct FormSingle: View {
                 self.nav.shouldStop = true
             }
         } else {
-            self.style.autofill.button("Autofill") {
+            self.style.autofill.button(self.text.autofill) {
                 self.nav.shouldLoadURL = self.item?.originalURL
             }
         }
@@ -136,7 +136,7 @@ internal struct FormSingle: View {
     
     @ViewBuilder private var rowDeleteThumbnail: some View {
         if self.item?.thumbnail != nil {
-            self.style.deleteThumbnail.button("Delete Thumbnail") {
+            self.style.deleteThumbnail.button(self.text.deleteThumbnail) {
                 self.item?.thumbnail = nil
                 self.nav.shouldStop = true
                 self.timerStop()

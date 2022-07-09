@@ -46,7 +46,7 @@ internal enum Verb: LocalizationKey {
     case deleteImage            = "Verb.DeleteImage"
     case deleteGeneric          = "Verb.DeleteGeneric"
     case editWebsite            = "Verb.EditWebsite"
-    case go                     = "Verb.Go"
+    case autofill               = "Verb.Autofill"
     case clearSearch            = "Verb.ClearSearch"
     case openInApp              = "Verb.OpenInApp"
     case openExternal           = "Verb.OpenInBrowser"

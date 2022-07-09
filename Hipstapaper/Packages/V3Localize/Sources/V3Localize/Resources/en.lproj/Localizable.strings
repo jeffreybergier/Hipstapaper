@@ -46,7 +46,6 @@
 "Verb.DeleteTag"              = "Delete Tag(s)";
 "Verb.AddTag"                 = "Add Tag";
 "Verb.EditTags"               = "Edit Tag(s)";
-"Verb.Go"                     = "Go";
 "Verb.ClearSearch"            = "Clear Search";
 "Verb.OpenInApp"              = "Open";
 "Verb.OpenInBrowser"          = "Open in Browser";
@@ -57,10 +56,11 @@
 "Verb.Javascript"             = "Javascript";
 "Verb.JavascriptYes"          = "Disable Javascript";
 "Verb.JavascriptNo"           = "Enable Javascript";
+"Verb.Autofill"               = "Autofill";
 "Verb.GoBack"                 = "Back";
 "Verb.GoForward"              = "Forward";
 "Verb.DeleteWebsite"          = "Delete Website(s)";
-"Verb.DeleteImage"            = "Delete Image";
+"Verb.DeleteImage"            = "Delete Thumbnail";
 "Verb.DeleteGeneric"          = "Delete";
 "Verb.EditWebsite"            = "Edit Website(s)";
 "Verb.iCloud"                 = "iCloud";
@@ -92,8 +92,8 @@
 "Noun.UnreadItems"   = "Unread Items";
 "Noun.AutofillURL"   = "Autofill URL";
 "Noun.FilledURL"     = "Filled URL";
-"Noun.OriginalURL"   = "Original URL";
-"Noun.ResolvedURL"   = "Resolved URL";
+"Noun.OriginalURL"   = "Autofill URL";
+"Noun.ResolvedURL"   = "Autofilled URL";
 "Noun.WebsiteTitle"  = "Page Title";
 "Noun.Hipstapaper"   = "Hipstapaper";
 "Noun.TagName"       = "Tag Name";

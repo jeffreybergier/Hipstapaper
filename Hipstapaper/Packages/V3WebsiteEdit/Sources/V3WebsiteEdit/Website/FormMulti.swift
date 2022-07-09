@@ -29,13 +29,15 @@ import Umbrella
 import V3Model
 import V3Store
 import V3Style
+import V3Localize
 
 internal struct FormMulti: View {
+        
+    @V3Style.WebsiteEdit private var style
+    @V3Localize.WebsiteEdit private var text
+    @WebsiteSearchListQuery private var data
     
     private let selection: Website.Selection
-    
-    @WebsiteSearchListQuery private var data
-    @V3Style.WebsiteEdit private var style
     
     internal init(_ selection: Website.Selection) {
         self.selection = selection
@@ -57,13 +59,13 @@ internal struct FormMulti: View {
     @ViewBuilder private var form: some View {
         ForEach(self.$data) { item in
             Section {
-                TextField("Title",    text: item.title.compactMap())
-                TextField("Original", text: item.originalURL.mapString())
+                TextField(self.text.websiteTitle, text: item.title.compactMap())
+                TextField(self.text.originalURL, text: item.originalURL.mapString())
                     .textContentType(.URL)
-                TextField("Resolved", text: item.resolvedURL.mapString())
+                TextField(self.text.resolvedURL, text: item.resolvedURL.mapString())
                     .textContentType(.URL)
                 if let thumbnail = item.thumbnail.wrappedValue {
-                    self.style.deleteThumbnail.button("Delete Thumbnail") {
+                    self.style.deleteThumbnail.button(self.text.deleteThumbnail) {
                         item.thumbnail.wrappedValue = nil
                     }
                     Image(data: thumbnail)?
@@ -72,7 +74,7 @@ internal struct FormMulti: View {
                         .frame(width: 128, height: 128)
                 }
             } header: {
-                JSBText("Untitled", text: item.title.wrappedValue)
+                JSBText(self.text.untitled, text: item.title.wrappedValue)
             }
         }
     }
