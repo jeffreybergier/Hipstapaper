@@ -29,7 +29,7 @@ import CloudKit
 import Umbrella
 import V3Model
 
-extension CD_Controller: Controller {
+extension CD_Controller: ControllerProtocol {
     
     internal var ENVIRONMENTONLY_managedObjectContext: NSManagedObjectContext {
         self.container.viewContext
@@ -218,7 +218,7 @@ internal class CD_Controller {
     internal let syncProgress: AnyContinousProgress
     internal let container: NSPersistentContainer
     
-    internal class func new() -> Result<Controller, Error> {
+    internal class func new() -> Result<ControllerProtocol, Error> {
         do {
             let controller = try CD_Controller()
             return .success(controller)

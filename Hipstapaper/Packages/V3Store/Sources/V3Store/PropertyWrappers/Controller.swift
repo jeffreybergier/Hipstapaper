@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/03/12.
+//  Created by Jeffrey Bergier on 2022/07/10.
 //
 //  MIT License
 //
@@ -24,51 +24,34 @@
 //  SOFTWARE.
 //
 
-// Read more about FetchedResults type
-// https://developer.apple.com/documentation/swiftui/fetchedresults
-// https://www.raywenderlich.com/9335365-core-data-with-swiftui-tutorial-getting-started
-
-import Foundation
-import CoreData
 import SwiftUI
 import Umbrella
-import V3Model
-
-public func ControllerNew() -> Result<Controller, Error> {
-    return CD_Controller.new()
-}
-
-public protocol Controller {
-
-    static var storeDirectoryURL: URL { get }
-    static var storeExists: Bool { get }
-    
-    var ENVIRONMENTONLY_managedObjectContext: NSManagedObjectContext { get }
-    
-    // MARK: Sync
-    var syncProgress: AnyContinousProgress { get }
-
-    // MARK: Websites CRUD
-    func createWebsite() -> Result<Website.Selection.Element, Error>
-    func delete(_: Website.Selection) -> Result<Void, Error>
-
-    // MARK: Tags CRUD
-    func createTag() -> Result<Tag.Selection.Element, Error>
-    func delete(_: Tag.Selection) -> Result<Void, Error>
-}
 
 @propertyWrapper
-public struct ControllerProperty: DynamicProperty {
+public struct Controller: DynamicProperty {
     
-    @EnvironmentObject private var controller: BlackBox<Controller?>
+    @EnvironmentObject private var env: BlackBox<ControllerProtocol?>
     
     public init() { }
     
-    public var wrappedValue: Controller {
-        self.controller.value!
+    public var wrappedValue: ControllerProtocol {
+        self.env.value!
     }
     
     internal var cdController: CD_Controller {
-        self.controller.value as! CD_Controller
+        self.env.value as! CD_Controller
+    }
+}
+
+extension Controller {
+    public static func newEnvironment() -> BlackBox<ControllerProtocol?> {
+        switch CD_Controller.new() {
+        case .success(let controller):
+            return BlackBox(controller)
+        case .failure(let error):
+            NSLog(String(describing: error))
+            assertionFailure(String(describing: error))
+            return BlackBox(nil)
+        }
     }
 }

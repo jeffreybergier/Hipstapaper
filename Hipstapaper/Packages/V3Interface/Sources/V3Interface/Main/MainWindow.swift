@@ -25,19 +25,27 @@
 //
 
 import SwiftUI
+import V3Store
 import V3Localize
 import V3Errors
 
 public struct MainWindow: Scene {
     
     @StateObject private var localizeBundle = LocalizeBundle()
+    @StateObject private var controller = Controller.newEnvironment()
     
     public init() {}
     
     public var body: some Scene {
         WindowGroup {
-            MainView()
-                .environmentObject(self.localizeBundle)
+            if let managedObjectContext = self.controller.value?.ENVIRONMENTONLY_managedObjectContext {
+                MainView()
+                    .environmentObject(self.controller)
+                    .environmentObject(self.localizeBundle)
+                    .environment(\.managedObjectContext, managedObjectContext)
+            } else {
+                Text("Whoa dude. Big Error.")
+            }
         }
     }
 }
