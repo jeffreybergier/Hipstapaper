@@ -25,6 +25,7 @@
 //
 
 import CoreData
+import V3Model
 
 @objc(CD_Tag) internal class CD_Tag: CD_Base {
 
@@ -57,10 +58,10 @@ import CoreData
 
 extension Tag {
     internal init(_ cd: CD_Tag) {
-        self.dateCreated = cd.cd_dateCreated ?? Date.init(timeIntervalSince1970: 0)
-        self.dateModified = cd.cd_dateModified ?? Date.init(timeIntervalSince1970: 0)
-        self.name = cd.cd_name
-        self.websitesCount = Int(cd.cd_websitesCount)
-        self.uuid = .init(cd.objectID)
+        self.init(id: .init(cd.objectID),
+                  name: cd.cd_name,
+                  websitesCount: Int(cd.cd_websitesCount),
+                  dateCreated: cd.cd_dateCreated,
+                  dateModified: cd.cd_dateModified)
     }
 }

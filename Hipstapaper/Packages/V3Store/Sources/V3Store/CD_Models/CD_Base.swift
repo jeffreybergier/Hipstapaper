@@ -24,48 +24,58 @@
 //  SOFTWARE.
 //
 
+import Combine
 import CoreData
+import Umbrella
+import V3Model
 
-@objc(CD_Website) internal class CD_Website: CD_Base {
+@objc(CD_Base) internal class CD_Base: NSManagedObject, Identifiable {
 
-    internal class override var entityName: String { "CD_Website" }
-    internal class var request: NSFetchRequest<CD_Website> {
-        NSFetchRequest<CD_Website>(entityName: self.entityName)
+    /// Template for fetch request in subclasses
+    internal class var entityName: String { "CD_Base" }
+    private class var request: NSFetchRequest<CD_Base> {
+        NSFetchRequest<CD_Base>(entityName: self.entityName)
     }
 
-    @NSManaged internal var cd_isArchived:  Bool
-    @NSManaged internal var cd_originalURL: URL?
-    @NSManaged internal var cd_resolvedURL: URL?
-    @NSManaged internal var cd_title:       String?
-    @NSManaged internal var cd_thumbnail:   Data?
-    @NSManaged internal var cd_tags:        NSSet
+    @NSManaged internal var cd_dateCreated: Date?
+    @NSManaged internal var cd_dateModified: Date?
+
+    override internal func awakeFromInsert() {
+        super.awakeFromInsert()
+        let date = Date()
+        self.cd_dateModified = date
+        self.cd_dateCreated = date
+    }
     
     override func willSave() {
         super.willSave()
         
-        // Validate Title
-        if let title = self.cd_title, title.trimmed == nil {
-            self.cd_title = nil
+        let now = Date()
+        
+        if self.cd_dateCreated == nil {
+            NSLog("Date was NIL")
+            self.cd_dateCreated = now
         }
-
-        // Validate Thumbnail Size
-        // TODO: Centralize max thumbnail size
-        if let thumb = self.cd_thumbnail, thumb.count > 200_000 {
-            self.cd_thumbnail = nil
+        
+        if self.cd_dateModified == nil {
+            NSLog("Date was NIL")
+            self.cd_dateModified = now
+        }
+        
+        if abs(self.cd_dateModified!.timeIntervalSince(now)) > 3 {
+            self.cd_dateModified = now
         }
     }
 }
 
-extension Website {
-    internal init(_ cd: CD_Website) {
-        self.dateCreated = cd.cd_dateCreated ?? Date.init(timeIntervalSince1970: 0)
-        self.dateModified = cd.cd_dateModified ?? Date.init(timeIntervalSince1970: 0)
-        self.uuid = .init(cd.objectID)
-        
-        self.isArchived = cd.cd_isArchived
-        self.originalURL = cd.cd_originalURL
-        self.resolvedURL = cd.cd_resolvedURL
-        self.title = cd.cd_title
-        self.thumbnail = cd.cd_thumbnail
+extension Tag.Identifier {
+    internal init(_ id: NSManagedObjectID) {
+        self.init(id.uriRepresentation().absoluteString, kind: .user)
+    }
+}
+
+extension Website.Identifier {
+    internal init(_ id: NSManagedObjectID) {
+        self.init(rawValue: id.uriRepresentation().absoluteString)
     }
 }
