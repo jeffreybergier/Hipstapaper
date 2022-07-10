@@ -46,8 +46,7 @@ internal struct FormToolbar: ViewModifier {
     internal func body(content: Content) -> some View {
         content
             .navigationTitle(self.text.titleWebsite)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbarRole(.navigationStack)
+            .navigationBarTitleDisplayModeInline
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     self.itemErrors

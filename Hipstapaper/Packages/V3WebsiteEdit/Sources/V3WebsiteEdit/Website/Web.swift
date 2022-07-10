@@ -91,7 +91,9 @@ fileprivate struct _Web: View {
         let wv = WKWebView(frame: .zero, configuration: config)
         wv.configuration.websiteDataStore = .nonPersistent()
         wv.navigationDelegate = context.coordinator
+        #if !os(macOS)
         wv.isUserInteractionEnabled = false
+        #endif
         let token1 = wv.observe(\.isLoading)
         { [unowned nav = _nav.raw] wv, _ in
             nav.value.isLoading = wv.isLoading

@@ -61,12 +61,9 @@ internal struct DetailTitle: ViewModifier {
                 }
             }
         }
+        .navigationBarTitleDisplayModeInline
         .onLoadChange(of: self.nav.sidebar.selectedTag) {
             _tag.identifier = $0
         }
-        // TODO: Make cross-platform
-        #if !os(macOS)
-        .navigationBarTitleDisplayMode(.inline)
-        #endif
     }
 }

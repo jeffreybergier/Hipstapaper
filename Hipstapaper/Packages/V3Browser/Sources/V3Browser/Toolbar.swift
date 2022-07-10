@@ -43,8 +43,7 @@ internal struct Toolbar: ViewModifier {
     internal func body(content: Content) -> some View {
         content
             .navigationTitle(self.nav.currentTitle)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbarRole(.navigationStack)
+            .navigationBarTitleDisplayModeInline
             .toolbar {
                 ToolbarItem(id: .itemArchiveAndClose, placement: .primaryAction) {
                     self.itemArchiveAndClose
@@ -69,19 +68,19 @@ internal struct Toolbar: ViewModifier {
                     ToolbarItem(id: .itemErrors, placement: .navigation) {
                         self.itemErrors
                     }
-                    ToolbarItem(id: .itemJavaScript, placement: .bottomBar) {
+                    ToolbarItem(id: .itemJavaScript, placement: .bottomSecondary) {
                         self.itemJavaScript
                     }
-                    ToolbarItem(id: .itemSpacer1, placement: .bottomBar) {
+                    ToolbarItem(id: .itemSpacer1, placement: .bottomSecondary) {
                         self.itemSpacer
                     }
-                    ToolbarItem(id: .itemOpenExternal, placement: .bottomBar) {
+                    ToolbarItem(id: .itemOpenExternal, placement: .bottomSecondary) {
                         self.itemOpenExternal
                     }
-                    ToolbarItem(id: .itemSeparator1, placement: .bottomBar) {
+                    ToolbarItem(id: .itemSeparator1, placement: .bottomSecondary) {
                         self.itemSeparator
                     }
-                    ToolbarItem(id: .itemShare, placement: .bottomBar) {
+                    ToolbarItem(id: .itemShare, placement: .bottomSecondary) {
                         self.itemShare
                     }
                 case .compact:
@@ -93,31 +92,31 @@ internal struct Toolbar: ViewModifier {
                             self.itemStatus
                         }
                     }
-                    ToolbarItem(id: .itemBack, placement: .bottomBar) {
+                    ToolbarItem(id: .itemBack, placement: .bottomFatal) {
                         self.itemBack
                     }
-                    ToolbarItem(id: .itemForward, placement: .bottomBar) {
+                    ToolbarItem(id: .itemForward, placement: .bottomFatal) {
                         self.itemForward
                     }
-                    ToolbarItem(id: .itemSeparator1, placement: .bottomBar) {
+                    ToolbarItem(id: .itemSeparator1, placement: .bottomFatal) {
                         self.itemSeparator
                     }
-                    ToolbarItem(id: .itemStopReload, placement: .bottomBar) {
+                    ToolbarItem(id: .itemStopReload, placement: .bottomFatal) {
                         self.itemStopReload
                     }
-                    ToolbarItem(id: .itemJavaScript, placement: .bottomBar) {
+                    ToolbarItem(id: .itemJavaScript, placement: .bottomFatal) {
                         self.itemJavaScript
                     }
-                    ToolbarItem(id: .itemSpacer1, placement: .bottomBar) {
+                    ToolbarItem(id: .itemSpacer1, placement: .bottomFatal) {
                         self.itemSpacer
                     }
-                    ToolbarItem(id: .itemOpenExternal, placement: .bottomBar) {
+                    ToolbarItem(id: .itemOpenExternal, placement: .bottomFatal) {
                         self.itemOpenExternal
                     }
-                    ToolbarItem(id: .itemSeparator2, placement: .bottomBar) {
+                    ToolbarItem(id: .itemSeparator2, placement: .bottomFatal) {
                         self.itemSeparator
                     }
-                    ToolbarItem(id: .itemShare, placement: .bottomBar) {
+                    ToolbarItem(id: .itemShare, placement: .bottomFatal) {
                         self.itemShare
                     }
                 }
@@ -231,4 +230,21 @@ extension String {
     fileprivate static let itemSpacer1         = "toolbar.spacer1"
     fileprivate static let itemSeparator1      = "toolbar.separator1"
     fileprivate static let itemSeparator2      = "toolbar.separator2"
+}
+
+extension ToolbarItemPlacement {
+    fileprivate static var bottomFatal: ToolbarItemPlacement {
+        #if os(macOS)
+        fatalError()
+        #else
+        .bottomBar
+        #endif
+    }
+    fileprivate static var bottomSecondary: ToolbarItemPlacement {
+        #if os(macOS)
+        .secondaryAction
+        #else
+        .bottomBar
+        #endif
+    }
 }
