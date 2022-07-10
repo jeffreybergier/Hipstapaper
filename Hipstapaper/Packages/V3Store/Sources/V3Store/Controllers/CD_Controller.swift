@@ -27,6 +27,7 @@
 import CoreData
 import CloudKit
 import Umbrella
+import V3Model
 
 extension CD_Controller: Controller {
     
@@ -36,23 +37,16 @@ extension CD_Controller: Controller {
 
     // MARK: Website CRUD
 
-    internal func createWebsite(_ input: Website?) -> Result<Website.Ident, Error> {
+    internal func createWebsite() -> Result<Website.Identifier, Error> {
         assert(Thread.isMainThread)
         let context = self.container.viewContext
         let cd_website = CD_Website(context: context)
-        if let input = input {
-            cd_website.cd_title       = input.title
-            cd_website.cd_originalURL = input.originalURL
-            cd_website.cd_resolvedURL = input.resolvedURL
-            cd_website.cd_thumbnail   = input.thumbnail
-            cd_website.cd_dateCreated = input.dateCreated
-        }
         return context.datum_save().map {
-            Website.Ident(cd_website.objectID)
+            Website.Identifier(cd_website.objectID)
         }
     }
     
-    func delete(_ input: Set<Website.Ident>) -> Result<Void, Error> {
+    func delete(_ input: Website.Selection) -> Result<Void, Error> {
         let context = self.container.viewContext
         let coordinator = self.container.persistentStoreCoordinator
         let cd_ids = input.compactMap {
@@ -70,14 +64,14 @@ extension CD_Controller: Controller {
 
     // MARK: Tag CRUD
     
-    internal func createTag() -> Result<Tag.Ident, Error> {
+    internal func createTag() -> Result<Tag.Selection.Element, Error> {
         assert(Thread.isMainThread)
         let context = self.container.viewContext
         let tag = CD_Tag(context: context)
-        return context.datum_save().map { Tag.Ident(tag.objectID) }
+        return context.datum_save().map { Tag.Identifier(tag.objectID) }
     }
     
-    internal func delete(_ input: Set<Tag.Ident>) -> Result<Void, Error> {
+    internal func delete(_ input: Tag.Selection) -> Result<Void, Error> {
         assert(Thread.isMainThread)
         let context = self.container.viewContext
         let cd_tags = self.search(input, from: context)
@@ -90,7 +84,7 @@ extension CD_Controller: Controller {
     
     // MARK: Custom Functions
     
-    internal func setArchive(_ newValue: Bool, on input: Set<Website.Ident>) -> Result<Void, Error> {
+    internal func setArchive(_ newValue: Bool, on input: Website.Selection) -> Result<Void, Error> {
         assert(Thread.isMainThread)
         let context = self.container.viewContext
         let cd_websites = self.search(input, from: context)
@@ -101,7 +95,7 @@ extension CD_Controller: Controller {
         return context.datum_save()
     }
     
-    internal func addTag(_ cd_tag: CD_Tag, to input: Set<Website.Ident>) -> Result<Void, Error> {
+    internal func addTag(_ cd_tag: CD_Tag, to input: Website.Selection) -> Result<Void, Error> {
         assert(Thread.isMainThread)
         let context = self.container.viewContext
         let websites = self.search(input, from: context)
@@ -115,7 +109,7 @@ extension CD_Controller: Controller {
         return changesMade ? context.datum_save() : .success(())
     }
     
-    internal func removeTag(_ cd_tag: CD_Tag, to input: Set<Website.Ident>) -> Result<Void, Error> {
+    internal func removeTag(_ cd_tag: CD_Tag, to input: Website.Selection) -> Result<Void, Error> {
         assert(Thread.isMainThread)
         let context = self.container.viewContext
         let websites = self.search(input, from: context)
@@ -131,7 +125,7 @@ extension CD_Controller: Controller {
     
     // MARK: Search
     
-    internal func search(_ input: Set<Website.Ident>, from context: NSManagedObjectContext? = nil) -> [CD_Website] {
+    internal func search(_ input: Set<Website.Identifier>, from context: NSManagedObjectContext? = nil) -> [CD_Website] {
         let context = context ?? self.container.viewContext
         let coordinator = self.container.persistentStoreCoordinator
         let cd_ids = input.compactMap {
@@ -142,7 +136,7 @@ extension CD_Controller: Controller {
         }
     }
     
-    internal func search(_ input: Set<Tag.Ident>, from context: NSManagedObjectContext? = nil) -> [CD_Tag] {
+    internal func search(_ input: Set<Tag.Identifier>, from context: NSManagedObjectContext? = nil) -> [CD_Tag] {
         let context = context ?? self.container.viewContext
         let coordinator = self.container.persistentStoreCoordinator
         let cd_ids = input.compactMap {
@@ -177,9 +171,8 @@ extension CD_Controller: Controller {
         return self.container.viewContext.datum_save()
     }
     
-    internal func write(_ cd: CD_Tag?, with newValue: TagApply?) -> Result<Void, Error> {
-        let cd = cd!
-        let newValue = newValue!
+    /*
+    internal func write(selection: Website.Selection, with newValue: TagApply) -> Result<Void, Error> {
         let result1 = self.write(cd, with: newValue.tag)
         switch newValue.status {
         case .all:
@@ -195,6 +188,7 @@ extension CD_Controller: Controller {
             return result1
         }
     }
+     */
 }
 
 internal class CD_Controller {
@@ -248,7 +242,10 @@ internal class CD_Controller {
             lock.signal()
         }
         lock.wait()
-        if let error = error { throw Error.initialize(error as NSError) }
+        if let error = error {
+            NSLog(String(describing: error))
+            throw Error.initialize
+        }
         container.viewContext.automaticallyMergesChangesFromParent = true
         self.container = container
         
@@ -331,9 +328,9 @@ extension NSManagedObjectContext {
             try self.save()
             return .success(())
         } catch {
-            NSLog("\(error)")
+            NSLog(String(describing: error))
             self.rollback()
-            return .failure(.write(error as NSError))
+            return .failure(.write)
         }
     }
 }

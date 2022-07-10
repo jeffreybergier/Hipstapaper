@@ -25,6 +25,7 @@
 //
 
 import Foundation
+import V3Model
 
 extension Sort {
     internal var cd_sortDescriptor: NSSortDescriptor {

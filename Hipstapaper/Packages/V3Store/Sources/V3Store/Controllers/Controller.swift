@@ -30,8 +30,9 @@
 
 import Foundation
 import CoreData
-import Umbrella
 import SwiftUI
+import Umbrella
+import V3Model
 
 public func ControllerNew() -> Result<Controller, Error> {
     return CD_Controller.new()
@@ -48,15 +49,12 @@ public protocol Controller {
     var syncProgress: AnyContinousProgress { get }
 
     // MARK: Websites CRUD
-    func createWebsite(_ website: Website?) -> Result<Website.Ident, Error>
-    func delete(_: Set<Website.Ident>) -> Result<Void, Error>
+    func createWebsite() -> Result<Website.Selection.Element, Error>
+    func delete(_: Website.Selection) -> Result<Void, Error>
 
     // MARK: Tags CRUD
-    func createTag() -> Result<Tag.Ident, Error>
-    func delete(_: Set<Tag.Ident>) -> Result<Void, Error>
-    
-    // MARK: Custom Functions
-    func setArchive(_: Bool, on websites: Set<Website.Ident>) -> Result<Void, Error>
+    func createTag() -> Result<Tag.Selection.Element, Error>
+    func delete(_: Tag.Selection) -> Result<Void, Error>
 }
 
 @propertyWrapper
@@ -73,5 +71,4 @@ public struct ControllerProperty: DynamicProperty {
     internal var cdController: CD_Controller {
         self.controller.value as! CD_Controller
     }
-    
 }

@@ -145,7 +145,7 @@ extension _Web: UIViewRepresentable {
 #endif
 
 extension WKWebView {
-    fileprivate func snapshot(completion: @escaping (Result<JSBImage, Error>) -> Void) {
+    fileprivate func snapshot(completion: @escaping (Result<JSBImage, Swift.Error>) -> Void) {
         self.takeSnapshot(with: nil) { image, error in
             DispatchQueue.main.async {
                 if let error {

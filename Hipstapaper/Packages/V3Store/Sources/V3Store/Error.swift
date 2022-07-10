@@ -24,28 +24,21 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
-import Umbrella
-import Localize
+import Foundation
 
 /// Programming errors like not being able to load MOM from bundle
 /// and updating values from different Context cause fatalError
 /// rather than throwing an error.
-public enum Error: UserFacingError {
+public enum Error: CustomNSError {
     /// When an error is returned from `NSPersistentContainter` during inital setup.
-    case initialize(NSError)
+    case initialize
     /// When NSManagedContext return an error while `saveContext()`.
-    case write(NSError)
+    case write
     /// When NSManagedContext return an error while `performFetch()`.
-    case read(NSError)
+    case read
+
+    public static let errorDomain: String = "com.saturdayapps.Hipstapaper.V3Store"
     
-    var errorValue: NSError {
-        switch self {
-        case .initialize(let error), .read(let error), .write(let error):
-            return error
-        }
-    }
-        
     public var errorCode: Int {
         switch self {
         case .initialize:
@@ -55,13 +48,5 @@ public enum Error: UserFacingError {
         case .write:
             return 1003
         }
-    }
-    
-    public var title: LocalizationKey {
-        return Noun.errorDatabase.key
-    }
-    
-    public var message: LocalizedString {
-        return self.errorValue.localizedDescription
     }
 }
