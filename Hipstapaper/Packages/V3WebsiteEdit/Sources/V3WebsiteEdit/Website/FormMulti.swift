@@ -61,9 +61,9 @@ internal struct FormMulti: View {
             Section {
                 TextField(self.text.websiteTitle, text: item.title.compactMap())
                 TextField(self.text.originalURL, text: item.originalURL.mapString())
-                    .textContentType(.URL)
+                    .textContentTypeURL
                 TextField(self.text.resolvedURL, text: item.resolvedURL.mapString())
-                    .textContentType(.URL)
+                    .textContentTypeURL
                 if let thumbnail = item.thumbnail.wrappedValue {
                     self.style.deleteThumbnail.button(self.text.deleteThumbnail) {
                         item.thumbnail.wrappedValue = nil

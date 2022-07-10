@@ -92,7 +92,7 @@ internal struct FormSingle: View {
         if let item = self.$item {
             TextField(self.text.websiteTitle, text: item.title.compactMap())
             TextField(self.text.originalURL, text: item.originalURL.mapString())
-                .textContentType(.URL)
+                .textContentTypeURL
         } else {
             EmptyState()
         }
@@ -101,7 +101,7 @@ internal struct FormSingle: View {
     @ViewBuilder private var rowResolvedURL: some View {
         if let item = self.$item {
             TextField(self.text.resolvedURL, text: item.resolvedURL.mapString())
-                .textContentType(.URL)
+                .textContentTypeURL
         }
     }
     
