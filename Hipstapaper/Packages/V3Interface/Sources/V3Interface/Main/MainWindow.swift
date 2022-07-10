@@ -55,7 +55,7 @@ internal struct MainView: View {
                     // Force editMode on the detail table
                     // TODO: Find better way to create a
                     // Modal NavigationLink for websites
-                    .environment(\.editMode, .constant(.active))
+                    .editMode(force: true)
             }
         }
     }
