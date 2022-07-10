@@ -92,7 +92,7 @@ internal struct DetailToolbar: ViewModifier {
                 }
             }
             .toolbar(id: "detailBottom") {
-                ToolbarItem(id: "error", placement: .bottomBar) {
+                ToolbarItem(id: "error", placement: .bottomSecondary) {
                     if self.nav.errorQueue.isEmpty == false {
                         self.style.error.button(self.text.error) {
                             self.nav.detail.isErrorList.isPresented = true
@@ -100,13 +100,13 @@ internal struct DetailToolbar: ViewModifier {
                         .modifier(self.errorList)
                     }
                 }
-                ToolbarItem(id: "spacer", placement: .bottomBar) {
+                ToolbarItem(id: "spacer", placement: .bottomSecondary) {
                     Spacer()
                 }
-                ToolbarItem(id: "sort", placement: .bottomBar) {
+                ToolbarItem(id: "sort", placement: .bottomSecondary) {
                     SortMenu()
                 }
-                ToolbarItem(id: "filter", placement: .bottomBar) {
+                ToolbarItem(id: "filter", placement: .bottomSecondary) {
                     if self.query.isOnlyNotArchived {
                         self.style.filterYes.button(self.text.filter) {
                             self.query.isOnlyNotArchived = false
@@ -122,5 +122,15 @@ internal struct DetailToolbar: ViewModifier {
     
     private var errorList: some ViewModifier {
         DetailErrorListPresentation()
+    }
+}
+
+extension ToolbarItemPlacement {
+    fileprivate static var bottomSecondary: ToolbarItemPlacement {
+        #if os(macOS)
+        .secondaryAction
+        #else
+        .bottomBar
+        #endif
     }
 }
