@@ -25,24 +25,38 @@
 //
 
 import SwiftUI
+import Umbrella
 import V3Model
 
 @propertyWrapper
 public struct TagUserListQuery: DynamicProperty {
     
-    // TODO: Hook up core data
-    @ObservedObject private var _data = tagEnvironment
+    @CDListQuery<CD_Tag, Tag, Error> private var data: AnyRandomAccessCollection<Tag>
+    @EnvironmentObject private var controller: BlackBox<ControllerProtocol?>
+    
+    // TODO: Figure out how to connect this
     @State public var filter: Set<Tag.Identifier> = []
     
-    public init() {}
+    public init() {
+        _data = .init(sort: [], predicate: NSPredicate(value: true), animation: .default, onWrite: nil) {
+            Tag($0)
+        }
+    }
+    
+    public func update() {
+        if _data.onWrite.value == nil {
+            _data.onWrite.value = { [weak controller] object, value in
+                let controller = controller?.value as? CD_Controller
+                return controller?.write(object, with: value) ?? .failure(.write)
+            }
+        }
+    }
     
     public var wrappedValue: some RandomAccessCollection<Tag> {
-        guard filter.isEmpty == false else { return _data.value }
-        return _data.value.filter { filter.contains($0.id) }
+        self.data
     }
     
     public var projectedValue: some RandomAccessCollection<Binding<Tag>> {
-        guard filter.isEmpty == false else { return _data.projectedValue }
-        return _data.projectedValue.filter { filter.contains($0.id) }
+        self.$data
     }
 }

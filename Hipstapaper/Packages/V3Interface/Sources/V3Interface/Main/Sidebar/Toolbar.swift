@@ -25,6 +25,7 @@
 //
 
 import SwiftUI
+import V3Store
 import V3Localize
 import V3Style
 
@@ -35,6 +36,7 @@ extension ViewModifier where Self == SidebarToolbar {
 internal struct SidebarToolbar: ViewModifier {
     
     @Nav private var nav
+    @Controller private var controller
     @V3Style.Sidebar private var style
     @V3Localize.Sidebar private var text
     
@@ -43,8 +45,13 @@ internal struct SidebarToolbar: ViewModifier {
             ToolbarItem(id: "sidebar.tag.add", placement: .primaryAction) {
                 Menu {
                     self.style.toolbarTagAdd.button(self.text.toolbarAddTag) {
-                        // TODO: Add tag to CD here
-                        self.nav.sidebar.isTagsEdit.editing = [.init("coredata://testing123")]
+                        switch self.controller.createTag() {
+                        case .success(let identifier):
+                            self.nav.sidebar.isTagsEdit.editing = [identifier]
+                        case .failure(let error):
+                            // TODO: Catch error
+                            assertionFailure(String(describing: error))
+                        }
                     }
                     self.style.toolbarWebsiteAdd.button(self.text.toolbarAddWebsite) {
                         self.nav.sidebar.isWebsiteAdd = .init(rawValue: "coredata://testing123")
