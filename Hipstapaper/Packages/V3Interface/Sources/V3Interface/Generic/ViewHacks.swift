@@ -28,61 +28,60 @@ import SwiftUI
 import Umbrella
 
 extension Set: Identifiable where Element: Identifiable, Element.ID == String {
-    public var id: Self.Element.ID { self.first?.id ?? UUID().uuidString }
+    public var id: Self.Element.ID { self.first?.id ?? "" }
 }
 
 extension Array: Identifiable where Element: Identifiable, Element.ID == String {
-    public var id: Self.Element.ID { self.first?.id ?? UUID().uuidString }
+    public var id: Self.Element.ID { self.first?.id ?? "" }
 }
 
 extension View {
-    public func popover<T: Identifiable, V: View>(items: Binding<Set<T>>, @ViewBuilder content: @escaping (Set<T>) -> V) -> some View where T.ID == String {
-        let newBinding: Binding<Set<T>?> = Binding {
-            items.wrappedValue.isEmpty ? nil : items.wrappedValue
-        } set: {
-            items.wrappedValue = $0 ?? []
-        }
-        return self.popover(item: newBinding, content: content)
-    }
-    
-    public func popover<T: Identifiable, V: View>(items: Binding<Array<T>>, @ViewBuilder content: @escaping (Array<T>) -> V) -> some View where T.ID == String {
-        let newBinding: Binding<Array<T>?> = Binding {
-            items.wrappedValue.isEmpty ? nil : items.wrappedValue
-        } set: {
-            items.wrappedValue = $0 ?? []
-        }
-        return self.popover(item: newBinding, content: content)
-    }
-    public func sheet<T: Identifiable, V: View>(items: Binding<Set<T>>, @ViewBuilder content: @escaping (Set<T>) -> V) -> some View where T.ID == String {
-        let newBinding: Binding<Set<T>?> = Binding {
-            items.wrappedValue.isEmpty ? nil : items.wrappedValue
-        } set: {
-            items.wrappedValue = $0 ?? []
-        }
-        return self.sheet(item: newBinding, content: content)
-    }
-    
-    public func sheet<T: Identifiable, V: View>(items: Binding<Array<T>>, @ViewBuilder content: @escaping (Array<T>) -> V) -> some View where T.ID == String {
-        let newBinding: Binding<Array<T>?> = Binding {
-            items.wrappedValue.isEmpty ? nil : items.wrappedValue
-        } set: {
-            items.wrappedValue = $0 ?? []
-        }
-        return self.sheet(item: newBinding, content: content)
-    }
-}
-
-extension View {
-    internal func sheetCover<T: Identifiable>(
-        item: Binding<T?>,
-        onDismiss: (() -> Void)? = nil,
-        @ViewBuilder content: @escaping (T) -> some View
-    ) -> some View
+    public func popover<T: Identifiable, V: View>(items: Binding<Set<T>>,
+                                                  @ViewBuilder content: @escaping (Set<T>) -> V)
+                                                  -> some View where T.ID == String
     {
-#if os(macOS)
-        self.sheet(item: item, onDismiss: onDismiss, content: content)
-#else
-        self.fullScreenCover(item: item, onDismiss: onDismiss, content: content)
-#endif
+        let newBinding: Binding<Set<T>?> = Binding {
+            items.wrappedValue.isEmpty ? nil : items.wrappedValue
+        } set: {
+            items.wrappedValue = $0 ?? []
+        }
+        return self.popover(item: newBinding, content: content)
+    }
+    
+    public func popover<T: Identifiable, V: View>(items: Binding<Array<T>>,
+                                                  @ViewBuilder content: @escaping (Array<T>) -> V)
+                                                  -> some View where T.ID == String
+    {
+        let newBinding: Binding<Array<T>?> = Binding {
+            items.wrappedValue.isEmpty ? nil : items.wrappedValue
+        } set: {
+            items.wrappedValue = $0 ?? []
+        }
+        return self.popover(item: newBinding, content: content)
+    }
+    public func sheet<T: Identifiable, V: View>(items: Binding<Set<T>>,
+                                                @ViewBuilder content: @escaping (Set<T>) -> V,
+                                                onDismiss: (() -> Void)? = nil)
+                                                -> some View where T.ID == String
+    {
+        let newBinding: Binding<Set<T>?> = Binding {
+            items.wrappedValue.isEmpty ? nil : items.wrappedValue
+        } set: {
+            items.wrappedValue = $0 ?? []
+        }
+        return self.sheet(item: newBinding, onDismiss: onDismiss, content: content)
+    }
+    
+    public func sheet<T: Identifiable, V: View>(items: Binding<Array<T>>,
+                                                @ViewBuilder content: @escaping (Array<T>) -> V,
+                                                onDismiss: (() -> Void)? = nil)
+                                                -> some View where T.ID == String
+    {
+        let newBinding: Binding<Array<T>?> = Binding {
+            items.wrappedValue.isEmpty ? nil : items.wrappedValue
+        } set: {
+            items.wrappedValue = $0 ?? []
+        }
+        return self.sheet(item: newBinding, onDismiss: onDismiss, content: content)
     }
 }
