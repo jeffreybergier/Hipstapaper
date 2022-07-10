@@ -60,8 +60,9 @@ internal struct FormSingle: View {
         .onLoadChange(of: self.identifier) {
             _item.identifier = $0
         }
-        .onChange(of: self.webState.currentThumbnail) {
-            self.item?.thumbnail = $0?.pngData()
+        .onChange(of: self.webState.currentThumbnail) { image in
+            guard let image else { return }
+            self.item?.setThumbnail(image)
         }
         .onChange(of: self.webState.currentTitle) {
             self.item?.title = $0
