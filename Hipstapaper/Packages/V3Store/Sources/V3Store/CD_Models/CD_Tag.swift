@@ -29,9 +29,7 @@ import V3Model
 
 @objc(CD_Tag) internal class CD_Tag: CD_Base {
 
-    internal static let defaultSort = NSSortDescriptor(key: #keyPath(CD_Tag.cd_name),
-                                                      ascending: true,
-                                                      selector: #selector(NSString.localizedStandardCompare))
+    internal static let defaultSort: SortDescriptor<CD_Tag> = .init(\.cd_name, comparator: .localizedStandard)
     
     internal class override var entityName: String { "CD_Tag" }
     internal class var request: NSFetchRequest<CD_Tag> {

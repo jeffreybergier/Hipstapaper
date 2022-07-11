@@ -31,24 +31,25 @@ import V3Model
 @propertyWrapper
 public struct TagUserListQuery: DynamicProperty {
     
-    @CDListQuery<CD_Tag, Tag, Error> private var data: AnyRandomAccessCollection<Tag>
-    @EnvironmentObject private var controller: BlackBox<ControllerProtocol?>
+    @Controller private var controller
+    @CDListQuery<CD_Tag, Tag, Error>(onRead: Tag.init(_:)) private var data
+    
+    @Environment(\.codableErrorResponder) private var errorResponder
     
     // TODO: Figure out how to connect this
     @State public var filter: Set<Tag.Identifier> = []
     
-    public init() {
-        _data = .init(sort: [], predicate: NSPredicate(value: true), animation: .default, onWrite: nil) {
-            Tag($0)
-        }
-    }
+    public init() {}
     
+    private let needsUpdate = BlackBox(true, isObservingValue: false)
     public func update() {
-        if _data.onWrite.value == nil {
-            _data.onWrite.value = { [weak controller] object, value in
-                let controller = controller?.value as? CD_Controller
-                return controller?.write(object, with: value) ?? .failure(.write)
-            }
+        guard self.needsUpdate.value else { return }
+        self.needsUpdate.value = false
+        _data.setSortDescriptors([CD_Tag.defaultSort])
+        _data.setOnWrite(self.cd_controller?.write(_:with:))
+        _data.setOnError { error in
+            NSLog(String(describing: error))
+            self.errorResponder(.init(error as NSError))
         }
     }
     
@@ -58,5 +59,9 @@ public struct TagUserListQuery: DynamicProperty {
     
     public var projectedValue: some RandomAccessCollection<Binding<Tag>> {
         self.$data
+    }
+    
+    private var cd_controller: CD_Controller? {
+        self.controller as? CD_Controller
     }
 }
