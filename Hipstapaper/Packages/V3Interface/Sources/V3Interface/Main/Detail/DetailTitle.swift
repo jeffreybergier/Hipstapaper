@@ -38,13 +38,13 @@ internal struct DetailTitle: ViewModifier {
 
     @Nav private var nav
     @Query private var query
-    @TagUserQuery private var tag: Tag?
+    @TagUserQuery private var item: Tag?
     
     private var repairedBinding: Binding<String> {
         return Binding<String> {
-            self.tag?.name ?? "Untitled Tag"
+            self.item?.name ?? "Untitled Tag"
         } set: {
-            self.tag?.name = $0
+            self.item?.name = $0
         }
     }
     
@@ -63,7 +63,7 @@ internal struct DetailTitle: ViewModifier {
         }
         .navigationBarTitleDisplayModeInline
         .onLoadChange(of: self.nav.sidebar.selectedTag) {
-            _tag.identifier = $0
+            _item.setIdentifier($0)
         }
     }
 }

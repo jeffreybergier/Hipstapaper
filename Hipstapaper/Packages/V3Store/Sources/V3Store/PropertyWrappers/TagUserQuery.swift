@@ -25,39 +25,52 @@
 //
 
 import SwiftUI
+import Umbrella
 import V3Model
 
 @propertyWrapper
 public struct TagUserQuery: DynamicProperty {
     
-    // TODO: Hook up core data
-    @ObservedObject private var _data = tagEnvironment
-    @State public var identifier: Tag.Identifier?
+    @Controller private var controller
+    @CDObjectQuery<CD_Tag, Tag, Error>(onRead: Tag.init(_:)) private var object: Tag?
+    
+    @Environment(\.codableErrorResponder) private var errorResponder
     
     public init() { }
     
-    public var wrappedValue: Tag? {
-        get { index.map { _data.value[$0] }}
-        nonmutating set {
-            guard let index else { return }
-            if let newValue {
-                _data.value[index] = newValue
-            } else {
-                _data.value.remove(at: index)
-            }
+    public func setIdentifier(_ newValue: Tag.Identifier?) {
+        if
+            let newValue,
+            newValue.isSystem == false,
+            let url = URL(string: newValue.id)
+        {
+            _object.setObjectIDURL(url)
+        } else {
+            _object.setObjectIDURL(nil)
         }
+    }
+    
+    public var wrappedValue: Tag? {
+        get { self.object }
+        nonmutating set { self.object = newValue }
     }
     
     public var projectedValue: Binding<Tag>? {
-        guard let index else { return nil }
-        return Binding {
-            _data.value[index]
-        } set: {
-            _data.value[index] = $0
+        self.$object
+    }
+    
+    private let needsUpdate = BlackBox(true, isObservingValue: false)
+    public func update() {
+        guard self.needsUpdate.value else { return }
+        self.needsUpdate.value = false
+        _object.setOnWrite(self.cd_controller?.writeOpt(_:with:))
+        _object.setOnError { error in
+            NSLog(String(describing: error))
+            self.errorResponder(.init(error as NSError))
         }
     }
     
-    private var index: Int? {
-        _data.value.firstIndex(where: { $0.id == self.identifier })
+    private var cd_controller: CD_Controller? {
+        self.controller as? CD_Controller
     }
 }

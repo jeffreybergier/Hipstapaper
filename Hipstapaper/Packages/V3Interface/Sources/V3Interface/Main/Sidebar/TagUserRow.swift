@@ -57,7 +57,7 @@ internal struct TagUserRow: View {
             }
         }
         .onLoadChange(of: self.identifier) {
-            _item.identifier = $0
+            _item.setIdentifier($0)
         }
     }
 }
