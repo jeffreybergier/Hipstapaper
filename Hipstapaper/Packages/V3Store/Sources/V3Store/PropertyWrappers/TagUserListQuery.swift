@@ -33,18 +33,20 @@ public struct TagUserListQuery: DynamicProperty {
     
     @Controller private var controller
     @CDListQuery<CD_Tag, Tag, Error>(onRead: Tag.init(_:)) private var data
+    @StateObject private var predicate: BlackBox<NSPredicate>
     
+    @Environment(\.managedObjectContext) private var context
     @Environment(\.codableErrorResponder) private var errorResponder
-    
-    // TODO: Figure out how to connect this
-    @State public var filter: Set<Tag.Identifier> = []
-    
-    public init() {}
+        
+    public init(defaultListAll: Bool = true) {
+        _predicate = .init(wrappedValue: .init(.init(value: defaultListAll), isObservingValue: false))
+    }
     
     private let needsUpdate = BlackBox(true, isObservingValue: false)
     public func update() {
         guard self.needsUpdate.value else { return }
         self.needsUpdate.value = false
+        _data.setPredicate(self.predicate.value)
         _data.setSortDescriptors([CD_Tag.defaultSort])
         _data.setOnWrite(self.cd_controller?.write(_:with:))
         _data.setOnError { error in
@@ -59,6 +61,20 @@ public struct TagUserListQuery: DynamicProperty {
     
     public var projectedValue: some RandomAccessCollection<Binding<Tag>> {
         self.$data
+    }
+    
+    public func setQuery(_ selection: Tag.Selection) {
+        guard
+            selection.isEmpty == false,
+            let psc = self.context.persistentStoreCoordinator
+        else { return }
+        let preds = selection
+            .compactMap { URL(string: $0.id) }
+            .compactMap { psc.managedObjectID(forURIRepresentation: $0) }
+            .map { NSPredicate(format: "(objectID = %@)", $0) }
+        let pred = NSCompoundPredicate(orPredicateWithSubpredicates: preds)
+        self.predicate.value = pred
+        _data.setPredicate(pred)
     }
     
     private var cd_controller: CD_Controller? {

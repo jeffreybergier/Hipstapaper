@@ -33,24 +33,33 @@ import V3Errors
 internal struct TagsEdit: View {
     
     // TODO: Localize
-    
-    @Nav private var nav
-    @TagUserListQuery private var data
+    @TagUserListQuery(defaultListAll: false) private var data
     @Environment(\.dismiss) private var dismiss
+    
+    internal let selection: Tag.Selection
+    
+    internal init(_ selection: Tag.Selection) {
+        self.selection = selection
+    }
         
     internal var body: some View {
         NavigationStack {
             Form {
-                ForEach(self.$data) { item in
-                    TextField("Tag Name", text: item.name.compactMap())
+                if self.data.isEmpty {
+                    // Show dummy field while core data loads
+                    TextField("Tag Name", text: Binding.constant(""))
+                } else {
+                    ForEach(self.$data) { item in
+                        TextField("Tag Name", text: item.name.compactMap())
+                    }
                 }
             }
             .modifier(self.toolbar)
+            .onLoadChange(of: self.selection) {
+                _data.setQuery($0)
+            }
         }
         .frame(idealWidth: 320, minHeight: 320)
-        .onLoadChange(of: self.nav.sidebar.isTagsEdit.editing) {
-            _data.filter = $0
-        }
     }
     
     private var toolbar: some ViewModifier {
@@ -72,10 +81,12 @@ internal struct TagsEditPresentation: ViewModifier {
     }
     
     internal func body(content: Content) -> some View {
-        content.popover(items: self.$identifiers) { _ in
+        content.popover(items: self.$identifiers)
+        { selection in
             ErrorResponder(presenter: self.$nav.sidebar.isTagsEdit,
-                           storage: self.$nav.errorQueue) {
-                TagsEdit()
+                           storage: self.$nav.errorQueue)
+            {
+                TagsEdit(selection)
                     .presentationDetents([.medium, .large])
             }
         }
