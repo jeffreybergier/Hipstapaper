@@ -54,11 +54,11 @@ extension Navigation {
     internal struct Sidebar: Codable, ErrorPresentable {
         internal var selectedTag: Tag.Selection.Element? = .default
         internal var isTagsEdit: TagsEdit = .init()
-        internal var isWebsiteAdd: Website.Selection.Element?
+        internal var isWebsiteAdd: WebsitesEdit = .init()
         internal var isError: CodableError? // Not used
         internal var isPresenting: Bool {
             !self.isTagsEdit.editing.isEmpty
-            || self.isWebsiteAdd != nil
+            || self.isWebsiteAdd.editing.isEmpty == false
             || self.isError != nil
         }
     }

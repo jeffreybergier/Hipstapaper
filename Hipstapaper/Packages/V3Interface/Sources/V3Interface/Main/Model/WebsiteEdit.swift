@@ -41,14 +41,17 @@ extension ViewModifier where Self == TagApply {
 }
 
 internal struct WebsiteEdit: ViewModifier {
-    @Nav private var nav
+    @Binding private var nav: Navigation.WebsitesEdit
+    internal init(_ nav: Binding<Navigation.WebsitesEdit>) {
+        _nav = nav
+    }
     internal func body(content: Content) -> some View {
-        content.sheet(items: self.$nav.detail.isWebsitesEdit.editing) { selection in
+        content.sheet(items: self.$nav.editing) { selection in
             V3WebsiteEdit.WebsiteEdit(selection: selection, start: .website)
         }
     }
 }
 
 extension ViewModifier where Self == WebsiteEdit {
-    internal static var sheet: Self { Self.init() }
+    internal static func sheet(_ nav: Binding<Navigation.WebsitesEdit>) -> Self { Self.init(nav) }
 }

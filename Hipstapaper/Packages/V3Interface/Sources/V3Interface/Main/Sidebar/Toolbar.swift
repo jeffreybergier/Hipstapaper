@@ -54,16 +54,18 @@ internal struct SidebarToolbar: ViewModifier {
                         }
                     }
                     self.style.toolbarWebsiteAdd.button(self.text.toolbarAddWebsite) {
-                        self.nav.sidebar.isWebsiteAdd = .init(rawValue: "coredata://testing123")
+                        switch self.controller.createWebsite() {
+                        case .success(let identifier):
+                            self.nav.sidebar.isWebsiteAdd.editing = [identifier]
+                        case .failure(let error):
+                            // TODO: Catch error
+                            assertionFailure(String(describing: error))
+                        }
                     }
                 } label: {
                     self.style.toolbarAdd.label(self.text.toolbarAddGeneric)
                 }
-                .modifier(.tagsEditPopover(self.$nav.sidebar.isTagsEdit.editing))
-                .popover(item: self.$nav.sidebar.isWebsiteAdd) { id in
-                    // TODO: Add website screen
-                    Text("Add a website")
-                }
+                .modifier(TagsEditPresentation.tagsEditPopover(self.$nav.sidebar.isTagsEdit.editing))
             }
         }
     }
