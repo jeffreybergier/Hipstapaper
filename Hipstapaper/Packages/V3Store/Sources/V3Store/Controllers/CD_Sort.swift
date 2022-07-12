@@ -28,28 +28,20 @@ import Foundation
 import V3Model
 
 extension Sort {
-    internal var cd_sortDescriptor: NSSortDescriptor {
+    internal var cd_sortDescriptor: SortDescriptor<CD_Website> {
         switch self {
         case .dateModifiedNewest:
-            return .init(key: #keyPath(CD_Website.cd_dateModified), ascending: false)
+            return .init(\.cd_dateModified, order: .reverse)
         case .dateModifiedOldest:
-            return .init(key: #keyPath(CD_Website.cd_dateModified), ascending: true)
+            return .init(\.cd_dateModified, order: .forward)
         case .dateCreatedNewest:
-            return .init(key: #keyPath(CD_Website.cd_dateCreated), ascending: false)
+            return .init(\.cd_dateCreated, order: .reverse)
         case .dateCreatedOldest:
-            return .init(key: #keyPath(CD_Website.cd_dateCreated), ascending: true)
+            return .init(\.cd_dateCreated, order: .forward)
         case .titleA:
-            return .init(
-                key: #keyPath(CD_Website.cd_title),
-                ascending: true,
-                selector: #selector(NSString.localizedCaseInsensitiveCompare(_:))
-            )
+            return .init(\.cd_title, comparator: .localizedStandard, order: .forward)
         case .titleZ:
-            return .init(
-                key: #keyPath(CD_Website.cd_title),
-                ascending: false,
-                selector: #selector(NSString.localizedCaseInsensitiveCompare(_:))
-            )
+            return .init(\.cd_title, comparator: .localizedStandard, order: .reverse)
         }
     }
 }

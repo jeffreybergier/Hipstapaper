@@ -25,6 +25,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import V3Model
 
 @propertyWrapper
@@ -33,49 +34,53 @@ public struct WebsiteListQuery: DynamicProperty {
     @State public var query: Query = .systemUnread
     @State public var containsTag: Tag.Identifier? = nil
     
-    // TODO: Hook up core data
-    @ObservedObject private var data = siteEnvironment
-
-    public init() {}
+    @Controller private var controller
+    @CDListQuery<CD_Website, Website, Error>(onRead: Website.init(_:)) private var data
+    @StateObject private var predicate: BlackBox<NSPredicate>
+    
+    @Environment(\.managedObjectContext) private var context
+    @Environment(\.codableErrorResponder) private var errorResponder
+        
+    public init(defaultListAll: Bool = true) {
+        _predicate = .init(wrappedValue: .init(.init(value: defaultListAll), isObservingValue: false))
+    }
+    
+    private let needsUpdate = BlackBox(true, isObservingValue: false)
+    public func update() {
+        guard self.needsUpdate.value else { return }
+        self.needsUpdate.value = false
+        _data.setPredicate(self.predicate.value)
+        _data.setSortDescriptors(self.query.cd_sortDescriptor)
+        _data.setOnWrite(self.cd_controller?.write(_:with:))
+        _data.setOnError { error in
+            NSLog(String(describing: error))
+            self.errorResponder(.init(error as NSError))
+        }
+    }
     
     public var wrappedValue: some RandomAccessCollection<Website> {
-        switch delete_which {
-        case 0:
-            return data.value
-        case 1:
-            return Array(data.value[0...1])
-        case 2:
-            return Array(data.value[2...3])
-        default:
-            fatalError()
-        }
+        self.data
     }
     
     public var projectedValue: some RandomAccessCollection<Binding<Website>> {
-        switch delete_which {
-        case 0:
-            return data.projectedValue
-        case 1:
-            return data.projectedValue
-        case 2:
-            return data.projectedValue
-        default:
-            fatalError()
-        }
+        self.$data
     }
     
-    private var delete_which: Int {
+    public func setQuery(_ selection: Tag.Selection) {
         guard
-            let tag = containsTag,
-            tag != Tag.Identifier.systemUnread,
-            tag != Tag.Identifier.systemAll
-        else {
-            return 0
-        }
-        if tag.rawValue == tagEnvironment.value.first?.id.rawValue {
-            return 1
-        } else {
-            return 2
-        }
+            selection.isEmpty == false,
+            let psc = self.context.persistentStoreCoordinator
+        else { return }
+        let preds = selection
+            .compactMap { URL(string: $0.id) }
+            .compactMap { psc.managedObjectID(forURIRepresentation: $0) }
+            .map { NSPredicate(format: "(objectID = %@)", $0) }
+        let pred = NSCompoundPredicate(orPredicateWithSubpredicates: preds)
+        self.predicate.value = pred
+        _data.setPredicate(pred)
+    }
+    
+    private var cd_controller: CD_Controller? {
+        self.controller as? CD_Controller
     }
 }
