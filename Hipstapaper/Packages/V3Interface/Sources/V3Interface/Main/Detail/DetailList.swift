@@ -71,7 +71,7 @@ internal struct WebsiteListRow: View {
             Image(systemName: "photo.circle")
         }
         .onLoadChange(of: self.id) {
-            _item.identifier = $0
+            _item.setIdentifier($0)
         }
     }
 }

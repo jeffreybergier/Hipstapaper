@@ -58,7 +58,7 @@ internal struct FormSingle: View {
             }
         }
         .onLoadChange(of: self.identifier) {
-            _item.identifier = $0
+            _item.setIdentifier($0)
         }
         .onChange(of: self.webState.currentThumbnail) { image in
             guard let image else { return }

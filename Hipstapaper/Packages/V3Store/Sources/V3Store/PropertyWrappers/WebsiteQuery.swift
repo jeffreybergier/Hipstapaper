@@ -25,40 +25,51 @@
 //
 
 import SwiftUI
+import Umbrella
 import V3Model
 
 @propertyWrapper
 public struct WebsiteQuery: DynamicProperty {
     
-    // TODO: Hook up core data
-    @ObservedObject private var data = siteEnvironment
+    @Controller private var controller
+    @CDObjectQuery<CD_Website, Website, Error>(onRead: Website.init(_:)) private var object: Website?
     
-    @State public var identifier: Website.Identifier?
+    @Environment(\.codableErrorResponder) private var errorResponder
     
     public init() { }
     
-    public var wrappedValue: Website? {
-        get { index.map { data.value[$0] }}
-        nonmutating set {
-            guard let index else { return }
-            if let newValue {
-                data.value[index] = newValue
-            } else {
-                data.value.remove(at: index)
-            }
+    public func setIdentifier(_ newValue: Website.Identifier?) {
+        if
+            let newValue,
+            let url = URL(string: newValue.id)
+        {
+            _object.setObjectIDURL(url)
+        } else {
+            _object.setObjectIDURL(nil)
         }
+    }
+    
+    public var wrappedValue: Website? {
+        get { self.object }
+        nonmutating set { self.object = newValue }
     }
     
     public var projectedValue: Binding<Website>? {
-        guard let index else { return nil }
-        return Binding {
-            data.value[index]
-        } set: {
-            data.value[index] = $0
+        self.$object
+    }
+    
+    private let needsUpdate = BlackBox(true, isObservingValue: false)
+    public func update() {
+        guard self.needsUpdate.value else { return }
+        self.needsUpdate.value = false
+        _object.setOnWrite(self.cd_controller?.writeOpt(_:with:))
+        _object.setOnError { error in
+            NSLog(String(describing: error))
+            self.errorResponder(.init(error as NSError))
         }
     }
     
-    private var index: Int? {
-        data.value.firstIndex(where: { $0.id == self.identifier })
+    private var cd_controller: CD_Controller? {
+        self.controller as? CD_Controller
     }
 }

@@ -66,7 +66,7 @@ fileprivate struct _Browser: View {
             }
         }
         .onLoadChange(of: self.identifier) {
-            _website.identifier = $0
+            _website.setIdentifier($0)
         }
         .onLoadChange(of: self.website?.preferredURL) {
             self.nav.shouldLoadURL = $0
