@@ -26,15 +26,20 @@
 
 import SwiftUI
 import Umbrella
-import V3Store
+import V3Model
 
-internal struct DetailTable: View {
+// TODO: Remove C if `any RandomAccessCollection<Website>` ever works
+internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == Website {
     
     // TODO: Localize
     
     @Nav private var nav
     @Query private var query
-    @WebsiteListQuery private var data
+    private let data: C
+    
+    internal init(_ data: C) {
+        self.data = data
+    }
     
     internal var body: some View {
         Table(self.data,
@@ -53,13 +58,6 @@ internal struct DetailTable: View {
             TableColumn("Date Modified", sortUsing: .dateModifiedNewest) { item in
                 JSBText("No Date", text: "\(item.dateModified ?? Date(timeIntervalSince1970: 0))")
             }
-        }
-        .searchable(text: self.$query.search, prompt: "Search")
-        .onLoadChange(of: self.query) {
-            _data.query = $0
-        }
-        .onLoadChange(of: self.nav.sidebar.selectedTag) {
-            _data.containsTag = $0
         }
     }
 }

@@ -27,30 +27,28 @@
 import SwiftUI
 import Umbrella
 import V3Model
-import V3Store
 
-internal struct DetailList: View {
+// TODO: Remove C if `any RandomAccessCollection<Website>` ever works
+internal struct DetailList<C: RandomAccessCollection>: View where C.Element == Website {
     
     // TODO: Localize
     
     @Nav private var nav
-    @Query private var query
-    @WebsiteListQuery private var data
+    private let data: C
+    
+    internal init(_ data: C) {
+        self.data = data
+    }
     
     internal var body: some View {
         List(self.data, selection: self.$nav.detail.selectedWebsites) { item in
             WebsiteListRow(item.id)
         }
         .listStyle(.plain)
-        .searchable(text: self.$query.search, prompt: "Search")
-        .onLoadChange(of: self.query) {
-            _data.query = $0
-        }
-        .onLoadChange(of: self.nav.sidebar.selectedTag) {
-            _data.containsTag = $0
-        }
     }
 }
+
+import V3Store
 
 internal struct WebsiteListRow: View {
     

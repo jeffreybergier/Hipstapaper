@@ -31,31 +31,32 @@ import V3Model
 @propertyWrapper
 public struct WebsiteListQuery: DynamicProperty {
     
-    @State public var query: Query = .systemUnread
-    @State public var containsTag: Tag.Identifier? = nil
-    
+    // Basics
     @Controller private var controller
     @CDListQuery<CD_Website, Website, Error>(onRead: Website.init(_:)) private var data
-    @StateObject private var predicate: BlackBox<NSPredicate>
-    
     @Environment(\.managedObjectContext) private var context
     @Environment(\.codableErrorResponder) private var errorResponder
+    
+    // State
+    @StateObject private var query: BlackBox<Query>
+    @StateObject private var filter: BlackBox<Tag.Selection.Element?>
         
-    public init(defaultListAll: Bool = true) {
-        _predicate = .init(wrappedValue: .init(.init(value: defaultListAll), isObservingValue: false))
+    public init() {
+        // TODO: make Query that results in `NOPREDICATE`
+        _query = .init(wrappedValue: .init(.default, isObservingValue: false))
+        _filter = .init(wrappedValue: .init(nil, isObservingValue: false))
     }
     
     private let needsUpdate = BlackBox(true, isObservingValue: false)
     public func update() {
         guard self.needsUpdate.value else { return }
         self.needsUpdate.value = false
-        _data.setPredicate(self.predicate.value)
-        _data.setSortDescriptors(self.query.cd_sortDescriptor)
         _data.setOnWrite(self.cd_controller?.write(_:with:))
         _data.setOnError { error in
             NSLog(String(describing: error))
             self.errorResponder(.init(error as NSError))
         }
+        self.updateCoreData()
     }
     
     public var wrappedValue: some RandomAccessCollection<Website> {
@@ -66,18 +67,35 @@ public struct WebsiteListQuery: DynamicProperty {
         self.$data
     }
     
-    public func setQuery(_ selection: Tag.Selection) {
-        guard
-            selection.isEmpty == false,
-            let psc = self.context.persistentStoreCoordinator
-        else { return }
-        let preds = selection
-            .compactMap { URL(string: $0.id) }
-            .compactMap { psc.managedObjectID(forURIRepresentation: $0) }
-            .map { NSPredicate(format: "(objectID = %@)", $0) }
-        let pred = NSCompoundPredicate(orPredicateWithSubpredicates: preds)
-        self.predicate.value = pred
+    public func setFilter(_ selection: Tag.Selection.Element?) {
+        self.filter.value = selection
+        self.updateCoreData()
+    }
+    
+    public func setQuery(_ query: Query) {
+        self.query.value = query
+        self.updateCoreData()
+    }
+    
+    private func updateCoreData() {
+        // take query and filter, generate predicate + sort
+        let pred = self.query.value.cd_predicate(self.currentTag())
+        let sort = self.query.value.cd_sortDescriptor
+        // set on _data
         _data.setPredicate(pred)
+        _data.setSortDescriptors(sort)
+    }
+    
+    private func currentTag() -> CD_Tag? {
+        let context = self.context
+        guard
+            let psc = context.persistentStoreCoordinator,
+            let filter = self.filter.value,
+            filter.isSystem == false,
+            let url = URL(string: filter.id),
+            let objectID = psc.managedObjectID(forURIRepresentation: url)
+        else { return nil }
+        return context.object(with: objectID) as? CD_Tag
     }
     
     private var cd_controller: CD_Controller? {

@@ -27,22 +27,33 @@
 import SwiftUI
 import Umbrella
 import V3Model
+import V3Store
 import V3Browser
 
 internal struct Detail: View {
     
     @Nav private var nav
-    @JSBSizeClass private var sizeClass
+    @Query private var query
+    @WebsiteListQuery private var data
     
+    @JSBSizeClass private var sizeClass
+
     internal var body: some View {
         NavigationStack {
             Group {
                 switch self.sizeClass.horizontal {
                 case .regular:
-                    DetailTable()
+                    DetailTable(self.data)
                 case .compact:
-                    DetailList()
+                    DetailList(self.data)
                 }
+            }
+            .searchable(text: self.$query.search, prompt: "Search")
+            .onLoadChange(of: self.query) {
+                _data.setQuery($0)
+            }
+            .onLoadChange(of: self.nav.sidebar.selectedTag) {
+                _data.setFilter($0)
             }
             .modifier(.detailTitle)
             .modifier(.detailMenu)
