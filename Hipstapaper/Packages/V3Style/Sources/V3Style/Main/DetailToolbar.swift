@@ -40,8 +40,6 @@ public struct DetailToolbar: DynamicProperty {
         public var tagApply    = Action.tagApply
         public var edit         = Action.edit
         public var delete       = Action.genericDelete
-        public var filterYes    = Action.filterYes
-        public var filterNo     = Action.filterNo
         public var error        = Action.errorPresent
     }
     

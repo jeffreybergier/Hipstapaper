@@ -107,15 +107,7 @@ internal struct DetailToolbar: ViewModifier {
                     SortMenu()
                 }
                 ToolbarItem(id: "filter", placement: .bottomSecondary) {
-                    if self.query.isOnlyNotArchived {
-                        self.style.filterYes.button(self.text.filter) {
-                            self.query.isOnlyNotArchived = false
-                        }
-                    } else {
-                        self.style.filterNo.button(self.text.filter) {
-                            self.query.isOnlyNotArchived = true
-                        }
-                    }
+                    FilterMenu()
                 }
             }
     }

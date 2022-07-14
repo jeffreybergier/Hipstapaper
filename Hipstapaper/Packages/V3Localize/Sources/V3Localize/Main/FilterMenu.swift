@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/19.
+//  Created by Jeffrey Bergier on 2022/07/14.
 //
 //  MIT License
 //
@@ -28,31 +28,17 @@ import SwiftUI
 import Umbrella
 
 @propertyWrapper
-public struct DetailToolbar: DynamicProperty {
+public struct FilterMenu: DynamicProperty {
     
     public struct Value {
-        public var openInApp:    LocalizedString
-        public var openExternal: LocalizedString
-        public var archiveYes:   LocalizedString
-        public var archiveNo:    LocalizedString
-        public var share:        LocalizedString
-        public var tagApply:     LocalizedString
-        public var edit:         LocalizedString
-        public var delete:       LocalizedString
-        public var sort:         LocalizedString
-        public var error:        LocalizedString
+        public var title:     LocalizedString
+        public var filterNo:  LocalizedString
+        public var filterYes: LocalizedString
         
         internal init(_ b: LocalizeBundle) {
-            self.openInApp    = b.localized(key: Verb.openInApp.rawValue)
-            self.openExternal = b.localized(key: Verb.openExternal.rawValue)
-            self.archiveYes   = b.localized(key: Verb.archiveYes.rawValue)
-            self.archiveNo    = b.localized(key: Verb.archiveNo.rawValue)
-            self.share        = b.localized(key: Verb.share.rawValue)
-            self.tagApply     = b.localized(key: Verb.tagApply.rawValue)
-            self.edit         = b.localized(key: Verb.editWebsite.rawValue)
-            self.delete       = b.localized(key: Verb.deleteWebsite.rawValue)
-            self.sort         = b.localized(key: Verb.sort.rawValue)
-            self.error        = b.localized(key: Verb.errorsPresent.rawValue)
+            self.title     = b.localized(key: Verb.filter.rawValue)
+            self.filterNo  = b.localized(key: Noun.allItems.rawValue)
+            self.filterYes = b.localized(key: Noun.unreadItems.rawValue)
         }
     }
     

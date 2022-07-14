@@ -36,39 +36,38 @@ internal struct SortMenu: View {
     @V3Localize.SortMenu private var text
     
     internal var body: some View {
-        self.style.menu.menu(self.text.menu) {
+        Picker(selection: self.$query.sort) {
             ForEach(Sort.allCases) { sort in
                 switch sort {
                 case .dateModifiedOldest:
-                    Button(action: self.closure(sort)) {
-                        self.style.sortDateModifiedOldest.label(self.text.sortDateModifiedOldest)
-                    }
+                    self.style.sortDateModifiedOldest
+                        .label(self.text.sortDateModifiedOldest)
+                        .tag([sort])
                 case .dateModifiedNewest:
-                    Button(action: self.closure(sort)) {
-                        self.style.sortDateModifiedNewest.label(self.text.sortDateModifiedNewest)
-                    }
+                    self.style.sortDateModifiedNewest
+                        .label(self.text.sortDateModifiedNewest)
+                        .tag([sort])
                 case .dateCreatedOldest:
-                    Button(action: self.closure(sort)) {
-                        self.style.sortDateCreatedOldest.label(self.text.sortDateCreatedOldest)
-                    }
+                    self.style.sortDateCreatedOldest
+                        .label(self.text.sortDateCreatedOldest)
+                        .tag([sort])
                 case .dateCreatedNewest:
-                    Button(action: self.closure(sort)) {
-                        self.style.sortDateCreatedNewest.label(self.text.sortDateCreatedNewest)
-                    }
+                    self.style.sortDateCreatedNewest
+                        .label(self.text.sortDateCreatedNewest)
+                        .tag([sort])
                 case .titleZ:
-                    Button(action: self.closure(sort)) {
-                        self.style.sortTitleZ.label(self.text.sortTitleZ)
-                    }
+                    self.style.sortTitleZ
+                        .label(self.text.sortTitleZ)
+                        .tag([sort])
                 case .titleA:
-                    Button(action: self.closure(sort)) {
-                        self.style.sortTitleA.label(self.text.sortTitleA)
-                    }
+                    self.style.sortTitleA
+                        .label(self.text.sortTitleA)
+                        .tag([sort])
                 }
             }
+        } label: {
+            // TODO: Figure out how to make this show in toolbar
+            self.style.menu.label(self.text.menu)
         }
-    }
-    
-    private func closure(_ sort: Sort) -> () -> Void {
-        { self.query.sort = [sort] }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/17.
+//  Created by Jeffrey Bergier on 2022/07/14.
 //
 //  MIT License
 //
@@ -25,45 +25,25 @@
 //
 
 import SwiftUI
-import Umbrella
+import V3Model
+import V3Style
+import V3Localize
 
-public typealias AC = Action.Closure
-
-public struct Action {
+internal struct FilterMenu: View {
     
-    public enum Style {
-        case label, icon, text
-    }
+    @Query private var query
+    @V3Style.FilterMenu private var style
+    @V3Localize.FilterMenu private var text
     
-    public typealias Closure = () -> Void
-    public var systemImage: String
-    public var shortcut: KeyboardShortcut?
-}
-
-extension Action {
-    public func button(_ titleKey: LocalizedString,
-                       style: Style = .label,
-                       role: ButtonRole? = nil,
-                       enabled: Bool = true,
-                       action: @escaping Closure) -> some View
-    {
-        Button(role: role, action: action) {
-            self.label(titleKey, style: style)
-        }
-        .keyboardShortcut(self.shortcut)
-        .disabled(!enabled)
-    }
-    
-    @ViewBuilder public func label(_ titleKey: LocalizedString,
-                                   style: Style = .label) -> some View
-    {
-        switch style {
-        case .label:
-            Label(titleKey, systemImage: self.systemImage)
-        case .icon:
-            Image(systemName: self.systemImage)
-        case .text:
-            Text(titleKey)
+    internal var body: some View {
+        Picker(selection: self.$query.isOnlyNotArchived) {
+            self.style.filterYes.label(self.text.filterYes)
+                .tag(true)
+            self.style.filterNo.label(self.text.filterNo)
+                .tag(false)
+        } label: {
+            // TODO: Figure out how to make this show in toolbar
+            self.style.title.label(self.text.title)
         }
     }
 }
