@@ -33,19 +33,18 @@ public struct WebsiteListQuery: DynamicProperty {
     
     // Basics
     @Controller private var controller
-    @CDListQuery<CD_Website, Website, Error>(onRead: Website.init(_:)) private var data
+    @CDListQuery<CD_Website, Website, Error>(
+        predicate: Query.noMatches.cd_predicate(nil),
+        onRead: Website.init(_:)
+    ) private var data
     @Environment(\.managedObjectContext) private var context
     @Environment(\.codableErrorResponder) private var errorResponder
     
     // State
-    @StateObject private var query: BlackBox<Query>
-    @StateObject private var filter: BlackBox<Tag.Selection.Element?>
+    @State private var query: Query = .noMatches
+    @State private var filter: Tag.Selection.Element?
         
-    public init() {
-        // TODO: make Query that results in `NOPREDICATE`
-        _query = .init(wrappedValue: .init(.default, isObservingValue: false))
-        _filter = .init(wrappedValue: .init(nil, isObservingValue: false))
-    }
+    public init() { }
     
     private let needsUpdate = BlackBox(true, isObservingValue: false)
     public func update() {
@@ -68,19 +67,19 @@ public struct WebsiteListQuery: DynamicProperty {
     }
     
     public func setFilter(_ selection: Tag.Selection.Element?) {
-        self.filter.value = selection
+        self.filter = selection
         self.updateCoreData()
     }
     
     public func setQuery(_ query: Query) {
-        self.query.value = query
+        self.query = query
         self.updateCoreData()
     }
     
     private func updateCoreData() {
         // take query and filter, generate predicate + sort
-        let pred = self.query.value.cd_predicate(self.currentTag())
-        let sort = self.query.value.cd_sortDescriptor
+        let pred = self.query.cd_predicate(self.currentTag())
+        let sort = self.query.cd_sortDescriptor
         // set on _data
         _data.setPredicate(pred)
         _data.setSortDescriptors(sort)
@@ -90,7 +89,7 @@ public struct WebsiteListQuery: DynamicProperty {
         let context = self.context
         guard
             let psc = context.persistentStoreCoordinator,
-            let filter = self.filter.value,
+            let filter = self.filter,
             filter.isSystem == false,
             let url = URL(string: filter.id),
             let objectID = psc.managedObjectID(forURIRepresentation: url)
