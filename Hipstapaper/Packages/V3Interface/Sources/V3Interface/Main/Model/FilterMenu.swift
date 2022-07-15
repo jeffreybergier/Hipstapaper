@@ -31,6 +31,7 @@ import V3Localize
 
 internal struct FilterMenu: View {
     
+    @Nav private var nav
     @Query private var query
     @V3Style.FilterMenu private var style
     @V3Localize.FilterMenu private var text
@@ -45,5 +46,6 @@ internal struct FilterMenu: View {
             // TODO: Figure out how to make this show in toolbar
             self.style.title.label(self.text.title)
         }
+        .disabled(self.nav.sidebar.selectedTag?.isSystem ?? true)
     }
 }

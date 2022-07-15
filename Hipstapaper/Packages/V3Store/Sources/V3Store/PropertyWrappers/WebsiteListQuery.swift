@@ -77,12 +77,23 @@ public struct WebsiteListQuery: DynamicProperty {
     }
     
     private func updateCoreData() {
-        // take query and filter, generate predicate + sort
-        let pred = self.query?.cd_predicate(self.currentTag()) ?? .init(value: false)
-        let sort = (self.query?.sort ?? .default).cd_sortDescriptor
-        // set on _data
-        _data.setPredicate(pred)
-        _data.setSortDescriptors([sort])
+        guard var query = self.query else {
+            _data.setPredicate(.init(value: false))
+            _data.setSortDescriptors([Sort.default.cd_sortDescriptor])
+            return
+        }
+        if let filter = self.filter, filter.isSystem {
+            switch filter {
+            case .systemAll:
+                query.isOnlyNotArchived = false
+            case .systemUnread:
+                query.isOnlyNotArchived = true
+            default:
+                break
+            }
+        }
+        _data.setPredicate(query.cd_predicate(self.currentTag()))
+        _data.setSortDescriptors([query.sort.cd_sortDescriptor])
     }
     
     private func currentTag() -> CD_Tag? {
