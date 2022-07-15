@@ -28,9 +28,7 @@ import Foundation
 import V3Model
 
 extension Query {
-    internal var cd_sortDescriptor: [SortDescriptor<CD_Website>] { self.sort.map { $0.cd_sortDescriptor } }
     internal func cd_predicate(_ tag: CD_Tag?) -> NSPredicate? {
-        guard self.isNOPredicate == false else { return .init(value: false) }
         let predicates: [NSPredicate] = [
             {
                 guard self.isOnlyNotArchived == true else { return nil }

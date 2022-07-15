@@ -44,7 +44,7 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
     internal var body: some View {
         Table(self.data,
               selection: self.$nav.detail.selectedWebsites,
-              sortOrder: self.$query.sort)
+              sortOrder: self.$query.sort.map(get: { [$0] }, set: { $0.first ?? .default }))
         {
             TableColumn("Title", sortUsing: .titleA) { item in
                 JSBText("Untited", text: item.title)

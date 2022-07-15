@@ -29,28 +29,17 @@ public struct Query: Codable, Hashable {
     public static let systemAll: Query = .init(isOnlyNotArchived: false)
     public static let systemUnread: Query = .init(isOnlyNotArchived: true)
     public static let `default`: Query = Self.systemUnread
-    public static let noMatches: Query = .init(noPredicate: true)
     
-    public var sort: [Sort]
+    public var sort: Sort
     public var search: String
     public var isOnlyNotArchived: Bool
-    /// Set to `true` if you want your query to return no matches despite other values.
-    // TODO: Hack for performance reasons
-    public var isNOPredicate = false
     
     internal init(sort: Sort? = nil,
                   search: String? = nil,
                   isOnlyNotArchived: Bool?)
     {
-        self.sort = sort.map { [$0] } ?? [.default]
+        self.sort = sort ?? .default
         self.search = search ?? ""
         self.isOnlyNotArchived = isOnlyNotArchived ?? true
-    }
-    
-    internal init(noPredicate: Bool) {
-        self.isNOPredicate = true
-        self.sort = []
-        self.search = ""
-        self.isOnlyNotArchived = false
     }
 }

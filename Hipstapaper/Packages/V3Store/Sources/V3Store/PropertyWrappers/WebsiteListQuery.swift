@@ -34,14 +34,14 @@ public struct WebsiteListQuery: DynamicProperty {
     // Basics
     @Controller private var controller
     @CDListQuery<CD_Website, Website, Error>(
-        predicate: Query.noMatches.cd_predicate(nil),
+        predicate: NSPredicate(value: false),
         onRead: Website.init(_:)
     ) private var data
     @Environment(\.managedObjectContext) private var context
     @Environment(\.codableErrorResponder) private var errorResponder
     
     // State
-    @State private var query: Query = .noMatches
+    @State private var query: Query?
     @State private var filter: Tag.Selection.Element?
         
     public init() { }
@@ -78,11 +78,11 @@ public struct WebsiteListQuery: DynamicProperty {
     
     private func updateCoreData() {
         // take query and filter, generate predicate + sort
-        let pred = self.query.cd_predicate(self.currentTag())
-        let sort = self.query.cd_sortDescriptor
+        let pred = self.query?.cd_predicate(self.currentTag()) ?? .init(value: false)
+        let sort = (self.query?.sort ?? .default).cd_sortDescriptor
         // set on _data
         _data.setPredicate(pred)
-        _data.setSortDescriptors(sort)
+        _data.setSortDescriptors([sort])
     }
     
     private func currentTag() -> CD_Tag? {
