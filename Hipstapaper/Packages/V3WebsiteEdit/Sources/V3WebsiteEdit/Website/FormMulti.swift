@@ -35,7 +35,6 @@ internal struct FormMulti: View {
         
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
-    @WebsiteSearchListQuery private var data
     
     private let selection: Website.Selection
     
@@ -45,36 +44,34 @@ internal struct FormMulti: View {
     
     internal var body: some View {
         Form {
-            if self.data.isEmpty {
+            if self.selection.isEmpty {
                 EmptyState()
             } else {
                 self.form
             }
         }
-        .onLoadChange(of: self.selection) {
-            _data.search = $0
-        }
     }
     
     @ViewBuilder private var form: some View {
-        ForEach(self.$data) { item in
+        ForEach(Array(self.selection)) { ident in
             Section {
-                TextField(self.text.websiteTitle, text: item.title.compactMap())
-                TextField(self.text.originalURL, text: item.originalURL.mapString())
-                    .textContentTypeURL
-                TextField(self.text.resolvedURL, text: item.resolvedURL.mapString())
-                    .textContentTypeURL
-                if let thumbnail = item.thumbnail.wrappedValue {
-                    self.style.deleteThumbnail.button(self.text.deleteThumbnail) {
-                        item.thumbnail.wrappedValue = nil
-                    }
-                    Image(data: thumbnail)?
-                        .resizable()
-                        .modifier(self.style.thumbnail)
-                        .frame(width: 128, height: 128)
-                }
+                // TODO: reenable
+//                TextField(self.text.websiteTitle, text: item.title.compactMap())
+//                TextField(self.text.originalURL, text: item.originalURL.mapString())
+//                    .textContentTypeURL
+//                TextField(self.text.resolvedURL, text: item.resolvedURL.mapString())
+//                    .textContentTypeURL
+//                if let thumbnail = item.thumbnail.wrappedValue {
+//                    self.style.deleteThumbnail.button(self.text.deleteThumbnail) {
+//                        item.thumbnail.wrappedValue = nil
+//                    }
+//                    Image(data: thumbnail)?
+//                        .resizable()
+//                        .modifier(self.style.thumbnail)
+//                        .frame(width: 128, height: 128)
+//                }
             } header: {
-                JSBText(self.text.untitled, text: item.title.wrappedValue)
+                // JSBText(self.text.untitled, text: item.title.wrappedValue)
             }
         }
     }

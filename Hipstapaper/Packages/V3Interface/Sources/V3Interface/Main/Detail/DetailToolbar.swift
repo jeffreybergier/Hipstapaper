@@ -40,53 +40,50 @@ internal struct DetailToolbar: ViewModifier {
     @V3Style.DetailToolbar private var style
     @V3Localize.DetailToolbar private var text
     
-    @WebsiteSearchListQuery private var data
+    @ToolbarQuery private var data
     @Environment(\.openURL) private var openExternal
-    
-    private var isSelection: Bool {
-        !self.nav.detail.selectedWebsites.isEmpty
-    }
     
     internal func body(content: Content) -> some View {
         content
             .onChange(of: self.nav.detail.selectedWebsites) {
-                _data.search = $0
+                _data.setSelection($0)
             }
             .toolbarRole(.editor)
             .toolbar(id: "detailTop") {
                 ToolbarItem(id: "openInApp", placement: .primaryAction) {
                     self.style.openInApp.button(self.text.openInApp,
-                                                enabled: self.data.count == 1)
+                                                enabled: self.data.openWebsite.single != nil)
                     {
-                        self.nav.detail.isBrowse = self.data.first?.id
+                        self.nav.detail.isBrowse = self.data.openWebsite.single
                     }
                 }
                 ToolbarItem(id: "openExternal", placement: .secondaryAction) {
                     self.style.openExternal.button(self.text.openExternal,
-                                                   enabled: self.data.count == 1)
+                                                   enabled: self.data.openURL.single != nil)
                     {
-                        guard let url = self.data.first?.preferredURL else { return }
-                        self.openExternal(url)
+                        self.openExternal(self.data.openURL.single!)
                     }
                 }
                 ToolbarItem(id: "archiveYes", placement: .secondaryAction) {
-                    self.style.archiveYes.button(self.text.archiveYes, enabled: self._data.canArchiveYes) {
+                    self.style.archiveYes.button(self.text.archiveYes, enabled: self.data.canArchiveYes) {
                         self._data.setArchive(true)
+                        self.nav.detail.selectedWebsites = []
                     }
                 }
                 ToolbarItem(id: "archiveNo", placement: .secondaryAction) {
-                    self.style.archiveNo.button(self.text.archiveNo, enabled: self._data.canArchiveNo) {
+                    self.style.archiveNo.button(self.text.archiveNo, enabled: self.data.canArchiveNo) {
                         self._data.setArchive(false)
+                        self.nav.detail.selectedWebsites = []
                     }
                 }
                 ToolbarItem(id: "tagApply", placement: .secondaryAction) {
-                    self.style.tagApply.button(self.text.tagApply, enabled: self.isSelection) {
+                    self.style.tagApply.button(self.text.tagApply, enabled: !self.data.isEmpty) {
                         self.nav.detail.isTagApply = self.nav.detail.selectedWebsites
                     }
                     .modifier(TagApply.popover)
                 }
                 ToolbarItem(id: "share", placement: .secondaryAction) {
-                    self.style.share.button(self.text.share, enabled: self.isSelection) {
+                    self.style.share.button(self.text.share, enabled: !self.data.isEmpty) {
                         
                     }
                 }

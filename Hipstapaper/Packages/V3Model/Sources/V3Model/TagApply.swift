@@ -30,31 +30,55 @@ public struct TagApply: Identifiable, Hashable {
     
     public var id: Tag.Identifier { self.tag.id }
     public var tag: Tag
-    public var status: Status
+    public var status: MultiStatus
     
-    public init(tag: Tag, status: Status) {
+    public init(tag: Tag, status: MultiStatus) {
         self.tag = tag
         self.status = status
     }
+}
+
+public enum MultiStatus: Hashable, Codable {
+    case all, some, none
     
-    public enum Status: Hashable, Codable {
-        case all, some, none
-        
-        public var boolValue: Bool {
-            get {
-                switch self {
-                case .none: return false
-                case .all, .some: return true
-                }
+    public var boolValue: Bool {
+        get {
+            switch self {
+            case .none: return false
+            case .all, .some: return true
             }
-            set {
-                switch newValue {
-                case true:
-                    self = .all
-                case false:
-                    self = .none
-                }
+        }
+        set {
+            switch newValue {
+            case true:
+                self = .all
+            case false:
+                self = .none
             }
+        }
+    }
+}
+
+public enum SingleMulti<T: Hashable> {
+    case none, single(T), multi(Set<T>)
+    public var single: T? {
+        switch self {
+        case .none:
+            return nil
+        case .single(let value):
+            return value
+        case .multi:
+            return nil
+        }
+    }
+    public var multi: Set<T> {
+        switch self {
+        case .none:
+            return []
+        case .single(let value):
+            return [value]
+        case .multi(let value):
+            return value
         }
     }
 }

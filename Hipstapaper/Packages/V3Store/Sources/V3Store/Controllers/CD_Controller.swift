@@ -149,6 +149,58 @@ extension CD_Controller: ControllerProtocol {
     
     // MARK: Internal for Property Wrappers
     
+    internal func canArchiveYes(_ selection: Website.Selection) -> Bool {
+        guard selection.isEmpty == false else { return false }
+        let sites = self.search(selection)
+        let archive = Set(sites.map { $0.cd_isArchived })
+        if archive.contains(true) && archive.contains(false) {
+            return true
+        } else if archive.contains(true) {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    internal func canArchiveNo(_ selection: Website.Selection) -> Bool {
+        guard selection.isEmpty == false else { return false }
+        let sites = self.search(selection)
+        let archive = Set(sites.map { $0.cd_isArchived })
+        if archive.contains(true) && archive.contains(false) {
+            return true
+        } else if archive.contains(false) {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    internal func openURL(_ selection: Website.Selection) -> SingleMulti<URL> {
+        guard selection.isEmpty == false else { return .none }
+        let urls = self.search(selection).compactMap { $0.cd_resolvedURL ?? $0.cd_originalURL }
+        switch urls.count {
+        case 0:
+            return .none
+        case 1:
+            return .single(urls.first!)
+        default:
+            return .multi(Set(urls))
+        }
+    }
+    
+    internal func openURL(_ selection: Website.Selection) -> SingleMulti<Website.Identifier> {
+        guard selection.isEmpty == false else { return .none }
+        let sites = self.search(selection).filter { ($0.cd_resolvedURL ?? $0.cd_originalURL) != nil }
+        switch sites.count {
+        case 0:
+            return .none
+        case 1:
+            return .single(Website.Identifier(sites.first!.objectID))
+        default:
+            return .multi(Set(sites.map { Website.Identifier($0.objectID) }))
+        }
+    }
+    
     internal func writeOpt(_ cd: CD_Website?, with newValue: Website?) -> Result<Void, Error> {
         return self.write(cd!, with: newValue!)
     }
