@@ -44,17 +44,12 @@ internal struct Tag: View {
     
     internal var body: some View {
         NavigationStack {
-            Group {
-                if self.data.isEmpty {
-                    EmptyState()
-                } else {
-                    Form {
-                        ForEach(self.$data) { item in
-                            Toggle(item.wrappedValue.tag.name ?? self.text.untitled,
-                                   isOn: item.status.boolValue.flipped)
-                        }
-                    }
+            Form {
+                ForEach(self.$data) { item in
+                    Toggle(item.wrappedValue.tag.name ?? self.text.untitled,
+                           isOn: item.status.boolValue.flipped)
                 }
+                .modifier(EmptyMod(self.data.isEmpty))
             }
             .modifier(TagToolbar.toolbar)
         }

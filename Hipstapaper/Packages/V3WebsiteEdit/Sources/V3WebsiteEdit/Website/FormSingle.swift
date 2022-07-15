@@ -119,7 +119,7 @@ internal struct FormSingle: View {
         if let image = Image(data: self.item?.thumbnail) {
             image.resizable()
         } else {
-            EmptyView()
+            SwiftUI.EmptyView()
         }
     }
     

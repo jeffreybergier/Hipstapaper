@@ -32,9 +32,6 @@ import V3Style
 import V3Localize
 
 internal struct FormMulti: View {
-        
-    @V3Style.WebsiteEdit private var style
-    @V3Localize.WebsiteEdit private var text
     
     private let selection: Website.Selection
     
@@ -44,35 +41,49 @@ internal struct FormMulti: View {
     
     internal var body: some View {
         Form {
-            if self.selection.isEmpty {
-                EmptyState()
-            } else {
-                self.form
+            ForEach(Array(self.selection)) { ident in
+                FormSection(ident)
             }
+            .modifier(EmptyMod(self.selection.isEmpty))
         }
     }
+}
+
+fileprivate struct FormSection: View {
     
-    @ViewBuilder private var form: some View {
-        ForEach(Array(self.selection)) { ident in
+    @WebsiteQuery private var item
+    @V3Style.WebsiteEdit private var style
+    @V3Localize.WebsiteEdit private var text
+    
+    private let identifier: Website.Selection.Element
+    
+    internal init(_ identifier: Website.Selection.Element) {
+        self.identifier = identifier
+    }
+    
+    internal var body: some View {
+        EmptyView(value: self.$item) { item in
             Section {
-                // TODO: reenable
-//                TextField(self.text.websiteTitle, text: item.title.compactMap())
-//                TextField(self.text.originalURL, text: item.originalURL.mapString())
-//                    .textContentTypeURL
-//                TextField(self.text.resolvedURL, text: item.resolvedURL.mapString())
-//                    .textContentTypeURL
-//                if let thumbnail = item.thumbnail.wrappedValue {
-//                    self.style.deleteThumbnail.button(self.text.deleteThumbnail) {
-//                        item.thumbnail.wrappedValue = nil
-//                    }
-//                    Image(data: thumbnail)?
-//                        .resizable()
-//                        .modifier(self.style.thumbnail)
-//                        .frame(width: 128, height: 128)
-//                }
+                TextField(self.text.websiteTitle, text: item.title.compactMap())
+                TextField(self.text.originalURL, text: item.originalURL.mapString())
+                    .textContentTypeURL
+                TextField(self.text.resolvedURL, text: item.resolvedURL.mapString())
+                    .textContentTypeURL
+                if let thumbnail = item.thumbnail.wrappedValue {
+                    self.style.deleteThumbnail.button(self.text.deleteThumbnail) {
+                        item.thumbnail.wrappedValue = nil
+                    }
+                    Image(data: thumbnail)?
+                        .resizable()
+                        .modifier(self.style.thumbnail)
+                        .frame(width: 128, height: 128)
+                }
             } header: {
-                // JSBText(self.text.untitled, text: item.title.wrappedValue)
+                JSBText(self.text.untitled, text: item.title.wrappedValue)
             }
+        }
+        .onLoadChange(of: self.identifier) {
+            _item.setIdentifier($0)
         }
     }
 }
