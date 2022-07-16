@@ -201,17 +201,21 @@ extension CD_Controller: ControllerProtocol {
         }
     }
     
-    internal func tagStatus(tag: Tag, selection: Website.Selection) -> TagApply {
-        // TODO: Remove !
-        let rawTag: CD_Tag = self.search([tag.id]).first!
-        let sites: [CD_Website] = self.search(selection)
+    internal func tagStatus(identifier: Tag.Identifier, selection: Website.Selection) -> MultiStatus {
+        guard selection.isEmpty == false else { return .none }
+        guard let rawTag = self.search([identifier]).first else {
+            NSLog("Tag Not Found: \(identifier)")
+            assertionFailure("Tag Not Found: \(identifier)")
+            return .none
+        }
+        let sites = self.search(selection)
         let filtered = sites.filter { $0.cd_tags?.contains(rawTag) ?? false }
         if filtered.count == sites.count {
-            return .init(tag: tag, status: .all)
+            return .all
         } else if filtered.isEmpty {
-            return .init(tag: tag, status: .none)
+            return .none
         } else {
-            return .init(tag: tag, status: .some)
+            return .some
         }
     }
     

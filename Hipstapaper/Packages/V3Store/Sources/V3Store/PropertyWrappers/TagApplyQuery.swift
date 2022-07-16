@@ -41,14 +41,18 @@ public struct TagApplyQuery: DynamicProperty {
     
     public var wrappedValue: some RandomAccessCollection<TagApply> {
         self.data.map { tag in
-            _controller.cd.tagStatus(tag: tag, selection: self.selection)
+            let status = _controller.cd.tagStatus(identifier: tag.id,
+                                                  selection: self.selection)
+            return .init(tag: tag, status: status)
         }
     }
     
     public var projectedValue: some RandomAccessCollection<Binding<TagApply>> {
         self.data.map { tag in
             Binding {
-                _controller.cd.tagStatus(tag: tag, selection: self.selection)
+                let status = _controller.cd.tagStatus(identifier: tag.id,
+                                                      selection: self.selection)
+                return .init(tag: tag, status: status)
             } set: {
                 if let error = _controller.cd.write(tag: $0, selection: self.selection).error {
                     NSLog(String(describing: error))
