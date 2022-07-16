@@ -101,7 +101,7 @@ extension CD_Controller: ControllerProtocol {
         let websites = self.search(input, from: context)
         var changesMade = false
         for site in websites {
-            guard site.cd_tags.contains(cd_tag) == false else { continue }
+            guard site.cd_tags?.contains(cd_tag) == false else { continue }
             changesMade = true
             let tags = site.mutableSetValue(forKey: #keyPath(CD_Website.cd_tags))
             tags.add(cd_tag)
@@ -115,7 +115,7 @@ extension CD_Controller: ControllerProtocol {
         let websites = self.search(input, from: context)
         var changesMade = false
         for site in websites {
-            guard site.cd_tags.contains(cd_tag) == true else { continue }
+            guard site.cd_tags?.contains(cd_tag) == true else { continue }
             changesMade = true
             let tags = site.mutableSetValue(forKey: #keyPath(CD_Website.cd_tags))
             tags.remove(cd_tag)
@@ -201,6 +201,20 @@ extension CD_Controller: ControllerProtocol {
         }
     }
     
+    internal func tagStatus(tag: Tag, selection: Website.Selection) -> TagApply {
+        // TODO: Remove !
+        let rawTag: CD_Tag = self.search([tag.id]).first!
+        let sites: [CD_Website] = self.search(selection)
+        let filtered = sites.filter { $0.cd_tags?.contains(rawTag) ?? false }
+        if filtered.count == sites.count {
+            return .init(tag: tag, status: .all)
+        } else if filtered.isEmpty {
+            return .init(tag: tag, status: .none)
+        } else {
+            return .init(tag: tag, status: .some)
+        }
+    }
+    
     internal func writeOpt(_ cd: CD_Website?, with newValue: Website?) -> Result<Void, Error> {
         return self.write(cd!, with: newValue!)
     }
@@ -223,24 +237,25 @@ extension CD_Controller: ControllerProtocol {
         return self.container.viewContext.datum_save()
     }
     
-    /*
-    internal func write(selection: Website.Selection, with newValue: TagApply) -> Result<Void, Error> {
-        let result1 = self.write(cd, with: newValue.tag)
-        switch newValue.status {
+    internal func write(tag: TagApply, selection: Website.Selection) -> Result<Void, Error> {
+        let context = self.container.viewContext
+        let rawTag: CD_Tag = self.search([tag.id], from: context).first!
+        let sites: [CD_Website] = self.search(selection, from: context)
+        switch tag.status {
         case .all:
-            return result1.reduce {
-                self.addTag(cd, to: newValue.selection)
+            sites.forEach {
+                $0.addToCd_tags(rawTag)
             }
         case .none:
-            return result1.reduce {
-                return self.removeTag(cd, to: newValue.selection)
+            sites.forEach {
+                $0.removeFromCd_tags(rawTag)
             }
         case .some:
             NSLog("Invalid Change")
-            return result1
+            return .success(())
         }
+        return context.datum_save()
     }
-     */
 }
 
 internal class CD_Controller {

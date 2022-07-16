@@ -29,16 +29,13 @@ import CoreData
 import Umbrella
 import V3Model
 
-@objc(CD_Base) internal class CD_Base: NSManagedObject, Identifiable {
+@objc(CD_Base) internal class CD_Base: NSManagedObject {
 
     /// Template for fetch request in subclasses
     internal class var entityName: String { "CD_Base" }
     private class var request: NSFetchRequest<CD_Base> {
         NSFetchRequest<CD_Base>(entityName: self.entityName)
     }
-
-    @NSManaged internal var cd_dateCreated: Date?
-    @NSManaged internal var cd_dateModified: Date?
 
     override internal func awakeFromInsert() {
         super.awakeFromInsert()

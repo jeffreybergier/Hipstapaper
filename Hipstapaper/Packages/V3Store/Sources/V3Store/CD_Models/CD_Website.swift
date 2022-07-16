@@ -33,13 +33,6 @@ import V3Model
     internal class var request: NSFetchRequest<CD_Website> {
         NSFetchRequest<CD_Website>(entityName: self.entityName)
     }
-
-    @NSManaged internal var cd_isArchived:  Bool
-    @NSManaged internal var cd_originalURL: URL?
-    @NSManaged internal var cd_resolvedURL: URL?
-    @NSManaged internal var cd_title:       String?
-    @NSManaged internal var cd_thumbnail:   Data?
-    @NSManaged internal var cd_tags:        NSSet
     
     override func willSave() {
         super.willSave()

@@ -35,14 +35,10 @@ import V3Model
     internal class var request: NSFetchRequest<CD_Tag> {
         NSFetchRequest<CD_Tag>(entityName: self.entityName)
     }
-
-    @NSManaged internal var cd_websitesCount: Int32
-    @NSManaged internal var cd_name: String?
-    @NSManaged internal var cd_websites: NSSet
     
     override func willSave() {
         super.willSave()
-        let newWebsitesCount = Int32(self.cd_websites.count)
+        let newWebsitesCount = Int32(self.cd_websites?.count ?? 0)
         if self.cd_websitesCount != newWebsitesCount {
             self.cd_websitesCount = newWebsitesCount
         }

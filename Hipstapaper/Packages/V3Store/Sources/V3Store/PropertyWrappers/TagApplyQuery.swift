@@ -25,28 +25,35 @@
 //
 
 import SwiftUI
+import Umbrella
 import V3Model
 
 @propertyWrapper
 public struct TagApplyQuery: DynamicProperty {
     
+    @Controller private var controller
     @TagUserListQuery private var data
+    @Environment(\.codableErrorResponder) private var errorResponder
+    
     @State public var selection: Website.Selection = []
     
     public init() {}
     
     public var wrappedValue: some RandomAccessCollection<TagApply> {
         self.data.map { tag in
-            TagApply(tag: tag, status: .all)
+            _controller.cd.tagStatus(tag: tag, selection: self.selection)
         }
     }
     
     public var projectedValue: some RandomAccessCollection<Binding<TagApply>> {
         self.data.map { tag in
             Binding {
-                TagApply(tag: tag, status: .all)
+                _controller.cd.tagStatus(tag: tag, selection: self.selection)
             } set: {
-                print("TagApply: \($0)")
+                if let error = _controller.cd.write(tag: $0, selection: self.selection).error {
+                    NSLog(String(describing: error))
+                    self.errorResponder(.init(error as NSError))
+                }
             }
         }
     }
