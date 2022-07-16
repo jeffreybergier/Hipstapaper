@@ -59,7 +59,7 @@ public struct ToolbarQuery: DynamicProperty {
     }
 
     public func setArchive(_ newValue: Bool) {
-        if let error = self.cd_controller?.setArchive(newValue, on: self.selection).error {
+        if let error = _controller.cd.setArchive(newValue, on: self.selection).error {
             NSLog(String(describing: error))
             self.errorResponder(.init(error as NSError))
         }
@@ -71,26 +71,11 @@ public struct ToolbarQuery: DynamicProperty {
     }
     
     private func recalculate() {
-        guard let c = self.cd_controller else {
-            self.resetState()
-            return
-        }
+        let cd = _controller.cd
         let selection = self.selection
-        self.canArchiveYes = c.canArchiveYes(selection)
-        self.canArchiveNo  = c.canArchiveNo(selection)
-        self.openURL       = c.openURL(selection)
-        self.openWebsite   = c.openURL(selection)
-    }
-    
-    private func resetState() {
-        self.selection = []
-        self.canArchiveYes = false
-        self.canArchiveNo = false
-        self.openURL = .none
-        self.openWebsite = .none
-    }
-    
-    private var cd_controller: CD_Controller? {
-        self.controller as? CD_Controller
+        self.canArchiveYes = cd.canArchiveYes(selection)
+        self.canArchiveNo  = cd.canArchiveNo(selection)
+        self.openURL       = cd.openURL(selection)
+        self.openWebsite   = cd.openURL(selection)
     }
 }

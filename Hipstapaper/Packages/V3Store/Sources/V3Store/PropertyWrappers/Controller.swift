@@ -38,7 +38,7 @@ public struct Controller: DynamicProperty {
         self.env.value!
     }
     
-    internal var cdController: CD_Controller {
+    internal var cd: CD_Controller {
         self.env.value as! CD_Controller
     }
 }

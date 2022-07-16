@@ -63,14 +63,10 @@ public struct TagUserQuery: DynamicProperty {
     public func update() {
         guard self.needsUpdate.value else { return }
         self.needsUpdate.value = false
-        _object.setOnWrite(self.cd_controller?.writeOpt(_:with:))
+        _object.setOnWrite(_controller.cd.writeOpt(_:with:))
         _object.setOnError { error in
             NSLog(String(describing: error))
             self.errorResponder(.init(error as NSError))
         }
-    }
-    
-    private var cd_controller: CD_Controller? {
-        self.controller as? CD_Controller
     }
 }

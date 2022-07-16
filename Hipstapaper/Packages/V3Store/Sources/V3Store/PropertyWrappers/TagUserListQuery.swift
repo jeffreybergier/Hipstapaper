@@ -48,7 +48,7 @@ public struct TagUserListQuery: DynamicProperty {
         self.needsUpdate.value = false
         _data.setPredicate(self.predicate.value)
         _data.setSortDescriptors([CD_Tag.defaultSort])
-        _data.setOnWrite(self.cd_controller?.write(_:with:))
+        _data.setOnWrite(_controller.cd.write(_:with:))
         _data.setOnError { error in
             NSLog(String(describing: error))
             self.errorResponder(.init(error as NSError))
@@ -75,9 +75,5 @@ public struct TagUserListQuery: DynamicProperty {
         let pred = NSCompoundPredicate(orPredicateWithSubpredicates: preds)
         self.predicate.value = pred
         _data.setPredicate(pred)
-    }
-    
-    private var cd_controller: CD_Controller? {
-        self.controller as? CD_Controller
     }
 }

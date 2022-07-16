@@ -50,7 +50,7 @@ public struct WebsiteListQuery: DynamicProperty {
     public func update() {
         guard self.needsUpdate.value else { return }
         self.needsUpdate.value = false
-        _data.setOnWrite(self.cd_controller?.write(_:with:))
+        _data.setOnWrite(_controller.cd.write(_:with:))
         _data.setOnError { error in
             NSLog(String(describing: error))
             self.errorResponder(.init(error as NSError))
@@ -106,9 +106,5 @@ public struct WebsiteListQuery: DynamicProperty {
             let objectID = psc.managedObjectID(forURIRepresentation: url)
         else { return nil }
         return context.object(with: objectID) as? CD_Tag
-    }
-    
-    private var cd_controller: CD_Controller? {
-        self.controller as? CD_Controller
     }
 }
