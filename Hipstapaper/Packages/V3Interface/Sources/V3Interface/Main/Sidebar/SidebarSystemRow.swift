@@ -28,7 +28,7 @@ import SwiftUI
 import V3Model
 import V3Localize
 
-internal struct TagSystemRow: View {
+internal struct SidebarSystemRow: View {
     
     @V3Localize.Sidebar private var text
     
@@ -54,8 +54,8 @@ internal struct TagSystemRow: View {
 struct Preview_TagSystemRow_01: PreviewProvider {
     static var previews: some View {
         VStack {
-            TagSystemRow(.systemUnread)
-            TagSystemRow(.systemAll)
+            SidebarSystemRow(.systemUnread)
+            SidebarSystemRow(.systemAll)
         }
         .environmentObject(LocalizeBundle())
     }

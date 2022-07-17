@@ -31,7 +31,7 @@ import V3Store
 import V3Localize
 import V3Style
 
-internal struct TagUserRow: View {
+internal struct SidebarUserRow: View {
         
     @TagUserQuery private var item: Tag?
     @V3Style.Sidebar private var style

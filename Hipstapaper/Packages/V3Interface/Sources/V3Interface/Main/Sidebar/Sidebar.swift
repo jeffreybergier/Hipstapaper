@@ -43,14 +43,16 @@ internal struct Sidebar: View {
                 Section(self.text.sectionTitleTagsSystem) {
                     ForEach(self.tagsSystem) { item in
                         NavigationLink(value: item.id) {
-                            TagSystemRow(item.id.kind).tag(item.id)
+                            SidebarSystemRow(item.id.kind)
+                                .tag(item.id)
                         }
                     }
                 }
                 Section(self.text.sectionTitleTagsUser) {
                     ForEach(self.tagsUser) { item in
                         NavigationLink(value: item.id) {
-                            TagUserRow(item.id).tag(item.id)
+                            SidebarUserRow(item.id)
+                                .tag(item.id)
                         }
                     }
                 }
