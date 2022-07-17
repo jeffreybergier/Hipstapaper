@@ -97,28 +97,19 @@ extension Binding where Value == Sort {
             }
         } set: {
             guard let newValue = $0.first else { return .default }
-            switch newValue.keyPath {
-            case \.title:
-                switch newValue.order {
-                case .reverse:
-                    return .titleA
-                case .forward:
-                    return .titleZ
-                }
-            case \.dateCreated:
-                switch newValue.order {
-                case .reverse:
-                    return .dateCreatedNewest
-                case .forward:
-                    return .dateCreatedOldest
-                }
-            case \.dateModified:
-                switch newValue.order {
-                case .reverse:
-                    return .dateModifiedNewest
-                case .forward:
-                    return .dateModifiedOldest
-                }
+            switch (newValue.keyPath, newValue.order) {
+            case (\.title, .reverse):
+                return .titleA
+            case (\.title, .forward):
+                return .titleZ
+            case (\.dateCreated, .reverse):
+                return .dateCreatedNewest
+            case (\.dateCreated, .forward):
+                return .dateCreatedOldest
+            case (\.dateModified, .reverse):
+                return .dateModifiedNewest
+            case (\.dateModified, .forward):
+                return .dateModifiedOldest
             default:
                 return .default
             }
