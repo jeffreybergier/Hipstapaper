@@ -27,6 +27,74 @@
 import SwiftUI
 import Umbrella
 
+extension Collection {
+    public func view<Backup: View, Content: View>(
+        @ViewBuilder content: @escaping (Self) -> Content,
+        @ViewBuilder backup: @escaping () -> Backup
+    ) -> some View
+    {
+        NotEmpty(self, content: content, backup: backup)
+    }
+}
+
+extension Optional {
+    public func view<Backup: View, Content: View>(
+        @ViewBuilder content: @escaping (Self) -> Content,
+        @ViewBuilder backup: @escaping () -> Backup
+    ) -> some View
+    {
+        NotNIL(self, content: content, backup: backup)
+    }
+}
+
+public struct NotEmpty<Value: Collection, Backup: View, Content: View>: View {
+    
+    private let value: Value
+    private let backup: () -> Backup
+    private let content: (Value) -> Content
+    
+    public init(_ value: Value,
+                @ViewBuilder content: @escaping (Value) -> Content,
+                @ViewBuilder backup: @escaping () -> Backup)
+    {
+        self.value = value
+        self.backup = backup
+        self.content = content
+    }
+    
+    @ViewBuilder public var body: some View {
+        if self.value.isEmpty {
+            self.backup()
+        } else {
+            self.content(self.value)
+        }
+    }
+}
+
+public struct NotNIL<Value, Backup: View, Content: View>: View {
+    
+    private let value: Value?
+    private let backup: () -> Backup
+    private let content: (Value) -> Content
+    
+    public init(_ value: Value?,
+                @ViewBuilder content: @escaping (Value) -> Content,
+                @ViewBuilder backup: @escaping () -> Backup)
+    {
+        self.value = value
+        self.backup = backup
+        self.content = content
+    }
+    
+    @ViewBuilder public var body: some View {
+        if let value {
+            self.content(value)
+        } else {
+            self.backup()
+        }
+    }
+}
+
 extension View {
     public func popover<C: Collection & ExpressibleByArrayLiteral, V: View>(
         items: Binding<C>,

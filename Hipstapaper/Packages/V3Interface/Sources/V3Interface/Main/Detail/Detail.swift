@@ -29,26 +29,31 @@ import Umbrella
 import V3Model
 import V3Store
 import V3Browser
+import V3Localize
 
 internal struct Detail: View {
     
     @Nav private var nav
     @Query private var query
     @WebsiteListQuery private var data
+    @V3Localize.Detail private var text
     
     @JSBSizeClass private var sizeClass
 
     internal var body: some View {
         NavigationStack {
-            Group {
+            self.data.view {
                 switch self.sizeClass.horizontal {
                 case .regular:
-                    DetailTable(self.data)
+                    DetailTable($0)
                 case .compact:
-                    DetailList(self.data)
+                    DetailList($0)
                 }
+            } backup: {
+                Text(self.text.emptyState)
             }
-            .searchable(text: self.$query.search, prompt: "Search")
+            .searchable(text: self.$query.search,
+                        prompt: self.text.search)
             .onLoadChange(of: self.query) {
                 _data.setQuery($0)
             }

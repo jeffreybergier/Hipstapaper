@@ -36,7 +36,7 @@ public struct TagsEdit: DynamicProperty {
         public var toolbarDone:     LocalizedString
         
         internal init(_ b: LocalizeBundle) {
-            self.title           = b.localized(key: Noun.editTag.rawValue)
+            self.title           = b.localized(key: Noun.editTags.rawValue)
             self.placeholderName = b.localized(key: Noun.tagName.rawValue)
             self.toolbarDone     = b.localized(key: Verb.done.rawValue)
         }

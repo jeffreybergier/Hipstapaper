@@ -98,7 +98,7 @@
 "Noun.Hipstapaper"   = "Hipstapaper";
 "Noun.TagName"       = "Tag Name";
 "Noun.AddTag"        = "Add Tag";
-"Noun.EditTag"       = "Edit Tag";
+"Noun.EditTags"      = "Edit Tag(s)";
 "Noun.AddWebsite"    = "Add Website";
 "Noun.EditWebsite"   = "Edit Website";
 "Noun.ApplyTags"     = "Apply Tags";
@@ -171,3 +171,5 @@
 "Phrase.ErrorShareItemCount"    = "The selected website(s) contained no URLs to share.";
 "Phrase.ErrorLoadURL"           = "This website did not contain a URL.";
 "Phrase.ErrorShareImport"       = "There was an error importing the website shared by another app.";
+"Phrase.NoTags"                 = "No Tags";
+"Phrase.NoWebsites"             = "No Websites";

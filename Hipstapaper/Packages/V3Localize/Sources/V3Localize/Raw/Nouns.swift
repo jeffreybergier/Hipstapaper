@@ -44,7 +44,7 @@ internal enum Noun: LocalizationKey {
     case tagName       = "Noun.TagName"
     case addChoice     = "Noun.AddChoice"
     case addTag        = "Noun.AddTag"
-    case editTag       = "Noun.EditTag"
+    case editTags      = "Noun.EditTags"
     case addWebsite    = "Noun.AddWebsite"
     case editWebsite   = "Noun.EditWebsite"
     case tagApply      = "Noun.ApplyTags"

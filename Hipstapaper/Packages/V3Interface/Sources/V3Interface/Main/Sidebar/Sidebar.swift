@@ -36,7 +36,7 @@ internal struct Sidebar: View {
     @TagUserListQuery private var tagsUser
     @TagSystemListQuery private var tagsSystem
     @V3Localize.Sidebar private var text
-            
+                
     internal var body: some View {
         NavigationStack {
             List(selection: self.$nav.sidebar.selectedTag) {
@@ -49,11 +49,15 @@ internal struct Sidebar: View {
                     }
                 }
                 Section(self.text.sectionTitleTagsUser) {
-                    ForEach(self.tagsUser) { item in
-                        NavigationLink(value: item.id) {
-                            SidebarUserRow(item.id)
-                                .tag(item.id)
+                    self.tagsUser.view {
+                        ForEach($0) { item in
+                            NavigationLink(value: item.id) {
+                                SidebarUserRow(item.id)
+                                    .tag(item.id)
+                            }
                         }
+                    } backup: {
+                        Text(self.text.emptyState)
                     }
                 }
             }

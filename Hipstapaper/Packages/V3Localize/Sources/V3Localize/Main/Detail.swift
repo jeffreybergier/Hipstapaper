@@ -34,6 +34,7 @@ public struct Detail: DynamicProperty {
         public var titleUnread:        LocalizedString
         public var titleAll:           LocalizedString
         public var tagUntitled:        LocalizedString
+        public var search:             LocalizedString
         public var noSelection:        LocalizedString
         public var columnImage:        LocalizedString
         public var columnTitle:        LocalizedString
@@ -43,11 +44,13 @@ public struct Detail: DynamicProperty {
         public var missingTitle:       LocalizedString
         public var missingURL:         LocalizedString
         public var missingDate:        LocalizedString
+        public var emptyState:         LocalizedString
         
         internal init(_ b: LocalizeBundle) {
             self.titleUnread        = b.localized(key: Noun.unreadItems.rawValue)
             self.titleAll           = b.localized(key: Noun.allItems.rawValue)
             self.tagUntitled        = b.localized(key: Noun.untitled.rawValue)
+            self.search             = b.localized(key: Verb.search.rawValue)
             self.noSelection        = b.localized(key: Phrase.noSelection.rawValue)
             self.columnImage        = b.localized(key: Noun.websiteTitle.rawValue)
             self.columnTitle        = b.localized(key: Noun.title.rawValue)
@@ -57,6 +60,7 @@ public struct Detail: DynamicProperty {
             self.missingTitle       = b.localized(key: Noun.dash.rawValue)
             self.missingURL         = b.localized(key: Noun.dash.rawValue)
             self.missingDate        = b.localized(key: Noun.dash.rawValue)
+            self.emptyState         = b.localized(key: Phrase.noWebsites.rawValue)
         }
     }
     

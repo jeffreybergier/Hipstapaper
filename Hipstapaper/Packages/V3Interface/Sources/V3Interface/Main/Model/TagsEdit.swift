@@ -46,15 +46,14 @@ internal struct TagsEdit: View {
     internal var body: some View {
         NavigationStack {
             Form {
-                if self.data.isEmpty {
-                    // Show dummy field while core data loads
-                    TextField(self.text.placeholderName,
-                              text: Binding.constant(""))
-                } else {
-                    ForEach(self.$data) { item in
+                self.$data.view {
+                    ForEach($0) { item in
                         TextField(self.text.placeholderName,
                                   text: item.name.compactMap())
                     }
+                } backup: {
+                    TextField(self.text.placeholderName,
+                              text: Binding.constant(""))
                 }
             }
             .modifier(self.toolbar)
