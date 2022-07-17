@@ -44,19 +44,71 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
     internal var body: some View {
         Table(self.data,
               selection: self.$nav.detail.selectedWebsites,
-              sortOrder: self.$query.sort.map(get: { [$0] }, set: { $0.first ?? .default }))
+              sortOrder: self.$query.sort.mapTable)
         {
-            TableColumn("Title", sortUsing: .titleA) { item in
+            TableColumn("Title", sortUsing: title) { item in
                 JSBText("Untited", text: item.title)
             }
             TableColumn("URL") { item in
                 JSBText("No URL", text: item.preferredURL?.absoluteString)
             }
-            TableColumn("Date Added", sortUsing: .dateCreatedNewest) { item in
+            TableColumn("Date Added", sortUsing: dateCreated) { item in
                 JSBText("No Date", text: "\(item.dateCreated ?? Date(timeIntervalSince1970: 0))")
             }
-            TableColumn("Date Modified", sortUsing: .dateModifiedNewest) { item in
+            TableColumn("Date Modified", sortUsing: dateModified) { item in
                 JSBText("No Date", text: "\(item.dateModified ?? Date(timeIntervalSince1970: 0))")
+            }
+        }
+    }
+}
+
+fileprivate let title        = KeyPathComparator(\Website.title)
+fileprivate let dateCreated  = KeyPathComparator(\Website.dateCreated)
+fileprivate let dateModified = KeyPathComparator(\Website.dateModified)
+
+extension Binding where Value == Sort {
+    fileprivate var mapTable: Binding<[KeyPathComparator<Website>]> {
+        self.map { value in
+            switch value {
+            case .dateCreatedNewest:
+                return [.init(\.dateCreated, order: .reverse)]
+            case .dateCreatedOldest:
+                return [.init(\.dateCreated, order: .forward)]
+            case .dateModifiedNewest:
+                return [.init(\.dateModified, order: .reverse)]
+            case .dateModifiedOldest:
+                return [.init(\.dateModified, order: .forward)]
+            case .titleA:
+                return [.init(\.title, order: .reverse)]
+            case .titleZ:
+                return [.init(\.title, order: .forward)]
+            }
+        } set: {
+            guard let newValue = $0.first else { return .default }
+            switch newValue.keyPath {
+            case \.title:
+                switch newValue.order {
+                case .reverse:
+                    return .titleA
+                case .forward:
+                    return .titleZ
+                }
+            case \.dateCreated:
+                switch newValue.order {
+                case .reverse:
+                    return .dateCreatedNewest
+                case .forward:
+                    return .dateCreatedOldest
+                }
+            case \.dateModified:
+                switch newValue.order {
+                case .reverse:
+                    return .dateModifiedNewest
+                case .forward:
+                    return .dateModifiedOldest
+                }
+            default:
+                return .default
             }
         }
     }

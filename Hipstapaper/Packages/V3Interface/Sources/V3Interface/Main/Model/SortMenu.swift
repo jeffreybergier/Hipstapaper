@@ -42,27 +42,27 @@ internal struct SortMenu: View {
                 case .dateModifiedOldest:
                     self.style.sortDateModifiedOldest
                         .label(self.text.sortDateModifiedOldest)
-                        .tag([sort])
+                        .tag(sort)
                 case .dateModifiedNewest:
                     self.style.sortDateModifiedNewest
                         .label(self.text.sortDateModifiedNewest)
-                        .tag([sort])
+                        .tag(sort)
                 case .dateCreatedOldest:
                     self.style.sortDateCreatedOldest
                         .label(self.text.sortDateCreatedOldest)
-                        .tag([sort])
+                        .tag(sort)
                 case .dateCreatedNewest:
                     self.style.sortDateCreatedNewest
                         .label(self.text.sortDateCreatedNewest)
-                        .tag([sort])
+                        .tag(sort)
                 case .titleZ:
                     self.style.sortTitleZ
                         .label(self.text.sortTitleZ)
-                        .tag([sort])
+                        .tag(sort)
                 case .titleA:
                     self.style.sortTitleA
                         .label(self.text.sortTitleA)
-                        .tag([sort])
+                        .tag(sort)
                 }
             }
         } label: {
