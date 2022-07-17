@@ -27,12 +27,11 @@
 import SwiftUI
 import Umbrella
 import V3Model
+import V3Localize
 
 // TODO: Remove C if `any RandomAccessCollection<Website>` ever works
 internal struct DetailList<C: RandomAccessCollection>: View where C.Element == Website {
-    
-    // TODO: Localize
-    
+
     @Nav private var nav
     private let data: C
     
@@ -53,6 +52,8 @@ import V3Store
 internal struct WebsiteListRow: View {
     
     @WebsiteQuery private var item
+    @V3Localize.Detail private var text
+
     private let id: Website.Selection.Element
     
     internal init(_ id: Website.Selection.Element) {
@@ -62,8 +63,8 @@ internal struct WebsiteListRow: View {
     internal var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                JSBText("Untitled", text: self.item?.title)
-                JSBText("No Date", text: self.item?.dateCreated?.description)
+                JSBText(self.text.missingTitle, text: self.item?.title)
+                JSBText(self.text.missingDate, text: _text.dateString(self.item?.dateCreated))
             }
             Spacer()
             Image(systemName: "photo.circle")

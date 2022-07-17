@@ -64,7 +64,6 @@ internal struct EmptyState: View {
     @V3Localize.WebsiteEdit private var text
     
     internal var body: some View {
-        // TODO: Localize
         self.style.empty.label(self.text.empty)
     }
 }
