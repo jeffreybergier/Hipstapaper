@@ -27,36 +27,33 @@
 import SwiftUI
 import V3Store
 import V3Model
+import V3Localize
 
 extension ViewModifier where Self == DetailTitle {
     internal static var detailTitle: Self { Self.init() }
 }
 
 internal struct DetailTitle: ViewModifier {
-    
-    // TODO: Localize
 
     @Nav private var nav
     @Query private var query
     @TagUserQuery private var item: Tag?
-    
-    private var repairedBinding: Binding<String> {
-        return Binding<String> {
-            self.item?.name ?? "Untitled Tag"
-        } set: {
-            self.item?.name = $0
-        }
-    }
+    @V3Localize.Detail private var text
     
     internal func body(content: Content) -> some View {
         Group {
             switch self.nav.sidebar.selectedTag?.kind ?? .user {
             case .systemUnread:
-                content.navigationTitle("Unread Items")
+                content.navigationTitle(self.text.titleUnread)
             case .systemAll:
-                content.navigationTitle("All Items")
+                content.navigationTitle(self.text.titleAll)
             case .user:
-                content.navigationTitle(self.repairedBinding) {
+                content.navigationTitle(
+                    self.$item?.name
+                        .compactMap(default: self.text.tagUntitled)
+                     ?? .constant(self.text.noSelection)
+                )
+                {
                     Text("// TODO: Add Delete Option")
                 }
             }

@@ -111,6 +111,12 @@
 "Noun.iCloud"        = "Sync Error";
 "Noun.DeleteTag"     = "Delete Tag(s)";
 "Noun.DeleteWebsite" = "Delete Website(s)";
+"Noun.Thumbnail"     = "Thumbnail";
+"Noun.Title"         = "Title";
+"Noun.URL"           = "URL";
+"Noun.DateCreated"   = "Date Added";
+"Noun.DateModified"  = "Date Modified";
+"Noun.Dash"          = "–";
 
 //
 //

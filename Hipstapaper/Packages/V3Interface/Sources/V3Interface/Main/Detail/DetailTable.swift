@@ -27,14 +27,15 @@
 import SwiftUI
 import Umbrella
 import V3Model
+import V3Localize
 
 // TODO: Remove C if `any RandomAccessCollection<Website>` ever works
 internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == Website {
-    
-    // TODO: Localize
-    
+
     @Nav private var nav
     @Query private var query
+    @V3Localize.Detail private var text
+    
     private let data: C
     
     internal init(_ data: C) {
@@ -46,17 +47,28 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
               selection: self.$nav.detail.selectedWebsites,
               sortOrder: self.$query.sort.mapTable)
         {
-            TableColumn("Title", sortUsing: title) { item in
-                JSBText("Untited", text: item.title)
+            TableColumn(self.text.columnTitle,
+                        sortUsing: title)
+            { item in
+                JSBText(self.text.missingTitle,
+                        text: item.title)
             }
-            TableColumn("URL") { item in
-                JSBText("No URL", text: item.preferredURL?.absoluteString)
+            TableColumn(self.text.columnURL)
+            { item in
+                JSBText(self.text.missingURL,
+                        text: item.preferredURL?.absoluteString)
             }
-            TableColumn("Date Added", sortUsing: dateCreated) { item in
-                JSBText("No Date", text: "\(item.dateCreated ?? Date(timeIntervalSince1970: 0))")
+            TableColumn(self.text.columnDateCreated,
+                        sortUsing: dateCreated)
+            { item in
+                JSBText(self.text.missingDate,
+                        text: _text.dateString(item.dateCreated))
             }
-            TableColumn("Date Modified", sortUsing: dateModified) { item in
-                JSBText("No Date", text: "\(item.dateModified ?? Date(timeIntervalSince1970: 0))")
+            TableColumn(self.text.columnDateModified,
+                        sortUsing: dateModified)
+            { item in
+                JSBText(self.text.missingDate,
+                        text: _text.dateString(item.dateModified))
             }
         }
     }

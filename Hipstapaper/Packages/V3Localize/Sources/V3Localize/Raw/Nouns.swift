@@ -56,4 +56,10 @@ internal enum Noun: LocalizationKey {
     case erroriCloud   = "Noun.iCloud"
     case deleteTag     = "Noun.DeleteTag"
     case deleteWebsite = "Noun.DeleteWebsite"
+    case thumbnail     = "Noun.Thumbnail"
+    case title         = "Noun.Title"
+    case url           = "Noun.URL"
+    case dateCreated   = "Noun.DateCreated"
+    case dateModified  = "Noun.DateModified"
+    case dash          = "Noun.Dash"
 }
