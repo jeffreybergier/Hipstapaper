@@ -29,10 +29,11 @@ import Umbrella
 import V3Model
 import V3Store
 import V3Errors
+import V3Localize
 
 internal struct TagsEdit: View {
     
-    // TODO: Localize
+    @V3Localize.TagsEdit private var text
     @TagUserListQuery(defaultListAll: false) private var data
     @Environment(\.dismiss) private var dismiss
     
@@ -47,10 +48,12 @@ internal struct TagsEdit: View {
             Form {
                 if self.data.isEmpty {
                     // Show dummy field while core data loads
-                    TextField("Tag Name", text: Binding.constant(""))
+                    TextField(self.text.placeholderName,
+                              text: Binding.constant(""))
                 } else {
                     ForEach(self.$data) { item in
-                        TextField("Tag Name", text: item.name.compactMap())
+                        TextField(self.text.placeholderName,
+                                  text: item.name.compactMap())
                     }
                 }
             }
@@ -63,8 +66,8 @@ internal struct TagsEdit: View {
     }
     
     private var toolbar: some ViewModifier {
-        JSBToolbar(title: "Edit Tag(s)",
-                   done: "Done")
+        JSBToolbar(title: self.text.title,
+                   done: self.text.toolbarDone)
         {
             self.dismiss()
         }
