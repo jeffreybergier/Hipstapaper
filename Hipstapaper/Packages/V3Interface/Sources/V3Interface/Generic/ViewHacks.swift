@@ -27,30 +27,6 @@
 import SwiftUI
 import Umbrella
 
-extension View {
-    public func popover<C: Collection & ExpressibleByArrayLiteral, V: View>(
-        items: Binding<C>,
-        @ViewBuilder content: @escaping (C) -> V
-    ) -> some View
-    {
-        return self.popover(isPresented: items.isPresented) {
-            content(items.wrappedValue)
-        }
-    }
-    
-    public func sheet<C: Collection & ExpressibleByArrayLiteral, V: View>(
-        items: Binding<C>,
-        @ViewBuilder content: @escaping (C) -> V,
-        onDismiss: (() -> Void)? = nil
-    )
-    -> some View
-    {
-        return self.sheet(isPresented: items.isPresented, onDismiss: onDismiss) {
-            content(items.wrappedValue)
-        }
-    }
-}
-
 /*
 // TODO: Use this one is sheet above causes double presentation issue
 public func sheet2<T: Identifiable, V: View>(items: Binding<Set<T>>,
