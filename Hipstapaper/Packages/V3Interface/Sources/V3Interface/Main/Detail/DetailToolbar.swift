@@ -49,69 +49,80 @@ internal struct DetailToolbar: ViewModifier {
                 _data.setSelection($0)
             }
             .toolbarRole(.editor)
-            .toolbar(id: "detailTop") {
-                ToolbarItem(id: "openInApp", placement: .primaryAction) {
+            .toolbar(id: .barTop) {
+                ToolbarItem(id: .itemOpenInApp, placement: .primaryAction) {
                     self.style.openInApp.button(self.text.openInApp,
                                                 enabled: self.data.openWebsite.single != nil)
                     {
                         self.nav.detail.isBrowse = self.data.openWebsite.single
                     }
                 }
-                ToolbarItem(id: "openExternal", placement: .secondaryAction) {
+                ToolbarItem(id: .itemOpenExternal, placement: .secondaryAction) {
                     self.style.openExternal.button(self.text.openExternal,
                                                    enabled: self.data.openURL.single != nil)
                     {
                         self.openExternal(self.data.openURL.single!)
                     }
                 }
-                ToolbarItem(id: "archiveYes", placement: .secondaryAction) {
+                ToolbarItem(id: .itemArchiveYes, placement: .secondaryAction) {
                     self.style.archiveYes.button(self.text.archiveYes, enabled: self.data.canArchiveYes) {
                         self._data.setArchive(true)
                         self.nav.detail.selectedWebsites = []
                     }
                 }
-                ToolbarItem(id: "archiveNo", placement: .secondaryAction) {
+                ToolbarItem(id: .itemArchiveNo, placement: .secondaryAction) {
                     self.style.archiveNo.button(self.text.archiveNo, enabled: self.data.canArchiveNo) {
                         self._data.setArchive(false)
                         self.nav.detail.selectedWebsites = []
                     }
                 }
-                ToolbarItem(id: "tagApply", placement: .secondaryAction) {
+                ToolbarItem(id: .itemTagApply, placement: .secondaryAction) {
                     self.style.tagApply.button(self.text.tagApply, enabled: !self.data.isEmpty) {
                         self.nav.detail.isTagApply = self.nav.detail.selectedWebsites
                     }
                     .modifier(TagApply.popover)
                 }
-                ToolbarItem(id: "share", placement: .secondaryAction) {
+                ToolbarItem(id: .itemShare, placement: .secondaryAction) {
                     self.style.share.button(self.text.share, enabled: !self.data.isEmpty) {
                         
                     }
                 }
             }
-            .toolbar(id: "detailBottom") {
-                ToolbarItem(id: "error", placement: .bottomSecondary) {
+            .toolbar(id: .barBottom) {
+                ToolbarItem(id: .itemError, placement: .bottomSecondary) {
                     if self.nav.errorQueue.isEmpty == false {
                         self.style.error.button(self.text.error) {
                             self.nav.detail.isErrorList.isPresented = true
                         }
-                        .modifier(self.errorList)
+                        .modifier(DetailErrorListPresentation())
                     }
                 }
-                ToolbarItem(id: "spacer", placement: .bottomSecondary) {
+                ToolbarItem(id: .itemSpacer, placement: .bottomSecondary) {
                     Spacer()
                 }
-                ToolbarItem(id: "sort", placement: .bottomSecondary) {
+                ToolbarItem(id: .itemSort, placement: .bottomSecondary) {
                     SortMenu()
                 }
-                ToolbarItem(id: "filter", placement: .bottomSecondary) {
+                ToolbarItem(id: .itemFilter, placement: .bottomSecondary) {
                     FilterMenu()
                 }
             }
     }
-    
-    private var errorList: some ViewModifier {
-        DetailErrorListPresentation()
-    }
+}
+
+extension String {
+    fileprivate static let barTop           = "barTop"
+    fileprivate static let itemOpenInApp    = "itemOpenInApp"
+    fileprivate static let itemOpenExternal = "itemOpenExternal"
+    fileprivate static let itemArchiveYes   = "itemArchiveYes"
+    fileprivate static let itemArchiveNo    = "itemArchiveNo"
+    fileprivate static let itemTagApply     = "itemTagApply"
+    fileprivate static let itemShare        = "itemShare"
+    fileprivate static let barBottom        = "barBottom"
+    fileprivate static let itemError        = "itemError"
+    fileprivate static let itemSpacer       = "itemSpacer"
+    fileprivate static let itemSort         = "itemSort"
+    fileprivate static let itemFilter       = "itemFilter"
 }
 
 extension ToolbarItemPlacement {
