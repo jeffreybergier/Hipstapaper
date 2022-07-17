@@ -41,10 +41,13 @@ internal struct FormMulti: View {
     
     internal var body: some View {
         Form {
-            ForEach(Array(self.selection)) { ident in
-                FormSection(ident)
+            self.selection.map({ $0 }).view {
+                ForEach($0) { ident in
+                    FormSection(ident)
+                }
+            } onEmpty: {
+                EmptyState()
             }
-            .modifier(EmptyMod(self.selection.isEmpty))
         }
     }
 }
@@ -62,7 +65,7 @@ fileprivate struct FormSection: View {
     }
     
     internal var body: some View {
-        EmptyView(value: self.$item) { item in
+        self.$item.view { item in
             Section {
                 TextField(self.text.websiteTitle, text: item.title.compactMap())
                 TextField(self.text.originalURL, text: item.originalURL.mapString())
@@ -81,6 +84,8 @@ fileprivate struct FormSection: View {
             } header: {
                 JSBText(self.text.untitled, text: item.title.wrappedValue)
             }
+        } onNIL: {
+            EmptyState()
         }
         .onLoadChange(of: self.identifier) {
             _item.setIdentifier($0)

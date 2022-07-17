@@ -28,36 +28,6 @@ import SwiftUI
 import V3Localize
 import V3Style
 
-internal struct EmptyMod: ViewModifier {
-    private let isEmpty: Bool
-    internal init(_ isEmpty: Bool) {
-        self.isEmpty = isEmpty
-    }
-    @ViewBuilder internal func body(content: Content) -> some View {
-        if self.isEmpty {
-            EmptyState()
-        } else {
-            content
-        }
-    }
-}
-
-internal struct EmptyView<T, V: View>: View {
-    private let content: (T) -> V
-    private let value: T?
-    internal init(value: T?, @ViewBuilder content: @escaping (T) -> V) {
-        self.content = content
-        self.value = value
-    }
-    internal var body: some View {
-        if let value {
-            self.content(value)
-        } else {
-            EmptyState()
-        }
-    }
-}
-
 internal struct EmptyState: View {
     
     @V3Style.WebsiteEdit private var style
