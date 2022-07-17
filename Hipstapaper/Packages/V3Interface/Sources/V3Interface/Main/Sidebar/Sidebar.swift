@@ -56,7 +56,7 @@ internal struct Sidebar: View {
                                     .tag(item.id)
                             }
                         }
-                    } backup: {
+                    } onEmpty: {
                         Text(self.text.emptyState)
                     }
                 }

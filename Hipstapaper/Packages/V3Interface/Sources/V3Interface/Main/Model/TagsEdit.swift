@@ -51,7 +51,7 @@ internal struct TagsEdit: View {
                         TextField(self.text.placeholderName,
                                   text: item.name.compactMap())
                     }
-                } backup: {
+                } onEmpty: {
                     TextField(self.text.placeholderName,
                               text: Binding.constant(""))
                 }

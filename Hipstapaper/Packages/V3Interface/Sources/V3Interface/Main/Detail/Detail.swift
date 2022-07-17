@@ -49,7 +49,7 @@ internal struct Detail: View {
                 case .compact:
                     DetailList($0)
                 }
-            } backup: {
+            } onEmpty: {
                 Text(self.text.emptyState)
             }
             .searchable(text: self.$query.search,
