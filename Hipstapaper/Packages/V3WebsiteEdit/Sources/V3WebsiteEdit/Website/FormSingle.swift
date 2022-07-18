@@ -117,7 +117,9 @@ internal struct FormSingle: View {
                 self.nav.shouldStop = true
             }
         } else {
-            self.style.autofill.button(self.text.autofill) {
+            self.style.autofill.button(self.text.autofill,
+                                       enabled: self.item?.preferredURL != nil)
+            {
                 self.nav.shouldLoadURL = self.item?.originalURL
             }
         }
