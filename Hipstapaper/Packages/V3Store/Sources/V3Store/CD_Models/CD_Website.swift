@@ -43,7 +43,6 @@ import V3Model
         }
 
         // Validate Thumbnail Size
-        // TODO: Centralize max thumbnail size
         if let thumb = self.cd_thumbnail, thumb.count > Website.maxSize {
             self.cd_thumbnail = nil
         }
