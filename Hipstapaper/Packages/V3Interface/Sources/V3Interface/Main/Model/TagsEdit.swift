@@ -94,7 +94,3 @@ internal struct TagsEditPresentation: ViewModifier {
         }
     }
 }
-
-extension ViewModifier where Self == TagsEditPresentation {
-    internal static func tagsEditPopover(_ identifiers: Binding<Tag.Selection>) -> Self { Self.init(identifiers) }
-}

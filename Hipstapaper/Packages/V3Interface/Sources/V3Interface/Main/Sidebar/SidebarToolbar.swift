@@ -40,17 +40,19 @@ internal struct SidebarToolbar: ViewModifier {
     @V3Style.Sidebar private var style
     @V3Localize.Sidebar private var text
     
+    @Environment(\.codableErrorResponder) private var errorResponder
+    
     internal func body(content: Content) -> some View {
         content.toolbar {
-            ToolbarItem(id: "sidebar.tag.add", placement: .primaryAction) {
+            ToolbarItem(id: .sidebarToolbarMultiAdd, placement: .primaryAction) {
                 Menu {
                     self.style.toolbarTagAdd.button(self.text.toolbarAddTag) {
                         switch self.controller.createTag() {
                         case .success(let identifier):
                             self.nav.sidebar.isTagsEdit.editing = [identifier]
                         case .failure(let error):
-                            // TODO: Catch error
-                            assertionFailure(String(describing: error))
+                            NSLog(String(describing: error))
+                            self.errorResponder(.init(error as NSError))
                         }
                     }
                     self.style.toolbarWebsiteAdd.button(self.text.toolbarAddWebsite) {
@@ -58,35 +60,19 @@ internal struct SidebarToolbar: ViewModifier {
                         case .success(let identifier):
                             self.nav.sidebar.isWebsiteAdd.editing = [identifier]
                         case .failure(let error):
-                            // TODO: Catch error
-                            assertionFailure(String(describing: error))
+                            NSLog(String(describing: error))
+                            self.errorResponder(.init(error as NSError))
                         }
                     }
                 } label: {
                     self.style.toolbarAdd.label(self.text.toolbarAddGeneric)
                 }
-                .modifier(TagsEditPresentation.tagsEditPopover(self.$nav.sidebar.isTagsEdit.editing))
+                .modifier(TagsEditPresentation(self.$nav.sidebar.isTagsEdit.editing))
             }
         }
     }
 }
 
-// TODO: Change to this
-/*
-ToolbarItemGroup(placement: .primaryAction) {
-    self.style.toolbarTagAdd.button(self.text.toolbarAddTag) {
-        // TODO: Add tag to CD here
-        self.nav.sidebarNav.tagAdd = .init(rawValue: "coredata://testing123")
-    }
-    self.style.toolbarWebsiteAdd.button(self.text.toolbarAddWebsite) {
-        self.nav.sidebarNav.websiteAdd = .init(rawValue: "coredata://testing123")
-    }
-    .modifier(.tagAddPopover(self.$nav.sidebarNav.tagAdd))
-    .popover(item: self.$nav.sidebarNav.websiteAdd) { id in
-        // TODO: Add website screen
-        Text("Add a website")
-    }
-} label: {
-    self.style.toolbarAdd.label(self.text.toolbarAddGeneric)
+extension String {
+    fileprivate static let sidebarToolbarMultiAdd = "sidebarToolbarMultiAdd"
 }
-*/
