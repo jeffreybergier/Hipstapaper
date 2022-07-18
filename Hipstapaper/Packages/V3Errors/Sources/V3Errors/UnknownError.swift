@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/03/13.
+//  Created by Jeffrey Bergier on 2022/06/29.
 //
 //  MIT License
 //
@@ -25,5 +25,21 @@
 //
 
 import Umbrella
+import V3Localize
 
-// public typealias ErrorPresentation = UserFacingErrorAlert<LocalizeBundle>
+internal struct UnknownError: UserFacingError {
+    internal var title: Umbrella.LocalizationKey        = Noun.error.rawValue
+    internal var message: Umbrella.LocalizationKey      = Phrase.errorUnknown.rawValue
+    internal var dismissTitle: Umbrella.LocalizationKey = Verb.dismiss.rawValue
+    internal var isCritical: Bool { false }
+    internal var options: [Umbrella.RecoveryOption]     = []
+    
+    internal init(_ error: CodableError) {
+        self.errorCode = error.errorCode
+        self.errorDomain = error.errorDomain
+    }
+    
+    internal static var errorDomain: String { "com.saturdayapps.Hipstapaper.Unknown" }
+    internal var errorDomain: String
+    internal var errorCode: Int
+}

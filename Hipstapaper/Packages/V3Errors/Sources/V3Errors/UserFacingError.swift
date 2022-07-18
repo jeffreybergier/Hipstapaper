@@ -24,14 +24,41 @@
 //  SOFTWARE.
 //
 
+import Foundation
 import Umbrella
-import V3Localize
+import V3Model
 
 extension CodableError {
-    public var userFacingError: UserFacingError {
-        switch self.errorDomain {
-        default:
-            return ErrorUnknown(self)
-        }
+    internal func userFacingError(onConfirm: OnConfirmation? = nil) -> UserFacingError {
+        let `switch`: UserFacingError? = {
+            switch self.errorDomain {
+            case DeleteTagError.errorDomain:
+                return DeleteTagError(self, onConfirm: onConfirm)
+            default:
+                return nil
+            }
+        }()
+        return `switch` ?? UnknownError(self)
+    }
+}
+
+// MARK: DeleteTagError
+
+extension DeleteTagError {
+    internal init?(_ error: CodableError, onConfirm: OnConfirmation?) {
+        guard
+            error.errorDomain == DeleteTagError.errorDomain,
+            error.errorCode == self.errorCode,
+            let data = error.arbitraryData,
+            let array = try? PropertyListDecoder().decode(Tag.Selection.self, from: data)
+        else { return nil }
+        self.identifiers = array
+        self.onConfirm = onConfirm
+    }
+    
+    public var codableValue: CodableError {
+        var error = CodableError(self as NSError)
+        error.arbitraryData = try? PropertyListEncoder().encode(self.identifiers)
+        return error
     }
 }

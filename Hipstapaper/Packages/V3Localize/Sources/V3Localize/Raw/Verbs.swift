@@ -27,7 +27,7 @@
 import SwiftUI
 import Umbrella
 
-internal enum Verb: LocalizationKey {
+public enum Verb: LocalizationKey {
     case save                   = "Verb.Save"
     case done                   = "Verb.Done"
     case cancel                 = "Verb.Cancel"

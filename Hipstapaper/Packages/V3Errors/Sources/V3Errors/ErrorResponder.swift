@@ -26,6 +26,7 @@
 
 import SwiftUI
 import Umbrella
+import V3Store
 import V3Localize
 
 public protocol ErrorPresentable {
@@ -37,6 +38,7 @@ public struct ErrorResponder<V: View, EP: ErrorPresentable, EC: RangeReplaceable
     
     @Binding private var errorStorage: EC
     @Binding private var errorPresentable: EP
+    @Controller private var controller
     
     private let content: () -> V
     
@@ -72,7 +74,10 @@ public struct ErrorResponder<V: View, EP: ErrorPresentable, EC: RangeReplaceable
     
     private var alert: some ViewModifier {
         UserFacingErrorAlert<LocalizeBundle, CodableError>(self.$errorPresentable.isError) {
-            $0.userFacingError
+            $0.userFacingError {
+                guard let error = perform(confirmation: $0, controller: self.controller) else { return }
+                self.errorStorage.append(error)
+            }
         }
     }
 }

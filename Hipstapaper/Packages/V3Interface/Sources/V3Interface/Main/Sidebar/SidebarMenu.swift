@@ -28,12 +28,15 @@ import SwiftUI
 import V3Model
 import V3Localize
 import V3Style
+import V3Errors
 
 internal struct SidebarMenu: ViewModifier {
     
     @Nav private var nav
     @V3Style.Sidebar private var style
     @V3Localize.Sidebar private var text
+    
+    @Environment(\.codableErrorResponder) private var errorResponder
     
     internal func body(content: Content) -> some View {
         content.contextMenu(forSelectionType: Tag.Selection.Element.self) { items in
@@ -42,7 +45,7 @@ internal struct SidebarMenu: ViewModifier {
                     self.nav.sidebar.isTagsEdit.editing = items
                 }
                 self.style.menuTagDelete.button(self.text.menuDeleteTags, role: .destructive) {
-                    // TODO: Hook up deletions
+                    self.errorResponder(DeleteTagError(items).codableValue)
                 }
             } else {
                 EmptyView()

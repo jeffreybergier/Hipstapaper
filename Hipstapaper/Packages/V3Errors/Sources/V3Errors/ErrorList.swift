@@ -37,6 +37,7 @@ public struct ErrorList<Nav: ErrorPresentable,
     
     @Binding private var nav: Nav
     @Binding private var errorQueue: ES
+    @Controller private var controller
     @V3Localize.ErrorList private var text
     @Environment(\.dismiss) private var dismiss
     
@@ -77,7 +78,10 @@ public struct ErrorList<Nav: ErrorPresentable,
             guard let index = self.errorQueue.firstIndex(where: { $0.id == error.id }) else { return }
             self.errorQueue.remove(at: index)
         } transform: {
-            $0.userFacingError
+            $0.userFacingError {
+                guard let error = perform(confirmation: $0, controller: self.controller) else { return }
+                self.errorQueue.append(error)
+            }
         }
     }
 }
@@ -89,7 +93,7 @@ internal struct ErrorListRow: View {
     private let error: UserFacingError
     
     internal init(_ error: CodableError) {
-        self.error = error.userFacingError
+        self.error = error.userFacingError()
     }
     
     // TODO: Improve appearance

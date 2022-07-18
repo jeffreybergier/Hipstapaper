@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/29.
+//  Created by Jeffrey Bergier on 2022/07/18.
 //
 //  MIT License
 //
@@ -24,21 +24,32 @@
 //  SOFTWARE.
 //
 
+import Foundation
 import Umbrella
+import V3Model
+import V3Localize
 
-public struct ErrorUnknown: UserFacingError {
-    public var title: Umbrella.LocalizationKey        = Noun.error.rawValue
-    public var message: Umbrella.LocalizationKey      = Phrase.errorUnknown.rawValue
-    public var dismissTitle: Umbrella.LocalizationKey = Verb.dismiss.rawValue
-    public var isCritical: Bool { false }
-    public var options: [Umbrella.RecoveryOption]     = []
+public struct DeleteTagError: UserFacingError, CustomNSError {
     
-    public init(_ error: CodableError) {
-        self.errorCode = error.errorCode
-        self.errorDomain = error.errorDomain
+    public var identifiers: Tag.Selection = []
+    internal var onConfirm: OnConfirmation?
+    
+    public init(_ identifiers: Tag.Selection) {
+        self.identifiers = identifiers
     }
-    
-    public static var errorDomain: String { "com.saturdayapps.Hipstapaper.Unknown" }
-    public var errorDomain: String
-    public var errorCode: Int
+        
+    // MARK: Protocol conformance
+    public static var errorDomain: String = "com.saturdayapps.Hipstapaper.Delete.Tag"
+    public var errorCode: Int = 1001
+    public var title: Umbrella.LocalizationKey = Noun.deleteTag.rawValue
+    public var message: Umbrella.LocalizationKey = Phrase.deleteTagConfirm.rawValue
+    public var dismissTitle: Umbrella.LocalizationKey = Verb.dismiss.rawValue
+    public var isCritical: Bool = false
+    public var options: [Umbrella.RecoveryOption] {
+        return [
+            .init(title: Verb.deleteTag.rawValue, isDestructive: true) {
+                self.onConfirm?(.deleteTags(self.identifiers))
+            }
+        ]
+    }
 }
