@@ -36,7 +36,7 @@ public struct Detail: DynamicProperty {
         public var tagUntitled:        LocalizedString
         public var search:             LocalizedString
         public var noSelection:        LocalizedString
-        public var columnImage:        LocalizedString
+        public var columnThumbnail:    LocalizedString
         public var columnTitle:        LocalizedString
         public var columnURL:          LocalizedString
         public var columnDateCreated:  LocalizedString
@@ -52,7 +52,7 @@ public struct Detail: DynamicProperty {
             self.tagUntitled        = b.localized(key: Noun.untitled.rawValue)
             self.search             = b.localized(key: Verb.search.rawValue)
             self.noSelection        = b.localized(key: Phrase.noSelection.rawValue)
-            self.columnImage        = b.localized(key: Noun.websiteTitle.rawValue)
+            self.columnThumbnail    = b.localized(key: Noun.thumbnail.rawValue)
             self.columnTitle        = b.localized(key: Noun.title.rawValue)
             self.columnURL          = b.localized(key: Noun.url.rawValue)
             self.columnDateCreated  = b.localized(key: Noun.dateCreated.rawValue)

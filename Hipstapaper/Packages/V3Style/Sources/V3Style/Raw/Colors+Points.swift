@@ -27,7 +27,8 @@
 import SwiftUI
 
 extension CGFloat {
-    internal static let cornerRadius: CGFloat = 8
+    internal static let cornerRadiusMedium: CGFloat = 8
+    internal static let cornerRadiusSmall: CGFloat = 4
 }
 
 extension Color {

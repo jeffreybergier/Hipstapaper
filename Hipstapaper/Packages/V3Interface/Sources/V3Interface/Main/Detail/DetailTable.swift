@@ -28,12 +28,14 @@ import SwiftUI
 import Umbrella
 import V3Model
 import V3Localize
+import V3Style
 
 // TODO: Remove C if `any RandomAccessCollection<Website>` ever works
 internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == Website {
 
     @Nav private var nav
     @Query private var query
+    @V3Style.Detail private var style
     @V3Localize.Detail private var text
     
     private let data: C
@@ -47,6 +49,10 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
               selection: self.$nav.detail.selectedWebsites,
               sortOrder: self.$query.sort.mapTable)
         {
+            TableColumn(self.text.columnThumbnail)
+            { item in
+                self.style.thumbnail(item.thumbnail)
+            }
             TableColumn(self.text.columnTitle,
                         sortUsing: title)
             { item in

@@ -28,6 +28,7 @@ import SwiftUI
 import Umbrella
 import V3Model
 import V3Localize
+import V3Style
 
 // TODO: Remove C if `any RandomAccessCollection<Website>` ever works
 internal struct DetailList<C: RandomAccessCollection>: View where C.Element == Website {
@@ -52,6 +53,7 @@ import V3Store
 internal struct WebsiteListRow: View {
     
     @WebsiteQuery private var item
+    @V3Style.Detail private var style
     @V3Localize.Detail private var text
 
     private let id: Website.Selection.Element
@@ -67,7 +69,7 @@ internal struct WebsiteListRow: View {
                 JSBText(self.text.missingDate, text: _text.dateString(self.item?.dateCreated))
             }
             Spacer()
-            Image(systemName: "photo.circle")
+            self.style.thumbnail(self.item?.thumbnail)
         }
         .onLoadChange(of: self.id) {
             _item.setIdentifier($0)

@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/07/01.
+//  Created by Jeffrey Bergier on 2022/07/19.
 //
 //  MIT License
 //
@@ -27,31 +27,14 @@
 import SwiftUI
 
 @propertyWrapper
-public struct WebsiteEdit: DynamicProperty {
+public struct Detail: DynamicProperty {
     
     public init() {}
     
     public struct Value {
-        public var stop            = Action.browseStop
-        public var jsYes           = Action.javascriptYes
-        public var jsNo            = Action.javascriptNo
-        public var autofill        = Action.autofill
-        public var deleteThumbnail = Action.deleteThumbnail
-        public var deleteWebsite   = Action.genericDelete
-        public var done            = Action.genericDone
-        public var empty           = Action.noContent
-        public var tabWebsite      = Action.websiteGeneric
-        public var tabTag          = Action.tagGeneric
-        public var error           = Action.errorPresent
-        
-        public func thumbnailSingle(_ data: Data?, @ViewBuilder background: @escaping () -> some View) -> some View {
-            WebThumbnailImage(data, web: background)
-                .frame(width: 320, height: 320) // TODO: Replace with constants
-                .cornerRadius(.cornerRadiusMedium)
-        }
-        public func thumbnailMulti(_ data: Data?) -> some View {
+        public func thumbnail(_ data: Data?) -> some View {
             ThumbnailImage(data)
-                .frame(width: 128, height: 128) // TODO: Replace with constants
+                .frame(width: 64, height: 64) // TODO: Replace with constants
                 .cornerRadius(.cornerRadiusSmall)
         }
     }

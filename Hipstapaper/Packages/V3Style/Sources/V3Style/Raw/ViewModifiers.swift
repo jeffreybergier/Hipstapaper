@@ -33,21 +33,32 @@ internal struct FontMonospacedDigit: ViewModifier {
     }
 }
 
-internal struct Thumbnail: ViewModifier {
-    
+internal struct ThumbnailImage: View {
     @Environment(\.colorScheme) private var scheme
-    
-    internal func body(content: Content) -> some View {
+    private let data: Data?
+    internal init(_ data: Data?) {
+        self.data = data
+    }
+    internal var body: some View {
         ZStack {
             Color.lightGray(self.scheme)
             Image(systemName: SystemImage.photo.rawValue)
-            content
+            Image(data: self.data)?.resizable()
         }
     }
 }
 
-internal struct CornerRadius: ViewModifier {
-    func body(content: Content) -> some View {
-        content.cornerRadius(.cornerRadius)
+internal struct WebThumbnailImage<Background: View>: View {
+    private let data: Data?
+    private let web: () -> Background
+    internal init(_ data: Data?, web: @escaping () -> Background) {
+        self.data = data
+        self.web = web
+    }
+    internal var body: some View {
+        ZStack {
+            self.web()
+            ThumbnailImage(self.data)
+        }
     }
 }

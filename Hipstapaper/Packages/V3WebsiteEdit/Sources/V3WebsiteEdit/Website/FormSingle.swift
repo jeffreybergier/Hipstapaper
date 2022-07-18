@@ -106,20 +106,8 @@ internal struct FormSingle: View {
     }
     
     private var rowWebSnapshot: some View {
-        ZStack {
-            Web() // TODO: Fix some pixel yucky in dark mode around edges
-            _thumbnailImage
-                .modifier(self.style.placeholder)
-        }
-        .modifier(self.style.thumbnail)
-        .frame(width: 320, height: 320)
-    }
-    
-    @ViewBuilder private var _thumbnailImage: some View {
-        if let image = Image(data: self.item?.thumbnail) {
-            image.resizable()
-        } else {
-            SwiftUI.EmptyView()
+        self.style.thumbnailSingle(self.item?.thumbnail) {
+            Web()
         }
     }
     

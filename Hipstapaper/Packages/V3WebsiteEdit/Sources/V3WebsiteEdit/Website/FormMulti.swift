@@ -76,10 +76,7 @@ fileprivate struct FormSection: View {
                     self.style.deleteThumbnail.button(self.text.deleteThumbnail) {
                         item.thumbnail.wrappedValue = nil
                     }
-                    Image(data: thumbnail)?
-                        .resizable()
-                        .modifier(self.style.thumbnail)
-                        .frame(width: 128, height: 128)
+                    self.style.thumbnailMulti(thumbnail)
                 }
             } header: {
                 JSBText(self.text.untitled, text: item.title.wrappedValue)

@@ -37,7 +37,7 @@ public struct DetailToolbar: DynamicProperty {
         public var archiveYes   = Action.archiveYes
         public var archiveNo    = Action.archiveNo
         public var share        = Action.share
-        public var tagApply    = Action.tagApply
+        public var tagApply     = Action.tagApply
         public var edit         = Action.edit
         public var delete       = Action.genericDelete
         public var error        = Action.errorPresent
