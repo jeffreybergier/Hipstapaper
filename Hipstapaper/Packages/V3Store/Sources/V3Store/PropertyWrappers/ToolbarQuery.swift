@@ -59,10 +59,12 @@ public struct ToolbarQuery: DynamicProperty {
     }
 
     public func setArchive(_ newValue: Bool) {
-        if let error = _controller.cd.setArchive(newValue, on: self.selection).error {
-            NSLog(String(describing: error))
-            self.errorResponder(.init(error as NSError))
-        }
+        let result = type(of: self).setArchive(newValue,
+                                               self.selection,
+                                               self.controller)
+        guard let error = result.error else { return }
+        NSLog(String(describing: error))
+        self.errorResponder(.init(error as NSError))
     }
     
     public func setSelection(_ newValue: Website.Selection) {
@@ -71,11 +73,35 @@ public struct ToolbarQuery: DynamicProperty {
     }
     
     private func recalculate() {
-        let cd = _controller.cd
+        let controller = self.controller
         let selection = self.selection
-        self.canArchiveYes = cd.canArchiveYes(selection)
-        self.canArchiveNo  = cd.canArchiveNo(selection)
-        self.openURL       = cd.openURL(selection)
-        self.openWebsite   = cd.openURL(selection)
+        self.canArchiveYes = type(of: self).canArchiveYes(selection, controller)
+        self.canArchiveNo  = type(of: self).canArchiveNo(selection, controller)
+        self.openURL       = type(of: self).openURL(selection, controller)
+        self.openWebsite   = type(of: self).openWebsite(selection, controller)
+    }
+}
+
+extension ToolbarQuery {
+    // Workaround so this can be used from Menu
+    public static func canArchiveYes(_ selection: Website.Selection, _ controller: ControllerProtocol) -> Bool {
+        return (controller as? CD_Controller)?.canArchiveYes(selection) ?? false
+    }
+    public static func canArchiveNo(_ selection: Website.Selection, _ controller: ControllerProtocol) -> Bool {
+        return (controller as? CD_Controller)?.canArchiveNo(selection) ?? false
+    }
+    public static func openURL(_ selection: Website.Selection, _ controller: ControllerProtocol) -> SingleMulti<URL> {
+        return (controller as? CD_Controller)?.openURL(selection) ?? .none
+    }
+    public static func openWebsite(_ selection: Website.Selection, _ controller: ControllerProtocol) -> SingleMulti<Website.Selection.Element> {
+        return (controller as? CD_Controller)?.openURL(selection) ?? .none
+    }
+    public static func setArchive(_ newValue: Bool,
+                                  _ selection: Website.Selection,
+                                  _ controller: ControllerProtocol)
+                                  -> Result<Void, Error>
+    {
+        let controller = controller as! CD_Controller
+        return controller.setArchive(newValue, on: selection)
     }
 }

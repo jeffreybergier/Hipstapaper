@@ -26,6 +26,7 @@
 
 import SwiftUI
 import V3Model
+import V3Store
 import V3Style
 import V3Localize
 import V3Errors
@@ -37,34 +38,49 @@ extension ViewModifier where Self == DetailMenu {
 internal struct DetailMenu: ViewModifier {
 
     @Nav private var nav
+    @Controller private var controller
     @V3Style.DetailToolbar private var style
     @V3Localize.DetailToolbar private var text
     
+    @Environment(\.openURL) private var openURL
     @Environment(\.codableErrorResponder) private var errorResponder
-    
-    // TODO: Add Data Controller
-        
+
     internal func body(content: Content) -> some View {
         content
             .contextMenu(forSelectionType: Website.Selection.Element.self) { items in
-                Text("\(items.count) selected")
-                self.style.openInApp.button(self.text.openInApp,
-                                            enabled: items.count == 1)
+                self.style.openInApp.button(
+                    self.text.openInApp,
+                    enabled: ToolbarQuery.openWebsite(items, self.controller).single != nil
+                )
                 {
-                    self.nav.detail.isBrowse = items.first
+                    self.nav.detail.isBrowse = ToolbarQuery.openWebsite(items, self.controller).single
                 }
-                self.style.openExternal.button(self.text.openExternal) {
-                    
-                }
-                self.style.archiveYes.button(self.text.archiveYes,
-                                             enabled: false)
+                self.style.openExternal.button(
+                    self.text.openExternal,
+                    enabled: ToolbarQuery.openURL(items, self.controller).single != nil
+                )
                 {
-                    
+                    ToolbarQuery.openURL(items, self.controller).single.map { self.openURL($0) }
                 }
-                self.style.archiveNo.button(self.text.archiveNo,
-                                            enabled: false)
+                self.style.archiveYes.button(
+                    self.text.archiveYes,
+                    enabled: ToolbarQuery.canArchiveYes(items, self.controller)
+                )
                 {
-                    
+                    let result = ToolbarQuery.setArchive(true, items, self.controller)
+                    guard let error = result.error else { return }
+                    NSLog(String(describing: error))
+                    self.errorResponder(.init(error as NSError))
+                }
+                self.style.archiveNo.button(
+                    self.text.archiveNo,
+                    enabled: ToolbarQuery.canArchiveNo(items, self.controller)
+                )
+                {
+                    let result = ToolbarQuery.setArchive(false, items, self.controller)
+                    guard let error = result.error else { return }
+                    NSLog(String(describing: error))
+                    self.errorResponder(.init(error as NSError))
                 }
                 self.style.share.button(self.text.share) {
                     
@@ -75,7 +91,7 @@ internal struct DetailMenu: ViewModifier {
                 self.style.edit.button(self.text.edit) {
                     self.nav.detail.isWebsitesEdit.editing = items
                 }
-                self.style.delete.button(self.text.delete) {
+                self.style.delete.button(self.text.delete, role: .destructive) {
                     self.errorResponder(DeleteWebsiteError(items).codableValue)
                 }
             }
