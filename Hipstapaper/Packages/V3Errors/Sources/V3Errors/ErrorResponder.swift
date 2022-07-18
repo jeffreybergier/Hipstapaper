@@ -40,6 +40,8 @@ public struct ErrorResponder<V: View, EP: ErrorPresentable, EC: RangeReplaceable
     @Binding private var errorPresentable: EP
     @Controller private var controller
     
+    @Environment(\.codableErrorResponder) private var errorResponder
+    
     private let content: () -> V
     
     public init(presenter: Binding<EP>,
@@ -53,30 +55,31 @@ public struct ErrorResponder<V: View, EP: ErrorPresentable, EC: RangeReplaceable
     
     public var body: some View {
         self.content()
-            .environment(\.codableErrorResponder) { error in
-                if
-                    self.errorPresentable.isError == nil,
-                    self.errorPresentable.isPresenting == false
-                {
-                    self.errorPresentable.isError = error
-                } else {
-                    // Note to future self: Don't pass down the chain
-                    // If this view can't respond to an error,
-                    // no view down the chain can either.
-                    // Just put it straight into the errorStorage
-                    // self.errorChain(error)
-                    self.errorStorage.append(error)
-                    print("Uncaught Errors: \(self.errorStorage.count)") // TODO: Delete print statement
-                }
-            }
+            .environment(\.codableErrorResponder, self.handle(_:))
             .modifier(self.alert)
+    }
+    
+    private func handle(_ error: CodableError) {
+        if
+            self.errorPresentable.isError == nil,
+            self.errorPresentable.isPresenting == false
+        {
+            self.errorPresentable.isError = error
+        } else {
+            // Note to future self: Don't pass down the chain
+            // If this view can't respond to an error,
+            // no view down the chain can either.
+            // Just put it straight into the errorStorage
+            // self.errorChain(error)
+            self.errorStorage.append(error)
+        }
     }
     
     private var alert: some ViewModifier {
         UserFacingErrorAlert<LocalizeBundle, CodableError>(self.$errorPresentable.isError) {
             $0.userFacingError {
                 guard let error = perform(confirmation: $0, controller: self.controller) else { return }
-                self.errorStorage.append(error)
+                self.handle(error)
             }
         }
     }

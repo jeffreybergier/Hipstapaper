@@ -37,8 +37,10 @@ public struct ErrorList<Nav: ErrorPresentable,
     
     @Binding private var nav: Nav
     @Binding private var errorQueue: ES
+    
     @Controller private var controller
     @V3Localize.ErrorList private var text
+    
     @Environment(\.dismiss) private var dismiss
     
     public init(nav: Binding<Nav>, errorQueue: Binding<ES>) {
@@ -80,7 +82,7 @@ public struct ErrorList<Nav: ErrorPresentable,
         } transform: {
             $0.userFacingError {
                 guard let error = perform(confirmation: $0, controller: self.controller) else { return }
-                self.errorQueue.append(error)
+                self.nav.isError = error
             }
         }
     }
