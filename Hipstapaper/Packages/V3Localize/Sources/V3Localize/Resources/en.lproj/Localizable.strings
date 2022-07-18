@@ -37,6 +37,7 @@
 "Verb.Done"                   = "Done";
 "Verb.Cancel"                 = "Cancel";
 "Verb.Dismiss"                = "Dismiss";
+"Verb.DontDelete"             = "Don't Delete";
 "Verb.Search"                 = "Search";
 "Verb.AddWebsite"             = "Add Website";
 "Verb.Archive"                = "Archive";

@@ -28,6 +28,7 @@ import SwiftUI
 import V3Model
 import V3Style
 import V3Localize
+import V3Errors
 
 extension ViewModifier where Self == DetailMenu {
     internal static var detailMenu: Self { Self.init() }
@@ -38,6 +39,8 @@ internal struct DetailMenu: ViewModifier {
     @Nav private var nav
     @V3Style.DetailToolbar private var style
     @V3Localize.DetailToolbar private var text
+    
+    @Environment(\.codableErrorResponder) private var errorResponder
     
     // TODO: Add Data Controller
         
@@ -73,7 +76,7 @@ internal struct DetailMenu: ViewModifier {
                     self.nav.detail.isWebsitesEdit.editing = items
                 }
                 self.style.delete.button(self.text.delete) {
-                    
+                    self.errorResponder(DeleteWebsiteError(items).codableValue)
                 }
             }
     }

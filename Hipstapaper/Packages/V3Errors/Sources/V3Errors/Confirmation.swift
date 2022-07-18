@@ -34,13 +34,16 @@ internal typealias OnConfirmation = (Confirmation) -> Void
 
 internal enum Confirmation {
     case deleteTags(Tag.Selection)
+    case deleteWebsites(Website.Selection)
 }
 
 internal func perform(confirmation: Confirmation, controller: ControllerProtocol) -> CodableError? {
     var error: Error?
     switch confirmation {
-    case .deleteTags(let tags):
-        error = controller.delete(tags).error
+    case .deleteWebsites(let items):
+        error = controller.delete(items).error
+    case .deleteTags(let items):
+        error = controller.delete(items).error
     }
     return error.map { .init($0 as NSError) }
 }

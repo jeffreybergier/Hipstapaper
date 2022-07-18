@@ -30,15 +30,17 @@ import V3Model
 
 extension CodableError {
     internal func userFacingError(onConfirm: OnConfirmation? = nil) -> UserFacingError {
-        let `switch`: UserFacingError? = {
+        let knownError: UserFacingError? = {
             switch self.errorDomain {
+            case DeleteWebsiteError.errorDomain:
+                return DeleteWebsiteError(self, onConfirm: onConfirm)
             case DeleteTagError.errorDomain:
                 return DeleteTagError(self, onConfirm: onConfirm)
             default:
                 return nil
             }
         }()
-        return `switch` ?? UnknownError(self)
+        return knownError ?? UnknownError(self)
     }
 }
 
@@ -47,12 +49,33 @@ extension CodableError {
 extension DeleteTagError {
     internal init?(_ error: CodableError, onConfirm: OnConfirmation?) {
         guard
-            error.errorDomain == DeleteTagError.errorDomain,
+            error.errorDomain == type(of: self).errorDomain,
             error.errorCode == self.errorCode,
             let data = error.arbitraryData,
-            let array = try? PropertyListDecoder().decode(Tag.Selection.self, from: data)
+            let identifiers = try? PropertyListDecoder().decode(Tag.Selection.self, from: data)
         else { return nil }
-        self.identifiers = array
+        self.identifiers = identifiers
+        self.onConfirm = onConfirm
+    }
+    
+    public var codableValue: CodableError {
+        var error = CodableError(self as NSError)
+        error.arbitraryData = try? PropertyListEncoder().encode(self.identifiers)
+        return error
+    }
+}
+
+// MARK: DeleteWebsiteError
+
+extension DeleteWebsiteError {
+    internal init?(_ error: CodableError, onConfirm: OnConfirmation?) {
+        guard
+            error.errorDomain == type(of: self).errorDomain,
+            error.errorCode == self.errorCode,
+            let data = error.arbitraryData,
+            let identifiers = try? PropertyListDecoder().decode(Website.Selection.self, from: data)
+        else { return nil }
+        self.identifiers = identifiers
         self.onConfirm = onConfirm
     }
     

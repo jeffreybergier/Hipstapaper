@@ -32,6 +32,7 @@ public enum Verb: LocalizationKey {
     case done                   = "Verb.Done"
     case cancel                 = "Verb.Cancel"
     case dismiss                = "Verb.Dismiss"
+    case dontDelete             = "Verb.DontDelete"
     case search                 = "Verb.Search"
     case archiveYes             = "Verb.Archive"
     case archiveClose           = "Verb.ArchiveClose"
