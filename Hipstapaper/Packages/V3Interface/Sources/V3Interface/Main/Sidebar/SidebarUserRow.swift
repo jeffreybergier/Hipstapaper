@@ -49,8 +49,8 @@ internal struct SidebarUserRow: View {
                 HStack {
                     JSBText(self.text.rowTitleUntitled, text: item.name)
                     Spacer()
-                    Text("\(count)")
-                        .modifier(self.style.itemCountFont)
+                    Text(String(describing: count))
+                        .modifier(self.style.itemCountOval)
                 }
             } else {
                 JSBText(self.text.rowTitleUntitled, text: self.item?.name)

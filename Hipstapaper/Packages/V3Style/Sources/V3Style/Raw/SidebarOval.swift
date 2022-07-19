@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/17.
+//  Created by Jeffrey Bergier on 2022/07/19.
 //
 //  MIT License
 //
@@ -26,22 +26,19 @@
 
 import SwiftUI
 
-@propertyWrapper
-public struct Sidebar: DynamicProperty {
-    
-    public init() {}
-    
-    public struct Value {
-        public var toolbarTagEdit    = Action.tagEdit
-        public var toolbarTagAdd     = Action.tagAdd
-        public var toolbarWebsiteAdd = Action.websiteAdd
-        public var toolbarAdd        = Action.genericAdd
-        public var menuTagDelete     = Action.genericDelete
-        public var menuTagEdit       = Action.tagEdit
-        public var itemCountOval: some ViewModifier = SidebarOval()
-    }
-    
-    public var wrappedValue: Value {
-        Value()
+internal struct SidebarOval: ViewModifier {
+    @Environment(\.colorScheme) private var scheme
+    internal func body(content: Content) -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 1000)
+                .frame(minWidth: .ovalWidthMinimum)
+                .foregroundColor(Color.grayDark(self.scheme))
+                .layoutPriority(0.9)
+            content
+                .padding([.leading, .trailing], .paddingOvalHorizontal)
+                .padding([.top, .bottom], .paddingOvalVertical)
+                .layoutPriority(1.0)
+        }
+        .monospacedDigit()
     }
 }

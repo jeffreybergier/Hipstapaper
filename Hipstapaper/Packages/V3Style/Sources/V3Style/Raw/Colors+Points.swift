@@ -27,6 +27,9 @@
 import SwiftUI
 
 extension CGFloat {
+    internal static let ovalWidthMinimum: CGFloat = 28
+    internal static let paddingOvalHorizontal: CGFloat = 8
+    internal static let paddingOvalVertical: CGFloat = 4
     internal static let cornerRadiusMedium: CGFloat = 8
     internal static let cornerRadiusSmall: CGFloat = 4
     internal static let thumbnailSmall: CGFloat = 64
@@ -36,8 +39,12 @@ extension CGFloat {
 }
 
 extension Color {
-    internal static func lightGray(_ scheme: ColorScheme) -> Color {
+    internal static func grayLight(_ scheme: ColorScheme) -> Color {
         scheme.isLight ? Color(red: 0.9, green: 0.9, blue: 0.9)
+                       : Color(red: 0.25, green: 0.25, blue: 0.25)
+    }
+    internal static func grayDark(_ scheme: ColorScheme) -> Color {
+        scheme.isLight ? Color(red: 0.7, green: 0.7, blue: 0.7)
                        : Color(red: 0.25, green: 0.25, blue: 0.25)
     }
 }

@@ -26,13 +26,6 @@
 
 import SwiftUI
 
-internal struct FontMonospacedDigit: ViewModifier {
-    internal func body(content: Content) -> some View {
-        content
-            .monospacedDigit()
-    }
-}
-
 internal struct ThumbnailImage: View {
     @Environment(\.colorScheme) private var scheme
     private let data: Data?
@@ -41,7 +34,7 @@ internal struct ThumbnailImage: View {
     }
     internal var body: some View {
         ZStack {
-            Color.lightGray(self.scheme)
+            Color.grayLight(self.scheme)
             Image(systemName: SystemImage.photo.rawValue)
             Image(data: self.data)?.resizable()
         }
