@@ -34,7 +34,7 @@ public struct Detail: DynamicProperty {
     public struct Value {
         public func thumbnail(_ data: Data?) -> some View {
             ThumbnailImage(data)
-                .frame(width: 64, height: 64) // TODO: Replace with constants
+                .frame(width: .thumbnailSmall, height: .thumbnailSmall)
                 .cornerRadius(.cornerRadiusSmall)
         }
     }

@@ -46,12 +46,12 @@ public struct WebsiteEdit: DynamicProperty {
         
         public func thumbnailSingle(_ data: Data?, @ViewBuilder background: @escaping () -> some View) -> some View {
             WebThumbnailImage(data, web: background)
-                .frame(width: 320, height: 320) // TODO: Replace with constants
+                .frame(width: .thumbnailLarge, height: .thumbnailLarge)
                 .cornerRadius(.cornerRadiusMedium)
         }
         public func thumbnailMulti(_ data: Data?) -> some View {
             ThumbnailImage(data)
-                .frame(width: 128, height: 128) // TODO: Replace with constants
+                .frame(width: .thumbnailMedium, height: .thumbnailMedium)
                 .cornerRadius(.cornerRadiusSmall)
         }
     }

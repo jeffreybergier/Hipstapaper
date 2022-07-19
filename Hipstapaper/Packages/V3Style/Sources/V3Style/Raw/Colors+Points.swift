@@ -29,6 +29,10 @@ import SwiftUI
 extension CGFloat {
     internal static let cornerRadiusMedium: CGFloat = 8
     internal static let cornerRadiusSmall: CGFloat = 4
+    internal static let thumbnailSmall: CGFloat = 64
+    internal static let thumbnailMedium: CGFloat = 128
+    /// set based on iPhone 12 mini zoomed mode
+    internal static let thumbnailLarge: CGFloat = 280
 }
 
 extension Color {
