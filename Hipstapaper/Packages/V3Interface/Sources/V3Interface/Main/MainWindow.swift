@@ -47,6 +47,9 @@ public struct MainWindow: Scene {
                 Text("Whoa dude. Big Error.")
             }
         }
+        .commands {
+            MainMenu(bundle: self.localizeBundle)
+        }
     }
 }
 
