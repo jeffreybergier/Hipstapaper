@@ -60,12 +60,12 @@ internal struct MainMenu: Commands {
             self.style.websiteAdd.button(self.text(\.websiteAdd),
                                          enabled: self.canWebsiteAdd)
             {
-                
+                self.state.value.push_websiteAdd = true
             }
             self.style.tagAdd.button(self.text(\.tagAdd),
                                      enabled: self.canTagAdd)
             {
-                
+                self.state.value.push_tagAdd = true
             }
         }
         CommandGroup(after: .newItem) {

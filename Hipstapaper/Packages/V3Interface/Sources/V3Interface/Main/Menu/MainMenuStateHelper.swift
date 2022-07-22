@@ -26,10 +26,12 @@
 
 import SwiftUI
 import Umbrella
+import V3Store
 
 internal struct MainMenuStateHelper: ViewModifier {
     
     @Nav private var nav
+    @Controller private var controller
     @MainMenuState private var state
     @Environment(\.codableErrorResponder) private var errorResponder
     
@@ -55,6 +57,28 @@ internal struct MainMenuStateHelper: ViewModifier {
                     self.nav.sidebar.selectedTag = nil
                 }
                 self.errorResponder(error)
+            }
+            .onChange(of: self.state.push_websiteAdd) { newValue in
+                guard newValue else { return }
+                defer { self.state.push_websiteAdd = false }
+                switch self.controller.createWebsite() {
+                case .success(let identifier):
+                    self.nav.sidebar.isWebsiteAdd.editing = [identifier]
+                case .failure(let error):
+                    NSLog(String(describing: error))
+                    self.errorResponder(.init(error as NSError))
+                }
+            }
+            .onChange(of: self.state.push_tagAdd) { newValue in
+                guard newValue else { return }
+                defer { self.state.push_tagAdd = false }
+                switch self.controller.createTag() {
+                case .success(let identifier):
+                    self.nav.sidebar.isTagsEdit.editing = [identifier]
+                case .failure(let error):
+                    NSLog(String(describing: error))
+                    self.errorResponder(.init(error as NSError))
+                }
             }
     }
 }

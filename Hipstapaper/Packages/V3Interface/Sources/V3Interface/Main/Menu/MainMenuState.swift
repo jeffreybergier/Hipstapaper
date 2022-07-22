@@ -34,6 +34,8 @@ extension MainMenu {
         internal var selectedTags: Tag.Selection = []
         internal var canShowErrors: Bool = false
         
+        internal var push_websiteAdd: Bool = false
+        internal var push_tagAdd: Bool = false
         internal var push_websiteDelete: CodableError?
         internal var push_tagDelete: CodableError?
     }
