@@ -33,6 +33,7 @@ public struct MainWindow: Scene {
     
     @StateObject private var localizeBundle = LocalizeBundle()
     @StateObject private var controller = Controller.newEnvironment()
+    @StateObject private var mainMenuState = MainMenuState.newEnvironment()
     
     public init() {}
     
@@ -40,15 +41,19 @@ public struct MainWindow: Scene {
         WindowGroup {
             if let managedObjectContext = self.controller.value?.ENVIRONMENTONLY_managedObjectContext {
                 MainView()
+                    .modifier(MainMenuStateHelper())
                     .environmentObject(self.controller)
                     .environmentObject(self.localizeBundle)
+                    .environmentObject(self.mainMenuState)
                     .environment(\.managedObjectContext, managedObjectContext)
             } else {
                 Text("Whoa dude. Big Error.")
             }
         }
         .commands {
-            MainMenu(bundle: self.localizeBundle)
+            MainMenu(state: self.mainMenuState,
+                     controller: self.controller.value,
+                     bundle: self.localizeBundle)
         }
     }
 }

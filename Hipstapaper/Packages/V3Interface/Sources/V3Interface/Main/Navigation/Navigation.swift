@@ -30,7 +30,7 @@ import Umbrella
 import V3Model
 import V3Errors
 
-internal struct Navigation: Codable, ErrorPresentable {
+internal struct Navigation: Hashable, Codable, ErrorPresentable {
     
     internal var sidebar: Sidebar = .init()
     internal var detail: Detail = .init()
@@ -51,7 +51,7 @@ internal struct Navigation: Codable, ErrorPresentable {
 }
 
 extension Navigation {
-    internal struct Sidebar: Codable, ErrorPresentable {
+    internal struct Sidebar: Hashable, Codable, ErrorPresentable {
         internal var selectedTag: Tag.Selection.Element? = .default
         internal var isTagsEdit: TagsEdit = .init()
         internal var isWebsiteAdd: WebsitesEdit = .init()
@@ -62,7 +62,7 @@ extension Navigation {
             || self.isError != nil
         }
     }
-    internal struct Detail: Codable, ErrorPresentable {
+    internal struct Detail: Hashable, Codable, ErrorPresentable {
         internal var selectedWebsites: Website.Selection = []
         internal var isErrorList: Basic = .init()
         internal var isTagApply: Website.Selection = []
@@ -76,21 +76,21 @@ extension Navigation {
             || self.isError != nil
         }
     }
-    internal struct TagsEdit: Codable, ErrorPresentable {
+    internal struct TagsEdit: Hashable, Codable, ErrorPresentable {
         internal var editing: Tag.Selection = []
         internal var isError: CodableError?
         internal var isPresenting: Bool {
             self.isError != nil
         }
     }
-    internal struct WebsitesEdit: Codable, ErrorPresentable {
+    internal struct WebsitesEdit: Hashable, Codable, ErrorPresentable {
         internal var editing: Website.Selection = []
         internal var isError: CodableError?
         internal var isPresenting: Bool {
             self.isError != nil
         }
     }
-    internal struct Basic: Codable, ErrorPresentable {
+    internal struct Basic: Hashable, Codable, ErrorPresentable {
         internal var isError: CodableError?
         internal var isPresented: Bool = false
         internal var isPresenting: Bool {
