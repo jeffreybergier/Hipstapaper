@@ -41,7 +41,6 @@ public struct MainWindow: Scene {
         WindowGroup {
             if let managedObjectContext = self.controller.value?.ENVIRONMENTONLY_managedObjectContext {
                 MainView()
-                    .modifier(MainMenuStateHelper())
                     .environmentObject(self.controller)
                     .environmentObject(self.localizeBundle)
                     .environmentObject(self.mainMenuState)
@@ -73,6 +72,7 @@ internal struct MainView: View {
                     // Modal NavigationLink for websites
                     .editMode(force: true)
             }
+            .modifier(MainMenuStateHelper())
         }
     }
 }

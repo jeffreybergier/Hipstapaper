@@ -26,32 +26,35 @@
 
 import SwiftUI
 import Umbrella
-import V3Model
 
-extension MainMenu {
-    internal struct State {
-        internal var selectedWebsites: Website.Selection = []
-        internal var selectedTags: Tag.Selection = []
-        internal var canShowErrors: Bool = false
-        
-        internal var push_websiteDelete: CodableError?
-        internal var push_tagDelete: CodableError?
-    }
-}
-
-@propertyWrapper
-internal struct MainMenuState: DynamicProperty {
+internal struct MainMenuStateHelper: ViewModifier {
     
-    internal typealias Environment = BlackBox<MainMenu.State>
+    @Nav private var nav
+    @MainMenuState private var state
+    @Environment(\.codableErrorResponder) private var errorResponder
     
-    internal static func newEnvironment() -> Environment {
-        .init(.init(), isObservingValue: true)
-    }
-    
-    @EnvironmentObject private var environment: Environment
-    
-    internal var wrappedValue: MainMenu.State {
-        get { self.environment.value }
-        nonmutating set { self.environment.value = newValue }
+    internal func body(content: Content) -> some View {
+        content
+            .onChange(of: self.nav) {
+                self.state.canShowErrors = $0.errorQueue.isEmpty == false
+                self.state.selectedTags = $0.sidebar.selectedTag.map { Set([$0]) } ?? []
+                self.state.selectedWebsites = $0.detail.selectedWebsites
+            }
+            .onChange(of: self.state.push_websiteDelete) { error in
+                guard let error else { return }
+                defer {
+                    self.state.push_websiteDelete = nil
+                    self.nav.detail.selectedWebsites = []
+                }
+                self.errorResponder(error)
+            }
+            .onChange(of: self.state.push_tagDelete) { error in
+                guard let error else { return }
+                defer {
+                    self.state.push_tagDelete = nil
+                    self.nav.sidebar.selectedTag = nil
+                }
+                self.errorResponder(error)
+            }
     }
 }

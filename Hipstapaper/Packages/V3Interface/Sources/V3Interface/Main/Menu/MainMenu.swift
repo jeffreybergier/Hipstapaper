@@ -30,14 +30,9 @@ import V3Model
 import V3Store
 import V3Style
 import V3Localize
+import V3Errors
 
 internal struct MainMenu: Commands {
-    
-    internal struct State {
-        internal var selectedWebsites: Website.Selection = []
-        internal var selectedTags: Tag.Selection = []
-        internal var canShowErrors: Bool = false
-    }
     
     // need to create custom data structure and pass it through environment.... maybe?
     @Nav private var nav
@@ -124,12 +119,12 @@ internal struct MainMenu: Commands {
             self.style.websiteDelete.button(self.text(\.websiteDelete),
                                             enabled: self.canWebsiteDelete)
             {
-                
+                self.state.value.push_websiteDelete = DeleteWebsiteError(self.state.value.selectedWebsites).codableValue
             }
             self.style.tagDelete.button(self.text(\.tagDelete),
                                         enabled: self.canTagDelete)
             {
-                
+                self.state.value.push_tagDelete = DeleteTagError(self.state.value.selectedTags).codableValue
             }
         }
         CommandGroup(after: .sidebar) {
