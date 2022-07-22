@@ -76,12 +76,12 @@ internal struct MainMenu: Commands {
         CommandGroup(after: .newItem) {
             Divider()
             self.style.openInApp.button(self.text(\.openInApp),
-                                        enabled: self.canOpenInApp)
+                                        enabled: self.canOpenInApp.single != nil)
             {
                 
             }
             self.style.openExternal.button(self.text(\.openExternal),
-                                           enabled: self.canOpenExternal)
+                                           enabled: self.canOpenExternal.single != nil)
             {
                 
             }
@@ -152,35 +152,44 @@ internal struct MainMenu: Commands {
     private var canTagAdd: Bool {
         self.controller != nil
     }
-    private var canOpenInApp: Bool {
-        true
+    private var canOpenInApp: SingleMulti<Website.Selection.Element> {
+        guard let controller = self.controller else { return .none }
+        return ToolbarQuery.openWebsite(self.state.value.selectedWebsites, controller)
     }
-    private var canOpenExternal: Bool {
-        true
+    private var canOpenExternal: SingleMulti<URL> {
+        guard let controller = self.controller else { return .none }
+        return ToolbarQuery.openURL(self.state.value.selectedWebsites, controller)
     }
     private var canShare: Bool {
         !self.state.value.selectedWebsites.isEmpty
     }
     private var canArchiveYes: Bool {
-        true
+        guard let controller = self.controller else { return false }
+        return ToolbarQuery.canArchiveYes(self.state.value.selectedWebsites, controller)
     }
     private var canArchiveNo: Bool {
-        true
+        guard let controller = self.controller else { return false }
+        return ToolbarQuery.canArchiveNo(self.state.value.selectedWebsites, controller)
     }
     private var canTagApply: Bool {
-        !self.state.value.selectedWebsites.isEmpty
+        guard self.controller != nil else { return false }
+        return !self.state.value.selectedWebsites.isEmpty
     }
     private var canWebsiteEdit: Bool {
-        !self.state.value.selectedWebsites.isEmpty
+        guard self.controller != nil else { return false }
+        return !self.state.value.selectedWebsites.isEmpty
     }
     private var canTagEdit: Bool {
-        !self.state.value.selectedTags.isEmpty
+        guard self.controller != nil else { return false }
+        return ToolbarQuery.canEditTags(self.state.value.selectedTags)
     }
     private var canWebsiteDelete: Bool {
-        !self.state.value.selectedWebsites.isEmpty
+        guard self.controller != nil else { return false }
+        return !self.state.value.selectedWebsites.isEmpty
     }
     private var canTagDelete: Bool {
-        !self.state.value.selectedTags.isEmpty
+        guard self.controller != nil else { return false }
+        return ToolbarQuery.canEditTags(self.state.value.selectedTags)
     }
     private var canShowErrors: Bool {
         self.state.value.canShowErrors

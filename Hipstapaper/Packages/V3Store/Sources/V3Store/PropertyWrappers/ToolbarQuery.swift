@@ -85,16 +85,16 @@ public struct ToolbarQuery: DynamicProperty {
 extension ToolbarQuery {
     // Workaround so this can be used from Menu
     public static func canArchiveYes(_ selection: Website.Selection, _ controller: ControllerProtocol) -> Bool {
-        return (controller as? CD_Controller)?.canArchiveYes(selection) ?? false
+        return (controller as! CD_Controller).canArchiveYes(selection)
     }
     public static func canArchiveNo(_ selection: Website.Selection, _ controller: ControllerProtocol) -> Bool {
-        return (controller as? CD_Controller)?.canArchiveNo(selection) ?? false
+        return (controller as! CD_Controller).canArchiveNo(selection)
     }
     public static func openURL(_ selection: Website.Selection, _ controller: ControllerProtocol) -> SingleMulti<URL> {
-        return (controller as? CD_Controller)?.openURL(selection) ?? .none
+        return (controller as! CD_Controller).openURL(selection)
     }
     public static func openWebsite(_ selection: Website.Selection, _ controller: ControllerProtocol) -> SingleMulti<Website.Selection.Element> {
-        return (controller as? CD_Controller)?.openURL(selection) ?? .none
+        return (controller as! CD_Controller).openURL(selection)
     }
     public static func setArchive(_ newValue: Bool,
                                   _ selection: Website.Selection,
@@ -103,5 +103,9 @@ extension ToolbarQuery {
     {
         let controller = controller as! CD_Controller
         return controller.setArchive(newValue, on: selection)
+    }
+    public static func canEditTags(_ selection: Tag.Selection) -> Bool {
+        guard selection.isEmpty == false else { return false }
+        return selection.contains { $0.isSystem } == false
     }
 }
