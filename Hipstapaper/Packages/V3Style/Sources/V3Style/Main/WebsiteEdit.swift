@@ -36,7 +36,7 @@ public struct WebsiteEdit: DynamicProperty {
         public var jsYes           = Action.javascriptYes
         public var jsNo            = Action.javascriptNo
         public var autofill        = Action.autofill
-        public var deleteThumbnail = Action.deleteThumbnail
+        public var deleteThumbnail = Action.thumbnailDelete
         public var deleteWebsite   = Action.genericDelete
         public var done            = Action.genericDone
         public var empty           = Action.noContent

@@ -27,7 +27,11 @@
 extension Action {
     internal static let tagEdit = Self(
         systemImage: SystemImage.tag.rawValue,
-        shortcut: nil
+        shortcut: .init("e", modifiers: [.command, .option])
+    )
+    internal static let genericEdit = Self(
+        systemImage: SystemImage.editPencil.rawValue,
+        shortcut: .init("e", modifiers: [.command, .shift])
     )
     internal static let tagAdd = Self(
         systemImage: SystemImage.tag.rawValue,
@@ -35,47 +39,51 @@ extension Action {
     )
     internal static let websiteAdd = Self(
         systemImage: SystemImage.website.rawValue,
-        shortcut: .init("n", modifiers: .command)
+        shortcut: .init("n", modifiers: [.command])
     )
     internal static let genericAdd = Self(
         systemImage: SystemImage.plus.rawValue,
-        shortcut: .init("n", modifiers: .command)
+        shortcut: .init("n", modifiers: [.command])
     )
     internal static let genericDelete = Self(
         systemImage: SystemImage.deleteTrash.rawValue,
-        shortcut: .init(.delete, modifiers: .command)
+        shortcut: .init(.delete, modifiers: [.command])
+    )
+    internal static let thumbnailDelete = Self(
+        systemImage: SystemImage.minusRectangle.rawValue,
+        shortcut: nil
+    )
+    internal static let tagDelete = Self(
+        systemImage: SystemImage.deleteTrash.rawValue,
+        shortcut: .init(.delete, modifiers: [.command, .shift])
     )
     internal static let genericDone = Self(
         systemImage: SystemImage.checkmark.rawValue,
-        shortcut: .init(.escape)
+        shortcut: .init(.return)
     )
     internal static let openInApp = Self(
         systemImage: SystemImage.openInApp.rawValue,
-        shortcut: .init("o", modifiers: .command)
+        shortcut: .init("o", modifiers: [.command])
     )
     internal static let openExternal = Self(
         systemImage: SystemImage.openExternal.rawValue,
-        shortcut: .init("O", modifiers: .command)
+        shortcut: .init("o", modifiers:[ .command, .shift])
     )
     internal static let archiveYes = Self(
         systemImage: SystemImage.archiveYes.rawValue,
-        shortcut: .init("a", modifiers: [.command, .control])
+        shortcut: .init("a", modifiers: [.command, .shift])
     )
     internal static let archiveNo = Self(
         systemImage: SystemImage.archiveNo.rawValue,
-        shortcut: .init("u", modifiers: [.command, .control])
+        shortcut: .init("a", modifiers: [.command, .option])
     )
     internal static let share = Self(
         systemImage: SystemImage.share.rawValue,
-        shortcut: .init("I", modifiers: .command)
+        shortcut: .init("i", modifiers: [.command, .shift])
     )
     internal static let tagApply = Self(
         systemImage: SystemImage.tag.rawValue,
-        shortcut: .init("I", modifiers: .command)
-    )
-    internal static let edit = Self(
-        systemImage: SystemImage.editPencil.rawValue,
-        shortcut: .init(.return, modifiers: .command)
+        shortcut: .init("y", modifiers: .command)
     )
     internal static let sort = Self(
         systemImage: SystemImage.sort.rawValue,
@@ -107,7 +115,7 @@ extension Action {
     )
     internal static let errorPresent = Self(
         systemImage: SystemImage.errorGeneric.rawValue,
-        shortcut: nil
+        shortcut: .init("e", modifiers: [.command, .control])
     )
     internal static let browseBack = Self(
         systemImage: SystemImage.browseBack.rawValue,
@@ -135,10 +143,6 @@ extension Action {
     )
     internal static let autofill = Self(
         systemImage: SystemImage.magic.rawValue,
-        shortcut: nil
-    )
-    internal static let deleteThumbnail = Self(
-        systemImage: SystemImage.minusRectangle.rawValue,
         shortcut: nil
     )
     internal static let noContent = Self(

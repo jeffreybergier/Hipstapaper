@@ -37,8 +37,12 @@ public struct MainMenu: DynamicProperty {
         public var archiveNo:      LocalizationKey = Verb.archiveNo.rawValue
         public var share:          LocalizationKey = Verb.share.rawValue
         public var tagApply:       LocalizationKey = Verb.tagApply.rawValue
-        public var editWebsites:   LocalizationKey = Verb.editWebsite.rawValue
-        public var deleteWebsites: LocalizationKey = Verb.deleteWebsite.rawValue
+        public var websiteAdd:     LocalizationKey = Verb.addWebsite.rawValue
+        public var tagAdd:         LocalizationKey = Verb.addTag.rawValue
+        public var websiteEdit:    LocalizationKey = Verb.editWebsite.rawValue
+        public var tagEdit:        LocalizationKey = Verb.editTags.rawValue
+        public var websiteDelete:  LocalizationKey = Verb.deleteWebsite.rawValue
+        public var tagDelete:      LocalizationKey = Verb.deleteTag.rawValue
         public var error:          LocalizationKey = Verb.errorsPresent.rawValue
     }
         

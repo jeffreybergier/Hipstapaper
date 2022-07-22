@@ -45,8 +45,8 @@ internal struct MainMenu: Commands {
     
     internal var body: some Commands {
         CommandGroup(replacing: .newItem) {
-            Button("Add Website") {}
-            Button("Add Tag") {}
+            self.style.websiteAdd.button(self.text(\.websiteAdd), action: {})
+            self.style.tagAdd.button(self.text(\.tagAdd), action: {})
         }
         CommandGroup(after: .newItem) {
             Divider()
@@ -56,17 +56,16 @@ internal struct MainMenu: Commands {
         CommandGroup(before: .importExport) {
             self.style.share.button(self.text(\.share), action: {})
         }
-        CommandGroup(replacing: .undoRedo, addition: {})
-        CommandGroup(after: .pasteboard) {
+        CommandGroup(before: .pasteboard) {
             Divider()
             self.style.archiveYes.button(self.text(\.archiveYes), action: {})
             self.style.archiveNo.button(self.text(\.archiveNo), action: {})
             self.style.tagApply.button(self.text(\.tagApply), action: {})
-            Button("Edit Websites") {}
-            Button("Edit Tags") {}
+            self.style.websiteEdit.button(self.text(\.websiteEdit), action: {})
+            self.style.tagEdit.button(self.text(\.tagEdit), action: {})
             Divider()
-            Button("Delete Websites") {}
-            Button("Delete Tags") {}
+            self.style.websiteDelete.button(self.text(\.websiteDelete), action: {})
+            self.style.tagDelete.button(self.text(\.tagDelete), action: {})
         }
         CommandGroup(after: .sidebar) {
             self.style.error.button(self.text(\.error), action: {})
