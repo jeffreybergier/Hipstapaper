@@ -51,7 +51,7 @@ public struct MainWindow: Scene {
         }
         .commands {
             MainMenu(state: self.mainMenuState,
-                     controller: self.controller.value,
+                     controller: self.controller,
                      bundle: self.localizeBundle)
         }
     }

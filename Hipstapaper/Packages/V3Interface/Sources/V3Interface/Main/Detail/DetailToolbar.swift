@@ -61,7 +61,7 @@ internal struct DetailToolbar: ViewModifier {
                     self.style.openExternal.button(self.text.openExternal,
                                                    enabled: self.data.openURL.single != nil)
                     {
-                        self.openExternal(self.data.openURL.single!)
+                        self.data.openURL.single.map { self.openExternal($0) }
                     }
                 }
                 ToolbarItem(id: .itemArchiveYes, placement: .secondaryAction) {

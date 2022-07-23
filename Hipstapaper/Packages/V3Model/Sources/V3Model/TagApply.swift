@@ -59,7 +59,7 @@ public enum MultiStatus: Hashable, Codable {
     }
 }
 
-public enum SingleMulti<T: Hashable> {
+public enum SingleMulti<T: Hashable>: Hashable {
     case none, single(T), multi(Set<T>)
     public var single: T? {
         switch self {

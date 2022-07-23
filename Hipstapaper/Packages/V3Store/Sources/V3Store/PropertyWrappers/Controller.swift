@@ -30,21 +30,22 @@ import Umbrella
 @propertyWrapper
 public struct Controller: DynamicProperty {
     
-    @EnvironmentObject private var env: BlackBox<ControllerProtocol?>
+    public typealias Environment = BlackBox<ControllerProtocol?>
+    @EnvironmentObject private var environment: Environment
     
     public init() { }
     
     public var wrappedValue: ControllerProtocol {
-        self.env.value!
+        self.environment.value!
     }
     
     internal var cd: CD_Controller {
-        self.env.value as! CD_Controller
+        self.environment.value as! CD_Controller
     }
 }
 
 extension Controller {
-    public static func newEnvironment() -> BlackBox<ControllerProtocol?> {
+    public static func newEnvironment() -> Environment {
         switch CD_Controller.new() {
         case .success(let controller):
             return BlackBox(controller)

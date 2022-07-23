@@ -33,6 +33,7 @@ internal struct MainMenuStateHelper: ViewModifier {
     @Nav private var nav
     @Controller private var controller
     @MainMenuState private var state
+    @Environment(\.openURL) private var openExternal
     @Environment(\.codableErrorResponder) private var errorResponder
     
     internal func body(content: Content) -> some View {
@@ -41,22 +42,6 @@ internal struct MainMenuStateHelper: ViewModifier {
                 self.state.canShowErrors = $0.errorQueue.isEmpty == false
                 self.state.selectedTags = $0.sidebar.selectedTag.map { Set([$0]) } ?? []
                 self.state.selectedWebsites = $0.detail.selectedWebsites
-            }
-            .onChange(of: self.state.push_websiteDelete) { error in
-                guard let error else { return }
-                defer {
-                    self.state.push_websiteDelete = nil
-                    self.nav.detail.selectedWebsites = []
-                }
-                self.errorResponder(error)
-            }
-            .onChange(of: self.state.push_tagDelete) { error in
-                guard let error else { return }
-                defer {
-                    self.state.push_tagDelete = nil
-                    self.nav.sidebar.selectedTag = nil
-                }
-                self.errorResponder(error)
             }
             .onChange(of: self.state.push_websiteAdd) { newValue in
                 guard newValue else { return }
@@ -79,6 +64,32 @@ internal struct MainMenuStateHelper: ViewModifier {
                     NSLog(String(describing: error))
                     self.errorResponder(.init(error as NSError))
                 }
+            }
+            .onChange(of: self.state.push_openInApp) { newValue in
+                guard let newValue else { return }
+                defer { self.state.push_openInApp = nil }
+                self.nav.detail.isBrowse = newValue.single
+            }
+            .onChange(of: self.state.push_openExternal) { newValue in
+                guard let newValue else { return }
+                defer { self.state.push_openExternal = nil }
+                newValue.single.map { self.openExternal($0) }
+            }
+            .onChange(of: self.state.push_websiteDelete) { error in
+                guard let error else { return }
+                defer {
+                    self.state.push_websiteDelete = nil
+                    self.nav.detail.selectedWebsites = []
+                }
+                self.errorResponder(error)
+            }
+            .onChange(of: self.state.push_tagDelete) { error in
+                guard let error else { return }
+                defer {
+                    self.state.push_tagDelete = nil
+                    self.nav.sidebar.selectedTag = nil
+                }
+                self.errorResponder(error)
             }
     }
 }

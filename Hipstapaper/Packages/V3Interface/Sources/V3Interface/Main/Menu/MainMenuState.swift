@@ -36,6 +36,8 @@ extension MainMenu {
         
         internal var push_websiteAdd: Bool = false
         internal var push_tagAdd: Bool = false
+        internal var push_openInApp: SingleMulti<Website.Selection.Element>? = nil
+        internal var push_openExternal: SingleMulti<URL>? = nil
         internal var push_websiteDelete: CodableError?
         internal var push_tagDelete: CodableError?
     }

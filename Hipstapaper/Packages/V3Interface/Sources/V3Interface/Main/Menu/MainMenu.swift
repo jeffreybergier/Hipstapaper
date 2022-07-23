@@ -43,16 +43,22 @@ internal struct MainMenu: Commands {
     @ObservedObject private var localizeBundle: LocalizeBundle
     
     // Hack because I can't the controller through the environment
-    private let controller: ControllerProtocol?
-    @ObservedObject private var state: MainMenuState.Environment
+    @ObservedObject private var _controller: Controller.Environment
+    @ObservedObject private var _state: MainMenuState.Environment
+    
+    private var controller: ControllerProtocol? { _controller.value }
+    private var state: State {
+        get { _state.value }
+        nonmutating set { _state.value = newValue }
+    }
     
     internal init(state: MainMenuState.Environment,
-                  controller: ControllerProtocol?,
+                  controller: Controller.Environment,
                   bundle: LocalizeBundle)
     {
-        _state = .init(initialValue: state)
+        __state = .init(initialValue: state)
+        __controller = .init(initialValue: controller)
         _localizeBundle = .init(initialValue: bundle)
-        self.controller = controller
     }
     
     internal var body: some Commands {
@@ -60,12 +66,12 @@ internal struct MainMenu: Commands {
             self.style.websiteAdd.button(self.text(\.websiteAdd),
                                          enabled: self.canWebsiteAdd)
             {
-                self.state.value.push_websiteAdd = true
+                self.state.push_websiteAdd = true
             }
             self.style.tagAdd.button(self.text(\.tagAdd),
                                      enabled: self.canTagAdd)
             {
-                self.state.value.push_tagAdd = true
+                self.state.push_tagAdd = true
             }
         }
         CommandGroup(after: .newItem) {
@@ -73,12 +79,15 @@ internal struct MainMenu: Commands {
             self.style.openInApp.button(self.text(\.openInApp),
                                         enabled: self.canOpenInApp.single != nil)
             {
-                
+                guard let controller = self.controller else { return }
+                self.state.push_openInApp = ToolbarQuery.openWebsite(self.state.selectedWebsites, controller)
+
             }
             self.style.openExternal.button(self.text(\.openExternal),
                                            enabled: self.canOpenExternal.single != nil)
             {
-                
+                guard let controller = self.controller else { return }
+                self.state.push_openExternal = ToolbarQuery.openURL(self.state.selectedWebsites, controller)
             }
         }
         CommandGroup(before: .importExport) {
@@ -119,12 +128,12 @@ internal struct MainMenu: Commands {
             self.style.websiteDelete.button(self.text(\.websiteDelete),
                                             enabled: self.canWebsiteDelete)
             {
-                self.state.value.push_websiteDelete = DeleteWebsiteError(self.state.value.selectedWebsites).codableValue
+                self.state.push_websiteDelete = DeleteWebsiteError(self.state.selectedWebsites).codableValue
             }
             self.style.tagDelete.button(self.text(\.tagDelete),
                                         enabled: self.canTagDelete)
             {
-                self.state.value.push_tagDelete = DeleteTagError(self.state.value.selectedTags).codableValue
+                self.state.push_tagDelete = DeleteTagError(self.state.selectedTags).codableValue
             }
         }
         CommandGroup(after: .sidebar) {
@@ -149,44 +158,44 @@ internal struct MainMenu: Commands {
     }
     private var canOpenInApp: SingleMulti<Website.Selection.Element> {
         guard let controller = self.controller else { return .none }
-        return ToolbarQuery.openWebsite(self.state.value.selectedWebsites, controller)
+        return ToolbarQuery.openWebsite(self.state.selectedWebsites, controller)
     }
     private var canOpenExternal: SingleMulti<URL> {
         guard let controller = self.controller else { return .none }
-        return ToolbarQuery.openURL(self.state.value.selectedWebsites, controller)
+        return ToolbarQuery.openURL(self.state.selectedWebsites, controller)
     }
     private var canShare: Bool {
-        !self.state.value.selectedWebsites.isEmpty
+        !self.state.selectedWebsites.isEmpty
     }
     private var canArchiveYes: Bool {
         guard let controller = self.controller else { return false }
-        return ToolbarQuery.canArchiveYes(self.state.value.selectedWebsites, controller)
+        return ToolbarQuery.canArchiveYes(self.state.selectedWebsites, controller)
     }
     private var canArchiveNo: Bool {
         guard let controller = self.controller else { return false }
-        return ToolbarQuery.canArchiveNo(self.state.value.selectedWebsites, controller)
+        return ToolbarQuery.canArchiveNo(self.state.selectedWebsites, controller)
     }
     private var canTagApply: Bool {
         guard self.controller != nil else { return false }
-        return !self.state.value.selectedWebsites.isEmpty
+        return !self.state.selectedWebsites.isEmpty
     }
     private var canWebsiteEdit: Bool {
         guard self.controller != nil else { return false }
-        return !self.state.value.selectedWebsites.isEmpty
+        return !self.state.selectedWebsites.isEmpty
     }
     private var canTagEdit: Bool {
         guard self.controller != nil else { return false }
-        return ToolbarQuery.canEditTags(self.state.value.selectedTags)
+        return ToolbarQuery.canEditTags(self.state.selectedTags)
     }
     private var canWebsiteDelete: Bool {
         guard self.controller != nil else { return false }
-        return !self.state.value.selectedWebsites.isEmpty
+        return !self.state.selectedWebsites.isEmpty
     }
     private var canTagDelete: Bool {
         guard self.controller != nil else { return false }
-        return ToolbarQuery.canEditTags(self.state.value.selectedTags)
+        return ToolbarQuery.canEditTags(self.state.selectedTags)
     }
     private var canShowErrors: Bool {
-        self.state.value.canShowErrors
+        self.state.canShowErrors
     }
 }
