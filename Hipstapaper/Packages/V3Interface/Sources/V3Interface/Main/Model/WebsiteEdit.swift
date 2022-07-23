@@ -28,34 +28,28 @@ import SwiftUI
 import V3Model
 import V3WebsiteEdit
 
-internal struct TagApply: ViewModifier {
-    @Binding private var selection: Website.Selection
-    internal init(_ selection: Binding<Website.Selection>) {
-        _selection = selection
-    }
-    internal func body(content: Content) -> some View {
-        content.popover(items: self.$selection) { selection in
-            V3WebsiteEdit.WebsiteEdit(selection: selection, start: .tag)
+extension WebsiteEdit {
+    internal struct popover: ViewModifier {
+        @Binding private var selection: Website.Selection
+        internal init(_ selection: Binding<Website.Selection>) {
+            _selection = selection
+        }
+        internal func body(content: Content) -> some View {
+            content.popover(items: self.$selection) { selection in
+                WebsiteEdit(selection: selection, start: .tag)
+            }
         }
     }
-}
-
-extension ViewModifier where Self == TagApply {
-    internal static func popover(_ selection: Binding<Website.Selection>) -> Self { Self.init(selection) }
-}
-
-internal struct WebsiteEdit: ViewModifier {
-    @Binding private var selection: Website.Selection
-    internal init(_ selection: Binding<Website.Selection>) {
-        _selection = selection
-    }
-    internal func body(content: Content) -> some View {
-        content.sheet(items: self.$selection) { selection in
-            V3WebsiteEdit.WebsiteEdit(selection: selection, start: .website)
+    
+    internal struct sheet: ViewModifier {
+        @Binding private var selection: Website.Selection
+        internal init(_ selection: Binding<Website.Selection>) {
+            _selection = selection
+        }
+        internal func body(content: Content) -> some View {
+            content.sheet(items: self.$selection) { selection in
+                WebsiteEdit(selection: selection, start: .website)
+            }
         }
     }
-}
-
-extension ViewModifier where Self == WebsiteEdit {
-    internal static func sheet(_ selection: Binding<Website.Selection>) -> Self { Self.init(selection) }
 }

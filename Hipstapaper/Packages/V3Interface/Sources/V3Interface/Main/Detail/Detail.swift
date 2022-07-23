@@ -29,6 +29,7 @@ import Umbrella
 import V3Model
 import V3Store
 import V3Browser
+import V3WebsiteEdit
 import V3Localize
 
 internal struct Detail: View {

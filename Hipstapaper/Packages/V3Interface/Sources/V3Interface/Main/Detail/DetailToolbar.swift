@@ -28,6 +28,7 @@ import SwiftUI
 import V3Store
 import V3Style
 import V3Localize
+import V3WebsiteEdit
 
 extension ViewModifier where Self == DetailToolbar {
     internal static var detailToolbar: Self { Self.init() }
@@ -80,7 +81,7 @@ internal struct DetailToolbar: ViewModifier {
                     {
                         self.state.push.tagApply = $0
                     }
-                    .modifier(TagApply.popover(self.$nav.detail.isTagApply))
+                    .modifier(WebsiteEdit.popover(self.$nav.detail.isTagApply))
                 }
                 ToolbarItem(id: .itemShare, placement: .secondaryAction) {
                     self.style.share.button(self.text.share,
