@@ -37,62 +37,46 @@ extension ViewModifier where Self == DetailMenu {
 
 internal struct DetailMenu: ViewModifier {
 
-    @Nav private var nav
+    @BulkActions private var state
     @Controller private var controller
+    
     @V3Style.DetailToolbar private var style
     @V3Localize.DetailToolbar private var text
-    
-    @Environment(\.openURL) private var openURL
-    @Environment(\.codableErrorResponder) private var errorResponder
 
     internal func body(content: Content) -> some View {
         content
             .contextMenu(forSelectionType: Website.Selection.Element.self) { items in
-                self.style.openInApp.button(
-                    self.text.openInApp,
-                    enabled: BulkActionsQuery.openWebsite(items, self.controller).single != nil
-                )
+                self.style.openInApp.button(self.text.openInApp,
+                                            enabled: BulkActionsQuery.openWebsite(items, self.controller).single != nil)
                 {
-                    self.nav.detail.isBrowse = BulkActionsQuery.openWebsite(items, self.controller).single
+                    self.state.push.openInApp = BulkActionsQuery.openWebsite(items, self.controller)
                 }
-                self.style.openExternal.button(
-                    self.text.openExternal,
-                    enabled: BulkActionsQuery.openURL(items, self.controller).single != nil
-                )
+                self.style.openExternal.button(self.text.openExternal,
+                                               enabled: BulkActionsQuery.openURL(items, self.controller).single != nil)
                 {
-                    BulkActionsQuery.openURL(items, self.controller).single.map { self.openURL($0) }
+                    self.state.push.openExternal = BulkActionsQuery.openURL(items, self.controller)
                 }
-                self.style.archiveYes.button(
-                    self.text.archiveYes,
-                    enabled: !BulkActionsQuery.canArchiveYes(items, self.controller).isEmpty
-                )
+                self.style.archiveYes.button(self.text.archiveYes,
+                                             enabled: BulkActionsQuery.canArchiveYes(items, self.controller))
                 {
-                    let result = BulkActionsQuery.setArchive(true, items, self.controller)
-                    guard let error = result.error else { return }
-                    NSLog(String(describing: error))
-                    self.errorResponder(.init(error as NSError))
+                    self.state.push.archiveYes = $0
                 }
-                self.style.archiveNo.button(
-                    self.text.archiveNo,
-                    enabled: !BulkActionsQuery.canArchiveNo(items, self.controller).isEmpty
-                )
+                self.style.archiveNo.button(self.text.archiveNo,
+                                            enabled: BulkActionsQuery.canArchiveNo(items, self.controller))
                 {
-                    let result = BulkActionsQuery.setArchive(false, items, self.controller)
-                    guard let error = result.error else { return }
-                    NSLog(String(describing: error))
-                    self.errorResponder(.init(error as NSError))
+                    self.state.push.archiveNo = $0
                 }
                 self.style.share.button(self.text.share) {
-                    
+                    self.state.push.share = items
                 }
                 self.style.tagApply.button(self.text.tagApply) {
-                    self.nav.detail.isTagApply = items
+                    self.state.push.tagApply = items
                 }
                 self.style.edit.button(self.text.edit) {
-                    self.nav.detail.isWebsitesEdit.editing = items
+                    self.state.push.websiteEdit = items
                 }
                 self.style.delete.button(self.text.delete, role: .destructive) {
-                    self.errorResponder(DeleteWebsiteError(items).codableValue)
+                    self.state.push.websiteDelete = items
                 }
             }
     }

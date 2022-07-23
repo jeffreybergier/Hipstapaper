@@ -41,6 +41,37 @@ public struct Action {
 }
 
 extension Action {
+    public func button<T>(_ titleKey: LocalizedString,
+                       style: Style = .label,
+                       role: ButtonRole? = nil,
+                       enabled: T? = nil,
+                       action: @escaping (T) -> Void) -> some View
+    {
+        Button(role: role) {
+            guard let enabled else { return }
+            action(enabled)
+        } label: {
+            self.label(titleKey, style: style)
+        }
+        .keyboardShortcut(self.shortcut)
+        .disabled(enabled == nil)
+    }
+    
+    public func button<C: Collection>(_ titleKey: LocalizedString,
+                       style: Style = .label,
+                       role: ButtonRole? = nil,
+                       enabled: C = [],
+                       action: @escaping (C) -> Void) -> some View
+    {
+        Button(role: role) {
+            action(enabled)
+        } label: {
+            self.label(titleKey, style: style)
+        }
+        .keyboardShortcut(self.shortcut)
+        .disabled(enabled.isEmpty)
+    }
+    
     public func button(_ titleKey: LocalizedString,
                        style: Style = .label,
                        role: ButtonRole? = nil,

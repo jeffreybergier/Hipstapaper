@@ -47,45 +47,45 @@ internal struct DetailToolbar: ViewModifier {
             .toolbar(id: .barTop) {
                 ToolbarItem(id: .itemOpenInApp, placement: .primaryAction) {
                     self.style.openInApp.button(self.text.openInApp,
-                                                enabled: self.state.pull.openInApp?.single != nil)
-                    {
+                                                enabled: self.state.pull.openInApp?.single)
+                    { _ in
                         self.state.push.openInApp = self.state.pull.openInApp
                     }
                 }
                 ToolbarItem(id: .itemOpenExternal, placement: .secondaryAction) {
                     self.style.openExternal.button(self.text.openExternal,
-                                                   enabled: self.state.pull.openExternal?.single != nil)
-                    {
+                                                   enabled: self.state.pull.openExternal?.single)
+                    { _ in
                         self.state.push.openExternal = self.state.pull.openExternal
                     }
                 }
                 ToolbarItem(id: .itemArchiveYes, placement: .secondaryAction) {
                     self.style.archiveYes.button(self.text.archiveYes,
-                                                 enabled: !self.state.pull.archiveYes.isEmpty)
+                                                 enabled: self.state.pull.archiveYes)
                     {
-                        self.state.push.archiveYes = self.state.pull.archiveYes
+                        self.state.push.archiveYes = $0
                     }
                 }
                 ToolbarItem(id: .itemArchiveNo, placement: .secondaryAction) {
                     self.style.archiveNo.button(self.text.archiveNo,
-                                                enabled: !self.state.pull.archiveNo.isEmpty)
+                                                enabled: self.state.pull.archiveNo)
                     {
-                        self.state.push.archiveNo = self.state.pull.archiveNo
+                        self.state.push.archiveNo = $0
                     }
                 }
                 ToolbarItem(id: .itemTagApply, placement: .secondaryAction) {
                     self.style.tagApply.button(self.text.tagApply,
-                                               enabled: !self.state.pull.tagApply.isEmpty)
+                                               enabled: self.state.pull.tagApply)
                     {
-                        self.state.push.tagApply = self.state.pull.tagApply
+                        self.state.push.tagApply = $0
                     }
                     .modifier(TagApply.popover)
                 }
                 ToolbarItem(id: .itemShare, placement: .secondaryAction) {
                     self.style.share.button(self.text.share,
-                                            enabled: !self.state.pull.share.isEmpty)
+                                            enabled: self.state.pull.share)
                     {
-                        self.state.push.share = self.state.pull.share
+                        self.state.push.share = $0
                     }
                 }
             }

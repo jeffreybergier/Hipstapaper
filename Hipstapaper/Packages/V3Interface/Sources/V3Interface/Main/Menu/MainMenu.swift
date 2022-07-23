@@ -63,74 +63,74 @@ internal struct MainMenu: Commands {
     internal var body: some Commands {
         CommandGroup(replacing: .newItem) {
             self.style.websiteAdd.button(self.text(\.websiteAdd),
-                                         enabled: self.controller != nil)
-            {
+                                         enabled: self.controller)
+            { _ in
                 self.state.push.websiteAdd = true
             }
             self.style.tagAdd.button(self.text(\.tagAdd),
-                                     enabled: self.controller != nil)
-            {
+                                     enabled: self.controller)
+            { _ in
                 self.state.push.tagAdd = true
             }
         }
         CommandGroup(after: .newItem) {
             Divider()
             self.style.openInApp.button(self.text(\.openInApp),
-                                        enabled: self.state.pull.openInApp?.single != nil)
-            {
+                                        enabled: self.state.pull.openInApp?.single)
+            { _ in
                 self.state.push.openInApp = self.state.pull.openInApp
 
             }
             self.style.openExternal.button(self.text(\.openExternal),
-                                           enabled: self.state.pull.openExternal?.single != nil)
-            {
+                                           enabled: self.state.pull.openExternal?.single)
+            { _ in
                 self.state.push.openExternal = self.state.pull.openExternal
             }
         }
         CommandGroup(before: .importExport) {
             self.style.share.button(self.text(\.share),
-                                    enabled: !self.state.pull.share.isEmpty)
+                                    enabled: self.state.pull.share)
             {
-                self.state.push.share = self.state.pull.share
+                self.state.push.share = $0
             }
         }
         CommandGroup(before: .pasteboard) {
             Divider()
             self.style.archiveYes.button(self.text(\.archiveYes),
-                                         enabled: !self.state.pull.archiveYes.isEmpty)
+                                         enabled: self.state.pull.archiveYes)
             {
-                self.state.push.archiveYes = self.state.pull.archiveYes
+                self.state.push.archiveYes = $0
             }
             self.style.archiveNo.button(self.text(\.archiveNo),
-                                        enabled: !self.state.pull.archiveNo.isEmpty)
+                                        enabled: self.state.pull.archiveNo)
             {
-                self.state.push.archiveNo = self.state.pull.archiveNo
+                self.state.push.archiveNo = $0
             }
             self.style.tagApply.button(self.text(\.tagApply),
-                                       enabled: !self.state.pull.tagApply.isEmpty)
+                                       enabled: self.state.pull.tagApply)
             {
-                self.state.push.tagApply = self.state.pull.tagApply
+                self.state.push.tagApply = $0
             }
             self.style.websiteEdit.button(self.text(\.websiteEdit),
-                                          enabled: !self.state.pull.websiteEdit.isEmpty)
+                                          enabled: self.state.pull.websiteEdit)
             {
-                self.state.push.websiteEdit = self.state.pull.websiteEdit
+                self.state.push.websiteEdit = $0
             }
             self.style.tagEdit.button(self.text(\.tagEdit),
-                                      enabled: !self.state.pull.tagsEdit.isEmpty)
+                                      enabled: self.state.pull.tagsEdit)
             {
-                self.state.push.tagsEdit = self.state.pull.tagsEdit
+                self.state.push.tagsEdit = $0
             }
             Divider()
             self.style.websiteDelete.button(self.text(\.websiteDelete),
-                                            enabled: !self.state.pull.websiteDelete.isEmpty)
+                                            enabled: self.state.pull.websiteDelete)
             {
-                self.state.push.websiteDelete = self.state.pull.websiteDelete
+                self.state.push.websiteDelete = $0
             }
             self.style.tagDelete.button(self.text(\.tagDelete),
-                                        enabled: !self.state.pull.tagDelete.isEmpty)
+                                        enabled: self.state.pull.tagDelete)
             {
-                self.state.push.tagDelete = self.state.pull.tagDelete
+                self.state.push.tagDelete = $0
             }
         }
         CommandGroup(after: .sidebar) {
