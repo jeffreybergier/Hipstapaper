@@ -61,10 +61,9 @@ internal struct Detail: View {
             .onLoadChange(of: self.nav.sidebar.selectedTag) {
                 _data.setFilter($0)
             }
-            .modifier(.detailTitle)
-            .modifier(.detailMenu)
-            .modifier(.detailToolbar)
-            .modifier(WebsiteEdit.sheet(self.$nav.isWebsitesEdit))
+            .modifier(DetailTitle())
+            .modifier(DetailMenu())
+            .modifier(DetailToolbar())
             .sheetCover(item: self.$nav.detail.isBrowse) { ident in
                 Browser(ident)
             }

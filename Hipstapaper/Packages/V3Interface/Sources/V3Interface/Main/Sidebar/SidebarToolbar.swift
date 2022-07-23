@@ -29,10 +29,6 @@ import V3Store
 import V3Localize
 import V3Style
 
-extension ViewModifier where Self == SidebarToolbar {
-    internal static var sidebarToolbar: Self { Self.init() }
-}
-
 internal struct SidebarToolbar: ViewModifier {
     
     @Nav private var nav

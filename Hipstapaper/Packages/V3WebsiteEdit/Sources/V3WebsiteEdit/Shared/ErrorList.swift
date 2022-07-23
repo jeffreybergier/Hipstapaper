@@ -27,15 +27,11 @@
 import SwiftUI
 import V3Errors
 
-internal struct ErrorList: ViewModifier {
+internal struct ErrorListPopover: ViewModifier {
     @Nav private var nav
     internal func body(content: Content) -> some View {
         content.popover(isPresented: self.$nav.isErrorList.isPresented) {
             V3Errors.ErrorList(nav: self.$nav.isErrorList, errorQueue: self.$nav.errorQueue)
         }
     }
-}
-
-extension ViewModifier where Self == ErrorList {
-    internal static var popover: Self { .init() }
 }

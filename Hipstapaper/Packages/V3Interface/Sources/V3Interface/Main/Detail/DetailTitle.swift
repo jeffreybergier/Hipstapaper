@@ -29,10 +29,6 @@ import V3Store
 import V3Model
 import V3Localize
 
-extension ViewModifier where Self == DetailTitle {
-    internal static var detailTitle: Self { Self.init() }
-}
-
 internal struct DetailTitle: ViewModifier {
 
     @Nav private var nav

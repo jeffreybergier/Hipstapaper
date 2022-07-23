@@ -67,7 +67,7 @@ internal struct FormToolbar: ViewModifier {
             self.style.error.button(self.text.error) {
                 self.nav.isErrorList.isPresented = true
             }
-            .modifier(ErrorList.popover)
+            .modifier(ErrorListPopover())
         }
     }
     

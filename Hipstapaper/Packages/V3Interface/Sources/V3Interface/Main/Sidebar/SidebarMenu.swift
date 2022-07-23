@@ -63,7 +63,3 @@ internal struct SidebarMenu: ViewModifier {
         }
     }
 }
-
-extension ViewModifier where Self == SidebarMenu {
-    internal static var sidebarMenu: Self { Self.init() }
-}

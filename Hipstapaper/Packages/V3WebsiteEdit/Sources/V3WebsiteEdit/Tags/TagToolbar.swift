@@ -59,11 +59,7 @@ internal struct TagToolbar: ViewModifier {
             self.style.error.button(self.text.error) {
                 self.nav.isErrorList.isPresented = true
             }
-            .modifier(ErrorList.popover)
+            .modifier(ErrorListPopover())
         }
     }
-}
-
-extension ViewModifier where Self == TagToolbar {
-    internal static var toolbar: Self { .init() }
 }

@@ -30,10 +30,6 @@ import V3Style
 import V3Localize
 import V3WebsiteEdit
 
-extension ViewModifier where Self == DetailToolbar {
-    internal static var detailToolbar: Self { Self.init() }
-}
-
 internal struct DetailToolbar: ViewModifier {
 
     @Nav private var nav

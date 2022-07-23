@@ -31,10 +31,6 @@ import V3Style
 import V3Localize
 import V3Errors
 
-extension ViewModifier where Self == DetailMenu {
-    internal static var detailMenu: Self { Self.init() }
-}
-
 internal struct DetailMenu: ViewModifier {
 
     @BulkActions private var state

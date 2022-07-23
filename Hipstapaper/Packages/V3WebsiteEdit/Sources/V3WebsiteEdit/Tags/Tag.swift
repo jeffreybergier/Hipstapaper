@@ -54,7 +54,7 @@ internal struct Tag: View {
                     EmptyState()
                 }
             }
-            .modifier(TagToolbar.toolbar)
+            .modifier(TagToolbar())
         }
         .frame(idealWidth: 320, minHeight: 320)
         .onLoadChange(of: self.selection) {
