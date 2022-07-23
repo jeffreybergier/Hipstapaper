@@ -27,6 +27,7 @@
 import SwiftUI
 import Collections
 import Umbrella
+import V3Model
 
 @propertyWrapper
 internal struct Nav: DynamicProperty {
@@ -59,6 +60,7 @@ extension Navigation {
     fileprivate init(scene: SceneStorageNavigation?, app: AppStorageNavigation?) {
         self.sidebar = scene?.sidebar ?? .init()
         self.detail = scene?.detail ?? .init()
+        self.isWebsitesEdit = scene?.isWebsiteEdit ?? []
         self.isError = scene?.isError
         self.errorQueue = app?.errorQueue ?? []
     }
@@ -69,6 +71,7 @@ extension Navigation {
     fileprivate var sceneValue: SceneStorageNavigation {
         .init(sidebar: self.sidebar,
               detail: self.detail,
+              isWebsiteEdit: self.isWebsitesEdit,
               isError: self.isError)
     }
 }
@@ -76,6 +79,7 @@ extension Navigation {
 fileprivate struct SceneStorageNavigation: Codable {
     fileprivate var sidebar: Navigation.Sidebar
     fileprivate var detail: Navigation.Detail
+    fileprivate var isWebsiteEdit: Website.Selection = []
     fileprivate var isError: CodableError?
 }
 

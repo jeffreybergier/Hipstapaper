@@ -32,11 +32,11 @@ import V3Errors
 
 internal struct Navigation: Hashable, Codable, ErrorPresentable {
     
-    internal var sidebar: Sidebar = .init()
-    internal var detail: Detail = .init()
-    internal var isWebsitesEdit: Website.Selection = []
+    internal var sidebar: Sidebar
+    internal var detail: Detail
+    internal var isWebsitesEdit: Website.Selection
     internal var isError: CodableError?
-    internal var errorQueue: Deque<CodableError> = []
+    internal var errorQueue: Deque<CodableError>
     
     internal var isPresenting: Bool {
         self.detail.isPresenting
@@ -56,7 +56,7 @@ internal struct Navigation: Hashable, Codable, ErrorPresentable {
 
 extension Navigation {
     internal struct Sidebar: Hashable, Codable, ErrorPresentable {
-        internal var selectedTag: Tag.Selection.Element? = .default
+        internal var selectedTag: Tag.Selection.Element?
         internal var isTagsEdit: TagsEdit = .init()
         internal var isError: CodableError? // Not used
         internal var isPresenting: Bool {

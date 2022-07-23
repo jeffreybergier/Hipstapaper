@@ -68,10 +68,10 @@ internal struct MainView: View {
                 Sidebar()
             } detail: {
                 Detail()
+                    .editMode(force: true)
                     // Force editMode on the detail table
                     // TODO: Find better way to create a
                     // Modal NavigationLink for websites
-                    .editMode(force: true)
             }
             .modifier(WebsiteEdit.sheet(self.$nav.isWebsitesEdit))
             .modifier(BulkActionsHelper())
