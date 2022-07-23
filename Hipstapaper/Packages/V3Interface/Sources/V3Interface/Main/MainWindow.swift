@@ -28,6 +28,7 @@ import SwiftUI
 import V3Store
 import V3Localize
 import V3Errors
+import V3WebsiteEdit
 
 public struct MainWindow: Scene {
     
@@ -72,6 +73,7 @@ internal struct MainView: View {
                     // Modal NavigationLink for websites
                     .editMode(force: true)
             }
+            .modifier(WebsiteEdit.sheet(self.$nav.isWebsitesEdit))
             .modifier(BulkActionsHelper())
         }
     }

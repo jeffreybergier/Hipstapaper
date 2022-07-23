@@ -29,7 +29,6 @@ import Umbrella
 import V3Model
 import V3Store
 import V3Browser
-import V3WebsiteEdit
 import V3Localize
 
 internal struct Detail: View {
@@ -37,8 +36,8 @@ internal struct Detail: View {
     @Nav private var nav
     @Query private var query
     @WebsiteListQuery private var data
-    @V3Localize.Detail private var text
     
+    @V3Localize.Detail private var text
     @JSBSizeClass private var sizeClass
 
     internal var body: some View {
