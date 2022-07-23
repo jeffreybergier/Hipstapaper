@@ -45,7 +45,7 @@ internal struct BulkActionsHelper: ViewModifier {
                 _data.setTag(selection: newValue.map { [$0] } ?? [])
             }
             .onLoadChange(of: self.nav.detail.selectedWebsites) { newValue in
-                _data.setSelection(newValue)
+                _data.setWebsite(selection: newValue)
             }
             .onLoadChange(of: self.nav.errorQueue) { newValue in
                 self.data.showErrors = !newValue.isEmpty

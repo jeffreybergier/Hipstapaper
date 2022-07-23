@@ -61,15 +61,6 @@ public struct ToolbarQuery: DynamicProperty {
         get { self.valueCache }
         nonmutating set { self.valueCache = newValue }
     }
-
-    public func setArchive(_ newValue: Bool) {
-        let result = type(of: self).setArchive(newValue,
-                                               self.websiteSelection,
-                                               self.controller)
-        guard let error = result.error else { return }
-        NSLog(String(describing: error))
-        self.errorResponder(.init(error as NSError))
-    }
     
     public func setWebsite(selection newValue: Website.Selection) {
         self.websiteSelection = newValue
@@ -81,28 +72,28 @@ public struct ToolbarQuery: DynamicProperty {
         self.recalculate()
     }
     
-    public func setSelection(_ newValue: Website.Selection) {
-        self.websiteSelection = newValue
-        self.recalculate()
-    }
-    
     private func recalculate() {
         let controller = self.controller
         let selectionW = self.websiteSelection
         let selectionT = self.tagSelection
-
+        
+        // reset default state
         self.valueCache.websiteAdd = false
         self.valueCache.tagAdd = false
+        
+        // set things that are always true
+        self.valueCache.share = selectionW
+        self.valueCache.tagApply = selectionW
+        self.valueCache.websiteEdit = selectionW
+        self.valueCache.websiteDelete = selectionW
+        
+        // set things with custom logic
         self.valueCache.openInApp = type(of: self).openWebsite(selectionW, controller)
         self.valueCache.openExternal = type(of: self).openURL(selectionW, controller)
         self.valueCache.archiveYes = type(of: self).canArchiveYes(selectionW, controller)
         self.valueCache.archiveNo = type(of: self).canArchiveNo(selectionW, controller)
-        self.valueCache.share = selectionW
-        self.valueCache.tagApply = selectionW
-        self.valueCache.websiteEdit = selectionW
-        self.valueCache.tagsEdit = selectionT
-        self.valueCache.websiteDelete = selectionW
-        self.valueCache.tagDelete = selectionT
+        self.valueCache.tagDelete = type(of: self).editTags(selectionT)
+        self.valueCache.tagsEdit = type(of: self).editTags(selectionT)
     }
 }
 
@@ -128,8 +119,7 @@ extension ToolbarQuery {
         let controller = controller as! CD_Controller
         return controller.setArchive(newValue, on: selection)
     }
-    public static func canEditTags(_ selection: Tag.Selection) -> Bool {
-        guard selection.isEmpty == false else { return false }
-        return selection.contains { $0.isSystem } == false
+    public static func editTags(_ selection: Tag.Selection) -> Tag.Selection {
+        return selection.filter { $0.isSystem == false }
     }
 }
