@@ -26,15 +26,10 @@
 
 import AppKit
 import SwiftUI
-import ShareUI
-import WebsiteEdit
 
 class ShareViewController: NSViewController {
         
-    private let control = Control()
-    private lazy var shareUIVC: NSViewController = NSHostingController(
-        rootView: Interface(control: self.control)
-    )
+    private lazy var shareUIVC: NSViewController = NSViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,22 +47,25 @@ class ShareViewController: NSViewController {
             self.addChild(vc)
         }()
         
+        // TODO: How do I dismiss this?
+        /*
         self.control.onDone = { [weak extensionContext] in
             extensionContext?.completeRequest(returningItems: nil,
                                               completionHandler: nil)
         }
+        */
         
         guard let context = self.extensionContext?.inputItems.first as? NSExtensionItem else {
-            self.control.extensionError = WebsiteEdit.Error.sx_process
+            // TODO: Put error back here?
             return
         }
         
         context.urlValue() { url in
             guard let url = url else {
-                self.control.extensionError = WebsiteEdit.Error.sx_process
+                // TODO: Put error back here?
                 return
             }
-            self.control.extensionURL = url
+            // self.control.extensionURL = url
         }
     }
 }
