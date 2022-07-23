@@ -33,8 +33,8 @@ import V3Store
 internal struct BulkActions: DynamicProperty {
     
     internal struct State {
-        internal var pull: ToolbarQuery.Value = .init()
-        internal var push: ToolbarQuery.Value = .init()
+        internal var pull: BulkActionsQuery.Value = .init()
+        internal var push: BulkActionsQuery.Value = .init()
     }
     
     internal typealias Environment = BlackBox<State>

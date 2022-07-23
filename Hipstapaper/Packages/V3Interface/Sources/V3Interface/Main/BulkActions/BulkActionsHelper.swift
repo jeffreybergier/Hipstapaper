@@ -34,7 +34,7 @@ internal struct BulkActionsHelper: ViewModifier {
     @Nav private var nav
     @Controller private var controller
     @BulkActions private var state
-    @ToolbarQuery private var data
+    @BulkActionsQuery private var data
     @Environment(\.openURL) private var openExternal
     @Environment(\.codableErrorResponder) private var errorResponder
     
@@ -97,7 +97,7 @@ internal struct BulkActionsHelper: ViewModifier {
                     self.state.push.archiveYes = []
                     self.nav.detail.selectedWebsites = []
                 }
-                guard let error = ToolbarQuery.setArchive(true, selection, self.controller).error else { return }
+                guard let error = BulkActionsQuery.setArchive(true, selection, self.controller).error else { return }
                 self.errorResponder(.init(error as NSError))
             }
             .onChange(of: self.state.push.archiveNo) { selection in
@@ -106,7 +106,7 @@ internal struct BulkActionsHelper: ViewModifier {
                     self.state.push.archiveNo = []
                     self.nav.detail.selectedWebsites = []
                 }
-                guard let error = ToolbarQuery.setArchive(false, selection, self.controller).error else { return }
+                guard let error = BulkActionsQuery.setArchive(false, selection, self.controller).error else { return }
                 self.errorResponder(.init(error as NSError))
             }
             .onChange(of: self.state.push.tagApply) { selection in

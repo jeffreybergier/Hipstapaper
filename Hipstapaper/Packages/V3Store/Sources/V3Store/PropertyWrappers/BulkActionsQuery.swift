@@ -28,7 +28,7 @@ import SwiftUI
 import V3Model
 
 @propertyWrapper
-public struct ToolbarQuery: DynamicProperty {
+public struct BulkActionsQuery: DynamicProperty {
     
     public struct Value: Hashable {
         public var websiteAdd: Bool = false
@@ -97,7 +97,7 @@ public struct ToolbarQuery: DynamicProperty {
     }
 }
 
-extension ToolbarQuery {
+extension BulkActionsQuery {
     // Workaround so this can be used from Menu
     public static func canArchiveYes(_ selection: Website.Selection, _ controller: ControllerProtocol) -> Website.Selection {
         return (controller as! CD_Controller).canArchiveYes(selection) ? selection : []

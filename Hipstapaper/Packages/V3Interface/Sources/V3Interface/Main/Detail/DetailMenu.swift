@@ -50,34 +50,34 @@ internal struct DetailMenu: ViewModifier {
             .contextMenu(forSelectionType: Website.Selection.Element.self) { items in
                 self.style.openInApp.button(
                     self.text.openInApp,
-                    enabled: ToolbarQuery.openWebsite(items, self.controller).single != nil
+                    enabled: BulkActionsQuery.openWebsite(items, self.controller).single != nil
                 )
                 {
-                    self.nav.detail.isBrowse = ToolbarQuery.openWebsite(items, self.controller).single
+                    self.nav.detail.isBrowse = BulkActionsQuery.openWebsite(items, self.controller).single
                 }
                 self.style.openExternal.button(
                     self.text.openExternal,
-                    enabled: ToolbarQuery.openURL(items, self.controller).single != nil
+                    enabled: BulkActionsQuery.openURL(items, self.controller).single != nil
                 )
                 {
-                    ToolbarQuery.openURL(items, self.controller).single.map { self.openURL($0) }
+                    BulkActionsQuery.openURL(items, self.controller).single.map { self.openURL($0) }
                 }
                 self.style.archiveYes.button(
                     self.text.archiveYes,
-                    enabled: !ToolbarQuery.canArchiveYes(items, self.controller).isEmpty
+                    enabled: !BulkActionsQuery.canArchiveYes(items, self.controller).isEmpty
                 )
                 {
-                    let result = ToolbarQuery.setArchive(true, items, self.controller)
+                    let result = BulkActionsQuery.setArchive(true, items, self.controller)
                     guard let error = result.error else { return }
                     NSLog(String(describing: error))
                     self.errorResponder(.init(error as NSError))
                 }
                 self.style.archiveNo.button(
                     self.text.archiveNo,
-                    enabled: !ToolbarQuery.canArchiveNo(items, self.controller).isEmpty
+                    enabled: !BulkActionsQuery.canArchiveNo(items, self.controller).isEmpty
                 )
                 {
-                    let result = ToolbarQuery.setArchive(false, items, self.controller)
+                    let result = BulkActionsQuery.setArchive(false, items, self.controller)
                     guard let error = result.error else { return }
                     NSLog(String(describing: error))
                     self.errorResponder(.init(error as NSError))
