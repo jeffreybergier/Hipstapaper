@@ -75,6 +75,50 @@ internal struct MainMenuStateHelper: ViewModifier {
                 defer { self.state.push_openExternal = nil }
                 newValue.single.map { self.openExternal($0) }
             }
+            .onChange(of: self.state.push_share) { selection in
+                guard selection.isEmpty == false else { return }
+                defer { self.state.push_share = [] }
+                // TODO: Share
+            }
+            .onChange(of: self.state.push_archiveYes) { selection in
+                guard selection.isEmpty == false else { return }
+                defer {
+                    self.state.push_archiveYes = []
+                    self.nav.detail.selectedWebsites = []
+                }
+                guard let error = ToolbarQuery.setArchive(true, selection, self.controller).error else { return }
+                self.errorResponder(.init(error as NSError))
+            }
+            .onChange(of: self.state.push_archiveNo) { selection in
+                guard selection.isEmpty == false else { return }
+                defer {
+                    self.state.push_archiveNo = []
+                    self.nav.detail.selectedWebsites = []
+                }
+                guard let error = ToolbarQuery.setArchive(false, selection, self.controller).error else { return }
+                self.errorResponder(.init(error as NSError))
+            }
+            .onChange(of: self.state.push_tagApply) { selection in
+                guard selection.isEmpty == false else { return }
+                defer {
+                    self.state.push_tagApply = []
+                    self.nav.detail.selectedWebsites = []
+                }
+                self.nav.detail.isTagApply = selection
+            }
+            .onChange(of: self.state.push_websiteEdit) { selection in
+                guard selection.isEmpty == false else { return }
+                defer {
+                    self.state.push_websiteEdit = []
+                    self.nav.detail.selectedWebsites = []
+                }
+                self.nav.detail.isWebsitesEdit.editing = selection
+            }
+            .onChange(of: self.state.push_tagsEdit) { selection in
+                guard selection.isEmpty == false else { return }
+                defer { self.state.push_tagsEdit = [] }
+                self.nav.sidebar.isTagsEdit.editing = selection
+            }
             .onChange(of: self.state.push_websiteDelete) { error in
                 guard let error else { return }
                 defer {
@@ -90,6 +134,11 @@ internal struct MainMenuStateHelper: ViewModifier {
                     self.nav.sidebar.selectedTag = nil
                 }
                 self.errorResponder(error)
+            }
+            .onChange(of: self.state.push_showErrors) { newValue in
+                guard newValue else { return }
+                defer { self.state.push_showErrors = false }
+                self.nav.detail.isErrorList.isPresented = true
             }
     }
 }

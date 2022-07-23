@@ -38,8 +38,15 @@ extension MainMenu {
         internal var push_tagAdd: Bool = false
         internal var push_openInApp: SingleMulti<Website.Selection.Element>? = nil
         internal var push_openExternal: SingleMulti<URL>? = nil
+        internal var push_share: Website.Selection = []
+        internal var push_archiveYes: Website.Selection = []
+        internal var push_archiveNo: Website.Selection = []
+        internal var push_tagApply: Website.Selection = []
+        internal var push_websiteEdit: Website.Selection = []
+        internal var push_tagsEdit: Tag.Selection = []
         internal var push_websiteDelete: CodableError?
         internal var push_tagDelete: CodableError?
+        internal var push_showErrors: Bool = false
     }
 }
 

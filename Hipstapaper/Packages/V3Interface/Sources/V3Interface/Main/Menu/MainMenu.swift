@@ -94,7 +94,7 @@ internal struct MainMenu: Commands {
             self.style.share.button(self.text(\.share),
                                     enabled: self.canShare)
             {
-                
+                self.state.push_share = self.state.selectedWebsites
             }
         }
         CommandGroup(before: .pasteboard) {
@@ -102,27 +102,27 @@ internal struct MainMenu: Commands {
             self.style.archiveYes.button(self.text(\.archiveYes),
                                          enabled: self.canArchiveYes)
             {
-                
+                self.state.push_archiveYes = self.state.selectedWebsites
             }
             self.style.archiveNo.button(self.text(\.archiveNo),
                                         enabled: self.canArchiveNo)
             {
-                
+                self.state.push_archiveNo = self.state.selectedWebsites
             }
             self.style.tagApply.button(self.text(\.tagApply),
                                        enabled: self.canTagApply)
             {
-                
+                self.state.push_tagApply = self.state.selectedWebsites
             }
             self.style.websiteEdit.button(self.text(\.websiteEdit),
                                           enabled: self.canWebsiteEdit)
             {
-                
+                self.state.push_websiteEdit = self.state.selectedWebsites
             }
             self.style.tagEdit.button(self.text(\.tagEdit),
                                       enabled: self.canTagEdit)
             {
-                
+                self.state.push_tagsEdit = self.state.selectedTags
             }
             Divider()
             self.style.websiteDelete.button(self.text(\.websiteDelete),
@@ -140,7 +140,7 @@ internal struct MainMenu: Commands {
             self.style.error.button(self.text(\.error),
                                     enabled: self.canShowErrors)
             {
-                
+                self.state.push_showErrors = true
             }
             Divider()
         }
