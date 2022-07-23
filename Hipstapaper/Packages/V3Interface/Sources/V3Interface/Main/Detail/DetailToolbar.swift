@@ -35,67 +35,68 @@ extension ViewModifier where Self == DetailToolbar {
 
 internal struct DetailToolbar: ViewModifier {
 
-    @Nav private var nav
     @Query private var query
+    @MainMenuState private var state
+    
     @V3Style.DetailToolbar private var style
     @V3Localize.DetailToolbar private var text
-    
-    @ToolbarQuery private var data
-    @Environment(\.openURL) private var openExternal
-    
+        
     internal func body(content: Content) -> some View {
         content
-            .onChange(of: self.nav.detail.selectedWebsites) {
-                _data.setSelection($0)
-            }
             .toolbarRole(.editor)
             .toolbar(id: .barTop) {
                 ToolbarItem(id: .itemOpenInApp, placement: .primaryAction) {
                     self.style.openInApp.button(self.text.openInApp,
-                                                enabled: self.data.openWebsite.single != nil)
+                                                enabled: self.state.pull.openInApp?.single != nil)
                     {
-                        self.nav.detail.isBrowse = self.data.openWebsite.single
+                        self.state.push.openInApp = self.state.pull.openInApp
                     }
                 }
                 ToolbarItem(id: .itemOpenExternal, placement: .secondaryAction) {
                     self.style.openExternal.button(self.text.openExternal,
-                                                   enabled: self.data.openURL.single != nil)
+                                                   enabled: self.state.pull.openExternal?.single != nil)
                     {
-                        self.data.openURL.single.map { self.openExternal($0) }
+                        self.state.push.openExternal = self.state.pull.openExternal
                     }
                 }
                 ToolbarItem(id: .itemArchiveYes, placement: .secondaryAction) {
-                    self.style.archiveYes.button(self.text.archiveYes, enabled: self.data.canArchiveYes) {
-                        self._data.setArchive(true)
-                        self.nav.detail.selectedWebsites = []
+                    self.style.archiveYes.button(self.text.archiveYes,
+                                                 enabled: !self.state.pull.archiveYes.isEmpty)
+                    {
+                        self.state.push.archiveYes = self.state.pull.archiveYes
                     }
                 }
                 ToolbarItem(id: .itemArchiveNo, placement: .secondaryAction) {
-                    self.style.archiveNo.button(self.text.archiveNo, enabled: self.data.canArchiveNo) {
-                        self._data.setArchive(false)
-                        self.nav.detail.selectedWebsites = []
+                    self.style.archiveNo.button(self.text.archiveNo,
+                                                enabled: !self.state.pull.archiveNo.isEmpty)
+                    {
+                        self.state.push.archiveNo = self.state.pull.archiveNo
                     }
                 }
                 ToolbarItem(id: .itemTagApply, placement: .secondaryAction) {
-                    self.style.tagApply.button(self.text.tagApply, enabled: !self.data.isEmpty) {
-                        self.nav.detail.isTagApply = self.nav.detail.selectedWebsites
+                    self.style.tagApply.button(self.text.tagApply,
+                                               enabled: !self.state.pull.tagApply.isEmpty)
+                    {
+                        self.state.push.tagApply = self.state.pull.tagApply
                     }
                     .modifier(TagApply.popover)
                 }
                 ToolbarItem(id: .itemShare, placement: .secondaryAction) {
-                    self.style.share.button(self.text.share, enabled: !self.data.isEmpty) {
-                        
+                    self.style.share.button(self.text.share,
+                                            enabled: !self.state.pull.share.isEmpty)
+                    {
+                        self.state.push.share = self.state.pull.share
                     }
                 }
             }
             .toolbar(id: .barBottom) {
                 ToolbarItem(id: .itemError, placement: .bottomSecondary) {
-                    if self.nav.errorQueue.isEmpty == false {
-                        self.style.error.button(self.text.error) {
-                            self.nav.detail.isErrorList.isPresented = true
-                        }
-                        .modifier(DetailErrorListPresentation())
+                    self.style.error.button(self.text.error,
+                                            enabled: self.state.pull.showErrors)
+                    {
+                        self.state.push.showErrors = true
                     }
+                    .modifier(DetailErrorListPresentation())
                 }
                 ToolbarItem(id: .itemSpacer, placement: .bottomSecondary) {
                     Spacer()

@@ -27,25 +27,36 @@
 import SwiftUI
 import Umbrella
 import V3Store
+import V3Errors
 
 internal struct MainMenuStateHelper: ViewModifier {
     
     @Nav private var nav
     @Controller private var controller
     @MainMenuState private var state
+    @ToolbarQuery private var data
     @Environment(\.openURL) private var openExternal
     @Environment(\.codableErrorResponder) private var errorResponder
     
     internal func body(content: Content) -> some View {
         content
-            .onChange(of: self.nav) {
-                self.state.canShowErrors = $0.errorQueue.isEmpty == false
-                self.state.selectedTags = $0.sidebar.selectedTag.map { Set([$0]) } ?? []
-                self.state.selectedWebsites = $0.detail.selectedWebsites
+        // MARK: Update PULL State
+            .onLoadChange(of: self.nav.sidebar.selectedTag) { newValue in
+                _data.setTag(selection: newValue.map { [$0] } ?? [])
             }
-            .onChange(of: self.state.push_websiteAdd) { newValue in
+            .onLoadChange(of: self.nav.detail.selectedWebsites) { newValue in
+                _data.setSelection(newValue)
+            }
+            .onLoadChange(of: self.nav.errorQueue) { newValue in
+                self.data.showErrors = !newValue.isEmpty
+            }
+            .onLoadChange(of: self.data) { newState in
+                self.state.pull = newState
+            }
+        // MARK: Act on PUSH state
+            .onChange(of: self.state.push.websiteAdd) { newValue in
                 guard newValue else { return }
-                defer { self.state.push_websiteAdd = false }
+                defer { self.state.push.websiteAdd = false }
                 switch self.controller.createWebsite() {
                 case .success(let identifier):
                     self.nav.sidebar.isWebsiteAdd.editing = [identifier]
@@ -54,9 +65,9 @@ internal struct MainMenuStateHelper: ViewModifier {
                     self.errorResponder(.init(error as NSError))
                 }
             }
-            .onChange(of: self.state.push_tagAdd) { newValue in
+            .onChange(of: self.state.push.tagAdd) { newValue in
                 guard newValue else { return }
-                defer { self.state.push_tagAdd = false }
+                defer { self.state.push.tagAdd = false }
                 switch self.controller.createTag() {
                 case .success(let identifier):
                     self.nav.sidebar.isTagsEdit.editing = [identifier]
@@ -65,79 +76,79 @@ internal struct MainMenuStateHelper: ViewModifier {
                     self.errorResponder(.init(error as NSError))
                 }
             }
-            .onChange(of: self.state.push_openInApp) { newValue in
+            .onChange(of: self.state.push.openInApp) { newValue in
                 guard let newValue else { return }
-                defer { self.state.push_openInApp = nil }
+                defer { self.state.push.openInApp = nil }
                 self.nav.detail.isBrowse = newValue.single
             }
-            .onChange(of: self.state.push_openExternal) { newValue in
+            .onChange(of: self.state.push.openExternal) { newValue in
                 guard let newValue else { return }
-                defer { self.state.push_openExternal = nil }
+                defer { self.state.push.openExternal = nil }
                 newValue.single.map { self.openExternal($0) }
             }
-            .onChange(of: self.state.push_share) { selection in
+            .onChange(of: self.state.push.share) { selection in
                 guard selection.isEmpty == false else { return }
-                defer { self.state.push_share = [] }
+                defer { self.state.push.share = [] }
                 // TODO: Share
             }
-            .onChange(of: self.state.push_archiveYes) { selection in
+            .onChange(of: self.state.push.archiveYes) { selection in
                 guard selection.isEmpty == false else { return }
                 defer {
-                    self.state.push_archiveYes = []
+                    self.state.push.archiveYes = []
                     self.nav.detail.selectedWebsites = []
                 }
                 guard let error = ToolbarQuery.setArchive(true, selection, self.controller).error else { return }
                 self.errorResponder(.init(error as NSError))
             }
-            .onChange(of: self.state.push_archiveNo) { selection in
+            .onChange(of: self.state.push.archiveNo) { selection in
                 guard selection.isEmpty == false else { return }
                 defer {
-                    self.state.push_archiveNo = []
+                    self.state.push.archiveNo = []
                     self.nav.detail.selectedWebsites = []
                 }
                 guard let error = ToolbarQuery.setArchive(false, selection, self.controller).error else { return }
                 self.errorResponder(.init(error as NSError))
             }
-            .onChange(of: self.state.push_tagApply) { selection in
+            .onChange(of: self.state.push.tagApply) { selection in
                 guard selection.isEmpty == false else { return }
                 defer {
-                    self.state.push_tagApply = []
+                    self.state.push.tagApply = []
                     self.nav.detail.selectedWebsites = []
                 }
                 self.nav.detail.isTagApply = selection
             }
-            .onChange(of: self.state.push_websiteEdit) { selection in
+            .onChange(of: self.state.push.websiteEdit) { selection in
                 guard selection.isEmpty == false else { return }
                 defer {
-                    self.state.push_websiteEdit = []
+                    self.state.push.websiteEdit = []
                     self.nav.detail.selectedWebsites = []
                 }
                 self.nav.detail.isWebsitesEdit.editing = selection
             }
-            .onChange(of: self.state.push_tagsEdit) { selection in
+            .onChange(of: self.state.push.tagsEdit) { selection in
                 guard selection.isEmpty == false else { return }
-                defer { self.state.push_tagsEdit = [] }
+                defer { self.state.push.tagsEdit = [] }
                 self.nav.sidebar.isTagsEdit.editing = selection
             }
-            .onChange(of: self.state.push_websiteDelete) { error in
-                guard let error else { return }
+            .onChange(of: self.state.push.websiteDelete) { selection in
+                guard selection.isEmpty == false else { return }
                 defer {
-                    self.state.push_websiteDelete = nil
+                    self.state.push.websiteDelete = []
                     self.nav.detail.selectedWebsites = []
                 }
-                self.errorResponder(error)
+                self.errorResponder(DeleteWebsiteError(selection).codableValue)
             }
-            .onChange(of: self.state.push_tagDelete) { error in
-                guard let error else { return }
+            .onChange(of: self.state.push.tagDelete) { selection in
+                guard selection.isEmpty == false else { return }
                 defer {
-                    self.state.push_tagDelete = nil
-                    self.nav.sidebar.selectedTag = nil
+                    self.state.push.tagDelete = []
+                    self.nav.sidebar.selectedTag = .default
                 }
-                self.errorResponder(error)
+                self.errorResponder(DeleteTagError(selection).codableValue)
             }
-            .onChange(of: self.state.push_showErrors) { newValue in
+            .onChange(of: self.state.push.showErrors) { newValue in
                 guard newValue else { return }
-                defer { self.state.push_showErrors = false }
+                defer { self.state.push.showErrors = false }
                 self.nav.detail.isErrorList.isPresented = true
             }
     }

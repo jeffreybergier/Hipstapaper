@@ -64,7 +64,7 @@ internal struct DetailMenu: ViewModifier {
                 }
                 self.style.archiveYes.button(
                     self.text.archiveYes,
-                    enabled: ToolbarQuery.canArchiveYes(items, self.controller)
+                    enabled: !ToolbarQuery.canArchiveYes(items, self.controller).isEmpty
                 )
                 {
                     let result = ToolbarQuery.setArchive(true, items, self.controller)
@@ -74,7 +74,7 @@ internal struct DetailMenu: ViewModifier {
                 }
                 self.style.archiveNo.button(
                     self.text.archiveNo,
-                    enabled: ToolbarQuery.canArchiveNo(items, self.controller)
+                    enabled: !ToolbarQuery.canArchiveNo(items, self.controller).isEmpty
                 )
                 {
                     let result = ToolbarQuery.setArchive(false, items, self.controller)

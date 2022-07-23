@@ -30,65 +30,89 @@ import V3Model
 @propertyWrapper
 public struct ToolbarQuery: DynamicProperty {
     
-    public struct Value {
-        public var isEmpty:       Bool = true
-        public var canArchiveYes: Bool = false
-        public var canArchiveNo:  Bool = false
-        public var openURL: SingleMulti<URL> = .none
-        public var openWebsite: SingleMulti<Website.Selection.Element> = .none
+    public struct Value: Hashable {
+        public var websiteAdd: Bool = false
+        public var tagAdd: Bool = false
+        public var openInApp: SingleMulti<Website.Selection.Element>? = nil
+        public var openExternal: SingleMulti<URL>? = nil
+        public var share: Website.Selection = []
+        public var archiveYes: Website.Selection = []
+        public var archiveNo: Website.Selection = []
+        public var tagApply: Website.Selection = []
+        public var websiteEdit: Website.Selection = []
+        public var tagsEdit: Tag.Selection = []
+        public var websiteDelete: Website.Selection = []
+        public var tagDelete: Tag.Selection = []
+        public var showErrors: Bool = false
+        public init() {}
     }
     
     @Controller private var controller
     
-    @State public var canArchiveYes: Bool = false
-    @State public var canArchiveNo:  Bool = false
-    @State public var openURL: SingleMulti<URL> = .none
-    @State public var openWebsite: SingleMulti<Website.Selection.Element> = .none
+    @State private var valueCache: Value = .init()
     
-    @State private var selection: Website.Selection = []
+    @State private var websiteSelection: Website.Selection = []
+    @State private var tagSelection: Tag.Selection = []
     @Environment(\.codableErrorResponder) private var errorResponder
     
     public init() {}
     
     public var wrappedValue: Value {
-        .init(isEmpty:       self.selection.isEmpty,
-              canArchiveYes: self.canArchiveYes,
-              canArchiveNo:  self.canArchiveNo,
-              openURL:       self.openURL,
-              openWebsite:   self.openWebsite)
+        get { self.valueCache }
+        nonmutating set { self.valueCache = newValue }
     }
 
     public func setArchive(_ newValue: Bool) {
         let result = type(of: self).setArchive(newValue,
-                                               self.selection,
+                                               self.websiteSelection,
                                                self.controller)
         guard let error = result.error else { return }
         NSLog(String(describing: error))
         self.errorResponder(.init(error as NSError))
     }
     
+    public func setWebsite(selection newValue: Website.Selection) {
+        self.websiteSelection = newValue
+        self.recalculate()
+    }
+    
+    public func setTag(selection newValue: Tag.Selection) {
+        self.tagSelection = newValue
+        self.recalculate()
+    }
+    
     public func setSelection(_ newValue: Website.Selection) {
-        self.selection = newValue
+        self.websiteSelection = newValue
         self.recalculate()
     }
     
     private func recalculate() {
         let controller = self.controller
-        let selection = self.selection
-        self.canArchiveYes = type(of: self).canArchiveYes(selection, controller)
-        self.canArchiveNo  = type(of: self).canArchiveNo(selection, controller)
-        self.openURL       = type(of: self).openURL(selection, controller)
-        self.openWebsite   = type(of: self).openWebsite(selection, controller)
+        let selectionW = self.websiteSelection
+        let selectionT = self.tagSelection
+
+        self.valueCache.websiteAdd = false
+        self.valueCache.tagAdd = false
+        self.valueCache.openInApp = type(of: self).openWebsite(selectionW, controller)
+        self.valueCache.openExternal = type(of: self).openURL(selectionW, controller)
+        self.valueCache.archiveYes = type(of: self).canArchiveYes(selectionW, controller)
+        self.valueCache.archiveNo = type(of: self).canArchiveNo(selectionW, controller)
+        self.valueCache.share = selectionW
+        self.valueCache.tagApply = selectionW
+        self.valueCache.websiteEdit = selectionW
+        self.valueCache.tagsEdit = selectionT
+        self.valueCache.websiteDelete = selectionW
+        self.valueCache.tagDelete = selectionT
     }
 }
 
 extension ToolbarQuery {
     // Workaround so this can be used from Menu
-    public static func canArchiveYes(_ selection: Website.Selection, _ controller: ControllerProtocol) -> Bool {
-        return (controller as! CD_Controller).canArchiveYes(selection)
+    public static func canArchiveYes(_ selection: Website.Selection, _ controller: ControllerProtocol) -> Website.Selection {
+        return (controller as! CD_Controller).canArchiveYes(selection) ? selection : []
     }
-    public static func canArchiveNo(_ selection: Website.Selection, _ controller: ControllerProtocol) -> Bool {
-        return (controller as! CD_Controller).canArchiveNo(selection)
+    public static func canArchiveNo(_ selection: Website.Selection, _ controller: ControllerProtocol) -> Website.Selection {
+        return (controller as! CD_Controller).canArchiveNo(selection) ? selection : []
     }
     public static func openURL(_ selection: Website.Selection, _ controller: ControllerProtocol) -> SingleMulti<URL> {
         return (controller as! CD_Controller).openURL(selection)
