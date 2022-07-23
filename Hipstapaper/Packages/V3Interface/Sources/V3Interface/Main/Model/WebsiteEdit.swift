@@ -25,33 +25,37 @@
 //
 
 import SwiftUI
+import V3Model
 import V3WebsiteEdit
 
 internal struct TagApply: ViewModifier {
-    @Nav private var nav
+    @Binding private var selection: Website.Selection
+    internal init(_ selection: Binding<Website.Selection>) {
+        _selection = selection
+    }
     internal func body(content: Content) -> some View {
-        content.popover(items: self.$nav.detail.isTagApply) { selection in
+        content.popover(items: self.$selection) { selection in
             V3WebsiteEdit.WebsiteEdit(selection: selection, start: .tag)
         }
     }
 }
 
 extension ViewModifier where Self == TagApply {
-    internal static var popover: Self { Self.init() }
+    internal static func popover(_ selection: Binding<Website.Selection>) -> Self { Self.init(selection) }
 }
 
 internal struct WebsiteEdit: ViewModifier {
-    @Binding private var nav: Navigation.WebsitesEdit
-    internal init(_ nav: Binding<Navigation.WebsitesEdit>) {
-        _nav = nav
+    @Binding private var selection: Website.Selection
+    internal init(_ selection: Binding<Website.Selection>) {
+        _selection = selection
     }
     internal func body(content: Content) -> some View {
-        content.sheet(items: self.$nav.editing) { selection in
+        content.sheet(items: self.$selection) { selection in
             V3WebsiteEdit.WebsiteEdit(selection: selection, start: .website)
         }
     }
 }
 
 extension ViewModifier where Self == WebsiteEdit {
-    internal static func sheet(_ nav: Binding<Navigation.WebsitesEdit>) -> Self { Self.init(nav) }
+    internal static func sheet(_ selection: Binding<Website.Selection>) -> Self { Self.init(selection) }
 }

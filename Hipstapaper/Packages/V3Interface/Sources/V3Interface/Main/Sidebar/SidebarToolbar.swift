@@ -36,33 +36,20 @@ extension ViewModifier where Self == SidebarToolbar {
 internal struct SidebarToolbar: ViewModifier {
     
     @Nav private var nav
-    @Controller private var controller
+    @BulkActions private var state
+    
     @V3Style.Sidebar private var style
     @V3Localize.Sidebar private var text
-    
-    @Environment(\.codableErrorResponder) private var errorResponder
-    
+        
     internal func body(content: Content) -> some View {
         content.toolbar {
             ToolbarItem(id: .sidebarToolbarMultiAdd, placement: .primaryAction) {
                 Menu {
                     self.style.toolbarTagAdd.button(self.text.toolbarAddTag) {
-                        switch self.controller.createTag() {
-                        case .success(let identifier):
-                            self.nav.sidebar.isTagsEdit.editing = [identifier]
-                        case .failure(let error):
-                            NSLog(String(describing: error))
-                            self.errorResponder(.init(error as NSError))
-                        }
+                        self.state.push.tagAdd = true
                     }
                     self.style.toolbarWebsiteAdd.button(self.text.toolbarAddWebsite) {
-                        switch self.controller.createWebsite() {
-                        case .success(let identifier):
-                            self.nav.sidebar.isWebsiteAdd.editing = [identifier]
-                        case .failure(let error):
-                            NSLog(String(describing: error))
-                            self.errorResponder(.init(error as NSError))
-                        }
+                        self.state.push.websiteAdd = true
                     }
                 } label: {
                     self.style.toolbarAdd.label(self.text.toolbarAddGeneric)

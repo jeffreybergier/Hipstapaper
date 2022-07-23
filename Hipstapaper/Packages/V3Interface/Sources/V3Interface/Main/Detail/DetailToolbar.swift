@@ -35,6 +35,7 @@ extension ViewModifier where Self == DetailToolbar {
 
 internal struct DetailToolbar: ViewModifier {
 
+    @Nav private var nav
     @Query private var query
     @BulkActions private var state
     
@@ -79,7 +80,7 @@ internal struct DetailToolbar: ViewModifier {
                     {
                         self.state.push.tagApply = $0
                     }
-                    .modifier(TagApply.popover)
+                    .modifier(TagApply.popover(self.$nav.detail.isTagApply))
                 }
                 ToolbarItem(id: .itemShare, placement: .secondaryAction) {
                     self.style.share.button(self.text.share,

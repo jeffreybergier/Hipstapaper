@@ -34,11 +34,15 @@ internal struct Navigation: Hashable, Codable, ErrorPresentable {
     
     internal var sidebar: Sidebar = .init()
     internal var detail: Detail = .init()
+    internal var isWebsitesEdit: Website.Selection = []
     internal var isError: CodableError?
     internal var errorQueue: Deque<CodableError> = []
     
     internal var isPresenting: Bool {
-        self.detail.isPresenting || self.sidebar.isPresenting || self.isError != nil
+        self.detail.isPresenting
+        || !self.isWebsitesEdit.isEmpty
+        || self.sidebar.isPresenting
+        || self.isError != nil
     }
     
     mutating func delete(error: CodableError) {
@@ -54,11 +58,9 @@ extension Navigation {
     internal struct Sidebar: Hashable, Codable, ErrorPresentable {
         internal var selectedTag: Tag.Selection.Element? = .default
         internal var isTagsEdit: TagsEdit = .init()
-        internal var isWebsiteAdd: WebsitesEdit = .init()
         internal var isError: CodableError? // Not used
         internal var isPresenting: Bool {
             !self.isTagsEdit.editing.isEmpty
-            || self.isWebsiteAdd.editing.isEmpty == false
             || self.isError != nil
         }
     }
@@ -66,25 +68,16 @@ extension Navigation {
         internal var selectedWebsites: Website.Selection = []
         internal var isErrorList: Basic = .init()
         internal var isTagApply: Website.Selection = []
-        internal var isWebsitesEdit: WebsitesEdit = .init()
         internal var isBrowse: Website.Selection.Element? = nil
         internal var isError: CodableError? // Not used
         internal var isPresenting: Bool {
             !self.isTagApply.isEmpty
-            || !self.isWebsitesEdit.editing.isEmpty
             || self.isBrowse != nil
             || self.isError != nil
         }
     }
     internal struct TagsEdit: Hashable, Codable, ErrorPresentable {
         internal var editing: Tag.Selection = []
-        internal var isError: CodableError?
-        internal var isPresenting: Bool {
-            self.isError != nil
-        }
-    }
-    internal struct WebsitesEdit: Hashable, Codable, ErrorPresentable {
-        internal var editing: Website.Selection = []
         internal var isError: CodableError?
         internal var isPresenting: Bool {
             self.isError != nil

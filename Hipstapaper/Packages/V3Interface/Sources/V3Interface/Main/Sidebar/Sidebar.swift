@@ -63,7 +63,6 @@ internal struct Sidebar: View {
             }
             .modifier(.sidebarMenu)
             .modifier(.sidebarToolbar)
-            .modifier(WebsiteEdit.sheet(self.$nav.sidebar.isWebsiteAdd))
             .navigationTitle(self.text.navigationTitle)
         }
     }

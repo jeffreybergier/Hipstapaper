@@ -63,7 +63,7 @@ internal struct Detail: View {
             .modifier(.detailTitle)
             .modifier(.detailMenu)
             .modifier(.detailToolbar)
-            .modifier(WebsiteEdit.sheet(self.$nav.detail.isWebsitesEdit))
+            .modifier(WebsiteEdit.sheet(self.$nav.isWebsitesEdit))
             .sheetCover(item: self.$nav.detail.isBrowse) { ident in
                 Browser(ident)
             }

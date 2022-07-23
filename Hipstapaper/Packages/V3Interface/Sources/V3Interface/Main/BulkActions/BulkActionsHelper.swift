@@ -59,7 +59,7 @@ internal struct BulkActionsHelper: ViewModifier {
                 defer { self.state.push.websiteAdd = false }
                 switch self.controller.createWebsite() {
                 case .success(let identifier):
-                    self.nav.sidebar.isWebsiteAdd.editing = [identifier]
+                    self.nav.isWebsitesEdit = [identifier]
                 case .failure(let error):
                     NSLog(String(describing: error))
                     self.errorResponder(.init(error as NSError))
@@ -123,7 +123,7 @@ internal struct BulkActionsHelper: ViewModifier {
                     self.state.push.websiteEdit = []
                     self.nav.detail.selectedWebsites = []
                 }
-                self.nav.detail.isWebsitesEdit.editing = selection
+                self.nav.isWebsitesEdit = selection
             }
             .onChange(of: self.state.push.tagsEdit) { selection in
                 guard selection.isEmpty == false else { return }
