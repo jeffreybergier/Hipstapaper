@@ -60,11 +60,9 @@ public enum MultiStatus: Hashable, Codable {
 }
 
 public enum SingleMulti<T: Hashable>: Hashable {
-    case none, single(T), multi(Set<T>)
+    case single(T), multi(Set<T>)
     public var single: T? {
         switch self {
-        case .none:
-            return nil
         case .single(let value):
             return value
         case .multi:
@@ -73,8 +71,6 @@ public enum SingleMulti<T: Hashable>: Hashable {
     }
     public var multi: Set<T> {
         switch self {
-        case .none:
-            return []
         case .single(let value):
             return [value]
         case .multi(let value):

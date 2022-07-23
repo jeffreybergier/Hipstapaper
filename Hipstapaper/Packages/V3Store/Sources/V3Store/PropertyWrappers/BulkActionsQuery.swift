@@ -105,10 +105,10 @@ extension BulkActionsQuery {
     public static func canArchiveNo(_ selection: Website.Selection, _ controller: ControllerProtocol) -> Website.Selection {
         return (controller as! CD_Controller).canArchiveNo(selection) ? selection : []
     }
-    public static func openURL(_ selection: Website.Selection, _ controller: ControllerProtocol) -> SingleMulti<URL> {
+    public static func openURL(_ selection: Website.Selection, _ controller: ControllerProtocol) -> SingleMulti<URL>? {
         return (controller as! CD_Controller).openURL(selection)
     }
-    public static func openWebsite(_ selection: Website.Selection, _ controller: ControllerProtocol) -> SingleMulti<Website.Selection.Element> {
+    public static func openWebsite(_ selection: Website.Selection, _ controller: ControllerProtocol) -> SingleMulti<Website.Selection.Element>? {
         return (controller as! CD_Controller).openURL(selection)
     }
     public static func setArchive(_ newValue: Bool,

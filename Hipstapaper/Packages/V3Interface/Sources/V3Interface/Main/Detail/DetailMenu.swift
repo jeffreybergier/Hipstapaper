@@ -47,14 +47,14 @@ internal struct DetailMenu: ViewModifier {
         content
             .contextMenu(forSelectionType: Website.Selection.Element.self) { items in
                 self.style.openInApp.button(self.text.openInApp,
-                                            enabled: BulkActionsQuery.openWebsite(items, self.controller).single != nil)
+                                            enabled: BulkActionsQuery.openWebsite(items, self.controller))
                 {
-                    self.state.push.openInApp = BulkActionsQuery.openWebsite(items, self.controller)
+                    self.state.push.openInApp = $0
                 }
                 self.style.openExternal.button(self.text.openExternal,
-                                               enabled: BulkActionsQuery.openURL(items, self.controller).single != nil)
+                                               enabled: BulkActionsQuery.openURL(items, self.controller))
                 {
-                    self.state.push.openExternal = BulkActionsQuery.openURL(items, self.controller)
+                    self.state.push.openExternal = $0
                 }
                 self.style.archiveYes.button(self.text.archiveYes,
                                              enabled: BulkActionsQuery.canArchiveYes(items, self.controller))

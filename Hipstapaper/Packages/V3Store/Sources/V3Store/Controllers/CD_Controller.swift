@@ -175,12 +175,12 @@ extension CD_Controller: ControllerProtocol {
         }
     }
     
-    internal func openURL(_ selection: Website.Selection) -> SingleMulti<URL> {
-        guard selection.isEmpty == false else { return .none }
+    internal func openURL(_ selection: Website.Selection) -> SingleMulti<URL>? {
+        guard selection.isEmpty == false else { return nil }
         let urls = self.search(selection).compactMap { $0.cd_resolvedURL ?? $0.cd_originalURL }
         switch urls.count {
         case 0:
-            return .none
+            return nil
         case 1:
             return .single(urls.first!)
         default:
@@ -188,12 +188,12 @@ extension CD_Controller: ControllerProtocol {
         }
     }
     
-    internal func openURL(_ selection: Website.Selection) -> SingleMulti<Website.Identifier> {
-        guard selection.isEmpty == false else { return .none }
+    internal func openURL(_ selection: Website.Selection) -> SingleMulti<Website.Identifier>? {
+        guard selection.isEmpty == false else { return nil }
         let sites = self.search(selection).filter { ($0.cd_resolvedURL ?? $0.cd_originalURL) != nil }
         switch sites.count {
         case 0:
-            return .none
+            return nil
         case 1:
             return .single(Website.Identifier(sites.first!.objectID))
         default:
