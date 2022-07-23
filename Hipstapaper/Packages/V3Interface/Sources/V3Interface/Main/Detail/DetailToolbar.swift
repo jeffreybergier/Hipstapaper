@@ -36,7 +36,7 @@ extension ViewModifier where Self == DetailToolbar {
 internal struct DetailToolbar: ViewModifier {
 
     @Query private var query
-    @MainMenuState private var state
+    @BulkActions private var state
     
     @V3Style.DetailToolbar private var style
     @V3Localize.DetailToolbar private var text

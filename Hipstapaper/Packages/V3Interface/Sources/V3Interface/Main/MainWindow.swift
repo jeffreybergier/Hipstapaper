@@ -33,7 +33,7 @@ public struct MainWindow: Scene {
     
     @StateObject private var localizeBundle = LocalizeBundle()
     @StateObject private var controller = Controller.newEnvironment()
-    @StateObject private var mainMenuState = MainMenuState.newEnvironment()
+    @StateObject private var mainMenuState = BulkActions.newEnvironment()
     
     public init() {}
     
@@ -72,7 +72,7 @@ internal struct MainView: View {
                     // Modal NavigationLink for websites
                     .editMode(force: true)
             }
-            .modifier(MainMenuStateHelper())
+            .modifier(BulkActionsHelper())
         }
     }
 }

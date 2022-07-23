@@ -29,17 +29,15 @@ import Umbrella
 import V3Model
 import V3Store
 
-extension MainMenu {
+@propertyWrapper
+internal struct BulkActions: DynamicProperty {
+    
     internal struct State {
         internal var pull: ToolbarQuery.Value = .init()
         internal var push: ToolbarQuery.Value = .init()
     }
-}
-
-@propertyWrapper
-internal struct MainMenuState: DynamicProperty {
     
-    internal typealias Environment = BlackBox<MainMenu.State>
+    internal typealias Environment = BlackBox<State>
     
     internal static func newEnvironment() -> Environment {
         .init(.init(), isObservingValue: true)
@@ -47,7 +45,7 @@ internal struct MainMenuState: DynamicProperty {
     
     @EnvironmentObject private var environment: Environment
     
-    internal var wrappedValue: MainMenu.State {
+    internal var wrappedValue: State {
         get { self.environment.value }
         nonmutating set { self.environment.value = newValue }
     }

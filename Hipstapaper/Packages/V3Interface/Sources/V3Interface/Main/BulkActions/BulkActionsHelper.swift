@@ -29,11 +29,11 @@ import Umbrella
 import V3Store
 import V3Errors
 
-internal struct MainMenuStateHelper: ViewModifier {
+internal struct BulkActionsHelper: ViewModifier {
     
     @Nav private var nav
     @Controller private var controller
-    @MainMenuState private var state
+    @BulkActions private var state
     @ToolbarQuery private var data
     @Environment(\.openURL) private var openExternal
     @Environment(\.codableErrorResponder) private var errorResponder

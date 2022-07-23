@@ -43,15 +43,15 @@ internal struct MainMenu: Commands {
     
     // Hack because I can't the controller through the environment
     @ObservedObject private var _controller: Controller.Environment
-    @ObservedObject private var _state: MainMenuState.Environment
+    @ObservedObject private var _state: BulkActions.Environment
     
     private var controller: ControllerProtocol? { _controller.value }
-    private var state: State {
+    private var state: BulkActions.State {
         get { _state.value }
         nonmutating set { _state.value = newValue }
     }
     
-    internal init(state: MainMenuState.Environment,
+    internal init(state: BulkActions.Environment,
                   controller: Controller.Environment,
                   bundle: LocalizeBundle)
     {
