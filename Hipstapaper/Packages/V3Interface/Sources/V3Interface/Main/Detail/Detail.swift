@@ -29,14 +29,17 @@ import Umbrella
 import V3Model
 import V3Store
 import V3Browser
+import V3Style
 import V3Localize
 
 internal struct Detail: View {
     
     @Nav private var nav
     @Query private var query
+    @Controller private var controller
     @WebsiteListQuery private var data
     
+    @V3Style.Detail private var style
     @V3Localize.Detail private var text
     @JSBSizeClass private var sizeClass
 
@@ -60,6 +63,7 @@ internal struct Detail: View {
             .onLoadChange(of: self.nav.sidebar.selectedTag) {
                 _data.setFilter($0)
             }
+            .modifier(self.style.syncIndicator(self.controller.syncProgress.progress))
             .modifier(DetailTitle())
             .modifier(DetailMenu())
             .modifier(DetailToolbar())

@@ -37,6 +37,9 @@ public struct Detail: DynamicProperty {
                 .frame(width: .thumbnailSmall, height: .thumbnailSmall)
                 .cornerRadius(.cornerRadiusSmall)
         }
+        public func syncIndicator(_ progress: Progress) -> some ViewModifier {
+            SyncIndicator(progress)
+        }
     }
     
     public var wrappedValue: Value {

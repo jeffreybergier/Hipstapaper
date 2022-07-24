@@ -26,8 +26,13 @@
 
 import SwiftUI
 
+extension TimeInterval {
+    internal static let syncIndicatorTimer: TimeInterval = 3
+}
+
 extension CGFloat {
-    internal static let syncOvalPaddingTop: CGFloat = 72
+    internal static let syncOvalPaddingTopHidden: CGFloat = -64
+    internal static let syncOvalPaddingTopShown: CGFloat = 8
     internal static let ovalWidthMinimum: CGFloat = 28
     internal static let paddingOvalHorizontal: CGFloat = 8
     internal static let paddingOvalVertical: CGFloat = 4
@@ -44,9 +49,17 @@ extension Color {
         scheme.isLight ? Color(red: 0.9, green: 0.9, blue: 0.9)
                        : Color(red: 0.25, green: 0.25, blue: 0.25)
     }
+    internal static func grayMedium(_ scheme: ColorScheme) -> Color {
+        scheme.isLight ? Color(red: 0.8, green: 0.8, blue: 0.8)
+                       : Color(red: 0.35, green: 0.35, blue: 0.35)
+    }
     internal static func grayDark(_ scheme: ColorScheme) -> Color {
         scheme.isLight ? Color(red: 0.7, green: 0.7, blue: 0.7)
                        : Color(red: 0.25, green: 0.25, blue: 0.25)
+    }
+    internal static func text(_ scheme: ColorScheme) -> Color {
+        scheme.isLight ? Color.black
+                       : Color.white
     }
 }
 

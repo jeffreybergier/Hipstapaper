@@ -28,26 +28,29 @@ import Combine
 import SwiftUI
 
 internal struct SyncIndicator: ViewModifier {
-    
-    @State private var progress: Progress
-    @State private var showsSyncing: Bool = false
-    @State private var timer = Timer.publish(every: 3, on: .main, in: .common)
+        
+    @State private var timer = Timer.publish(every: .syncIndicatorTimer, on: .main, in: .common)
     @State private var timerToken: Cancellable?
     
+    private let progress: Progress
+    @State private var showsSyncing: Bool = false
+    
     internal init(_ progress: Progress) {
-        _progress = .init(initialValue: progress)
+        self.progress = progress
     }
     
     internal func body(content: Content) -> some View {
         ZStack(alignment: .top) {
             content
             Image(systemName: SystemImage.iCloudSync.rawValue)
+                .font(.title)
                 .modifier(SyncIndicatorOval())
-                .ignoresSafeArea()
-                .padding(.top, self.showsSyncing ? .syncOvalPaddingTop : 0)
+                .padding(.top, self.showsSyncing // TODO: Change to transform
+                         ? .syncOvalPaddingTopShown
+                         : .syncOvalPaddingTopHidden)
                 .opacity(self.showsSyncing ? 1 : 0)
         }
-        .animation(.easeIn, value: self.showsSyncing)
+        .animation(.spring(), value: self.showsSyncing)
         .onReceive(self.progress.publisher(for: \.fractionCompleted)) { value in
             guard self.isSyncing else { return }
             self.showsSyncing = true
@@ -70,7 +73,7 @@ internal struct SyncIndicator: ViewModifier {
     private func resetTimer() {
         self.timerToken?.cancel()
         self.timerToken = nil
-        self.timer = Timer.publish(every: 3, on: .main, in: .common)
+        self.timer = Timer.publish(every: .syncIndicatorTimer, on: .main, in: .common)
     }
     
     private func startTimer() {

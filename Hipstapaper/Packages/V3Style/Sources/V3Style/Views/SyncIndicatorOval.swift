@@ -32,8 +32,8 @@ internal struct SyncIndicatorOval: ViewModifier {
     @Environment(\.colorScheme) private var scheme
     @Environment(\.tintColor) private var tintColor
     
-    private var color: Color {
-        self.scheme == .light ? self.tintColor : .grayDark(self.scheme)
+    private var textColor: Color {
+        self.scheme == .light ? self.tintColor : .text(self.scheme)
     }
     
     private var brightness: CGFloat {
@@ -43,12 +43,13 @@ internal struct SyncIndicatorOval: ViewModifier {
     internal func body(content: Content) -> some View {
         ZStack {
             RoundedRectangle(cornerRadius: 1000)
-                .fill(self.color)
+                .fill(Color.grayMedium(self.scheme))
                 .frame(minWidth: .ovalWidthMinimum)
                 .brightness(self.brightness)
-                .shadow(radius: 0.8)
                 .layoutPriority(0.9)
+                .disabled(true)
             content
+                .foregroundColor(self.textColor)
                 .padding([.leading, .trailing], .paddingOvalHorizontal)
                 .padding([.top, .bottom], .paddingOvalVertical)
                 .layoutPriority(1.0)
