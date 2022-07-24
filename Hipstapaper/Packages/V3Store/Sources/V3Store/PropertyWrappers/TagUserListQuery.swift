@@ -71,7 +71,7 @@ public struct TagUserListQuery: DynamicProperty {
         let preds = selection
             .compactMap { URL(string: $0.id) }
             .compactMap { psc.managedObjectID(forURIRepresentation: $0) }
-            .map { NSPredicate(format: "(objectID = %@)", $0) }
+            .map { NSPredicate(format: "self = %@", $0) }
         let pred = NSCompoundPredicate(orPredicateWithSubpredicates: preds)
         self.predicate.value = pred
         _data.setPredicate(pred)
