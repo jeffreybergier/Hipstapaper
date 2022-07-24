@@ -40,6 +40,7 @@ public protocol ControllerProtocol {
     var syncProgress: AnyContinousProgress { get }
 
     // MARK: Websites CRUD
+    func createWebsite(originalURL: URL?) -> Result<Website.Selection.Element, Error>
     func createWebsite() -> Result<Website.Selection.Element, Error>
     func delete(_: Website.Selection) -> Result<Void, Error>
 

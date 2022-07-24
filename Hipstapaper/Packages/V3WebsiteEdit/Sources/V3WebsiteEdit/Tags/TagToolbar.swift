@@ -34,7 +34,11 @@ internal struct TagToolbar: ViewModifier {
     @Nav private var nav
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.dismiss) private var dismiss_system
+    @Environment(\.closure) private var dismiss_custom
+    private var dismiss: () -> Void {
+        self.dismiss_custom ?? self.dismiss_system.callAsFunction
+    }
     
     internal func body(content: Content) -> some View {
         content
@@ -47,11 +51,9 @@ internal struct TagToolbar: ViewModifier {
     }
     
     private var itemGeneric: some ViewModifier {
-        JSBToolbar(
-            title: self.text.titleTag,
-            done: self.text.done,
-            doneAction: { self.dismiss() }
-        )
+        JSBToolbar(title: self.text.titleTag,
+                   done: self.text.done,
+                   doneAction: self.dismiss)
     }
 
     @ViewBuilder private var itemErrors: some View {

@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/17.
+//  Created by Jeffrey Bergier on 2022/07/24.
 //
 //  MIT License
 //
@@ -25,57 +25,49 @@
 //
 
 import SwiftUI
+import V3Model
 import V3Store
 import V3Localize
-import V3Errors
-import V3WebsiteEdit
 
-public struct MainWindow: Scene {
+public struct ShareExtension: View {
     
     @StateObject private var localizeBundle = LocalizeBundle()
     @StateObject private var controller = Controller.newEnvironment()
-    @StateObject private var mainMenuState = BulkActions.newEnvironment()
     
-    public init() {}
+    @State private var selection: Website.Selection = []
+    private let inputURL: URL?
+    private let onDismiss: () -> Void
     
-    public var body: some Scene {
-        WindowGroup {
-            if let managedObjectContext = self.controller.value?.ENVIRONMENTONLY_managedObjectContext {
-                MainView()
+    public init(inputURL: URL?, onDismiss: @escaping () -> Void) {
+        self.inputURL = inputURL
+        self.onDismiss = onDismiss
+    }
+    
+    @ViewBuilder public var body: some View {
+        self.selection.view { selection in
+            if let context = self.controller.value?.ENVIRONMENTONLY_managedObjectContext {
+                WebsiteEdit(selection: selection, start: .website)
                     .environmentObject(self.controller)
                     .environmentObject(self.localizeBundle)
-                    .environmentObject(self.mainMenuState)
-                    .environment(\.managedObjectContext, managedObjectContext)
+                    .environment(\.managedObjectContext, context)
+                    .environment(\.closure, self.onDismiss)
             } else {
                 // TODO: Improve this
-                Text("Whoa dude. Big Error.")
+                Text("Something very bad happened")
             }
-        }
-        .commands {
-            MainMenu(state: self.mainMenuState,
-                     controller: self.controller,
-                     bundle: self.localizeBundle)
-        }
-    }
-}
-
-internal struct MainView: View {
-    
-    @Nav private var nav
-    
-    internal var body: some View {
-        ErrorResponder(presenter: self.$nav, storage: self.$nav.errorQueue) {
-            NavigationSplitView {
-                Sidebar()
-            } detail: {
-                Detail()
-                    .editMode(force: true)
-                    // Force editMode on the detail table
-                    // TODO: Find better way to create a
-                    // Modal NavigationLink for websites
-            }
-            .modifier(WebsiteEdit.sheet(self.$nav.isWebsitesEdit))
-            .modifier(BulkActionsHelper())
+        } onEmpty: {
+            Text("Loading...") // TODO: Improve this
+                .task { DispatchQueue.main.async {
+                    guard let result = self.controller.value?.createWebsite(originalURL: self.inputURL) else { return }
+                    switch result {
+                    case .success(let identifier):
+                        self.selection = [identifier]
+                    case .failure(let error):
+                        // TODO: Figure out how to get this error into the app
+                        NSLog(String(describing: error))
+                        assertionFailure(String(describing: error))
+                    }
+                }}
         }
     }
 }

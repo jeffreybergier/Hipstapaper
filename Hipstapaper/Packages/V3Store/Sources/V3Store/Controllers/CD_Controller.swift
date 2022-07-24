@@ -37,16 +37,21 @@ extension CD_Controller: ControllerProtocol {
 
     // MARK: Website CRUD
 
-    internal func createWebsite() -> Result<Website.Identifier, Error> {
+    internal func createWebsite() -> Result<Website.Selection.Element, Error> {
+        return self.createWebsite(originalURL: nil)
+    }
+    
+    internal func createWebsite(originalURL: URL?) -> Result<Website.Selection.Element, Error> {
         assert(Thread.isMainThread)
         let context = self.container.viewContext
         let cd_website = CD_Website(context: context)
+        cd_website.cd_originalURL = originalURL
         return context.datum_save().map {
             Website.Identifier(cd_website.objectID)
         }
     }
     
-    func delete(_ input: Website.Selection) -> Result<Void, Error> {
+    internal func delete(_ input: Website.Selection) -> Result<Void, Error> {
         let context = self.container.viewContext
         let coordinator = self.container.persistentStoreCoordinator
         let cd_ids = input.compactMap {

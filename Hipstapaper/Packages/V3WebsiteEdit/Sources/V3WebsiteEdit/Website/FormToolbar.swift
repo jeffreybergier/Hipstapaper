@@ -35,7 +35,11 @@ internal struct FormToolbar: ViewModifier {
     @Nav private var nav
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.dismiss) private var dismiss_system
+    @Environment(\.closure) private var dismiss_custom
+    private var dismiss: () -> Void {
+        self.dismiss_custom ?? self.dismiss_system.callAsFunction
+    }
     
     private let deletable: Bool
     
@@ -73,10 +77,8 @@ internal struct FormToolbar: ViewModifier {
     
     private var itemClose: some View {
         self.style.done.button(self.text.done,
-                               style: .text)
-        {
-            self.dismiss()
-        }
+                               style: .text,
+                               action: self.dismiss)
     }
     
     private var itemDelete: some View {

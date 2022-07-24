@@ -44,16 +44,15 @@ internal struct FormParent: View {
                        storage: self.$nav.errorQueue)
         {
             NavigationStack {
-                Group {
-                    switch self.selection.count {
-                    case 0:
-                        EmptyState()
-                    case 1:
-                        FormSingle(self.selection.first!)
+                self.selection.view { selection in
+                    if selection.count > 1 {
+                        FormMulti(selection)
+                    } else {
+                        FormSingle(selection.first!)
                             .environmentObject(self.webState)
-                    default:
-                        FormMulti(self.selection)
                     }
+                } onEmpty: {
+                    EmptyState()
                 }
                 .modifier(self.toolbar)
             }

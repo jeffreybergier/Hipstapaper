@@ -26,47 +26,45 @@
 
 import AppKit
 import SwiftUI
+import V3WebsiteEdit
 
 class ShareViewController: NSViewController {
-        
-    private lazy var shareUIVC: NSViewController = NSViewController()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        _ = { // Add SnapshotVC
-            let vc = self.shareUIVC
-            vc.view.translatesAutoresizingMaskIntoConstraints = false
-            self.view.addSubview(vc.view)
-            self.view.addConstraints([
-                self.view.topAnchor.constraint(equalTo: vc.view.topAnchor, constant: 0),
-                self.view.bottomAnchor.constraint(equalTo: vc.view.bottomAnchor, constant: 0),
-                self.view.leadingAnchor.constraint(equalTo: vc.view.leadingAnchor, constant: 0),
-                self.view.trailingAnchor.constraint(equalTo: vc.view.trailingAnchor, constant: 0)
-            ])
-            self.addChild(vc)
-        }()
-        
-        // TODO: How do I dismiss this?
-        /*
-        self.control.onDone = { [weak extensionContext] in
+    private var inputURL: URL?
+    private lazy var shareUIVC: NSViewController = {
+        let view = ShareExtension(inputURL: self.inputURL)
+        { [weak extensionContext] in
             extensionContext?.completeRequest(returningItems: nil,
                                               completionHandler: nil)
         }
-        */
-        
+        return NSHostingController(rootView: view)
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
         guard let context = self.extensionContext?.inputItems.first as? NSExtensionItem else {
-            // TODO: Put error back here?
+            self.configureVC()
+            assertionFailure("Could not get extension context")
             return
         }
-        
         context.urlValue() { url in
-            guard let url = url else {
-                // TODO: Put error back here?
-                return
-            }
-            // self.control.extensionURL = url
+            self.inputURL = url
+            self.configureVC()
         }
+    }
+    
+    private func configureVC() {
+        let vc = self.shareUIVC
+        vc.view.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(vc.view)
+        self.view.addConstraints([
+            self.view.topAnchor.constraint(equalTo: vc.view.topAnchor, constant: 0),
+            self.view.bottomAnchor.constraint(equalTo: vc.view.bottomAnchor, constant: 0),
+            self.view.leadingAnchor.constraint(equalTo: vc.view.leadingAnchor, constant: 0),
+            self.view.trailingAnchor.constraint(equalTo: vc.view.trailingAnchor, constant: 0)
+        ])
+        self.addChild(vc)
     }
 }
 

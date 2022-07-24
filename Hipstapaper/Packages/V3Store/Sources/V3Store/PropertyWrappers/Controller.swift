@@ -50,6 +50,7 @@ extension Controller {
         case .success(let controller):
             return BlackBox(controller)
         case .failure(let error):
+            // TODO: Figure out how to get this error into the app
             NSLog(String(describing: error))
             assertionFailure(String(describing: error))
             return BlackBox(nil)

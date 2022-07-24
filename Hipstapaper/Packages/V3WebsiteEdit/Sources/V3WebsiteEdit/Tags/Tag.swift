@@ -51,6 +51,7 @@ internal struct Tag: View {
                                isOn: item.status.boolValue)
                     }
                 } onEmpty: {
+                    // TODO: Change to No Tags Label
                     EmptyState()
                 }
             }
