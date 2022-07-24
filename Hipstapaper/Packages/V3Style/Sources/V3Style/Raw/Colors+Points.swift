@@ -27,6 +27,7 @@
 import SwiftUI
 
 extension CGFloat {
+    internal static let syncOvalPaddingTop: CGFloat = 72
     internal static let ovalWidthMinimum: CGFloat = 28
     internal static let paddingOvalHorizontal: CGFloat = 8
     internal static let paddingOvalVertical: CGFloat = 4

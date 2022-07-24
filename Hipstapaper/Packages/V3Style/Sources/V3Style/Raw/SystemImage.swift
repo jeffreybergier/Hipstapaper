@@ -55,6 +55,7 @@ internal enum SystemImage: String {
     case checkmark      = "checkmark"
     case photo          = "photo"
     case rectangleSlash = "rectangle.on.rectangle.slash"
+    case iCloudSync     = "arrow.clockwise.icloud"
 }
 
 /*

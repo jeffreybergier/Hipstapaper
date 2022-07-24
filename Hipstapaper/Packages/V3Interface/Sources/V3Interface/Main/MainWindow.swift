@@ -26,6 +26,7 @@
 
 import SwiftUI
 import V3Store
+import V3Style
 import V3Localize
 import V3Errors
 import V3WebsiteEdit
@@ -62,6 +63,8 @@ public struct MainWindow: Scene {
 internal struct MainView: View {
     
     @Nav private var nav
+    @Controller private var controller
+    @V3Style.MainWindow private var style
     
     internal var body: some View {
         ErrorResponder(presenter: self.$nav, storage: self.$nav.errorQueue) {
@@ -74,6 +77,7 @@ internal struct MainView: View {
                     // TODO: Find better way to create a
                     // Modal NavigationLink for websites
             }
+            .modifier(self.style.syncIndicator(self.controller.syncProgress.progress))
             .modifier(WebsiteEdit.sheet(self.$nav.isWebsitesEdit))
             .modifier(BulkActionsHelper())
         }
