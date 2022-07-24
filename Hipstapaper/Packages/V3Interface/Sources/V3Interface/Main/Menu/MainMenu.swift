@@ -45,7 +45,7 @@ internal struct MainMenu: Commands {
     @ObservedObject private var _controller: Controller.Environment
     @ObservedObject private var _state: BulkActions.Environment
     
-    private var controller: ControllerProtocol? { _controller.value }
+    private var controller: ControllerProtocol? { _controller.value.value }
     private var state: BulkActions.State {
         get { _state.value }
         nonmutating set { _state.value = newValue }

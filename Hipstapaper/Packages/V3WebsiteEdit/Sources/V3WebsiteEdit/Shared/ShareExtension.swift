@@ -45,21 +45,21 @@ public struct ShareExtension: View {
     
     @ViewBuilder public var body: some View {
         self.selection.view { selection in
-            if let context = self.controller.value?.ENVIRONMENTONLY_managedObjectContext {
+            switch self.controller.value {
+            case .success(let controller):
                 WebsiteEdit(selection: selection, start: .website)
                     .environmentObject(self.controller)
                     .environmentObject(self.localizeBundle)
-                    .environment(\.managedObjectContext, context)
                     .environment(\.closure, self.onDismiss)
-            } else {
-                // TODO: Improve this
-                Text("Something very bad happened")
+                    .environment(\.managedObjectContext, controller.context)
+            case .failure(let error):
+                Text(String(describing: error))
             }
         } onEmpty: {
             Text("Loading...") // TODO: Improve this
                 .task { DispatchQueue.main.async {
-                    guard let result = self.controller.value?.createWebsite(originalURL: self.inputURL) else { return }
-                    switch result {
+                    guard let controller = self.controller.value.value else { return }
+                    switch controller.createWebsite(originalURL: self.inputURL) {
                     case .success(let identifier):
                         self.selection = [identifier]
                     case .failure(let error):

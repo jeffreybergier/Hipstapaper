@@ -31,7 +31,7 @@ import V3Model
 
 extension CD_Controller: ControllerProtocol {
     
-    internal var ENVIRONMENTONLY_managedObjectContext: NSManagedObjectContext {
+    internal var context: NSManagedObjectContext {
         self.container.viewContext
     }
 

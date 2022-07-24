@@ -30,17 +30,21 @@ import Umbrella
 @propertyWrapper
 public struct Controller: DynamicProperty {
     
-    public typealias Environment = BlackBox<ControllerProtocol?>
+    public typealias Environment = BlackBox<Result<ControllerProtocol, Error>>
     @EnvironmentObject private var environment: Environment
     
     public init() { }
     
     public var wrappedValue: ControllerProtocol {
-        self.environment.value!
+        self.environment.value.value!
+    }
+    
+    public var error: Error? {
+        self.environment.value.error
     }
     
     internal var cd: CD_Controller {
-        self.environment.value as! CD_Controller
+        self.environment.value.value as! CD_Controller
     }
 }
 
@@ -48,12 +52,12 @@ extension Controller {
     public static func newEnvironment() -> Environment {
         switch CD_Controller.new() {
         case .success(let controller):
-            return BlackBox(controller)
+            return BlackBox(.success(controller))
         case .failure(let error):
             // TODO: Figure out how to get this error into the app
             NSLog(String(describing: error))
             assertionFailure(String(describing: error))
-            return BlackBox(nil)
+            return BlackBox(.failure(error))
         }
     }
 }

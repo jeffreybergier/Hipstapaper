@@ -40,15 +40,15 @@ public struct MainWindow: Scene {
     
     public var body: some Scene {
         WindowGroup {
-            if let managedObjectContext = self.controller.value?.ENVIRONMENTONLY_managedObjectContext {
+            switch self.controller.value {
+            case .success(let controller):
                 MainView()
                     .environmentObject(self.controller)
                     .environmentObject(self.localizeBundle)
                     .environmentObject(self.mainMenuState)
-                    .environment(\.managedObjectContext, managedObjectContext)
-            } else {
-                // TODO: Improve this
-                Text("Whoa dude. Big Error.")
+                    .environment(\.managedObjectContext, controller.context)
+            case .failure(let error):
+                Text(String(describing: error))
             }
         }
         .commands {

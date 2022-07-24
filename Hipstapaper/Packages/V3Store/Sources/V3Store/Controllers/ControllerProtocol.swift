@@ -34,7 +34,7 @@ public protocol ControllerProtocol {
     static var storeDirectoryURL: URL { get }
     static var storeExists: Bool { get }
     
-    var ENVIRONMENTONLY_managedObjectContext: NSManagedObjectContext { get }
+    var context: NSManagedObjectContext { get }
     
     // MARK: Sync
     var syncProgress: AnyContinousProgress { get }
