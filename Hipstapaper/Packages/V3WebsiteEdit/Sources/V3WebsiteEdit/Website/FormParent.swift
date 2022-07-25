@@ -54,12 +54,8 @@ internal struct FormParent: View {
                 } onEmpty: {
                     EmptyState()
                 }
-                .modifier(self.toolbar)
+                .modifier(FormToolbar(self.selection))
             }
         }
-    }
-    
-    private var toolbar: some ViewModifier {
-        FormToolbar(deletable: self.selection.count == 1)
     }
 }

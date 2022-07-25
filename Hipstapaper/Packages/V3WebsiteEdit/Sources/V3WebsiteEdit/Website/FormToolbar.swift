@@ -29,22 +29,26 @@ import Umbrella
 import V3Model
 import V3Style
 import V3Localize
+import V3Errors
 
 internal struct FormToolbar: ViewModifier {
     
     @Nav private var nav
     @V3Style.WebsiteEdit private var style
+    
     @V3Localize.WebsiteEdit private var text
+    @Environment(\.codableErrorResponder) private var errorResponder
+    
     @Environment(\.dismiss) private var dismiss_system
     @Environment(\.closure) private var dismiss_custom
     private var dismiss: () -> Void {
         self.dismiss_custom ?? self.dismiss_system.callAsFunction
     }
     
-    private let deletable: Bool
+    private let deletableSelection: Website.Selection
     
-    internal init(deletable: Bool) {
-        self.deletable = deletable
+    internal init(_ deletableSelection: Website.Selection) {
+        self.deletableSelection = deletableSelection
     }
     
     internal func body(content: Content) -> some View {
@@ -58,7 +62,7 @@ internal struct FormToolbar: ViewModifier {
                 ToolbarItem(placement: .confirmationAction) {
                     self.itemClose
                 }
-                if self.deletable {
+                if self.deletableSelection.isEmpty == false {
                     ToolbarItem(placement: .cancellationAction) {
                         self.itemDelete
                     }
@@ -86,7 +90,7 @@ internal struct FormToolbar: ViewModifier {
                                         style: .text,
                                         role: .destructive)
         {
-            // TODO: Add delete
+            self.errorResponder(DeleteWebsiteError(self.deletableSelection).codableValue)
         }
     }
 }
