@@ -40,8 +40,6 @@ public struct WebsiteEdit: View {
 
     @State private var screen: Screen
     @StateObject private var nav = Nav.newEnvironment()
-    @V3Style.WebsiteEdit private var style
-    @V3Localize.WebsiteEdit private var text
     
     private let selection: Website.Selection
     
@@ -51,21 +49,9 @@ public struct WebsiteEdit: View {
     }
     
     public var body: some View {
-        TabView(selection: self.$screen) {
-            FormParent(self.selection)
-                .tag(Screen.website)
-                .tabItem {
-                    self.style.tabWebsite.label(self.text.tabWebsite)
-                }
-            Tag(self.selection)
-                .frame(idealWidth: 320, idealHeight: 480)
-                .tag(Screen.tag)
-                .tabItem {
-                    self.style.tabTag.label(self.text.tabTag)
-                }
-        }
-        .frame(idealWidth: self.idealWidth, idealHeight: self.idealHeight)
-        .environmentObject(self.nav)
+        _WebsiteEdit(selection: self.selection, screen: self.$screen)
+            .frame(idealWidth: self.idealWidth, idealHeight: self.idealHeight)
+            .environmentObject(self.nav)
     }
     
     private var idealWidth: CGFloat {
@@ -79,6 +65,46 @@ public struct WebsiteEdit: View {
         switch self.screen {
         case .website: return 720
         case .tag: return 480
+        }
+    }
+}
+
+internal struct _WebsiteEdit: View {
+    
+    @Nav private var nav
+    @Binding private var screen: WebsiteEdit.Screen
+    
+    @V3Style.WebsiteEdit private var style
+    @V3Localize.WebsiteEdit private var text
+    
+    private let selection: Website.Selection
+    
+    internal init(selection: Website.Selection, screen: Binding<WebsiteEdit.Screen>) {
+        self.selection = selection
+        _screen = screen
+    }
+    
+    internal var body: some View {
+        ErrorResponder(presenter: self.$nav,
+                       storage: self.$nav.errorQueue)
+        {
+            TabView(selection: self.$screen) {
+                FormParent(self.selection)
+                    .tag(WebsiteEdit.Screen.website)
+                    .tabItem {
+                        self.style.tabWebsite.label(self.text.tabWebsite)
+                    }
+                Tag(self.selection)
+                    .frame(idealWidth: 320, idealHeight: 480)
+                    .tag(WebsiteEdit.Screen.tag)
+                    .tabItem {
+                        self.style.tabTag.label(self.text.tabTag)
+                    }
+            }
+        } onConfirmation: {
+            // TODO: Do something with this confirmation
+            print($0)
+            print("")
         }
     }
 }

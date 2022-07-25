@@ -76,6 +76,10 @@ internal struct MainView: View {
             }
             .modifier(WebsiteEdit.sheet(self.$nav.isWebsitesEdit))
             .modifier(BulkActionsHelper())
+        } onConfirmation: {
+            // TODO: Do something with this confirmation
+            print($0)
+            print("")
         }
     }
 }

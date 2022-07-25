@@ -30,9 +30,10 @@ import V3Model
 import V3Store
 import V3Localize
 
-internal typealias OnConfirmation = (Confirmation) -> Void
+public typealias OnConfirmation = (Confirmation) -> Void
 
-internal enum Confirmation {
+// TODO: Change to UserChoice and add dismiss
+public enum Confirmation {
     case deleteTags(Tag.Selection)
     case deleteWebsites(Website.Selection)
 }

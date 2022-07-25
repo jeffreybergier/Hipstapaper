@@ -33,8 +33,10 @@ import V3Localize
 
 internal struct TagsEdit: View {
     
-    @V3Localize.TagsEdit private var text
+    @Nav private var nav
     @TagUserListQuery(defaultListAll: false) private var data
+    
+    @V3Localize.TagsEdit private var text
     @Environment(\.dismiss) private var dismiss
     
     internal let selection: Tag.Selection
@@ -42,24 +44,32 @@ internal struct TagsEdit: View {
     internal init(_ selection: Tag.Selection) {
         self.selection = selection
     }
-        
+    
     internal var body: some View {
-        NavigationStack {
-            Form {
-                self.$data.view {
-                    ForEach($0) { item in
+        ErrorResponder(presenter: self.$nav.sidebar.isTagsEdit,
+                       storage: self.$nav.errorQueue)
+        {
+            NavigationStack {
+                Form {
+                    self.$data.view {
+                        ForEach($0) { item in
+                            TextField(self.text.placeholderName,
+                                      text: item.name.compactMap())
+                        }
+                    } onEmpty: {
                         TextField(self.text.placeholderName,
-                                  text: item.name.compactMap())
+                                  text: Binding.constant(""))
                     }
-                } onEmpty: {
-                    TextField(self.text.placeholderName,
-                              text: Binding.constant(""))
                 }
+                .onLoadChange(of: self.selection) {
+                    _data.setQuery($0)
+                }
+                .modifier(self.toolbar)
             }
-            .modifier(self.toolbar)
-            .onLoadChange(of: self.selection) {
-                _data.setQuery($0)
-            }
+        } onConfirmation: {
+            // TODO: Do something with this confirmation
+            print($0)
+            print("")
         }
         .frame(idealWidth: 320, minHeight: 320)
     }
@@ -75,7 +85,6 @@ internal struct TagsEdit: View {
 
 internal struct TagsEditPresentation: ViewModifier {
     
-    @Nav private var nav
     @Binding private var identifiers: Tag.Selection
     
     internal init(_ identifiers: Binding<Tag.Selection>) {
@@ -85,12 +94,8 @@ internal struct TagsEditPresentation: ViewModifier {
     internal func body(content: Content) -> some View {
         content.popover(items: self.$identifiers)
         { selection in
-            ErrorResponder(presenter: self.$nav.sidebar.isTagsEdit,
-                           storage: self.$nav.errorQueue)
-            {
-                TagsEdit(selection)
-                    .presentationDetents([.medium, .large])
-            }
+            TagsEdit(selection)
+                .presentationDetents([.medium, .large])
         }
     }
 }

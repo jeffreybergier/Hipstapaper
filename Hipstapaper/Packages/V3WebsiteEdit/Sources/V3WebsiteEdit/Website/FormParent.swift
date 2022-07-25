@@ -40,22 +40,19 @@ internal struct FormParent: View {
     }
     
     internal var body: some View {
-        ErrorResponder(presenter: self.$nav,
-                       storage: self.$nav.errorQueue)
-        {
-            NavigationStack {
-                self.selection.view { selection in
-                    if selection.count > 1 {
-                        FormMulti(selection)
-                    } else {
-                        FormSingle(selection.first!)
-                            .environmentObject(self.webState)
-                    }
-                } onEmpty: {
-                    EmptyState()
+        NavigationStack {
+            self.selection.view { selection in
+                if selection.count > 1 {
+                    FormMulti(selection)
+                } else {
+                    FormSingle(selection.first!)
+                        .environmentObject(self.webState)
                 }
-                .modifier(FormToolbar(self.selection))
+            } onEmpty: {
+                EmptyState()
             }
+            .modifier(FormToolbar(self.selection))
         }
+
     }
 }

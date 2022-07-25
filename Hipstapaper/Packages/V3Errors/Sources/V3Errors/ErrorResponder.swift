@@ -43,12 +43,15 @@ public struct ErrorResponder<V: View, EP: ErrorPresentable, EC: RangeReplaceable
     @Environment(\.codableErrorResponder) private var errorResponder
     
     private let content: () -> V
+    private let onConfirmation: OnConfirmation
     
     public init(presenter: Binding<EP>,
                 storage: Binding<EC>,
-                @ViewBuilder content: @escaping () -> V)
+                @ViewBuilder content: @escaping () -> V,
+                onConfirmation: @escaping OnConfirmation)
     {
         self.content = content
+        self.onConfirmation = onConfirmation
         _errorPresentable = presenter
         _errorStorage = storage
     }
@@ -79,8 +82,11 @@ public struct ErrorResponder<V: View, EP: ErrorPresentable, EC: RangeReplaceable
         // TODO: Pass UserFacingError or Confirmation back up so UI can respond
         UserFacingErrorAlert<LocalizeBundle, CodableError>(self.$errorPresentable.isError) {
             $0.userFacingError {
-                guard let error = perform(confirmation: $0, controller: self.controller) else { return }
-                self.handle(error)
+                if let error = perform(confirmation: $0, controller: self.controller) {
+                    self.handle(error)
+                } else {
+                    self.onConfirmation($0)
+                }
             }
         }
     }
