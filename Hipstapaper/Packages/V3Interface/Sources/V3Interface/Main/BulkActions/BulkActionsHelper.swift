@@ -42,7 +42,6 @@ internal struct BulkActionsHelper: ViewModifier {
         content
         // MARK: Update PULL State
             .onLoadChange(of: self.nav.sidebar.selectedTag) { newValue in
-                self.nav.detail.selectedWebsites = []
                 _storeState.setTag(selection: newValue.map { [$0] } ?? [])
             }
             .onLoadChange(of: self.nav.detail.selectedWebsites) { newValue in
