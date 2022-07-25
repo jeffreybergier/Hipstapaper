@@ -62,7 +62,9 @@ fileprivate struct _Browser: View {
                        storage: self.$nav.errorQueue)
         {
             NavigationStack {
-                Web().modifier(self.toolbar)
+                Web()
+                    .modifier(HACK_OpaqueToolbar())
+                    .modifier(self.toolbar)
             }
         }
         .onLoadChange(of: self.identifier) {
