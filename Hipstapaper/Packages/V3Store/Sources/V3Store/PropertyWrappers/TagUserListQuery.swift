@@ -32,8 +32,12 @@ import V3Model
 public struct TagUserListQuery: DynamicProperty {
     
     @Controller private var controller
-    @CDListQuery<CD_Tag, Tag, Error>(onRead: Tag.init(_:)) private var data
     @StateObject private var predicate: BlackBox<NSPredicate>
+    @CDListQuery<CD_Tag, Tag, Error>(
+        sort: [CD_Tag.defaultSort],
+        predicate: NSPredicate(value: false),
+        onRead: Tag.init(_:)
+    ) private var data
     
     @Environment(\.managedObjectContext) private var context
     @Environment(\.codableErrorResponder) private var errorResponder
@@ -47,7 +51,6 @@ public struct TagUserListQuery: DynamicProperty {
         guard self.needsUpdate.value else { return }
         self.needsUpdate.value = false
         _data.setPredicate(self.predicate.value)
-        _data.setSortDescriptors([CD_Tag.defaultSort])
         _data.setOnWrite(_controller.cd.write(_:with:))
         _data.setOnError { error in
             NSLog(String(describing: error))

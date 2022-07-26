@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/17.
+//  Created by Jeffrey Bergier on 2022/07/26.
 //
 //  MIT License
 //
@@ -25,31 +25,33 @@
 //
 
 import SwiftUI
+import Umbrella
 import V3Model
-import V3Localize
-import V3Style
-import V3Errors
 
-internal struct SidebarMenu: ViewModifier {
+@propertyWrapper
+public struct FAST_TagUserListQuery: DynamicProperty {
     
-    @Nav private var nav
-    @V3Style.Sidebar private var style
-    @V3Localize.Sidebar private var text
+    @Controller private var controller
+    @CDListQuery<CD_Tag, Tag.Identifier, Error>(
+        sort: [CD_Tag.defaultSort],
+        onRead: { Tag.Identifier($0.objectID) }
+    ) private var data
     
     @Environment(\.codableErrorResponder) private var errorResponder
     
-    internal func body(content: Content) -> some View {
-        content.contextMenu(forSelectionType: Tag.Selection.Element.self) { items in
-            items.filter { $0.isSystem == false }.view { _ in
-                self.style.menuTagEdit.button(self.text.menuEditTags) {
-                    self.nav.sidebar.isTagsEdit.editing = items
-                }
-                self.style.menuTagDelete.button(self.text.menuDeleteTags, role: .destructive) {
-                    self.errorResponder(DeleteTagError(items).codableValue)
-                }
-            } onEmpty: {
-                EmptyView()
-            }
+    public init() {}
+    
+    private let needsUpdate = BlackBox(true, isObservingValue: false)
+    public func update() {
+        guard self.needsUpdate.value else { return }
+        self.needsUpdate.value = false
+        _data.setOnError { error in
+            NSLog(String(describing: error))
+            self.errorResponder(.init(error as NSError))
         }
+    }
+    
+    public var wrappedValue: some RandomAccessCollection<Tag.Identifier> {
+        self.data
     }
 }

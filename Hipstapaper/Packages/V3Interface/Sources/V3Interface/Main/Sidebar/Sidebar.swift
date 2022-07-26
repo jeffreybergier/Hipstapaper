@@ -33,27 +33,26 @@ import V3Localize
 internal struct Sidebar: View {
     
     @Nav private var nav
-    @TagUserListQuery private var tagsUser
-    @TagSystemListQuery private var tagsSystem
     @V3Localize.Sidebar private var text
+    
+    @TagSystemListQuery private var tagsSystem
+    @FAST_TagUserListQuery private var tagsUser
                 
     internal var body: some View {
         NavigationStack {
             List(selection: self.$nav.sidebar.selectedTag) {
                 Section(self.text.sectionTitleTagsSystem) {
-                    ForEach(self.tagsSystem) { item in
+                    ForEach(self.tagsSystem, id: \.id) { item in
                         NavigationLink(value: item.id) {
                             SidebarSystemRow(item.id.kind)
-                                .tag(item.id)
                         }
                     }
                 }
                 Section(self.text.sectionTitleTagsUser) {
                     self.tagsUser.view {
-                        ForEach($0) { item in
-                            NavigationLink(value: item.id) {
-                                SidebarUserRow(item.id)
-                                    .tag(item.id)
+                        ForEach($0, id: \.self) { identifier in
+                            NavigationLink(value: identifier) {
+                                SidebarUserRow(identifier)
                             }
                         }
                     } onEmpty: {
