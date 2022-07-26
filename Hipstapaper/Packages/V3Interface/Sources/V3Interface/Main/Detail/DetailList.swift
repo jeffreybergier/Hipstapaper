@@ -31,7 +31,7 @@ import V3Localize
 import V3Style
 
 // TODO: Remove C if `any RandomAccessCollection<Website>` ever works
-internal struct DetailList<C: RandomAccessCollection>: View where C.Element == Website {
+internal struct DetailList<C: RandomAccessCollection>: View where C.Element == Website.Selection.Element {
 
     @Nav private var nav
     private let data: C
@@ -41,8 +41,11 @@ internal struct DetailList<C: RandomAccessCollection>: View where C.Element == W
     }
     
     internal var body: some View {
-        List(self.data, selection: self.$nav.detail.selectedWebsites) { item in
-            WebsiteListRow(item.id)
+        List(self.data,
+             id: \.self,
+             selection: self.$nav.detail.selectedWebsites)
+        { identifier in
+            WebsiteListRow(identifier)
         }
         .listStyle(.plain)
     }

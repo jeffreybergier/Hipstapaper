@@ -29,14 +29,13 @@ import Umbrella
 import V3Model
 
 @propertyWrapper
-public struct WebsiteListQuery: DynamicProperty {
+public struct FAST_WebsiteListQuery: DynamicProperty {
     
     // Basics
     @Controller private var controller
-    // TODO: Change OUT: Website to be Website.Identifier
-    @CDListQuery<CD_Website, Website, Error>(
-        predicate: NSPredicate(value: false),
-        onRead: Website.init(_:)
+    @CDListQuery<CD_Website, Website.Identifier, Error>(
+        predicate: .init(value: false),
+        onRead: { Website.Identifier($0.objectID) }
     ) private var data
     @Environment(\.managedObjectContext) private var context
     @Environment(\.codableErrorResponder) private var errorResponder
@@ -51,7 +50,6 @@ public struct WebsiteListQuery: DynamicProperty {
     public func update() {
         guard self.needsUpdate.value else { return }
         self.needsUpdate.value = false
-        _data.setOnWrite(_controller.cd.write(_:with:))
         _data.setOnError { error in
             NSLog(String(describing: error))
             self.errorResponder(.init(error as NSError))
@@ -59,12 +57,8 @@ public struct WebsiteListQuery: DynamicProperty {
         self.updateCoreData()
     }
     
-    public var wrappedValue: some RandomAccessCollection<Website> {
+    public var wrappedValue: some RandomAccessCollection<Website.Identifier> {
         self.data
-    }
-    
-    public var projectedValue: some RandomAccessCollection<Binding<Website>> {
-        self.$data
     }
     
     public func setFilter(_ selection: Tag.Selection.Element?) {

@@ -41,38 +41,42 @@ internal struct DetailMenu: ViewModifier {
 
     internal func body(content: Content) -> some View {
         content
-            .contextMenu(forSelectionType: Website.Selection.Element.self) { items in
-                self.style.openInApp.button(self.text.openInApp,
-                                            enabled: BulkActionsQuery.openWebsite(items, self.controller))
-                {
-                    self.state.push.openInApp = $0
-                }
-                self.style.openExternal.button(self.text.openExternal,
-                                               enabled: BulkActionsQuery.openURL(items, self.controller))
-                {
-                    self.state.push.openExternal = $0
-                }
-                self.style.archiveYes.button(self.text.archiveYes,
-                                             enabled: BulkActionsQuery.canArchiveYes(items, self.controller))
-                {
-                    self.state.push.archiveYes = $0
-                }
-                self.style.archiveNo.button(self.text.archiveNo,
-                                            enabled: BulkActionsQuery.canArchiveNo(items, self.controller))
-                {
-                    self.state.push.archiveNo = $0
-                }
-                self.style.share.button(self.text.share) {
-                    self.state.push.share = items
-                }
-                self.style.tagApply.button(self.text.tagApply) {
-                    self.state.push.tagApply = items
-                }
-                self.style.edit.button(self.text.edit) {
-                    self.state.push.websiteEdit = items
-                }
-                self.style.delete.button(self.text.delete, role: .destructive) {
-                    self.state.push.websiteDelete = items
+            .contextMenu(forSelectionType: Website.Selection.Element.self) {
+                $0.view { items in
+                    self.style.openInApp.button(self.text.openInApp,
+                                                enabled: BulkActionsQuery.openWebsite(items, self.controller))
+                    {
+                        self.state.push.openInApp = $0
+                    }
+                    self.style.openExternal.button(self.text.openExternal,
+                                                   enabled: BulkActionsQuery.openURL(items, self.controller))
+                    {
+                        self.state.push.openExternal = $0
+                    }
+                    self.style.archiveYes.button(self.text.archiveYes,
+                                                 enabled: BulkActionsQuery.canArchiveYes(items, self.controller))
+                    {
+                        self.state.push.archiveYes = $0
+                    }
+                    self.style.archiveNo.button(self.text.archiveNo,
+                                                enabled: BulkActionsQuery.canArchiveNo(items, self.controller))
+                    {
+                        self.state.push.archiveNo = $0
+                    }
+                    self.style.share.button(self.text.share) {
+                        self.state.push.share = items
+                    }
+                    self.style.tagApply.button(self.text.tagApply) {
+                        self.state.push.tagApply = items
+                    }
+                    self.style.edit.button(self.text.edit) {
+                        self.state.push.websiteEdit = items
+                    }
+                    self.style.delete.button(self.text.delete, role: .destructive) {
+                        self.state.push.websiteDelete = items
+                    }
+                } onEmpty: {
+                    EmptyView()
                 }
             }
     }

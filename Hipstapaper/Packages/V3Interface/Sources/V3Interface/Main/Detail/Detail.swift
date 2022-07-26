@@ -37,7 +37,7 @@ internal struct Detail: View {
     @Nav private var nav
     @Query private var query
     @Controller private var controller
-    @WebsiteListQuery private var data
+    @FAST_WebsiteListQuery private var data
     
     @V3Style.Detail private var style
     @V3Localize.Detail private var text
