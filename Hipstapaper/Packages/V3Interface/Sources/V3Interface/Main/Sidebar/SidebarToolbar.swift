@@ -29,6 +29,11 @@ import V3Store
 import V3Localize
 import V3Style
 
+#if DEBUG
+import V3Errors
+#endif
+
+
 internal struct SidebarToolbar: ViewModifier {
     
     @Nav private var nav
@@ -47,6 +52,7 @@ internal struct SidebarToolbar: ViewModifier {
                     self.style.toolbarWebsiteAdd.button(self.text.toolbarAddWebsite) {
                         self.state.push.websiteAdd = true
                     }
+                    self.DEBUG_addFakeData
                 } label: {
                     self.style.toolbarAdd.label(self.text.toolbarAddGeneric)
                 }
@@ -54,6 +60,21 @@ internal struct SidebarToolbar: ViewModifier {
             }
         }
     }
+    
+#if DEBUG
+    @Controller private var controller
+    @Environment(\.codableErrorResponder) private var errorResponder
+    private var DEBUG_addFakeData: some View {
+        Button("DEBUG: Add Fake Data") {
+            guard let error = _controller.createFakeData().error else { return }
+            self.errorResponder(.init(error as NSError))
+        }
+    }
+#else
+    private var DEBUG_addFakeData: some View {
+        EmptyView()
+    }
+#endif
 }
 
 extension String {
