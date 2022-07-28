@@ -49,9 +49,12 @@ internal struct DetailTitle: ViewModifier {
                         .compactMap(default: self.text.tagUntitled)
                      ?? .constant(self.text.noSelection)
                 )
+                // TODO: Figure out what happened to this API
+                /*
                 {
                     Text("// TODO: Add Delete Option")
                 }
+                */
             }
         }
         .navigationBarTitleDisplayModeInline
