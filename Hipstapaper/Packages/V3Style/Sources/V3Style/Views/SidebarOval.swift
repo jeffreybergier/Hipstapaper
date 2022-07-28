@@ -26,9 +26,11 @@
 
 import SwiftUI
 
-internal struct SidebarOval: ViewModifier {
+// TODO: Make internal
+// When internal, this causes compiler to fail to build in release mode
+public struct SidebarOval: ViewModifier {
     @Environment(\.colorScheme) private var scheme
-    internal func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         ZStack {
             RoundedRectangle(cornerRadius: 1000)
                 .frame(minWidth: .ovalWidthMinimum)

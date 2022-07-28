@@ -76,7 +76,7 @@ internal struct SidebarToolbar: ViewModifier {
     }
 #else
     @ViewBuilder private var DEBUG_addFakeData: some View {
-        nil
+        EmptyView()
     }
 #endif
 }
