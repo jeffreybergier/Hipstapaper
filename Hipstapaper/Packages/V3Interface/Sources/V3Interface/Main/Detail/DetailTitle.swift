@@ -44,17 +44,17 @@ internal struct DetailTitle: ViewModifier {
             case .systemAll:
                 content.navigationTitle(self.text.titleAll)
             case .user:
-                content.navigationTitle(
-                    self.$item?.name
-                        .compactMap(default: self.text.tagUntitled)
-                     ?? .constant(self.text.noSelection)
-                )
-                // TODO: Figure out what happened to this API
-                /*
-                {
-                    Text("// TODO: Add Delete Option")
+                if let item = self.$item {
+                    content.navigationTitle(item.name.compactMap(default: self.text.tagUntitled))
+                    // TODO: Figure out what happened to this API
+                    /*
+                    {
+                        Text("// TODO: Add Delete Option")
+                    }
+                    */
+                } else {
+                    content.navigationTitle(self.text.noSelection)
                 }
-                */
             }
         }
         .navigationBarTitleDisplayModeInline
