@@ -64,15 +64,19 @@ internal struct SidebarToolbar: ViewModifier {
 #if DEBUG
     @Controller private var controller
     @Environment(\.codableErrorResponder) private var errorResponder
-    private var DEBUG_addFakeData: some View {
+    @ViewBuilder private var DEBUG_addFakeData: some View {
         Button("DEBUG: Add Fake Data") {
             guard let error = _controller.createFakeData().error else { return }
             self.errorResponder(.init(error as NSError))
         }
+        Button("DEBUG: Delete All Data") {
+            guard let error = _controller.deleteAllData().error else { return }
+            self.errorResponder(.init(error as NSError))
+        }
     }
 #else
-    private var DEBUG_addFakeData: some View {
-        EmptyView()
+    @ViewBuilder private var DEBUG_addFakeData: some View {
+        nil
     }
 #endif
 }

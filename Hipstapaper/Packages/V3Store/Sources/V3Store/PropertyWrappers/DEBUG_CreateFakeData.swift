@@ -54,6 +54,42 @@ extension Controller {
         }
         return context.datum_save()
     }
+    
+    public func deleteAllData() -> Result<Void, Error> {
+        let controller = self.wrappedValue as! CD_Controller
+        let context = controller.context
+        
+        let siteRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CD_Website")
+        let tagRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CD_Tag")
+
+        // Create a batch delete request for the
+        // fetch request
+        let sitesDelete = NSBatchDeleteRequest(fetchRequest: siteRequest)
+        let tagsDelete = NSBatchDeleteRequest(fetchRequest: tagRequest)
+
+        // Specify the result of the NSBatchDeleteRequest
+        // should be the NSManagedObject IDs for the
+        // deleted objects
+        sitesDelete.resultType = .resultTypeObjectIDs
+        tagsDelete.resultType = .resultTypeObjectIDs
+
+        // Perform the batch delete
+        let sitesDeleteResult = (try? context.execute(sitesDelete) as? NSBatchDeleteResult)?.result as? [NSManagedObjectID] ?? []
+        let tagsDeleteResult = (try? context.execute(tagsDelete) as? NSBatchDeleteResult)?.result as? [NSManagedObjectID] ?? []
+        
+        guard sitesDeleteResult.isEmpty == false
+           && tagsDeleteResult.isEmpty == false
+        else { return .success(()) }
+        
+        NSManagedObjectContext.mergeChanges(
+            fromRemoteContextSave: [
+                NSDeletedObjectsKey: sitesDeleteResult + tagsDeleteResult
+            ],
+            into: [context]
+        )
+        
+        return .success(())
+    }
 }
 #endif
 
