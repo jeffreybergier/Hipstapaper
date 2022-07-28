@@ -40,8 +40,8 @@ enum TagHelper {
         guard let id = selection else { return }
         let result = controller.delete([id])
         result.error.map {
+            NSLog(String(describing: $0))
             errorQ.value.append($0)
-            log.error($0)
         }
     }
 }

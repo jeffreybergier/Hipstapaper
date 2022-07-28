@@ -65,24 +65,24 @@ enum WebsiteHelper {
     static func archive(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQueue.Environment) {
         let result = controller.setArchive(true, on: Set(selection.map { $0.uuid }))
         result.error.map {
+            NSLog(String(describing: $0))
             errorQ.value.append($0)
-            log.error($0)
         }
     }
     
     static func unarchive(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQueue.Environment) {
         let result = controller.setArchive(false, on: Set(selection.map { $0.uuid }))
         result.error.map {
+            NSLog(String(describing: $0))
             errorQ.value.append($0)
-            log.error($0)
         }
     }
     
     static func delete(_ selection: Selection, _ controller: Controller, _ errorQ: ErrorQueue.Environment) {
         let result = controller.delete(Set(selection.map { $0.uuid }))
         result.error.map {
+            NSLog(String(describing: $0))
             errorQ.value.append($0)
-            log.error($0)
         }
     }
     

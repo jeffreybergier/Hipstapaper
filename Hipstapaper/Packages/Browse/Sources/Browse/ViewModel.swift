@@ -68,10 +68,4 @@ public class ViewModel: ObservableObject {
         self.doneAction = doneAction
         self.browserControl.load = website.preferredURL
     }
-    
-    #if DEBUG
-    deinit {
-        log.verbose()
-    }
-    #endif
 }

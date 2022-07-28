@@ -50,8 +50,7 @@ public struct Interface: View {
         case (.failure(let error), _):
             fallthrough
         case (_, .failure(let error)):
-            log.error(error)
-            errorQ.value.append(error)
+            NSLog(String(describing: error))
             _errorEnvironment = .init(wrappedValue: errorQ)
             _controllerBox = .init(wrappedValue: BlackBox(nil))
             self.websiteIdent = nil

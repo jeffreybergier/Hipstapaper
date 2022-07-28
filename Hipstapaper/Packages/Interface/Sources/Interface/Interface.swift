@@ -55,7 +55,7 @@ public struct Interface: Scene {
             _errorEnvironment = .init(wrappedValue: errorQ)
             _controllerBox = .init(wrappedValue: BlackBox(controller))
         case .failure(let error):
-            log.error(error)
+            NSLog(String(describing: error))
             errorQ.value.append(error)
             _errorEnvironment = .init(wrappedValue: errorQ)
             _controllerBox = .init(wrappedValue: BlackBox(nil))
