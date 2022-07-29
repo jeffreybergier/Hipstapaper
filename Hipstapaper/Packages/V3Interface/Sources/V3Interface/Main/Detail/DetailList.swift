@@ -69,8 +69,10 @@ internal struct WebsiteListRow: View {
         HStack {
             VStack(alignment: .leading) {
                 JSBText(self.text.missingTitle, text: self.item?.title)
+                JSBText(self.text.missingURL, text: self.item?.preferredURL?.absoluteString)
                 JSBText(self.text.missingDate, text: _text.dateString(self.item?.dateCreated))
             }
+            .modifier(self.style.lineLimitList)
             Spacer()
             self.style.thumbnail(self.item?.thumbnail)
         }

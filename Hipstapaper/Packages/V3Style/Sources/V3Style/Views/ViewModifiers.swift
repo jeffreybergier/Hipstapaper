@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/07/19.
+//  Created by Jeffrey Bergier on 2022/07/29.
 //
 //  MIT License
 //
@@ -26,32 +26,19 @@
 
 import SwiftUI
 
-@propertyWrapper
-public struct Detail: DynamicProperty {
-        
-    public struct Value {
-        public var lineLimitList: LineLimit
-        public var lineLimitTable: LineLimit
-        public var dateColumnWidthMax: CGFloat = .dateColumnWidthMax
-        public var thumbnailColumnWidth: CGFloat = .thumbnailColumnWidth
-        public func thumbnail(_ data: Data?) -> some View {
-            ThumbnailImage(data)
-                .frame(width: .thumbnailSmall, height: .thumbnailSmall)
-                .cornerRadius(.cornerRadiusSmall)
-        }
-        public func syncIndicator(_ progress: Progress) -> some ViewModifier {
-            SyncIndicator(progress)
-        }
+// TODO: Needs to be public
+// due to limitations with how `some` keyword works
+public struct LineLimit: ViewModifier {
+    
+    private let limit: Int
+    private let reserve: Bool
+    
+    public init(limit: Int, reserve: Bool) {
+        self.limit = limit
+        self.reserve = reserve
     }
     
-    @Environment(\.dynamicTypeSize) private var typeSize
-    
-    public init() {}
-    
-    public var wrappedValue: Value {
-        Value(
-            lineLimitList: .init(limit: self.typeSize.isAccessibilitySize ? 2 : 1, reserve: false),
-            lineLimitTable: .init(limit: self.typeSize.isAccessibilitySize ? 3 : 2, reserve: true)
-        )
+    public func body(content: Content) -> some View {
+        content.lineLimit(self.limit, reservesSpace: self.reserve)
     }
 }
