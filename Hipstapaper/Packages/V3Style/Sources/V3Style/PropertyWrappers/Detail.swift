@@ -32,6 +32,8 @@ public struct Detail: DynamicProperty {
     public init() {}
     
     public struct Value {
+        public var dateColumnWidthMax: CGFloat = .dateColumnWidthMax
+        public var thumbnailColumnWidth: CGFloat = .thumbnailColumnWidth
         public func thumbnail(_ data: Data?) -> some View {
             ThumbnailImage(data)
                 .frame(width: .thumbnailSmall, height: .thumbnailSmall)

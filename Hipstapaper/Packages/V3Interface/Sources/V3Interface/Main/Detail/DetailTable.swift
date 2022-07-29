@@ -28,6 +28,7 @@ import SwiftUI
 import Umbrella
 import V3Model
 import V3Localize
+import V3Style
 
 // TODO: Remove C if `any RandomAccessCollection<Website>` ever works
 internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == Website.Identifier {
@@ -35,7 +36,8 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
     @Nav private var nav
     @Query private var query
     @V3Localize.Detail private var text
-    
+    @V3Style.Detail private var style
+
     private let data: C
     
     internal init(_ data: C) {
@@ -43,12 +45,26 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
     }
     
     internal var body: some View {
+        switch self.query.sort {
+        case .dateModifiedOldest, .dateModifiedNewest:
+            self.tableDateModified
+        default:
+            self.tableDefault
+        }
+    }
+    
+    // TODO: Hack because of SwiftUI limitations
+    // Closure containing control flow statement
+    // cannot be used with result builder 'TableColumnBuilder'
+    // I just want to change the column based on a current setting
+    private var tableDefault: some View {
         Table(selection: self.$nav.detail.selectedWebsites,
               sortOrder: self.$query.sort.HACK_mapSort)
         {
             TableColumn(self.text.columnThumbnail) {
                 DetailTableColumnThumbnail($0.id)
             }
+            .width(self.style.thumbnailColumnWidth)
             TableColumn(self.text.columnTitle, sortUsing: .title) {
                 DetailTableColumnTitle($0.id)
             }
@@ -58,9 +74,32 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
             TableColumn(self.text.columnDateCreated, sortUsing: .dateCreated) {
                 DetailTableColumnDate(id: $0.id, kp: \.dateCreated)
             }
+            .width(max: self.style.dateColumnWidthMax)
+        } rows: {
+            ForEach(self.data) {
+                TableRow(HACK_WebsiteIdentifier($0))
+            }
+        }
+    }
+    
+    private var tableDateModified: some View {
+        Table(selection: self.$nav.detail.selectedWebsites,
+              sortOrder: self.$query.sort.HACK_mapSort)
+        {
+            TableColumn(self.text.columnThumbnail) {
+                DetailTableColumnThumbnail($0.id)
+            }
+            .width(self.style.thumbnailColumnWidth)
+            TableColumn(self.text.columnTitle, sortUsing: .title) {
+                DetailTableColumnTitle($0.id)
+            }
+            TableColumn(self.text.columnURL) {
+                DetailTableColumnURL($0.id)
+            }
             TableColumn(self.text.columnDateModified, sortUsing: .dateModified) {
                 DetailTableColumnDate(id: $0.id, kp: \.dateModified)
             }
+            .width(max: self.style.dateColumnWidthMax)
         } rows: {
             ForEach(self.data) {
                 TableRow(HACK_WebsiteIdentifier($0))

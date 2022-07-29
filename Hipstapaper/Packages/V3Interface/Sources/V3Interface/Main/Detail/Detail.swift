@@ -42,14 +42,16 @@ internal struct Detail: View {
     @V3Style.Detail private var style
     @V3Localize.Detail private var text
     @JSBSizeClass private var sizeClass
+    
+    @Environment(\.dynamicTypeSize) private var typeSize
 
     internal var body: some View {
         NavigationStack {
             self.data.view {
-                switch self.sizeClass.horizontal {
-                case .regular:
+                switch (self.sizeClass.horizontal, self.typeSize.isAccessibilitySize) {
+                case (.regular, false):
                     DetailTable($0)
-                case .compact:
+                default:
                     DetailList($0)
                 }
             } onEmpty: {
