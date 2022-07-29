@@ -102,8 +102,10 @@ internal struct DetailToolbar: ViewModifier {
                 ToolbarItem(id: .itemSort, placement: .bottomSecondary) {
                     SortMenu()
                 }
-                ToolbarItem(id: .itemFilter, placement: .bottomSecondary) {
-                    FilterMenu()
+                if self.nav.sidebar.selectedTag?.isSystem == false {
+                    ToolbarItem(id: .itemFilter, placement: .bottomSecondary) {
+                        FilterMenu()
+                    }
                 }
             }
     }
