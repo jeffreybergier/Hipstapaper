@@ -39,3 +39,16 @@ public func sheet2<T: Identifiable, V: View>(items: Binding<Set<T>>,
     }
 }
 */
+
+extension URL {
+    var prettyValue: String? {
+        let components = URLComponents(url: self, resolvingAgainstBaseURL: true)
+        guard let _host = components?.host else { return nil }
+        // TODO: Improve this with regex.
+        // I only want to replace the first occurance.
+        // Or perhaps even limit it to the first characters
+        let host = _host.replacingOccurrences(of: "www.", with: "")
+        guard let path = components?.path else { return host }
+        return host+path
+    }
+}

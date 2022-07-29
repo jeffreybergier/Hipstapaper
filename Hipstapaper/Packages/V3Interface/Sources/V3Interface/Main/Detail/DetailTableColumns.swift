@@ -85,7 +85,7 @@ internal struct DetailTableColumnURL: View {
     
     var body: some View {
         JSBText(self.text.missingURL,
-                text: self.item?.preferredURL?.absoluteString)
+                text: self.item?.preferredURL?.prettyValue)
         .modifier(self.style.lineLimitTable)
             .onLoadChange(of: self.id) {
                 _item.setIdentifier($0)
