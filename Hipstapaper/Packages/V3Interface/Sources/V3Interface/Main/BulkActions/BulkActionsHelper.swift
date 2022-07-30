@@ -93,36 +93,24 @@ internal struct BulkActionsHelper: ViewModifier {
             }
             .onChange(of: self.appState.push.archiveYes) { selection in
                 guard selection.isEmpty == false else { return }
-                defer {
-                    self.appState.push.archiveYes = []
-                    self.nav.detail.selectedWebsites = []
-                }
+                defer { self.appState.push.archiveYes = [] }
                 guard let error = BulkActionsQuery.setArchive(true, selection, self.controller).error else { return }
                 self.errorResponder(.init(error))
             }
             .onChange(of: self.appState.push.archiveNo) { selection in
                 guard selection.isEmpty == false else { return }
-                defer {
-                    self.appState.push.archiveNo = []
-                    self.nav.detail.selectedWebsites = []
-                }
+                defer { self.appState.push.archiveNo = [] }
                 guard let error = BulkActionsQuery.setArchive(false, selection, self.controller).error else { return }
                 self.errorResponder(.init(error))
             }
             .onChange(of: self.appState.push.tagApply) { selection in
                 guard selection.isEmpty == false else { return }
-                defer {
-                    self.appState.push.tagApply = []
-                    self.nav.detail.selectedWebsites = []
-                }
+                defer { self.appState.push.tagApply = [] }
                 self.nav.detail.isTagApply = selection
             }
             .onChange(of: self.appState.push.websiteEdit) { selection in
                 guard selection.isEmpty == false else { return }
-                defer {
-                    self.appState.push.websiteEdit = []
-                    self.nav.detail.selectedWebsites = []
-                }
+                defer { self.appState.push.websiteEdit = [] }
                 self.nav.isWebsitesEdit = selection
             }
             .onChange(of: self.appState.push.tagsEdit) { selection in
@@ -132,18 +120,12 @@ internal struct BulkActionsHelper: ViewModifier {
             }
             .onChange(of: self.appState.push.websiteDelete) { selection in
                 guard selection.isEmpty == false else { return }
-                defer {
-                    self.appState.push.websiteDelete = []
-                    self.nav.detail.selectedWebsites = []
-                }
+                defer { self.appState.push.websiteDelete = [] }
                 self.errorResponder(DeleteWebsiteError(selection).codableValue)
             }
             .onChange(of: self.appState.push.tagDelete) { selection in
                 guard selection.isEmpty == false else { return }
-                defer {
-                    self.appState.push.tagDelete = []
-                    self.nav.sidebar.selectedTag = .default
-                }
+                defer { self.appState.push.tagDelete = [] }
                 self.errorResponder(DeleteTagError(selection).codableValue)
             }
             .onChange(of: self.appState.push.showErrors) { newValue in

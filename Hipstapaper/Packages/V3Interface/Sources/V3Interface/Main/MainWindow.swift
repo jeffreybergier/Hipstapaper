@@ -77,9 +77,13 @@ internal struct MainView: View {
             .modifier(WebsiteEdit.sheet(self.$nav.isWebsitesEdit))
             .modifier(BulkActionsHelper())
         } onConfirmation: {
-            // TODO: Do something with this confirmation
-            print($0)
-            print("")
+            switch $0 {
+            case .deleteWebsites(let deleted):
+                self.nav.detail.selectedWebsites.subtract(deleted)
+            case .deleteTags(let deleted):
+                guard deleted.contains(self.nav.sidebar.selectedTag ?? .default) else { return }
+                self.nav.sidebar.selectedTag = .default
+            }
         }
     }
 }
