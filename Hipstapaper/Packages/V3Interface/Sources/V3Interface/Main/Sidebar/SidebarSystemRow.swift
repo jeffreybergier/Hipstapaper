@@ -26,10 +26,12 @@
 
 import SwiftUI
 import V3Model
+import V3Style
 import V3Localize
 
 internal struct SidebarSystemRow: View {
     
+    @V3Style.Sidebar private var style
     @V3Localize.Sidebar private var text
     
     private let kind: Tag.Identifier.Kind
@@ -42,8 +44,10 @@ internal struct SidebarSystemRow: View {
         switch self.kind {
         case .systemAll:
             Text(self.text.rowTitleTagSystemAll)
+                .modifier(self.style.titleText)
         case .systemUnread:
             Text(self.text.rowTitleTagSystemUnread)
+                .modifier(self.style.titleText)
         case .user:
             fatalError("Unsupported")
         }

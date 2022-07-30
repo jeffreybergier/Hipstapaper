@@ -45,15 +45,16 @@ internal struct SidebarUserRow: View {
     
     internal var body: some View {
         Group {
-            if let item, let count = item.websitesCount {
-                HStack {
-                    JSBText(self.text.rowTitleUntitled, text: item.name)
+            HStack {
+                JSBText(self.text.rowTitleUntitled, text: self.item?.name)
+                    .modifier(self.style.titleText)
+                if self.style.accessibilityMode == false,
+                   let count = self.item?.websitesCount
+                {
                     Spacer()
                     Text(String(describing: count))
                         .modifier(self.style.itemCountOval)
                 }
-            } else {
-                JSBText(self.text.rowTitleUntitled, text: self.item?.name)
             }
         }
         .onLoadChange(of: self.identifier) {

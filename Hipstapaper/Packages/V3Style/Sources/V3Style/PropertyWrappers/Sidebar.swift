@@ -28,9 +28,7 @@ import SwiftUI
 
 @propertyWrapper
 public struct Sidebar: DynamicProperty {
-    
-    public init() {}
-    
+
     public struct Value {
         public var toolbarTagEdit    = Action.tagEdit
         public var toolbarTagAdd     = Action.tagAdd
@@ -38,10 +36,16 @@ public struct Sidebar: DynamicProperty {
         public var toolbarAdd        = Action.genericAdd
         public var menuTagDelete     = Action.genericDelete
         public var menuTagEdit       = Action.tagEdit
+        public var accessibilityMode: Bool = true
+        public var titleText:     some ViewModifier = SidebarListTitleText()
         public var itemCountOval: some ViewModifier = SidebarOval()
     }
     
+    @Environment(\.dynamicTypeSize) private var typeSize
+    
+    public init() {}
+    
     public var wrappedValue: Value {
-        Value()
+        Value(accessibilityMode: self.typeSize.isAccessibilitySize)
     }
 }
