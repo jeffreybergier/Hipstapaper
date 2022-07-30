@@ -56,7 +56,7 @@ public struct TagApplyQuery: DynamicProperty {
             } set: {
                 if let error = _controller.cd.write(tag: $0, selection: self.selection).error {
                     NSLog(String(describing: error))
-                    self.errorResponder(.init(error as NSError))
+                    self.errorResponder(.init(error))
                 }
             }
         }

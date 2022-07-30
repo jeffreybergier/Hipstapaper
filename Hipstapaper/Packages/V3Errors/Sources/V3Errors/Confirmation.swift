@@ -46,6 +46,6 @@ internal func perform(confirmation: Confirmation, controller: ControllerProtocol
     case .deleteTags(let items):
         error = controller.delete(items).error
     }
-    return error.map { .init($0 as NSError) }
+    return error.map { .init($0) }
 }
 

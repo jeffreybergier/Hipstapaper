@@ -52,7 +52,7 @@ public struct FAST_WebsiteListQuery: DynamicProperty {
         self.needsUpdate.value = false
         _data.setOnError { error in
             NSLog(String(describing: error))
-            self.errorResponder(.init(error as NSError))
+            self.errorResponder(.init(error))
         }
         self.updateCoreData()
     }

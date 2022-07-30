@@ -47,7 +47,7 @@ public struct FAST_TagUserListQuery: DynamicProperty {
         self.needsUpdate.value = false
         _data.setOnError { error in
             NSLog(String(describing: error))
-            self.errorResponder(.init(error as NSError))
+            self.errorResponder(.init(error))
         }
     }
     

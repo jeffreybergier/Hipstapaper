@@ -70,7 +70,7 @@ fileprivate struct _Web: View {
                 case .success(let image):
                     state.value.currentThumbnail = image
                 case .failure(let error):
-                    errorChain(.init(error as NSError))
+                    errorChain(.init(error))
                 }
             }
         }
@@ -116,7 +116,7 @@ fileprivate struct _Web: View {
     
     func makeCoordinator() -> GenericWebKitNavigationDelegate {
         return .init { [errorChain] error in
-            errorChain(.init(error as NSError))
+            errorChain(.init(error))
         }
     }
     

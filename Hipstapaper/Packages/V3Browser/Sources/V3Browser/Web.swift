@@ -116,7 +116,7 @@ fileprivate struct _Web: View {
     
     func makeCoordinator() -> GenericWebKitNavigationDelegate {
         return .init { [errorChain] error in
-            errorChain(.init(error as NSError))
+            errorChain(.init(error))
         }
     }
     

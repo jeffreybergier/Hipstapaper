@@ -37,6 +37,11 @@ internal struct UnknownError: UserFacingError {
     internal init(_ error: CodableError) {
         self.errorCode = error.errorCode
         self.errorDomain = error.errorDomain
+        guard
+            let data = error.arbitraryData,
+            let userInfoString = String(data: data, encoding: .utf8)
+        else { return }
+        self.message = userInfoString
     }
     
     internal static var errorDomain: String { "com.saturdayapps.Hipstapaper.Unknown" }

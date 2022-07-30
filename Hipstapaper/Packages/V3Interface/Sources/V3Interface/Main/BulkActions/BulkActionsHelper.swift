@@ -62,7 +62,7 @@ internal struct BulkActionsHelper: ViewModifier {
                     self.nav.isWebsitesEdit = [identifier]
                 case .failure(let error):
                     NSLog(String(describing: error))
-                    self.errorResponder(.init(error as NSError))
+                    self.errorResponder(.init(error))
                 }
             }
             .onChange(of: self.appState.push.tagAdd) { newValue in
@@ -73,7 +73,7 @@ internal struct BulkActionsHelper: ViewModifier {
                     self.nav.sidebar.isTagsEdit.editing = [identifier]
                 case .failure(let error):
                     NSLog(String(describing: error))
-                    self.errorResponder(.init(error as NSError))
+                    self.errorResponder(.init(error))
                 }
             }
             .onChange(of: self.appState.push.openInApp) { newValue in
@@ -98,7 +98,7 @@ internal struct BulkActionsHelper: ViewModifier {
                     self.nav.detail.selectedWebsites = []
                 }
                 guard let error = BulkActionsQuery.setArchive(true, selection, self.controller).error else { return }
-                self.errorResponder(.init(error as NSError))
+                self.errorResponder(.init(error))
             }
             .onChange(of: self.appState.push.archiveNo) { selection in
                 guard selection.isEmpty == false else { return }
@@ -107,7 +107,7 @@ internal struct BulkActionsHelper: ViewModifier {
                     self.nav.detail.selectedWebsites = []
                 }
                 guard let error = BulkActionsQuery.setArchive(false, selection, self.controller).error else { return }
-                self.errorResponder(.init(error as NSError))
+                self.errorResponder(.init(error))
             }
             .onChange(of: self.appState.push.tagApply) { selection in
                 guard selection.isEmpty == false else { return }

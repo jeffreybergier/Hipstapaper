@@ -65,7 +65,7 @@ public struct WebsiteQuery: DynamicProperty {
         _object.setOnWrite(_controller.cd.writeOpt(_:with:))
         _object.setOnError { error in
             NSLog(String(describing: error))
-            self.errorResponder(.init(error as NSError))
+            self.errorResponder(.init(error))
         }
     }
 }

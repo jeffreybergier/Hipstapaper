@@ -54,7 +54,7 @@ public struct TagUserListQuery: DynamicProperty {
         _data.setOnWrite(_controller.cd.write(_:with:))
         _data.setOnError { error in
             NSLog(String(describing: error))
-            self.errorResponder(.init(error as NSError))
+            self.errorResponder(.init(error))
         }
     }
     

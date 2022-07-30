@@ -67,11 +67,11 @@ internal struct SidebarToolbar: ViewModifier {
     @ViewBuilder private var DEBUG_addFakeData: some View {
         Button("DEBUG: Add Fake Data") {
             guard let error = _controller.createFakeData().error else { return }
-            self.errorResponder(.init(error as NSError))
+            self.errorResponder(.init(error))
         }
         Button("DEBUG: Delete All Data") {
             guard let error = _controller.deleteAllData().error else { return }
-            self.errorResponder(.init(error as NSError))
+            self.errorResponder(.init(error))
         }
     }
 #else

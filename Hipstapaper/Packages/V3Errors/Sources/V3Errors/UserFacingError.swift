@@ -59,7 +59,7 @@ extension DeleteTagError {
     }
     
     public var codableValue: CodableError {
-        var error = CodableError(self as NSError)
+        var error = CodableError(self)
         error.arbitraryData = try? PropertyListEncoder().encode(self.identifiers)
         return error
     }
@@ -80,7 +80,7 @@ extension DeleteWebsiteError {
     }
     
     public var codableValue: CodableError {
-        var error = CodableError(self as NSError)
+        var error = CodableError(self)
         error.arbitraryData = try? PropertyListEncoder().encode(self.identifiers)
         return error
     }
