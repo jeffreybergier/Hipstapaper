@@ -105,6 +105,7 @@ internal struct _WebsiteEdit: View {
         } onConfirmation: {
             switch $0 {
             case .deleteTags:
+                NSLog("Probably unexpected: \($0)")
                 break
             case .deleteWebsites:
                 self.dismiss()

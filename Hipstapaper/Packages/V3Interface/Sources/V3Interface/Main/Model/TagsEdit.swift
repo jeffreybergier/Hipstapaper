@@ -34,13 +34,12 @@ import V3Localize
 internal struct TagsEdit: View {
     
     @Nav private var nav
-    @V3Localize.TagsEdit private var text
     @Environment(\.dismiss) private var dismiss
     
-    internal let selection: [Tag.Selection.Element]
+    internal let selection: Tag.Selection
     
     internal init(_ selection: Tag.Selection) {
-        self.selection = Array(selection)
+        self.selection = selection
     }
     
     internal var body: some View {
@@ -49,26 +48,22 @@ internal struct TagsEdit: View {
         {
             NavigationStack {
                 Form {
-                    ForEach(self.selection) {
+                    ForEach(Array(self.selection)) {
                         TagsEditRow($0)
                     }
                 }
-                .modifier(self.toolbar)
+                .modifier(TagsEditToolbar(self.selection))
             }
         } onConfirmation: {
-            // TODO: Do something with this confirmation
-            print($0)
-            print("")
+            switch $0 {
+            case .deleteWebsites:
+                NSLog("Probably unexpected: \($0)")
+                break
+            case .deleteTags:
+                self.dismiss()
+            }
         }
         .frame(idealWidth: 320, minHeight: 320)
-    }
-    
-    private var toolbar: some ViewModifier {
-        JSBToolbar(title: self.text.title,
-                   done: self.text.toolbarDone)
-        {
-            self.dismiss()
-        }
     }
 }
 
@@ -105,6 +100,35 @@ internal struct TagsEditRow: View {
                   text: self.$item?.name.compactMap() ?? .constant(""))
         .onLoadChange(of: self.identifier) {
             _item.setIdentifier($0)
+        }
+    }
+}
+
+internal struct TagsEditToolbar: ViewModifier {
+    
+    @V3Localize.TagsEdit private var text
+    
+    @Environment(\.codableErrorResponder) private var errorResponder
+    @Environment(\.dismiss) private var dismiss
+    
+    internal let selection: Tag.Selection
+    
+    internal init(_ selection: Tag.Selection) {
+        self.selection = selection
+    }
+    
+    internal func body(content: Content) -> some View {
+        content.modifier(self.toolbar)
+    }
+    
+    private var toolbar: some ViewModifier {
+        JSBToolbar(title: self.text.title,
+                   done: self.text.toolbarDone,
+                   delete: self.text.toolbarDelete)
+        {
+            self.dismiss()
+        } deleteAction: {
+            self.errorResponder(DeleteTagError(self.selection).codableValue)
         }
     }
 }
