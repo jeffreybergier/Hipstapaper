@@ -34,7 +34,7 @@ import V3Style
 internal struct WebsiteListRow: View {
     
     @WebsiteQuery private var item
-    @V3Style.Detail private var style
+    @V3Style.DetailList private var style
     @V3Localize.Detail private var text
     
     @Environment(\.dynamicTypeSize) private var typeSize
@@ -71,24 +71,25 @@ internal struct WebsiteListRow: View {
         HStack(alignment: .firstTextBaseline, spacing: 4) {
             JSBText(self.text.missingDate,
                     text: _text.dateString(self.item?.dateCreated))
+            .modifier(self.style.dateLineLimit)
             Text("•")
             JSBText(self.text.missingURL,
                     text: self.item?.preferredURL?.prettyValueHost)
-            
+            .modifier(self.style.urlLineLimit)
         }
         .font(.caption)
-        .modifier(self.style.lineLimitList)
     }
     
     private var dateSiteAccessible: some View {
         VStack(alignment: .leading, spacing: 4) {
             JSBText(self.text.missingURL,
                     text: self.item?.preferredURL?.prettyValueHost)
+            .modifier(self.style.urlLineLimit)
             JSBText(self.text.missingDate,
                     text: _text.dateString(self.item?.dateCreated))
+            .modifier(self.style.dateLineLimit)
             
         }
         .font(.caption)
-        .modifier(self.style.lineLimitList)
     }
 }

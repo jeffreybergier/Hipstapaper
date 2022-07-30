@@ -34,7 +34,7 @@ import V3Style
 internal struct DetailTableColumnThumbnail: View {
     
     @WebsiteQuery private var item
-    @V3Style.Detail private var style
+    @V3Style.DetailTable private var style
     
     private let id: Website.Identifier
     
@@ -53,7 +53,7 @@ internal struct DetailTableColumnThumbnail: View {
 internal struct DetailTableColumnTitle: View {
     
     @WebsiteQuery private var item
-    @V3Style.Detail private var style
+    @V3Style.DetailTable private var style
     @V3Localize.Detail private var text
     
     private let id: Website.Identifier
@@ -64,7 +64,7 @@ internal struct DetailTableColumnTitle: View {
     
     var body: some View {
         JSBText(self.text.missingTitle, text: self.item?.title)
-            .modifier(self.style.lineLimitTable)
+            .modifier(self.style.lineLimit)
             .onLoadChange(of: self.id) {
                 _item.setIdentifier($0)
             }
@@ -74,7 +74,7 @@ internal struct DetailTableColumnTitle: View {
 internal struct DetailTableColumnURL: View {
     
     @WebsiteQuery private var item
-    @V3Style.Detail private var style
+    @V3Style.DetailTable private var style
     @V3Localize.Detail private var text
     
     private let id: Website.Identifier
@@ -86,7 +86,7 @@ internal struct DetailTableColumnURL: View {
     var body: some View {
         JSBText(self.text.missingURL,
                 text: self.item?.preferredURL?.prettyValue)
-        .modifier(self.style.lineLimitTable)
+        .modifier(self.style.lineLimit)
             .onLoadChange(of: self.id) {
                 _item.setIdentifier($0)
             }
@@ -96,7 +96,7 @@ internal struct DetailTableColumnURL: View {
 internal struct DetailTableColumnDate: View {
     
     @WebsiteQuery private var item
-    @V3Style.Detail private var style
+    @V3Style.DetailTable private var style
     @V3Localize.Detail private var text
     
     private let id: Website.Identifier
@@ -110,7 +110,7 @@ internal struct DetailTableColumnDate: View {
     var body: some View {
         JSBText(self.text.missingDate,
                 text: _text.dateString(self.item?[keyPath: self.keyPath]))
-        .modifier(self.style.lineLimitTable)
+        .modifier(self.style.lineLimit)
         .onLoadChange(of: self.id) {
             _item.setIdentifier($0)
         }

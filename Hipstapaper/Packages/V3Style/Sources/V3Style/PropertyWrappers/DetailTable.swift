@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/07/19.
+//  Created by Jeffrey Bergier on 2022/07/30.
 //
 //  MIT License
 //
@@ -27,17 +27,28 @@
 import SwiftUI
 
 @propertyWrapper
-public struct Detail: DynamicProperty {
+public struct DetailTable: DynamicProperty {
         
     public struct Value {
+        public var lineLimit: LineLimit
+        public var dateColumnWidthMax: CGFloat = .dateColumnWidthMax
+        public var thumbnailColumnWidth: CGFloat = .thumbnailColumnWidth
+        public func thumbnail(_ data: Data?) -> some View {
+            ThumbnailImage(data)
+                .frame(width: .thumbnailSmall, height: .thumbnailSmall)
+                .cornerRadius(.cornerRadiusSmall)
+        }
         public func syncIndicator(_ progress: Progress) -> some ViewModifier {
             SyncIndicator(progress)
         }
     }
     
+    @Environment(\.dynamicTypeSize) private var typeSize
+    
     public init() {}
     
     public var wrappedValue: Value {
-        Value()
+        let isA = self.typeSize.isAccessibilitySize
+        return Value(lineLimit: .init(limit: isA ? 3 : 2, reserve: true))
     }
 }
