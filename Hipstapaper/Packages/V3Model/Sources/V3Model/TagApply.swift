@@ -28,12 +28,11 @@ import Foundation
 
 public struct TagApply: Identifiable, Hashable {
     
-    public var id: Tag.Identifier { self.tag.id }
-    public var tag: Tag
+    public var id: Tag.Identifier
     public var status: MultiStatus
     
-    public init(tag: Tag, status: MultiStatus) {
-        self.tag = tag
+    public init(identifier: Tag.Identifier, status: MultiStatus) {
+        self.id = identifier
         self.status = status
     }
 }

@@ -32,7 +32,7 @@ import V3Model
 public struct TagApplyQuery: DynamicProperty {
     
     @Controller private var controller
-    @TagUserListQuery private var data
+    @FAST_TagUserListQuery private var data
     @Environment(\.codableErrorResponder) private var errorResponder
     
     @State public var selection: Website.Selection = []
@@ -40,19 +40,19 @@ public struct TagApplyQuery: DynamicProperty {
     public init() {}
     
     public var wrappedValue: some RandomAccessCollection<TagApply> {
-        self.data.map { tag in
-            let status = _controller.cd.tagStatus(identifier: tag.id,
+        self.data.map { identifier in
+            let status = _controller.cd.tagStatus(identifier: identifier,
                                                   selection: self.selection)
-            return .init(tag: tag, status: status)
+            return .init(identifier: identifier, status: status)
         }
     }
     
     public var projectedValue: some RandomAccessCollection<Binding<TagApply>> {
-        self.data.map { tag in
+        self.data.map { identifier in
             Binding {
-                let status = _controller.cd.tagStatus(identifier: tag.id,
+                let status = _controller.cd.tagStatus(identifier: identifier,
                                                       selection: self.selection)
-                return .init(tag: tag, status: status)
+                return .init(identifier: identifier, status: status)
             } set: {
                 if let error = _controller.cd.write(tag: $0, selection: self.selection).error {
                     NSLog(String(describing: error))

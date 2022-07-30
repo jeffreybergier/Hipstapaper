@@ -43,6 +43,7 @@ public struct WebsiteEdit: DynamicProperty {
         public var tabWebsite      = Action.websiteGeneric
         public var tabTag          = Action.tagGeneric
         public var error           = Action.errorPresent
+        public var tagTitle: some ViewModifier = SidebarListTitleText()
         
         public func thumbnailSingle(_ data: Data?, @ViewBuilder background: @escaping () -> some View) -> some View {
             WebThumbnailImage(data, web: background)

@@ -34,7 +34,6 @@ import V3Store
 internal struct Tag: View {
     
     @TagApplyQuery private var data
-    @V3Localize.WebsiteEdit private var text
     
     private let selection: Website.Selection
     
@@ -46,9 +45,8 @@ internal struct Tag: View {
         NavigationStack {
             Form {
                 self.$data.view {
-                    ForEach($0) { item in
-                        Toggle(item.wrappedValue.tag.name ?? self.text.untitled,
-                               isOn: item.status.boolValue)
+                    ForEach($0) {
+                        TagRow($0)
                     }
                 } onEmpty: {
                     // TODO: Change to No Tags Label
@@ -60,6 +58,30 @@ internal struct Tag: View {
         .frame(idealWidth: 320, minHeight: 320)
         .onLoadChange(of: self.selection) {
             _data.selection = $0
+        }
+    }
+}
+
+internal struct TagRow: View {
+    
+    @TagUserQuery private var item
+    @Binding private var tagApply: TagApply
+    
+    @V3Style.WebsiteEdit private var style
+    @V3Localize.WebsiteEdit private var text
+    
+    internal init(_ tagApply: Binding<TagApply>) {
+        _tagApply = tagApply
+    }
+    
+    internal var body: some View {
+        Toggle(
+            self.item?.name ?? self.text.untitled,
+            isOn: self.$tagApply.status.boolValue
+        )
+        .modifier(self.style.tagTitle)
+        .onLoadChange(of: self.tagApply.id) {
+            _item.setIdentifier($0)
         }
     }
 }
