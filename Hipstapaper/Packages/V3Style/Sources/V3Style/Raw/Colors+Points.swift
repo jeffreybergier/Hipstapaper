@@ -38,7 +38,7 @@ extension CGFloat {
     internal static let paddingOvalVertical: CGFloat = 4
     internal static let cornerRadiusMedium: CGFloat = 8
     internal static let cornerRadiusSmall: CGFloat = 4
-    internal static let dateColumnWidthMax: CGFloat = 8*20
+    internal static let dateColumnWidthMax: CGFloat = 8*14
     internal static let thumbnailColumnWidth: CGFloat = .thumbnailSmall + 4
     internal static let thumbnailSmall: CGFloat = 64
     internal static let thumbnailMedium: CGFloat = 128

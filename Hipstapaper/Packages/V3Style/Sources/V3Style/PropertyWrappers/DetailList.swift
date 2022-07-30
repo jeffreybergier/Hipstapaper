@@ -30,24 +30,24 @@ import SwiftUI
 public struct DetailList: DynamicProperty {
         
     public struct Value {
-        public var dateLineLimit: LineLimit
-        public var urlLineLimit: LineLimit
-        public var titleLineLimit: LineLimit
-        public func thumbnail(_ data: Data?) -> some View {
-            ThumbnailImage(data)
-                .frame(width: .thumbnailSmall, height: .thumbnailSmall)
-                .cornerRadius(.cornerRadiusSmall)
+        public var date:  some ViewModifier = DetailListDateText()
+        public var url:   some ViewModifier = DetailListURLText()
+        public var title: some ViewModifier = DetailListTitleText()
+        public var accessibilityMode: Bool = true
+        @ViewBuilder public func thumbnail(_ data: Data?) -> some View {
+            if self.accessibilityMode == false {
+                ThumbnailImage(data)
+                    .frame(width: .thumbnailSmall, height: .thumbnailSmall)
+                    .cornerRadius(.cornerRadiusSmall)
+            }
         }
     }
     
     @Environment(\.dynamicTypeSize) private var typeSize
-    
+        
     public init() {}
     
     public var wrappedValue: Value {
-        let isA = self.typeSize.isAccessibilitySize
-        return Value(dateLineLimit: .init(limit: isA ? 2 : 1, reserve: true),
-                     urlLineLimit: .init(limit: isA ? 2 : 1, reserve: true),
-                     titleLineLimit: .init(limit: isA ? 4 : 2, reserve: true))
+        Value(accessibilityMode: self.typeSize.isAccessibilitySize)
     }
 }

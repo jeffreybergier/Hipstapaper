@@ -30,9 +30,13 @@ import SwiftUI
 public struct DetailTable: DynamicProperty {
         
     public struct Value {
-        public var lineLimit: LineLimit
-        public var dateColumnWidthMax: CGFloat = .dateColumnWidthMax
-        public var thumbnailColumnWidth: CGFloat = .thumbnailColumnWidth
+        public var date:  some ViewModifier = DetailTableDateText()
+        public var url:   some ViewModifier = DetailTableURLText()
+        public var title: some ViewModifier = DetailTableTitleText()
+        
+        public var columnWidthDate:      CGFloat = .dateColumnWidthMax
+        public var columnWidthThumbnail: CGFloat = .thumbnailColumnWidth
+        
         public func thumbnail(_ data: Data?) -> some View {
             ThumbnailImage(data)
                 .frame(width: .thumbnailSmall, height: .thumbnailSmall)
@@ -42,13 +46,10 @@ public struct DetailTable: DynamicProperty {
             SyncIndicator(progress)
         }
     }
-    
-    @Environment(\.dynamicTypeSize) private var typeSize
-    
+        
     public init() {}
     
     public var wrappedValue: Value {
-        let isA = self.typeSize.isAccessibilitySize
-        return Value(lineLimit: .init(limit: isA ? 3 : 2, reserve: true))
+        Value()
     }
 }

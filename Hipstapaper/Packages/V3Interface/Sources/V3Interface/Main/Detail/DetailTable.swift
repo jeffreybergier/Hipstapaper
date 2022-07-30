@@ -64,7 +64,7 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
             TableColumn(self.text.columnThumbnail) {
                 DetailTableColumnThumbnail($0.id)
             }
-            .width(self.style.thumbnailColumnWidth)
+            .width(self.style.columnWidthThumbnail)
             TableColumn(self.text.columnTitle, sortUsing: .title) {
                 DetailTableColumnTitle($0.id)
             }
@@ -74,7 +74,7 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
             TableColumn(self.text.columnDateCreated, sortUsing: .dateCreated) {
                 DetailTableColumnDate(id: $0.id, kp: \.dateCreated)
             }
-            .width(max: self.style.dateColumnWidthMax)
+            .width(self.style.columnWidthDate)
         } rows: {
             ForEach(self.data) {
                 TableRow(HACK_WebsiteIdentifier($0))
@@ -89,7 +89,7 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
             TableColumn(self.text.columnThumbnail) {
                 DetailTableColumnThumbnail($0.id)
             }
-            .width(self.style.thumbnailColumnWidth)
+            .width(self.style.columnWidthThumbnail)
             TableColumn(self.text.columnTitle, sortUsing: .title) {
                 DetailTableColumnTitle($0.id)
             }
@@ -99,7 +99,7 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
             TableColumn(self.text.columnDateModified, sortUsing: .dateModified) {
                 DetailTableColumnDate(id: $0.id, kp: \.dateModified)
             }
-            .width(max: self.style.dateColumnWidthMax)
+            .width(max: self.style.columnWidthDate)
         } rows: {
             ForEach(self.data) {
                 TableRow(HACK_WebsiteIdentifier($0))

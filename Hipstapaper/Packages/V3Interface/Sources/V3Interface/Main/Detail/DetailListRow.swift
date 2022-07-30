@@ -36,8 +36,6 @@ internal struct WebsiteListRow: View {
     @WebsiteQuery private var item
     @V3Style.DetailList private var style
     @V3Localize.DetailList private var text
-    
-    @Environment(\.dynamicTypeSize) private var typeSize
 
     private let id: Website.Selection.Element
     
@@ -49,18 +47,16 @@ internal struct WebsiteListRow: View {
         HStack {
             VStack(alignment: .leading, spacing: 6) {
                 JSBText(self.text.missingTitle, text: self.item?.title)
-                    .font(.body)
-                    .lineLimit(2, reservesSpace: true)
-                if self.typeSize.isAccessibilitySize == false {
+                    .modifier(self.style.title)
+                switch self.style.accessibilityMode {
+                case false:
                     self.dateSiteDefault
-                } else {
+                case true:
                     self.dateSiteAccessible
                 }
             }
-            if self.typeSize.isAccessibilitySize == false {
-                Spacer()
-                self.style.thumbnail(self.item?.thumbnail)
-            }
+            Spacer()
+            self.style.thumbnail(self.item?.thumbnail)
         }
         .onLoadChange(of: self.id) {
             _item.setIdentifier($0)
@@ -69,27 +65,21 @@ internal struct WebsiteListRow: View {
     
     private var dateSiteDefault: some View {
         HStack(alignment: .firstTextBaseline, spacing: 4) {
-            JSBText(self.text.missingDate,
-                    text: _text.dateString(self.item?.dateCreated))
-            .modifier(self.style.dateLineLimit)
+            JSBText(self.text.missingDate, text: _text.dateString(self.item?.dateCreated))
+                .modifier(self.style.date)
             Text("•")
-            JSBText(self.text.missingURL,
-                    text: self.item?.preferredURL?.prettyValueHost)
-            .modifier(self.style.urlLineLimit)
+                .modifier(self.style.date)
+            JSBText(self.text.missingURL, text: self.item?.preferredURL?.prettyValueHost)
+                .modifier(self.style.url)
         }
-        .font(.caption)
     }
     
     private var dateSiteAccessible: some View {
         VStack(alignment: .leading, spacing: 4) {
-            JSBText(self.text.missingURL,
-                    text: self.item?.preferredURL?.prettyValueHost)
-            .modifier(self.style.urlLineLimit)
-            JSBText(self.text.missingDate,
-                    text: _text.dateString(self.item?.dateCreated))
-            .modifier(self.style.dateLineLimit)
-            
+            JSBText(self.text.missingURL, text: self.item?.preferredURL?.prettyValueHost)
+                .modifier(self.style.url)
+            JSBText(self.text.missingDate, text: _text.dateString(self.item?.dateCreated))
+                .modifier(self.style.date)
         }
-        .font(.caption)
     }
 }
