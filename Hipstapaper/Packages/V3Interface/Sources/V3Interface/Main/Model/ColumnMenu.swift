@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/17.
+//  Created by Jeffrey Bergier on 2022/07/30.
 //
 //  MIT License
 //
@@ -25,50 +25,44 @@
 //
 
 import SwiftUI
-import Umbrella
 import V3Model
-import V3Store
-import V3Browser
 import V3Style
 import V3Localize
 
-internal struct Detail: View {
+internal struct ColumnMenu: View {
     
-    @Nav private var nav
     @Query private var query
-    @Controller private var controller
-    @FAST_WebsiteListQuery private var data
-    
-    @V3Style.Detail private var style
-    @V3Style.ShowsTable private var showsTable
-    @V3Localize.Detail private var text
+    @V3Style.ColumnMenu private var style
+    @V3Localize.ColumnMenu private var text
     
     internal var body: some View {
-        NavigationStack {
-            self.data.view {
-                switch self.showsTable {
-                case .showTable:
-                    DetailTable($0)
-                case .showList:
-                    DetailList($0)
-                }
-            } onEmpty: {
-                Text(self.text.emptyState)
+        Picker(selection: self.selectionMap) {
+            self.style.dateModified
+                .label(self.text.dateModified)
+                .tag(true)
+            self.style.dateCreated
+                .label(self.text.dateCreated)
+                .tag(false)
+        } label: {
+            // TODO: Figure out how to make this show in toolbar
+            self.style.menu.label(self.text.menu)
+        }
+    }
+    
+    private var selectionMap: Binding<Bool> {
+        self.$query.sort.map {
+            switch $0 {
+            case .dateModifiedNewest, .dateModifiedOldest:
+                return true
+            default:
+                return false
             }
-            .searchable(text: self.$query.search,
-                        prompt: self.text.search)
-            .onLoadChange(of: self.query) {
-                _data.setQuery($0)
-            }
-            .onLoadChange(of: self.nav.sidebar.selectedTag) {
-                _data.setFilter($0)
-            }
-            .modifier(self.style.syncIndicator(self.controller.syncProgress.progress))
-            .modifier(DetailTitle())
-            .modifier(DetailMenu())
-            .modifier(DetailToolbar())
-            .sheetCover(item: self.$nav.detail.isBrowse) { ident in
-                Browser(ident)
+        } set: {
+            switch $0 {
+            case true:
+                return .dateModifiedNewest
+            case false:
+                return .dateCreatedNewest
             }
         }
     }

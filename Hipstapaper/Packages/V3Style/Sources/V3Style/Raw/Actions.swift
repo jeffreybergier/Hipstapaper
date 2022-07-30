@@ -157,4 +157,16 @@ extension Action {
         systemImage: SystemImage.tag.rawValue,
         shortcut: nil
     )
+    internal static let columnGeneric = Self(
+        systemImage: SystemImage.columnGeneric.rawValue,
+        shortcut: nil
+    )
+    internal static let columnFill = Self(
+        systemImage: SystemImage.columnCircleFill.rawValue,
+        shortcut: nil
+    )
+    internal static let columnEmpty = Self(
+        systemImage: SystemImage.columnCircleEmpty.rawValue,
+        shortcut: nil
+    )
 }

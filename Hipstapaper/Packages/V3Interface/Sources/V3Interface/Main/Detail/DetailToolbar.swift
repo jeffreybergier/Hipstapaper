@@ -37,6 +37,7 @@ internal struct DetailToolbar: ViewModifier {
     @BulkActions private var state
     
     @V3Style.DetailToolbar private var style
+    @V3Style.ShowsTable private var showsTable
     @V3Localize.DetailToolbar private var text
         
     internal func body(content: Content) -> some View {
@@ -99,8 +100,15 @@ internal struct DetailToolbar: ViewModifier {
                 ToolbarItem(id: .itemSpacer, placement: .bottomSecondary) {
                     Spacer()
                 }
-                ToolbarItem(id: .itemSort, placement: .bottomSecondary) {
-                    SortMenu()
+                switch self.showsTable {
+                case .showTable:
+                    ToolbarItem(id: .itemSort, placement: .bottomSecondary) {
+                        ColumnMenu()
+                    }
+                case .showList:
+                    ToolbarItem(id: .itemSort, placement: .bottomSecondary) {
+                        SortMenu()
+                    }
                 }
                 if self.nav.sidebar.selectedTag?.isSystem == false {
                     ToolbarItem(id: .itemFilter, placement: .bottomSecondary) {
