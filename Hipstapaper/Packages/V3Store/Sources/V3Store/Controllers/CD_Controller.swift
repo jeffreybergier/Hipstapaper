@@ -301,7 +301,7 @@ internal class CD_Controller {
         } catch let error as Error {
             return .failure(error)
         } catch {
-            NSLog("\(error)")
+            NSLog(String(describing: error))
             fatalError("Unexpected error ocurred: \(error)")
         }
     }
