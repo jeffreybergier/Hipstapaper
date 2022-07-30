@@ -34,15 +34,13 @@ import V3Localize
 internal struct TagsEdit: View {
     
     @Nav private var nav
-    @TagUserListQuery(defaultListAll: false) private var data
-    
     @V3Localize.TagsEdit private var text
     @Environment(\.dismiss) private var dismiss
     
-    internal let selection: Tag.Selection
+    internal let selection: [Tag.Selection.Element]
     
     internal init(_ selection: Tag.Selection) {
-        self.selection = selection
+        self.selection = Array(selection)
     }
     
     internal var body: some View {
@@ -51,18 +49,9 @@ internal struct TagsEdit: View {
         {
             NavigationStack {
                 Form {
-                    self.$data.view {
-                        ForEach($0) { item in
-                            TextField(self.text.placeholderName,
-                                      text: item.name.compactMap())
-                        }
-                    } onEmpty: {
-                        TextField(self.text.placeholderName,
-                                  text: Binding.constant(""))
+                    ForEach(self.selection) {
+                        TagsEditRow($0)
                     }
-                }
-                .onLoadChange(of: self.selection) {
-                    _data.setQuery($0)
                 }
                 .modifier(self.toolbar)
             }
@@ -96,6 +85,26 @@ internal struct TagsEditPresentation: ViewModifier {
         { selection in
             TagsEdit(selection)
                 .presentationDetents([.medium, .large])
+        }
+    }
+}
+
+internal struct TagsEditRow: View {
+    
+    @TagUserQuery private var item
+    @V3Localize.TagsEdit private var text
+    
+    private let identifier: Tag.Identifier
+    
+    internal init(_ identifier: Tag.Identifier) {
+        self.identifier = identifier
+    }
+    
+    internal var body: some View {
+        TextField(self.text.placeholderName,
+                  text: self.$item?.name.compactMap() ?? .constant(""))
+        .onLoadChange(of: self.identifier) {
+            _item.setIdentifier($0)
         }
     }
 }
