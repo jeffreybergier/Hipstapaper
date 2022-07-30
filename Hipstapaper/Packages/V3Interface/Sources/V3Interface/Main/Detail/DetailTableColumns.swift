@@ -54,7 +54,7 @@ internal struct DetailTableColumnTitle: View {
     
     @WebsiteQuery private var item
     @V3Style.DetailTable private var style
-    @V3Localize.Detail private var text
+    @V3Localize.DetailTable private var text
     
     private let id: Website.Identifier
     
@@ -75,7 +75,7 @@ internal struct DetailTableColumnURL: View {
     
     @WebsiteQuery private var item
     @V3Style.DetailTable private var style
-    @V3Localize.Detail private var text
+    @V3Localize.DetailTable private var text
     
     private let id: Website.Identifier
     
@@ -97,7 +97,7 @@ internal struct DetailTableColumnDate: View {
     
     @WebsiteQuery private var item
     @V3Style.DetailTable private var style
-    @V3Localize.Detail private var text
+    @V3Localize.DetailTable private var text
     
     private let id: Website.Identifier
     private let keyPath: KeyPath<Website, Date?>

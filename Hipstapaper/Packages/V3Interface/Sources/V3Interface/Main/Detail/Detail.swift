@@ -39,9 +39,9 @@ internal struct Detail: View {
     @Controller private var controller
     @FAST_WebsiteListQuery private var data
     
+    @V3Localize.Detail private var text
     @V3Style.Detail private var style
     @V3Style.ShowsTable private var showsTable
-    @V3Localize.Detail private var text
     
     internal var body: some View {
         NavigationStack {

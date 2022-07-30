@@ -35,8 +35,8 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
 
     @Nav private var nav
     @Query private var query
-    @V3Localize.Detail private var text
     @V3Style.DetailTable private var style
+    @V3Localize.DetailTable private var text
 
     private let data: C
     

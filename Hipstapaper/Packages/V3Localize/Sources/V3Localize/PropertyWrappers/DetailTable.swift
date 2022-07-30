@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/07/17.
+//  Created by Jeffrey Bergier on 2022/07/30.
 //
 //  MIT License
 //
@@ -28,23 +28,27 @@ import SwiftUI
 import Umbrella
 
 @propertyWrapper
-public struct Detail: DynamicProperty {
+public struct DetailTable: DynamicProperty {
     
     public struct Value {
-        public var titleUnread:        LocalizedString
-        public var titleAll:           LocalizedString
-        public var tagUntitled:        LocalizedString
-        public var search:             LocalizedString
-        public var noSelection:        LocalizedString
-        public var emptyState:         LocalizedString
+        public var columnThumbnail:    LocalizedString
+        public var columnTitle:        LocalizedString
+        public var columnURL:          LocalizedString
+        public var columnDateCreated:  LocalizedString
+        public var columnDateModified: LocalizedString
+        public var missingTitle:       LocalizedString
+        public var missingURL:         LocalizedString
+        public var missingDate:        LocalizedString
         
         internal init(_ b: LocalizeBundle) {
-            self.titleUnread        = b.localized(key: Noun.unreadItems.rawValue)
-            self.titleAll           = b.localized(key: Noun.allItems.rawValue)
-            self.tagUntitled        = b.localized(key: Noun.untitled.rawValue)
-            self.search             = b.localized(key: Verb.search.rawValue)
-            self.noSelection        = b.localized(key: Phrase.noSelection.rawValue)
-            self.emptyState         = b.localized(key: Phrase.noWebsites.rawValue)
+            self.columnThumbnail    = b.localized(key: Noun.thumbnail.rawValue)
+            self.columnTitle        = b.localized(key: Noun.title.rawValue)
+            self.columnURL          = b.localized(key: Noun.url.rawValue)
+            self.columnDateCreated  = b.localized(key: Noun.dateCreated.rawValue)
+            self.columnDateModified = b.localized(key: Noun.dateModified.rawValue)
+            self.missingTitle       = b.localized(key: Noun.dash.rawValue)
+            self.missingURL         = b.localized(key: Noun.dash.rawValue)
+            self.missingDate        = b.localized(key: Noun.dash.rawValue)
         }
     }
     

@@ -35,7 +35,7 @@ internal struct WebsiteListRow: View {
     
     @WebsiteQuery private var item
     @V3Style.DetailList private var style
-    @V3Localize.Detail private var text
+    @V3Localize.DetailList private var text
     
     @Environment(\.dynamicTypeSize) private var typeSize
 
