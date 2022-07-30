@@ -42,8 +42,8 @@ extension Controller {
             site.cd_title = UUID().uuidString
             site.cd_originalURL = URL(string: "https://www.theverge.com/" + UUID().uuidString)
             site.cd_resolvedURL = URL(string: "https://www.theverge.com/" + UUID().uuidString)
-            site.cd_dateCreated = Date(timeIntervalSince1970: .random(in: -5_000...5_000))
-            site.cd_dateModified = Date(timeIntervalSince1970: .random(in: -5_000...5_000))
+            site.cd_dateCreated = Date(timeIntervalSince1970: .random(in: -500_000_000...500_000_000))
+            site.cd_dateModified = Date(timeIntervalSince1970: .random(in: -500_000_000...500_000_000))
             site.cd_isArchived = true
             site.addToCd_tags(tags.randomElement()!)
             site.addToCd_tags(tags.randomElement()!)
