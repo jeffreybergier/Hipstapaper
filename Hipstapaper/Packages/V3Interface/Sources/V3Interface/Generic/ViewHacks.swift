@@ -41,6 +41,11 @@ public func sheet2<T: Identifiable, V: View>(items: Binding<Set<T>>,
 */
 
 extension URL {
+    var prettyValueHost: String? {
+        let components = URLComponents(url: self, resolvingAgainstBaseURL: true)
+        guard let host = components?.host else { return nil }
+        return host.replacing(#/www\./#, maxReplacements: 1, with: { _ in "" })
+    }
     var prettyValue: String? {
         let components = URLComponents(url: self, resolvingAgainstBaseURL: true)
         guard let _host = components?.host else { return nil }

@@ -50,34 +50,3 @@ internal struct DetailList<C: RandomAccessCollection>: View where C.Element == W
         .listStyle(.plain)
     }
 }
-
-import V3Store
-
-internal struct WebsiteListRow: View {
-    
-    @WebsiteQuery private var item
-    @V3Style.Detail private var style
-    @V3Localize.Detail private var text
-
-    private let id: Website.Selection.Element
-    
-    internal init(_ id: Website.Selection.Element) {
-        self.id = id
-    }
-    
-    internal var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                JSBText(self.text.missingTitle, text: self.item?.title)
-                JSBText(self.text.missingURL, text: self.item?.preferredURL?.prettyValue)
-                JSBText(self.text.missingDate, text: _text.dateString(self.item?.dateCreated))
-            }
-            .modifier(self.style.lineLimitList)
-            Spacer()
-            self.style.thumbnail(self.item?.thumbnail)
-        }
-        .onLoadChange(of: self.id) {
-            _item.setIdentifier($0)
-        }
-    }
-}

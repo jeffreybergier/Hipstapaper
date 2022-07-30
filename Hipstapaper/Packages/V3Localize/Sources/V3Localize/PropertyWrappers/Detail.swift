@@ -67,7 +67,8 @@ public struct Detail: DynamicProperty {
     private static let formatter: DateFormatter = {
         let df = DateFormatter()
         df.dateStyle = .short
-        df.timeStyle = .short
+        df.timeStyle = .none
+        df.doesRelativeDateFormatting = true
         return df
     }()
     
