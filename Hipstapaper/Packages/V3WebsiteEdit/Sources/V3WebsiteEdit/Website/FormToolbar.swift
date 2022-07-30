@@ -35,15 +35,10 @@ internal struct FormToolbar: ViewModifier {
     
     @Nav private var nav
     @V3Style.WebsiteEdit private var style
-    
     @V3Localize.WebsiteEdit private var text
-    @Environment(\.codableErrorResponder) private var errorResponder
     
-    @Environment(\.dismiss) private var dismiss_system
-    @Environment(\.closure) private var dismiss_custom
-    private var dismiss: () -> Void {
-        self.dismiss_custom ?? self.dismiss_system.callAsFunction
-    }
+    @Dismiss private var dismiss
+    @Environment(\.codableErrorResponder) private var errorResponder
     
     private let deletableSelection: Website.Selection
     

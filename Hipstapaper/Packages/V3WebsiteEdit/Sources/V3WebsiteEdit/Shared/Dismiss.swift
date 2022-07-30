@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/07/09.
+//  Created by Jeffrey Bergier on 2022/07/30.
 //
 //  MIT License
 //
@@ -26,39 +26,16 @@
 
 import SwiftUI
 import Umbrella
-import V3Style
-import V3Localize
 
-internal struct TagToolbar: ViewModifier {
+@propertyWrapper
+internal struct Dismiss: DynamicProperty {
     
-    @Nav private var nav
-    @V3Style.WebsiteEdit private var style
-    @V3Localize.WebsiteEdit private var text
-    
-    @Dismiss private var dismiss
-    
-    internal func body(content: Content) -> some View {
-        content
-            .modifier(self.itemGeneric)
-            .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    self.itemErrors
-                }
-            }
-    }
-    
-    private var itemGeneric: some ViewModifier {
-        JSBToolbar(title: self.text.titleTag,
-                   done: self.text.done,
-                   doneAction: self.dismiss)
-    }
+    @Environment(\.dismiss) private var dismiss_system
+    @Environment(\.closure) private var dismiss_custom
 
-    @ViewBuilder private var itemErrors: some View {
-        if self.nav.errorQueue.isEmpty == false {
-            self.style.error.button(self.text.error) {
-                self.nav.isErrorList.isPresented = true
-            }
-            .modifier(ErrorListPopover())
-        }
+    internal var wrappedValue: () -> Void {
+        self.dismiss_custom ?? self.dismiss_system.callAsFunction
+
     }
 }
+

@@ -73,9 +73,10 @@ internal struct _WebsiteEdit: View {
     
     @Nav private var nav
     @Binding private var screen: WebsiteEdit.Screen
-    
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
+    
+    @Dismiss private var dismiss
     
     private let selection: Website.Selection
     
@@ -102,9 +103,12 @@ internal struct _WebsiteEdit: View {
                     }
             }
         } onConfirmation: {
-            // TODO: Do something with this confirmation
-            print($0)
-            print("")
+            switch $0 {
+            case .deleteTags:
+                break
+            case .deleteWebsites:
+                self.dismiss()
+            }
         }
     }
 }
