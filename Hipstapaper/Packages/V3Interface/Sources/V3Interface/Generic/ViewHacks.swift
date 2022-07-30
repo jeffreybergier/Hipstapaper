@@ -44,10 +44,13 @@ extension URL {
     var prettyValue: String? {
         let components = URLComponents(url: self, resolvingAgainstBaseURL: true)
         guard let _host = components?.host else { return nil }
-        // TODO: Improve this with regex.
-        // I only want to replace the first occurance.
-        // Or perhaps even limit it to the first characters
-        let host = _host.replacingOccurrences(of: "www.", with: "")
+        // TODO: This could still be improved
+        // I basically want to check the host from the end for all known TLD's
+        // and then just show the first part of the domain. To be clearer...
+        // "act.net.www.companyname.co.jp" would show "companyname.co.jp"
+        // I might be able to shortcut it by doing components separated by "."
+        // then delete any component equal to "www" and then keep the last 3 components
+        let host = _host.replacing(#/www\./#, maxReplacements: 1, with: { _ in "" })
         guard let path = components?.path else { return host }
         return host+path
     }
