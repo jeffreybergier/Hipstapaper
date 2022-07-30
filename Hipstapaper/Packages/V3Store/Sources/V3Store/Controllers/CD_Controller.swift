@@ -384,7 +384,7 @@ extension CD_Controller {
 private class Datum_PersistentContainer: NSPersistentCloudKitContainer {
     override class func defaultDirectoryURL() -> URL {
         let url = CD_Controller.storeDirectoryURL
-        NSLog("\(url)")
+        NSLog(String(describing: url))
         return url
     }
     
