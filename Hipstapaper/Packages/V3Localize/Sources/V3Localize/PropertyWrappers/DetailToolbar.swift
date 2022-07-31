@@ -43,6 +43,8 @@ public struct DetailToolbar: DynamicProperty {
         public var error:        LocalizedString
         public var selectAll:    LocalizedString
         public var deselectAll:  LocalizedString
+        public var itemsCount: (Int) -> LocalizedString
+        public var itemSelectedTotal: (Int, Int) -> LocalizedString
         
         internal init(_ b: LocalizeBundle) {
             self.openInApp    = b.localized(key: Verb.openInApp.rawValue)
@@ -57,6 +59,14 @@ public struct DetailToolbar: DynamicProperty {
             self.error        = b.localized(key: Verb.errorsPresent.rawValue)
             self.selectAll    = b.localized(key: Verb.selectAll.rawValue)
             self.deselectAll  = b.localized(key: Verb.deselectAll.rawValue)
+            self.itemsCount = {
+                // TODO: Use Strings Dictionary
+                // https://developer.apple.com/documentation/xcode/localizing-strings-that-contain-plurals
+                return "\($0)項目"
+            }
+            self.itemSelectedTotal = {
+                return "\($1)項目中の\($0)項目を選択"
+            }
         }
     }
     

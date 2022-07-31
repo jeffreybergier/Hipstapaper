@@ -61,10 +61,9 @@ internal struct DetailToolbarCount: View {
             }
         } label: {
             if self.deselectableItems.isEmpty {
-                // TODO: Localize these complex strings
-                Text("\(self.selectableItems.count)項目")
+                Text(self.text.itemsCount(self.selectableItems.count))
             } else {
-                Text("\(self.deselectableItems.count)項目中の\(self.selectableItems.count)項目を選択")
+                Text(self.text.itemSelectedTotal(self.deselectableItems.count, self.selectableItems.count))
             }
         }
     }
