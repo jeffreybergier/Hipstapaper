@@ -71,11 +71,11 @@ extension Action {
     )
     internal static let archiveYes = Self(
         systemImage: SystemImage.archiveYes.rawValue,
-        shortcut: .init("a", modifiers: [.command, .shift])
+        shortcut: .init("r", modifiers: [.command, .shift])
     )
     internal static let archiveNo = Self(
         systemImage: SystemImage.archiveNo.rawValue,
-        shortcut: .init("a", modifiers: [.command, .option])
+        shortcut: .init("r", modifiers: [.command, .option])
     )
     internal static let share = Self(
         systemImage: SystemImage.share.rawValue,
@@ -171,6 +171,7 @@ extension Action {
     )
     internal static let selectAll = Self(
         systemImage: SystemImage.tableCellsFill.rawValue,
+        // TODO: Change this back to Command A when possible
         shortcut: .init("a", modifiers: [.command, .shift])
     )
     internal static let deselectAll = Self(

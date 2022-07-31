@@ -121,6 +121,14 @@ internal struct MainMenu: Commands {
             {
                 self.state.push.tagsEdit = $0
             }
+        }
+        CommandGroup(after: .pasteboard) {
+            Divider()
+            self.style.deselectAll.button(self.text(\.deselectAll),
+                                        enabled: self.state.pull.deselectAll)
+            {
+                self.state.push.deselectAll = $0
+            }
             Divider()
             self.style.websiteDelete.button(self.text(\.websiteDelete),
                                             enabled: self.state.pull.websiteDelete)

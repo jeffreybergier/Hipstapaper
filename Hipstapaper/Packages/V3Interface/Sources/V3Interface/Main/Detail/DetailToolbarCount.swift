@@ -25,41 +25,46 @@
 //
 
 import SwiftUI
+import V3Model
 import V3Style
 import V3Localize
 
 internal struct DetailToolbarCount: View {
     
+    @Nav private var nav
     @BulkActions private var state
     @V3Style.DetailToolbar private var style
     @V3Localize.DetailToolbar private var text
     
-    private var totalItemCount: Int {
-        self.state.pull.selectAll.count
+    private let selectableItems: Website.Selection
+    private var deselectableItems: Website.Selection {
+        self.state.pull.deselectAll
     }
     
-    private var selectedItemCount: Int {
-        self.state.pull.deselectAll.count
+    internal init(allSites: Website.Selection) {
+        self.selectableItems = allSites
     }
     
     internal var body: some View {
         Menu {
             self.style.deselectAll.button(self.text.deselectAll,
-                                          enabled: self.state.pull.deselectAll)
+                                          enabled: self.deselectableItems)
             {
                 self.state.push.deselectAll = $0
             }
+            // TODO: This steps outside of Bulk Actions
+            // Could be improved.
             self.style.selectAll.button(self.text.selectAll,
-                                        enabled: self.state.pull.selectAll)
+                                        enabled: self.selectableItems)
             {
-                self.state.push.selectAll = $0
+                self.nav.detail.selectedWebsites = $0
             }
         } label: {
-            if self.selectedItemCount == 0 {
+            if self.deselectableItems.isEmpty {
                 // TODO: Localize these complex strings
-                Text("\(self.totalItemCount)項目")
+                Text("\(self.selectableItems.count)項目")
             } else {
-                Text("\(self.totalItemCount)項目中の\(self.selectedItemCount)項目を選択")
+                Text("\(self.deselectableItems.count)項目中の\(self.selectableItems.count)項目を選択")
             }
         }
     }

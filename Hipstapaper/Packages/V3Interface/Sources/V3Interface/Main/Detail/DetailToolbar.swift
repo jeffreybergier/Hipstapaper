@@ -25,6 +25,7 @@
 //
 
 import SwiftUI
+import V3Model
 import V3Store
 import V3Style
 import V3Localize
@@ -39,6 +40,12 @@ internal struct DetailToolbar: ViewModifier {
     @V3Style.DetailToolbar private var style
     @V3Style.ShowsTable private var showsTable
     @V3Localize.DetailToolbar private var text
+    
+    private let selectableItems: Website.Selection
+    
+    internal init(allSites: Website.Selection) {
+        self.selectableItems = allSites
+    }
     
     internal func body(content: Content) -> some View {
         content
@@ -101,7 +108,7 @@ internal struct DetailToolbar: ViewModifier {
                     Spacer()
                 }
                 ToolbarItem(id: .itemDeselect, placement: .bottomSecondary) {
-                    DetailToolbarCount()
+                    DetailToolbarCount(allSites: self.selectableItems)
                 }
                 ToolbarItem(id: .itemSpacer2, placement: .bottomSecondary) {
                     Spacer()

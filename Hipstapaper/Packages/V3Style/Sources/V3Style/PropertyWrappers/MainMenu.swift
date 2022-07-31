@@ -45,6 +45,8 @@ public struct MainMenu: DynamicProperty {
         public var websiteDelete  = Action.genericDelete
         public var tagDelete      = Action.tagDelete
         public var error          = Action.errorPresent
+        public var selectAll      = Action.selectAll
+        public var deselectAll    = Action.deselectAll
     }
     
     public var wrappedValue: Value {
