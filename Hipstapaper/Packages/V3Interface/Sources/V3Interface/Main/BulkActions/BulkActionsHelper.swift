@@ -47,6 +47,9 @@ internal struct BulkActionsHelper: ViewModifier {
             .onLoadChange(of: self.nav.detail.selectedWebsites) { newValue in
                 _storeState.setWebsite(selection: newValue)
             }
+            .onLoadChange(of: self.appState.pull.selectAll) {
+                _storeState.setAll(selection: $0)
+            }
             .onLoadChange(of: self.nav.errorQueue) { newValue in
                 self.storeState.showErrors = !newValue.isEmpty
             }
@@ -135,15 +138,14 @@ internal struct BulkActionsHelper: ViewModifier {
                 self.nav.detail.isErrorList.isPresented = true
             }
             .onChange(of: self.appState.push.deselectAll) { newValue in
-                guard newValue else { return }
-                defer { self.appState.push.deselectAll = false }
+                guard newValue.isEmpty == false else { return }
+                defer { self.appState.push.deselectAll = [] }
                 self.nav.detail.selectedWebsites = []
             }
             .onChange(of: self.appState.push.selectAll) { newValue in
-                guard newValue else { return }
-                defer { self.appState.push.selectAll = false }
-                // TODO: Select All
-                self.errorResponder(.init(Error.notImplemented))
+                guard newValue.isEmpty == false else { return }
+                defer { self.appState.push.selectAll = [] }
+                self.nav.detail.selectedWebsites = newValue
             }
     }
 }

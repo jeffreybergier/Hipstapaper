@@ -36,6 +36,7 @@ internal struct Detail: View {
     
     @Nav private var nav
     @Query private var query
+    @BulkActions private var state
     @Controller private var controller
     @FAST_WebsiteListQuery private var data
     
@@ -57,6 +58,9 @@ internal struct Detail: View {
             }
             .searchable(text: self.$query.search,
                         prompt: self.text.search)
+            .onLoadChange(of: Set(self.data)) {
+                self.state.pull.selectAll = $0
+            }
             .onLoadChange(of: self.query) {
                 _data.setQuery($0)
             }
@@ -66,7 +70,7 @@ internal struct Detail: View {
             .modifier(self.style.syncIndicator(self.controller.syncProgress.progress))
             .modifier(DetailTitle())
             .modifier(DetailMenu())
-            .modifier(DetailToolbar(itemCount: self.data.count))
+            .modifier(DetailToolbar())
             .sheetCover(item: self.$nav.detail.isBrowse) { ident in
                 Browser(ident)
             }

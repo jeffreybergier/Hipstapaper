@@ -33,8 +33,10 @@ public struct BulkActionsQuery: DynamicProperty {
     public struct Value: Hashable {
         public var websiteAdd: Bool = false
         public var tagAdd: Bool = false
-        public var deselectAll: Bool = false
-        public var selectAll: Bool = false
+        /// Contains items that can be deselected
+        public var deselectAll: Website.Selection = []
+        /// Contains items that need to be selected
+        public var selectAll: Website.Selection = []
         public var openInApp: SingleMulti<Website.Selection.Element>? = nil
         public var openExternal: SingleMulti<URL>? = nil
         public var share: Website.Selection = []
@@ -53,6 +55,7 @@ public struct BulkActionsQuery: DynamicProperty {
     
     @State private var valueCache: Value = .init()
     
+    @State private var allWebsites: Website.Selection = []
     @State private var websiteSelection: Website.Selection = []
     @State private var tagSelection: Tag.Selection = []
     @Environment(\.codableErrorResponder) private var errorResponder
@@ -74,8 +77,14 @@ public struct BulkActionsQuery: DynamicProperty {
         self.recalculate()
     }
     
+    public func setAll(selection newValue: Website.Selection) {
+        self.allWebsites = newValue
+        self.recalculate()
+    }
+    
     private func recalculate() {
         let controller = self.controller
+        let allW       = self.allWebsites
         let selectionW = self.websiteSelection
         let selectionT = self.tagSelection
         
@@ -88,6 +97,8 @@ public struct BulkActionsQuery: DynamicProperty {
         self.valueCache.tagApply = selectionW
         self.valueCache.websiteEdit = selectionW
         self.valueCache.websiteDelete = selectionW
+        self.valueCache.deselectAll = selectionW
+        self.valueCache.selectAll = allW
         
         // set things with custom logic
         self.valueCache.openInApp = type(of: self).openWebsite(selectionW, controller)

@@ -40,12 +40,6 @@ internal struct DetailToolbar: ViewModifier {
     @V3Style.ShowsTable private var showsTable
     @V3Localize.DetailToolbar private var text
     
-    private let totalItemCount: Int
-    
-    internal init(itemCount: Int) {
-        self.totalItemCount = itemCount
-    }
-        
     internal func body(content: Content) -> some View {
         content
             .toolbarRole(.editor)
@@ -107,7 +101,7 @@ internal struct DetailToolbar: ViewModifier {
                     Spacer()
                 }
                 ToolbarItem(id: .itemDeselect, placement: .bottomSecondary) {
-                    DetailToolbarCount(self.totalItemCount)
+                    DetailToolbarCount()
                 }
                 ToolbarItem(id: .itemSpacer2, placement: .bottomSecondary) {
                     Spacer()

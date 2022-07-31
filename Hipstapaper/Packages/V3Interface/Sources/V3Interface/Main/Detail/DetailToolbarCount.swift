@@ -30,32 +30,29 @@ import V3Localize
 
 internal struct DetailToolbarCount: View {
     
-    @Nav private var nav
     @BulkActions private var state
-    
     @V3Style.DetailToolbar private var style
     @V3Localize.DetailToolbar private var text
     
-    private let totalItemCount: Int
-    private var selectedItemCount: Int {
-        self.nav.detail.selectedWebsites.count
+    private var totalItemCount: Int {
+        self.state.pull.selectAll.count
     }
     
-    internal init(_ itemCount: Int) {
-        self.totalItemCount = itemCount
+    private var selectedItemCount: Int {
+        self.state.pull.deselectAll.count
     }
     
     internal var body: some View {
         Menu {
             self.style.deselectAll.button(self.text.deselectAll,
-                                          enabled: self.selectedItemCount == 0)
+                                          enabled: self.state.pull.deselectAll)
             {
-                self.state.push.deselectAll = true
+                self.state.push.deselectAll = $0
             }
             self.style.selectAll.button(self.text.selectAll,
-                                          enabled: self.selectedItemCount == self.totalItemCount)
+                                        enabled: self.state.pull.selectAll)
             {
-                self.state.push.selectAll = true
+                self.state.push.selectAll = $0
             }
         } label: {
             if self.selectedItemCount == 0 {
