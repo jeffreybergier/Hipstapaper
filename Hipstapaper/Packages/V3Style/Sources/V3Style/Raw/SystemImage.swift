@@ -59,6 +59,8 @@ internal enum SystemImage: String {
     case columnGeneric     = "building.columns"
     case columnCircleFill  = "building.columns.circle.fill"
     case columnCircleEmpty = "building.columns.circle"
+    case tableCellsFill    = "tablecells.fill"
+    case tableCellsEmpty   = "tablecells"
 }
 
 /*

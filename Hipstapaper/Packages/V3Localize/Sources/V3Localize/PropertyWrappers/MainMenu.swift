@@ -44,6 +44,8 @@ public struct MainMenu: DynamicProperty {
         public var websiteDelete:  LocalizationKey = Verb.deleteWebsite.rawValue
         public var tagDelete:      LocalizationKey = Verb.deleteTag.rawValue
         public var error:          LocalizationKey = Verb.errorsPresent.rawValue
+        public var selectAll:      LocalizationKey = Verb.selectAll.rawValue
+        public var deselectAll:    LocalizationKey = Verb.deselectAll.rawValue
     }
         
     public init() {}

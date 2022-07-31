@@ -25,11 +25,16 @@
 //
 
 import SwiftUI
+import V3Style
+import V3Localize
 
 internal struct DetailToolbarCount: View {
     
     @Nav private var nav
     @BulkActions private var state
+    
+    @V3Style.DetailToolbar private var style
+    @V3Localize.DetailToolbar private var text
     
     private let totalItemCount: Int
     private var selectedItemCount: Int {
@@ -42,20 +47,19 @@ internal struct DetailToolbarCount: View {
     
     internal var body: some View {
         Menu {
-            Button {
+            self.style.deselectAll.button(self.text.deselectAll,
+                                          enabled: self.selectedItemCount == 0)
+            {
                 self.state.push.deselectAll = true
-            } label: {
-                Label("Deselect All", systemImage: "tablecells")
             }
-            .disabled(self.selectedItemCount == 0)
-            Button {
+            self.style.selectAll.button(self.text.selectAll,
+                                          enabled: self.selectedItemCount == self.totalItemCount)
+            {
                 self.state.push.selectAll = true
-            } label: {
-                Label("Select All", systemImage: "tablecells.fill")
             }
-            .disabled(self.totalItemCount == self.selectedItemCount)
         } label: {
             if self.selectedItemCount == 0 {
+                // TODO: Localize these complex strings
                 Text("\(self.totalItemCount)項目")
             } else {
                 Text("\(self.totalItemCount)項目中の\(self.selectedItemCount)項目を選択")

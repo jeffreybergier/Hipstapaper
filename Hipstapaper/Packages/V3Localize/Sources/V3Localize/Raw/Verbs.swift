@@ -72,4 +72,6 @@ public enum Verb: LocalizationKey {
     case sortTitleZ             = "Verb.SortTitleZ"
     case errorsPresent          = "Verb.ErrorsPresent"
     case clearAll               = "Verb.ClearAll"
+    case selectAll              = "Verb.SelectAll"
+    case deselectAll            = "Verb.DeselectAll"
 }

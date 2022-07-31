@@ -41,6 +41,8 @@ public struct DetailToolbar: DynamicProperty {
         public var edit         = Action.genericEdit
         public var delete       = Action.genericDelete
         public var error        = Action.errorPresent
+        public var selectAll    = Action.selectAll
+        public var deselectAll  = Action.deselectAll
     }
     
     public var wrappedValue: Value {

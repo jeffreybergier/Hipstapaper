@@ -169,4 +169,12 @@ extension Action {
         systemImage: SystemImage.columnCircleEmpty.rawValue,
         shortcut: nil
     )
+    internal static let selectAll = Self(
+        systemImage: SystemImage.tableCellsFill.rawValue,
+        shortcut: .init("a", modifiers: [.command, .shift])
+    )
+    internal static let deselectAll = Self(
+        systemImage: SystemImage.tableCellsEmpty.rawValue,
+        shortcut: .init("a", modifiers: [.command, .option])
+    )
 }
