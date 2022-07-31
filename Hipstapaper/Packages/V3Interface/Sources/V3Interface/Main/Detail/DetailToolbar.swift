@@ -94,36 +94,48 @@ internal struct DetailToolbar: ViewModifier {
                         self.state.push.share = $0
                     }
                 }
-            }
-            .toolbar(id: .barBottom) {
-                ToolbarItem(id: .itemError, placement: .bottomSecondary) {
-                    self.style.error.button(self.text.error,
-                                            enabled: self.state.pull.showErrors)
-                    {
-                        self.state.push.showErrors = true
-                    }
-                    .modifier(DetailErrorListPresentation())
-                }
-                ToolbarItem(id: .itemSpacer1, placement: .bottomSecondary) {
-                    Spacer()
-                }
-                ToolbarItem(id: .itemDeselect, placement: .bottomSecondary) {
-                    DetailToolbarCount(allSites: self.selectableItems)
-                }
-                ToolbarItem(id: .itemSpacer2, placement: .bottomSecondary) {
-                    Spacer()
-                }
                 switch self.showsTable {
                 case .showTable:
-                    ToolbarItem(id: .itemSort, placement: .bottomSecondary) {
+                    ToolbarItem(id: .itemSort, placement: .secondaryAction) {
                         ColumnMenu()
                     }
                 case .showList:
-                    ToolbarItem(id: .itemSort, placement: .bottomSecondary) {
+                    ToolbarItem(id: .itemSort, placement: .secondaryAction) {
                         SortMenu()
                     }
                 }
-                if self.nav.sidebar.selectedTag?.isSystem == false {
+            }
+            .toolbar(id: .barBottom) {
+                if self.state.pull.showErrors {
+                    ToolbarItem(id: .itemError, placement: .bottomSecondary) {
+                        self.style.error.button(self.text.error,
+                                                enabled: self.state.pull.showErrors)
+                        {
+                            self.state.push.showErrors = true
+                        }
+                        .modifier(DetailErrorListPresentation())
+                    }
+                    ToolbarItem(id: .itemSpacer1, placement: .bottomSecondary) {
+                        Spacer()
+                    }
+                }
+                if self.nav.sidebar.selectedTag?.isSystem == true {
+                    ToolbarItem(id: .itemSpacer1, placement: .bottomSecondary) {
+                        Spacer()
+                    }
+                    ToolbarItem(id: .itemDeselect, placement: .bottomSecondary) {
+                        DetailToolbarCount(allSites: self.selectableItems)
+                    }
+                    ToolbarItem(id: .itemSpacer2, placement: .bottomSecondary) {
+                        Spacer()
+                    }
+                } else {
+                    ToolbarItem(id: .itemDeselect, placement: .bottomSecondary) {
+                        DetailToolbarCount(allSites: self.selectableItems)
+                    }
+                    ToolbarItem(id: .itemSpacer2, placement: .bottomSecondary) {
+                        Spacer()
+                    }
                     ToolbarItem(id: .itemFilter, placement: .bottomSecondary) {
                         FilterMenu()
                     }

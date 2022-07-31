@@ -94,13 +94,19 @@ internal struct BulkActionsHelper: ViewModifier {
             }
             .onChange(of: self.appState.push.archiveYes) { selection in
                 guard selection.isEmpty == false else { return }
-                defer { self.appState.push.archiveYes = [] }
+                defer {
+                    self.appState.push.archiveYes = []
+                    self.nav.detail.selectedWebsites = []
+                }
                 guard let error = BulkActionsQuery.setArchive(true, selection, self.controller).error else { return }
                 self.errorResponder(.init(error))
             }
             .onChange(of: self.appState.push.archiveNo) { selection in
                 guard selection.isEmpty == false else { return }
-                defer { self.appState.push.archiveNo = [] }
+                defer {
+                    self.appState.push.archiveNo = []
+                    self.nav.detail.selectedWebsites = []
+                }
                 guard let error = BulkActionsQuery.setArchive(false, selection, self.controller).error else { return }
                 self.errorResponder(.init(error))
             }
