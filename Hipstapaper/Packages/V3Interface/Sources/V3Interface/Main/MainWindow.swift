@@ -25,6 +25,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import V3Store
 import V3Localize
 import V3Errors
@@ -62,6 +63,7 @@ public struct MainWindow: Scene {
 internal struct MainView: View {
     
     @Nav private var nav
+    @Controller private var controller
     
     internal var body: some View {
         ErrorResponder(presenter: self.$nav, storage: self.$nav.errorQueue) {
@@ -76,6 +78,15 @@ internal struct MainView: View {
             }
             .modifier(WebsiteEdit.sheet(self.$nav.isWebsitesEdit))
             .modifier(BulkActionsHelper())
+            .onAppear {
+                guard let error = self.controller.syncProgress.initializeError else { return }
+                self.nav.errorQueue.append(.init(error))
+            }
+            .onChange(of: self.controller.syncProgress.errors.count) { _ in
+                let errors = self.controller.syncProgress.errors.map { CodableError($0) }
+                guard errors.isEmpty == false else { return }
+                self.nav.errorQueue.append(contentsOf: errors)
+            }
         } onConfirmation: {
             switch $0 {
             case .deleteWebsites(let deleted):
