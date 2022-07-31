@@ -66,7 +66,7 @@ internal struct Detail: View {
             .modifier(self.style.syncIndicator(self.controller.syncProgress.progress))
             .modifier(DetailTitle())
             .modifier(DetailMenu())
-            .modifier(DetailToolbar())
+            .modifier(DetailToolbar(itemCount: self.data.count))
             .sheetCover(item: self.$nav.detail.isBrowse) { ident in
                 Browser(ident)
             }

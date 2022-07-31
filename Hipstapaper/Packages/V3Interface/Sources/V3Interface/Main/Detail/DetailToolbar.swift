@@ -39,6 +39,12 @@ internal struct DetailToolbar: ViewModifier {
     @V3Style.DetailToolbar private var style
     @V3Style.ShowsTable private var showsTable
     @V3Localize.DetailToolbar private var text
+    
+    private let totalItemCount: Int
+    
+    internal init(itemCount: Int) {
+        self.totalItemCount = itemCount
+    }
         
     internal func body(content: Content) -> some View {
         content
@@ -97,7 +103,13 @@ internal struct DetailToolbar: ViewModifier {
                     }
                     .modifier(DetailErrorListPresentation())
                 }
-                ToolbarItem(id: .itemSpacer, placement: .bottomSecondary) {
+                ToolbarItem(id: .itemSpacer1, placement: .bottomSecondary) {
+                    Spacer()
+                }
+                ToolbarItem(id: .itemDeselect, placement: .bottomSecondary) {
+                    DetailToolbarCount(self.totalItemCount)
+                }
+                ToolbarItem(id: .itemSpacer2, placement: .bottomSecondary) {
                     Spacer()
                 }
                 switch self.showsTable {
@@ -129,7 +141,9 @@ extension String {
     fileprivate static let itemShare        = "itemShare"
     fileprivate static let barBottom        = "barBottom"
     fileprivate static let itemError        = "itemError"
-    fileprivate static let itemSpacer       = "itemSpacer"
+    fileprivate static let itemSpacer1      = "itemSpacer1"
+    fileprivate static let itemSpacer2      = "itemSpacer2"
+    fileprivate static let itemDeselect     = "itemDeselect"
     fileprivate static let itemSort         = "itemSort"
     fileprivate static let itemFilter       = "itemFilter"
 }

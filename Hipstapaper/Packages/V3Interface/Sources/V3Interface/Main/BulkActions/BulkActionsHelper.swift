@@ -90,6 +90,7 @@ internal struct BulkActionsHelper: ViewModifier {
                 guard selection.isEmpty == false else { return }
                 defer { self.appState.push.share = [] }
                 // TODO: Share
+                self.errorResponder(.init(Error.notImplemented))
             }
             .onChange(of: self.appState.push.archiveYes) { selection in
                 guard selection.isEmpty == false else { return }
@@ -132,6 +133,17 @@ internal struct BulkActionsHelper: ViewModifier {
                 guard newValue else { return }
                 defer { self.appState.push.showErrors = false }
                 self.nav.detail.isErrorList.isPresented = true
+            }
+            .onChange(of: self.appState.push.deselectAll) { newValue in
+                guard newValue else { return }
+                defer { self.appState.push.deselectAll = false }
+                self.nav.detail.selectedWebsites = []
+            }
+            .onChange(of: self.appState.push.selectAll) { newValue in
+                guard newValue else { return }
+                defer { self.appState.push.selectAll = false }
+                // TODO: Select All
+                self.errorResponder(.init(Error.notImplemented))
             }
     }
 }

@@ -33,6 +33,8 @@ public struct BulkActionsQuery: DynamicProperty {
     public struct Value: Hashable {
         public var websiteAdd: Bool = false
         public var tagAdd: Bool = false
+        public var deselectAll: Bool = false
+        public var selectAll: Bool = false
         public var openInApp: SingleMulti<Website.Selection.Element>? = nil
         public var openExternal: SingleMulti<URL>? = nil
         public var share: Website.Selection = []
