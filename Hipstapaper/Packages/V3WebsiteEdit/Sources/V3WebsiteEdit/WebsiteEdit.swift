@@ -50,6 +50,7 @@ public struct WebsiteEdit: View {
     
     public var body: some View {
         _WebsiteEdit(selection: self.selection, screen: self.$screen)
+        // TODO: Move this into V3Style
             .frame(idealWidth: self.idealWidth, idealHeight: self.idealHeight)
             .environmentObject(self.nav)
     }
@@ -96,6 +97,7 @@ internal struct _WebsiteEdit: View {
                         self.style.tabWebsite.label(self.text.tabWebsite)
                     }
                 Tag(self.selection)
+                // TODO: Move this into V3Style
                     .frame(idealWidth: 320, idealHeight: 480)
                     .tag(WebsiteEdit.Screen.tag)
                     .tabItem {

@@ -59,6 +59,7 @@ public struct ErrorList<Nav: ErrorPresentable,
             .modifier(self.toolbar)
             .modifier(self.alert)
         }
+        // TODO: Move this into V3Style
         .frame(idealWidth: 320, minHeight: 320)
         .presentationDetents([.medium, .large])
     }

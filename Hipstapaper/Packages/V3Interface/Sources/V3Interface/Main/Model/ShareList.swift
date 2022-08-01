@@ -25,41 +25,91 @@
 //
 
 import SwiftUI
+import Umbrella
 import V3Model
 import V3Store
 
-internal struct ShareHack: View {
+internal struct ShareList: View {
     
     @Controller private var controller
+    @Environment(\.dismiss) private var dismiss
     
     private let selection: Website.Selection
+    private let selectionA: Array<Website.Selection.Element>
     
     internal init(_ selection: Website.Selection) {
         self.selection = selection
+        self.selectionA = Array(selection)
     }
     
     internal var body: some View {
-        self.items.view {
-            ShareLink("Share", items: $0, subject: nil, message: nil)
-        } onEmpty: {
-            Text("Something went wrong")
+        NavigationStack {
+            Form {
+                ShareLink("All Items", items: self.items)
+                ForEach(self.selectionA) { identifier in
+                    ShareListRow(identifier)
+                }
+            }
+            .modifier(self.toolbar)
         }
+        .frame(idealWidth: 320, idealHeight: 480)
     }
     
     private var items: [URL] {
         let result = BulkActionsQuery.openURL(self.selection, self.controller)
         return result.map { Array($0.multi) } ?? []
     }
+    
+    private var toolbar: some ViewModifier {
+        JSBToolbar(title: "Share",
+                   done: "Done",
+                   doneAction: self.dismiss.callAsFunction)
+    }
 }
 
-internal struct ShareHackPresentation: ViewModifier {
+internal struct ShareListRow: View {
+    
+    @WebsiteQuery private var item
+    
+    private let identifier: Website.Selection.Element
+    
+    internal init(_ identifier: Website.Selection.Element) {
+        self.identifier = identifier
+    }
+    
+    internal var body: some View {
+        ShareLink(item: self.url) {
+            Label {
+                VStack(alignment: .leading) {
+                    JSBText("Untitled", text: self.item?.title)
+                        .font(.headline)
+                    Text(self.url.absoluteString)
+                        .font(.caption)
+                }
+                .lineLimit(1)
+            } icon: {
+                Image(systemName: "xmark")
+            }
+
+        }
+        .onLoadChange(of: self.identifier) {
+            _item.setIdentifier($0)
+        }
+    }
+    
+    private var url: URL {
+        self.item?.preferredURL ?? URL(string: "about:blank")!
+    }
+}
+
+internal struct ShareListPresentation: ViewModifier {
     
     @Nav private var nav
 
     internal func body(content: Content) -> some View {
         content.popover(items: self.$nav.detail.isShare)
         { selection in
-            ShareHack(selection)
+            ShareList(selection)
                 .presentationDetents([.medium])
         }
     }
