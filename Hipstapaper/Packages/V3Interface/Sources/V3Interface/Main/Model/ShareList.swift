@@ -34,6 +34,8 @@ internal struct ShareList: View {
     @Controller private var controller
     @Environment(\.dismiss) private var dismiss
     
+    @State private var allItems: [URL] = []
+    
     private let selection: Website.Selection
     private let selectionA: Array<Website.Selection.Element>
     
@@ -45,19 +47,26 @@ internal struct ShareList: View {
     internal var body: some View {
         NavigationStack {
             Form {
-                ShareLink("All Items", items: self.items)
-                ForEach(self.selectionA) { identifier in
-                    ShareListRow(identifier)
+                if self.allItems.isEmpty == false {
+                    ShareLink(items: self.allItems) {
+                        Label("All Items", systemImage: "square.and.arrow.up.on.square")
+                    }
+                }
+                self.selectionA.view {
+                    ForEach($0) { identifier in
+                        ShareListRow(identifier)
+                    }
+                } onEmpty: {
+                    Text("Nothing Selected")
                 }
             }
             .modifier(self.toolbar)
         }
-        .frame(idealWidth: 320, idealHeight: 480)
-    }
-    
-    private var items: [URL] {
-        let result = BulkActionsQuery.openURL(self.selection, self.controller)
-        return result.map { Array($0.multi) } ?? []
+        .frame(idealWidth: 320, idealHeight: 320)
+        .onLoadChange(of: self.selection) {
+            let result = BulkActionsQuery.openURL($0, self.controller)
+            self.allItems = result.map { Array($0.multi) } ?? []
+        }
     }
     
     private var toolbar: some ViewModifier {
@@ -78,27 +87,53 @@ internal struct ShareListRow: View {
     }
     
     internal var body: some View {
-        ShareLink(item: self.url) {
-            Label {
-                VStack(alignment: .leading) {
-                    JSBText("Untitled", text: self.item?.title)
-                        .font(.headline)
-                    Text(self.url.absoluteString)
-                        .font(.caption)
-                }
-                .lineLimit(1)
-            } icon: {
-                Image(systemName: "xmark")
+        self.itemURL.view { url in
+            ShareLink(item: url) {
+                self.shareLabel(title: self.item?.title, url: url)
             }
-
+        } onNIL: {
+            self.noShareLabel(title: self.item?.title)
         }
+        .font(.body)
+        .lineLimit(1)
         .onLoadChange(of: self.identifier) {
             _item.setIdentifier($0)
         }
     }
     
-    private var url: URL {
-        self.item?.preferredURL ?? URL(string: "about:blank")!
+    // TODO: For V3Style
+    // func shareLink(_ item: Item) return shareLabel
+    // func shareLink() -> return noShareLabel
+    // func shareLink(_ items: [URL]) return all items share link or nothing
+    
+    private var itemURL: URL? {
+        self.item?.preferredURL
+    }
+    
+    private func shareLabel(title: String?, url: URL) -> some View {
+        Label {
+            VStack(alignment: .leading, spacing: 2) {
+                JSBText("Untitled", text: title)
+                Text(url.absoluteString)
+                    .font(.caption)
+            }
+        } icon: {
+            Image(systemName: "square.and.arrow.up")
+        }
+    }
+    
+    private func noShareLabel(title: String?) -> some View {
+        Label {
+            VStack(alignment: .leading, spacing: 2) {
+                JSBText("Untitled", text: title)
+                Text("No URL")
+                    .font(.caption)
+            }
+        } icon: {
+            Image(systemName: "square.and.arrow.up.trianglebadge.exclamationmark")
+        }
+        .tint(Color.gray)
+        .foregroundColor(Color.gray)
     }
 }
 
