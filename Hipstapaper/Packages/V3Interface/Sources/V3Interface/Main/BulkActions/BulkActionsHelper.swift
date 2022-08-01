@@ -89,8 +89,7 @@ internal struct BulkActionsHelper: ViewModifier {
             .onChange(of: self.appState.push.share) { selection in
                 guard selection.isEmpty == false else { return }
                 defer { self.appState.push.share = [] }
-                // TODO: Share
-                self.errorResponder(.init(Error.notImplemented))
+                self.nav.detail.isShare = selection
             }
             .onChange(of: self.appState.push.archiveYes) { selection in
                 guard selection.isEmpty == false else { return }

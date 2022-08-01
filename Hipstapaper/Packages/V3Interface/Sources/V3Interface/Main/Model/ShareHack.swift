@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/03/18.
+//  Created by Jeffrey Bergier on 2022/08/01.
 //
 //  MIT License
 //
@@ -24,57 +24,43 @@
 //  SOFTWARE.
 //
 
-import Foundation
+import SwiftUI
+import V3Model
+import V3Store
 
-public struct TagApply: Identifiable, Hashable {
+internal struct ShareHack: View {
     
-    public var id: Tag.Identifier
-    public var status: MultiStatus
+    @Controller private var controller
     
-    public init(identifier: Tag.Identifier, status: MultiStatus) {
-        self.id = identifier
-        self.status = status
+    private let selection: Website.Selection
+    
+    internal init(_ selection: Website.Selection) {
+        self.selection = selection
+    }
+    
+    internal var body: some View {
+        self.items.view {
+            ShareLink("Share", items: $0, subject: nil, message: nil)
+        } onEmpty: {
+            Text("Something went wrong")
+        }
+    }
+    
+    private var items: [URL] {
+        let result = BulkActionsQuery.openURL(self.selection, self.controller)
+        return result.map { Array($0.multi) } ?? []
     }
 }
 
-public enum MultiStatus: Hashable, Codable {
-    case all, some, none
+internal struct ShareHackPresentation: ViewModifier {
     
-    public var boolValue: Bool {
-        get {
-            switch self {
-            case .none: return false
-            case .all, .some: return true
-            }
-        }
-        set {
-            switch newValue {
-            case true:
-                self = .all
-            case false:
-                self = .none
-            }
-        }
-    }
-}
+    @Nav private var nav
 
-public enum SingleMulti<T: Hashable>: Hashable {
-    case single(T), multi(Set<T>)
-    public var single: T? {
-        switch self {
-        case .single(let value):
-            return value
-        case .multi:
-            return nil
-        }
-    }
-    public var multi: Set<T> {
-        switch self {
-        case .single(let value):
-            return [value]
-        case .multi(let value):
-            guard value.isEmpty == false else { fatalError() }
-            return value
+    internal func body(content: Content) -> some View {
+        content.popover(items: self.$nav.detail.isShare)
+        { selection in
+            ShareHack(selection)
+                .presentationDetents([.medium])
         }
     }
 }

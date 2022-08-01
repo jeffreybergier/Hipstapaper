@@ -68,10 +68,12 @@ extension Navigation {
         internal var selectedWebsites: Website.Selection = []
         internal var isErrorList: Basic = .init()
         internal var isTagApply: Website.Selection = []
+        internal var isShare: Website.Selection = []
         internal var isBrowse: Website.Selection.Element? = nil
         internal var isError: CodableError? // Not used
         internal var isPresenting: Bool {
             !self.isTagApply.isEmpty
+            || !self.isShare.isEmpty
             || self.isBrowse != nil
             || self.isError != nil
         }

@@ -93,6 +93,7 @@ internal struct DetailToolbar: ViewModifier {
                     {
                         self.state.push.share = $0
                     }
+                    .modifier(ShareHackPresentation())
                 }
                 switch self.showsTable {
                 case .showTable:

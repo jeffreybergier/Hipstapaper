@@ -31,21 +31,21 @@ import V3Model
 public struct BulkActionsQuery: DynamicProperty {
     
     public struct Value: Hashable {
-        public var websiteAdd: Bool = false
-        public var tagAdd: Bool = false
+        public var websiteAdd:    Bool = false
+        public var tagAdd:        Bool = false
         /// Contains items that can be deselected
-        public var deselectAll: Website.Selection = []
-        public var openInApp: SingleMulti<Website.Selection.Element>? = nil
-        public var openExternal: SingleMulti<URL>? = nil
-        public var share: Website.Selection = []
-        public var archiveYes: Website.Selection = []
-        public var archiveNo: Website.Selection = []
-        public var tagApply: Website.Selection = []
-        public var websiteEdit: Website.Selection = []
-        public var tagsEdit: Tag.Selection = []
+        public var deselectAll:   Website.Selection = []
+        public var openInApp:     SingleMulti<Website.Selection.Element>? = nil
+        public var openExternal:  SingleMulti<URL>? = nil
+        public var share:         Website.Selection = []
+        public var archiveYes:    Website.Selection = []
+        public var archiveNo:     Website.Selection = []
+        public var tagApply:      Website.Selection = []
+        public var websiteEdit:   Website.Selection = []
+        public var tagsEdit:      Tag.Selection = []
         public var websiteDelete: Website.Selection = []
-        public var tagDelete: Tag.Selection = []
-        public var showErrors: Bool = false
+        public var tagDelete:     Tag.Selection = []
+        public var showErrors:    Bool = false
         public init() {}
     }
     
