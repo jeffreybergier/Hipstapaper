@@ -28,14 +28,16 @@ import SwiftUI
 import Umbrella
 import V3Model
 import V3Store
+import V3Style
 
 internal struct ShareList: View {
     
     @Controller private var controller
-    @Environment(\.dismiss) private var dismiss
-    
+    @V3Style.ShareList private var style
     @State private var allItems: [URL] = []
     
+    @Environment(\.dismiss) private var dismiss
+        
     private let selection: Website.Selection
     private let selectionA: Array<Website.Selection.Element>
     
@@ -47,17 +49,21 @@ internal struct ShareList: View {
     internal var body: some View {
         NavigationStack {
             Form {
-                if self.allItems.isEmpty == false {
-                    ShareLink(items: self.allItems) {
-                        Label("All Items", systemImage: "square.and.arrow.up.on.square")
-                    }
-                }
-                self.selectionA.view {
-                    ForEach($0) { identifier in
-                        ShareListRow(identifier)
+                self.allItems.view { urls in
+                    ShareLink(items: urls) {
+                        self.style.shareLabel(icon: .multi) {
+                            Text("Share All")
+                        } subtitle: {
+                            Text("\(urls.count) item(s)")
+                        }
                     }
                 } onEmpty: {
-                    Text("Nothing Selected")
+                    self.style.shareLabel(icon: .error) {
+                        Text("Nothing to share")
+                    }
+                }
+                ForEach(self.selectionA) { identifier in
+                    ShareListRow(identifier)
                 }
             }
             .modifier(self.toolbar)
@@ -79,6 +85,7 @@ internal struct ShareList: View {
 internal struct ShareListRow: View {
     
     @WebsiteQuery private var item
+    @V3Style.ShareList private var style
     
     private let identifier: Website.Selection.Element
     
@@ -89,10 +96,17 @@ internal struct ShareListRow: View {
     internal var body: some View {
         self.itemURL.view { url in
             ShareLink(item: url) {
-                self.shareLabel(title: self.item?.title, url: url)
+                self.style.shareLabel(icon: .single) {
+                    JSBText("Untitled", text: self.item?.title)
+                } subtitle: {
+                    Text(url.absoluteString)
+                        .font(.caption)
+                }
             }
         } onNIL: {
-            self.noShareLabel(title: self.item?.title)
+            self.style.shareLabel(icon: .error) {
+                JSBText("Untitled", text: self.item?.title)
+            }
         }
         .font(.body)
         .lineLimit(1)
@@ -101,39 +115,10 @@ internal struct ShareListRow: View {
         }
     }
     
-    // TODO: For V3Style
-    // func shareLink(_ item: Item) return shareLabel
-    // func shareLink() -> return noShareLabel
-    // func shareLink(_ items: [URL]) return all items share link or nothing
-    
+    // Needed because Optional.View
+    // does not work on chained optionals
     private var itemURL: URL? {
         self.item?.preferredURL
-    }
-    
-    private func shareLabel(title: String?, url: URL) -> some View {
-        Label {
-            VStack(alignment: .leading, spacing: 2) {
-                JSBText("Untitled", text: title)
-                Text(url.absoluteString)
-                    .font(.caption)
-            }
-        } icon: {
-            Image(systemName: "square.and.arrow.up")
-        }
-    }
-    
-    private func noShareLabel(title: String?) -> some View {
-        Label {
-            VStack(alignment: .leading, spacing: 2) {
-                JSBText("Untitled", text: title)
-                Text("No URL")
-                    .font(.caption)
-            }
-        } icon: {
-            Image(systemName: "square.and.arrow.up.trianglebadge.exclamationmark")
-        }
-        .tint(Color.gray)
-        .foregroundColor(Color.gray)
     }
 }
 
