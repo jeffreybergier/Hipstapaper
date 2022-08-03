@@ -40,6 +40,7 @@ public enum Phrase: LocalizationKey {
     case errorSaveWebsite       = "Phrase.SaveWebsite"
     case errorUnknown           = "Phrase.ErrorUnknown"
     case share                  = "Phrase.Share"
+    case shareError             = "Phrase.ShareError"
     case unarchive              = "Phrase.Unarchive"
     case archive                = "Phrase.Archive"
     case safari                 = "Phrase.OpenInBrowser"

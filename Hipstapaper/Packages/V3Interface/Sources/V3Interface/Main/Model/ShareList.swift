@@ -29,12 +29,15 @@ import Umbrella
 import V3Model
 import V3Store
 import V3Style
+import V3Localize
 
 internal struct ShareList: View {
     
     @Controller private var controller
-    @V3Style.ShareList private var style
     @State private var allItems: [URL] = []
+    
+    @V3Style.ShareList private var style
+    @V3Localize.ShareList private var text
     
     @Environment(\.dismiss) private var dismiss
         
@@ -52,14 +55,16 @@ internal struct ShareList: View {
                 self.allItems.view { urls in
                     ShareLink(items: urls) {
                         self.style.shareLabel(icon: .multi) {
-                            Text("Share All")
+                            Text(self.text.shareAll)
                         } subtitle: {
-                            Text("\(urls.count) item(s)")
+                            Text(self.text.itemsCount(urls.count))
                         }
                     }
                 } onEmpty: {
                     self.style.shareLabel(icon: .error) {
-                        Text("Nothing to share")
+                        Text(self.text.shareAll)
+                    } subtitle: {
+                        Text(self.text.shareError)
                     }
                 }
                 ForEach(self.selectionA) { identifier in
@@ -76,8 +81,8 @@ internal struct ShareList: View {
     }
     
     private var toolbar: some ViewModifier {
-        JSBToolbar(title: "Share",
-                   done: "Done",
+        JSBToolbar(title: self.text.title,
+                   done: self.text.done,
                    doneAction: self.dismiss.callAsFunction)
     }
 }
@@ -86,6 +91,7 @@ internal struct ShareListRow: View {
     
     @WebsiteQuery private var item
     @V3Style.ShareList private var style
+    @V3Localize.ShareList private var text
     
     private let identifier: Website.Selection.Element
     
@@ -97,14 +103,16 @@ internal struct ShareListRow: View {
         self.itemURL.view { url in
             ShareLink(item: url) {
                 self.style.shareLabel(icon: .single) {
-                    JSBText("Untitled", text: self.item?.title)
+                    JSBText(self.text.untitled, text: self.item?.title)
                 } subtitle: {
                     Text(url.absoluteString)
                 }
             }
         } onNIL: {
             self.style.shareLabel(icon: .error) {
-                JSBText("Untitled", text: self.item?.title)
+                JSBText(self.text.untitled, text: self.item?.title)
+            } subtitle: {
+                Text(self.text.shareError)
             }
         }
         .onLoadChange(of: self.identifier) {

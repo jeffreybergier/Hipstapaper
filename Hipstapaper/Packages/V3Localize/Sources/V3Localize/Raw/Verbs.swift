@@ -38,6 +38,7 @@ public enum Verb: LocalizationKey {
     case archiveClose           = "Verb.ArchiveClose"
     case archiveNo              = "Verb.Unarchive"
     case share                  = "Verb.Share"
+    case shareAll               = "Verb.Share All"
     case addChoice              = "Verb.AddChoice"
     case addTag                 = "Verb.AddTag"
     case editTags               = "Verb.EditTags"

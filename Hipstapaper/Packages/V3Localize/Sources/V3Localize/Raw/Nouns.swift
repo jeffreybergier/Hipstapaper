@@ -49,6 +49,7 @@ public enum Noun: LocalizationKey {
     case editWebsite   = "Noun.EditWebsite"
     case tagApply      = "Noun.ApplyTags"
     case sort          = "Noun.Sort"
+    case share         = "Noun.Share"
     case filter        = "Noun.Filter"
     case error         = "Noun.Error"
     case errors        = "Noun.Errors"

@@ -44,6 +44,7 @@
 "Verb.ArchiveClose"           = "Archive and Close";
 "Verb.Unarchive"              = "Unarchive";
 "Verb.Share"                  = "Share";
+"Verb.Share All"              = "Share All";
 "Verb.DeleteTag"              = "Delete Tag(s)";
 "Verb.AddTag"                 = "Add Tag";
 "Verb.EditTags"               = "Edit Tag(s)";
@@ -109,6 +110,7 @@
 "Noun.EditWebsite"   = "Edit Website";
 "Noun.ApplyTags"     = "Apply Tags";
 "Noun.Sort"          = "Sort Order";
+"Noun.Share"         = "Share";
 "Noun.Filter"        = "Filter";
 "Noun.Error"         = "Error";
 "Noun.Errors"        = "Errors";
@@ -145,6 +147,7 @@
 "Phrase.SaveWebsite"            = "An error ocurred when attempting to save the website.";
 "Phrase.ErrorUnknown"           = "An unknown error ocurred. Please try again later.";
 "Phrase.Share"                  = "Share selected website(s)";
+"Phrase.ShareError"             = "Unable to share";
 "Phrase.Unarchive"              = "Mark selected website(s) as unread";
 "Phrase.Archive"                = "Mark selected website(s) as read";
 "Phrase.OpenInBrowser"          = "Open selected website(s) in default browser";
