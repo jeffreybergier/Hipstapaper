@@ -43,22 +43,22 @@ public struct ShareList: DynamicProperty {
                                -> some View
         {
             return Label {
-                VStack(alignment: .leading, spacing: 2) {
+                VStack(alignment: .leading, spacing: .labelVSpacing) {
                     title()
                     subtitle()
-                        .font(.caption)
+                        .font(.small)
                 }
             } icon: {
                 switch icon {
                 case .single:
-                    Image(systemName: "square.and.arrow.up")
+                    Image(systemName: SystemImage.share.rawValue)
                 case .multi:
-                    Image(systemName: "square.and.arrow.up.on.square")
+                    Image(systemName: SystemImage.shareMulti.rawValue)
                 case .error:
-                    Image(systemName: "square.and.arrow.up.trianglebadge.exclamationmark")
+                    Image(systemName: SystemImage.shareError.rawValue)
                 }
             }
-            .font(.body)
+            .font(.normal)
             .lineLimit(1)
             .if(icon == .error) {
                 $0.tint(Color.gray)

@@ -43,7 +43,7 @@ internal struct SyncIndicator: ViewModifier {
         ZStack(alignment: .top) {
             content
             Image(systemName: SystemImage.iCloudSync.rawValue)
-                .font(.title)
+                .font(.syncIndicatorIcon)
                 .modifier(SyncIndicatorOval())
                 .padding(.top, self.showsSyncing // TODO: Change to transform
                          ? .syncOvalPaddingTopShown

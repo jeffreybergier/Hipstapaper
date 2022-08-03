@@ -34,7 +34,7 @@ public struct SidebarListTitleText: ViewModifier {
     public func body(content: Content) -> some View {
         content
             .lineLimit(self.typeSize.isAccessibilitySize ? 2 : 1, reservesSpace: true)
-            .font(.body)
+            .font(.normal)
     }
 }
 
@@ -43,7 +43,7 @@ public struct DetailListTitleText: ViewModifier {
     public func body(content: Content) -> some View {
         content
             .lineLimit(self.typeSize.isAccessibilitySize ? 3 : 2, reservesSpace: true)
-            .font(.body)
+            .font(.normal)
     }
 }
 
@@ -51,7 +51,7 @@ public struct DetailListURLText: ViewModifier {
     public func body(content: Content) -> some View {
         content
             .lineLimit(1, reservesSpace: true)
-            .font(.caption)
+            .font(.small)
     }
 }
 
@@ -60,7 +60,7 @@ public struct DetailListDateText: ViewModifier {
     public func body(content: Content) -> some View {
         content
             .lineLimit(1, reservesSpace: true)
-            .font(.caption)
+            .font(.small)
     }
 }
 
@@ -68,7 +68,7 @@ public struct DetailTableTitleText: ViewModifier {
     public func body(content: Content) -> some View {
         content
             .lineLimit(2, reservesSpace: true)
-            .font(.headline)
+            .font(.prominent)
     }
 }
 
@@ -76,7 +76,7 @@ public struct DetailTableURLText: ViewModifier {
     public func body(content: Content) -> some View {
         content
             .lineLimit(2, reservesSpace: true)
-            .font(.body)
+            .font(.normal)
     }
 }
 
@@ -84,6 +84,6 @@ public struct DetailTableDateText: ViewModifier {
     public func body(content: Content) -> some View {
         content
             .lineLimit(2, reservesSpace: true)
-            .font(.body)
+            .font(.normal)
     }
 }

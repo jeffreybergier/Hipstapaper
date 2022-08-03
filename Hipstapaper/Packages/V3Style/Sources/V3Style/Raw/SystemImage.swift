@@ -36,6 +36,8 @@ internal enum SystemImage: String {
     case filterNo          = "line.horizontal.3.decrease.circle"
     case sort              = "arrow.up.arrow.down.circle"
     case share             = "square.and.arrow.up"
+    case shareMulti        = "square.and.arrow.up.on.square"
+    case shareError        = "square.and.arrow.up.trianglebadge.exclamationmark"
     case deleteMinus       = "minus"
     case deleteTrash       = "trash"
     case editPencil        = "rectangle.and.pencil.and.ellipsis"

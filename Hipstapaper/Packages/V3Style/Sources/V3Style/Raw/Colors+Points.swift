@@ -30,7 +30,15 @@ extension TimeInterval {
     internal static let syncIndicatorTimer: TimeInterval = 3
 }
 
+extension Font {
+    internal static let syncIndicatorIcon: Font = .title
+    internal static let prominent: Font = .headline
+    internal static let normal: Font = .body
+    internal static let small: Font = .caption
+}
+
 extension CGFloat {
+    internal static let labelVSpacing: CGFloat = 2
     internal static let syncOvalPaddingTopHidden: CGFloat = -64
     internal static let syncOvalPaddingTopShown: CGFloat = 8
     internal static let ovalWidthMinimum: CGFloat = 28

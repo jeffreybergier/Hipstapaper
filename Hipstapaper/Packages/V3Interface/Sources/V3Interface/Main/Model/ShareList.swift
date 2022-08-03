@@ -100,7 +100,6 @@ internal struct ShareListRow: View {
                     JSBText("Untitled", text: self.item?.title)
                 } subtitle: {
                     Text(url.absoluteString)
-                        .font(.caption)
                 }
             }
         } onNIL: {
@@ -108,8 +107,6 @@ internal struct ShareListRow: View {
                 JSBText("Untitled", text: self.item?.title)
             }
         }
-        .font(.body)
-        .lineLimit(1)
         .onLoadChange(of: self.identifier) {
             _item.setIdentifier($0)
         }
