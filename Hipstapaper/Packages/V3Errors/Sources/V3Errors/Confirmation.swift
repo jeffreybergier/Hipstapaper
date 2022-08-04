@@ -32,7 +32,6 @@ import V3Localize
 
 public typealias OnConfirmation = (Confirmation) -> Void
 
-// TODO: Change to UserChoice and add dismiss
 public enum Confirmation {
     case deleteTags(Tag.Selection)
     case deleteWebsites(Website.Selection)

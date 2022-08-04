@@ -27,19 +27,6 @@
 import SwiftUI
 import Umbrella
 
-/*
-// TODO: Use this one is sheet above causes double presentation issue
-public func sheet2<T: Identifiable, V: View>(items: Binding<Set<T>>,
-                                            @ViewBuilder content: @escaping (Set<T>) -> V,
-                                            onDismiss: (() -> Void)? = nil)
-                                            -> some View
-{
-    return self.sheet(isPresented: items.isPresented, onDismiss: onDismiss) {
-        content(items.wrappedValue)
-    }
-}
-*/
-
 extension URL {
     var prettyValueHost: String? {
         let components = URLComponents(url: self, resolvingAgainstBaseURL: true)
