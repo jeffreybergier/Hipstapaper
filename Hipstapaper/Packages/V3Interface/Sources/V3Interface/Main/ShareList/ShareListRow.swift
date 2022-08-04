@@ -51,12 +51,9 @@ internal struct ShareListRow: View {
                 } subtitle: {
                     Text(url.absoluteString)
                 } accessory: {
-                    Button {
+                    self.style.copyButton {
                         print("COPY: \(url.absoluteString)")
-                    } label: {
-                        Image(systemName: "paperclip")
                     }
-                    .buttonStyle(.bordered)
                 }
             }
         } onNIL: {

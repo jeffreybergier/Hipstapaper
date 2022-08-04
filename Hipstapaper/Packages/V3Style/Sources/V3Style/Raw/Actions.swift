@@ -169,6 +169,10 @@ extension Action {
         systemImage: SystemImage.columnCircleEmpty.rawValue,
         shortcut: nil
     )
+    internal static let copy = Self(
+        systemImage: SystemImage.paperclip.rawValue,
+        shortcut: nil
+    )
     internal static let selectAll = Self(
         systemImage: SystemImage.tableCellsFill.rawValue,
         // TODO: Change this back to Command A when possible

@@ -63,6 +63,7 @@ internal enum SystemImage: String {
     case columnCircleEmpty = "building.columns.circle"
     case tableCellsFill    = "tablecells.fill"
     case tableCellsEmpty   = "tablecells"
+    case paperclip         = "paperclip"
 }
 
 /*
