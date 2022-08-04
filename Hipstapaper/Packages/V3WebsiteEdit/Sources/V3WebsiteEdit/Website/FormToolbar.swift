@@ -51,41 +51,32 @@ internal struct FormToolbar: ViewModifier {
             .navigationTitle(self.text.titleWebsite)
             .navigationBarTitleDisplayModeInline
             .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    self.itemErrors
-                }
                 ToolbarItem(placement: .confirmationAction) {
-                    self.itemClose
+                    self.style.done.button(self.text.done,
+                                           style: .title,
+                                           action: self.dismiss)
+                }
+                if self.nav.errorQueue.isEmpty == false {
+                    ToolbarItem(placement: .primaryAction) {
+                        self.style.error.button(self.text.error) {
+                            self.nav.isErrorList.isPresented = true
+                        }
+                        .modifier(ErrorListPopover())
+                    }
                 }
                 if self.deletableSelection.isEmpty == false {
                     ToolbarItem(placement: .cancellationAction) {
-                        self.itemDelete
+                        self.style.deleteWebsite.button(self.text.delete,
+                                                        style: .title,
+                                                        role: .destructive)
+                        {
+                            self.errorResponder(
+                                DeleteWebsiteError(self.deletableSelection)
+                                    .codableValue
+                            )
+                        }
                     }
                 }
             }
-    }
-    
-    @ViewBuilder private var itemErrors: some View {
-        if self.nav.errorQueue.isEmpty == false {
-            self.style.error.button(self.text.error) {
-                self.nav.isErrorList.isPresented = true
-            }
-            .modifier(ErrorListPopover())
-        }
-    }
-    
-    private var itemClose: some View {
-        self.style.done.button(self.text.done,
-                               style: .text,
-                               action: self.dismiss)
-    }
-    
-    private var itemDelete: some View {
-        self.style.deleteWebsite.button(self.text.delete,
-                                        style: .text,
-                                        role: .destructive)
-        {
-            self.errorResponder(DeleteWebsiteError(self.deletableSelection).codableValue)
-        }
     }
 }

@@ -32,7 +32,7 @@ public typealias AC = Action.Closure
 public struct Action {
     
     public enum Style {
-        case label, icon, text
+        case automatic, label, icon, title
     }
     
     public typealias Closure = () -> Void
@@ -42,7 +42,7 @@ public struct Action {
 
 extension Action {
     public func button<T>(_ titleKey: LocalizedString,
-                       style: Style = .label,
+                       style: Style = .automatic,
                        role: ButtonRole? = nil,
                        enabled: T? = nil,
                        action: @escaping (T) -> Void) -> some View
@@ -58,7 +58,7 @@ extension Action {
     }
     
     public func button<C: Collection>(_ titleKey: LocalizedString,
-                       style: Style = .label,
+                       style: Style = .automatic,
                        role: ButtonRole? = nil,
                        enabled: C = [],
                        action: @escaping (C) -> Void) -> some View
@@ -73,7 +73,7 @@ extension Action {
     }
     
     public func button(_ titleKey: LocalizedString,
-                       style: Style = .label,
+                       style: Style = .automatic,
                        role: ButtonRole? = nil,
                        enabled: Bool = true,
                        action: @escaping Closure) -> some View
@@ -85,16 +85,29 @@ extension Action {
         .disabled(!enabled)
     }
     
-    @ViewBuilder public func label(_ titleKey: LocalizedString,
-                                   style: Style = .label) -> some View
+    public func label(_ titleKey: LocalizedString,
+                      style: Style = .automatic) -> some View
     {
+        Label(titleKey, systemImage: self.systemImage)
+            .modifier(LabelStyler(style))
+    }
+}
+
+fileprivate struct LabelStyler: ViewModifier {
+    private let style: Action.Style
+    init(_ style: Action.Style) {
+        self.style = style
+    }
+    func body(content: Content) -> some View {
         switch style {
+        case .automatic:
+            content.labelStyle(.automatic)
         case .label:
-            Label(titleKey, systemImage: self.systemImage)
+            content.labelStyle(.titleAndIcon)
         case .icon:
-            Image(systemName: self.systemImage)
-        case .text:
-            Text(titleKey)
+            content.labelStyle(.iconOnly)
+        case .title:
+            content.labelStyle(.titleOnly)
         }
     }
 }
