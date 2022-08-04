@@ -46,7 +46,7 @@ internal struct ShareList: View {
     
     internal init(_ selection: Website.Selection) {
         self.selection = selection
-        self.selectionA = Array(selection)
+        self.selectionA = selection.sorted()
     }
     
     internal var body: some View {

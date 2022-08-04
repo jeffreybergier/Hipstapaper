@@ -70,3 +70,9 @@ public struct Website: Identifiable, Hashable, Equatable {
 extension Website {
     public var preferredURL: URL? { self.resolvedURL ?? self.originalURL }
 }
+
+extension Website.Identifier: Comparable {
+    public static func < (lhs: Website.Identifier, rhs: Website.Identifier) -> Bool {
+        return lhs.rawValue < rhs.rawValue
+    }
+}
