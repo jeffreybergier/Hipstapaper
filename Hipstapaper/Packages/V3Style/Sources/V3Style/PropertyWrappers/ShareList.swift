@@ -39,14 +39,18 @@ public struct ShareList: DynamicProperty {
         
         public func shareLabel(icon: Icon,
                                @ViewBuilder title: () -> some View,
-                               @ViewBuilder subtitle: () -> some View)
+                               @ViewBuilder subtitle: () -> some View,
+                               @ViewBuilder accessory: () -> some View)
                                -> some View
         {
             return Label {
-                VStack(alignment: .leading, spacing: .labelVSpacing) {
-                    title()
-                    subtitle()
-                        .font(.small)
+                HStack {
+                    VStack(alignment: .leading, spacing: .labelVSpacing) {
+                        title()
+                        subtitle()
+                            .font(.small)
+                    }
+                    accessory()
                 }
             } icon: {
                 switch icon {
@@ -65,16 +69,32 @@ public struct ShareList: DynamicProperty {
                   .foregroundColor(Color.gray)
             }
         }
-        
-        public func shareLabel(icon: Icon,
-                               @ViewBuilder title: () -> some View)
-                               -> some View
-        {
-            self.shareLabel(icon: icon, title: title, subtitle: { EmptyView() })
-        }
     }
     
     public var wrappedValue: Value {
         Value()
+    }
+}
+
+extension ShareList.Value {
+    public func shareLabel(icon: ShareList.Icon,
+                           @ViewBuilder title: () -> some View)
+                           -> some View
+    {
+        self.shareLabel(icon: icon,
+                        title: title,
+                        subtitle: { EmptyView() },
+                        accessory: { EmptyView() })
+    }
+    
+    public func shareLabel(icon: ShareList.Icon,
+                           @ViewBuilder title: () -> some View,
+                           @ViewBuilder subtitle: () -> some View)
+                           -> some View
+    {
+        self.shareLabel(icon: icon,
+                        title: title,
+                        subtitle: subtitle,
+                        accessory: { EmptyView() })
     }
 }

@@ -50,6 +50,13 @@ internal struct ShareListRow: View {
                     JSBText(self.text.untitled, text: self.item?.title)
                 } subtitle: {
                     Text(url.absoluteString)
+                } accessory: {
+                    Button {
+                        print("COPY: \(url.absoluteString)")
+                    } label: {
+                        Image(systemName: "paperclip")
+                    }
+                    .buttonStyle(.bordered)
                 }
             }
         } onNIL: {
