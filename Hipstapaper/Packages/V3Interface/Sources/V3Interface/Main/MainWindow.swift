@@ -79,7 +79,7 @@ internal struct MainView: View {
             .modifier(WebsiteEdit.sheet(self.$nav.isWebsitesEdit))
             .modifier(BulkActionsHelper())
             .onReceive(self.controller.syncProgress.objectWillChange) { _ in
-                let errors = self.controller.syncProgress.errors.map { CodableError($0) }
+                let errors = self.controller.syncProgress.errors.map { $0.codableValue }
                 guard errors.isEmpty == false else { return }
                 self.nav.errorQueue.append(contentsOf: errors)
             }
