@@ -30,6 +30,8 @@ extension CodableError {
     internal func userFacingError(onConfirm: OnConfirmation? = nil) -> UserFacingError {
         let knownError: UserFacingError? = {
             switch self.errorDomain {
+            case CPError.errorDomain:
+                return CPError(codableError: self)
             case DeleteWebsiteError.errorDomain:
                 return DeleteWebsiteError(self, onConfirm: onConfirm)
             case DeleteTagError.errorDomain:

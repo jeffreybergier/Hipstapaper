@@ -26,40 +26,21 @@
 
 import Foundation
 import Umbrella
+import V3Localize
 
-extension CPError {
-    public var codableValue: CodableError {
-        let data: Data?
+extension CPError: UserFacingError {
+    
+    public var message: Umbrella.LocalizationKey {
         switch self {
-        case .accountStatus(let status):
-            data = try? PropertyListEncoder().encode(status.rawValue)
-        case .sync(let error):
-            // TODO: Enhance to save suberror kind
-            NSLog(String(describing: error))
-            data = nil
+        case .accountStatus:
+            return Phrase.errorCloudAccount.rawValue
+        case .sync:
+            return Phrase.errorCloudSync.rawValue
         }
-        return CodableError(domain: type(of: self).errorDomain,
-                            code: self.errorCode,
-                            arbitraryData: data)
     }
     
-    public init?(codableError: CodableError) {
-        guard type(of: self).errorDomain == codableError.errorDomain else { return nil }
-        switch codableError.errorCode {
-        case 1001:
-            let status: CPAccountStatus = {
-                guard
-                    let data = codableError.arbitraryData,
-                    let rawValue = try? PropertyListDecoder().decode(Int.self, from: data),
-                    let status = CPAccountStatus(rawValue: rawValue)
-                else { return .couldNotDetermine }
-                return status
-            }()
-            self = .accountStatus(status)
-        case 1002:
-            self = .sync(nil)
-        default:
-            return nil
-        }
-    }
+    public var title: LocalizationKey { Noun.erroriCloud.rawValue }
+    public var dismissTitle: LocalizationKey { Verb.dismiss.rawValue }
+    public var isCritical: Bool { false }
+    public var options: [Umbrella.RecoveryOption] { [] }
 }

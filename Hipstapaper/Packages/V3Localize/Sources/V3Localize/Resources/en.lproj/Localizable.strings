@@ -165,8 +165,6 @@
 "Phrase.DeleteImageTip"         = "Delete this image. This cannot be undone.";
 "Phrase.EditWebsiteTip"         = "Edit selected website(s)";
 "Phrase.ClearSearch"            = "Clear search";
-"Phrase.iCloudAccountError"     = "iCloud account error";
-"Phrase.iCloudSyncError"        = "iCloud sync error";
 "Phrase.AddAndRemoveTags"       = "Add and remove tags from selected website(s)";
 "Phrase.SearchWebsite"          = "Search websites";
 "Phrase.AddTag"                 = "Add a new tag";
@@ -176,9 +174,10 @@
 "Phrase.Save"                   = "Save changes";
 "Phrase.Cancel"                 = "Cancel without saving changes";
 "Phrase.ErrorInvalidURL%@"      = "Attempted to browse to an invalid URL:\n%@";
-"Phrase.ErroriCloudAccount"     = "To enable syncing your Reading List with other devices, sign into iCloud.";
 "Phrase.ErrorShareItemCount"    = "The selected website(s) contained no URLs to share.";
 "Phrase.ErrorLoadURL"           = "This website did not contain a URL.";
 "Phrase.ErrorShareImport"       = "There was an error importing the website shared by another app.";
+"Phrase.errorCloudAccount"      = "To use iCloud sync you must be logged into an iCloud account.";
+"Phrase.errorCloudSync"         = "There was an error while syncing with iCloud.";
 "Phrase.NoTags"                 = "No Tags";
 "Phrase.NoWebsites"             = "No Websites";

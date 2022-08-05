@@ -79,9 +79,12 @@ internal struct MainView: View {
             .modifier(WebsiteEdit.sheet(self.$nav.isWebsitesEdit))
             .modifier(BulkActionsHelper())
             .onReceive(self.controller.syncProgress.objectWillChange) { _ in
-                let errors = self.controller.syncProgress.errors.map { $0.codableValue }
-                guard errors.isEmpty == false else { return }
-                self.nav.errorQueue.append(contentsOf: errors)
+                DispatchQueue.main.async {
+                    let errors = self.controller.syncProgress.errors.map { $0.codableValue }
+                    guard errors.isEmpty == false else { return }
+                    self.controller.syncProgress.errors.removeAll()
+                    self.nav.errorQueue.append(contentsOf: errors)
+                }
             }
         } onConfirmation: {
             switch $0 {
