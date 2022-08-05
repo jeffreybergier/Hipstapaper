@@ -37,7 +37,7 @@ public protocol ControllerProtocol {
     var context: NSManagedObjectContext { get }
     
     // MARK: Sync
-    var syncProgress: AnyContinousProgress { get }
+    var syncProgress: AnyContinousProgress<CPError> { get }
 
     // MARK: Websites CRUD
     func createWebsite(originalURL: URL?) -> Result<Website.Selection.Element, Error>

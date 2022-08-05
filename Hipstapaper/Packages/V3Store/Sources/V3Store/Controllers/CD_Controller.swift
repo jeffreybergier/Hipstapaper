@@ -291,7 +291,7 @@ internal class CD_Controller {
         )
     }
 
-    internal let syncProgress: AnyContinousProgress
+    internal let syncProgress: AnyContinousProgress<CPError>
     internal let container: NSPersistentContainer
     
     internal class func new() -> Result<ControllerProtocol, Error> {
