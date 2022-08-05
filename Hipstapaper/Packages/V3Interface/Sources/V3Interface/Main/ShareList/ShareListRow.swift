@@ -52,11 +52,7 @@ internal struct ShareListRow: View {
                     Text(url.absoluteString)
                 } accessory: {
                     self.style.copyButton {
-                        // TODO: Abstract out this Pasteboard code
-                        UIPasteboard.general.addItems([
-                            [UIPasteboard.typeListString[0] as! String: self.item?.title ?? "Untitled"],
-                            [UIPasteboard.typeListURL[0] as! String: url]
-                        ])
+                        JSBPasteboard.set(title: self.item?.title, url: url)
                     }
                 }
             }
