@@ -28,22 +28,6 @@ import Foundation
 import Umbrella
 import V3Model
 
-extension CodableError {
-    internal func userFacingError(onConfirm: OnConfirmation? = nil) -> UserFacingError {
-        let knownError: UserFacingError? = {
-            switch self.errorDomain {
-            case DeleteWebsiteError.errorDomain:
-                return DeleteWebsiteError(self, onConfirm: onConfirm)
-            case DeleteTagError.errorDomain:
-                return DeleteTagError(self, onConfirm: onConfirm)
-            default:
-                return nil
-            }
-        }()
-        return knownError ?? UnknownError(self)
-    }
-}
-
 // MARK: DeleteTagError
 
 extension DeleteTagError {
