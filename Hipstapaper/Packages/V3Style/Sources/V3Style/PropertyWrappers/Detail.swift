@@ -30,6 +30,9 @@ import SwiftUI
 public struct Detail: DynamicProperty {
         
     public struct Value {
+        public var noSelection: Action = Action.noContentSelection
+        public var emptyState: Action = Action.noContentGeneric
+        public var disableFake: some ViewModifier = FakeDisable()
         public func syncIndicator(_ progress: Progress) -> some ViewModifier {
             SyncIndicator(progress)
         }

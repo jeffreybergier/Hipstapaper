@@ -46,23 +46,29 @@ internal struct Detail: View {
     
     internal var body: some View {
         NavigationStack {
-            self.data.view {
-                switch self.showsTable {
-                case .showTable:
-                    DetailTable($0)
-                case .showList:
-                    DetailList($0)
+            self.nav.sidebar.selectedTag.view { _ in
+                self.data.view {
+                    switch self.showsTable {
+                    case .showTable:
+                        DetailTable($0)
+                    case .showList:
+                        DetailList($0)
+                    }
+                } onEmpty: {
+                    self.style.emptyState.label(self.text.emptyState)
+                        .modifier(self.style.disableFake)
                 }
-            } onEmpty: {
-                Text(self.text.emptyState)
-            }
-            .searchable(text: self.$query.search,
-                        prompt: self.text.search)
-            .onLoadChange(of: self.query) {
-                _data.setQuery($0)
-            }
-            .onLoadChange(of: self.nav.sidebar.selectedTag) {
-                _data.setFilter($0)
+                .searchable(text: self.$query.search,
+                            prompt: self.text.search)
+                .onLoadChange(of: self.query) {
+                    _data.setQuery($0)
+                }
+                .onLoadChange(of: self.nav.sidebar.selectedTag) {
+                    _data.setFilter($0)
+                }
+            } onNIL: {
+                self.style.noSelection.label(self.text.noSelection)
+                    .modifier(self.style.disableFake)
             }
             .modifier(self.style.syncIndicator(self.controller.syncProgress.progress))
             .modifier(DetailTitle())

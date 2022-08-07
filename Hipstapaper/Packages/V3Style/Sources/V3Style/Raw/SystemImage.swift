@@ -65,6 +65,7 @@ internal enum SystemImage: String {
     case tableCellsFill    = "tablecells.fill"
     case tableCellsEmpty   = "tablecells"
     case paperclip         = "paperclip"
+    case menu              = "filemenu.and.selection"
 }
 
 /*

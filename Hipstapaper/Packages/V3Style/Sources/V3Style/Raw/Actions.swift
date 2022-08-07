@@ -153,6 +153,10 @@ extension Action {
         systemImage: SystemImage.tagSlash.rawValue,
         shortcut: nil
     )
+    internal static let noContentSelection = Self(
+        systemImage: SystemImage.menu.rawValue,
+        shortcut: nil
+    )
     internal static let websiteGeneric = Self(
         systemImage: SystemImage.website.rawValue,
         shortcut: nil
