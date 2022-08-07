@@ -55,8 +55,6 @@ internal struct Tag: View {
             }
             .modifier(TagToolbar())
         }
-        // TODO: Move this into V3Style
-        .frame(idealWidth: 320, minHeight: 320)
         .onLoadChange(of: self.selection) {
             _data.selection = $0
         }

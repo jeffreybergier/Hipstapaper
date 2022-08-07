@@ -29,6 +29,7 @@ import Umbrella
 import V3Model
 import V3Store
 import V3Localize
+import V3Style
 
 public struct ErrorList<Nav: ErrorPresentable,
                         ES: RandomAccessCollection & RangeReplaceableCollection>: View
@@ -39,6 +40,7 @@ public struct ErrorList<Nav: ErrorPresentable,
     @Binding private var errorQueue: ES
     
     @Controller private var controller
+    @V3Style.ErrorList private var style
     @V3Localize.ErrorList private var text
     
     @Environment(\.dismiss) private var dismiss
@@ -59,9 +61,7 @@ public struct ErrorList<Nav: ErrorPresentable,
             .modifier(self.toolbar)
             .modifier(self.alert)
         }
-        // TODO: Move this into V3Style
-        .frame(idealWidth: 320, minHeight: 320)
-        .presentationDetents([.medium, .large])
+        .modifier(self.style.popoverSize)
     }
     
     private var toolbar: some ViewModifier {

@@ -30,6 +30,7 @@ import V3Model
 import V3Store
 import V3Errors
 import V3Localize
+import V3Style
 
 internal struct TagsEdit: View {
     
@@ -63,14 +64,13 @@ internal struct TagsEdit: View {
                 self.dismiss()
             }
         }
-        // TODO: Move this into V3Style
-        .frame(idealWidth: 320, minHeight: 320)
     }
 }
 
 internal struct TagsEditPresentation: ViewModifier {
     
     @Binding private var identifiers: Tag.Selection
+    @V3Style.TagsEdit private var style
     
     internal init(_ identifiers: Binding<Tag.Selection>) {
         _identifiers = identifiers
@@ -80,7 +80,7 @@ internal struct TagsEditPresentation: ViewModifier {
         content.popover(items: self.$identifiers)
         { selection in
             TagsEdit(selection)
-                .presentationDetents([.medium, .large])
+                .modifier(self.style.popoverSize)
         }
     }
 }

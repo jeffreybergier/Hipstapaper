@@ -36,10 +36,14 @@ public struct ShareList: DynamicProperty {
     public init() {}
     
     public struct Value {
+        
+        public var popoverSize: some ViewModifier = PopoverSize(size: .medium)
+        
         public func copyButton(action: @escaping () -> Void) -> some View {
             return Action.copy.button("", style: .icon, action: action)
                          .buttonStyle(.bordered)
         }
+        
         public func shareLabel(icon: Icon,
                                @ViewBuilder title: () -> some View,
                                @ViewBuilder subtitle: () -> some View,

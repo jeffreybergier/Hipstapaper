@@ -38,10 +38,10 @@ extension Font {
 }
 
 extension CGFloat {
-    internal static let popoverSizeWidthSmall: CGFloat = 240
+    internal static let popoverSizeWidthSmall: CGFloat = 280
     internal static let popoverSizeWidthMedium: CGFloat = 320
     internal static let popoverSizeWidthLarge: CGFloat = 480
-    internal static let popoverSizeHeightSmall: CGFloat = 320
+    internal static let popoverSizeHeightSmall: CGFloat = 240
     internal static let popoverSizeHeightMedium: CGFloat = 480
     internal static let popoverSizeHeightLarge: CGFloat = 720
     internal static let labelVSpacing: CGFloat = 2
