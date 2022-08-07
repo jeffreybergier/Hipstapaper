@@ -52,7 +52,7 @@ public struct ShareList: DynamicProperty {
         {
             return Label {
                 HStack {
-                    VStack(alignment: .leading, spacing: .labelVSpacing) {
+                    VStack(alignment: .leading, spacing: .labelVSpacingSmall) {
                         title()
                         subtitle()
                             .font(.small)

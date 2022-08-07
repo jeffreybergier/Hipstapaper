@@ -91,34 +91,20 @@ public struct ErrorList<Nav: ErrorPresentable,
 
 internal struct ErrorListRow: View {
     
-    @V3Localize.ErrorList private var text
+    @V3Style.ErrorList private var style
+    @V3Localize.ErrorListRow private var text: V3Localize.ErrorListRow.Value
     
     private let originalError: CodableError
-    private let userFacingError: UserFacingError
     
     internal init(_ error: CodableError) {
         self.originalError = error
-        self.userFacingError = error.userFacingError()
+        _text = V3Localize.ErrorListRow(error.userFacingError())
     }
     
-    // TODO: Improve appearance
     internal var body: some View {
-        HStack{
-            VStack(alignment: .leading, spacing: 4) {
-                Text(_text.key(self.userFacingError.title))
-                    .font(.headline)
-                    .lineLimit(1)
-                Text(_text.key(self.userFacingError.message))
-                    .font(.body)
-                    .lineLimit(2, reservesSpace: true)
-                HStack(spacing: 2) {
-                    Text(String(describing: originalError.errorCode))
-                    Text("•")
-                    Text(originalError.errorDomain)
-                }
-                .lineLimit(1)
-                .font(.caption)
-            }
-        }
+        self.style.error(title:   self.text.title,
+                         message: self.text.message,
+                         domain:  self.originalError.errorDomain,
+                         code:    self.originalError.errorCode)
     }
 }

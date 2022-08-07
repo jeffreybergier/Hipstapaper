@@ -44,7 +44,8 @@ extension CGFloat {
     internal static let popoverSizeHeightSmall: CGFloat = 240
     internal static let popoverSizeHeightMedium: CGFloat = 480
     internal static let popoverSizeHeightLarge: CGFloat = 720
-    internal static let labelVSpacing: CGFloat = 2
+    internal static let labelVSpacingSmall: CGFloat = 2
+    internal static let labelVSpacingMedium: CGFloat = 4
     internal static let syncOvalPaddingTopHidden: CGFloat = -64
     internal static let syncOvalPaddingTopShown: CGFloat = 8
     internal static let ovalWidthMinimum: CGFloat = 28

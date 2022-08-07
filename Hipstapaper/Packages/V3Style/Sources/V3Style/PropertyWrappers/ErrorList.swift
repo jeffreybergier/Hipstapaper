@@ -31,6 +31,24 @@ public struct ErrorList: DynamicProperty {
     
     public struct Value {
         public var popoverSize: some ViewModifier = PopoverSize(size: .medium)
+        public func error(title: String, message: String, domain: String, code: Int) -> some View {
+            HStack {
+                VStack(alignment: .leading, spacing: .labelVSpacingMedium) {
+                    Text(title)
+                        .font(.prominent)
+                        .lineLimit(1)
+                    Text(message)
+                        .font(.normal)
+                        .lineLimit(2)
+                    Text(domain)
+                        .font(.small)
+                        .lineLimit(1)
+                }
+                Text(String(describing: code))
+                    .font(.small)
+                    .modifier(SidebarOval())
+            }
+        }
     }
     
     public init() {}
