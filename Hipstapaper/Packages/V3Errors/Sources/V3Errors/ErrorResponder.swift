@@ -43,12 +43,12 @@ public struct ErrorResponder<V: View, EP: ErrorPresentable, EC: RangeReplaceable
     @Environment(\.codableErrorResponder) private var errorResponder
     
     private let content: () -> V
-    private let onConfirmation: OnConfirmation
+    private let onConfirmation: OnConfirmation?
     
     public init(presenter: Binding<EP>,
                 storage: Binding<EC>,
                 @ViewBuilder content: @escaping () -> V,
-                onConfirmation: @escaping OnConfirmation)
+                onConfirmation: OnConfirmation? = nil)
     {
         self.content = content
         self.onConfirmation = onConfirmation
@@ -85,7 +85,7 @@ public struct ErrorResponder<V: View, EP: ErrorPresentable, EC: RangeReplaceable
                 if let error = perform(confirmation: $0, controller: self.controller) {
                     self.handle(error)
                 } else {
-                    self.onConfirmation($0)
+                    self.onConfirmation?($0)
                 }
             }
         }

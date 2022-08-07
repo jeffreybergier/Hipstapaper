@@ -66,10 +66,6 @@ fileprivate struct _Browser: View {
                     .modifier(HACK_OpaqueToolbar())
                     .modifier(self.toolbar)
             }
-        } onConfirmation: {
-            // TODO: Do something with this confirmation
-            print($0)
-            print("")
         }
         .onLoadChange(of: self.identifier) {
             _website.setIdentifier($0)
