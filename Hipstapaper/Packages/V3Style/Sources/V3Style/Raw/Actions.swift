@@ -145,8 +145,12 @@ extension Action {
         systemImage: SystemImage.magic.rawValue,
         shortcut: nil
     )
-    internal static let noContent = Self(
+    internal static let noContentGeneric = Self(
         systemImage: SystemImage.rectangleSlash.rawValue,
+        shortcut: nil
+    )
+    internal static let noContentTag = Self(
+        systemImage: SystemImage.tagSlash.rawValue,
         shortcut: nil
     )
     internal static let websiteGeneric = Self(

@@ -57,6 +57,7 @@ internal enum SystemImage: String {
     case checkmark         = "checkmark"
     case photo             = "photo"
     case rectangleSlash    = "rectangle.on.rectangle.slash"
+    case tagSlash          = "tag.slash"
     case iCloudSync        = "arrow.clockwise.icloud"
     case columnGeneric     = "building.columns"
     case columnCircleFill  = "building.columns.circle.fill"

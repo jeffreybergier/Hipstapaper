@@ -47,6 +47,7 @@ public struct WebsiteEdit: DynamicProperty {
         public var originalURL:     LocalizedString
         public var resolvedURL:     LocalizedString
         public var empty:           LocalizedString
+        public var emptyTags:       LocalizedString
         public var error:           LocalizedString
         
         internal init(_ b: LocalizeBundle) {
@@ -66,6 +67,7 @@ public struct WebsiteEdit: DynamicProperty {
             self.originalURL     = b.localized(key: Noun.originalURL.rawValue)
             self.resolvedURL     = b.localized(key: Noun.resolvedURL.rawValue)
             self.empty           = b.localized(key: Phrase.noSelection.rawValue)
+            self.emptyTags       = b.localized(key: Phrase.noTags.rawValue)
             self.error           = b.localized(key: Verb.errorsPresent.rawValue)
         }
     }

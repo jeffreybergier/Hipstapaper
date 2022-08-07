@@ -33,6 +33,7 @@ import V3Localize
 internal struct Sidebar: View {
     
     @Nav private var nav
+    @V3Style.Sidebar private var style
     @V3Localize.Sidebar private var text
     
     @TagSystemListQuery private var tagsSystem
@@ -56,7 +57,9 @@ internal struct Sidebar: View {
                             }
                         }
                     } onEmpty: {
-                        Text(self.text.emptyState)
+                        self.style.emptyState.label(self.text.emptyState)
+                            .modifier(self.style.titleText)
+                            .modifier(self.style.disableFake)
                     }
                 }
             }

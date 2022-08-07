@@ -36,9 +36,11 @@ public struct Sidebar: DynamicProperty {
         public var toolbarAdd        = Action.genericAdd
         public var menuTagDelete     = Action.genericDelete
         public var menuTagEdit       = Action.tagEdit
+        public var emptyState        = Action.noContentTag
         public var accessibilityMode: Bool = true
         public var titleText:     some ViewModifier = SidebarListTitleText()
         public var itemCountOval: some ViewModifier = SidebarOval()
+        public var disableFake:   some ViewModifier = FakeDisable()
     }
     
     @Environment(\.dynamicTypeSize) private var typeSize

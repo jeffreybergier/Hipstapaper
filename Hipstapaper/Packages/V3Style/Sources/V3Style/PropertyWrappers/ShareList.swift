@@ -72,8 +72,7 @@ public struct ShareList: DynamicProperty {
             .font(.normal)
             .lineLimit(1)
             .if(icon == .error) {
-                $0.tint(Color.gray)
-                  .foregroundColor(Color.gray)
+                $0.modifier(FakeDisable())
             }
         }
     }

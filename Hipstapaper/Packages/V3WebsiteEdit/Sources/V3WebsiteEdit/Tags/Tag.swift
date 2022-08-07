@@ -34,6 +34,8 @@ import V3Store
 internal struct Tag: View {
     
     @TagApplyQuery private var data
+    @V3Style.WebsiteEdit private var style
+    @V3Localize.WebsiteEdit private var text
     
     private let selection: Website.Selection
     
@@ -43,15 +45,10 @@ internal struct Tag: View {
     
     internal var body: some View {
         NavigationStack {
-            Form {
-                self.$data.view {
-                    ForEach($0) {
-                        TagRow($0)
-                    }
-                } onEmpty: {
-                    // TODO: Change to No Tags Label
-                    EmptyState()
-                }
+            self.$data.view { data in
+                Form { ForEach(data, content: TagRow.init) }
+            } onEmpty: {
+                self.style.emptyTags.label(self.text.emptyTags)
             }
             .modifier(TagToolbar())
         }

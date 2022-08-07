@@ -39,7 +39,8 @@ public struct WebsiteEdit: DynamicProperty {
         public var deleteThumbnail = Action.thumbnailDelete
         public var deleteWebsite   = Action.genericDelete
         public var done            = Action.genericDone
-        public var empty           = Action.noContent
+        public var empty           = Action.noContentGeneric
+        public var emptyTags       = Action.noContentTag
         public var tabWebsite      = Action.websiteGeneric
         public var tabTag          = Action.tagGeneric
         public var error           = Action.errorPresent
