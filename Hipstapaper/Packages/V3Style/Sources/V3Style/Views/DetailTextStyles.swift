@@ -29,6 +29,50 @@ import SwiftUI
 // TODO: Make these internal
 // for some reason there is a build error
 // when building for release when they are internal
+
+public struct PopoverSize: ViewModifier {
+    
+    public enum Size {
+        case small, medium, large
+    }
+    
+    private let size: Size
+    
+    public init(size: Size) {
+        self.size = size
+    }
+    
+    public func body(content: Content) -> some View {
+        content
+            .frame(idealWidth: self.width, idealHeight: self.height)
+            .presentationDetents(self.detents)
+    }
+    
+    private var width: CGFloat {
+        switch self.size {
+        case .small: return .popoverSizeWidthSmall
+        case .medium: return .popoverSizeWidthMedium
+        case .large: return .popoverSizeWidthLarge
+        }
+    }
+    
+    private var height: CGFloat {
+        switch self.size {
+        case .small: return .popoverSizeHeightSmall
+        case .medium: return .popoverSizeHeightMedium
+        case .large: return .popoverSizeHeightLarge
+        }
+    }
+    
+    private var detents: Set<PresentationDetent> {
+        switch self.size {
+        case .small: return [.medium]
+        case .medium: return [.medium, .large]
+        case .large: return [.large]
+        }
+    }
+}
+
 public struct SidebarListTitleText: ViewModifier {
     @Environment(\.dynamicTypeSize) private var typeSize
     public func body(content: Content) -> some View {

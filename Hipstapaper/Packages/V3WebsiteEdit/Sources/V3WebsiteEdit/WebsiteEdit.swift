@@ -40,6 +40,7 @@ public struct WebsiteEdit: View {
 
     @State private var screen: Screen
     @StateObject private var nav = Nav.newEnvironment()
+    @V3Style.WebsiteEdit private var style
     
     private let selection: Website.Selection
     
@@ -50,22 +51,16 @@ public struct WebsiteEdit: View {
     
     public var body: some View {
         _WebsiteEdit(selection: self.selection, screen: self.$screen)
-        // TODO: Move this into V3Style
-            .frame(idealWidth: self.idealWidth, idealHeight: self.idealHeight)
+            .lift { self.size($0) }
             .environmentObject(self.nav)
     }
     
-    private var idealWidth: CGFloat {
+    @ViewBuilder private func size<V: View>(_ input: V) -> some View {
         switch self.screen {
-        case .website: return 480
-        case .tag: return 320
-        }
-    }
-    
-    private var idealHeight: CGFloat {
-        switch self.screen {
-        case .website: return 720
-        case .tag: return 480
+        case .website:
+            input.modifier(self.style.websiteSize)
+        case .tag:
+            input.modifier(self.style.tagSize)
         }
     }
 }
@@ -74,6 +69,7 @@ internal struct _WebsiteEdit: View {
     
     @Nav private var nav
     @Binding private var screen: WebsiteEdit.Screen
+    
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
     
@@ -97,8 +93,6 @@ internal struct _WebsiteEdit: View {
                         self.style.tabWebsite.label(self.text.tabWebsite)
                     }
                 Tag(self.selection)
-                // TODO: Move this into V3Style
-                    .frame(idealWidth: 320, idealHeight: 480)
                     .tag(WebsiteEdit.Screen.tag)
                     .tabItem {
                         self.style.tabTag.label(self.text.tabTag)
