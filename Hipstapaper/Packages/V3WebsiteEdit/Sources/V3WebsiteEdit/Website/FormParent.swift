@@ -27,8 +27,13 @@
 import SwiftUI
 import V3Model
 import V3Errors
+import V3Style
+import V3Localize
 
 internal struct FormParent: View {
+    
+    @V3Style.WebsiteEdit private var style
+    @V3Localize.WebsiteEdit private var text
     
     @Nav private var nav
     @StateObject private var webState = WebState.newEnvironment()
@@ -49,7 +54,7 @@ internal struct FormParent: View {
                         .environmentObject(self.webState)
                 }
             } onEmpty: {
-                EmptyState()
+                self.style.noWebsitesSelected.label(self.text.noWebsitesSelected)
             }
             .modifier(FormToolbar(self.selection))
         }

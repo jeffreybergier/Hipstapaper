@@ -36,7 +36,7 @@ public struct Sidebar: DynamicProperty {
         public var toolbarAdd        = Action.genericAdd
         public var menuTagDelete     = Action.genericDelete
         public var menuTagEdit       = Action.tagEdit
-        public var emptyState        = Action.noContentTag
+        public var noTags            = Action.noContentTag // TODO: Make these fake grayed out
         public var accessibilityMode: Bool = true
         public var titleText:     some ViewModifier = SidebarListTitleText()
         public var itemCountOval: some ViewModifier = SidebarOval()

@@ -134,7 +134,8 @@
 //
 //
 
-"Phrase.NoSelection"            = "Nothing selected";
+"Phrase.NoTagSelection"         = "No tag selected";
+"Phrase.NoWebsiteSelection"     = "No website selected";
 "Phrase.AddChoice"              = "Create new tag or add new website";
 "Phrase.Sort"                   = "Change sort order of websites";
 "Phrase.FilterA"                = "Show all items";

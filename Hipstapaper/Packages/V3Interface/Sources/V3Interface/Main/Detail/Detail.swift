@@ -55,7 +55,7 @@ internal struct Detail: View {
                         DetailList($0)
                     }
                 } onEmpty: {
-                    self.style.emptyState.label(self.text.emptyState)
+                    self.style.noWebsites.label(self.text.noWebsites)
                         .modifier(self.style.disableFake)
                 }
                 .searchable(text: self.$query.search,
@@ -67,7 +67,7 @@ internal struct Detail: View {
                     _data.setFilter($0)
                 }
             } onNIL: {
-                self.style.noSelection.label(self.text.noSelection)
+                self.style.noTagSelected.label(self.text.noTagSelected)
                     .modifier(self.style.disableFake)
             }
             .modifier(self.style.syncIndicator(self.controller.syncProgress.progress))

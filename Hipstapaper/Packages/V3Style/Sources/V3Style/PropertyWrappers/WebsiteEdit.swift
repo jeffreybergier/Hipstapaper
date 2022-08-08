@@ -32,18 +32,18 @@ public struct WebsiteEdit: DynamicProperty {
     public init() {}
     
     public struct Value {
-        public var stop            = Action.browseStop
-        public var jsYes           = Action.javascriptYes
-        public var jsNo            = Action.javascriptNo
-        public var autofill        = Action.autofill
-        public var deleteThumbnail = Action.thumbnailDelete
-        public var deleteWebsite   = Action.genericDelete
-        public var done            = Action.genericDone
-        public var empty           = Action.noContentGeneric
-        public var emptyTags       = Action.noContentTag
-        public var tabWebsite      = Action.websiteGeneric
-        public var tabTag          = Action.tagGeneric
-        public var error           = Action.errorPresent
+        public var stop               = Action.browseStop
+        public var jsYes              = Action.javascriptYes
+        public var jsNo               = Action.javascriptNo
+        public var autofill           = Action.autofill
+        public var deleteThumbnail    = Action.thumbnailDelete
+        public var deleteWebsite      = Action.genericDelete
+        public var done               = Action.genericDone
+        public var noTags             = Action.noContentTag // TODO: Make these fake grayed out
+        public var tabWebsite         = Action.websiteGeneric
+        public var tabTag             = Action.tagGeneric
+        public var error              = Action.errorPresent
+        public var noWebsitesSelected = Action.noContentSelection // TODO: Make these fake grayed out
         public var websiteSize: some ViewModifier = PopoverSize(size: .large)
         public var tagSize: some ViewModifier = PopoverSize(size: .medium)
         public var tagTitle: some ViewModifier = SidebarListTitleText()

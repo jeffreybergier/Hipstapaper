@@ -35,16 +35,16 @@ public struct Detail: DynamicProperty {
         public var titleAll:           LocalizedString
         public var tagUntitled:        LocalizedString
         public var search:             LocalizedString
-        public var noSelection:        LocalizedString
-        public var emptyState:         LocalizedString
+        public var noTagSelected:      LocalizedString
+        public var noWebsites:         LocalizedString
         
         internal init(_ b: LocalizeBundle) {
             self.titleUnread        = b.localized(key: Noun.unreadItems.rawValue)
             self.titleAll           = b.localized(key: Noun.allItems.rawValue)
             self.tagUntitled        = b.localized(key: Noun.untitled.rawValue)
             self.search             = b.localized(key: Verb.search.rawValue)
-            self.noSelection        = b.localized(key: Phrase.noSelection.rawValue)
-            self.emptyState         = b.localized(key: Phrase.noWebsites.rawValue)
+            self.noTagSelected      = b.localized(key: Phrase.noSelectionTag.rawValue)
+            self.noWebsites         = b.localized(key: Phrase.noWebsites.rawValue)
         }
     }
     

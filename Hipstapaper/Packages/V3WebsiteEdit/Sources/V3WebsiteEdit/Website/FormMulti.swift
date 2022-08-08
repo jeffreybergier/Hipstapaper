@@ -33,6 +33,9 @@ import V3Localize
 
 internal struct FormMulti: View {
     
+    @V3Style.WebsiteEdit private var style
+    @V3Localize.WebsiteEdit private var text
+    
     private let selection: Website.Selection
     
     internal init(_ selection: Website.Selection) {
@@ -46,7 +49,7 @@ internal struct FormMulti: View {
                     FormSection(ident)
                 }
             } onEmpty: {
-                EmptyState()
+                self.style.noWebsitesSelected.label(self.text.noWebsitesSelected)
             }
         }
     }
@@ -82,7 +85,7 @@ fileprivate struct FormSection: View {
                 JSBText(self.text.untitled, text: item.title.wrappedValue)
             }
         } onNIL: {
-            EmptyState()
+            self.style.noWebsitesSelected.label(self.text.noWebsitesSelected)
         }
         .onLoadChange(of: self.identifier) {
             _item.setIdentifier($0)

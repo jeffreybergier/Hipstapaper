@@ -48,7 +48,7 @@ internal struct Tag: View {
             self.$data.view { data in
                 Form { ForEach(data, content: TagRow.init) }
             } onEmpty: {
-                self.style.emptyTags.label(self.text.emptyTags)
+                self.style.noTags.label(self.text.noTags)
                 // TODO: Add fake diable modifier
             }
             .modifier(TagToolbar())

@@ -74,7 +74,8 @@ public enum Phrase: LocalizationKey {
     case errorShareImport       = "Phrase.ErrorShareImport"
     case errorCloudAccount      = "Phrase.errorCloudAccount"
     case errorCloudSync         = "Phrase.errorCloudSync"
-    case noSelection            = "Phrase.NoSelection"
+    case noSelectionTag         = "Phrase.NoTagSelection"
+    case noSelectionWebsite     = "Phrase.NoWebsiteSelection"
     case noTags                 = "Phrase.NoTags"
     case noWebsites             = "Phrase.NoWebsites"
 }

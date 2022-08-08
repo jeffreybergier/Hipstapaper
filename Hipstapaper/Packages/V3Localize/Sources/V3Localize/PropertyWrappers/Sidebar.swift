@@ -42,7 +42,7 @@ public struct Sidebar: DynamicProperty {
         public var toolbarAddGeneric: LocalizedString
         public var menuEditTags: LocalizedString
         public var menuDeleteTags: LocalizedString
-        public var emptyState: LocalizedString
+        public var noTags: LocalizedString
         
         internal init(_ b: LocalizeBundle) {
             self.navigationTitle         = b.localized(key: Noun.tags.rawValue)
@@ -56,7 +56,7 @@ public struct Sidebar: DynamicProperty {
             self.toolbarAddGeneric       = b.localized(key: Verb.addChoice.rawValue)
             self.menuEditTags            = b.localized(key: Verb.editTags.rawValue)
             self.menuDeleteTags          = b.localized(key: Verb.deleteTag.rawValue)
-            self.emptyState              = b.localized(key: Phrase.noTags.rawValue)
+            self.noTags                  = b.localized(key: Phrase.noTags.rawValue)
         }
     }
     

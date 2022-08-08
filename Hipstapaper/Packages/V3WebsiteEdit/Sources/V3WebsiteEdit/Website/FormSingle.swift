@@ -51,10 +51,18 @@ internal struct FormSingle: View {
     
     internal var body: some View {
         Form {
-            if self.item == nil {
-                EmptyState()
-            } else {
-                self.form
+            self.$item.view { item in
+                TextField(self.text.websiteTitle, text: item.title.compactMap())
+                TextField(self.text.originalURL, text: item.originalURL.mapString())
+                    .textContentTypeURL
+                self.rowAutofill(item)
+                self.style.thumbnailSingle(self.item?.thumbnail) { Web() }
+                self.rowDeleteThumbnail(item)
+                self.rowJavascript
+                TextField(self.text.resolvedURL, text: item.resolvedURL.mapString())
+                    .textContentTypeURL
+            } onNIL: {
+                self.style.noWebsitesSelected.label(self.text.noWebsitesSelected)
             }
         }
         .onLoadChange(of: self.identifier) {
@@ -79,56 +87,24 @@ internal struct FormSingle: View {
         }
     }
     
-    @ViewBuilder private var form: some View {
-        self.rowEditForm
-        self.rowAutofill
-        self.rowWebSnapshot
-        self.rowDeleteThumbnail
-        self.rowJavascript
-        self.rowResolvedURL
-    }
-    
-    @ViewBuilder private var rowEditForm: some View {
-        if let item = self.$item {
-            TextField(self.text.websiteTitle, text: item.title.compactMap())
-            TextField(self.text.originalURL, text: item.originalURL.mapString())
-                .textContentTypeURL
-        } else {
-            EmptyState()
-        }
-    }
-    
-    @ViewBuilder private var rowResolvedURL: some View {
-        if let item = self.$item {
-            TextField(self.text.resolvedURL, text: item.resolvedURL.mapString())
-                .textContentTypeURL
-        }
-    }
-    
-    private var rowWebSnapshot: some View {
-        self.style.thumbnailSingle(self.item?.thumbnail) {
-            Web()
-        }
-    }
-    
-    @ViewBuilder private var rowAutofill: some View {
+    @ViewBuilder private func rowAutofill(_ item: Binding<Website>) -> some View {
         if self.nav.isLoading {
             self.style.stop.button(self.text.stop) {
                 self.nav.shouldStop = true
             }
         } else {
             self.style.autofill.button(self.text.autofill,
-                                       enabled: self.item?.preferredURL != nil)
+                                       enabled: item.wrappedValue.preferredURL != nil)
             {
-                self.nav.shouldLoadURL = self.item?.originalURL
+                self.nav.shouldLoadURL = item.wrappedValue.originalURL
             }
         }
     }
     
-    @ViewBuilder private var rowDeleteThumbnail: some View {
-        if self.item?.thumbnail != nil {
+    @ViewBuilder private func rowDeleteThumbnail(_ item: Binding<Website>) -> some View {
+        if item.wrappedValue.thumbnail != nil {
             self.style.deleteThumbnail.button(self.text.deleteThumbnail) {
-                self.item?.thumbnail = nil
+                item.wrappedValue.thumbnail = nil
                 self.nav.shouldStop = true
                 self.timerStop()
             }

@@ -53,7 +53,7 @@ internal struct DetailTitle: ViewModifier {
                     }
                     */
                 } else {
-                    content.navigationTitle(self.text.noSelection)
+                    content.navigationTitle(self.text.noTagSelected)
                 }
             }
         }
