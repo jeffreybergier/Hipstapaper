@@ -37,10 +37,10 @@ internal struct BulkActions: DynamicProperty {
         internal var push: BulkActionsQuery.Value = .init()
     }
     
-    internal typealias Environment = BlackBox<State>
+    internal typealias Environment = ObserveBox<State>
     
     internal static func newEnvironment() -> Environment {
-        .init(.init(), isObservingValue: true)
+        .init(.init())
     }
     
     @EnvironmentObject private var environment: Environment

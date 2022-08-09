@@ -58,7 +58,7 @@ public struct WebsiteQuery: DynamicProperty {
         self.$object
     }
     
-    private let needsUpdate = BlackBox(true, isObservingValue: false)
+    private let needsUpdate = SecretBox(true)
     public func update() {
         guard self.needsUpdate.value else { return }
         self.needsUpdate.value = false

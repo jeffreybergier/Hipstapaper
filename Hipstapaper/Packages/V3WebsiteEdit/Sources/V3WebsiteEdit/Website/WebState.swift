@@ -36,11 +36,11 @@ internal struct WebState: DynamicProperty {
         internal var currentThumbnail: JSBImage?
     }
         
-    internal static func newEnvironment() -> BlackBox<Value> {
-        BlackBox(Value(), isObservingValue: true)
+    internal static func newEnvironment() -> ObserveBox<Value> {
+        ObserveBox(Value())
     }
 
-    @EnvironmentObject internal var raw: BlackBox<Value>
+    @EnvironmentObject internal var raw: ObserveBox<Value>
     
     internal init() {}
     

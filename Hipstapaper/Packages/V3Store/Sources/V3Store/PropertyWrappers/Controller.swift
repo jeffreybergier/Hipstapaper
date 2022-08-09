@@ -30,7 +30,7 @@ import Umbrella
 @propertyWrapper
 public struct Controller: DynamicProperty {
     
-    public typealias Environment = BlackBox<Result<ControllerProtocol, Error>>
+    public typealias Environment = ObserveBox<Result<ControllerProtocol, Error>>
     @EnvironmentObject private var environment: Environment
     
     public init() { }
@@ -52,11 +52,11 @@ extension Controller {
     public static func newEnvironment() -> Environment {
         switch CD_Controller.new() {
         case .success(let controller):
-            return BlackBox(.success(controller))
+            return ObserveBox(.success(controller))
         case .failure(let error):
             NSLog(String(describing: error))
             assertionFailure(String(describing: error))
-            return BlackBox(.failure(error))
+            return ObserveBox(.failure(error))
         }
     }
 }

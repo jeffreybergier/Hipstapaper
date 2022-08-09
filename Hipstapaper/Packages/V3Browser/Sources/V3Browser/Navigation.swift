@@ -51,11 +51,11 @@ internal struct Navigation: ErrorPresentable {
 @propertyWrapper
 internal struct Nav: DynamicProperty {
     
-    internal static func newEnvironment() -> BlackBox<Navigation> {
-        BlackBox(Navigation(), isObservingValue: true)
+    internal static func newEnvironment() -> ObserveBox<Navigation> {
+        ObserveBox(Navigation())
     }
 
-    @EnvironmentObject internal var raw: BlackBox<Navigation>
+    @EnvironmentObject internal var raw: ObserveBox<Navigation>
     
     internal init() {}
     

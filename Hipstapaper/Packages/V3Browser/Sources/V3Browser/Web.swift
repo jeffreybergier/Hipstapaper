@@ -32,7 +32,7 @@ import V3Store
 internal struct Web: View {
     
     @Nav private var nav
-    @StateObject private var progress = BlackBox<Double>(0, isObservingValue: true)
+    @StateObject private var progress = ObserveBox<Double>(0)
     
     internal var body: some View {
         ZStack(alignment: .top) {
@@ -50,9 +50,8 @@ fileprivate struct _Web: View {
     
     @Nav private var nav
     @Environment(\.codableErrorResponder) private var errorChain
-    @ObservedObject fileprivate var progress: BlackBox<Double>
-    @StateObject private var kvo = BlackBox(Array<NSObjectProtocol>(),
-                                            isObservingValue: false)
+    @ObservedObject fileprivate var progress: ObserveBox<Double>
+    @StateObject private var kvo = SecretBox(Array<NSObjectProtocol>())
 
     private func update(_ wv: WKWebView, context: Context) {
         if self.nav.shouldStop {
