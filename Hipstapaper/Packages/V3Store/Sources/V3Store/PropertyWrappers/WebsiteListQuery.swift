@@ -72,34 +72,27 @@ public struct FAST_WebsiteListQuery: DynamicProperty {
     }
     
     private func updateCoreData() {
-        guard var query = self.query else {
+        guard var query = self.query, let filter = self.filter else {
             _data.setPredicate(.init(value: false))
             _data.setSortDescriptors([Sort.default.cd_sortDescriptor])
             return
         }
-        if let filter = self.filter, filter.isSystem {
-            switch filter {
-            case .systemAll:
-                query.isOnlyNotArchived = false
-            case .systemUnread:
-                query.isOnlyNotArchived = true
-            default:
-                break
-            }
+        var currentTag: CD_Tag?
+        switch filter {
+        case .systemAll:
+            query.isOnlyNotArchived = false
+        case .systemUnread:
+            query.isOnlyNotArchived = true
+        default:
+            let context = self.context
+            guard
+                let url = URL(string: filter.id),
+                let psc = context.persistentStoreCoordinator,
+                let objectID = psc.managedObjectID(forURIRepresentation: url)
+            else { break }
+            currentTag = context.object(with: objectID) as? CD_Tag
         }
-        _data.setPredicate(query.cd_predicate(self.currentTag()))
+        _data.setPredicate(query.cd_predicate(currentTag))
         _data.setSortDescriptors([query.sort.cd_sortDescriptor])
-    }
-    
-    private func currentTag() -> CD_Tag? {
-        let context = self.context
-        guard
-            let psc = context.persistentStoreCoordinator,
-            let filter = self.filter,
-            filter.isSystem == false,
-            let url = URL(string: filter.id),
-            let objectID = psc.managedObjectID(forURIRepresentation: url)
-        else { return nil }
-        return context.object(with: objectID) as? CD_Tag
     }
 }
