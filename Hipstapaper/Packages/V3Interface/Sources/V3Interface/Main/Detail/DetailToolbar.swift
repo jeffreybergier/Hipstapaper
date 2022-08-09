@@ -25,6 +25,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import V3Model
 import V3Store
 import V3Style
@@ -34,17 +35,24 @@ import V3WebsiteEdit
 internal struct DetailToolbar: ViewModifier {
 
     @Nav private var nav
-    @Query private var query
     @BulkActions private var state
     
+    @JSBSizeClass private var sizeClass
     @V3Style.DetailToolbar private var style
-    @V3Style.ShowsTable private var showsTable
     @V3Localize.DetailToolbar private var text
-    
+        
     private let selectableItems: Website.Selection
     
     internal init(allSites: Website.Selection) {
         self.selectableItems = allSites
+    }
+    
+    private func itemOpenExternal() -> some View {
+        self.style.openExternal.button(self.text.openExternal,
+                                       enabled: self.state.pull.openExternal?.single)
+        { _ in
+            self.state.push.openExternal = self.state.pull.openExternal
+        }
     }
     
     internal func body(content: Content) -> some View {
@@ -58,12 +66,23 @@ internal struct DetailToolbar: ViewModifier {
                         self.state.push.openInApp = self.state.pull.openInApp
                     }
                 }
-                ToolbarItem(id: .itemOpenExternal, placement: .secondaryAction) {
-                    self.style.openExternal.button(self.text.openExternal,
-                                                   enabled: self.state.pull.openExternal?.single)
-                    { _ in
-                        self.state.push.openExternal = self.state.pull.openExternal
-                    }
+                // TODO: Remove this switch statement when possible
+                // Needed because Compact doesn't show items that are
+                // marked as showsByDefault == false here
+                switch self.sizeClass.horizontal {
+                case .compact:
+                    ToolbarItem(id: .itemOpenExternalCompact,
+                                placement: .secondaryAction,
+                                content: self.itemOpenExternal)
+                case .regular:
+                    ToolbarItem(id: .itemOpenExternalRegular,
+                                placement: .secondaryAction,
+                                showsByDefault: false,
+                                content: self.itemOpenExternal)
+                    ToolbarItem(id: .itemColumn,
+                                placement: .secondaryAction,
+                                showsByDefault: false,
+                                content: ColumnMenu.init)
                 }
                 ToolbarItem(id: .itemArchiveYes, placement: .secondaryAction) {
                     self.style.archiveYes.button(self.text.archiveYes,
@@ -95,71 +114,55 @@ internal struct DetailToolbar: ViewModifier {
                     }
                     .modifier(ShareListPresentation())
                 }
-                switch self.showsTable {
-                case .showTable:
-                    ToolbarItem(id: .itemSort, placement: .secondaryAction) {
-                        ColumnMenu()
-                    }
-                case .showList:
-                    ToolbarItem(id: .itemSort, placement: .secondaryAction) {
-                        SortMenu()
-                    }
-                }
             }
             .toolbar(id: .barBottom) {
-                if self.state.pull.showErrors {
-                    ToolbarItem(id: .itemError, placement: .bottomSecondary) {
-                        self.style.error.button(self.text.error,
-                                                enabled: self.state.pull.showErrors)
-                        {
-                            self.state.push.showErrors = true
-                        }
-                        .modifier(DetailErrorListPresentation())
+                ToolbarItem(id: .itemError, placement: .bottomSecondary) {
+                    self.style.error.button(self.text.error,
+                                            enabled: self.state.pull.showErrors)
+                    {
+                        self.state.push.showErrors = true
                     }
-                    ToolbarItem(id: .itemSpacer1, placement: .bottomSecondary) {
-                        Spacer()
-                    }
+                    .modifier(DetailErrorListPresentation())
                 }
-                if self.nav.sidebar.selectedTag?.isSystem == true {
-                    ToolbarItem(id: .itemSpacer1, placement: .bottomSecondary) {
-                        Spacer()
-                    }
-                    ToolbarItem(id: .itemDeselect, placement: .bottomSecondary) {
-                        DetailToolbarCount(allSites: self.selectableItems)
-                    }
-                    ToolbarItem(id: .itemSpacer2, placement: .bottomSecondary) {
-                        Spacer()
-                    }
-                } else {
-                    ToolbarItem(id: .itemDeselect, placement: .bottomSecondary) {
-                        DetailToolbarCount(allSites: self.selectableItems)
-                    }
-                    ToolbarItem(id: .itemSpacer2, placement: .bottomSecondary) {
-                        Spacer()
-                    }
+                ToolbarItem(id: .itemSpacer1, placement: .bottomSecondary) {
+                    Spacer()
+                }
+                ToolbarItem(id: .itemDeselect, placement: .bottomSecondary) {
+                    DetailToolbarCount(allSites: self.selectableItems)
+                }
+                ToolbarItem(id: .itemSpacer2, placement: .bottomSecondary) {
+                    Spacer()
+                }
+                if self.nav.sidebar.selectedTag?.isSystem == false {
                     ToolbarItem(id: .itemFilter, placement: .bottomSecondary) {
                         FilterMenu()
                     }
                 }
+                ToolbarItem(id: .itemSort, placement: .bottomSecondary) {
+                    SortMenu()
+                }
             }
+            .disabled(self.nav.sidebar.selectedTag == nil)
     }
 }
 
 extension String {
-    fileprivate static let barTop           = "barTop"
-    fileprivate static let itemOpenInApp    = "itemOpenInApp"
-    fileprivate static let itemOpenExternal = "itemOpenExternal"
-    fileprivate static let itemArchiveYes   = "itemArchiveYes"
-    fileprivate static let itemArchiveNo    = "itemArchiveNo"
-    fileprivate static let itemTagApply     = "itemTagApply"
-    fileprivate static let itemShare        = "itemShare"
-    fileprivate static let barBottom        = "barBottom"
-    fileprivate static let itemError        = "itemError"
-    fileprivate static let itemSpacer1      = "itemSpacer1"
-    fileprivate static let itemSpacer2      = "itemSpacer2"
-    fileprivate static let itemDeselect     = "itemDeselect"
-    fileprivate static let itemSort         = "itemSort"
-    fileprivate static let itemFilter       = "itemFilter"
+    fileprivate static let barTop                  = "barTop"
+    fileprivate static let itemOpenInApp           = "itemOpenInApp"
+    fileprivate static let itemOpenExternalCompact = "itemOpenExternalCompact"
+    fileprivate static let itemOpenExternalRegular = "itemOpenExternalRegular"
+    fileprivate static let itemArchiveYes          = "itemArchiveYes"
+    fileprivate static let itemArchiveNo           = "itemArchiveNo"
+    fileprivate static let itemTagApply            = "itemTagApply"
+    fileprivate static let itemShare               = "itemShare"
+    fileprivate static let barBottom               = "barBottom"
+    fileprivate static let itemError               = "itemError"
+    fileprivate static let itemSpacer1             = "itemSpacer1"
+    fileprivate static let itemSpacer2             = "itemSpacer2"
+    fileprivate static let itemDeselect            = "itemDeselect"
+    fileprivate static let itemColumn              = "itemColumn"
+    fileprivate static let itemSort                = "itemSort"
+    fileprivate static let itemFilter              = "itemFilter"
 }
 
 extension ToolbarItemPlacement {
