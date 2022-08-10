@@ -121,7 +121,7 @@ fileprivate struct _Web: View {
     
 }
 
-#if canImport(AppKit)
+#if canImport(AppKit) && !targetEnvironment(macCatalyst)
 extension _Web: NSViewRepresentable {
     func makeNSView(context: Context) -> WKWebView {
         return self.makeWebView(context: context)
