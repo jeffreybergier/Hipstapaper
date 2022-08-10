@@ -70,10 +70,11 @@ internal struct Detail: View {
                 self.style.noTagSelected.label(self.text.noTagSelected)
                     .modifier(self.style.disableFake)
             }
+            // TODO: Fix sync indicator when no data
             .modifier(self.style.syncIndicator(self.controller.syncProgress.progress))
             .modifier(DetailTitle())
             .modifier(DetailMenu())
-            .modifier(DetailToolbar(allSites: Set(self.data)))
+            .modifier(DetailToolbar())
             .sheetCover(item: self.$nav.detail.isBrowse) { ident in
                 Browser(ident)
             }

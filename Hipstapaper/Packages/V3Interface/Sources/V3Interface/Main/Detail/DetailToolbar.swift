@@ -40,12 +40,6 @@ internal struct DetailToolbar: ViewModifier {
     @JSBSizeClass private var sizeClass
     @V3Style.DetailToolbar private var style
     @V3Localize.DetailToolbar private var text
-        
-    private let selectableItems: Website.Selection
-    
-    internal init(allSites: Website.Selection) {
-        self.selectableItems = allSites
-    }
     
     private func itemOpenExternal() -> some View {
         self.style.openExternal.button(self.text.openExternal,
@@ -127,11 +121,19 @@ internal struct DetailToolbar: ViewModifier {
                 ToolbarItem(id: .itemSpacer1, placement: .bottomSecondary) {
                     Spacer()
                 }
-                ToolbarItem(id: .itemDeselect, placement: .bottomSecondary) {
-                    DetailToolbarCount(allSites: self.selectableItems)
-                }
-                ToolbarItem(id: .itemSpacer2, placement: .bottomSecondary) {
-                    Spacer()
+                if self.state.pull.deselectAll.isEmpty == false {
+                    ToolbarItem(id: .itemDeselect, placement: .bottomSecondary) {
+                        self.style.deselectAll.button(self.text.deselectAll,
+                                                      style: .title,
+                                                      enabled: self.state.pull.deselectAll)
+                        {
+                            self.state.push.deselectAll = $0
+                        }
+                        .buttonStyle(.borderedProminent)
+                    }
+                    ToolbarItem(id: .itemSpacer2, placement: .bottomSecondary) {
+                        Spacer()
+                    }
                 }
                 if self.nav.sidebar.selectedTag?.isSystem == false {
                     ToolbarItem(id: .itemFilter, placement: .bottomSecondary) {

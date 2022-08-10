@@ -43,7 +43,7 @@
 "Verb.Archive"                = "Archive";
 "Verb.ArchiveClose"           = "Archive and Close";
 "Verb.Unarchive"              = "Unarchive";
-"Verb.Share"                  = "Share";
+"Verb.Share"                  = "Share…";
 "Verb.Share All"              = "Share All";
 "Verb.DeleteTag"              = "Delete Tag(s)";
 "Verb.AddTag"                 = "Add Tag";
@@ -51,7 +51,7 @@
 "Verb.ClearSearch"            = "Clear Search";
 "Verb.OpenInApp"              = "Open";
 "Verb.OpenInBrowser"          = "Open in Browser";
-"Verb.AddAndRemoveTags"       = "Apply Tags";
+"Verb.AddAndRemoveTags"       = "Apply Tags…";
 "Verb.Filter"                 = "Filter";
 "Verb.StopLoading"            = "Stop";
 "Verb.ReloadPage"             = "Reload";
