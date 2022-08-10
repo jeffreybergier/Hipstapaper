@@ -25,8 +25,6 @@
 //
 
 import SwiftUI
-import Umbrella
-import V3Model
 import V3Store
 import V3Browser
 import V3Style
@@ -37,7 +35,6 @@ internal struct Detail: View {
     @Nav private var nav
     @Query private var query
     @BulkActions private var state
-    @Controller private var controller
     @FAST_WebsiteListQuery private var data
     
     @V3Localize.Detail private var text
@@ -70,8 +67,6 @@ internal struct Detail: View {
                 self.style.noTagSelected.label(self.text.noTagSelected)
                     .modifier(self.style.disableFake)
             }
-            // TODO: Fix sync indicator when no data
-            .modifier(self.style.syncIndicator(self.controller.syncProgress.progress))
             .modifier(DetailTitle())
             .modifier(DetailMenu())
             .modifier(DetailToolbar())

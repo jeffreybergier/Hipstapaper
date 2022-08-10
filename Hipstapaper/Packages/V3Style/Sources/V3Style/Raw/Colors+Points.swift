@@ -47,7 +47,7 @@ extension CGFloat {
     internal static let labelVSpacingSmall: CGFloat = 2
     internal static let labelVSpacingMedium: CGFloat = 4
     internal static let syncOvalPaddingTopHidden: CGFloat = -64
-    internal static let syncOvalPaddingTopShown: CGFloat = 8
+    internal static let syncOvalPaddingTopShown: CGFloat = 2
     internal static let ovalWidthMinimum: CGFloat = 28
     internal static let paddingOvalHorizontal: CGFloat = 8
     internal static let paddingOvalVertical: CGFloat = 4
