@@ -42,8 +42,9 @@ internal struct DetailToolbar: ViewModifier {
     @V3Localize.DetailToolbar private var text
     
     private func itemOpenExternal() -> some View {
-        self.style.openExternal.button(self.text.openExternal,
-                                       enabled: self.state.pull.openExternal?.single)
+        self.text.openExternal
+            .action(with: self.style.toolbar)
+            .button(item: self.state.pull.openExternal?.single)
         { _ in
             self.state.push.openExternal = self.state.pull.openExternal
         }

@@ -43,7 +43,7 @@ public enum Phrase: LocalizationKey {
     case shareError             = "Phrase.ShareError"
     case unarchive              = "Phrase.Unarchive"
     case archive                = "Phrase.Archive"
-    case safari                 = "Phrase.OpenInBrowser"
+    case openExternal           = "Phrase.OpenInBrowser"
     case openInApp              = "Phrase.OpenInApp"
     case stopLoading            = "Phrase.StopLoading"
     case loadPage               = "Phrase.LoadPage"

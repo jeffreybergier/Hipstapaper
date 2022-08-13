@@ -27,6 +27,24 @@
 import SwiftUI
 
 extension KeyboardShortcut {
-    internal static let commandO: KeyboardShortcut = .init("o", modifiers: [.command])
-    internal static let commandShiftO: KeyboardShortcut = .init("o", modifiers: [.command, .shift])
+    internal static let commandO           = KeyboardShortcut("o", modifiers: [.command])
+    internal static let commandShiftO      = KeyboardShortcut("o", modifiers: [.command, .shift])
+    internal static let commandN           = KeyboardShortcut("n", modifiers: [.command])
+    internal static let commandShiftN      = KeyboardShortcut("n", modifiers: [.command, .shift])
+    // TODO: Change to Command A
+    internal static let commandShiftA      = KeyboardShortcut("a", modifiers: [.command, .shift])
+    // TODO: Change to Command Shift A
+    internal static let commandOptionA     = KeyboardShortcut("a", modifiers: [.command, .option])
+    internal static let commandShiftE      = KeyboardShortcut("e", modifiers: [.command, .shift])
+    internal static let commandOptionE     = KeyboardShortcut("e", modifiers: [.command, .option])
+    internal static let commandControlE    = KeyboardShortcut("e", modifiers: [.command, .control])
+    internal static let commandR           = KeyboardShortcut("r", modifiers: [.command])
+    internal static let commandShiftR      = KeyboardShortcut("r", modifiers: [.command, .shift])
+    internal static let commandOptionR     = KeyboardShortcut("r", modifiers: [.command, .option])
+    internal static let commandShiftI      = KeyboardShortcut("i", modifiers: [.command, .shift])
+    internal static let commandY           = KeyboardShortcut("y", modifiers: [.command])
+    internal static let commandBraceLeft   = KeyboardShortcut("[", modifiers: [.command])
+    internal static let commandBraceRight  = KeyboardShortcut("]", modifiers: [.command])
+    internal static let commandPeriod      = KeyboardShortcut(".", modifiers: [.command])
+    internal static let commandDelete      = KeyboardShortcut(.delete, modifiers: [.command])
 }

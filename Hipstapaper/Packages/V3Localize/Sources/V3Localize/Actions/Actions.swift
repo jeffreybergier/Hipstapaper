@@ -29,9 +29,15 @@ import Umbrella
 extension ActionLocalization {
     internal static func openInApp(_ b: LocalizeBundle) -> ActionLocalization {
         .init(title: b.localized(key: Verb.openInApp.rawValue),
-              hint: b.localized(key: Phrase.openInApp.rawValue),
+              hint:  b.localized(key: Phrase.openInApp.rawValue),
               image: .init(Symbol.openInApp, bundle: b),
               shortcut: .commandO)
+    }
+    internal static func openExternal(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.openExternal.rawValue),
+              hint:  b.localized(key: Phrase.openExternal.rawValue),
+              image: .init(Symbol.openExternal, bundle: b),
+              shortcut: .commandShiftO)
     }
 }
 

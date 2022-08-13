@@ -32,7 +32,7 @@ public struct DetailToolbar: DynamicProperty {
     
     public struct Value {
         public var openInApp:    ActionLocalization
-        public var openExternal: LocalizedString
+        public var openExternal: ActionLocalization
         public var archiveYes:   LocalizedString
         public var archiveNo:    LocalizedString
         public var share:        LocalizedString
@@ -45,7 +45,7 @@ public struct DetailToolbar: DynamicProperty {
         
         internal init(_ b: LocalizeBundle) {
             self.openInApp    = .openInApp(b)
-            self.openExternal = b.localized(key: Verb.openExternal.rawValue)
+            self.openExternal = .openExternal(b)
             self.archiveYes   = b.localized(key: Verb.archiveYes.rawValue)
             self.archiveNo    = b.localized(key: Verb.archiveNo.rawValue)
             self.share        = b.localized(key: Verb.share.rawValue)

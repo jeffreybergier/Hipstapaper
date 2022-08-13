@@ -49,8 +49,9 @@ internal struct DetailMenu: ViewModifier {
                     {
                         self.state.push.openInApp = .single($0)
                     }
-                    self.style.openExternal.button(self.text.openExternal,
-                                                   enabled: BulkActionsQuery.openURL(items, self.controller)?.single)
+                    self.text.openExternal
+                        .action(with: self.style.toolbar)
+                        .button(item: BulkActionsQuery.openURL(items, self.controller)?.single)
                     {
                         self.state.push.openExternal = .single($0)
                     }
