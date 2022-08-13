@@ -33,9 +33,9 @@ public struct DetailToolbar: DynamicProperty {
     public struct Value {
         public var openInApp:    ActionLocalization
         public var openExternal: ActionLocalization
-        public var archiveYes:   LocalizedString
-        public var archiveNo:    LocalizedString
-        public var share:        LocalizedString
+        public var archiveYes:   ActionLocalization
+        public var archiveNo:    ActionLocalization
+        public var share:        ActionLocalization
         public var tagApply:     LocalizedString
         public var edit:         LocalizedString
         public var delete:       LocalizedString
@@ -46,9 +46,9 @@ public struct DetailToolbar: DynamicProperty {
         internal init(_ b: LocalizeBundle) {
             self.openInApp    = .openInApp(b)
             self.openExternal = .openExternal(b)
-            self.archiveYes   = b.localized(key: Verb.archiveYes.rawValue)
-            self.archiveNo    = b.localized(key: Verb.archiveNo.rawValue)
-            self.share        = b.localized(key: Verb.share.rawValue)
+            self.archiveYes   = .archiveYes(b)
+            self.archiveNo    = .archiveNo(b)
+            self.share        = .share(b)
             self.tagApply     = b.localized(key: Verb.tagApply.rawValue)
             self.edit         = b.localized(key: Verb.editWebsite.rawValue)
             self.delete       = b.localized(key: Verb.deleteWebsite.rawValue)

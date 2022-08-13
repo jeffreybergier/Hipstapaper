@@ -46,15 +46,21 @@ internal struct SidebarToolbar: ViewModifier {
         content.toolbar {
             ToolbarItem(id: .sidebarToolbarMultiAdd, placement: .primaryAction) {
                 Menu {
-                    self.style.toolbarTagAdd.button(self.text.toolbarAddTag) {
+                    self.text.toolbarAddTag
+                        .action(with: self.style.toolbar)
+                        .button
+                    {
                         self.state.push.tagAdd = true
                     }
-                    self.style.toolbarWebsiteAdd.button(self.text.toolbarAddWebsite) {
+                    self.text.toolbarAddWebsite
+                        .action(with: self.style.toolbar)
+                        .button
+                    {
                         self.state.push.websiteAdd = true
                     }
                     self.DEBUG_addFakeData
                 } label: {
-                    self.style.toolbarAdd.label(self.text.toolbarAddGeneric)
+                    self.text.toolbarAddGeneric.action(with: self.style.toolbar).label
                 }
                 .modifier(TagsEditPresentation(self.$nav.sidebar.isTagsEdit.editing))
             }

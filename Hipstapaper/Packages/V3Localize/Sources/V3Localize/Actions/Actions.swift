@@ -30,22 +30,57 @@ extension ActionLocalization {
     internal static func openInApp(_ b: LocalizeBundle) -> ActionLocalization {
         .init(title: b.localized(key: Verb.openInApp.rawValue),
               hint:  b.localized(key: Phrase.openInApp.rawValue),
-              image: .init(Symbol.openInApp, bundle: b),
+              image: .init(.openInApp),
               shortcut: .commandO)
     }
     internal static func openExternal(_ b: LocalizeBundle) -> ActionLocalization {
         .init(title: b.localized(key: Verb.openExternal.rawValue),
               hint:  b.localized(key: Phrase.openExternal.rawValue),
-              image: .init(Symbol.openExternal, bundle: b),
+              image: .init(.openExternal),
               shortcut: .commandShiftO)
+    }
+    internal static func websiteAdd(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.addWebsite.rawValue),
+              hint:  b.localized(key: Phrase.addWebsite.rawValue),
+              image: .init(.website),
+              shortcut: .commandN)
+    }
+    internal static func tagAdd(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.addTag.rawValue),
+              hint:  b.localized(key: Phrase.addTag.rawValue),
+              image: .init(.tag),
+              shortcut: .commandShiftN)
+    }
+    internal static func addChoice(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.addChoice.rawValue),
+              hint:  b.localized(key: Phrase.addChoice.rawValue),
+              image: .init(.plus),
+              shortcut: .commandShiftN)
+    }
+    internal static func archiveYes(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.archiveYes.rawValue),
+              hint:  b.localized(key: Phrase.archive.rawValue),
+              image: .init(.archiveYes),
+              shortcut: .commandShiftR)
+    }
+    internal static func archiveNo(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.archiveNo.rawValue),
+              hint:  b.localized(key: Phrase.archive.rawValue),
+              image: .init(.archiveNo),
+              shortcut: .commandOptionR)
+    }
+    internal static func share(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.share.rawValue),
+              hint:  b.localized(key: Phrase.share.rawValue),
+              image: .init(.share),
+              shortcut: .commandShiftI)
     }
 }
 
 import Umbrella
 
 extension ActionLabelImage {
-    internal init(_ string: Symbol, bundle: LocalizeBundle) {
-        // TODO: Use bundle if needed
+    internal init(_ string: Symbol) {
         self = .system(string.rawValue)
     }
 }

@@ -25,15 +25,13 @@
 //
 
 import SwiftUI
+import Umbrella
 
 @propertyWrapper
 public struct Sidebar: DynamicProperty {
 
     public struct Value {
-        public var toolbarTagEdit    = Action.tagEdit
-        public var toolbarTagAdd     = Action.tagAdd
-        public var toolbarWebsiteAdd = Action.websiteAdd
-        public var toolbarAdd        = Action.genericAdd
+        public var toolbar: some ActionStyle = ActionStyleDefault
         public var menuTagDelete     = Action.genericDelete
         public var menuTagEdit       = Action.tagEdit
         public var noTags            = Action.noContentTag // TODO: Make these fake grayed out

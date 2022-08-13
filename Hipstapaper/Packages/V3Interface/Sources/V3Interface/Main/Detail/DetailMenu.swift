@@ -55,18 +55,23 @@ internal struct DetailMenu: ViewModifier {
                     {
                         self.state.push.openExternal = .single($0)
                     }
-                    self.style.archiveYes.button(self.text.archiveYes,
-                                                 enabled: BulkActionsQuery.canArchiveYes(items, self.controller))
+                    self.text.archiveYes
+                        .action(with: self.style.toolbar)
+                        .button(items: BulkActionsQuery.canArchiveYes(items, self.controller))
                     {
                         self.state.push.archiveYes = $0
                     }
-                    self.style.archiveNo.button(self.text.archiveNo,
-                                                enabled: BulkActionsQuery.canArchiveNo(items, self.controller))
+                    self.text.archiveNo
+                        .action(with: self.style.toolbar)
+                        .button(items: BulkActionsQuery.canArchiveNo(items, self.controller))
                     {
                         self.state.push.archiveNo = $0
                     }
-                    self.style.share.button(self.text.share) {
-                        self.state.push.share = items
+                    self.text.share
+                        .action(with: self.style.toolbar)
+                        .button(item: BulkActionsQuery.openWebsite(items, self.controller))
+                    {
+                        self.state.push.share = $0.multi
                     }
                     self.style.tagApply.button(self.text.tagApply) {
                         self.state.push.tagApply = items

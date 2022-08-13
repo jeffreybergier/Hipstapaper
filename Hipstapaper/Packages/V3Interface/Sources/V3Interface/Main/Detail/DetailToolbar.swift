@@ -80,15 +80,17 @@ internal struct DetailToolbar: ViewModifier {
                                 content: ColumnMenu.init)
                 }
                 ToolbarItem(id: .itemArchiveYes, placement: .secondaryAction) {
-                    self.style.archiveYes.button(self.text.archiveYes,
-                                                 enabled: self.state.pull.archiveYes)
+                    self.text.archiveYes
+                        .action(with: self.style.toolbar)
+                        .button(items: self.state.pull.archiveYes)
                     {
                         self.state.push.archiveYes = $0
                     }
                 }
                 ToolbarItem(id: .itemArchiveNo, placement: .secondaryAction) {
-                    self.style.archiveNo.button(self.text.archiveNo,
-                                                enabled: self.state.pull.archiveNo)
+                    self.text.archiveNo
+                        .action(with: self.style.toolbar)
+                        .button(items: self.state.pull.archiveNo)
                     {
                         self.state.push.archiveNo = $0
                     }
@@ -102,8 +104,9 @@ internal struct DetailToolbar: ViewModifier {
                     .modifier(WebsiteEdit.popover(self.$nav.detail.isTagApply))
                 }
                 ToolbarItem(id: .itemShare, placement: .secondaryAction) {
-                    self.style.share.button(self.text.share,
-                                            enabled: self.state.pull.share)
+                    self.text.share
+                        .action(with: self.style.toolbar)
+                        .button(items: self.state.pull.share)
                     {
                         self.state.push.share = $0
                     }
