@@ -43,32 +43,27 @@ internal struct DetailMenu: ViewModifier {
         content
             .contextMenu(forSelectionType: Website.Selection.Element.self) {
                 $0.view { items in
-                    self.text.openInApp
-                        .action(with: self.style.toolbar)
+                    self.style.toolbar.action(text: self.text.openInApp)
                         .button(item: BulkActionsQuery.openWebsite(items, self.controller)?.single)
                     {
                         self.state.push.openInApp = .single($0)
                     }
-                    self.text.openExternal
-                        .action(with: self.style.toolbar)
+                    self.style.toolbar.action(text: self.text.openExternal)
                         .button(item: BulkActionsQuery.openURL(items, self.controller)?.single)
                     {
                         self.state.push.openExternal = .single($0)
                     }
-                    self.text.archiveYes
-                        .action(with: self.style.toolbar)
+                    self.style.toolbar.action(text: self.text.archiveYes)
                         .button(items: BulkActionsQuery.canArchiveYes(items, self.controller))
                     {
                         self.state.push.archiveYes = $0
                     }
-                    self.text.archiveNo
-                        .action(with: self.style.toolbar)
+                    self.style.toolbar.action(text: self.text.archiveNo)
                         .button(items: BulkActionsQuery.canArchiveNo(items, self.controller))
                     {
                         self.state.push.archiveNo = $0
                     }
-                    self.text.share
-                        .action(with: self.style.toolbar)
+                    self.style.toolbar.action(text: self.text.share)
                         .button(item: BulkActionsQuery.openWebsite(items, self.controller))
                     {
                         self.state.push.share = $0.multi

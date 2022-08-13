@@ -27,6 +27,8 @@
 import SwiftUI
 import Umbrella
 
+internal let ActionStyleDefault: some ActionStyle = ActionStyleImp()
+
 public typealias AC = Action.Closure
 
 public struct Action {

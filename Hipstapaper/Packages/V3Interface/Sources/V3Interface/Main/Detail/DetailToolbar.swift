@@ -42,8 +42,7 @@ internal struct DetailToolbar: ViewModifier {
     @V3Localize.DetailToolbar private var text
     
     private func itemOpenExternal() -> some View {
-        self.text.openExternal
-            .action(with: self.style.toolbar)
+        self.style.toolbar.action(text: self.text.openExternal)
             .button(item: self.state.pull.openExternal?.single)
         { _ in
             self.state.push.openExternal = self.state.pull.openExternal
@@ -55,7 +54,7 @@ internal struct DetailToolbar: ViewModifier {
             .toolbarRole(.editor)
             .toolbar(id: .barTop) {
                 ToolbarItem(id: .itemOpenInApp, placement: .primaryAction) {
-                    self.text.openInApp.action(with: self.style.toolbar)
+                    self.style.toolbar.action(text: self.text.openInApp)
                         .button(item: self.state.pull.openInApp?.single)
                     { _ in
                         self.state.push.openInApp = self.state.pull.openInApp
@@ -80,16 +79,14 @@ internal struct DetailToolbar: ViewModifier {
                                 content: ColumnMenu.init)
                 }
                 ToolbarItem(id: .itemArchiveYes, placement: .secondaryAction) {
-                    self.text.archiveYes
-                        .action(with: self.style.toolbar)
+                    self.style.toolbar.action(text: self.text.archiveYes)
                         .button(items: self.state.pull.archiveYes)
                     {
                         self.state.push.archiveYes = $0
                     }
                 }
                 ToolbarItem(id: .itemArchiveNo, placement: .secondaryAction) {
-                    self.text.archiveNo
-                        .action(with: self.style.toolbar)
+                    self.style.toolbar.action(text: self.text.archiveNo)
                         .button(items: self.state.pull.archiveNo)
                     {
                         self.state.push.archiveNo = $0
@@ -104,8 +101,7 @@ internal struct DetailToolbar: ViewModifier {
                     .modifier(WebsiteEdit.popover(self.$nav.detail.isTagApply))
                 }
                 ToolbarItem(id: .itemShare, placement: .secondaryAction) {
-                    self.text.share
-                        .action(with: self.style.toolbar)
+                    self.style.toolbar.action(text: self.text.share)
                         .button(items: self.state.pull.share)
                     {
                         self.state.push.share = $0
