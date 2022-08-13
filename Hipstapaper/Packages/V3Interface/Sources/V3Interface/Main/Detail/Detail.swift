@@ -52,8 +52,7 @@ internal struct Detail: View {
                         DetailList($0)
                     }
                 } onEmpty: {
-                    self.style.noWebsites.label(self.text.noWebsites)
-                        .modifier(self.style.disableFake)
+                    self.style.disabled.action(text: self.text.noWebsites).label
                 }
                 .searchable(text: self.$query.search,
                             prompt: self.text.search)
@@ -64,8 +63,7 @@ internal struct Detail: View {
                     _data.setFilter($0)
                 }
             } onNIL: {
-                self.style.noTagSelected.label(self.text.noTagSelected)
-                    .modifier(self.style.disableFake)
+                self.style.disabled.action(text: self.text.noTagSelected).label
             }
             .modifier(DetailTitle())
             .modifier(DetailMenu())

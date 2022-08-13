@@ -25,14 +25,14 @@
 //
 
 import SwiftUI
+import Umbrella
 
 @propertyWrapper
 public struct Detail: DynamicProperty {
         
     public struct Value {
-        public var noTagSelected: Action = Action.noContentSelection // TODO: Make these fake grayed out
-        public var noWebsites: Action    = Action.noContentGeneric
-        public var disableFake: some ViewModifier = FakeDisabled()
+        public var toolbar:  some ActionStyle = ActionStyleDefault
+        public var disabled: some ActionStyle = ActionStyleDisabled
     }
     
     public init() {}
