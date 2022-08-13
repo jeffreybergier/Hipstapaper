@@ -68,13 +68,15 @@ internal struct DetailMenu: ViewModifier {
                     {
                         self.state.push.share = $0.multi
                     }
-                    self.style.tagApply.button(self.text.tagApply) {
-                        self.state.push.tagApply = items
+                    self.style.toolbar.action(text: self.text.tagApply).button(items: items)
+                    {
+                        self.state.push.tagApply = $0
                     }
-                    self.style.edit.button(self.text.edit) {
+                    self.style.toolbar.action(text: self.text.edit).button
+                    {
                         self.state.push.websiteEdit = items
                     }
-                    self.style.delete.button(self.text.delete, role: .destructive) {
+                    self.style.destructive.action(text: self.text.delete).button {
                         self.state.push.websiteDelete = items
                     }
                 } onEmpty: {

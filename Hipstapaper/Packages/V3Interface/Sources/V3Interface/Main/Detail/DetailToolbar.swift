@@ -93,8 +93,8 @@ internal struct DetailToolbar: ViewModifier {
                     }
                 }
                 ToolbarItem(id: .itemTagApply, placement: .secondaryAction) {
-                    self.style.tagApply.button(self.text.tagApply,
-                                               enabled: self.state.pull.tagApply)
+                    self.style.toolbar.action(text: self.text.tagApply)
+                        .button(items: self.state.pull.tagApply)
                     {
                         self.state.push.tagApply = $0
                     }
@@ -111,8 +111,8 @@ internal struct DetailToolbar: ViewModifier {
             }
             .toolbar(id: .barBottom) {
                 ToolbarItem(id: .itemError, placement: .bottomSecondary) {
-                    self.style.error.button(self.text.error,
-                                            enabled: self.state.pull.showErrors)
+                    self.style.toolbar.action(text: self.text.error)
+                        .button(isEnabled: self.state.pull.showErrors)
                     {
                         self.state.push.showErrors = true
                     }
@@ -121,19 +121,15 @@ internal struct DetailToolbar: ViewModifier {
                 ToolbarItem(id: .itemSpacer1, placement: .bottomSecondary) {
                     Spacer()
                 }
-                if self.state.pull.deselectAll.isEmpty == false {
-                    ToolbarItem(id: .itemDeselect, placement: .bottomSecondary) {
-                        self.style.deselectAll.button(self.text.deselectAll,
-                                                      style: .title,
-                                                      enabled: self.state.pull.deselectAll)
-                        {
-                            self.state.push.deselectAll = $0
-                        }
-                        .buttonStyle(.borderedProminent)
+                ToolbarItem(id: .itemDeselect, placement: .bottomSecondary) {
+                    self.style.deselectAll.action(text: self.text.deselectAll)
+                        .button(items: self.state.pull.deselectAll)
+                    {
+                        self.state.push.deselectAll = $0
                     }
-                    ToolbarItem(id: .itemSpacer2, placement: .bottomSecondary) {
-                        Spacer()
-                    }
+                }
+                ToolbarItem(id: .itemSpacer2, placement: .bottomSecondary) {
+                    Spacer()
                 }
                 if self.nav.sidebar.selectedTag?.isSystem == false {
                     ToolbarItem(id: .itemFilter, placement: .bottomSecondary) {

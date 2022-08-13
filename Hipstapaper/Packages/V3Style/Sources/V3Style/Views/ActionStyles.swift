@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/23.
+//  Created by Jeffrey Bergier on 2022/08/13.
 //
 //  MIT License
 //
@@ -27,18 +27,8 @@
 import SwiftUI
 import Umbrella
 
-@propertyWrapper
-public struct DetailToolbar: DynamicProperty {
-    
-    public init() {}
-    
-    public struct Value {
-        public var toolbar:     some ActionStyle = ActionStyleDefault
-        public var destructive: some ActionStyle = ActionStyleImp(button: .destructive)
-        public var deselectAll: some ActionStyle = ActionStyleImp(label: TitleOnlyLabelStyle(), modifier: ButtonProminent())
-    }
-    
-    public var wrappedValue: Value {
-        Value()
+internal struct ButtonProminent: ViewModifier {
+    func body(content: Content) -> some View {
+        content.buttonStyle(.borderedProminent)
     }
 }

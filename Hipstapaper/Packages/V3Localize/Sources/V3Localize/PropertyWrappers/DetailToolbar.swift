@@ -36,12 +36,11 @@ public struct DetailToolbar: DynamicProperty {
         public var archiveYes:   ActionLocalization
         public var archiveNo:    ActionLocalization
         public var share:        ActionLocalization
-        public var tagApply:     LocalizedString
-        public var edit:         LocalizedString
-        public var delete:       LocalizedString
-        public var sort:         LocalizedString
-        public var error:        LocalizedString
-        public var deselectAll:  LocalizedString
+        public var tagApply:     ActionLocalization
+        public var edit:         ActionLocalization
+        public var delete:       ActionLocalization
+        public var error:        ActionLocalization
+        public var deselectAll:  ActionLocalization
         
         internal init(_ b: LocalizeBundle) {
             self.openInApp    = .openInApp(b)
@@ -49,12 +48,11 @@ public struct DetailToolbar: DynamicProperty {
             self.archiveYes   = .archiveYes(b)
             self.archiveNo    = .archiveNo(b)
             self.share        = .share(b)
-            self.tagApply     = b.localized(key: Verb.tagApply.rawValue)
-            self.edit         = b.localized(key: Verb.editWebsite.rawValue)
-            self.delete       = b.localized(key: Verb.deleteWebsite.rawValue)
-            self.sort         = b.localized(key: Verb.sort.rawValue)
-            self.error        = b.localized(key: Verb.errorsPresent.rawValue)
-            self.deselectAll  = b.localized(key: Verb.deselectAll.rawValue)
+            self.tagApply     = .tagApply(b)
+            self.edit         = .editWebsite(b)
+            self.delete       = .deleteWebsite(b)
+            self.error        = .errorsPresent(b)
+            self.deselectAll  = .deselectAll(b)
         }
     }
     

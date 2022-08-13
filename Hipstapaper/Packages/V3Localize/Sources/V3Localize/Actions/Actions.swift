@@ -39,13 +39,13 @@ extension ActionLocalization {
               image: .init(.openExternal),
               shortcut: .commandShiftO)
     }
-    internal static func websiteAdd(_ b: LocalizeBundle) -> ActionLocalization {
+    internal static func addWebsite(_ b: LocalizeBundle) -> ActionLocalization {
         .init(title: b.localized(key: Verb.addWebsite.rawValue),
               hint:  b.localized(key: Phrase.addWebsite.rawValue),
               image: .init(.website),
               shortcut: .commandN)
     }
-    internal static func tagAdd(_ b: LocalizeBundle) -> ActionLocalization {
+    internal static func addTag(_ b: LocalizeBundle) -> ActionLocalization {
         .init(title: b.localized(key: Verb.addTag.rawValue),
               hint:  b.localized(key: Phrase.addTag.rawValue),
               image: .init(.tag),
@@ -56,6 +56,30 @@ extension ActionLocalization {
               hint:  b.localized(key: Phrase.addChoice.rawValue),
               image: .init(.plus),
               shortcut: .commandShiftN)
+    }
+    internal static func editWebsite(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.editWebsite.rawValue),
+              hint:  b.localized(key: Phrase.editWebsiteTip.rawValue),
+              image: .init(.editPencil),
+              shortcut: .commandShiftE)
+    }
+    internal static func editTag(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.editTags.rawValue),
+              hint:  b.localized(key: Phrase.editTag.rawValue),
+              image: .init(.editPencil),
+              shortcut: .commandOptionE)
+    }
+    internal static func deleteWebsite(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.deleteWebsite.rawValue),
+              hint:  b.localized(key: Phrase.deleteWebsiteTip.rawValue),
+              image: .init(.deleteTrash),
+              shortcut: .commandDelete)
+    }
+    internal static func deleteTag(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.deleteTag.rawValue),
+              hint:  b.localized(key: Phrase.deleteTagTip.rawValue),
+              image: .init(.deleteTrash),
+              shortcut: .commandDelete)
     }
     internal static func archiveYes(_ b: LocalizeBundle) -> ActionLocalization {
         .init(title: b.localized(key: Verb.archiveYes.rawValue),
@@ -75,6 +99,36 @@ extension ActionLocalization {
               image: .init(.share),
               shortcut: .commandShiftI)
     }
+    internal static func tagApply(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.tagApply.rawValue),
+              hint:  b.localized(key: Phrase.addAndRemoveTags.rawValue),
+              image: .init(.tag),
+              shortcut: .commandY)
+    }
+    internal static func errorsPresent(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.errorsPresent.rawValue),
+              hint:  nil, // b.localized(key: Phrase.errorsPresent.rawValue) TODO: Phrase
+              image: .init(.errorGeneric),
+              shortcut: .commandControlE)
+    }
+    internal static func selectAll(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.selectAll.rawValue),
+              hint:  nil, // b.localized(key: Phrase.errorsPresent.rawValue) TODO: Phrase
+              image: .init(.tableCellsFill),
+              shortcut: .commandOptionA)
+    }
+    internal static func deselectAll(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.deselectAll.rawValue),
+              hint:  nil, // b.localized(key: Phrase.errorsPresent.rawValue) TODO: Phrase
+              image: .init(.tableCellsEmpty),
+              shortcut: .commandOptionA)
+    }
+//    internal static func sort(_ b: LocalizeBundle) -> ActionLocalization {
+//        .init(title: b.localized(key: Verb.sort.rawValue),
+//              hint:  b.localized(key: Phrase.sort.rawValue),
+//              image: .init(.sort),
+//              shortcut: nil)
+//    }
 }
 
 import Umbrella
