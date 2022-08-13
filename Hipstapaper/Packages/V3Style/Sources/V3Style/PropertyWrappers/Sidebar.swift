@@ -31,21 +31,16 @@ import Umbrella
 public struct Sidebar: DynamicProperty {
 
     public struct Value {
-        public var toolbar: some ActionStyle = ActionStyleDefault
-        public var menuTagDelete     = Action.genericDelete
-        public var menuTagEdit       = Action.tagEdit
-        public var noTags            = Action.noContentTag // TODO: Make these fake grayed out
-        public var accessibilityMode: Bool = true
+        public var toolbar:     some ActionStyle = ActionStyleDefault
+        public var disabled:    some ActionStyle = ActionStyleDisabled
+        public var destructive: some ActionStyle = ActionStyleDestructive
         public var titleText:     some ViewModifier = SidebarListTitleText()
         public var itemCountOval: some ViewModifier = SidebarOval()
-        public var disableFake:   some ViewModifier = FakeDisable()
     }
-    
-    @Environment(\.dynamicTypeSize) private var typeSize
-    
+        
     public init() {}
     
     public var wrappedValue: Value {
-        Value(accessibilityMode: self.typeSize.isAccessibilitySize)
+        Value()
     }
 }

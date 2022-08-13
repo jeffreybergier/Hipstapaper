@@ -41,10 +41,10 @@ internal struct SidebarMenu: ViewModifier {
     internal func body(content: Content) -> some View {
         content.contextMenu(forSelectionType: Tag.Selection.Element.self) { items in
             items.filter { $0.isSystem == false }.view { _ in
-                self.style.menuTagEdit.button(self.text.menuEditTags) {
+                self.style.toolbar.action(text: self.text.menuEditTags).button {
                     self.nav.sidebar.isTagsEdit.editing = items
                 }
-                self.style.menuTagDelete.button(self.text.menuDeleteTags, role: .destructive) {
+                self.style.destructive.action(text: self.text.menuDeleteTags).button {
                     self.errorResponder(DeleteTagError(items).codableValue)
                 }
             } onEmpty: {

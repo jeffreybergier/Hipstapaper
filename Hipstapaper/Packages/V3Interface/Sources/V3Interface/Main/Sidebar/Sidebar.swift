@@ -57,9 +57,7 @@ internal struct Sidebar: View {
                             }
                         }
                     } onEmpty: {
-                        self.style.noTags.label(self.text.noTags)
-                            .modifier(self.style.titleText)
-                            .modifier(self.style.disableFake)
+                        self.style.disabled.action(text: self.text.noTags).label
                     }
                 }
             }

@@ -32,7 +32,7 @@ public struct Detail: DynamicProperty {
     public struct Value {
         public var noTagSelected: Action = Action.noContentSelection // TODO: Make these fake grayed out
         public var noWebsites: Action    = Action.noContentGeneric
-        public var disableFake: some ViewModifier = FakeDisable()
+        public var disableFake: some ViewModifier = FakeDisabled()
     }
     
     public init() {}

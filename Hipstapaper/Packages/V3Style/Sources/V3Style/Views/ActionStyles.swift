@@ -27,8 +27,21 @@
 import SwiftUI
 import Umbrella
 
+internal let ActionStyleDefault:     some ActionStyle = ActionStyleImp()
+internal let ActionStyleDisabled:    some ActionStyle = ActionStyleImp(modifier: FakeDisabled())
+internal let ActionStyleDestructive: some ActionStyle = ActionStyleImp(button: .destructive)
+
 internal struct ButtonProminent: ViewModifier {
     func body(content: Content) -> some View {
         content.buttonStyle(.borderedProminent)
+    }
+}
+
+public struct FakeDisabled: ViewModifier {
+    @Environment(\.colorScheme) private var scheme
+    public func body(content: Content) -> some View {
+        content
+            .tint(Color.grayDark(self.scheme))
+            .foregroundColor(Color.grayDark(self.scheme))
     }
 }

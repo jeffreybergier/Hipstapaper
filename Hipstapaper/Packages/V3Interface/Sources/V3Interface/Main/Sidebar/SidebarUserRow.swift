@@ -37,6 +37,8 @@ internal struct SidebarUserRow: View {
     @V3Style.Sidebar private var style
     @V3Localize.Sidebar private var text
     
+    @Environment(\.dynamicTypeSize) private var typeSize
+    
     private let identifier: Tag.Identifier
     
     internal init(_ id: Tag.Identifier) {
@@ -48,8 +50,8 @@ internal struct SidebarUserRow: View {
             HStack {
                 JSBText(self.text.rowTitleUntitled, text: self.item?.name)
                     .modifier(self.style.titleText)
-                if self.style.accessibilityMode == false,
-                   let count = self.item?.websitesCount
+                if self.typeSize.isAccessibilitySize == false,
+                    let count = self.item?.websitesCount
                 {
                     Spacer()
                     Text(String(describing: count))

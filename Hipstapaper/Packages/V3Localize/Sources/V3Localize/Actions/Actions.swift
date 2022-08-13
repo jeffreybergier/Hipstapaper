@@ -123,6 +123,22 @@ extension ActionLocalization {
               image: .init(.tableCellsEmpty),
               shortcut: .commandOptionA)
     }
+    internal static func noContentWebsite(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Phrase.noWebsites.rawValue),
+              image: .init(.rectangleSlash))
+    }
+    internal static func noContentTag(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Phrase.noTags.rawValue),
+              image: .init(.tagSlash))
+    }
+    internal static func noSelectionWebsite(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Phrase.noSelectionWebsite.rawValue),
+              image: .init(.menu))
+    }
+    internal static func noSelectionTag(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Phrase.noSelectionTag.rawValue),
+              image: .init(.menu))
+    }
 //    internal static func sort(_ b: LocalizeBundle) -> ActionLocalization {
 //        .init(title: b.localized(key: Verb.sort.rawValue),
 //              hint:  b.localized(key: Phrase.sort.rawValue),

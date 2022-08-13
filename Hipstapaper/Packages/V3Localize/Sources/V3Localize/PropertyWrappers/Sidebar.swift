@@ -40,9 +40,9 @@ public struct Sidebar: DynamicProperty {
         public var toolbarAddTag:           ActionLocalization
         public var toolbarAddWebsite:       ActionLocalization
         public var toolbarAddGeneric:       ActionLocalization
-        public var menuEditTags:            LocalizedString
-        public var menuDeleteTags:          LocalizedString
-        public var noTags:                  LocalizedString
+        public var menuEditTags:            ActionLocalization
+        public var menuDeleteTags:          ActionLocalization
+        public var noTags:                  ActionLocalization
         
         internal init(_ b: LocalizeBundle) {
             self.navigationTitle         = b.localized(key: Noun.tags.rawValue)
@@ -54,9 +54,9 @@ public struct Sidebar: DynamicProperty {
             self.toolbarAddTag           = .addTag(b)
             self.toolbarAddWebsite       = .addWebsite(b)
             self.toolbarAddGeneric       = .addChoice(b)
-            self.menuEditTags            = b.localized(key: Verb.editTags.rawValue)
-            self.menuDeleteTags          = b.localized(key: Verb.deleteTag.rawValue)
-            self.noTags                  = b.localized(key: Phrase.noTags.rawValue)
+            self.menuEditTags            = .editTag(b)
+            self.menuDeleteTags          = .deleteTag(b)
+            self.noTags                  = .noContentTag(b)
         }
     }
     

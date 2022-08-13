@@ -72,7 +72,7 @@ public struct ShareList: DynamicProperty {
             .font(.normal)
             .lineLimit(1)
             .if(icon == .error) {
-                $0.modifier(FakeDisable())
+                $0.modifier(FakeDisabled())
             }
         }
     }
