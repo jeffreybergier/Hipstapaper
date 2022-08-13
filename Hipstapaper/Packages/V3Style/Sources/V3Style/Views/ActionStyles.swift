@@ -31,8 +31,12 @@ internal let ActionStyleDefault:     some ActionStyle = ActionStyleImp()
 internal let ActionStyleDisabled:    some ActionStyle = ActionStyleImp(modifier: FakeDisabled())
 internal let ActionStyleDestructive: some ActionStyle = ActionStyleImp(button: .destructive)
 
-internal struct ButtonProminent: ViewModifier {
-    func body(content: Content) -> some View {
+// TODO: Make these internal
+// for some reason there is a build error
+// when building for release when they are internal
+
+public struct ButtonProminent: ViewModifier {
+    public func body(content: Content) -> some View {
         content.buttonStyle(.borderedProminent)
     }
 }
