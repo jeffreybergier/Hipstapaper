@@ -31,7 +31,7 @@ import Umbrella
 public struct DetailToolbar: DynamicProperty {
     
     public struct Value {
-        public var openInApp:    LocalizedString
+        public var openInApp:    ActionLocalization
         public var openExternal: LocalizedString
         public var archiveYes:   LocalizedString
         public var archiveNo:    LocalizedString
@@ -44,7 +44,7 @@ public struct DetailToolbar: DynamicProperty {
         public var deselectAll:  LocalizedString
         
         internal init(_ b: LocalizeBundle) {
-            self.openInApp    = b.localized(key: Verb.openInApp.rawValue)
+            self.openInApp    = .openInApp(b)
             self.openExternal = b.localized(key: Verb.openExternal.rawValue)
             self.archiveYes   = b.localized(key: Verb.archiveYes.rawValue)
             self.archiveNo    = b.localized(key: Verb.archiveNo.rawValue)

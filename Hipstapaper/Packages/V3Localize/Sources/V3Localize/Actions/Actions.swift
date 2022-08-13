@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/23.
+//  Created by Jeffrey Bergier on 2022/08/12.
 //
 //  MIT License
 //
@@ -24,29 +24,22 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
 import Umbrella
 
-@propertyWrapper
-public struct DetailToolbar: DynamicProperty {
-    
-    public init() {}
-    
-    public struct Value {
-        public var toolbar: some ActionStyle = ActionStyleDefault
-        public var openExternal = Action.openExternal
-        public var archiveYes   = Action.archiveYes
-        public var archiveNo    = Action.archiveNo
-        public var share        = Action.share
-        public var tagApply     = Action.tagApply
-        public var edit         = Action.genericEdit
-        public var delete       = Action.genericDelete
-        public var error        = Action.errorPresent
-        public var selectAll    = Action.selectAll
-        public var deselectAll  = Action.deselectAll
+extension ActionLocalization {
+    internal static func openInApp(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.openInApp.rawValue),
+              hint: b.localized(key: Phrase.openInApp.rawValue),
+              image: .init(Symbol.openInApp, bundle: b),
+              shortcut: .commandO)
     }
-    
-    public var wrappedValue: Value {
-        Value()
+}
+
+import Umbrella
+
+extension ActionLabelImage {
+    internal init(_ string: Symbol, bundle: LocalizeBundle) {
+        // TODO: Use bundle if needed
+        self = .system(string.rawValue)
     }
 }

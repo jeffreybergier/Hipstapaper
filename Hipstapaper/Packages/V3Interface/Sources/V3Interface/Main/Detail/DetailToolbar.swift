@@ -54,8 +54,8 @@ internal struct DetailToolbar: ViewModifier {
             .toolbarRole(.editor)
             .toolbar(id: .barTop) {
                 ToolbarItem(id: .itemOpenInApp, placement: .primaryAction) {
-                    self.style.openInApp.button(self.text.openInApp,
-                                                enabled: self.state.pull.openInApp?.single)
+                    self.text.openInApp.action(with: self.style.toolbar)
+                        .button(item: self.state.pull.openInApp?.single)
                     { _ in
                         self.state.push.openInApp = self.state.pull.openInApp
                     }

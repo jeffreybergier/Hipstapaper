@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/23.
+//  Created by Jeffrey Bergier on 2022/08/13.
 //
 //  MIT License
 //
@@ -25,28 +25,8 @@
 //
 
 import SwiftUI
-import Umbrella
 
-@propertyWrapper
-public struct DetailToolbar: DynamicProperty {
-    
-    public init() {}
-    
-    public struct Value {
-        public var toolbar: some ActionStyle = ActionStyleDefault
-        public var openExternal = Action.openExternal
-        public var archiveYes   = Action.archiveYes
-        public var archiveNo    = Action.archiveNo
-        public var share        = Action.share
-        public var tagApply     = Action.tagApply
-        public var edit         = Action.genericEdit
-        public var delete       = Action.genericDelete
-        public var error        = Action.errorPresent
-        public var selectAll    = Action.selectAll
-        public var deselectAll  = Action.deselectAll
-    }
-    
-    public var wrappedValue: Value {
-        Value()
-    }
+extension KeyboardShortcut {
+    internal static let commandO: KeyboardShortcut = .init("o", modifiers: [.command])
+    internal static let commandShiftO: KeyboardShortcut = .init("o", modifiers: [.command, .shift])
 }
