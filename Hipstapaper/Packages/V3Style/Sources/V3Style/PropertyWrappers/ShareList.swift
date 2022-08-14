@@ -25,82 +25,60 @@
 //
 
 import SwiftUI
+import Umbrella
 
 @propertyWrapper
 public struct ShareList: DynamicProperty {
-    
-    public enum Icon {
-        case single, multi, error
+
+    public struct Value {
+        public func enabled(subtitle: LocalizedString) -> some ActionStyle {
+            ActionStyleImp(modifier: ModifierSubtitle(subtitle: subtitle))
+        }
+        public func disabled(subtitle: LocalizedString) -> some ActionStyle {
+            ActionStyleImp(modifier: ModifierCombo(m1: ModifierSubtitle(subtitle: subtitle),
+                                                   m2: ModifierDisabledFake()))
+        }
+        public var copy: some ActionStyle = ActionStyleImp(
+            label: .iconOnly,
+            modifier: ModifierButtonStyle(style: .bordered)
+        )
+        public var popoverSize: some ViewModifier = PopoverSize(size: .medium)
     }
     
     public init() {}
-    
-    public struct Value {
-        
-        public var popoverSize: some ViewModifier = PopoverSize(size: .medium)
-        
-        public func copyButton(action: @escaping () -> Void) -> some View {
-            return Action.copy.button("", style: .icon, action: action)
-                         .buttonStyle(.bordered)
-        }
-        
-        public func shareLabel(icon: Icon,
-                               @ViewBuilder title: () -> some View,
-                               @ViewBuilder subtitle: () -> some View,
-                               @ViewBuilder accessory: () -> some View)
-                               -> some View
-        {
-            return Label {
-                HStack {
-                    VStack(alignment: .leading, spacing: .labelVSpacingSmall) {
-                        title()
-                        subtitle()
-                            .font(.small)
-                    }
-                    accessory()
-                }
-            } icon: {
-                switch icon {
-                case .single:
-                    Image(systemName: SystemImage.share.rawValue)
-                case .multi:
-                    Image(systemName: SystemImage.shareMulti.rawValue)
-                case .error:
-                    Image(systemName: SystemImage.shareError.rawValue)
-                }
-            }
-            .font(.normal)
-            .lineLimit(1)
-            .if(icon == .error) {
-                $0.modifier(FakeDisabled())
-            }
-        }
-    }
     
     public var wrappedValue: Value {
         Value()
     }
 }
 
-extension ShareList.Value {
-    public func shareLabel(icon: ShareList.Icon,
-                           @ViewBuilder title: () -> some View)
-                           -> some View
-    {
-        self.shareLabel(icon: icon,
-                        title: title,
-                        subtitle: { EmptyView() },
-                        accessory: { EmptyView() })
+fileprivate struct ModifierCombo<M1: ViewModifier, M2: ViewModifier>: ViewModifier {
+    private let m1: M1
+    private let m2: M2
+    fileprivate init(m1: M1, m2: M2) {
+        self.m1 = m1
+        self.m2 = m2
     }
-    
-    public func shareLabel(icon: ShareList.Icon,
-                           @ViewBuilder title: () -> some View,
-                           @ViewBuilder subtitle: () -> some View)
-                           -> some View
-    {
-        self.shareLabel(icon: icon,
-                        title: title,
-                        subtitle: subtitle,
-                        accessory: { EmptyView() })
+    fileprivate func body(content: Content) -> some View {
+        content
+            .modifier(m1)
+            .modifier(m2)
+    }
+}
+
+fileprivate struct ModifierSubtitle: ViewModifier {
+    private let subtitle: LocalizedString
+    fileprivate init(subtitle: LocalizedString) {
+        self.subtitle = subtitle
+    }
+    fileprivate func body(content: Content) -> some View {
+        VStack(alignment: .listRowSeparatorLeading, spacing: .labelVSpacingSmall) {
+            content
+            Text(self.subtitle)
+                .font(.small)
+        }
+        // TODO: Figure out why this is causing a layout issue
+        .lineLimit(1)
+        .truncationMode(.middle)
     }
 }

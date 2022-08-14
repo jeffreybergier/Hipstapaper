@@ -84,4 +84,5 @@ public enum Phrase: LocalizationKey {
     case noSelectionWebsite     = "Phrase.NoWebsiteSelection"
     case noTags                 = "Phrase.NoTags"
     case noWebsites             = "Phrase.NoWebsites"
+    case copyToClipboard        = "Phrase.CopyToClipboard"
 }

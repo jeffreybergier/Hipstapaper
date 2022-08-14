@@ -31,22 +31,41 @@ import Umbrella
 public struct ShareList: DynamicProperty {
     
     public struct Value {
-        public var title: LocalizedString
-        public var done: LocalizedString
-        public var untitled: LocalizedString
-        public var shareAll: LocalizedString
-        public var shareError: LocalizedString
-        public var itemsCount: (Int) -> LocalizedString
+        public var title:              LocalizedString
+        public var done:               LocalizedString
+        public var shareErrorSubtitle: LocalizedString
+        public var itemsCount:         (Int) -> LocalizedString
+
+        public var multi:  ActionLocalization
+        public var single: ActionLocalization
+        public var copy:   ActionLocalization
+        public var error:  ActionLocalization
+        
+        public var singleName: (String?) -> ActionLocalization
+        public var errorName: (String?) -> ActionLocalization
         
         internal init(_ b: LocalizeBundle) {
-            self.title      = b.localized(key: Noun.share.rawValue)
-            self.done       = b.localized(key: Verb.done.rawValue)
-            self.untitled   = b.localized(key: Noun.untitled.rawValue)
-            self.shareAll   = b.localized(key: Verb.shareAll.rawValue)
-            self.shareError = b.localized(key: Phrase.shareError.rawValue)
-            self.itemsCount = {
+            self.title              = b.localized(key: Noun.share.rawValue)
+            self.done               = b.localized(key: Verb.done.rawValue)
+            self.shareErrorSubtitle = b.localized(key: Phrase.shareError.rawValue)
+            self.itemsCount      = {
                 // TODO: improve to use strings dict
-                return String(describing: $0) + " " + "websites(s)"
+                return String(describing: $0) + " " + "websites"
+            }
+            
+            self.multi      = .shareMulti(b)
+            self.single     = .shareSingle(b)
+            self.copy       = .copyToClipboard(b)
+            self.error      = .shareError(b)
+            self.singleName = {
+                var output = ActionLocalization.shareSingle(b)
+                output.title = $0 ?? b.localized(key: Noun.untitled.rawValue)
+                return output
+            }
+            self.errorName = {
+                var output = ActionLocalization.shareError(b)
+                output.title = $0 ?? b.localized(key: Noun.untitled.rawValue)
+                return output
             }
         }
     }

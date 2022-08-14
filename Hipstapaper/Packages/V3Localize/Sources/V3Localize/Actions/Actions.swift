@@ -93,12 +93,6 @@ extension ActionLocalization {
               image: .init(.archiveNo),
               shortcut: .commandOptionR)
     }
-    internal static func share(_ b: LocalizeBundle) -> ActionLocalization {
-        .init(title: b.localized(key: Verb.share.rawValue),
-              hint:  b.localized(key: Phrase.share.rawValue),
-              image: .init(.share),
-              shortcut: .commandShiftI)
-    }
     internal static func tagApply(_ b: LocalizeBundle) -> ActionLocalization {
         .init(title: b.localized(key: Verb.tagApply.rawValue),
               hint:  b.localized(key: Phrase.addAndRemoveTags.rawValue),
@@ -179,6 +173,35 @@ extension ActionLocalization {
         .init(title: b.localized(key: Verb.sortDateCreatedOldest.rawValue),
               hint:  b.localized(key: Phrase.sortDateCreatedOldest.rawValue),
               image: .init(.calendarFill),
+              shortcut: nil)
+    }
+    internal static func share(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.share.rawValue),
+              hint:  b.localized(key: Phrase.share.rawValue),
+              image: .init(.share),
+              shortcut: .commandShiftI)
+    }
+    internal static func shareMulti(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.shareAll.rawValue),
+              hint:  b.localized(key: Phrase.share.rawValue),
+              image: .init(.shareMulti),
+              shortcut: nil)
+    }
+    internal static func shareSingle(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.share.rawValue),
+              hint:  b.localized(key: Phrase.share.rawValue),
+              image: .init(.share),
+              shortcut: nil)
+    }
+    internal static func shareError(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.shareAll.rawValue),
+              image: .init(.shareError),
+              shortcut: nil)
+    }
+    internal static func copyToClipboard(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.copyToClipboard.rawValue),
+              hint: b.localized(key: Phrase.copyToClipboard.rawValue),
+              image: .init(.paperclip),
               shortcut: nil)
     }
 }

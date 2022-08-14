@@ -81,6 +81,7 @@
 "Verb.ClearAll"               = "Clear All";
 "Verb.SelectAll"              = "Select All";
 "Verb.DeselectAll"            = "Deselect All";
+"Verb.CopyToClipboard"        = "Copy";
 
 //
 //
@@ -188,3 +189,4 @@
 "Phrase.errorCloudSync"         = "There was an error while syncing with iCloud.";
 "Phrase.NoTags"                 = "No Tags";
 "Phrase.NoWebsites"             = "No Websites";
+"Phrase.CopyToClipboard"        = "Copy to clipboard";

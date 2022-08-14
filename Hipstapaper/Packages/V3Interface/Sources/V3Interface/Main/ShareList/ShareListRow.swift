@@ -46,22 +46,19 @@ internal struct ShareListRow: View {
     internal var body: some View {
         self.itemURL.view { url in
             ShareLink(item: url) {
-                self.style.shareLabel(icon: .single) {
-                    JSBText(self.text.untitled, text: self.item?.title)
-                } subtitle: {
-                    Text(url.absoluteString)
-                } accessory: {
-                    self.style.copyButton {
+                HStack {
+                    self.style.enabled(subtitle: url.absoluteString)
+                        .action(text: self.text.singleName(self.item?.title))
+                        .label
+                    self.style.copy.action(text: self.text.copy).button {
                         JSBPasteboard.set(title: self.item?.title, url: url)
                     }
                 }
             }
         } onNIL: {
-            self.style.shareLabel(icon: .error) {
-                JSBText(self.text.untitled, text: self.item?.title)
-            } subtitle: {
-                Text(self.text.shareError)
-            }
+            self.style.disabled(subtitle: self.text.shareErrorSubtitle)
+                .action(text: self.text.errorName(self.item?.title))
+                .label
         }
         .onLoadChange(of: self.identifier) {
             _item.setIdentifier($0)

@@ -29,20 +29,25 @@ import Umbrella
 
 internal let ActionStyleDefault:      some ActionStyle = ActionStyleImp()
 /// Fake appearance style for use on Labels where there is no "real" disabled state
-internal let ActionStyleFakeDisabled: some ActionStyle = ActionStyleImp(modifier: FakeDisabled())
+internal let ActionStyleFakeDisabled: some ActionStyle = ActionStyleImp(modifier: ModifierDisabledFake())
 internal let ActionStyleDestructive:  some ActionStyle = ActionStyleImp(button: .destructive)
 
 // TODO: Make these internal
 // for some reason there is a build error
 // when building for release when they are internal
 
-public struct ButtonProminent: ViewModifier {
+public struct ModifierButtonStyle<S: PrimitiveButtonStyle>: ViewModifier {
+    private let style: S
+    public init(style: S) {
+        self.style = style
+    }
     public func body(content: Content) -> some View {
-        content.buttonStyle(.borderedProminent)
+        content
+            .buttonStyle(self.style)
     }
 }
 
-public struct FakeDisabled: ViewModifier {
+public struct ModifierDisabledFake: ViewModifier {
     @Environment(\.colorScheme) private var scheme
     public func body(content: Content) -> some View {
         content

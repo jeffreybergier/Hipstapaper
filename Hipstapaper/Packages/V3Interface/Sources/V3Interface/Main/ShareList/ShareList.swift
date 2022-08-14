@@ -54,18 +54,14 @@ internal struct ShareList: View {
             Form {
                 self.allItems.view { urls in
                     ShareLink(items: urls) {
-                        self.style.shareLabel(icon: .multi) {
-                            Text(self.text.shareAll)
-                        } subtitle: {
-                            Text(self.text.itemsCount(urls.count))
-                        }
+                        self.style.enabled(subtitle: self.text.itemsCount(urls.count))
+                            .action(text: self.text.multi)
+                            .label
                     }
                 } onEmpty: {
-                    self.style.shareLabel(icon: .error) {
-                        Text(self.text.shareAll)
-                    } subtitle: {
-                        Text(self.text.shareError)
-                    }
+                    self.style.disabled(subtitle: self.text.shareErrorSubtitle)
+                        .action(text: self.text.error)
+                        .label
                 }
                 ForEach(self.selectionA) { identifier in
                     ShareListRow(identifier)
