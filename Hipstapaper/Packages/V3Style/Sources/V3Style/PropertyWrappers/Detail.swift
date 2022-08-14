@@ -32,7 +32,8 @@ public struct Detail: DynamicProperty {
         
     public struct Value {
         public var toolbar:  some ActionStyle = ActionStyleDefault
-        public var disabled: some ActionStyle = ActionStyleDisabled
+        /// Fake appearance style for use on Labels where there is no "real" disabled state
+        public var disabled: some ActionStyle = ActionStyleFakeDisabled
     }
     
     public init() {}
