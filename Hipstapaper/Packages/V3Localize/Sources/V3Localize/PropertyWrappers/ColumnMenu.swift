@@ -31,14 +31,14 @@ import Umbrella
 public struct ColumnMenu: DynamicProperty {
     
     public struct Value {
-        public var menu: LocalizedString
-        public var dateCreated: LocalizedString
-        public var dateModified: LocalizedString
+        public var menu:         ActionLocalization
+        public var dateCreated:  ActionLocalization
+        public var dateModified: ActionLocalization
         
         internal init(_ b: LocalizeBundle) {
-            self.menu = b.localized(key: Verb.column.rawValue)
-            self.dateCreated = b.localized(key: Verb.dateCreated.rawValue)
-            self.dateModified = b.localized(key: Verb.dateModified.rawValue)
+            self.menu         = .columnMenu(b)
+            self.dateCreated  = .columnDateCreated(b)
+            self.dateModified = .columnDateModified(b)
         }
     }
     

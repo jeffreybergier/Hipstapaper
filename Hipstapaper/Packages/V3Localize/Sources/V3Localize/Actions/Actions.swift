@@ -222,6 +222,24 @@ extension ActionLocalization {
               image: .init(.filterNo),
               shortcut: nil)
     }
+    internal static func columnMenu(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.column.rawValue),
+              hint: nil, // TODO: Add phrase
+              image: .init(.filterNo),
+              shortcut: nil)
+    }
+    internal static func columnDateCreated(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Noun.dateCreated.rawValue),
+              hint: nil, // TODO: Add phrase
+              image: .init(.columnCircleEmpty),
+              shortcut: nil)
+    }
+    internal static func columnDateModified(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Noun.dateModified.rawValue),
+              hint: nil, // TODO: Add phrase
+              image: .init(.columnCircleFill),
+              shortcut: nil)
+    }
 }
 
 import Umbrella

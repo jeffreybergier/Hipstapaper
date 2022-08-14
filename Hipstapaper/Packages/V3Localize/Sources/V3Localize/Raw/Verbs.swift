@@ -62,8 +62,6 @@ public enum Verb: LocalizationKey {
     case goForward              = "Verb.GoForward"
     case iCloud                 = "Verb.iCloud"
     case column                 = "Verb.Column"
-    case dateModified           = "Verb.Date Modified"
-    case dateCreated            = "Verb.Date Created"
     case sort                   = "Verb.Sort"
     case errorsPresent          = "Verb.ErrorsPresent"
     case clearAll               = "Verb.ClearAll"

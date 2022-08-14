@@ -37,15 +37,11 @@ internal struct ColumnMenu: View {
     
     internal var body: some View {
         Picker(selection: self.selectionMap) {
-            self.style.dateModified
-                .label(self.text.dateModified)
-                .tag(true)
-            self.style.dateCreated
-                .label(self.text.dateCreated)
-                .tag(false)
+            self.style.picker.action(text: self.text.dateModified).label.tag(true)
+            self.style.picker.action(text: self.text.dateCreated).label.tag(false)
         } label: {
-            // TODO: Figure out how to make this show in toolbar
-            self.style.menu.label(self.text.menu)
+            // This is ignored when its in the toolbar
+            self.style.picker.action(text: self.text.menu).label
         }
     }
     

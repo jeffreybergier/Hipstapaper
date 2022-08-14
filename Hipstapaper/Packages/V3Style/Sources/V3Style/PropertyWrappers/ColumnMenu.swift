@@ -25,6 +25,7 @@
 //
 
 import SwiftUI
+import Umbrella
 
 @propertyWrapper
 public struct ColumnMenu: DynamicProperty {
@@ -32,9 +33,7 @@ public struct ColumnMenu: DynamicProperty {
     public init() {}
     
     public struct Value {
-        public var menu = Action.columnGeneric
-        public var dateModified = Action.columnFill
-        public var dateCreated = Action.columnEmpty
+        public var picker: some ActionStyle = ActionStyleDefault
     }
     
     public var wrappedValue: Value {

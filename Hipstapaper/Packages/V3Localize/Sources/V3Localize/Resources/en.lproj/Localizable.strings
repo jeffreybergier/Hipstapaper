@@ -67,8 +67,6 @@
 "Verb.EditWebsite"            = "Edit Websites";
 "Verb.iCloud"                 = "iCloud";
 "Verb.Column"                 = "Table Column";
-"Verb.Date Modified"          = "Date Modified";
-"Verb.Date Created"           = "Date Added";
 "Verb.AddChoice"              = "Add";
 "Verb.Sort"                   = "Sort";
 "Verb.ErrorsPresent"          = "Show Errors";
