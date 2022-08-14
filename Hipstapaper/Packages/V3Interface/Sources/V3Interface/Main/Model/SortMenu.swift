@@ -72,7 +72,7 @@ internal struct SortMenu: View {
                 }
             }
         } label: {
-            // TODO: Figure out how to make this show in toolbar
+            // This is ignored when its in the toolbar
             self.style.picker.action(text: self.text.menu).label
         }
     }

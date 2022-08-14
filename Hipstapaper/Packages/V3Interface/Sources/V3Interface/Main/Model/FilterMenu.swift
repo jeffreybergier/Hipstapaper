@@ -37,13 +37,11 @@ internal struct FilterMenu: View {
     
     internal var body: some View {
         Picker(selection: self.$query.isOnlyNotArchived) {
-            self.style.filterYes.label(self.text.filterYes)
-                .tag(true)
-            self.style.filterNo.label(self.text.filterNo)
-                .tag(false)
+            self.style.picker.action(text: self.text.filterYes).label.tag(true)
+            self.style.picker.action(text: self.text.filterNo).label.tag(false)
         } label: {
-            // TODO: Figure out how to make this show in toolbar
-            self.style.title.label(self.text.title)
+            // This is ignored when its in the toolbar
+            self.style.picker.action(text: self.text.menu).label
         }
     }
 }

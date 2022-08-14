@@ -71,12 +71,6 @@
 "Verb.Date Created"           = "Date Added";
 "Verb.AddChoice"              = "Add";
 "Verb.Sort"                   = "Sort";
-"Verb.SortDateModifiedNewest" = "Modified First";
-"Verb.SortDateModifiedOldest" = "Modified Last";
-"Verb.SortDateCreatedNewest"  = "Added First";
-"Verb.SortDateCreatedOldest"  = "Added Last";
-"Verb.SortTitleA"             = "‘A’ Titles First";
-"Verb.SortTitleZ"             = "‘A’ Titles Last";
 "Verb.ErrorsPresent"          = "Show Errors";
 "Verb.ClearAll"               = "Clear All";
 "Verb.SelectAll"              = "Select All";
@@ -126,6 +120,12 @@
 "Noun.DateCreated"   = "Date Added";
 "Noun.DateModified"  = "Date Modified";
 "Noun.Dash"          = "–";
+"Noun.SortDateModifiedNewest" = "Modified First";
+"Noun.SortDateModifiedOldest" = "Modified Last";
+"Noun.SortDateCreatedNewest"  = "Added First";
+"Noun.SortDateCreatedOldest"  = "Added Last";
+"Noun.SortTitleA"             = "‘A’ Titles First";
+"Noun.SortTitleZ"             = "‘A’ Titles Last";
 
 //
 //
@@ -145,8 +145,9 @@
 "Phrase.SortDateCreatedOldest"  = "Show most recently added last";
 "Phrase.SortTitleA"             = "Show page titles starting with A first";
 "Phrase.SortTitleZ"             = "Show page titles starting with Z first";
-"Phrase.FilterA"                = "Show all items";
-"Phrase.FilterB"                = "Show unread items";
+"Phrase.Filter"                 = "Show all items or only unread items";
+"Phrase.FilterNo"               = "Show all items";
+"Phrase.FilterYes"              = "Show unread items";
 "Phrase.ErrorScreenshot"        = "An error ocurred when attempting to capture the thumbnail.";
 "Phrase.ErrorConvertImage"      = "An error ocurred when attempting to convert the thumbnail into a compatible format.";
 "Phrase.ImageSize"              = "An error ocurred when saving because the thumbnail was too large.";

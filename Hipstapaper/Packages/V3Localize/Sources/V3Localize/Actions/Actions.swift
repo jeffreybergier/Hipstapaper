@@ -140,37 +140,37 @@ extension ActionLocalization {
               shortcut: nil)
     }
     internal static func sortTitleA(_ b: LocalizeBundle) -> ActionLocalization {
-        .init(title: b.localized(key: Verb.sortTitleA.rawValue),
+        .init(title: b.localized(key: Noun.sortTitleA.rawValue),
               hint:  b.localized(key: Phrase.sortTitleA.rawValue),
               image: .init(.document),
               shortcut: nil)
     }
     internal static func sortTitleZ(_ b: LocalizeBundle) -> ActionLocalization {
-        .init(title: b.localized(key: Verb.sortTitleZ.rawValue),
+        .init(title: b.localized(key: Noun.sortTitleZ.rawValue),
               hint:  b.localized(key: Phrase.sortTitleZ.rawValue),
               image: .init(.documentFill),
               shortcut: nil)
     }
     internal static func sortDateModifiedNewest(_ b: LocalizeBundle) -> ActionLocalization {
-        .init(title: b.localized(key: Verb.sortDateModifiedNewest.rawValue),
+        .init(title: b.localized(key: Noun.sortDateModifiedNewest.rawValue),
               hint:  b.localized(key: Phrase.sortDateModifiedNewest.rawValue),
               image: .init(.calendar),
               shortcut: nil)
     }
     internal static func sortDateModifiedOldest(_ b: LocalizeBundle) -> ActionLocalization {
-        .init(title: b.localized(key: Verb.sortDateModifiedOldest.rawValue),
+        .init(title: b.localized(key: Noun.sortDateModifiedOldest.rawValue),
               hint:  b.localized(key: Phrase.sortDateModifiedOldest.rawValue),
               image: .init(.calendarFill),
               shortcut: nil)
     }
     internal static func sortDateCreatedNewest(_ b: LocalizeBundle) -> ActionLocalization {
-        .init(title: b.localized(key: Verb.sortDateCreatedNewest.rawValue),
+        .init(title: b.localized(key: Noun.sortDateCreatedNewest.rawValue),
               hint:  b.localized(key: Phrase.sortDateCreatedNewest.rawValue),
               image: .init(.calendar),
               shortcut: nil)
     }
     internal static func sortDateCreatedOldest(_ b: LocalizeBundle) -> ActionLocalization {
-        .init(title: b.localized(key: Verb.sortDateCreatedOldest.rawValue),
+        .init(title: b.localized(key: Noun.sortDateCreatedOldest.rawValue),
               hint:  b.localized(key: Phrase.sortDateCreatedOldest.rawValue),
               image: .init(.calendarFill),
               shortcut: nil)
@@ -202,6 +202,24 @@ extension ActionLocalization {
         .init(title: b.localized(key: Verb.copyToClipboard.rawValue),
               hint: b.localized(key: Phrase.copyToClipboard.rawValue),
               image: .init(.paperclip),
+              shortcut: nil)
+    }
+    internal static func filter(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.filter.rawValue),
+              hint: b.localized(key: Phrase.filter.rawValue),
+              image: .init(.filterNo),
+              shortcut: nil)
+    }
+    internal static func filterYes(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Noun.unreadItems.rawValue),
+              hint: b.localized(key: Phrase.filterYes.rawValue),
+              image: .init(.filterYes),
+              shortcut: nil)
+    }
+    internal static func filterNo(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Noun.allItems.rawValue),
+              hint: b.localized(key: Phrase.filterNo.rawValue),
+              image: .init(.filterNo),
               shortcut: nil)
     }
 }

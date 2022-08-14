@@ -25,6 +25,7 @@
 //
 
 import SwiftUI
+import Umbrella
 
 @propertyWrapper
 public struct FilterMenu: DynamicProperty {
@@ -32,9 +33,7 @@ public struct FilterMenu: DynamicProperty {
     public init() {}
     
     public struct Value {
-        public var title     = Action.filterNo
-        public var filterNo  = Action.filterNo
-        public var filterYes = Action.filterYes
+        public var picker: some ActionStyle = ActionStyleDefault
     }
     
     public var wrappedValue: Value {

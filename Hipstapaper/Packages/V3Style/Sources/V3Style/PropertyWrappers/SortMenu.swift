@@ -33,7 +33,7 @@ public struct SortMenu: DynamicProperty {
     public init() {}
     
     public struct Value {
-        public var picker:  some ActionStyle = ActionStyleDefault
+        public var picker: some ActionStyle = ActionStyleDefault
     }
     
     public var wrappedValue: Value {

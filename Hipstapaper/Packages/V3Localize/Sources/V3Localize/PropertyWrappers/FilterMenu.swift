@@ -31,14 +31,14 @@ import Umbrella
 public struct FilterMenu: DynamicProperty {
     
     public struct Value {
-        public var title:     LocalizedString
-        public var filterNo:  LocalizedString
-        public var filterYes: LocalizedString
+        public var menu:      ActionLocalization
+        public var filterNo:  ActionLocalization
+        public var filterYes: ActionLocalization
         
         internal init(_ b: LocalizeBundle) {
-            self.title     = b.localized(key: Verb.filter.rawValue)
-            self.filterNo  = b.localized(key: Noun.allItems.rawValue)
-            self.filterYes = b.localized(key: Noun.unreadItems.rawValue)
+            self.menu      = .filter(b)
+            self.filterNo  = .filterNo(b)
+            self.filterYes = .filterYes(b)
         }
     }
     
