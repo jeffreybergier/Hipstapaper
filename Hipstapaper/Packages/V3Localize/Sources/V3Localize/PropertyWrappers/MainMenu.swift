@@ -31,21 +31,37 @@ import Umbrella
 public struct MainMenu: DynamicProperty {
     
     public struct Value {
-        public var openInApp:      LocalizationKey = Verb.openInApp.rawValue
-        public var openExternal:   LocalizationKey = Verb.openExternal.rawValue
-        public var archiveYes:     LocalizationKey = Verb.archiveYes.rawValue
-        public var archiveNo:      LocalizationKey = Verb.archiveNo.rawValue
-        public var share:          LocalizationKey = Verb.share.rawValue
-        public var tagApply:       LocalizationKey = Verb.tagApply.rawValue
-        public var websiteAdd:     LocalizationKey = Verb.addWebsite.rawValue
-        public var tagAdd:         LocalizationKey = Verb.addTag.rawValue
-        public var websiteEdit:    LocalizationKey = Verb.editWebsite.rawValue
-        public var tagEdit:        LocalizationKey = Verb.editTags.rawValue
-        public var websiteDelete:  LocalizationKey = Verb.deleteWebsite.rawValue
-        public var tagDelete:      LocalizationKey = Verb.deleteTag.rawValue
-        public var error:          LocalizationKey = Verb.errorsPresent.rawValue
-        public var selectAll:      LocalizationKey = Verb.selectAll.rawValue
-        public var deselectAll:    LocalizationKey = Verb.deselectAll.rawValue
+        public var openInApp:     (LocalizeBundle) -> ActionLocalization
+        public var openExternal:  (LocalizeBundle) -> ActionLocalization
+        public var archiveYes:    (LocalizeBundle) -> ActionLocalization
+        public var archiveNo:     (LocalizeBundle) -> ActionLocalization
+        public var share:         (LocalizeBundle) -> ActionLocalization
+        public var tagApply:      (LocalizeBundle) -> ActionLocalization
+        public var websiteAdd:    (LocalizeBundle) -> ActionLocalization
+        public var tagAdd:        (LocalizeBundle) -> ActionLocalization
+        public var websiteEdit:   (LocalizeBundle) -> ActionLocalization
+        public var tagEdit:       (LocalizeBundle) -> ActionLocalization
+        public var websiteDelete: (LocalizeBundle) -> ActionLocalization
+        public var tagDelete:     (LocalizeBundle) -> ActionLocalization
+        public var deselectAll:   (LocalizeBundle) -> ActionLocalization
+        public var error:         (LocalizeBundle) -> ActionLocalization
+        
+        public init() {
+            self.openInApp     = { .convert(raw: .raw_openInApp,     b: $0) }
+            self.openExternal  = { .convert(raw: .raw_openExternal,  b: $0) }
+            self.archiveYes    = { .convert(raw: .raw_archiveYes,    b: $0) }
+            self.archiveNo     = { .convert(raw: .raw_archiveNo,     b: $0) }
+            self.share         = { .convert(raw: .raw_share,         b: $0) }
+            self.tagApply      = { .convert(raw: .raw_tagApply,      b: $0) }
+            self.websiteAdd    = { .convert(raw: .raw_addWebsite,    b: $0) }
+            self.tagAdd        = { .convert(raw: .raw_addTag,        b: $0) }
+            self.websiteEdit   = { .convert(raw: .raw_editWebsite,   b: $0) }
+            self.tagEdit       = { .convert(raw: .raw_editTag,       b: $0) }
+            self.websiteDelete = { .convert(raw: .raw_deleteWebsite, b: $0) }
+            self.tagDelete     = { .convert(raw: .raw_deleteTag,     b: $0) }
+            self.deselectAll   = { .convert(raw: .raw_deselectAll,   b: $0) }
+            self.error         = { .convert(raw: .raw_errorsPresent, b: $0) }
+        }
     }
         
     public init() {}

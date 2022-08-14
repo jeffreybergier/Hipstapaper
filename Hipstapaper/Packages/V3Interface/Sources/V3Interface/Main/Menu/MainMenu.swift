@@ -62,88 +62,87 @@ internal struct MainMenu: Commands {
     
     internal var body: some Commands {
         CommandGroup(replacing: .newItem) {
-            self.style.websiteAdd.button(self.text(\.websiteAdd),
-                                         enabled: self.controller)
+            self.style.toolbar.action(text: self.text(\.websiteAdd))
+                .button(item: self.controller)
             { _ in
                 self.state.push.websiteAdd = true
             }
-            self.style.tagAdd.button(self.text(\.tagAdd),
-                                     enabled: self.controller)
+            self.style.toolbar.action(text: self.text(\.tagAdd))
+                .button(item: self.controller)
             { _ in
                 self.state.push.tagAdd = true
             }
         }
         CommandGroup(after: .newItem) {
             Divider()
-            self.style.openInApp.button(self.text(\.openInApp),
-                                        enabled: self.state.pull.openInApp?.single)
-            { _ in
-                self.state.push.openInApp = self.state.pull.openInApp
-
+            self.style.toolbar.action(text: self.text(\.openInApp))
+                .button(item: self.state.pull.openInApp?.single)
+            {
+                self.state.push.openInApp = .single($0)
             }
-            self.style.openExternal.button(self.text(\.openExternal),
-                                           enabled: self.state.pull.openExternal?.single)
-            { _ in
-                self.state.push.openExternal = self.state.pull.openExternal
+            self.style.toolbar.action(text: self.text(\.openExternal))
+                .button(item: self.state.pull.openExternal?.single)
+            {
+                self.state.push.openExternal = .single($0)
             }
         }
         CommandGroup(before: .importExport) {
-            self.style.share.button(self.text(\.share),
-                                    enabled: self.state.pull.share)
+            self.style.toolbar.action(text: self.text(\.share))
+                .button(items: self.state.pull.share)
             {
                 self.state.push.share = $0
             }
         }
         CommandGroup(before: .pasteboard) {
             Divider()
-            self.style.archiveYes.button(self.text(\.archiveYes),
-                                         enabled: self.state.pull.archiveYes)
+            self.style.toolbar.action(text: self.text(\.archiveYes))
+                .button(items: self.state.pull.archiveYes)
             {
                 self.state.push.archiveYes = $0
             }
-            self.style.archiveNo.button(self.text(\.archiveNo),
-                                        enabled: self.state.pull.archiveNo)
+            self.style.toolbar.action(text: self.text(\.archiveNo))
+                .button(items: self.state.pull.archiveNo)
             {
                 self.state.push.archiveNo = $0
             }
-            self.style.tagApply.button(self.text(\.tagApply),
-                                       enabled: self.state.pull.tagApply)
+            self.style.toolbar.action(text: self.text(\.tagApply))
+                .button(items: self.state.pull.tagApply)
             {
                 self.state.push.tagApply = $0
             }
-            self.style.websiteEdit.button(self.text(\.websiteEdit),
-                                          enabled: self.state.pull.websiteEdit)
+            self.style.toolbar.action(text: self.text(\.websiteEdit))
+                .button(items: self.state.pull.websiteEdit)
             {
                 self.state.push.websiteEdit = $0
             }
-            self.style.tagEdit.button(self.text(\.tagEdit),
-                                      enabled: self.state.pull.tagsEdit)
+            self.style.toolbar.action(text: self.text(\.tagEdit))
+                .button(items: self.state.pull.tagsEdit)
             {
                 self.state.push.tagsEdit = $0
             }
         }
         CommandGroup(after: .pasteboard) {
             Divider()
-            self.style.deselectAll.button(self.text(\.deselectAll),
-                                        enabled: self.state.pull.deselectAll)
+            self.style.toolbar.action(text: self.text(\.deselectAll))
+                .button(items: self.state.pull.deselectAll)
             {
                 self.state.push.deselectAll = $0
             }
             Divider()
-            self.style.websiteDelete.button(self.text(\.websiteDelete),
-                                            enabled: self.state.pull.websiteDelete)
+            self.style.toolbar.action(text: self.text(\.websiteDelete))
+                .button(items: self.state.pull.websiteDelete)
             {
                 self.state.push.websiteDelete = $0
             }
-            self.style.tagDelete.button(self.text(\.tagDelete),
-                                        enabled: self.state.pull.tagDelete)
+            self.style.toolbar.action(text: self.text(\.tagDelete))
+                .button(items: self.state.pull.tagDelete)
             {
                 self.state.push.tagDelete = $0
             }
         }
         CommandGroup(after: .sidebar) {
-            self.style.error.button(self.text(\.error),
-                                    enabled: self.state.pull.showErrors)
+            self.style.toolbar.action(text: self.text(\.error))
+                .button(isEnabled: self.state.pull.showErrors)
             {
                 self.state.push.showErrors = true
             }
@@ -151,7 +150,7 @@ internal struct MainMenu: Commands {
         }
     }
     
-    private func text(_ key: KeyPath<V3Localize.MainMenu.Value, LocalizationKey>) -> LocalizedString {
-        self.localizeBundle.localized(key: self.localizeKeys[keyPath: key])
+    private func text(_ key: KeyPath<V3Localize.MainMenu.Value, (LocalizeBundle) -> ActionLocalization>) -> ActionLocalization {
+        self.localizeKeys[keyPath: key](self.localizeBundle)
     }
 }

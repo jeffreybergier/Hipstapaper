@@ -25,6 +25,7 @@
 //
 
 import SwiftUI
+import Umbrella
 
 @propertyWrapper
 public struct MainMenu: DynamicProperty {
@@ -32,21 +33,7 @@ public struct MainMenu: DynamicProperty {
     public init() {}
     
     public struct Value {
-        public var openInApp     = Action.openInApp
-        public var openExternal  = Action.openExternal
-        public var archiveYes    = Action.archiveYes
-        public var archiveNo     = Action.archiveNo
-        public var share         = Action.share
-        public var tagApply      = Action.tagApply
-        public var websiteAdd    = Action.websiteAdd
-        public var tagAdd        = Action.tagAdd
-        public var websiteEdit   = Action.genericEdit
-        public var tagEdit       = Action.tagEdit
-        public var websiteDelete = Action.genericDelete
-        public var tagDelete     = Action.tagDelete
-        public var error         = Action.errorPresent
-        public var selectAll     = Action.selectAll
-        public var deselectAll   = Action.deselectAll
+        public var toolbar: some ActionStyle = ActionStyleDefault
         public func syncIndicator(_ progress: Progress) -> some ViewModifier {
             SyncIndicator(progress)
         }

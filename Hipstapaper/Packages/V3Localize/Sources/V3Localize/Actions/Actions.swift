@@ -27,29 +27,47 @@
 import Umbrella
 
 extension ActionLocalization {
-    internal static func openInApp(_ b: LocalizeBundle) -> ActionLocalization {
-        .init(title: b.localized(key: Verb.openInApp.rawValue),
-              hint:  b.localized(key: Phrase.openInApp.rawValue),
+    internal static func convert(raw: ActionLocalization, b: LocalizeBundle) -> ActionLocalization {
+        var output = raw
+        output.title = b.localized(key: raw.title)
+        output.hint = raw.hint.map { b.localized(key: $0) }
+        return output
+    }
+    internal static let raw_openInApp: ActionLocalization = {
+        .init(title: Verb.openInApp.rawValue,
+              hint:  Phrase.openInApp.rawValue,
               image: .init(.openInApp),
               shortcut: .commandO)
+    }()
+    internal static func openInApp(_ b: LocalizeBundle) -> ActionLocalization {
+        return .convert(raw: raw_openInApp, b: b)
     }
-    internal static func openExternal(_ b: LocalizeBundle) -> ActionLocalization {
-        .init(title: b.localized(key: Verb.openExternal.rawValue),
-              hint:  b.localized(key: Phrase.openExternal.rawValue),
+    internal static let raw_openExternal: ActionLocalization = {
+        .init(title: Verb.openExternal.rawValue,
+              hint:  Phrase.openExternal.rawValue,
               image: .init(.openExternal),
               shortcut: .commandShiftO)
+    }()
+    internal static func openExternal(_ b: LocalizeBundle) -> ActionLocalization {
+        return .convert(raw: raw_openExternal, b: b)
     }
-    internal static func addWebsite(_ b: LocalizeBundle) -> ActionLocalization {
-        .init(title: b.localized(key: Verb.addWebsite.rawValue),
-              hint:  b.localized(key: Phrase.addWebsite.rawValue),
+    internal static let raw_addWebsite: ActionLocalization = {
+        .init(title: Verb.addWebsite.rawValue,
+              hint:  Phrase.addWebsite.rawValue,
               image: .init(.website),
               shortcut: .commandN)
+    }()
+    internal static func addWebsite(_ b: LocalizeBundle) -> ActionLocalization {
+        .convert(raw: .raw_addWebsite, b: b)
     }
-    internal static func addTag(_ b: LocalizeBundle) -> ActionLocalization {
-        .init(title: b.localized(key: Verb.addTag.rawValue),
-              hint:  b.localized(key: Phrase.addTag.rawValue),
+    internal static let raw_addTag: ActionLocalization = {
+        .init(title: Verb.addTag.rawValue,
+              hint:  Phrase.addTag.rawValue,
               image: .init(.tag),
               shortcut: .commandShiftN)
+    }()
+    internal static func addTag(_ b: LocalizeBundle) -> ActionLocalization {
+        .convert(raw: .raw_addTag, b: b)
     }
     internal static func addChoice(_ b: LocalizeBundle) -> ActionLocalization {
         .init(title: b.localized(key: Verb.addChoice.rawValue),
@@ -57,65 +75,86 @@ extension ActionLocalization {
               image: .init(.plus),
               shortcut: .commandShiftN)
     }
-    internal static func editWebsite(_ b: LocalizeBundle) -> ActionLocalization {
-        .init(title: b.localized(key: Verb.editWebsite.rawValue),
-              hint:  b.localized(key: Phrase.editWebsiteTip.rawValue),
+    internal static let raw_editWebsite: ActionLocalization = {
+        .init(title: Verb.editWebsite.rawValue,
+              hint:  Phrase.editWebsiteTip.rawValue,
               image: .init(.editPencil),
               shortcut: .commandShiftE)
+    }()
+    internal static func editWebsite(_ b: LocalizeBundle) -> ActionLocalization {
+        .convert(raw: .raw_editWebsite, b: b)
     }
-    internal static func editTag(_ b: LocalizeBundle) -> ActionLocalization {
-        .init(title: b.localized(key: Verb.editTags.rawValue),
-              hint:  b.localized(key: Phrase.editTag.rawValue),
+    internal static let raw_editTag: ActionLocalization = {
+        .init(title: Verb.editTags.rawValue,
+              hint:  Phrase.editTag.rawValue,
               image: .init(.editPencil),
               shortcut: .commandOptionE)
+    }()
+    internal static func editTag(_ b: LocalizeBundle) -> ActionLocalization {
+        .convert(raw: .raw_editTag, b: b)
     }
+    internal static let raw_deleteWebsite: ActionLocalization = {
+        .init(title: Verb.deleteWebsite.rawValue,
+              hint:  Phrase.deleteWebsiteTip.rawValue,
+              image: .init(.deleteTrash),
+              shortcut: .commandDelete)
+    }()
     internal static func deleteWebsite(_ b: LocalizeBundle) -> ActionLocalization {
-        .init(title: b.localized(key: Verb.deleteWebsite.rawValue),
-              hint:  b.localized(key: Phrase.deleteWebsiteTip.rawValue),
-              image: .init(.deleteTrash),
-              shortcut: .commandDelete)
+        .convert(raw: .raw_deleteWebsite, b: b)
     }
+    internal static var raw_deleteTag: ActionLocalization = {
+        .init(title: Verb.deleteTag.rawValue,
+              hint:  Phrase.deleteTagTip.rawValue,
+              image: .init(.deleteTrash),
+              shortcut: .commandOptionDelete)
+    }()
     internal static func deleteTag(_ b: LocalizeBundle) -> ActionLocalization {
-        .init(title: b.localized(key: Verb.deleteTag.rawValue),
-              hint:  b.localized(key: Phrase.deleteTagTip.rawValue),
-              image: .init(.deleteTrash),
-              shortcut: .commandDelete)
+        .convert(raw: .raw_deleteTag, b: b)
     }
-    internal static func archiveYes(_ b: LocalizeBundle) -> ActionLocalization {
-        .init(title: b.localized(key: Verb.archiveYes.rawValue),
-              hint:  b.localized(key: Phrase.archive.rawValue),
+    internal static let raw_archiveYes: ActionLocalization = {
+        .init(title: Verb.archiveYes.rawValue,
+              hint:  Phrase.archive.rawValue,
               image: .init(.archiveYes),
               shortcut: .commandShiftR)
+    }()
+    internal static func archiveYes(_ b: LocalizeBundle) -> ActionLocalization {
+        return .convert(raw: raw_archiveYes, b: b)
     }
-    internal static func archiveNo(_ b: LocalizeBundle) -> ActionLocalization {
-        .init(title: b.localized(key: Verb.archiveNo.rawValue),
-              hint:  b.localized(key: Phrase.archive.rawValue),
+    internal static let raw_archiveNo: ActionLocalization = {
+        .init(title: Verb.archiveNo.rawValue,
+              hint:  Phrase.archive.rawValue,
               image: .init(.archiveNo),
               shortcut: .commandOptionR)
+    }()
+    internal static func archiveNo(_ b: LocalizeBundle) -> ActionLocalization {
+        return .convert(raw: raw_archiveNo, b: b)
     }
-    internal static func tagApply(_ b: LocalizeBundle) -> ActionLocalization {
-        .init(title: b.localized(key: Verb.tagApply.rawValue),
-              hint:  b.localized(key: Phrase.addAndRemoveTags.rawValue),
+    internal static let raw_tagApply: ActionLocalization = {
+        .init(title: Verb.tagApply.rawValue,
+              hint:  Phrase.addAndRemoveTags.rawValue,
               image: .init(.tag),
               shortcut: .commandY)
+    }()
+    internal static func tagApply(_ b: LocalizeBundle) -> ActionLocalization {
+        .convert(raw: .raw_tagApply, b: b)
     }
-    internal static func errorsPresent(_ b: LocalizeBundle) -> ActionLocalization {
-        .init(title: b.localized(key: Verb.errorsPresent.rawValue),
-              hint:  nil, // b.localized(key: Phrase.errorsPresent.rawValue) TODO: Phrase
+    internal static let raw_errorsPresent: ActionLocalization = {
+        .init(title: Verb.errorsPresent.rawValue,
+              hint:  nil, // TODO: Phrase
               image: .init(.errorGeneric),
               shortcut: .commandControlE)
+    }()
+    internal static func errorsPresent(_ b: LocalizeBundle) -> ActionLocalization {
+        .convert(raw: .raw_errorsPresent, b: b)
     }
-    internal static func selectAll(_ b: LocalizeBundle) -> ActionLocalization {
-        .init(title: b.localized(key: Verb.selectAll.rawValue),
-              hint:  nil, // b.localized(key: Phrase.errorsPresent.rawValue) TODO: Phrase
-              image: .init(.tableCellsFill),
-              shortcut: .commandOptionA)
-    }
-    internal static func deselectAll(_ b: LocalizeBundle) -> ActionLocalization {
-        .init(title: b.localized(key: Verb.deselectAll.rawValue),
-              hint:  nil, // b.localized(key: Phrase.errorsPresent.rawValue) TODO: Phrase
+    internal static let raw_deselectAll: ActionLocalization = {
+        .init(title: Verb.deselectAll.rawValue,
+              hint:  nil, // TODO: Phrase
               image: .init(.tableCellsEmpty),
               shortcut: .commandOptionA)
+    }()
+    internal static func deselectAll(_ b: LocalizeBundle) -> ActionLocalization {
+        .convert(raw: .raw_deselectAll, b: b)
     }
     internal static func noContentWebsite(_ b: LocalizeBundle) -> ActionLocalization {
         .init(title: b.localized(key: Phrase.noWebsites.rawValue),
@@ -175,11 +214,14 @@ extension ActionLocalization {
               image: .init(.calendarFill),
               shortcut: nil)
     }
-    internal static func share(_ b: LocalizeBundle) -> ActionLocalization {
-        .init(title: b.localized(key: Verb.share.rawValue),
-              hint:  b.localized(key: Phrase.share.rawValue),
+    internal static let raw_share: ActionLocalization = {
+        .init(title: Verb.share.rawValue,
+              hint:  Phrase.share.rawValue,
               image: .init(.share),
               shortcut: .commandShiftI)
+    }()
+    internal static func share(_ b: LocalizeBundle) -> ActionLocalization {
+        .convert(raw: .raw_share, b: b)
     }
     internal static func shareMulti(_ b: LocalizeBundle) -> ActionLocalization {
         .init(title: b.localized(key: Verb.shareAll.rawValue),
