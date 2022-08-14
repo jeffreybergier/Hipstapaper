@@ -30,6 +30,12 @@ import Umbrella
 public enum Phrase: LocalizationKey {
     case addChoice              = "Phrase.AddChoice"
     case sort                   = "Phrase.Sort"
+    case sortDateModifiedNewest = "Phrase.SortDateModifiedNewest"
+    case sortDateModifiedOldest = "Phrase.SortDateModifiedOldest"
+    case sortDateCreatedNewest  = "Phrase.SortDateCreatedNewest"
+    case sortDateCreatedOldest  = "Phrase.SortDateCreatedOldest"
+    case sortTitleA             = "Phrase.SortTitleA"
+    case sortTitleZ             = "Phrase.SortTitleZ"
     case filterA                = "Phrase.FilterA"
     case filterB                = "Phrase.FilterB"
     case errorScreenshot        = "Phrase.ErrorScreenshot"

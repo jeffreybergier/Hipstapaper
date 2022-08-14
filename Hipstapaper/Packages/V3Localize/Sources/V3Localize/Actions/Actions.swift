@@ -139,12 +139,48 @@ extension ActionLocalization {
         .init(title: b.localized(key: Phrase.noSelectionTag.rawValue),
               image: .init(.menu))
     }
-//    internal static func sort(_ b: LocalizeBundle) -> ActionLocalization {
-//        .init(title: b.localized(key: Verb.sort.rawValue),
-//              hint:  b.localized(key: Phrase.sort.rawValue),
-//              image: .init(.sort),
-//              shortcut: nil)
-//    }
+    internal static func sort(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.sort.rawValue),
+              hint:  b.localized(key: Phrase.sort.rawValue),
+              image: .init(.sort),
+              shortcut: nil)
+    }
+    internal static func sortTitleA(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.sortTitleA.rawValue),
+              hint:  b.localized(key: Phrase.sortTitleA.rawValue),
+              image: .init(.document),
+              shortcut: nil)
+    }
+    internal static func sortTitleZ(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.sortTitleZ.rawValue),
+              hint:  b.localized(key: Phrase.sortTitleZ.rawValue),
+              image: .init(.documentFill),
+              shortcut: nil)
+    }
+    internal static func sortDateModifiedNewest(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.sortDateModifiedNewest.rawValue),
+              hint:  b.localized(key: Phrase.sortDateModifiedNewest.rawValue),
+              image: .init(.calendar),
+              shortcut: nil)
+    }
+    internal static func sortDateModifiedOldest(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.sortDateModifiedOldest.rawValue),
+              hint:  b.localized(key: Phrase.sortDateModifiedOldest.rawValue),
+              image: .init(.calendarFill),
+              shortcut: nil)
+    }
+    internal static func sortDateCreatedNewest(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.sortDateCreatedNewest.rawValue),
+              hint:  b.localized(key: Phrase.sortDateCreatedNewest.rawValue),
+              image: .init(.calendar),
+              shortcut: nil)
+    }
+    internal static func sortDateCreatedOldest(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.sortDateCreatedOldest.rawValue),
+              hint:  b.localized(key: Phrase.sortDateCreatedOldest.rawValue),
+              image: .init(.calendarFill),
+              shortcut: nil)
+    }
 }
 
 import Umbrella

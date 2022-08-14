@@ -40,34 +40,40 @@ internal struct SortMenu: View {
             ForEach(Sort.allCases) { sort in
                 switch sort {
                 case .dateModifiedOldest:
-                    self.style.sortDateModifiedOldest
-                        .label(self.text.sortDateModifiedOldest)
+                    self.style.picker
+                        .action(text: self.text.sortDateModifiedOldest)
+                        .label
                         .tag(sort)
                 case .dateModifiedNewest:
-                    self.style.sortDateModifiedNewest
-                        .label(self.text.sortDateModifiedNewest)
+                    self.style.picker
+                        .action(text: self.text.sortDateModifiedNewest)
+                        .label
                         .tag(sort)
                 case .dateCreatedOldest:
-                    self.style.sortDateCreatedOldest
-                        .label(self.text.sortDateCreatedOldest)
+                    self.style.picker
+                        .action(text: self.text.sortDateCreatedOldest)
+                        .label
                         .tag(sort)
                 case .dateCreatedNewest:
-                    self.style.sortDateCreatedNewest
-                        .label(self.text.sortDateCreatedNewest)
+                    self.style.picker
+                        .action(text: self.text.sortDateCreatedNewest)
+                        .label
                         .tag(sort)
                 case .titleZ:
-                    self.style.sortTitleZ
-                        .label(self.text.sortTitleZ)
+                    self.style.picker
+                        .action(text: self.text.sortTitleZ)
+                        .label
                         .tag(sort)
                 case .titleA:
-                    self.style.sortTitleA
-                        .label(self.text.sortTitleA)
+                    self.style.picker
+                        .action(text: self.text.sortTitleA)
+                        .label
                         .tag(sort)
                 }
             }
         } label: {
             // TODO: Figure out how to make this show in toolbar
-            self.style.menu.label(self.text.menu)
+            self.style.picker.action(text: self.text.menu).label
         }
     }
 }

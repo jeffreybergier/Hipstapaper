@@ -25,6 +25,7 @@
 //
 
 import SwiftUI
+import Umbrella
 
 @propertyWrapper
 public struct SortMenu: DynamicProperty {
@@ -32,13 +33,7 @@ public struct SortMenu: DynamicProperty {
     public init() {}
     
     public struct Value {
-        public var menu = Action.sort
-        public var sortTitleA = Action.sortTitleA
-        public var sortTitleZ = Action.sortTitleZ
-        public var sortDateCreatedNewest = Action.sortDateNewest
-        public var sortDateCreatedOldest = Action.sortDateOldest
-        public var sortDateModifiedNewest = Action.sortDateNewest
-        public var sortDateModifiedOldest = Action.sortDateOldest
+        public var picker:  some ActionStyle = ActionStyleDefault
     }
     
     public var wrappedValue: Value {

@@ -31,22 +31,22 @@ import Umbrella
 public struct SortMenu: DynamicProperty {
     
     public struct Value {
-        public var menu: LocalizedString
-        public var sortTitleA: LocalizedString
-        public var sortTitleZ: LocalizedString
-        public var sortDateCreatedNewest: LocalizedString
-        public var sortDateCreatedOldest: LocalizedString
-        public var sortDateModifiedNewest: LocalizedString
-        public var sortDateModifiedOldest: LocalizedString
+        public var menu:                   ActionLocalization
+        public var sortTitleA:             ActionLocalization
+        public var sortTitleZ:             ActionLocalization
+        public var sortDateCreatedNewest:  ActionLocalization
+        public var sortDateCreatedOldest:  ActionLocalization
+        public var sortDateModifiedNewest: ActionLocalization
+        public var sortDateModifiedOldest: ActionLocalization
         
         internal init(_ b: LocalizeBundle) {
-            self.menu = b.localized(key: Verb.sort.rawValue)
-            self.sortTitleA = b.localized(key: Verb.sortTitleA.rawValue)
-            self.sortTitleZ = b.localized(key: Verb.sortTitleZ.rawValue)
-            self.sortDateCreatedNewest = b.localized(key: Verb.sortDateCreatedNewest.rawValue)
-            self.sortDateCreatedOldest = b.localized(key: Verb.sortDateCreatedOldest.rawValue)
-            self.sortDateModifiedNewest = b.localized(key: Verb.sortDateModifiedNewest.rawValue)
-            self.sortDateModifiedOldest = b.localized(key: Verb.sortDateModifiedOldest.rawValue)
+            self.menu = .sort(b)
+            self.sortTitleA             = .sortTitleA(b)
+            self.sortTitleZ             = .sortTitleZ(b)
+            self.sortDateCreatedNewest  = .sortDateCreatedNewest(b)
+            self.sortDateCreatedOldest  = .sortDateCreatedOldest(b)
+            self.sortDateModifiedNewest = .sortDateModifiedNewest(b)
+            self.sortDateModifiedOldest = .sortDateModifiedOldest(b)
         }
     }
     
