@@ -57,6 +57,14 @@ public struct Sidebar: DynamicProperty {
             self.menuEditTags            = .editTag(b)
             self.menuDeleteTags          = .deleteTag(b)
             self.noTags                  = .noContentTag(b)
+            
+            // TODO: Toolbar shortcuts conflict with MainMenu shortcuts
+            // Remove shortcuts for toolbar items
+            self.toolbarAddTag.shortcut     = nil
+            self.toolbarAddWebsite.shortcut = nil
+            self.toolbarAddGeneric.shortcut = nil
+            self.menuEditTags.shortcut      = nil
+            self.menuDeleteTags.shortcut    = nil
         }
     }
     

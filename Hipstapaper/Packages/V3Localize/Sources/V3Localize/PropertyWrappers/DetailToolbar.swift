@@ -53,6 +53,19 @@ public struct DetailToolbar: DynamicProperty {
             self.delete       = .deleteWebsite(b)
             self.error        = .errorsPresent(b)
             self.deselectAll  = .deselectAll(b)
+            
+            // TODO: Toolbar shortcuts conflict with MainMenu shortcuts
+            // Remove shortcuts for toolbar items
+            self.openInApp.shortcut    = nil
+            self.openExternal.shortcut = nil
+            self.archiveYes.shortcut   = nil
+            self.archiveNo.shortcut    = nil
+            self.share.shortcut        = nil
+            self.tagApply.shortcut     = nil
+            self.edit.shortcut         = nil
+            self.delete.shortcut       = nil
+            self.error.shortcut        = nil
+            self.deselectAll.shortcut  = nil
         }
     }
     
