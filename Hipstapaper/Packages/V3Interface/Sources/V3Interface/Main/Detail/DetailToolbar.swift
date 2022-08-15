@@ -30,7 +30,6 @@ import V3Model
 import V3Store
 import V3Style
 import V3Localize
-import V3WebsiteEdit
 
 internal struct DetailToolbar: ViewModifier {
 
@@ -96,17 +95,17 @@ internal struct DetailToolbar: ViewModifier {
                     self.style.toolbar.action(text: self.text.tagApply)
                         .button(items: self.state.pull.tagApply)
                     {
-                        self.state.push.tagApply = $0
+                        self.nav.detail.isTagApplyPopover = $0
                     }
-                    .modifier(WebsiteEdit.popover(self.$nav.detail.isTagApply))
+                    .modifier(WebsiteEditPopover(self.$nav.detail.isTagApplyPopover, start: .tag))
                 }
                 ToolbarItem(id: .itemShare, placement: .secondaryAction) {
                     self.style.toolbar.action(text: self.text.share)
                         .button(items: self.state.pull.share)
                     {
-                        self.state.push.share = $0
+                        self.nav.detail.isSharePopover = $0
                     }
-                    .modifier(ShareListPresentation())
+                    .modifier(ShareListPopover(self.$nav.detail.isSharePopover))
                 }
             }
             .toolbar(id: .barBottom) {

@@ -79,7 +79,7 @@ internal struct MainView: View {
                     // Modal NavigationLink for websites
             }
             .modifier(BulkActionsHelper())
-            .modifier(WebsiteEdit.sheet(self.$nav.isWebsitesEdit))
+            .modifier(WebsiteEditSheet(self.$nav.isWebsitesEdit, start: .website))
             .modifier(self.style.syncIndicator(self.controller.syncProgress.progress))
             .onReceive(self.controller.syncProgress.objectWillChange) { _ in
                 DispatchQueue.main.async {

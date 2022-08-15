@@ -26,7 +26,6 @@
 
 import SwiftUI
 import V3Store
-import V3Browser
 import V3Style
 import V3Localize
 
@@ -68,9 +67,9 @@ internal struct Detail: View {
             .modifier(DetailTitle())
             .modifier(DetailMenu())
             .modifier(DetailToolbar())
-            .sheetCover(item: self.$nav.detail.isBrowse) { ident in
-                Browser(ident)
-            }
+            .modifier(BrowserSheet(self.$nav.detail.isBrowse))
+            .modifier(ShareListSheet(self.$nav.detail.isShare))
+            .modifier(WebsiteEditSheet(self.$nav.detail.isTagApply, start: .tag))
         }
     }
 }

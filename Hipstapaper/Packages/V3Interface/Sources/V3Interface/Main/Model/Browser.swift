@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/07/09.
+//  Created by Jeffrey Bergier on 2022/08/15.
 //
 //  MIT License
 //
@@ -26,32 +26,16 @@
 
 import SwiftUI
 import V3Model
-import V3WebsiteEdit
+import V3Browser
 
-internal struct WebsiteEditPopover: ViewModifier {
-    @Binding private var selection: Website.Selection
-    private let start: WebsiteEdit.Screen
-    internal init(_ selection: Binding<Website.Selection>, start: WebsiteEdit.Screen) {
-        _selection = selection
-        self.start = start
+internal struct BrowserSheet: ViewModifier {
+    @Binding private var identifier: Website.Selection.Element?
+    internal init(_ identifier: Binding<Website.Selection.Element?>) {
+        _identifier = identifier
     }
     internal func body(content: Content) -> some View {
-        content.popover(items: self.$selection) { selection in
-            WebsiteEdit(selection: selection, start: self.start)
-        }
-    }
-}
-
-internal struct WebsiteEditSheet: ViewModifier {
-    @Binding private var selection: Website.Selection
-    private let start: WebsiteEdit.Screen
-    internal init(_ selection: Binding<Website.Selection>, start: WebsiteEdit.Screen) {
-        _selection = selection
-        self.start = start
-    }
-    internal func body(content: Content) -> some View {
-        content.sheet(items: self.$selection) { selection in
-            WebsiteEdit(selection: selection, start: self.start)
+        content.sheetCover(item: self.$identifier) { ident in
+            Browser(ident)
         }
     }
 }

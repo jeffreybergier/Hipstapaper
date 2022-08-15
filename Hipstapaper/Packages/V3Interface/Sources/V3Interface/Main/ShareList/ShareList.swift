@@ -69,6 +69,7 @@ internal struct ShareList: View {
             }
             .modifier(self.toolbar)
         }
+        .modifier(self.style.popoverSize)
         .onLoadChange(of: self.selection) {
             let result = BulkActionsQuery.openURL($0, self.controller)
             self.allItems = result.map { Array($0.multi) } ?? []
@@ -82,16 +83,26 @@ internal struct ShareList: View {
     }
 }
 
-internal struct ShareListPresentation: ViewModifier {
-    
-    @Nav private var nav
-    @V3Style.ShareList private var style
-
+internal struct ShareListPopover: ViewModifier {
+    @Binding private var selection: Website.Selection
+    internal init(_ selection: Binding<Website.Selection>) {
+        _selection = selection
+    }
     internal func body(content: Content) -> some View {
-        content.popover(items: self.$nav.detail.isShare)
-        { selection in
+        content.popover(items: self.$selection) { selection in
             ShareList(selection)
-                .modifier(self.style.popoverSize)
+        }
+    }
+}
+
+internal struct ShareListSheet: ViewModifier {
+    @Binding private var selection: Website.Selection
+    internal init(_ selection: Binding<Website.Selection>) {
+        _selection = selection
+    }
+    internal func body(content: Content) -> some View {
+        content.sheet(items: self.$selection) { selection in
+            ShareList(selection)
         }
     }
 }
