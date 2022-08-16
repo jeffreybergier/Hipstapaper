@@ -42,6 +42,8 @@ internal struct FormSingle: View {
 
     @State private var timer = Timer.publish(every: 1, on: .main, in: .common)
     @State private var timerToken: Cancellable?
+    @State private var originalURLMirror: String = ""
+    @State private var resolvedURLMirror: String = ""
     
     private let identifier: Website.Selection.Element
     
@@ -53,21 +55,21 @@ internal struct FormSingle: View {
         Form {
             self.$item.view { item in
                 Section {
-                    TextField(self.text.originalURL, text: item.originalURL.mapString())
-                        .textContentTypeURL
+                    TextField(
+                        self.text.originalURL,
+                        text: item.originalURL.mirror(string: self.$originalURLMirror)
+                    ).textContentTypeURL
                     self.rowAutofill(item)
                     self.rowJavascript
-                } header: {
-                    Text("Autofill") // TODO: Clean this up
                 }
                 Section {
                     TextField(self.text.websiteTitle, text: item.title.compactMap())
-                    TextField(self.text.resolvedURL, text: item.resolvedURL.mapString())
-                        .textContentTypeURL
+                    TextField(
+                        self.text.resolvedURL,
+                        text: item.resolvedURL.mirror(string: self.$resolvedURLMirror)
+                    ).textContentTypeURL
                     self.rowDeleteThumbnail(item)
                     self.style.thumbnailSingle(self.item?.thumbnail) { Web() }
-                } header: {
-                    Text("Website")
                 }
             } onNIL: {
                 self.style.noWebsitesSelected.label(self.text.noWebsitesSelected)
@@ -103,9 +105,9 @@ internal struct FormSingle: View {
             }
         } else {
             self.style.autofill.button(self.text.autofill,
-                                       enabled: item.wrappedValue.preferredURL != nil)
+                                       enabled: item.wrappedValue.originalURL)
             {
-                self.nav.shouldLoadURL = item.wrappedValue.originalURL
+                self.nav.shouldLoadURL = $0
             }
         }
     }

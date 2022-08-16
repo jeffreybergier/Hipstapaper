@@ -61,3 +61,15 @@ internal struct FormParent: View {
 
     }
 }
+
+extension Binding where Value == Optional<URL> {
+    // Used for mapping URL model properties to text fields
+    internal func mirror(string: Binding<String>) -> Binding<String> {
+        self.map {
+            $0?.absoluteString ?? string.wrappedValue
+        } set: {
+            string.wrappedValue = $0
+            return URL(string: $0)
+        }
+    }
+}

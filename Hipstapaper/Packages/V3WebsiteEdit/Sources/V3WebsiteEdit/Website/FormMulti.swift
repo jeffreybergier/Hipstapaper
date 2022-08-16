@@ -61,6 +61,9 @@ fileprivate struct FormSection: View {
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
     
+    @State private var originalURLMirror: String = ""
+    @State private var resolvedURLMirror: String = ""
+    
     private let identifier: Website.Selection.Element
     
     internal init(_ identifier: Website.Selection.Element) {
@@ -71,10 +74,14 @@ fileprivate struct FormSection: View {
         self.$item.view { item in
             Section {
                 TextField(self.text.websiteTitle, text: item.title.compactMap())
-                TextField(self.text.originalURL, text: item.originalURL.mapString())
-                    .textContentTypeURL
-                TextField(self.text.resolvedURL, text: item.resolvedURL.mapString())
-                    .textContentTypeURL
+                TextField(
+                    self.text.originalURL,
+                    text: item.originalURL.mirror(string: self.$originalURLMirror)
+                ).textContentTypeURL
+                TextField(
+                    self.text.resolvedURL,
+                    text: item.resolvedURL.mirror(string: self.$resolvedURLMirror)
+                ).textContentTypeURL
                 if let thumbnail = item.thumbnail.wrappedValue {
                     self.style.deleteThumbnail.button(self.text.deleteThumbnail) {
                         item.thumbnail.wrappedValue = nil
