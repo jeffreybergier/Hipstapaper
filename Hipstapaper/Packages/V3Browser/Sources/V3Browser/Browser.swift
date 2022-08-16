@@ -76,6 +76,6 @@ fileprivate struct _Browser: View {
     }
     
     private var toolbar: some ViewModifier {
-        Toolbar(isArchived: self.$website?.isArchived)
+        Toolbar(isArchived: self.$website?.isArchived ?? .constant(false))
     }
 }

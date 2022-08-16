@@ -25,6 +25,7 @@
 //
 
 import SwiftUI
+import Umbrella
 
 @propertyWrapper
 public struct Browser: DynamicProperty {
@@ -32,6 +33,7 @@ public struct Browser: DynamicProperty {
     public init() {}
     
     public struct Value {
+        public var toolbar: some ActionStyle = ActionStyleDefault
         public var back         = Action.browseBack
         public var forward      = Action.browseForward
         public var stop         = Action.browseStop

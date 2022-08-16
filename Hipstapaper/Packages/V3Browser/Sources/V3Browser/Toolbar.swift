@@ -38,7 +38,7 @@ internal struct Toolbar: ViewModifier {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
     
-    internal var isArchived: Binding<Bool>?
+    @Binding internal var isArchived: Bool
     
     internal func body(content: Content) -> some View {
         content
@@ -168,11 +168,11 @@ internal struct Toolbar: ViewModifier {
     
     private var itemOpenExternal: some View {
         let urlToOpen = self.nav.currentURL ?? self.nav.shouldLoadURL
-        return self.style.openExternal.button(self.text.openExternal,
-                                              enabled: urlToOpen != nil)
+        return self.style.toolbar
+                         .action(text: self.text.openExternal)
+                         .button(item: urlToOpen)
         {
-            guard let urlToOpen else { return }
-            self.openURL(urlToOpen)
+            self.openURL($0)
         }
     }
     
@@ -183,10 +183,12 @@ internal struct Toolbar: ViewModifier {
     }
     
     private var itemArchiveAndClose: some View {
-        self.style.archiveYes.button(self.text.archiveYes,
-                                     enabled: self.isArchived?.wrappedValue == false)
+        self.style.toolbar
+                  .action(text: self.text.archiveYes)
+                  .button(isEnabled: !self.isArchived)
         {
-            self.isArchived?.wrappedValue = true
+            self.isArchived = true
+            guard self.nav.isPresenting == false else { return }
             self.dismiss()
         }
     }

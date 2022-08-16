@@ -37,12 +37,25 @@ public struct Browser: DynamicProperty {
         public var reload:       LocalizedString
         public var jsYes:        LocalizedString
         public var jsNo:         LocalizedString
-        public var openExternal: LocalizedString
-        public var archiveYes:   LocalizedString
+//        public var openExternal: LocalizedString
+//        public var archiveYes:   LocalizedString
         public var share:        LocalizedString
         public var done:         LocalizedString
         public var loading:      LocalizedString
         public var error:        LocalizedString
+        
+//        public var back:         ActionLocalization
+//        public var forward:      ActionLocalization
+//        public var stop:         ActionLocalization
+//        public var reload:       ActionLocalization
+//        public var jsYes:        ActionLocalization
+//        public var jsNo:         ActionLocalization
+        public var openExternal: ActionLocalization
+        public var archiveYes:   ActionLocalization
+//        public var share:        ActionLocalization
+//        public var done:         ActionLocalization
+//        public var loading:      ActionLocalization
+//        public var error:        ActionLocalization
         
         internal init(_ b: LocalizeBundle) {
             self.back         = b.localized(key: Verb.goBack.rawValue)
@@ -51,8 +64,8 @@ public struct Browser: DynamicProperty {
             self.reload       = b.localized(key: Verb.reloadPage.rawValue)
             self.jsYes        = b.localized(key: Verb.javascriptYes.rawValue)
             self.jsNo         = b.localized(key: Verb.javascriptNo.rawValue)
-            self.openExternal = b.localized(key: Verb.openExternal.rawValue)
-            self.archiveYes   = b.localized(key: Verb.archiveClose.rawValue)
+            self.openExternal = .openExternal(b)
+            self.archiveYes   = .archiveYes(b)
             self.share        = b.localized(key: Verb.share.rawValue)
             self.done         = b.localized(key: Verb.done.rawValue)
             self.loading      = b.localized(key: Phrase.loadingPage.rawValue)
