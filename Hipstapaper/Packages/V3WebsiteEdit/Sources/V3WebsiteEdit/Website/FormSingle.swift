@@ -52,19 +52,28 @@ internal struct FormSingle: View {
     internal var body: some View {
         Form {
             self.$item.view { item in
-                TextField(self.text.websiteTitle, text: item.title.compactMap())
-                TextField(self.text.originalURL, text: item.originalURL.mapString())
-                    .textContentTypeURL
-                self.rowAutofill(item)
-                self.style.thumbnailSingle(self.item?.thumbnail) { Web() }
-                self.rowDeleteThumbnail(item)
-                self.rowJavascript
-                TextField(self.text.resolvedURL, text: item.resolvedURL.mapString())
-                    .textContentTypeURL
+                Section {
+                    TextField(self.text.originalURL, text: item.originalURL.mapString())
+                        .textContentTypeURL
+                    self.rowAutofill(item)
+                    self.rowJavascript
+                } header: {
+                    Text("Autofill") // TODO: Clean this up
+                }
+                Section {
+                    TextField(self.text.websiteTitle, text: item.title.compactMap())
+                    TextField(self.text.resolvedURL, text: item.resolvedURL.mapString())
+                        .textContentTypeURL
+                    self.rowDeleteThumbnail(item)
+                    self.style.thumbnailSingle(self.item?.thumbnail) { Web() }
+                } header: {
+                    Text("Website")
+                }
             } onNIL: {
                 self.style.noWebsitesSelected.label(self.text.noWebsitesSelected)
             }
         }
+        .scrollDismissesKeyboard(.immediately)
         .onLoadChange(of: self.identifier) {
             _item.setIdentifier($0)
         }
