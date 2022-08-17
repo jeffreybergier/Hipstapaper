@@ -177,8 +177,8 @@ internal struct Toolbar: ViewModifier {
     }
     
     private var itemShare: some View {
-        self.style.share.button(self.text.share) {
-            
+        self.style.toolbar.action(text: self.text.share).button {
+            // TODO: Implement sharing
         }
     }
     

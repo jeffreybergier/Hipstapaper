@@ -39,7 +39,7 @@ public struct Browser: DynamicProperty {
         public var jsNo:         LocalizedString
 //        public var openExternal: LocalizedString
 //        public var archiveYes:   LocalizedString
-        public var share:        LocalizedString
+//        public var share:        LocalizedString
         public var done:         LocalizedString
         public var loading:      LocalizedString
         public var error:        LocalizedString
@@ -52,7 +52,7 @@ public struct Browser: DynamicProperty {
 //        public var jsNo:         ActionLocalization
         public var openExternal: ActionLocalization
         public var archiveYes:   ActionLocalization
-//        public var share:        ActionLocalization
+        public var share:        ActionLocalization
 //        public var done:         ActionLocalization
 //        public var loading:      ActionLocalization
 //        public var error:        ActionLocalization
@@ -66,7 +66,7 @@ public struct Browser: DynamicProperty {
             self.jsNo         = b.localized(key: Verb.javascriptNo.rawValue)
             self.openExternal = .openExternal(b)
             self.archiveYes   = .archiveYes(b)
-            self.share        = b.localized(key: Verb.share.rawValue)
+            self.share        = .share(b)
             self.done         = b.localized(key: Verb.done.rawValue)
             self.loading      = b.localized(key: Phrase.loadingPage.rawValue)
             self.error        = b.localized(key: Verb.errorsPresent.rawValue)
