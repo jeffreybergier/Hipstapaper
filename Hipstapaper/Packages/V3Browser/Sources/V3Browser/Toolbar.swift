@@ -124,14 +124,18 @@ internal struct Toolbar: ViewModifier {
     }
     
     private var itemBack: some View {
-        self.style.back.button(self.text.back, enabled: self.nav.canGoBack) {
+        self.style.toolbar
+                  .action(text: self.text.back)
+                  .button(isEnabled: self.nav.canGoBack)
+        {
             self.nav.shouldGoBack = true
         }
     }
     
     private var itemForward: some View {
-        self.style.forward.button(self.text.forward,
-                                  enabled: self.nav.canGoForward)
+        self.style.toolbar
+                  .action(text: self.text.forward)
+                  .button(isEnabled: self.nav.canGoForward)
         {
             self.nav.shouldGoForward = true
         }
@@ -139,11 +143,11 @@ internal struct Toolbar: ViewModifier {
     
     private var itemStopReload: some View {
         if self.nav.isLoading {
-            return self.style.stop.button(self.text.stop) {
+            return self.style.toolbar.action(text: self.text.stop).button {
                 self.nav.shouldStop = true
             }
         } else {
-            return self.style.reload.button(self.text.reload) {
+            return self.style.toolbar.action(text: self.text.reload).button {
                 self.nav.shouldReload = true
             }
         }

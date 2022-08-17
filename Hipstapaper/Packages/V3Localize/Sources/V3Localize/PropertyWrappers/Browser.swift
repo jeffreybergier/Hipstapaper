@@ -31,10 +31,10 @@ import Umbrella
 public struct Browser: DynamicProperty {
 
     public struct Value {
-        public var back:         LocalizedString
-        public var forward:      LocalizedString
-        public var stop:         LocalizedString
-        public var reload:       LocalizedString
+//        public var back:         LocalizedString
+//        public var forward:      LocalizedString
+//        public var stop:         LocalizedString
+//        public var reload:       LocalizedString
         public var jsYes:        LocalizedString
         public var jsNo:         LocalizedString
 //        public var openExternal: LocalizedString
@@ -44,10 +44,10 @@ public struct Browser: DynamicProperty {
         public var loading:      LocalizedString
         public var error:        LocalizedString
         
-//        public var back:         ActionLocalization
-//        public var forward:      ActionLocalization
-//        public var stop:         ActionLocalization
-//        public var reload:       ActionLocalization
+        public var back:         ActionLocalization
+        public var forward:      ActionLocalization
+        public var stop:         ActionLocalization
+        public var reload:       ActionLocalization
 //        public var jsYes:        ActionLocalization
 //        public var jsNo:         ActionLocalization
         public var openExternal: ActionLocalization
@@ -58,10 +58,10 @@ public struct Browser: DynamicProperty {
 //        public var error:        ActionLocalization
         
         internal init(_ b: LocalizeBundle) {
-            self.back         = b.localized(key: Verb.goBack.rawValue)
-            self.forward      = b.localized(key: Verb.goForward.rawValue)
-            self.stop         = b.localized(key: Verb.stopLoading.rawValue)
-            self.reload       = b.localized(key: Verb.reloadPage.rawValue)
+            self.back         = .browseBack(b)
+            self.forward      = .browseForward(b)
+            self.stop         = .browseStop(b)
+            self.reload       = .browseReload(b)
             self.jsYes        = b.localized(key: Verb.javascriptYes.rawValue)
             self.jsNo         = b.localized(key: Verb.javascriptNo.rawValue)
             self.openExternal = .openExternal(b)

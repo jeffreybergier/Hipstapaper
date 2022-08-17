@@ -282,6 +282,30 @@ extension ActionLocalization {
               image: .init(.columnCircleFill),
               shortcut: nil)
     }
+    internal static func browseBack(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.goBack.rawValue),
+              hint: b.localized(key: Phrase.goBack.rawValue),
+              image: .init(.browseBack),
+              shortcut: .commandBraceLeft)
+    }
+    internal static func browseForward(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.goForward.rawValue),
+              hint: b.localized(key: Phrase.goForward.rawValue),
+              image: .init(.browseForward),
+              shortcut: .commandBraceRight)
+    }
+    internal static func browseStop(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.stopLoading.rawValue),
+              hint: b.localized(key: Phrase.stopLoading.rawValue),
+              image: .init(.browseStop),
+              shortcut: .commandPeriod)
+    }
+    internal static func browseReload(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.reloadPage.rawValue),
+              hint: b.localized(key: Phrase.reloadPage.rawValue),
+              image: .init(.browseReload),
+              shortcut: .commandR)
+    }
 }
 
 import Umbrella
