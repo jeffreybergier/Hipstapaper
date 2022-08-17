@@ -25,6 +25,7 @@
 //
 
 import SwiftUI
+import Umbrella
 
 @propertyWrapper
 public struct WebsiteEdit: DynamicProperty {
@@ -32,6 +33,7 @@ public struct WebsiteEdit: DynamicProperty {
     public init() {}
     
     public struct Value {
+        public var toolbar: some ActionStyle = ActionStyleDefault
         public var stop               = Action.browseStop
         public var jsYes              = Action.javascriptYes
         public var jsNo               = Action.javascriptNo

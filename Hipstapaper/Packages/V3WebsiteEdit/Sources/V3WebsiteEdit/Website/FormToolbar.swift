@@ -56,13 +56,14 @@ internal struct FormToolbar: ViewModifier {
                                            style: .title,
                                            action: self.dismiss)
                 }
-                if self.nav.errorQueue.isEmpty == false {
-                    ToolbarItem(placement: .primaryAction) {
-                        self.style.error.button(self.text.error) {
-                            self.nav.isErrorList.isPresented = true
-                        }
-                        .modifier(ErrorListPopover())
+                ToolbarItem(placement: .primaryAction) {
+                    self.style.toolbar
+                        .action(text: self.text.error)
+                        .button(isEnabled: !self.nav.errorQueue.isEmpty)
+                    {
+                        self.nav.isErrorList.isPresented = true
                     }
+                    .modifier(ErrorListPopover())
                 }
                 if self.deletableSelection.isEmpty == false {
                     ToolbarItem(placement: .cancellationAction) {

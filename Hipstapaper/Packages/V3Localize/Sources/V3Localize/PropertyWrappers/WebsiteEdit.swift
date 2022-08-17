@@ -33,9 +33,9 @@ public struct WebsiteEdit: DynamicProperty {
     public struct Value {
         public var titleWebsite:       LocalizedString
         public var titleTag:           LocalizedString
+        public var done:               LocalizedString
         public var tabWebsite:         LocalizedString
         public var tabTag:             LocalizedString
-        public var done:               LocalizedString
         public var delete:             LocalizedString
         public var deleteThumbnail:    LocalizedString
         public var untitled:           LocalizedString
@@ -49,7 +49,24 @@ public struct WebsiteEdit: DynamicProperty {
         public var noWebsitesSelected: LocalizedString
         public var noTagSelected:      LocalizedString
         public var noTags:             LocalizedString
-        public var error:              LocalizedString
+//        public var error:              LocalizedString
+        
+//        public var tabWebsite:         ActionLocalization
+//        public var tabTag:             ActionLocalization
+//        public var delete:             ActionLocalization
+//        public var deleteThumbnail:    ActionLocalization
+//        public var untitled:           ActionLocalization
+//        public var autofill:           ActionLocalization
+//        public var stop:               ActionLocalization
+//        public var jsYes:              ActionLocalization
+//        public var jsNo:               ActionLocalization
+//        public var websiteTitle:       ActionLocalization
+//        public var originalURL:        ActionLocalization
+//        public var resolvedURL:        ActionLocalization
+//        public var noWebsitesSelected: ActionLocalization
+//        public var noTagSelected:      ActionLocalization
+//        public var noTags:             ActionLocalization
+        public var error:              ActionLocalization
         
         internal init(_ b: LocalizeBundle) {
             self.titleWebsite       = b.localized(key: Noun.editWebsite.rawValue)
@@ -70,7 +87,7 @@ public struct WebsiteEdit: DynamicProperty {
             self.noWebsitesSelected = b.localized(key: Phrase.noSelectionWebsite.rawValue)
             self.noTagSelected      = b.localized(key: Phrase.noSelectionTag.rawValue)
             self.noTags             = b.localized(key: Phrase.noTags.rawValue)
-            self.error              = b.localized(key: Verb.errorsPresent.rawValue)
+            self.error              = .errorsPresent(b)
         }
     }
     
