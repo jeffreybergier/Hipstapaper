@@ -234,6 +234,7 @@ extension CD_Controller: ControllerProtocol {
         cd.cd_resolvedURL = newValue.resolvedURL
         cd.cd_originalURL = newValue.originalURL
         cd.cd_thumbnail   = newValue.thumbnail
+        // TODO: Override here to test error handling
         return self.container.viewContext.datum_save()
     }
     
