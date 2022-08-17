@@ -100,7 +100,10 @@ internal struct FormSingle: View {
     
     @ViewBuilder private func rowAutofill(_ item: Binding<Website>) -> some View {
         if self.nav.isLoading {
-            self.style.stop.button(self.text.stop) {
+            self.style.toolbar
+                      .action(text: self.text.stop)
+                      .button
+            {
                 self.nav.shouldStop = true
             }
         } else {
@@ -124,11 +127,11 @@ internal struct FormSingle: View {
     
     private var rowJavascript: some View {
         if self.nav.isJSEnabled {
-            return self.style.jsYes.button(self.text.jsYes) {
+            return self.style.toolbar.action(text: self.text.jsYes).button {
                 self.nav.isJSEnabled = false
             }
         } else {
-            return self.style.jsNo.button(self.text.jsNo) {
+            return self.style.toolbar.action(text: self.text.jsNo).button {
                 self.nav.isJSEnabled = true
             }
         }
