@@ -49,7 +49,7 @@ internal struct FormMulti: View {
                     FormSection(ident)
                 }
             } onEmpty: {
-                self.style.noWebsitesSelected.label(self.text.noWebsitesSelected)
+                self.style.disabled.action(text: self.text.noWebsitesSelected).label
             }
         }
     }
@@ -92,7 +92,7 @@ fileprivate struct FormSection: View {
                 JSBText(self.text.untitled, text: item.title.wrappedValue)
             }
         } onNIL: {
-            self.style.noWebsitesSelected.label(self.text.noWebsitesSelected)
+            self.style.disabled.action(text: self.text.noWebsitesSelected).label
         }
         .onLoadChange(of: self.identifier) {
             _item.setIdentifier($0)

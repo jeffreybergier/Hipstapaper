@@ -72,7 +72,7 @@ internal struct FormSingle: View {
                     self.style.thumbnailSingle(self.item?.thumbnail) { Web() }
                 }
             } onNIL: {
-                self.style.noWebsitesSelected.label(self.text.noWebsitesSelected)
+                self.style.disabled.action(text: self.text.noWebsitesSelected).label
             }
         }
         .scrollDismissesKeyboard(.immediately)

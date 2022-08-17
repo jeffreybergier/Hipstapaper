@@ -34,6 +34,8 @@ public struct WebsiteEdit: DynamicProperty {
     
     public struct Value {
         public var toolbar: some ActionStyle = ActionStyleDefault
+        /// Fake appearance style for use on Labels where there is no "real" disabled state
+        public var disabled: some ActionStyle = ActionStyleFakeDisabled
         public var stop               = Action.browseStop
         public var jsYes              = Action.javascriptYes
         public var jsNo               = Action.javascriptNo

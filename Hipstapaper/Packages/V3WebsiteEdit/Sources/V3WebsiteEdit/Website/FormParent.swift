@@ -54,7 +54,7 @@ internal struct FormParent: View {
                         .environmentObject(self.webState)
                 }
             } onEmpty: {
-                self.style.noWebsitesSelected.label(self.text.noWebsitesSelected)
+                self.style.disabled.action(text: self.text.noWebsitesSelected).label
             }
             .modifier(FormToolbar(self.selection))
         }

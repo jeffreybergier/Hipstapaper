@@ -46,9 +46,9 @@ public struct WebsiteEdit: DynamicProperty {
         public var websiteTitle:       LocalizedString
         public var originalURL:        LocalizedString
         public var resolvedURL:        LocalizedString
-        public var noWebsitesSelected: LocalizedString
-        public var noTagSelected:      LocalizedString
-        public var noTags:             LocalizedString
+//        public var noWebsitesSelected: LocalizedString
+//        public var noTagSelected:      LocalizedString
+//        public var noTags:             LocalizedString
 //        public var error:              LocalizedString
         
 //        public var tabWebsite:         ActionLocalization
@@ -63,9 +63,9 @@ public struct WebsiteEdit: DynamicProperty {
 //        public var websiteTitle:       ActionLocalization
 //        public var originalURL:        ActionLocalization
 //        public var resolvedURL:        ActionLocalization
-//        public var noWebsitesSelected: ActionLocalization
-//        public var noTagSelected:      ActionLocalization
-//        public var noTags:             ActionLocalization
+        public var noWebsitesSelected: ActionLocalization
+        public var noTagSelected:      ActionLocalization
+        public var noTags:             ActionLocalization
         public var error:              ActionLocalization
         
         internal init(_ b: LocalizeBundle) {
@@ -84,9 +84,9 @@ public struct WebsiteEdit: DynamicProperty {
             self.websiteTitle       = b.localized(key: Noun.websiteTitle.rawValue)
             self.originalURL        = b.localized(key: Noun.originalURL.rawValue)
             self.resolvedURL        = b.localized(key: Noun.resolvedURL.rawValue)
-            self.noWebsitesSelected = b.localized(key: Phrase.noSelectionWebsite.rawValue)
-            self.noTagSelected      = b.localized(key: Phrase.noSelectionTag.rawValue)
-            self.noTags             = b.localized(key: Phrase.noTags.rawValue)
+            self.noWebsitesSelected = .noSelectionWebsite(b)
+            self.noTagSelected      = .noSelectionTag(b)
+            self.noTags             = .noContentTag(b)
             self.error              = .errorsPresent(b)
         }
     }
