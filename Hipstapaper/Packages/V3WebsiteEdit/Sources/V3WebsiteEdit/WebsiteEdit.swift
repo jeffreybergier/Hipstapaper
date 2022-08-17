@@ -90,12 +90,12 @@ internal struct _WebsiteEdit: View {
                 FormParent(self.selection)
                     .tag(WebsiteEdit.Screen.website)
                     .tabItem {
-                        self.style.tabWebsite.label(self.text.tabWebsite)
+                        self.style.tab.action(text: self.text.tabWebsite).label
                     }
                 Tag(self.selection)
                     .tag(WebsiteEdit.Screen.tag)
                     .tabItem {
-                        self.style.tabTag.label(self.text.tabTag)
+                        self.style.tab.action(text: self.text.tabTag).label
                     }
             }
         } onConfirmation: {

@@ -56,16 +56,16 @@ internal struct FormSingle: View {
             self.$item.view { item in
                 Section {
                     TextField(
-                        self.text.originalURL,
+                        self.text.formOriginalURL,
                         text: item.originalURL.mirror(string: self.$originalURLMirror)
                     ).textContentTypeURL
                     self.rowAutofill(item)
                     self.rowJavascript
                 }
                 Section {
-                    TextField(self.text.websiteTitle, text: item.title.compactMap())
+                    TextField(self.text.formTitle, text: item.title.compactMap())
                     TextField(
-                        self.text.resolvedURL,
+                        self.text.formResolvedURL,
                         text: item.resolvedURL.mirror(string: self.$resolvedURLMirror)
                     ).textContentTypeURL
                     self.rowDeleteThumbnail(item)
@@ -100,15 +100,13 @@ internal struct FormSingle: View {
     
     @ViewBuilder private func rowAutofill(_ item: Binding<Website>) -> some View {
         if self.nav.isLoading {
-            self.style.toolbar
-                      .action(text: self.text.stop)
-                      .button
-            {
+            self.style.toolbar.action(text: self.text.stop).button {
                 self.nav.shouldStop = true
             }
         } else {
-            self.style.autofill.button(self.text.autofill,
-                                       enabled: item.wrappedValue.originalURL)
+            self.style.toolbar
+                      .action(text: self.text.autofill)
+                      .button(item: item.wrappedValue.originalURL)
             {
                 self.nav.shouldLoadURL = $0
             }
@@ -117,7 +115,7 @@ internal struct FormSingle: View {
     
     @ViewBuilder private func rowDeleteThumbnail(_ item: Binding<Website>) -> some View {
         if item.wrappedValue.thumbnail != nil {
-            self.style.deleteThumbnail.button(self.text.deleteThumbnail) {
+            self.style.form.action(text: self.text.deleteThumbnail).button {
                 item.wrappedValue.thumbnail = nil
                 self.nav.shouldStop = true
                 self.timerStop()

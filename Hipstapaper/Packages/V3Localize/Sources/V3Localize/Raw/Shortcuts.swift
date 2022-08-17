@@ -43,6 +43,7 @@ extension KeyboardShortcut {
     internal static let commandOptionR      = KeyboardShortcut("r", modifiers: [.command, .option])
     internal static let commandShiftI       = KeyboardShortcut("i", modifiers: [.command, .shift])
     internal static let commandY            = KeyboardShortcut("y", modifiers: [.command])
+    internal static let commandReturn       = KeyboardShortcut(.return, modifiers: [.command])
     internal static let commandBraceLeft    = KeyboardShortcut("[", modifiers: [.command])
     internal static let commandBraceRight   = KeyboardShortcut("]", modifiers: [.command])
     internal static let commandPeriod       = KeyboardShortcut(".", modifiers: [.command])

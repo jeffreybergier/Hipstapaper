@@ -34,7 +34,7 @@ public struct Sidebar: DynamicProperty {
         public var toolbar:     some ActionStyle = ActionStyleDefault
         /// Fake appearance style for use on Labels where there is no "real" disabled state
         public var disabled:    some ActionStyle = ActionStyleFakeDisabled
-        public var destructive: some ActionStyle = ActionStyleDestructive
+        public var destructive: some ActionStyle = ActionStyleImp(button: .destructive)
         public var titleText:     some ViewModifier = SidebarListTitleText()
         public var itemCountOval: some ViewModifier = SidebarOval()
     }

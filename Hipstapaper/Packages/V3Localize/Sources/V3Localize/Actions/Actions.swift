@@ -111,6 +111,24 @@ extension ActionLocalization {
     internal static func deleteTag(_ b: LocalizeBundle) -> ActionLocalization {
         .convert(raw: .raw_deleteTag, b: b)
     }
+    internal static func deleteThumbnail(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.deleteImage.rawValue),
+              hint: b.localized(key: Phrase.deleteImageTip.rawValue),
+              image: .init(.minusRectangle),
+              shortcut: nil)
+    }
+    internal static func deleteGeneric(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.deleteGeneric.rawValue),
+              hint: nil, // TODO: Add Phrase
+              image: .init(.deleteTrash),
+              shortcut: .commandDelete)
+    }
+    internal static func doneGeneric(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.done.rawValue),
+              hint: b.localized(key: Phrase.done.rawValue),
+              image: .init(.checkmark),
+              shortcut: .commandReturn)
+    }
     internal static let raw_archiveYes: ActionLocalization = {
         .init(title: Verb.archiveYes.rawValue,
               hint:  Phrase.archive.rawValue,
@@ -316,6 +334,24 @@ extension ActionLocalization {
         .init(title: b.localized(key: Verb.javascriptNo.rawValue),
               hint: b.localized(key: Phrase.jsInactive.rawValue),
               image: .init(.javascriptNo),
+              shortcut: nil)
+    }
+    internal static func autofill(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.autofill.rawValue),
+              hint: nil, // TODO: Add phrase
+              image: .init(.magic),
+              shortcut: .defaultAction)
+    }
+    internal static func tabWebsite(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Noun.website.rawValue),
+              hint: b.localized(key: Phrase.editWebsiteTip.rawValue),
+              image: .init(.website),
+              shortcut: nil)
+    }
+    internal static func tabTag(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Noun.tags.rawValue),
+              hint: b.localized(key: Phrase.editTag.rawValue),
+              image: .init(.tag),
               shortcut: nil)
     }
 }

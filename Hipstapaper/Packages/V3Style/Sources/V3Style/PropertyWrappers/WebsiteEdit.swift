@@ -33,24 +33,17 @@ public struct WebsiteEdit: DynamicProperty {
     public init() {}
     
     public struct Value {
-        public var toolbar: some ActionStyle = ActionStyleDefault
+        public var toolbar:       some ActionStyle = ActionStyleDefault
+        public var toolbarDelete: some ActionStyle = ActionStyleImp(button: .destructive, label: .titleOnly)
+        public var toolbarDone:   some ActionStyle = ActionStyleImp(label: .titleOnly)
+        public var form:          some ActionStyle = ActionStyleDefault
+        public var tab:           some ActionStyle = ActionStyleDefault
         /// Fake appearance style for use on Labels where there is no "real" disabled state
-        public var disabled: some ActionStyle = ActionStyleFakeDisabled
-        public var stop               = Action.browseStop
-        public var jsYes              = Action.javascriptYes
-        public var jsNo               = Action.javascriptNo
-        public var autofill           = Action.autofill
-        public var deleteThumbnail    = Action.thumbnailDelete
-        public var deleteWebsite      = Action.genericDelete
-        public var done               = Action.genericDone
-        public var noTags             = Action.noContentTag // TODO: Make these fake grayed out
-        public var tabWebsite         = Action.websiteGeneric
-        public var tabTag             = Action.tagGeneric
-        public var error              = Action.errorPresent
-        public var noWebsitesSelected = Action.noContentSelection // TODO: Make these fake grayed out
-        public var websiteSize: some ViewModifier = PopoverSize(size: .large)
-        public var tagSize: some ViewModifier = PopoverSize(size: .medium)
-        public var tagTitle: some ViewModifier = SidebarListTitleText()
+        public var disabled:      some ActionStyle = ActionStyleFakeDisabled
+        
+        public var websiteSize:   some ViewModifier = PopoverSize(size: .large)
+        public var tagSize:       some ViewModifier = PopoverSize(size: .medium)
+        public var tagTitle:      some ViewModifier = SidebarListTitleText()
         
         public func thumbnailSingle(_ data: Data?, @ViewBuilder background: @escaping () -> some View) -> some View {
             WebThumbnailImage(data, web: background)

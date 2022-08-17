@@ -52,9 +52,9 @@ internal struct FormToolbar: ViewModifier {
             .navigationBarTitleDisplayModeInline
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    self.style.done.button(self.text.done,
-                                           style: .title,
-                                           action: self.dismiss)
+                    self.style.toolbarDone
+                              .action(text: self.text.done)
+                              .button(action: self.dismiss)
                 }
                 ToolbarItem(placement: .primaryAction) {
                     self.style.toolbar
@@ -65,17 +65,14 @@ internal struct FormToolbar: ViewModifier {
                     }
                     .modifier(ErrorListPopover())
                 }
-                if self.deletableSelection.isEmpty == false {
-                    ToolbarItem(placement: .cancellationAction) {
-                        self.style.deleteWebsite.button(self.text.delete,
-                                                        style: .title,
-                                                        role: .destructive)
-                        {
-                            self.errorResponder(
-                                DeleteWebsiteError(self.deletableSelection)
-                                    .codableValue
-                            )
-                        }
+                ToolbarItem(placement: .cancellationAction) {
+                    self.style.toolbarDelete
+                              .action(text: self.text.delete)
+                              .button(items: self.deletableSelection)
+                    {
+                        self.errorResponder(
+                            DeleteWebsiteError($0).codableValue
+                        )
                     }
                 }
             }

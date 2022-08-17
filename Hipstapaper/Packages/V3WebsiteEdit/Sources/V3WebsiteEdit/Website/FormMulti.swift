@@ -73,23 +73,23 @@ fileprivate struct FormSection: View {
     internal var body: some View {
         self.$item.view { item in
             Section {
-                TextField(self.text.websiteTitle, text: item.title.compactMap())
+                TextField(self.text.formTitle, text: item.title.compactMap())
                 TextField(
-                    self.text.originalURL,
+                    self.text.formOriginalURL,
                     text: item.originalURL.mirror(string: self.$originalURLMirror)
                 ).textContentTypeURL
                 TextField(
-                    self.text.resolvedURL,
+                    self.text.formResolvedURL,
                     text: item.resolvedURL.mirror(string: self.$resolvedURLMirror)
                 ).textContentTypeURL
                 if let thumbnail = item.thumbnail.wrappedValue {
-                    self.style.deleteThumbnail.button(self.text.deleteThumbnail) {
+                    self.style.form.action(text: self.text.deleteThumbnail).button {
                         item.thumbnail.wrappedValue = nil
                     }
                     self.style.thumbnailMulti(thumbnail)
                 }
             } header: {
-                JSBText(self.text.untitled, text: item.title.wrappedValue)
+                JSBText(self.text.dataUntitled, text: item.title.wrappedValue)
             }
         } onNIL: {
             self.style.disabled.action(text: self.text.noWebsitesSelected).label

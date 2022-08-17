@@ -72,7 +72,7 @@ internal struct TagRow: View {
     
     internal var body: some View {
         Toggle(
-            self.item?.name ?? self.text.untitled,
+            self.item?.name ?? self.text.dataUntitled,
             isOn: self.$tagApply.status.boolValue
         )
         .modifier(self.style.tagTitle)
