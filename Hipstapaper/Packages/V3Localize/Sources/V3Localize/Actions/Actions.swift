@@ -306,6 +306,18 @@ extension ActionLocalization {
               image: .init(.browseReload),
               shortcut: .commandR)
     }
+    internal static func javascriptYes(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.javascriptYes.rawValue),
+              hint: b.localized(key: Phrase.jsActive.rawValue),
+              image: .init(.javascriptYes),
+              shortcut: nil)
+    }
+    internal static func javascriptNo(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.javascriptNo.rawValue),
+              hint: b.localized(key: Phrase.jsInactive.rawValue),
+              image: .init(.javascriptNo),
+              shortcut: nil)
+    }
 }
 
 import Umbrella

@@ -31,45 +31,33 @@ import Umbrella
 public struct Browser: DynamicProperty {
 
     public struct Value {
-//        public var back:         LocalizedString
-//        public var forward:      LocalizedString
-//        public var stop:         LocalizedString
-//        public var reload:       LocalizedString
-        public var jsYes:        LocalizedString
-        public var jsNo:         LocalizedString
-//        public var openExternal: LocalizedString
-//        public var archiveYes:   LocalizedString
-//        public var share:        LocalizedString
-        public var done:         LocalizedString
-        public var loading:      LocalizedString
-        public var error:        LocalizedString
         
         public var back:         ActionLocalization
         public var forward:      ActionLocalization
         public var stop:         ActionLocalization
         public var reload:       ActionLocalization
-//        public var jsYes:        ActionLocalization
-//        public var jsNo:         ActionLocalization
+        public var jsYes:        ActionLocalization
+        public var jsNo:         ActionLocalization
         public var openExternal: ActionLocalization
         public var archiveYes:   ActionLocalization
         public var share:        ActionLocalization
-//        public var done:         ActionLocalization
-//        public var loading:      ActionLocalization
-//        public var error:        ActionLocalization
+        public var error:        ActionLocalization
+        public var done:         LocalizedString
+        public var loading:      LocalizedString
         
         internal init(_ b: LocalizeBundle) {
             self.back         = .browseBack(b)
             self.forward      = .browseForward(b)
             self.stop         = .browseStop(b)
             self.reload       = .browseReload(b)
-            self.jsYes        = b.localized(key: Verb.javascriptYes.rawValue)
-            self.jsNo         = b.localized(key: Verb.javascriptNo.rawValue)
+            self.jsYes        = .javascriptYes(b)
+            self.jsNo         = .javascriptNo(b)
             self.openExternal = .openExternal(b)
             self.archiveYes   = .archiveYes(b)
             self.share        = .share(b)
+            self.error        = .errorsPresent(b)
             self.done         = b.localized(key: Verb.done.rawValue)
             self.loading      = b.localized(key: Phrase.loadingPage.rawValue)
-            self.error        = b.localized(key: Verb.errorsPresent.rawValue)
         }
     }
     

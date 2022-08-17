@@ -34,16 +34,6 @@ public struct Browser: DynamicProperty {
     
     public struct Value {
         public var toolbar: some ActionStyle = ActionStyleDefault
-        public var back         = Action.browseBack
-        public var forward      = Action.browseForward
-        public var stop         = Action.browseStop
-        public var reload       = Action.browseReload
-        public var jsYes        = Action.javascriptYes
-        public var jsNo         = Action.javascriptNo
-        public var openExternal = Action.openExternal
-        public var archiveYes   = Action.archiveYes
-        public var share        = Action.share
-        public var error        = Action.errorPresent
     }
     
     public var wrappedValue: Value {

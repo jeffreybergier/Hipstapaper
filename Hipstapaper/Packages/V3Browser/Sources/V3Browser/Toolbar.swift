@@ -155,11 +155,11 @@ internal struct Toolbar: ViewModifier {
     
     private var itemJavaScript: some View {
         if self.nav.isJSEnabled {
-            return self.style.jsYes.button(self.text.jsYes) {
+            return self.style.toolbar.action(text: self.text.jsYes).button {
                 self.nav.isJSEnabled = false
             }
         } else {
-            return self.style.jsNo.button(self.text.jsNo) {
+            return self.style.toolbar.action(text: self.text.jsNo).button {
                 self.nav.isJSEnabled = true
             }
         }
@@ -198,12 +198,13 @@ internal struct Toolbar: ViewModifier {
     }
     
     @ViewBuilder private var itemErrors: some View {
-        if self.nav.errorQueue.isEmpty == false {
-            self.style.error.button(self.text.error) {
-                self.nav.isErrorList.isPresented = true
-            }
-            .modifier(ErrorListPresentation())
+        self.style.toolbar
+                  .action(text: self.text.error)
+                  .button(isEnabled: !self.nav.errorQueue.isEmpty)
+        {
+            self.nav.isErrorList.isPresented = true
         }
+        .modifier(ErrorListPresentation())
     }
     
     private var itemClose: some View {
