@@ -31,16 +31,16 @@ import Umbrella
 public struct ErrorList: DynamicProperty {
     
     public struct Value {
-        public var title: LocalizedString
-        public var done: LocalizedString
+        public var title:    LocalizedString
+        public var done:     LocalizedString
         public var clearAll: LocalizedString
-        public var ufe: (UserFacingError, KeyPath<UserFacingError, LocalizationKey>) -> LocalizedString
+        public var ufe:      (UserFacingError, KeyPath<UserFacingError, LocalizationKey>) -> LocalizedString
         
         internal init(_ b: LocalizeBundle) {
             self.title    = b.localized(key: Noun.errors.rawValue)
             self.done     = b.localized(key: Verb.done.rawValue)
             self.clearAll = b.localized(key: Verb.clearAll.rawValue)
-            self.ufe = { b.localized(key: $0[keyPath: $1]) }
+            self.ufe      = { b.localized(key: $0[keyPath: $1]) }
         }
     }
     

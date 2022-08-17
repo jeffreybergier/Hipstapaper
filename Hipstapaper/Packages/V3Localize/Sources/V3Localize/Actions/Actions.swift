@@ -26,6 +26,8 @@
 
 import Umbrella
 
+// TODO: Turn into ENUM with all constants for the raw values
+
 extension ActionLocalization {
     internal static func convert(raw: ActionLocalization, b: LocalizeBundle) -> ActionLocalization {
         var output = raw

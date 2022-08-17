@@ -39,12 +39,12 @@ public struct Detail: DynamicProperty {
         public var noWebsites:    ActionLocalization
         
         internal init(_ b: LocalizeBundle) {
-            self.titleUnread        = b.localized(key: Noun.unreadItems.rawValue)
-            self.titleAll           = b.localized(key: Noun.allItems.rawValue)
-            self.tagUntitled        = b.localized(key: Noun.untitled.rawValue)
-            self.search             = b.localized(key: Verb.search.rawValue)
-            self.noTagSelected      = .noSelectionTag(b)
-            self.noWebsites         = .noContentWebsite(b)
+            self.titleUnread   = b.localized(key: Noun.unreadItems.rawValue)
+            self.titleAll      = b.localized(key: Noun.allItems.rawValue)
+            self.tagUntitled   = b.localized(key: Noun.untitled.rawValue)
+            self.search        = b.localized(key: Verb.search.rawValue)
+            self.noTagSelected = .noSelectionTag(b)
+            self.noWebsites    = .noContentWebsite(b)
         }
     }
     

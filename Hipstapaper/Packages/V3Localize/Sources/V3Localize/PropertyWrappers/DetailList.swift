@@ -31,14 +31,14 @@ import Umbrella
 public struct DetailList: DynamicProperty {
     
     public struct Value {
-        public var missingTitle:       LocalizedString
-        public var missingURL:         LocalizedString
-        public var missingDate:        LocalizedString
+        public var missingTitle: LocalizedString
+        public var missingURL:   LocalizedString
+        public var missingDate:  LocalizedString
         
         internal init(_ b: LocalizeBundle) {
-            self.missingTitle       = b.localized(key: Noun.dash.rawValue)
-            self.missingURL         = b.localized(key: Noun.dash.rawValue)
-            self.missingDate        = b.localized(key: Noun.dash.rawValue)
+            self.missingTitle = b.localized(key: Noun.dash.rawValue)
+            self.missingURL   = b.localized(key: Noun.dash.rawValue)
+            self.missingDate  = b.localized(key: Noun.dash.rawValue)
         }
     }
     
