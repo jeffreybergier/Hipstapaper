@@ -70,7 +70,7 @@
 "Verb.AddChoice"              = "Add";
 "Verb.Sort"                   = "Sort";
 "Verb.ErrorsPresent"          = "Show Errors";
-"Verb.ClearAll"               = "Clear All";
+"Verb.DeleteAll"              = "Delete All";
 "Verb.SelectAll"              = "Select All";
 "Verb.DeselectAll"            = "Deselect All";
 "Verb.CopyToClipboard"        = "Copy";

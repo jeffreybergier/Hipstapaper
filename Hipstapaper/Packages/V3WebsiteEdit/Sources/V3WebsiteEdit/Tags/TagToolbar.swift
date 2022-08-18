@@ -49,7 +49,7 @@ internal struct TagToolbar: ViewModifier {
     
     private var itemGeneric: some ViewModifier {
         JSBToolbar(title: self.text.titleTag,
-                   done: self.text.done.title,
+                   done: self.text.done,
                    doneAction: self.dismiss)
     }
     

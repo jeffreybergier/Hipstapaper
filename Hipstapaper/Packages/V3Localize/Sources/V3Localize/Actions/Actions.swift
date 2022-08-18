@@ -125,6 +125,13 @@ extension ActionLocalization {
               image: .init(.deleteTrash),
               shortcut: .commandDelete)
     }
+    // TODO: Change toolbars with DeleteGeneric to pluralize with this
+    internal static func deleteAllGeneric(_ b: LocalizeBundle) -> ActionLocalization {
+        .init(title: b.localized(key: Verb.deleteAll.rawValue),
+              hint: nil, // TODO: Add Phrase
+              image: .init(.deleteTrash),
+              shortcut: nil)
+    }
     internal static func doneGeneric(_ b: LocalizeBundle) -> ActionLocalization {
         .init(title: b.localized(key: Verb.done.rawValue),
               hint: b.localized(key: Phrase.done.rawValue),

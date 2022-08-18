@@ -32,10 +32,10 @@ public struct ShareList: DynamicProperty {
     
     public struct Value {
         public var title:              LocalizedString
-        public var done:               LocalizedString
         public var shareErrorSubtitle: LocalizedString
         public var itemsCount:         (Int) -> LocalizedString
 
+        public var done:   ActionLocalization
         public var multi:  ActionLocalization
         public var single: ActionLocalization
         public var copy:   ActionLocalization
@@ -46,13 +46,13 @@ public struct ShareList: DynamicProperty {
         
         internal init(_ b: LocalizeBundle) {
             self.title              = b.localized(key: Noun.share.rawValue)
-            self.done               = b.localized(key: Verb.done.rawValue)
             self.shareErrorSubtitle = b.localized(key: Phrase.shareError.rawValue)
             self.itemsCount      = {
                 // TODO: improve to use strings dict
                 return String(describing: $0) + " " + "websites"
             }
             
+            self.done       = .doneGeneric(b)
             self.multi      = .shareMulti(b)
             self.single     = .shareSingle(b)
             self.copy       = .copyToClipboard(b)
