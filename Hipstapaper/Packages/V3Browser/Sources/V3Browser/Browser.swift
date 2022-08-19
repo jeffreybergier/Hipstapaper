@@ -41,10 +41,13 @@ public struct Browser: View {
     }
     
     public var body: some View {
-        _Browser(self.identifier)
-            .environmentObject(self.nav)
+        ErrorResponder(presenter: self.$nav.value,
+                       storage: self.$nav.value.errorQueue)
+        {
+            _Browser(self.identifier)
+                .environmentObject(self.nav)
+        }
     }
-    
 }
 
 fileprivate struct _Browser: View {
@@ -58,14 +61,10 @@ fileprivate struct _Browser: View {
     }
     
     internal var body: some View {
-        ErrorResponder(presenter: self.$nav,
-                       storage: self.$nav.errorQueue)
-        {
-            NavigationStack {
-                Web()
-                    .modifier(HACK_OpaqueToolbar())
-                    .modifier(self.toolbar)
-            }
+        NavigationStack {
+            Web()
+                .modifier(HACK_OpaqueToolbar())
+                .modifier(self.toolbar)
         }
         .onLoadChange(of: self.identifier) {
             _website.setIdentifier($0)

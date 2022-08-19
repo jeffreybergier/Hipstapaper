@@ -52,6 +52,7 @@ extension CD_Controller: ControllerProtocol {
     }
     
     internal func delete(_ input: Website.Selection) -> Result<Void, Error> {
+        assert(Thread.isMainThread)
         let context = self.container.viewContext
         let coordinator = self.container.persistentStoreCoordinator
         let cd_ids = input.compactMap {
@@ -87,47 +88,6 @@ extension CD_Controller: ControllerProtocol {
         return context.datum_save()
     }
     
-    // MARK: Custom Functions
-    
-    internal func setArchive(_ newValue: Bool, on input: Website.Selection) -> Result<Void, Error> {
-        assert(Thread.isMainThread)
-        let context = self.container.viewContext
-        let cd_websites = self.search(input, from: context)
-        guard cd_websites.isEmpty == false else { return .success(()) }
-        cd_websites.forEach {
-            $0.cd_isArchived = newValue
-        }
-        return context.datum_save()
-    }
-    
-    internal func addTag(_ cd_tag: CD_Tag, to input: Website.Selection) -> Result<Void, Error> {
-        assert(Thread.isMainThread)
-        let context = self.container.viewContext
-        let websites = self.search(input, from: context)
-        var changesMade = false
-        for site in websites {
-            guard site.cd_tags?.contains(cd_tag) == false else { continue }
-            changesMade = true
-            let tags = site.mutableSetValue(forKey: #keyPath(CD_Website.cd_tags))
-            tags.add(cd_tag)
-        }
-        return changesMade ? context.datum_save() : .success(())
-    }
-    
-    internal func removeTag(_ cd_tag: CD_Tag, to input: Website.Selection) -> Result<Void, Error> {
-        assert(Thread.isMainThread)
-        let context = self.container.viewContext
-        let websites = self.search(input, from: context)
-        var changesMade = false
-        for site in websites {
-            guard site.cd_tags?.contains(cd_tag) == true else { continue }
-            changesMade = true
-            let tags = site.mutableSetValue(forKey: #keyPath(CD_Website.cd_tags))
-            tags.remove(cd_tag)
-        }
-        return changesMade ? context.datum_save() : .success(())
-    }
-    
     // MARK: Search
     
     internal func search(_ input: Set<Website.Identifier>, from context: NSManagedObjectContext? = nil) -> [CD_Website] {
@@ -152,9 +112,10 @@ extension CD_Controller: ControllerProtocol {
         }
     }
     
-    // MARK: Internal for Property Wrappers
+    // MARK: Reading - Internal
     
     internal func canArchiveYes(_ selection: Website.Selection) -> Bool {
+        assert(Thread.isMainThread)
         guard selection.isEmpty == false else { return false }
         let sites = self.search(selection)
         let archive = Set(sites.map { $0.cd_isArchived })
@@ -168,6 +129,7 @@ extension CD_Controller: ControllerProtocol {
     }
     
     internal func canArchiveNo(_ selection: Website.Selection) -> Bool {
+        assert(Thread.isMainThread)
         guard selection.isEmpty == false else { return false }
         let sites = self.search(selection)
         let archive = Set(sites.map { $0.cd_isArchived })
@@ -181,6 +143,7 @@ extension CD_Controller: ControllerProtocol {
     }
     
     internal func openURL(_ selection: Website.Selection) -> SingleMulti<URL>? {
+        assert(Thread.isMainThread)
         guard selection.isEmpty == false else { return nil }
         let urls = self.search(selection).compactMap { $0.cd_resolvedURL ?? $0.cd_originalURL }
         switch urls.count {
@@ -194,6 +157,7 @@ extension CD_Controller: ControllerProtocol {
     }
     
     internal func openURL(_ selection: Website.Selection) -> SingleMulti<Website.Identifier>? {
+        assert(Thread.isMainThread)
         guard selection.isEmpty == false else { return nil }
         let sites = self.search(selection).filter { ($0.cd_resolvedURL ?? $0.cd_originalURL) != nil }
         switch sites.count {
@@ -207,6 +171,7 @@ extension CD_Controller: ControllerProtocol {
     }
     
     internal func tagStatus(identifier: Tag.Identifier, selection: Website.Selection) -> MultiStatus {
+        assert(Thread.isMainThread)
         guard selection.isEmpty == false else { return .none }
         guard let rawTag = self.search([identifier]).first else {
             NSLog("Tag Not Found: \(identifier)")
@@ -224,11 +189,25 @@ extension CD_Controller: ControllerProtocol {
         }
     }
     
+    // MARK: Writing - Internal
+    
+    internal func setArchive(_ newValue: Bool, on input: Website.Selection) -> Result<Void, Error> {
+        assert(Thread.isMainThread)
+        let context = self.container.viewContext
+        let cd_websites = self.search(input, from: context)
+        guard cd_websites.isEmpty == false else { return .success(()) }
+        cd_websites.forEach {
+            $0.cd_isArchived = newValue
+        }
+        return context.datum_save()
+    }
+    
     internal func writeOpt(_ cd: CD_Website?, with newValue: Website?) -> Result<Void, Error> {
         return self.write(cd!, with: newValue!)
     }
     
     internal func write(_ cd: CD_Website, with newValue: Website) -> Result<Void, Error> {
+        assert(Thread.isMainThread)
         cd.cd_title       = newValue.title
         cd.cd_isArchived  = newValue.isArchived
         cd.cd_resolvedURL = newValue.resolvedURL
@@ -243,11 +222,13 @@ extension CD_Controller: ControllerProtocol {
     }
     
     internal func write(_ cd: CD_Tag, with newValue: Tag) -> Result<Void, Error> {
+        assert(Thread.isMainThread)
         cd.cd_name = newValue.name
         return self.container.viewContext.datum_save()
     }
     
     internal func write(tag: TagApply, selection: Website.Selection) -> Result<Void, Error> {
+        assert(Thread.isMainThread)
         let context = self.container.viewContext
         let rawTag: CD_Tag = self.search([tag.id], from: context).first!
         let sites: [CD_Website] = self.search(selection, from: context)
