@@ -45,6 +45,7 @@ let package = Package(
         .package(path: "../V3Browser"),
         .package(path: "../V3WebsiteEdit"),
         .package(path: "../V3Errors"),
+        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "v3"),
     ],
     targets: [
         .target(
@@ -57,6 +58,7 @@ let package = Package(
                 .byNameItem(name: "V3Browser", condition: nil),
                 .byNameItem(name: "V3WebsiteEdit", condition: nil),
                 .byNameItem(name: "V3Errors", condition: nil),
+                .byNameItem(name: "Umbrella", condition: nil),
             ]
         ),
     ]

@@ -42,8 +42,7 @@ let package = Package(
         .package(path: "../V3Style"),
         .package(path: "../V3Store"),
         .package(path: "../V3Errors"),
-        .package(path: "../Umbrella"),
-        // .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "v2"),
+        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "v3"),
     ],
     targets: [
         .target(
