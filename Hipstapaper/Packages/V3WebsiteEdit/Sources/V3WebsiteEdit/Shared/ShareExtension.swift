@@ -35,6 +35,8 @@ public struct ShareExtension: View {
     @StateObject private var controller = Controller.newEnvironment()
     
     @State private var selection: Website.Selection = []
+    @State private var noSelectionText: String = "Loading…"
+    
     private let inputURL: URL?
     private let onDismiss: () -> Void
     
@@ -56,16 +58,20 @@ public struct ShareExtension: View {
                 Text(String(describing: error))
             }
         } onEmpty: {
-            Text("Loading...") // TODO: Improve this
+            Text(self.noSelectionText)
                 .task { DispatchQueue.main.async {
-                    guard let controller = self.controller.value.value else { return }
-                    switch controller.createWebsite(originalURL: self.inputURL) {
-                    case .success(let identifier):
-                        self.selection = [identifier]
+                    switch self.controller.value {
                     case .failure(let error):
-                        // TODO: Figure out how to get this error into the app
                         NSLog(String(describing: error))
-                        assertionFailure(String(describing: error))
+                        self.noSelectionText = String(describing: error)
+                    case .success(let controller):
+                        switch controller.createWebsite(originalURL: self.inputURL) {
+                        case .success(let identifier):
+                            self.selection = [identifier]
+                        case .failure(let error):
+                            NSLog(String(describing: error))
+                            self.noSelectionText = String(describing: error)
+                        }
                     }
                 }}
         }
