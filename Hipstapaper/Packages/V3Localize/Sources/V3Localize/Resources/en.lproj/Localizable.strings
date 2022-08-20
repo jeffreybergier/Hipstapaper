@@ -1,0 +1,191 @@
+//
+//  Created by Jeffrey Bergier on 2020/12/12.
+//
+//  MIT License
+//
+//  Copyright (c) 2021 Jeffrey Bergier
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in all
+//  copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//  SOFTWARE.
+//
+
+
+//
+//
+////
+////// Verbs
+////
+//
+//
+
+"Verb.Save"                   = "Save";
+"Verb.Done"                   = "Done";
+"Verb.Cancel"                 = "Cancel";
+"Verb.Dismiss"                = "Dismiss";
+"Verb.DontDelete"             = "Don't Delete";
+"Verb.Search"                 = "Search";
+"Verb.AddWebsite"             = "Add Website";
+"Verb.Archive"                = "Archive";
+"Verb.ArchiveClose"           = "Archive and Close";
+"Verb.Unarchive"              = "Unarchive";
+"Verb.Share"                  = "Share";
+"Verb.Share All"              = "Share All";
+"Verb.DeleteTag"              = "Delete Tags";
+"Verb.AddTag"                 = "Add Tag";
+"Verb.EditTags"               = "Edit Tags";
+"Verb.ClearSearch"            = "Clear Search";
+"Verb.OpenInApp"              = "Open";
+"Verb.OpenInBrowser"          = "Open in Browser";
+"Verb.AddAndRemoveTags"       = "Apply Tags";
+"Verb.Filter"                 = "Filter";
+"Verb.StopLoading"            = "Stop";
+"Verb.ReloadPage"             = "Reload";
+"Verb.Javascript"             = "Javascript";
+"Verb.JavascriptYes"          = "Disable Javascript";
+"Verb.JavascriptNo"           = "Enable Javascript";
+"Verb.Autofill"               = "Autofill";
+"Verb.GoBack"                 = "Back";
+"Verb.GoForward"              = "Forward";
+"Verb.DeleteWebsite"          = "Delete Websites";
+"Verb.DeleteImage"            = "Delete Thumbnail";
+"Verb.DeleteGeneric"          = "Delete";
+"Verb.EditWebsite"            = "Edit Websites";
+"Verb.iCloud"                 = "iCloud";
+"Verb.Column"                 = "Table Column";
+"Verb.AddChoice"              = "Add";
+"Verb.Sort"                   = "Sort";
+"Verb.ErrorsPresent"          = "Show Errors";
+"Verb.DeleteAll"              = "Delete All";
+"Verb.SelectAll"              = "Select All";
+"Verb.DeselectAll"            = "Deselect All";
+"Verb.CopyToClipboard"        = "Copy";
+
+//
+//
+////
+////// Nouns
+////
+//
+//
+
+"Noun.Search"        = "Search";
+"Noun.ReadingList"   = "Reading List";
+"Noun.Tags"          = "Tags";
+"Noun.Website"       = "Website";
+"Noun.Untitled"      = "Untitled";
+"Noun.AllItems"      = "All Items";
+"Noun.UnreadItems"   = "Unread Items";
+"Noun.AutofillURL"   = "Autofill URL";
+"Noun.FilledURL"     = "Filled URL";
+"Noun.OriginalURL"   = "Autofill URL";
+"Noun.ResolvedURL"   = "Autofilled URL";
+"Noun.WebsiteTitle"  = "Page Title";
+"Noun.Hipstapaper"   = "Hipstapaper";
+"Noun.TagName"       = "Tag Name";
+"Noun.AddTag"        = "Add Tag";
+"Noun.EditTags"      = "Edit Tags";
+"Noun.AddWebsite"    = "Add Website";
+"Noun.EditWebsite"   = "Edit Website";
+"Noun.ApplyTags"     = "Apply Tags";
+"Noun.Sort"          = "Sort Order";
+"Noun.Share"         = "Share";
+"Noun.Filter"        = "Filter";
+"Noun.Error"         = "Error";
+"Noun.Errors"        = "Errors";
+"Noun.AddChoice"     = "Add";
+"Noun.ErrorDatabase" = "Database Error";
+"Noun.iCloud"        = "Sync Error";
+"Noun.DeleteTag"     = "Delete Tags";
+"Noun.DeleteWebsite" = "Delete Websites";
+"Noun.Thumbnail"     = "Thumbnail";
+"Noun.Title"         = "Title";
+"Noun.URL"           = "URL";
+"Noun.DateCreated"   = "Date Added";
+"Noun.DateModified"  = "Date Modified";
+"Noun.Dash"          = "–";
+"Noun.SortDateModifiedNewest" = "Modified First";
+"Noun.SortDateModifiedOldest" = "Modified Last";
+"Noun.SortDateCreatedNewest"  = "Added First";
+"Noun.SortDateCreatedOldest"  = "Added Last";
+"Noun.SortTitleA"             = "‘A’ Titles First";
+"Noun.SortTitleZ"             = "‘A’ Titles Last";
+
+//
+//
+////
+////// Phrases
+////
+//
+//
+
+"Phrase.NoTagSelection"         = "No tag selected";
+"Phrase.NoWebsiteSelection"     = "No website selected";
+"Phrase.AddChoice"              = "Create new tag or add new website";
+"Phrase.Sort"                   = "Change sort order of websites";
+"Phrase.SortDateModifiedNewest" = "Show most recently modified first";
+"Phrase.SortDateModifiedOldest" = "Show most recently modified last";
+"Phrase.SortDateCreatedNewest"  = "Show most recently added first";
+"Phrase.SortDateCreatedOldest"  = "Show most recently added last";
+"Phrase.SortTitleA"             = "Show page titles starting with A first";
+"Phrase.SortTitleZ"             = "Show page titles starting with Z first";
+"Phrase.Filter"                 = "Show all items or only unread items";
+"Phrase.FilterNo"               = "Show all items";
+"Phrase.FilterYes"              = "Show unread items";
+"Phrase.ErrorScreenshot"        = "An error ocurred when attempting to capture the thumbnail.";
+"Phrase.ErrorConvertImage"      = "An error ocurred when attempting to convert the thumbnail into a compatible format.";
+"Phrase.ImageSize"              = "An error ocurred when saving because the thumbnail was too large.";
+"Phrase.UserCancel"             = "User cancelled the operation before it could complete.";
+"Phrase.ProcessURL"             = "The sharing app did not provide a URL to save.";
+"Phrase.SaveWebsite"            = "An error ocurred when attempting to save the website.";
+"Phrase.ErrorUnknown"           = "An unknown error ocurred. Please try again later.";
+"Phrase.Share"                  = "Share selected websites";
+"Phrase.ShareError"             = "Unable to share";
+"Phrase.Unarchive"              = "Mark selected websites as unread";
+"Phrase.Archive"                = "Mark selected websites as read";
+"Phrase.OpenInBrowser"          = "Open selected websites in default browser";
+"Phrase.OpenInApp"              = "Open selected websites";
+"Phrase.StopLoading"            = "Stop loading";
+"Phrase.ReloadPage"             = "Reload page";
+"Phrase.LoadPage"               = "Load page";
+"Phrase.LoadingPage"            = "Loading…";
+"Phrase.GoBack"                 = "Show the previous page";
+"Phrase.GoForward"              = "Show the next page";
+"Phrase.DeleteTagTip"           = "Delete selected tags";
+"Phrase.DeleteWebsiteTip"       = "Delete selected websites";
+"Phrase.DeleteTagConfirm"       = "The selected tags will be deleted on all device. This cannot be undone.";
+"Phrase.DeleteWebsiteConfirm"   = "The selected websites will be deleted on all device. This cannot be undone.";
+"Phrase.DeleteImageTip"         = "Delete this image. This cannot be undone.";
+"Phrase.EditWebsiteTip"         = "Edit selected websites";
+"Phrase.ClearSearch"            = "Clear search";
+"Phrase.AddAndRemoveTags"       = "Add and remove tags from selected websites";
+"Phrase.SearchWebsite"          = "Search websites";
+"Phrase.AddTag"                 = "Add a new tag";
+"Phrase.EditTag"                = "Edit the name of the selected tag.";
+"Phrase.AddWebsite"             = "Add a new website";
+"Phrase.Done"                   = "Finish and dismiss the screen";
+"Phrase.Save"                   = "Save changes";
+"Phrase.Cancel"                 = "Cancel without saving changes";
+"Phrase.ErrorInvalidURL%@"      = "Attempted to browse to an invalid URL:\n%@";
+"Phrase.ErrorShareItemCount"    = "The selected websites contained no URLs to share.";
+"Phrase.ErrorLoadURL"           = "This website did not contain a URL.";
+"Phrase.ErrorShareImport"       = "There was an error importing the website shared by another app.";
+"Phrase.errorCloudAccount"      = "To use iCloud sync you must be logged into an iCloud account.";
+"Phrase.errorCloudSync"         = "There was an error while syncing with iCloud.";
+"Phrase.NoTags"                 = "No Tags";
+"Phrase.NoWebsites"             = "No Websites";
+"Phrase.CopyToClipboard"        = "Copy to clipboard";
