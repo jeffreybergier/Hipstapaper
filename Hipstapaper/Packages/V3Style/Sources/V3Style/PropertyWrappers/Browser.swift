@@ -33,7 +33,7 @@ public struct Browser: DynamicProperty {
     public init() {}
     
     public struct Value {
-        public var done:      some ActionStyle = ActionStyleButtonDone
+        public var done:      some ActionStyle = JSBToolbarButtonStyleDone
         public var toolbar:   some ActionStyle = ActionStyleDefault
         public var separator: some View = ActionStyleImp(modifier: ModifierDisabledFake())
                                                         .action(text: .init(title: "|"))

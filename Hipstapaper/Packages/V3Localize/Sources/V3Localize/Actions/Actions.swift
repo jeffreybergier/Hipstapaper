@@ -167,7 +167,7 @@ extension ActionLocalization {
     }
     internal static let raw_errorsPresent: ActionLocalization = {
         .init(title: Verb.errorsPresent.rawValue,
-              hint:  nil, // TODO: Phrase
+              hint:  nil, // TODO: Add Phrase
               image: .init(.errorGeneric),
               shortcut: .commandControlE)
     }()
@@ -176,7 +176,7 @@ extension ActionLocalization {
     }
     internal static let raw_deselectAll: ActionLocalization = {
         .init(title: Verb.deselectAll.rawValue,
-              hint:  nil, // TODO: Phrase
+              hint:  nil, // TODO: Add Phrase
               image: .init(.tableCellsEmpty),
               shortcut: .commandOptionA)
     }()
@@ -293,19 +293,19 @@ extension ActionLocalization {
     }
     internal static func columnMenu(_ b: LocalizeBundle) -> ActionLocalization {
         .init(title: b.localized(key: Verb.column.rawValue),
-              hint: nil, // TODO: Add phrase
+              hint: nil, // TODO: Add Phrase
               image: .init(.filterNo),
               shortcut: nil)
     }
     internal static func columnDateCreated(_ b: LocalizeBundle) -> ActionLocalization {
         .init(title: b.localized(key: Noun.dateCreated.rawValue),
-              hint: nil, // TODO: Add phrase
+              hint: nil, // TODO: Add Phrase
               image: .init(.columnCircleEmpty),
               shortcut: nil)
     }
     internal static func columnDateModified(_ b: LocalizeBundle) -> ActionLocalization {
         .init(title: b.localized(key: Noun.dateModified.rawValue),
-              hint: nil, // TODO: Add phrase
+              hint: nil, // TODO: Add Phrase
               image: .init(.columnCircleFill),
               shortcut: nil)
     }
@@ -347,7 +347,7 @@ extension ActionLocalization {
     }
     internal static func autofill(_ b: LocalizeBundle) -> ActionLocalization {
         .init(title: b.localized(key: Verb.autofill.rawValue),
-              hint: nil, // TODO: Add phrase
+              hint: nil, // TODO: Add Phrase
               image: .init(.magic),
               shortcut: .defaultAction)
     }
