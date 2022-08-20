@@ -45,31 +45,39 @@ internal struct Toolbar: ViewModifier {
             .navigationTitle(self.nav.currentTitle)
             .navigationBarTitleDisplayModeInline
             .toolbar {
-                ToolbarItem(id: .itemArchiveAndClose, placement: .primaryAction) {
-                    self.itemArchiveAndClose
-                }
-                ToolbarItem(id: .itemClose, placement: .primaryAction) {
-                    self.itemClose
-                }
                 switch self.sizeclass.horizontal {
                 case .regular:
-                    ToolbarItem(id: .itemStatus, placement: .principal) {
-                        self.itemStatus
+                    // hack to stop compiler failures for too many items
+                    if true { // Navigation: Top Leading
+                        ToolbarItem(id: .itemBack, placement: .navigation) {
+                            self.itemBack
+                        }
+                        ToolbarItem(id: .itemForward, placement: .navigation) {
+                            self.itemForward
+                        }
+                        ToolbarItem(id: .itemStopReload, placement: .navigation) {
+                            self.itemStopReload
+                        }
                     }
-                    ToolbarItem(id: .itemBack, placement: .navigation) {
-                        self.itemBack
-                    }
-                    ToolbarItem(id: .itemForward, placement: .navigation) {
-                        self.itemForward
-                    }
-                    ToolbarItem(id: .itemStopReload, placement: .navigation) {
-                        self.itemStopReload
-                    }
-                    ToolbarItem(id: .itemErrors, placement: .navigation) {
-                        self.itemErrors
+                    if true { // Title: Top middle, trailing
+                        ToolbarItem(id: .itemStatus, placement: .principal) {
+                            self.itemStatus
+                        }
+                        ToolbarItem(id: .itemArchiveAndClose, placement: .primaryAction) {
+                            self.itemArchiveAndClose
+                        }
+                        ToolbarItem(id: .itemClose, placement: .primaryAction) {
+                            self.itemClose
+                        }
                     }
                     ToolbarItem(id: .itemJavaScript, placement: .bottomSecondary) {
                         self.itemJavaScript
+                    }
+                    ToolbarItem(id: .itemSeparator1, placement: .bottomSecondary) {
+                        self.itemSeparator
+                    }
+                    ToolbarItem(id: .itemErrors, placement: .bottomSecondary) {
+                        self.itemErrors
                     }
                     ToolbarItem(id: .itemSpacer1, placement: .bottomSecondary) {
                         self.itemSpacer
@@ -77,47 +85,65 @@ internal struct Toolbar: ViewModifier {
                     ToolbarItem(id: .itemOpenExternal, placement: .bottomSecondary) {
                         self.itemOpenExternal
                     }
-                    ToolbarItem(id: .itemSeparator1, placement: .bottomSecondary) {
+                    ToolbarItem(id: .itemSeparator2, placement: .bottomSecondary) {
                         self.itemSeparator
                     }
                     ToolbarItem(id: .itemShare, placement: .bottomSecondary) {
                         self.itemShare
                     }
                 case .compact:
-                    if true { // hack to stop compiler failures for too many items
-                        ToolbarItem(id: .itemErrors, placement: .cancellationAction) {
-                            self.itemErrors
+                    if true { // Top Bar
+                        ToolbarItem(id: .itemArchiveAndClose, placement: .cancellationAction) {
+                            self.itemArchiveAndClose
                         }
                         ToolbarItem(id: .itemStatus, placement: .principal) {
                             self.itemStatus
                         }
+                        ToolbarItem(id: .itemClose, placement: .primaryAction) {
+                            self.itemClose
+                        }
                     }
-                    ToolbarItem(id: .itemBack, placement: .bottomFatal) {
-                        self.itemBack
-                    }
-                    ToolbarItem(id: .itemForward, placement: .bottomFatal) {
-                        self.itemForward
-                    }
-                    ToolbarItem(id: .itemSeparator1, placement: .bottomFatal) {
-                        self.itemSeparator
-                    }
-                    ToolbarItem(id: .itemStopReload, placement: .bottomFatal) {
-                        self.itemStopReload
-                    }
-                    ToolbarItem(id: .itemJavaScript, placement: .bottomFatal) {
-                        self.itemJavaScript
+                    if true { // Navigation: Bottom Leading
+                        ToolbarItem(id: .itemBack, placement: .bottomFatal) {
+                            self.itemBack
+                        }
+                        ToolbarItem(id: .itemForward, placement: .bottomFatal) {
+                            self.itemForward
+                        }
+                        ToolbarItem(id: .itemSeparator1, placement: .bottomFatal) {
+                            self.itemSeparator
+                        }
+                        ToolbarItem(id: .itemStopReload, placement: .bottomFatal) {
+                            self.itemStopReload
+                        }
                     }
                     ToolbarItem(id: .itemSpacer1, placement: .bottomFatal) {
                         self.itemSpacer
                     }
-                    ToolbarItem(id: .itemOpenExternal, placement: .bottomFatal) {
-                        self.itemOpenExternal
+                    if true { // Bottom Middle
+                        ToolbarItem(id: .itemJavaScript, placement: .bottomFatal) {
+                            self.itemJavaScript
+                        }
+                        ToolbarItem(id: .itemSeparator2, placement: .bottomFatal) {
+                            self.itemSeparator
+                        }
+                        ToolbarItem(id: .itemErrors, placement: .bottomFatal) {
+                            self.itemErrors
+                        }
+                        ToolbarItem(id: .itemSpacer2, placement: .bottomFatal) {
+                            self.itemSpacer
+                        }
                     }
-                    ToolbarItem(id: .itemSeparator2, placement: .bottomFatal) {
-                        self.itemSeparator
-                    }
-                    ToolbarItem(id: .itemShare, placement: .bottomFatal) {
-                        self.itemShare
+                    if true { // Bottom trailing
+                        ToolbarItem(id: .itemOpenExternal, placement: .bottomFatal) {
+                            self.itemOpenExternal
+                        }
+                        ToolbarItem(id: .itemSeparator3, placement: .bottomFatal) {
+                            self.itemSeparator
+                        }
+                        ToolbarItem(id: .itemShare, placement: .bottomFatal) {
+                            self.itemShare
+                        }
                     }
                 }
             }
@@ -166,8 +192,8 @@ internal struct Toolbar: ViewModifier {
     }
     
     private var itemStatus: some View {
-        TextField(self.text.loading, text: self.$nav.currentTitle)
-            .disabled(true)
+        self.style.address(value: self.nav.currentTitle,
+                           placeholder: self.text.loading)
     }
     
     private var itemOpenExternal: some View {
@@ -199,16 +225,16 @@ internal struct Toolbar: ViewModifier {
     
     @ViewBuilder private var itemErrors: some View {
         self.style.toolbar
-                  .action(text: self.text.error)
-                  .button(isEnabled: !self.nav.errorQueue.isEmpty)
-        {
+            .action(text: self.text.error)
+            .button(items: self.nav.errorQueue)
+        { _ in
             self.nav.isErrorList.isPresented = true
         }
         .modifier(ErrorListPresentation())
     }
     
     private var itemClose: some View {
-        Button(self.text.done) {
+        self.style.done.action(text: self.text.done).button {
             self.dismiss()
         }
     }
@@ -218,7 +244,7 @@ internal struct Toolbar: ViewModifier {
     }
     
     private var itemSeparator: some View {
-        Text("|")
+        self.style.separator
     }
 }
 
@@ -235,8 +261,10 @@ extension String {
     fileprivate static let itemClose           = "toolbar.close"
     fileprivate static let itemErrors          = "toolbar.errors"
     fileprivate static let itemSpacer1         = "toolbar.spacer1"
+    fileprivate static let itemSpacer2         = "toolbar.spacer2"
     fileprivate static let itemSeparator1      = "toolbar.separator1"
     fileprivate static let itemSeparator2      = "toolbar.separator2"
+    fileprivate static let itemSeparator3      = "toolbar.separator3"
 }
 
 extension ToolbarItemPlacement {

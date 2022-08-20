@@ -30,6 +30,7 @@ import Umbrella
 internal let ActionStyleDefault:      some ActionStyle = ActionStyleImp()
 /// Fake appearance style for use on Labels where there is no "real" disabled state
 internal let ActionStyleFakeDisabled: some ActionStyle = ActionStyleImp(modifier: ModifierDisabledFake())
+internal let ActionStyleButtonDone:   some ActionStyle = ActionStyleImp(label: .titleOnly, modifier: ModifierBold())
 
 // TODO: Make these internal
 // for some reason there is a build error
@@ -52,5 +53,11 @@ public struct ModifierDisabledFake: ViewModifier {
         content
             .tint(Color.grayDark(self.scheme))
             .foregroundColor(Color.grayDark(self.scheme))
+    }
+}
+
+public struct ModifierBold: ViewModifier {
+    public func body(content: Content) -> some View {
+        content.bold(true)
     }
 }

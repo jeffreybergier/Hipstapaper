@@ -42,7 +42,7 @@ public struct Browser: DynamicProperty {
         public var archiveYes:   ActionLocalization
         public var share:        ActionLocalization
         public var error:        ActionLocalization
-        public var done:         LocalizedString
+        public var done:         ActionLocalization
         public var loading:      LocalizedString
         
         internal init(_ b: LocalizeBundle) {
@@ -56,7 +56,7 @@ public struct Browser: DynamicProperty {
             self.archiveYes   = .archiveYes(b)
             self.share        = .share(b)
             self.error        = .errorsPresent(b)
-            self.done         = b.localized(key: Verb.done.rawValue)
+            self.done         = .doneGeneric(b)
             self.loading      = b.localized(key: Phrase.loadingPage.rawValue)
         }
     }

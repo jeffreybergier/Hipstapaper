@@ -33,7 +33,17 @@ public struct Browser: DynamicProperty {
     public init() {}
     
     public struct Value {
-        public var toolbar: some ActionStyle = ActionStyleDefault
+        public var done:      some ActionStyle = ActionStyleButtonDone
+        public var toolbar:   some ActionStyle = ActionStyleDefault
+        public var separator: some View = ActionStyleImp(modifier: ModifierDisabledFake())
+                                                        .action(text: .init(title: "|"))
+                                                        .label
+        public func address(value: String, placeholder: LocalizedString) -> some View {
+            let binding = Binding.constant(value)
+            return TextField(placeholder, text: binding)
+                .textFieldStyle(.roundedBorder)
+                .disabled(true)
+        }
     }
     
     public var wrappedValue: Value {
