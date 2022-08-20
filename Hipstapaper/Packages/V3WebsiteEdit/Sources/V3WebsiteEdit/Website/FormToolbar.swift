@@ -56,15 +56,6 @@ internal struct FormToolbar: ViewModifier {
                               .action(text: self.text.done)
                               .button(action: self.dismiss)
                 }
-                ToolbarItem(placement: .primaryAction) {
-                    self.style.toolbar
-                        .action(text: self.text.error)
-                        .button(isEnabled: !self.nav.errorQueue.isEmpty)
-                    {
-                        self.nav.isErrorList.isPresented = true
-                    }
-                    .modifier(ErrorListPopover())
-                }
                 ToolbarItem(placement: .cancellationAction) {
                     self.style.toolbarDelete
                               .action(text: self.text.delete)
@@ -74,6 +65,15 @@ internal struct FormToolbar: ViewModifier {
                             DeleteWebsiteError($0).codableValue
                         )
                     }
+                }
+                ToolbarItem(placement: .cancellationAction) {
+                    self.style.toolbar
+                        .action(text: self.text.error)
+                        .button(isEnabled: !self.nav.errorQueue.isEmpty)
+                    {
+                        self.nav.isErrorList.isPresented = true
+                    }
+                    .modifier(ErrorListPopover())
                 }
             }
     }

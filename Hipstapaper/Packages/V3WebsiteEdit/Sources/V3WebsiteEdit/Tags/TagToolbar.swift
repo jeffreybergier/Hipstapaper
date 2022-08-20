@@ -39,27 +39,19 @@ internal struct TagToolbar: ViewModifier {
     
     internal func body(content: Content) -> some View {
         content
-            .modifier(self.itemGeneric)
+            .modifier(JSBToolbar(title: self.text.titleTag,
+                                 done: self.text.done,
+                                 doneAction: self.dismiss))
             .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    self.itemErrors
+                ToolbarItem(placement: .cancellationAction) {
+                    self.style.toolbar
+                              .action(text: self.text.error)
+                              .button(isEnabled: !self.nav.errorQueue.isEmpty)
+                    {
+                        self.nav.isErrorList.isPresented = true
+                    }
+                    .modifier(ErrorListPopover())
                 }
             }
-    }
-    
-    private var itemGeneric: some ViewModifier {
-        JSBToolbar(title: self.text.titleTag,
-                   done: self.text.done,
-                   doneAction: self.dismiss)
-    }
-    
-    @ViewBuilder private var itemErrors: some View {
-        self.style.toolbar
-                  .action(text: self.text.error)
-                  .button(isEnabled: !self.nav.errorQueue.isEmpty)
-        {
-            self.nav.isErrorList.isPresented = true
-        }
-        .modifier(ErrorListPopover())
     }
 }
