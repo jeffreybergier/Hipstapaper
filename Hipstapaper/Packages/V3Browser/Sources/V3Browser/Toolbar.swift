@@ -39,6 +39,13 @@ internal struct Toolbar: ViewModifier {
     @Environment(\.openURL) private var openURL
     
     @Binding internal var isArchived: Bool
+    internal let preferredURL: URL?
+    private var sharable: [ShareList.Data] {
+        return [
+            self.nav.currentURL.map { ShareList.Data.current($0) },
+            self.preferredURL.map { ShareList.Data.saved($0) }
+        ].compactMap { $0 }
+    }
     
     internal func body(content: Content) -> some View {
         content
@@ -207,9 +214,13 @@ internal struct Toolbar: ViewModifier {
     }
     
     private var itemShare: some View {
-        self.style.toolbar.action(text: self.text.share).button {
-            // TODO: Implement sharing
+        self.style.toolbar
+            .action(text: self.text.share)
+            .button(items: self.sharable)
+        {
+            self.nav.isShareList = $0
         }
+        .modifier(ShareListPresentation())
     }
     
     private var itemArchiveAndClose: some View {

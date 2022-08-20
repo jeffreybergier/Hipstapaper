@@ -45,9 +45,11 @@ internal struct Navigation: ErrorPresentable {
     internal var errorQueue: Deque<CodableError> = []
     internal var isError: CodableError?
     internal var isErrorList = Basic()
+    internal var isShareList: [ShareList.Data] = []
     internal var isPresenting: Bool {
         return self.isError != nil
             || self.isErrorList.isPresented
+            || self.isShareList.isEmpty == false
     }
 }
 

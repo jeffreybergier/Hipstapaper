@@ -263,7 +263,7 @@ extension ActionLocalization {
               shortcut: nil)
     }
     internal static func shareError(_ b: LocalizeBundle) -> ActionLocalization {
-        .init(title: b.localized(key: Verb.shareAll.rawValue),
+        .init(title: b.localized(key: Verb.share.rawValue),
               image: .init(.shareError),
               shortcut: nil)
     }

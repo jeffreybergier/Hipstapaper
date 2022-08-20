@@ -31,10 +31,10 @@ import Umbrella
 public struct ShareList: DynamicProperty {
 
     public struct Value {
-        public func enabled(subtitle: LocalizedString) -> some ActionStyle {
+        public func enabled(subtitle: String) -> some ActionStyle {
             ActionStyleImp(modifier: ModifierSubtitle(subtitle: subtitle))
         }
-        public func disabled(subtitle: LocalizedString) -> some ActionStyle {
+        public func disabled(subtitle: String) -> some ActionStyle {
             ActionStyleImp(modifier: ModifierCombo(m1: ModifierSubtitle(subtitle: subtitle),
                                                    m2: ModifierDisabledFake()))
         }
@@ -67,8 +67,8 @@ fileprivate struct ModifierCombo<M1: ViewModifier, M2: ViewModifier>: ViewModifi
 }
 
 fileprivate struct ModifierSubtitle: ViewModifier {
-    private let subtitle: LocalizedString
-    fileprivate init(subtitle: LocalizedString) {
+    private let subtitle: String
+    fileprivate init(subtitle: String) {
         self.subtitle = subtitle
     }
     fileprivate func body(content: Content) -> some View {
