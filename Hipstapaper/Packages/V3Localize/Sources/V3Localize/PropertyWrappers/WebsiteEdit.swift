@@ -48,6 +48,7 @@ public struct WebsiteEdit: DynamicProperty {
         public var jsYes:              ActionLocalization
         public var jsNo:               ActionLocalization
         public var noWebsitesSelected: ActionLocalization
+        public var noWebsites:         ActionLocalization
         public var noTagSelected:      ActionLocalization
         public var noTags:             ActionLocalization
         public var error:              ActionLocalization
@@ -70,6 +71,7 @@ public struct WebsiteEdit: DynamicProperty {
             self.jsYes              = .javascriptYes(b)
             self.jsNo               = .javascriptNo(b)
             self.noWebsitesSelected = .noSelectionWebsite(b)
+            self.noWebsites         = .noContentWebsite(b)
             self.noTagSelected      = .noSelectionTag(b)
             self.noTags             = .noContentTag(b)
             self.error              = .errorsPresent(b)

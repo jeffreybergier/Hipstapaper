@@ -92,7 +92,7 @@ fileprivate struct FormSection: View {
                 JSBText(self.text.dataUntitled, text: item.title.wrappedValue)
             }
         } onNIL: {
-            self.style.disabled.action(text: self.text.noWebsitesSelected).label
+            self.style.disabled.action(text: self.text.noWebsites).label
         }
         .onLoadChange(of: self.identifier) {
             _item.setIdentifier($0)
