@@ -29,14 +29,14 @@ import Umbrella
 
 @propertyWrapper
 public struct ShareList: DynamicProperty {
-
+    
     public struct Value {
         public func enabled(subtitle: String) -> some ActionStyle {
-            ActionStyleImp(outerModifier: ModifierSubtitle(subtitle: subtitle))
+            ActionStyleImp(innerModifier: ModifierSubtitle(subtitle: subtitle))
         }
         public func disabled(subtitle: String) -> some ActionStyle {
-            ActionStyleImp(outerModifier: ModifierCombo(m1: ModifierSubtitle(subtitle: subtitle),
-                                                        m2: ModifierDisabledFake()))
+            ActionStyleImp(outerModifier: ModifierDisabledFake(),
+                           innerModifier: ModifierSubtitle(subtitle: subtitle))
         }
         public var copy: some ActionStyle = ActionStyleImp(
             labelStyle: .iconOnly,
@@ -52,33 +52,19 @@ public struct ShareList: DynamicProperty {
     }
 }
 
-fileprivate struct ModifierCombo<M1: ViewModifier, M2: ViewModifier>: ViewModifier {
-    private let m1: M1
-    private let m2: M2
-    fileprivate init(m1: M1, m2: M2) {
-        self.m1 = m1
-        self.m2 = m2
-    }
-    fileprivate func body(content: Content) -> some View {
-        content
-            .modifier(m1)
-            .modifier(m2)
-    }
-}
-
 fileprivate struct ModifierSubtitle: ViewModifier {
     private let subtitle: String
     fileprivate init(subtitle: String) {
         self.subtitle = subtitle
     }
     fileprivate func body(content: Content) -> some View {
-        VStack(alignment: .listRowSeparatorLeading, spacing: .labelVSpacingSmall) {
+        VStack(alignment: .leading, spacing: .labelVSpacingSmall) {
             content
+                .truncationMode(.tail)
             Text(self.subtitle)
                 .font(.small)
+                .truncationMode(.middle)
         }
-        // TODO: Figure out why this is causing a layout issue
         .lineLimit(1)
-        .truncationMode(.middle)
     }
 }
