@@ -32,15 +32,15 @@ public struct ShareList: DynamicProperty {
 
     public struct Value {
         public func enabled(subtitle: String) -> some ActionStyle {
-            ActionStyleImp(modifier: ModifierSubtitle(subtitle: subtitle))
+            ActionStyleImp(outerModifier: ModifierSubtitle(subtitle: subtitle))
         }
         public func disabled(subtitle: String) -> some ActionStyle {
-            ActionStyleImp(modifier: ModifierCombo(m1: ModifierSubtitle(subtitle: subtitle),
-                                                   m2: ModifierDisabledFake()))
+            ActionStyleImp(outerModifier: ModifierCombo(m1: ModifierSubtitle(subtitle: subtitle),
+                                                        m2: ModifierDisabledFake()))
         }
         public var copy: some ActionStyle = ActionStyleImp(
-            label: .iconOnly,
-            modifier: ModifierButtonStyle(style: .bordered)
+            labelStyle: .iconOnly,
+            outerModifier: ModifierButtonStyle(style: .bordered)
         )
         public var popoverSize: some ViewModifier = PopoverSize(size: .medium)
     }
