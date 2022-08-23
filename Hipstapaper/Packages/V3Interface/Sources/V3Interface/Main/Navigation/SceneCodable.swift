@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/28.
+//  Created by Jeffrey Bergier on 2022/08/23.
 //
 //  MIT License
 //
@@ -25,26 +25,43 @@
 //
 
 import SwiftUI
-import Collections
-import Umbrella
-import V3Model
 
+// TODO: Move this to umbrella
 @propertyWrapper
-internal struct Navigation: DynamicProperty {
+public struct SceneCodable<Value: Codable>: DynamicProperty {
     
-    @SceneCodable("com.hipstapaper.nav") private var storage: Value?
+    @SceneStorage private var storage: String?
     
-    internal var wrappedValue: Value {
-        get { self.storage ?? .init() }
-        nonmutating set { self.storage = newValue }
+    @State private var encoder = PropertyListEncoder()
+    @State private var decoder = PropertyListDecoder()
+    
+    // TODO: Not sure if cache actually helps
+    @State private var cache: [String: Value] = [:]
+    
+    public init(_ key: String) {
+        _storage = .init(key)
     }
     
-    internal var projectedValue: Binding<Value> {
-        Binding {
-            self.wrappedValue
-        } set: {
-            self.wrappedValue = $0
+    public var wrappedValue: Value? {
+        get { self.read() }
+        nonmutating set { self.write(newValue) }
+    }
+    
+    private func write(_ newValue: Value?) {
+        let data = try? self.encoder.encode(newValue)
+        let string = data?.base64EncodedString()
+        if let string = string {
+            self.cache[string] = newValue
         }
+        self.storage = string
+    }
+    private func read() -> Value? {
+        let string = self.storage ?? ""
+        if let cache = self.cache[string] {
+            return cache
+        }
+        let data = Data(base64Encoded: string) ?? Data()
+        let value = try? self.decoder.decode(Value.self, from: data)
+        return value
     }
 }
-

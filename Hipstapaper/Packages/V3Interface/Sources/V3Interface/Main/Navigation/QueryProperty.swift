@@ -30,33 +30,20 @@ import V3Model
 @propertyWrapper
 internal struct Query: DynamicProperty {
     
-    @SceneStorage("com.hipstapaper.query") private var data: String?
+    internal typealias Value = V3Model.Query
     
-    var wrappedValue: V3Model.Query {
-        get { self.data?.decodeQuery ?? .systemUnread }
-        nonmutating set { self.data = newValue.encodeString }
+    @SceneCodable("com.hipstapaper.query") private var storage: Value?
+    
+    internal var wrappedValue: Value {
+        get { self.storage ?? .systemUnread }
+        nonmutating set { self.storage = newValue }
     }
     
-    var projectedValue: Binding<V3Model.Query> {
+    internal var projectedValue: Binding<Value> {
         Binding {
             self.wrappedValue
         } set: {
             self.wrappedValue = $0
         }
-    }
-    
-}
-
-extension String {
-    fileprivate var decodeQuery: V3Model.Query? {
-        guard let data = Data(base64Encoded: self) else { return nil }
-        return try? PropertyListDecoder().decode(V3Model.Query.self, from: data)
-    }
-}
-
-extension V3Model.Query {
-    fileprivate var encodeString: String? {
-        guard let data = try? PropertyListEncoder().encode(self) else { return nil }
-        return data.base64EncodedString()
     }
 }

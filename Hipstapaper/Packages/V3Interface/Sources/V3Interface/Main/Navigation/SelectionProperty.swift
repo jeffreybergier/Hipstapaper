@@ -33,15 +33,12 @@ internal struct Selection: DynamicProperty {
         internal var tag:      Tag.Selection.Element?
         internal var websites: Website.Selection = []
     }
-        
-    @SceneStorage("com.hipstapaper.selection") private var storage: String?
     
-    @State private var encoder = PropertyListEncoder()
-    @State private var decoder = PropertyListDecoder()
+    @SceneCodable("com.hipstapaper.selection") private var storage: Value?
     
     internal var wrappedValue: Value {
-        get { self.read() }
-        nonmutating set { self.write(newValue) }
+        get { self.storage ?? .init() }
+        nonmutating set { self.storage = newValue }
     }
     
     internal var projectedValue: Binding<Value> {
@@ -50,15 +47,5 @@ internal struct Selection: DynamicProperty {
         } set: {
             self.wrappedValue = $0
         }
-    }
-    
-    private func write(_ newValue: Value) {
-        let data = try? self.encoder.encode(newValue)
-        self.storage = data?.base64EncodedString()
-    }
-    private func read() -> Value {
-        let data = Data(base64Encoded: self.storage ?? "") ?? Data()
-        let value = try? self.decoder.decode(Value.self, from: data)
-        return value ?? .init()
     }
 }
