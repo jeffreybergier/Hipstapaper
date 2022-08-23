@@ -35,7 +35,7 @@ public struct Browser: View {
     private let identifier: Website.Identifier
     
     @Errors private var errorQueue
-    @StateObject private var nav = Nav.newEnvironment()
+    @StateObject private var nav = Navigation.newEnvironment()
     
     public init(_ identifier: Website.Identifier) {
         self.identifier = identifier
@@ -53,7 +53,7 @@ public struct Browser: View {
 
 fileprivate struct _Browser: View {
     
-    @Nav private var nav
+    @Navigation private var nav
     @WebsiteQuery private var website
     private let identifier: Website.Identifier
     

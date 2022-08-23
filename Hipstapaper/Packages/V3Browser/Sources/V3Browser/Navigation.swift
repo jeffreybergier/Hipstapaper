@@ -29,46 +29,18 @@ import Collections
 import Umbrella
 import V3Errors
 
-internal struct Navigation: ErrorPresentable {
-    internal var isLoading             = false
-    internal var canGoBack             = false
-    internal var canGoForward          = false
-    internal var isJSEnabled           = false
-    internal var shouldGoBack          = false
-    internal var shouldGoForward       = false
-    internal var shouldStop            = false
-    internal var shouldReload          = true
-    internal var shouldLoadURL: URL?
-    internal var currentURL: URL?
-    internal var currentTitle          = ""
-    
-    internal var isError: CodableError?
-    internal var isErrorList = Basic()
-    internal var isShareList: [ShareList.Data] = []
-    internal var isPresenting: Bool {
-        return self.isError != nil
-            || self.isErrorList.isPresented
-            || self.isShareList.isEmpty == false
-    }
-}
-
 @propertyWrapper
-internal struct Nav: DynamicProperty {
-    
-    internal static func newEnvironment() -> ObserveBox<Navigation> {
-        ObserveBox(Navigation())
+internal struct Navigation: DynamicProperty {
+    internal static func newEnvironment() -> ObserveBox<Value> {
+        ObserveBox(.init())
     }
-
-    @EnvironmentObject internal var raw: ObserveBox<Navigation>
-    
+    @EnvironmentObject internal var raw: ObserveBox<Value>
     internal init() {}
-    
-    internal var wrappedValue: Navigation {
+    internal var wrappedValue: Value {
         get { self.raw.value }
         nonmutating set { self.raw.value = newValue }
     }
-    
-    internal var projectedValue: Binding<Navigation> {
+    internal var projectedValue: Binding<Value> {
         .init {
             self.wrappedValue
         } set: {
@@ -78,11 +50,34 @@ internal struct Nav: DynamicProperty {
 }
 
 extension Navigation {
-    internal struct Basic: Codable, ErrorPresentable {
+    internal struct Value: ErrorPresentable {
+        internal var isLoading             = false
+        internal var canGoBack             = false
+        internal var canGoForward          = false
+        internal var isJSEnabled           = false
+        internal var shouldGoBack          = false
+        internal var shouldGoForward       = false
+        internal var shouldStop            = false
+        internal var shouldReload          = true
+        internal var shouldLoadURL: URL?
+        internal var currentURL: URL?
+        internal var currentTitle          = ""
+        
         internal var isError: CodableError?
-        internal var isPresented: Bool = false
+        internal var isErrorList = Basic()
+        internal var isShareList: [ShareList.Data] = []
         internal var isPresenting: Bool {
-            self.isError != nil
+            return self.isError != nil
+            || self.isErrorList.isPresented
+            || self.isShareList.isEmpty == false
+        }
+        
+        internal struct Basic: Codable, ErrorPresentable {
+            internal var isError: CodableError?
+            internal var isPresented: Bool = false
+            internal var isPresenting: Bool {
+                self.isError != nil
+            }
         }
     }
 }

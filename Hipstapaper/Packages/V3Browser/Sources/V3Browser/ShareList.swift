@@ -94,7 +94,7 @@ internal struct ShareList: View {
 }
 
 internal struct ShareListPresentation: ViewModifier {
-    @Nav private var nav
+    @Navigation private var nav
     internal func body(content: Content) -> some View {
         content.popover(items: self.$nav.isShareList) {
             ShareList($0)

@@ -32,7 +32,7 @@ import V3Errors
 
 internal struct Toolbar: ViewModifier {
     
-    @Nav private var nav
+    @Navigation private var nav
     @Errors private var errorQueue
     @JSBSizeClass private var sizeclass
     @V3Style.Browser private var style
