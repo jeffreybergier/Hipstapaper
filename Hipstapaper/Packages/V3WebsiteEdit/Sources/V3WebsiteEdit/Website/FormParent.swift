@@ -35,7 +35,7 @@ internal struct FormParent: View {
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
     
-    @Nav private var nav
+    @Navigation private var nav
     @StateObject private var webState = WebState.newEnvironment()
     
     private let selection: Website.Selection

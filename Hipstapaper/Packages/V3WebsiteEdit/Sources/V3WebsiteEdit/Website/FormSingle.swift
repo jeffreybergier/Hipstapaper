@@ -34,7 +34,7 @@ import V3Localize
 
 internal struct FormSingle: View {
     
-    @Nav private var nav
+    @Navigation private var nav
     @WebState private var webState
     @WebsiteQuery private var item
     @V3Style.WebsiteEdit private var style

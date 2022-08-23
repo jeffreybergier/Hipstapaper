@@ -39,7 +39,7 @@ public struct WebsiteEdit: View {
     }
 
     @State private var screen: Screen
-    @StateObject private var nav = Nav.newEnvironment()
+    @StateObject private var nav = Navigation.newEnvironment()
     @V3Style.WebsiteEdit private var style
     
     private let selection: Website.Selection
@@ -67,7 +67,7 @@ public struct WebsiteEdit: View {
 
 internal struct _WebsiteEdit: View {
     
-    @Nav private var nav
+    @Navigation private var nav
     @Errors private var errorQueue
     @Binding private var screen: WebsiteEdit.Screen
     

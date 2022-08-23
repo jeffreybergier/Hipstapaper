@@ -31,7 +31,7 @@ import V3Store
 
 internal struct Web: View {
     
-    @Nav private var nav
+    @Navigation private var nav
     @StateObject private var progress = ObserveBox<Double>(0)
     
     internal var body: some View {
@@ -47,7 +47,7 @@ internal struct Web: View {
 
 fileprivate struct _Web: View {
     
-    @Nav private var nav
+    @Navigation private var nav
     @WebState private var webState
     @Environment(\.codableErrorResponder) private var errorChain
     @ObservedObject fileprivate var progress: ObserveBox<Double>

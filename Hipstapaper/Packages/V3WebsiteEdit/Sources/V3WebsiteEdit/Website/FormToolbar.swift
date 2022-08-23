@@ -33,7 +33,7 @@ import V3Errors
 
 internal struct FormToolbar: ViewModifier {
     
-    @Nav private var nav
+    @Navigation private var nav
     @Errors private var errorQueue
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text

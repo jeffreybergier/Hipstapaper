@@ -29,37 +29,19 @@ import Collections
 import Umbrella
 import V3Errors
 
-internal struct Navigation: ErrorPresentable {
-    internal var isLoading             = false
-    internal var isJSEnabled           = false
-    internal var shouldStop            = false
-    internal var shouldReload          = true
-    internal var shouldSnapshot        = false
-    internal var shouldLoadURL: URL?
-    
-    internal var isError: CodableError?
-    internal var isErrorList = Basic()
-    internal var isPresenting: Bool { self.isError != nil }
-}
-
 @propertyWrapper
-internal struct Nav: DynamicProperty {
-    
-    internal static func newEnvironment() -> ObserveBox<Navigation> {
-        ObserveBox(Navigation())
+internal struct Navigation: DynamicProperty {
+    internal static func newEnvironment() -> ObserveBox<Value> {
+        ObserveBox(.init())
     }
-
-    @EnvironmentObject internal var raw: ObserveBox<Navigation>
-    
+    @EnvironmentObject internal var raw: ObserveBox<Value>
     internal init() {}
-    
-    internal var wrappedValue: Navigation {
+    internal var wrappedValue: Value {
         get { self.raw.value }
         nonmutating set { self.raw.value = newValue }
     }
-    
-    internal var projectedValue: Binding<Navigation> {
-        .init {
+    internal var projectedValue: Binding<Value> {
+        Binding {
             self.wrappedValue
         } set: {
             self.wrappedValue = $0
@@ -68,11 +50,24 @@ internal struct Nav: DynamicProperty {
 }
 
 extension Navigation {
-    internal struct Basic: Codable, ErrorPresentable {
+    internal struct Value: ErrorPresentable {
+        internal var isLoading             = false
+        internal var isJSEnabled           = false
+        internal var shouldStop            = false
+        internal var shouldReload          = true
+        internal var shouldSnapshot        = false
+        internal var shouldLoadURL: URL?
+        
         internal var isError: CodableError?
-        internal var isPresented: Bool = false
-        internal var isPresenting: Bool {
-            self.isError != nil
+        internal var isErrorList = Basic()
+        internal var isPresenting: Bool { self.isError != nil }
+        
+        internal struct Basic: Codable, ErrorPresentable {
+            internal var isError: CodableError?
+            internal var isPresented: Bool = false
+            internal var isPresenting: Bool {
+                self.isError != nil
+            }
         }
     }
 }

@@ -32,7 +32,7 @@ import V3Localize
 
 internal struct TagToolbar: ViewModifier {
     
-    @Nav private var nav
+    @Navigation private var nav
     @Errors private var errorQueue
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
