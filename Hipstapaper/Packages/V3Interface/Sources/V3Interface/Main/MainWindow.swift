@@ -94,7 +94,7 @@ internal struct MainView: View {
         } onConfirmation: {
             switch $0 {
             case .deleteWebsites(let deleted):
-                self.nav.detail.selectedWebsites.subtract(deleted)
+                self.selection.websites.subtract(deleted)
             case .deleteTags(let deleted):
                 guard deleted.contains(self.selection.tag ?? .default) else { return }
                 self.selection.tag = .default

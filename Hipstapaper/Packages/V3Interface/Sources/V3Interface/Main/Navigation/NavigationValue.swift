@@ -58,7 +58,6 @@ extension Navigation.Value {
         }
     }
     internal struct Detail: Hashable, Codable, ErrorPresentable {
-        internal var selectedWebsites: Website.Selection = []
         internal var isErrorList: Basic = .init()
         internal var isTagApply: Website.Selection = []
         internal var isTagApplyPopover: Website.Selection = []

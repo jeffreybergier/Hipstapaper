@@ -34,6 +34,8 @@ import V3Style
 internal struct DetailList<C: RandomAccessCollection>: View where C.Element == Website.Selection.Element {
 
     @Navigation private var nav
+    @Selection private var selection
+    
     private let data: C
     
     internal init(_ data: C) {
@@ -43,7 +45,7 @@ internal struct DetailList<C: RandomAccessCollection>: View where C.Element == W
     internal var body: some View {
         List(self.data,
              id: \.self,
-             selection: self.$nav.detail.selectedWebsites)
+             selection: self.$selection.websites)
         { identifier in
             WebsiteListRow(identifier)
         }

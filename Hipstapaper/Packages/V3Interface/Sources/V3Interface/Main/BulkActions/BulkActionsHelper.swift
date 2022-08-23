@@ -46,7 +46,7 @@ internal struct BulkActionsHelper: ViewModifier {
             .onLoadChange(of: self.selection.tag) { newValue in
                 _storeState.setTag(selection: newValue.map { [$0] } ?? [])
             }
-            .onLoadChange(of: self.nav.detail.selectedWebsites) { newValue in
+            .onLoadChange(of: self.selection.websites) { newValue in
                 _storeState.setWebsite(selection: newValue)
             }
             .onLoadChange(of: self.errorQueue) { newValue in
@@ -97,7 +97,8 @@ internal struct BulkActionsHelper: ViewModifier {
                 guard selection.isEmpty == false else { return }
                 defer {
                     self.appState.push.archiveYes = []
-                    self.nav.detail.selectedWebsites = []
+                    self.selection.websites = []
+                    // TODO: Be smarter // self.selection.websites.subtract(deleted)
                 }
                 guard let error = BulkActionsQuery.setArchive(true, selection, self.controller).error else { return }
                 self.errorResponder(.init(error))
@@ -106,7 +107,8 @@ internal struct BulkActionsHelper: ViewModifier {
                 guard selection.isEmpty == false else { return }
                 defer {
                     self.appState.push.archiveNo = []
-                    self.nav.detail.selectedWebsites = []
+                    self.selection.websites = []
+                    // TODO: Be smarter // self.selection.websites.subtract(deleted)
                 }
                 guard let error = BulkActionsQuery.setArchive(false, selection, self.controller).error else { return }
                 self.errorResponder(.init(error))
@@ -144,7 +146,7 @@ internal struct BulkActionsHelper: ViewModifier {
             .onChange(of: self.appState.push.deselectAll) { newValue in
                 guard newValue.isEmpty == false else { return }
                 defer { self.appState.push.deselectAll = [] }
-                self.nav.detail.selectedWebsites = []
+                self.selection.websites = []
             }
     }
 }

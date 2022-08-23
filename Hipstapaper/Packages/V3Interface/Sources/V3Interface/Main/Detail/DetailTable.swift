@@ -34,6 +34,7 @@ import V3Style
 internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == Website.Identifier {
 
     @Navigation private var nav
+    @Selection private var selection
     @Query private var query
     @V3Style.DetailTable private var style
     @V3Localize.DetailTable private var text
@@ -58,7 +59,7 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
     // cannot be used with result builder 'TableColumnBuilder'
     // I just want to change the column based on a current setting
     private var tableDefault: some View {
-        Table(selection: self.$nav.detail.selectedWebsites,
+        Table(selection: self.$selection.websites,
               sortOrder: self.$query.sort.HACK_mapSort)
         {
             TableColumn(self.text.columnThumbnail) {
@@ -83,7 +84,7 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
     }
     
     private var tableDateModified: some View {
-        Table(selection: self.$nav.detail.selectedWebsites,
+        Table(selection: self.$selection.websites,
               sortOrder: self.$query.sort.HACK_mapSort)
         {
             TableColumn(self.text.columnThumbnail) {
