@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/17.
+//  Created by Jeffrey Bergier on 2022/08/23.
 //
 //  MIT License
 //
@@ -22,34 +22,45 @@
 //  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
-//
 
 import SwiftUI
 import V3Model
-import V3Localize
-import V3Style
-import V3Errors
 
-internal struct SidebarMenu: ViewModifier {
+extension Selection {
+    internal struct Value: Codable {
+        internal var tagSelection:     Tag.Selection.Element?
+        internal var websiteSelection: Website.Selection = []
+    }
+}
+
+@propertyWrapper
+internal struct Selection: DynamicProperty {
+        
+    @SceneStorage("com.hipstapaper.selection") private var storage: String?
     
-    @Navigation private var nav
-    @V3Style.Sidebar private var style
-    @V3Localize.Sidebar private var text
+    @State private var encoder = PropertyListEncoder()
+    @State private var decoder = PropertyListDecoder()
     
-    @Environment(\.codableErrorResponder) private var errorResponder
+    internal var wrappedValue: Value {
+        get { self.read() }
+        nonmutating set { self.write(newValue) }
+    }
     
-    internal func body(content: Content) -> some View {
-        content.contextMenu(forSelectionType: Tag.Selection.Element.self) { items in
-            items.filter { $0.isSystem == false }.view { _ in
-                self.style.toolbar.action(text: self.text.menuEditTags).button {
-                    self.nav.sidebar.isTagsEdit.isPresented = items
-                }
-                self.style.destructive.action(text: self.text.menuDeleteTags).button {
-                    self.errorResponder(DeleteTagError(items).codableValue)
-                }
-            } onEmpty: {
-                EmptyView()
-            }
+    internal var projectedValue: Binding<Value> {
+        Binding {
+            self.wrappedValue
+        } set: {
+            self.wrappedValue = $0
         }
+    }
+    
+    private func write(_ newValue: Value) {
+        let data = try? self.encoder.encode(newValue)
+        self.storage = data?.base64EncodedString()
+    }
+    private func read() -> Value {
+        let data = Data(base64Encoded: self.storage ?? "") ?? Data()
+        let value = try? self.decoder.decode(Value.self, from: data)
+        return value ?? .init()
     }
 }

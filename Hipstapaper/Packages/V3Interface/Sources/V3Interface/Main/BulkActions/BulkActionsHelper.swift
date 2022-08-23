@@ -71,7 +71,7 @@ internal struct BulkActionsHelper: ViewModifier {
                 defer { self.appState.push.tagAdd = false }
                 switch self.controller.createTag() {
                 case .success(let identifier):
-                    self.nav.sidebar.isTagsEdit.editing = [identifier]
+                    self.nav.sidebar.isTagsEdit.isPresented = [identifier]
                 case .failure(let error):
                     NSLog(String(describing: error))
                     self.errorResponder(.init(error))
@@ -123,7 +123,7 @@ internal struct BulkActionsHelper: ViewModifier {
             .onChange(of: self.appState.push.tagsEdit) { selection in
                 guard selection.isEmpty == false else { return }
                 defer { self.appState.push.tagsEdit = [] }
-                self.nav.sidebar.isTagsEdit.editing = selection
+                self.nav.sidebar.isTagsEdit.isPresented = selection
             }
             .onChange(of: self.appState.push.websiteDelete) { selection in
                 guard selection.isEmpty == false else { return }

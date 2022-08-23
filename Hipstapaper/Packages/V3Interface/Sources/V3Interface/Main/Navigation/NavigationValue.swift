@@ -54,7 +54,7 @@ extension Navigation.Value {
         internal var isTagsEdit: TagsEdit = .init()
         internal var isError: CodableError? // Not used
         internal var isPresenting: Bool {
-            !self.isTagsEdit.editing.isEmpty
+            !self.isTagsEdit.isPresented.isEmpty
             || self.isError != nil
         }
     }
@@ -76,7 +76,7 @@ extension Navigation.Value {
         }
     }
     internal struct TagsEdit: Hashable, Codable, ErrorPresentable {
-        internal var editing: Tag.Selection = []
+        internal var isPresented: Tag.Selection = []
         internal var isError: CodableError?
         internal var isPresenting: Bool {
             self.isError != nil

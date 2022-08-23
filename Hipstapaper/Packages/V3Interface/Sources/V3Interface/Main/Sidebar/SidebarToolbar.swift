@@ -56,7 +56,7 @@ internal struct SidebarToolbar: ViewModifier {
                 } label: {
                     self.style.toolbar.action(text: self.text.toolbarAddGeneric).label
                 }
-                .modifier(TagsEditPresentation(self.$nav.sidebar.isTagsEdit.editing))
+                .modifier(TagsEditPresentation(self.$nav.sidebar.isTagsEdit.isPresented))
             }
         }
     }

@@ -51,18 +51,12 @@ internal struct Navigation: DynamicProperty {
     }
     
     private func write(_ newValue: Value) {
-        let box = CodableBox(value: newValue)
-        let data = try? self.encoder.encode(box)
+        let data = try? self.encoder.encode(newValue)
         self.storage = data?.base64EncodedString()
     }
     private func read() -> Value {
         let data = Data(base64Encoded: self.storage ?? "") ?? Data()
-        let box = try? self.decoder.decode(CodableBox.self, from: data)
-        return box?.value ?? .init()
+        let value = try? self.decoder.decode(Value.self, from: data)
+        return value ?? .init()
     }
-    
-}
-
-fileprivate struct CodableBox: Codable {
-    fileprivate var value: Navigation.Value
 }
