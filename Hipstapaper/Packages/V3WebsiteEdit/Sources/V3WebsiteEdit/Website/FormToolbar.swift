@@ -34,6 +34,7 @@ import V3Errors
 internal struct FormToolbar: ViewModifier {
     
     @Nav private var nav
+    @Errors private var errorQueue
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
     
@@ -69,7 +70,7 @@ internal struct FormToolbar: ViewModifier {
                 ToolbarItem(placement: .cancellationAction) {
                     self.style.toolbar
                         .action(text: self.text.error)
-                        .button(isEnabled: !self.nav.errorQueue.isEmpty)
+                        .button(isEnabled: !self.errorQueue.isEmpty)
                     {
                         self.nav.isErrorList.isPresented = true
                     }

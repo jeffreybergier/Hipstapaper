@@ -42,7 +42,6 @@ internal struct Navigation: ErrorPresentable {
     internal var currentURL: URL?
     internal var currentTitle          = ""
     
-    internal var errorQueue: Deque<CodableError> = []
     internal var isError: CodableError?
     internal var isErrorList = Basic()
     internal var isShareList: [ShareList.Data] = []

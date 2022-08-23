@@ -29,9 +29,10 @@ import V3Errors
 
 internal struct ErrorListPresentation: ViewModifier {
     @Nav private var nav
+    @Errors private var errorQueue
     internal func body(content: Content) -> some View {
         content.popover(isPresented: self.$nav.isErrorList.isPresented) {
-            ErrorList(nav: self.$nav.isErrorList, errorQueue: self.$nav.errorQueue)
+            ErrorList(nav: self.$nav.isErrorList, errorQueue: self.$errorQueue)
         }
     }
 }

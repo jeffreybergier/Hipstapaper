@@ -32,25 +32,16 @@ import V3Errors
 
 internal struct Navigation: Hashable, Codable, ErrorPresentable {
     
-    internal var sidebar: Sidebar
-    internal var detail: Detail
-    internal var isWebsitesEdit: Website.Selection
+    internal var sidebar = Sidebar()
+    internal var detail  = Detail()
+    internal var isWebsitesEdit: Website.Selection = []
     internal var isError: CodableError?
-    internal var errorQueue: Deque<CodableError>
     
     internal var isPresenting: Bool {
         self.detail.isPresenting
         || !self.isWebsitesEdit.isEmpty
         || self.sidebar.isPresenting
         || self.isError != nil
-    }
-    
-    mutating func delete(error: CodableError) {
-        guard let index = self.errorQueue.firstIndex(of: error) else {
-            assertionFailure()
-            return
-        }
-        self.errorQueue.remove(at: index)
     }
 }
 

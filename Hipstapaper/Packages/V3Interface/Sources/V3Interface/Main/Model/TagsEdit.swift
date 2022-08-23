@@ -35,6 +35,7 @@ import V3Style
 internal struct TagsEdit: View {
     
     @Nav private var nav
+    @Errors private var errorQueue
     @Environment(\.dismiss) private var dismiss
     
     internal let selection: Tag.Selection
@@ -45,7 +46,7 @@ internal struct TagsEdit: View {
     
     internal var body: some View {
         ErrorResponder(presenter: self.$nav.sidebar.isTagsEdit,
-                       storage: self.$nav.errorQueue)
+                       storage: self.$errorQueue)
         {
             NavigationStack {
                 Form {

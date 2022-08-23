@@ -26,12 +26,14 @@
 
 import SwiftUI
 import Umbrella
+import V3Errors
 import V3Style
 import V3Localize
 
 internal struct TagToolbar: ViewModifier {
     
     @Nav private var nav
+    @Errors private var errorQueue
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
     
@@ -46,7 +48,7 @@ internal struct TagToolbar: ViewModifier {
                 ToolbarItem(placement: .cancellationAction) {
                     self.style.toolbar
                               .action(text: self.text.error)
-                              .button(isEnabled: !self.nav.errorQueue.isEmpty)
+                              .button(isEnabled: !self.errorQueue.isEmpty)
                     {
                         self.nav.isErrorList.isPresented = true
                     }

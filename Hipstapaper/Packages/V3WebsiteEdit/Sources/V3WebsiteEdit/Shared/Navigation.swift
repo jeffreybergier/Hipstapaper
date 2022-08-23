@@ -37,7 +37,6 @@ internal struct Navigation: ErrorPresentable {
     internal var shouldSnapshot        = false
     internal var shouldLoadURL: URL?
     
-    internal var errorQueue: Deque<CodableError> = []
     internal var isError: CodableError?
     internal var isErrorList = Basic()
     internal var isPresenting: Bool { self.isError != nil }

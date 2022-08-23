@@ -34,6 +34,7 @@ public struct Browser: View {
     
     private let identifier: Website.Identifier
     
+    @Errors private var errorQueue
     @StateObject private var nav = Nav.newEnvironment()
     
     public init(_ identifier: Website.Identifier) {
@@ -42,7 +43,7 @@ public struct Browser: View {
     
     public var body: some View {
         ErrorResponder(presenter: self.$nav.value,
-                       storage: self.$nav.value.errorQueue)
+                       storage: self.$errorQueue)
         {
             _Browser(self.identifier)
                 .environmentObject(self.nav)

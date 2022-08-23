@@ -64,11 +64,12 @@ public struct MainWindow: Scene {
 internal struct MainView: View {
     
     @Nav private var nav
+    @Errors private var errorQueue
     @Controller private var controller
     @V3Style.MainMenu private var style
     
     internal var body: some View {
-        ErrorResponder(presenter: self.$nav, storage: self.$nav.errorQueue) {
+        ErrorResponder(presenter: self.$nav, storage: self.$errorQueue) {
             NavigationSplitView {
                 Sidebar()
             } detail: {
@@ -86,7 +87,7 @@ internal struct MainView: View {
                     let errors = self.controller.syncProgress.errors.map { $0.codableValue }
                     guard errors.isEmpty == false else { return }
                     self.controller.syncProgress.errors.removeAll()
-                    self.nav.errorQueue.append(contentsOf: errors)
+                    self.errorQueue.append(contentsOf: errors)
                 }
             }
         } onConfirmation: {

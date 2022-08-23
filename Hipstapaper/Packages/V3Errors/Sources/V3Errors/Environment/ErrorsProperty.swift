@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/28.
+//  Created by Jeffrey Bergier on 2022/08/23.
 //
 //  MIT License
 //
@@ -27,24 +27,25 @@
 import SwiftUI
 import Collections
 import Umbrella
-import V3Model
 
 @propertyWrapper
-internal struct Nav: DynamicProperty {
+public struct Errors: DynamicProperty {
     
-    internal typealias Value = Navigation
+    public typealias Value = Deque<CodableError>
     
-    @SceneStorage("com.hipstapaper.nav") private var storage: String?
+    @AppStorage("com.hipstapaper.errors") private var storage: String?
     
     @State private var encoder = PropertyListEncoder()
     @State private var decoder = PropertyListDecoder()
+
+    public init() {}
     
-    internal var wrappedValue: Value {
+    public var wrappedValue: Value {
         get { self.read() }
         nonmutating set { self.write(newValue) }
     }
     
-    internal var projectedValue: Binding<Value> {
+    public var projectedValue: Binding<Value> {
         Binding {
             self.wrappedValue
         } set: {
@@ -52,19 +53,29 @@ internal struct Nav: DynamicProperty {
         }
     }
     
+    public mutating func delete(error: CodableError) {
+        guard let index = self.wrappedValue.firstIndex(of: error) else {
+            assertionFailure()
+            return
+        }
+        self.wrappedValue.remove(at: index)
+    }
+    
     private func write(_ newValue: Value) {
-        let box = CodableBox(value: newValue)
+        let box = CodableBox(newValue)
         let data = try? self.encoder.encode(box)
         self.storage = data?.base64EncodedString()
     }
     private func read() -> Value {
         let data = Data(base64Encoded: self.storage ?? "") ?? Data()
         let box = try? self.decoder.decode(CodableBox.self, from: data)
-        return box?.value ?? Navigation()
+        return box?.errorQueue ?? []
     }
-    
 }
 
 fileprivate struct CodableBox: Codable {
-    fileprivate var value: Navigation
+    fileprivate var errorQueue: Deque<CodableError> = []
+    fileprivate init(_ queue: Deque<CodableError>) {
+        self.errorQueue = queue
+    }
 }

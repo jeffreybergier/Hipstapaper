@@ -28,10 +28,12 @@ import SwiftUI
 import Umbrella
 import V3Style
 import V3Localize
+import V3Errors
 
 internal struct Toolbar: ViewModifier {
     
     @Nav private var nav
+    @Errors private var errorQueue
     @JSBSizeClass private var sizeclass
     @V3Style.Browser private var style
     @V3Localize.Browser private var text
@@ -237,7 +239,7 @@ internal struct Toolbar: ViewModifier {
     @ViewBuilder private var itemErrors: some View {
         self.style.toolbar
             .action(text: self.text.error)
-            .button(items: self.nav.errorQueue)
+            .button(items: self.errorQueue)
         { _ in
             self.nav.isErrorList.isPresented = true
         }

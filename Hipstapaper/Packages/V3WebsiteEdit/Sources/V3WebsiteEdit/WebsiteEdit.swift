@@ -68,6 +68,7 @@ public struct WebsiteEdit: View {
 internal struct _WebsiteEdit: View {
     
     @Nav private var nav
+    @Errors private var errorQueue
     @Binding private var screen: WebsiteEdit.Screen
     
     @V3Style.WebsiteEdit private var style
@@ -84,7 +85,7 @@ internal struct _WebsiteEdit: View {
     
     internal var body: some View {
         ErrorResponder(presenter: self.$nav,
-                       storage: self.$nav.errorQueue)
+                       storage: self.$errorQueue)
         {
             TabView(selection: self.$screen) {
                 FormParent(self.selection)
