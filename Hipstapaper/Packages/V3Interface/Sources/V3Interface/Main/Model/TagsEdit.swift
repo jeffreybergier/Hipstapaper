@@ -34,7 +34,7 @@ import V3Style
 
 internal struct TagsEdit: View {
     
-    @Nav private var nav
+    @Navigation private var nav
     @Errors private var errorQueue
     @Environment(\.dismiss) private var dismiss
     

@@ -30,22 +30,25 @@ import Umbrella
 import V3Model
 import V3Errors
 
-internal struct Navigation: Hashable, Codable, ErrorPresentable {
+extension Navigation {
     
-    internal var sidebar = Sidebar()
-    internal var detail  = Detail()
-    internal var isWebsitesEdit: Website.Selection = []
-    internal var isError: CodableError?
-    
-    internal var isPresenting: Bool {
-        self.detail.isPresenting
-        || !self.isWebsitesEdit.isEmpty
-        || self.sidebar.isPresenting
-        || self.isError != nil
+    internal struct Value: Hashable, Codable, ErrorPresentable {
+        
+        internal var sidebar = Sidebar()
+        internal var detail  = Detail()
+        internal var isWebsitesEdit: Website.Selection = []
+        internal var isError: CodableError?
+        
+        internal var isPresenting: Bool {
+            self.detail.isPresenting
+            || !self.isWebsitesEdit.isEmpty
+            || self.sidebar.isPresenting
+            || self.isError != nil
+        }
     }
 }
 
-extension Navigation {
+extension Navigation.Value {
     internal struct Sidebar: Hashable, Codable, ErrorPresentable {
         internal var selectedTag: Tag.Selection.Element?
         internal var isTagsEdit: TagsEdit = .init()

@@ -31,7 +31,7 @@ import V3Errors
 
 internal struct BulkActionsHelper: ViewModifier {
     
-    @Nav private var nav
+    @Navigation private var nav
     @Errors private var errorQueue
     @Controller private var controller
     @BulkActions private var appState

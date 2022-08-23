@@ -34,7 +34,7 @@ import V3Localize
 internal struct MainMenu: Commands {
     
     // need to create custom data structure and pass it through environment.... maybe?
-    @Nav private var nav
+    @Navigation private var nav
     @V3Style.MainMenu private var style
     
     // Need to hack this because there is no environment in a MENU

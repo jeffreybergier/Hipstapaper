@@ -36,7 +36,7 @@ import V3Errors
 
 internal struct SidebarToolbar: ViewModifier {
     
-    @Nav private var nav
+    @Navigation private var nav
     @BulkActions private var state
     
     @V3Style.Sidebar private var style

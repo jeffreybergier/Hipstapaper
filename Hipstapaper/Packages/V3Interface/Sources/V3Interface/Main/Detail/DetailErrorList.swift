@@ -28,7 +28,7 @@ import SwiftUI
 import V3Errors
 
 internal struct DetailErrorListPresentation: ViewModifier {
-    @Nav private var nav
+    @Navigation private var nav
     @Errors private var errorQueue
     internal func body(content: Content) -> some View {
         content.popover(isPresented: self.$nav.detail.isErrorList.isPresented) {

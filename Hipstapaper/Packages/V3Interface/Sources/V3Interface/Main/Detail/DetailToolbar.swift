@@ -33,7 +33,7 @@ import V3Localize
 
 internal struct DetailToolbar: ViewModifier {
 
-    @Nav private var nav
+    @Navigation private var nav
     @BulkActions private var state
     
     @JSBSizeClass private var sizeClass

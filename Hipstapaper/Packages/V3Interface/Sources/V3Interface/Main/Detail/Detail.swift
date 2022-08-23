@@ -31,7 +31,7 @@ import V3Localize
 
 internal struct Detail: View {
     
-    @Nav private var nav
+    @Navigation private var nav
     @Query private var query
     @BulkActions private var state
     @FAST_WebsiteListQuery private var data

@@ -31,7 +31,7 @@ import V3Localize
 
 internal struct DetailTitle: ViewModifier {
 
-    @Nav private var nav
+    @Navigation private var nav
     @Query private var query
     @TagUserQuery private var item: Tag?
     @V3Localize.Detail private var text

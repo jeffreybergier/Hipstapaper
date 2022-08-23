@@ -30,9 +30,7 @@ import Umbrella
 import V3Model
 
 @propertyWrapper
-internal struct Nav: DynamicProperty {
-    
-    internal typealias Value = Navigation
+internal struct Navigation: DynamicProperty {
     
     @SceneStorage("com.hipstapaper.nav") private var storage: String?
     
@@ -60,11 +58,11 @@ internal struct Nav: DynamicProperty {
     private func read() -> Value {
         let data = Data(base64Encoded: self.storage ?? "") ?? Data()
         let box = try? self.decoder.decode(CodableBox.self, from: data)
-        return box?.value ?? Navigation()
+        return box?.value ?? .init()
     }
     
 }
 
 fileprivate struct CodableBox: Codable {
-    fileprivate var value: Navigation
+    fileprivate var value: Navigation.Value
 }

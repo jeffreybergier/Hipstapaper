@@ -63,7 +63,7 @@ public struct MainWindow: Scene {
 
 internal struct MainView: View {
     
-    @Nav private var nav
+    @Navigation private var nav
     @Errors private var errorQueue
     @Controller private var controller
     @V3Style.MainMenu private var style

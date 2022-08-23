@@ -32,7 +32,7 @@ import V3Errors
 
 internal struct SidebarMenu: ViewModifier {
     
-    @Nav private var nav
+    @Navigation private var nav
     @V3Style.Sidebar private var style
     @V3Localize.Sidebar private var text
     

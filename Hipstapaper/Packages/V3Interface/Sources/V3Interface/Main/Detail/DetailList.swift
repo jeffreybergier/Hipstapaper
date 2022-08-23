@@ -33,7 +33,7 @@ import V3Style
 // TODO: Remove C if `any RandomAccessCollection<Website>` ever works
 internal struct DetailList<C: RandomAccessCollection>: View where C.Element == Website.Selection.Element {
 
-    @Nav private var nav
+    @Navigation private var nav
     private let data: C
     
     internal init(_ data: C) {

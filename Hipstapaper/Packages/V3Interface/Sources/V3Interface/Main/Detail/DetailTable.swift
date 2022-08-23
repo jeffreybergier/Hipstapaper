@@ -33,7 +33,7 @@ import V3Style
 // TODO: Remove C if `any RandomAccessCollection<Website>` ever works
 internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == Website.Identifier {
 
-    @Nav private var nav
+    @Navigation private var nav
     @Query private var query
     @V3Style.DetailTable private var style
     @V3Localize.DetailTable private var text
