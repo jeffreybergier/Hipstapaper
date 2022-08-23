@@ -32,6 +32,7 @@ import V3Localize
 internal struct Detail: View {
     
     @Navigation private var nav
+    @Selection private var selection
     @Query private var query
     @BulkActions private var state
     @FAST_WebsiteListQuery private var data
@@ -42,7 +43,7 @@ internal struct Detail: View {
     
     internal var body: some View {
         NavigationStack {
-            self.nav.sidebar.selectedTag.view { _ in
+            self.selection.tag.view { _ in
                 self.data.view {
                     switch self.showsTable {
                     case .showTable:
@@ -58,7 +59,7 @@ internal struct Detail: View {
                 .onLoadChange(of: self.query) {
                     _data.setQuery($0)
                 }
-                .onLoadChange(of: self.nav.sidebar.selectedTag) {
+                .onLoadChange(of: self.selection.tag) {
                     _data.setFilter($0)
                 }
             } onNIL: {

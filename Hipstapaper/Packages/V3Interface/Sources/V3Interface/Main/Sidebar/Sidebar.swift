@@ -33,6 +33,7 @@ import V3Localize
 internal struct Sidebar: View {
     
     @Navigation private var nav
+    @Selection private var selection
     @V3Style.Sidebar private var style
     @V3Localize.Sidebar private var text
     
@@ -41,7 +42,7 @@ internal struct Sidebar: View {
                 
     internal var body: some View {
         NavigationStack {
-            List(selection: self.$nav.sidebar.selectedTag) {
+            List(selection: self.$selection.tag) {
                 Section(self.text.sectionTitleTagsSystem) {
                     ForEach(self.tagsSystem, id: \.id) { item in
                         NavigationLink(value: item.id) {

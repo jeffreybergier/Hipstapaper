@@ -50,7 +50,6 @@ extension Navigation {
 
 extension Navigation.Value {
     internal struct Sidebar: Hashable, Codable, ErrorPresentable {
-        internal var selectedTag: Tag.Selection.Element?
         internal var isTagsEdit: TagsEdit = .init()
         internal var isError: CodableError? // Not used
         internal var isPresenting: Bool {

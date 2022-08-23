@@ -32,6 +32,7 @@ import V3Errors
 internal struct BulkActionsHelper: ViewModifier {
     
     @Navigation private var nav
+    @Selection private var selection
     @Errors private var errorQueue
     @Controller private var controller
     @BulkActions private var appState
@@ -42,7 +43,7 @@ internal struct BulkActionsHelper: ViewModifier {
     internal func body(content: Content) -> some View {
         content
         // MARK: Update PULL State
-            .onLoadChange(of: self.nav.sidebar.selectedTag) { newValue in
+            .onLoadChange(of: self.selection.tag) { newValue in
                 _storeState.setTag(selection: newValue.map { [$0] } ?? [])
             }
             .onLoadChange(of: self.nav.detail.selectedWebsites) { newValue in

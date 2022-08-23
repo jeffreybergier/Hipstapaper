@@ -64,6 +64,7 @@ public struct MainWindow: Scene {
 internal struct MainView: View {
     
     @Navigation private var nav
+    @Selection private var selection
     @Errors private var errorQueue
     @Controller private var controller
     @V3Style.MainMenu private var style
@@ -95,8 +96,8 @@ internal struct MainView: View {
             case .deleteWebsites(let deleted):
                 self.nav.detail.selectedWebsites.subtract(deleted)
             case .deleteTags(let deleted):
-                guard deleted.contains(self.nav.sidebar.selectedTag ?? .default) else { return }
-                self.nav.sidebar.selectedTag = .default
+                guard deleted.contains(self.selection.tag ?? .default) else { return }
+                self.selection.tag = .default
             }
         }
     }

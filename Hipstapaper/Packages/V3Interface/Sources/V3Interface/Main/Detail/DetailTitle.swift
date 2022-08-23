@@ -32,13 +32,14 @@ import V3Localize
 internal struct DetailTitle: ViewModifier {
 
     @Navigation private var nav
+    @Selection private var selection
     @Query private var query
     @TagUserQuery private var item: Tag?
     @V3Localize.Detail private var text
     
     internal func body(content: Content) -> some View {
         Group {
-            switch self.nav.sidebar.selectedTag?.kind ?? .user {
+            switch self.selection.tag?.kind ?? .user {
             case .systemUnread:
                 content.navigationTitle(self.text.titleUnread)
             case .systemAll:
@@ -58,7 +59,7 @@ internal struct DetailTitle: ViewModifier {
             }
         }
         .navigationBarTitleDisplayModeInline
-        .onLoadChange(of: self.nav.sidebar.selectedTag) {
+        .onLoadChange(of: self.selection.tag) {
             _item.setIdentifier($0)
         }
     }

@@ -34,6 +34,7 @@ import V3Localize
 internal struct DetailToolbar: ViewModifier {
 
     @Navigation private var nav
+    @Selection private var selection
     @BulkActions private var state
     
     @JSBSizeClass private var sizeClass
@@ -130,7 +131,7 @@ internal struct DetailToolbar: ViewModifier {
                 ToolbarItem(id: .itemSpacer2, placement: .bottomSecondary) {
                     Spacer()
                 }
-                if self.nav.sidebar.selectedTag?.isSystem == false {
+                if self.selection.tag?.isSystem == false {
                     ToolbarItem(id: .itemFilter, placement: .bottomSecondary) {
                         FilterMenu()
                     }
@@ -139,7 +140,7 @@ internal struct DetailToolbar: ViewModifier {
                     SortMenu()
                 }
             }
-            .disabled(self.nav.sidebar.selectedTag == nil)
+            .disabled(self.selection.tag == nil)
     }
 }
 

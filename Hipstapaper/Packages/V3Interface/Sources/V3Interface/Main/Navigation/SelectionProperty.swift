@@ -26,15 +26,13 @@
 import SwiftUI
 import V3Model
 
-extension Selection {
-    internal struct Value: Codable {
-        internal var tagSelection:     Tag.Selection.Element?
-        internal var websiteSelection: Website.Selection = []
-    }
-}
-
 @propertyWrapper
 internal struct Selection: DynamicProperty {
+    
+    internal struct Value: Codable {
+        internal var tag:      Tag.Selection.Element?
+        internal var websites: Website.Selection = []
+    }
         
     @SceneStorage("com.hipstapaper.selection") private var storage: String?
     
