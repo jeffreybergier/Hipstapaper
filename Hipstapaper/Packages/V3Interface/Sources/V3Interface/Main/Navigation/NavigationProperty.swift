@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/28.
+//  Created by Jeffrey Bergier on 2022/06/17.
 //
 //  MIT License
 //
@@ -25,9 +25,68 @@
 //
 
 import SwiftUI
-import Collections
 import Umbrella
 import V3Model
+import V3Errors
+
+extension Navigation {
+    
+    internal struct Value: Hashable, Codable, ErrorPresentable {
+        
+        internal var sidebar = Sidebar()
+        internal var detail  = Detail()
+        internal var isWebsitesEdit: Website.Selection = []
+        internal var isError: CodableError?
+        
+        internal var isPresenting: Bool {
+            self.detail.isPresenting
+            || !self.isWebsitesEdit.isEmpty
+            || self.sidebar.isPresenting
+            || self.isError != nil
+        }
+    }
+}
+
+extension Navigation.Value {
+    internal struct Sidebar: Hashable, Codable, ErrorPresentable {
+        internal var isTagsEdit: TagsEdit = .init()
+        internal var isError: CodableError? // Not used
+        internal var isPresenting: Bool {
+            !self.isTagsEdit.isPresented.isEmpty
+            || self.isError != nil
+        }
+    }
+    internal struct Detail: Hashable, Codable, ErrorPresentable {
+        internal var isErrorList: Basic = .init()
+        internal var isTagApply: Website.Selection = []
+        internal var isTagApplyPopover: Website.Selection = []
+        internal var isShare: Website.Selection = []
+        internal var isSharePopover: Website.Selection = []
+        internal var isBrowse: Website.Selection.Element? = nil
+        internal var isError: CodableError? // Not used
+        internal var isPresenting: Bool {
+            !self.isTagApply.isEmpty
+            || !self.isShare.isEmpty
+            || !self.isSharePopover.isEmpty
+            || self.isBrowse != nil
+            || self.isError != nil
+        }
+    }
+    internal struct TagsEdit: Hashable, Codable, ErrorPresentable {
+        internal var isPresented: Tag.Selection = []
+        internal var isError: CodableError?
+        internal var isPresenting: Bool {
+            self.isError != nil
+        }
+    }
+    internal struct Basic: Hashable, Codable, ErrorPresentable {
+        internal var isError: CodableError?
+        internal var isPresented: Bool = false
+        internal var isPresenting: Bool {
+            self.isError != nil
+        }
+    }
+}
 
 @propertyWrapper
 internal struct Navigation: DynamicProperty {
@@ -35,16 +94,11 @@ internal struct Navigation: DynamicProperty {
     @JSBSceneStorage("com.hipstapaper.nav") private var storage = Value()
     
     internal var wrappedValue: Value {
-        get { self.storage ?? .init() }
+        get { self.storage }
         nonmutating set { self.storage = newValue }
     }
     
     internal var projectedValue: Binding<Value> {
-        Binding {
-            self.wrappedValue
-        } set: {
-            self.wrappedValue = $0
-        }
+        self.$storage
     }
 }
-

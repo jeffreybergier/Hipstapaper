@@ -24,6 +24,7 @@
 //  SOFTWARE.
 
 import SwiftUI
+import Umbrella
 import V3Model
 
 @propertyWrapper
@@ -42,10 +43,6 @@ internal struct Selection: DynamicProperty {
     }
     
     internal var projectedValue: Binding<Value> {
-        Binding {
-            self.wrappedValue
-        } set: {
-            self.wrappedValue = $0
-        }
+        self.$storage
     }
 }
