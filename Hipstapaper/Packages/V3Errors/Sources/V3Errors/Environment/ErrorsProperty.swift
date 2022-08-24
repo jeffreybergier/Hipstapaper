@@ -30,44 +30,19 @@ import Umbrella
 
 @propertyWrapper
 public struct Errors: DynamicProperty {
-    
+
     public typealias Value = Deque<CodableError>
     
-    @AppStorage("com.hipstapaper.errors") private var storage: String?
+    @JSBAppStorage("com.hipstapaper.errors") private var storage = Value()
     
-    @State private var encoder = PropertyListEncoder()
-    @State private var decoder = PropertyListDecoder()
-
-    public init() {}
+    public init() { }
     
     public var wrappedValue: Value {
-        get { self.read() }
-        nonmutating set { self.write(newValue) }
+        get { self.storage }
+        nonmutating set { self.storage = newValue }
     }
     
     public var projectedValue: Binding<Value> {
-        Binding {
-            self.wrappedValue
-        } set: {
-            self.wrappedValue = $0
-        }
-    }
-    
-    public mutating func delete(error: CodableError) {
-        guard let index = self.wrappedValue.firstIndex(of: error) else {
-            assertionFailure()
-            return
-        }
-        self.wrappedValue.remove(at: index)
-    }
-    
-    private func write(_ newValue: Value) {
-        let data = try? self.encoder.encode(newValue)
-        self.storage = data?.base64EncodedString()
-    }
-    private func read() -> Value {
-        let data = Data(base64Encoded: self.storage ?? "") ?? Data()
-        let value = try? self.decoder.decode(Value.self, from: data)
-        return value ?? []
+        self.$storage
     }
 }
