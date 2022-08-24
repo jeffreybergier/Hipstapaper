@@ -32,7 +32,7 @@ import V3Model
 @propertyWrapper
 internal struct Navigation: DynamicProperty {
     
-    @SceneCodable("com.hipstapaper.nav") private var storage: Value?
+    @JSBSceneStorage("com.hipstapaper.nav") private var storage = Value()
     
     internal var wrappedValue: Value {
         get { self.storage ?? .init() }

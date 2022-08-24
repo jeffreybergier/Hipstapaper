@@ -32,10 +32,10 @@ internal struct Query: DynamicProperty {
     
     internal typealias Value = V3Model.Query
     
-    @SceneCodable("com.hipstapaper.query") private var storage: Value?
+    @JSBSceneStorage("com.hipstapaper.query") private var storage = Value.systemUnread
     
     internal var wrappedValue: Value {
-        get { self.storage ?? .systemUnread }
+        get { self.storage }
         nonmutating set { self.storage = newValue }
     }
     

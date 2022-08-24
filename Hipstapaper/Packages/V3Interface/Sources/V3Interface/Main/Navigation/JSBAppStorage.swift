@@ -26,42 +26,54 @@
 
 import SwiftUI
 
-// TODO: Move this to umbrella
+/// Provides a AppStorage API that takes any codable value
 @propertyWrapper
-public struct SceneCodable<Value: Codable>: DynamicProperty {
+public struct JSBAppStorage<Value: Codable>: DynamicProperty {
     
-    @SceneStorage private var storage: String?
+    // MARK: Property Wrapper Boilerplate
     
+    private let defaultValue: Value
+    @AppStorage private var storage: String?
+    
+    public init(wrappedValue: Value, _ key: String) {
+        _storage = .init(key)
+        self.defaultValue = wrappedValue
+    }
+    
+    public var wrappedValue: Value {
+        get { self.read() ?? self.defaultValue }
+        nonmutating set { self.write(newValue) }
+    }
+    
+    public var projectedValue: Binding<Value> {
+        Binding {
+            self.wrappedValue
+        } set: {
+            self.wrappedValue = $0
+        }
+    }
+    
+    // MARK: Encoding / Decoding
+    
+    // Not sure if storing these helps performance
     @State private var encoder = PropertyListEncoder()
     @State private var decoder = PropertyListDecoder()
     
-    // TODO: Not sure if cache actually helps
+    // Not sure if cache actually helps performance
     @State private var cache: [String: Value] = [:]
     
-    public init(_ key: String) {
-        _storage = .init(key)
-    }
-    
-    public var wrappedValue: Value? {
-        get { self.read() }
-        nonmutating set { self.write(newValue) }
+    private func read() -> Value? {
+        guard let string = self.storage else { return nil }
+        if let cache = self.cache[string] { return cache }
+        guard let data = Data(base64Encoded: string) else { return nil }
+        return try? self.decoder.decode(Value.self, from: data)
     }
     
     private func write(_ newValue: Value?) {
         let data = try? self.encoder.encode(newValue)
         let string = data?.base64EncodedString()
-        if let string = string {
-            self.cache[string] = newValue
-        }
         self.storage = string
-    }
-    private func read() -> Value? {
-        let string = self.storage ?? ""
-        if let cache = self.cache[string] {
-            return cache
-        }
-        let data = Data(base64Encoded: string) ?? Data()
-        let value = try? self.decoder.decode(Value.self, from: data)
-        return value
+        guard let string = string else { return }
+        self.cache[string] = newValue
     }
 }

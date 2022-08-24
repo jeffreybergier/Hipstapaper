@@ -34,10 +34,10 @@ internal struct Selection: DynamicProperty {
         internal var websites: Website.Selection = []
     }
     
-    @SceneCodable("com.hipstapaper.selection") private var storage: Value?
+    @JSBSceneStorage("com.hipstapaper.selection") private var storage = Value()
     
     internal var wrappedValue: Value {
-        get { self.storage ?? .init() }
+        get { self.storage }
         nonmutating set { self.storage = newValue }
     }
     
