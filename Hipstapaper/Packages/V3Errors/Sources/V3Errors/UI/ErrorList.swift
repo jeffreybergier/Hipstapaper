@@ -31,13 +31,12 @@ import V3Store
 import V3Localize
 import V3Style
 
-public struct ErrorList<Nav: ErrorPresentable,
-                        ES: RandomAccessCollection & RangeReplaceableCollection>: View
+public struct ErrorList<ES: RandomAccessCollection & RangeReplaceableCollection>: View
                         where ES.Element == CodableError
 {
     
-    @Binding private var nav: Nav
-    @Binding private var errorQueue: ES
+    @Binding private var isError: CodableError?
+    @Binding private var errorStorage: ES
     
     @Controller private var controller
     @V3Style.ErrorList private var style
@@ -45,19 +44,19 @@ public struct ErrorList<Nav: ErrorPresentable,
     
     @Environment(\.dismiss) private var dismiss
     
-    public init(nav: Binding<Nav>, errorQueue: Binding<ES>) {
-        _nav = nav
-        _errorQueue = errorQueue
+    public init(isError: Binding<CodableError?>, errorStorage: Binding<ES>) {
+        _isError = isError
+        _errorStorage = errorStorage
     }
         
     public var body: some View {
         NavigationStack {
-            List(self.errorQueue,
+            List(self.errorStorage,
                  id: \.self,
-                 selection: self.$nav.isError,
+                 selection: self.$isError,
                  rowContent: ErrorListRow.init)
             .listStyle(.plain)
-            .animation(.default, value: self.errorQueue.count)
+            .animation(.default, value: self.errorStorage.count)
             .modifier(self.toolbar)
             .modifier(self.alert)
         }
@@ -71,19 +70,19 @@ public struct ErrorList<Nav: ErrorPresentable,
         {
             self.dismiss()
         } deleteAction: {
-            self.errorQueue.removeAll(where: { _ in true })
+            self.errorStorage.removeAll(where: { _ in true })
             self.dismiss()
         }
     }
     
     private var alert: some ViewModifier {
-        UserFacingErrorAlert<LocalizeBundle, CodableError>(self.$nav.isError) { error in
-            guard let index = self.errorQueue.firstIndex(where: { $0.id == error.id }) else { return }
-            self.errorQueue.remove(at: index)
+        UserFacingErrorAlert<LocalizeBundle, CodableError>(self.$isError) { error in
+            guard let index = self.errorStorage.firstIndex(where: { $0.id == error.id }) else { return }
+            self.errorStorage.remove(at: index)
         } transform: {
             $0.userFacingError {
                 guard let error = perform(confirmation: $0, controller: self.controller) else { return }
-                self.nav.isError = error
+                self.isError = error
             }
         }
     }

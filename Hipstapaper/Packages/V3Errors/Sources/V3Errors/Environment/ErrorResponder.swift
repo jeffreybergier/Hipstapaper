@@ -29,31 +29,28 @@ import Umbrella
 import V3Store
 import V3Localize
 
-public protocol ErrorPresentable {
-    var isError: CodableError? { get set }
-    var isPresenting: Bool { get }
-}
-
-public struct ErrorResponder<V: View, EP: ErrorPresentable, EC: RangeReplaceableCollection>: View where EC.Element == CodableError {
+public struct ErrorResponder<V: View, ES: RangeReplaceableCollection>: View where ES.Element == CodableError {
     
-    @Binding private var errorStorage: EC
-    @Binding private var errorPresentable: EP
     @Controller private var controller
-    
     @Environment(\.codableErrorResponder) private var errorResponder
     
+    @Binding private var toPresent: CodableError?
+    @Binding private var errorStorage: ES
+    private let storeErrors: Bool
     private let content: () -> V
     private let onConfirmation: OnConfirmation?
     
-    public init(presenter: Binding<EP>,
-                storage: Binding<EC>,
+    public init(toPresent: Binding<CodableError?>,
+                storeErrors: Bool,
+                inStorage: Binding<ES>,
                 @ViewBuilder content: @escaping () -> V,
                 onConfirmation: OnConfirmation? = nil)
     {
         self.content = content
         self.onConfirmation = onConfirmation
-        _errorPresentable = presenter
-        _errorStorage = storage
+        self.storeErrors = storeErrors
+        _toPresent = toPresent
+        _errorStorage = inStorage
     }
     
     public var body: some View {
@@ -63,11 +60,9 @@ public struct ErrorResponder<V: View, EP: ErrorPresentable, EC: RangeReplaceable
     }
     
     private func handle(_ error: CodableError) {
-        if
-            self.errorPresentable.isError == nil,
-            self.errorPresentable.isPresenting == false
-        {
-            self.errorPresentable.isError = error
+        if self.storeErrors == false && self.toPresent == nil {
+            // If we can present the error, present the error
+            self.toPresent = error
         } else {
             // Note to future self: Don't pass down the chain
             // If this view can't respond to an error,
@@ -80,7 +75,7 @@ public struct ErrorResponder<V: View, EP: ErrorPresentable, EC: RangeReplaceable
     
     private var alert: some ViewModifier {
         // TODO: Pass UserFacingError or Confirmation back up so UI can respond
-        UserFacingErrorAlert<LocalizeBundle, CodableError>(self.$errorPresentable.isError) {
+        UserFacingErrorAlert<LocalizeBundle, CodableError>(self.$toPresent) {
             $0.userFacingError {
                 if let error = perform(confirmation: $0, controller: self.controller) {
                     self.handle(error)

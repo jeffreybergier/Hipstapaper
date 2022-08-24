@@ -42,8 +42,9 @@ public struct Browser: View {
     }
     
     public var body: some View {
-        ErrorResponder(presenter: self.$nav.value,
-                       storage: self.$errorQueue)
+        ErrorResponder(toPresent: self.$nav.value.isError,
+                       storeErrors: self.nav.value.isPresenting,
+                       inStorage: self.$errorQueue)
         {
             _Browser(self.identifier)
                 .environmentObject(self.nav)

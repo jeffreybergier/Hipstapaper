@@ -27,11 +27,10 @@
 import SwiftUI
 import Umbrella
 import V3Model
-import V3Errors
 
 extension Navigation {
     
-    internal struct Value: Hashable, Codable, ErrorPresentable {
+    internal struct Value: Hashable, Codable {
         
         internal var sidebar = Sidebar()
         internal var detail  = Detail()
@@ -48,7 +47,7 @@ extension Navigation {
 }
 
 extension Navigation.Value {
-    internal struct Sidebar: Hashable, Codable, ErrorPresentable {
+    internal struct Sidebar: Hashable, Codable {
         internal var isTagsEdit: TagsEdit = .init()
         internal var isError: CodableError? // Not used
         internal var isPresenting: Bool {
@@ -56,7 +55,7 @@ extension Navigation.Value {
             || self.isError != nil
         }
     }
-    internal struct Detail: Hashable, Codable, ErrorPresentable {
+    internal struct Detail: Hashable, Codable {
         internal var isErrorList: Basic = .init()
         internal var isTagApply: Website.Selection = []
         internal var isTagApplyPopover: Website.Selection = []
@@ -72,14 +71,14 @@ extension Navigation.Value {
             || self.isError != nil
         }
     }
-    internal struct TagsEdit: Hashable, Codable, ErrorPresentable {
+    internal struct TagsEdit: Hashable, Codable {
         internal var isPresented: Tag.Selection = []
         internal var isError: CodableError?
         internal var isPresenting: Bool {
             self.isError != nil
         }
     }
-    internal struct Basic: Hashable, Codable, ErrorPresentable {
+    internal struct Basic: Hashable, Codable {
         internal var isError: CodableError?
         internal var isPresented: Bool = false
         internal var isPresenting: Bool {

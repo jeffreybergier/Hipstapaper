@@ -27,7 +27,6 @@
 import SwiftUI
 import Collections
 import Umbrella
-import V3Errors
 
 @propertyWrapper
 internal struct Navigation: DynamicProperty {
@@ -50,7 +49,7 @@ internal struct Navigation: DynamicProperty {
 }
 
 extension Navigation {
-    internal struct Value: ErrorPresentable {
+    internal struct Value {
         internal var isLoading             = false
         internal var canGoBack             = false
         internal var canGoForward          = false
@@ -72,7 +71,7 @@ extension Navigation {
             || self.isShareList.isEmpty == false
         }
         
-        internal struct Basic: Codable, ErrorPresentable {
+        internal struct Basic: Codable {
             internal var isError: CodableError?
             internal var isPresented: Bool = false
             internal var isPresenting: Bool {

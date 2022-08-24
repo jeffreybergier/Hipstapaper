@@ -70,7 +70,10 @@ internal struct MainView: View {
     @V3Style.MainMenu private var style
     
     internal var body: some View {
-        ErrorResponder(presenter: self.$nav, storage: self.$errorQueue) {
+        ErrorResponder(toPresent: self.$nav.isError,
+                       storeErrors: self.nav.isPresenting,
+                       inStorage: self.$errorQueue)
+        {
             NavigationSplitView {
                 Sidebar()
             } detail: {

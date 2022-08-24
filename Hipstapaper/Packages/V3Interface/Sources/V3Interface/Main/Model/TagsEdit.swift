@@ -45,8 +45,9 @@ internal struct TagsEdit: View {
     }
     
     internal var body: some View {
-        ErrorResponder(presenter: self.$nav.sidebar.isTagsEdit,
-                       storage: self.$errorQueue)
+        ErrorResponder(toPresent: self.$nav.sidebar.isTagsEdit.isError,
+                       storeErrors: self.nav.sidebar.isTagsEdit.isPresenting,
+                       inStorage: self.$errorQueue)
         {
             NavigationStack {
                 Form {

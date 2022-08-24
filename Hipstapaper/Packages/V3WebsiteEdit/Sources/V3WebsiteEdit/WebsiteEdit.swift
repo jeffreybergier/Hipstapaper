@@ -84,8 +84,9 @@ internal struct _WebsiteEdit: View {
     }
     
     internal var body: some View {
-        ErrorResponder(presenter: self.$nav,
-                       storage: self.$errorQueue)
+        ErrorResponder(toPresent: self.$nav.isError,
+                       storeErrors: self.nav.isPresenting,
+                       inStorage: self.$errorQueue)
         {
             TabView(selection: self.$screen) {
                 FormParent(self.selection)
