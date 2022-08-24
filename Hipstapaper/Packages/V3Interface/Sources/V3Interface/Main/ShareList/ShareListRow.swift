@@ -46,10 +46,12 @@ internal struct ShareListRow: View {
     internal var body: some View {
         self.itemURL.view { url in
             ShareLink(item: url) {
+                // TODO: Is it possible to put this all in Style?
                 HStack {
                     self.style.enabled(subtitle: url.absoluteString)
                         .action(text: self.text.singleName(self.item?.title))
                         .label
+                    Spacer()
                     self.style.copy.action(text: self.text.copy).button {
                         JSBPasteboard.set(title: self.item?.title, url: url)
                     }
