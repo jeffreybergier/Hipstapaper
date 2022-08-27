@@ -59,6 +59,8 @@ internal enum Action {
     case share
     case shareMulti
     case shareSingle
+    case shareSingleSaved
+    case shareSingleCurrent
     case shareError
     case copyToClipboard
     case filter
@@ -84,7 +86,7 @@ internal enum Action {
         return output
     }
     
-    internal var raw: ActionLocalization {
+    private var raw: ActionLocalization {
         switch self {
         case .openInApp:
             return .raw_openInApp
@@ -150,6 +152,10 @@ internal enum Action {
             return .raw_shareMulti
         case .shareSingle:
             return .raw_shareSingle
+        case .shareSingleSaved:
+            return .raw_shareSingleSaved
+        case .shareSingleCurrent:
+            return .raw_shareSingleCurrent
         case .shareError:
             return .raw_shareError
         case .copyToClipboard:
@@ -365,12 +371,18 @@ extension ActionLocalization {
     fileprivate static let raw_shareMulti: ActionLocalization = {
         .init(title: Verb.shareAll.rawValue,
               hint:  Phrase.share.rawValue,
-              image: .init(.shareMulti),
-              shortcut: nil)
+              image: .init(.shareMulti))
     }()
     fileprivate static let raw_shareSingle: ActionLocalization = {
         .init(title: Verb.share.rawValue,
-              hint:  Phrase.share.rawValue,
+              image: .init(.share))
+    }()
+    fileprivate static let raw_shareSingleSaved: ActionLocalization = {
+        .init(title: Verb.websiteSaved.rawValue,
+              image: .init(.share))
+    }()
+    fileprivate static let raw_shareSingleCurrent: ActionLocalization = {
+        .init(title: Verb.websiteCurrent.rawValue,
               image: .init(.share),
               shortcut: nil)
     }()

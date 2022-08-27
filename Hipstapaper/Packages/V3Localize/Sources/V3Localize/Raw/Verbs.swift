@@ -68,4 +68,6 @@ public enum Verb: LocalizationKey {
     case selectAll              = "Verb.SelectAll"
     case deselectAll            = "Verb.DeselectAll"
     case copyToClipboard        = "Verb.CopyToClipboard"
+    case websiteSaved           = "Verb.SavedWebsite"
+    case websiteCurrent         = "Verb.CurrentWebsite"
 }

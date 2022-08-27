@@ -74,6 +74,8 @@
 "Verb.SelectAll"              = "Select All";
 "Verb.DeselectAll"            = "Deselect All";
 "Verb.CopyToClipboard"        = "Copy";
+"Verb.SavedWebsite"           = "Saved Website";
+"Verb.CurrentWebsite"         = "Current Website";
 
 //
 //
