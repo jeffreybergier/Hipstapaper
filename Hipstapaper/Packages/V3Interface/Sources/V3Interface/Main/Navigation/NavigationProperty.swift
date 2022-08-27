@@ -28,76 +28,95 @@ import SwiftUI
 import Umbrella
 import V3Model
 
-extension Navigation {
-    
-    internal struct Value: Hashable, Codable {
-        
-        internal var sidebar = Sidebar()
-        internal var detail  = Detail()
-        internal var isWebsitesEdit: Website.Selection = []
-        internal var isError: CodableError?
-        
-        internal var isPresenting: Bool {
-            self.detail.isPresenting
-            || !self.isWebsitesEdit.isEmpty
-            || self.sidebar.isPresenting
-            || self.isError != nil
-        }
-    }
-}
-
-extension Navigation.Value {
-    internal struct Sidebar: Hashable, Codable {
-        internal var isTagsEdit: TagsEdit = .init()
-        internal var isError: CodableError? // Not used
-        internal var isPresenting: Bool {
-            !self.isTagsEdit.isPresented.isEmpty
-            || self.isError != nil
-        }
-    }
-    internal struct Detail: Hashable, Codable {
-        internal var isErrorList: Basic = .init()
-        internal var isTagApply: Website.Selection = []
-        internal var isTagApplyPopover: Website.Selection = []
-        internal var isShare: Website.Selection = []
-        internal var isSharePopover: Website.Selection = []
-        internal var isBrowse: Website.Selection.Element? = nil
-        internal var isError: CodableError? // Not used
-        internal var isPresenting: Bool {
-            !self.isTagApply.isEmpty
-            || !self.isShare.isEmpty
-            || !self.isSharePopover.isEmpty
-            || self.isBrowse != nil
-            || self.isError != nil
-        }
-    }
-    internal struct TagsEdit: Hashable, Codable {
-        internal var isPresented: Tag.Selection = []
-        internal var isError: CodableError?
-        internal var isPresenting: Bool {
-            self.isError != nil
-        }
-    }
-    internal struct Basic: Hashable, Codable {
-        internal var isError: CodableError?
-        internal var isPresented: Bool = false
-        internal var isPresenting: Bool {
-            self.isError != nil
-        }
-    }
-}
-
 @propertyWrapper
 internal struct Navigation: DynamicProperty {
-    
     @JSBSceneStorage("com.hipstapaper.nav") private var storage = Value()
-    
     internal var wrappedValue: Value {
         get { self.storage }
         nonmutating set { self.storage = newValue }
     }
-    
     internal var projectedValue: Binding<Value> {
         self.$storage
+    }
+}
+
+extension Navigation {
+    internal struct Value: Hashable, Codable {
+        internal var sidebar:        Sidebar = .init()
+        internal var detail:         Detail  = .init()
+        internal var isWebsitesEdit: Website.Selection = []
+        internal var isError:        CodableError?
+    }
+    internal struct Sidebar: Hashable, Codable {
+        internal var isTagsEdit: TagsEdit = .init()
+    }
+    internal struct Detail: Hashable, Codable {
+        internal var isErrorList:       Basic = .init()
+        internal var isTagApply:        Website.Selection = []
+        internal var isTagApplyPopover: Website.Selection = []
+        internal var isShare:           Website.Selection = []
+        internal var isSharePopover:    Website.Selection = []
+        internal var isBrowse:          Website.Selection.Element? = nil
+    }
+    internal struct TagsEdit: Hashable, Codable {
+        internal var isError:     CodableError?
+        internal var isPresented: Tag.Selection = []
+    }
+    internal struct Basic: Hashable, Codable {
+        internal var isError:     CodableError?
+        internal var isPresented: Bool = false
+    }
+}
+
+// MARK: isPresenting Hack
+/*
+ `IsPresenting` is used when presenting programmatically, like Errors.
+ If this returns yes, nothing new should be presented unless dismissing
+ everything else.
+ 
+ This is a pretty broken system as I can't detect when the system
+ is presenting (like menus). Also, the error in the console for trying
+ to present multiple items is not catcable or detectable.
+ 
+ Modal presentation in SwiftUI is fundamentally broken because there is no
+ Environment variable to check `isPresenting`. Also there is no way to force
+ the system to dismiss all presented views.
+ */
+
+extension Navigation.Value {
+    internal var isPresenting: Bool {
+           self.detail.isPresenting
+        || self.sidebar.isPresenting
+        || self.isWebsitesEdit.isEmpty == false
+        || self.isError != nil
+    }
+}
+
+extension Navigation.Sidebar {
+    internal var isPresenting: Bool {
+        self.isTagsEdit.isPresented.isEmpty == false
+    }
+}
+
+extension Navigation.Detail {
+    internal var isPresenting: Bool {
+           self.isErrorList.isPresented
+        || self.isTagApply.isEmpty        == false
+        || self.isTagApplyPopover.isEmpty == false
+        || self.isShare.isEmpty           == false
+        || self.isSharePopover.isEmpty    == false
+        || self.isBrowse                  != nil
+    }
+}
+
+extension Navigation.TagsEdit {
+    internal var isPresenting: Bool {
+        self.isError != nil
+    }
+}
+
+extension Navigation.Basic {
+    internal var isPresenting: Bool {
+        self.isError != nil
     }
 }
