@@ -44,6 +44,7 @@ public struct ErrorList: DynamicProperty {
                         .font(.small)
                         .lineLimit(1)
                 }
+                Spacer()
                 Text(String(describing: code))
                     .font(.small)
                     .modifier(SidebarOval())
