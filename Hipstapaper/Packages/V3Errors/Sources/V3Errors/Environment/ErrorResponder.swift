@@ -74,7 +74,6 @@ public struct ErrorResponder<V: View, ES: RangeReplaceableCollection>: View wher
     }
     
     private var alert: some ViewModifier {
-        // TODO: Pass UserFacingError or Confirmation back up so UI can respond
         UserFacingErrorAlert<LocalizeBundle, CodableError>(self.$toPresent) {
             $0.userFacingError {
                 if let error = perform(confirmation: $0, controller: self.controller) {

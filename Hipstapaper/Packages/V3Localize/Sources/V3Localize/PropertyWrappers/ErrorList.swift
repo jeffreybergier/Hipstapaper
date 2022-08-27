@@ -38,8 +38,8 @@ public struct ErrorList: DynamicProperty {
         
         internal init(_ b: LocalizeBundle) {
             self.title    = b.localized(key: Noun.errors.rawValue)
-            self.done     = .doneGeneric(b)
-            self.clearAll = .deleteAllGeneric(b)
+            self.done     = Action.doneGeneric.localized(b)
+            self.clearAll = Action.deleteAllGeneric.localized(b)
             self.ufe      = { b.localized(key: $0[keyPath: $1]) }
         }
     }

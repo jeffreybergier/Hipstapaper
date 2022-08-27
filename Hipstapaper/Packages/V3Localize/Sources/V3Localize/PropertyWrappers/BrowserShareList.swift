@@ -43,17 +43,17 @@ public struct BrowserShareList: DynamicProperty {
         internal init(_ b: LocalizeBundle) {
             self.title              = b.localized(key: Noun.share.rawValue)
             self.shareErrorSubtitle = b.localized(key: Phrase.shareError.rawValue)
-            self.done       = .doneGeneric(b)
-            self.copy       = .copyToClipboard(b)
-            self.error      = .shareError(b)
+            self.done       = Action.doneGeneric.localized(b)
+            self.copy       = Action.copyToClipboard.localized(b)
+            self.error      = Action.shareError.localized(b)
             self.shareSaved = {
-                var output = ActionLocalization.shareSingle(b)
-                output.title = "Saved Page"//b.localized(key: Noun.untitled.rawValue)
+                var output = Action.shareSingle.localized(b)
+                output.title = "Saved Page"//b.localized(key: Noun.untitled.rawValue) // TODO: Localize
                 return output
             }()
             self.shareCurrent = {
-                var output = ActionLocalization.shareSingle(b)
-                output.title = "Current Page"//b.localized(key: Noun.untitled.rawValue)
+                var output = Action.shareSingle.localized(b)
+                output.title = "Current Page"//b.localized(key: Noun.untitled.rawValue) // TODO: Localize
                 return output
             }()
         }

@@ -36,9 +36,9 @@ public struct ColumnMenu: DynamicProperty {
         public var dateModified: ActionLocalization
         
         internal init(_ b: LocalizeBundle) {
-            self.menu         = .columnMenu(b)
-            self.dateCreated  = .columnDateCreated(b)
-            self.dateModified = .columnDateModified(b)
+            self.menu         = Action.columnMenu.localized(b)
+            self.dateCreated  = Action.columnDateCreated.localized(b)
+            self.dateModified = Action.columnDateModified.localized(b)
         }
     }
     

@@ -47,20 +47,20 @@ public struct MainMenu: DynamicProperty {
         public var error:         (LocalizeBundle) -> ActionLocalization
         
         public init() {
-            self.openInApp     = { .convert(raw: .raw_openInApp,     b: $0) }
-            self.openExternal  = { .convert(raw: .raw_openExternal,  b: $0) }
-            self.archiveYes    = { .convert(raw: .raw_archiveYes,    b: $0) }
-            self.archiveNo     = { .convert(raw: .raw_archiveNo,     b: $0) }
-            self.share         = { .convert(raw: .raw_share,         b: $0) }
-            self.tagApply      = { .convert(raw: .raw_tagApply,      b: $0) }
-            self.websiteAdd    = { .convert(raw: .raw_addWebsite,    b: $0) }
-            self.tagAdd        = { .convert(raw: .raw_addTag,        b: $0) }
-            self.websiteEdit   = { .convert(raw: .raw_editWebsite,   b: $0) }
-            self.tagEdit       = { .convert(raw: .raw_editTag,       b: $0) }
-            self.websiteDelete = { .convert(raw: .raw_deleteWebsite, b: $0) }
-            self.tagDelete     = { .convert(raw: .raw_deleteTag,     b: $0) }
-            self.deselectAll   = { .convert(raw: .raw_deselectAll,   b: $0) }
-            self.error         = { .convert(raw: .raw_errorsPresent, b: $0) }
+            self.openInApp     = { Action.openInApp.localized($0) }
+            self.openExternal  = { Action.openExternal.localized($0)  }
+            self.archiveYes    = { Action.archiveYes.localized($0)    }
+            self.archiveNo     = { Action.archiveNo.localized($0)     }
+            self.share         = { Action.share.localized($0)         }
+            self.tagApply      = { Action.tagApply.localized($0)      }
+            self.websiteAdd    = { Action.addWebsite.localized($0)    }
+            self.tagAdd        = { Action.addTag.localized($0)        }
+            self.websiteEdit   = { Action.editWebsite.localized($0)   }
+            self.tagEdit       = { Action.editTag.localized($0)       }
+            self.websiteDelete = { Action.deleteWebsite.localized($0) }
+            self.tagDelete     = { Action.deleteTag.localized($0)     }
+            self.deselectAll   = { Action.deselectAll.localized($0)   }
+            self.error         = { Action.errorsPresent.localized($0) }
         }
     }
         

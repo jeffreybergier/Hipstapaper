@@ -48,7 +48,7 @@ internal struct ShareListRow: View {
             ShareLink(item: url) {
                 // TODO: Is it possible to put this all in Style?
                 HStack {
-                    self.style.enabled(subtitle: url.absoluteString)
+                    self.style.enabled(subtitle: self.pretty(url: url))
                         .action(text: self.text.singleName(self.item?.title))
                         .label
                     Spacer()
@@ -71,5 +71,9 @@ internal struct ShareListRow: View {
     // does not work on chained optionals
     private var itemURL: URL? {
         self.item?.preferredURL
+    }
+    
+    private func pretty(url: URL) -> String {
+        url.prettyValue ?? url.absoluteString
     }
 }

@@ -45,7 +45,7 @@ internal struct SyncIndicator: ViewModifier {
             Image(systemName: SystemImage.iCloudSync.rawValue)
                 .font(.syncIndicatorIcon)
                 .modifier(SyncIndicatorOval())
-                .padding(.top, self.showsSyncing // TODO: Change to transform
+                .padding(.top, self.showsSyncing
                          ? .syncOvalPaddingTopShown
                          : .syncOvalPaddingTopHidden)
                 .opacity(self.showsSyncing ? 1 : 0)

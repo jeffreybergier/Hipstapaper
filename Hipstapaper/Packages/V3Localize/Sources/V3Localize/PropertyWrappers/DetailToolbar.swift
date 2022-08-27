@@ -43,16 +43,16 @@ public struct DetailToolbar: DynamicProperty {
         public var deselectAll:  ActionLocalization
         
         internal init(_ b: LocalizeBundle) {
-            self.openInApp    = .openInApp(b)
-            self.openExternal = .openExternal(b)
-            self.archiveYes   = .archiveYes(b)
-            self.archiveNo    = .archiveNo(b)
-            self.share        = .share(b)
-            self.tagApply     = .tagApply(b)
-            self.edit         = .editWebsite(b)
-            self.delete       = .deleteWebsite(b)
-            self.error        = .errorsPresent(b)
-            self.deselectAll  = .deselectAll(b)
+            self.openInApp    = Action.openInApp.localized(b)
+            self.openExternal = Action.openExternal.localized(b)
+            self.archiveYes   = Action.archiveYes.localized(b)
+            self.archiveNo    = Action.archiveNo.localized(b)
+            self.share        = Action.share.localized(b)
+            self.tagApply     = Action.tagApply.localized(b)
+            self.edit         = Action.editWebsite.localized(b)
+            self.delete       = Action.deleteWebsite.localized(b)
+            self.error        = Action.errorsPresent.localized(b)
+            self.deselectAll  = Action.deselectAll.localized(b)
             
             // TODO: Toolbar shortcuts conflict with MainMenu shortcuts
             // Remove shortcuts for toolbar items

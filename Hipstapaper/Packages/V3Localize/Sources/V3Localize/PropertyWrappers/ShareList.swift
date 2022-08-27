@@ -52,18 +52,18 @@ public struct ShareList: DynamicProperty {
                 return String(describing: $0) + " " + "websites"
             }
             
-            self.done       = .doneGeneric(b)
-            self.multi      = .shareMulti(b)
-            self.single     = .shareSingle(b)
-            self.copy       = .copyToClipboard(b)
-            self.error      = .shareError(b)
+            self.done       = Action.doneGeneric.localized(b)
+            self.multi      = Action.shareMulti.localized(b)
+            self.single     = Action.shareSingle.localized(b)
+            self.copy       = Action.copyToClipboard.localized(b)
+            self.error      = Action.shareError.localized(b)
             self.singleName = {
-                var output = ActionLocalization.shareSingle(b)
+                var output = Action.shareSingle.localized(b)
                 output.title = $0 ?? b.localized(key: Noun.untitled.rawValue)
                 return output
             }
             self.errorName = {
-                var output = ActionLocalization.shareError(b)
+                var output = Action.shareError.localized(b)
                 output.title = $0 ?? b.localized(key: Noun.untitled.rawValue)
                 return output
             }

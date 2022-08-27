@@ -46,17 +46,17 @@ public struct Browser: DynamicProperty {
         public var loading:      LocalizedString
         
         internal init(_ b: LocalizeBundle) {
-            self.back         = .browseBack(b)
-            self.forward      = .browseForward(b)
-            self.stop         = .browseStop(b)
-            self.reload       = .browseReload(b)
-            self.jsYes        = .javascriptYes(b)
-            self.jsNo         = .javascriptNo(b)
-            self.openExternal = .openExternal(b)
-            self.archiveYes   = .archiveYes(b)
-            self.share        = .share(b)
-            self.error        = .errorsPresent(b)
-            self.done         = .doneGeneric(b)
+            self.back         = Action.browseBack.localized(b)
+            self.forward      = Action.browseForward.localized(b)
+            self.stop         = Action.browseStop.localized(b)
+            self.reload       = Action.browseReload.localized(b)
+            self.jsYes        = Action.javascriptYes.localized(b)
+            self.jsNo         = Action.javascriptNo.localized(b)
+            self.openExternal = Action.openExternal.localized(b)
+            self.archiveYes   = Action.archiveYes.localized(b)
+            self.share        = Action.share.localized(b)
+            self.error        = Action.errorsPresent.localized(b)
+            self.done         = Action.doneGeneric.localized(b)
             self.loading      = b.localized(key: Phrase.loadingPage.rawValue)
         }
     }

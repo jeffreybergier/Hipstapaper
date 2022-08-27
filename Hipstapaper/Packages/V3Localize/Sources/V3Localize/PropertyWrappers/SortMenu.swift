@@ -40,13 +40,13 @@ public struct SortMenu: DynamicProperty {
         public var sortDateModifiedOldest: ActionLocalization
         
         internal init(_ b: LocalizeBundle) {
-            self.menu = .sort(b)
-            self.sortTitleA             = .sortTitleA(b)
-            self.sortTitleZ             = .sortTitleZ(b)
-            self.sortDateCreatedNewest  = .sortDateCreatedNewest(b)
-            self.sortDateCreatedOldest  = .sortDateCreatedOldest(b)
-            self.sortDateModifiedNewest = .sortDateModifiedNewest(b)
-            self.sortDateModifiedOldest = .sortDateModifiedOldest(b)
+            self.menu                   = Action.sort.localized(b)
+            self.sortTitleA             = Action.sortTitleA.localized(b)
+            self.sortTitleZ             = Action.sortTitleZ.localized(b)
+            self.sortDateCreatedNewest  = Action.sortDateCreatedNewest.localized(b)
+            self.sortDateCreatedOldest  = Action.sortDateCreatedOldest.localized(b)
+            self.sortDateModifiedNewest = Action.sortDateModifiedNewest.localized(b)
+            self.sortDateModifiedOldest = Action.sortDateModifiedOldest.localized(b)
         }
     }
     

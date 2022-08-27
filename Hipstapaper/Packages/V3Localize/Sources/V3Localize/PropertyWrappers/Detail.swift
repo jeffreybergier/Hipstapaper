@@ -43,8 +43,8 @@ public struct Detail: DynamicProperty {
             self.titleAll      = b.localized(key: Noun.allItems.rawValue)
             self.tagUntitled   = b.localized(key: Noun.untitled.rawValue)
             self.search        = b.localized(key: Verb.search.rawValue)
-            self.noTagSelected = .noSelectionTag(b)
-            self.noWebsites    = .noContentWebsite(b)
+            self.noTagSelected = Action.noSelectionTag.localized(b)
+            self.noWebsites    = Action.noContentWebsite.localized(b)
         }
     }
     

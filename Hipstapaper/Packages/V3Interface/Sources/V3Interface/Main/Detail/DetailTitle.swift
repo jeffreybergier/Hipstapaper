@@ -46,13 +46,9 @@ internal struct DetailTitle: ViewModifier {
                 content.navigationTitle(self.text.titleAll)
             case .user:
                 if let item = self.$item {
-                    content.navigationTitle(item.name.compactMap(default: self.text.tagUntitled))
-                    // TODO: Figure out what happened to this API
-                    /*
-                    {
-                        Text("// TODO: Add Delete Option")
-                    }
-                    */
+                    content.navigationTitle(
+                        item.name.compactMap(default: self.text.tagUntitled)
+                    )
                 } else {
                     content.navigationTitle(self.text.noTagSelected.title)
                 }

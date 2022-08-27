@@ -97,8 +97,7 @@ internal struct BulkActionsHelper: ViewModifier {
                 guard selection.isEmpty == false else { return }
                 defer {
                     self.appState.push.archiveYes = []
-                    self.selection.websites = []
-                    // TODO: Be smarter // self.selection.websites.subtract(deleted)
+                    self.selection.websites.subtract(selection)
                 }
                 guard let error = BulkActionsQuery.setArchive(true, selection, self.controller).error else { return }
                 self.errorResponder(.init(error))
@@ -107,8 +106,7 @@ internal struct BulkActionsHelper: ViewModifier {
                 guard selection.isEmpty == false else { return }
                 defer {
                     self.appState.push.archiveNo = []
-                    self.selection.websites = []
-                    // TODO: Be smarter // self.selection.websites.subtract(deleted)
+                    self.selection.websites.subtract(selection)
                 }
                 guard let error = BulkActionsQuery.setArchive(false, selection, self.controller).error else { return }
                 self.errorResponder(.init(error))

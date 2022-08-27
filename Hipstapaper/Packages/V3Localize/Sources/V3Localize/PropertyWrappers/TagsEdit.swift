@@ -39,8 +39,8 @@ public struct TagsEdit: DynamicProperty {
         internal init(_ b: LocalizeBundle) {
             self.title           = b.localized(key: Noun.editTags.rawValue)
             self.placeholderName = b.localized(key: Noun.tagName.rawValue)
-            self.toolbarDone     = .doneGeneric(b)
-            self.toolbarDelete   = .deleteGeneric(b)
+            self.toolbarDone     = Action.doneGeneric.localized(b)
+            self.toolbarDelete   = Action.deleteGeneric.localized(b)
         }
     }
     

@@ -51,12 +51,12 @@ public struct Sidebar: DynamicProperty {
             self.rowTitleTagSystemUnread = b.localized(key: Noun.unreadItems.rawValue)
             self.rowTitleTagSystemAll    = b.localized(key: Noun.allItems.rawValue)
             self.rowTitleUntitled        = b.localized(key: Noun.untitled.rawValue)
-            self.toolbarAddTag           = .addTag(b)
-            self.toolbarAddWebsite       = .addWebsite(b)
-            self.toolbarAddGeneric       = .addChoice(b)
-            self.menuEditTags            = .editTag(b)
-            self.menuDeleteTags          = .deleteTag(b)
-            self.noTags                  = .noContentTag(b)
+            self.toolbarAddTag           = Action.addTag.localized(b)
+            self.toolbarAddWebsite       = Action.addWebsite.localized(b)
+            self.toolbarAddGeneric       = Action.addChoice.localized(b)
+            self.menuEditTags            = Action.editTag.localized(b)
+            self.menuDeleteTags          = Action.deleteTag.localized(b)
+            self.noTags                  = Action.noContentTag.localized(b)
             
             // TODO: Toolbar shortcuts conflict with MainMenu shortcuts
             // Remove shortcuts for toolbar items

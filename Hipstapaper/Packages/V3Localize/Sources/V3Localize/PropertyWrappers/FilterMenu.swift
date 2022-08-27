@@ -36,9 +36,9 @@ public struct FilterMenu: DynamicProperty {
         public var filterYes: ActionLocalization
         
         internal init(_ b: LocalizeBundle) {
-            self.menu      = .filter(b)
-            self.filterNo  = .filterNo(b)
-            self.filterYes = .filterYes(b)
+            self.menu      = Action.filter.localized(b)
+            self.filterNo  = Action.filterNo.localized(b)
+            self.filterYes = Action.filterYes.localized(b)
         }
     }
     
