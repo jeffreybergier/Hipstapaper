@@ -302,7 +302,7 @@ extension ActionLocalization {
         .init(title: Verb.deselectAll.rawValue,
               hint:  nil, // TODO: Add Phrase
               image: .init(.tableCellsEmpty),
-              shortcut: .commandOptionA)
+              shortcut: .commandEscape)
     }()
     fileprivate static let raw_noContentWebsite: ActionLocalization = {
         .init(title: Phrase.noWebsites.rawValue,
