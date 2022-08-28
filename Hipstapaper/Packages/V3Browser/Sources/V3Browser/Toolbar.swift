@@ -72,11 +72,11 @@ internal struct Toolbar: ViewModifier {
                         ToolbarItem(id: .itemStatus, placement: .principal) {
                             self.itemStatus
                         }
-                        ToolbarItem(id: .itemArchiveAndClose, placement: .primaryAction) {
-                            self.itemArchiveAndClose
-                        }
                         ToolbarItem(id: .itemClose, placement: .primaryAction) {
                             self.itemClose
+                        }
+                        ToolbarItem(id: .itemArchiveAndClose, placement: .primaryAction) {
+                            self.itemArchiveAndClose
                         }
                     }
                     ToolbarItem(id: .itemJavaScript, placement: .bottomSecondary) {
