@@ -100,7 +100,7 @@ internal struct Toolbar: ViewModifier {
                     ToolbarItem(id: .itemShare, placement: .bottomSecondary) {
                         self.itemShare
                     }
-                case .compact:
+                case .compact, .tiny:
                     if true { // Top Bar
                         ToolbarItem(id: .itemArchiveAndClose, placement: .cancellationAction) {
                             self.itemArchiveAndClose

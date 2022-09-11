@@ -64,7 +64,7 @@ internal struct DetailToolbar: ViewModifier {
                 // Needed because Compact doesn't show items that are
                 // marked as showsByDefault == false here
                 switch self.sizeClass.horizontal {
-                case .compact:
+                case .compact, .tiny:
                     ToolbarItem(id: .itemOpenExternalCompact,
                                 placement: .secondaryAction,
                                 content: self.itemOpenExternal)
