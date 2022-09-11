@@ -31,40 +31,51 @@ import V3Localize
 
 internal struct ShareList: View {
     
-    internal enum Data {
-        case saved(URL), current(URL)
+    internal struct Data: Identifiable {
+        internal var id = UUID().uuidString
+        internal var current: URL?
+        internal var saved: URL?
+        internal var isEmpty: Bool {
+            self.current == nil && self.saved == nil
+        }
+        internal var sameURL: URL? {
+            guard self.current == self.saved else { return nil }
+            return self.current
+        }
     }
     
     @V3Style.ShareList private var style
     @V3Localize.BrowserShareList private var text
     @Environment(\.dismiss) private var dismiss
     
-    private let data: [Data]
+    private let data: Data
     
-    internal init(_ data: [Data]) {
+    internal init(_ data: Data) {
         self.data = data
     }
     
     internal var body: some View {
         NavigationStack {
             Form {
-                self.data.view { data in
-                    ForEach(data) { item in
-                        switch item {
-                        case .saved(let url):
-                            self.shareLink(url: url,
-                                           text: self.text.shareSaved,
-                                           copy: self.text.copy)
-                        case .current(let url):
-                            self.shareLink(url: url,
-                                           text: self.text.shareCurrent,
-                                           copy: self.text.copy)
-                        }
-                    }
-                } onEmpty: {
+                if self.data.isEmpty {
                     self.style.disabled(subtitle: self.text.shareErrorSubtitle)
                         .action(text: self.text.error)
                         .label
+                } else if let saved = self.data.sameURL {
+                    self.shareLink(url: saved,
+                                   text: self.text.shareSaved,
+                                   copy: self.text.copy)
+                } else {
+                    if let current = self.data.current {
+                        self.shareLink(url: current,
+                                       text: self.text.shareCurrent,
+                                       copy: self.text.copy)
+                    }
+                    if let saved = self.data.saved {
+                        self.shareLink(url: saved,
+                                       text: self.text.shareSaved,
+                                       copy: self.text.copy)
+                    }
                 }
                 
             }
@@ -96,17 +107,8 @@ internal struct ShareList: View {
 internal struct ShareListPresentation: ViewModifier {
     @Navigation private var nav
     internal func body(content: Content) -> some View {
-        content.popover(items: self.$nav.isShareList) {
+        content.popover(item: self.$nav.isShareList) {
             ShareList($0)
-        }
-    }
-}
-
-extension ShareList.Data: Identifiable {
-    var id: URL {
-        switch self {
-        case .current(let url): fallthrough
-        case .saved(let url): return url
         }
     }
 }

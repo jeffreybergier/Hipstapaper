@@ -42,11 +42,9 @@ internal struct Toolbar: ViewModifier {
     
     @Binding internal var isArchived: Bool
     internal let preferredURL: URL?
-    private var sharable: [ShareList.Data] {
-        return [
-            self.nav.currentURL.map { ShareList.Data.current($0) },
-            self.preferredURL.map { ShareList.Data.saved($0) }
-        ].compactMap { $0 }
+    private var sharable: ShareList.Data {
+        .init(current: self.nav.currentURL,
+              saved: self.preferredURL)
     }
     
     internal func body(content: Content) -> some View {
@@ -218,9 +216,9 @@ internal struct Toolbar: ViewModifier {
     private var itemShare: some View {
         self.style.toolbar
             .action(text: self.text.share)
-            .button(items: self.sharable)
+            .button(isEnabled: !self.sharable.isEmpty)
         {
-            self.nav.isShareList = $0
+            self.nav.isShareList = self.sharable
         }
         .modifier(ShareListPresentation())
     }
