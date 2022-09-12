@@ -58,7 +58,7 @@ internal struct WebsiteListRow: View {
             Spacer()
             self.style.thumbnail(self.item?.thumbnail)
         }
-        .onLoadChange(of: self.id) {
+        .onLoadChange(of: self.id, async: true) {
             _item.setIdentifier($0)
         }
     }

@@ -44,7 +44,7 @@ internal struct DetailTableColumnThumbnail: View {
     
     var body: some View {
         self.style.thumbnail(self.item?.thumbnail)
-            .onLoadChange(of: self.id) {
+            .onLoadChange(of: self.id, async: true) {
                 _item.setIdentifier($0)
             }
     }
@@ -65,7 +65,7 @@ internal struct DetailTableColumnTitle: View {
     var body: some View {
         JSBText(self.text.missingTitle, text: self.item?.title)
             .modifier(self.style.title)
-            .onLoadChange(of: self.id) {
+            .onLoadChange(of: self.id, async: true) {
                 _item.setIdentifier($0)
             }
     }
@@ -86,7 +86,7 @@ internal struct DetailTableColumnURL: View {
     var body: some View {
         JSBText(self.text.missingURL, text: self.item?.preferredURL?.prettyValue)
             .modifier(self.style.url)
-            .onLoadChange(of: self.id) {
+            .onLoadChange(of: self.id, async: true) {
                 _item.setIdentifier($0)
             }
     }
@@ -109,7 +109,7 @@ internal struct DetailTableColumnDate: View {
     var body: some View {
         JSBText(self.text.missingDate, text: _text.dateString(self.item?[keyPath: self.keyPath]))
             .modifier(self.style.date)
-            .onLoadChange(of: self.id) {
+            .onLoadChange(of: self.id, async: true) {
                 _item.setIdentifier($0)
             }
     }
