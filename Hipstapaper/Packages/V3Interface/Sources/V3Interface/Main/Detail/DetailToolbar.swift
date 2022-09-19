@@ -30,12 +30,14 @@ import V3Model
 import V3Store
 import V3Style
 import V3Localize
+import V3Errors
 
 internal struct DetailToolbar: ViewModifier {
 
     @Navigation private var nav
     @Selection private var selection
     @BulkActions private var state
+    @Errors private var errorQueue
     
     @JSBSizeClass private var sizeClass
     @V3Style.DetailToolbar private var style
@@ -53,11 +55,18 @@ internal struct DetailToolbar: ViewModifier {
         content
             .toolbarRole(.editor)
             .toolbar(id: .barTop) {
-                ToolbarItem(id: .itemOpenInApp, placement: .primaryAction) {
-                    self.style.toolbar.action(text: self.text.openInApp)
-                        .button(item: self.state.pull.openInApp?.single)
-                    { _ in
-                        self.state.push.openInApp = self.state.pull.openInApp
+                ToolbarItem(id: .itemArchiveYes, placement: .primaryAction) {
+                    self.style.toolbar.action(text: self.text.archiveYes)
+                        .button(items: self.state.pull.archiveYes)
+                    {
+                        self.state.push.archiveYes = $0
+                    }
+                }
+                ToolbarItem(id: .itemArchiveNo, placement: .secondaryAction) {
+                    self.style.toolbar.action(text: self.text.archiveNo)
+                        .button(items: self.state.pull.archiveNo)
+                    {
+                        self.state.push.archiveNo = $0
                     }
                 }
                 // TODO: Remove this switch statement when possible
@@ -78,20 +87,6 @@ internal struct DetailToolbar: ViewModifier {
                                 showsByDefault: false,
                                 content: ColumnMenu.init)
                 }
-                ToolbarItem(id: .itemArchiveYes, placement: .secondaryAction) {
-                    self.style.toolbar.action(text: self.text.archiveYes)
-                        .button(items: self.state.pull.archiveYes)
-                    {
-                        self.state.push.archiveYes = $0
-                    }
-                }
-                ToolbarItem(id: .itemArchiveNo, placement: .secondaryAction) {
-                    self.style.toolbar.action(text: self.text.archiveNo)
-                        .button(items: self.state.pull.archiveNo)
-                    {
-                        self.state.push.archiveNo = $0
-                    }
-                }
                 ToolbarItem(id: .itemTagApply, placement: .secondaryAction) {
                     self.style.toolbar.action(text: self.text.tagApply)
                         .button(items: self.state.pull.tagApply)
@@ -110,22 +105,31 @@ internal struct DetailToolbar: ViewModifier {
                 }
             }
             .toolbar(id: .barBottom) {
-                ToolbarItem(id: .itemError, placement: .bottomSecondary) {
-                    self.style.toolbar.action(text: self.text.error)
-                        .button(isEnabled: self.state.pull.showErrors)
+                ToolbarItem(id: .itemDeselect, placement: .bottomSecondary) {
+                    self.style.toolbar.action(text: self.text.deselectAll)
+                        .button(items: self.state.pull.deselectAll)
                     {
-                        self.state.push.showErrors = true
+                        self.state.push.deselectAll = $0
                     }
-                    .modifier(DetailErrorListPresentation())
+                }
+                if self.errorQueue.isEmpty == false {
+                    ToolbarItem(id: .itemError, placement: .bottomSecondary) {
+                        self.style.toolbar.action(text: self.text.error)
+                            .button(isEnabled: self.state.pull.showErrors)
+                        {
+                            self.state.push.showErrors = true
+                        }
+                        .modifier(DetailErrorListPresentation())
+                    }
                 }
                 ToolbarItem(id: .itemSpacer1, placement: .bottomSecondary) {
                     Spacer()
                 }
-                ToolbarItem(id: .itemDeselect, placement: .bottomSecondary) {
-                    self.style.deselectAll.action(text: self.text.deselectAll)
-                        .button(items: self.state.pull.deselectAll)
-                    {
-                        self.state.push.deselectAll = $0
+                ToolbarItem(id: .itemOpenInApp, placement: .bottomSecondary) {
+                    self.style.openInApp.action(text: self.text.openInApp)
+                        .button(item: self.state.pull.openInApp?.single)
+                    { _ in
+                        self.state.push.openInApp = self.state.pull.openInApp
                     }
                 }
                 ToolbarItem(id: .itemSpacer2, placement: .bottomSecondary) {
