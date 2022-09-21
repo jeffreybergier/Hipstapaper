@@ -55,7 +55,15 @@ internal struct DetailToolbar: ViewModifier {
         content
             .toolbarRole(.editor)
             .toolbar(id: .barTop) {
-                ToolbarItem(id: .itemArchiveYes, placement: .primaryAction) {
+                ToolbarItem(id: .itemShare, placement: .primaryAction) {
+                    self.style.toolbar.action(text: self.text.share)
+                        .button(items: self.state.pull.share)
+                    {
+                        self.nav.detail.isSharePopover = $0
+                    }
+                    .modifier(ShareListPopover(self.$nav.detail.isSharePopover))
+                }
+                ToolbarItem(id: .itemArchiveYes, placement: .secondaryAction) {
                     self.style.toolbar.action(text: self.text.archiveYes)
                         .button(items: self.state.pull.archiveYes)
                     {
@@ -94,14 +102,6 @@ internal struct DetailToolbar: ViewModifier {
                         self.nav.detail.isTagApplyPopover = $0
                     }
                     .modifier(WebsiteEditPopover(self.$nav.detail.isTagApplyPopover, start: .tag))
-                }
-                ToolbarItem(id: .itemShare, placement: .secondaryAction) {
-                    self.style.toolbar.action(text: self.text.share)
-                        .button(items: self.state.pull.share)
-                    {
-                        self.nav.detail.isSharePopover = $0
-                    }
-                    .modifier(ShareListPopover(self.$nav.detail.isSharePopover))
                 }
             }
             .toolbar(id: .barBottom) {
