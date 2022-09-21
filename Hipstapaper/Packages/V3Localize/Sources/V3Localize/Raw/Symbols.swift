@@ -64,7 +64,7 @@ internal enum Symbol: String {
     case columnCircleEmpty = "building.columns.circle"
     case tableCellsFill    = "tablecells.fill"
     case tableCellsEmpty   = "tablecells"
-    case listBulletCircle  = "list.bullet.circle"
+    case circleGrid        = "circle.grid.2x2"
     case paperclip         = "paperclip"
     case menu              = "filemenu.and.selection"
 }

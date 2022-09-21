@@ -35,7 +35,8 @@ public struct DetailToolbar: DynamicProperty {
     public struct Value {
         public var toolbar:     some ActionStyle = ActionStyleDefault
         public var destructive: some ActionStyle = ActionStyleImp(buttonRole: .destructive)
-        public var openInApp:   some ActionStyle = ActionStyleImp(labelStyle: TitleOnlyLabelStyle(),
+        public var deselectAll: some ActionStyle = ActionStyleImp(labelStyle: IconOnlyLabelStyle())
+        public var openInApp:   some ActionStyle = ActionStyleImp(labelStyle: TitleAndIconLabelStyle(),
                                                                   outerModifier: ModifierButtonStyle(style: .borderedProminent))
     }
     

@@ -106,7 +106,7 @@ internal struct DetailToolbar: ViewModifier {
             }
             .toolbar(id: .barBottom) {
                 ToolbarItem(id: .itemDeselect, placement: .bottomSecondary) {
-                    self.style.toolbar.action(text: self.text.deselectAll)
+                    self.style.deselectAll.action(text: self.text.deselectAll)
                         .button(items: self.state.pull.deselectAll)
                     {
                         self.state.push.deselectAll = $0
