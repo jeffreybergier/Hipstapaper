@@ -51,10 +51,12 @@ public struct WebsiteEdit: View {
     
     public var body: some View {
         _WebsiteEdit(selection: self.selection, screen: self.$screen)
-            .lift { self.size($0) }
+            .modifier(self.style.tagSize)
             .environmentObject(self.nav)
     }
     
+    // TODO: Bring this back when animation in SwiftUI is better
+    // .lift { self.size($0) }
     @ViewBuilder private func size<V: View>(_ input: V) -> some View {
         switch self.screen {
         case .website:
