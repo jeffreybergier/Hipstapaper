@@ -31,6 +31,8 @@ import V3Localize
 import V3Style
 
 // TODO: Remove C if `any RandomAccessCollection<Website>` ever works
+// TODO: See when List performance doesn't suck?
+@available(*, deprecated, message:"List is slow as fuck in iOS 16.1 Beta for some reason")
 internal struct DetailList<C: RandomAccessCollection>: View where C.Element == Website.Selection.Element {
 
     @Navigation private var nav
@@ -47,7 +49,7 @@ internal struct DetailList<C: RandomAccessCollection>: View where C.Element == W
              id: \.self,
              selection: self.$selection.websites)
         { identifier in
-            WebsiteListRow(identifier)
+            DetailListRow(identifier)
         }
         .listStyle(.plain)
     }

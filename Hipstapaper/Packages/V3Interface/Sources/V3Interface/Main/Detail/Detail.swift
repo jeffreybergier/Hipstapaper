@@ -49,7 +49,9 @@ internal struct Detail: View {
                     case .showTable:
                         DetailTable($0)
                     case .showList:
-                        DetailList($0)
+                        DetailTable($0)
+                        // TODO: See when List performance doesn't suck?
+                        // DetailList($0)
                     }
                 } onEmpty: {
                     self.style.disabled.action(text: self.text.noWebsites).label

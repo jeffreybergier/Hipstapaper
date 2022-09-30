@@ -38,6 +38,8 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
     @Query private var query
     @V3Style.DetailTable private var style
     @V3Localize.DetailTable private var text
+    // TODO: See when List performance doesn't suck?
+    @V3Style.ShowsTable private var showsTable
 
     private let data: C
     
@@ -46,18 +48,14 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
     }
     
     internal var body: some View {
-        switch self.query.sort {
-        case .dateModifiedOldest, .dateModifiedNewest:
-            self.tableDateModified
-        default:
+        switch self.showsTable {
+        case .showTable:
             self.tableDefault
+        case .showList:
+            self.tableList
         }
     }
     
-    // TODO: Hack because of SwiftUI limitations
-    // Closure containing control flow statement
-    // cannot be used with result builder 'TableColumnBuilder'
-    // I just want to change the column based on a current setting
     private var tableDefault: some View {
         Table(selection: self.$selection.websites,
               sortOrder: self.$query.sort.HACK_mapSort)
@@ -83,24 +81,13 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
         }
     }
     
-    private var tableDateModified: some View {
+    private var tableList: some View {
         Table(selection: self.$selection.websites,
               sortOrder: self.$query.sort.HACK_mapSort)
         {
             TableColumn(self.text.columnThumbnail) {
-                DetailTableColumnThumbnail($0.id)
+                DetailListRow($0.id)
             }
-            .width(self.style.columnWidthThumbnail)
-            TableColumn(self.text.columnTitle, sortUsing: .title) {
-                DetailTableColumnTitle($0.id)
-            }
-            TableColumn(self.text.columnURL) {
-                DetailTableColumnURL($0.id)
-            }
-            TableColumn(self.text.columnDateModified, sortUsing: .dateModified) {
-                DetailTableColumnDate(id: $0.id, kp: \.dateModified)
-            }
-            .width(max: self.style.columnWidthDate)
         } rows: {
             ForEach(self.data) {
                 TableRow(HACK_WebsiteIdentifier($0))

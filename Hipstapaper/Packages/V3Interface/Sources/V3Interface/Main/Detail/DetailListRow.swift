@@ -31,7 +31,7 @@ import V3Store
 import V3Localize
 import V3Style
 
-internal struct WebsiteListRow: View {
+internal struct DetailListRow: View {
     
     @WebsiteQuery private var item
     @V3Style.DetailList private var style
