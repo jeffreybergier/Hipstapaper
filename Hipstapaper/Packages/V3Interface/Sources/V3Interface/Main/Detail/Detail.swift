@@ -39,22 +39,16 @@ internal struct Detail: View {
     
     @V3Localize.Detail private var text
     @V3Style.Detail private var style
-    @V3Style.ShowsTable private var showsTable
     
     internal var body: some View {
         NavigationStack {
             self.selection.tag.view { _ in
                 self.data.view {
-                    switch self.showsTable {
-                    case .showTable:
-                        DetailTable($0)
-                    case .showList:
-                        DetailTable($0)
-                        // TODO: See when List performance doesn't suck?
-                        // DetailList($0)
-                    }
+                    DetailTable($0)
                 } onEmpty: {
-                    self.style.disabled.action(text: self.text.noWebsites).label
+                    self.style.disabled
+                        .action(text: self.text.noWebsites)
+                        .label
                 }
                 .searchable(text: self.$query.search,
                             prompt: self.text.search)

@@ -48,22 +48,20 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
     }
     
     internal var body: some View {
-        switch self.showsTable {
-        case .showTable:
-            self.tableDefault
-        case .showList:
-            self.tableList
-        }
-    }
-    
-    private var tableDefault: some View {
         Table(selection: self.$selection.websites,
               sortOrder: self.$query.sort.HACK_mapSort)
         {
             TableColumn(self.text.columnThumbnail) {
-                DetailTableColumnThumbnail($0.id)
+                switch self.showsTable {
+                case .showTable:
+                    DetailTableColumnThumbnail($0.id)
+                case .showList:
+                    DetailListRow($0.id)
+                }
             }
-            .width(self.style.columnWidthThumbnail)
+            .width(self.showsTable == .showTable
+                   ? self.style.columnWidthThumbnail
+                   : nil)
             TableColumn(self.text.columnTitle, sortUsing: .title) {
                 DetailTableColumnTitle($0.id)
             }
@@ -74,20 +72,6 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
                 DetailTableColumnDate(id: $0.id, kp: \.dateCreated)
             }
             .width(self.style.columnWidthDate)
-        } rows: {
-            ForEach(self.data) {
-                TableRow(HACK_WebsiteIdentifier($0))
-            }
-        }
-    }
-    
-    private var tableList: some View {
-        Table(selection: self.$selection.websites,
-              sortOrder: self.$query.sort.HACK_mapSort)
-        {
-            TableColumn(self.text.columnThumbnail) {
-                DetailListRow($0.id)
-            }
         } rows: {
             ForEach(self.data) {
                 TableRow(HACK_WebsiteIdentifier($0))
