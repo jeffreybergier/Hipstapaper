@@ -51,7 +51,9 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
         Table(selection: self.$selection.websites,
               sortOrder: self.$query.sort.HACK_mapSort)
         {
-            TableColumn(self.text.columnThumbnail) {
+            // TODO: Put the column title back when its possible to hide the title
+            // TableColumn(self.text.columnThumbnail) {
+            TableColumn("") {
                 switch self.showsTable {
                 case .showTable:
                     DetailTableColumnThumbnail($0.id)
