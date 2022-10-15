@@ -33,16 +33,36 @@ public struct Errors: DynamicProperty {
 
     public typealias Value = Deque<CodableError>
     
-    @JSBAppStorage("com.hipstapaper.errors") private var storage = Value()
+    @JSBAppStorage  ("com.hipstapaper.errors") private var appStorage = Value()
+    @JSBSceneStorage("com.hipstapaper.errors") private var sceneStorage = Value()
+    @Environment(\.executionContext) private var context
     
     public init() { }
     
     public var wrappedValue: Value {
-        get { self.storage }
-        nonmutating set { self.storage = newValue }
+        get {
+            switch self.context {
+            case .normal:
+                return self.appStorage
+            default:
+                return self.sceneStorage
+            }
+        }
+        nonmutating set {
+            switch self.context {
+            case .normal:
+                self.appStorage = newValue
+            default:
+                self.sceneStorage = newValue
+            }
+        }
     }
     
     public var projectedValue: Binding<Value> {
-        self.$storage
+        Binding {
+            self.wrappedValue
+        } set: {
+            self.wrappedValue = $0
+        }
     }
 }

@@ -53,6 +53,7 @@ public struct ShareExtension: View {
                     .environmentObject(self.controller)
                     .environmentObject(self.localizeBundle)
                     .environment(\.closure, self.onDismiss)
+                    .environment(\.executionContext, .extensionShare)
                     .environment(\.managedObjectContext, controller.context)
             case .failure(let error):
                 Text(String(describing: error))
