@@ -32,13 +32,13 @@ import V3Style
 
 // TODO: Remove C if `any RandomAccessCollection<Website>` ever works
 internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == Website.Identifier {
-
+    
+    @Query private var query
     @Navigation private var nav
     @Selection private var selection
-    @Query private var query
+    
     @V3Style.DetailTable private var style
     @V3Localize.DetailTable private var text
-    // TODO: See when List performance doesn't suck?
     @V3Style.ShowsTable private var showsTable
 
     private let data: C
@@ -48,37 +48,57 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
     }
     
     internal var body: some View {
+        self.tableMulti
+    }
+    
+    internal var tableMulti: some View {
         Table(selection: self.$selection.websites,
               sortOrder: self.$query.sort.HACK_mapSort)
         {
-            // TODO: Put the column title back when its possible to hide the title
-            // TableColumn(self.text.columnThumbnail) {
-            TableColumn("") {
-                switch self.showsTable {
-                case .showTable:
-                    DetailTableColumnThumbnail($0.id)
-                case .showList:
-                    DetailListRow($0.id)
-                }
-            }
-            .width(self.showsTable == .showTable
-                   ? self.style.columnWidthThumbnail
-                   : nil)
-            TableColumn(self.text.columnTitle, sortUsing: .title) {
-                DetailTableColumnTitle($0.id)
-            }
-            TableColumn(self.text.columnURL) {
-                DetailTableColumnURL($0.id)
-            }
-            TableColumn(self.text.columnDateCreated, sortUsing: .dateCreated) {
-                DetailTableColumnDate(id: $0.id, kp: \.dateCreated)
-            }
-            .width(self.style.columnWidthDate)
+            self.column1Thumbnail
+            self.column2Title
+            self.column3URL
+            self.column4DateCreated
         } rows: {
             ForEach(self.data) {
                 TableRow(HACK_WebsiteIdentifier($0))
             }
         }
+    }
+    
+    private var column1Thumbnail: HACK_ColumnUnsorted<some View> {
+        // TODO: Put the column title back when its possible to hide the title
+        // TableColumn(self.text.columnThumbnail) {
+        return TableColumn("") {
+            switch self.showsTable {
+            case .showTable:
+                DetailTableColumnThumbnail($0.id)
+            case .showList:
+                DetailListRow($0.id)
+            }
+        }
+        .width(self.showsTable == .showTable
+               ? self.style.columnWidthThumbnail
+               : nil)
+    }
+    
+    private var column2Title: HACK_ColumnSorted<some View> {
+        TableColumn(self.text.columnTitle, sortUsing: .title) {
+            DetailTableColumnTitle($0.id)
+        }
+    }
+    
+    private var column3URL: HACK_ColumnUnsorted<some View> {
+        TableColumn(self.text.columnURL) {
+            DetailTableColumnURL($0.id)
+        }
+    }
+    
+    private var column4DateCreated: HACK_ColumnSorted<some View> {
+        TableColumn(self.text.columnDateCreated, sortUsing: .dateCreated) {
+            DetailTableColumnDate(id: $0.id, kp: \.dateCreated)
+        }
+        .width(self.style.columnWidthDate)
     }
 }
 

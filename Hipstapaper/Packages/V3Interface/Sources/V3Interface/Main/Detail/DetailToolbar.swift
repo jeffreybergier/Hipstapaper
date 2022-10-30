@@ -40,9 +40,11 @@ internal struct DetailToolbar: ViewModifier {
     @Errors private var errorQueue
     
     @JSBSizeClass private var sizeClass
+    @HACK_EditMode private var isEditMode
+    
     @V3Style.DetailToolbar private var style
     @V3Localize.DetailToolbar private var text
-    
+
     private func itemOpenExternal() -> some View {
         self.style.toolbar.action(text: self.text.openExternal)
             .button(item: self.state.pull.openExternal?.single)
@@ -143,6 +145,9 @@ internal struct DetailToolbar: ViewModifier {
                 ToolbarItem(id: .itemSort, placement: .bottomSecondary) {
                     SortMenu()
                 }
+                ToolbarItem(id: .itemEditButton, placement: .bottomSecondary) {
+                    HACK_EditButton()
+                }
             }
             .disabled(self.selection.tag == nil)
     }
@@ -165,6 +170,7 @@ extension String {
     fileprivate static let itemColumn              = "itemColumn"
     fileprivate static let itemSort                = "itemSort"
     fileprivate static let itemFilter              = "itemFilter"
+    fileprivate static let itemEditButton          = "itemEditButton"
 }
 
 extension ToolbarItemPlacement {

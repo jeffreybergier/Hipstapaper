@@ -28,6 +28,44 @@ import SwiftUI
 import Umbrella
 import V3Model
 
+// TODO: Replace `TEXT` with L: View when TableColumn allows custom view types for Label
+internal typealias HACK_ColumnUnsorted<V: View> = TableColumn<HACK_WebsiteIdentifier, Never, V, Text>
+internal typealias HACK_ColumnSorted<V: View>   = TableColumn<HACK_WebsiteIdentifier, KeyPathComparator<HACK_WebsiteIdentifier>, V, Text>
+
+// TODO: EditMode works like shit as of iOS 16.1. It constantly pops out for no reason
+// I need to make my own version.
+@propertyWrapper
+internal struct HACK_EditMode: DynamicProperty {
+    @SceneStorage("HACK_EditMode") private var value = false
+    internal var wrappedValue: Bool {
+        get { self.value }
+        nonmutating set { self.value = newValue }
+    }
+    internal var projectedValue: Binding<Bool> {
+        Binding {
+            self.wrappedValue
+        } set: {
+            self.wrappedValue = $0
+        }
+    }
+}
+
+internal struct HACK_EditButton: View {
+    
+    @Selection private var selection
+    @HACK_EditMode private var isEditMode
+    
+    internal var body: some View {
+        Button {
+            self.selection.websites = []
+            self.isEditMode.toggle()
+        } label: {
+            // TODO: Localize
+            self.isEditMode ? Text("Done") : Text("Edit")
+        }
+    }
+}
+
 // TODO: Delete when possible
 // Table does not appear to let you choose how you identify
 // the object. It always chooses the ID property for what it is passed.

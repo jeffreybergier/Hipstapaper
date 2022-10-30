@@ -68,6 +68,7 @@ internal struct MainView: View {
     @Errors private var errorQueue
     @Controller private var controller
     @V3Style.MainMenu private var style
+    @HACK_EditMode private var isEditMode
     
     internal var body: some View {
         ErrorResponder(toPresent: self.$nav.isError,
@@ -78,10 +79,7 @@ internal struct MainView: View {
                 Sidebar()
             } detail: {
                 Detail()
-                    .editMode(force: true)
-                    // Force editMode on the detail table
-                    // TODO: Find better way to create a
-                    // Modal NavigationLink for websites
+                    .editMode(force: self.isEditMode)
             }
             .modifier(BulkActionsHelper())
             .modifier(WebsiteEditSheet(self.$nav.isWebsitesEdit, start: .website))

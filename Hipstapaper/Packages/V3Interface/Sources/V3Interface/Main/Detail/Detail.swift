@@ -28,6 +28,7 @@ import SwiftUI
 import V3Store
 import V3Style
 import V3Localize
+import Umbrella
 
 internal struct Detail: View {
     
@@ -39,6 +40,7 @@ internal struct Detail: View {
     
     @V3Localize.Detail private var text
     @V3Style.Detail private var style
+    @HACK_EditMode private var isEditMode
     
     internal var body: some View {
         NavigationStack {
@@ -57,6 +59,10 @@ internal struct Detail: View {
                 }
                 .onLoadChange(of: self.selection.tag) {
                     _data.setFilter($0)
+                }
+                .onLoadChange(of: self.selection.websites) {
+                    guard self.isEditMode == false, $0.count == 1 else { return }
+                    self.nav.detail.isBrowse = $0.first
                 }
             } onNIL: {
                 self.style.disabled.action(text: self.text.noTagSelected).label

@@ -29,12 +29,17 @@ import V3Model
 import V3Browser
 
 internal struct BrowserSheet: ViewModifier {
+    
     @Binding private var identifier: Website.Selection.Element?
+    @Selection private var selection
+    
     internal init(_ identifier: Binding<Website.Selection.Element?>) {
         _identifier = identifier
     }
     internal func body(content: Content) -> some View {
-        content.sheetCover(item: self.$identifier) { ident in
+        content.sheetCover(item: self.$identifier) {
+            self.selection.websites = []
+        } content: { ident in
             Browser(ident)
         }
     }
