@@ -35,7 +35,7 @@ public struct WebsiteEdit: DynamicProperty {
     public struct Value {
         public var toolbar:       some ActionStyle = ActionStyleDefault
         public var toolbarDelete: some ActionStyle = ActionStyleImp(buttonRole: .destructive, labelStyle: .titleOnly)
-        public var toolbarDone:   some ActionStyle = ActionStyleImp(labelStyle: .titleOnly)
+        public var toolbarDone:   some ActionStyle = JSBToolbarButtonStyleDone
         public var form:          some ActionStyle = ActionStyleDefault
         public var tab:           some ActionStyle = ActionStyleDefault
         /// Fake appearance style for use on Labels where there is no "real" disabled state

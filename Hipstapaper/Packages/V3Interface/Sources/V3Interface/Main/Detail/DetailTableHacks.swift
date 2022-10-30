@@ -27,6 +27,8 @@
 import SwiftUI
 import Umbrella
 import V3Model
+import V3Style
+import V3Localize
 
 // TODO: Replace `TEXT` with L: View when TableColumn allows custom view types for Label
 internal typealias HACK_ColumnUnsorted<V: View> = TableColumn<HACK_WebsiteIdentifier, Never, V, Text>
@@ -55,13 +57,26 @@ internal struct HACK_EditButton: View {
     @Selection private var selection
     @HACK_EditMode private var isEditMode
     
+    @V3Style.DetailTable private var style
+    @V3Localize.DetailTable private var text
+    
     internal var body: some View {
-        Button {
+        self.editButton {
             self.selection.websites = []
             self.isEditMode.toggle()
-        } label: {
-            // TODO: Localize
-            self.isEditMode ? Text("Done") : Text("Edit")
+        }
+        .onChange(of: self.selection.tag) { _ in
+            self.selection.websites = []
+            self.isEditMode = false
+        }
+    }
+    
+    @ViewBuilder private func editButton(_ action: @escaping () -> Void) -> some View {
+        switch self.isEditMode {
+        case true:
+            self.style.hack_done.action(text: self.text.hack_done).button(action: action)
+        case false:
+            self.style.hack_edit.action(text: self.text.hack_edit).button(action: action)
         }
     }
 }

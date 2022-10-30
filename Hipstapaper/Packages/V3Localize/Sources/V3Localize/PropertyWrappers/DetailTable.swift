@@ -39,6 +39,8 @@ public struct DetailTable: DynamicProperty {
         public var missingTitle:       LocalizedString
         public var missingURL:         LocalizedString
         public var missingDate:        LocalizedString
+        public var hack_edit:          ActionLocalization
+        public var hack_done:          ActionLocalization
         
         internal init(_ b: LocalizeBundle) {
             self.columnThumbnail    = b.localized(key: Noun.thumbnail.rawValue)
@@ -49,6 +51,8 @@ public struct DetailTable: DynamicProperty {
             self.missingTitle       = b.localized(key: Noun.dash.rawValue)
             self.missingURL         = b.localized(key: Noun.dash.rawValue)
             self.missingDate        = b.localized(key: Noun.dash.rawValue)
+            self.hack_edit          = Action.editGeneric.localized(b)
+            self.hack_done          = Action.doneGeneric.localized(b)
         }
     }
     

@@ -48,6 +48,7 @@ public enum Verb: LocalizationKey {
     case deleteImage            = "Verb.DeleteImage"
     case deleteGeneric          = "Verb.DeleteGeneric"
     case editWebsite            = "Verb.EditWebsite"
+    case editGeneric            = "Verb.Edit"
     case autofill               = "Verb.Autofill"
     case clearSearch            = "Verb.ClearSearch"
     case openInApp              = "Verb.OpenInApp"

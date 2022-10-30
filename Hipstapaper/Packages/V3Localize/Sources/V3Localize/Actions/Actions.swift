@@ -34,6 +34,7 @@ internal enum Action {
     case addChoice
     case editWebsite
     case editTag
+    case editGeneric
     case deleteWebsite
     case deleteTag
     case deleteThumbnail
@@ -102,6 +103,8 @@ internal enum Action {
             return .raw_editWebsite
         case .editTag:
             return .raw_editTag
+        case .editGeneric:
+            return .raw_editGeneric
         case .deleteWebsite:
             return .raw_deleteWebsite
         case .deleteTag:
@@ -236,6 +239,12 @@ extension ActionLocalization {
               hint:  Phrase.editTag.rawValue,
               image: .init(.editPencil),
               shortcut: .commandOptionE)
+    }()
+    fileprivate static let raw_editGeneric: ActionLocalization = {
+        .init(title: Verb.editGeneric.rawValue,
+              hint:  nil,
+              image: .init(.editPencil),
+              shortcut: .commandL)
     }()
     fileprivate static let raw_deleteWebsite: ActionLocalization = {
         .init(title: Verb.deleteWebsite.rawValue,

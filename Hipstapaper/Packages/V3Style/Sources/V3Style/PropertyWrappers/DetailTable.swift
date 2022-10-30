@@ -25,14 +25,17 @@
 //
 
 import SwiftUI
+import Umbrella
 
 @propertyWrapper
 public struct DetailTable: DynamicProperty {
         
     public struct Value {
-        public var date:  some ViewModifier = DetailTableDateText()
-        public var url:   some ViewModifier = DetailTableURLText()
-        public var title: some ViewModifier = DetailTableTitleText()
+        public var date:      some ViewModifier = DetailTableDateText()
+        public var url:       some ViewModifier = DetailTableURLText()
+        public var title:     some ViewModifier = DetailTableTitleText()
+        public var hack_edit: some ActionStyle  = ActionStyleImp(labelStyle: .titleOnly)
+        public var hack_done: some ActionStyle  = JSBToolbarButtonStyleDone
         
         public var columnWidthDate:      CGFloat = .dateColumnWidthMax
         public var columnWidthThumbnail: CGFloat = .thumbnailColumnWidth

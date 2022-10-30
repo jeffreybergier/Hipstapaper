@@ -79,6 +79,7 @@ internal struct MainView: View {
                 Sidebar()
             } detail: {
                 Detail()
+                    .animation(.default, value: self.isEditMode)
                     .editMode(force: self.isEditMode)
             }
             .modifier(BulkActionsHelper())

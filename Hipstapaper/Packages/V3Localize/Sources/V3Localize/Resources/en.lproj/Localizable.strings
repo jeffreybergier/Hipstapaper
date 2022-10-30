@@ -65,6 +65,7 @@
 "Verb.DeleteImage"            = "Delete Thumbnail";
 "Verb.DeleteGeneric"          = "Delete";
 "Verb.EditWebsite"            = "Edit Websites";
+"Verb.Edit"                   = "Edit";
 "Verb.iCloud"                 = "iCloud";
 "Verb.Column"                 = "Table Column";
 "Verb.AddChoice"              = "Add";
