@@ -33,7 +33,7 @@ import V3Localize
 import V3Errors
 
 internal struct DetailToolbar: ViewModifier {
-
+    
     @Navigation private var nav
     @Selection private var selection
     @BulkActions private var state
@@ -44,120 +44,132 @@ internal struct DetailToolbar: ViewModifier {
     
     @V3Style.DetailToolbar private var style
     @V3Localize.DetailToolbar private var text
-
-    private func itemOpenExternal() -> some View {
-        self.style.toolbar.action(text: self.text.openExternal)
-            .button(item: self.state.pull.openExternal?.single)
-        { _ in
-            self.state.push.openExternal = self.state.pull.openExternal
-        }
-    }
     
     internal func body(content: Content) -> some View {
         content
             .toolbarRole(.editor)
-            .toolbar(id: .barTop) {
-                ToolbarItem(id: .itemShare, placement: .primaryAction) {
-                    self.style.toolbar.action(text: self.text.share)
-                        .button(items: self.state.pull.share)
-                    {
-                        self.nav.detail.isSharePopover = $0
-                    }
-                    .modifier(ShareListPopover(self.$nav.detail.isSharePopover))
-                }
-                ToolbarItem(id: .itemArchiveYes, placement: .secondaryAction) {
-                    self.style.toolbar.action(text: self.text.archiveYes)
-                        .button(items: self.state.pull.archiveYes)
-                    {
-                        self.state.push.archiveYes = $0
-                    }
-                }
-                ToolbarItem(id: .itemArchiveNo, placement: .secondaryAction) {
-                    self.style.toolbar.action(text: self.text.archiveNo)
-                        .button(items: self.state.pull.archiveNo)
-                    {
-                        self.state.push.archiveNo = $0
-                    }
-                }
-                // TODO: Remove this switch statement when possible
-                // Needed because Compact doesn't show items that are
-                // marked as showsByDefault == false here
-                switch self.sizeClass.horizontal {
-                case .compact, .tiny:
-                    ToolbarItem(id: .itemOpenExternalCompact,
-                                placement: .secondaryAction,
-                                content: self.itemOpenExternal)
-                case .regular:
-                    ToolbarItem(id: .itemOpenExternalRegular,
-                                placement: .secondaryAction,
-                                showsByDefault: false,
-                                content: self.itemOpenExternal)
-                    ToolbarItem(id: .itemColumn,
-                                placement: .secondaryAction,
-                                showsByDefault: false,
-                                content: ColumnMenu.init)
-                }
-                ToolbarItem(id: .itemTagApply, placement: .secondaryAction) {
-                    self.style.toolbar.action(text: self.text.tagApply)
-                        .button(items: self.state.pull.tagApply)
-                    {
-                        self.nav.detail.isTagApplyPopover = $0
-                    }
-                    .modifier(WebsiteEditPopover(self.$nav.detail.isTagApplyPopover, start: .tag))
-                }
-            }
+            .toolbar(id: .barTop, content: self.barTopAll)
             .toolbar(id: .barBottom) {
-                ToolbarItem(id: .itemDeselect, placement: .bottomSecondary) {
-                    self.style.deselectAll.action(text: self.text.deselectAll)
-                        .button(items: self.state.pull.deselectAll)
-                    {
-                        self.state.push.deselectAll = $0
-                    }
-                }
-                if self.errorQueue.isEmpty == false {
-                    ToolbarItem(id: .itemError, placement: .bottomSecondary) {
-                        self.style.toolbar.action(text: self.text.error)
-                            .button(isEnabled: self.state.pull.showErrors)
-                        {
-                            self.state.push.showErrors = true
-                        }
-                        .modifier(DetailErrorListPresentation())
-                    }
-                }
-                ToolbarItem(id: .itemSpacer1, placement: .bottomSecondary) {
-                    Spacer()
-                }
-                ToolbarItem(id: .itemOpenInApp, placement: .bottomSecondary) {
-                    self.style.openInApp.action(text: self.text.openInApp)
-                        .button(item: self.state.pull.openInApp?.single)
-                    { _ in
-                        self.state.push.openInApp = self.state.pull.openInApp
-                    }
-                }
-                ToolbarItem(id: .itemSpacer2, placement: .bottomSecondary) {
-                    Spacer()
-                }
-                if self.selection.tag?.isSystem == false {
-                    ToolbarItem(id: .itemFilter, placement: .bottomSecondary) {
-                        FilterMenu()
-                    }
-                }
-                ToolbarItem(id: .itemSort, placement: .bottomSecondary) {
-                    SortMenu()
-                }
-                ToolbarItem(id: .itemEditButton, placement: .bottomSecondary) {
-                    HACK_EditButton()
+                switch self.isEditMode {
+                case true: self.barBottomMulti()
+                case false: self.barBottomSingle()
                 }
             }
             .disabled(self.selection.tag == nil)
+    }
+    
+    @ToolbarContentBuilder internal func barTopAll() -> some CustomizableToolbarContent {
+        ToolbarItem(id: .itemEditButton,
+                    placement: .primaryAction)
+        {
+            HACK_EditButton()
+        }
+        ToolbarItem(id: .itemSort,
+                    placement: .secondaryAction,
+                    showsByDefault: true)
+        {
+            SortMenu()
+        }
+        ToolbarItem(id: .itemFilter,
+                    placement: .secondaryAction,
+                    showsByDefault: true)
+        {
+            FilterMenu()
+                .disabled(self.selection.tag?.isSystem ?? false)
+        }
+        ToolbarItem(id: .itemColumn,
+                    placement: .secondaryAction,
+                    showsByDefault: false,
+                    content: ColumnMenu.init)
+        if self.errorQueue.isEmpty == false {
+            ToolbarItem(id: .itemError, placement: .navigation) {
+                self.style.toolbar.action(text: self.text.error)
+                    .button(isEnabled: self.state.pull.showErrors)
+                {
+                    self.state.push.showErrors = true
+                }
+                .modifier(DetailErrorListPresentation())
+            }
+        }
+    }
+    
+    @ToolbarContentBuilder internal func barBottomSingle() -> some CustomizableToolbarContent {
+        ToolbarItem(id: "Empty") { EmptyView() }
+    }
+    
+    @ToolbarContentBuilder internal func barBottomMulti() -> some CustomizableToolbarContent {
+        ToolbarItem(id: .itemOpenInApp,
+                    placement: .secondaryAction,
+                    showsByDefault: true)
+        {
+            // A little cheating because this is in the top bar
+            self.style.toolbar.action(text: self.text.openInApp)
+                .button(item: self.state.pull.openInApp?.single)
+            { _ in
+                self.state.push.openInApp = self.state.pull.openInApp
+            }
+        }
+        ToolbarItem(id: .itemOpenExternal,
+                    placement: .secondaryAction,
+                    showsByDefault: true)
+        {
+            // A little cheating because this is in the top bar
+            self.style.toolbar.action(text: self.text.openExternal)
+                .button(item: self.state.pull.openExternal?.single)
+            { _ in
+                self.state.push.openExternal = self.state.pull.openExternal
+            }
+        }
+        ToolbarItem(id: .itemDeselect, placement: .bottomSecondary) {
+            self.style.toolbar.action(text: self.text.deselectAll)
+                .button(items: self.state.pull.deselectAll)
+            {
+                self.state.push.deselectAll = $0
+            }
+        }
+        ToolbarItem(id: .itemSpacer1, placement: .bottomSecondary) {
+            Spacer()
+        }
+        ToolbarItem(id: .itemArchiveYes, placement: .bottomSecondary) {
+            self.style.toolbar.action(text: self.text.archiveYes)
+                .button(items: self.state.pull.archiveYes)
+            {
+                self.state.push.archiveYes = $0
+            }
+        }
+        ToolbarItem(id: .itemArchiveNo, placement: .bottomSecondary) {
+            self.style.toolbar.action(text: self.text.archiveNo)
+                .button(items: self.state.pull.archiveNo)
+            {
+                self.state.push.archiveNo = $0
+            }
+        }
+        ToolbarItem(id: .itemTagApply, placement: .bottomSecondary) {
+            self.style.toolbar.action(text: self.text.tagApply)
+                .button(items: self.state.pull.tagApply)
+            {
+                self.nav.detail.isTagApplyPopover = $0
+            }
+            .modifier(WebsiteEditPopover(self.$nav.detail.isTagApplyPopover, start: .tag))
+        }
+        ToolbarItem(id: .itemSpacer2, placement: .bottomSecondary) {
+            Spacer()
+        }
+        ToolbarItem(id: .itemShare, placement: .bottomSecondary) {
+            self.style.toolbar.action(text: self.text.share)
+                .button(items: self.state.pull.share)
+            {
+                self.nav.detail.isSharePopover = $0
+            }
+            .modifier(ShareListPopover(self.$nav.detail.isSharePopover))
+        }
     }
 }
 
 extension String {
     fileprivate static let barTop                  = "barTop"
     fileprivate static let itemOpenInApp           = "itemOpenInApp"
-    fileprivate static let itemOpenExternalCompact = "itemOpenExternalCompact"
-    fileprivate static let itemOpenExternalRegular = "itemOpenExternalRegular"
+    fileprivate static let itemOpenExternal        = "itemOpenExternal"
     fileprivate static let itemArchiveYes          = "itemArchiveYes"
     fileprivate static let itemArchiveNo           = "itemArchiveNo"
     fileprivate static let itemTagApply            = "itemTagApply"
