@@ -26,50 +26,45 @@
 
 import UIKit
 import SwiftUI
-import ShareUI
-import WebsiteEdit
+import V3WebsiteEdit
 
 class ShareViewController: UIViewController {
-        
-    private let control = Control()
-    private lazy var shareUIVC: UIViewController = UIHostingController(
-        rootView: Interface(control: self.control)
-    )
+    
+    private var inputURL: URL?
+    private lazy var shareUIVC: UIViewController = {
+        let view = ShareExtension(inputURL: self.inputURL)
+        { [weak extensionContext] in
+            extensionContext?.completeRequest(returningItems: nil,
+                                              completionHandler: nil)
+        }
+        return UIHostingController(rootView: view)
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
-        
-        _ = { // Add SnapshotVC
-            let vc = self.shareUIVC
-            vc.view.translatesAutoresizingMaskIntoConstraints = false
-            self.view.addSubview(vc.view)
-            self.view.addConstraints([
-                self.view.topAnchor.constraint(equalTo: vc.view.topAnchor, constant: 0),
-                self.view.bottomAnchor.constraint(equalTo: vc.view.bottomAnchor, constant: 0),
-                self.view.leadingAnchor.constraint(equalTo: vc.view.leadingAnchor, constant: 0),
-                self.view.trailingAnchor.constraint(equalTo: vc.view.trailingAnchor, constant: 0)
-            ])
-            self.addChild(vc)
-        }()
-        
-        self.control.onDone = { [weak extensionContext] in
-            extensionContext?.completeRequest(returningItems: nil,
-                                              completionHandler: nil)
-        }
-        
         guard let context = self.extensionContext?.inputItems.first as? NSExtensionItem else {
-            self.control.extensionError = WebsiteEdit.Error.sx_process
+            self.configureVC()
+            assertionFailure("Could not get extension context")
             return
         }
-        
         context.urlValue() { url in
-            guard let url = url else {
-                self.control.extensionError = WebsiteEdit.Error.sx_process
-                return
-            }
-            self.control.extensionURL = url
+            self.inputURL = url
+            self.configureVC()
         }
+    }
+    
+    private func configureVC() {
+        let vc = self.shareUIVC
+        vc.view.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(vc.view)
+        self.view.addConstraints([
+            self.view.topAnchor.constraint(equalTo: vc.view.topAnchor, constant: 0),
+            self.view.bottomAnchor.constraint(equalTo: vc.view.bottomAnchor, constant: 0),
+            self.view.leadingAnchor.constraint(equalTo: vc.view.leadingAnchor, constant: 0),
+            self.view.trailingAnchor.constraint(equalTo: vc.view.trailingAnchor, constant: 0)
+        ])
+        self.addChild(vc)
     }
 }
 

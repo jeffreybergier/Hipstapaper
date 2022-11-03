@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21256.2" systemVersion="21F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CD_Base" representedClassName="CD_Base" isAbstract="YES" syncable="YES" codeGenerationType="category">
+        <attribute name="cd_dateCreated" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="cd_dateModified" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+    </entity>
+    <entity name="CD_Tag" representedClassName="CD_Tag" parentEntity="CD_Base" syncable="YES" codeGenerationType="category">
+        <attribute name="cd_name" optional="YES" attributeType="String"/>
+        <attribute name="cd_websitesCount" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="cd_websites" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CD_Website" inverseName="cd_tags" inverseEntity="CD_Website"/>
+    </entity>
+    <entity name="CD_Website" representedClassName="CD_Website" parentEntity="CD_Base" syncable="YES" codeGenerationType="category">
+        <attribute name="cd_isArchived" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="cd_originalURL" optional="YES" attributeType="URI"/>
+        <attribute name="cd_resolvedURL" optional="YES" attributeType="URI"/>
+        <attribute name="cd_thumbnail" optional="YES" attributeType="Binary"/>
+        <attribute name="cd_title" optional="YES" attributeType="String"/>
+        <relationship name="cd_tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CD_Tag" inverseName="cd_websites" inverseEntity="CD_Tag"/>
+    </entity>
+</model>
