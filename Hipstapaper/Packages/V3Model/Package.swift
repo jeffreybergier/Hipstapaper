@@ -38,7 +38,7 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "v3"),
+        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "main"),
     ],
     targets: [
         .target(
