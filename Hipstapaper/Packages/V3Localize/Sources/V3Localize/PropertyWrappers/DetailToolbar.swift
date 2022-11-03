@@ -40,7 +40,6 @@ public struct DetailToolbar: DynamicProperty {
         public var edit:         ActionLocalization
         public var delete:       ActionLocalization
         public var error:        ActionLocalization
-        public var deselectAll:  ActionLocalization
         
         internal init(_ b: LocalizeBundle) {
             self.openInApp    = Action.openInApp.localized(b)
@@ -52,7 +51,6 @@ public struct DetailToolbar: DynamicProperty {
             self.edit         = Action.editWebsite.localized(b)
             self.delete       = Action.deleteWebsite.localized(b)
             self.error        = Action.errorsPresent.localized(b)
-            self.deselectAll  = Action.deselectAll.localized(b)
             
             // TODO: Toolbar shortcuts conflict with MainMenu shortcuts
             // Remove shortcuts for toolbar items
@@ -65,7 +63,6 @@ public struct DetailToolbar: DynamicProperty {
             self.edit.shortcut         = nil
             self.delete.shortcut       = nil
             self.error.shortcut        = nil
-            self.deselectAll.shortcut  = nil
         }
     }
     

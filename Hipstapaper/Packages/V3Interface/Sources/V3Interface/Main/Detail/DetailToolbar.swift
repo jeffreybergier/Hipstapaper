@@ -98,33 +98,11 @@ internal struct DetailToolbar: ViewModifier {
     }
     
     @ToolbarContentBuilder internal func barBottomMulti() -> some CustomizableToolbarContent {
-        ToolbarItem(id: .itemOpenInApp,
-                    placement: .secondaryAction,
-                    showsByDefault: true)
-        {
-            // A little cheating because this is in the top bar
-            self.style.toolbar.action(text: self.text.openInApp)
-                .button(item: self.state.pull.openInApp?.single)
-            { _ in
-                self.state.push.openInApp = self.state.pull.openInApp
-            }
-        }
-        ToolbarItem(id: .itemOpenExternal,
-                    placement: .secondaryAction,
-                    showsByDefault: true)
-        {
-            // A little cheating because this is in the top bar
+        ToolbarItem(id: .itemOpenExternal, placement: .bottomSecondary) {
             self.style.toolbar.action(text: self.text.openExternal)
                 .button(item: self.state.pull.openExternal?.single)
             { _ in
                 self.state.push.openExternal = self.state.pull.openExternal
-            }
-        }
-        ToolbarItem(id: .itemDeselect, placement: .bottomSecondary) {
-            self.style.toolbar.action(text: self.text.deselectAll)
-                .button(items: self.state.pull.deselectAll)
-            {
-                self.state.push.deselectAll = $0
             }
         }
         ToolbarItem(id: .itemSpacer1, placement: .bottomSecondary) {
@@ -168,7 +146,6 @@ internal struct DetailToolbar: ViewModifier {
 
 extension String {
     fileprivate static let barTop                  = "barTop"
-    fileprivate static let itemOpenInApp           = "itemOpenInApp"
     fileprivate static let itemOpenExternal        = "itemOpenExternal"
     fileprivate static let itemArchiveYes          = "itemArchiveYes"
     fileprivate static let itemArchiveNo           = "itemArchiveNo"
@@ -178,7 +155,6 @@ extension String {
     fileprivate static let itemError               = "itemError"
     fileprivate static let itemSpacer1             = "itemSpacer1"
     fileprivate static let itemSpacer2             = "itemSpacer2"
-    fileprivate static let itemDeselect            = "itemDeselect"
     fileprivate static let itemColumn              = "itemColumn"
     fileprivate static let itemSort                = "itemSort"
     fileprivate static let itemFilter              = "itemFilter"
