@@ -25,38 +25,38 @@
 //
 
 import SwiftUI
+import Umbrella
 import V3Store
 import V3Model
 import V3Localize
 
 internal struct DetailTitle: ViewModifier {
 
-    @Navigation private var nav
     @Selection private var selection
-    @Query private var query
-    @TagUserQuery private var item: Tag?
+    @TagUserQuery private var selectedTag: Tag?
+    
     @V3Localize.Detail private var text
     
     internal func body(content: Content) -> some View {
-        Group {
-            switch self.selection.tag?.kind ?? .user {
-            case .systemUnread:
-                content.navigationTitle(self.text.titleUnread)
-            case .systemAll:
-                content.navigationTitle(self.text.titleAll)
-            case .user:
-                if let item = self.$item {
-                    content.navigationTitle(
-                        item.name.compactMap(default: self.text.tagUntitled)
-                    )
-                } else {
-                    content.navigationTitle(self.text.noTagSelected.title)
-                }
-            }
+        self.$selectedTag.view {
+            content.navigationTitle($0.name.compactMap())
+        } onNIL: {
+            content.navigationTitle(self.title)
         }
         .navigationBarTitleDisplayModeInline
         .onLoadChange(of: self.selection.tag) {
-            _item.setIdentifier($0)
+            _selectedTag.setIdentifier($0)
+        }
+    }
+    
+    private var title: LocalizedString {
+        switch self.selection.tag?.kind ?? .user {
+        case .systemUnread:
+            return self.text.titleUnread
+        case .systemAll:
+            return self.text.titleAll
+        case .user:
+            return self.text.noTagSelected.title
         }
     }
 }

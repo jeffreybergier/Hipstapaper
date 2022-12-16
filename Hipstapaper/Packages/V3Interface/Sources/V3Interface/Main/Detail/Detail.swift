@@ -67,12 +67,12 @@ internal struct Detail: View {
             } onNIL: {
                 self.style.disabled.action(text: self.text.noTagSelected).label
             }
-            .modifier(DetailTitle())
-            .modifier(DetailMenu())
-            .modifier(DetailToolbar())
-            .modifier(BrowserSheet(self.$nav.detail.isBrowse))
-            .modifier(ShareListSheet(self.$nav.detail.isShare))
-            .modifier(WebsiteEditSheet(self.$nav.detail.isTagApply, start: .tag))
         }
+        .modifier(DetailMenu())
+        .modifier(DetailTitle())
+        .modifier(DetailToolbar())
+        .modifier(BrowserSheet(self.$nav.detail.isBrowse))
+        .modifier(ShareListSheet(self.$nav.detail.isShare))
+        .modifier(WebsiteEditSheet(self.$nav.detail.isTagApply, start: .tag))
     }
 }
