@@ -58,6 +58,46 @@ internal struct DetailToolbar: ViewModifier {
             .disabled(self.selection.tag == nil)
     }
     
+    #if os(macOS)
+    
+    @ToolbarContentBuilder internal func barTopAll() -> some CustomizableToolbarContent {
+        ToolbarItem(id: .itemSort,
+                    placement: .automatic,
+                    showsByDefault: true)
+        {
+            SortMenu()
+        }
+        ToolbarItem(id: .itemFilter,
+                    placement: .automatic,
+                    showsByDefault: true)
+        {
+            FilterMenu()
+                .disabled(self.selection.tag?.isSystem ?? false)
+        }
+        ToolbarItem(id: .itemColumn,
+                    placement: .automatic,
+                    showsByDefault: false,
+                    content: ColumnMenu.init)
+        ToolbarItem(id: .itemError, placement: .automatic) {
+            self.style.toolbar.action(text: self.text.error)
+                .button(isEnabled: self.state.pull.showErrors)
+            {
+                self.state.push.showErrors = true
+            }
+            .modifier(DetailErrorListPresentation())
+        }
+    }
+    
+    @ToolbarContentBuilder internal func barBottomSingle() -> some CustomizableToolbarContent {
+        ToolbarItem(id: .barEmpty) { EmptyView() }
+    }
+    
+    @ToolbarContentBuilder internal func barBottomMulti() -> some CustomizableToolbarContent {
+        ToolbarItem(id: .barEmpty) { EmptyView() }
+    }
+    
+    #else
+    
     @ToolbarContentBuilder internal func barTopAll() -> some CustomizableToolbarContent {
         ToolbarItem(id: .itemEditButton,
                     placement: .primaryAction)
@@ -94,35 +134,35 @@ internal struct DetailToolbar: ViewModifier {
     }
     
     @ToolbarContentBuilder internal func barBottomSingle() -> some CustomizableToolbarContent {
-        ToolbarItem(id: "Empty") { EmptyView() }
+        ToolbarItem(id: .barEmpty) { EmptyView() }
     }
     
     @ToolbarContentBuilder internal func barBottomMulti() -> some CustomizableToolbarContent {
-        ToolbarItem(id: .itemOpenExternal, placement: .bottomSecondary) {
+        ToolbarItem(id: .itemOpenExternal, placement: .bottomBar) {
             self.style.toolbar.action(text: self.text.openExternal)
                 .button(item: self.state.pull.openExternal?.single)
             { _ in
                 self.state.push.openExternal = self.state.pull.openExternal
             }
         }
-        ToolbarItem(id: .itemSpacer1, placement: .bottomSecondary) {
+        ToolbarItem(id: .itemSpacer1, placement: .bottomBar) {
             Spacer()
         }
-        ToolbarItem(id: .itemArchiveYes, placement: .bottomSecondary) {
+        ToolbarItem(id: .itemArchiveYes, placement: .bottomBar) {
             self.style.toolbar.action(text: self.text.archiveYes)
                 .button(items: self.state.pull.archiveYes)
             {
                 self.state.push.archiveYes = $0
             }
         }
-        ToolbarItem(id: .itemArchiveNo, placement: .bottomSecondary) {
+        ToolbarItem(id: .itemArchiveNo, placement: .bottomBar) {
             self.style.toolbar.action(text: self.text.archiveNo)
                 .button(items: self.state.pull.archiveNo)
             {
                 self.state.push.archiveNo = $0
             }
         }
-        ToolbarItem(id: .itemTagApply, placement: .bottomSecondary) {
+        ToolbarItem(id: .itemTagApply, placement: .bottomBar) {
             self.style.toolbar.action(text: self.text.tagApply)
                 .button(items: self.state.pull.tagApply)
             {
@@ -130,10 +170,10 @@ internal struct DetailToolbar: ViewModifier {
             }
             .modifier(WebsiteEditPopover(self.$nav.detail.isTagApplyPopover, start: .tag))
         }
-        ToolbarItem(id: .itemSpacer2, placement: .bottomSecondary) {
+        ToolbarItem(id: .itemSpacer2, placement: .bottomBar) {
             Spacer()
         }
-        ToolbarItem(id: .itemShare, placement: .bottomSecondary) {
+        ToolbarItem(id: .itemShare, placement: .bottomBar) {
             self.style.toolbar.action(text: self.text.share)
                 .button(items: self.state.pull.share)
             {
@@ -142,16 +182,19 @@ internal struct DetailToolbar: ViewModifier {
             .modifier(ShareListPopover(self.$nav.detail.isSharePopover))
         }
     }
+    
+    #endif
 }
 
 extension String {
     fileprivate static let barTop                  = "barTop"
+    fileprivate static let barBottom               = "barBottom"
+    fileprivate static let barEmpty                = "barEmpty"
     fileprivate static let itemOpenExternal        = "itemOpenExternal"
     fileprivate static let itemArchiveYes          = "itemArchiveYes"
     fileprivate static let itemArchiveNo           = "itemArchiveNo"
     fileprivate static let itemTagApply            = "itemTagApply"
     fileprivate static let itemShare               = "itemShare"
-    fileprivate static let barBottom               = "barBottom"
     fileprivate static let itemError               = "itemError"
     fileprivate static let itemSpacer1             = "itemSpacer1"
     fileprivate static let itemSpacer2             = "itemSpacer2"
@@ -159,14 +202,4 @@ extension String {
     fileprivate static let itemSort                = "itemSort"
     fileprivate static let itemFilter              = "itemFilter"
     fileprivate static let itemEditButton          = "itemEditButton"
-}
-
-extension ToolbarItemPlacement {
-    fileprivate static var bottomSecondary: ToolbarItemPlacement {
-        #if os(macOS)
-        .secondaryAction
-        #else
-        .bottomBar
-        #endif
-    }
 }
