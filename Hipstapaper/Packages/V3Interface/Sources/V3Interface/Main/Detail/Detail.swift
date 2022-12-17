@@ -47,28 +47,28 @@ internal struct Detail: View {
             self.selection.tag.view { _ in
                 self.data.view {
                     DetailTable($0)
+                        .searchable(text: self.$query.search,
+                                    prompt: self.text.search)
                 } onEmpty: {
                     self.style.disabled
                         .action(text: self.text.noWebsites)
                         .label
                 }
-                .searchable(text: self.$query.search,
-                            prompt: self.text.search)
-                .onLoadChange(of: self.query) {
-                    _data.setQuery($0)
-                }
-                .onLoadChange(of: self.selection.tag) {
-                    _data.setFilter($0)
-                }
-                .onLoadChange(of: self.selection.websites) {
-                    #if os(iOS) // TODO: Is there a way to make double-click work on macOS?
-                    guard self.isEditMode == false, $0.count == 1 else { return }
-                    self.nav.detail.isBrowse = $0.first
-                    #endif
-                }
             } onNIL: {
                 self.style.disabled.action(text: self.text.noTagSelected).label
             }
+        }
+        .onLoadChange(of: self.query) {
+            _data.setQuery($0)
+        }
+        .onLoadChange(of: self.selection.tag) {
+            _data.setFilter($0)
+        }
+        .onLoadChange(of: self.selection.websites) {
+            #if os(iOS) // TODO: Is there a way to make double-click work on macOS?
+            guard self.isEditMode == false, $0.count == 1 else { return }
+            self.nav.detail.isBrowse = $0.first
+            #endif
         }
         .modifier(DetailMenu())
         .modifier(DetailTitle())
