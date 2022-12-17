@@ -61,11 +61,49 @@ internal struct DetailToolbar: ViewModifier {
     #if os(macOS)
     
     @ToolbarContentBuilder internal func barTopAll() -> some CustomizableToolbarContent {
-        ToolbarItem(id: .itemSort,
-                    placement: .automatic,
-                    showsByDefault: true)
-        {
-            SortMenu()
+        ToolbarItem(id: .itemInApp, placement: .automatic) {
+            self.style.toolbar.action(text: self.text.openInApp)
+                .button(item: self.state.pull.openInApp?.single)
+            { _ in
+                self.state.push.openInApp = self.state.pull.openInApp
+            }
+        }
+        ToolbarItem(id: .itemOpenExternal, placement: .automatic) {
+            self.style.toolbar.action(text: self.text.openExternal)
+                .button(item: self.state.pull.openExternal?.single)
+            { _ in
+                self.state.push.openExternal = self.state.pull.openExternal
+            }
+        }
+        ToolbarItem(id: .itemArchiveYes, placement: .automatic) {
+            self.style.toolbar.action(text: self.text.archiveYes)
+                .button(items: self.state.pull.archiveYes)
+            {
+                self.state.push.archiveYes = $0
+            }
+        }
+        ToolbarItem(id: .itemArchiveNo, placement: .automatic) {
+            self.style.toolbar.action(text: self.text.archiveNo)
+                .button(items: self.state.pull.archiveNo)
+            {
+                self.state.push.archiveNo = $0
+            }
+        }
+        ToolbarItem(id: .itemTagApply, placement: .automatic) {
+            self.style.toolbar.action(text: self.text.tagApply)
+                .button(items: self.state.pull.tagApply)
+            {
+                self.nav.detail.isTagApplyPopover = $0
+            }
+            .modifier(WebsiteEditPopover(self.$nav.detail.isTagApplyPopover, start: .tag))
+        }
+        ToolbarItem(id: .itemShare, placement: .automatic) {
+            self.style.toolbar.action(text: self.text.share)
+                .button(items: self.state.pull.share)
+            {
+                self.nav.detail.isSharePopover = $0
+            }
+            .modifier(ShareListPopover(self.$nav.detail.isSharePopover))
         }
         ToolbarItem(id: .itemFilter,
                     placement: .automatic,
@@ -74,11 +112,17 @@ internal struct DetailToolbar: ViewModifier {
             FilterMenu()
                 .disabled(self.selection.tag?.isSystem ?? false)
         }
+        ToolbarItem(id: .itemSort,
+                    placement: .automatic,
+                    showsByDefault: false)
+        {
+            SortMenu()
+        }
         ToolbarItem(id: .itemColumn,
                     placement: .automatic,
                     showsByDefault: false,
                     content: ColumnMenu.init)
-        ToolbarItem(id: .itemError, placement: .automatic) {
+        ToolbarItem(id: .itemError, placement: .navigation) {
             self.style.toolbar.action(text: self.text.error)
                 .button(isEnabled: self.state.pull.showErrors)
             {
@@ -190,6 +234,7 @@ extension String {
     fileprivate static let barTop                  = "barTop"
     fileprivate static let barBottom               = "barBottom"
     fileprivate static let barEmpty                = "barEmpty"
+    fileprivate static let itemInApp               = "itemInApp"
     fileprivate static let itemOpenExternal        = "itemOpenExternal"
     fileprivate static let itemArchiveYes          = "itemArchiveYes"
     fileprivate static let itemArchiveNo           = "itemArchiveNo"
