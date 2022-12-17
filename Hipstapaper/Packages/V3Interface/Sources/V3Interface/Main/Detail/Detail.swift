@@ -61,8 +61,10 @@ internal struct Detail: View {
                     _data.setFilter($0)
                 }
                 .onLoadChange(of: self.selection.websites) {
+                    #if os(iOS) // TODO: Is there a way to make double-click work on macOS?
                     guard self.isEditMode == false, $0.count == 1 else { return }
                     self.nav.detail.isBrowse = $0.first
+                    #endif
                 }
             } onNIL: {
                 self.style.disabled.action(text: self.text.noTagSelected).label
