@@ -58,7 +58,7 @@ public struct ErrorList<ES: RandomAccessCollection & RangeReplaceableCollection>
             .listStyle(.plain)
             .animation(.default, value: self.errorStorage.count)
             .modifier(self.toolbar)
-            .modifier(self.alert)
+            // .modifier(self.alert)
         }
         .modifier(self.style.popoverSize)
     }
@@ -75,6 +75,8 @@ public struct ErrorList<ES: RandomAccessCollection & RangeReplaceableCollection>
         }
     }
     
+    /*
+     // TODO: Update considering ErrorCatcher, ErrorMover, ErrorStorage
     private var alert: some ViewModifier {
         UserFacingErrorAlert<LocalizeBundle, CodableError>(self.$isError) { error in
             guard let index = self.errorStorage.firstIndex(where: { $0.id == error.id }) else { return }
@@ -86,6 +88,7 @@ public struct ErrorList<ES: RandomAccessCollection & RangeReplaceableCollection>
             }
         }
     }
+     */
 }
 
 internal struct ErrorListRow: View {

@@ -55,6 +55,12 @@ public struct ErrorResponder<V: View, ES: RangeReplaceableCollection>: View wher
     
     public var body: some View {
         self.content()
+    }
+    
+    /*
+    // TODO: Replace with WaterMe ErrorCatcher, ErrorMover, ErrorStorage
+    public var body: some View {
+        self.content()
             .environment(\.codableErrorResponder, self.handle(_:))
             .modifier(self.alert)
     }
@@ -84,4 +90,5 @@ public struct ErrorResponder<V: View, ES: RangeReplaceableCollection>: View wher
             }
         }
     }
+    */
 }
