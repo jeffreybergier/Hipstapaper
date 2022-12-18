@@ -31,6 +31,16 @@ import V3Model
 import V3Localize
 
 internal struct DetailTitle: ViewModifier {
+    internal func body(content: Content) -> some View {
+        #if os(macOS)
+        content.modifier(HACK_DetailTitle())
+        #else
+        content.modifier(IDEAL_DetailTitle())
+        #endif
+    }
+}
+
+private struct IDEAL_DetailTitle: ViewModifier {
 
     @Selection private var selection
     @TagUserQuery private var selectedTag: Tag?
@@ -57,6 +67,43 @@ internal struct DetailTitle: ViewModifier {
             return self.text.titleAll
         case .user:
             return self.text.noTagSelected.title
+        }
+    }
+}
+
+// TODO: On Mac the toolbar breaks when the content switches
+// from renamable title to regular title. Use this simple one instead.
+private struct HACK_DetailTitle: ViewModifier {
+
+    @Selection private var selection
+    @TagUserQuery private var selectedTag: Tag?
+    
+    @V3Localize.Detail private var text
+    
+    internal func body(content: Content) -> some View {
+        content
+            .navigationTitle(self.title)
+            .onLoadChange(of: self.selection.tag) {
+                _selectedTag.setIdentifier($0)
+            }
+    }
+    
+    private var title: LocalizedString {
+        if let selectedTag {
+            if let tagName = selectedTag.name {
+                return tagName
+            } else {
+                return self.text.tagUntitled
+            }
+        } else {
+            switch self.selection.tag?.kind ?? .user {
+            case .systemUnread:
+                return self.text.titleUnread
+            case .systemAll:
+                return self.text.titleAll
+            case .user:
+                return self.text.noTagSelected.title
+            }
         }
     }
 }
