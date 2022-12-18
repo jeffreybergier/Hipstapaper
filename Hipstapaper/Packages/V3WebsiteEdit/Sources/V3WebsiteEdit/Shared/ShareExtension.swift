@@ -38,11 +38,11 @@ public struct ShareExtension: View {
     @State private var noSelectionText: String = "Loading…"
     
     private let inputURL: URL?
-    private let onDismiss: () -> Void
+    private let onDismiss: (Any) -> Void
     
     public init(inputURL: URL?, onDismiss: @escaping () -> Void) {
         self.inputURL = inputURL
-        self.onDismiss = onDismiss
+        self.onDismiss = { _ in onDismiss() }
     }
     
     @ViewBuilder public var body: some View {
@@ -52,7 +52,7 @@ public struct ShareExtension: View {
                 WebsiteEdit(selection: selection, start: .website)
                     .environmentObject(self.controller)
                     .environmentObject(self.localizeBundle)
-                    .environment(\.closure, self.onDismiss)
+                    .environment(\.anyResponder, self.onDismiss)
                     .environment(\.executionContext, .extensionShare)
                     .environment(\.managedObjectContext, controller.context)
             case .failure(let error):
