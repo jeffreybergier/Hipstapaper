@@ -25,6 +25,7 @@
 //
 
 import SwiftUI
+import Umbrella
 
 @propertyWrapper
 public struct TagsEdit: DynamicProperty {
@@ -32,6 +33,7 @@ public struct TagsEdit: DynamicProperty {
     public init() {}
     
     public struct Value {
+        public var disabled:    some ActionStyle  = ActionStyleFakeDisabled
         public var popoverSize: some ViewModifier = PopoverSize(size: .small)
     }
     

@@ -55,6 +55,7 @@ internal struct TagsEdit: View {
                         TagsEditRow($0)
                     }
                 }
+                .formStyle(.grouped)
                 .modifier(TagsEditToolbar(self.selection))
             }
         } onConfirmation: {
@@ -90,6 +91,7 @@ internal struct TagsEditPresentation: ViewModifier {
 internal struct TagsEditRow: View {
     
     @TagUserQuery private var item
+    @V3Style.TagsEdit private var style
     @V3Localize.TagsEdit private var text
     
     private let identifier: Tag.Identifier
@@ -99,8 +101,14 @@ internal struct TagsEditRow: View {
     }
     
     internal var body: some View {
-        TextField(self.text.placeholderName,
-                  text: self.$item?.name.compactMap() ?? .constant(""))
+        self.$item.view {
+            TextField(self.text.placeholderName, text: $0.name.compactMap())
+                .if(.macOS) { $0.textFieldStyle(.roundedBorder) }
+        } onNIL: {
+            self.style.disabled
+                .action(text: self.text.noTagSelected)
+                .label
+        }
         .onLoadChange(of: self.identifier) {
             _item.setIdentifier($0)
         }
