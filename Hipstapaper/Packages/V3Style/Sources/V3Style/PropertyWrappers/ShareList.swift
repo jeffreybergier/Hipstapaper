@@ -31,18 +31,43 @@ import Umbrella
 public struct ShareList: DynamicProperty {
     
     public struct Value {
-        public func enabled(subtitle: String) -> some ActionStyle {
-            ActionStyleImp(innerModifier: ModifierSubtitle(subtitle: subtitle))
-        }
+        
+        public var popoverSize: some ViewModifier = PopoverSize(size: .medium)
+        
         public func disabled(subtitle: String) -> some ActionStyle {
             ActionStyleImp(outerModifier: ModifierDisabledFake(),
                            innerModifier: ModifierSubtitle(subtitle: subtitle))
         }
-        public var copy: some ActionStyle = ActionStyleImp(
+        
+        public func shareLink(itemURLs: [URL],
+                              itemTitle: ActionLocalization,
+                              itemSubtitle: LocalizedString,
+                              copyTitle: ActionLocalization? = nil,
+                              copyAction: (() -> Void)? = nil)
+                              -> some View
+        {
+            ShareLink(items: itemURLs) {
+                HStack {
+                    self.enabled(subtitle: itemSubtitle)
+                        .action(text: itemTitle)
+                        .label
+                    copyTitle.view { copyTitle in
+                        Spacer()
+                        self.copy
+                            .action(text: copyTitle)
+                            .button(item: copyAction, action: { $0() })
+                    }
+                }
+            }
+        }
+        
+        private var copy: some ActionStyle = ActionStyleImp(
             labelStyle: .iconOnly,
             outerModifier: ModifierButtonStyle(style: .bordered)
         )
-        public var popoverSize: some ViewModifier = PopoverSize(size: .medium)
+        private func enabled(subtitle: String) -> some ActionStyle {
+            ActionStyleImp(innerModifier: ModifierSubtitle(subtitle: subtitle))
+        }
     }
     
     public init() {}

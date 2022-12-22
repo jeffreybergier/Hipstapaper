@@ -42,6 +42,11 @@ public struct DetailTable: DynamicProperty {
         public var hack_edit:          ActionLocalization
         public var hack_done:          ActionLocalization
         
+        public var prettyURL: (URL?) -> LocalizedString? = {
+            guard let url = $0 else { return nil }
+            return url.prettyValue ?? url.absoluteString
+        }
+        
         internal init(_ b: LocalizeBundle) {
             self.columnThumbnail    = b.localized(key: Noun.thumbnail.rawValue)
             self.columnTitle        = b.localized(key: Noun.title.rawValue)

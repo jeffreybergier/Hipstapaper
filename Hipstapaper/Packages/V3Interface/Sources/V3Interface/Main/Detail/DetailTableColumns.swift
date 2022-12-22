@@ -84,7 +84,7 @@ internal struct DetailTableColumnURL: View {
     }
     
     var body: some View {
-        JSBText(self.text.missingURL, text: self.item?.preferredURL?.prettyValue)
+        JSBText(self.text.missingURL, text: self.text.prettyURL(self.item?.preferredURL))
             .modifier(self.style.url)
             .onLoadChange(of: self.id, async: true) {
                 _item.setIdentifier($0)

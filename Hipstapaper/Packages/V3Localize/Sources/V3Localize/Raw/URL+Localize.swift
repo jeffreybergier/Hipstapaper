@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/17.
+//  Created by Jeffrey Bergier on 2022/12/22.
 //
 //  MIT License
 //
@@ -24,45 +24,25 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
-import Umbrella
+import Foundation
 
 extension URL {
-    // TODO: Move out of host app and into style
-    var prettyValueHost: String? {
+    internal var prettyValueHost: String? {
         let components = URLComponents(url: self, resolvingAgainstBaseURL: true)
         guard let host = components?.host else { return nil }
         return host.replacing(#/www\./#, maxReplacements: 1, with: { _ in "" })
     }
-}
-
-internal enum JSBPasteboard {
-    internal static func set(title: String?, url: URL) {
-        #if os(macOS)
-        NSPasteboard.general.set(title: title, url: url)
-        #else
-        UIPasteboard.general.set(title: title, url: url)
-        #endif
+    internal var prettyValue: String? {
+        let components = URLComponents(url: self, resolvingAgainstBaseURL: true)
+        guard let _host = components?.host else { return nil }
+        // TODO: This could still be improved
+        // I basically want to check the host from the end for all known TLD's
+        // and then just show the first part of the domain. To be clearer...
+        // "act.net.www.companyname.co.jp" would show "companyname.co.jp"
+        // I might be able to shortcut it by doing components separated by "."
+        // then delete any component equal to "www" and then keep the last 3 components
+        let host = _host.replacing(#/www\./#, maxReplacements: 1, with: { _ in "" })
+        guard let path = components?.path else { return host }
+        return host+path
     }
 }
-
-#if os(macOS)
-extension NSPasteboard {
-    fileprivate func set(title: String?, url: URL) {
-        // TODO: Improve by using setPropertyList?
-        self.setString(url.absoluteString, forType: .URL)
-    }
-}
-#else
-extension UIPasteboard {
-    fileprivate func set(title: String?, url: URL) {
-        guard
-            let stringKey = UIPasteboard.typeListString[0] as? String,
-            let urlKey = UIPasteboard.typeListURL[0] as? String
-        else { return }
-        let titleDict = title.map { [stringKey: $0] } ?? [:]
-        let urlDict = [urlKey: url]
-        self.setItems([titleDict, urlDict])
-    }
-}
-#endif
