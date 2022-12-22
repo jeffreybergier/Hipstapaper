@@ -46,25 +46,27 @@ public struct ShareList: DynamicProperty {
                               copyAction: (() -> Void)? = nil)
                               -> some View
         {
-            ShareLink(items: itemURLs) {
-                HStack {
-                    self.enabled(subtitle: itemSubtitle)
-                        .action(text: itemTitle)
-                        .label
-                    copyTitle.view { copyTitle in
-                        Spacer()
-                        self.copy
-                            .action(text: copyTitle)
-                            .button(item: copyAction, action: { $0() })
-                    }
-                }
-            }
+            #if os(macOS)
+            return self.HACK_macOS_shareLink(itemURLs: itemURLs,
+                                             itemTitle: itemTitle,
+                                             itemSubtitle: itemSubtitle,
+                                             copyTitle: copyTitle,
+                                             copyAction: copyAction)
+            #else
+            return self.iOS_shareLink(itemURLs: itemURLs,
+                                      itemTitle: itemTitle,
+                                      itemSubtitle: itemSubtitle,
+                                      copyTitle: copyTitle,
+                                      copyAction: copyAction)
+            #endif
         }
         
         private var copy: some ActionStyle = ActionStyleImp(
             labelStyle: .iconOnly,
             outerModifier: ModifierButtonStyle(style: .bordered)
         )
+        private var titleStyle: some ActionStyle = ActionStyleImp()
+        private var subtitleStyle: some ActionStyle = ActionStyleImp()
         private func enabled(subtitle: String) -> some ActionStyle {
             ActionStyleImp(innerModifier: ModifierSubtitle(subtitle: subtitle))
         }
@@ -91,5 +93,53 @@ fileprivate struct ModifierSubtitle: ViewModifier {
                 .truncationMode(.middle)
         }
         .lineLimit(1)
+    }
+}
+
+extension ShareList.Value {
+    private func iOS_shareLink(itemURLs: [URL],
+                               itemTitle: ActionLocalization,
+                               itemSubtitle: LocalizedString,
+                               copyTitle: ActionLocalization? = nil,
+                               copyAction: (() -> Void)? = nil)
+                               -> some View
+    {
+        ShareLink(items: itemURLs) {
+            HStack {
+                self.enabled(subtitle: itemSubtitle)
+                    .action(text: itemTitle)
+                    .label
+                copyTitle.view { copyTitle in
+                    Spacer()
+                    self.copy
+                        .action(text: copyTitle)
+                        .button(item: copyAction, action: { $0() })
+                }
+            }
+        }
+        .help(itemSubtitle)
+    }
+    
+    private func HACK_macOS_shareLink(itemURLs: [URL],
+                                      itemTitle: ActionLocalization,
+                                      itemSubtitle: LocalizedString,
+                                      copyTitle: ActionLocalization? = nil,
+                                      copyAction: (() -> Void)? = nil)
+                                      -> some View
+    {
+        HStack {
+            ShareLink(items: itemURLs) {
+                self.titleStyle
+                    .action(text: itemTitle)
+                    .label
+            }
+            copyTitle.view { copyTitle in
+                Spacer()
+                self.copy
+                    .action(text: copyTitle)
+                    .button(item: copyAction, action: { $0() })
+            }
+        }
+        .help(itemSubtitle)
     }
 }

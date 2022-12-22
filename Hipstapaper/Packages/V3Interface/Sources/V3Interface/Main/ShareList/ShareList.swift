@@ -65,6 +65,7 @@ internal struct ShareList: View {
                     ShareListRow(identifier)
                 }
             }
+            .formStyle(.grouped)
             .modifier(self.toolbar)
         }
         .modifier(self.style.popoverSize)
