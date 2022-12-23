@@ -103,7 +103,7 @@ internal struct TagsEditRow: View {
     internal var body: some View {
         self.$item.view {
             TextField(self.text.placeholderName, text: $0.name.compactMap())
-                .if(.macOS) { $0.textFieldStyle(.roundedBorder) }
+                .textFieldStyle(HACK_macOS_SquareBorder())
         } onNIL: {
             self.style.disabled
                 .action(text: self.text.noTagSelected)
@@ -143,3 +143,9 @@ internal struct TagsEditToolbar: ViewModifier {
         }
     }
 }
+
+#if os(macOS)
+fileprivate typealias HACK_macOS_SquareBorder = SquareBorderTextFieldStyle
+#else
+fileprivate typealias HACK_macOS_SquareBorder = DefaultTextFieldStyle
+#endif

@@ -102,6 +102,9 @@ internal struct _WebsiteEdit: View {
                         self.style.tab.action(text: self.text.tabTag).label
                     }
             }
+            .if(.macOS) {
+                $0.padding()
+            }
         } onConfirmation: {
             switch $0 {
             case .deleteTags:
