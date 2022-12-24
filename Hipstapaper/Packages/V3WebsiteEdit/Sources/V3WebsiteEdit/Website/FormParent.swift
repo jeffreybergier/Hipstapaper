@@ -57,11 +57,12 @@ internal struct FormParent: View {
             } onEmpty: {
                 self.style.disabled.action(text: self.text.noWebsitesSelected).label
             }
-            .modifier(FormToolbar(self.selection))
             .formStyle(.grouped)
             .textFieldStyle(HACK_macOS_SquareBorder())
+            .if(.iOS) {
+                $0.modifier(FormToolbar(self.selection))
+            }
         }
-
     }
 }
 
