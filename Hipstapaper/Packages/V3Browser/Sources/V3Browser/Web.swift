@@ -56,19 +56,19 @@ fileprivate struct _Web: View {
     private func update(_ wv: WKWebView, context: Context) {
         if self.nav.shouldStop {
             wv.stopLoading()
-            self.nav.shouldStop = false
+            _nav.HACK_set(\.shouldStop, false)
         }
         if self.nav.shouldReload {
             wv.reload()
-            self.nav.shouldReload = false
+            _nav.HACK_set(\.shouldReload, false)
         }
         if self.nav.shouldGoBack {
             wv.goBack()
-            self.nav.shouldGoBack = false
+            _nav.HACK_set(\.shouldGoBack, false)
         }
         if self.nav.shouldGoForward {
             wv.goForward()
-            self.nav.shouldGoForward = false
+            _nav.HACK_set(\.shouldGoForward, false)
         }
         if wv.configuration.preferences.javaScriptEnabled != self.nav.isJSEnabled {
             wv.configuration.preferences.javaScriptEnabled = self.nav.isJSEnabled
@@ -76,7 +76,7 @@ fileprivate struct _Web: View {
         }
         if let load = self.nav.shouldLoadURL {
             wv.load(URLRequest(url: load))
-            self.nav.shouldLoadURL = nil
+            _nav.HACK_set(\.shouldLoadURL, nil)
         }
     }
         

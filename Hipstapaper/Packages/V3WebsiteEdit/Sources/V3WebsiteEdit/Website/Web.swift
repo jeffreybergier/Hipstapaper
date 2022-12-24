@@ -56,14 +56,14 @@ fileprivate struct _Web: View {
     private func update(_ wv: WKWebView, context: Context) {
         if self.nav.shouldStop {
             wv.stopLoading()
-            self.nav.shouldStop = false
+            _nav.HACK_set(\.shouldStop, false)
         }
         if self.nav.shouldReload {
             wv.reload()
-            self.nav.shouldReload = false
+            _nav.HACK_set(\.shouldReload, false)
         }
         if self.nav.shouldSnapshot {
-            self.nav.shouldSnapshot = false
+            _nav.HACK_set(\.shouldSnapshot, false)
             wv.snapshot { [errorChain, state = _webState.raw] result in
                 switch result {
                 case .success(let image):
@@ -81,7 +81,7 @@ fileprivate struct _Web: View {
         }
         if let load = self.nav.shouldLoadURL {
             wv.load(URLRequest(url: load))
-            self.nav.shouldLoadURL = nil
+            _nav.HACK_set(\.shouldLoadURL, nil)
         }
     }
         

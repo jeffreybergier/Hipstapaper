@@ -46,6 +46,12 @@ internal struct Navigation: DynamicProperty {
             self.wrappedValue = $0
         }
     }
+    // TODO: Hack becase updating the value directly in update function throws runtime warnings
+    internal func HACK_set<T>(_ keypath: WritableKeyPath<Navigation.Value, T>, _ newValue: T) {
+        DispatchQueue.main.async {
+            self.raw.value[keyPath: keypath] = newValue
+        }
+    }
 }
 
 extension Navigation {
