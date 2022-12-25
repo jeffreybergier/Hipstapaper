@@ -30,6 +30,6 @@ import V3Interface
 @main
 struct AppDelegate: App {
     var body: some Scene {
-        MainWindow()
+        SceneBootstrap()
     }
 }

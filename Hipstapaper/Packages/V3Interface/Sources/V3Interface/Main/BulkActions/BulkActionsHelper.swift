@@ -38,6 +38,7 @@ internal struct BulkActionsHelper: ViewModifier {
     @BulkActions private var appState
     @BulkActionsQuery private var storeState
     @Environment(\.openURL) private var openExternal
+    @Environment(\.openWindow) private var openWindow
     @Environment(\.codableErrorResponder) private var errorResponder
     
     internal func body(content: Content) -> some View {
@@ -79,9 +80,13 @@ internal struct BulkActionsHelper: ViewModifier {
                 }
             }
             .onChange(of: self.appState.push.openInApp) { newValue in
-                guard let newValue else { return }
                 defer { self.appState.push.openInApp = nil }
-                self.nav.detail.isBrowse = newValue.single
+                guard let newValue = newValue?.single else { return }
+                #if os(macOS) // TODO: Make iPad app support multiple scenes
+                self.openWindow(value: newValue)
+                #else
+                self.nav.detail.isBrowse = newValue
+                #endif
             }
             .onChange(of: self.appState.push.openExternal) { newValue in
                 guard let newValue else { return }
