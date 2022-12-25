@@ -64,8 +64,8 @@ public enum SingleMulti<T: Hashable>: Hashable {
         switch self {
         case .single(let value):
             return value
-        case .multi:
-            return nil
+        case .multi(let value):
+            return value.first
         }
     }
     public var multi: Set<T> {

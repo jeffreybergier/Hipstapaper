@@ -64,6 +64,9 @@ public struct SceneBootstrap: Scene {
                     .environmentObject(self.controller)
                     .environmentObject(self.localizeBundle)
                     .environment(\.managedObjectContext, controller.context)
+            case (_, .none):
+                // TODO: Localize
+                Text("No Selection")
             case (.failure(let error), _):
                 Text(String(describing: error))
             default:

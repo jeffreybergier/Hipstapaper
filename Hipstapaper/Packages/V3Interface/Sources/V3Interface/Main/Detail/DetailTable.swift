@@ -78,7 +78,7 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
                 DetailTableColumnThumbnail($0.id)
                     .environmentObject(self.HACK_localizeBundle)
             case .showList:
-                DetailListRow($0.id)
+                DetailTableColumnCompact($0.id)
             }
         }
         .width(self.showsTable == .showTable

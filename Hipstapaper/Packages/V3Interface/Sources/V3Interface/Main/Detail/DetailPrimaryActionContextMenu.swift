@@ -84,7 +84,7 @@ internal struct DetailPrimaryActionContextMenu: ViewModifier {
                 }
             } primaryAction: { selection in
                 guard selection.isEmpty == false else { return }
-                self.state.push.openInApp = .single(selection.first!)
+                self.state.push.openInApp = .multi(selection)
             }
     }
 }

@@ -82,11 +82,11 @@ internal struct BulkActionsHelper: ViewModifier {
             }
             .onChange(of: self.appState.push.openInApp) { newValue in
                 defer { self.appState.push.openInApp = nil }
-                guard let newValue = newValue?.single else { return }
+                guard let newValue else { return }
                 if self.supportsMultipleWindows {
-                    self.openWindow(value: newValue)
+                    newValue.multi.forEach { self.openWindow(value: $0) }
                 } else {
-                    self.nav.detail.isBrowse = newValue
+                    self.nav.detail.isBrowse = newValue.single
                 }
             }
             .onChange(of: self.appState.push.openExternal) { newValue in
