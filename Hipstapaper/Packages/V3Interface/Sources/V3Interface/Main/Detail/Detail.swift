@@ -64,15 +64,9 @@ internal struct Detail: View {
         .onLoadChange(of: self.selection.tag) {
             _data.setFilter($0)
         }
-        .onLoadChange(of: self.selection.websites) {
-            #if os(iOS) // TODO: Is there a way to make double-click work on macOS?
-            guard self.isEditMode == false, $0.count == 1 else { return }
-            self.state.push.openInApp = .single($0.first!)
-            #endif
-        }
-        .modifier(DetailMenu())
         .modifier(DetailTitle())
         .modifier(DetailToolbar())
+        .modifier(DetailPrimaryActionContextMenu())
         .modifier(BrowserSheet(self.$nav.detail.isBrowse))
         .modifier(ShareListSheet(self.$nav.detail.isShare))
         .modifier(WebsiteEditSheet(self.$nav.detail.isTagApply, start: .tag))

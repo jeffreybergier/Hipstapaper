@@ -31,7 +31,7 @@ import V3Style
 import V3Localize
 import V3Errors
 
-internal struct DetailMenu: ViewModifier {
+internal struct DetailPrimaryActionContextMenu: ViewModifier {
 
     @BulkActions private var state
     @Controller private var controller
@@ -82,6 +82,9 @@ internal struct DetailMenu: ViewModifier {
                 } onEmpty: {
                     EmptyView()
                 }
+            } primaryAction: { selection in
+                guard selection.isEmpty == false else { return }
+                self.state.push.openInApp = .single(selection.first!)
             }
     }
 }
