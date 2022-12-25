@@ -53,6 +53,9 @@ internal struct Tag: View {
             .if(.iOS) {
                 $0.modifier(TagToolbar())
             }
+            .if(.macOS) {
+                $0.modifier(HACK_macOS_TagToolbar())
+            }
         }
         .onLoadChange(of: self.selection) {
             _data.selection = $0

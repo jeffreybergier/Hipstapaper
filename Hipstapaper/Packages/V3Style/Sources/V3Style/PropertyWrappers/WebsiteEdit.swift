@@ -33,6 +33,8 @@ public struct WebsiteEdit: DynamicProperty {
     public init() {}
     
     public struct Value {
+        public var HACK_macOS_toolbar: some ActionStyle = ActionStyleImp(labelStyle: .iconOnly)
+
         public var toolbar:       some ActionStyle = ActionStyleDefault
         public var toolbarDelete: some ActionStyle = ActionStyleImp(buttonRole: .destructive, labelStyle: .titleOnly)
         public var toolbarDone:   some ActionStyle = JSBToolbarButtonStyleDone

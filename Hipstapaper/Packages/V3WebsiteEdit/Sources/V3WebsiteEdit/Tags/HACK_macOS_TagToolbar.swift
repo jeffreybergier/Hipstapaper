@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/07/08.
+//  Created by Jeffrey Bergier on 2022/12/25.
 //
 //  MIT License
 //
@@ -25,56 +25,42 @@
 //
 
 import SwiftUI
-import V3Model
+import Umbrella
 import V3Errors
 import V3Style
 import V3Localize
 
-internal struct FormParent: View {
+internal struct HACK_macOS_TagToolbar: ViewModifier {
     
+    @Navigation private var nav
+    @Errors private var errorQueue
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
     
-    @Navigation private var nav
-    @StateObject private var webState = WebState.newEnvironment()
+    @Dismiss private var dismiss
     
-    private let selection: Website.Selection
-
-    internal init(_ selection: Website.Selection) {
-        self.selection = selection
-    }
-    
-    internal var body: some View {
-        NavigationStack {
-            self.selection.view { selection in
-                switch selection.count {
-                case 1:
-                    FormSingle(selection.first!)
-                        .environmentObject(self.webState)
-                default:
-                    FormMulti(selection)
+    internal func body(content: Content) -> some View {
+        VStack {
+            ZStack {
+                HStack {
+                    self.style.HACK_macOS_toolbar
+                        .action(text: self.text.error)
+                        .button(isEnabled: !self.errorQueue.isEmpty)
+                    {
+                        self.nav.isErrorList.isPresented = true
+                    }
+                    .modifier(ErrorListPopover())
+                    Spacer()
+                    self.style.toolbarDone
+                        .action(text: self.text.done)
+                        .button(action: self.dismiss)
                 }
-            } onEmpty: {
-                self.style.disabled.action(text: self.text.noWebsitesSelected).label
+                self.style.toolbarDone
+                    .action(text: .init(title: self.text.titleTag))
+                    .label
             }
-            .if(.iOS) {
-                $0.modifier(FormToolbar(self.selection))
-            }
-            .if(.macOS) {
-                $0.modifier(HACK_macOS_FormToolbar(self.selection))
-            }
-        }
-    }
-}
-
-extension Binding where Value == Optional<URL> {
-    // Used for mapping URL model properties to text fields
-    internal func mirror(string: Binding<String>) -> Binding<String> {
-        self.map {
-            $0?.absoluteString ?? string.wrappedValue
-        } set: {
-            string.wrappedValue = $0
-            return URL(string: $0)
+            .padding()
+            content
         }
     }
 }

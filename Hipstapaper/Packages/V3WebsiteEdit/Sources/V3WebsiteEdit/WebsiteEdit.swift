@@ -102,6 +102,8 @@ internal struct _WebsiteEdit: View {
                         self.style.tab.action(text: self.text.tabTag).label
                     }
             }
+            .formStyle(.grouped)
+            .textFieldStyle(HACK_macOS_SquareBorder())
             .if(.macOS) {
                 $0.padding()
             }
@@ -116,3 +118,9 @@ internal struct _WebsiteEdit: View {
         }
     }
 }
+
+#if os(macOS)
+fileprivate typealias HACK_macOS_SquareBorder = SquareBorderTextFieldStyle
+#else
+fileprivate typealias HACK_macOS_SquareBorder = DefaultTextFieldStyle
+#endif
