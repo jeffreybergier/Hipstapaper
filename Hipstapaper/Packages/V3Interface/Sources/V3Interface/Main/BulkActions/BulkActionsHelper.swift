@@ -92,7 +92,7 @@ internal struct BulkActionsHelper: ViewModifier {
             .onChange(of: self.appState.push.openExternal) { newValue in
                 guard let newValue else { return }
                 defer { self.appState.push.openExternal = nil }
-                newValue.single.map { self.openExternal($0) }
+                newValue.multi.forEach { self.openExternal($0) }
             }
             .onChange(of: self.appState.push.share) { selection in
                 guard selection.isEmpty == false else { return }

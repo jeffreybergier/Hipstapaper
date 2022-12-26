@@ -63,16 +63,16 @@ internal struct DetailToolbar: ViewModifier {
     @ToolbarContentBuilder internal func barTopAll() -> some CustomizableToolbarContent {
         ToolbarItem(id: .itemInApp, placement: .automatic) {
             self.style.toolbar.action(text: self.text.openInApp)
-                .button(item: self.state.pull.openInApp?.single)
-            { _ in
-                self.state.push.openInApp = self.state.pull.openInApp
+                .button(item: self.state.pull.openInApp)
+            {
+                self.state.push.openInApp = $0
             }
         }
         ToolbarItem(id: .itemOpenExternal, placement: .automatic) {
             self.style.toolbar.action(text: self.text.openExternal)
-                .button(item: self.state.pull.openExternal?.single)
-            { _ in
-                self.state.push.openExternal = self.state.pull.openExternal
+                .button(item: self.state.pull.openExternal)
+            {
+                self.state.push.openExternal = $0
             }
         }
         ToolbarItem(id: .itemArchiveYes, placement: .automatic) {
@@ -182,11 +182,18 @@ internal struct DetailToolbar: ViewModifier {
     }
     
     @ToolbarContentBuilder internal func barBottomMulti() -> some CustomizableToolbarContent {
+        ToolbarItem(id: .itemInApp, placement: .bottomBar) {
+            self.style.toolbar.action(text: self.text.openInApp)
+                .button(item: self.state.pull.openInApp)
+            {
+                self.state.push.openInApp = $0
+            }
+        }
         ToolbarItem(id: .itemOpenExternal, placement: .bottomBar) {
             self.style.toolbar.action(text: self.text.openExternal)
-                .button(item: self.state.pull.openExternal?.single)
-            { _ in
-                self.state.push.openExternal = self.state.pull.openExternal
+                .button(item: self.state.pull.openExternal)
+            {
+                self.state.push.openExternal = $0
             }
         }
         ToolbarItem(id: .itemSpacer1, placement: .bottomBar) {
