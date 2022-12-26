@@ -63,14 +63,14 @@ internal struct DetailToolbar: ViewModifier {
     @ToolbarContentBuilder internal func barTopAll() -> some CustomizableToolbarContent {
         ToolbarItem(id: .itemInApp, placement: .automatic) {
             self.style.toolbar.action(text: self.text.openInApp)
-                .button(item: self.state.pull.openInApp)
+                .button(item: self.HACK_openInApp)
             {
                 self.state.push.openInApp = $0
             }
         }
         ToolbarItem(id: .itemOpenExternal, placement: .automatic) {
             self.style.toolbar.action(text: self.text.openExternal)
-                .button(item: self.state.pull.openExternal)
+                .button(item: self.HACK_openExternal)
             {
                 self.state.push.openExternal = $0
             }
@@ -182,16 +182,9 @@ internal struct DetailToolbar: ViewModifier {
     }
     
     @ToolbarContentBuilder internal func barBottomMulti() -> some CustomizableToolbarContent {
-        ToolbarItem(id: .itemInApp, placement: .bottomBar) {
-            self.style.toolbar.action(text: self.text.openInApp)
-                .button(item: self.state.pull.openInApp)
-            {
-                self.state.push.openInApp = $0
-            }
-        }
         ToolbarItem(id: .itemOpenExternal, placement: .bottomBar) {
             self.style.toolbar.action(text: self.text.openExternal)
-                .button(item: self.state.pull.openExternal)
+                .button(item: self.HACK_openExternal)
             {
                 self.state.push.openExternal = $0
             }
@@ -235,6 +228,26 @@ internal struct DetailToolbar: ViewModifier {
     }
     
     #endif
+    
+    private var HACK_openInApp: SingleMulti<Website.Selection.Element>? {
+        guard let value = self.state.pull.openInApp else { return nil }
+        #if os(macOS)
+        return value
+        #else
+        guard value.multi.count == 1 else { return nil }
+        return value
+        #endif
+    }
+    
+    private var HACK_openExternal: SingleMulti<URL>? {
+        guard let value = self.state.pull.openExternal else { return nil }
+        #if os(macOS)
+        return value
+        #else
+        guard value.multi.count == 1 else { return nil }
+        return value
+        #endif
+    }
 }
 
 extension String {

@@ -76,14 +76,14 @@ internal struct MainMenu: Commands {
         CommandGroup(after: .newItem) {
             Divider()
             self.style.toolbar.action(text: self.text(\.openInApp))
-                .button(item: self.state.pull.openInApp?.single)
+                .button(isEnabled: self.HACK_openInAppIsEnabled)
             {
-                self.state.push.openInApp = .single($0)
+                self.state.push.openInApp = self.state.pull.openInApp
             }
             self.style.toolbar.action(text: self.text(\.openExternal))
-                .button(item: self.state.pull.openExternal?.single)
+                .button(isEnabled: self.HACK_openExternalIsEnabled)
             {
-                self.state.push.openExternal = .single($0)
+                self.state.push.openExternal = self.state.pull.openExternal
             }
         }
         CommandGroup(before: .importExport) {
@@ -148,6 +148,22 @@ internal struct MainMenu: Commands {
             }
             Divider()
         }
+    }
+    
+    private var HACK_openInAppIsEnabled: Bool {
+        #if os(iOS)
+        self.state.pull.openInApp?.multi.count == 1
+        #else
+        self.state.pull.openInApp != nil
+        #endif
+    }
+    
+    private var HACK_openExternalIsEnabled: Bool {
+        #if os(iOS)
+        self.state.pull.openExternal?.multi.count == 1
+        #else
+        self.state.pull.openExternal != nil
+        #endif
     }
     
     private func text(_ key: KeyPath<V3Localize.MainMenu.Value, (LocalizeBundle) -> ActionLocalization>) -> ActionLocalization {
