@@ -35,6 +35,7 @@ import V3Style
 internal struct TagsEdit: View {
     
     @Navigation private var nav
+    @HACK_macOS_Style private var hack_style
     @Errors private var errorQueue
     @Environment(\.dismiss) private var dismiss
     
@@ -55,7 +56,7 @@ internal struct TagsEdit: View {
                         TagsEditRow($0)
                     }
                 }
-                .formStyle(.grouped)
+                .modifier(self.hack_style.formStyle)
                 .modifier(TagsEditToolbar(self.selection))
             }
         } onConfirmation: {
@@ -93,6 +94,7 @@ internal struct TagsEditRow: View {
     @TagUserQuery private var item
     @V3Style.TagsEdit private var style
     @V3Localize.TagsEdit private var text
+    @HACK_macOS_Style private var hack_style
     
     private let identifier: Tag.Identifier
     
@@ -103,7 +105,7 @@ internal struct TagsEditRow: View {
     internal var body: some View {
         self.$item.view {
             TextField(self.text.placeholderName, text: $0.name.compactMap())
-                .textFieldStyle(HACK_macOS_SquareBorder())
+                .modifier(self.hack_style.formTextFieldStyle)
         } onNIL: {
             self.style.disabled
                 .action(text: self.text.noTagSelected)
@@ -143,9 +145,3 @@ internal struct TagsEditToolbar: ViewModifier {
         }
     }
 }
-
-#if os(macOS)
-fileprivate typealias HACK_macOS_SquareBorder = SquareBorderTextFieldStyle
-#else
-fileprivate typealias HACK_macOS_SquareBorder = DefaultTextFieldStyle
-#endif

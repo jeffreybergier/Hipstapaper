@@ -57,12 +57,7 @@ internal struct FormParent: View {
             } onEmpty: {
                 self.style.disabled.action(text: self.text.noWebsitesSelected).label
             }
-            .if(.iOS) {
-                $0.modifier(FormToolbar(self.selection))
-            }
-            .if(.macOS) {
-                $0.modifier(HACK_macOS_FormToolbar(self.selection))
-            }
+            .modifier(FormToolbar(self.selection))
         }
     }
 }

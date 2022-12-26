@@ -75,6 +75,7 @@ internal struct _WebsiteEdit: View {
     
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
+    @HACK_macOS_Style private var hack_style
     
     @Dismiss private var dismiss
     
@@ -102,11 +103,9 @@ internal struct _WebsiteEdit: View {
                         self.style.tab.action(text: self.text.tabTag).label
                     }
             }
-            .formStyle(.grouped)
-            .textFieldStyle(HACK_macOS_SquareBorder())
-            .if(.macOS) {
-                $0.padding()
-            }
+            .modifier(self.hack_style.formStyle)
+            .modifier(self.hack_style.tabParentPadding)
+            .modifier(self.hack_style.formTextFieldStyle)
         } onConfirmation: {
             switch $0 {
             case .deleteTags:
@@ -118,9 +117,3 @@ internal struct _WebsiteEdit: View {
         }
     }
 }
-
-#if os(macOS)
-fileprivate typealias HACK_macOS_SquareBorder = SquareBorderTextFieldStyle
-#else
-fileprivate typealias HACK_macOS_SquareBorder = DefaultTextFieldStyle
-#endif

@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/07/09.
+//  Created by Jeffrey Bergier on 2022/12/26.
 //
 //  MIT License
 //
@@ -26,44 +26,51 @@
 
 import SwiftUI
 import Umbrella
-import V3Errors
-import V3Style
-import V3Localize
 
-internal struct TagToolbar: ViewModifier {
-    internal func body(content: Content) -> some View {
+@propertyWrapper
+public struct HACK_macOS_Style: DynamicProperty {
+    
+    public init() {}
+    
+    public struct Value {
+        public var formStyle:          some ViewModifier = HACK_macOS_FormStyle()
+        public var toolbarPadding:     some ViewModifier = HACK_macOS_ToolbarPadding()
+        public var tabParentPadding:   some ViewModifier = HACK_macOS_ToolbarPadding()
+        public var formTextFieldStyle: some ViewModifier = HACK_macOS_FormTextFieldStyle()
+    }
+    
+    public var wrappedValue: Value {
+        Value()
+    }
+}
+
+// TODO: Change to private. Causes compile error for some reason
+public struct HACK_macOS_FormStyle: ViewModifier {
+    public func body(content: Content) -> some View {
         #if os(macOS)
-        content.modifier(HACK_macOS_TagToolbar())
+        content.formStyle(.grouped)
         #else
-        content.modifier(iOS_TagToolbar())
+        content
         #endif
     }
 }
 
-internal struct iOS_TagToolbar: ViewModifier {
-    
-    @Navigation private var nav
-    @Errors private var errorQueue
-    @V3Style.WebsiteEdit private var style
-    @V3Localize.WebsiteEdit private var text
-    
-    @Dismiss private var dismiss
-    
-    internal func body(content: Content) -> some View {
+public struct HACK_macOS_ToolbarPadding: ViewModifier {
+    public func body(content: Content) -> some View {
+        #if os(macOS)
+        content.padding()
+        #else
         content
-            .modifier(JSBToolbar(title: self.text.titleTag,
-                                 done: self.text.done,
-                                 doneAction: self.dismiss))
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    self.style.toolbar
-                              .action(text: self.text.error)
-                              .button(isEnabled: !self.errorQueue.isEmpty)
-                    {
-                        self.nav.isErrorList.isPresented = true
-                    }
-                    .modifier(ErrorListPopover())
-                }
-            }
+        #endif
+    }
+}
+
+public struct HACK_macOS_FormTextFieldStyle: ViewModifier {
+    public func body(content: Content) -> some View {
+        #if os(macOS)
+        content.textFieldStyle(.squareBorder)
+        #else
+        content
+        #endif
     }
 }

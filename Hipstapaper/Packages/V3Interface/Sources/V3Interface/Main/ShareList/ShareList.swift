@@ -38,6 +38,7 @@ internal struct ShareList: View {
     
     @V3Style.ShareList private var style
     @V3Localize.ShareList private var text
+    @HACK_macOS_Style private var hack_style
     
     @Environment(\.dismiss) private var dismiss
         
@@ -65,7 +66,7 @@ internal struct ShareList: View {
                     ShareListRow(identifier)
                 }
             }
-            .formStyle(.grouped)
+            .modifier(self.hack_style.formStyle)
             .modifier(self.toolbar)
         }
         .modifier(self.style.popoverSize)

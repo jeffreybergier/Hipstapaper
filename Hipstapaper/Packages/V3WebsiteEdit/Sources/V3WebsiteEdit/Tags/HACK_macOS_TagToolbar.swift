@@ -36,6 +36,7 @@ internal struct HACK_macOS_TagToolbar: ViewModifier {
     @Errors private var errorQueue
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
+    @HACK_macOS_Style private var hack_style
     
     @Dismiss private var dismiss
     
@@ -59,7 +60,7 @@ internal struct HACK_macOS_TagToolbar: ViewModifier {
                     .action(text: .init(title: self.text.titleTag))
                     .label
             }
-            .padding()
+            .modifier(self.hack_style.toolbarPadding)
             content
         }
     }

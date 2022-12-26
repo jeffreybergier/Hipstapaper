@@ -50,12 +50,7 @@ internal struct Tag: View {
             } onEmpty: {
                 self.style.disabled.action(text: self.text.noTags).label
             }
-            .if(.iOS) {
-                $0.modifier(TagToolbar())
-            }
-            .if(.macOS) {
-                $0.modifier(HACK_macOS_TagToolbar())
-            }
+            .modifier(TagToolbar())
         }
         .onLoadChange(of: self.selection) {
             _data.selection = $0

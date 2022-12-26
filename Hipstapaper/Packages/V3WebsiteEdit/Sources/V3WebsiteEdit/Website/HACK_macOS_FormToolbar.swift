@@ -37,6 +37,7 @@ internal struct HACK_macOS_FormToolbar: ViewModifier {
     @Errors private var errorQueue
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
+    @HACK_macOS_Style private var hack_style
     
     @Dismiss private var dismiss
     @Environment(\.codableErrorResponder) private var errorResponder
@@ -76,7 +77,7 @@ internal struct HACK_macOS_FormToolbar: ViewModifier {
                     .label
             }
         }
-        .padding()
+        .modifier(self.hack_style.toolbarPadding)
         content
     }
 }

@@ -32,6 +32,20 @@ import V3Localize
 import V3Errors
 
 internal struct FormToolbar: ViewModifier {
+    private let deletableSelection: Website.Selection
+    internal init(_ deletableSelection: Website.Selection) {
+        self.deletableSelection = deletableSelection
+    }
+    func body(content: Content) -> some View {
+        #if os(macOS)
+        content.modifier(HACK_macOS_FormToolbar(self.deletableSelection))
+        #else
+        content.modifier(iOS_FormToolbar(self.deletableSelection))
+        #endif
+    }
+}
+
+internal struct iOS_FormToolbar: ViewModifier {
     
     @Navigation private var nav
     @Errors private var errorQueue
