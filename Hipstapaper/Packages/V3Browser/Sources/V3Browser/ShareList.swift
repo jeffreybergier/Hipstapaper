@@ -45,6 +45,7 @@ internal struct ShareList: View {
     }
     
     @V3Style.ShareList private var style
+    @HACK_macOS_Style private var hack_style
     @V3Localize.BrowserShareList private var text
     @V3Localize.ShareList private var text_shareList
     @Environment(\.dismiss) private var dismiss
@@ -80,6 +81,7 @@ internal struct ShareList: View {
                 }
                 
             }
+            .modifier(self.hack_style.formStyle)
             .modifier(JSBToolbar(title: self.text.title,
                                  done: self.text.done,
                                  doneAction: self.dismiss.callAsFunction))
