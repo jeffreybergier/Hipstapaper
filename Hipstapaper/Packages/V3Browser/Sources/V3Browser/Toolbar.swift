@@ -51,7 +51,7 @@ internal struct Toolbar: ViewModifier {
         content
             .navigationTitle(self.nav.currentTitle)
             .navigationBarTitleDisplayModeInline
-            .toolbar {
+            .toolbar(id: .toolbarID) {
                 switch self.sizeclass.horizontal {
                 case .regular:
                     self.toolbarRegular()
@@ -167,7 +167,35 @@ internal struct Toolbar: ViewModifier {
 #if os(macOS)
 extension Toolbar {
     @ToolbarContentBuilder private func toolbarRegular() -> some CustomizableToolbarContent {
-        ToolbarItem(id: .barEmpty) { EmptyView() }
+        ToolbarItem(id: .itemBack, placement: .navigation) {
+            self.itemBack
+        }
+        ToolbarItem(id: .itemForward, placement: .navigation) {
+            self.itemForward
+        }
+        ToolbarItem(id: .itemStopReload, placement: .navigation) {
+            self.itemStopReload
+        }
+        ToolbarItem(id: .itemJavaScript, placement: .navigation) {
+            self.itemJavaScript
+        }
+        ToolbarItem(id: .itemSpacer1, placement: .navigation) {
+            self.itemSpacer
+        }
+        if self.errorQueue.isEmpty == false {
+            ToolbarItem(id: .itemErrors, placement: .primaryAction) {
+                self.itemErrors
+            }
+        }
+        ToolbarItem(id: .itemOpenExternal, placement: .primaryAction) {
+            self.itemOpenExternal
+        }
+        ToolbarItem(id: .itemShare, placement: .primaryAction) {
+            self.itemShare
+        }
+        ToolbarItem(id: .itemArchiveAndClose, placement: .primaryAction) {
+            self.itemArchiveAndClose
+        }
     }
     @ToolbarContentBuilder private func toolbarCompact() -> some CustomizableToolbarContent {
         ToolbarItem(id: .barEmpty) { EmptyView() }
@@ -194,20 +222,20 @@ extension Toolbar {
         ToolbarItem(id: .itemClose, placement: .primaryAction) {
             self.itemClose
         }
-        ToolbarItem(id: .itemJavaScript, placement: .bottomSecondary) {
+        ToolbarItem(id: .itemJavaScript, placement: .bottomBar) {
             self.itemJavaScript
         }
-        ToolbarItem(id: .itemErrors, placement: .bottomSecondary) {
+        ToolbarItem(id: .itemErrors, placement: .bottomBar) {
             self.itemErrors
         }
-        ToolbarItem(id: .itemSpacer1, placement: .bottomSecondary) {
+        ToolbarItem(id: .itemSpacer1, placement: .bottomBar) {
             self.itemSpacer
         }
         if true { // Navigation: Top Leading
-            ToolbarItem(id: .itemOpenExternal, placement: .bottomSecondary) {
+            ToolbarItem(id: .itemOpenExternal, placement: .bottomBar) {
                 self.itemOpenExternal
             }
-            ToolbarItem(id: .itemShare, placement: .bottomSecondary) {
+            ToolbarItem(id: .itemShare, placement: .bottomBar) {
                 self.itemShare
             }
         }
@@ -225,35 +253,35 @@ extension Toolbar {
             }
         }
         if true { // Navigation: Bottom Leading
-            ToolbarItem(id: .itemBack, placement: .bottomFatal) {
+            ToolbarItem(id: .itemBack, placement: .bottomBar) {
                 self.itemBack
             }
-            ToolbarItem(id: .itemForward, placement: .bottomFatal) {
+            ToolbarItem(id: .itemForward, placement: .bottomBar) {
                 self.itemForward
             }
-            ToolbarItem(id: .itemStopReload, placement: .bottomFatal) {
+            ToolbarItem(id: .itemStopReload, placement: .bottomBar) {
                 self.itemStopReload
             }
         }
-        ToolbarItem(id: .itemSpacer1, placement: .bottomFatal) {
+        ToolbarItem(id: .itemSpacer1, placement: .bottomBar) {
             self.itemSpacer
         }
         if true { // Bottom Middle
-            ToolbarItem(id: .itemJavaScript, placement: .bottomFatal) {
+            ToolbarItem(id: .itemJavaScript, placement: .bottomBar) {
                 self.itemJavaScript
             }
-            ToolbarItem(id: .itemErrors, placement: .bottomFatal) {
+            ToolbarItem(id: .itemErrors, placement: .bottomBar) {
                 self.itemErrors
             }
-            ToolbarItem(id: .itemSpacer2, placement: .bottomFatal) {
+            ToolbarItem(id: .itemSpacer2, placement: .bottomBar) {
                 self.itemSpacer
             }
         }
         if true { // Bottom trailing
-            ToolbarItem(id: .itemOpenExternal, placement: .bottomFatal) {
+            ToolbarItem(id: .itemOpenExternal, placement: .bottomBar) {
                 self.itemOpenExternal
             }
-            ToolbarItem(id: .itemShare, placement: .bottomFatal) {
+            ToolbarItem(id: .itemShare, placement: .bottomBar) {
                 self.itemShare
             }
         }
@@ -262,6 +290,7 @@ extension Toolbar {
 #endif
 
 extension String {
+    fileprivate static let toolbarID           = "toolbar.browser"
     fileprivate static let itemBack            = "toolbar.back"
     fileprivate static let itemForward         = "toolbar.forward"
     fileprivate static let itemBackForward     = "toolbar.backforward"
@@ -279,21 +308,4 @@ extension String {
     fileprivate static let itemSeparator2      = "toolbar.separator2"
     fileprivate static let itemSeparator3      = "toolbar.separator3"
     fileprivate static let barEmpty            = "barEmpty"
-}
-
-extension ToolbarItemPlacement {
-    fileprivate static var bottomFatal: ToolbarItemPlacement {
-        #if os(macOS)
-        fatalError()
-        #else
-        .bottomBar
-        #endif
-    }
-    fileprivate static var bottomSecondary: ToolbarItemPlacement {
-        #if os(macOS)
-        .secondaryAction
-        #else
-        .bottomBar
-        #endif
-    }
 }

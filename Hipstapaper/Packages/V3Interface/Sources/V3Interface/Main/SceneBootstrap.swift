@@ -72,6 +72,6 @@ public struct SceneBootstrap: Scene {
             default:
                 fatalError()
             }
-        }
+        } // TODO: Add commands?
     }
 }
