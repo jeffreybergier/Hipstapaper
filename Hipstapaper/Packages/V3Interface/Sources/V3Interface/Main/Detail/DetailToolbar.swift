@@ -61,7 +61,10 @@ internal struct DetailToolbar: ViewModifier {
     #if os(macOS)
     
     @ToolbarContentBuilder internal func barTopAll() -> some CustomizableToolbarContent {
-        ToolbarItem(id: .itemInApp, placement: .automatic) {
+        ToolbarItem(id: .itemInApp,
+                    placement: .automatic,
+                    showsByDefault: false)
+        {
             self.style.toolbar.action(text: self.text.openInApp)
                 .button(item: self.HACK_openInApp)
             {
@@ -122,13 +125,15 @@ internal struct DetailToolbar: ViewModifier {
                     placement: .automatic,
                     showsByDefault: false,
                     content: ColumnMenu.init)
-        ToolbarItem(id: .itemError, placement: .navigation) {
-            self.style.toolbar.action(text: self.text.error)
-                .button(isEnabled: self.state.pull.showErrors)
-            {
-                self.state.push.showErrors = true
+        if self.errorQueue.isEmpty == false {
+            ToolbarItem(id: .itemError, placement: .navigation) {
+                self.style.toolbar.action(text: self.text.error)
+                    .button(isEnabled: self.state.pull.showErrors)
+                {
+                    self.state.push.showErrors = true
+                }
+                .modifier(DetailErrorListPresentation())
             }
-            .modifier(DetailErrorListPresentation())
         }
     }
     
