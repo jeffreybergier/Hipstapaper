@@ -41,6 +41,7 @@ public struct WebsiteEdit: View {
     @State private var screen: Screen
     @StateObject private var nav = Navigation.newEnvironment()
     @V3Style.WebsiteEdit private var style
+    @HACK_macOS_Style private var hack_style
     
     private let selection: Website.Selection
     
@@ -51,12 +52,11 @@ public struct WebsiteEdit: View {
     
     public var body: some View {
         _WebsiteEdit(selection: self.selection, screen: self.$screen)
-            .modifier(self.style.tagSize)
+            .lift { self.size($0) }
+            .modifier(self.hack_style.websiteEditPopoverSize)
             .environmentObject(self.nav)
     }
     
-    // TODO: Bring this back when animation in SwiftUI is better
-    // .lift { self.size($0) }
     @ViewBuilder private func size<V: View>(_ input: V) -> some View {
         switch self.screen {
         case .website:

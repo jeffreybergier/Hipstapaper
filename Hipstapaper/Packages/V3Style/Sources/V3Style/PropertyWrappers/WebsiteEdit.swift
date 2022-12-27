@@ -43,7 +43,8 @@ public struct WebsiteEdit: DynamicProperty {
         /// Fake appearance style for use on Labels where there is no "real" disabled state
         public var disabled:      some ActionStyle = ActionStyleFakeDisabled
         
-        public var websiteSize:   some ViewModifier = PopoverSize(size: .large)
+        // TODO: Bring `.large` back when animation in SwiftUI is better
+        public var websiteSize:   some ViewModifier = PopoverSize(size: .medium)
         public var tagSize:       some ViewModifier = PopoverSize(size: .medium)
         public var tagTitle:      some ViewModifier = SidebarListTitleText()
         
