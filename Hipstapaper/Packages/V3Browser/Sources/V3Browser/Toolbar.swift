@@ -54,104 +54,9 @@ internal struct Toolbar: ViewModifier {
             .toolbar {
                 switch self.sizeclass.horizontal {
                 case .regular:
-                    // hack to stop compiler failures for too many items
-                    if true { // Navigation: Top Leading
-                        ToolbarItem(id: .itemBack, placement: .navigation) {
-                            self.itemBack
-                        }
-                        ToolbarItem(id: .itemForward, placement: .navigation) {
-                            self.itemForward
-                        }
-                        ToolbarItem(id: .itemStopReload, placement: .navigation) {
-                            self.itemStopReload
-                        }
-                    }
-                    if true { // Title: Top middle, trailing
-                        ToolbarItem(id: .itemStatus, placement: .principal) {
-                            self.itemStatus
-                        }
-                        ToolbarItem(id: .itemArchiveAndClose, placement: .primaryAction) {
-                            self.itemArchiveAndClose
-                        }
-                        ToolbarItem(id: .itemClose, placement: .primaryAction) {
-                            self.itemClose
-                        }
-                    }
-                    ToolbarItem(id: .itemJavaScript, placement: .bottomSecondary) {
-                        self.itemJavaScript
-                    }
-                    ToolbarItem(id: .itemSeparator1, placement: .bottomSecondary) {
-                        self.itemSeparator
-                    }
-                    ToolbarItem(id: .itemErrors, placement: .bottomSecondary) {
-                        self.itemErrors
-                    }
-                    ToolbarItem(id: .itemSpacer1, placement: .bottomSecondary) {
-                        self.itemSpacer
-                    }
-                    ToolbarItem(id: .itemOpenExternal, placement: .bottomSecondary) {
-                        self.itemOpenExternal
-                    }
-                    ToolbarItem(id: .itemSeparator2, placement: .bottomSecondary) {
-                        self.itemSeparator
-                    }
-                    ToolbarItem(id: .itemShare, placement: .bottomSecondary) {
-                        self.itemShare
-                    }
+                    self.toolbarRegular()
                 case .compact, .tiny:
-                    if true { // Top Bar
-                        ToolbarItem(id: .itemArchiveAndClose, placement: .cancellationAction) {
-                            self.itemArchiveAndClose
-                        }
-                        ToolbarItem(id: .itemStatus, placement: .principal) {
-                            self.itemStatus
-                        }
-                        ToolbarItem(id: .itemClose, placement: .primaryAction) {
-                            self.itemClose
-                        }
-                    }
-                    if true { // Navigation: Bottom Leading
-                        ToolbarItem(id: .itemBack, placement: .bottomFatal) {
-                            self.itemBack
-                        }
-                        ToolbarItem(id: .itemForward, placement: .bottomFatal) {
-                            self.itemForward
-                        }
-                        ToolbarItem(id: .itemSeparator1, placement: .bottomFatal) {
-                            self.itemSeparator
-                        }
-                        ToolbarItem(id: .itemStopReload, placement: .bottomFatal) {
-                            self.itemStopReload
-                        }
-                    }
-                    ToolbarItem(id: .itemSpacer1, placement: .bottomFatal) {
-                        self.itemSpacer
-                    }
-                    if true { // Bottom Middle
-                        ToolbarItem(id: .itemJavaScript, placement: .bottomFatal) {
-                            self.itemJavaScript
-                        }
-                        ToolbarItem(id: .itemSeparator2, placement: .bottomFatal) {
-                            self.itemSeparator
-                        }
-                        ToolbarItem(id: .itemErrors, placement: .bottomFatal) {
-                            self.itemErrors
-                        }
-                        ToolbarItem(id: .itemSpacer2, placement: .bottomFatal) {
-                            self.itemSpacer
-                        }
-                    }
-                    if true { // Bottom trailing
-                        ToolbarItem(id: .itemOpenExternal, placement: .bottomFatal) {
-                            self.itemOpenExternal
-                        }
-                        ToolbarItem(id: .itemSeparator3, placement: .bottomFatal) {
-                            self.itemSeparator
-                        }
-                        ToolbarItem(id: .itemShare, placement: .bottomFatal) {
-                            self.itemShare
-                        }
-                    }
+                    self.toolbarCompact()
                 }
             }
     }
@@ -259,6 +164,103 @@ internal struct Toolbar: ViewModifier {
     }
 }
 
+#if os(macOS)
+extension Toolbar {
+    @ToolbarContentBuilder private func toolbarRegular() -> some CustomizableToolbarContent {
+        ToolbarItem(id: .barEmpty) { EmptyView() }
+    }
+    @ToolbarContentBuilder private func toolbarCompact() -> some CustomizableToolbarContent {
+        ToolbarItem(id: .barEmpty) { EmptyView() }
+    }
+}
+#else
+extension Toolbar {
+    @ToolbarContentBuilder private func toolbarRegular() -> some CustomizableToolbarContent {
+        ToolbarItem(id: .itemBack, placement: .navigation) {
+            self.itemBack
+        }
+        ToolbarItem(id: .itemForward, placement: .navigation) {
+            self.itemForward
+        }
+        ToolbarItem(id: .itemStopReload, placement: .navigation) {
+            self.itemStopReload
+        }
+        ToolbarItem(id: .itemStatus, placement: .principal) {
+            self.itemStatus
+        }
+        ToolbarItem(id: .itemArchiveAndClose, placement: .primaryAction) {
+            self.itemArchiveAndClose
+        }
+        ToolbarItem(id: .itemClose, placement: .primaryAction) {
+            self.itemClose
+        }
+        ToolbarItem(id: .itemJavaScript, placement: .bottomSecondary) {
+            self.itemJavaScript
+        }
+        ToolbarItem(id: .itemErrors, placement: .bottomSecondary) {
+            self.itemErrors
+        }
+        ToolbarItem(id: .itemSpacer1, placement: .bottomSecondary) {
+            self.itemSpacer
+        }
+        if true { // Navigation: Top Leading
+            ToolbarItem(id: .itemOpenExternal, placement: .bottomSecondary) {
+                self.itemOpenExternal
+            }
+            ToolbarItem(id: .itemShare, placement: .bottomSecondary) {
+                self.itemShare
+            }
+        }
+    }
+    @ToolbarContentBuilder private func toolbarCompact() -> some CustomizableToolbarContent {
+        if true { // Top Bar
+            ToolbarItem(id: .itemArchiveAndClose, placement: .cancellationAction) {
+                self.itemArchiveAndClose
+            }
+            ToolbarItem(id: .itemStatus, placement: .principal) {
+                self.itemStatus
+            }
+            ToolbarItem(id: .itemClose, placement: .primaryAction) {
+                self.itemClose
+            }
+        }
+        if true { // Navigation: Bottom Leading
+            ToolbarItem(id: .itemBack, placement: .bottomFatal) {
+                self.itemBack
+            }
+            ToolbarItem(id: .itemForward, placement: .bottomFatal) {
+                self.itemForward
+            }
+            ToolbarItem(id: .itemStopReload, placement: .bottomFatal) {
+                self.itemStopReload
+            }
+        }
+        ToolbarItem(id: .itemSpacer1, placement: .bottomFatal) {
+            self.itemSpacer
+        }
+        if true { // Bottom Middle
+            ToolbarItem(id: .itemJavaScript, placement: .bottomFatal) {
+                self.itemJavaScript
+            }
+            ToolbarItem(id: .itemErrors, placement: .bottomFatal) {
+                self.itemErrors
+            }
+            ToolbarItem(id: .itemSpacer2, placement: .bottomFatal) {
+                self.itemSpacer
+            }
+        }
+        if true { // Bottom trailing
+            ToolbarItem(id: .itemOpenExternal, placement: .bottomFatal) {
+                self.itemOpenExternal
+            }
+            ToolbarItem(id: .itemShare, placement: .bottomFatal) {
+                self.itemShare
+            }
+        }
+    }
+}
+#endif
+
 extension String {
     fileprivate static let itemBack            = "toolbar.back"
     fileprivate static let itemForward         = "toolbar.forward"
@@ -276,6 +278,7 @@ extension String {
     fileprivate static let itemSeparator1      = "toolbar.separator1"
     fileprivate static let itemSeparator2      = "toolbar.separator2"
     fileprivate static let itemSeparator3      = "toolbar.separator3"
+    fileprivate static let barEmpty            = "barEmpty"
 }
 
 extension ToolbarItemPlacement {
