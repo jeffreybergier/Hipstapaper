@@ -65,35 +65,40 @@ internal struct DetailToolbar: ViewModifier {
                     placement: .automatic,
                     showsByDefault: false)
         {
-            self.style.toolbar.action(text: self.text.openInWindow)
+            self.style.toolbar
+                .action(text: self.text.openInWindow)
                 .button(item: self.HACK_openInWindow)
             {
                 self.state.push.openInWindow = $0
             }
         }
         ToolbarItem(id: .itemOpenExternal, placement: .automatic) {
-            self.style.toolbar.action(text: self.text.openExternal)
+            self.style.toolbar
+                .action(text: self.text.openExternal)
                 .button(item: self.HACK_openExternal)
             {
                 self.state.push.openExternal = $0
             }
         }
         ToolbarItem(id: .itemArchiveYes, placement: .automatic) {
-            self.style.toolbar.action(text: self.text.archiveYes)
+            self.style.toolbar
+                .action(text: self.text.archiveYes)
                 .button(items: self.state.pull.archiveYes)
             {
                 self.state.push.archiveYes = $0
             }
         }
         ToolbarItem(id: .itemArchiveNo, placement: .automatic) {
-            self.style.toolbar.action(text: self.text.archiveNo)
+            self.style.toolbar
+                .action(text: self.text.archiveNo)
                 .button(items: self.state.pull.archiveNo)
             {
                 self.state.push.archiveNo = $0
             }
         }
         ToolbarItem(id: .itemTagApply, placement: .automatic) {
-            self.style.toolbar.action(text: self.text.tagApply)
+            self.style.toolbar
+                .action(text: self.text.tagApply)
                 .button(items: self.state.pull.tagApply)
             {
                 self.nav.detail.isTagApplyPopover = $0
@@ -101,7 +106,8 @@ internal struct DetailToolbar: ViewModifier {
             .modifier(WebsiteEditPopover(self.$nav.detail.isTagApplyPopover, start: .tag))
         }
         ToolbarItem(id: .itemShare, placement: .automatic) {
-            self.style.toolbar.action(text: self.text.share)
+            self.style.toolbar
+                .action(text: self.text.share)
                 .button(items: self.state.pull.share)
             {
                 self.nav.detail.isSharePopover = $0
@@ -127,7 +133,8 @@ internal struct DetailToolbar: ViewModifier {
                     content: ColumnMenu.init)
         if self.errorQueue.isEmpty == false {
             ToolbarItem(id: .itemError, placement: .navigation) {
-                self.style.toolbar.action(text: self.text.error)
+                self.style.toolbar
+                    .action(text: self.text.error)
                     .button(isEnabled: self.state.pull.showErrors)
                 {
                     self.state.push.showErrors = true
@@ -172,7 +179,8 @@ internal struct DetailToolbar: ViewModifier {
                     content: ColumnMenu.init)
         if self.errorQueue.isEmpty == false {
             ToolbarItem(id: .itemError, placement: .navigation) {
-                self.style.toolbar.action(text: self.text.error)
+                self.style.toolbar
+                    .action(text: self.text.error)
                     .button(isEnabled: self.state.pull.showErrors)
                 {
                     self.state.push.showErrors = true
@@ -189,14 +197,16 @@ internal struct DetailToolbar: ViewModifier {
     @ToolbarContentBuilder internal func barBottomMulti() -> some CustomizableToolbarContent {
         ToolbarItem(id: .itemInApp, placement: .bottomBar)
         {
-            self.style.toolbar.action(text: self.text.openInWindow)
+            self.style.toolbar
+                .action(text: self.text.openInWindow)
                 .button(item: self.HACK_openInWindow)
             {
                 self.state.push.openInWindow = $0
             }
         }
         ToolbarItem(id: .itemOpenExternal, placement: .bottomBar) {
-            self.style.toolbar.action(text: self.text.openExternal)
+            self.style.toolbar
+                .action(text: self.text.openExternal)
                 .button(item: self.HACK_openExternal)
             {
                 self.state.push.openExternal = $0
@@ -206,21 +216,24 @@ internal struct DetailToolbar: ViewModifier {
             Spacer()
         }
         ToolbarItem(id: .itemArchiveYes, placement: .bottomBar) {
-            self.style.toolbar.action(text: self.text.archiveYes)
+            self.style.toolbar
+                .action(text: self.text.archiveYes)
                 .button(items: self.state.pull.archiveYes)
             {
                 self.state.push.archiveYes = $0
             }
         }
         ToolbarItem(id: .itemArchiveNo, placement: .bottomBar) {
-            self.style.toolbar.action(text: self.text.archiveNo)
+            self.style.toolbar
+                .action(text: self.text.archiveNo)
                 .button(items: self.state.pull.archiveNo)
             {
                 self.state.push.archiveNo = $0
             }
         }
         ToolbarItem(id: .itemTagApply, placement: .bottomBar) {
-            self.style.toolbar.action(text: self.text.tagApply)
+            self.style.toolbar
+                .action(text: self.text.tagApply)
                 .button(items: self.state.pull.tagApply)
             {
                 self.nav.detail.isTagApplyPopover = $0
@@ -231,7 +244,8 @@ internal struct DetailToolbar: ViewModifier {
             Spacer()
         }
         ToolbarItem(id: .itemShare, placement: .bottomBar) {
-            self.style.toolbar.action(text: self.text.share)
+            self.style.toolbar
+                .action(text: self.text.share)
                 .button(items: self.state.pull.share)
             {
                 self.nav.detail.isSharePopover = $0
