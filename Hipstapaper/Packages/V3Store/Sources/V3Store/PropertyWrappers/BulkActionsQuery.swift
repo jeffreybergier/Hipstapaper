@@ -35,6 +35,7 @@ public struct BulkActionsQuery: DynamicProperty {
         public var tagAdd:        Bool = false
         /// Contains items that can be deselected
         public var deselectAll:   Website.Selection = []
+        public var openInSheet:   SingleMulti<Website.Selection.Element>? = nil
         public var openInWindow:  SingleMulti<Website.Selection.Element>? = nil
         public var openExternal:  SingleMulti<URL>? = nil
         public var share:         Website.Selection = []
@@ -91,6 +92,7 @@ public struct BulkActionsQuery: DynamicProperty {
         self.valueCache.deselectAll   = selectionW
         
         // set things with custom logic
+        self.valueCache.openInSheet  = type(of: self).openWebsite(selectionW, controller)
         self.valueCache.openInWindow = type(of: self).openWebsite(selectionW, controller)
         self.valueCache.openExternal = type(of: self).openURL(selectionW, controller)
         self.valueCache.archiveYes   = type(of: self).canArchiveYes(selectionW, controller)

@@ -95,7 +95,7 @@ internal struct DetailPrimaryActionContextMenu: ViewModifier {
                 }
             } primaryAction: { selection in
                 guard selection.isEmpty == false else { return }
-                self.state.push.openInWindow = .multi(selection)
+                self.state.push.openInSheet = .multi(selection)
             }
     }
     

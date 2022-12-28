@@ -80,6 +80,15 @@ internal struct BulkActionsHelper: ViewModifier {
                     self.errorResponder(.init(error))
                 }
             }
+            .onChange(of: self.appState.push.openInSheet) { newValue in
+                defer { self.appState.push.openInWindow = nil }
+                guard let newValue else { return }
+                #if os(macOS)
+                newValue.multi.forEach { self.openWindow(value: $0) }
+                #else
+                self.nav.detail.isBrowse = newValue.single
+                #endif
+            }
             .onChange(of: self.appState.push.openInWindow) { newValue in
                 defer { self.appState.push.openInWindow = nil }
                 guard let newValue else { return }

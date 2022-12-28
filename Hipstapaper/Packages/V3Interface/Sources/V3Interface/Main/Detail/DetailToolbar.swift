@@ -187,6 +187,14 @@ internal struct DetailToolbar: ViewModifier {
     }
     
     @ToolbarContentBuilder internal func barBottomMulti() -> some CustomizableToolbarContent {
+        ToolbarItem(id: .itemInApp, placement: .bottomBar)
+        {
+            self.style.toolbar.action(text: self.text.openInWindow)
+                .button(item: self.HACK_openInWindow)
+            {
+                self.state.push.openInWindow = $0
+            }
+        }
         ToolbarItem(id: .itemOpenExternal, placement: .bottomBar) {
             self.style.toolbar.action(text: self.text.openExternal)
                 .button(item: self.HACK_openExternal)
