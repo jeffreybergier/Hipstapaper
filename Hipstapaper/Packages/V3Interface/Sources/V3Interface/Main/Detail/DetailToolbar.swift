@@ -65,10 +65,10 @@ internal struct DetailToolbar: ViewModifier {
                     placement: .automatic,
                     showsByDefault: false)
         {
-            self.style.toolbar.action(text: self.text.openInApp)
-                .button(item: self.HACK_openInApp)
+            self.style.toolbar.action(text: self.text.openInWindow)
+                .button(item: self.HACK_openInWindow)
             {
-                self.state.push.openInApp = $0
+                self.state.push.openInWindow = $0
             }
         }
         ToolbarItem(id: .itemOpenExternal, placement: .automatic) {
@@ -234,8 +234,8 @@ internal struct DetailToolbar: ViewModifier {
     
     #endif
     
-    private var HACK_openInApp: SingleMulti<Website.Selection.Element>? {
-        guard let value = self.state.pull.openInApp else { return nil }
+    private var HACK_openInWindow: SingleMulti<Website.Selection.Element>? {
+        guard let value = self.state.pull.openInWindow else { return nil }
         #if os(macOS)
         return value
         #else

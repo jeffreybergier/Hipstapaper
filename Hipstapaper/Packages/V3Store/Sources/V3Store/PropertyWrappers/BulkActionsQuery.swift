@@ -35,7 +35,7 @@ public struct BulkActionsQuery: DynamicProperty {
         public var tagAdd:        Bool = false
         /// Contains items that can be deselected
         public var deselectAll:   Website.Selection = []
-        public var openInApp:     SingleMulti<Website.Selection.Element>? = nil
+        public var openInWindow:  SingleMulti<Website.Selection.Element>? = nil
         public var openExternal:  SingleMulti<URL>? = nil
         public var share:         Website.Selection = []
         public var archiveYes:    Website.Selection = []
@@ -81,22 +81,22 @@ public struct BulkActionsQuery: DynamicProperty {
         
         // reset default state
         self.valueCache.websiteAdd = false
-        self.valueCache.tagAdd = false
+        self.valueCache.tagAdd     = false
         
         // set things that are always true
-        self.valueCache.share = selectionW
-        self.valueCache.tagApply = selectionW
-        self.valueCache.websiteEdit = selectionW
+        self.valueCache.share         = selectionW
+        self.valueCache.tagApply      = selectionW
+        self.valueCache.websiteEdit   = selectionW
         self.valueCache.websiteDelete = selectionW
-        self.valueCache.deselectAll = selectionW
+        self.valueCache.deselectAll   = selectionW
         
         // set things with custom logic
-        self.valueCache.openInApp = type(of: self).openWebsite(selectionW, controller)
+        self.valueCache.openInWindow = type(of: self).openWebsite(selectionW, controller)
         self.valueCache.openExternal = type(of: self).openURL(selectionW, controller)
-        self.valueCache.archiveYes = type(of: self).canArchiveYes(selectionW, controller)
-        self.valueCache.archiveNo = type(of: self).canArchiveNo(selectionW, controller)
-        self.valueCache.tagDelete = type(of: self).editTags(selectionT)
-        self.valueCache.tagsEdit = type(of: self).editTags(selectionT)
+        self.valueCache.archiveYes   = type(of: self).canArchiveYes(selectionW, controller)
+        self.valueCache.archiveNo    = type(of: self).canArchiveNo(selectionW, controller)
+        self.valueCache.tagDelete    = type(of: self).editTags(selectionT)
+        self.valueCache.tagsEdit     = type(of: self).editTags(selectionT)
     }
 }
 

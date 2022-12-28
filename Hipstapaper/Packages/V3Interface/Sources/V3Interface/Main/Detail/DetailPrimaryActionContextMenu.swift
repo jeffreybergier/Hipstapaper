@@ -44,10 +44,10 @@ internal struct DetailPrimaryActionContextMenu: ViewModifier {
             .contextMenu(forSelectionType: Website.Selection.Element.self) {
                 $0.view { items in
                     self.style.toolbar
-                        .action(text: self.text.openInApp)
-                        .button(item: self.HACK_openInApp(items))
+                        .action(text: self.text.openInWindow)
+                        .button(item: self.HACK_openInWindow(items))
                     {
-                        self.state.push.openInApp = $0
+                        self.state.push.openInWindow = $0
                     }
                     self.style.toolbar
                         .action(text: self.text.openExternal)
@@ -95,11 +95,11 @@ internal struct DetailPrimaryActionContextMenu: ViewModifier {
                 }
             } primaryAction: { selection in
                 guard selection.isEmpty == false else { return }
-                self.state.push.openInApp = .multi(selection)
+                self.state.push.openInWindow = .multi(selection)
             }
     }
     
-    private func HACK_openInApp(_ items: Website.Selection) -> SingleMulti<Website.Selection.Element>? {
+    private func HACK_openInWindow(_ items: Website.Selection) -> SingleMulti<Website.Selection.Element>? {
         guard let value = BulkActionsQuery.openWebsite(items, self.controller) else { return nil }
         #if os(macOS)
         return value

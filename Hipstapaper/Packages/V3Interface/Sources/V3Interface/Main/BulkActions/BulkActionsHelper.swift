@@ -80,8 +80,8 @@ internal struct BulkActionsHelper: ViewModifier {
                     self.errorResponder(.init(error))
                 }
             }
-            .onChange(of: self.appState.push.openInApp) { newValue in
-                defer { self.appState.push.openInApp = nil }
+            .onChange(of: self.appState.push.openInWindow) { newValue in
+                defer { self.appState.push.openInWindow = nil }
                 guard let newValue else { return }
                 if self.supportsMultipleWindows {
                     newValue.multi.forEach { self.openWindow(value: $0) }

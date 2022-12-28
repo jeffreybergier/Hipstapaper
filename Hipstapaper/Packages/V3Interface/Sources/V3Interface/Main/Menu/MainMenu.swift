@@ -75,10 +75,10 @@ internal struct MainMenu: Commands {
         }
         CommandGroup(after: .newItem) {
             Divider()
-            self.style.toolbar.action(text: self.text(\.openInApp))
-                .button(isEnabled: self.HACK_openInAppIsEnabled)
+            self.style.toolbar.action(text: self.text(\.openInWindow))
+                .button(isEnabled: self.HACK_openInWindowIsEnabled)
             {
-                self.state.push.openInApp = self.state.pull.openInApp
+                self.state.push.openInWindow = self.state.pull.openInWindow
             }
             self.style.toolbar.action(text: self.text(\.openExternal))
                 .button(isEnabled: self.HACK_openExternalIsEnabled)
@@ -150,11 +150,11 @@ internal struct MainMenu: Commands {
         }
     }
     
-    private var HACK_openInAppIsEnabled: Bool {
+    private var HACK_openInWindowIsEnabled: Bool {
         #if os(iOS)
-        self.state.pull.openInApp?.multi.count == 1
+        self.state.pull.openInWindow?.multi.count == 1
         #else
-        self.state.pull.openInApp != nil
+        self.state.pull.openInWindow != nil
         #endif
     }
     

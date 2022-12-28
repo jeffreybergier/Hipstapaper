@@ -27,7 +27,7 @@
 import Umbrella
 
 internal enum Action {
-    case openInApp
+    case openInWindow
     case openExternal
     case addWebsite
     case addTag
@@ -89,8 +89,8 @@ internal enum Action {
     
     private var raw: ActionLocalization {
         switch self {
-        case .openInApp:
-            return .raw_openInApp
+        case .openInWindow:
+            return .raw_openInWindow
         case .openExternal:
             return .raw_openExternal
         case .addWebsite:
@@ -198,7 +198,7 @@ internal enum Action {
 }
 
 extension ActionLocalization {
-    fileprivate static let raw_openInApp: ActionLocalization = {
+    fileprivate static let raw_openInWindow: ActionLocalization = {
         .init(title: Verb.openInApp.rawValue,
               hint:  Phrase.openInApp.rawValue,
               image: .init(.openInApp),
