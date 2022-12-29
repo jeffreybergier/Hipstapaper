@@ -44,6 +44,7 @@ public struct SceneBootstrap: Scene {
             switch self.controller.value {
             case .success(let controller):
                 MainSplitView()
+                    .modifier(ErrorCatcher())
                     .environmentObject(self.controller)
                     .environmentObject(self.localizeBundle)
                     .environmentObject(self.mainMenuState)

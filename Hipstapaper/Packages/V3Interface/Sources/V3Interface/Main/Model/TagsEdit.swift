@@ -121,8 +121,8 @@ internal struct TagsEditToolbar: ViewModifier {
     
     @V3Localize.TagsEdit private var text
     
-    @Environment(\.codableErrorResponder) private var errorResponder
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.errorResponder) private var errorResponder
     
     internal let selection: Tag.Selection
     
@@ -141,7 +141,7 @@ internal struct TagsEditToolbar: ViewModifier {
         {
             self.dismiss()
         } deleteAction: {
-            self.errorResponder(DeleteTagError(self.selection).codableValue)
+            self.errorResponder(DeleteRequestError.tag(self.selection))
         }
     }
 }

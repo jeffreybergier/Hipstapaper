@@ -29,7 +29,55 @@ import Umbrella
 import V3Model
 import V3Localize
 
-public struct DeleteTagError: UserFacingError, CustomNSError {
+public enum DeleteRequestError: CustomNSError, CodableErrorConvertible, Codable {
+    
+    static public var errorDomain = "com.saturdayapps.Hipstapaper.DeleteRequest"
+    public var errorCode: Int { 1001 }
+    
+    case website(Website.Selection)
+    case tag(Tag.Selection)
+    
+    public init?(decode: Umbrella.CodableError) {
+        guard let data = decode.arbitraryData else { return nil }
+        // TODO: Uh, figure out why the types don't decode securely
+        if let id = try? PropertyListDecoder().decode(Website.Selection.self, from: data) {
+            self = .website(id)
+            return
+        }
+        if let id = try? PropertyListDecoder().decode(Tag.Selection.self, from: data) {
+            self = .tag(id)
+            return
+        }
+        assertionFailure()
+        return nil
+    }
+    
+    public var encode: Umbrella.CodableError {
+        var output = CodableError(self)
+        switch self {
+        case .website(let id):
+            output.arbitraryData = try? PropertyListEncoder().encode(id)
+        case .tag(let id):
+            output.arbitraryData = try? PropertyListEncoder().encode(id)
+        }
+        assert(output.arbitraryData != nil)
+        return output
+    }
+    
+    public var websiteID: Website.Selection {
+        guard case .website(let id) = self else { return [] }
+        return id
+    }
+    
+    public var tagID: Tag.Selection {
+        guard case .tag(let id) = self else { return [] }
+        return id
+    }
+}
+
+// TODO: Errors, yuck. So much to do
+/*
+public struct DeleteTagError: CustomNSError {
     
     public var identifiers: Tag.Selection = []
     internal var onConfirm: OnConfirmation?
@@ -54,7 +102,7 @@ public struct DeleteTagError: UserFacingError, CustomNSError {
     }
 }
 
-public struct DeleteWebsiteError: UserFacingError, CustomNSError {
+public struct DeleteWebsiteError: CustomNSError {
     
     public var identifiers: Website.Selection = []
     internal var onConfirm: OnConfirmation?
@@ -78,3 +126,4 @@ public struct DeleteWebsiteError: UserFacingError, CustomNSError {
         ]
     }
 }
+*/

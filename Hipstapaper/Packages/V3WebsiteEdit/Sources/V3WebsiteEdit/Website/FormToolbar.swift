@@ -53,7 +53,7 @@ internal struct iOS_FormToolbar: ViewModifier {
     @V3Localize.WebsiteEdit private var text
     
     @Dismiss private var dismiss
-    @Environment(\.codableErrorResponder) private var errorResponder
+    @Environment(\.errorResponder) private var errorResponder
     
     private let deletableSelection: Website.Selection
     
@@ -76,9 +76,7 @@ internal struct iOS_FormToolbar: ViewModifier {
                               .action(text: self.text.delete)
                               .button(items: self.deletableSelection)
                     {
-                        self.errorResponder(
-                            DeleteWebsiteError($0).codableValue
-                        )
+                        self.errorResponder(DeleteRequestError.website($0))
                     }
                 }
                 ToolbarItem(placement: .cancellationAction) {

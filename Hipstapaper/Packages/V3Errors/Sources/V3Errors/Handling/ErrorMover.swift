@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/08/05.
+//  Created by Jeffrey Bergier on 2022/12/29.
 //
 //  MIT License
 //
@@ -24,23 +24,31 @@
 //  SOFTWARE.
 //
 
+import SwiftUI
+import Collections
 import Umbrella
 
-extension CodableError {
-    // TODO: Errors, yuck. So much to do
-    internal func userFacingError(onConfirm: OnConfirmation? = nil) -> UserFacingError {
-        let knownError: UserFacingError? = {
-//            switch self.errorDomain {
-//            case CPError.errorDomain:
-//                return CPError(codableError: self)
-//            case DeleteWebsiteError.errorDomain:
-//                return DeleteWebsiteError(self, onConfirm: onConfirm)
-//            case DeleteTagError.errorDomain:
-//                return DeleteTagError(self, onConfirm: onConfirm)
-//            default:
-                return nil
-//            }
-        }()
-        return knownError ?? UnknownError(self)
+public struct ErrorMover: ViewModifier {
+    
+    @Errors private var store
+    @Binding private var toPresent: CodableError?
+    
+    private let isAlreadyPresenting: Bool
+    
+    public init(isAlreadyPresenting: Bool, toPresent: Binding<CodableError?>) {
+        _toPresent = toPresent
+        self.isAlreadyPresenting = isAlreadyPresenting
+    }
+    
+    public func body(content: Content) -> some View {
+        content
+            .onLoadChange(of: self.store) { _ in
+                guard self.isAlreadyPresenting == false else { return }
+                self.toPresent = self.store.popFirst()
+            }
+            .onLoadChange(of: self.isAlreadyPresenting) { isAlreadyPresenting in
+                guard isAlreadyPresenting == false else { return }
+                self.toPresent = self.store.popFirst()
+            }
     }
 }

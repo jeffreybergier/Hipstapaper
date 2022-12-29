@@ -29,7 +29,8 @@ import Umbrella
 import V3Model
 
 // MARK: DeleteTagError
-
+// TODO: Errors, yuck. So much to do
+/*
 extension DeleteTagError {
     internal init?(_ error: CodableError, onConfirm: OnConfirmation?) {
         guard
@@ -69,3 +70,4 @@ extension DeleteWebsiteError {
         return error
     }
 }
+*/

@@ -87,33 +87,34 @@ internal struct _WebsiteEdit: View {
     }
     
     internal var body: some View {
-        ErrorResponder(toPresent: self.$nav.isError,
-                       storeErrors: self.nav.isPresenting,
-                       inStorage: self.$errorQueue)
-        {
-            TabView(selection: self.$screen) {
-                FormParent(self.selection)
-                    .tag(WebsiteEdit.Screen.website)
-                    .tabItem {
-                        self.style.tab.action(text: self.text.tabWebsite).label
-                    }
-                Tag(self.selection)
-                    .tag(WebsiteEdit.Screen.tag)
-                    .tabItem {
-                        self.style.tab.action(text: self.text.tabTag).label
-                    }
-            }
-            .modifier(self.hack_style.formStyle)
-            .modifier(self.hack_style.tabParentPadding)
-            .modifier(self.hack_style.formTextFieldStyle)
-        } onConfirmation: {
-            switch $0 {
-            case .deleteTags:
-                NSLog("Probably unexpected: \($0)")
-                break
-            case .deleteWebsites:
-                self.dismiss()
-            }
+        TabView(selection: self.$screen) {
+            FormParent(self.selection)
+                .tag(WebsiteEdit.Screen.website)
+                .tabItem {
+                    self.style.tab.action(text: self.text.tabWebsite).label
+                }
+            Tag(self.selection)
+                .tag(WebsiteEdit.Screen.tag)
+                .tabItem {
+                    self.style.tab.action(text: self.text.tabTag).label
+                }
         }
+        .modifier(self.hack_style.formStyle)
+        .modifier(self.hack_style.tabParentPadding)
+        .modifier(self.hack_style.formTextFieldStyle)
+        .modifier(ErrorMover(isAlreadyPresenting: self.nav.isPresenting,
+                             toPresent: self.$nav.isError))
     }
 }
+
+    /*
+     } onConfirmation: {
+     switch $0 {
+     case .deleteTags:
+     NSLog("Probably unexpected: \($0)")
+     break
+     case .deleteWebsites:
+     self.dismiss()
+     }
+     }
+     */

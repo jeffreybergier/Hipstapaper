@@ -36,7 +36,7 @@ internal struct SidebarMenu: ViewModifier {
     @V3Style.Sidebar private var style
     @V3Localize.Sidebar private var text
     
-    @Environment(\.codableErrorResponder) private var errorResponder
+    @Environment(\.errorResponder) private var errorResponder
     
     internal func body(content: Content) -> some View {
         content.contextMenu(forSelectionType: Tag.Selection.Element.self) { items in
@@ -45,7 +45,7 @@ internal struct SidebarMenu: ViewModifier {
                     self.nav.sidebar.isTagsEdit.isPresented = items
                 }
                 self.style.destructive.action(text: self.text.menuDeleteTags).button {
-                    self.errorResponder(DeleteTagError(items).codableValue)
+                    self.errorResponder(DeleteRequestError.tag(items))
                 }
             } onEmpty: {
                 EmptyView()

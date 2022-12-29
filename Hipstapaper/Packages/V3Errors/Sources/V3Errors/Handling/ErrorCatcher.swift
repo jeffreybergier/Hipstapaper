@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/08/05.
+//  Created by Jeffrey Bergier on 2022/12/29.
 //
 //  MIT License
 //
@@ -24,23 +24,25 @@
 //  SOFTWARE.
 //
 
+import SwiftUI
 import Umbrella
 
-extension CodableError {
-    // TODO: Errors, yuck. So much to do
-    internal func userFacingError(onConfirm: OnConfirmation? = nil) -> UserFacingError {
-        let knownError: UserFacingError? = {
-//            switch self.errorDomain {
-//            case CPError.errorDomain:
-//                return CPError(codableError: self)
-//            case DeleteWebsiteError.errorDomain:
-//                return DeleteWebsiteError(self, onConfirm: onConfirm)
-//            case DeleteTagError.errorDomain:
-//                return DeleteTagError(self, onConfirm: onConfirm)
-//            default:
-                return nil
-//            }
-        }()
-        return knownError ?? UnknownError(self)
+public struct ErrorCatcher: ViewModifier {
+    
+    @Errors private var store
+    
+    public init() { }
+    
+    public func body(content: Content) -> some View {
+        content.environment(\.errorResponder) { error in
+            guard let error = error as? CodableErrorConvertible else {
+                assertionFailure("Unsupported Error: \(String(describing: error))")
+                return
+            }
+            assert(type(of: error) != CodableError.self,
+                   "CodableError: DoubleEncoding: \(String(describing: error))")
+            self.store.append(error.encode)
+        }
     }
+    
 }
