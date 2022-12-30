@@ -35,19 +35,25 @@ public struct ErrorMover: ViewModifier {
     
     private let isAlreadyPresenting: Bool
     
-    public init(isAlreadyPresenting: Bool, toPresent: Binding<CodableError?>) {
+    public init(isPresenting: Bool, toPresent: Binding<CodableError?>) {
         _toPresent = toPresent
-        self.isAlreadyPresenting = isAlreadyPresenting
+        self.isAlreadyPresenting = isPresenting
     }
     
     public func body(content: Content) -> some View {
         content
-            .onLoadChange(of: self.store) { _ in
-                guard self.isAlreadyPresenting == false else { return }
+            .onLoadChange(of: self.store) { store in
+                guard
+                    self.isAlreadyPresenting == false,
+                    store.isEmpty == false
+                else { return }
                 self.toPresent = self.store.popFirst()
             }
             .onLoadChange(of: self.isAlreadyPresenting) { isAlreadyPresenting in
-                guard isAlreadyPresenting == false else { return }
+                guard
+                    isAlreadyPresenting == false,
+                    self.store.isEmpty == false
+                else { return }
                 self.toPresent = self.store.popFirst()
             }
     }

@@ -70,6 +70,7 @@ public struct WebsiteEdit: View {
 internal struct _WebsiteEdit: View {
     
     @Navigation private var nav
+    @Localize private var bundle
     @Errors private var errorQueue
     @Binding private var screen: WebsiteEdit.Screen
     
@@ -102,8 +103,11 @@ internal struct _WebsiteEdit: View {
         .modifier(self.hack_style.formStyle)
         .modifier(self.hack_style.tabParentPadding)
         .modifier(self.hack_style.formTextFieldStyle)
-        .modifier(ErrorMover(isAlreadyPresenting: self.nav.isPresenting,
+        .modifier(ErrorMover(isPresenting: self.nav.isPresenting,
                              toPresent: self.$nav.isError))
+        .modifier(ErrorPresenter(isError: self.$nav.isError,
+                                 localizeBundle: self.bundle,
+                                 router: ErrorRouter.route))
     }
 }
 

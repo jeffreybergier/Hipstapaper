@@ -26,6 +26,7 @@
 
 import SwiftUI
 import Umbrella
+import V3Model
 import V3Store
 import V3Errors
 

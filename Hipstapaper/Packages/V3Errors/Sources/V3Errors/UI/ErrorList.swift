@@ -99,8 +99,10 @@ internal struct ErrorListRow: View {
     private let originalError: CodableError
     
     internal init(_ error: CodableError) {
+        // TODO: Errors, yuck. So much to do
+        fatalError()
         self.originalError = error
-        _text = V3Localize.ErrorListRow(error.userFacingError())
+        // _text = V3Localize.ErrorListRow(error.userFacingError())
     }
     
     internal var body: some View {
