@@ -27,6 +27,7 @@
 import SwiftUI
 import Umbrella
 import V3Model
+import V3Store
 import V3Errors
 import V3Style
 import V3Localize
@@ -69,17 +70,18 @@ public struct WebsiteEdit: View {
 
 internal struct _WebsiteEdit: View {
     
+    @Controller private var controller
     @Navigation private var nav
     @Localize private var bundle
-    @Errors private var errorQueue
-    @Binding private var screen: WebsiteEdit.Screen
     
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
     @HACK_macOS_Style private var hack_style
     
     @Dismiss private var dismiss
+    @Environment(\.errorResponder) private var errorResponder
     
+    @Binding private var screen: WebsiteEdit.Screen
     private let selection: Website.Selection
     
     internal init(selection: Website.Selection, screen: Binding<WebsiteEdit.Screen>) {
@@ -92,12 +94,16 @@ internal struct _WebsiteEdit: View {
             FormParent(self.selection)
                 .tag(WebsiteEdit.Screen.website)
                 .tabItem {
-                    self.style.tab.action(text: self.text.tabWebsite).label
+                    self.style.tab
+                        .action(text: self.text.tabWebsite)
+                        .label
                 }
             Tag(self.selection)
                 .tag(WebsiteEdit.Screen.tag)
                 .tabItem {
-                    self.style.tab.action(text: self.text.tabTag).label
+                    self.style.tab
+                        .action(text: self.text.tabTag)
+                        .label
                 }
         }
         .modifier(self.hack_style.formStyle)
@@ -107,18 +113,13 @@ internal struct _WebsiteEdit: View {
                              toPresent: self.$nav.isError))
         .modifier(ErrorPresenter(isError: self.$nav.isError,
                                  localizeBundle: self.bundle,
-                                 router: ErrorRouter.route))
+                                 router: self.router(_:)))
+    }
+    
+    private func router(_ input: CodableError) -> UserFacingError {
+        ErrorRouter.route(input: input,
+                          onSuccess: self.dismiss,
+                          onError: self.errorResponder,
+                          controller: self.controller)
     }
 }
-
-    /*
-     } onConfirmation: {
-     switch $0 {
-     case .deleteTags:
-     NSLog("Probably unexpected: \($0)")
-     break
-     case .deleteWebsites:
-     self.dismiss()
-     }
-     }
-     */

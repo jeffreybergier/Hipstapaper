@@ -27,11 +27,17 @@
 import Umbrella
 import V3Errors
 import V3Model
+import V3Store
 
 // TODO: Errors, yuck. So much to do
 // MARK: Is it possible for this to live elsewhere?
-public enum ErrorRouter {
-    public static let route: (CodableError) -> any UserFacingError = { input in
+internal enum ErrorRouter {
+    internal static func route(input: CodableError,
+                               onSuccess: @escaping () -> Void,
+                               onError: @escaping (Error) -> Void,
+                               controller: ControllerProtocol)
+                               -> any UserFacingError
+    {
         var output: UserFacingError?
         switch input.errorDomain {
         // case CPError.errorDomain:
@@ -39,40 +45,23 @@ public enum ErrorRouter {
         case DeleteRequestError.errorDomain:
             output = DeleteRequestError(decode: input).map {
                 DeleteConfirmationError(request: $0) {
+                    let result: Result<Void, V3Store.Error>
                     switch $0 {
                     case .website(let selection):
-                        break
+                        result = controller.delete(selection)
                     case .tag(let selection):
-                        break
+                        result = controller.delete(selection)
+                    }
+                    switch result {
+                    case .success:
+                        onSuccess()
+                    case .failure(let error):
+                        onError(error)
                     }
                 }
             }
-        default:
-            break
+        default: break
         }
         return output ?? UnknownError(input)
-    }
-}
-
-// TODO: Errors, yuck. So much to do
-extension DeleteConfirmationError: UserFacingError {
-    public var title: Umbrella.LocalizationKey {
-        ""
-    }
-    
-    public var message: Umbrella.LocalizationKey {
-        "Delete?"
-    }
-    
-    public var dismissTitle: Umbrella.LocalizationKey {
-        "Dooooooooonnnnnt Del"
-    }
-    
-    public var isCritical: Bool {
-        false
-    }
-    
-    public var options: [Umbrella.RecoveryOption] {
-        []
     }
 }

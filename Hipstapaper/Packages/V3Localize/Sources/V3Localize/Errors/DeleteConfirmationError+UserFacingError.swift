@@ -1,7 +1,5 @@
-// swift-tools-version:5.7
-
 //
-//  Created by Jeffrey Bergier on 2022/03/11.
+//  Created by Jeffrey Bergier on 2022/12/30.
 //
 //  MIT License
 //
@@ -26,29 +24,43 @@
 //  SOFTWARE.
 //
 
-import PackageDescription
+import Umbrella
+import V3Model
 
-let package = Package(
-    name: "V3Localize",
-    defaultLocalization: "en",
-    platforms: [.iOS(.v16), .macOS(.v13)],
-    products: [
-        .library(
-            name: "V3Localize",
-            targets: ["V3Localize"]
-        ),
-    ],
-    dependencies: [
-        .package(path: "../V3Model"),
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "waterme3"),
-    ],
-    targets: [
-        .target(
-            name: "V3Localize",
-            dependencies: [
-                .byNameItem(name: "V3Model", condition: nil),
-                .byNameItem(name: "Umbrella", condition: nil),
-            ]
-        ),
-    ]
-)
+extension DeleteConfirmationError: UserFacingError {
+    public var title: LocalizationKey {
+        switch self.request {
+        case .tag:     return Noun.deleteTag.rawValue
+        case .website: return Noun.deleteWebsite.rawValue
+        }
+    }
+    
+    public var message: LocalizationKey {
+        switch self.request {
+        case .tag:     return Phrase.deleteTagConfirm.rawValue
+        case .website: return Phrase.deleteWebsiteConfirm.rawValue
+        }
+    }
+    
+    public var dismissTitle: Umbrella.LocalizationKey {
+        return Verb.dontDelete.rawValue
+    }
+    
+    public var isCritical: Bool {
+        false
+    }
+    
+    public var options: [Umbrella.RecoveryOption] {
+        let title: LocalizationKey = {
+            switch self.request {
+            case .tag:     return Verb.deleteTag.rawValue
+            case .website: return Verb.deleteWebsite.rawValue
+            }
+        }()
+        return [
+            .init(title: title, isDestructive: true) {
+                self.onConfirmation(self.request)
+            }
+        ]
+    }
+}

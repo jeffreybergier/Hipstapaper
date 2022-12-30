@@ -26,8 +26,6 @@
 
 import Foundation
 import Umbrella
-import V3Model
-import V3Localize
 
 public enum DeleteRequestError: CustomNSError, CodableErrorConvertible, Codable {
     
@@ -74,56 +72,3 @@ public enum DeleteRequestError: CustomNSError, CodableErrorConvertible, Codable 
         return id
     }
 }
-
-// TODO: Errors, yuck. So much to do
-/*
-public struct DeleteTagError: CustomNSError {
-    
-    public var identifiers: Tag.Selection = []
-    internal var onConfirm: OnConfirmation?
-    
-    public init(_ identifiers: Tag.Selection) {
-        self.identifiers = identifiers
-    }
-        
-    // MARK: Protocol conformance
-    public static var errorDomain: String = "com.saturdayapps.Hipstapaper.Delete.Tag"
-    public var errorCode: Int = 1001
-    public var title: LocalizationKey = Noun.deleteTag.rawValue
-    public var message: LocalizationKey = Phrase.deleteTagConfirm.rawValue
-    public var dismissTitle: LocalizationKey = Verb.dontDelete.rawValue
-    public var isCritical: Bool = false
-    public var options: [RecoveryOption] {
-        return [
-            .init(title: Verb.deleteTag.rawValue, isDestructive: true) {
-                self.onConfirm?(.deleteTags(self.identifiers))
-            }
-        ]
-    }
-}
-
-public struct DeleteWebsiteError: CustomNSError {
-    
-    public var identifiers: Website.Selection = []
-    internal var onConfirm: OnConfirmation?
-    
-    public init(_ identifiers: Website.Selection) {
-        self.identifiers = identifiers
-    }
-        
-    // MARK: Protocol conformance
-    public static var errorDomain: String = "com.saturdayapps.Hipstapaper.Delete.Website"
-    public var errorCode: Int = 1001
-    public var title: LocalizationKey = Noun.deleteWebsite.rawValue
-    public var message: LocalizationKey = Phrase.deleteWebsiteConfirm.rawValue
-    public var dismissTitle: LocalizationKey = Verb.dontDelete.rawValue
-    public var isCritical: Bool = false
-    public var options: [RecoveryOption] {
-        return [
-            .init(title: Verb.deleteWebsite.rawValue, isDestructive: true) {
-                self.onConfirm?(.deleteWebsites(self.identifiers))
-            }
-        ]
-    }
-}
-*/
