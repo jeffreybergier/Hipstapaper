@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/07/18.
+//  Created by Jeffrey Bergier on 2022/12/29.
 //
 //  MIT License
 //
@@ -31,7 +31,7 @@ import V3Localize
 
 public enum DeleteRequestError: CustomNSError, CodableErrorConvertible, Codable {
     
-    static public var errorDomain = "com.saturdayapps.Hipstapaper.DeleteRequest"
+    static public var errorDomain = "com.saturdayapps.Hipstapaper.model"
     public var errorCode: Int { 1001 }
     
     case website(Website.Selection)
