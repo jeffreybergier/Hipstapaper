@@ -24,6 +24,7 @@
 //  SOFTWARE.
 //
 
+import Foundation
 import Umbrella
 import V3Errors
 import V3Model
@@ -56,7 +57,10 @@ internal enum ErrorRouter {
                     case .success:
                         onSuccess()
                     case .failure(let error):
-                        onError(error)
+                        // TODO: Hack to allow next error to appear
+                        DispatchQueue.main.async {
+                            onError(error)
+                        }
                     }
                 }
             }
