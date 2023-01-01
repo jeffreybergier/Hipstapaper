@@ -27,6 +27,7 @@
 import SwiftUI
 import Umbrella
 
+// TODO: Change to internal
 public enum Phrase: LocalizationKey {
     case addChoice              = "Phrase.AddChoice"
     case sort                   = "Phrase.Sort"

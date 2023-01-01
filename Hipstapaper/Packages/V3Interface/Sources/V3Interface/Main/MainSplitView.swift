@@ -41,6 +41,8 @@ internal struct MainSplitView: View {
     @V3Style.MainMenu private var style
     @HACK_EditMode private var isEditMode
     
+    @Environment(\.errorResponder) private var errorResponder
+    
     internal var body: some View {
         ErrorResponder(toPresent: self.$nav.isError,
                        storeErrors: self.nav.isPresenting,
@@ -58,10 +60,10 @@ internal struct MainSplitView: View {
             .modifier(self.style.syncIndicator(self.controller.syncProgress.progress))
             .onReceive(self.controller.syncProgress.objectWillChange) { _ in
                 DispatchQueue.main.async {
-                    let errors = self.controller.syncProgress.errors.map { $0.codableValue }
+                    let errors = self.controller.syncProgress.errors
                     guard errors.isEmpty == false else { return }
                     self.controller.syncProgress.errors.removeAll()
-                    self.errorQueue.append(contentsOf: errors)
+                    errors.forEach(self.errorResponder)
                 }
             }
         } onConfirmation: {

@@ -26,7 +26,6 @@
 
 import Foundation
 import Umbrella
-import V3Localize
 
 extension CPError: UserFacingError {
     

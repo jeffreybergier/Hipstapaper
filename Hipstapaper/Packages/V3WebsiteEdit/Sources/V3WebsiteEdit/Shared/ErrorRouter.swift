@@ -27,6 +27,7 @@
 import Foundation
 import Umbrella
 import V3Errors
+import V3Localize
 import V3Model
 import V3Store
 
@@ -41,8 +42,8 @@ internal enum ErrorRouter {
     {
         var output: UserFacingError?
         switch input.errorDomain {
-        // case CPError.errorDomain:
-            // output = CPError(codableError: input)
+        case CPError.errorDomain:
+            output = CPError(decode: input)
         case DeleteRequestError.errorDomain:
             output = DeleteRequestError(decode: input).map {
                 DeleteConfirmationError(request: $0) {
