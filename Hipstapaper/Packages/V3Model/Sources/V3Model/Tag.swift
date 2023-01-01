@@ -30,34 +30,19 @@ public struct Tag: Identifiable, Hashable, Equatable {
     
     public typealias Selection = Set<Tag.Identifier>
     
-    public struct Identifier: Hashable, Equatable, Codable, RawRepresentable, Identifiable {
-        
-        public enum Kind: String {
-            case systemAll, systemUnread, user
-        }
-        
-        public var id: String
-        public var kind: Kind = .user
-        
+    public enum Kind: String, Codable {
+        case systemAll, systemUnread, user
+    }
+    
+    public struct Identifier: Codable, Hashable, Identifiable {
+        public var id: String { self.rawValue }
+        public var kind: Kind
+        public var rawValue: String
         public init(_ rawValue: String, kind: Kind = .user) {
-            self.id = rawValue
+            self.rawValue = rawValue
             self.kind = kind
         }
-        
-        public var rawValue: String {
-            self.kind.rawValue + "|.|.|" + self.id
-        }
-        public init?(rawValue: String) {
-            let comps = rawValue.components(separatedBy: "|.|.|")
-            guard
-                comps.count == 2,
-                let kind = Kind(rawValue: comps[0])
-            else {
-                return nil
-            }
-            self.id = comps[1]
-            self.kind = kind
-        }
+        internal var HACK_tagID = "THIS IS A HACK TO PREVENT DECODING CONFLICTS"
     }
     
     public var id: Identifier

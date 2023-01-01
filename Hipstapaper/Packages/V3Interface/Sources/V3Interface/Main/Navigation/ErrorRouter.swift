@@ -58,10 +58,7 @@ internal enum ErrorRouter {
                     case .success:
                         onSuccess?()
                     case .failure(let error):
-                        // TODO: Hack to allow next error to appear
-                        DispatchQueue.main.async {
-                            onError(error)
-                        }
+                        onError(error)
                     }
                 }
             }

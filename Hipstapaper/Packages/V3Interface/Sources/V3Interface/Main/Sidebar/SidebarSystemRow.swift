@@ -34,9 +34,9 @@ internal struct SidebarSystemRow: View {
     @V3Style.Sidebar private var style
     @V3Localize.Sidebar private var text
     
-    private let kind: Tag.Identifier.Kind
+    private let kind: Tag.Kind
     
-    internal init(_ kind: Tag.Identifier.Kind) {
+    internal init(_ kind: Tag.Kind) {
         self.kind = kind
     }
     

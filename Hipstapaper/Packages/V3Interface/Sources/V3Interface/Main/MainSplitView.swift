@@ -25,6 +25,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import V3Model
 import V3Store
 import V3Style
@@ -35,45 +36,44 @@ import V3Browser
 internal struct MainSplitView: View {
     
     @Navigation private var nav
-    @Selection private var selection
-    @Errors private var errorQueue
     @Controller private var controller
     @V3Style.MainMenu private var style
     @HACK_EditMode private var isEditMode
+    @Localize private var bundle
     
     @Environment(\.errorResponder) private var errorResponder
     
     internal var body: some View {
-        ErrorResponder(toPresent: self.$nav.isError,
-                       storeErrors: self.nav.isPresenting,
-                       inStorage: self.$errorQueue)
-        {
-            NavigationSplitView {
-                Sidebar()
-            } detail: {
-                Detail()
-                    .animation(.default, value: self.isEditMode)
-                    .editMode(force: self.isEditMode)
-            }
-            .modifier(BulkActionsHelper())
-            .modifier(WebsiteEditSheet(self.$nav.isWebsitesEdit, start: .website))
-            .modifier(self.style.syncIndicator(self.controller.syncProgress.progress))
-            .onReceive(self.controller.syncProgress.objectWillChange) { _ in
-                DispatchQueue.main.async {
-                    let errors = self.controller.syncProgress.errors
-                    guard errors.isEmpty == false else { return }
-                    self.controller.syncProgress.errors.removeAll()
-                    errors.forEach(self.errorResponder)
-                }
-            }
-        } onConfirmation: {
-            switch $0 {
-            case .deleteWebsites(let deleted):
-                self.selection.websites.subtract(deleted)
-            case .deleteTags(let deleted):
-                guard deleted.contains(self.selection.tag ?? .default) else { return }
-                self.selection.tag = .default
+        NavigationSplitView {
+            Sidebar()
+        } detail: {
+            Detail()
+                .animation(.default, value: self.isEditMode)
+                .editMode(force: self.isEditMode)
+        }
+        .modifier(BulkActionsHelper())
+        .modifier(WebsiteEditSheet(self.$nav.isWebsitesEdit, start: .website))
+        .modifier(self.style.syncIndicator(self.controller.syncProgress.progress))
+        .onReceive(self.controller.syncProgress.objectWillChange) { _ in
+            DispatchQueue.main.async {
+                let errors = self.controller.syncProgress.errors
+                guard errors.isEmpty == false else { return }
+                self.controller.syncProgress.errors.removeAll()
+                errors.forEach(self.errorResponder)
             }
         }
+        .modifier(ErrorMover(isPresenting: self.nav.isPresenting,
+                             toPresent: self.$nav.isError))
+        .modifier(ErrorPresenter(isError: self.$nav.isError,
+                                 localizeBundle: self.bundle,
+                                 router: self.router(_:)))
+    }
+    
+    
+    private func router(_ input: CodableError) -> UserFacingError {
+        ErrorRouter.route(input: input,
+                          onSuccess: { },
+                          onError: self.errorResponder,
+                          controller: self.controller)
     }
 }

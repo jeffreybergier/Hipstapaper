@@ -41,7 +41,11 @@ public struct ErrorCatcher: ViewModifier {
             }
             assert(type(of: error) != CodableError.self,
                    "CodableError: DoubleEncoding: \(String(describing: error))")
-            self.store.append(error.encode)
+            
+            // TODO: Hack to allow next error to appear
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.store.append(error.encode)
+            }
         }
     }
     

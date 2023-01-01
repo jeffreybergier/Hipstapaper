@@ -73,6 +73,6 @@ extension Tag.Identifier {
 
 extension Website.Identifier {
     internal init(_ id: NSManagedObjectID) {
-        self.init(rawValue: id.uriRepresentation().absoluteString)
+        self.init(id.uriRepresentation().absoluteString)
     }
 }
