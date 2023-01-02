@@ -35,7 +35,7 @@ public struct Errors: DynamicProperty {
     
     @JSBAppStorage  ("com.hipstapaper.errors") private var appStorage = Value()
     @JSBSceneStorage("com.hipstapaper.errors") private var sceneStorage = Value()
-    @Environment(\.executionContext) private var context
+    @Environment(\.sceneContext) private var context
     
     public init() { }
     
