@@ -48,6 +48,7 @@ public struct SceneBootstrap: Scene {
                     .environmentObject(self.controller)
                     .environmentObject(self.localizeBundle)
                     .environmentObject(self.mainMenuState)
+                    .environment(\.sceneContext, .normal)
                     .environment(\.managedObjectContext, controller.context)
             case .failure(let error):
                 Text(String(describing: error))
@@ -61,12 +62,11 @@ public struct SceneBootstrap: Scene {
         WindowGroup(for: V3Model.Website.Identifier.self) { $value in
             switch (self.controller.value, value) {
             case (.success(let controller), .some(let identifier)):
-                // TODO: Errors, yuck. So much to do
-                // Create a different ErrorQueue for individual scenes?
                 Browser(identifier)
                     .modifier(ErrorCatcher())
                     .environmentObject(self.controller)
                     .environmentObject(self.localizeBundle)
+                    .environment(\.sceneContext, .scene(id: identifier.rawValue))
                     .environment(\.managedObjectContext, controller.context)
             case (_, .none):
                 // TODO: Localize
