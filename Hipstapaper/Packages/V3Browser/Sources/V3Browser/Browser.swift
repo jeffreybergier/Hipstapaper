@@ -26,36 +26,37 @@
 
 import SwiftUI
 import Umbrella
-import V3Store
 import V3Model
+import V3Store
 import V3Errors
+import V3Localize
 
 public struct Browser: View {
     
-    private let identifier: Website.Identifier
-    
-    @Errors private var errorQueue
     @StateObject private var nav = Navigation.newEnvironment()
+    
+    private let identifier: Website.Identifier
     
     public init(_ identifier: Website.Identifier) {
         self.identifier = identifier
     }
     
     public var body: some View {
-        ErrorResponder(toPresent: self.$nav.value.isError,
-                       storeErrors: self.nav.value.isPresenting,
-                       inStorage: self.$errorQueue)
-        {
-            _Browser(self.identifier)
-                .environmentObject(self.nav)
-        }
+        _Browser(self.identifier)
+            .environmentObject(self.nav)
     }
 }
 
 fileprivate struct _Browser: View {
     
     @Navigation private var nav
+    @Localize   private var bundle
+    @Controller private var controller
     @WebsiteQuery private var website
+    
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.errorResponder) private var errorResponder
+    
     private let identifier: Website.Identifier
     
     internal init(_ identifier: Website.Identifier) {
@@ -74,10 +75,22 @@ fileprivate struct _Browser: View {
         .onLoadChange(of: self.website?.preferredURL) {
             self.nav.shouldLoadURL = $0
         }
+        .modifier(ErrorMover(isPresenting: self.nav.isPresenting,
+                             toPresent: self.$nav.isError))
+        .modifier(ErrorPresenter(isError: self.$nav.isError,
+                                 localizeBundle: self.bundle,
+                                 router: self.router(_:)))
     }
     
     private var toolbar: some ViewModifier {
         Toolbar(isArchived: self.$website?.isArchived ?? .constant(false),
                 preferredURL: self.website?.preferredURL)
+    }
+    
+    private func router(_ input: CodableError) -> UserFacingError {
+        ErrorRouter.route(input: input,
+                          onSuccess: self.dismiss.callAsFunction,
+                          onError: self.errorResponder,
+                          controller: self.controller)
     }
 }

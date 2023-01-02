@@ -29,6 +29,8 @@ import Umbrella
 
 public struct ErrorCatcher: ViewModifier {
     
+    public static var HACK_errorDelay: DispatchTime { .now() + 0.1 }
+    
     @Errors private var store
     
     public init() { }
@@ -43,7 +45,7 @@ public struct ErrorCatcher: ViewModifier {
                    "CodableError: DoubleEncoding: \(String(describing: error))")
             
             // TODO: Hack to allow next error to appear
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            DispatchQueue.main.asyncAfter(deadline: ErrorCatcher.HACK_errorDelay) {
                 self.store.append(error.encode)
             }
         }

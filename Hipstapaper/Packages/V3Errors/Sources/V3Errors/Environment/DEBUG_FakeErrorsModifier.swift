@@ -32,7 +32,7 @@ import V3Store
 
 public struct DEBUG_FakeErrorsModifier: ViewModifier {
     
-    @Environment(\.codableErrorResponder) private var errorChain
+    @Environment(\.errorResponder) private var errorChain
     @State private var timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
 
     public init() {}
@@ -40,7 +40,7 @@ public struct DEBUG_FakeErrorsModifier: ViewModifier {
     public func body(content: Content) -> some View {
         content
             .onReceive(self.timer) { _ in
-                self.errorChain(.init(V3Store.Error.read))
+                self.errorChain(V3Store.Error.read)
             }
     }
 }

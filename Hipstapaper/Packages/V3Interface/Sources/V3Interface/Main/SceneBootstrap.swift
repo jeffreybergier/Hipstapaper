@@ -61,7 +61,10 @@ public struct SceneBootstrap: Scene {
         WindowGroup(for: V3Model.Website.Identifier.self) { $value in
             switch (self.controller.value, value) {
             case (.success(let controller), .some(let identifier)):
+                // TODO: Errors, yuck. So much to do
+                // Create a different ErrorQueue for individual scenes?
                 Browser(identifier)
+                    .modifier(ErrorCatcher())
                     .environmentObject(self.controller)
                     .environmentObject(self.localizeBundle)
                     .environment(\.managedObjectContext, controller.context)

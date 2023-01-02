@@ -49,7 +49,7 @@ internal struct Web: View {
 fileprivate struct _Web: View {
     
     @Navigation private var nav
-    @Environment(\.codableErrorResponder) private var errorChain
+    @Environment(\.errorResponder) private var errorChain
     @ObservedObject fileprivate var progress: ObserveBox<Double>
     @StateObject private var kvo = SecretBox(Array<NSObjectProtocol>())
 
@@ -115,7 +115,9 @@ fileprivate struct _Web: View {
     
     func makeCoordinator() -> GenericWebKitNavigationDelegate {
         return .init { [errorChain] error in
-            errorChain(.init(error))
+            // TODO: Errors, yuck. So much to do
+            // Wrap web errors in a custom browser error that is CodableErrorConvertible
+            errorChain(error)
         }
     }
     
