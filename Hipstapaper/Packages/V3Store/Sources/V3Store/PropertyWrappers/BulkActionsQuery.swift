@@ -56,7 +56,6 @@ public struct BulkActionsQuery: DynamicProperty {
     
     @State private var websiteSelection: Website.Selection = []
     @State private var tagSelection: Tag.Selection = []
-    @Environment(\.codableErrorResponder) private var errorResponder
     
     public init() {}
     

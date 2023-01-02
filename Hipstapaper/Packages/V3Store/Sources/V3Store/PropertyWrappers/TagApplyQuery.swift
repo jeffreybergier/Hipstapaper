@@ -33,7 +33,7 @@ public struct TagApplyQuery: DynamicProperty {
     
     @Controller private var controller
     @FAST_TagUserListQuery private var data
-    @Environment(\.codableErrorResponder) private var errorResponder
+    @Environment(\.errorResponder) private var errorResponder
     
     @State public var selection: Website.Selection = []
     
@@ -56,7 +56,7 @@ public struct TagApplyQuery: DynamicProperty {
             } set: {
                 if let error = _controller.cd.write(tag: $0, selection: self.selection).error {
                     NSLog(String(describing: error))
-                    self.errorResponder(.init(error))
+                    self.errorResponder(error)
                 }
             }
         }

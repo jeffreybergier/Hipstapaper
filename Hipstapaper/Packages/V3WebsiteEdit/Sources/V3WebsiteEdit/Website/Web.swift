@@ -49,7 +49,7 @@ fileprivate struct _Web: View {
     
     @Navigation private var nav
     @WebState private var webState
-    @Environment(\.codableErrorResponder) private var errorChain
+    @Environment(\.errorResponder) private var errorChain
     @ObservedObject fileprivate var progress: ObserveBox<Double>
     @StateObject private var kvo = SecretBox(Array<NSObjectProtocol>())
 
@@ -69,7 +69,7 @@ fileprivate struct _Web: View {
                 case .success(let image):
                     state.value.currentThumbnail = image
                 case .failure(let error):
-                    errorChain(.init(error))
+                    errorChain(error)
                 }
             }
         }
@@ -115,7 +115,7 @@ fileprivate struct _Web: View {
     
     func makeCoordinator() -> GenericWebKitNavigationDelegate {
         return .init { [errorChain] error in
-            errorChain(.init(error))
+            errorChain(error)
         }
     }
     
