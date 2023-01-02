@@ -39,6 +39,7 @@ let package = Package(
     dependencies: [
         .package(path: "../V3Model"),
         .package(path: "../V3Store"),
+        .package(path: "../V3Localize"),
         .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "waterme3"),
     ],
     targets: [
@@ -47,6 +48,7 @@ let package = Package(
             dependencies: [
                 .byNameItem(name: "V3Model", condition: nil),
                 .byNameItem(name: "V3Store", condition: nil),
+                .byNameItem(name: "V3Localize", condition: nil),
                 .byNameItem(name: "Umbrella", condition: nil),
             ]),
     ]

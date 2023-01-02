@@ -26,19 +26,16 @@
 
 import Foundation
 import Umbrella
-import V3Errors
 import V3Localize
 import V3Model
 import V3Store
 
-// TODO: Errors, yuck. So much to do
-// MARK: Is it possible for this to live somewhere where it can be reused?
-internal enum ErrorRouter {
-    internal static func route(input: CodableError,
-                               onSuccess: (() -> Void)?,
-                               onError: @escaping (Swift.Error) -> Void,
-                               controller: ControllerProtocol)
-                               -> any UserFacingError
+public enum ErrorRouter {
+    public static func route(input: CodableError,
+                             onSuccess: (() -> Void)?,
+                             onError: @escaping (Swift.Error) -> Void,
+                             controller: ControllerProtocol)
+                             -> any UserFacingError
     {
         var output: UserFacingError?
         switch input.errorDomain {
