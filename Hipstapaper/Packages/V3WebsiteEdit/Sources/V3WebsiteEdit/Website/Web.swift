@@ -69,6 +69,8 @@ fileprivate struct _Web: View {
                 case .success(let image):
                     state.value.currentThumbnail = image
                 case .failure(let error):
+                    // TODO: Errors, yuck. So much to do
+                    // Wrap web errors in a custom browser error that is CodableErrorConvertible
                     errorChain(error)
                 }
             }
@@ -115,6 +117,8 @@ fileprivate struct _Web: View {
     
     func makeCoordinator() -> GenericWebKitNavigationDelegate {
         return .init { [errorChain] error in
+            // TODO: Errors, yuck. So much to do
+            // Wrap web errors in a custom browser error that is CodableErrorConvertible
             errorChain(error)
         }
     }

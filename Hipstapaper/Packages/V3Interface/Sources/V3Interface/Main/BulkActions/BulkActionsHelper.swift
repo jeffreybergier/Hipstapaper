@@ -67,8 +67,7 @@ internal struct BulkActionsHelper: ViewModifier {
                     self.nav.isWebsitesEdit = [identifier]
                 case .failure(let error):
                     NSLog(String(describing: error))
-                    // TODO: Errors, yuck. So much to do
-                    // self.errorResponder(.init(error))
+                     self.errorResponder(error)
                 }
             }
             .onChange(of: self.appState.push.tagAdd) { newValue in
@@ -79,8 +78,7 @@ internal struct BulkActionsHelper: ViewModifier {
                     self.nav.sidebar.isTagsEdit.isPresented = [identifier]
                 case .failure(let error):
                     NSLog(String(describing: error))
-                    // TODO: Errors, yuck. So much to do
-                    // self.errorResponder(.init(error))
+                    self.errorResponder(error)
                 }
             }
             .onChange(of: self.appState.push.openInSheet) { newValue in
@@ -115,15 +113,13 @@ internal struct BulkActionsHelper: ViewModifier {
                 guard selection.isEmpty == false else { return }
                 defer { self.appState.push.archiveYes = [] }
                 guard let error = BulkActionsQuery.setArchive(true, selection, self.controller).error else { return }
-                // TODO: Errors, yuck. So much to do
-                // self.errorResponder(.init(error))
+                self.errorResponder(error)
             }
             .onChange(of: self.appState.push.archiveNo) { selection in
                 guard selection.isEmpty == false else { return }
                 defer { self.appState.push.archiveNo = [] }
                 guard let error = BulkActionsQuery.setArchive(false, selection, self.controller).error else { return }
-                // TODO: Errors, yuck. So much to do
-                // self.errorResponder(.init(error))
+                 self.errorResponder(error)
             }
             .onChange(of: self.appState.push.tagApply) { selection in
                 guard selection.isEmpty == false else { return }
