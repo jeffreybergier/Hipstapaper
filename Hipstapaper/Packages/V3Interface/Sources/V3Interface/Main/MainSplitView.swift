@@ -36,10 +36,10 @@ import V3Browser
 internal struct MainSplitView: View {
     
     @Navigation private var nav
+    @Localize   private var bundle
     @Controller private var controller
     @V3Style.MainMenu private var style
-    @HACK_EditMode private var isEditMode
-    @Localize private var bundle
+    @HACK_EditMode    private var isEditMode
     
     @Environment(\.errorResponder) private var errorResponder
     

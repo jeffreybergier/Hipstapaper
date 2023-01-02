@@ -35,9 +35,12 @@ import V3Style
 internal struct TagsEdit: View {
     
     @Navigation private var nav
+    @Localize   private var bundle
+    @Controller private var controller
     @HACK_macOS_Style private var hack_style
-    @Errors private var errorQueue
+    
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.errorResponder) private var errorResponder
     
     internal let selection: Tag.Selection
     
@@ -46,28 +49,27 @@ internal struct TagsEdit: View {
     }
     
     internal var body: some View {
-        ErrorResponder(toPresent: self.$nav.sidebar.isTagsEdit.isError,
-                       storeErrors: self.nav.sidebar.isTagsEdit.isPresenting,
-                       inStorage: self.$errorQueue)
-        {
-            NavigationStack {
-                Form {
-                    ForEach(Array(self.selection)) {
-                        TagsEditRow($0)
-                    }
+        NavigationStack {
+            Form {
+                ForEach(Array(self.selection)) {
+                    TagsEditRow($0)
                 }
-                .modifier(self.hack_style.formStyle)
-                .modifier(TagsEditToolbar(self.selection))
             }
-        } onConfirmation: {
-            switch $0 {
-            case .deleteWebsites:
-                NSLog("Probably unexpected: \($0)")
-                break
-            case .deleteTags:
-                self.dismiss()
-            }
+            .modifier(self.hack_style.formStyle)
+            .modifier(TagsEditToolbar(self.selection))
         }
+        .modifier(ErrorMover(isPresenting: self.nav.sidebar.isTagsEdit.isPresenting,
+                             toPresent: self.$nav.sidebar.isTagsEdit.isError))
+        .modifier(ErrorPresenter(isError: self.$nav.sidebar.isTagsEdit.isError,
+                                 localizeBundle: self.bundle,
+                                 router: self.router(_:)))
+    }
+    
+    private func router(_ input: CodableError) -> UserFacingError {
+        ErrorRouter.route(input: input,
+                          onSuccess: self.dismiss.callAsFunction,
+                          onError: self.errorResponder,
+                          controller: self.controller)
     }
 }
 
@@ -119,6 +121,7 @@ internal struct TagsEditRow: View {
 
 internal struct TagsEditToolbar: ViewModifier {
     
+    @BulkActions private var actions
     @V3Localize.TagsEdit private var text
     
     @Environment(\.dismiss) private var dismiss
@@ -141,7 +144,7 @@ internal struct TagsEditToolbar: ViewModifier {
         {
             self.dismiss()
         } deleteAction: {
-            self.errorResponder(DeleteRequestError.tag(self.selection))
+            self.actions.push.tagDelete = self.selection
         }
     }
 }
