@@ -36,17 +36,18 @@ public struct ErrorCatcher: ViewModifier {
     public init() { }
     
     public func body(content: Content) -> some View {
-        content.environment(\.errorResponder) { error in
-            guard let error = error as? CodableErrorConvertible else {
-                assertionFailure("Unsupported Error: \(String(describing: error))")
-                return
+        content.environment(\.errorResponder) { input in
+            assert(type(of: input) != CodableError.self,
+                   "CodableError: DoubleEncoding: \(String(describing: input))")
+            let output: CodableError
+            if let input = input as? CodableErrorConvertible {
+                output = input.encode
+            } else {
+                output = CodableError(input)
             }
-            assert(type(of: error) != CodableError.self,
-                   "CodableError: DoubleEncoding: \(String(describing: error))")
-            
             // TODO: Hack to allow next error to appear
             DispatchQueue.main.asyncAfter(deadline: ErrorCatcher.HACK_errorDelay) {
-                self.store.append(error.encode)
+                self.store.append(output)
             }
         }
     }
