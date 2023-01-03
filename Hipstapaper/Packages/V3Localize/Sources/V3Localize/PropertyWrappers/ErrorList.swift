@@ -36,7 +36,13 @@ public struct ErrorList: DynamicProperty {
         public var clearAll: ActionLocalization
         public var ufe:      (UserFacingError, KeyPath<UserFacingError, LocalizationKey>) -> LocalizedString
         
+        private let bundle: LocalizeBundle
+        public func localize(_ input: UserFacingError) -> LocalizedUserFacingError {
+            .init(b: self.bundle, e: input)
+        }
+        
         internal init(_ b: LocalizeBundle) {
+            self.bundle = b
             self.title    = b.localized(key: Noun.errors.rawValue)
             self.done     = Action.doneGeneric.localized(b)
             self.clearAll = Action.deleteAllGeneric.localized(b)
@@ -44,19 +50,7 @@ public struct ErrorList: DynamicProperty {
         }
     }
     
-    @Localize private var bundle
-    
-    public init() {}
-    
-    public var wrappedValue: Value {
-        Value(self.bundle)
-    }
-}
-
-@propertyWrapper
-public struct ErrorListRow: DynamicProperty {
-    
-    public struct Value {
+    public struct LocalizedUserFacingError {
         
         public var title: LocalizedString
         public var message: LocalizedString
@@ -68,13 +62,10 @@ public struct ErrorListRow: DynamicProperty {
     }
     
     @Localize private var bundle
-    private let error: UserFacingError
     
-    public init(_ error: UserFacingError) {
-        self.error = error
-    }
+    public init() {}
     
     public var wrappedValue: Value {
-        Value(b: self.bundle, e: self.error)
+        Value(self.bundle)
     }
 }

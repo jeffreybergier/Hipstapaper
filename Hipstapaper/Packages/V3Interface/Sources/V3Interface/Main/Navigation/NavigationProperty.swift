@@ -63,7 +63,6 @@ extension Navigation {
         internal var isPresented: Tag.Selection = []
     }
     internal struct Basic: Hashable, Codable {
-        internal var isError:     CodableError?
         internal var isPresented: Bool = false
     }
 }
@@ -110,12 +109,6 @@ extension Navigation.Detail {
 }
 
 extension Navigation.TagsEdit {
-    internal var isPresenting: Bool {
-        self.isError != nil
-    }
-}
-
-extension Navigation.Basic {
     internal var isPresenting: Bool {
         self.isError != nil
     }

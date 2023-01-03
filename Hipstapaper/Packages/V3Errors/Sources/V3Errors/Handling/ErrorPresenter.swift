@@ -26,24 +26,27 @@ public struct ErrorPresenter: ViewModifier {
     
     private let bundle: any EnvironmentBundleProtocol
     private let router: (CodableError) -> any UserFacingError
+    private let onDismiss: (CodableError?) -> Void
     
     @Binding private var isError: CodableError?
     @Environment(\.errorResponder) private var errorResponder
     
     public init(isError: Binding<CodableError?>,
-                  localizeBundle: any EnvironmentBundleProtocol,
-                  router: @escaping (CodableError) -> any UserFacingError)
+                localizeBundle: any EnvironmentBundleProtocol,
+                router: @escaping (CodableError) -> any UserFacingError,
+                onDismiss: @escaping (CodableError?) -> Void = { _ in })
     {
         _isError = isError
         self.bundle = localizeBundle
         self.router = router
+        self.onDismiss = onDismiss
     }
     
     public func body(content: Content) -> some View {
         content
             .alert(anyError: self.isUserFacingError,
                    bundle:   self.bundle,
-                   onDismiss: { _ in })
+                   onDismiss: { _ in self.onDismiss(self.isError) })
     }
     
     private var isUserFacingError: Binding<UserFacingError?> {

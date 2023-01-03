@@ -68,11 +68,7 @@ extension Navigation {
         internal var isPresenting: Bool { self.isError != nil }
         
         internal struct Basic: Codable {
-            internal var isError: CodableError?
             internal var isPresented: Bool = false
-            internal var isPresenting: Bool {
-                self.isError != nil
-            }
         }
     }
 }
