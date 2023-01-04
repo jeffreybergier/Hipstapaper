@@ -32,27 +32,12 @@ import V3Localize
 import V3Errors
 
 internal struct FormToolbar: ViewModifier {
-    private let deletableSelection: Website.Selection
-    internal init(_ deletableSelection: Website.Selection) {
-        self.deletableSelection = deletableSelection
-    }
-    func body(content: Content) -> some View {
-        #if os(macOS)
-        content.modifier(HACK_macOS_FormToolbar(self.deletableSelection))
-        #else
-        content.modifier(iOS_FormToolbar(self.deletableSelection))
-        #endif
-    }
-}
-
-internal struct iOS_FormToolbar: ViewModifier {
     
     @Navigation private var nav
-    @Errors private var errorQueue
+    @Dismiss private var dismiss
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
     
-    @Dismiss private var dismiss
     @Environment(\.errorResponder) private var errorResponder
     
     private let deletableSelection: Website.Selection
@@ -63,33 +48,14 @@ internal struct iOS_FormToolbar: ViewModifier {
     
     internal func body(content: Content) -> some View {
         content
-            .navigationTitle(self.text.titleWebsite)
-            .navigationBarTitleDisplayModeInline
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    self.style.toolbarDone
-                              .action(text: self.text.done)
-                              .button(action: self.dismiss)
-                }
-                ToolbarItem(placement: .cancellationAction) {
-                    self.style.toolbarDelete
-                              .action(text: self.text.delete)
-                              .button(items: self.deletableSelection)
-                    {
-                        self.errorResponder(DeleteRequestError.website($0))
-                    }
-                }
-                if self.errorQueue.isEmpty == false {
-                    ToolbarItem(placement: .cancellationAction) {
-                        self.style.toolbar
-                            .action(text: self.text.error)
-                            .button(items: self.errorQueue)
-                        { _ in
-                            self.nav.isErrorList.isPresented = true
-                        }
-                        .modifier(ErrorListPopover())
-                    }
-                }
-            }
+            .modifier(JSBToolbar(title: self.text.titleWebsite,
+                           done: self.text.done,
+                           delete: self.text.delete,
+                           doneAction: self.dismiss,
+                           deleteAction: self.delete))
+    }
+    
+    private func delete() {
+        self.errorResponder(DeleteRequestError.website(self.deletableSelection))
     }
 }

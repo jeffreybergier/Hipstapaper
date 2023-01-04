@@ -31,19 +31,8 @@ import V3Style
 import V3Localize
 
 internal struct TagToolbar: ViewModifier {
-    internal func body(content: Content) -> some View {
-        #if os(macOS)
-        content.modifier(HACK_macOS_TagToolbar())
-        #else
-        content.modifier(iOS_TagToolbar())
-        #endif
-    }
-}
-
-internal struct iOS_TagToolbar: ViewModifier {
     
     @Navigation private var nav
-    @Errors private var errorQueue
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
     
@@ -54,18 +43,5 @@ internal struct iOS_TagToolbar: ViewModifier {
             .modifier(JSBToolbar(title: self.text.titleTag,
                                  done: self.text.done,
                                  doneAction: self.dismiss))
-            .toolbar {
-                if self.errorQueue.isEmpty == false {
-                    ToolbarItem(placement: .cancellationAction) {
-                        self.style.toolbar
-                            .action(text: self.text.error)
-                            .button(items: self.errorQueue)
-                        { _ in
-                            self.nav.isErrorList.isPresented = true
-                        }
-                        .modifier(ErrorListPopover())
-                    }
-                }
-            }
     }
 }
