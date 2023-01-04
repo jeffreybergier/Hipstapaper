@@ -33,7 +33,6 @@ import V3Errors
 internal struct Toolbar: ViewModifier {
     
     @Navigation private var nav
-    @Errors private var errorQueue
     @JSBSizeClass private var sizeclass
     @V3Style.Browser private var style
     @V3Localize.Browser private var text
@@ -142,16 +141,6 @@ internal struct Toolbar: ViewModifier {
         }
     }
     
-    @ViewBuilder private var itemErrors: some View {
-        self.style.toolbar
-            .action(text: self.text.error)
-            .button(items: self.errorQueue)
-        { _ in
-            self.nav.isErrorList.isPresented = true
-        }
-        .modifier(ErrorListPresentation())
-    }
-    
     private var itemClose: some View {
         self.style.done.action(text: self.text.done).button {
             self.dismiss()
@@ -160,10 +149,6 @@ internal struct Toolbar: ViewModifier {
     
     private var itemSpacer: some View {
         Spacer()
-    }
-    
-    private var itemSeparator: some View {
-        self.style.separator
     }
 }
 
@@ -184,11 +169,6 @@ extension Toolbar {
         }
         ToolbarItem(id: .itemSpacer1, placement: .navigation) {
             self.itemSpacer
-        }
-        if self.errorQueue.isEmpty == false {
-            ToolbarItem(id: .itemErrors, placement: .primaryAction) {
-                self.itemErrors
-            }
         }
         ToolbarItem(id: .itemOpenExternal, placement: .primaryAction) {
             self.itemOpenExternal
@@ -216,8 +196,17 @@ extension Toolbar {
         ToolbarItem(id: .itemStopReload, placement: .navigation) {
             self.itemStopReload
         }
+        ToolbarItem(id: .itemJavaScript, placement: .navigation) {
+            self.itemJavaScript
+        }
         ToolbarItem(id: .itemStatus, placement: .principal) {
             self.itemStatus
+        }
+        ToolbarItem(id: .itemOpenExternal, placement: .primaryAction) {
+            self.itemOpenExternal
+        }
+        ToolbarItem(id: .itemShare, placement: .primaryAction) {
+            self.itemShare
         }
         ToolbarItem(id: .itemArchiveAndClose, placement: .primaryAction) {
             self.itemArchiveAndClose
@@ -225,68 +214,37 @@ extension Toolbar {
         ToolbarItem(id: .itemClose, placement: .primaryAction) {
             self.itemClose
         }
+    }
+    @ToolbarContentBuilder private func toolbarCompact() -> some CustomizableToolbarContent {
+        ToolbarItem(id: .itemArchiveAndClose, placement: .cancellationAction) {
+            self.itemArchiveAndClose
+        }
+        ToolbarItem(id: .itemStatus, placement: .principal) {
+            self.itemStatus
+        }
+        ToolbarItem(id: .itemClose, placement: .primaryAction) {
+            self.itemClose
+        }
+        ToolbarItem(id: .itemBack, placement: .bottomBar) {
+            self.itemBack
+        }
+        ToolbarItem(id: .itemForward, placement: .bottomBar) {
+            self.itemForward
+        }
+        ToolbarItem(id: .itemStopReload, placement: .bottomBar) {
+            self.itemStopReload
+        }
         ToolbarItem(id: .itemJavaScript, placement: .bottomBar) {
             self.itemJavaScript
         }
-        ToolbarItem(id: .itemErrors, placement: .bottomBar) {
-            self.itemErrors
-        }
         ToolbarItem(id: .itemSpacer1, placement: .bottomBar) {
             self.itemSpacer
         }
-        if true { // Navigation: Top Leading
-            ToolbarItem(id: .itemOpenExternal, placement: .bottomBar) {
-                self.itemOpenExternal
-            }
-            ToolbarItem(id: .itemShare, placement: .bottomBar) {
-                self.itemShare
-            }
+        ToolbarItem(id: .itemOpenExternal, placement: .bottomBar) {
+            self.itemOpenExternal
         }
-    }
-    @ToolbarContentBuilder private func toolbarCompact() -> some CustomizableToolbarContent {
-        if true { // Top Bar
-            ToolbarItem(id: .itemArchiveAndClose, placement: .cancellationAction) {
-                self.itemArchiveAndClose
-            }
-            ToolbarItem(id: .itemStatus, placement: .principal) {
-                self.itemStatus
-            }
-            ToolbarItem(id: .itemClose, placement: .primaryAction) {
-                self.itemClose
-            }
-        }
-        if true { // Navigation: Bottom Leading
-            ToolbarItem(id: .itemBack, placement: .bottomBar) {
-                self.itemBack
-            }
-            ToolbarItem(id: .itemForward, placement: .bottomBar) {
-                self.itemForward
-            }
-            ToolbarItem(id: .itemStopReload, placement: .bottomBar) {
-                self.itemStopReload
-            }
-        }
-        ToolbarItem(id: .itemSpacer1, placement: .bottomBar) {
-            self.itemSpacer
-        }
-        if true { // Bottom Middle
-            ToolbarItem(id: .itemJavaScript, placement: .bottomBar) {
-                self.itemJavaScript
-            }
-            ToolbarItem(id: .itemErrors, placement: .bottomBar) {
-                self.itemErrors
-            }
-            ToolbarItem(id: .itemSpacer2, placement: .bottomBar) {
-                self.itemSpacer
-            }
-        }
-        if true { // Bottom trailing
-            ToolbarItem(id: .itemOpenExternal, placement: .bottomBar) {
-                self.itemOpenExternal
-            }
-            ToolbarItem(id: .itemShare, placement: .bottomBar) {
-                self.itemShare
-            }
+        ToolbarItem(id: .itemShare, placement: .bottomBar) {
+            self.itemShare
         }
     }
 }
@@ -304,11 +262,6 @@ extension String {
     fileprivate static let itemShare           = "toolbar.share"
     fileprivate static let itemArchiveAndClose = "toolbar.itemArchiveAndClose"
     fileprivate static let itemClose           = "toolbar.close"
-    fileprivate static let itemErrors          = "toolbar.errors"
     fileprivate static let itemSpacer1         = "toolbar.spacer1"
-    fileprivate static let itemSpacer2         = "toolbar.spacer2"
-    fileprivate static let itemSeparator1      = "toolbar.separator1"
-    fileprivate static let itemSeparator2      = "toolbar.separator2"
-    fileprivate static let itemSeparator3      = "toolbar.separator3"
     fileprivate static let barEmpty            = "barEmpty"
 }

@@ -41,7 +41,6 @@ public struct Browser: DynamicProperty {
         public var openExternal: ActionLocalization
         public var archiveYes:   ActionLocalization
         public var share:        ActionLocalization
-        public var error:        ActionLocalization
         public var done:         ActionLocalization
         public var loading:      LocalizedString
         
@@ -55,7 +54,6 @@ public struct Browser: DynamicProperty {
             self.openExternal = Action.openExternal.localized(b)
             self.archiveYes   = Action.archiveYes.localized(b)
             self.share        = Action.share.localized(b)
-            self.error        = Action.errorsPresent.localized(b)
             self.done         = Action.doneGeneric.localized(b)
             self.loading      = b.localized(key: Phrase.loadingPage.rawValue)
         }
