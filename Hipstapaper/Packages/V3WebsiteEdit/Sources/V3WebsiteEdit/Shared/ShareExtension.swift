@@ -32,8 +32,9 @@ import V3Errors
 
 public struct ShareExtension: View {
     
-    @StateObject private var localizeBundle = LocalizeBundle()
+    @StateObject private var errors = Errors.newEnvironment()
     @StateObject private var controller = Controller.newEnvironment()
+    @StateObject private var localizeBundle = LocalizeBundle()
     
     @State private var selection: Website.Selection = []
     @State private var noSelectionText: String = "Loading…"
@@ -52,6 +53,7 @@ public struct ShareExtension: View {
             case .success(let controller):
                 WebsiteEdit(selection: selection, start: .website)
                     .modifier(ErrorCatcher())
+                    .environmentObject(self.errors)
                     .environmentObject(self.controller)
                     .environmentObject(self.localizeBundle)
                     .environment(\.anyResponder, self.onDismiss)

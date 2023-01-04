@@ -30,15 +30,16 @@ import Umbrella
 
 @propertyWrapper
 public struct Errors: DynamicProperty {
-
-    public typealias Value = Deque<CodableError>
     
-    @JSBAppStorage  ("com.hipstapaper.errors.normal")
-        private var normal = Value()
-    @JSBAppStorage  ("com.hipstapaper.errors.ext")
-        private var ext = Value()
-    @JSBSceneStorage("com.hipstapaper.errors.scene")
-        private var scene: [String: Value] = [:]
+    public typealias Value = Deque<CodableError>
+    public typealias ExtensionEnvironment = ObserveBox<Value>
+    
+    /// Needed when `\.sceneContext` environment value is set to extension / other
+    public static func newEnvironment() -> ExtensionEnvironment { .init(.init()) }
+    
+    @JSBAppStorage  ("com.hipstapaper.errors.normal") private var normal = Value()
+    @JSBSceneStorage("com.hipstapaper.errors.scene")  private var scene: [String: Value] = [:]
+    @EnvironmentObject private var ext: ExtensionEnvironment
     
     @Environment(\.sceneContext) private var context
     
@@ -55,7 +56,7 @@ public struct Errors: DynamicProperty {
                     .extensionShare,
                     .extensionWidget,
                     .other:
-                return self.ext
+                return self.ext.value
             }
         }
         nonmutating set {
@@ -68,7 +69,7 @@ public struct Errors: DynamicProperty {
                     .extensionShare,
                     .extensionWidget,
                     .other:
-                self.ext = newValue
+                self.ext.value = newValue
             }
         }
     }
