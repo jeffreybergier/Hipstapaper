@@ -35,7 +35,7 @@ public struct Errors: DynamicProperty {
     
     @JSBAppStorage  ("com.hipstapaper.errors.normal")
         private var normal = Value()
-    @JSBSceneStorage("com.hipstapaper.errors.ext")
+    @JSBAppStorage  ("com.hipstapaper.errors.ext")
         private var ext = Value()
     @JSBSceneStorage("com.hipstapaper.errors.scene")
         private var scene: [String: Value] = [:]

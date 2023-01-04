@@ -28,6 +28,7 @@ import SwiftUI
 import V3Model
 import V3Store
 import V3Localize
+import V3Errors
 
 public struct ShareExtension: View {
     
@@ -50,6 +51,7 @@ public struct ShareExtension: View {
             switch self.controller.value {
             case .success(let controller):
                 WebsiteEdit(selection: selection, start: .website)
+                    .modifier(ErrorCatcher())
                     .environmentObject(self.controller)
                     .environmentObject(self.localizeBundle)
                     .environment(\.anyResponder, self.onDismiss)
