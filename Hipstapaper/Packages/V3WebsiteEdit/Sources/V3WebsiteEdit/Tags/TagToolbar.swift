@@ -55,14 +55,16 @@ internal struct iOS_TagToolbar: ViewModifier {
                                  done: self.text.done,
                                  doneAction: self.dismiss))
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    self.style.toolbar
-                              .action(text: self.text.error)
-                              .button(isEnabled: !self.errorQueue.isEmpty)
-                    {
-                        self.nav.isErrorList.isPresented = true
+                if self.errorQueue.isEmpty == false {
+                    ToolbarItem(placement: .cancellationAction) {
+                        self.style.toolbar
+                            .action(text: self.text.error)
+                            .button(items: self.errorQueue)
+                        { _ in
+                            self.nav.isErrorList.isPresented = true
+                        }
+                        .modifier(ErrorListPopover())
                     }
-                    .modifier(ErrorListPopover())
                 }
             }
     }

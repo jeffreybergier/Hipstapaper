@@ -58,13 +58,15 @@ internal struct HACK_macOS_FormToolbar: ViewModifier {
                     {
                         self.errorResponder(DeleteRequestError.website($0))
                     }
-                    self.style.HACK_macOS_toolbar
-                        .action(text: self.text.error)
-                        .button(isEnabled: !self.errorQueue.isEmpty)
-                    {
-                        self.nav.isErrorList.isPresented = true
+                    if self.errorQueue.isEmpty == false {
+                        self.style.HACK_macOS_toolbar
+                            .action(text: self.text.error)
+                            .button(items: self.errorQueue)
+                        { _ in
+                            self.nav.isErrorList.isPresented = true
+                        }
+                        .modifier(ErrorListPopover())
                     }
-                    .modifier(ErrorListPopover())
                     Spacer()
                     self.style.toolbarDone
                         .action(text: self.text.done)
