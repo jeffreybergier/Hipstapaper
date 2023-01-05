@@ -37,7 +37,6 @@ public enum DeleteRequestError: CustomNSError, CodableErrorConvertible, Codable 
     
     public init?(decode: Umbrella.CodableError) {
         guard let data = decode.arbitraryData else { return nil }
-        // TODO: Uh, figure out why the types don't decode securely
         if let id = try? PropertyListDecoder().decode(Website.Selection.self, from: data) {
             self = .website(id)
             return
