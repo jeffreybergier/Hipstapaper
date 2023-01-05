@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/07/26.
+//  Created by Jeffrey Bergier on 2022/11/20.
 //
 //  MIT License
 //
@@ -26,32 +26,41 @@
 
 import SwiftUI
 import Umbrella
-import V3Model
 
-@propertyWrapper
-public struct FAST_TagUserListQuery: DynamicProperty {
+public struct ErrorPresenter: ViewModifier {
     
-    @Controller private var controller
-    @CDListQuery<CD_Tag, Tag.Identifier, Error>(
-        sort: [CD_Tag.defaultSort],
-        onRead: { Tag.Identifier($0.objectID) }
-    ) private var data
+    private let bundle: any EnvironmentBundleProtocol
+    private let router: (CodableError) -> any UserFacingError
+    private let onDismiss: (CodableError?) -> Void
     
+    @Binding private var isError: CodableError?
     @Environment(\.errorResponder) private var errorResponder
     
-    public init() {}
-    
-    private let needsUpdate = SecretBox(true) 
-    public func update() {
-        guard self.needsUpdate.value else { return }
-        self.needsUpdate.value = false
-        _data.setOnError { error in
-            NSLog(String(describing: error))
-            self.errorResponder(error)
-        }
+    public init(isError: Binding<CodableError?>,
+                localizeBundle: any EnvironmentBundleProtocol,
+                router: @escaping (CodableError) -> any UserFacingError,
+                onDismiss: @escaping (CodableError?) -> Void = { _ in })
+    {
+        _isError = isError
+        self.bundle = localizeBundle
+        self.router = router
+        self.onDismiss = onDismiss
     }
     
-    public var wrappedValue: some RandomAccessCollection<Tag.Identifier> {
-        self.data
+    public func body(content: Content) -> some View {
+        content
+            .alert(anyError: self.isUserFacingError,
+                   bundle:   self.bundle,
+                   onDismiss: { _ in self.onDismiss(self.isError) })
+    }
+    
+    private var isUserFacingError: Binding<UserFacingError?> {
+        Binding {
+            guard let error = self.isError else { return nil }
+            return self.router(error)
+        } set: {
+            guard $0 == nil else { return }
+            self.isError = nil
+        }
     }
 }

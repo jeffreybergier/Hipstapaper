@@ -39,12 +39,14 @@ let package = Package(
         ),
     ],
     dependencies: [
+        .package(path: "../V3Model"),
         .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "main"),
     ],
     targets: [
         .target(
             name: "V3Localize",
             dependencies: [
+                .byNameItem(name: "V3Model", condition: nil),
                 .byNameItem(name: "Umbrella", condition: nil),
             ]
         ),

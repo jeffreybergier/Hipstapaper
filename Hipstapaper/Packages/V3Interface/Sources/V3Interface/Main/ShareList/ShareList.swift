@@ -38,6 +38,7 @@ internal struct ShareList: View {
     
     @V3Style.ShareList private var style
     @V3Localize.ShareList private var text
+    @HACK_macOS_Style private var hack_style
     
     @Environment(\.dismiss) private var dismiss
         
@@ -53,11 +54,9 @@ internal struct ShareList: View {
         NavigationStack {
             Form {
                 self.allItems.view { urls in
-                    ShareLink(items: urls) {
-                        self.style.enabled(subtitle: self.text.itemsCount(urls.count))
-                            .action(text: self.text.multi)
-                            .label
-                    }
+                    self.style.shareLink(itemURLs: urls,
+                                         itemTitle: self.text.multi,
+                                         itemSubtitle: self.text.itemSubtitle(urls))
                 } onEmpty: {
                     self.style.disabled(subtitle: self.text.shareErrorSubtitle)
                         .action(text: self.text.error)
@@ -67,6 +66,7 @@ internal struct ShareList: View {
                     ShareListRow(identifier)
                 }
             }
+            .modifier(self.hack_style.formStyle)
             .modifier(self.toolbar)
         }
         .modifier(self.style.popoverSize)

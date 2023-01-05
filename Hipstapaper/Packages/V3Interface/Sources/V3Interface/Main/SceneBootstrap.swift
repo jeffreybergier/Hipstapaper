@@ -25,14 +25,13 @@
 //
 
 import SwiftUI
-import Umbrella
+import V3Model
 import V3Store
-import V3Style
 import V3Localize
 import V3Errors
-import V3WebsiteEdit
+import V3Browser
 
-public struct MainWindow: Scene {
+public struct SceneBootstrap: Scene {
     
     @StateObject private var localizeBundle = LocalizeBundle()
     @StateObject private var controller = Controller.newEnvironment()
@@ -44,10 +43,12 @@ public struct MainWindow: Scene {
         WindowGroup {
             switch self.controller.value {
             case .success(let controller):
-                MainView()
+                MainSplitView()
+                    .modifier(ErrorCatcher())
                     .environmentObject(self.controller)
                     .environmentObject(self.localizeBundle)
                     .environmentObject(self.mainMenuState)
+                    .environment(\.sceneContext, .normal)
                     .environment(\.managedObjectContext, controller.context)
             case .failure(let error):
                 Text(String(describing: error))
@@ -58,49 +59,23 @@ public struct MainWindow: Scene {
                      controller: self.controller,
                      bundle: self.localizeBundle)
         }
-    }
-}
-
-internal struct MainView: View {
-    
-    @Navigation private var nav
-    @Selection private var selection
-    @Errors private var errorQueue
-    @Controller private var controller
-    @V3Style.MainMenu private var style
-    @HACK_EditMode private var isEditMode
-    
-    internal var body: some View {
-        ErrorResponder(toPresent: self.$nav.isError,
-                       storeErrors: self.nav.isPresenting,
-                       inStorage: self.$errorQueue)
-        {
-            NavigationSplitView {
-                Sidebar()
-            } detail: {
-                Detail()
-                    .animation(.default, value: self.isEditMode)
-                    .editMode(force: self.isEditMode)
+        WindowGroup(for: V3Model.Website.Identifier.self) { $value in
+            switch (self.controller.value, value) {
+            case (.success(let controller), .some(let identifier)):
+                Browser(identifier)
+                    .modifier(ErrorCatcher())
+                    .environmentObject(self.controller)
+                    .environmentObject(self.localizeBundle)
+                    .environment(\.sceneContext, .scene(id: identifier.rawValue))
+                    .environment(\.managedObjectContext, controller.context)
+            case (_, .none):
+                // TODO: Localize
+                Text("No Selection")
+            case (.failure(let error), _):
+                Text(String(describing: error))
+            default:
+                fatalError()
             }
-            .modifier(BulkActionsHelper())
-            .modifier(WebsiteEditSheet(self.$nav.isWebsitesEdit, start: .website))
-            .modifier(self.style.syncIndicator(self.controller.syncProgress.progress))
-            .onReceive(self.controller.syncProgress.objectWillChange) { _ in
-                DispatchQueue.main.async {
-                    let errors = self.controller.syncProgress.errors.map { $0.codableValue }
-                    guard errors.isEmpty == false else { return }
-                    self.controller.syncProgress.errors.removeAll()
-                    self.errorQueue.append(contentsOf: errors)
-                }
-            }
-        } onConfirmation: {
-            switch $0 {
-            case .deleteWebsites(let deleted):
-                self.selection.websites.subtract(deleted)
-            case .deleteTags(let deleted):
-                guard deleted.contains(self.selection.tag ?? .default) else { return }
-                self.selection.tag = .default
-            }
-        }
+        } // TODO: Add commands?
     }
 }

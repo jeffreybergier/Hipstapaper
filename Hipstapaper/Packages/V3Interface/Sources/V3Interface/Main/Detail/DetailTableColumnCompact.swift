@@ -31,7 +31,7 @@ import V3Store
 import V3Localize
 import V3Style
 
-internal struct DetailListRow: View {
+internal struct DetailTableColumnCompact: View {
     
     @WebsiteQuery private var item
     @V3Style.DetailList private var style
@@ -69,14 +69,14 @@ internal struct DetailListRow: View {
                 .modifier(self.style.date)
             Text("•")
                 .modifier(self.style.date)
-            JSBText(self.text.missingURL, text: self.item?.preferredURL?.prettyValueHost)
+            JSBText(self.text.missingURL, text: self.text.prettyURL(self.item?.preferredURL))
                 .modifier(self.style.url)
         }
     }
     
     private var dateSiteAccessible: some View {
         VStack(alignment: .leading, spacing: 4) {
-            JSBText(self.text.missingURL, text: self.item?.preferredURL?.prettyValueHost)
+            JSBText(self.text.missingURL, text: self.text.prettyURL(self.item?.preferredURL))
                 .modifier(self.style.url)
             JSBText(self.text.missingDate, text: _text.dateString(self.item?.dateCreated))
                 .modifier(self.style.date)

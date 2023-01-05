@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/08/27.
+//  Created by Jeffrey Bergier on 2022/12/30.
 //
 //  MIT License
 //
@@ -24,25 +24,43 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
 import Umbrella
-import V3Store
+import V3Model
 
-#if DEBUG
-
-public struct DEBUG_FakeErrorsModifier: ViewModifier {
+extension DeleteConfirmationError: UserFacingError {
+    public var title: LocalizationKey {
+        switch self.request {
+        case .tag:     return Noun.deleteTag.rawValue
+        case .website: return Noun.deleteWebsite.rawValue
+        }
+    }
     
-    @Environment(\.codableErrorResponder) private var errorChain
-    @State private var timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
-
-    public init() {}
+    public var message: LocalizationKey {
+        switch self.request {
+        case .tag:     return Phrase.deleteTagConfirm.rawValue
+        case .website: return Phrase.deleteWebsiteConfirm.rawValue
+        }
+    }
     
-    public func body(content: Content) -> some View {
-        content
-            .onReceive(self.timer) { _ in
-                self.errorChain(.init(V3Store.Error.read))
+    public var dismissTitle: Umbrella.LocalizationKey {
+        return Verb.dontDelete.rawValue
+    }
+    
+    public var isCritical: Bool {
+        false
+    }
+    
+    public var options: [Umbrella.RecoveryOption] {
+        let title: LocalizationKey = {
+            switch self.request {
+            case .tag:     return Verb.deleteTag.rawValue
+            case .website: return Verb.deleteWebsite.rawValue
             }
+        }()
+        return [
+            .init(title: title, isDestructive: true) {
+                self.onConfirmation(self.request)
+            }
+        ]
     }
 }
-
-#endif

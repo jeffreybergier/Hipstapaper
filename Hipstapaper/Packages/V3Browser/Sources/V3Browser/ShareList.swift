@@ -45,7 +45,9 @@ internal struct ShareList: View {
     }
     
     @V3Style.ShareList private var style
+    @HACK_macOS_Style private var hack_style
     @V3Localize.BrowserShareList private var text
+    @V3Localize.ShareList private var text_shareList
     @Environment(\.dismiss) private var dismiss
     
     private let data: Data
@@ -79,6 +81,7 @@ internal struct ShareList: View {
                 }
                 
             }
+            .modifier(self.hack_style.formStyle)
             .modifier(JSBToolbar(title: self.text.title,
                                  done: self.text.done,
                                  doneAction: self.dismiss.callAsFunction))
@@ -91,15 +94,12 @@ internal struct ShareList: View {
                            copy: ActionLocalization)
                            -> some View
     {
-        ShareLink(item: url) {
-            HStack {
-                self.style.enabled(subtitle: url.absoluteString)
-                    .action(text: text)
-                    .label
-                self.style.copy.action(text: copy).button {
-                    JSBPasteboard.set(url: url)
-                }
-            }
+        self.style.shareLink(itemURLs: [url],
+                             itemTitle: text,
+                             itemSubtitle: self.text_shareList.itemSubtitle([url]),
+                             copyTitle: copy)
+        {
+            JSBPasteboard.set(url: url)
         }
     }
 }

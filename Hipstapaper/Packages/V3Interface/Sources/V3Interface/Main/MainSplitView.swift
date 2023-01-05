@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/07/01.
+//  Created by Jeffrey Bergier on 2022/06/17.
 //
 //  MIT License
 //
@@ -28,52 +28,39 @@ import SwiftUI
 import Umbrella
 import V3Model
 import V3Store
-import V3Errors
+import V3Style
 import V3Localize
+import V3Errors
+import V3Browser
 
-public struct Browser: View {
-    
-    @StateObject private var nav = Navigation.newEnvironment()
-    
-    private let identifier: Website.Identifier
-    
-    public init(_ identifier: Website.Identifier) {
-        self.identifier = identifier
-    }
-    
-    public var body: some View {
-        _Browser(self.identifier)
-            .environmentObject(self.nav)
-    }
-}
-
-fileprivate struct _Browser: View {
+internal struct MainSplitView: View {
     
     @Navigation private var nav
     @Localize   private var bundle
     @Controller private var controller
-    @WebsiteQuery private var website
+    @V3Style.MainMenu private var style
+    @HACK_EditMode    private var isEditMode
     
-    @Environment(\.dismiss) private var dismiss
     @Environment(\.errorResponder) private var errorResponder
     
-    private let identifier: Website.Identifier
-    
-    internal init(_ identifier: Website.Identifier) {
-        self.identifier = identifier
-    }
-    
     internal var body: some View {
-        NavigationStack {
-            Web()
-                .modifier(HACK_OpaqueToolbar())
-                .modifier(self.toolbar)
+        NavigationSplitView {
+            Sidebar()
+        } detail: {
+            Detail()
+                .animation(.default, value: self.isEditMode)
+                .editMode(force: self.isEditMode)
         }
-        .onLoadChange(of: self.identifier) {
-            _website.setIdentifier($0)
-        }
-        .onLoadChange(of: self.website?.preferredURL) {
-            self.nav.shouldLoadURL = $0
+        .modifier(BulkActionsHelper())
+        .modifier(WebsiteEditSheet(self.$nav.isWebsitesEdit, start: .website))
+        .modifier(self.style.syncIndicator(self.controller.syncProgress.progress))
+        .onReceive(self.controller.syncProgress.objectWillChange) { _ in
+            DispatchQueue.main.async {
+                let errors = self.controller.syncProgress.errors
+                guard errors.isEmpty == false else { return }
+                self.controller.syncProgress.errors.removeAll()
+                errors.forEach(self.errorResponder)
+            }
         }
         .modifier(ErrorMover(isPresenting: self.nav.isPresenting,
                              toPresent: self.$nav.isError))
@@ -82,14 +69,9 @@ fileprivate struct _Browser: View {
                                  router: self.router(_:)))
     }
     
-    private var toolbar: some ViewModifier {
-        Toolbar(isArchived: self.$website?.isArchived ?? .constant(false),
-                preferredURL: self.website?.preferredURL)
-    }
-    
     private func router(_ input: CodableError) -> UserFacingError {
         ErrorRouter.route(input: input,
-                          onSuccess: self.dismiss.callAsFunction,
+                          onSuccess: { },
                           onError: self.errorResponder,
                           controller: self.controller)
     }

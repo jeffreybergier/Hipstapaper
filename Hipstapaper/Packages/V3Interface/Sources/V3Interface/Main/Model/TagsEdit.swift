@@ -35,8 +35,12 @@ import V3Style
 internal struct TagsEdit: View {
     
     @Navigation private var nav
-    @Errors private var errorQueue
+    @Localize   private var bundle
+    @Controller private var controller
+    @HACK_macOS_Style private var hack_style
+    
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.errorResponder) private var errorResponder
     
     internal let selection: Tag.Selection
     
@@ -45,27 +49,27 @@ internal struct TagsEdit: View {
     }
     
     internal var body: some View {
-        ErrorResponder(toPresent: self.$nav.sidebar.isTagsEdit.isError,
-                       storeErrors: self.nav.sidebar.isTagsEdit.isPresenting,
-                       inStorage: self.$errorQueue)
-        {
-            NavigationStack {
-                Form {
-                    ForEach(Array(self.selection)) {
-                        TagsEditRow($0)
-                    }
+        NavigationStack {
+            Form {
+                ForEach(Array(self.selection)) {
+                    TagsEditRow($0)
                 }
-                .modifier(TagsEditToolbar(self.selection))
             }
-        } onConfirmation: {
-            switch $0 {
-            case .deleteWebsites:
-                NSLog("Probably unexpected: \($0)")
-                break
-            case .deleteTags:
-                self.dismiss()
-            }
+            .modifier(self.hack_style.formStyle)
+            .modifier(TagsEditToolbar(self.selection))
         }
+        .modifier(ErrorMover(isPresenting: self.nav.sidebar.isTagsEdit.isPresenting,
+                             toPresent: self.$nav.sidebar.isTagsEdit.isError))
+        .modifier(ErrorPresenter(isError: self.$nav.sidebar.isTagsEdit.isError,
+                                 localizeBundle: self.bundle,
+                                 router: self.router(_:)))
+    }
+    
+    private func router(_ input: CodableError) -> UserFacingError {
+        ErrorRouter.route(input: input,
+                          onSuccess: self.dismiss.callAsFunction,
+                          onError: self.errorResponder,
+                          controller: self.controller)
     }
 }
 
@@ -90,7 +94,9 @@ internal struct TagsEditPresentation: ViewModifier {
 internal struct TagsEditRow: View {
     
     @TagUserQuery private var item
+    @V3Style.TagsEdit private var style
     @V3Localize.TagsEdit private var text
+    @HACK_macOS_Style private var hack_style
     
     private let identifier: Tag.Identifier
     
@@ -99,8 +105,14 @@ internal struct TagsEditRow: View {
     }
     
     internal var body: some View {
-        TextField(self.text.placeholderName,
-                  text: self.$item?.name.compactMap() ?? .constant(""))
+        self.$item.view {
+            TextField(self.text.placeholderName, text: $0.name.compactMap())
+                .modifier(self.hack_style.formTextFieldStyle)
+        } onNIL: {
+            self.style.disabled
+                .action(text: self.text.noTagSelected)
+                .label
+        }
         .onLoadChange(of: self.identifier) {
             _item.setIdentifier($0)
         }
@@ -109,10 +121,11 @@ internal struct TagsEditRow: View {
 
 internal struct TagsEditToolbar: ViewModifier {
     
+    @BulkActions private var actions
     @V3Localize.TagsEdit private var text
     
-    @Environment(\.codableErrorResponder) private var errorResponder
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.errorResponder) private var errorResponder
     
     internal let selection: Tag.Selection
     
@@ -131,7 +144,7 @@ internal struct TagsEditToolbar: ViewModifier {
         {
             self.dismiss()
         } deleteAction: {
-            self.errorResponder(DeleteTagError(self.selection).codableValue)
+            self.actions.push.tagDelete = self.selection
         }
     }
 }

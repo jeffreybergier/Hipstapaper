@@ -25,28 +25,30 @@
 //
 
 import Foundation
+import Umbrella
 
 /// Programming errors like not being able to load MOM from bundle
 /// and updating values from different Context cause fatalError
 /// rather than throwing an error.
-public enum Error: CustomNSError {
+public enum Error: Int, CustomNSError {
     /// When an error is returned from `NSPersistentContainter` during inital setup.
-    case initialize
+    case initialize = 1001
     /// When NSManagedContext return an error while `saveContext()`.
-    case write
+    case write = 1002
     /// When NSManagedContext return an error while `performFetch()`.
-    case read
+    case read = 1003
 
     public static let errorDomain: String = "com.saturdayapps.Hipstapaper.V3Store"
     
-    public var errorCode: Int {
-        switch self {
-        case .initialize:
-            return 1001
-        case .read:
-            return 1002
-        case .write:
-            return 1003
-        }
+    public var errorCode: Int { self.rawValue }
+}
+
+extension Error: CodableErrorConvertible {
+    public init?(decode: CodableError) {
+        guard decode.errorDomain == Error.errorDomain else { return nil }
+        self.init(rawValue: decode.errorCode)
+    }
+    public var encode: CodableError {
+        .init(self)
     }
 }

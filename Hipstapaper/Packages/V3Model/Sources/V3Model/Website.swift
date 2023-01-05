@@ -30,12 +30,13 @@ public struct Website: Identifiable, Hashable, Equatable {
     
     public typealias Selection = Set<Website.Identifier>
 
-    public struct Identifier: Hashable, Equatable, Codable, RawRepresentable, Identifiable {
+    public struct Identifier: Codable, Hashable, Identifiable {
         public var id: String { self.rawValue }
         public var rawValue: String
-        public init(rawValue: String) {
+        public init(_ rawValue: String) {
             self.rawValue = rawValue
         }
+        internal var HACK_websiteID = "THIS IS A HACK TO PREVENT DECODING CONFLICTS"
     }
     
     public var id: Identifier

@@ -34,7 +34,7 @@ public struct TagUserQuery: DynamicProperty {
     @Controller private var controller
     @CDObjectQuery<CD_Tag, Tag, Error>(onRead: Tag.init(_:)) private var object: Tag?
     
-    @Environment(\.codableErrorResponder) private var errorResponder
+    @Environment(\.errorResponder) private var errorResponder
     
     public init() { }
     
@@ -66,7 +66,7 @@ public struct TagUserQuery: DynamicProperty {
         _object.setOnWrite(_controller.cd.writeOpt(_:with:))
         _object.setOnError { error in
             NSLog(String(describing: error))
-            self.errorResponder(.init(error))
+            self.errorResponder(error)
         }
     }
 }

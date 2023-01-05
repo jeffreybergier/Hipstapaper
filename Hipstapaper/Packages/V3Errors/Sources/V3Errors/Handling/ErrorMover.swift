@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/26.
+//  Created by Jeffrey Bergier on 2022/12/29.
 //
 //  MIT License
 //
@@ -25,32 +25,36 @@
 //
 
 import SwiftUI
+import Collections
 import Umbrella
-import V3Model
-import V3Localize
-import V3Style
 
-// TODO: Remove C if `any RandomAccessCollection<Website>` ever works
-// TODO: See when List performance doesn't suck?
-@available(*, deprecated, message:"List is slow as fuck in iOS 16.1 Beta for some reason")
-internal struct DetailList<C: RandomAccessCollection>: View where C.Element == Website.Selection.Element {
-
-    @Navigation private var nav
-    @Selection private var selection
+public struct ErrorMover: ViewModifier {
     
-    private let data: C
+    @Errors private var store
+    @Binding private var toPresent: CodableError?
     
-    internal init(_ data: C) {
-        self.data = data
+    private let isAlreadyPresenting: Bool
+    
+    public init(isPresenting: Bool, toPresent: Binding<CodableError?>) {
+        _toPresent = toPresent
+        self.isAlreadyPresenting = isPresenting
     }
     
-    internal var body: some View {
-        List(self.data,
-             id: \.self,
-             selection: self.$selection.websites)
-        { identifier in
-            DetailListRow(identifier)
-        }
-        .listStyle(.plain)
+    public func body(content: Content) -> some View {
+        content
+            .onLoadChange(of: self.store) { store in
+                guard
+                    self.isAlreadyPresenting == false,
+                    store.isEmpty == false
+                else { return }
+                self.toPresent = self.store.popFirst()
+            }
+            .onLoadChange(of: self.isAlreadyPresenting) { isAlreadyPresenting in
+                guard
+                    isAlreadyPresenting == false,
+                    self.store.isEmpty == false
+                else { return }
+                self.toPresent = self.store.popFirst()
+            }
     }
 }

@@ -27,8 +27,29 @@
 import Foundation
 import Umbrella
 
-extension CPError {
-    public var codableValue: CodableError {
+extension CPError: CodableErrorConvertible {
+    
+    public init?(decode input: Umbrella.CodableError) {
+        guard type(of: self).errorDomain == input.errorDomain else { return nil }
+        switch input.errorCode {
+        case 1001:
+            let status: CPAccountStatus = {
+                guard
+                    let data = input.arbitraryData,
+                    let rawValue = try? PropertyListDecoder().decode(Int.self, from: data),
+                    let status = CPAccountStatus(rawValue: rawValue)
+                else { return .couldNotDetermine }
+                return status
+            }()
+            self = .accountStatus(status)
+        case 1002:
+            self = .sync(nil)
+        default:
+            return nil
+        }
+    }
+    
+    public var encode: Umbrella.CodableError {
         let data: Data?
         switch self {
         case .accountStatus(let status):
@@ -41,25 +62,5 @@ extension CPError {
         return CodableError(domain: type(of: self).errorDomain,
                             code: self.errorCode,
                             arbitraryData: data)
-    }
-    
-    public init?(codableError: CodableError) {
-        guard type(of: self).errorDomain == codableError.errorDomain else { return nil }
-        switch codableError.errorCode {
-        case 1001:
-            let status: CPAccountStatus = {
-                guard
-                    let data = codableError.arbitraryData,
-                    let rawValue = try? PropertyListDecoder().decode(Int.self, from: data),
-                    let status = CPAccountStatus(rawValue: rawValue)
-                else { return .couldNotDetermine }
-                return status
-            }()
-            self = .accountStatus(status)
-        case 1002:
-            self = .sync(nil)
-        default:
-            return nil
-        }
     }
 }

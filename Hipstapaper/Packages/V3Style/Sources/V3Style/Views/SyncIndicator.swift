@@ -45,9 +45,7 @@ internal struct SyncIndicator: ViewModifier {
             Image(systemName: SystemImage.iCloudSync.rawValue)
                 .font(.syncIndicatorIcon)
                 .modifier(SyncIndicatorOval())
-                .padding(.top, self.showsSyncing
-                         ? .syncOvalPaddingTopShown
-                         : .syncOvalPaddingTopHidden)
+                .padding(.top, self.paddingTop)
                 .opacity(self.showsSyncing ? 1 : 0)
         }
         .animation(.spring(), value: self.showsSyncing)
@@ -68,6 +66,18 @@ internal struct SyncIndicator: ViewModifier {
         case 0, 1: return false
         default: return true
         }
+    }
+    
+    private var paddingTop: CGFloat {
+        #if os(macOS)
+        return self.showsSyncing
+               ? .syncOvalPaddingTopShown_macOS
+               : .syncOvalPaddingTopHidden
+        #else
+        return self.showsSyncing
+               ? .syncOvalPaddingTopShown_iOS
+               : .syncOvalPaddingTopHidden
+        #endif
     }
     
     private func resetTimer() {

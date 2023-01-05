@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/29.
+//  Created by Jeffrey Bergier on 2022/12/29.
 //
 //  MIT License
 //
@@ -24,27 +24,32 @@
 //  SOFTWARE.
 //
 
-import Foundation
+import SwiftUI
 import Umbrella
-import V3Model
-import V3Store
-import V3Localize
 
-public typealias OnConfirmation = (Confirmation) -> Void
-
-public enum Confirmation {
-    case deleteTags(Tag.Selection)
-    case deleteWebsites(Website.Selection)
-}
-
-internal func perform(confirmation: Confirmation, controller: ControllerProtocol) -> CodableError? {
-    var error: Error?
-    switch confirmation {
-    case .deleteWebsites(let items):
-        error = controller.delete(items).error
-    case .deleteTags(let items):
-        error = controller.delete(items).error
+public struct ErrorCatcher: ViewModifier {
+    
+    public static var HACK_errorDelay: DispatchTime { .now() + 0.1 }
+    
+    @Errors private var store
+    
+    public init() { }
+    
+    public func body(content: Content) -> some View {
+        content.environment(\.errorResponder) { input in
+            assert(type(of: input) != CodableError.self,
+                   "CodableError: DoubleEncoding: \(String(describing: input))")
+            let output: CodableError
+            if let input = input as? CodableErrorConvertible {
+                output = input.encode
+            } else {
+                output = CodableError(input)
+            }
+            // TODO: Hack to allow next error to appear
+            DispatchQueue.main.asyncAfter(deadline: ErrorCatcher.HACK_errorDelay) {
+                self.store.append(output)
+            }
+        }
     }
-    return error.map { .init($0) }
+    
 }
-

@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/08/05.
+//  Created by Jeffrey Bergier on 2022/12/30.
 //
 //  MIT License
 //
@@ -24,22 +24,19 @@
 //  SOFTWARE.
 //
 
+import Foundation
 import Umbrella
 
-extension CodableError {
-    internal func userFacingError(onConfirm: OnConfirmation? = nil) -> UserFacingError {
-        let knownError: UserFacingError? = {
-            switch self.errorDomain {
-            case CPError.errorDomain:
-                return CPError(codableError: self)
-            case DeleteWebsiteError.errorDomain:
-                return DeleteWebsiteError(self, onConfirm: onConfirm)
-            case DeleteTagError.errorDomain:
-                return DeleteTagError(self, onConfirm: onConfirm)
-            default:
-                return nil
-            }
-        }()
-        return knownError ?? UnknownError(self)
+public struct DeleteConfirmationError: CustomNSError {
+    
+    static public var errorDomain = "com.saturdayapps.Hipstapaper.model"
+    public var errorCode: Int { 1002 }
+    
+    public var request: DeleteRequestError
+    public var onConfirmation: (DeleteRequestError) -> Void
+    
+    public init(request: DeleteRequestError, onConfirmation: @escaping (DeleteRequestError) -> Void) {
+        self.request = request
+        self.onConfirmation = onConfirmation
     }
 }

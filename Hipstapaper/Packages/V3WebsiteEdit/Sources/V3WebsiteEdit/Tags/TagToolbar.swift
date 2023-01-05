@@ -33,7 +33,6 @@ import V3Localize
 internal struct TagToolbar: ViewModifier {
     
     @Navigation private var nav
-    @Errors private var errorQueue
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
     
@@ -44,16 +43,5 @@ internal struct TagToolbar: ViewModifier {
             .modifier(JSBToolbar(title: self.text.titleTag,
                                  done: self.text.done,
                                  doneAction: self.dismiss))
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    self.style.toolbar
-                              .action(text: self.text.error)
-                              .button(isEnabled: !self.errorQueue.isEmpty)
-                    {
-                        self.nav.isErrorList.isPresented = true
-                    }
-                    .modifier(ErrorListPopover())
-                }
-            }
     }
 }

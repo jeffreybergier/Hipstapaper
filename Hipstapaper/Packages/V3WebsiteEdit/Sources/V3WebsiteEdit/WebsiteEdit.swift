@@ -27,6 +27,7 @@
 import SwiftUI
 import Umbrella
 import V3Model
+import V3Store
 import V3Errors
 import V3Style
 import V3Localize
@@ -41,6 +42,7 @@ public struct WebsiteEdit: View {
     @State private var screen: Screen
     @StateObject private var nav = Navigation.newEnvironment()
     @V3Style.WebsiteEdit private var style
+    @HACK_macOS_Style private var hack_style
     
     private let selection: Website.Selection
     
@@ -51,12 +53,11 @@ public struct WebsiteEdit: View {
     
     public var body: some View {
         _WebsiteEdit(selection: self.selection, screen: self.$screen)
-            .modifier(self.style.tagSize)
+            .lift { self.size($0) }
+            .modifier(self.hack_style.websiteEditPopoverSize)
             .environmentObject(self.nav)
     }
     
-    // TODO: Bring this back when animation in SwiftUI is better
-    // .lift { self.size($0) }
     @ViewBuilder private func size<V: View>(_ input: V) -> some View {
         switch self.screen {
         case .website:
@@ -69,15 +70,18 @@ public struct WebsiteEdit: View {
 
 internal struct _WebsiteEdit: View {
     
+    @Controller private var controller
     @Navigation private var nav
-    @Errors private var errorQueue
-    @Binding private var screen: WebsiteEdit.Screen
+    @Localize private var bundle
     
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
+    @HACK_macOS_Style private var hack_style
     
     @Dismiss private var dismiss
+    @Environment(\.errorResponder) private var errorResponder
     
+    @Binding private var screen: WebsiteEdit.Screen
     private let selection: Website.Selection
     
     internal init(selection: Website.Selection, screen: Binding<WebsiteEdit.Screen>) {
@@ -86,30 +90,36 @@ internal struct _WebsiteEdit: View {
     }
     
     internal var body: some View {
-        ErrorResponder(toPresent: self.$nav.isError,
-                       storeErrors: self.nav.isPresenting,
-                       inStorage: self.$errorQueue)
-        {
-            TabView(selection: self.$screen) {
-                FormParent(self.selection)
-                    .tag(WebsiteEdit.Screen.website)
-                    .tabItem {
-                        self.style.tab.action(text: self.text.tabWebsite).label
-                    }
-                Tag(self.selection)
-                    .tag(WebsiteEdit.Screen.tag)
-                    .tabItem {
-                        self.style.tab.action(text: self.text.tabTag).label
-                    }
-            }
-        } onConfirmation: {
-            switch $0 {
-            case .deleteTags:
-                NSLog("Probably unexpected: \($0)")
-                break
-            case .deleteWebsites:
-                self.dismiss()
-            }
+        TabView(selection: self.$screen) {
+            FormParent(self.selection)
+                .tag(WebsiteEdit.Screen.website)
+                .tabItem {
+                    self.style.tab
+                        .action(text: self.text.tabWebsite)
+                        .label
+                }
+            Tag(self.selection)
+                .tag(WebsiteEdit.Screen.tag)
+                .tabItem {
+                    self.style.tab
+                        .action(text: self.text.tabTag)
+                        .label
+                }
         }
+        .modifier(self.hack_style.formStyle)
+        .modifier(self.hack_style.tabParentPadding)
+        .modifier(self.hack_style.formTextFieldStyle)
+        .modifier(ErrorMover(isPresenting: self.nav.isPresenting,
+                             toPresent: self.$nav.isError))
+        .modifier(ErrorPresenter(isError: self.$nav.isError,
+                                 localizeBundle: self.bundle,
+                                 router: self.router(_:)))
+    }
+    
+    private func router(_ input: CodableError) -> UserFacingError {
+        ErrorRouter.route(input: input,
+                          onSuccess: self.dismiss,
+                          onError: self.errorResponder,
+                          controller: self.controller)
     }
 }

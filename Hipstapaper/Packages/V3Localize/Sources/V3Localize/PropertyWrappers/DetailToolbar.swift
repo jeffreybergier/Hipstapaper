@@ -31,7 +31,7 @@ import Umbrella
 public struct DetailToolbar: DynamicProperty {
     
     public struct Value {
-        public var openInApp:    ActionLocalization
+        public var openInWindow: ActionLocalization
         public var openExternal: ActionLocalization
         public var archiveYes:   ActionLocalization
         public var archiveNo:    ActionLocalization
@@ -42,7 +42,7 @@ public struct DetailToolbar: DynamicProperty {
         public var error:        ActionLocalization
         
         internal init(_ b: LocalizeBundle) {
-            self.openInApp    = Action.openInApp.localized(b)
+            self.openInWindow = Action.openInWindow.localized(b)
             self.openExternal = Action.openExternal.localized(b)
             self.archiveYes   = Action.archiveYes.localized(b)
             self.archiveNo    = Action.archiveNo.localized(b)
@@ -52,9 +52,10 @@ public struct DetailToolbar: DynamicProperty {
             self.delete       = Action.deleteWebsite.localized(b)
             self.error        = Action.errorsPresent.localized(b)
             
-            // TODO: Toolbar shortcuts conflict with MainMenu shortcuts
+            // TODO: HACK for iOS: Toolbar shortcuts conflict with MainMenu shortcuts
             // Remove shortcuts for toolbar items
-            self.openInApp.shortcut    = nil
+            #if os(iOS)
+            self.openInWindow.shortcut = nil
             self.openExternal.shortcut = nil
             self.archiveYes.shortcut   = nil
             self.archiveNo.shortcut    = nil
@@ -63,6 +64,7 @@ public struct DetailToolbar: DynamicProperty {
             self.edit.shortcut         = nil
             self.delete.shortcut       = nil
             self.error.shortcut        = nil
+            #endif
         }
     }
     

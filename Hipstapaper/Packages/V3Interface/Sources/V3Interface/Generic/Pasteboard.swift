@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/07/03.
+//  Created by Jeffrey Bergier on 2022/06/17.
 //
 //  MIT License
 //
@@ -25,15 +25,35 @@
 //
 
 import SwiftUI
-import V3Errors
+import Umbrella
 
-internal struct ErrorListPopover: ViewModifier {
-    @Navigation private var nav
-    @Errors private var errorQueue
-    internal func body(content: Content) -> some View {
-        content.popover(isPresented: self.$nav.isErrorList.isPresented) {
-            ErrorList(isError: self.$nav.isErrorList.isError,
-                      errorStorage: self.$errorQueue)
-        }
+internal enum JSBPasteboard {
+    internal static func set(title: String?, url: URL) {
+        #if os(macOS)
+        NSPasteboard.general.set(title: title, url: url)
+        #else
+        UIPasteboard.general.set(title: title, url: url)
+        #endif
     }
 }
+
+#if os(macOS)
+extension NSPasteboard {
+    fileprivate func set(title: String?, url: URL) {
+        // TODO: Improve by using setPropertyList?
+        self.setString(url.absoluteString, forType: .URL)
+    }
+}
+#else
+extension UIPasteboard {
+    fileprivate func set(title: String?, url: URL) {
+        guard
+            let stringKey = UIPasteboard.typeListString[0] as? String,
+            let urlKey = UIPasteboard.typeListURL[0] as? String
+        else { return }
+        let titleDict = title.map { [stringKey: $0] } ?? [:]
+        let urlDict = [urlKey: url]
+        self.setItems([titleDict, urlDict])
+    }
+}
+#endif

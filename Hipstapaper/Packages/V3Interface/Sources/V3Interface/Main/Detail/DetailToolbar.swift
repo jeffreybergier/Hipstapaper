@@ -58,6 +58,102 @@ internal struct DetailToolbar: ViewModifier {
             .disabled(self.selection.tag == nil)
     }
     
+    #if os(macOS)
+    
+    @ToolbarContentBuilder internal func barTopAll() -> some CustomizableToolbarContent {
+        ToolbarItem(id: .itemInApp,
+                    placement: .automatic,
+                    showsByDefault: false)
+        {
+            self.style.toolbar
+                .action(text: self.text.openInWindow)
+                .button(item: self.HACK_openInWindow)
+            {
+                self.state.push.openInWindow = $0
+            }
+        }
+        ToolbarItem(id: .itemOpenExternal, placement: .automatic) {
+            self.style.toolbar
+                .action(text: self.text.openExternal)
+                .button(item: self.HACK_openExternal)
+            {
+                self.state.push.openExternal = $0
+            }
+        }
+        ToolbarItem(id: .itemArchiveYes, placement: .automatic) {
+            self.style.toolbar
+                .action(text: self.text.archiveYes)
+                .button(items: self.state.pull.archiveYes)
+            {
+                self.state.push.archiveYes = $0
+            }
+        }
+        ToolbarItem(id: .itemArchiveNo, placement: .automatic) {
+            self.style.toolbar
+                .action(text: self.text.archiveNo)
+                .button(items: self.state.pull.archiveNo)
+            {
+                self.state.push.archiveNo = $0
+            }
+        }
+        ToolbarItem(id: .itemTagApply, placement: .automatic) {
+            self.style.toolbar
+                .action(text: self.text.tagApply)
+                .button(items: self.state.pull.tagApply)
+            {
+                self.nav.detail.isTagApplyPopover = $0
+            }
+            .modifier(WebsiteEditPopover(self.$nav.detail.isTagApplyPopover, start: .tag))
+        }
+        ToolbarItem(id: .itemShare, placement: .automatic) {
+            self.style.toolbar
+                .action(text: self.text.share)
+                .button(items: self.state.pull.share)
+            {
+                self.nav.detail.isSharePopover = $0
+            }
+            .modifier(ShareListPopover(self.$nav.detail.isSharePopover))
+        }
+        ToolbarItem(id: .itemFilter,
+                    placement: .automatic,
+                    showsByDefault: true)
+        {
+            FilterMenu()
+                .disabled(self.selection.tag?.isSystem ?? false)
+        }
+        ToolbarItem(id: .itemSort,
+                    placement: .automatic,
+                    showsByDefault: false)
+        {
+            SortMenu()
+        }
+        ToolbarItem(id: .itemColumn,
+                    placement: .automatic,
+                    showsByDefault: false,
+                    content: ColumnMenu.init)
+        if self.errorQueue.isEmpty == false {
+            ToolbarItem(id: .itemError, placement: .navigation) {
+                self.style.toolbar
+                    .action(text: self.text.error)
+                    .button(isEnabled: self.state.pull.showErrors)
+                {
+                    self.state.push.showErrors = true
+                }
+                .modifier(DetailErrorListPresentation())
+            }
+        }
+    }
+    
+    @ToolbarContentBuilder internal func barBottomSingle() -> some CustomizableToolbarContent {
+        ToolbarItem(id: .barEmpty) { EmptyView() }
+    }
+    
+    @ToolbarContentBuilder internal func barBottomMulti() -> some CustomizableToolbarContent {
+        ToolbarItem(id: .barEmpty) { EmptyView() }
+    }
+    
+    #else
+    
     @ToolbarContentBuilder internal func barTopAll() -> some CustomizableToolbarContent {
         ToolbarItem(id: .itemEditButton,
                     placement: .primaryAction)
@@ -83,7 +179,8 @@ internal struct DetailToolbar: ViewModifier {
                     content: ColumnMenu.init)
         if self.errorQueue.isEmpty == false {
             ToolbarItem(id: .itemError, placement: .navigation) {
-                self.style.toolbar.action(text: self.text.error)
+                self.style.toolbar
+                    .action(text: self.text.error)
                     .button(isEnabled: self.state.pull.showErrors)
                 {
                     self.state.push.showErrors = true
@@ -94,47 +191,61 @@ internal struct DetailToolbar: ViewModifier {
     }
     
     @ToolbarContentBuilder internal func barBottomSingle() -> some CustomizableToolbarContent {
-        ToolbarItem(id: "Empty") { EmptyView() }
+        ToolbarItem(id: .barEmpty) { EmptyView() }
     }
     
     @ToolbarContentBuilder internal func barBottomMulti() -> some CustomizableToolbarContent {
-        ToolbarItem(id: .itemOpenExternal, placement: .bottomSecondary) {
-            self.style.toolbar.action(text: self.text.openExternal)
-                .button(item: self.state.pull.openExternal?.single)
-            { _ in
-                self.state.push.openExternal = self.state.pull.openExternal
+        ToolbarItem(id: .itemInApp, placement: .bottomBar)
+        {
+            self.style.toolbar
+                .action(text: self.text.openInWindow)
+                .button(item: self.HACK_openInWindow)
+            {
+                self.state.push.openInWindow = $0
             }
         }
-        ToolbarItem(id: .itemSpacer1, placement: .bottomSecondary) {
+        ToolbarItem(id: .itemOpenExternal, placement: .bottomBar) {
+            self.style.toolbar
+                .action(text: self.text.openExternal)
+                .button(item: self.HACK_openExternal)
+            {
+                self.state.push.openExternal = $0
+            }
+        }
+        ToolbarItem(id: .itemSpacer1, placement: .bottomBar) {
             Spacer()
         }
-        ToolbarItem(id: .itemArchiveYes, placement: .bottomSecondary) {
-            self.style.toolbar.action(text: self.text.archiveYes)
+        ToolbarItem(id: .itemArchiveYes, placement: .bottomBar) {
+            self.style.toolbar
+                .action(text: self.text.archiveYes)
                 .button(items: self.state.pull.archiveYes)
             {
                 self.state.push.archiveYes = $0
             }
         }
-        ToolbarItem(id: .itemArchiveNo, placement: .bottomSecondary) {
-            self.style.toolbar.action(text: self.text.archiveNo)
+        ToolbarItem(id: .itemArchiveNo, placement: .bottomBar) {
+            self.style.toolbar
+                .action(text: self.text.archiveNo)
                 .button(items: self.state.pull.archiveNo)
             {
                 self.state.push.archiveNo = $0
             }
         }
-        ToolbarItem(id: .itemTagApply, placement: .bottomSecondary) {
-            self.style.toolbar.action(text: self.text.tagApply)
+        ToolbarItem(id: .itemTagApply, placement: .bottomBar) {
+            self.style.toolbar
+                .action(text: self.text.tagApply)
                 .button(items: self.state.pull.tagApply)
             {
                 self.nav.detail.isTagApplyPopover = $0
             }
             .modifier(WebsiteEditPopover(self.$nav.detail.isTagApplyPopover, start: .tag))
         }
-        ToolbarItem(id: .itemSpacer2, placement: .bottomSecondary) {
+        ToolbarItem(id: .itemSpacer2, placement: .bottomBar) {
             Spacer()
         }
-        ToolbarItem(id: .itemShare, placement: .bottomSecondary) {
-            self.style.toolbar.action(text: self.text.share)
+        ToolbarItem(id: .itemShare, placement: .bottomBar) {
+            self.style.toolbar
+                .action(text: self.text.share)
                 .button(items: self.state.pull.share)
             {
                 self.nav.detail.isSharePopover = $0
@@ -142,16 +253,40 @@ internal struct DetailToolbar: ViewModifier {
             .modifier(ShareListPopover(self.$nav.detail.isSharePopover))
         }
     }
+    
+    #endif
+    
+    private var HACK_openInWindow: SingleMulti<Website.Selection.Element>? {
+        guard let value = self.state.pull.openInWindow else { return nil }
+        #if os(macOS)
+        return value
+        #else
+        guard value.multi.count == 1 else { return nil }
+        return value
+        #endif
+    }
+    
+    private var HACK_openExternal: SingleMulti<URL>? {
+        guard let value = self.state.pull.openExternal else { return nil }
+        #if os(macOS)
+        return value
+        #else
+        guard value.multi.count == 1 else { return nil }
+        return value
+        #endif
+    }
 }
 
 extension String {
     fileprivate static let barTop                  = "barTop"
+    fileprivate static let barBottom               = "barBottom"
+    fileprivate static let barEmpty                = "barEmpty"
+    fileprivate static let itemInApp               = "itemInApp"
     fileprivate static let itemOpenExternal        = "itemOpenExternal"
     fileprivate static let itemArchiveYes          = "itemArchiveYes"
     fileprivate static let itemArchiveNo           = "itemArchiveNo"
     fileprivate static let itemTagApply            = "itemTagApply"
     fileprivate static let itemShare               = "itemShare"
-    fileprivate static let barBottom               = "barBottom"
     fileprivate static let itemError               = "itemError"
     fileprivate static let itemSpacer1             = "itemSpacer1"
     fileprivate static let itemSpacer2             = "itemSpacer2"
@@ -159,14 +294,4 @@ extension String {
     fileprivate static let itemSort                = "itemSort"
     fileprivate static let itemFilter              = "itemFilter"
     fileprivate static let itemEditButton          = "itemEditButton"
-}
-
-extension ToolbarItemPlacement {
-    fileprivate static var bottomSecondary: ToolbarItemPlacement {
-        #if os(macOS)
-        .secondaryAction
-        #else
-        .bottomBar
-        #endif
-    }
 }

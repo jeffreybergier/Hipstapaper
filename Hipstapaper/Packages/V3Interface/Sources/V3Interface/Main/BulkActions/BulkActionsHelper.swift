@@ -26,6 +26,7 @@
 
 import SwiftUI
 import Umbrella
+import V3Model
 import V3Store
 import V3Errors
 
@@ -38,7 +39,9 @@ internal struct BulkActionsHelper: ViewModifier {
     @BulkActions private var appState
     @BulkActionsQuery private var storeState
     @Environment(\.openURL) private var openExternal
-    @Environment(\.codableErrorResponder) private var errorResponder
+    @Environment(\.openWindow) private var openWindow
+    @Environment(\.supportsMultipleWindows) private var supportsMultipleWindows
+    @Environment(\.errorResponder) private var errorResponder
     
     internal func body(content: Content) -> some View {
         content
@@ -64,7 +67,7 @@ internal struct BulkActionsHelper: ViewModifier {
                     self.nav.isWebsitesEdit = [identifier]
                 case .failure(let error):
                     NSLog(String(describing: error))
-                    self.errorResponder(.init(error))
+                     self.errorResponder(error)
                 }
             }
             .onChange(of: self.appState.push.tagAdd) { newValue in
@@ -75,18 +78,31 @@ internal struct BulkActionsHelper: ViewModifier {
                     self.nav.sidebar.isTagsEdit.isPresented = [identifier]
                 case .failure(let error):
                     NSLog(String(describing: error))
-                    self.errorResponder(.init(error))
+                    self.errorResponder(error)
                 }
             }
-            .onChange(of: self.appState.push.openInApp) { newValue in
+            .onChange(of: self.appState.push.openInSheet) { newValue in
+                defer { self.appState.push.openInWindow = nil }
                 guard let newValue else { return }
-                defer { self.appState.push.openInApp = nil }
+                #if os(macOS)
+                newValue.multi.forEach { self.openWindow(value: $0) }
+                #else
                 self.nav.detail.isBrowse = newValue.single
+                #endif
+            }
+            .onChange(of: self.appState.push.openInWindow) { newValue in
+                defer { self.appState.push.openInWindow = nil }
+                guard let newValue else { return }
+                if self.supportsMultipleWindows {
+                    newValue.multi.forEach { self.openWindow(value: $0) }
+                } else {
+                    self.nav.detail.isBrowse = newValue.single
+                }
             }
             .onChange(of: self.appState.push.openExternal) { newValue in
                 guard let newValue else { return }
                 defer { self.appState.push.openExternal = nil }
-                newValue.single.map { self.openExternal($0) }
+                newValue.multi.forEach { self.openExternal($0) }
             }
             .onChange(of: self.appState.push.share) { selection in
                 guard selection.isEmpty == false else { return }
@@ -97,13 +113,13 @@ internal struct BulkActionsHelper: ViewModifier {
                 guard selection.isEmpty == false else { return }
                 defer { self.appState.push.archiveYes = [] }
                 guard let error = BulkActionsQuery.setArchive(true, selection, self.controller).error else { return }
-                self.errorResponder(.init(error))
+                self.errorResponder(error)
             }
             .onChange(of: self.appState.push.archiveNo) { selection in
                 guard selection.isEmpty == false else { return }
                 defer { self.appState.push.archiveNo = [] }
                 guard let error = BulkActionsQuery.setArchive(false, selection, self.controller).error else { return }
-                self.errorResponder(.init(error))
+                 self.errorResponder(error)
             }
             .onChange(of: self.appState.push.tagApply) { selection in
                 guard selection.isEmpty == false else { return }
@@ -123,12 +139,12 @@ internal struct BulkActionsHelper: ViewModifier {
             .onChange(of: self.appState.push.websiteDelete) { selection in
                 guard selection.isEmpty == false else { return }
                 defer { self.appState.push.websiteDelete = [] }
-                self.errorResponder(DeleteWebsiteError(selection).codableValue)
+                self.errorResponder(DeleteRequestError.website(selection))
             }
             .onChange(of: self.appState.push.tagDelete) { selection in
                 guard selection.isEmpty == false else { return }
                 defer { self.appState.push.tagDelete = [] }
-                self.errorResponder(DeleteTagError(selection).codableValue)
+                self.errorResponder(DeleteRequestError.tag(selection))
             }
             .onChange(of: self.appState.push.showErrors) { newValue in
                 guard newValue else { return }

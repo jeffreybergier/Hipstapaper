@@ -31,7 +31,7 @@ import V3Style
 import V3Localize
 import V3Errors
 
-internal struct DetailMenu: ViewModifier {
+internal struct DetailPrimaryActionContextMenu: ViewModifier {
 
     @BulkActions private var state
     @Controller private var controller
@@ -43,45 +43,79 @@ internal struct DetailMenu: ViewModifier {
         content
             .contextMenu(forSelectionType: Website.Selection.Element.self) {
                 $0.view { items in
-                    self.style.toolbar.action(text: self.text.openInApp)
-                        .button(item: BulkActionsQuery.openWebsite(items, self.controller)?.single)
+                    self.style.toolbar
+                        .action(text: self.text.openInWindow)
+                        .button(item: self.HACK_openInWindow(items))
                     {
-                        self.state.push.openInApp = .single($0)
+                        self.state.push.openInWindow = $0
                     }
-                    self.style.toolbar.action(text: self.text.openExternal)
-                        .button(item: BulkActionsQuery.openURL(items, self.controller)?.single)
+                    self.style.toolbar
+                        .action(text: self.text.openExternal)
+                        .button(item: self.HACK_openExternal(items))
                     {
-                        self.state.push.openExternal = .single($0)
+                        self.state.push.openExternal = $0
                     }
-                    self.style.toolbar.action(text: self.text.archiveYes)
+                    self.style.toolbar
+                        .action(text: self.text.archiveYes)
                         .button(items: BulkActionsQuery.canArchiveYes(items, self.controller))
                     {
                         self.state.push.archiveYes = $0
                     }
-                    self.style.toolbar.action(text: self.text.archiveNo)
+                    self.style.toolbar
+                        .action(text: self.text.archiveNo)
                         .button(items: BulkActionsQuery.canArchiveNo(items, self.controller))
                     {
                         self.state.push.archiveNo = $0
                     }
-                    self.style.toolbar.action(text: self.text.share)
+                    self.style.toolbar
+                        .action(text: self.text.share)
                         .button(item: BulkActionsQuery.openWebsite(items, self.controller))
                     {
                         self.state.push.share = $0.multi
                     }
-                    self.style.toolbar.action(text: self.text.tagApply).button(items: items)
+                    self.style.toolbar
+                        .action(text: self.text.tagApply).button(items: items)
                     {
                         self.state.push.tagApply = $0
                     }
-                    self.style.toolbar.action(text: self.text.edit).button
+                    self.style.toolbar
+                        .action(text: self.text.edit)
+                        .button
                     {
                         self.state.push.websiteEdit = items
                     }
-                    self.style.destructive.action(text: self.text.delete).button {
+                    self.style.destructive
+                        .action(text: self.text.delete)
+                        .button
+                    {
                         self.state.push.websiteDelete = items
                     }
                 } onEmpty: {
                     EmptyView()
                 }
+            } primaryAction: { selection in
+                guard selection.isEmpty == false else { return }
+                self.state.push.openInSheet = .multi(selection)
             }
+    }
+    
+    private func HACK_openInWindow(_ items: Website.Selection) -> SingleMulti<Website.Selection.Element>? {
+        guard let value = BulkActionsQuery.openWebsite(items, self.controller) else { return nil }
+        #if os(macOS)
+        return value
+        #else
+        guard value.multi.count == 1 else { return nil }
+        return value
+        #endif
+    }
+    
+    private func HACK_openExternal(_ items: Website.Selection) -> SingleMulti<URL>? {
+        guard let value = BulkActionsQuery.openURL(items, self.controller) else { return nil }
+        #if os(macOS)
+        return value
+        #else
+        guard value.multi.count == 1 else { return nil }
+        return value
+        #endif
     }
 }

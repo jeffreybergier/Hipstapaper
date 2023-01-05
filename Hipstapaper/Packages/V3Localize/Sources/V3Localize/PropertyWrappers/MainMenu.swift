@@ -31,7 +31,7 @@ import Umbrella
 public struct MainMenu: DynamicProperty {
     
     public struct Value {
-        public var openInApp:     (LocalizeBundle) -> ActionLocalization
+        public var openInWindow:  (LocalizeBundle) -> ActionLocalization
         public var openExternal:  (LocalizeBundle) -> ActionLocalization
         public var archiveYes:    (LocalizeBundle) -> ActionLocalization
         public var archiveNo:     (LocalizeBundle) -> ActionLocalization
@@ -47,7 +47,7 @@ public struct MainMenu: DynamicProperty {
         public var error:         (LocalizeBundle) -> ActionLocalization
         
         public init() {
-            self.openInApp     = { Action.openInApp.localized($0) }
+            self.openInWindow  = { Action.openInWindow.localized($0) }
             self.openExternal  = { Action.openExternal.localized($0)  }
             self.archiveYes    = { Action.archiveYes.localized($0)    }
             self.archiveNo     = { Action.archiveNo.localized($0)     }

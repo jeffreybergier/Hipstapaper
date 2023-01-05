@@ -46,6 +46,12 @@ internal struct Navigation: DynamicProperty {
             self.wrappedValue = $0
         }
     }
+    // TODO: Hack becase updating the value directly in update function throws runtime warnings
+    internal func HACK_set<T>(_ keypath: WritableKeyPath<Navigation.Value, T>, _ newValue: T) {
+        DispatchQueue.main.async {
+            self.raw.value[keyPath: keypath] = newValue
+        }
+    }
 }
 
 extension Navigation {
@@ -72,11 +78,7 @@ extension Navigation {
         }
         
         internal struct Basic: Codable {
-            internal var isError: CodableError?
             internal var isPresented: Bool = false
-            internal var isPresenting: Bool {
-                self.isError != nil
-            }
         }
     }
 }

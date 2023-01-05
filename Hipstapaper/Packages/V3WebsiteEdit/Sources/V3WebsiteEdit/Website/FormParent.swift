@@ -47,18 +47,18 @@ internal struct FormParent: View {
     internal var body: some View {
         NavigationStack {
             self.selection.view { selection in
-                if selection.count > 1 {
-                    FormMulti(selection)
-                } else {
+                switch selection.count {
+                case 1:
                     FormSingle(selection.first!)
                         .environmentObject(self.webState)
+                default:
+                    FormMulti(selection)
                 }
             } onEmpty: {
                 self.style.disabled.action(text: self.text.noWebsitesSelected).label
             }
             .modifier(FormToolbar(self.selection))
         }
-
     }
 }
 

@@ -34,12 +34,11 @@ import V3Errors
 internal struct FormToolbar: ViewModifier {
     
     @Navigation private var nav
-    @Errors private var errorQueue
+    @Dismiss private var dismiss
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
     
-    @Dismiss private var dismiss
-    @Environment(\.codableErrorResponder) private var errorResponder
+    @Environment(\.errorResponder) private var errorResponder
     
     private let deletableSelection: Website.Selection
     
@@ -49,33 +48,14 @@ internal struct FormToolbar: ViewModifier {
     
     internal func body(content: Content) -> some View {
         content
-            .navigationTitle(self.text.titleWebsite)
-            .navigationBarTitleDisplayModeInline
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    self.style.toolbarDone
-                              .action(text: self.text.done)
-                              .button(action: self.dismiss)
-                }
-                ToolbarItem(placement: .cancellationAction) {
-                    self.style.toolbarDelete
-                              .action(text: self.text.delete)
-                              .button(items: self.deletableSelection)
-                    {
-                        self.errorResponder(
-                            DeleteWebsiteError($0).codableValue
-                        )
-                    }
-                }
-                ToolbarItem(placement: .cancellationAction) {
-                    self.style.toolbar
-                        .action(text: self.text.error)
-                        .button(isEnabled: !self.errorQueue.isEmpty)
-                    {
-                        self.nav.isErrorList.isPresented = true
-                    }
-                    .modifier(ErrorListPopover())
-                }
-            }
+            .modifier(JSBToolbar(title: self.text.titleWebsite,
+                           done: self.text.done,
+                           delete: self.text.delete,
+                           doneAction: self.dismiss,
+                           deleteAction: self.delete))
+    }
+    
+    private func delete() {
+        self.errorResponder(DeleteRequestError.website(self.deletableSelection))
     }
 }

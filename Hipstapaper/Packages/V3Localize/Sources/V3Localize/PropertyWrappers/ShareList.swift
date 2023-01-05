@@ -33,7 +33,6 @@ public struct ShareList: DynamicProperty {
     public struct Value {
         public var title:              LocalizedString
         public var shareErrorSubtitle: LocalizedString
-        public var itemsCount:         (Int) -> LocalizedString
 
         public var done:   ActionLocalization
         public var multi:  ActionLocalization
@@ -41,31 +40,40 @@ public struct ShareList: DynamicProperty {
         public var copy:   ActionLocalization
         public var error:  ActionLocalization
         
-        public var singleName: (String?) -> ActionLocalization
-        public var errorName: (String?) -> ActionLocalization
+        public var itemTitle: (String?) -> ActionLocalization
+        public var errorTitle: (String?) -> ActionLocalization
+        public var itemSubtitle: ([URL]) -> LocalizedString
         
         internal init(_ b: LocalizeBundle) {
             self.title              = b.localized(key: Noun.share.rawValue)
             self.shareErrorSubtitle = b.localized(key: Phrase.shareError.rawValue)
-            self.itemsCount      = {
-                // TODO: improve to use strings dict
-                return String(describing: $0) + " " + "websites"
-            }
             
             self.done       = Action.doneGeneric.localized(b)
             self.multi      = Action.shareMulti.localized(b)
             self.single     = Action.shareSingle.localized(b)
             self.copy       = Action.copyToClipboard.localized(b)
             self.error      = Action.shareError.localized(b)
-            self.singleName = {
+            
+            self.itemTitle = {
                 var output = Action.shareSingle.localized(b)
                 output.title = $0 ?? b.localized(key: Noun.untitled.rawValue)
                 return output
             }
-            self.errorName = {
+            self.errorTitle = {
                 var output = Action.shareError.localized(b)
                 output.title = $0 ?? b.localized(key: Noun.untitled.rawValue)
                 return output
+            }
+            self.itemSubtitle = {
+                precondition($0.isEmpty == false)
+                switch $0.count {
+                case 1:
+                    let url = $0.first!
+                    return url.prettyValue ?? url.absoluteString
+                default:
+                    // TODO: improve to use strings dict
+                    return String(describing: $0.count) + " " + "websites"
+                }
             }
         }
     }

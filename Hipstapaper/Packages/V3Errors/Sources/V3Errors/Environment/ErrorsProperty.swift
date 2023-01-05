@@ -30,12 +30,18 @@ import Umbrella
 
 @propertyWrapper
 public struct Errors: DynamicProperty {
-
-    public typealias Value = Deque<CodableError>
     
-    @JSBAppStorage  ("com.hipstapaper.errors") private var appStorage = Value()
-    @JSBSceneStorage("com.hipstapaper.errors") private var sceneStorage = Value()
-    @Environment(\.executionContext) private var context
+    public typealias Value = Deque<CodableError>
+    public typealias ExtensionEnvironment = ObserveBox<Value>
+    
+    /// Needed when `\.sceneContext` environment value is set to extension / other
+    public static func newEnvironment() -> ExtensionEnvironment { .init(.init()) }
+    
+    @JSBAppStorage  ("com.hipstapaper.errors.normal") private var normal = Value()
+    @JSBSceneStorage("com.hipstapaper.errors.scene")  private var scene: [String: Value] = [:]
+    @EnvironmentObject private var ext: ExtensionEnvironment
+    
+    @Environment(\.sceneContext) private var context
     
     public init() { }
     
@@ -43,17 +49,27 @@ public struct Errors: DynamicProperty {
         get {
             switch self.context {
             case .normal:
-                return self.appStorage
-            default:
-                return self.sceneStorage
+                return self.normal
+            case .scene(let id):
+                return self.scene[id] ?? .init()
+            case .extensionKeyboard,
+                    .extensionShare,
+                    .extensionWidget,
+                    .other:
+                return self.ext.value
             }
         }
         nonmutating set {
             switch self.context {
             case .normal:
-                self.appStorage = newValue
-            default:
-                self.sceneStorage = newValue
+                self.normal = newValue
+            case .scene(let id):
+                self.scene[id] = newValue
+            case .extensionKeyboard,
+                    .extensionShare,
+                    .extensionWidget,
+                    .other:
+                self.ext.value = newValue
             }
         }
     }

@@ -35,32 +35,38 @@ public struct ErrorList<ES: RandomAccessCollection & RangeReplaceableCollection>
                         where ES.Element == CodableError
 {
     
-    @Binding private var isError: CodableError?
-    @Binding private var errorStorage: ES
-    
+    @Localize   private var bundle
     @Controller private var controller
     @V3Style.ErrorList private var style
     @V3Localize.ErrorList private var text
     
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.errorResponder) private var errorResponder
     
-    public init(isError: Binding<CodableError?>, errorStorage: Binding<ES>) {
-        _isError = isError
+    @State private var isError: CodableError?
+    @Binding private var errorStorage: ES
+    
+    public init(errorStorage: Binding<ES>) {
         _errorStorage = errorStorage
     }
-        
+    
     public var body: some View {
         NavigationStack {
             List(self.errorStorage,
                  id: \.self,
-                 selection: self.$isError,
-                 rowContent: ErrorListRow.init)
+                 selection: self.$isError)
+            {
+                ErrorListRow(self.router($0))
+            }
             .listStyle(.plain)
             .animation(.default, value: self.errorStorage.count)
             .modifier(self.toolbar)
-            .modifier(self.alert)
         }
         .modifier(self.style.popoverSize)
+        .modifier(ErrorPresenter(isError: self.$isError,
+                                 localizeBundle: self.bundle,
+                                 router: self.router(_:),
+                                 onDismiss: self.clear(_:)))
     }
     
     private var toolbar: some ViewModifier {
@@ -75,35 +81,34 @@ public struct ErrorList<ES: RandomAccessCollection & RangeReplaceableCollection>
         }
     }
     
-    private var alert: some ViewModifier {
-        UserFacingErrorAlert<LocalizeBundle, CodableError>(self.$isError) { error in
-            guard let index = self.errorStorage.firstIndex(where: { $0.id == error.id }) else { return }
-            self.errorStorage.remove(at: index)
-        } transform: {
-            $0.userFacingError {
-                guard let error = perform(confirmation: $0, controller: self.controller) else { return }
-                self.isError = error
-            }
-        }
+    private func clear(_ error: CodableError?) {
+        guard let error else { return }
+        self.errorStorage.removeAll { error == $0 }
+    }
+    
+    private func router(_ input: CodableError) -> UserFacingError {
+        ErrorRouter.route(input: input,
+                          onSuccess: { },
+                          onError: self.errorResponder,
+                          controller: self.controller)
     }
 }
 
 internal struct ErrorListRow: View {
     
     @V3Style.ErrorList private var style
-    @V3Localize.ErrorListRow private var text: V3Localize.ErrorListRow.Value
+    @V3Localize.ErrorList private var text
+        
+    private let error: UserFacingError
     
-    private let originalError: CodableError
-    
-    internal init(_ error: CodableError) {
-        self.originalError = error
-        _text = V3Localize.ErrorListRow(error.userFacingError())
+    internal init(_ error: UserFacingError) {
+        self.error = error
     }
     
     internal var body: some View {
-        self.style.error(title:   self.text.title,
-                         message: self.text.message,
-                         domain:  self.originalError.errorDomain,
-                         code:    self.originalError.errorCode)
+        self.style.error(title:   self.text.localize(self.error).title,
+                         message: self.text.localize(self.error).message,
+                         domain:  type(of: self.error).errorDomain,
+                         code:    self.error.errorCode)
     }
 }

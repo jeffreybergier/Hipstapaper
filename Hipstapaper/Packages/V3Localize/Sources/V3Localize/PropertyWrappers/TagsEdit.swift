@@ -35,12 +35,14 @@ public struct TagsEdit: DynamicProperty {
         public var placeholderName: LocalizedString
         public var toolbarDone:     ActionLocalization
         public var toolbarDelete:   ActionLocalization
+        public var noTagSelected:   ActionLocalization
         
         internal init(_ b: LocalizeBundle) {
             self.title           = b.localized(key: Noun.editTags.rawValue)
             self.placeholderName = b.localized(key: Noun.tagName.rawValue)
             self.toolbarDone     = Action.doneGeneric.localized(b)
             self.toolbarDelete   = Action.deleteGeneric.localized(b)
+            self.noTagSelected   = Action.noSelectionTag.localized(b)
         }
     }
     

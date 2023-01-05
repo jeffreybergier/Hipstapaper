@@ -27,14 +27,14 @@
 import Umbrella
 import V3Localize
 
-internal struct UnknownError: UserFacingError {
-    internal var title: Umbrella.LocalizationKey        = Noun.error.rawValue
-    internal var message: Umbrella.LocalizationKey      = Phrase.errorUnknown.rawValue
-    internal var dismissTitle: Umbrella.LocalizationKey = Verb.dismiss.rawValue
-    internal var isCritical: Bool { false }
-    internal var options: [Umbrella.RecoveryOption]     = []
+public struct UnknownError: UserFacingError {
+    public var title: LocalizationKey        = UnknownErrorKeys.title
+    public var message: LocalizationKey      = UnknownErrorKeys.message
+    public var dismissTitle: LocalizationKey = UnknownErrorKeys.dismissTitle
+    public var options: [RecoveryOption]     = []
+    public var isCritical: Bool { false }
     
-    internal init(_ error: CodableError) {
+    public init(_ error: CodableError) {
         self.errorCode = error.errorCode
         self.errorDomain = error.errorDomain
         guard
@@ -44,7 +44,7 @@ internal struct UnknownError: UserFacingError {
         self.message = userInfoString
     }
     
-    internal static var errorDomain: String { "com.saturdayapps.Hipstapaper.Unknown" }
-    internal var errorDomain: String
-    internal var errorCode: Int
+    public static var errorDomain: String { "com.saturdayapps.Hipstapaper.Unknown" }
+    public var errorDomain: String
+    public var errorCode: Int
 }

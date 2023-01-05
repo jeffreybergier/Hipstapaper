@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/07/02.
+//  Created by Jeffrey Bergier on 2022/08/05.
 //
 //  MIT License
 //
@@ -24,16 +24,22 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
-import V3Errors
+import Foundation
+import Umbrella
 
-internal struct ErrorListPresentation: ViewModifier {
-    @Navigation private var nav
-    @Errors private var errorQueue
-    internal func body(content: Content) -> some View {
-        content.popover(isPresented: self.$nav.isErrorList.isPresented) {
-            ErrorList(isError: self.$nav.isErrorList.isError,
-                      errorStorage: self.$errorQueue)
+extension CPError: UserFacingError {
+    
+    public var message: Umbrella.LocalizationKey {
+        switch self {
+        case .accountStatus:
+            return Phrase.errorCloudAccount.rawValue
+        case .sync:
+            return Phrase.errorCloudSync.rawValue
         }
     }
+    
+    public var title: LocalizationKey { Noun.erroriCloud.rawValue }
+    public var dismissTitle: LocalizationKey { Verb.dismiss.rawValue }
+    public var isCritical: Bool { false }
+    public var options: [Umbrella.RecoveryOption] { [] }
 }

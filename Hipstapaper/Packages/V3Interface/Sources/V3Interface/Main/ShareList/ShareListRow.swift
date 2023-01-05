@@ -45,21 +45,16 @@ internal struct ShareListRow: View {
     
     internal var body: some View {
         self.itemURL.view { url in
-            ShareLink(item: url) {
-                // TODO: Is it possible to put this all in Style?
-                HStack {
-                    self.style.enabled(subtitle: self.pretty(url: url))
-                        .action(text: self.text.singleName(self.item?.title))
-                        .label
-                    Spacer()
-                    self.style.copy.action(text: self.text.copy).button {
-                        JSBPasteboard.set(title: self.item?.title, url: url)
-                    }
-                }
+            self.style.shareLink(itemURLs: [url],
+                                 itemTitle: self.text.itemTitle(self.item?.title),
+                                 itemSubtitle: self.text.itemSubtitle([url]),
+                                 copyTitle: self.text.copy)
+            {
+                JSBPasteboard.set(title: self.item?.title, url: url)
             }
         } onNIL: {
             self.style.disabled(subtitle: self.text.shareErrorSubtitle)
-                .action(text: self.text.errorName(self.item?.title))
+                .action(text: self.text.errorTitle(self.item?.title))
                 .label
         }
         .onLoadChange(of: self.identifier) {
@@ -71,9 +66,5 @@ internal struct ShareListRow: View {
     // does not work on chained optionals
     private var itemURL: URL? {
         self.item?.preferredURL
-    }
-    
-    private func pretty(url: URL) -> String {
-        url.prettyValue ?? url.absoluteString
     }
 }

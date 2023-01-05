@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/08/05.
+//  Created by Jeffrey Bergier on 2022/12/22.
 //
 //  MIT License
 //
@@ -25,22 +25,24 @@
 //
 
 import Foundation
-import Umbrella
-import V3Localize
 
-extension CPError: UserFacingError {
-    
-    public var message: Umbrella.LocalizationKey {
-        switch self {
-        case .accountStatus:
-            return Phrase.errorCloudAccount.rawValue
-        case .sync:
-            return Phrase.errorCloudSync.rawValue
-        }
+extension URL {
+    internal var prettyValueHost: String? {
+        let components = URLComponents(url: self, resolvingAgainstBaseURL: true)
+        guard let host = components?.host else { return nil }
+        return host.replacing(#/www\./#, maxReplacements: 1, with: { _ in "" })
     }
-    
-    public var title: LocalizationKey { Noun.erroriCloud.rawValue }
-    public var dismissTitle: LocalizationKey { Verb.dismiss.rawValue }
-    public var isCritical: Bool { false }
-    public var options: [Umbrella.RecoveryOption] { [] }
+    internal var prettyValue: String? {
+        let components = URLComponents(url: self, resolvingAgainstBaseURL: true)
+        guard let _host = components?.host else { return nil }
+        // TODO: This could still be improved
+        // I basically want to check the host from the end for all known TLD's
+        // and then just show the first part of the domain. To be clearer...
+        // "act.net.www.companyname.co.jp" would show "companyname.co.jp"
+        // I might be able to shortcut it by doing components separated by "."
+        // then delete any component equal to "www" and then keep the last 3 components
+        let host = _host.replacing(#/www\./#, maxReplacements: 1, with: { _ in "" })
+        guard let path = components?.path else { return host }
+        return host+path
+    }
 }
