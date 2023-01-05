@@ -69,7 +69,6 @@ internal struct MainSplitView: View {
                                  router: self.router(_:)))
     }
     
-    
     private func router(_ input: CodableError) -> UserFacingError {
         ErrorRouter.route(input: input,
                           onSuccess: { },
