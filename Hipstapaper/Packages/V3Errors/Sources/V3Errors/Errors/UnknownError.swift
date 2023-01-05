@@ -28,11 +28,11 @@ import Umbrella
 import V3Localize
 
 public struct UnknownError: UserFacingError {
-    public var title: Umbrella.LocalizationKey        = Noun.error.rawValue
-    public var message: Umbrella.LocalizationKey      = Phrase.errorUnknown.rawValue
-    public var dismissTitle: Umbrella.LocalizationKey = Verb.dismiss.rawValue
+    public var title: LocalizationKey        = UnknownErrorKeys.title
+    public var message: LocalizationKey      = UnknownErrorKeys.message
+    public var dismissTitle: LocalizationKey = UnknownErrorKeys.dismissTitle
+    public var options: [RecoveryOption]     = []
     public var isCritical: Bool { false }
-    public var options: [Umbrella.RecoveryOption]     = []
     
     public init(_ error: CodableError) {
         self.errorCode = error.errorCode

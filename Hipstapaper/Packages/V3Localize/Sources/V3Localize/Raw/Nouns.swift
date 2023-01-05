@@ -27,8 +27,7 @@
 import SwiftUI
 import Umbrella
 
-// TODO: Change to internal
-public enum Noun: LocalizationKey {
+internal enum Noun: LocalizationKey {
     case search                 = "Noun.Search"
     case readingList            = "Noun.ReadingList"
     case tags                   = "Noun.Tags"

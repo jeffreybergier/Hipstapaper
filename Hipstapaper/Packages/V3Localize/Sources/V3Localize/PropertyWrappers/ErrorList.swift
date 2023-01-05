@@ -27,6 +27,12 @@
 import SwiftUI
 import Umbrella
 
+public enum UnknownErrorKeys {
+    public static let title: LocalizationKey        = Noun.error.rawValue
+    public static let message: LocalizationKey      = Phrase.errorUnknown.rawValue
+    public static let dismissTitle: LocalizationKey = Verb.dismiss.rawValue
+}
+
 @propertyWrapper
 public struct ErrorList: DynamicProperty {
     
