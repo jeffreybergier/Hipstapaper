@@ -34,6 +34,9 @@ public struct DetailList: DynamicProperty {
         public var missingTitle: LocalizedString
         public var missingURL:   LocalizedString
         public var missingDate:  LocalizedString
+        public func prettyURL(_ url: URL?) -> LocalizedString? {
+            return url?.prettyValueHost
+        }
         
         internal init(_ b: LocalizeBundle) {
             self.missingTitle = b.localized(key: Noun.dash.rawValue)

@@ -27,15 +27,6 @@
 import SwiftUI
 import Umbrella
 
-extension URL {
-    // TODO: Move out of host app and into style
-    var prettyValueHost: String? {
-        let components = URLComponents(url: self, resolvingAgainstBaseURL: true)
-        guard let host = components?.host else { return nil }
-        return host.replacing(#/www\./#, maxReplacements: 1, with: { _ in "" })
-    }
-}
-
 internal enum JSBPasteboard {
     internal static func set(title: String?, url: URL) {
         #if os(macOS)
