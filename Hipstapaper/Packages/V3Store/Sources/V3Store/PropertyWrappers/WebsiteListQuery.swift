@@ -38,7 +38,7 @@ public struct FAST_WebsiteListQuery: DynamicProperty {
         onRead: { Website.Identifier($0.objectID) }
     ) private var data
     @Environment(\.managedObjectContext) private var context
-    @Environment(\.codableErrorResponder) private var errorResponder
+    @Environment(\.errorResponder) private var errorResponder
     
     // State
     @State private var query: Query?
@@ -52,7 +52,7 @@ public struct FAST_WebsiteListQuery: DynamicProperty {
         self.needsUpdate.value = false
         _data.setOnError { error in
             NSLog(String(describing: error))
-            self.errorResponder(.init(error))
+            self.errorResponder(error)
         }
         self.updateCoreData()
     }
