@@ -34,12 +34,14 @@ Hipstapaper is my tech demo application that I use to experiment with the newest
     - No NSManagedObjects or any Core Data classes are public outside of the `Store` package.
     - Lists of 3000+ items load and scroll in iOS at 120Hz without issue.
 - 100% Cross-platform SwiftUI
+    - No Catalyst
     - No trap-doors to UIKit/AppKit (as few as possible 😛).
     - Avoid platform specific code.
     - Avoid hacks because SwiftUI is broken.
 - Support latest SwiftUI & OS Features
     - Navigation
     - Menus
+    - Customizable Toolbars
     - Scenes
     - more
 
