@@ -60,11 +60,14 @@ public struct Sidebar: DynamicProperty {
             
             // TODO: Toolbar shortcuts conflict with MainMenu shortcuts
             // Remove shortcuts for toolbar items
+            #if os(iOS)
             self.toolbarAddTag.shortcut     = nil
             self.toolbarAddWebsite.shortcut = nil
             self.toolbarAddGeneric.shortcut = nil
             self.menuEditTags.shortcut      = nil
             self.menuDeleteTags.shortcut    = nil
+            self.noTags.shortcut            = nil
+            #endif
         }
     }
     

@@ -151,11 +151,7 @@ extension WKWebView {
                     completion(.failure(error))
                     return
                 }
-                guard let image else {
-                    // completion(.failure(error)) // TODO: Create error here
-                    return
-                }
-                completion(.success(image))
+                completion(.success(image!))
             }
         }
     }

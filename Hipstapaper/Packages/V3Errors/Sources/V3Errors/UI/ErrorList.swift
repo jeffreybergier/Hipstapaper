@@ -108,8 +108,6 @@ internal struct ErrorListRow: View {
     internal var body: some View {
         self.style.error(title:   self.text.localize(self.error).title,
                          message: self.text.localize(self.error).message,
-                         // TODO: Errors, yuck. So much to do
-                         // Domain is always showing default `Hipstapaper.Unknown`
                          domain:  type(of: self.error).errorDomain,
                          code:    self.error.errorCode)
     }
