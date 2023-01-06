@@ -24,22 +24,22 @@
 //  SOFTWARE.
 //
 
-import Foundation
 import Umbrella
+import V3Localize
 
-extension CPError: UserFacingError {
+extension Umbrella.CPError: UserFacingError {
     
-    public var message: Umbrella.LocalizationKey {
+    public var message: LocalizationKey {
         switch self {
         case .accountStatus:
-            return Phrase.errorCloudAccount.rawValue
+            return V3Localize.CPError.messageStatus
         case .sync:
-            return Phrase.errorCloudSync.rawValue
+            return V3Localize.CPError.messageStatus
         }
     }
     
-    public var title: LocalizationKey { Noun.erroriCloud.rawValue }
-    public var dismissTitle: LocalizationKey { Verb.dismiss.rawValue }
+    public var title: LocalizationKey { V3Localize.CPError.title }
+    public var dismissTitle: LocalizationKey { V3Localize.CPError.dismissTitle }
     public var isCritical: Bool { false }
     public var options: [Umbrella.RecoveryOption] { [] }
 }

@@ -27,6 +27,7 @@
 import Foundation
 import Umbrella
 
+// TODO: Hack because NSError can't really be encoded
 extension CPError: CodableErrorConvertible {
     
     public init?(decode input: Umbrella.CodableError) {

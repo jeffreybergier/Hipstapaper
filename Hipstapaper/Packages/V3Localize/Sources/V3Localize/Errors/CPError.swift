@@ -1,7 +1,5 @@
-// swift-tools-version:5.7
-
 //
-//  Created by Jeffrey Bergier on 2022/03/11.
+//  Created by Jeffrey Bergier on 2022/12/30.
 //
 //  MIT License
 //
@@ -26,27 +24,11 @@
 //  SOFTWARE.
 //
 
-import PackageDescription
+import Umbrella
 
-let package = Package(
-    name: "V3Localize",
-    defaultLocalization: "en",
-    platforms: [.iOS(.v16), .macOS(.v13)],
-    products: [
-        .library(
-            name: "V3Localize",
-            targets: ["V3Localize"]
-        ),
-    ],
-    dependencies: [
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "main"),
-    ],
-    targets: [
-        .target(
-            name: "V3Localize",
-            dependencies: [
-                .byNameItem(name: "Umbrella", condition: nil),
-            ]
-        ),
-    ]
-)
+public enum CPError {
+    public static let title:         LocalizationKey = Noun.erroriCloud.rawValue
+    public static let messageSync:   LocalizationKey = Phrase.errorCloudSync.rawValue
+    public static let messageStatus: LocalizationKey = Phrase.errorCloudAccount.rawValue
+    public static let dismissTitle:  LocalizationKey = Verb.dismiss.rawValue
+}
