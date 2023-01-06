@@ -1,4 +1,4 @@
-![Xcode: 14.2](https://img.shields.io/badge/Xcode-14.2-lightgrey.svg) ![Swift: 5.7](https://img.shields.io/badge/Swift-5.7-lightgrey.svg) ![iOS: 16](https://img.shields.io/badge/iOS-16-lightgrey.svg) ![macOS: 13](https://img.shields.io/badge/macOS-13-lightgrey.svg) ![devices: iPhone & iPad & Mac](https://img.shields.io/badge/devices-iPad%20%26%20iPhone%20%26%20Mac-lightgrey.svg) ![UI: SwiftUI](https://img.shields.io/badge/UI-SwiftUI-lightgrey.svg) ![Data: CoreData](https://img.shields.io/badge/Data-CoreData-lightgrey.svg) ![Sync: iCloud](https://img.shields.io/badge/Sync-iCloud-lightgrey.svg)
+![Xcode: 14.2](https://img.shields.io/badge/Xcode-14.2-lightgrey.svg) ![Swift: 5.7](https://img.shields.io/badge/Swift-5.7-lightgrey.svg) ![iOS: 16.2](https://img.shields.io/badge/iOS-16.2-lightgrey.svg) ![macOS: 13.1](https://img.shields.io/badge/macOS-13.1-lightgrey.svg) ![devices: iPhone & iPad & Mac](https://img.shields.io/badge/devices-iPad%20%26%20iPhone%20%26%20Mac-lightgrey.svg) ![UI: SwiftUI](https://img.shields.io/badge/UI-SwiftUI-lightgrey.svg) ![Data: CoreData](https://img.shields.io/badge/Data-CoreData-lightgrey.svg) ![Sync: iCloud](https://img.shields.io/badge/Sync-iCloud-lightgrey.svg)
 
 ![Hipstapaper Screenshots](/readme-screenshot.png)
 
@@ -35,7 +35,8 @@ Hipstapaper is my tech demo application that I use to experiment with the newest
     - Lists of 3000+ items load and scroll in iOS at 120Hz without issue.
 - 100% Cross-platform SwiftUI
     - No Catalyst
-    - No trap-doors to UIKit/AppKit (as few as possible 😛).
+    - No use of `UIViewRepresentable` or `NSViewRepresentable`
+        - Only exception is for `WKWebView` 
     - Avoid platform specific code.
     - Avoid hacks because SwiftUI is broken.
 - Support latest SwiftUI & OS Features
@@ -44,12 +45,63 @@ Hipstapaper is my tech demo application that I use to experiment with the newest
     - Customizable Toolbars
     - Scenes
     - more
+    
+## Architecture Aspirations
+
+My hope is not to create a new architecture paradigm like the wonderful [Bodega](https://github.com/mergesort/Bodega) project. Rather, I wanted to show how leveraging built-in technologies could lead to a UI driven 100% by SwiftUI's strict rendering of data and state.
+
+### Package Dependencies
+
+A simplified diagram of how the packages are associated with eachother. The goal was to have almost no code in the iOS App, macOS App, or the 2 extensions targets. Rather, they only instantiate the public `View` or `Scene` struct from their imported Package. Also each target only imports a single Swift Package. The rest of the package relationships are handled with Swift Package Manager and the associated `Package.swift` files.
+
+```mermaid
+graph LR;
+    subgraph Xcode-Targets
+        iOS-App;
+        macOS-App;
+        iOS-Share;
+        macOS-Share;
+    end
+    subgraph UI-Packages
+        V3Interface;
+        V3WebsiteEdit;
+        V3Browser;
+    end
+    subgraph Component-Packages
+        V3Errors;
+        V3Style;
+        V3Localize;
+        V3Store;
+        V3Model;
+    end
+    iOS-App-->V3Interface;
+    macOS-App-->V3Interface;
+    iOS-Share-->V3WebsiteEdit;
+    macOS-Share-->V3WebsiteEdit;
+    V3Interface-->V3Browser;
+    V3Browser-->V3WebsiteEdit;
+    V3WebsiteEdit-->V3Errors;
+    V3WebsiteEdit-->V3Style;
+    V3WebsiteEdit-->V3Localize;
+    V3WebsiteEdit-->V3Store;
+    V3Store-->V3Model;
+```
+
+### Error Handling
+
+### Core Data Strategy
+
+### Styling Strategy
+
+### Navigation Strategy
 
 ## Known Issues
 
-- Toolbars in Sheets and Popovers on macOS is ugly.
+- Toolbars in Sheets and Popovers on macOS are ugly.
     - This is because SwiftUI still does not render toolbars in sheets and popovers like iOS does.
-- Window size is forgotten when closing browser windows on macOS.
+- Window size is forgotten when closing windows on macOS.
+    - Quitting the app does not cause them to forget their size, but closing them does.
+- Using the share extension when the main application is open usually cause Core Data to return errors when editing data in the share extesnsion.
 
 ## Contribution Guidelines
 
