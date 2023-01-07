@@ -55,39 +55,18 @@ My hope is not to create a new architecture paradigm like the wonderful [Bodega]
 A simplified diagram of how the packages are associated with eachother. The goal was to have almost no code in the iOS App, macOS App, or the 2 extensions targets. Rather, they only instantiate the public `View` or `Scene` struct from their imported Package. Also each target only imports a single Swift Package. The rest of the package relationships are handled with Swift Package Manager and the associated `Package.swift` files.
 
 ```mermaid
-graph LR;
-    subgraph Xcode-Targets
-        iOS-App;
-        macOS-App;
-        iOS-Share;
-        macOS-Share;
-    end
-    subgraph UI-Packages
-        V3Interface;
-        V3WebsiteEdit;
-        V3Browser;
-    end
-    subgraph Component-Packages
-        V3Errors;
-        V3Style;
-        V3Localize;
-        V3Store;
-        V3Model;
-    end
-    iOS-App-->V3Interface;
-    macOS-App-->V3Interface;
-    iOS-Share-->V3WebsiteEdit;
-    macOS-Share-->V3WebsiteEdit;
-    V3Interface-->V3Browser;
-    V3Browser-->V3WebsiteEdit;
-    V3WebsiteEdit-->V3Errors;
-    V3WebsiteEdit-->V3Style;
-    V3WebsiteEdit-->V3Localize;
-    V3WebsiteEdit-->V3Store;
-    V3Store-->V3Model;
+graph TD;
+    App-iOS-macOS-->UI-V3Interface-V3WebsiteEdit-V3Browser;
+    ShareExt-iOS-macOS-->UI-V3Interface-V3WebsiteEdit-V3Browser;
+    UI-V3Interface-V3WebsiteEdit-V3Browser-->Components-V3Errors-V3Style-V3Localize;
+    UI-V3Interface-V3WebsiteEdit-V3Browser-->CoreData-V3Store-V3Model;
+    Components-V3Errors-V3Style-V3Localize-->Umbrella;
+    CoreData-V3Store-V3Model-->Umbrella;
 ```
 
 ### Error Handling
+
+### Menus Handling
 
 ### Core Data Strategy
 
