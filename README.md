@@ -86,6 +86,16 @@ Another concept which was easy in AppKit and difficult in UIKit/SwiftUI is prese
 
 ### Menus Handling
 
+Handling actions via menus and keyboard shortcuts in macOS has always had the same fundamental problem, there is essentially always 3 ways to do the same action. 1. Main Menu, 2. Toolbar Button, 3. Context Menu. Now with iPad apps, the same issue arises. Luckily macOS had an easy way to deal with this issue, the responder chain. The responder chain validated Main Menu Items, Toolbar Items, and Context Menu items via easy to use methods based on selectors. iOS never gave this to us. Same with SwiftUI. SwiftUI poses similar problems to UIKit with no obvious solution. Details below.
+
+In iOS 16 / macOS 13, Apple made a massive improvement to SwiftUI context menus for tables by adding `contextMenu(forSelectionType:menu:primaryAction:)`. At first this appears to provide just context menus, but the primary action piece is also incredibly important because it allows you to support both single tap and double click on both platforms. This was previously very difficult. That said, these are not perfect. Because the selection is passed to your code via a function, it works fundamentally different from toolbars that live in the environment. So with a toolbar, I can place a `@FetchRequest` property and then update the state of the toolbar buttons and perform actions on the CoreData object directly. But in Context Menus, this approach does not work.
+
+A similar, but worse, issue arrises with Main Menu items. In my opinion, the "Main Menu" that is specified as part of the scene is still fundamentally broken. These menus do not live inside the environment at all. Its not even possible to read simple state from the environment. Attempting to do so will print errors in the Console and always return the default value. So while it is quite common on macOS to enable and disable menu items based on the current state of the selection in the front-most window, this is almost impossible to do with SwiftUI menus. 
+
+I worked around these issues by creating a `BulkActionsHelper` type. But in my opinion, its a pretty big hack. So while it does work, I don't think it should have been needed. This helper basically stores an extra copy of the selection for the Main Menus. It also provides raw function hooks to the data source for the context menu.
+
+But the core issue still remains from UIKit. The user now has 3 ways to do any given action... but because of slight differences in the environments these functions live in, the software developer is left struggling to make these 3 ways can call the same code.
+
 ### Core Data Strategy
 
 ### Styling Strategy
