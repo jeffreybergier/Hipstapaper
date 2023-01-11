@@ -64,6 +64,22 @@ graph TD;
     CoreData-V3Store-V3Model-->Umbrella;
 ```
 
+### Navigation Strategy
+
+Navigation is the heart of this application. Each major piece of UI defines a [`Navigation`](Hipstapaper/Packages/V3Interface/Sources/V3Interface/Main/Navigation/NavigationProperty.swift) property wrapper. This property wrapper stores all of the navigation state in SceneStorage. Navigation state includes current [Tag and Website selection](Hipstapaper/Packages/V3Interface/Sources/V3Interface/Main/Navigation/SelectionProperty.swift), any modals that are presented, the current [search query](https://github.com/jeffreybergier/Hipstapaper/blob/main/Hipstapaper/Packages/V3Interface/Sources/V3Interface/Main/Navigation/QueryProperty.swift), and sort order. The selection states and modal dialogs often require the `Identifier` of either a website or a tag so there are [`Website.Identifier`](Hipstapaper/Packages/V3Model/Sources/V3Model/Website.swift) and [`Tag.Identifier`](Hipstapaper/Packages/V3Model/Sources/V3Model/Tag.swift) that service as type-safe wrappers around the raw string of a Core Data Object Identifier URL. 
+
+Encoding all of this data in a single struct and storing it in SceneStorage immediately makes the application support State Restoration. As well, it means any part of the Scene can reason about its current presentation state and change it.
+
+#### Only Pass Identifiers to New Screens
+
+I'll go into more details in the Core Data section, but I have a rule where only identifiers are passed to new screens. This allows the state to easily be encoded in SceneStorage. It also enables all views to always live update. If you encode full model instances into SceneStorage, then you can "inflate" stale data. Also, if you pass complete model instances to screens, then the data they display is "dead". In a modern application, all the data on disk can change at any time. This is especially true if your data syncs with other devices. For these reasons, I only ever pass identifiers to screens and the screens are responsible for getting that data from the disk in such a way that changes in the underlying data will cause the screen to refresh. SwiftUI makes this incredibly easy compared to AppKit/UIKit.
+
+#### Modal Presentation is Still Broken
+
+In iOS 16 and macOS 13, Apple fixed "Stack" presentation. The new stack presentation API is great a super easy to work with. However, modal presentation is still funtamentally broken. The reason is that any given screen can only have 1 modal presentation at a time, but modal presentation is represented in the UI as `N` number of modal presentation booleans. If two booleans are set to `YES` at the same time, an error is printed to the console and the behavior is not defined. On top of that, there is no way to query the environment to know if a modal presentation is happening. I tried to work around this by add an `isPresenting` computed boolean property to each Navigation struct. This allows me to do some preflight to see if something can be presented programatically. However, this only works so well. First, its manual. No easy way to automatically compute this property. Second, it doesn't account for system presentations such as menus. I really hope that Apple fixes this in iOS 17/macOS14. I don't think the problem is that hard. If the environment contained a generic `modalPresentation` value, then a presentation modifier could be configured to watch for the type that is in the environment. This would be much cleaner and prevent the possibility of trying to present more than 1 modal presentation.
+
+Come to think of it, this might be doable without Apple's help... note to self 📝
+
 ### Error Handling
 
 Error handling on iOS has always been hard. In the old days, it was possible to perform a user function and if it had an error, show that error to the user. However, in the current world where syncing and other activities are happening in the background, this 1-1 approach is no longer feasible. Rather, any part of the app needs to be able to present errors without any user interaction. AppKit on macOS has always made error handling [very easy with convenient methods](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ErrorHandlingCocoa/ErrorRespondRecover/ErrorRespondRecover.html) to pass errors down the responder chain and to present raw NSError objects in a user readable way. Unfortunately SwiftUI, like UIKit, doesn't help with any of this.
@@ -82,7 +98,7 @@ Another concept which was easy in AppKit and difficult in UIKit/SwiftUI is prese
 
 #### CodableError
 
-[`CodableError`](https://github.com/jeffreybergier/Umbrella/blob/db24e09eae8df537d928e5f570c203ec9fc8076a/Sources/Umbrella/Error/CodableError.swift#L36) is a type which attempts to take errors and store them in such a way to make them `Codable`. This is important for state restoration of the application. I'll cover this more below in the Navigation section, but all of the navigation state for the application is stored in `SceneStorage` in order to support state restoration. This makes this complex with Error as its not really possible to encode it. There is a related protocol called `CodableErrorConvertible` that allows a package to decide how it wants its errors encoded and decoded.
+[`CodableError`](https://github.com/jeffreybergier/Umbrella/blob/db24e09eae8df537d928e5f570c203ec9fc8076a/Sources/Umbrella/Error/CodableError.swift#L36) is a type which attempts to take errors and store them in such a way to make them `Codable`. All of the navigation state for the application is stored in `SceneStorage` in order to support state restoration. This is complex with Error as its not really possible to encode it. There is a related protocol called `CodableErrorConvertible` that allows a package to decide how it wants its errors encoded and decoded. To be honest, I may change this approach as it really makes working with Errors difficult.
 
 ### Menus Handling
 
@@ -99,8 +115,6 @@ But the core issue still remains from UIKit. The user now has 3 ways to do any g
 ### Core Data Strategy
 
 ### Styling Strategy
-
-### Navigation Strategy
 
 ## Known Issues
 
