@@ -45,7 +45,7 @@ extension Navigation {
         internal var sidebar:        Sidebar = .init()
         internal var detail:         Detail  = .init()
         internal var isWebsitesEdit: Website.Selection = []
-        internal var isError:        CodableError?
+        internal var isError:        ErrorStorage.Identifier?
     }
     internal struct Sidebar: Hashable, Codable {
         internal var isTagsEdit: TagsEdit = .init()
@@ -59,7 +59,7 @@ extension Navigation {
         internal var isBrowse:          Website.Selection.Element? = nil
     }
     internal struct TagsEdit: Hashable, Codable {
-        internal var isError:     CodableError?
+        internal var isError:     ErrorStorage.Identifier?
         internal var isPresented: Tag.Selection = []
     }
     internal struct Basic: Hashable, Codable {

@@ -28,7 +28,9 @@ import SwiftUI
 import Collections
 import Umbrella
 
+
 @propertyWrapper
+@available(*, deprecated, message:"Use `@Umbrella.ErrorStorage`")
 public struct Errors: DynamicProperty {
     
     public typealias Value = Deque<CodableError>

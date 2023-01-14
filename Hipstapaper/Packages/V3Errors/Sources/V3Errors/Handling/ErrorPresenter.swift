@@ -30,16 +30,16 @@ import Umbrella
 public struct ErrorPresenter: ViewModifier {
     
     private let bundle: any EnvironmentBundleProtocol
-    private let router: (CodableError) -> any UserFacingError
-    private let onDismiss: (CodableError?) -> Void
+    private let router: (Error) -> any UserFacingError
+    private let onDismiss: (Error) -> Void
     
-    @Binding private var isError: CodableError?
-    @Environment(\.errorResponder) private var errorResponder
+    @Binding private var isError: ErrorStorage.Identifier?
+    @ErrorStorage private var storage
     
-    public init(isError: Binding<CodableError?>,
+    public init(isError: Binding<ErrorStorage.Identifier?>,
                 localizeBundle: any EnvironmentBundleProtocol,
-                router: @escaping (CodableError) -> any UserFacingError,
-                onDismiss: @escaping (CodableError?) -> Void = { _ in })
+                router: @escaping (Error) -> any UserFacingError,
+                onDismiss: @escaping (Error) -> Void = { _ in })
     {
         _isError = isError
         self.bundle = localizeBundle
@@ -51,12 +51,15 @@ public struct ErrorPresenter: ViewModifier {
         content
             .alert(anyError: self.isUserFacingError,
                    bundle:   self.bundle,
-                   onDismiss: { _ in self.onDismiss(self.isError) })
+                   onDismiss: { self.onDismiss($0) })
     }
     
     private var isUserFacingError: Binding<UserFacingError?> {
         Binding {
-            guard let error = self.isError else { return nil }
+            guard
+                let identifier = self.isError,
+                let error = _storage.pop(identifier)
+            else { return nil }
             return self.router(error)
         } set: {
             guard $0 == nil else { return }

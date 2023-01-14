@@ -68,7 +68,7 @@ extension Navigation {
         internal var currentURL: URL?
         internal var currentTitle          = ""
         
-        internal var isError: CodableError?
+        internal var isError: ErrorStorage.Identifier?
         internal var isErrorList = Basic()
         internal var isShareList: ShareList.Data?
         internal var isPresenting: Bool {

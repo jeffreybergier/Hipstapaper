@@ -30,31 +30,25 @@ import Umbrella
 
 public struct ErrorMover: ViewModifier {
     
-    @Errors private var store
-    @Binding private var toPresent: CodableError?
+    @ErrorStorage private var storage
+    @Binding private var toPresent: ErrorStorage.Identifier?
     
     private let isAlreadyPresenting: Bool
     
-    public init(isPresenting: Bool, toPresent: Binding<CodableError?>) {
+    public init(isPresenting: Bool, toPresent: Binding<ErrorStorage.Identifier?>) {
         _toPresent = toPresent
         self.isAlreadyPresenting = isPresenting
     }
     
     public func body(content: Content) -> some View {
         content
-            .onLoadChange(of: self.store) { store in
-                guard
-                    self.isAlreadyPresenting == false,
-                    store.isEmpty == false
-                else { return }
-                self.toPresent = self.store.popFirst()
+            .onLoadChange(of: self.storage) { store in
+                guard self.isAlreadyPresenting == false else { return }
+                self.toPresent = store.first
             }
             .onLoadChange(of: self.isAlreadyPresenting) { isAlreadyPresenting in
-                guard
-                    isAlreadyPresenting == false,
-                    self.store.isEmpty == false
-                else { return }
-                self.toPresent = self.store.popFirst()
+                guard isAlreadyPresenting == false else { return }
+                self.toPresent = self.storage.first
             }
     }
 }
