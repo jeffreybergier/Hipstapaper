@@ -93,7 +93,7 @@ internal struct TagsEditPresentation: ViewModifier {
 
 internal struct TagsEditRow: View {
     
-    @TagUserQuery private var item
+    @TagQuery private var item
     @V3Style.TagsEdit private var style
     @V3Localize.TagsEdit private var text
     @HACK_macOS_Style private var hack_style

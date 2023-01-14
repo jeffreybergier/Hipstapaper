@@ -32,7 +32,7 @@ import V3Model
 public struct TagApplyQuery: DynamicProperty {
     
     @Controller private var controller
-    @FAST_TagUserListQuery private var data
+    @TagUserListQuery private var data
     @Environment(\.errorResponder) private var errorResponder
     
     @State public var selection: Website.Selection = []

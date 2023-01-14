@@ -43,7 +43,7 @@ internal struct DetailTitle: ViewModifier {
 private struct IDEAL_DetailTitle: ViewModifier {
 
     @Selection private var selection
-    @TagUserQuery private var selectedTag: Tag?
+    @TagQuery private var selectedTag: Tag?
     
     @V3Localize.Detail private var text
     
@@ -76,7 +76,7 @@ private struct IDEAL_DetailTitle: ViewModifier {
 private struct HACK_DetailTitle: ViewModifier {
 
     @Selection private var selection
-    @TagUserQuery private var selectedTag: Tag?
+    @TagQuery private var selectedTag: Tag?
     
     @V3Localize.Detail private var text
     

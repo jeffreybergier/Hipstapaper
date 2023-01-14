@@ -38,7 +38,7 @@ internal struct Sidebar: View {
     @V3Localize.Sidebar private var text
     
     @TagSystemListQuery private var tagsSystem
-    @FAST_TagUserListQuery private var tagsUser
+    @TagUserListQuery private var tagsUser
                 
     internal var body: some View {
         NavigationStack {

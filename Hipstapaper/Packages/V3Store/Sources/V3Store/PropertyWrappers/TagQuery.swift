@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/07/26.
+//  Created by Jeffrey Bergier on 2022/06/17.
 //
 //  MIT License
 //
@@ -29,17 +29,38 @@ import Umbrella
 import V3Model
 
 @propertyWrapper
-public struct FAST_TagUserListQuery: DynamicProperty {
+public struct TagQuery: DynamicProperty {
     
     @Controller private var controller
-    @CDListQuery<CD_Tag, Tag.Identifier>(
-        sort: [CD_Tag.defaultSort],
-        onRead: { Tag.Identifier($0.objectID) }
-    ) private var data
+    @CDObjectQuery<CD_Tag, Tag>(onRead: Tag.init(_:)) private var object: Tag?
         
-    public init() {}
+    public init() { }
     
-    public var wrappedValue: some RandomAccessCollection<Tag.Identifier> {
-        self.data
+    public func setIdentifier(_ newValue: Tag.Identifier?) {
+        if
+            let newValue,
+            newValue.isSystem == false,
+            let url = URL(string: newValue.id)
+        {
+            _object.setObjectIDURL(url)
+        } else {
+            _object.setObjectIDURL(nil)
+        }
+    }
+    
+    public var wrappedValue: Tag? {
+        get { self.object }
+        nonmutating set { self.object = newValue }
+    }
+    
+    public var projectedValue: Binding<Tag>? {
+        self.$object
+    }
+    
+    private let needsUpdate = SecretBox(true)
+    public func update() {
+        guard self.needsUpdate.value else { return }
+        self.needsUpdate.value = false
+        _object.setOnWrite(_controller.cd.writeOpt(_:with:))
     }
 }

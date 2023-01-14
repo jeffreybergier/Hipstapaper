@@ -60,7 +60,7 @@ internal struct Tag: View {
 
 internal struct TagRow: View {
     
-    @TagUserQuery private var item
+    @TagQuery private var item
     @Binding private var tagApply: TagApply
     
     @V3Style.WebsiteEdit private var style
