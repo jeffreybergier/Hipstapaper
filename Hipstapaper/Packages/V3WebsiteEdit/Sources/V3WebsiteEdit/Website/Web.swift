@@ -73,11 +73,9 @@ fileprivate struct _Web: View {
                 }
             }
         }
-        if wv.configuration.preferences.javaScriptEnabled != self.nav.isJSEnabled {
-            wv.configuration.preferences.javaScriptEnabled = self.nav.isJSEnabled
-            if wv.isLoading {
-                wv.reload()
-            }
+        if wv.configuration.defaultWebpagePreferences.allowsContentJavaScript != self.nav.isJSEnabled {
+            wv.configuration.defaultWebpagePreferences.allowsContentJavaScript = self.nav.isJSEnabled
+            wv.reload()
         }
         if let load = self.nav.shouldLoadURL {
             wv.load(URLRequest(url: load))
@@ -86,7 +84,11 @@ fileprivate struct _Web: View {
     }
         
     private func makeWebView(context: Context) -> WKWebView {
+        let preferences = WKWebpagePreferences()
+        preferences.preferredContentMode = .mobile
+        preferences.allowsContentJavaScript = self.nav.isJSEnabled
         let config = WKWebViewConfiguration()
+        config.defaultWebpagePreferences = preferences
         let wv = WKWebView(frame: .zero, configuration: config)
         wv.configuration.websiteDataStore = .nonPersistent()
         wv.navigationDelegate = context.coordinator

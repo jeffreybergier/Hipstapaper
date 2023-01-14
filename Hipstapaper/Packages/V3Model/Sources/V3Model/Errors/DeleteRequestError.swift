@@ -27,7 +27,7 @@
 import Foundation
 import Umbrella
 
-public enum DeleteRequestError: CustomNSError, CodableErrorConvertible, Codable {
+public enum DeleteRequestError: CustomNSError, Codable {
     
     static public var errorDomain = "com.saturdayapps.Hipstapaper.model"
     public var errorCode: Int { 1001 }
@@ -35,6 +35,18 @@ public enum DeleteRequestError: CustomNSError, CodableErrorConvertible, Codable 
     case website(Website.Selection)
     case tag(Tag.Selection)
     
+    public var websiteID: Website.Selection {
+        guard case .website(let id) = self else { return [] }
+        return id
+    }
+    
+    public var tagID: Tag.Selection {
+        guard case .tag(let id) = self else { return [] }
+        return id
+    }
+}
+
+extension DeleteRequestError: CodableErrorConvertible {
     public init?(decode: Umbrella.CodableError) {
         guard let data = decode.arbitraryData else { return nil }
         if let id = try? PropertyListDecoder().decode(Website.Selection.self, from: data) {
@@ -59,15 +71,5 @@ public enum DeleteRequestError: CustomNSError, CodableErrorConvertible, Codable 
         }
         assert(output.arbitraryData != nil)
         return output
-    }
-    
-    public var websiteID: Website.Selection {
-        guard case .website(let id) = self else { return [] }
-        return id
-    }
-    
-    public var tagID: Tag.Selection {
-        guard case .tag(let id) = self else { return [] }
-        return id
     }
 }

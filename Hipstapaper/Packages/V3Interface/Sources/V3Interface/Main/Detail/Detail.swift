@@ -47,8 +47,6 @@ internal struct Detail: View {
             self.selection.tag.view { _ in
                 self.data.view {
                     DetailTable($0)
-                        .searchable(text: self.$query.search,
-                                    prompt: self.text.search)
                 } onEmpty: {
                     self.style.disabled
                         .action(text: self.text.noWebsites)
@@ -57,6 +55,8 @@ internal struct Detail: View {
             } onNIL: {
                 self.style.disabled.action(text: self.text.noTagSelected).label
             }
+            .searchable(text: self.$query.search,
+                        prompt: self.text.search)
         }
         .onLoadChange(of: self.query) {
             _data.setQuery($0)

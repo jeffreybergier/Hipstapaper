@@ -25,42 +25,13 @@
 //
 
 import Umbrella
-import V3Model
 
-extension DeleteConfirmationError: UserFacingError {
-    public var title: LocalizationKey {
-        switch self.request {
-        case .tag:     return Noun.deleteTag.rawValue
-        case .website: return Noun.deleteWebsite.rawValue
-        }
-    }
-    
-    public var message: LocalizationKey {
-        switch self.request {
-        case .tag:     return Phrase.deleteTagConfirm.rawValue
-        case .website: return Phrase.deleteWebsiteConfirm.rawValue
-        }
-    }
-    
-    public var dismissTitle: Umbrella.LocalizationKey {
-        return Verb.dontDelete.rawValue
-    }
-    
-    public var isCritical: Bool {
-        false
-    }
-    
-    public var options: [Umbrella.RecoveryOption] {
-        let title: LocalizationKey = {
-            switch self.request {
-            case .tag:     return Verb.deleteTag.rawValue
-            case .website: return Verb.deleteWebsite.rawValue
-            }
-        }()
-        return [
-            .init(title: title, isDestructive: true) {
-                self.onConfirmation(self.request)
-            }
-        ]
-    }
+public enum DeleteConfirmationError {
+    public static let titleTag:           LocalizationKey = Noun.deleteTag.rawValue
+    public static let titleWebsite:       LocalizationKey = Noun.deleteWebsite.rawValue
+    public static let messageTag:         LocalizationKey = Phrase.deleteTagConfirm.rawValue
+    public static let messageWebsite:     LocalizationKey = Phrase.deleteWebsiteConfirm.rawValue
+    public static let dismissTitle:       LocalizationKey = Verb.dontDelete.rawValue
+    public static let optionTitleTag:     LocalizationKey = Verb.deleteTag.rawValue
+    public static let optionTitleWebsite: LocalizationKey = Verb.deleteWebsite.rawValue
 }
