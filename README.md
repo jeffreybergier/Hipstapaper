@@ -46,9 +46,19 @@ Hipstapaper is my tech demo application that I use to experiment with the newest
     - Scenes
     - more
     
-## Architecture Aspirations
+## How I Built Hipstapaper
 
-My hope is not to create a new architecture paradigm like the wonderful [Bodega](https://github.com/mergesort/Bodega) project. Rather, I wanted to show how leveraging built-in technologies could lead to a UI driven 100% by SwiftUI's strict rendering of data and state.
+#### TL;DR
+
+My hope is not to create a new architecture paradigm like the wonderful [Bodega](https://github.com/mergesort/Bodega) project. Rather, I wanted to show how leveraging built-in technologies could lead to a UI driven 100% by SwiftUI's strict rendering of data and state. The most important things I learned were:
+
+1. Embrace SceneStorage as the source of truth for all of your navigation state to make state restoration completely automatic.
+    1. This can be hard as it requires you to think through all possible navigation in your app and make it easily encodable.
+1. Embrace Core Data (or your data store of choice) as the single source of truth for all data in your application.
+    1. Avoiding view models is difficult but important. View Models tend to be custom classes that cannot be encoded and state is not restored. This violates the first learning.
+1. Embrace Property Wrappers to hide implementation details from your UI code.
+1. Acknowledge that any data, navigation state, or errors could change at any time and build abstractions around this that allow the complexity to be handled with ease.
+    1. This is the greatest strength of SwiftUI. Because the UI is rendered 100% based on the state of SceneStorage and Core Data, it can handle any complex situation in stride with very little effort by the developer.
 
 ### Package Dependencies
 
