@@ -9,10 +9,8 @@ A macOS, iOS, and iPadOS app written 100% in SwiftUI. Hipstapaper is an app that
 ## How to Get the App
 
 Hipstapaper is tech demo and learning experience, not a fully complete application experience. If you would like to try the app, please use the links below.
-- iOS:
-    - [Testflight Link](https://testflight.apple.com/join/V1f2j5Jd)
-- macOS:
-    - [Download Notarized Build](http://www.jeffburg.com/zzNotPortfolio/Hipstapaper/current/Hipstapaper.zip)
+- [iOS Testflight Link](https://testflight.apple.com/join/V1f2j5Jd)
+- [macOS Notarized Build](http://www.jeffburg.com/zzNotPortfolio/Hipstapaper/current/Hipstapaper.zip)
 
 ## Summary of Capabilities
 
@@ -55,7 +53,7 @@ My hope is not to create a new architecture paradigm like the wonderful [Bodega]
 1. Embrace SceneStorage as the source of truth for all of your navigation state to make state restoration completely automatic.
     1. This can be hard as it requires you to think through all possible navigation in your app and make it easily encodable.
 1. Embrace Core Data (or your data store of choice) as the single source of truth for all data in your application.
-    1. Avoiding view models is difficult but important. View Models tend to be custom classes that cannot be encoded and state is not restored. This violates the first learning.
+    1. Avoiding view models is difficult but important. View Models tend to be custom classes that don't live in the environment and cannot be encoded for state restoration. This violates the first learning.
 1. Embrace Property Wrappers to hide implementation details from your UI code.
 1. Acknowledge that any data, navigation state, or errors could change at any time and build abstractions around this that allow the complexity to be handled with ease.
     1. This is the greatest strength of SwiftUI. Because the UI is rendered 100% based on the state of SceneStorage and Core Data, it can handle any complex situation in stride with very little effort by the developer.
@@ -86,7 +84,7 @@ I'll go into more details in the Core Data section, but I have a rule where only
 
 #### Modal Presentation is Still Broken
 
-In iOS 16 and macOS 13, Apple fixed "Stack" presentation. The new stack presentation API is great a super easy to work with. However, modal presentation is still funtamentally broken. The reason is that any given screen can only have 1 modal presentation at a time, but modal presentation is represented in the UI as `N` number of modal presentation booleans. If two booleans are set to `YES` at the same time, an error is printed to the console and the behavior is not defined. On top of that, there is no way to query the environment to know if a modal presentation is happening. I tried to work around this by add an `isPresenting` computed boolean property to each Navigation struct. This allows me to do some preflight to see if something can be presented programatically. However, this only works so well. First, its manual. No easy way to automatically compute this property. Second, it doesn't account for system presentations such as menus. I really hope that Apple fixes this in iOS 17/macOS14. I don't think the problem is that hard. If the environment contained a generic `modalPresentation` value, then a presentation modifier could be configured to watch for the type that is in the environment. This would be much cleaner and prevent the possibility of trying to present more than 1 modal presentation.
+In iOS 16 and macOS 13, Apple fixed "Stack" presentation. The new stack presentation API is great a super easy to work with. However, modal presentation is still funtamentally broken. The reason is that any given screen can only have 1 modal presentation at a time, but modal presentation is represented in the UI as `N` number of modal presentation booleans. If two booleans are set to `YES` at the same time, an error is printed to the console and the behavior is not defined. On top of that, there is no way to query the environment to know if a modal presentation is happening. I tried to work around this by adding an `isPresenting` computed boolean property to each Navigation struct. This allows me to do some preflight to see if something can be presented programatically. However, this only works so well. First, its manual. No easy way to automatically compute this property. Second, it doesn't account for system presentations such as menus. I really hope that Apple fixes this in iOS 17/macOS14. I don't think the problem is that hard. If the environment contained a generic `modalPresentation` value, then a presentation modifier could be configured to watch for the type that is in the environment. This would be much cleaner and prevent the possibility of trying to present more than 1 modal presentation.
 
 Come to think of it, this might be doable without Apple's help... note to self 📝
 
