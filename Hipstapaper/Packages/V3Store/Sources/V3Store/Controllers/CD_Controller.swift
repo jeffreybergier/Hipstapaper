@@ -202,28 +202,28 @@ extension CD_Controller: ControllerProtocol {
         return context.datum_save()
     }
     
-    internal func writeOpt(_ cd: CD_Website?, with newValue: Website?) -> Result<Void, Error> {
+    internal func writeOpt(_ cd: CD_Website?, with newValue: Website?) -> Result<Void, Swift.Error> {
         return self.write(cd!, with: newValue!)
     }
     
-    internal func write(_ cd: CD_Website, with newValue: Website) -> Result<Void, Error> {
+    internal func write(_ cd: CD_Website, with newValue: Website) -> Result<Void, Swift.Error> {
         assert(Thread.isMainThread)
         cd.cd_title       = newValue.title
         cd.cd_isArchived  = newValue.isArchived
         cd.cd_resolvedURL = newValue.resolvedURL
         cd.cd_originalURL = newValue.originalURL
         cd.cd_thumbnail   = newValue.thumbnail
-        return self.container.viewContext.datum_save()
+        return self.container.viewContext.NEW_datum_save()
     }
     
-    internal func writeOpt(_ cd: CD_Tag?, with newValue: Tag?) -> Result<Void, Error> {
+    internal func writeOpt(_ cd: CD_Tag?, with newValue: Tag?) -> Result<Void, Swift.Error> {
         return self.write(cd!, with: newValue!)
     }
     
-    internal func write(_ cd: CD_Tag, with newValue: Tag) -> Result<Void, Error> {
+    internal func write(_ cd: CD_Tag, with newValue: Tag) -> Result<Void, Swift.Error> {
         assert(Thread.isMainThread)
         cd.cd_name = newValue.name
-        return self.container.viewContext.datum_save()
+        return self.container.viewContext.NEW_datum_save()
     }
     
     internal func write(tag: TagApply, selection: Website.Selection) -> Result<Void, Error> {
@@ -388,6 +388,17 @@ extension NSManagedObjectContext {
             NSLog(String(describing: error))
             self.rollback()
             return .failure(.write)
+        }
+    }
+    
+    internal func NEW_datum_save() -> Result<Void, Swift.Error> {
+        do {
+            try self.save()
+            return .success(())
+        } catch {
+            NSLog(String(describing: error))
+            self.rollback()
+            return .failure(error)
         }
     }
 }

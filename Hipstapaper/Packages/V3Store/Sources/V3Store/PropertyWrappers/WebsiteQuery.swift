@@ -32,9 +32,8 @@ import V3Model
 public struct WebsiteQuery: DynamicProperty {
     
     @Controller   private var controller
-    @CDObjectQuery<CD_Website, Website, Error>(onRead: Website.init(_:))
+    @CDObjectQuery<CD_Website, Website>(onRead: Website.init(_:))
                   private var object: Website?
-    @Environment(\.errorResponder) private var errorResponder
     
     public init() { }
     
@@ -63,9 +62,5 @@ public struct WebsiteQuery: DynamicProperty {
         guard self.needsUpdate.value else { return }
         self.needsUpdate.value = false
         _object.setOnWrite(_controller.cd.writeOpt(_:with:))
-        _object.setOnError { error in
-            NSLog(String(describing: error))
-            self.errorResponder(error)
-        }
     }
 }

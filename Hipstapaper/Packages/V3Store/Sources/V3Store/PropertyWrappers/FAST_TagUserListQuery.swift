@@ -32,24 +32,12 @@ import V3Model
 public struct FAST_TagUserListQuery: DynamicProperty {
     
     @Controller private var controller
-    @CDListQuery<CD_Tag, Tag.Identifier, Error>(
+    @CDListQuery<CD_Tag, Tag.Identifier>(
         sort: [CD_Tag.defaultSort],
         onRead: { Tag.Identifier($0.objectID) }
     ) private var data
-    
-    @Environment(\.errorResponder) private var errorResponder
-    
+        
     public init() {}
-    
-    private let needsUpdate = SecretBox(true) 
-    public func update() {
-        guard self.needsUpdate.value else { return }
-        self.needsUpdate.value = false
-        _data.setOnError { error in
-            NSLog(String(describing: error))
-            self.errorResponder(error)
-        }
-    }
     
     public var wrappedValue: some RandomAccessCollection<Tag.Identifier> {
         self.data

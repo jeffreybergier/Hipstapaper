@@ -33,12 +33,11 @@ public struct FAST_WebsiteListQuery: DynamicProperty {
     
     // Basics
     @Controller private var controller
-    @CDListQuery<CD_Website, Website.Identifier, Error>(
+    @CDListQuery<CD_Website, Website.Identifier>(
         predicate: .init(value: false),
         onRead: { Website.Identifier($0.objectID) }
     ) private var data
     @Environment(\.managedObjectContext) private var context
-    @Environment(\.errorResponder) private var errorResponder
     
     // State
     @State private var query: Query?
@@ -50,10 +49,6 @@ public struct FAST_WebsiteListQuery: DynamicProperty {
     public func update() {
         guard self.needsUpdate.value else { return }
         self.needsUpdate.value = false
-        _data.setOnError { error in
-            NSLog(String(describing: error))
-            self.errorResponder(error)
-        }
         self.updateCoreData()
     }
     

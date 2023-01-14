@@ -32,10 +32,8 @@ import V3Model
 public struct TagUserQuery: DynamicProperty {
     
     @Controller private var controller
-    @CDObjectQuery<CD_Tag, Tag, Error>(onRead: Tag.init(_:)) private var object: Tag?
-    
-    @Environment(\.errorResponder) private var errorResponder
-    
+    @CDObjectQuery<CD_Tag, Tag>(onRead: Tag.init(_:)) private var object: Tag?
+        
     public init() { }
     
     public func setIdentifier(_ newValue: Tag.Identifier?) {
@@ -64,9 +62,5 @@ public struct TagUserQuery: DynamicProperty {
         guard self.needsUpdate.value else { return }
         self.needsUpdate.value = false
         _object.setOnWrite(_controller.cd.writeOpt(_:with:))
-        _object.setOnError { error in
-            NSLog(String(describing: error))
-            self.errorResponder(error)
-        }
     }
 }
