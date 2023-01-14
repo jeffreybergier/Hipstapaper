@@ -148,6 +148,16 @@ SwiftUI really is not built to handle nullable bindings. But I find that having 
 
 ### Styling Strategy
 
+When I originally started this app, I wanted to have something like a style sheet. Drop a complex style sheet object into the environment at the root and have everything configure itself. But it seems like this approach is just not possible yet. SwiftUI doesn't allow enough customization, and also its not really possible to "read" some sort of identifier and apply the correct styling.
+
+So I switched approach and now try to do a "light touch" when it comes to styling. Only modify from the defaults when needed. On iOS this is surprisingly rare if a default looking app is OK. On macOS a bit more work is required. But because it varies a lot by platform, I adopted a property wrapper approach to styling. The reason I like this approach is because property wrappers live in the environment. So the styling can be customized heavily based on size class, platform, etc. Anything that can be found in the environment. And, most importantly, the UI code is mostly unaware of the styling being applied to it. This is largely thanks to the `some` keyword. It is now possible to return `some ViewModifier` and essentially type-erase all of your styling.
+
+So for each major view, there is a property wrapper within `V3Style` that has the same name. A complex example can be found in [`V3Style.WebsiteEdit`](Hipstapaper/Packages/V3Style/Sources/V3Style/PropertyWrappers/WebsiteEdit.swift). This is a complex form screen with many custom styles. An example of it in use can be found in [`V3WebsiteEdit.FormSingle`.](https://github.com/jeffreybergier/Hipstapaper/blob/b26c80895bb83f9245a6edf9b40e97728ef8b03a/Hipstapaper/Packages/V3WebsiteEdit/Sources/V3WebsiteEdit/Website/FormSingle.swift#L40) 
+
+#### Localization
+
+I also use a similar approach for localized strings in the `V3Localize` package. But its simple enough that I won't explain in this readme. The only thing I will mention here is that using Property Wrappers for Localized Strings is extremely helpful if you need to change the string for larger or smaller screens. For example in a compact size class you may want to say "Add" but on a regular size you may want to say "Add Website". This application doesn't use this. But I think having the Localized strings be customizable based on the environment is pretty helpful.
+
 ## Known Issues
 
 - Toolbars in Sheets and Popovers on macOS are ugly.
