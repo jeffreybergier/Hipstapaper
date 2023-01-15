@@ -26,23 +26,22 @@
 
 import SwiftUI
 import Umbrella
+import V3Localize
 
 public struct ErrorPresenter: ViewModifier {
     
-    private let bundle: any EnvironmentBundleProtocol
     private let router: (Error) -> any UserFacingError
     private let onDismiss: (Error) -> Void
-    
     @Binding private var isError: ErrorStorage.Identifier?
-    @ErrorStorage private var storage
     
-    public init(isError: Binding<ErrorStorage.Identifier?>,
-                localizeBundle: any EnvironmentBundleProtocol,
-                router: @escaping (Error) -> any UserFacingError,
+    @ErrorStorage private var storage
+    @Localize private var bundle
+    
+    public init(isError:   Binding<ErrorStorage.Identifier?>,
+                router:    @escaping (Error) -> any UserFacingError,
                 onDismiss: @escaping (Error) -> Void = { _ in })
     {
         _isError = isError
-        self.bundle = localizeBundle
         self.router = router
         self.onDismiss = onDismiss
     }
@@ -56,10 +55,13 @@ public struct ErrorPresenter: ViewModifier {
     
     private var isUserFacingError: Binding<UserFacingError?> {
         Binding {
-            guard
-                let identifier = self.isError,
-                let error = _storage.pop(identifier)
-            else { return nil }
+            guard let identifier = self.isError else { return nil }
+            guard let error = _storage.pop(identifier) else {
+                // If the ID didn't return an error, its missing.
+                // The ID needs to be discarded to prevent an infinite loop.
+                self.isError = nil
+                return nil
+            }
             return self.router(error)
         } set: {
             guard $0 == nil else { return }

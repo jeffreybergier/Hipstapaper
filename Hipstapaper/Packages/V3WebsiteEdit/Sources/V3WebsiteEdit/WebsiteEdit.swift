@@ -72,7 +72,6 @@ internal struct _WebsiteEdit: View {
     
     @Controller private var controller
     @Navigation private var nav
-    @Localize private var bundle
     
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
@@ -112,7 +111,6 @@ internal struct _WebsiteEdit: View {
         .modifier(ErrorMover(isPresenting: self.nav.isPresenting,
                              toPresent: self.$nav.isError))
         .modifier(ErrorPresenter(isError: self.$nav.isError,
-                                 localizeBundle: self.bundle,
                                  router: self.router(_:)))
     }
     

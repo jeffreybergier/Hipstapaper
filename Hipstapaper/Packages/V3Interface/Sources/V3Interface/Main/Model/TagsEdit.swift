@@ -35,7 +35,6 @@ import V3Style
 internal struct TagsEdit: View {
     
     @Navigation private var nav
-    @Localize   private var bundle
     @Controller private var controller
     @HACK_macOS_Style private var hack_style
     
@@ -61,7 +60,6 @@ internal struct TagsEdit: View {
         .modifier(ErrorMover(isPresenting: self.nav.sidebar.isTagsEdit.isPresenting,
                              toPresent: self.$nav.sidebar.isTagsEdit.isError))
         .modifier(ErrorPresenter(isError: self.$nav.sidebar.isTagsEdit.isError,
-                                 localizeBundle: self.bundle,
                                  router: self.router(_:)))
     }
     

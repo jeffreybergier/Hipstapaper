@@ -36,7 +36,6 @@ import V3Browser
 internal struct MainSplitView: View {
     
     @Navigation private var nav
-    @Localize   private var bundle
     @Controller private var controller
     @V3Style.MainMenu private var style
     @HACK_EditMode    private var isEditMode
@@ -65,7 +64,6 @@ internal struct MainSplitView: View {
         .modifier(ErrorMover(isPresenting: self.nav.isPresenting,
                              toPresent: self.$nav.isError))
         .modifier(ErrorPresenter(isError: self.$nav.isError,
-                                 localizeBundle: self.bundle,
                                  router: self.router(_:)))
     }
     

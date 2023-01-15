@@ -32,11 +32,11 @@ import V3Errors
 
 internal struct BulkActionsHelper: ViewModifier {
     
-    @Navigation private var nav
-    @Selection private var selection
-    @Errors private var errorQueue
-    @Controller private var controller
-    @BulkActions private var appState
+    @Navigation       private var nav
+    @Selection        private var selection
+    @Controller       private var controller
+    @ErrorStorage     private var errors
+    @BulkActions      private var appState
     @BulkActionsQuery private var storeState
     @Environment(\.openURL) private var openExternal
     @Environment(\.openWindow) private var openWindow
@@ -52,7 +52,7 @@ internal struct BulkActionsHelper: ViewModifier {
             .onLoadChange(of: self.selection.websites) { newValue in
                 _storeState.setWebsite(selection: newValue)
             }
-            .onLoadChange(of: self.errorQueue) { newValue in
+            .onLoadChange(of: self.errors) { newValue in
                 self.storeState.showErrors = !newValue.isEmpty
             }
             .onLoadChange(of: self.storeState) { newState in

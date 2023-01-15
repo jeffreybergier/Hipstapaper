@@ -25,11 +25,12 @@
 //
 
 import SwiftUI
+import Umbrella
 import V3Errors
 
 internal struct DetailErrorListPresentation: ViewModifier {
     @Navigation private var nav
-    @Errors private var errorQueue
+    @ErrorStorage private var errors
     internal func body(content: Content) -> some View {
         content.popover(isPresented: self.$nav.detail.isErrorList.isPresented) {
             Text("TODO: ErrorList")// ErrorList(errorStorage: self.$errorQueue)

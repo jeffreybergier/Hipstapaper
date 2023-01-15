@@ -31,9 +31,9 @@ import Umbrella
 public struct ErrorMover: ViewModifier {
     
     @ErrorStorage private var storage
-    @Binding private var toPresent: ErrorStorage.Identifier?
     
     private let isAlreadyPresenting: Bool
+    @Binding private var toPresent: ErrorStorage.Identifier?
     
     public init(isPresenting: Bool, toPresent: Binding<ErrorStorage.Identifier?>) {
         _toPresent = toPresent

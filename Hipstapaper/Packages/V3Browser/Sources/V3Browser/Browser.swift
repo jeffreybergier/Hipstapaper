@@ -49,9 +49,8 @@ public struct Browser: View {
 
 fileprivate struct _Browser: View {
     
-    @Navigation private var nav
-    @Localize   private var bundle
-    @Controller private var controller
+    @Navigation   private var nav
+    @Controller   private var controller
     @WebsiteQuery private var website
     
     @Environment(\.dismiss) private var dismiss
@@ -78,7 +77,6 @@ fileprivate struct _Browser: View {
         .modifier(ErrorMover(isPresenting: self.nav.isPresenting,
                              toPresent: self.$nav.isError))
         .modifier(ErrorPresenter(isError: self.$nav.isError,
-                                 localizeBundle: self.bundle,
                                  router: self.router(_:)))
     }
     
