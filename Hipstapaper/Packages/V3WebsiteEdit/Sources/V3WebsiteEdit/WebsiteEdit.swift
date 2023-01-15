@@ -116,7 +116,7 @@ internal struct _WebsiteEdit: View {
                                  router: self.router(_:)))
     }
     
-    private func router(_ input: CodableError) -> UserFacingError {
+    private func router(_ input: any Swift.Error) -> UserFacingError {
         ErrorRouter.route(input: input,
                           onSuccess: self.dismiss,
                           onError: self.errorResponder,

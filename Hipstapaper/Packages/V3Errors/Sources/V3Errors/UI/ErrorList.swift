@@ -31,6 +31,7 @@ import V3Store
 import V3Localize
 import V3Style
 
+/*
 public struct ErrorList<ES: RandomAccessCollection & RangeReplaceableCollection>: View
                         where ES.Element == CodableError
 {
@@ -112,3 +113,4 @@ internal struct ErrorListRow: View {
                          code:    self.error.errorCode)
     }
 }
+*/

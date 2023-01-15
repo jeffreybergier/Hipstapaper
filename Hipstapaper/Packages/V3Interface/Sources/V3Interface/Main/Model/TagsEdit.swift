@@ -65,7 +65,7 @@ internal struct TagsEdit: View {
                                  router: self.router(_:)))
     }
     
-    private func router(_ input: CodableError) -> UserFacingError {
+    private func router(_ input: any Swift.Error) -> UserFacingError {
         ErrorRouter.route(input: input,
                           onSuccess: self.dismiss.callAsFunction,
                           onError: self.errorResponder,

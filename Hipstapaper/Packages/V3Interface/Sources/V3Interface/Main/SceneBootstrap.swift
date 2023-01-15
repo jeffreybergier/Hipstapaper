@@ -25,6 +25,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import V3Model
 import V3Store
 import V3Localize
@@ -34,8 +35,9 @@ import V3Browser
 public struct SceneBootstrap: Scene {
     
     @StateObject private var localizeBundle = LocalizeBundle()
-    @StateObject private var controller = Controller.newEnvironment()
-    @StateObject private var mainMenuState = BulkActions.newEnvironment()
+    @StateObject private var controller     = Controller.newEnvironment()
+    @StateObject private var mainMenuState  = BulkActions.newEnvironment()
+    @StateObject private var errorStorage   = ErrorStorage.newEnvironment()
     
     public init() {}
     
@@ -48,6 +50,7 @@ public struct SceneBootstrap: Scene {
                     .environmentObject(self.controller)
                     .environmentObject(self.localizeBundle)
                     .environmentObject(self.mainMenuState)
+                    .environmentObject(self.errorStorage)
                     .environment(\.sceneContext, .normal)
                     .environment(\.managedObjectContext, controller.context)
             case .failure(let error):

@@ -32,7 +32,7 @@ internal struct DetailErrorListPresentation: ViewModifier {
     @Errors private var errorQueue
     internal func body(content: Content) -> some View {
         content.popover(isPresented: self.$nav.detail.isErrorList.isPresented) {
-            ErrorList(errorStorage: self.$errorQueue)
+            Text("TODO: ErrorList")// ErrorList(errorStorage: self.$errorQueue)
         }
     }
 }

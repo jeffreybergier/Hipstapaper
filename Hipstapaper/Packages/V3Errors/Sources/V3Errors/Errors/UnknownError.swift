@@ -24,6 +24,7 @@
 //  SOFTWARE.
 //
 
+import Foundation
 import Umbrella
 import V3Localize
 
@@ -34,14 +35,11 @@ public struct UnknownError: UserFacingError {
     public var options: [RecoveryOption]     = []
     public var isCritical: Bool { false }
     
-    public init(_ error: CodableError) {
-        self.errorCode = error.errorCode
-        self.errorDomain = error.errorDomain
-        guard
-            let data = error.arbitraryData,
-            let userInfoString = String(data: data, encoding: .utf8)
-        else { return }
-        self.message = userInfoString
+    public init(_ error: any Swift.Error) {
+        let error = error as NSError
+        self.errorCode = error.code
+        self.errorDomain = error.domain
+        self.message = error.localizedDescription
     }
     
     public static var errorDomain: String { "com.saturdayapps.Hipstapaper.Unknown" }

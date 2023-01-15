@@ -31,12 +31,14 @@ import V3Model
 import V3Store
 
 public enum ErrorRouter {
-    public static func route(input: CodableError,
+    public static func route(input: any Swift.Error,
                              onSuccess: (() -> Void)?,
                              onError: @escaping (Swift.Error) -> Void,
                              controller: ControllerProtocol)
                              -> any UserFacingError
     {
+        return UnknownError(input)
+        /*
         var output: UserFacingError?
         switch input.errorDomain {
         case CPError.errorDomain:
@@ -63,5 +65,6 @@ public enum ErrorRouter {
         }
         // TODO: Localize Datum Errors
         return output ?? UnknownError(input)
+         */
     }
 }

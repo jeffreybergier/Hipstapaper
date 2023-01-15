@@ -87,7 +87,7 @@ fileprivate struct _Browser: View {
                 preferredURL: self.website?.preferredURL)
     }
     
-    private func router(_ input: CodableError) -> UserFacingError {
+    private func router(_ input: any Swift.Error) -> UserFacingError {
         ErrorRouter.route(input: input,
                           onSuccess: self.dismiss.callAsFunction,
                           onError: self.errorResponder,
