@@ -28,6 +28,7 @@ import SwiftUI
 import Umbrella
 import V3Localize
 
+// TODO: Move these to umbrella
 public struct ErrorPresenter: ViewModifier {
     
     private let router: (Error) -> any UserFacingError
@@ -49,16 +50,17 @@ public struct ErrorPresenter: ViewModifier {
     public func body(content: Content) -> some View {
         content
             .alert(anyError: self.isUserFacingError,
-                   bundle:   self.bundle,
-                   onDismiss: { self.onDismiss($0) })
+                   bundle:   self.bundle)
+        {
+            self.isError.map { _storage.remove($0) }
+            self.onDismiss($0)
+        }
     }
     
     private var isUserFacingError: Binding<UserFacingError?> {
         Binding {
             guard let identifier = self.isError else { return nil }
-            guard let error = _storage.pop(identifier) else {
-                // If the ID didn't return an error, its missing.
-                // The ID needs to be discarded to prevent an infinite loop.
+            guard let error = _storage.error(for: identifier) else {
                 self.isError = nil
                 return nil
             }

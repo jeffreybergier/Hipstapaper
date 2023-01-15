@@ -28,6 +28,7 @@ import SwiftUI
 import Collections
 import Umbrella
 
+// TODO: Move these to umbrella
 public struct ErrorMover: ViewModifier {
     
     @ErrorStorage private var storage

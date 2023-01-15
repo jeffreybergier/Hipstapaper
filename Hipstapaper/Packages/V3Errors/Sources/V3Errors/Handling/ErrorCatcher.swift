@@ -27,6 +27,7 @@
 import SwiftUI
 import Umbrella
 
+// TODO: Move these to umbrella
 public struct ErrorCatcher: ViewModifier {
     
     public static var HACK_errorDelay: DispatchTime { .now() + 0.1 }
