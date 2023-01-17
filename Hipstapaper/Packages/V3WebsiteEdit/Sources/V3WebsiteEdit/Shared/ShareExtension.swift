@@ -25,14 +25,14 @@
 //
 
 import SwiftUI
+import Umbrella
 import V3Model
 import V3Store
 import V3Localize
-import V3Errors
 
 public struct ShareExtension: View {
     
-    @StateObject private var errors = Errors.newEnvironment()
+    @StateObject private var errors = ErrorStorage.newEnvironment()
     @StateObject private var controller = Controller.newEnvironment()
     @StateObject private var localizeBundle = LocalizeBundle()
     

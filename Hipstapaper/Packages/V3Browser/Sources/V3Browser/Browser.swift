@@ -76,8 +76,8 @@ fileprivate struct _Browser: View {
         }
         .modifier(ErrorMover(isPresenting: self.nav.isPresenting,
                              toPresent: self.$nav.isError))
-        .modifier(ErrorPresenter(isError: self.$nav.isError,
-                                 router: self.router(_:)))
+        .modifier(ErrorPresenter<LocalizeBundle>(isError: self.$nav.isError,
+                                                 router: self.router(_:)))
     }
     
     private var toolbar: some ViewModifier {

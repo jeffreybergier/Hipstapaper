@@ -59,8 +59,8 @@ internal struct TagsEdit: View {
         }
         .modifier(ErrorMover(isPresenting: self.nav.sidebar.isTagsEdit.isPresenting,
                              toPresent: self.$nav.sidebar.isTagsEdit.isError))
-        .modifier(ErrorPresenter(isError: self.$nav.sidebar.isTagsEdit.isError,
-                                 router: self.router(_:)))
+        .modifier(ErrorPresenter<LocalizeBundle>(isError: self.$nav.sidebar.isTagsEdit.isError,
+                                                 router: self.router(_:)))
     }
     
     private func router(_ input: any Swift.Error) -> UserFacingError {

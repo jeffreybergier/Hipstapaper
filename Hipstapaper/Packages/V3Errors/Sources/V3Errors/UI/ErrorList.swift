@@ -64,10 +64,9 @@ public struct ErrorList<ES: RandomAccessCollection & RangeReplaceableCollection>
             .modifier(self.toolbar)
         }
         .modifier(self.style.popoverSize)
-        .modifier(ErrorPresenter(isError: self.$isError,
-                                 localizeBundle: self.bundle,
-                                 router: self.router(_:),
-                                 onDismiss: self.clear(_:)))
+        .modifier(ErrorPresenter<LocalizeBundle>(isError: self.$isError,
+                                                 router: self.router(_:),
+                                                 onDismiss: self.clear(_:)))
     }
     
     private var toolbar: some ViewModifier {
