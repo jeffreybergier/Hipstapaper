@@ -31,14 +31,20 @@ import Umbrella
 internal struct Dismiss: DynamicProperty {
     
     @Environment(\.dismiss) private var dismiss_system
-    @Environment(\.anyResponder) private var dismiss_custom
+    @Environment(\.customDismiss) private var dismiss_custom
 
     internal var wrappedValue: () -> Void {
-        if let dismiss_custom {
-            return { dismiss_custom(()) }
-        } else {
-            return self.dismiss_system.callAsFunction
-        }
+        self.dismiss_custom ?? self.dismiss_system.callAsFunction
     }
 }
 
+public struct EnvironmentCustomDismiss: EnvironmentKey {
+    public static var defaultValue: (() -> Void)? = nil
+}
+
+extension EnvironmentValues {
+    public var customDismiss: (() -> Void)? {
+        get { self[EnvironmentCustomDismiss.self] }
+        set { self[EnvironmentCustomDismiss.self] = newValue }
+    }
+}

@@ -40,11 +40,11 @@ public struct ShareExtension: View {
     @State private var noSelectionText: String = "Loading…"
     
     private let inputURL: URL?
-    private let onDismiss: (Any) -> Void
+    private let onDismiss: () -> Void
     
     public init(inputURL: URL?, onDismiss: @escaping () -> Void) {
         self.inputURL = inputURL
-        self.onDismiss = { _ in onDismiss() }
+        self.onDismiss = onDismiss
     }
     
     @ViewBuilder public var body: some View {
@@ -55,7 +55,7 @@ public struct ShareExtension: View {
                     .environmentObject(self.controller)
                     .environmentObject(self.errorStorage)
                     .environmentObject(self.localizeBundle)
-                    .environment(\.anyResponder, self.onDismiss)
+                    .environment(\.customDismiss, self.onDismiss)
                     .environment(\.sceneContext, .extensionShare)
                     .environment(\.managedObjectContext, controller.context)
             case .failure(let error):
