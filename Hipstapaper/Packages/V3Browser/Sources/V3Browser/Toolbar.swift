@@ -133,11 +133,9 @@ internal struct Toolbar: ViewModifier {
                   .button(isEnabled: !self.isArchived)
         {
             self.isArchived = true
-            // Hack to allow errors to settle from ErrorCatcher
-            DispatchQueue.main.asyncAfter(deadline: ErrorCatcher.HACK_errorDelay + 0.1) {
-                guard self.nav.isPresenting == false else { return }
-                self.dismiss()
-            }
+            // TODO: Maybe HACK needs to return?
+            guard self.nav.isPresenting == false else { return }
+            self.dismiss()
         }
     }
     

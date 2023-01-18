@@ -32,8 +32,8 @@ import V3Localize
 
 public struct ShareExtension: View {
     
-    @StateObject private var errors = ErrorStorage.newEnvironment()
     @StateObject private var controller = Controller.newEnvironment()
+    @StateObject private var errorStorage = ErrorStorage.newEnvironment()
     @StateObject private var localizeBundle = LocalizeBundle()
     
     @State private var selection: Website.Selection = []
@@ -52,9 +52,8 @@ public struct ShareExtension: View {
             switch self.controller.value {
             case .success(let controller):
                 WebsiteEdit(selection: selection, start: .website)
-                    .modifier(ErrorCatcher())
-                    .environmentObject(self.errors)
                     .environmentObject(self.controller)
+                    .environmentObject(self.errorStorage)
                     .environmentObject(self.localizeBundle)
                     .environment(\.anyResponder, self.onDismiss)
                     .environment(\.sceneContext, .extensionShare)

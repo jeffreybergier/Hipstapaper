@@ -46,7 +46,6 @@ public struct SceneBootstrap: Scene {
             switch self.controller.value {
             case .success(let controller):
                 MainSplitView()
-                    .modifier(ErrorCatcher())
                     .environmentObject(self.controller)
                     .environmentObject(self.localizeBundle)
                     .environmentObject(self.mainMenuState)
@@ -66,9 +65,9 @@ public struct SceneBootstrap: Scene {
             switch (self.controller.value, value) {
             case (.success(let controller), .some(let identifier)):
                 Browser(identifier)
-                    .modifier(ErrorCatcher())
                     .environmentObject(self.controller)
                     .environmentObject(self.localizeBundle)
+                    .environmentObject(self.errorStorage)
                     .environment(\.sceneContext, .scene(id: identifier.rawValue))
                     .environment(\.managedObjectContext, controller.context)
             case (_, .none):
