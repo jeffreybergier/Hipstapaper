@@ -48,8 +48,9 @@ internal struct Web: View {
 
 fileprivate struct _Web: View {
     
-    @Navigation private var nav
-    @Environment(\.errorResponder) private var errorChain
+    @Navigation   private var nav
+    @ErrorStorage private var errors
+
     @ObservedObject fileprivate var progress: ObserveBox<Double>
     @StateObject private var kvo = SecretBox(Array<NSObjectProtocol>())
 
@@ -117,8 +118,8 @@ fileprivate struct _Web: View {
     }
     
     func makeCoordinator() -> GenericWebKitNavigationDelegate {
-        return .init { [errorChain] error in
-            errorChain(error)
+        return .init { [errors] error in
+            errors.append(error)
         }
     }
     

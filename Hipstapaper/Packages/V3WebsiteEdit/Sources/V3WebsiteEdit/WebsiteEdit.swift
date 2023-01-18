@@ -70,15 +70,15 @@ public struct WebsiteEdit: View {
 
 internal struct _WebsiteEdit: View {
     
-    @Controller private var controller
-    @Navigation private var nav
+    @Navigation   private var nav
+    @Controller   private var controller
+    @ErrorStorage private var errors
     
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
     @HACK_macOS_Style private var hack_style
     
     @Dismiss private var dismiss
-    @Environment(\.errorResponder) private var errorResponder
     
     @Binding private var screen: WebsiteEdit.Screen
     private let selection: Website.Selection
@@ -117,7 +117,7 @@ internal struct _WebsiteEdit: View {
     private func router(_ input: any Swift.Error) -> UserFacingError {
         ErrorRouter.route(input: input,
                           onSuccess: self.dismiss,
-                          onError: self.errorResponder,
+                          onError: self.errors.rawStorage,
                           controller: self.controller)
     }
 }

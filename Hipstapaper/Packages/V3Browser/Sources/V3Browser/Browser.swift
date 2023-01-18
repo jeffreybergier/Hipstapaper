@@ -52,9 +52,9 @@ fileprivate struct _Browser: View {
     @Navigation   private var nav
     @Controller   private var controller
     @WebsiteQuery private var website
+    @ErrorStorage private var errors
     
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.errorResponder) private var errorResponder
     
     private let identifier: Website.Identifier
     
@@ -88,7 +88,7 @@ fileprivate struct _Browser: View {
     private func router(_ input: any Swift.Error) -> UserFacingError {
         ErrorRouter.route(input: input,
                           onSuccess: self.dismiss.callAsFunction,
-                          onError: self.errorResponder,
+                          onError: self.errors.rawStorage,
                           controller: self.controller)
     }
 }

@@ -41,7 +41,6 @@ internal struct BulkActionsHelper: ViewModifier {
     @Environment(\.openURL) private var openExternal
     @Environment(\.openWindow) private var openWindow
     @Environment(\.supportsMultipleWindows) private var supportsMultipleWindows
-    @Environment(\.errorResponder) private var errorResponder
     
     internal func body(content: Content) -> some View {
         content
@@ -52,7 +51,7 @@ internal struct BulkActionsHelper: ViewModifier {
             .onLoadChange(of: self.selection.websites) { newValue in
                 _storeState.setWebsite(selection: newValue)
             }
-            .onLoadChange(of: self.errors) { newValue in
+            .onLoadChange(of: self.errors.all) { newValue in
                 self.storeState.showErrors = !newValue.isEmpty
             }
             .onLoadChange(of: self.storeState) { newState in
@@ -67,7 +66,7 @@ internal struct BulkActionsHelper: ViewModifier {
                     self.nav.isWebsitesEdit = [identifier]
                 case .failure(let error):
                     NSLog(String(describing: error))
-                     self.errorResponder(error)
+                    self.errors.append(error)
                 }
             }
             .onChange(of: self.appState.push.tagAdd) { newValue in
@@ -78,7 +77,7 @@ internal struct BulkActionsHelper: ViewModifier {
                     self.nav.sidebar.isTagsEdit.isPresented = [identifier]
                 case .failure(let error):
                     NSLog(String(describing: error))
-                    self.errorResponder(error)
+                    self.errors.append(error)
                 }
             }
             .onChange(of: self.appState.push.openInSheet) { newValue in
@@ -113,13 +112,13 @@ internal struct BulkActionsHelper: ViewModifier {
                 guard selection.isEmpty == false else { return }
                 defer { self.appState.push.archiveYes = [] }
                 guard let error = BulkActionsQuery.setArchive(true, selection, self.controller).error else { return }
-                self.errorResponder(error)
+                self.errors.append(error)
             }
             .onChange(of: self.appState.push.archiveNo) { selection in
                 guard selection.isEmpty == false else { return }
                 defer { self.appState.push.archiveNo = [] }
                 guard let error = BulkActionsQuery.setArchive(false, selection, self.controller).error else { return }
-                 self.errorResponder(error)
+                self.errors.append(error)
             }
             .onChange(of: self.appState.push.tagApply) { selection in
                 guard selection.isEmpty == false else { return }
@@ -139,12 +138,12 @@ internal struct BulkActionsHelper: ViewModifier {
             .onChange(of: self.appState.push.websiteDelete) { selection in
                 guard selection.isEmpty == false else { return }
                 defer { self.appState.push.websiteDelete = [] }
-                self.errorResponder(DeleteRequestError.website(selection))
+                self.errors.append(DeleteRequestError.website(selection))
             }
             .onChange(of: self.appState.push.tagDelete) { selection in
                 guard selection.isEmpty == false else { return }
                 defer { self.appState.push.tagDelete = [] }
-                self.errorResponder(DeleteRequestError.tag(selection))
+                self.errors.append(DeleteRequestError.tag(selection))
             }
             .onChange(of: self.appState.push.showErrors) { newValue in
                 guard newValue else { return }

@@ -35,13 +35,13 @@ import V3Browser
 
 internal struct MainSplitView: View {
     
-    @Navigation private var nav
-    @Controller private var controller
+    @Navigation   private var nav
+    @Controller   private var controller
+    @ErrorStorage private var errors
+    
     @V3Style.MainMenu private var style
     @HACK_EditMode    private var isEditMode
-    
-    @Environment(\.errorResponder) private var errorResponder
-    
+        
     internal var body: some View {
         NavigationSplitView {
             Sidebar()
@@ -58,7 +58,7 @@ internal struct MainSplitView: View {
                 let errors = self.controller.syncProgress.errors
                 guard errors.isEmpty == false else { return }
                 self.controller.syncProgress.errors.removeAll()
-                errors.forEach(self.errorResponder)
+                errors.forEach(self.errors.append(_:))
             }
         }
         .modifier(ErrorMover(isPresenting: self.nav.isPresenting,
@@ -70,7 +70,7 @@ internal struct MainSplitView: View {
     private func router(_ input: any Swift.Error) -> UserFacingError {
         ErrorRouter.route(input: input,
                           onSuccess: { },
-                          onError: self.errorResponder,
+                          onError: self.errors.rawStorage,
                           controller: self.controller)
     }
 }

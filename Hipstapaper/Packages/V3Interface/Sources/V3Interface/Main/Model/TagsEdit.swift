@@ -34,12 +34,13 @@ import V3Style
 
 internal struct TagsEdit: View {
     
-    @Navigation private var nav
-    @Controller private var controller
+    @Navigation   private var nav
+    @Controller   private var controller
+    @ErrorStorage private var errors
+    
     @HACK_macOS_Style private var hack_style
     
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.errorResponder) private var errorResponder
     
     internal let selection: Tag.Selection
     
@@ -66,7 +67,7 @@ internal struct TagsEdit: View {
     private func router(_ input: any Swift.Error) -> UserFacingError {
         ErrorRouter.route(input: input,
                           onSuccess: self.dismiss.callAsFunction,
-                          onError: self.errorResponder,
+                          onError: self.errors.rawStorage,
                           controller: self.controller)
     }
 }
@@ -123,7 +124,6 @@ internal struct TagsEditToolbar: ViewModifier {
     @V3Localize.TagsEdit private var text
     
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.errorResponder) private var errorResponder
     
     internal let selection: Tag.Selection
     

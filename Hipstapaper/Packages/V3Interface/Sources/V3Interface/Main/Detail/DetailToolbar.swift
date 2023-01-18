@@ -177,7 +177,7 @@ internal struct DetailToolbar: ViewModifier {
                     placement: .secondaryAction,
                     showsByDefault: false,
                     content: ColumnMenu.init)
-        if self.errors.isEmpty == false {
+        if self.errors.all.isEmpty == false {
             ToolbarItem(id: .itemError, placement: .navigation) {
                 self.style.toolbar
                     .action(text: self.text.error)

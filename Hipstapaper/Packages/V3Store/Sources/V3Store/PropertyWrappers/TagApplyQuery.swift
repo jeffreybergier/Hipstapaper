@@ -31,9 +31,9 @@ import V3Model
 @propertyWrapper
 public struct TagApplyQuery: DynamicProperty {
     
-    @Controller private var controller
+    @ErrorStorage private var errors
+    @Controller   private var controller
     @TagUserListQuery private var data
-    @Environment(\.errorResponder) private var errorResponder
     
     @State public var selection: Website.Selection = []
     
@@ -54,10 +54,9 @@ public struct TagApplyQuery: DynamicProperty {
                                                       selection: self.selection)
                 return .init(identifier: identifier, status: status)
             } set: {
-                if let error = _controller.cd.write(tag: $0, selection: self.selection).error {
-                    NSLog(String(describing: error))
-                    self.errorResponder(error)
-                }
+                guard let error = _controller.cd.write(tag: $0, selection: self.selection).error else { return }
+                NSLog(String(describing: error))
+                self.errors.append(error)
             }
         }
     }

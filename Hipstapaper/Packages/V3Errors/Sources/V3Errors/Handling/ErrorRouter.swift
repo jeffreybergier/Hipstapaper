@@ -33,7 +33,7 @@ import V3Store
 public enum ErrorRouter {
     public static func route(input: any Swift.Error,
                              onSuccess: (() -> Void)?,
-                             onError: @escaping (Swift.Error) -> Void,
+                             onError: ErrorStorage.EnvironmentValue,
                              controller: ControllerProtocol)
                              -> any UserFacingError
     {

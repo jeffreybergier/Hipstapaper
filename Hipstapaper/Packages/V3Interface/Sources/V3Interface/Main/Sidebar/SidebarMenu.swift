@@ -25,18 +25,18 @@
 //
 
 import SwiftUI
+import Umbrella
 import V3Model
 import V3Localize
 import V3Style
-import V3Errors
 
 internal struct SidebarMenu: ViewModifier {
     
-    @Navigation private var nav
-    @V3Style.Sidebar private var style
+    @Navigation   private var nav
+    @ErrorStorage private var errors
+
+    @V3Style.Sidebar    private var style
     @V3Localize.Sidebar private var text
-    
-    @Environment(\.errorResponder) private var errorResponder
     
     internal func body(content: Content) -> some View {
         content.contextMenu(forSelectionType: Tag.Selection.Element.self) { items in
@@ -45,7 +45,7 @@ internal struct SidebarMenu: ViewModifier {
                     self.nav.sidebar.isTagsEdit.isPresented = items
                 }
                 self.style.destructive.action(text: self.text.menuDeleteTags).button {
-                    self.errorResponder(DeleteRequestError.tag(items))
+                    self.errors.append(DeleteRequestError.tag(items))
                 }
             } onEmpty: {
                 EmptyView()

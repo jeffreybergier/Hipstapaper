@@ -47,9 +47,10 @@ internal struct Web: View {
 
 fileprivate struct _Web: View {
     
-    @Navigation private var nav
-    @WebState private var webState
-    @Environment(\.errorResponder) private var errorChain
+    @WebState     private var webState
+    @Navigation   private var nav
+    @ErrorStorage private var errors
+
     @ObservedObject fileprivate var progress: ObserveBox<Double>
     @StateObject private var kvo = SecretBox(Array<NSObjectProtocol>())
 
@@ -64,12 +65,12 @@ fileprivate struct _Web: View {
         }
         if self.nav.shouldSnapshot {
             _nav.HACK_set(\.shouldSnapshot, false)
-            wv.snapshot { [errorChain, state = _webState.raw] result in
+            wv.snapshot { [errors, state = _webState.raw] result in
                 switch result {
                 case .success(let image):
                     state.value.currentThumbnail = image
                 case .failure(let error):
-                    errorChain(error)
+                    errors.append(error)
                 }
             }
         }
@@ -116,8 +117,8 @@ fileprivate struct _Web: View {
     }
     
     func makeCoordinator() -> GenericWebKitNavigationDelegate {
-        return .init { [errorChain] error in
-            errorChain(error)
+        return .init { [errors] error in
+            errors.append(error)
         }
     }
     

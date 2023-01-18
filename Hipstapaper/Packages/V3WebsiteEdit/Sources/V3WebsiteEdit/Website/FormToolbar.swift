@@ -33,13 +33,14 @@ import V3Errors
 
 internal struct FormToolbar: ViewModifier {
     
-    @Navigation private var nav
-    @Dismiss private var dismiss
-    @V3Style.WebsiteEdit private var style
+    @Navigation   private var nav
+    @ErrorStorage private var errors
+    
+    @V3Style.WebsiteEdit    private var style
     @V3Localize.WebsiteEdit private var text
     
-    @Environment(\.errorResponder) private var errorResponder
-    
+    @Dismiss private var dismiss
+        
     private let deletableSelection: Website.Selection
     
     internal init(_ deletableSelection: Website.Selection) {
@@ -56,6 +57,6 @@ internal struct FormToolbar: ViewModifier {
     }
     
     private func delete() {
-        self.errorResponder(DeleteRequestError.website(self.deletableSelection))
+        self.errors.append(DeleteRequestError.website(self.deletableSelection))
     }
 }
