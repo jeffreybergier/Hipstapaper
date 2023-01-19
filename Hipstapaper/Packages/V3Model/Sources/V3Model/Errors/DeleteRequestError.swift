@@ -45,31 +45,3 @@ public enum DeleteRequestError: CustomNSError, Codable {
         return id
     }
 }
-
-extension DeleteRequestError: CodableErrorConvertible {
-    public init?(decode: Umbrella.CodableError) {
-        guard let data = decode.arbitraryData else { return nil }
-        if let id = try? PropertyListDecoder().decode(Website.Selection.self, from: data) {
-            self = .website(id)
-            return
-        }
-        if let id = try? PropertyListDecoder().decode(Tag.Selection.self, from: data) {
-            self = .tag(id)
-            return
-        }
-        assertionFailure()
-        return nil
-    }
-    
-    public var encode: Umbrella.CodableError {
-        var output = CodableError(self)
-        switch self {
-        case .website(let id):
-            output.arbitraryData = try? PropertyListEncoder().encode(id)
-        case .tag(let id):
-            output.arbitraryData = try? PropertyListEncoder().encode(id)
-        }
-        assert(output.arbitraryData != nil)
-        return output
-    }
-}
