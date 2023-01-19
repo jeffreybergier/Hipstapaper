@@ -30,42 +30,36 @@ import V3Localize
 import V3Model
 import V3Store
 
-public enum ErrorRouter {
-    public static func route(input: any Swift.Error,
-                             onSuccess: (() -> Void)?,
-                             onError: ErrorStorage.EnvironmentValue,
-                             controller: ControllerProtocol)
-                             -> any UserFacingError
-    {
-        if let error = input as? UserFacingError { return error }
-        return UnknownError(input)
-        /*
-        var output: UserFacingError?
-        switch input.errorDomain {
-        case CPError.errorDomain:
-            output = CPError(decode: input)
-        case DeleteRequestError.errorDomain:
-            output = DeleteRequestError(decode: input).map {
-                DeleteConfirmationError(request: $0) {
-                    let result: Result<Void, V3Store.Error>
-                    switch $0 {
-                    case .website(let selection):
-                        result = controller.delete(selection)
-                    case .tag(let selection):
-                        result = controller.delete(selection)
-                    }
-                    switch result {
-                    case .success:
-                        onSuccess?()
-                    case .failure(let error):
-                        onError(error)
-                    }
+public func errorRouter(_ input: Swift.Error) -> UserFacingError {
+    if let error = input as? UserFacingError { return error }
+    return UnknownError(input)
+    
+    /*
+    var output: UserFacingError?
+    switch input.errorDomain {
+    case CPError.errorDomain:
+        output = CPError(decode: input)
+    case DeleteRequestError.errorDomain:
+        output = DeleteRequestError(decode: input).map {
+            DeleteConfirmationError(request: $0) {
+                let result: Result<Void, V3Store.Error>
+                switch $0 {
+                case .website(let selection):
+                    result = controller.delete(selection)
+                case .tag(let selection):
+                    result = controller.delete(selection)
+                }
+                switch result {
+                case .success:
+                    onSuccess?()
+                case .failure(let error):
+                    onError(error)
                 }
             }
-        default: break
         }
-        // TODO: Localize Datum Errors
-        return output ?? UnknownError(input)
-         */
+    default: break
     }
+    // TODO: Localize Datum Errors
+    return output ?? UnknownError(input)
+    */
 }

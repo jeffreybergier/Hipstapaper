@@ -35,9 +35,6 @@ import V3Style
 internal struct TagsEdit: View {
     
     @Navigation   private var nav
-    @Controller   private var controller
-    @ErrorStorage private var errors
-    
     @HACK_macOS_Style private var hack_style
     
     @Environment(\.dismiss) private var dismiss
@@ -58,17 +55,13 @@ internal struct TagsEdit: View {
             .modifier(self.hack_style.formStyle)
             .modifier(TagsEditToolbar(self.selection))
         }
-        .modifier(ErrorMover(isPresenting: self.nav.sidebar.isTagsEdit.isPresenting,
-                             toPresent: self.$nav.sidebar.isTagsEdit.isError))
-        .modifier(ErrorPresenter<LocalizeBundle>(isError: self.$nav.sidebar.isTagsEdit.isError,
-                                                 router: self.router(_:)))
-    }
-    
-    private func router(_ input: any Swift.Error) -> UserFacingError {
-        ErrorRouter.route(input: input,
-                          onSuccess: self.dismiss.callAsFunction,
-                          onError: self.errors.rawStorage,
-                          controller: self.controller)
+        .modifier(
+            ErrorStorage.Presenter<LocalizeBundle>(
+                isAlreadyPresenting: self.nav.sidebar.isTagsEdit.isPresenting,
+                toPresent: self.$nav.sidebar.isTagsEdit.isError,
+                router: errorRouter(_:)
+            )
+        )
     }
 }
 
@@ -120,7 +113,10 @@ internal struct TagsEditRow: View {
 
 internal struct TagsEditToolbar: ViewModifier {
     
-    @BulkActions private var actions
+    @Controller   private var controller
+    @ErrorStorage private var errors
+    @BulkActions  private var actions
+    
     @V3Localize.TagsEdit private var text
     
     @Environment(\.dismiss) private var dismiss
@@ -142,7 +138,15 @@ internal struct TagsEditToolbar: ViewModifier {
         {
             self.dismiss()
         } deleteAction: {
-            self.actions.push.tagDelete = self.selection
+            let error = DeleteTagConfirmationError(self.selection) { selection in
+                switch self.controller.delete(selection) {
+                case .success:
+                    self.dismiss()
+                case .failure(let error):
+                    self.errors.append(error)
+                }
+            }
+            self.errors.append(error)
         }
     }
 }

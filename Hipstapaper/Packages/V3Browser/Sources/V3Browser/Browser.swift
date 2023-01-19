@@ -50,9 +50,7 @@ public struct Browser: View {
 fileprivate struct _Browser: View {
     
     @Navigation   private var nav
-    @Controller   private var controller
     @WebsiteQuery private var website
-    @ErrorStorage private var errors
     
     @Environment(\.dismiss) private var dismiss
     
@@ -74,21 +72,17 @@ fileprivate struct _Browser: View {
         .onLoadChange(of: self.website?.preferredURL) {
             self.nav.shouldLoadURL = $0
         }
-        .modifier(ErrorMover(isPresenting: self.nav.isPresenting,
-                             toPresent: self.$nav.isError))
-        .modifier(ErrorPresenter<LocalizeBundle>(isError: self.$nav.isError,
-                                                 router: self.router(_:)))
+        .modifier(
+            ErrorStorage.Presenter<LocalizeBundle>(
+                isAlreadyPresenting: self.nav.isPresenting,
+                toPresent: self.$nav.isError,
+                router: errorRouter(_:)
+            )
+        )
     }
     
     private var toolbar: some ViewModifier {
         Toolbar(isArchived: self.$website?.isArchived ?? .constant(false),
                 preferredURL: self.website?.preferredURL)
-    }
-    
-    private func router(_ input: any Swift.Error) -> UserFacingError {
-        ErrorRouter.route(input: input,
-                          onSuccess: self.dismiss.callAsFunction,
-                          onError: self.errors.rawStorage,
-                          controller: self.controller)
     }
 }

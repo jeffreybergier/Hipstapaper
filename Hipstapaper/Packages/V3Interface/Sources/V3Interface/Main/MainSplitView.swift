@@ -26,12 +26,10 @@
 
 import SwiftUI
 import Umbrella
-import V3Model
 import V3Store
 import V3Style
 import V3Localize
 import V3Errors
-import V3Browser
 
 internal struct MainSplitView: View {
     
@@ -61,16 +59,12 @@ internal struct MainSplitView: View {
                 errors.forEach(self.errors.append(_:))
             }
         }
-        .modifier(ErrorMover(isPresenting: self.nav.isPresenting,
-                             toPresent: self.$nav.isError))
-        .modifier(ErrorPresenter<LocalizeBundle>(isError: self.$nav.isError,
-                                                 router: self.router(_:)))
-    }
-    
-    private func router(_ input: any Swift.Error) -> UserFacingError {
-        ErrorRouter.route(input: input,
-                          onSuccess: { },
-                          onError: self.errors.rawStorage,
-                          controller: self.controller)
+        .modifier(
+            ErrorStorage.Presenter<LocalizeBundle>(
+                isAlreadyPresenting: self.nav.isPresenting,
+                toPresent: self.$nav.isError,
+                router: errorRouter(_:)
+            )
+        )
     }
 }
