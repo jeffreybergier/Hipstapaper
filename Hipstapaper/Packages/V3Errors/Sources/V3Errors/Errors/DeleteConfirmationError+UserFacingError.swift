@@ -28,19 +28,13 @@ import Umbrella
 import V3Model
 import V3Localize
 
-extension V3Model.DeleteConfirmationError: UserFacingError {
+extension V3Model.DeleteWebsiteConfirmationError: UserFacingError {
     public var title: LocalizationKey {
-        switch self.request {
-        case .tag:     return V3Localize.DeleteConfirmationError.titleTag
-        case .website: return V3Localize.DeleteConfirmationError.titleWebsite
-        }
+        V3Localize.DeleteConfirmationError.titleWebsite
     }
     
     public var message: LocalizationKey {
-        switch self.request {
-        case .tag:     return V3Localize.DeleteConfirmationError.messageTag
-        case .website: return V3Localize.DeleteConfirmationError.messageWebsite
-        }
+        V3Localize.DeleteConfirmationError.messageWebsite
     }
     
     public var dismissTitle: Umbrella.LocalizationKey {
@@ -52,15 +46,39 @@ extension V3Model.DeleteConfirmationError: UserFacingError {
     }
     
     public var options: [Umbrella.RecoveryOption] {
-        let title: LocalizationKey = {
-            switch self.request {
-            case .tag:     return V3Localize.DeleteConfirmationError.optionTitleTag
-            case .website: return V3Localize.DeleteConfirmationError.optionTitleWebsite
+        [
+            .init(title: V3Localize.DeleteConfirmationError.optionTitleWebsite,
+                  isDestructive: true)
+            {
+                self.onConfirmation(self.id)
             }
-        }()
-        return [
-            .init(title: title, isDestructive: true) {
-                self.onConfirmation(self.request)
+        ]
+    }
+}
+
+extension V3Model.DeleteTagConfirmationError: UserFacingError {
+    public var title: LocalizationKey {
+        V3Localize.DeleteConfirmationError.titleTag
+    }
+    
+    public var message: LocalizationKey {
+        V3Localize.DeleteConfirmationError.messageTag
+    }
+    
+    public var dismissTitle: Umbrella.LocalizationKey {
+        return V3Localize.DeleteConfirmationError.dismissTitle
+    }
+    
+    public var isCritical: Bool {
+        false
+    }
+    
+    public var options: [Umbrella.RecoveryOption] {
+        [
+            .init(title: V3Localize.DeleteConfirmationError.optionTitleTag,
+                  isDestructive: true)
+            {
+                self.onConfirmation(self.id)
             }
         ]
     }

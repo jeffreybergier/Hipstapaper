@@ -37,6 +37,7 @@ public enum ErrorRouter {
                              controller: ControllerProtocol)
                              -> any UserFacingError
     {
+        if let error = input as? UserFacingError { return error }
         return UnknownError(input)
         /*
         var output: UserFacingError?

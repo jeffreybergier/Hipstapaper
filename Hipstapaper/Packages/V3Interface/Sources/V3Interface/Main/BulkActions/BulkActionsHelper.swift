@@ -138,12 +138,22 @@ internal struct BulkActionsHelper: ViewModifier {
             .onChange(of: self.appState.push.websiteDelete) { selection in
                 guard selection.isEmpty == false else { return }
                 defer { self.appState.push.websiteDelete = [] }
-                self.errors.append(DeleteRequestError.website(selection))
+                let error = DeleteWebsiteConfirmationError(selection) { selection in
+                    self.controller.delete(selection)
+                        .error
+                        .map(self.errors.append(_:))
+                }
+                self.errors.append(error)
             }
             .onChange(of: self.appState.push.tagDelete) { selection in
                 guard selection.isEmpty == false else { return }
                 defer { self.appState.push.tagDelete = [] }
-                self.errors.append(DeleteRequestError.tag(selection))
+                let error = DeleteTagConfirmationError(selection) { selection in
+                    self.controller.delete(selection)
+                        .error
+                        .map(self.errors.append(_:))
+                }
+                self.errors.append(error)
             }
             .onChange(of: self.appState.push.showErrors) { newValue in
                 guard newValue else { return }

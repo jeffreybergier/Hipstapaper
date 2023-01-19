@@ -33,6 +33,7 @@ import V3Style
 internal struct SidebarMenu: ViewModifier {
     
     @Navigation   private var nav
+    @BulkActions  private var appState
     @ErrorStorage private var errors
 
     @V3Style.Sidebar    private var style
@@ -45,7 +46,7 @@ internal struct SidebarMenu: ViewModifier {
                     self.nav.sidebar.isTagsEdit.isPresented = items
                 }
                 self.style.destructive.action(text: self.text.menuDeleteTags).button {
-                    self.errors.append(DeleteRequestError.tag(items))
+                    self.appState.push.tagDelete = items
                 }
             } onEmpty: {
                 EmptyView()

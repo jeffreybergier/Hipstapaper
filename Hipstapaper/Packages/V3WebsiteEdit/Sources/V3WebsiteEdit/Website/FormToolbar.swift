@@ -26,6 +26,7 @@
 
 import SwiftUI
 import Umbrella
+import V3Store
 import V3Model
 import V3Style
 import V3Localize
@@ -34,6 +35,7 @@ import V3Errors
 internal struct FormToolbar: ViewModifier {
     
     @Navigation   private var nav
+    @Controller   private var controller
     @ErrorStorage private var errors
     
     @V3Style.WebsiteEdit    private var style
@@ -57,6 +59,15 @@ internal struct FormToolbar: ViewModifier {
     }
     
     private func delete() {
-        self.errors.append(DeleteRequestError.website(self.deletableSelection))
+        let error = DeleteWebsiteConfirmationError(self.deletableSelection)
+        { selection in
+            switch self.controller.delete(selection) {
+            case .success:
+                self.dismiss()
+            case .failure(let error):
+                self.errors.append(error)
+            }
+        }
+        self.errors.append(error)
     }
 }

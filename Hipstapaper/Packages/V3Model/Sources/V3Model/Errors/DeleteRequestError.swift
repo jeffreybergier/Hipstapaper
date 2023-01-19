@@ -27,21 +27,34 @@
 import Foundation
 import Umbrella
 
-public enum DeleteRequestError: CustomNSError, Codable {
+public struct DeleteWebsiteConfirmationError: CustomNSError {
     
     static public var errorDomain = "com.saturdayapps.Hipstapaper.model"
     public var errorCode: Int { 1001 }
     
-    case website(Website.Selection)
-    case tag(Tag.Selection)
+    public var id: Website.Selection
+    public var onConfirmation: (Website.Selection) -> Void
     
-    public var websiteID: Website.Selection {
-        guard case .website(let id) = self else { return [] }
-        return id
+    public init(_ id: Website.Selection,
+                onConfirmation: @escaping (Website.Selection) -> Void)
+    {
+        self.id = id
+        self.onConfirmation = onConfirmation
     }
+}
+
+public struct DeleteTagConfirmationError: CustomNSError {
     
-    public var tagID: Tag.Selection {
-        guard case .tag(let id) = self else { return [] }
-        return id
+    static public var errorDomain = "com.saturdayapps.Hipstapaper.model"
+    public var errorCode: Int { 1002 }
+    
+    public var id: Tag.Selection
+    public var onConfirmation: (Tag.Selection) -> Void
+    
+    public init(_ id: Tag.Selection,
+                onConfirmation: @escaping (Tag.Selection) -> Void)
+    {
+        self.id = id
+        self.onConfirmation = onConfirmation
     }
 }
