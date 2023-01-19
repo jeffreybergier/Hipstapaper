@@ -155,10 +155,8 @@ internal struct BulkActionsHelper: ViewModifier {
                 }
                 self.errors.append(error)
             }
-            .onChange(of: self.appState.push.showErrors) { newValue in
-                guard newValue else { return }
-                defer { self.appState.push.showErrors = false }
-                self.nav.detail.isErrorList.isPresented = true
+            .onChange(of: self.appState.push.showErrors) { _ in
+                self.nav.isError = self.errors.all.first
             }
             .onChange(of: self.appState.push.deselectAll) { newValue in
                 guard newValue.isEmpty == false else { return }

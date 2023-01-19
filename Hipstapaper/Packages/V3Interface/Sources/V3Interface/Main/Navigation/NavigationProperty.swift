@@ -51,7 +51,6 @@ extension Navigation {
         internal var isTagsEdit: TagsEdit = .init()
     }
     internal struct Detail: Hashable, Codable {
-        internal var isErrorList:       Basic = .init()
         internal var isTagApply:        Website.Selection = []
         internal var isTagApplyPopover: Website.Selection = []
         internal var isShare:           Website.Selection = []
@@ -99,8 +98,7 @@ extension Navigation.Sidebar {
 
 extension Navigation.Detail {
     internal var isPresenting: Bool {
-           self.isErrorList.isPresented
-        || self.isTagApply.isEmpty        == false
+        self.isTagApply.isEmpty           == false
         || self.isTagApplyPopover.isEmpty == false
         || self.isShare.isEmpty           == false
         || self.isSharePopover.isEmpty    == false

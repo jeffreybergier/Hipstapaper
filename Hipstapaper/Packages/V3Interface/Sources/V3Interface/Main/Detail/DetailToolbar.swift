@@ -137,9 +137,8 @@ internal struct DetailToolbar: ViewModifier {
                     .action(text: self.text.error)
                     .button(isEnabled: self.state.pull.showErrors)
                 {
-                    self.state.push.showErrors = true
+                    self.state.push.showErrors.toggle()
                 }
-                .modifier(DetailErrorListPresentation())
             }
         }
     }
@@ -183,9 +182,8 @@ internal struct DetailToolbar: ViewModifier {
                     .action(text: self.text.error)
                     .button(isEnabled: self.state.pull.showErrors)
                 {
-                    self.state.push.showErrors = true
+                    self.state.push.showErrors.toggle()
                 }
-                .modifier(DetailErrorListPresentation())
             }
         }
     }
