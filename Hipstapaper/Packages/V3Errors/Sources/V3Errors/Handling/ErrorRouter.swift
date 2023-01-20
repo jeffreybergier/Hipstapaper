@@ -32,5 +32,5 @@ import V3Store
 
 public func errorRouter(_ input: Swift.Error) -> UserFacingError {
     if let error = input as? UserFacingError { return error }
-    return UnknownError(input)
+    return LocalizedNSError(input, dismissTitle: V3Localize.CPError.dismissTitle)
 }

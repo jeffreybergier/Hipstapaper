@@ -38,8 +38,8 @@ extension Umbrella.CPError: UserFacingError {
         }
     }
     
-    public var title: LocalizationKey { V3Localize.CPError.title }
+    public var title:        LocalizationKey { V3Localize.CPError.title }
     public var dismissTitle: LocalizationKey { V3Localize.CPError.dismissTitle }
-    public var isCritical: Bool { false }
-    public var options: [Umbrella.RecoveryOption] { [] }
+    public var isCritical:   Bool { false }
+    public var options:      [Umbrella.RecoveryOption] { [] }
 }
