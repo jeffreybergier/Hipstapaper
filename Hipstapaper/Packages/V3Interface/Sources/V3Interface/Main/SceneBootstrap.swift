@@ -50,6 +50,7 @@ public struct SceneBootstrap: Scene {
                     .environmentObject(self.localizeBundle)
                     .environmentObject(self.mainMenuState)
                     .environmentObject(self.errorStorage)
+                    .environmentObject(controller.syncProgress)
                     .environment(\.sceneContext, .normal)
                     .environment(\.managedObjectContext, controller.context)
             case .failure(let error):

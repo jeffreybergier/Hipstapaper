@@ -27,17 +27,11 @@
 import Umbrella
 import V3Localize
 
-extension Umbrella.CPError: UserFacingError {
+extension CPAccountStatus: UserFacingError {
     
-    public var message: LocalizationKey {
-        switch self {
-        case .accountStatus:
-            return V3Localize.CPError.messageStatus
-        case .sync:
-            return V3Localize.CPError.messageStatus
-        }
-    }
+    // TODO: Remove V3Localize.CPError.messageStatus ?
     
+    public var message: LocalizationKey      { V3Localize.CPError.messageStatus }
     public var title:        LocalizationKey { V3Localize.CPError.title }
     public var dismissTitle: LocalizationKey { V3Localize.CPError.dismissTitle }
     public var isCritical:   Bool { false }

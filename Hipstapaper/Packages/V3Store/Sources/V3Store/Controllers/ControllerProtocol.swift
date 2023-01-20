@@ -30,14 +30,14 @@ import Umbrella
 import V3Model
 
 public protocol ControllerProtocol {
-
+    
     static var storeDirectoryURL: URL { get }
     static var storeExists: Bool { get }
     
     var context: NSManagedObjectContext { get }
     
     // MARK: Sync
-    var syncProgress: AnyContinousProgress<CPError> { get }
+    var syncProgress: ObserveBox<ContinousProgress> { get }
 
     // MARK: Websites CRUD
     func createWebsite(originalURL: URL?) -> Result<Website.Selection.Element, Error>

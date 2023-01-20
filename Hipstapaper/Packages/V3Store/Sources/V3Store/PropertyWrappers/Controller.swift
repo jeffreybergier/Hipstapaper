@@ -30,6 +30,7 @@ import Umbrella
 @propertyWrapper
 public struct Controller: DynamicProperty {
     
+    public typealias SyncProgressEnvironment = ObserveBox<ContinousProgress>
     public typealias Environment = ObserveBox<Result<ControllerProtocol, Error>>
     @EnvironmentObject private var environment: Environment
     

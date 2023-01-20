@@ -34,11 +34,12 @@ import V3Errors
 internal struct MainSplitView: View {
     
     @Navigation   private var nav
-    @Controller   private var controller
     @ErrorStorage private var errors
     
     @V3Style.MainMenu private var style
     @HACK_EditMode    private var isEditMode
+    
+    @EnvironmentObject private var syncProgress: Controller.SyncProgressEnvironment
         
     internal var body: some View {
         NavigationSplitView {
@@ -50,14 +51,12 @@ internal struct MainSplitView: View {
         }
         .modifier(BulkActionsHelper())
         .modifier(WebsiteEditSheet(self.$nav.isWebsitesEdit, start: .website))
-        .modifier(self.style.syncIndicator(self.controller.syncProgress.progress))
-        .onReceive(self.controller.syncProgress.objectWillChange) { _ in
-            DispatchQueue.main.async {
-                let errors = self.controller.syncProgress.errors
-                guard errors.isEmpty == false else { return }
-                self.controller.syncProgress.errors.removeAll()
-                errors.forEach(self.errors.append(_:))
-            }
+        .modifier(self.style.syncIndicator(self.syncProgress.value.progress))
+        .onLoadChange(of: self.syncProgress.id) { _ in
+            let errors = self.syncProgress.value.errors
+            guard errors.isEmpty == false else { return }
+            self.syncProgress.value.errors = []
+            errors.forEach(self.errors.append(_:))
         }
         .modifier(
             ErrorStorage.Presenter<LocalizeBundle>(

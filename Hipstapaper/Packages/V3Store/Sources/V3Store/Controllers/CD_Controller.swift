@@ -272,7 +272,8 @@ internal class CD_Controller {
         )
     }
 
-    internal let syncProgress: AnyContinousProgress<CPError>
+    internal let syncProgressMonitor: AnyObject?
+    internal let syncProgress: ObserveBox<ContinousProgress>
     internal let container: NSPersistentContainer
     
     internal class func new() -> Result<ControllerProtocol, Error> {
@@ -311,7 +312,9 @@ internal class CD_Controller {
         }
         #endif
         
-        self.syncProgress = AnyContinousProgress(CloudKitContainerContinuousProgress(container))
+        let monitor = CDCloudKitSyncMonitor(container)
+        self.syncProgressMonitor = monitor
+        self.syncProgress = monitor.progressBox
     }
     
     #if DEBUG
