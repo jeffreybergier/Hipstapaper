@@ -202,28 +202,28 @@ extension CD_Controller: ControllerProtocol {
         return context.datum_save()
     }
     
-    internal func writeOpt(_ cd: CD_Website?, with newValue: Website?) -> Result<Void, Swift.Error> {
+    internal func writeOpt(_ cd: CD_Website?, with newValue: Website?) -> Result<Void, Error> {
         return self.write(cd!, with: newValue!)
     }
     
-    internal func write(_ cd: CD_Website, with newValue: Website) -> Result<Void, Swift.Error> {
+    internal func write(_ cd: CD_Website, with newValue: Website) -> Result<Void, Error> {
         assert(Thread.isMainThread)
         cd.cd_title       = newValue.title
         cd.cd_isArchived  = newValue.isArchived
         cd.cd_resolvedURL = newValue.resolvedURL
         cd.cd_originalURL = newValue.originalURL
         cd.cd_thumbnail   = newValue.thumbnail
-        return self.container.viewContext.NEW_datum_save()
+        return self.container.viewContext.datum_save()
     }
     
-    internal func writeOpt(_ cd: CD_Tag?, with newValue: Tag?) -> Result<Void, Swift.Error> {
+    internal func writeOpt(_ cd: CD_Tag?, with newValue: Tag?) -> Result<Void, Error> {
         return self.write(cd!, with: newValue!)
     }
     
-    internal func write(_ cd: CD_Tag, with newValue: Tag) -> Result<Void, Swift.Error> {
+    internal func write(_ cd: CD_Tag, with newValue: Tag) -> Result<Void, Error> {
         assert(Thread.isMainThread)
         cd.cd_name = newValue.name
-        return self.container.viewContext.NEW_datum_save()
+        return self.container.viewContext.datum_save()
     }
     
     internal func write(tag: TagApply, selection: Website.Selection) -> Result<Void, Error> {
@@ -279,11 +279,8 @@ internal class CD_Controller {
         do {
             let controller = try CD_Controller()
             return .success(controller)
-        } catch let error as Error {
+        } catch let error {
             return .failure(error)
-        } catch {
-            NSLog(String(describing: error))
-            fatalError("Unexpected error ocurred: \(error)")
         }
     }
     
@@ -293,16 +290,13 @@ internal class CD_Controller {
 
         let container = CD_Controller.container()
         let lock = DispatchSemaphore(value: 0)
-        var error: Swift.Error?
+        var error: Error?
         container.loadPersistentStores() { _, _error in
             error = _error
             lock.signal()
         }
         lock.wait()
-        if let error = error {
-            NSLog(String(describing: error))
-            throw Error.initialize
-        }
+        if let error { throw error }
         container.viewContext.automaticallyMergesChangesFromParent = true
         self.container = container
         
@@ -379,19 +373,7 @@ private class Datum_PersistentContainer: NSPersistentCloudKitContainer {
 }
 
 extension NSManagedObjectContext {
-    
     internal func datum_save() -> Result<Void, Error> {
-        do {
-            try self.save()
-            return .success(())
-        } catch {
-            NSLog(String(describing: error))
-            self.rollback()
-            return .failure(.write)
-        }
-    }
-    
-    internal func NEW_datum_save() -> Result<Void, Swift.Error> {
         do {
             try self.save()
             return .success(())
