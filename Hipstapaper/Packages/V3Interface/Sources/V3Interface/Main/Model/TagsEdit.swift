@@ -34,7 +34,7 @@ import V3Style
 
 internal struct TagsEdit: View {
     
-    @Navigation   private var nav
+    @Navigation private var nav
     @HACK_macOS_Style private var hack_style
     
     @Environment(\.dismiss) private var dismiss
@@ -85,10 +85,11 @@ internal struct TagsEditPresentation: ViewModifier {
 
 internal struct TagsEditRow: View {
     
-    @TagQuery private var item
-    @V3Style.TagsEdit private var style
+    @TagQuery private var query
+    
+    @V3Style.TagsEdit    private var style
     @V3Localize.TagsEdit private var text
-    @HACK_macOS_Style private var hack_style
+    @HACK_macOS_Style    private var hack_style
     
     private let identifier: Tag.Identifier
     
@@ -97,16 +98,17 @@ internal struct TagsEditRow: View {
     }
     
     internal var body: some View {
-        self.$item.view {
-            TextField(self.text.placeholderName, text: $0.name.compactMap())
-                .modifier(self.hack_style.formTextFieldStyle)
+        self.$query.view {
+            TextField(self.text.placeholderName,
+                      text: $0.name.compactMap())
+            .modifier(self.hack_style.formTextFieldStyle)
         } onNIL: {
             self.style.disabled
                 .action(text: self.text.noTagSelected)
                 .label
         }
         .onLoadChange(of: self.identifier) {
-            _item.setIdentifier($0)
+            self.query.id = $0
         }
     }
 }

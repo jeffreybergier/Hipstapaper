@@ -33,7 +33,7 @@ import V3Localize
 
 internal struct ShareListRow: View {
     
-    @WebsiteQuery private var item
+    @WebsiteQuery private var query
     @V3Style.ShareList private var style
     @V3Localize.ShareList private var text
     
@@ -45,26 +45,27 @@ internal struct ShareListRow: View {
     
     internal var body: some View {
         self.itemURL.view { url in
-            self.style.shareLink(itemURLs: [url],
-                                 itemTitle: self.text.itemTitle(self.item?.title),
-                                 itemSubtitle: self.text.itemSubtitle([url]),
-                                 copyTitle: self.text.copy)
-            {
-                JSBPasteboard.set(title: self.item?.title, url: url)
+            self.style.shareLink(
+                itemURLs: [url],
+                itemTitle: self.text.itemTitle(self.query.data?.title),
+                itemSubtitle: self.text.itemSubtitle([url]),
+                copyTitle: self.text.copy
+            ){
+                JSBPasteboard.set(title: self.query.data?.title, url: url)
             }
         } onNIL: {
             self.style.disabled(subtitle: self.text.shareErrorSubtitle)
-                .action(text: self.text.errorTitle(self.item?.title))
+                .action(text: self.text.errorTitle(self.query.data?.title))
                 .label
         }
         .onLoadChange(of: self.identifier) {
-            _item.setIdentifier($0)
+            self.query.id = $0
         }
     }
     
     // Needed because Optional.View
     // does not work on chained optionals
     private var itemURL: URL? {
-        self.item?.preferredURL
+        self.query.data?.preferredURL
     }
 }

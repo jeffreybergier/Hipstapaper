@@ -50,7 +50,7 @@ public struct Browser: View {
 fileprivate struct _Browser: View {
     
     @Navigation   private var nav
-    @WebsiteQuery private var website
+    @WebsiteQuery private var query
     
     @Environment(\.dismiss) private var dismiss
     
@@ -67,9 +67,9 @@ fileprivate struct _Browser: View {
                 .modifier(self.toolbar)
         }
         .onLoadChange(of: self.identifier) {
-            _website.setIdentifier($0)
+            self.query.id = $0
         }
-        .onLoadChange(of: self.website?.preferredURL) {
+        .onLoadChange(of: self.query.data?.preferredURL) {
             self.nav.shouldLoadURL = $0
         }
         .modifier(
@@ -82,7 +82,9 @@ fileprivate struct _Browser: View {
     }
     
     private var toolbar: some ViewModifier {
-        Toolbar(isArchived: self.$website?.isArchived ?? .constant(false),
-                preferredURL: self.website?.preferredURL)
+        Toolbar(
+            isArchived: self.$query?.isArchived ?? .constant(true),
+            preferredURL: self.query.data?.preferredURL
+        )
     }
 }

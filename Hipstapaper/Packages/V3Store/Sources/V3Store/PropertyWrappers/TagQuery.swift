@@ -31,36 +31,44 @@ import V3Model
 @propertyWrapper
 public struct TagQuery: DynamicProperty {
     
+    public struct Value {
+        public var data: Tag?
+        public var id: Tag.Identifier?
+    }
+    
+    @ErrorStorage private var errors
     @Controller private var controller
-    @CDObjectQuery<CD_Tag, Tag>(onRead: Tag.init(_:)) private var object: Tag?
+    @CDObjectQuery<CD_Tag, Tag>(onRead: Tag.init(_:)) private var query
+    @StateObject private var identifier: SecretBox<Tag.Identifier?> = .init(nil)
         
     public init() { }
     
-    public func setIdentifier(_ newValue: Tag.Identifier?) {
-        if
-            let newValue,
-            newValue.isSystem == false,
-            let url = URL(string: newValue.id)
-        {
-            _object.setObjectIDURL(url)
-        } else {
-            _object.setObjectIDURL(nil)
+    public var wrappedValue: Value {
+        nonmutating set { self.write(newValue) }
+        get {
+            .init(data: self.query.data,
+                  id: self.identifier.value)
         }
     }
     
-    public var wrappedValue: Tag? {
-        get { self.object }
-        nonmutating set { self.object = newValue }
-    }
-    
     public var projectedValue: Binding<Tag>? {
-        self.$object
+        self.$query
     }
     
-    private let needsUpdate = SecretBox(true)
-    public func update() {
-        guard self.needsUpdate.value else { return }
-        self.needsUpdate.value = false
-        _object.setOnWrite(_controller.cd.writeOpt(_:with:))
+    private func write(_ newValue: Value) {
+        var outputValue = self.query
+        if outputValue.onWrite == nil {
+            outputValue.onWrite = _controller.cd.write(_:with:)
+        }
+        if outputValue.onError == nil {
+            outputValue.onError = self.errors.append(_:)
+        }
+        if let newID = newValue.id, newID.isSystem == false {
+            outputValue.id = URL(string: newID.id)
+        } else {
+            outputValue.id = nil
+        }
+        outputValue.data = newValue.data
+        self.query = outputValue
     }
 }

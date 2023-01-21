@@ -43,19 +43,19 @@ internal struct DetailTitle: ViewModifier {
 private struct IDEAL_DetailTitle: ViewModifier {
 
     @Selection private var selection
-    @TagQuery private var selectedTag: Tag?
+    @TagQuery private var query
     
     @V3Localize.Detail private var text
     
     internal func body(content: Content) -> some View {
-        self.$selectedTag.view {
+        self.$query.view {
             content.navigationTitle($0.name.compactMap())
         } onNIL: {
             content.navigationTitle(self.title)
         }
         .navigationBarTitleDisplayModeInline
         .onLoadChange(of: self.selection.tag) {
-            _selectedTag.setIdentifier($0)
+            self.query.id = $0
         }
     }
     
@@ -76,7 +76,7 @@ private struct IDEAL_DetailTitle: ViewModifier {
 private struct HACK_DetailTitle: ViewModifier {
 
     @Selection private var selection
-    @TagQuery private var selectedTag: Tag?
+    @TagQuery private var query
     
     @V3Localize.Detail private var text
     
@@ -84,12 +84,12 @@ private struct HACK_DetailTitle: ViewModifier {
         content
             .navigationTitle(self.title)
             .onLoadChange(of: self.selection.tag) {
-                _selectedTag.setIdentifier($0)
+                self.query.id = $0
             }
     }
     
     private var title: LocalizedString {
-        if let selectedTag {
+        if let selectedTag = self.query.data {
             if let tagName = selectedTag.name {
                 return tagName
             } else {

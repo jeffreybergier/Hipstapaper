@@ -202,10 +202,6 @@ extension CD_Controller: ControllerProtocol {
         return context.datum_save()
     }
     
-    internal func writeOpt(_ cd: CD_Website?, with newValue: Website?) -> Result<Void, Error> {
-        return self.write(cd!, with: newValue!)
-    }
-    
     internal func write(_ cd: CD_Website, with newValue: Website) -> Result<Void, Error> {
         assert(Thread.isMainThread)
         cd.cd_title       = newValue.title
@@ -214,10 +210,6 @@ extension CD_Controller: ControllerProtocol {
         cd.cd_originalURL = newValue.originalURL
         cd.cd_thumbnail   = newValue.thumbnail
         return self.container.viewContext.datum_save()
-    }
-    
-    internal func writeOpt(_ cd: CD_Tag?, with newValue: Tag?) -> Result<Void, Error> {
-        return self.write(cd!, with: newValue!)
     }
     
     internal func write(_ cd: CD_Tag, with newValue: Tag) -> Result<Void, Error> {

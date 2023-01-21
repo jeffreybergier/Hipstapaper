@@ -33,7 +33,7 @@ import V3Style
 
 internal struct DetailTableColumnCompact: View {
     
-    @WebsiteQuery private var item
+    @WebsiteQuery private var query
     @V3Style.DetailList private var style
     @V3Localize.DetailList private var text
 
@@ -46,8 +46,9 @@ internal struct DetailTableColumnCompact: View {
     internal var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 6) {
-                JSBText(self.text.missingTitle, text: self.item?.title)
-                    .modifier(self.style.title)
+                JSBText(self.text.missingTitle,
+                        text: self.query.data?.title)
+                .modifier(self.style.title)
                 switch self.style.accessibilityMode {
                 case false:
                     self.dateSiteDefault
@@ -56,30 +57,34 @@ internal struct DetailTableColumnCompact: View {
                 }
             }
             Spacer()
-            self.style.thumbnail(self.item?.thumbnail)
+            self.style.thumbnail(self.query.data?.thumbnail)
         }
         .onLoadChange(of: self.id, async: true) {
-            _item.setIdentifier($0)
+            self.query.id = $0
         }
     }
     
     private var dateSiteDefault: some View {
         HStack(alignment: .firstTextBaseline, spacing: 4) {
-            JSBText(self.text.missingDate, text: _text.dateString(self.item?.dateCreated))
-                .modifier(self.style.date)
+            JSBText(self.text.missingDate,
+                    text: _text.dateString(self.query.data?.dateCreated))
+            .modifier(self.style.date)
             Text("•")
                 .modifier(self.style.date)
-            JSBText(self.text.missingURL, text: self.text.prettyURL(self.item?.preferredURL))
-                .modifier(self.style.url)
+            JSBText(self.text.missingURL,
+                    text: self.text.prettyURL(self.query.data?.preferredURL))
+            .modifier(self.style.url)
         }
     }
     
     private var dateSiteAccessible: some View {
         VStack(alignment: .leading, spacing: 4) {
-            JSBText(self.text.missingURL, text: self.text.prettyURL(self.item?.preferredURL))
-                .modifier(self.style.url)
-            JSBText(self.text.missingDate, text: _text.dateString(self.item?.dateCreated))
-                .modifier(self.style.date)
+            JSBText(self.text.missingURL,
+                    text: self.text.prettyURL(self.query.data?.preferredURL))
+            .modifier(self.style.url)
+            JSBText(self.text.missingDate,
+                    text: _text.dateString(self.query.data?.dateCreated))
+            .modifier(self.style.date)
         }
     }
 }
