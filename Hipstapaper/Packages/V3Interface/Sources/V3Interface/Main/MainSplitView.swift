@@ -39,7 +39,7 @@ internal struct MainSplitView: View {
     @V3Style.MainMenu private var style
     @HACK_EditMode    private var isEditMode
     
-    @EnvironmentObject private var syncProgress: Controller.SyncProgressEnvironment
+    @EnvironmentObject private var syncProgress: ContinousProgress.Environment
         
     internal var body: some View {
         NavigationSplitView {
