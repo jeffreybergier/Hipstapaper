@@ -46,19 +46,17 @@ import V3Model
     
     override func willSave() {
         super.willSave()
+        guard self.isDeleted_noReally == false else { return }
         
         let now = Date()
-        
         if self.cd_dateCreated == nil {
-            NSLog("Date was NIL")
+            NSLog("DateCreated was NIL")
             self.cd_dateCreated = now
         }
-        
         if self.cd_dateModified == nil {
-            NSLog("Date was NIL")
+            NSLog("DateModified was NIL")
             self.cd_dateModified = now
         }
-        
         if abs(self.cd_dateModified!.timeIntervalSince(now)) > 3 {
             self.cd_dateModified = now
         }
