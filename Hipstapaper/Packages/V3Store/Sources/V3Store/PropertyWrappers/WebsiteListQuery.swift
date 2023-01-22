@@ -41,16 +41,10 @@ public struct WebsiteListQuery: DynamicProperty {
         public var filter: Tag.Selection.Element?
     }
     
-    // Basics
-    @Controller private var controller
-    @CDListQuery<CD_Website, Website.Identifier>(
-        onRead: { Website.Identifier($0.objectID) }
-    ) private var query
     @Environment(\.managedObjectContext) private var context
+    @StateObject private var configuration: ObserveBox<Configuration> = .init(.init())
+    @CDListQuery<CD_Website, Website.Identifier>(onRead: { Website.Identifier($0.objectID) }) private var query
     
-    // State
-    @StateObject private var configuration: SecretBox<Configuration> = .init(.init())
-        
     public init() { }
     
     public var wrappedValue: Value<some RandomAccessCollection<Website.Identifier>> {
@@ -61,21 +55,11 @@ public struct WebsiteListQuery: DynamicProperty {
         }
     }
     
-    private let needsUpdate = SecretBox(true)
-    public func update() {
-        guard self.needsUpdate.value else { return }
-        self.needsUpdate.value = false
-        self.updateCoreData()
-    }
-    
     private func write(_ newValue: Configuration) {
         guard self.configuration.value != newValue else { return }
         self.configuration.value = newValue
-        self.updateCoreData()
-    }
-    
-    private func updateCoreData() {
-        let input = self.configuration.value
+        
+        let input = newValue
         var output = self.query.configuration
         guard
             var query = input.query,
