@@ -123,7 +123,7 @@ internal struct DetailToolbar: ViewModifier {
         }
         ToolbarItem(id: .itemSort,
                     placement: .automatic,
-                    showsByDefault: false)
+                    showsByDefault: true)
         {
             SortMenu()
         }
