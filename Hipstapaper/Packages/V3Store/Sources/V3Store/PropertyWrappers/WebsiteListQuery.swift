@@ -29,21 +29,37 @@ import Umbrella
 import V3Model
 
 @propertyWrapper
-public struct FAST_WebsiteListQuery: DynamicProperty {
+public struct WebsiteListQuery: DynamicProperty {
+    
+    public struct Value<C> {
+        public let data: C
+        public var configuration: Configuration
+    }
+    
+    public struct Configuration: Equatable {
+        public var query: Query?
+        public var filter: Tag.Selection.Element?
+    }
     
     // Basics
     @Controller private var controller
     @CDListQuery<CD_Website, Website.Identifier>(
-        predicate: .init(value: false),
         onRead: { Website.Identifier($0.objectID) }
-    ) private var data
+    ) private var query
     @Environment(\.managedObjectContext) private var context
     
     // State
-    @State private var query: Query?
-    @State private var filter: Tag.Selection.Element?
+    @StateObject private var configuration: SecretBox<Configuration> = .init(.init())
         
     public init() { }
+    
+    public var wrappedValue: Value<some RandomAccessCollection<Website.Identifier>> {
+        nonmutating set { self.write(newValue.configuration) }
+        get {
+            .init(data: self.query.data,
+                  configuration: self.configuration.value)
+        }
+    }
     
     private let needsUpdate = SecretBox(true)
     public func update() {
@@ -52,28 +68,27 @@ public struct FAST_WebsiteListQuery: DynamicProperty {
         self.updateCoreData()
     }
     
-    public var wrappedValue: some RandomAccessCollection<Website.Identifier> {
-        self.data
-    }
-    
-    public func setFilter(_ selection: Tag.Selection.Element?) {
-        self.filter = selection
-        self.updateCoreData()
-    }
-    
-    public func setQuery(_ query: Query) {
-        self.query = query
+    private func write(_ newValue: Configuration) {
+        guard self.configuration.value != newValue else { return }
+        self.configuration.value = newValue
         self.updateCoreData()
     }
     
     private func updateCoreData() {
-        guard var query = self.query, let filter = self.filter else {
-            _data.setPredicate(.init(value: false))
-            _data.setSortDescriptors([Sort.default.cd_sortDescriptor])
+        let input = self.configuration.value
+        var output = self.query.configuration
+        guard
+            var query = input.query,
+            let filter = input.filter
+        else {
+            output.sortDescriptors = [Sort.default.cd_sortDescriptor]
+            output.predicate = .init(value: false)
+            self.query.configuration = output
             return
         }
+        
         var currentTag: CD_Tag?
-        switch filter {
+        switch filter.kind {
         case .systemAll:
             query.isOnlyNotArchived = false
         case .systemUnread:
@@ -87,7 +102,9 @@ public struct FAST_WebsiteListQuery: DynamicProperty {
             else { break }
             currentTag = context.object(with: objectID) as? CD_Tag
         }
-        _data.setPredicate(query.cd_predicate(currentTag))
-        _data.setSortDescriptors([query.sort.cd_sortDescriptor])
+        
+        output.predicate = query.cd_predicate(currentTag)
+        output.sortDescriptors = [query.sort.cd_sortDescriptor]
+        self.query.configuration = output
     }
 }

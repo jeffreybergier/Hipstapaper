@@ -34,12 +34,13 @@ public struct TagUserListQuery: DynamicProperty {
     @Controller private var controller
     @CDListQuery<CD_Tag, Tag.Identifier>(
         sort: [CD_Tag.defaultSort],
+        predicate: .init(value: true),
         onRead: { Tag.Identifier($0.objectID) }
-    ) private var data
+    ) private var query
         
     public init() {}
     
     public var wrappedValue: some RandomAccessCollection<Tag.Identifier> {
-        self.data
+        self.query.data
     }
 }
