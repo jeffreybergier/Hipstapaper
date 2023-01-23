@@ -32,7 +32,7 @@ import V3Model
 public struct TagQuery: DynamicProperty {
     
     public struct Value {
-        public var data: Tag?
+        public let data: Tag?
         public var id: Tag.Identifier?
     }
     
@@ -56,19 +56,18 @@ public struct TagQuery: DynamicProperty {
     }
     
     private func write(_ newValue: Value) {
-        var outputValue = self.query
-        if outputValue.onWrite == nil {
-            outputValue.onWrite = _controller.cd.write(_:with:)
+        var configuration = self.query.configuration
+        if configuration.onWrite == nil {
+            configuration.onWrite = _controller.cd.write(_:with:)
         }
-        if outputValue.onError == nil {
-            outputValue.onError = self.errors.append(_:)
+        if configuration.onError == nil {
+            configuration.onError = self.errors.append(_:)
         }
         if let newID = newValue.id, newID.isSystem == false {
-            outputValue.id = URL(string: newID.id)
+            configuration.objectID = URL(string: newID.id)
         } else {
-            outputValue.id = nil
+            configuration.objectID = nil
         }
-        outputValue.data = newValue.data
-        self.query = outputValue
+        self.query.configuration = configuration
     }
 }

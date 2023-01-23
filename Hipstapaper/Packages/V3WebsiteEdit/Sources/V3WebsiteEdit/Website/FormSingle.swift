@@ -81,13 +81,13 @@ internal struct FormSingle: View {
         }
         .onChange(of: self.webState.currentThumbnail) { image in
             guard let image else { return }
-            self.query.data?.setThumbnail(image)
+            self.$query?.wrappedValue.setThumbnail(image)
         }
         .onChange(of: self.webState.currentTitle) {
-            self.query.data?.title = $0
+            self.$query?.wrappedValue.title = $0
         }
         .onChange(of: self.webState.currentURL) {
-            self.query.data?.resolvedURL = $0
+            self.$query?.wrappedValue.resolvedURL = $0
         }
         .onChange(of: self.nav.shouldLoadURL) {
             guard $0 != nil else { return }
