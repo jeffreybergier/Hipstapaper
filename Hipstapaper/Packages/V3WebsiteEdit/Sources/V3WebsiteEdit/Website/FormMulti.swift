@@ -95,7 +95,7 @@ fileprivate struct FormSection: View {
             self.style.disabled.action(text: self.text.noWebsites).label
         }
         .onLoadChange(of: self.identifier) {
-            self.query.id = $0
+            self.query.identifier = $0
         }
     }
 }

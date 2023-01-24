@@ -45,7 +45,7 @@ internal struct DetailTableColumnThumbnail: View {
     var body: some View {
         self.style.thumbnail(self.query.data?.thumbnail)
             .onLoadChange(of: self.id, async: true) {
-                self.query.id = $0
+                self.query.identifier = $0
             }
     }
 }
@@ -67,7 +67,7 @@ internal struct DetailTableColumnTitle: View {
                 text: self.query.data?.title)
         .modifier(self.style.title)
         .onLoadChange(of: self.id, async: true) {
-            self.query.id = $0
+            self.query.identifier = $0
         }
     }
 }
@@ -89,7 +89,7 @@ internal struct DetailTableColumnURL: View {
                 text: self.text.prettyURL(self.query.data?.preferredURL))
         .modifier(self.style.url)
         .onLoadChange(of: self.id, async: true) {
-            self.query.id = $0
+            self.query.identifier = $0
         }
     }
 }
@@ -113,7 +113,7 @@ internal struct DetailTableColumnDate: View {
                 text: _text.dateString(self.query.data?[keyPath: self.keyPath]))
         .modifier(self.style.date)
         .onLoadChange(of: self.id, async: true) {
-            self.query.id = $0
+            self.query.identifier = $0
         }
     }
 }

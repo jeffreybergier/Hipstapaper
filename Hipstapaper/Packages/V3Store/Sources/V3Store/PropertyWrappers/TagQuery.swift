@@ -33,21 +33,21 @@ public struct TagQuery: DynamicProperty {
     
     public struct Value {
         public let data: Tag?
-        public var id: Tag.Identifier?
+        public var identifier: Tag.Identifier?
     }
     
     @ErrorStorage private var errors
     @Controller private var controller
+    @State private var identifier: Tag.Identifier?
     @CDObjectQuery<CD_Tag, Tag>(onRead: Tag.init(_:)) private var query
-    @StateObject private var identifier: SecretBox<Tag.Identifier?> = .init(nil)
         
     public init() { }
     
     public var wrappedValue: Value {
-        nonmutating set { self.write(newValue) }
+        nonmutating set { self.write(newValue.identifier) }
         get {
             .init(data: self.query.data,
-                  id: self.identifier.value)
+                  identifier: self.identifier)
         }
     }
     
@@ -55,7 +55,11 @@ public struct TagQuery: DynamicProperty {
         self.$query
     }
     
-    private func write(_ newValue: Value) {
+    private func write(_ newValue: Tag.Identifier?) {
+        let oldIdentifier = self.identifier
+        self.identifier = newValue
+        guard oldIdentifier != newValue else { return }
+        
         var configuration = self.query.configuration
         if configuration.onWrite == nil {
             configuration.onWrite = _controller.cd.write(_:with:)
@@ -63,7 +67,7 @@ public struct TagQuery: DynamicProperty {
         if configuration.onError == nil {
             configuration.onError = self.errors.append(_:)
         }
-        if let newID = newValue.id, newID.isSystem == false {
+        if let newID = newValue, newID.isSystem == false {
             configuration.objectID = URL(string: newID.id)
         } else {
             configuration.objectID = nil

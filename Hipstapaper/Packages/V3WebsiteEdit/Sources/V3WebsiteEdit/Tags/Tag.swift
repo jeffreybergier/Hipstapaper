@@ -77,7 +77,7 @@ internal struct TagRow: View {
         )
         .modifier(self.style.tagTitle)
         .onLoadChange(of: self.tagApply.id) {
-            self.query.id = $0
+            self.query.identifier = $0
         }
     }
 }

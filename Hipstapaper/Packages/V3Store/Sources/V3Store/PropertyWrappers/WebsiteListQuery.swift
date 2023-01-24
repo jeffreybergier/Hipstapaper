@@ -41,23 +41,21 @@ public struct WebsiteListQuery: DynamicProperty {
         public var filter: Tag.Selection.Element?
     }
     
+    @State private var configuration: Configuration = .init()
     @Environment(\.managedObjectContext) private var context
-    @StateObject private var configuration: ObserveBox<Configuration> = .init(.init())
     @CDListQuery<CD_Website, Website.Identifier>(onRead: { Website.Identifier($0.objectID) }) private var query
     
     public init() { }
     
     public var wrappedValue: Value<some RandomAccessCollection<Website.Identifier>> {
+        get { .init(data: self.query.data, configuration: self.configuration) }
         nonmutating set { self.write(newValue.configuration) }
-        get {
-            .init(data: self.query.data,
-                  configuration: self.configuration.value)
-        }
     }
     
     private func write(_ newValue: Configuration) {
-        guard self.configuration.value != newValue else { return }
-        self.configuration.value = newValue
+        let oldConfiguration = self.configuration
+        self.configuration = newValue
+        guard oldConfiguration != newValue else { return }
         
         let input = newValue
         var output = self.query.configuration

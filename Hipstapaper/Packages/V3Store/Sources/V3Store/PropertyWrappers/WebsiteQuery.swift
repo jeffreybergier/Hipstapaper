@@ -33,29 +33,30 @@ public struct WebsiteQuery: DynamicProperty {
     
     public struct Value {
         public let data: Website?
-        public var id: Website.Identifier?
+        public var identifier: Website.Identifier?
     }
     
     @ErrorStorage private var errors
     @Controller   private var controller
+    @State private var identifier: Website.Identifier?
     @CDObjectQuery<CD_Website, Website>(onRead: Website.init(_:)) private var query
-    @StateObject private var identifier: SecretBox<Website.Identifier?> = .init(nil)
     
     public init() { }
     
     public var wrappedValue: Value {
-        nonmutating set { self.write(newValue) }
-        get {
-            .init(data: self.query.data,
-                  id: self.identifier.value)
-        }
+        nonmutating set { self.write(newValue.identifier) }
+        get { .init(data: self.query.data, identifier: self.identifier) }
     }
     
     public var projectedValue: Binding<Website>? {
         self.$query
     }
     
-    private func write(_ newValue: Value) {
+    private func write(_ newValue: Website.Identifier?) {
+        let oldIdentifier = self.identifier
+        self.identifier = newValue
+        guard oldIdentifier != newValue else { return }
+        
         var configuration = self.query.configuration
         if configuration.onWrite == nil {
             configuration.onWrite = _controller.cd.write(_:with:)
@@ -63,7 +64,7 @@ public struct WebsiteQuery: DynamicProperty {
         if configuration.onError == nil {
             configuration.onError = self.errors.append(_:)
         }
-        if let newID = newValue.id {
+        if let newID = newValue {
             configuration.objectID = URL(string: newID.id)
         } else {
             configuration.objectID = nil

@@ -77,7 +77,7 @@ internal struct FormSingle: View {
         }
         .scrollDismissesKeyboard(.immediately)
         .onLoadChange(of: self.identifier) {
-            self.query.id = $0
+            self.query.identifier = $0
         }
         .onChange(of: self.webState.currentThumbnail) { image in
             guard let image else { return }

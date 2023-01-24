@@ -108,7 +108,7 @@ internal struct TagsEditRow: View {
                 .label
         }
         .onLoadChange(of: self.identifier) {
-            self.query.id = $0
+            self.query.identifier = $0
         }
     }
 }
