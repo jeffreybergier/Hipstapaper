@@ -44,7 +44,7 @@ public struct Browser: DynamicProperty {
         public var done:         ActionLocalization
         public var loading:      LocalizedString
         
-        internal init(_ b: LocalizeBundle) {
+        internal init(_ b: Bundle) {
             self.back         = Action.browseBack.localized(b)
             self.forward      = Action.browseForward.localized(b)
             self.stop         = Action.browseStop.localized(b)
@@ -55,11 +55,11 @@ public struct Browser: DynamicProperty {
             self.archiveYes   = Action.archiveYes.localized(b)
             self.share        = Action.share.localized(b)
             self.done         = Action.doneGeneric.localized(b)
-            self.loading      = b.localized(key: Phrase.loadingPage.rawValue)
+            self.loading      = b.jsb_localized(key: Phrase.loadingPage.rawValue)
         }
     }
     
-    @Localize private var bundle
+    @Environment(\.bundle) private var bundle
     
     public init() {}
     

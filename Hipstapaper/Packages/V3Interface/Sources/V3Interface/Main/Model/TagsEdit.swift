@@ -56,7 +56,7 @@ internal struct TagsEdit: View {
             .modifier(TagsEditToolbar(self.selection))
         }
         .modifier(
-            ErrorStorage.Presenter<LocalizeBundle>(
+            ErrorStorage.Presenter(
                 isAlreadyPresenting: self.nav.sidebar.isTagsEdit.isPresenting,
                 toPresent: self.$nav.sidebar.isTagsEdit.isError,
                 router: errorRouter(_:)

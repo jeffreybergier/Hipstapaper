@@ -41,7 +41,7 @@ public struct DetailToolbar: DynamicProperty {
         public var delete:       ActionLocalization
         public var error:        ActionLocalization
         
-        internal init(_ b: LocalizeBundle) {
+        internal init(_ b: Bundle) {
             self.openInWindow = Action.openInWindow.localized(b)
             self.openExternal = Action.openExternal.localized(b)
             self.archiveYes   = Action.archiveYes.localized(b)
@@ -68,8 +68,8 @@ public struct DetailToolbar: DynamicProperty {
         }
     }
     
-    @Localize private var bundle
-    
+    @Environment(\.bundle) private var bundle
+
     public init() {}
     
     public var wrappedValue: Value {

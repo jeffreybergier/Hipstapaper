@@ -35,15 +35,15 @@ public struct FilterMenu: DynamicProperty {
         public var filterNo:  ActionLocalization
         public var filterYes: ActionLocalization
         
-        internal init(_ b: LocalizeBundle) {
+        internal init(_ b: Bundle) {
             self.menu      = Action.filter.localized(b)
             self.filterNo  = Action.filterNo.localized(b)
             self.filterYes = Action.filterYes.localized(b)
         }
     }
     
-    @Localize private var bundle
-    
+    @Environment(\.bundle) private var bundle
+
     public init() {}
     
     public var wrappedValue: Value {

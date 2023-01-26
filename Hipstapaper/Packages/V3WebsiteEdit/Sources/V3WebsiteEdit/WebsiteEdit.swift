@@ -105,7 +105,7 @@ internal struct _WebsiteEdit: View {
         .modifier(self.hack_style.tabParentPadding)
         .modifier(self.hack_style.formTextFieldStyle)
         .modifier(
-            ErrorStorage.Presenter<LocalizeBundle>(
+            ErrorStorage.Presenter(
                 isAlreadyPresenting: self.nav.isPresenting,
                 toPresent: self.$nav.isError,
                 router: errorRouter(_:)

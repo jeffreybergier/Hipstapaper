@@ -39,7 +39,7 @@ public struct SortMenu: DynamicProperty {
         public var sortDateModifiedNewest: ActionLocalization
         public var sortDateModifiedOldest: ActionLocalization
         
-        internal init(_ b: LocalizeBundle) {
+        internal init(_ b: Bundle) {
             self.menu                   = Action.sort.localized(b)
             self.sortTitleA             = Action.sortTitleA.localized(b)
             self.sortTitleZ             = Action.sortTitleZ.localized(b)
@@ -50,8 +50,8 @@ public struct SortMenu: DynamicProperty {
         }
     }
     
-    @Localize private var bundle
-    
+    @Environment(\.bundle) private var bundle
+
     public init() {}
     
     public var wrappedValue: Value {

@@ -34,10 +34,11 @@ import V3Browser
 
 public struct SceneBootstrap: Scene {
     
-    @StateObject private var localizeBundle = LocalizeBundle()
     @StateObject private var controller     = Controller.newEnvironment()
     @StateObject private var mainMenuState  = BulkActions.newEnvironment()
     @StateObject private var errorStorage   = ErrorStorage.newEnvironment()
+    
+    private let bundle = LocalizeBundle
     
     public init() {}
     
@@ -47,10 +48,10 @@ public struct SceneBootstrap: Scene {
             case .success(let controller):
                 MainSplitView()
                     .environmentObject(self.controller)
-                    .environmentObject(self.localizeBundle)
                     .environmentObject(self.mainMenuState)
                     .environmentObject(self.errorStorage)
                     .environmentObject(controller.syncProgress)
+                    .environment(\.bundle, self.bundle)
                     .environment(\.sceneContext, .normal)
                     .environment(\.managedObjectContext, controller.context)
             case .failure(let error):
@@ -60,15 +61,15 @@ public struct SceneBootstrap: Scene {
         .commands {
             MainMenu(state: self.mainMenuState,
                      controller: self.controller,
-                     bundle: self.localizeBundle)
+                     bundle: self.bundle)
         }
         WindowGroup(for: V3Model.Website.Identifier.self) { $value in
             switch (self.controller.value, value) {
             case (.success(let controller), .some(let identifier)):
                 Browser(identifier)
                     .environmentObject(self.controller)
-                    .environmentObject(self.localizeBundle)
                     .environmentObject(self.errorStorage)
+                    .environment(\.bundle, self.bundle)
                     .environment(\.sceneContext, .scene(id: identifier.rawValue))
                     .environment(\.managedObjectContext, controller.context)
             case (_, .none):

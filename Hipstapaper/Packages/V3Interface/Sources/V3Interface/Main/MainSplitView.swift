@@ -59,7 +59,7 @@ internal struct MainSplitView: View {
             errors.forEach(self.errors.append(_:))
         }
         .modifier(
-            ErrorStorage.Presenter<LocalizeBundle>(
+            ErrorStorage.Presenter(
                 isAlreadyPresenting: self.nav.isPresenting,
                 toPresent: self.$nav.isError,
                 router: errorRouter(_:)

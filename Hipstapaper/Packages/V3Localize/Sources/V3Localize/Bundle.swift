@@ -27,9 +27,4 @@
 import Foundation
 import Umbrella
 
-public class LocalizeBundle: EnvironmentBundleProtocol {
-    public let bundle: Bundle = Bundle.module
-    public init() {}
-}
-
-public typealias Localize = EnvironmentBundle<LocalizeBundle>
+public let LocalizeBundle = Bundle.module

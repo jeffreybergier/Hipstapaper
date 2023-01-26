@@ -73,7 +73,7 @@ fileprivate struct _Browser: View {
             self.nav.shouldLoadURL = $0
         }
         .modifier(
-            ErrorStorage.Presenter<LocalizeBundle>(
+            ErrorStorage.Presenter(
                 isAlreadyPresenting: self.nav.isPresenting,
                 toPresent: self.$nav.isError,
                 router: errorRouter(_:)

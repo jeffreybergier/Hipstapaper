@@ -34,7 +34,6 @@ public struct ShareExtension: View {
     
     @StateObject private var controller = Controller.newEnvironment()
     @StateObject private var errorStorage = ErrorStorage.newEnvironment()
-    @StateObject private var localizeBundle = LocalizeBundle()
     
     @State private var selection: Website.Selection = []
     @State private var noSelectionText: String = "Loading…"
@@ -54,7 +53,7 @@ public struct ShareExtension: View {
                 WebsiteEdit(selection: selection, start: .website)
                     .environmentObject(self.controller)
                     .environmentObject(self.errorStorage)
-                    .environmentObject(self.localizeBundle)
+                    .environment(\.bundle, LocalizeBundle)
                     .environment(\.customDismiss, self.onDismiss)
                     .environment(\.sceneContext, .extensionShare)
                     .environment(\.managedObjectContext, controller.context)

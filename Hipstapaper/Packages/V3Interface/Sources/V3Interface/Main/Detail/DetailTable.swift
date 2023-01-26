@@ -40,9 +40,6 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
     @V3Style.DetailTable private var style
     @V3Localize.DetailTable private var text
     @V3Style.ShowsTable private var showsTable
-    
-    // TODO: macOS<=13.1 does not progogate this properly in Table.
-    @EnvironmentObject private var HACK_localizeBundle: LocalizeBundle
 
     private let data: C
     
@@ -76,7 +73,6 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
             switch self.showsTable {
             case .showTable:
                 DetailTableColumnThumbnail($0.id)
-                    .environmentObject(self.HACK_localizeBundle)
             case .showList:
                 DetailTableColumnCompact($0.id)
             }
@@ -89,21 +85,18 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
     private var column2Title: HACK_ColumnSorted<some View> {
         TableColumn(self.text.columnTitle, sortUsing: .title) {
             DetailTableColumnTitle($0.id)
-                .environmentObject(self.HACK_localizeBundle)
         }
     }
     
     private var column3URL: HACK_ColumnUnsorted<some View> {
         TableColumn(self.text.columnURL) {
             DetailTableColumnURL($0.id)
-                .environmentObject(self.HACK_localizeBundle)
         }
     }
     
     private var column4DateCreated: HACK_ColumnSorted<some View> {
         TableColumn(self.text.columnDateCreated, sortUsing: .dateCreated) {
             DetailTableColumnDate(id: $0.id, kp: \.dateCreated)
-                .environmentObject(self.HACK_localizeBundle)
         }
         .width(self.style.columnWidthDate)
     }

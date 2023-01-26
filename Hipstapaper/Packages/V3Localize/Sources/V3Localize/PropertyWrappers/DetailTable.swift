@@ -47,15 +47,15 @@ public struct DetailTable: DynamicProperty {
             return url.prettyValue ?? url.absoluteString
         }
         
-        internal init(_ b: LocalizeBundle) {
-            self.columnThumbnail    = b.localized(key: Noun.thumbnail.rawValue)
-            self.columnTitle        = b.localized(key: Noun.title.rawValue)
-            self.columnURL          = b.localized(key: Noun.url.rawValue)
-            self.columnDateCreated  = b.localized(key: Noun.dateCreated.rawValue)
-            self.columnDateModified = b.localized(key: Noun.dateModified.rawValue)
-            self.missingTitle       = b.localized(key: Noun.dash.rawValue)
-            self.missingURL         = b.localized(key: Noun.dash.rawValue)
-            self.missingDate        = b.localized(key: Noun.dash.rawValue)
+        internal init(_ b: Bundle) {
+            self.columnThumbnail    = b.jsb_localized(key: Noun.thumbnail.rawValue)
+            self.columnTitle        = b.jsb_localized(key: Noun.title.rawValue)
+            self.columnURL          = b.jsb_localized(key: Noun.url.rawValue)
+            self.columnDateCreated  = b.jsb_localized(key: Noun.dateCreated.rawValue)
+            self.columnDateModified = b.jsb_localized(key: Noun.dateModified.rawValue)
+            self.missingTitle       = b.jsb_localized(key: Noun.dash.rawValue)
+            self.missingURL         = b.jsb_localized(key: Noun.dash.rawValue)
+            self.missingDate        = b.jsb_localized(key: Noun.dash.rawValue)
             self.hack_edit          = Action.editGeneric.localized(b)
             self.hack_done          = Action.doneGeneric.localized(b)
         }
@@ -69,8 +69,8 @@ public struct DetailTable: DynamicProperty {
         return df
     }()
     
-    @Localize private var bundle
-    
+    @Environment(\.bundle) private var bundle
+
     public init() {}
     
     public var wrappedValue: Value {
@@ -78,7 +78,7 @@ public struct DetailTable: DynamicProperty {
     }
     
     public func dateString(_ date: Date?) -> LocalizedString {
-        let missing = self.bundle.localized(key: Noun.dash.rawValue)
+        let missing = self.bundle.jsb_localized(key: Noun.dash.rawValue)
         return date.map { type(of: self).formatter.string(from: $0) }
                  ?? missing
     }
