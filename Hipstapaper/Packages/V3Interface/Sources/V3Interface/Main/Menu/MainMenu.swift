@@ -39,7 +39,7 @@ internal struct MainMenu: Commands {
     
     // Need to hack this because there is no environment in a MENU
     @V3Localize.MainMenu private var localizeKeys
-    @ObservedObject private var localizeBundle: LocalizeBundle
+    @State private var localizeBundle: Bundle
     
     // Hack because I can't the controller through the environment
     @ObservedObject private var _controller: Controller.Environment
@@ -53,7 +53,7 @@ internal struct MainMenu: Commands {
     
     internal init(state: BulkActions.Environment,
                   controller: Controller.Environment,
-                  bundle: LocalizeBundle)
+                  bundle: Bundle)
     {
         __state = .init(initialValue: state)
         __controller = .init(initialValue: controller)
@@ -180,7 +180,7 @@ internal struct MainMenu: Commands {
         #endif
     }
     
-    private func text(_ key: KeyPath<V3Localize.MainMenu.Value, (LocalizeBundle) -> ActionLocalization>) -> ActionLocalization {
+    private func text(_ key: KeyPath<V3Localize.MainMenu.Value, (Bundle) -> ActionLocalization>) -> ActionLocalization {
         self.localizeKeys[keyPath: key](self.localizeBundle)
     }
 }

@@ -29,56 +29,48 @@ import Umbrella
 import V3Model
 
 @propertyWrapper
-public struct FAST_WebsiteListQuery: DynamicProperty {
+public struct WebsiteListQuery: DynamicProperty {
     
-    // Basics
-    @Controller private var controller
-    @CDListQuery<CD_Website, Website.Identifier, Error>(
-        predicate: .init(value: false),
-        onRead: { Website.Identifier($0.objectID) }
-    ) private var data
+    public struct Value<C> {
+        public let data: C
+        public var configuration: Configuration
+    }
+    
+    public struct Configuration: Equatable {
+        public var query: Query?
+        public var filter: Tag.Selection.Element?
+    }
+    
+    @State private var configuration: Configuration = .init()
     @Environment(\.managedObjectContext) private var context
-    @Environment(\.errorResponder) private var errorResponder
+    @CDListQuery<CD_Website, Website.Identifier>(onRead: { Website.Identifier($0.objectID) }) private var query
     
-    // State
-    @State private var query: Query?
-    @State private var filter: Tag.Selection.Element?
-        
     public init() { }
     
-    private let needsUpdate = SecretBox(true)
-    public func update() {
-        guard self.needsUpdate.value else { return }
-        self.needsUpdate.value = false
-        _data.setOnError { error in
-            NSLog(String(describing: error))
-            self.errorResponder(error)
-        }
-        self.updateCoreData()
+    public var wrappedValue: Value<some RandomAccessCollection<Website.Identifier>> {
+        get { .init(data: self.query.data, configuration: self.configuration) }
+        nonmutating set { self.write(newValue.configuration) }
     }
     
-    public var wrappedValue: some RandomAccessCollection<Website.Identifier> {
-        self.data
-    }
-    
-    public func setFilter(_ selection: Tag.Selection.Element?) {
-        self.filter = selection
-        self.updateCoreData()
-    }
-    
-    public func setQuery(_ query: Query) {
-        self.query = query
-        self.updateCoreData()
-    }
-    
-    private func updateCoreData() {
-        guard var query = self.query, let filter = self.filter else {
-            _data.setPredicate(.init(value: false))
-            _data.setSortDescriptors([Sort.default.cd_sortDescriptor])
+    private func write(_ newValue: Configuration) {
+        let oldConfiguration = self.configuration
+        self.configuration = newValue
+        guard oldConfiguration != newValue else { return }
+        
+        let input = newValue
+        var output = self.query.configuration
+        guard
+            var query = input.query,
+            let filter = input.filter
+        else {
+            output.sortDescriptors = [Sort.default.cd_sortDescriptor]
+            output.predicate = .init(value: false)
+            self.query.configuration = output
             return
         }
+        
         var currentTag: CD_Tag?
-        switch filter {
+        switch filter.kind {
         case .systemAll:
             query.isOnlyNotArchived = false
         case .systemUnread:
@@ -92,7 +84,9 @@ public struct FAST_WebsiteListQuery: DynamicProperty {
             else { break }
             currentTag = context.object(with: objectID) as? CD_Tag
         }
-        _data.setPredicate(query.cd_predicate(currentTag))
-        _data.setSortDescriptors([query.sort.cd_sortDescriptor])
+        
+        output.predicate = query.cd_predicate(currentTag)
+        output.sortDescriptors = [query.sort.cd_sortDescriptor]
+        self.query.configuration = output
     }
 }

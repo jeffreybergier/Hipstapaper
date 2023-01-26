@@ -35,15 +35,15 @@ public struct ColumnMenu: DynamicProperty {
         public var dateCreated:  ActionLocalization
         public var dateModified: ActionLocalization
         
-        internal init(_ b: LocalizeBundle) {
+        internal init(_ b: Bundle) {
             self.menu         = Action.columnMenu.localized(b)
             self.dateCreated  = Action.columnDateCreated.localized(b)
             self.dateModified = Action.columnDateModified.localized(b)
         }
     }
     
-    @Localize private var bundle
-    
+    @Environment(\.bundle) private var bundle
+
     public init() {}
     
     public var wrappedValue: Value {

@@ -25,26 +25,25 @@
 //
 
 import SwiftUI
+import Umbrella
 import V3Model
 import V3Store
 import V3Localize
-import V3Errors
 
 public struct ShareExtension: View {
     
-    @StateObject private var errors = Errors.newEnvironment()
     @StateObject private var controller = Controller.newEnvironment()
-    @StateObject private var localizeBundle = LocalizeBundle()
+    @StateObject private var errorStorage = ErrorStorage.newEnvironment()
     
     @State private var selection: Website.Selection = []
     @State private var noSelectionText: String = "Loading…"
     
     private let inputURL: URL?
-    private let onDismiss: (Any) -> Void
+    private let onDismiss: () -> Void
     
     public init(inputURL: URL?, onDismiss: @escaping () -> Void) {
         self.inputURL = inputURL
-        self.onDismiss = { _ in onDismiss() }
+        self.onDismiss = onDismiss
     }
     
     @ViewBuilder public var body: some View {
@@ -52,11 +51,10 @@ public struct ShareExtension: View {
             switch self.controller.value {
             case .success(let controller):
                 WebsiteEdit(selection: selection, start: .website)
-                    .modifier(ErrorCatcher())
-                    .environmentObject(self.errors)
                     .environmentObject(self.controller)
-                    .environmentObject(self.localizeBundle)
-                    .environment(\.anyResponder, self.onDismiss)
+                    .environmentObject(self.errorStorage)
+                    .environment(\.bundle, LocalizeBundle)
+                    .environment(\.customDismiss, self.onDismiss)
                     .environment(\.sceneContext, .extensionShare)
                     .environment(\.managedObjectContext, controller.context)
             case .failure(let error):

@@ -26,23 +26,21 @@
 
 import SwiftUI
 import Umbrella
-import V3Model
 import V3Store
 import V3Style
 import V3Localize
 import V3Errors
-import V3Browser
 
 internal struct MainSplitView: View {
     
-    @Navigation private var nav
-    @Localize   private var bundle
-    @Controller private var controller
+    @Navigation   private var nav
+    @ErrorStorage private var errors
+    
     @V3Style.MainMenu private var style
     @HACK_EditMode    private var isEditMode
     
-    @Environment(\.errorResponder) private var errorResponder
-    
+    @EnvironmentObject private var syncProgress: ContinousProgress.Environment
+        
     internal var body: some View {
         NavigationSplitView {
             Sidebar()
@@ -53,26 +51,19 @@ internal struct MainSplitView: View {
         }
         .modifier(BulkActionsHelper())
         .modifier(WebsiteEditSheet(self.$nav.isWebsitesEdit, start: .website))
-        .modifier(self.style.syncIndicator(self.controller.syncProgress.progress))
-        .onReceive(self.controller.syncProgress.objectWillChange) { _ in
-            DispatchQueue.main.async {
-                let errors = self.controller.syncProgress.errors
-                guard errors.isEmpty == false else { return }
-                self.controller.syncProgress.errors.removeAll()
-                errors.forEach(self.errorResponder)
-            }
+        .modifier(self.style.syncIndicator(self.syncProgress.value.progress))
+        .onLoadChange(of: self.syncProgress.id) { _ in
+            let errors = self.syncProgress.value.errors
+            guard errors.isEmpty == false else { return }
+            self.syncProgress.value.errors = []
+            errors.forEach(self.errors.append(_:))
         }
-        .modifier(ErrorMover(isPresenting: self.nav.isPresenting,
-                             toPresent: self.$nav.isError))
-        .modifier(ErrorPresenter(isError: self.$nav.isError,
-                                 localizeBundle: self.bundle,
-                                 router: self.router(_:)))
-    }
-    
-    private func router(_ input: CodableError) -> UserFacingError {
-        ErrorRouter.route(input: input,
-                          onSuccess: { },
-                          onError: self.errorResponder,
-                          controller: self.controller)
+        .modifier(
+            ErrorStorage.Presenter(
+                isAlreadyPresenting: self.nav.isPresenting,
+                toPresent: self.$nav.isError,
+                router: errorRouter(_:)
+            )
+        )
     }
 }

@@ -52,13 +52,13 @@ public struct WebsiteEdit: DynamicProperty {
         public var noTagSelected:      ActionLocalization
         public var noTags:             ActionLocalization
         
-        internal init(_ b: LocalizeBundle) {
-            self.titleWebsite       = b.localized(key: Noun.editWebsite.rawValue)
-            self.titleTag           = b.localized(key: Noun.tagApply.rawValue)
-            self.dataUntitled       = b.localized(key: Noun.untitled.rawValue)
-            self.formTitle          = b.localized(key: Noun.websiteTitle.rawValue)
-            self.formOriginalURL    = b.localized(key: Noun.originalURL.rawValue)
-            self.formResolvedURL    = b.localized(key: Noun.resolvedURL.rawValue)
+        internal init(_ b: Bundle) {
+            self.titleWebsite       = b.jsb_localized(key: Noun.editWebsite.rawValue)
+            self.titleTag           = b.jsb_localized(key: Noun.tagApply.rawValue)
+            self.dataUntitled       = b.jsb_localized(key: Noun.untitled.rawValue)
+            self.formTitle          = b.jsb_localized(key: Noun.websiteTitle.rawValue)
+            self.formOriginalURL    = b.jsb_localized(key: Noun.originalURL.rawValue)
+            self.formResolvedURL    = b.jsb_localized(key: Noun.resolvedURL.rawValue)
             
             self.done               = Action.doneGeneric.localized(b)
             self.delete             = Action.deleteGeneric.localized(b)
@@ -76,8 +76,8 @@ public struct WebsiteEdit: DynamicProperty {
         }
     }
     
-    @Localize private var bundle
-    
+    @Environment(\.bundle) private var bundle
+
     public init() {}
     
     public var wrappedValue: Value {

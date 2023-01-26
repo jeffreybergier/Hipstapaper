@@ -36,7 +36,7 @@ internal struct FormSingle: View {
     
     @Navigation private var nav
     @WebState private var webState
-    @WebsiteQuery private var item
+    @WebsiteQuery private var query
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
 
@@ -53,7 +53,7 @@ internal struct FormSingle: View {
     
     internal var body: some View {
         Form {
-            self.$item.view { item in
+            self.$query.view { item in
                 Section {
                     TextField(
                         self.text.formOriginalURL,
@@ -69,7 +69,7 @@ internal struct FormSingle: View {
                         text: item.resolvedURL.mirror(string: self.$resolvedURLMirror)
                     ).textContentTypeURL
                     self.rowDeleteThumbnail(item)
-                    self.style.thumbnailSingle(self.item?.thumbnail) { Web() }
+                    self.style.thumbnailSingle(self.query.data?.thumbnail) { Web() }
                 }
             } onNIL: {
                 self.style.disabled.action(text: self.text.noWebsitesSelected).label
@@ -77,17 +77,17 @@ internal struct FormSingle: View {
         }
         .scrollDismissesKeyboard(.immediately)
         .onLoadChange(of: self.identifier) {
-            _item.setIdentifier($0)
+            self.query.identifier = $0
         }
         .onChange(of: self.webState.currentThumbnail) { image in
             guard let image else { return }
-            self.item?.setThumbnail(image)
+            self.$query?.wrappedValue.setThumbnail(image)
         }
         .onChange(of: self.webState.currentTitle) {
-            self.item?.title = $0
+            self.$query?.wrappedValue.title = $0
         }
         .onChange(of: self.webState.currentURL) {
-            self.item?.resolvedURL = $0
+            self.$query?.wrappedValue.resolvedURL = $0
         }
         .onChange(of: self.nav.shouldLoadURL) {
             guard $0 != nil else { return }

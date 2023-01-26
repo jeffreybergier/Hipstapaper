@@ -36,7 +36,7 @@ internal struct Detail: View {
     @Selection private var selection
     @Query private var query
     @BulkActions private var state
-    @FAST_WebsiteListQuery private var data
+    @WebsiteListQuery private var websiteListQuery
     
     @V3Localize.Detail private var text
     @V3Style.Detail private var style
@@ -45,7 +45,7 @@ internal struct Detail: View {
     internal var body: some View {
         NavigationStack {
             self.selection.tag.view { _ in
-                self.data.view {
+                self.websiteListQuery.data.view {
                     DetailTable($0)
                 } onEmpty: {
                     self.style.disabled
@@ -59,10 +59,10 @@ internal struct Detail: View {
                         prompt: self.text.search)
         }
         .onLoadChange(of: self.query) {
-            _data.setQuery($0)
+            self.websiteListQuery.configuration.query = $0
         }
         .onLoadChange(of: self.selection.tag) {
-            _data.setFilter($0)
+            self.websiteListQuery.configuration.filter = $0
         }
         .modifier(DetailTitle())
         .modifier(DetailToolbar())

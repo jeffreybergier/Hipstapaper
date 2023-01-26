@@ -202,10 +202,6 @@ extension CD_Controller: ControllerProtocol {
         return context.datum_save()
     }
     
-    internal func writeOpt(_ cd: CD_Website?, with newValue: Website?) -> Result<Void, Error> {
-        return self.write(cd!, with: newValue!)
-    }
-    
     internal func write(_ cd: CD_Website, with newValue: Website) -> Result<Void, Error> {
         assert(Thread.isMainThread)
         cd.cd_title       = newValue.title
@@ -214,10 +210,6 @@ extension CD_Controller: ControllerProtocol {
         cd.cd_originalURL = newValue.originalURL
         cd.cd_thumbnail   = newValue.thumbnail
         return self.container.viewContext.datum_save()
-    }
-    
-    internal func writeOpt(_ cd: CD_Tag?, with newValue: Tag?) -> Result<Void, Error> {
-        return self.write(cd!, with: newValue!)
     }
     
     internal func write(_ cd: CD_Tag, with newValue: Tag) -> Result<Void, Error> {
@@ -272,18 +264,16 @@ internal class CD_Controller {
         )
     }
 
-    internal let syncProgress: AnyContinousProgress<CPError>
+    internal let syncProgressMonitor: AnyObject?
+    internal let syncProgress: ObserveBox<ContinousProgress>
     internal let container: NSPersistentContainer
     
     internal class func new() -> Result<ControllerProtocol, Error> {
         do {
             let controller = try CD_Controller()
             return .success(controller)
-        } catch let error as Error {
+        } catch let error {
             return .failure(error)
-        } catch {
-            NSLog(String(describing: error))
-            fatalError("Unexpected error ocurred: \(error)")
         }
     }
     
@@ -293,16 +283,13 @@ internal class CD_Controller {
 
         let container = CD_Controller.container()
         let lock = DispatchSemaphore(value: 0)
-        var error: Swift.Error?
+        var error: Error?
         container.loadPersistentStores() { _, _error in
             error = _error
             lock.signal()
         }
         lock.wait()
-        if let error = error {
-            NSLog(String(describing: error))
-            throw Error.initialize
-        }
+        if let error { throw error }
         container.viewContext.automaticallyMergesChangesFromParent = true
         self.container = container
         
@@ -317,7 +304,9 @@ internal class CD_Controller {
         }
         #endif
         
-        self.syncProgress = AnyContinousProgress(CloudKitContainerContinuousProgress(container))
+        let monitor = CDCloudKitSyncMonitor(container)
+        self.syncProgressMonitor = monitor
+        self.syncProgress = monitor.progressBox
     }
     
     #if DEBUG
@@ -379,7 +368,6 @@ private class Datum_PersistentContainer: NSPersistentCloudKitContainer {
 }
 
 extension NSManagedObjectContext {
-    
     internal func datum_save() -> Result<Void, Error> {
         do {
             try self.save()
@@ -387,7 +375,7 @@ extension NSManagedObjectContext {
         } catch {
             NSLog(String(describing: error))
             self.rollback()
-            return .failure(.write)
+            return .failure(error)
         }
     }
 }

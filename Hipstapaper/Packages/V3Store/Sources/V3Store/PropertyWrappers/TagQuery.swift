@@ -29,44 +29,49 @@ import Umbrella
 import V3Model
 
 @propertyWrapper
-public struct TagUserQuery: DynamicProperty {
+public struct TagQuery: DynamicProperty {
     
-    @Controller private var controller
-    @CDObjectQuery<CD_Tag, Tag, Error>(onRead: Tag.init(_:)) private var object: Tag?
-    
-    @Environment(\.errorResponder) private var errorResponder
-    
-    public init() { }
-    
-    public func setIdentifier(_ newValue: Tag.Identifier?) {
-        if
-            let newValue,
-            newValue.isSystem == false,
-            let url = URL(string: newValue.id)
-        {
-            _object.setObjectIDURL(url)
-        } else {
-            _object.setObjectIDURL(nil)
-        }
+    public struct Value {
+        public let data: Tag?
+        public var identifier: Tag.Identifier?
     }
     
-    public var wrappedValue: Tag? {
-        get { self.object }
-        nonmutating set { self.object = newValue }
+    @ErrorStorage private var errors
+    @Controller private var controller
+    @State private var identifier: Tag.Identifier?
+    @CDObjectQuery<CD_Tag, Tag>(onRead: Tag.init(_:)) private var query
+        
+    public init() { }
+    
+    public var wrappedValue: Value {
+        nonmutating set { self.write(newValue.identifier) }
+        get {
+            .init(data: self.query.data,
+                  identifier: self.identifier)
+        }
     }
     
     public var projectedValue: Binding<Tag>? {
-        self.$object
+        self.$query
     }
     
-    private let needsUpdate = SecretBox(true)
-    public func update() {
-        guard self.needsUpdate.value else { return }
-        self.needsUpdate.value = false
-        _object.setOnWrite(_controller.cd.writeOpt(_:with:))
-        _object.setOnError { error in
-            NSLog(String(describing: error))
-            self.errorResponder(error)
+    private func write(_ newValue: Tag.Identifier?) {
+        let oldIdentifier = self.identifier
+        self.identifier = newValue
+        guard oldIdentifier != newValue else { return }
+        
+        var configuration = self.query.configuration
+        if configuration.onWrite == nil {
+            configuration.onWrite = _controller.cd.write(_:with:)
         }
+        if configuration.onError == nil {
+            configuration.onError = self.errors.append(_:)
+        }
+        if let newID = newValue, newID.isSystem == false {
+            configuration.objectID = URL(string: newID.id)
+        } else {
+            configuration.objectID = nil
+        }
+        self.query.configuration = configuration
     }
 }

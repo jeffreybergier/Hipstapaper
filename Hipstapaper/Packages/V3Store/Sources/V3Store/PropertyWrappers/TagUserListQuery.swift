@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/12/29.
+//  Created by Jeffrey Bergier on 2022/07/26.
 //
 //  MIT License
 //
@@ -25,36 +25,22 @@
 //
 
 import SwiftUI
-import Collections
 import Umbrella
+import V3Model
 
-public struct ErrorMover: ViewModifier {
+@propertyWrapper
+public struct TagUserListQuery: DynamicProperty {
     
-    @Errors private var store
-    @Binding private var toPresent: CodableError?
+    @Controller private var controller
+    @CDListQuery<CD_Tag, Tag.Identifier>(
+        sort: [CD_Tag.defaultSort],
+        predicate: .init(value: true),
+        onRead: { Tag.Identifier($0.objectID) }
+    ) private var query
+        
+    public init() {}
     
-    private let isAlreadyPresenting: Bool
-    
-    public init(isPresenting: Bool, toPresent: Binding<CodableError?>) {
-        _toPresent = toPresent
-        self.isAlreadyPresenting = isPresenting
-    }
-    
-    public func body(content: Content) -> some View {
-        content
-            .onLoadChange(of: self.store) { store in
-                guard
-                    self.isAlreadyPresenting == false,
-                    store.isEmpty == false
-                else { return }
-                self.toPresent = self.store.popFirst()
-            }
-            .onLoadChange(of: self.isAlreadyPresenting) { isAlreadyPresenting in
-                guard
-                    isAlreadyPresenting == false,
-                    self.store.isEmpty == false
-                else { return }
-                self.toPresent = self.store.popFirst()
-            }
+    public var wrappedValue: some RandomAccessCollection<Tag.Identifier> {
+        self.query.data
     }
 }

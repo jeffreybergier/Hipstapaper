@@ -40,9 +40,9 @@ public struct BrowserShareList: DynamicProperty {
         public var shareSaved:   ActionLocalization
         public var shareCurrent: ActionLocalization
         
-        internal init(_ b: LocalizeBundle) {
-            self.title              = b.localized(key: Noun.share.rawValue)
-            self.shareErrorSubtitle = b.localized(key: Phrase.shareError.rawValue)
+        internal init(_ b: Bundle) {
+            self.title              = b.jsb_localized(key: Noun.share.rawValue)
+            self.shareErrorSubtitle = b.jsb_localized(key: Phrase.shareError.rawValue)
             self.done               = Action.doneGeneric.localized(b)
             self.copy               = Action.copyToClipboard.localized(b)
             self.error              = Action.shareError.localized(b)
@@ -51,8 +51,8 @@ public struct BrowserShareList: DynamicProperty {
         }
     }
     
-    @Localize private var bundle
-    
+    @Environment(\.bundle) private var bundle
+
     public init() {}
     
     public var wrappedValue: Value {
@@ -60,6 +60,6 @@ public struct BrowserShareList: DynamicProperty {
     }
     
     public func key(_ input: LocalizationKey) -> LocalizedString {
-        self.bundle.localized(key: input)
+        self.bundle.jsb_localized(key: input)
     }
 }

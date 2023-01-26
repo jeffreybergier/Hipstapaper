@@ -37,8 +37,8 @@ internal struct DetailToolbar: ViewModifier {
     @Navigation private var nav
     @Selection private var selection
     @BulkActions private var state
-    @Errors private var errorQueue
-    
+    @ErrorStorage private var errors
+
     @JSBSizeClass private var sizeClass
     @HACK_EditMode private var isEditMode
     
@@ -123,7 +123,7 @@ internal struct DetailToolbar: ViewModifier {
         }
         ToolbarItem(id: .itemSort,
                     placement: .automatic,
-                    showsByDefault: false)
+                    showsByDefault: true)
         {
             SortMenu()
         }
@@ -131,15 +131,14 @@ internal struct DetailToolbar: ViewModifier {
                     placement: .automatic,
                     showsByDefault: false,
                     content: ColumnMenu.init)
-        if self.errorQueue.isEmpty == false {
+        if self.errors.all.isEmpty == false {
             ToolbarItem(id: .itemError, placement: .navigation) {
                 self.style.toolbar
                     .action(text: self.text.error)
                     .button(isEnabled: self.state.pull.showErrors)
                 {
-                    self.state.push.showErrors = true
+                    self.state.push.showErrors.toggle()
                 }
-                .modifier(DetailErrorListPresentation())
             }
         }
     }
@@ -177,15 +176,14 @@ internal struct DetailToolbar: ViewModifier {
                     placement: .secondaryAction,
                     showsByDefault: false,
                     content: ColumnMenu.init)
-        if self.errorQueue.isEmpty == false {
+        if self.errors.all.isEmpty == false {
             ToolbarItem(id: .itemError, placement: .navigation) {
                 self.style.toolbar
                     .action(text: self.text.error)
                     .button(isEnabled: self.state.pull.showErrors)
                 {
-                    self.state.push.showErrors = true
+                    self.state.push.showErrors.toggle()
                 }
-                .modifier(DetailErrorListPresentation())
             }
         }
     }

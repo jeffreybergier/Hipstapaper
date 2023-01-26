@@ -33,7 +33,7 @@ import V3Style
 
 internal struct DetailTableColumnThumbnail: View {
     
-    @WebsiteQuery private var item
+    @WebsiteQuery private var query
     @V3Style.DetailTable private var style
     
     private let id: Website.Identifier
@@ -43,16 +43,16 @@ internal struct DetailTableColumnThumbnail: View {
     }
     
     var body: some View {
-        self.style.thumbnail(self.item?.thumbnail)
+        self.style.thumbnail(self.query.data?.thumbnail)
             .onLoadChange(of: self.id, async: true) {
-                _item.setIdentifier($0)
+                self.query.identifier = $0
             }
     }
 }
 
 internal struct DetailTableColumnTitle: View {
     
-    @WebsiteQuery private var item
+    @WebsiteQuery private var query
     @V3Style.DetailTable private var style
     @V3Localize.DetailTable private var text
     
@@ -63,17 +63,18 @@ internal struct DetailTableColumnTitle: View {
     }
     
     var body: some View {
-        JSBText(self.text.missingTitle, text: self.item?.title)
-            .modifier(self.style.title)
-            .onLoadChange(of: self.id, async: true) {
-                _item.setIdentifier($0)
-            }
+        JSBText(self.text.missingTitle,
+                text: self.query.data?.title)
+        .modifier(self.style.title)
+        .onLoadChange(of: self.id, async: true) {
+            self.query.identifier = $0
+        }
     }
 }
 
 internal struct DetailTableColumnURL: View {
     
-    @WebsiteQuery private var item
+    @WebsiteQuery private var query
     @V3Style.DetailTable private var style
     @V3Localize.DetailTable private var text
     
@@ -84,17 +85,18 @@ internal struct DetailTableColumnURL: View {
     }
     
     var body: some View {
-        JSBText(self.text.missingURL, text: self.text.prettyURL(self.item?.preferredURL))
-            .modifier(self.style.url)
-            .onLoadChange(of: self.id, async: true) {
-                _item.setIdentifier($0)
-            }
+        JSBText(self.text.missingURL,
+                text: self.text.prettyURL(self.query.data?.preferredURL))
+        .modifier(self.style.url)
+        .onLoadChange(of: self.id, async: true) {
+            self.query.identifier = $0
+        }
     }
 }
 
 internal struct DetailTableColumnDate: View {
     
-    @WebsiteQuery private var item
+    @WebsiteQuery private var query
     @V3Style.DetailTable private var style
     @V3Localize.DetailTable private var text
     
@@ -107,10 +109,11 @@ internal struct DetailTableColumnDate: View {
     }
     
     var body: some View {
-        JSBText(self.text.missingDate, text: _text.dateString(self.item?[keyPath: self.keyPath]))
-            .modifier(self.style.date)
-            .onLoadChange(of: self.id, async: true) {
-                _item.setIdentifier($0)
-            }
+        JSBText(self.text.missingDate,
+                text: _text.dateString(self.query.data?[keyPath: self.keyPath]))
+        .modifier(self.style.date)
+        .onLoadChange(of: self.id, async: true) {
+            self.query.identifier = $0
+        }
     }
 }

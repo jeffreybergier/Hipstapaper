@@ -30,7 +30,7 @@ import V3Localize
 import V3Style
 
 #if DEBUG
-import V3Errors
+import Umbrella
 #endif
 
 
@@ -63,15 +63,15 @@ internal struct SidebarToolbar: ViewModifier {
     
 #if DEBUG
     @Controller private var controller
-    @Environment(\.errorResponder) private var errorResponder
+    @ErrorStorage private var errors
     @ViewBuilder private var DEBUG_addFakeData: some View {
         Button("DEBUG: Add Fake Data") {
             guard let error = _controller.createFakeData().error else { return }
-            self.errorResponder(error)
+            self.errors.append(error)
         }
         Button("DEBUG: Delete All Data") {
             guard let error = _controller.deleteAllData().error else { return }
-            self.errorResponder(error)
+            self.errors.append(error)
         }
     }
 #else

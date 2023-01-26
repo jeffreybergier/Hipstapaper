@@ -45,13 +45,12 @@ extension Navigation {
         internal var sidebar:        Sidebar = .init()
         internal var detail:         Detail  = .init()
         internal var isWebsitesEdit: Website.Selection = []
-        internal var isError:        CodableError?
+        internal var isError:        ErrorStorage.Identifier?
     }
     internal struct Sidebar: Hashable, Codable {
         internal var isTagsEdit: TagsEdit = .init()
     }
     internal struct Detail: Hashable, Codable {
-        internal var isErrorList:       Basic = .init()
         internal var isTagApply:        Website.Selection = []
         internal var isTagApplyPopover: Website.Selection = []
         internal var isShare:           Website.Selection = []
@@ -59,7 +58,7 @@ extension Navigation {
         internal var isBrowse:          Website.Selection.Element? = nil
     }
     internal struct TagsEdit: Hashable, Codable {
-        internal var isError:     CodableError?
+        internal var isError:     ErrorStorage.Identifier?
         internal var isPresented: Tag.Selection = []
     }
     internal struct Basic: Hashable, Codable {
@@ -99,8 +98,7 @@ extension Navigation.Sidebar {
 
 extension Navigation.Detail {
     internal var isPresenting: Bool {
-           self.isErrorList.isPresented
-        || self.isTagApply.isEmpty        == false
+        self.isTagApply.isEmpty           == false
         || self.isTagApplyPopover.isEmpty == false
         || self.isShare.isEmpty           == false
         || self.isSharePopover.isEmpty    == false

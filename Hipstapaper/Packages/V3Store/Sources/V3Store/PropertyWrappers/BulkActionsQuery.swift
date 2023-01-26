@@ -118,7 +118,7 @@ extension BulkActionsQuery {
     public static func setArchive(_ newValue: Bool,
                                   _ selection: Website.Selection,
                                   _ controller: ControllerProtocol)
-                                  -> Result<Void, Error>
+                                 -> Result<Void, Error>
     {
         let controller = controller as! CD_Controller
         return controller.setArchive(newValue, on: selection)

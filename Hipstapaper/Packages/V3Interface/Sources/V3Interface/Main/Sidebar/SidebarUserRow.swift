@@ -33,7 +33,7 @@ import V3Style
 
 internal struct SidebarUserRow: View {
         
-    @TagUserQuery private var item: Tag?
+    @TagQuery private var query
     @V3Style.Sidebar private var style
     @V3Localize.Sidebar private var text
     
@@ -48,10 +48,12 @@ internal struct SidebarUserRow: View {
     internal var body: some View {
         Group {
             HStack {
-                JSBText(self.text.rowTitleUntitled, text: self.item?.name)
-                    .modifier(self.style.titleText)
-                if self.typeSize.isAccessibilitySize == false,
-                    let count = self.item?.websitesCount
+                JSBText(self.text.rowTitleUntitled,
+                        text: self.query.data?.name)
+                .modifier(self.style.titleText)
+                if
+                    self.typeSize.isAccessibilitySize == false,
+                    let count = self.query.data?.websitesCount
                 {
                     Spacer()
                     Text(String(describing: count))
@@ -60,7 +62,7 @@ internal struct SidebarUserRow: View {
             }
         }
         .onLoadChange(of: self.identifier) {
-            _item.setIdentifier($0)
+            self.query.identifier = $0
         }
     }
 }

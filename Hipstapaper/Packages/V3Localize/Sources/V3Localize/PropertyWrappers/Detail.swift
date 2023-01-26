@@ -38,11 +38,11 @@ public struct Detail: DynamicProperty {
         public var noTagSelected: ActionLocalization
         public var noWebsites:    ActionLocalization
         
-        internal init(_ b: LocalizeBundle) {
-            self.titleUnread   = b.localized(key: Noun.unreadItems.rawValue)
-            self.titleAll      = b.localized(key: Noun.allItems.rawValue)
-            self.tagUntitled   = b.localized(key: Noun.untitled.rawValue)
-            self.search        = b.localized(key: Verb.search.rawValue)
+        internal init(_ b: Bundle) {
+            self.titleUnread   = b.jsb_localized(key: Noun.unreadItems.rawValue)
+            self.titleAll      = b.jsb_localized(key: Noun.allItems.rawValue)
+            self.tagUntitled   = b.jsb_localized(key: Noun.untitled.rawValue)
+            self.search        = b.jsb_localized(key: Verb.search.rawValue)
             self.noTagSelected = Action.noSelectionTag.localized(b)
             self.noWebsites    = Action.noContentWebsite.localized(b)
         }
@@ -56,8 +56,8 @@ public struct Detail: DynamicProperty {
         return df
     }()
     
-    @Localize private var bundle
-    
+    @Environment(\.bundle) private var bundle
+
     public init() {}
     
     public var wrappedValue: Value {
@@ -65,7 +65,7 @@ public struct Detail: DynamicProperty {
     }
     
     public func dateString(_ date: Date?) -> LocalizedString {
-        let missing = self.bundle.localized(key: Noun.dash.rawValue)
+        let missing = self.bundle.jsb_localized(key: Noun.dash.rawValue)
         return date.map { type(of: self).formatter.string(from: $0) }
                  ?? missing
     }

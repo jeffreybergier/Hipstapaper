@@ -60,7 +60,7 @@ internal struct Tag: View {
 
 internal struct TagRow: View {
     
-    @TagUserQuery private var item
+    @TagQuery private var query
     @Binding private var tagApply: TagApply
     
     @V3Style.WebsiteEdit private var style
@@ -72,12 +72,12 @@ internal struct TagRow: View {
     
     internal var body: some View {
         Toggle(
-            self.item?.name ?? self.text.dataUntitled,
+            self.query.data?.name ?? self.text.dataUntitled,
             isOn: self.$tagApply.status.boolValue
         )
         .modifier(self.style.tagTitle)
         .onLoadChange(of: self.tagApply.id) {
-            _item.setIdentifier($0)
+            self.query.identifier = $0
         }
     }
 }

@@ -49,13 +49,10 @@ public struct Browser: View {
 
 fileprivate struct _Browser: View {
     
-    @Navigation private var nav
-    @Localize   private var bundle
-    @Controller private var controller
-    @WebsiteQuery private var website
+    @Navigation   private var nav
+    @WebsiteQuery private var query
     
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.errorResponder) private var errorResponder
     
     private let identifier: Website.Identifier
     
@@ -70,27 +67,24 @@ fileprivate struct _Browser: View {
                 .modifier(self.toolbar)
         }
         .onLoadChange(of: self.identifier) {
-            _website.setIdentifier($0)
+            self.query.identifier = $0
         }
-        .onLoadChange(of: self.website?.preferredURL) {
+        .onLoadChange(of: self.query.data?.preferredURL) {
             self.nav.shouldLoadURL = $0
         }
-        .modifier(ErrorMover(isPresenting: self.nav.isPresenting,
-                             toPresent: self.$nav.isError))
-        .modifier(ErrorPresenter(isError: self.$nav.isError,
-                                 localizeBundle: self.bundle,
-                                 router: self.router(_:)))
+        .modifier(
+            ErrorStorage.Presenter(
+                isAlreadyPresenting: self.nav.isPresenting,
+                toPresent: self.$nav.isError,
+                router: errorRouter(_:)
+            )
+        )
     }
     
     private var toolbar: some ViewModifier {
-        Toolbar(isArchived: self.$website?.isArchived ?? .constant(false),
-                preferredURL: self.website?.preferredURL)
-    }
-    
-    private func router(_ input: CodableError) -> UserFacingError {
-        ErrorRouter.route(input: input,
-                          onSuccess: self.dismiss.callAsFunction,
-                          onError: self.errorResponder,
-                          controller: self.controller)
+        Toolbar(
+            isArchived: self.$query?.isArchived ?? .constant(true),
+            preferredURL: self.query.data?.preferredURL
+        )
     }
 }

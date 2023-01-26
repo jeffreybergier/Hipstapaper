@@ -57,7 +57,7 @@ internal struct FormMulti: View {
 
 fileprivate struct FormSection: View {
     
-    @WebsiteQuery private var item
+    @WebsiteQuery private var query
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
     
@@ -71,7 +71,7 @@ fileprivate struct FormSection: View {
     }
     
     internal var body: some View {
-        self.$item.view { item in
+        self.$query.view { item in
             Section {
                 TextField(self.text.formTitle, text: item.title.compactMap())
                 TextField(
@@ -95,7 +95,7 @@ fileprivate struct FormSection: View {
             self.style.disabled.action(text: self.text.noWebsites).label
         }
         .onLoadChange(of: self.identifier) {
-            _item.setIdentifier($0)
+            self.query.identifier = $0
         }
     }
 }

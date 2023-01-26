@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/06/29.
+//  Created by Jeffrey Bergier on 2022/08/05.
 //
 //  MIT License
 //
@@ -27,24 +27,13 @@
 import Umbrella
 import V3Localize
 
-public struct UnknownError: UserFacingError {
-    public var title: LocalizationKey        = UnknownErrorKeys.title
-    public var message: LocalizationKey      = UnknownErrorKeys.message
-    public var dismissTitle: LocalizationKey = UnknownErrorKeys.dismissTitle
-    public var options: [RecoveryOption]     = []
-    public var isCritical: Bool { false }
+extension CPAccountStatus: UserFacingError {
     
-    public init(_ error: CodableError) {
-        self.errorCode = error.errorCode
-        self.errorDomain = error.errorDomain
-        guard
-            let data = error.arbitraryData,
-            let userInfoString = String(data: data, encoding: .utf8)
-        else { return }
-        self.message = userInfoString
-    }
+    // TODO: Remove V3Localize.CPError.messageStatus ?
     
-    public static var errorDomain: String { "com.saturdayapps.Hipstapaper.Unknown" }
-    public var errorDomain: String
-    public var errorCode: Int
+    public var message: LocalizationKey      { V3Localize.CPError.messageStatus }
+    public var title:        LocalizationKey { V3Localize.CPError.title }
+    public var dismissTitle: LocalizationKey { V3Localize.CPError.dismissTitle }
+    public var isCritical:   Bool { false }
+    public var options:      [Umbrella.RecoveryOption] { [] }
 }

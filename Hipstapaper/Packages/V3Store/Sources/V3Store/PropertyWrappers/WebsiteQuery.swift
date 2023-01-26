@@ -31,41 +31,44 @@ import V3Model
 @propertyWrapper
 public struct WebsiteQuery: DynamicProperty {
     
+    public struct Value {
+        public let data: Website?
+        public var identifier: Website.Identifier?
+    }
+    
+    @ErrorStorage private var errors
     @Controller   private var controller
-    @CDObjectQuery<CD_Website, Website, Error>(onRead: Website.init(_:))
-                  private var object: Website?
-    @Environment(\.errorResponder) private var errorResponder
+    @State private var identifier: Website.Identifier?
+    @CDObjectQuery<CD_Website, Website>(onRead: Website.init(_:)) private var query
     
     public init() { }
     
-    public func setIdentifier(_ newValue: Website.Identifier?) {
-        if
-            let newValue,
-            let url = URL(string: newValue.id)
-        {
-            _object.setObjectIDURL(url)
-        } else {
-            _object.setObjectIDURL(nil)
-        }
-    }
-    
-    public var wrappedValue: Website? {
-        get { self.object }
-        nonmutating set { self.object = newValue }
+    public var wrappedValue: Value {
+        nonmutating set { self.write(newValue.identifier) }
+        get { .init(data: self.query.data, identifier: self.identifier) }
     }
     
     public var projectedValue: Binding<Website>? {
-        self.$object
+        self.$query
     }
     
-    private let needsUpdate = SecretBox(true)
-    public func update() {
-        guard self.needsUpdate.value else { return }
-        self.needsUpdate.value = false
-        _object.setOnWrite(_controller.cd.writeOpt(_:with:))
-        _object.setOnError { error in
-            NSLog(String(describing: error))
-            self.errorResponder(error)
+    private func write(_ newValue: Website.Identifier?) {
+        let oldIdentifier = self.identifier
+        self.identifier = newValue
+        guard oldIdentifier != newValue else { return }
+        
+        var configuration = self.query.configuration
+        if configuration.onWrite == nil {
+            configuration.onWrite = _controller.cd.write(_:with:)
         }
+        if configuration.onError == nil {
+            configuration.onError = self.errors.append(_:)
+        }
+        if let newID = newValue {
+            configuration.objectID = URL(string: newID.id)
+        } else {
+            configuration.objectID = nil
+        }
+        self.query.configuration = configuration
     }
 }

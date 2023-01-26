@@ -1,5 +1,5 @@
 //
-//  Created by Jeffrey Bergier on 2022/12/30.
+//  Created by Jeffrey Bergier on 2022/08/05.
 //
 //  MIT License
 //
@@ -26,17 +26,9 @@
 
 import Foundation
 import Umbrella
+import V3Localize
 
-public struct DeleteConfirmationError: CustomNSError {
-    
-    static public var errorDomain = "com.saturdayapps.Hipstapaper.model"
-    public var errorCode: Int { 1002 }
-    
-    public var request: DeleteRequestError
-    public var onConfirmation: (DeleteRequestError) -> Void
-    
-    public init(request: DeleteRequestError, onConfirmation: @escaping (DeleteRequestError) -> Void) {
-        self.request = request
-        self.onConfirmation = onConfirmation
-    }
+public func errorRouter(_ input: Swift.Error) -> UserFacingError {
+    if let error = input as? UserFacingError { return error }
+    return LocalizedNSError(input, dismissTitle: V3Localize.CPError.dismissTitle)
 }

@@ -44,9 +44,9 @@ public struct ShareList: DynamicProperty {
         public var errorTitle: (String?) -> ActionLocalization
         public var itemSubtitle: ([URL]) -> LocalizedString
         
-        internal init(_ b: LocalizeBundle) {
-            self.title              = b.localized(key: Noun.share.rawValue)
-            self.shareErrorSubtitle = b.localized(key: Phrase.shareError.rawValue)
+        internal init(_ b: Bundle) {
+            self.title              = b.jsb_localized(key: Noun.share.rawValue)
+            self.shareErrorSubtitle = b.jsb_localized(key: Phrase.shareError.rawValue)
             
             self.done       = Action.doneGeneric.localized(b)
             self.multi      = Action.shareMulti.localized(b)
@@ -56,12 +56,12 @@ public struct ShareList: DynamicProperty {
             
             self.itemTitle = {
                 var output = Action.shareSingle.localized(b)
-                output.title = $0 ?? b.localized(key: Noun.untitled.rawValue)
+                output.title = $0 ?? b.jsb_localized(key: Noun.untitled.rawValue)
                 return output
             }
             self.errorTitle = {
                 var output = Action.shareError.localized(b)
-                output.title = $0 ?? b.localized(key: Noun.untitled.rawValue)
+                output.title = $0 ?? b.jsb_localized(key: Noun.untitled.rawValue)
                 return output
             }
             self.itemSubtitle = {
@@ -78,8 +78,8 @@ public struct ShareList: DynamicProperty {
         }
     }
     
-    @Localize private var bundle
-    
+    @Environment(\.bundle) private var bundle
+
     public init() {}
     
     public var wrappedValue: Value {
@@ -87,6 +87,6 @@ public struct ShareList: DynamicProperty {
     }
     
     public func key(_ input: LocalizationKey) -> LocalizedString {
-        self.bundle.localized(key: input)
+        self.bundle.jsb_localized(key: input)
     }
 }

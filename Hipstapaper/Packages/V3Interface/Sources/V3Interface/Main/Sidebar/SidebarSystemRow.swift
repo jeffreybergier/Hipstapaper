@@ -53,15 +53,3 @@ internal struct SidebarSystemRow: View {
         }
     }
 }
-
-#if DEBUG
-struct Preview_TagSystemRow_01: PreviewProvider {
-    static var previews: some View {
-        VStack {
-            SidebarSystemRow(.systemUnread)
-            SidebarSystemRow(.systemAll)
-        }
-        .environmentObject(LocalizeBundle())
-    }
-}
-#endif

@@ -27,7 +27,6 @@
 import SwiftUI
 import Umbrella
 import V3Model
-import V3Store
 import V3Errors
 import V3Style
 import V3Localize
@@ -70,16 +69,12 @@ public struct WebsiteEdit: View {
 
 internal struct _WebsiteEdit: View {
     
-    @Controller private var controller
-    @Navigation private var nav
-    @Localize private var bundle
-    
+    @Navigation   private var nav
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
     @HACK_macOS_Style private var hack_style
     
     @Dismiss private var dismiss
-    @Environment(\.errorResponder) private var errorResponder
     
     @Binding private var screen: WebsiteEdit.Screen
     private let selection: Website.Selection
@@ -109,17 +104,12 @@ internal struct _WebsiteEdit: View {
         .modifier(self.hack_style.formStyle)
         .modifier(self.hack_style.tabParentPadding)
         .modifier(self.hack_style.formTextFieldStyle)
-        .modifier(ErrorMover(isPresenting: self.nav.isPresenting,
-                             toPresent: self.$nav.isError))
-        .modifier(ErrorPresenter(isError: self.$nav.isError,
-                                 localizeBundle: self.bundle,
-                                 router: self.router(_:)))
-    }
-    
-    private func router(_ input: CodableError) -> UserFacingError {
-        ErrorRouter.route(input: input,
-                          onSuccess: self.dismiss,
-                          onError: self.errorResponder,
-                          controller: self.controller)
+        .modifier(
+            ErrorStorage.Presenter(
+                isAlreadyPresenting: self.nav.isPresenting,
+                toPresent: self.$nav.isError,
+                router: errorRouter(_:)
+            )
+        )
     }
 }

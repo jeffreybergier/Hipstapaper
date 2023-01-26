@@ -31,20 +31,20 @@ import Umbrella
 public struct MainMenu: DynamicProperty {
     
     public struct Value {
-        public var openInWindow:  (LocalizeBundle) -> ActionLocalization
-        public var openExternal:  (LocalizeBundle) -> ActionLocalization
-        public var archiveYes:    (LocalizeBundle) -> ActionLocalization
-        public var archiveNo:     (LocalizeBundle) -> ActionLocalization
-        public var share:         (LocalizeBundle) -> ActionLocalization
-        public var tagApply:      (LocalizeBundle) -> ActionLocalization
-        public var websiteAdd:    (LocalizeBundle) -> ActionLocalization
-        public var tagAdd:        (LocalizeBundle) -> ActionLocalization
-        public var websiteEdit:   (LocalizeBundle) -> ActionLocalization
-        public var tagEdit:       (LocalizeBundle) -> ActionLocalization
-        public var websiteDelete: (LocalizeBundle) -> ActionLocalization
-        public var tagDelete:     (LocalizeBundle) -> ActionLocalization
-        public var deselectAll:   (LocalizeBundle) -> ActionLocalization
-        public var error:         (LocalizeBundle) -> ActionLocalization
+        public var openInWindow:  (Bundle) -> ActionLocalization
+        public var openExternal:  (Bundle) -> ActionLocalization
+        public var archiveYes:    (Bundle) -> ActionLocalization
+        public var archiveNo:     (Bundle) -> ActionLocalization
+        public var share:         (Bundle) -> ActionLocalization
+        public var tagApply:      (Bundle) -> ActionLocalization
+        public var websiteAdd:    (Bundle) -> ActionLocalization
+        public var tagAdd:        (Bundle) -> ActionLocalization
+        public var websiteEdit:   (Bundle) -> ActionLocalization
+        public var tagEdit:       (Bundle) -> ActionLocalization
+        public var websiteDelete: (Bundle) -> ActionLocalization
+        public var tagDelete:     (Bundle) -> ActionLocalization
+        public var deselectAll:   (Bundle) -> ActionLocalization
+        public var error:         (Bundle) -> ActionLocalization
         
         public init() {
             self.openInWindow  = { Action.openInWindow.localized($0) }
