@@ -40,7 +40,7 @@ let package = Package(
         .package(path: "../V3Model"),
         .package(path: "../V3Store"),
         .package(path: "../V3Localize"),
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "main"),
+        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "waterme3"),
     ],
     targets: [
         .target(
