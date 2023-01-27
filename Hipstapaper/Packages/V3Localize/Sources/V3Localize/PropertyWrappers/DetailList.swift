@@ -39,9 +39,9 @@ public struct DetailList: DynamicProperty {
         }
         
         internal init(_ b: Bundle) {
-            self.missingTitle = b.jsb_localized(key: Noun.dash.rawValue)
-            self.missingURL   = b.jsb_localized(key: Noun.dash.rawValue)
-            self.missingDate  = b.jsb_localized(key: Noun.dash.rawValue)
+            self.missingTitle = b.localized(key: Noun.dash.rawValue)
+            self.missingURL   = b.localized(key: Noun.dash.rawValue)
+            self.missingDate  = b.localized(key: Noun.dash.rawValue)
         }
     }
     
@@ -62,7 +62,7 @@ public struct DetailList: DynamicProperty {
     }
     
     public func dateString(_ date: Date?) -> LocalizedString {
-        let missing = self.bundle.jsb_localized(key: Noun.dash.rawValue)
+        let missing = self.bundle.localized(key: Noun.dash.rawValue)
         return date.map { type(of: self).formatter.string(from: $0) }
                  ?? missing
     }

@@ -55,7 +55,7 @@ public struct Browser: DynamicProperty {
             self.archiveYes   = Action.archiveYes.localized(b)
             self.share        = Action.share.localized(b)
             self.done         = Action.doneGeneric.localized(b)
-            self.loading      = b.jsb_localized(key: Phrase.loadingPage.rawValue)
+            self.loading      = b.localized(key: Phrase.loadingPage.rawValue)
         }
     }
     

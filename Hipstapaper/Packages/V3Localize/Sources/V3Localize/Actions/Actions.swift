@@ -82,8 +82,8 @@ internal enum Action {
     
     internal func localized(_ bundle: Bundle) -> ActionLocalization {
         var output = self.raw
-        output.title = bundle.jsb_localized(key: raw.title)
-        output.hint = raw.hint.map { bundle.jsb_localized(key: $0) }
+        output.title = bundle.localized(key: raw.title)
+        output.hint = raw.hint.map { bundle.localized(key: $0) }
         return output
     }
     

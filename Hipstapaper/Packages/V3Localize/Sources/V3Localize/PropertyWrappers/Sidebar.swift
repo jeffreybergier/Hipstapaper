@@ -45,12 +45,12 @@ public struct Sidebar: DynamicProperty {
         public var noTags:                  ActionLocalization
         
         internal init(_ b: Bundle) {
-            self.navigationTitle         = b.jsb_localized(key: Noun.tags.rawValue)
-            self.sectionTitleTagsSystem  = b.jsb_localized(key: Noun.readingList.rawValue)
-            self.sectionTitleTagsUser    = b.jsb_localized(key: Noun.tags.rawValue)
-            self.rowTitleTagSystemUnread = b.jsb_localized(key: Noun.unreadItems.rawValue)
-            self.rowTitleTagSystemAll    = b.jsb_localized(key: Noun.allItems.rawValue)
-            self.rowTitleUntitled        = b.jsb_localized(key: Noun.untitled.rawValue)
+            self.navigationTitle         = b.localized(key: Noun.tags.rawValue)
+            self.sectionTitleTagsSystem  = b.localized(key: Noun.readingList.rawValue)
+            self.sectionTitleTagsUser    = b.localized(key: Noun.tags.rawValue)
+            self.rowTitleTagSystemUnread = b.localized(key: Noun.unreadItems.rawValue)
+            self.rowTitleTagSystemAll    = b.localized(key: Noun.allItems.rawValue)
+            self.rowTitleUntitled        = b.localized(key: Noun.untitled.rawValue)
             self.toolbarAddTag           = Action.addTag.localized(b)
             self.toolbarAddWebsite       = Action.addWebsite.localized(b)
             self.toolbarAddGeneric       = Action.addChoice.localized(b)
