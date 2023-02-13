@@ -32,6 +32,16 @@ public struct ShowsTable: DynamicProperty {
         
     public enum Value {
         case showTable, showList
+        internal init(_ horizontal: JSBSizeClass.Value,
+                      _ isAccessibilitySize: Bool)
+        {
+            switch (horizontal, isAccessibilitySize) {
+            case (.regular, false):
+                self = .showTable
+            default:
+                self = .showList
+            }
+        }
     }
     
     @JSBSizeClass private var sizeClass
@@ -40,11 +50,7 @@ public struct ShowsTable: DynamicProperty {
     public init() {}
     
     public var wrappedValue: Value {
-        switch (self.sizeClass.horizontal, self.typeSize.isAccessibilitySize) {
-        case (.regular, false):
-            return .showTable
-        default:
-            return .showList
-        }
+        .init(self.sizeClass.horizontal,
+              self.typeSize.isAccessibilitySize)
     }
 }
