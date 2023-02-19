@@ -46,16 +46,23 @@ internal struct FormParent: View {
     
     internal var body: some View {
         NavigationStack {
-            self.selection.view { selection in
-                switch selection.count {
-                case 1:
-                    FormSingle(selection.first!)
-                        .environmentObject(self.webState)
-                default:
-                    FormMulti(selection)
+            // TODO: Forms on macOS have no ScrollView
+            // and form on iOS do. So I need my own Form
+            // that takes this into account.
+            ScrollView {
+                Form {
+                    self.selection.view { selection in
+                        switch selection.count {
+                        case 1:
+                            FormSingle(selection.first!)
+                                .environmentObject(self.webState)
+                        default:
+                            FormMulti(selection)
+                        }
+                    } onEmpty: {
+                        self.style.disabled.action(text: self.text.noWebsitesSelected).label
+                    }
                 }
-            } onEmpty: {
-                self.style.disabled.action(text: self.text.noWebsitesSelected).label
             }
             .modifier(FormToolbar(self.selection))
         }

@@ -52,28 +52,26 @@ internal struct FormSingle: View {
     }
     
     internal var body: some View {
-        Form {
-            self.$query.view { item in
-                Section {
-                    TextField(
-                        self.text.formOriginalURL,
-                        text: item.originalURL.mirror(string: self.$originalURLMirror)
-                    ).textContentTypeURL
-                    self.rowAutofill(item)
-                    self.rowJavascript
-                }
-                Section {
-                    TextField(self.text.formTitle, text: item.title.compactMap())
-                    TextField(
-                        self.text.formResolvedURL,
-                        text: item.resolvedURL.mirror(string: self.$resolvedURLMirror)
-                    ).textContentTypeURL
-                    self.rowDeleteThumbnail(item)
-                    self.style.thumbnailSingle(self.query.data?.thumbnail) { Web() }
-                }
-            } onNIL: {
-                self.style.disabled.action(text: self.text.noWebsitesSelected).label
+        self.$query.view { item in
+            Section {
+                TextField(
+                    self.text.formOriginalURL,
+                    text: item.originalURL.mirror(string: self.$originalURLMirror)
+                ).textContentTypeURL
+                self.rowAutofill(item)
+                self.rowJavascript
             }
+            Section {
+                TextField(self.text.formTitle, text: item.title.compactMap())
+                TextField(
+                    self.text.formResolvedURL,
+                    text: item.resolvedURL.mirror(string: self.$resolvedURLMirror)
+                ).textContentTypeURL
+                self.rowDeleteThumbnail(item)
+                self.style.thumbnailSingle(self.query.data?.thumbnail) { Web() }
+            }
+        } onNIL: {
+            self.style.disabled.action(text: self.text.noWebsitesSelected).label
         }
         .scrollDismissesKeyboard(.immediately)
         .onLoadChange(of: self.identifier) {
