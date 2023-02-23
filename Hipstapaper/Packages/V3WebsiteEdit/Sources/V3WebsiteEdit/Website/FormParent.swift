@@ -25,6 +25,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import V3Model
 import V3Errors
 import V3Style
@@ -46,22 +47,17 @@ internal struct FormParent: View {
     
     internal var body: some View {
         NavigationStack {
-            // TODO: Forms on macOS have no ScrollView
-            // and form on iOS do. So I need my own Form
-            // that takes this into account.
-            ScrollView {
-                Form {
-                    self.selection.view { selection in
-                        switch selection.count {
-                        case 1:
-                            FormSingle(selection.first!)
-                                .environmentObject(self.webState)
-                        default:
-                            FormMulti(selection)
-                        }
-                    } onEmpty: {
-                        self.style.disabled.action(text: self.text.noWebsitesSelected).label
+            JSBForm {
+                self.selection.view { selection in
+                    switch selection.count {
+                    case 1:
+                        FormSingle(selection.first!)
+                            .environmentObject(self.webState)
+                    default:
+                        FormMulti(selection)
                     }
+                } onEmpty: {
+                    self.style.disabled.action(text: self.text.noWebsitesSelected).label
                 }
             }
             .modifier(FormToolbar(self.selection))

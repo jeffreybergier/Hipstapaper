@@ -52,7 +52,7 @@ internal struct ShareList: View {
     
     internal var body: some View {
         NavigationStack {
-            Form {
+            JSBForm {
                 self.allItems.view { urls in
                     self.style.shareLink(itemURLs: urls,
                                          itemTitle: self.text.multi,

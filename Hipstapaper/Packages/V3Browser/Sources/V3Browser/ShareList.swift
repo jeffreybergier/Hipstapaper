@@ -58,7 +58,7 @@ internal struct ShareList: View {
     
     internal var body: some View {
         NavigationStack {
-            Form {
+            JSBForm {
                 if self.data.isEmpty {
                     self.style.disabled(subtitle: self.text.shareErrorSubtitle)
                         .action(text: self.text.error)
