@@ -50,7 +50,6 @@ public struct SceneBootstrap: Scene {
                     .environmentObject(self.mainMenuState)
                     .environmentObject(controller.syncProgress)
                     .environment(\.bundle, self.bundle)
-                    .environment(\.sceneContext, .normal)
                     .environment(\.managedObjectContext, controller.context)
             case .failure(let error):
                 Text(String(describing: error))
@@ -67,7 +66,6 @@ public struct SceneBootstrap: Scene {
                 Browser(identifier)
                     .environmentObject(self.controller)
                     .environment(\.bundle, self.bundle)
-                    .environment(\.sceneContext, .scene(id: identifier.rawValue))
                     .environment(\.managedObjectContext, controller.context)
             case (_, .none):
                 // TODO: Localize
