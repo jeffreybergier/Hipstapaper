@@ -70,6 +70,7 @@ internal struct MainSplitView: View {
     }
 }
 
+#if os(macOS)
 // TODO: Giant Hack to allow MainMenu state to be separate
 // from the scene. If Menus worked as expected, this would
 // not be needed. Also has logic to sync the Scene state
@@ -101,3 +102,13 @@ internal struct HACK_MainSplitViewStateWrapper: View {
             }
     }
 }
+#else
+internal struct HACK_MainSplitViewStateWrapper: View {
+    
+    internal init() { }
+    
+    internal var body: some View {
+        MainSplitView()
+    }
+}
+#endif
