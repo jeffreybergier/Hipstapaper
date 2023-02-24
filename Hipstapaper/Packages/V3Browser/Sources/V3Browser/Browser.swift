@@ -34,6 +34,7 @@ import V3Localize
 public struct Browser: View {
     
     @StateObject private var nav = Navigation.newEnvironment()
+    @StateObject private var errorStorage = ErrorStorage.newEnvironment()
     
     private let identifier: Website.Identifier
     
@@ -44,6 +45,7 @@ public struct Browser: View {
     public var body: some View {
         _Browser(self.identifier)
             .environmentObject(self.nav)
+            .environmentObject(self.errorStorage)
     }
 }
 
