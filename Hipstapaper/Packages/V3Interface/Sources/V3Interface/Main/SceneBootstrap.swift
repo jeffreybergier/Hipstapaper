@@ -36,7 +36,6 @@ public struct SceneBootstrap: Scene {
     
     @StateObject private var controller     = Controller.newEnvironment()
     @StateObject private var mainMenuState  = BulkActions.newEnvironment()
-    @StateObject private var errorStorage   = ErrorStorage.newEnvironment()
     
     private let bundle = LocalizeBundle
     
@@ -46,10 +45,9 @@ public struct SceneBootstrap: Scene {
         WindowGroup {
             switch self.controller.value {
             case .success(let controller):
-                MainSplitView()
+                HACK_MainSplitViewStateWrapper()
                     .environmentObject(self.controller)
                     .environmentObject(self.mainMenuState)
-                    .environmentObject(self.errorStorage)
                     .environmentObject(controller.syncProgress)
                     .environment(\.bundle, self.bundle)
                     .environment(\.sceneContext, .normal)
@@ -68,7 +66,6 @@ public struct SceneBootstrap: Scene {
             case (.success(let controller), .some(let identifier)):
                 Browser(identifier)
                     .environmentObject(self.controller)
-                    .environmentObject(self.errorStorage)
                     .environment(\.bundle, self.bundle)
                     .environment(\.sceneContext, .scene(id: identifier.rawValue))
                     .environment(\.managedObjectContext, controller.context)

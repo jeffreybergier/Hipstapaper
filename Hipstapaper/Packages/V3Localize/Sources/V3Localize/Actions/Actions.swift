@@ -214,19 +214,18 @@ extension ActionLocalization {
         .init(title: Verb.addWebsite.rawValue,
               hint:  Phrase.addWebsite.rawValue,
               image: .init(.website),
-              shortcut: .commandN)
+              shortcut: .commandShiftN)
     }()
     fileprivate static let raw_addTag: ActionLocalization = {
         .init(title: Verb.addTag.rawValue,
               hint:  Phrase.addTag.rawValue,
               image: .init(.tag),
-              shortcut: .commandShiftN)
+              shortcut: .commandShiftL)
     }()
     fileprivate static let raw_addChoice: ActionLocalization = {
         .init(title: Verb.addChoice.rawValue,
               hint:  Phrase.addChoice.rawValue,
-              image: .init(.plus),
-              shortcut: .commandShiftN)
+              image: .init(.plus))
     }()
     fileprivate static let raw_editWebsite: ActionLocalization = {
         .init(title: Verb.editWebsite.rawValue,

@@ -39,6 +39,7 @@ internal struct MainSplitView: View {
     @V3Style.MainMenu private var style
     @HACK_EditMode    private var isEditMode
     
+    @StateObject private var errorStorage = ErrorStorage.newEnvironment()
     @EnvironmentObject private var syncProgress: ContinousProgress.Environment
         
     internal var body: some View {
@@ -65,5 +66,38 @@ internal struct MainSplitView: View {
                 router: errorRouter(_:)
             )
         )
+        .environmentObject(self.errorStorage)
+    }
+}
+
+// TODO: Giant Hack to allow MainMenu state to be separate
+// from the scene. If Menus worked as expected, this would
+// not be needed. Also has logic to sync the Scene state
+// and the MainMenu state. Also, tries to disable logic if
+// window is not frontmost.
+internal struct HACK_MainSplitViewStateWrapper: View {
+    
+    @StateObject private var sceneState = BulkActions.newEnvironment()
+    @EnvironmentObject private var mainMenuState: BulkActions.Environment
+    
+    @Environment(\.controlActiveState) private var active
+    
+    internal init() { }
+    
+    internal var body: some View {
+        MainSplitView()
+            .environmentObject(self.sceneState)
+            .onChange(of: self.active) { _ in
+                self.mainMenuState.value.pull = .init()
+            }
+            .onChange(of: self.sceneState.value.pull) {
+                guard self.active == .key else { return }
+                self.mainMenuState.value.pull = $0
+            }
+            .onChange(of: self.mainMenuState.value.push) {
+                guard self.active == .key else { return }
+                self.sceneState.value.push = $0
+                self.mainMenuState.value.push = .init()
+            }
     }
 }
