@@ -49,10 +49,10 @@ public struct ErrorList: DynamicProperty {
         
         internal init(_ b: Bundle) {
             self.bundle = b
-            self.title    = b.jsb_localized(key: Noun.errors.rawValue)
+            self.title    = b.localized(key: Noun.errors.rawValue)
             self.done     = Action.doneGeneric.localized(b)
             self.clearAll = Action.deleteAllGeneric.localized(b)
-            self.ufe      = { b.jsb_localized(key: $0[keyPath: $1]) }
+            self.ufe      = { b.localized(key: $0[keyPath: $1]) }
         }
     }
     
@@ -62,8 +62,8 @@ public struct ErrorList: DynamicProperty {
         public var message: LocalizedString
         
         internal init(b: Bundle, e: UserFacingError) {
-            self.title = b.jsb_localized(key: e.title)
-            self.message = b.jsb_localized(key: e.message)
+            self.title = b.localized(key: e.title)
+            self.message = b.localized(key: e.message)
         }
     }
     

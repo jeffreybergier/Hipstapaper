@@ -61,7 +61,7 @@ internal struct MainMenu: Commands {
     }
     
     internal var body: some Commands {
-        CommandGroup(replacing: .newItem) {
+        CommandGroup(after: .newItem) {
             self.style.toolbar
                 .action(text: self.text(\.websiteAdd))
                 .button(item: self.controller)

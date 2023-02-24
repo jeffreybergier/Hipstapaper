@@ -34,6 +34,7 @@ extension KeyboardShortcut {
     // TODO: Change to Command A
     internal static let commandShiftA       = KeyboardShortcut("a",     modifiers: [.command, .shift]  )
     internal static let commandShiftE       = KeyboardShortcut("e",     modifiers: [.command, .shift]  )
+    internal static let commandShiftL       = KeyboardShortcut("l",     modifiers: [.command, .shift]  )
     internal static let commandOptionE      = KeyboardShortcut("e",     modifiers: [.command, .option] )
     internal static let commandControlE     = KeyboardShortcut("e",     modifiers: [.command, .control])
     internal static let commandR            = KeyboardShortcut("r",     modifiers: [.command]          )

@@ -38,8 +38,8 @@ public struct TagsEdit: DynamicProperty {
         public var noTagSelected:   ActionLocalization
         
         internal init(_ b: Bundle) {
-            self.title           = b.jsb_localized(key: Noun.editTags.rawValue)
-            self.placeholderName = b.jsb_localized(key: Noun.tagName.rawValue)
+            self.title           = b.localized(key: Noun.editTags.rawValue)
+            self.placeholderName = b.localized(key: Noun.tagName.rawValue)
             self.toolbarDone     = Action.doneGeneric.localized(b)
             self.toolbarDelete   = Action.deleteGeneric.localized(b)
             self.noTagSelected   = Action.noSelectionTag.localized(b)

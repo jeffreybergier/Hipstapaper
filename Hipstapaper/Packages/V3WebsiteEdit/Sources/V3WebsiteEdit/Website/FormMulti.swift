@@ -43,14 +43,12 @@ internal struct FormMulti: View {
     }
     
     internal var body: some View {
-        Form {
-            self.selection.map({ $0 }).view {
-                ForEach($0) { ident in
-                    FormSection(ident)
-                }
-            } onEmpty: {
-                self.style.disabled.action(text: self.text.noWebsitesSelected).label
+        self.selection.map({ $0 }).view {
+            ForEach($0) { ident in
+                FormSection(ident)
             }
+        } onEmpty: {
+            self.style.disabled.action(text: self.text.noWebsitesSelected).label
         }
     }
 }
@@ -60,6 +58,7 @@ fileprivate struct FormSection: View {
     @WebsiteQuery private var query
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
+    @HACK_macOS_Style private var hack_style
     
     @State private var originalURLMirror: String = ""
     @State private var resolvedURLMirror: String = ""

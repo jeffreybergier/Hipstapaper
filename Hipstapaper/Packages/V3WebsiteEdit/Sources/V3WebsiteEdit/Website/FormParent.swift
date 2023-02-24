@@ -25,6 +25,7 @@
 //
 
 import SwiftUI
+import Umbrella
 import V3Model
 import V3Errors
 import V3Style
@@ -46,16 +47,18 @@ internal struct FormParent: View {
     
     internal var body: some View {
         NavigationStack {
-            self.selection.view { selection in
-                switch selection.count {
-                case 1:
-                    FormSingle(selection.first!)
-                        .environmentObject(self.webState)
-                default:
-                    FormMulti(selection)
+            JSBForm {
+                self.selection.view { selection in
+                    switch selection.count {
+                    case 1:
+                        FormSingle(selection.first!)
+                            .environmentObject(self.webState)
+                    default:
+                        FormMulti(selection)
+                    }
+                } onEmpty: {
+                    self.style.disabled.action(text: self.text.noWebsitesSelected).label
                 }
-            } onEmpty: {
-                self.style.disabled.action(text: self.text.noWebsitesSelected).label
             }
             .modifier(FormToolbar(self.selection))
         }

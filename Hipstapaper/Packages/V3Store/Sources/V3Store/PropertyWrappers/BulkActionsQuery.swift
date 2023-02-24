@@ -30,7 +30,7 @@ import V3Model
 @propertyWrapper
 public struct BulkActionsQuery: DynamicProperty {
     
-    public struct Value: Hashable {
+    public struct Value: Hashable, Equatable {
         public var websiteAdd:    Bool = false
         public var tagAdd:        Bool = false
         /// Contains items that can be deselected

@@ -101,7 +101,6 @@ internal struct _WebsiteEdit: View {
                         .label
                 }
         }
-        .modifier(self.hack_style.formStyle)
         .modifier(self.hack_style.tabParentPadding)
         .modifier(self.hack_style.formTextFieldStyle)
         .modifier(

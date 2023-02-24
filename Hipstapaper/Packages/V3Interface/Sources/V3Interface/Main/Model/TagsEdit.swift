@@ -47,7 +47,7 @@ internal struct TagsEdit: View {
     
     internal var body: some View {
         NavigationStack {
-            Form {
+            JSBForm {
                 ForEach(Array(self.selection)) {
                     TagsEditRow($0)
                 }
