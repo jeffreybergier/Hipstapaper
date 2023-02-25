@@ -38,6 +38,8 @@ extension Font {
 }
 
 extension CGFloat {
+    internal static let sceneSizeWidthSmall: CGFloat = 768
+    internal static let sceneSizeHeightSmall: CGFloat = 768
     internal static let popoverSizeWidthSmall: CGFloat = 280
     internal static let popoverSizeWidthMedium: CGFloat = 320
     internal static let popoverSizeWidthLarge: CGFloat = 480

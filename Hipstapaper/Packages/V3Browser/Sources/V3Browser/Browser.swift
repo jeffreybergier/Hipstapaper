@@ -30,6 +30,7 @@ import V3Model
 import V3Store
 import V3Errors
 import V3Localize
+import V3Style
 
 public struct Browser: View {
     
@@ -53,6 +54,8 @@ fileprivate struct _Browser: View {
     
     @Navigation   private var nav
     @WebsiteQuery private var query
+    
+    @V3Style.HACK_macOS_Style private var hack_style
     
     @Environment(\.dismiss) private var dismiss
     
@@ -81,6 +84,7 @@ fileprivate struct _Browser: View {
                 router: errorRouter(_:)
             )
         )
+        .modifier(self.hack_style.browserWindowSize)
     }
     
     private var toolbar: some ViewModifier {
