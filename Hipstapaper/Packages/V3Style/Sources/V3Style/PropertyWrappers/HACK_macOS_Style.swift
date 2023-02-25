@@ -38,6 +38,7 @@ public struct HACK_macOS_Style: DynamicProperty {
         public var tabParentPadding:       some ViewModifier = HACK_macOS_ToolbarPadding()
         public var formTextFieldStyle:     some ViewModifier = HACK_macOS_FormTextFieldStyle()
         public var websiteEditPopoverSize: some ViewModifier = HACK_macOS_WebsiteEditPopoverSize()
+        public var browserWindowSize:      some ViewModifier = HACK_macOS_BrowserWindowSize()
     }
     
     public var wrappedValue: Value {
@@ -85,3 +86,14 @@ public struct HACK_macOS_WebsiteEditPopoverSize: ViewModifier {
         #endif
     }
 }
+
+public struct HACK_macOS_BrowserWindowSize: ViewModifier {
+    public func body(content: Content) -> some View {
+        #if os(macOS)
+        content.modifier(SceneSize(size: .small))
+        #else
+        content
+        #endif
+    }
+}
+
