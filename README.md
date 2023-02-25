@@ -10,7 +10,7 @@ A macOS, iOS, and iPadOS app written 100% in SwiftUI. Hipstapaper is an app that
 
 Hipstapaper is tech demo and learning experience, not a fully complete application experience. If you would like to try the app, please use the links below.
 - [iOS Testflight Link](https://testflight.apple.com/join/V1f2j5Jd)
-- [macOS Notarized Build](/Releases/macOS/current)
+- [macOS Notarized Build](/Releases/macOS/current.zip)
 
 ## Summary of Capabilities
 
