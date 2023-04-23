@@ -90,6 +90,13 @@ internal struct FormSingle: View {
             guard $0 != nil else { return }
             self.timerStart()
         }
+        .onChange(of: self.nav.isError) {
+            // If there is an error, stop the timer.
+            // Otherwise, snapshots continue to attempt to be taken,
+            // which continues to produce more errors
+            guard $0 != nil else { return }
+            self.timerStop()
+        }
         .onReceive(self.timer) { _ in
             self.nav.shouldSnapshot = true
         }
