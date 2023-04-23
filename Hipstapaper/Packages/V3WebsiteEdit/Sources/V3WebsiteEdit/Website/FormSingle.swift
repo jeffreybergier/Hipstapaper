@@ -73,7 +73,6 @@ internal struct FormSingle: View {
         } onNIL: {
             self.style.disabled.action(text: self.text.noWebsitesSelected).label
         }
-        .scrollDismissesKeyboard(.immediately)
         .onLoadChange(of: self.identifier) {
             self.query.identifier = $0
         }

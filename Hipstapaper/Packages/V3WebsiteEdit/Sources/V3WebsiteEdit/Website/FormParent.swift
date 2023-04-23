@@ -61,6 +61,7 @@ internal struct FormParent: View {
                 }
             }
             .modifier(FormToolbar(self.selection))
+            .scrollDismissesKeyboard(.immediately)
         }
     }
 }
