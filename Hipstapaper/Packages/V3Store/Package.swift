@@ -47,7 +47,8 @@ let package = Package(
             dependencies: [
                 .byNameItem(name: "V3Model", condition: nil),
                 .byNameItem(name: "Umbrella", condition: nil),
-            ]
+            ],
+            resources: [.process("Resources")]
         ),
         .testTarget(
             name: "V3StoreTests",

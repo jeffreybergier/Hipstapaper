@@ -25,7 +25,6 @@
 //
 
 import Foundation
-import Umbrella
 
 public struct DeleteWebsiteConfirmationError: CustomNSError {
     
