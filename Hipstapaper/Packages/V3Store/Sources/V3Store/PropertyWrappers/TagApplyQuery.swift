@@ -33,31 +33,41 @@ public struct TagApplyQuery: DynamicProperty {
     
     @ErrorStorage private var errors
     @Controller   private var controller
-    @TagUserListQuery private var data
+    
+    // TODO: Restore the use of `TagUserListQuery`
+    // For some reason, in Release builds, there is a compiler error in Xcode 14.3
+    // @TagUserListQuery private var data
+    @FetchRequest(entity: CD_Tag.entity(),
+                  sortDescriptors: [NSSortDescriptor(CD_Tag.defaultSort)],
+                  predicate: .init(value: true),
+                  animation: .default)
+    private var tags: FetchedResults<CD_Tag>
     
     @State public var selection: Website.Selection = []
     
     public init() {}
     
     public var wrappedValue: some RandomAccessCollection<TagApply> {
-        self.data.map { identifier in
-            let status = _controller.cd.tagStatus(identifier: identifier,
-                                                  selection: self.selection)
-            return .init(identifier: identifier, status: status)
-        }
+        return self.tags.lazy.map(self.valueGenerator(_:))
     }
     
     public var projectedValue: some RandomAccessCollection<Binding<TagApply>> {
-        self.data.map { identifier in
+        return self.tags.map { tag in
             Binding {
-                let status = _controller.cd.tagStatus(identifier: identifier,
-                                                      selection: self.selection)
-                return .init(identifier: identifier, status: status)
+                self.valueGenerator(tag)
             } set: {
-                guard let error = _controller.cd.write(tag: $0, selection: self.selection).error else { return }
+                let result = _controller.cd.write(tag: $0, selection: self.selection)
+                guard let error = result.error else { return }
                 NSLog(String(describing: error))
                 self.errors.append(error)
             }
         }
+    }
+    
+    private func valueGenerator(_ tag: CD_Tag) -> TagApply {
+        let identifier = Tag.Identifier(tag.objectID)
+        let status = _controller.cd.tagStatus(identifier: identifier,
+                                              selection: self.selection)
+        return .init(identifier: identifier, status: status)
     }
 }
