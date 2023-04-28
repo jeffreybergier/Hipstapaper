@@ -31,7 +31,6 @@ import V3Model
 @propertyWrapper
 public struct TagUserListQuery: DynamicProperty {
     
-    @Controller private var controller
     @CDListQuery<CD_Tag, Tag.Identifier>(
         sort: [CD_Tag.defaultSort],
         predicate: .init(value: true),
