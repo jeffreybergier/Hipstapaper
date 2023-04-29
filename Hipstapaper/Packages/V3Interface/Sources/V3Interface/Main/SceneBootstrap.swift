@@ -31,11 +31,13 @@ import V3Store
 import V3Localize
 import V3Errors
 import V3Browser
+import V3Terminator
 
 public struct SceneBootstrap: Scene {
     
     @StateObject private var controller     = Controller.newEnvironment()
     @StateObject private var mainMenuState  = BulkActions.newEnvironment()
+    @Terminator  private var terminator
     
     private let bundle = LocalizeBundle
     
@@ -43,16 +45,26 @@ public struct SceneBootstrap: Scene {
     
     public var body: some Scene {
         WindowGroup {
-            switch self.controller.value {
-            case .success(let controller):
-                HACK_MainSplitViewStateWrapper()
-                    .environmentObject(self.controller)
-                    .environmentObject(self.mainMenuState)
-                    .environmentObject(controller.syncProgress)
-                    .environment(\.bundle, self.bundle)
-                    .environment(\.managedObjectContext, controller.context)
-            case .failure(let error):
-                Text(String(describing: error))
+            Group {
+                switch self.controller.value {
+                case .success(let controller):
+                    HACK_MainSplitViewStateWrapper()
+                        .environmentObject(self.controller)
+                        .environmentObject(self.mainMenuState)
+                        .environmentObject(controller.syncProgress)
+                        .environment(\.bundle, self.bundle)
+                        .environment(\.managedObjectContext, controller.context)
+                case .failure(let error):
+                    Text(String(describing: error))
+                }
+            }
+            .onChange(of: self.terminator.shouldTerminateHostApplication) {
+                switch $0 {
+                case true:
+                    self.controller.value = .failure(NSError(domain: "Extension Open", code: 1))
+                case false:
+                    self.controller.value = Controller.newEnvironment().value
+                }
             }
         }
         .commands {

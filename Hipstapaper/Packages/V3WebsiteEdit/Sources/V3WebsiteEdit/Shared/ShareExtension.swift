@@ -29,6 +29,7 @@ import Umbrella
 import V3Model
 import V3Store
 import V3Localize
+import V3Terminator
 
 public struct ShareExtension: View {
     
@@ -38,12 +39,19 @@ public struct ShareExtension: View {
     @State private var selection: Website.Selection = []
     @State private var noSelectionText: String = "Loading…"
     
+    @Terminator private var terminator
+    
     private let inputURL: URL?
     private let onDismiss: () -> Void
     
     public init(inputURL: URL?, onDismiss: @escaping () -> Void) {
         self.inputURL = inputURL
         self.onDismiss = onDismiss
+    }
+    
+    private func onDismissAugmented() {
+        self.terminator.shouldTerminateHostApplication = false
+        self.onDismiss()
     }
     
     @ViewBuilder public var body: some View {
@@ -54,9 +62,12 @@ public struct ShareExtension: View {
                     .environmentObject(self.controller)
                     .environmentObject(self.errorStorage)
                     .environment(\.bundle, LocalizeBundle)
-                    .environment(\.customDismiss, self.onDismiss)
+                    .environment(\.customDismiss, self.onDismissAugmented)
                     .environment(\.sceneContext, .extensionShare)
                     .environment(\.managedObjectContext, controller.context)
+                    .onAppear {
+                        self.terminator.shouldTerminateHostApplication = true
+                    }
             case .failure(let error):
                 Text(String(describing: error))
             }
