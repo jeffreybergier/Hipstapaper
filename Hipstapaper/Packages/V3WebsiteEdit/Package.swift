@@ -42,6 +42,7 @@ let package = Package(
         .package(path: "../V3Style"),
         .package(path: "../V3Store"),
         .package(path: "../V3Errors"),
+        .package(path: "../V3Terminator"),
         .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "main"),
     ],
     targets: [
@@ -53,6 +54,7 @@ let package = Package(
                 .byNameItem(name: "V3Style", condition: nil),
                 .byNameItem(name: "V3Store", condition: nil),
                 .byNameItem(name: "V3Errors", condition: nil),
+                .byNameItem(name: "V3Terminator", condition: nil),
                 .byNameItem(name: "Umbrella", condition: nil),
             ]),
     ]

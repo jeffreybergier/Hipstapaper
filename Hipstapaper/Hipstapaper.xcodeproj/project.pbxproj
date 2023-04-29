@@ -96,6 +96,7 @@
 		7317DF29285C6B67009DA81A /* V3Interface */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = V3Interface; path = Packages/V3Interface; sourceTree = "<group>"; };
 		7317DF2A285C6B67009DA81A /* V3Model */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = V3Model; path = Packages/V3Model; sourceTree = "<group>"; };
 		73205DDD285CDCCC002FBDFB /* V3Style */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = V3Style; path = Packages/V3Style; sourceTree = "<group>"; };
+		7338161129FCC1BD00E4C6D6 /* V3Terminator */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = V3Terminator; path = Packages/V3Terminator; sourceTree = "<group>"; };
 		7369CBF927DC287A00871EBE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		736F67A225C19822006896DF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.2.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		736F67A425C19979006896DF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
@@ -199,6 +200,7 @@
 				737C724127DB46EA008B5969 /* V3Localize */,
 				73205DDD285CDCCC002FBDFB /* V3Style */,
 				7317DF2A285C6B67009DA81A /* V3Model */,
+				7338161129FCC1BD00E4C6D6 /* V3Terminator */,
 				DBDCB33B256BE8E600D005F6 /* Shared */,
 				DBDCB345256BE8E700D005F6 /* iOS */,
 				DBDCB34C256BE8E700D005F6 /* macOS */,
