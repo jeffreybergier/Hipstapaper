@@ -264,8 +264,8 @@ internal class CD_Controller {
         )
     }
 
-    internal let syncProgressMonitor: AnyObject?
-    internal let syncProgress: ObserveBox<ContinousProgress>
+    internal let syncProgressMonitor: CDCloudKitSyncMonitor?
+    internal let syncProgress: ContinousProgress.Environment
     internal let container: NSPersistentContainer
     
     internal class func new() -> Result<ControllerProtocol, Error> {
