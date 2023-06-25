@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/jeffreybergier/Umbrella.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "b84935b32f1695d63f5e0ed13b093cb57606ac34"
+        "branch" : "waterme3-wOS10",
+        "revision" : "68fd3b0f1d08ffdf4e0c537cba0a56f20f453ae2"
       }
     }
   ],
