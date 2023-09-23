@@ -34,8 +34,9 @@ import V3Browser
 
 public struct SceneBootstrap: Scene {
     
-    @StateObject private var controller     = Controller.newEnvironment()
-    @StateObject private var mainMenuState  = BulkActions.newEnvironment()
+    @StateObject private var controller    = Controller.newEnvironment()
+    @StateObject private var mainMenuState = BulkActions.newEnvironment()
+    @StateObject private var errorStorage  = ErrorStorage.newEnvironment()
     
     private let bundle = LocalizeBundle
     
@@ -51,6 +52,7 @@ public struct SceneBootstrap: Scene {
                     .environmentObject(controller.syncProgress)
                     .environment(\.bundle, self.bundle)
                     .environment(\.managedObjectContext, controller.context)
+                    .environmentObject(self.errorStorage)
             case .failure(let error):
                 Text(String(describing: error))
             }

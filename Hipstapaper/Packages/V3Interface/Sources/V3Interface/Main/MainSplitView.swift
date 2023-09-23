@@ -39,7 +39,6 @@ internal struct MainSplitView: View {
     @V3Style.MainMenu private var style
     @HACK_EditMode    private var isEditMode
     
-    @StateObject private var errorStorage = ErrorStorage.newEnvironment()
     @EnvironmentObject private var syncProgress: ContinousProgress.Environment
         
     internal var body: some View {
@@ -66,7 +65,6 @@ internal struct MainSplitView: View {
                 router: errorRouter(_:)
             )
         )
-        .environmentObject(self.errorStorage)
     }
 }
 
