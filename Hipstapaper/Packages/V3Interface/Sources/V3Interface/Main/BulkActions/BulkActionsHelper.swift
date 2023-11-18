@@ -58,7 +58,7 @@ internal struct BulkActionsHelper: ViewModifier {
                 self.appState.pull = newState
             }
         // MARK: Act on PUSH state
-            .onChange(of: self.appState.push.websiteAdd) { newValue in
+            .onChange(of: self.appState.push.websiteAdd, initial: true) { _, newValue in
                 guard newValue else { return }
                 defer { self.appState.push.websiteAdd = false }
                 switch self.controller.createWebsite() {
@@ -69,7 +69,7 @@ internal struct BulkActionsHelper: ViewModifier {
                     self.errors.append(error)
                 }
             }
-            .onChange(of: self.appState.push.tagAdd) { newValue in
+            .onChange(of: self.appState.push.tagAdd, initial: true) { _, newValue in
                 guard newValue else { return }
                 defer { self.appState.push.tagAdd = false }
                 switch self.controller.createTag() {
@@ -80,7 +80,7 @@ internal struct BulkActionsHelper: ViewModifier {
                     self.errors.append(error)
                 }
             }
-            .onChange(of: self.appState.push.openInSheet) { newValue in
+            .onChange(of: self.appState.push.openInSheet, initial: true) { _, newValue in
                 defer { self.appState.push.openInWindow = nil }
                 guard let newValue else { return }
                 #if os(macOS)
@@ -89,7 +89,7 @@ internal struct BulkActionsHelper: ViewModifier {
                 self.nav.detail.isBrowse = newValue.single
                 #endif
             }
-            .onChange(of: self.appState.push.openInWindow) { newValue in
+            .onChange(of: self.appState.push.openInWindow, initial: true) { _, newValue in
                 defer { self.appState.push.openInWindow = nil }
                 guard let newValue else { return }
                 if self.supportsMultipleWindows {
@@ -98,44 +98,44 @@ internal struct BulkActionsHelper: ViewModifier {
                     self.nav.detail.isBrowse = newValue.single
                 }
             }
-            .onChange(of: self.appState.push.openExternal) { newValue in
+            .onChange(of: self.appState.push.openExternal, initial: true) { _, newValue in
                 guard let newValue else { return }
                 defer { self.appState.push.openExternal = nil }
                 newValue.multi.forEach { self.openExternal($0) }
             }
-            .onChange(of: self.appState.push.share) { selection in
+            .onChange(of: self.appState.push.share, initial: true) { _, selection in
                 guard selection.isEmpty == false else { return }
                 defer { self.appState.push.share = [] }
                 self.nav.detail.isShare = selection
             }
-            .onChange(of: self.appState.push.archiveYes) { selection in
+            .onChange(of: self.appState.push.archiveYes, initial: true) { _, selection in
                 guard selection.isEmpty == false else { return }
                 defer { self.appState.push.archiveYes = [] }
                 guard let error = BulkActionsQuery.setArchive(true, selection, self.controller).error else { return }
                 self.errors.append(error)
             }
-            .onChange(of: self.appState.push.archiveNo) { selection in
+            .onChange(of: self.appState.push.archiveNo, initial: true) { _, selection in
                 guard selection.isEmpty == false else { return }
                 defer { self.appState.push.archiveNo = [] }
                 guard let error = BulkActionsQuery.setArchive(false, selection, self.controller).error else { return }
                 self.errors.append(error)
             }
-            .onChange(of: self.appState.push.tagApply) { selection in
+            .onChange(of: self.appState.push.tagApply, initial: true) { _, selection in
                 guard selection.isEmpty == false else { return }
                 defer { self.appState.push.tagApply = [] }
                 self.nav.detail.isTagApply = selection
             }
-            .onChange(of: self.appState.push.websiteEdit) { selection in
+            .onChange(of: self.appState.push.websiteEdit, initial: true) { _, selection in
                 guard selection.isEmpty == false else { return }
                 defer { self.appState.push.websiteEdit = [] }
                 self.nav.isWebsitesEdit = selection
             }
-            .onChange(of: self.appState.push.tagsEdit) { selection in
+            .onChange(of: self.appState.push.tagsEdit, initial: true) { _, selection in
                 guard selection.isEmpty == false else { return }
                 defer { self.appState.push.tagsEdit = [] }
                 self.nav.sidebar.isTagsEdit.isPresented = selection
             }
-            .onChange(of: self.appState.push.websiteDelete) { selection in
+            .onChange(of: self.appState.push.websiteDelete, initial: true) { _, selection in
                 guard selection.isEmpty == false else { return }
                 defer { self.appState.push.websiteDelete = [] }
                 let error = DeleteWebsiteConfirmationError(selection) { selection in
@@ -145,7 +145,7 @@ internal struct BulkActionsHelper: ViewModifier {
                 }
                 self.errors.append(error)
             }
-            .onChange(of: self.appState.push.tagDelete) { selection in
+            .onChange(of: self.appState.push.tagDelete, initial: true) { _, selection in
                 guard selection.isEmpty == false else { return }
                 defer { self.appState.push.tagDelete = [] }
                 let error = DeleteTagConfirmationError(selection) { selection in
@@ -155,10 +155,10 @@ internal struct BulkActionsHelper: ViewModifier {
                 }
                 self.errors.append(error)
             }
-            .onChange(of: self.appState.push.showErrors) { _ in
+            .onChange(of: self.appState.push.showErrors, initial: true) { _, _ in
                 self.nav.isError = self.errors.all.first
             }
-            .onChange(of: self.appState.push.deselectAll) { newValue in
+            .onChange(of: self.appState.push.deselectAll, initial: true) { _, newValue in
                 guard newValue.isEmpty == false else { return }
                 defer { self.appState.push.deselectAll = [] }
                 self.selection.websites = []

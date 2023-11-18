@@ -65,7 +65,7 @@ internal struct HACK_EditButton: View {
             self.selection.websites = []
             self.isEditMode.toggle()
         }
-        .onChange(of: self.selection.tag) { _ in
+        .onChange(of: self.selection.tag, initial: true) { _, _ in
             self.selection.websites = []
             self.isEditMode = false
         }
