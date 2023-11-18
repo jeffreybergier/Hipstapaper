@@ -33,10 +33,16 @@ public struct Website: Identifiable, Hashable, Equatable {
     public struct Identifier: Codable, Hashable, Identifiable {
         public var id: String { self.rawValue }
         public var rawValue: String
+        internal var HACK_websiteID = "THIS IS A HACK TO PREVENT DECODING CONFLICTS"
         public init(_ rawValue: String) {
             self.rawValue = rawValue
         }
-        internal var HACK_websiteID = "THIS IS A HACK TO PREVENT DECODING CONFLICTS"
+        public func hash(into hasher: inout Hasher) {
+            hasher.combine(self.id)
+        }
+        public static func == (lhs: Identifier, rhs: Identifier) -> Bool {
+            return lhs.id == rhs.id
+        }
     }
     
     public var id: Identifier

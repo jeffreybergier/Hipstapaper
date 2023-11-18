@@ -85,10 +85,16 @@ internal struct HACK_EditButton: View {
 // Table does not appear to let you choose how you identify
 // the object. It always chooses the ID property for what it is passed.
 // This is a problem when I am passing the identifier itself.
-internal struct HACK_WebsiteIdentifier: Identifiable {
+internal struct HACK_WebsiteIdentifier: Identifiable, Hashable, Equatable {
     internal var id: Website.Identifier
     internal init(_ id: Website.Identifier) {
         self.id = id
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id.id)
+    }
+    static func == (lhs: HACK_WebsiteIdentifier, rhs: HACK_WebsiteIdentifier) -> Bool {
+        return lhs.id.id == rhs.id.id
     }
 }
 

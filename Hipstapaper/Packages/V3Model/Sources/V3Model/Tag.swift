@@ -38,11 +38,11 @@ public struct Tag: Identifiable, Hashable, Equatable {
         public var id: String { self.rawValue }
         public var kind: Kind
         public var rawValue: String
+        internal var HACK_tagID = "THIS IS A HACK TO PREVENT DECODING CONFLICTS"
         public init(_ rawValue: String, kind: Kind = .user) {
             self.rawValue = rawValue
             self.kind = kind
         }
-        internal var HACK_tagID = "THIS IS A HACK TO PREVENT DECODING CONFLICTS"
     }
     
     public var id: Identifier
