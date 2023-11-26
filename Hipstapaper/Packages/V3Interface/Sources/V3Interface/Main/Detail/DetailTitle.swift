@@ -54,8 +54,8 @@ private struct IDEAL_DetailTitle: ViewModifier {
             content.navigationTitle(self.title)
         }
         .navigationBarTitleDisplayModeInline
-        .onLoadChange(of: self.selection.tag) {
-            self.query.identifier = $0
+        .onChange(of: self.selection.tag, initial: true) { _, newValue in
+            self.query.identifier = newValue
         }
     }
     
@@ -83,8 +83,8 @@ private struct HACK_DetailTitle: ViewModifier {
     internal func body(content: Content) -> some View {
         content
             .navigationTitle(self.title)
-            .onLoadChange(of: self.selection.tag) {
-                self.query.identifier = $0
+            .onChange(of: self.selection.tag, initial: true) { _, newValue in
+                self.query.identifier = newValue
             }
     }
     

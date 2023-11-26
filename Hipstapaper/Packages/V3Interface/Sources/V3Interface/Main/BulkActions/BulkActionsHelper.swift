@@ -45,17 +45,17 @@ internal struct BulkActionsHelper: ViewModifier {
     internal func body(content: Content) -> some View {
         content
         // MARK: Update PULL State
-            .onLoadChange(of: self.selection.tag) { newValue in
+            .onChange(of: self.selection.tag, initial: true) { _, newValue in
                 _storeState.setTag(selection: newValue.map { [$0] } ?? [])
             }
-            .onLoadChange(of: self.selection.websites) { newValue in
+            .onChange(of: self.selection.websites, initial: true) { _, newValue in
                 _storeState.setWebsite(selection: newValue)
             }
-            .onLoadChange(of: self.errors.all) { newValue in
+            .onChange(of: self.errors.all, initial: true) { _, newValue in
                 self.storeState.showErrors = !newValue.isEmpty
             }
-            .onLoadChange(of: self.storeState) { newState in
-                self.appState.pull = newState
+            .onChange(of: self.storeState, initial: true) { _, newValue in
+                self.appState.pull = newValue
             }
         // MARK: Act on PUSH state
             .onChange(of: self.appState.push.websiteAdd, initial: true) { _, newValue in

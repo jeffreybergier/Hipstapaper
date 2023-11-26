@@ -52,7 +52,7 @@ internal struct MainSplitView: View {
         .modifier(BulkActionsHelper())
         .modifier(WebsiteEditSheet(self.$nav.isWebsitesEdit, start: .website))
         .modifier(self.style.syncIndicator(self.syncProgress.value.progress))
-        .onLoadChange(of: self.syncProgress.id) { _ in
+        .onChange(of: self.syncProgress.id, initial: true) { _, _ in
             let errors = self.syncProgress.value.errors
             guard errors.isEmpty == false else { return }
             self.syncProgress.value.errors = []

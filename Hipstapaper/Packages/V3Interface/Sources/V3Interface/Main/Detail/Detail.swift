@@ -58,11 +58,11 @@ internal struct Detail: View {
             .searchable(text: self.$query.search,
                         prompt: self.text.search)
         }
-        .onLoadChange(of: self.query) {
-            self.websiteListQuery.configuration.query = $0
+        .onChange(of: self.query, initial: true) { _, newValue in
+            self.websiteListQuery.configuration.query = newValue
         }
-        .onLoadChange(of: self.selection.tag) {
-            self.websiteListQuery.configuration.filter = $0
+        .onChange(of: self.selection.tag, initial: true) { _, newValue in
+            self.websiteListQuery.configuration.filter = newValue
         }
         .modifier(DetailTitle())
         .modifier(DetailToolbar())
