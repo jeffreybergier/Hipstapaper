@@ -31,8 +31,8 @@ import V3Style
 import V3Localize
 
 // TODO: Replace `TEXT` with L: View when TableColumn allows custom view types for Label
-internal typealias HACK_ColumnUnsorted<V: View> = TableColumn<HACK_WebsiteIdentifier, Never, V, Text>
-internal typealias HACK_ColumnSorted<V: View>   = TableColumn<HACK_WebsiteIdentifier, KeyPathComparator<HACK_WebsiteIdentifier>, V, Text>
+internal typealias HACK_ColumnUnsorted<V: View> = TableColumn<Website.Identifier, Never, V, Text>
+internal typealias HACK_ColumnSorted<V: View>   = TableColumn<Website.Identifier, KeyPathComparator<Website.Identifier>, V, Text>
 
 // TODO: EditMode works like shit as of iOS 16.1. It constantly pops out for no reason
 // I need to make my own version.
@@ -81,32 +81,14 @@ internal struct HACK_EditButton: View {
     }
 }
 
-// TODO: Delete when possible
-// Table does not appear to let you choose how you identify
-// the object. It always chooses the ID property for what it is passed.
-// This is a problem when I am passing the identifier itself.
-internal struct HACK_WebsiteIdentifier: Identifiable, Hashable, Equatable {
-    internal var id: Website.Identifier
-    internal init(_ id: Website.Identifier) {
-        self.id = id
-    }
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(self.id.id)
-    }
-    static func == (lhs: HACK_WebsiteIdentifier, rhs: HACK_WebsiteIdentifier) -> Bool {
-        return lhs.id.id == rhs.id.id
-    }
-}
-
-// Hack to make Keypaths work for column sorting
-extension HACK_WebsiteIdentifier {
+extension Website.Identifier {
     internal var title: String? { fatalError() }
     internal var dateModified: Date? { fatalError() }
     internal var dateCreated: Date? { fatalError() }
 }
 
 extension Binding where Value == Sort {
-    internal var HACK_mapSort: Binding<[KeyPathComparator<HACK_WebsiteIdentifier>]> {
+    internal var HACK_mapSort: Binding<[KeyPathComparator<Website.Identifier>]> {
         self.map { value in
             switch value {
             case .dateCreatedNewest:
