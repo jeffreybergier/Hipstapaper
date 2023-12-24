@@ -78,7 +78,7 @@ public struct WebsiteListQuery: DynamicProperty {
         default:
             let context = self.context
             guard
-                let url = URL(string: filter.id),
+                let url = URL(string: filter.id.rawValue),
                 let psc = context.persistentStoreCoordinator,
                 let objectID = psc.managedObjectID(forURIRepresentation: url)
             else { break }

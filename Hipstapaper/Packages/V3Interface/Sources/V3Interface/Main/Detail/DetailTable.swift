@@ -70,14 +70,14 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
         }
         // TODO: HACK: Keep the system selection and table selection in sync
         .onChange(of: self.HACK_tableSelection) { _, tableSelection in
-            let newValue = Set(tableSelection.map { Website.Identifier($0) })
+            let newValue: Set<Website.Identifier> = tableSelection.map { Website.Identifier($0) }
             guard self.selection.websites != newValue else { return }
             self.selection.websites = newValue
             print("Table Selection Changed")
         }
         // TODO: HACK: Keep the system selection and table selection in sync
         .onChange(of: self.selection.websites, initial: true) { _, systemSelection in
-            let newValue = Set(systemSelection.map { $0.id })
+            let newValue: Set<Website.Identifier.RawIdentifier> = systemSelection.map { $0.id }
             guard HACK_tableSelection != newValue else { return }
             self.HACK_tableSelection = newValue
             print("System Selection Changed")

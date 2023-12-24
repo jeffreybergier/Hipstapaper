@@ -68,7 +68,7 @@ public struct TagQuery: DynamicProperty {
             configuration.onError = self.errors.append(_:)
         }
         if let newID = newValue, newID.isSystem == false {
-            configuration.objectID = URL(string: newID.id)
+            configuration.objectID = URL(string: newID.id.rawValue)
         } else {
             configuration.objectID = nil
         }
