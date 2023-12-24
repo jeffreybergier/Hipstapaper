@@ -31,17 +31,25 @@ public struct Website: Identifiable, Hashable, Equatable {
     public typealias Selection = Set<Website.Identifier>
 
     public struct Identifier: Codable, Hashable, Identifiable {
-        public var id: String { self.rawValue }
-        public var rawValue: String
+        public var id: RawIdentifier
         internal var HACK_websiteID = "THIS IS A HACK TO PREVENT DECODING CONFLICTS"
         public init(_ rawValue: String) {
-            self.rawValue = rawValue
+            self.id = .init(rawValue)
+        }
+        public init(_ rawValue: RawIdentifier) {
+            self.id = rawValue
         }
         public func hash(into hasher: inout Hasher) {
             hasher.combine(self.id)
         }
         public static func == (lhs: Identifier, rhs: Identifier) -> Bool {
             return lhs.id == rhs.id
+        }
+        public struct RawIdentifier: Hashable, Codable {
+            public var rawValue: String
+            public init(_ rawValue: String) {
+                self.rawValue = rawValue
+            }
         }
     }
     
@@ -80,6 +88,6 @@ extension Website {
 
 extension Website.Identifier: Comparable {
     public static func < (lhs: Website.Identifier, rhs: Website.Identifier) -> Bool {
-        return lhs.rawValue < rhs.rawValue
+        return lhs.id.rawValue < rhs.id.rawValue
     }
 }

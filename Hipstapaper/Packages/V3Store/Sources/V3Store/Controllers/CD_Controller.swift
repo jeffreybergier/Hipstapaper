@@ -56,7 +56,7 @@ extension CD_Controller: ControllerProtocol {
         let context = self.container.viewContext
         let coordinator = self.container.persistentStoreCoordinator
         let cd_ids = input.compactMap {
-            coordinator.managedObjectID(forURIRepresentation: URL(string: $0.id)!)
+            coordinator.managedObjectID(forURIRepresentation: URL(string: $0.id.rawValue)!)
         }
         let cd_tags = cd_ids.compactMap {
             context.object(with: $0) as? CD_Website
@@ -94,7 +94,7 @@ extension CD_Controller: ControllerProtocol {
         let context = context ?? self.container.viewContext
         let coordinator = self.container.persistentStoreCoordinator
         let cd_ids = input.compactMap {
-            coordinator.managedObjectID(forURIRepresentation: URL(string: $0.id)!)
+            coordinator.managedObjectID(forURIRepresentation: URL(string: $0.id.rawValue)!)
         }
         return cd_ids.compactMap {
             context.object(with: $0) as? CD_Website

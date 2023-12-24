@@ -41,7 +41,7 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
     @V3Localize.DetailTable private var text
     @V3Style.ShowsTable private var showsTable
     
-    @State private var HACK_tableSelection: Set<String> = []
+    @State private var HACK_tableSelection: Set<Website.Identifier.RawIdentifier> = []
 
     private let data: C
     
@@ -77,7 +77,7 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
         }
         // TODO: HACK: Keep the system selection and table selection in sync
         .onChange(of: self.selection.websites, initial: true) { _, systemSelection in
-            let newValue = Set(systemSelection.map { $0.rawValue })
+            let newValue = Set(systemSelection.map { $0.id })
             guard HACK_tableSelection != newValue else { return }
             self.HACK_tableSelection = newValue
             print("System Selection Changed")
