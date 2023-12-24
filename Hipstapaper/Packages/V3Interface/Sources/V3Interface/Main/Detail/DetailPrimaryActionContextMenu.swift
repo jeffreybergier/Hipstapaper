@@ -41,7 +41,7 @@ internal struct DetailPrimaryActionContextMenu: ViewModifier {
     
     internal func body(content: Content) -> some View {
         content
-            .contextMenu(forSelectionType: Website.Identifier.RawIdentifier.self) {
+            .contextMenu(forSelectionType: HACK_selectionType.self) {
                 $0.view { items in
                     self.style.toolbar
                         .action(text: self.text.openInWindow)
@@ -119,6 +119,9 @@ internal struct DetailPrimaryActionContextMenu: ViewModifier {
         #endif
     }
 }
+
+// TODO: Change to `Website.Identifier`
+private typealias HACK_selectionType = Website.Identifier.RawIdentifier
 
 // TODO: Move to umbrella
 extension Set {
