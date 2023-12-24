@@ -39,12 +39,6 @@ public struct Website: Identifiable, Hashable, Equatable {
         public init(_ rawValue: RawIdentifier) {
             self.id = rawValue
         }
-        public func hash(into hasher: inout Hasher) {
-            hasher.combine(self.id)
-        }
-        public static func == (lhs: Identifier, rhs: Identifier) -> Bool {
-            return lhs.id == rhs.id
-        }
         public struct RawIdentifier: Hashable, Codable {
             public var rawValue: String
             public init(_ rawValue: String) {
