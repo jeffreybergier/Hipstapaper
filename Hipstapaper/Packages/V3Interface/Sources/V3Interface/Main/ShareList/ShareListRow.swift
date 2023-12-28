@@ -58,8 +58,8 @@ internal struct ShareListRow: View {
                 .action(text: self.text.errorTitle(self.query.data?.title))
                 .label
         }
-        .onLoadChange(of: self.identifier) {
-            self.query.identifier = $0
+        .onChange(of: self.identifier, initial: true) { _, newValue in
+            self.query.identifier = newValue
         }
     }
     

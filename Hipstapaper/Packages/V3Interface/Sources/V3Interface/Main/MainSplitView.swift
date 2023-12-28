@@ -86,16 +86,16 @@ internal struct HACK_MainSplitViewStateWrapper: View {
     internal var body: some View {
         MainSplitView()
             .environmentObject(self.sceneState)
-            .onChange(of: self.active) { _ in
+            .onChange(of: self.active, initial: false) { _, _ in
                 self.mainMenuState.value.pull = .init()
             }
-            .onChange(of: self.sceneState.value.pull) {
+            .onChange(of: self.sceneState.value.pull, initial: false) { _, newValue in
                 guard self.active == .key else { return }
-                self.mainMenuState.value.pull = $0
+                self.mainMenuState.value.pull = newValue
             }
-            .onChange(of: self.mainMenuState.value.push) {
+            .onChange(of: self.mainMenuState.value.push, initial: false) { _, newValue in
                 guard self.active == .key else { return }
-                self.sceneState.value.push = $0
+                self.sceneState.value.push = newValue
                 self.mainMenuState.value.push = .init()
             }
     }

@@ -107,8 +107,8 @@ internal struct TagsEditRow: View {
                 .action(text: self.text.noTagSelected)
                 .label
         }
-        .onLoadChange(of: self.identifier) {
-            self.query.identifier = $0
+        .onChange(of: self.identifier, initial: true) { _, newValue in
+            self.query.identifier = newValue
         }
     }
 }
