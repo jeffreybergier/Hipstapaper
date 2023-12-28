@@ -39,31 +39,29 @@ internal struct Sidebar: View {
     
     @TagSystemListQuery private var tagsSystem
     @TagUserListQuery private var tagsUser
-                
+    
     internal var body: some View {
-        NavigationStack {
-            List(selection: self.$selection.tag) {
-                Section(self.text.sectionTitleTagsSystem) {
-                    ForEach(self.tagsSystem, id: \.id) { item in
-                        NavigationLink(value: item.id) {
-                            SidebarSystemRow(item.id.kind)
-                        }
-                    }
-                }
-                Section(self.text.sectionTitleTagsUser) {
-                    self.tagsUser.view {
-                        ForEach($0, id: \.self) { identifier in
-                            NavigationLink(value: identifier) {
-                                SidebarUserRow(identifier)
-                            }
-                        }
-                    } onEmpty: {
-                        self.style.disabled.action(text: self.text.noTags).label
+        List(selection: self.$selection.tag) {
+            Section(self.text.sectionTitleTagsSystem) {
+                ForEach(self.tagsSystem, id: \.id) { item in
+                    NavigationLink(value: item.id) {
+                        SidebarSystemRow(item.id.kind)
                     }
                 }
             }
+            Section(self.text.sectionTitleTagsUser) {
+                self.tagsUser.view {
+                    ForEach($0, id: \.self) { identifier in
+                        NavigationLink(value: identifier) {
+                            SidebarUserRow(identifier)
+                        }
+                    }
+                } onEmpty: {
+                    self.style.disabled.action(text: self.text.noTags).label
+                }
+            }
             .modifier(SidebarMenu())
-            .modifier(SidebarToolbar())
+//            .modifier(SidebarToolbar())
             .navigationTitle(self.text.navigationTitle)
         }
     }

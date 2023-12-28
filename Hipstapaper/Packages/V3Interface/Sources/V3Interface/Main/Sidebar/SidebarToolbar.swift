@@ -43,7 +43,7 @@ internal struct SidebarToolbar: ViewModifier {
     @V3Localize.Sidebar private var text
         
     internal func body(content: Content) -> some View {
-        content.toolbar {
+        content.toolbar(id: .barSidebar) {
             ToolbarItem(id: .sidebarToolbarMultiAdd, placement: .primaryAction) {
                 Menu {
                     self.style.toolbar.action(text: self.text.toolbarAddTag).button {
@@ -82,5 +82,6 @@ internal struct SidebarToolbar: ViewModifier {
 }
 
 extension String {
+    fileprivate static let barSidebar             = "barSidebar"
     fileprivate static let sidebarToolbarMultiAdd = "sidebarToolbarMultiAdd"
 }
