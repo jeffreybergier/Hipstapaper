@@ -41,24 +41,27 @@ internal struct SidebarToolbar: ViewModifier {
     
     @V3Style.Sidebar private var style
     @V3Localize.Sidebar private var text
-        
+    
     internal func body(content: Content) -> some View {
-        content.toolbar(id: .barSidebar) {
-            ToolbarItem(id: .sidebarToolbarMultiAdd, placement: .primaryAction) {
-                Menu {
-                    self.style.toolbar.action(text: self.text.toolbarAddTag).button {
-                        self.state.push.tagAdd = true
+        content
+             // TODO: Not sure why the changes in sidebar toggle in iOS 17/macOS 14 break my toolbars
+            .toolbar(removing: .sidebarToggle)
+            .toolbar(id: .barSidebar) {
+                ToolbarItem(id: .sidebarToolbarMultiAdd, placement: .primaryAction) {
+                    Menu {
+                        self.style.toolbar.action(text: self.text.toolbarAddTag).button {
+                            self.state.push.tagAdd = true
+                        }
+                        self.style.toolbar.action(text: self.text.toolbarAddWebsite).button {
+                            self.state.push.websiteAdd = true
+                        }
+                        self.DEBUG_addFakeData
+                    } label: {
+                        self.style.toolbar.action(text: self.text.toolbarAddGeneric).label
                     }
-                    self.style.toolbar.action(text: self.text.toolbarAddWebsite).button {
-                        self.state.push.websiteAdd = true
-                    }
-                    self.DEBUG_addFakeData
-                } label: {
-                    self.style.toolbar.action(text: self.text.toolbarAddGeneric).label
+                    .modifier(TagsEditPresentation(self.$nav.sidebar.isTagsEdit.isPresented))
                 }
-                .modifier(TagsEditPresentation(self.$nav.sidebar.isTagsEdit.isPresented))
             }
-        }
     }
     
 #if DEBUG

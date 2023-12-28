@@ -61,7 +61,7 @@ internal struct Sidebar: View {
                 }
             }
             .modifier(SidebarMenu())
-//            .modifier(SidebarToolbar())
+            .modifier(SidebarToolbar())
             .navigationTitle(self.text.navigationTitle)
         }
     }
