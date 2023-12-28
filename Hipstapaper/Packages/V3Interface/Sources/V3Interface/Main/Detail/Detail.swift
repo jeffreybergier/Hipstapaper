@@ -43,16 +43,18 @@ internal struct Detail: View {
     @HACK_EditMode private var isEditMode
     
     internal var body: some View {
-        self.selection.tag.view { _ in
-            self.websiteListQuery.data.view {
-                DetailTable($0)
-            } onEmpty: {
-                self.style.disabled
-                    .action(text: self.text.noWebsites)
-                    .label
+        HACK_NavigationStack {
+            self.selection.tag.view { _ in
+                self.websiteListQuery.data.view {
+                    DetailTable($0)
+                } onEmpty: {
+                    self.style.disabled
+                        .action(text: self.text.noWebsites)
+                        .label
+                }
+            } onNIL: {
+                self.style.disabled.action(text: self.text.noTagSelected).label
             }
-        } onNIL: {
-            self.style.disabled.action(text: self.text.noTagSelected).label
         }
         .searchable(text: self.$query.search,
                     prompt: self.text.search)

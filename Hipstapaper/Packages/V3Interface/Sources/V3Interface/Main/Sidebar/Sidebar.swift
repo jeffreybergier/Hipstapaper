@@ -41,23 +41,25 @@ internal struct Sidebar: View {
     @TagUserListQuery private var tagsUser
     
     internal var body: some View {
-        List(selection: self.$selection.tag) {
-            Section(self.text.sectionTitleTagsSystem) {
-                ForEach(self.tagsSystem, id: \.id) { item in
-                    NavigationLink(value: item.id) {
-                        SidebarSystemRow(item.id.kind)
-                    }
-                }
-            }
-            Section(self.text.sectionTitleTagsUser) {
-                self.tagsUser.view {
-                    ForEach($0, id: \.self) { identifier in
-                        NavigationLink(value: identifier) {
-                            SidebarUserRow(identifier)
+        HACK_NavigationStack {
+            List(selection: self.$selection.tag) {
+                Section(self.text.sectionTitleTagsSystem) {
+                    ForEach(self.tagsSystem, id: \.id) { item in
+                        NavigationLink(value: item.id) {
+                            SidebarSystemRow(item.id.kind)
                         }
                     }
-                } onEmpty: {
-                    self.style.disabled.action(text: self.text.noTags).label
+                }
+                Section(self.text.sectionTitleTagsUser) {
+                    self.tagsUser.view {
+                        ForEach($0, id: \.self) { identifier in
+                            NavigationLink(value: identifier) {
+                                SidebarUserRow(identifier)
+                            }
+                        }
+                    } onEmpty: {
+                        self.style.disabled.action(text: self.text.noTags).label
+                    }
                 }
             }
             .modifier(SidebarMenu())

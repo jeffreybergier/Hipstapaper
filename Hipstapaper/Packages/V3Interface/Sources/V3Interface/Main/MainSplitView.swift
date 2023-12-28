@@ -110,3 +110,23 @@ internal struct HACK_MainSplitViewStateWrapper: View {
     }
 }
 #endif
+
+// TODO: HACK is needed because NavigationStack breaks toolbars on macOS
+internal struct HACK_NavigationStack<V: View>: View {
+    
+    private let contents: () -> V
+    
+    internal init(contents: @escaping () -> V) {
+        self.contents = contents
+    }
+    
+    internal var body: some View {
+        #if os(macOS)
+        contents()
+        #else
+        NavigationStack {
+            contents()
+        }
+        #endif
+    }
+}
