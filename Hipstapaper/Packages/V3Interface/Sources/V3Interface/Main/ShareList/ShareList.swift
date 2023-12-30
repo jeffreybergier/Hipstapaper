@@ -63,7 +63,9 @@ internal struct ShareList: View {
     private var toolbar: some ViewModifier {
         JSBToolbar(title: self.text.title,
                    done: self.text.done,
-                   doneAction: self.dismiss.callAsFunction)
+                   doneAction: self.dismiss.callAsFunction,
+                   // TODO: Toolbars still don't work in popovers on the mac
+                   macOSLegacyBehavior: true)
     }
 }
 
