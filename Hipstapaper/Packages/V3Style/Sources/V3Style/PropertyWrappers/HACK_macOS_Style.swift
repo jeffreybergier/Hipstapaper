@@ -80,7 +80,7 @@ public struct HACK_macOS_FormTextFieldStyle: ViewModifier {
 public struct HACK_macOS_WebsiteEditPopoverSize: ViewModifier {
     public func body(content: Content) -> some View {
         #if os(macOS)
-        content.modifier(PopoverSize(size: .large))
+        content.modifier(PopoverSize(size: .wide))
         #else
         content
         #endif

@@ -105,17 +105,18 @@ internal struct _WebsiteEdit: View {
                             .label
                     }
             }
-            .navigationTitle({ self.screen == .tag ? self.text.titleTag : self.text.titleWebsite }())
-            .toolbarTitleDisplayMode(.inline)
             .scrollDismissesKeyboard(.immediately)
-            .toolbar(id: "Toolbar-Base") {
-                ToolbarItem(id: "DoneButton", placement: .confirmationAction) {
+            .toolbarTitleDisplayMode(.inline)
+            .navigationTitle({ self.screen == .tag ? self.text.titleTag : self.text.titleWebsite }())
+            .toolbar(id: .toolbarName) {
+                ToolbarItem(id: .toolbarButtonDone, placement: .confirmationAction) {
                     self.style.toolbarDone.action(text: self.text.done).button(action: self.dismiss)
                 }
-                ToolbarItem(id: "DeleteButton", placement: .cancellationAction) {
+                ToolbarItem(id: .toolbarButtonDelete, placement: self.HACK_deleteButtonPlacement) {
                     self.style.toolbarDelete.action(text: self.text.delete).button(action: self.delete)
                 }
             }
+            .lift { self.HACK_tabViewPadding($0) }
         }
         .modifier(self.hack_style.tabParentPadding)
         .modifier(self.hack_style.formTextFieldStyle)
@@ -140,4 +141,26 @@ internal struct _WebsiteEdit: View {
         }
         self.errors.append(error)
     }
+    
+    private var HACK_deleteButtonPlacement: ToolbarItemPlacement {
+        #if os(macOS)
+        return .destructiveAction
+        #else
+        return .cancellationAction
+        #endif
+    }
+    
+    private func HACK_tabViewPadding<V: View>(_ input: V) -> some View {
+        #if os(macOS)
+        return input.padding(.top, nil)
+        #else
+        return input
+        #endif
+    }
+}
+
+extension String {
+    fileprivate static let toolbarName         = "Toolbar-Base"
+    fileprivate static let toolbarButtonDone   = "Toolbar-Button-Done"
+    fileprivate static let toolbarButtonDelete = "Toolbar-Button-Delete"
 }
