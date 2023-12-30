@@ -44,15 +44,12 @@ internal struct Tag: View {
     }
     
     internal var body: some View {
-        NavigationStack {
-            JSBForm {
-                self.$data.view { data in
-                    ForEach(data, content: TagRow.init)
-                } onEmpty: {
-                    self.style.disabled.action(text: self.text.noTags).label
-                }
+        JSBForm {
+            self.$data.view { data in
+                ForEach(data, content: TagRow.init)
+            } onEmpty: {
+                self.style.disabled.action(text: self.text.noTags).label
             }
-            .modifier(TagToolbar())
         }
         .onLoadChange(of: self.selection) {
             _data.selection = $0

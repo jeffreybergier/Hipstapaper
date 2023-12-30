@@ -27,6 +27,7 @@
 import SwiftUI
 import Umbrella
 import V3Model
+import V3Store
 import V3Errors
 import V3Style
 import V3Localize
@@ -69,12 +70,14 @@ public struct WebsiteEdit: View {
 
 internal struct _WebsiteEdit: View {
     
-    @Navigation   private var nav
-    @V3Style.WebsiteEdit private var style
+    @Navigation             private var nav
+    @V3Style.WebsiteEdit    private var style
     @V3Localize.WebsiteEdit private var text
-    @HACK_macOS_Style private var hack_style
+    @HACK_macOS_Style       private var hack_style
     
     @Dismiss private var dismiss
+    @Controller private var controller
+    @ErrorStorage private var errors
     
     @Binding private var screen: WebsiteEdit.Screen
     private let selection: Website.Selection
@@ -85,21 +88,34 @@ internal struct _WebsiteEdit: View {
     }
     
     internal var body: some View {
-        TabView(selection: self.$screen) {
-            FormParent(self.selection)
-                .tag(WebsiteEdit.Screen.website)
-                .tabItem {
-                    self.style.tab
-                        .action(text: self.text.tabWebsite)
-                        .label
+        NavigationStack {
+            TabView(selection: self.$screen) {
+                FormParent(self.selection)
+                    .tag(WebsiteEdit.Screen.website)
+                    .tabItem {
+                        self.style.tab
+                            .action(text: self.text.tabWebsite)
+                            .label
+                    }
+                Tag(self.selection)
+                    .tag(WebsiteEdit.Screen.tag)
+                    .tabItem {
+                        self.style.tab
+                            .action(text: self.text.tabTag)
+                            .label
+                    }
+            }
+            .navigationTitle({ self.screen == .tag ? self.text.titleTag : self.text.titleWebsite }())
+            .toolbarTitleDisplayMode(.inline)
+            .scrollDismissesKeyboard(.immediately)
+            .toolbar(id: "Toolbar-Base") {
+                ToolbarItem(id: "DoneButton", placement: .confirmationAction) {
+                    self.style.toolbarDone.action(text: self.text.done).button(action: self.dismiss)
                 }
-            Tag(self.selection)
-                .tag(WebsiteEdit.Screen.tag)
-                .tabItem {
-                    self.style.tab
-                        .action(text: self.text.tabTag)
-                        .label
+                ToolbarItem(id: "DeleteButton", placement: .cancellationAction) {
+                    self.style.toolbarDelete.action(text: self.text.delete).button(action: self.delete)
                 }
+            }
         }
         .modifier(self.hack_style.tabParentPadding)
         .modifier(self.hack_style.formTextFieldStyle)
@@ -110,5 +126,18 @@ internal struct _WebsiteEdit: View {
                 router: errorRouter(_:)
             )
         )
+    }
+    
+    private func delete() {
+        let error = DeleteWebsiteConfirmationError(self.selection)
+        { selection in
+            switch self.controller.delete(selection) {
+            case .success:
+                self.dismiss()
+            case .failure(let error):
+                self.errors.append(error)
+            }
+        }
+        self.errors.append(error)
     }
 }

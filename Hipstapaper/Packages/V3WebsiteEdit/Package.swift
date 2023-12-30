@@ -1,4 +1,4 @@
-// swift-tools-version:5.7
+// swift-tools-version:5.9
 
 //
 //  Created by Jeffrey Bergier on 2022/07/01.
@@ -30,7 +30,7 @@ import PackageDescription
 
 let package = Package(
     name: "V3WebsiteEdit",
-    platforms: [.iOS(.v16), .macOS(.v13)],
+    platforms: [.iOS(.v17), .macOS(.v14)],
     products: [
         .library(
             name: "V3WebsiteEdit",
