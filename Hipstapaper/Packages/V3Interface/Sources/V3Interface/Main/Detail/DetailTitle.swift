@@ -53,7 +53,7 @@ private struct IDEAL_DetailTitle: ViewModifier {
         } onNIL: {
             content.navigationTitle(self.title)
         }
-        .navigationBarTitleDisplayModeInline
+        .toolbarTitleDisplayMode(.inline)
         .onChange(of: self.selection.tag, initial: true) { _, newValue in
             self.query.identifier = newValue
         }

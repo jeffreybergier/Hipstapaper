@@ -51,8 +51,8 @@ internal struct Tag: View {
                 self.style.disabled.action(text: self.text.noTags).label
             }
         }
-        .onLoadChange(of: self.selection) {
-            _data.selection = $0
+        .onChange(of: self.selection, initial: true) { _, newValue in
+            _data.selection = selection
         }
     }
 }
@@ -75,8 +75,8 @@ internal struct TagRow: View {
             isOn: self.$tagApply.status.boolValue
         )
         .modifier(self.style.tagTitle)
-        .onLoadChange(of: self.tagApply.id) {
-            self.query.identifier = $0
+        .onChange(of: self.tagApply.id, initial: true) { _, newValue in
+            self.query.identifier = newValue
         }
     }
 }
