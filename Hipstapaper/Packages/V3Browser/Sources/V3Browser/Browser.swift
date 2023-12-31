@@ -71,11 +71,11 @@ fileprivate struct _Browser: View {
                 .modifier(HACK_OpaqueToolbar())
                 .modifier(self.toolbar)
         }
-        .onLoadChange(of: self.identifier) {
-            self.query.identifier = $0
+        .onChange(of: self.identifier, initial: true) { _, newValue in
+            self.query.identifier = newValue
         }
-        .onLoadChange(of: self.query.data?.preferredURL) {
-            self.nav.shouldLoadURL = $0
+        .onChange(of: self.query.data?.preferredURL, initial: true) { _, newValue in
+            self.nav.shouldLoadURL = newValue
         }
         .modifier(
             ErrorStorage.Presenter(
