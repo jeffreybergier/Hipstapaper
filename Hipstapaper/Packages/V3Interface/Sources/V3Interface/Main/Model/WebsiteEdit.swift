@@ -36,7 +36,8 @@ internal struct WebsiteEditPopover: ViewModifier {
         self.start = start
     }
     internal func body(content: Content) -> some View {
-        content.popover(items: self.$selection) { selection in
+        // TODO: Changed to sheet because of macOS terrible toolbar support on popovers
+        content.sheet(items: self.$selection) { selection in
             WebsiteEdit(selection: selection, start: self.start)
         }
     }

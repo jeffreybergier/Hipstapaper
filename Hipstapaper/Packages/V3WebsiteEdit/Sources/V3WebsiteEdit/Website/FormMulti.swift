@@ -36,16 +36,22 @@ internal struct FormMulti: View {
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
     
-    private let selection: Website.Selection
+    private let selection: [(offset: Int, element: Website.Selection.Element)]
     
     internal init(_ selection: Website.Selection) {
-        self.selection = selection
+        self.selection = Array(selection.enumerated())
     }
     
     internal var body: some View {
-        self.selection.map({ $0 }).view {
-            ForEach($0) { ident in
-                FormSection(ident)
+        self.selection.view { selection in
+            ForEach(selection, id: \.element) { index, identifier in
+                FormSection(identifier)
+                #if os(macOS)
+                if index != selection.count - 1 {
+                    Divider()
+                        .padding([.top, .bottom], nil)
+                }
+                #endif
             }
         } onEmpty: {
             self.style.disabled.action(text: self.text.noWebsitesSelected).label
