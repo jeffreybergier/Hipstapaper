@@ -46,12 +46,6 @@ public struct Tag: Identifiable, Hashable, Equatable {
             self.id = rawValue
             self.kind = kind
         }
-        public struct RawIdentifier: Hashable, Codable {
-            public var rawValue: String
-            public init(_ rawValue: String) {
-                self.rawValue = rawValue
-            }
-        }
     }
     
     public var id: Identifier

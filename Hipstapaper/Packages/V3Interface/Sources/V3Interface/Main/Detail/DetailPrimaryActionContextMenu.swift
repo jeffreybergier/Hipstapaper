@@ -121,7 +121,7 @@ internal struct DetailPrimaryActionContextMenu: ViewModifier {
 }
 
 // TODO: Change to `Website.Identifier`
-private typealias HACK_selectionType = Website.Identifier.RawIdentifier
+private typealias HACK_selectionType = RawIdentifier
 
 // TODO: Move to umbrella
 extension Set {

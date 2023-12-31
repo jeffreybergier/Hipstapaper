@@ -39,12 +39,6 @@ public struct Website: Identifiable, Hashable, Equatable {
         public init(_ rawValue: RawIdentifier) {
             self.id = rawValue
         }
-        public struct RawIdentifier: Hashable, Codable {
-            public var rawValue: String
-            public init(_ rawValue: String) {
-                self.rawValue = rawValue
-            }
-        }
     }
     
     public var id: Identifier
