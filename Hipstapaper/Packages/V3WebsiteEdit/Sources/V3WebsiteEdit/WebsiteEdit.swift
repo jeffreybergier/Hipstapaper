@@ -105,7 +105,7 @@ internal struct _WebsiteEdit: View {
                             .label
                     }
             }
-            .scrollDismissesKeyboard(.immediately)
+            .HACK_scrollDismissesKeyboardImmediately
             .toolbarTitleDisplayMode(.inline)
             .navigationTitle({ self.screen == .tag ? self.text.titleTag : self.text.titleWebsite }())
             .toolbar(id: .toolbarName) {
@@ -163,4 +163,14 @@ extension String {
     fileprivate static let toolbarName         = "Toolbar-Base"
     fileprivate static let toolbarButtonDone   = "Toolbar-Button-Done"
     fileprivate static let toolbarButtonDelete = "Toolbar-Button-Delete"
+}
+
+extension View {
+    fileprivate var HACK_scrollDismissesKeyboardImmediately: some View {
+        #if os(visionOS)
+        return self
+        #else
+        return self.scrollDismissesKeyboard(.immediately)
+        #endif
+    }
 }
