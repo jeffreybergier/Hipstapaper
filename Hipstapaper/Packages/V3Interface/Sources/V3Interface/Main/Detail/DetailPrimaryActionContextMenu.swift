@@ -38,43 +38,43 @@ internal struct DetailPrimaryActionContextMenu: ViewModifier {
     
     @V3Style.DetailToolbar private var style
     @V3Localize.DetailToolbar private var text
-
+    
     internal func body(content: Content) -> some View {
         content
-            .contextMenu(forSelectionType: Website.Selection.Element.self) {
+            .contextMenu(forSelectionType: HACK_selectionType.self) {
                 $0.view { items in
                     self.style.toolbar
                         .action(text: self.text.openInWindow)
-                        .button(item: self.HACK_openInWindow(items))
+                        .button(item: self.HACK_openInWindow(items.map(Website.Identifier.init(_:))))
                     {
                         self.state.push.openInWindow = $0
                     }
                     self.style.toolbar
                         .action(text: self.text.openExternal)
-                        .button(item: self.HACK_openExternal(items))
+                        .button(item: self.HACK_openExternal(items.map(Website.Identifier.init(_:))))
                     {
                         self.state.push.openExternal = $0
                     }
                     self.style.toolbar
                         .action(text: self.text.archiveYes)
-                        .button(items: BulkActionsQuery.canArchiveYes(items, self.controller))
+                        .button(items: BulkActionsQuery.canArchiveYes(items.map(Website.Identifier.init(_:)), self.controller))
                     {
                         self.state.push.archiveYes = $0
                     }
                     self.style.toolbar
                         .action(text: self.text.archiveNo)
-                        .button(items: BulkActionsQuery.canArchiveNo(items, self.controller))
+                        .button(items: BulkActionsQuery.canArchiveNo(items.map(Website.Identifier.init(_:)), self.controller))
                     {
                         self.state.push.archiveNo = $0
                     }
                     self.style.toolbar
                         .action(text: self.text.share)
-                        .button(item: BulkActionsQuery.openWebsite(items, self.controller))
+                        .button(item: BulkActionsQuery.openWebsite(items.map(Website.Identifier.init(_:)), self.controller))
                     {
                         self.state.push.share = $0.multi
                     }
                     self.style.toolbar
-                        .action(text: self.text.tagApply).button(items: items)
+                        .action(text: self.text.tagApply).button(items: items.map(Website.Identifier.init(_:)))
                     {
                         self.state.push.tagApply = $0
                     }
@@ -82,20 +82,20 @@ internal struct DetailPrimaryActionContextMenu: ViewModifier {
                         .action(text: self.text.edit)
                         .button
                     {
-                        self.state.push.websiteEdit = items
+                        self.state.push.websiteEdit = items.map(Website.Identifier.init(_:))
                     }
                     self.style.destructive
                         .action(text: self.text.delete)
                         .button
                     {
-                        self.state.push.websiteDelete = items
+                        self.state.push.websiteDelete = items.map(Website.Identifier.init(_:))
                     }
                 } onEmpty: {
                     EmptyView()
                 }
-            } primaryAction: { selection in
-                guard selection.isEmpty == false else { return }
-                self.state.push.openInSheet = .multi(selection)
+            } primaryAction: { items in
+                guard items.isEmpty == false else { return }
+                self.state.push.openInSheet = .multi(items.map(Website.Identifier.init(_:)))
             }
     }
     
@@ -117,5 +117,16 @@ internal struct DetailPrimaryActionContextMenu: ViewModifier {
         guard value.multi.count == 1 else { return nil }
         return value
         #endif
+    }
+}
+
+// TODO: Change to `Website.Identifier`
+private typealias HACK_selectionType = RawIdentifier
+
+// TODO: Move to umbrella
+extension Set {
+    public func map<Transformed>(_ transform: (Element) -> Transformed) -> Set<Transformed> {
+        let transformed: [Transformed] = self.map(transform)
+        return Set<Transformed>(transformed)
     }
 }

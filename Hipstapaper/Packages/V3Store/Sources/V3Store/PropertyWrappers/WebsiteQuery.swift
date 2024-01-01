@@ -65,7 +65,7 @@ public struct WebsiteQuery: DynamicProperty {
             configuration.onError = self.errors.append(_:)
         }
         if let newID = newValue {
-            configuration.objectID = URL(string: newID.id)
+            configuration.objectID = URL(string: newID.id.rawValue)
         } else {
             configuration.objectID = nil
         }

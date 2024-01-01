@@ -107,8 +107,8 @@ internal struct TagsEditRow: View {
                 .action(text: self.text.noTagSelected)
                 .label
         }
-        .onLoadChange(of: self.identifier) {
-            self.query.identifier = $0
+        .onChange(of: self.identifier, initial: true) { _, newValue in
+            self.query.identifier = newValue
         }
     }
 }
@@ -136,19 +136,22 @@ internal struct TagsEditToolbar: ViewModifier {
     private var toolbar: some ViewModifier {
         JSBToolbar(title: self.text.title,
                    done: self.text.toolbarDone,
-                   delete: self.text.toolbarDelete)
-        {
-            self.dismiss()
-        } deleteAction: {
-            let error = DeleteTagConfirmationError(self.selection) { selection in
-                switch self.controller.delete(selection) {
-                case .success:
-                    self.dismiss()
-                case .failure(let error):
-                    self.errors.append(error)
-                }
+                   delete: self.text.toolbarDelete,
+                   doneAction: self.dismiss.callAsFunction,
+                   deleteAction: self.delete,
+                   // TODO: Toolbars still don't work in popovers on the mac
+                   macOSLegacyBehavior: true)
+    }
+    
+    private func delete() {
+        let error = DeleteTagConfirmationError(self.selection) { selection in
+            switch self.controller.delete(selection) {
+            case .success:
+                self.dismiss()
+            case .failure(let error):
+                self.errors.append(error)
             }
-            self.errors.append(error)
         }
+        self.errors.append(error)
     }
 }

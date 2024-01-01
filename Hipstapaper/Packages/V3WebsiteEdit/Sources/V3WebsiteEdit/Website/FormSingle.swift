@@ -73,28 +73,28 @@ internal struct FormSingle: View {
         } onNIL: {
             self.style.disabled.action(text: self.text.noWebsitesSelected).label
         }
-        .onLoadChange(of: self.identifier) {
-            self.query.identifier = $0
+        .onChange(of: self.identifier, initial: true) { _, newValue in
+            self.query.identifier = newValue
         }
-        .onChange(of: self.webState.currentThumbnail) { image in
-            guard let image else { return }
-            self.$query?.wrappedValue.setThumbnail(image)
+        .onChange(of: self.webState.currentThumbnail, initial: false) { _, newImage in
+            guard let newImage else { return }
+            self.$query?.wrappedValue.setThumbnail(newImage)
         }
-        .onChange(of: self.webState.currentTitle) {
-            self.$query?.wrappedValue.title = $0
+        .onChange(of: self.webState.currentTitle, initial: false) { _, newValue in
+            self.$query?.wrappedValue.title = newValue
         }
-        .onChange(of: self.webState.currentURL) {
-            self.$query?.wrappedValue.resolvedURL = $0
+        .onChange(of: self.webState.currentURL, initial: false) { _, newValue in
+            self.$query?.wrappedValue.resolvedURL = newValue
         }
-        .onChange(of: self.nav.shouldLoadURL) {
-            guard $0 != nil else { return }
+        .onChange(of: self.nav.shouldLoadURL, initial: false) { _, newValue in
+            guard newValue != nil else { return }
             self.timerStart()
         }
-        .onChange(of: self.nav.isError) {
+        .onChange(of: self.nav.isError, initial: false) { _, newValue in
             // If there is an error, stop the timer.
             // Otherwise, snapshots continue to attempt to be taken,
             // which continues to produce more errors
-            guard $0 != nil else { return }
+            guard newValue != nil else { return }
             self.timerStop()
         }
         .onReceive(self.timer) { _ in

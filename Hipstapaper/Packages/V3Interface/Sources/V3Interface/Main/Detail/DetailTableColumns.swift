@@ -44,8 +44,8 @@ internal struct DetailTableColumnThumbnail: View {
     
     var body: some View {
         self.style.thumbnail(self.query.data?.thumbnail)
-            .onLoadChange(of: self.id, async: true) {
-                self.query.identifier = $0
+            .onChange(of: self.id, initial: true) { _, newValue in
+                self.query.identifier = newValue
             }
     }
 }
@@ -66,8 +66,8 @@ internal struct DetailTableColumnTitle: View {
         JSBText(self.text.missingTitle,
                 text: self.query.data?.title)
         .modifier(self.style.title)
-        .onLoadChange(of: self.id, async: true) {
-            self.query.identifier = $0
+        .onChange(of: self.id, initial: true) { _, newValue in
+            self.query.identifier = newValue
         }
     }
 }
@@ -88,8 +88,8 @@ internal struct DetailTableColumnURL: View {
         JSBText(self.text.missingURL,
                 text: self.text.prettyURL(self.query.data?.preferredURL))
         .modifier(self.style.url)
-        .onLoadChange(of: self.id, async: true) {
-            self.query.identifier = $0
+        .onChange(of: self.id, initial: true) { _, newValue in
+            self.query.identifier = newValue
         }
     }
 }
@@ -112,8 +112,8 @@ internal struct DetailTableColumnDate: View {
         JSBText(self.text.missingDate,
                 text: _text.dateString(self.query.data?[keyPath: self.keyPath]))
         .modifier(self.style.date)
-        .onLoadChange(of: self.id, async: true) {
-            self.query.identifier = $0
+        .onChange(of: self.id, initial: true) { _, newValue in
+            self.query.identifier = newValue
         }
     }
 }

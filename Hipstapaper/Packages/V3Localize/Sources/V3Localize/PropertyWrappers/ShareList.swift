@@ -35,7 +35,6 @@ public struct ShareList: DynamicProperty {
         public var shareErrorSubtitle: LocalizedString
 
         public var done:   ActionLocalization
-        public var multi:  ActionLocalization
         public var single: ActionLocalization
         public var copy:   ActionLocalization
         public var error:  ActionLocalization
@@ -49,7 +48,6 @@ public struct ShareList: DynamicProperty {
             self.shareErrorSubtitle = b.localized(key: Phrase.shareError.rawValue)
             
             self.done       = Action.doneGeneric.localized(b)
-            self.multi      = Action.shareMulti.localized(b)
             self.single     = Action.shareSingle.localized(b)
             self.copy       = Action.copyToClipboard.localized(b)
             self.error      = Action.shareError.localized(b)

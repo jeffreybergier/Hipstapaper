@@ -1,4 +1,4 @@
-// swift-tools-version: 5.7
+// swift-tools-version: 5.9
 
 //
 //  Created by Jeffrey Bergier on 2022/07/02.
@@ -30,7 +30,7 @@ import PackageDescription
 
 let package = Package(
     name: "V3Errors",
-    platforms: [.iOS(.v16), .macOS(.v13)],
+    platforms: [.iOS(.v17), .macOS(.v14)],
     products: [
         .library(
             name: "V3Errors",
@@ -40,7 +40,7 @@ let package = Package(
         .package(path: "../V3Model"),
         .package(path: "../V3Store"),
         .package(path: "../V3Localize"),
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "main"),
+        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "waterme3-wOS10"),
     ],
     targets: [
         .target(

@@ -46,22 +46,18 @@ internal struct FormParent: View {
     }
     
     internal var body: some View {
-        NavigationStack {
-            JSBForm {
-                self.selection.view { selection in
-                    switch selection.count {
-                    case 1:
-                        FormSingle(selection.first!)
-                            .environmentObject(self.webState)
-                    default:
-                        FormMulti(selection)
-                    }
-                } onEmpty: {
-                    self.style.disabled.action(text: self.text.noWebsitesSelected).label
+        JSBForm {
+            self.selection.view { selection in
+                switch selection.count {
+                case 1:
+                    FormSingle(selection.first!)
+                        .environmentObject(self.webState)
+                default:
+                    FormMulti(selection)
                 }
+            } onEmpty: {
+                self.style.disabled.action(text: self.text.noWebsitesSelected).label
             }
-            .modifier(FormToolbar(self.selection))
-            .scrollDismissesKeyboard(.immediately)
         }
     }
 }

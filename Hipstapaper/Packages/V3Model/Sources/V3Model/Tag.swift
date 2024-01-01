@@ -35,14 +35,17 @@ public struct Tag: Identifiable, Hashable, Equatable {
     }
     
     public struct Identifier: Codable, Hashable, Identifiable {
-        public var id: String { self.rawValue }
+        public var id: RawIdentifier
         public var kind: Kind
-        public var rawValue: String
+        internal var HACK_tagID = "THIS IS A HACK TO PREVENT DECODING CONFLICTS"
         public init(_ rawValue: String, kind: Kind = .user) {
-            self.rawValue = rawValue
+            self.id = .init(rawValue)
             self.kind = kind
         }
-        internal var HACK_tagID = "THIS IS A HACK TO PREVENT DECODING CONFLICTS"
+        public init(_ rawValue: RawIdentifier, kind: Kind = .user) {
+            self.id = rawValue
+            self.kind = kind
+        }
     }
     
     public var id: Identifier
