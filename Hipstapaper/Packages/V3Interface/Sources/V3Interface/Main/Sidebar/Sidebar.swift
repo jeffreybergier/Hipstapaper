@@ -39,9 +39,9 @@ internal struct Sidebar: View {
     
     @TagSystemListQuery private var tagsSystem
     @TagUserListQuery private var tagsUser
-                
+    
     internal var body: some View {
-        NavigationStack {
+        HACK_NavigationStack {
             List(selection: self.$selection.tag) {
                 Section(self.text.sectionTitleTagsSystem) {
                     ForEach(self.tagsSystem, id: \.id) { item in

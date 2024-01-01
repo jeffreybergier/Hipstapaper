@@ -40,12 +40,16 @@ internal enum JSBPasteboard {
 #if os(macOS)
 extension NSPasteboard {
     fileprivate func set(title: String?, url: URL) {
-        // TODO: Improve by using setPropertyList?
-        self.setString(url.absoluteString, forType: .URL)
+        self.declareTypes([.URL], owner: nil)
+        let success = self.setString(url.absoluteString, forType: .URL)
+        assert(success, "Pasteboard Error")
     }
 }
 #else
 extension UIPasteboard {
+    
+    /*
+     // TODO: This function was making it difficult to paste just the URL into safari
     fileprivate func set(title: String?, url: URL) {
         guard
             let stringKey = UIPasteboard.typeListString[0] as? String,
@@ -54,6 +58,16 @@ extension UIPasteboard {
         let titleDict = title.map { [stringKey: $0] } ?? [:]
         let urlDict = [urlKey: url]
         self.setItems([titleDict, urlDict])
+    }
+     */
+    
+    fileprivate func set(title: String?, url: URL) {
+        guard let urlKey = UIPasteboard.typeListURL[0] as? String else {
+            assertionFailure("Pasteboard Error")
+            return
+        }
+        let urlDict = [urlKey: url]
+        self.setItems([urlDict])
     }
 }
 #endif

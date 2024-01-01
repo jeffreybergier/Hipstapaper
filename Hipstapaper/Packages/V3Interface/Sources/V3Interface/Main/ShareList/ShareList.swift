@@ -34,7 +34,6 @@ import V3Localize
 internal struct ShareList: View {
     
     @Controller private var controller
-    @State private var allItems: [URL] = []
     
     @V3Style.ShareList private var style
     @V3Localize.ShareList private var text
@@ -43,26 +42,15 @@ internal struct ShareList: View {
     @Environment(\.dismiss) private var dismiss
         
     private let selection: Website.Selection
-    private let selectionA: Array<Website.Selection.Element>
     
     internal init(_ selection: Website.Selection) {
         self.selection = selection
-        self.selectionA = selection.sorted()
     }
     
     internal var body: some View {
         NavigationStack {
             JSBForm {
-                self.allItems.view { urls in
-                    self.style.shareLink(itemURLs: urls,
-                                         itemTitle: self.text.multi,
-                                         itemSubtitle: self.text.itemSubtitle(urls))
-                } onEmpty: {
-                    self.style.disabled(subtitle: self.text.shareErrorSubtitle)
-                        .action(text: self.text.error)
-                        .label
-                }
-                ForEach(self.selectionA) { identifier in
+                ForEach(self.selection.sorted()) { identifier in
                     ShareListRow(identifier)
                 }
             }
@@ -70,16 +58,14 @@ internal struct ShareList: View {
             .modifier(self.toolbar)
         }
         .modifier(self.style.popoverSize)
-        .onLoadChange(of: self.selection) {
-            let result = BulkActionsQuery.openURL($0, self.controller)
-            self.allItems = result.map { Array($0.multi) } ?? []
-        }
     }
     
     private var toolbar: some ViewModifier {
         JSBToolbar(title: self.text.title,
                    done: self.text.done,
-                   doneAction: self.dismiss.callAsFunction)
+                   doneAction: self.dismiss.callAsFunction,
+                   // TODO: Toolbars still don't work in popovers on the mac
+                   macOSLegacyBehavior: true)
     }
 }
 

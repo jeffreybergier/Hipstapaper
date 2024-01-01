@@ -59,8 +59,8 @@ internal struct DetailTableColumnCompact: View {
             Spacer()
             self.style.thumbnail(self.query.data?.thumbnail)
         }
-        .onLoadChange(of: self.id, async: true) {
-            self.query.identifier = $0
+        .onChange(of: self.id, initial: true) { _, newValue in
+            self.query.identifier = newValue
         }
     }
     

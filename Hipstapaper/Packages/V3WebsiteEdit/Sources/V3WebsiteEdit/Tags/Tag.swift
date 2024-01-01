@@ -44,18 +44,15 @@ internal struct Tag: View {
     }
     
     internal var body: some View {
-        NavigationStack {
-            JSBForm {
-                self.$data.view { data in
-                    ForEach(data, content: TagRow.init)
-                } onEmpty: {
-                    self.style.disabled.action(text: self.text.noTags).label
-                }
+        JSBForm {
+            self.$data.view { data in
+                ForEach(data, content: TagRow.init)
+            } onEmpty: {
+                self.style.disabled.action(text: self.text.noTags).label
             }
-            .modifier(TagToolbar())
         }
-        .onLoadChange(of: self.selection) {
-            _data.selection = $0
+        .onChange(of: self.selection, initial: true) { _, newValue in
+            _data.selection = selection
         }
     }
 }
@@ -78,8 +75,8 @@ internal struct TagRow: View {
             isOn: self.$tagApply.status.boolValue
         )
         .modifier(self.style.tagTitle)
-        .onLoadChange(of: self.tagApply.id) {
-            self.query.identifier = $0
+        .onChange(of: self.tagApply.id, initial: true) { _, newValue in
+            self.query.identifier = newValue
         }
     }
 }

@@ -33,7 +33,7 @@ import SwiftUI
 public struct PopoverSize: ViewModifier {
     
     public enum Size {
-        case small, medium, large
+        case small, medium, large, wide
     }
     
     private let size: Size
@@ -50,25 +50,28 @@ public struct PopoverSize: ViewModifier {
     
     private var width: CGFloat {
         switch self.size {
-        case .small: return .popoverSizeWidthSmall
+        case .small:  return .popoverSizeWidthSmall
         case .medium: return .popoverSizeWidthMedium
-        case .large: return .popoverSizeWidthLarge
+        case .wide:   return .popoverSizeWidthLarge
+        case .large:  return .popoverSizeWidthLarge
         }
     }
     
     private var height: CGFloat {
         switch self.size {
-        case .small: return .popoverSizeHeightSmall
+        case .small:  return .popoverSizeHeightSmall
         case .medium: return .popoverSizeHeightMedium
-        case .large: return .popoverSizeHeightLarge
+        case .wide:   return .popoverSizeHeightMedium
+        case .large:  return .popoverSizeHeightLarge
         }
     }
     
     private var detents: Set<PresentationDetent> {
         switch self.size {
-        case .small: return [.medium]
+        case .small:  return [.medium]
         case .medium: return [.medium, .large]
-        case .large: return [.large]
+        case .wide:   return [.medium, .large]
+        case .large:  return [.large]
         }
     }
 }

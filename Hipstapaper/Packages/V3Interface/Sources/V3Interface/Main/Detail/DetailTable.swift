@@ -40,6 +40,8 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
     @V3Style.DetailTable private var style
     @V3Localize.DetailTable private var text
     @V3Style.ShowsTable private var showsTable
+    
+    @State private var HACK_tableSelection: Set<RawIdentifier> = []
 
     private let data: C
     
@@ -52,8 +54,10 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
     }
     
     internal var tableMulti: some View {
-        Table(selection: self.$selection.websites,
-              sortOrder: self.$query.sort.HACK_mapSort)
+        Table(of: Website.Identifier.self,
+              selection: self.$HACK_tableSelection,
+              sortOrder: self.$query.sort.HACK_mapSort
+        )
         {
             self.column1Thumbnail
             self.column2Title
@@ -61,8 +65,20 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
             self.column4DateCreated
         } rows: {
             ForEach(self.data) {
-                TableRow(HACK_WebsiteIdentifier($0))
+                TableRow($0)
             }
+        }
+        // TODO: HACK: Keep the system selection and table selection in sync
+        .onChange(of: self.HACK_tableSelection) { _, tableSelection in
+            let newValue: Set<Website.Identifier> = tableSelection.map { Website.Identifier($0) }
+            guard self.selection.websites != newValue else { return }
+            self.selection.websites = newValue
+        }
+        // TODO: HACK: Keep the system selection and table selection in sync
+        .onChange(of: self.selection.websites, initial: true) { _, systemSelection in
+            let newValue: Set<RawIdentifier> = systemSelection.map { $0.id }
+            guard HACK_tableSelection != newValue else { return }
+            self.HACK_tableSelection = newValue
         }
     }
     
@@ -72,9 +88,9 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
         return TableColumn("") {
             switch self.showsTable {
             case .showTable:
-                DetailTableColumnThumbnail($0.id)
+                DetailTableColumnThumbnail($0)
             case .showList:
-                DetailTableColumnCompact($0.id)
+                DetailTableColumnCompact($0)
             }
         }
         .width(self.showsTable == .showTable
@@ -84,19 +100,19 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
     
     private var column2Title: HACK_ColumnSorted<some View> {
         TableColumn(self.text.columnTitle, sortUsing: .title) {
-            DetailTableColumnTitle($0.id)
+            DetailTableColumnTitle($0)
         }
     }
     
     private var column3URL: HACK_ColumnUnsorted<some View> {
         TableColumn(self.text.columnURL) {
-            DetailTableColumnURL($0.id)
+            DetailTableColumnURL($0)
         }
     }
     
     private var column4DateCreated: HACK_ColumnSorted<some View> {
         TableColumn(self.text.columnDateCreated, sortUsing: .dateCreated) {
-            DetailTableColumnDate(id: $0.id, kp: \.dateCreated)
+            DetailTableColumnDate(id: $0, kp: \.dateCreated)
         }
         .width(self.style.columnWidthDate)
     }
@@ -104,7 +120,7 @@ internal struct DetailTable<C: RandomAccessCollection>: View where C.Element == 
 
 // Shortcuts to make it easier to tell the columns which Keypath they represent
 extension KeyPathComparator {
-    fileprivate static var title: KeyPathComparator<HACK_WebsiteIdentifier> { .init(\HACK_WebsiteIdentifier.title) }
-    fileprivate static var dateCreated: KeyPathComparator<HACK_WebsiteIdentifier> { .init(\HACK_WebsiteIdentifier.dateCreated) }
-    fileprivate static var dateModified: KeyPathComparator<HACK_WebsiteIdentifier> { .init(\HACK_WebsiteIdentifier.dateModified) }
+    fileprivate static var title: KeyPathComparator<Website.Identifier> { .init(\Website.Identifier.title) }
+    fileprivate static var dateCreated: KeyPathComparator<Website.Identifier> { .init(\Website.Identifier.dateCreated) }
+    fileprivate static var dateModified: KeyPathComparator<Website.Identifier> { .init(\Website.Identifier.dateModified) }
 }

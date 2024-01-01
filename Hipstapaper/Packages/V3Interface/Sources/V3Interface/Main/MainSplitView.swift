@@ -39,7 +39,6 @@ internal struct MainSplitView: View {
     @V3Style.MainMenu private var style
     @HACK_EditMode    private var isEditMode
     
-    @StateObject private var errorStorage = ErrorStorage.newEnvironment()
     @EnvironmentObject private var syncProgress: ContinousProgress.Environment
         
     internal var body: some View {
@@ -53,7 +52,7 @@ internal struct MainSplitView: View {
         .modifier(BulkActionsHelper())
         .modifier(WebsiteEditSheet(self.$nav.isWebsitesEdit, start: .website))
         .modifier(self.style.syncIndicator(self.syncProgress.value.progress))
-        .onLoadChange(of: self.syncProgress.id) { _ in
+        .onChange(of: self.syncProgress.id, initial: true) { _, _ in
             let errors = self.syncProgress.value.errors
             guard errors.isEmpty == false else { return }
             self.syncProgress.value.errors = []
@@ -66,7 +65,6 @@ internal struct MainSplitView: View {
                 router: errorRouter(_:)
             )
         )
-        .environmentObject(self.errorStorage)
     }
 }
 
@@ -88,16 +86,16 @@ internal struct HACK_MainSplitViewStateWrapper: View {
     internal var body: some View {
         MainSplitView()
             .environmentObject(self.sceneState)
-            .onChange(of: self.active) { _ in
+            .onChange(of: self.active, initial: false) { _, _ in
                 self.mainMenuState.value.pull = .init()
             }
-            .onChange(of: self.sceneState.value.pull) {
+            .onChange(of: self.sceneState.value.pull, initial: false) { _, newValue in
                 guard self.active == .key else { return }
-                self.mainMenuState.value.pull = $0
+                self.mainMenuState.value.pull = newValue
             }
-            .onChange(of: self.mainMenuState.value.push) {
+            .onChange(of: self.mainMenuState.value.push, initial: false) { _, newValue in
                 guard self.active == .key else { return }
-                self.sceneState.value.push = $0
+                self.sceneState.value.push = newValue
                 self.mainMenuState.value.push = .init()
             }
     }
@@ -112,3 +110,23 @@ internal struct HACK_MainSplitViewStateWrapper: View {
     }
 }
 #endif
+
+// TODO: HACK is needed because NavigationStack breaks toolbars on macOS
+internal struct HACK_NavigationStack<V: View>: View {
+    
+    private let contents: () -> V
+    
+    internal init(contents: @escaping () -> V) {
+        self.contents = contents
+    }
+    
+    internal var body: some View {
+        #if os(macOS)
+        contents()
+        #else
+        NavigationStack {
+            contents()
+        }
+        #endif
+    }
+}

@@ -1,9 +1,9 @@
 //
-//  Created by Jeffrey Bergier on 2022/07/09.
+//  Created by Jeffrey Bergier on 2023/12/31.
 //
 //  MIT License
 //
-//  Copyright (c) 2021 Jeffrey Bergier
+//  Copyright (c) 2024 Jeffrey Bergier
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -24,24 +24,11 @@
 //  SOFTWARE.
 //
 
-import SwiftUI
-import Umbrella
-import V3Errors
-import V3Style
-import V3Localize
+import Foundation
 
-internal struct TagToolbar: ViewModifier {
-    
-    @Navigation private var nav
-    @V3Style.WebsiteEdit private var style
-    @V3Localize.WebsiteEdit private var text
-    
-    @Dismiss private var dismiss
-    
-    internal func body(content: Content) -> some View {
-        content
-            .modifier(JSBToolbar(title: self.text.titleTag,
-                                 done: self.text.done,
-                                 doneAction: self.dismiss))
+public struct RawIdentifier: Hashable, Codable {
+    public var rawValue: String
+    public init(_ rawValue: String) {
+        self.rawValue = rawValue
     }
 }

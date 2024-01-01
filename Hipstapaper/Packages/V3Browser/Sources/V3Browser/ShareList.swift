@@ -82,9 +82,13 @@ internal struct ShareList: View {
                 
             }
             .modifier(self.hack_style.formStyle)
-            .modifier(JSBToolbar(title: self.text.title,
-                                 done: self.text.done,
-                                 doneAction: self.dismiss.callAsFunction))
+            .modifier(
+                JSBToolbar(title: self.text.title,
+                           done: self.text.done,
+                           doneAction: self.dismiss.callAsFunction,
+                           // TODO: Toolbars still don't work in popovers on the mac
+                           macOSLegacyBehavior: true)
+            )
         }
         .modifier(self.style.popoverSize)
     }

@@ -49,7 +49,7 @@ internal struct Toolbar: ViewModifier {
     internal func body(content: Content) -> some View {
         content
             .navigationTitle(self.nav.currentTitle)
-            .navigationBarTitleDisplayModeInline
+            .toolbarTitleDisplayMode(.inline)
             .toolbar(id: .toolbarID) {
                 switch self.sizeclass.horizontal {
                 case .regular:

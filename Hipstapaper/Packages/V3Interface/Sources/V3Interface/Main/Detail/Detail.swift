@@ -43,7 +43,7 @@ internal struct Detail: View {
     @HACK_EditMode private var isEditMode
     
     internal var body: some View {
-        NavigationStack {
+        HACK_NavigationStack {
             self.selection.tag.view { _ in
                 self.websiteListQuery.data.view {
                     DetailTable($0)
@@ -55,14 +55,14 @@ internal struct Detail: View {
             } onNIL: {
                 self.style.disabled.action(text: self.text.noTagSelected).label
             }
-            .searchable(text: self.$query.search,
-                        prompt: self.text.search)
         }
-        .onLoadChange(of: self.query) {
-            self.websiteListQuery.configuration.query = $0
+        .searchable(text: self.$query.search,
+                    prompt: self.text.search)
+        .onChange(of: self.query, initial: true) { _, newValue in
+            self.websiteListQuery.configuration.query = newValue
         }
-        .onLoadChange(of: self.selection.tag) {
-            self.websiteListQuery.configuration.filter = $0
+        .onChange(of: self.selection.tag, initial: true) { _, newValue in
+            self.websiteListQuery.configuration.filter = newValue
         }
         .modifier(DetailTitle())
         .modifier(DetailToolbar())

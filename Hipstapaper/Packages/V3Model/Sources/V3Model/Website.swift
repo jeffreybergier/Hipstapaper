@@ -31,12 +31,14 @@ public struct Website: Identifiable, Hashable, Equatable {
     public typealias Selection = Set<Website.Identifier>
 
     public struct Identifier: Codable, Hashable, Identifiable {
-        public var id: String { self.rawValue }
-        public var rawValue: String
-        public init(_ rawValue: String) {
-            self.rawValue = rawValue
-        }
+        public var id: RawIdentifier
         internal var HACK_websiteID = "THIS IS A HACK TO PREVENT DECODING CONFLICTS"
+        public init(_ rawValue: String) {
+            self.id = .init(rawValue)
+        }
+        public init(_ rawValue: RawIdentifier) {
+            self.id = rawValue
+        }
     }
     
     public var id: Identifier
@@ -74,6 +76,6 @@ extension Website {
 
 extension Website.Identifier: Comparable {
     public static func < (lhs: Website.Identifier, rhs: Website.Identifier) -> Bool {
-        return lhs.rawValue < rhs.rawValue
+        return lhs.id.rawValue < rhs.id.rawValue
     }
 }
