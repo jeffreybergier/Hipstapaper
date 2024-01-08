@@ -60,7 +60,7 @@ public struct HACK_macOS_FormStyle: ViewModifier {
 public struct HACK_macOS_ToolbarPadding: ViewModifier {
     public func body(content: Content) -> some View {
         #if os(macOS)
-        content.padding()
+        content.padding([.leading, .trailing, .bottom])
         #else
         content
         #endif

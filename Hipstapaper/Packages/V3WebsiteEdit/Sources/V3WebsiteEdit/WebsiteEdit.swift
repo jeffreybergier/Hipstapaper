@@ -82,6 +82,11 @@ internal struct _WebsiteEdit: View {
     @Binding private var screen: WebsiteEdit.Screen
     private let selection: Website.Selection
     
+    @Environment(\.sceneContext) private var HACK_sceneContext
+    private var HACK_usesAbnormalToolbar: Bool {
+        self.HACK_sceneContext != .normal
+    }
+    
     internal init(selection: Website.Selection, screen: Binding<WebsiteEdit.Screen>) {
         self.selection = selection
         _screen = screen
@@ -106,20 +111,20 @@ internal struct _WebsiteEdit: View {
                     }
             }
             .HACK_scrollDismissesKeyboardImmediately
-            .toolbarTitleDisplayMode(.inline)
-            .navigationTitle({ self.screen == .tag ? self.text.titleTag : self.text.titleWebsite }())
-            .toolbar(id: .toolbarName) {
-                ToolbarItem(id: .toolbarButtonDone, placement: .confirmationAction) {
-                    self.style.toolbarDone.action(text: self.text.done).button(action: self.dismiss)
-                }
-                ToolbarItem(id: .toolbarButtonDelete, placement: self.HACK_deleteButtonPlacement) {
-                    self.style.toolbarDelete.action(text: self.text.delete).button(action: self.delete)
-                }
-            }
-            .lift { self.HACK_tabViewPadding($0) }
+            .modifier(self.hack_style.tabParentPadding)
+            .lift { self.HACK_tabViewTopPadding($0) }
+            .modifier(self.hack_style.formTextFieldStyle)
+            .modifier(
+                JSBToolbar(
+                    title: { self.screen == .tag ? self.text.titleTag : self.text.titleWebsite }(),
+                    done: self.text.done,
+                    delete: self.text.delete,
+                    doneAction: self.dismiss,
+                    deleteAction: self.delete,
+                    macOSLegacyBehavior: self.HACK_usesAbnormalToolbar
+                )
+            )
         }
-        .modifier(self.hack_style.tabParentPadding)
-        .modifier(self.hack_style.formTextFieldStyle)
         .modifier(
             ErrorStorage.Presenter(
                 isAlreadyPresenting: self.nav.isPresenting,
@@ -142,19 +147,15 @@ internal struct _WebsiteEdit: View {
         self.errors.append(error)
     }
     
-    private var HACK_deleteButtonPlacement: ToolbarItemPlacement {
+    @ViewBuilder private func HACK_tabViewTopPadding<V: View>(_ input: V) -> some View {
         #if os(macOS)
-        return .destructiveAction
+        if self.HACK_usesAbnormalToolbar {
+            input
+        } else {
+            input.padding(.top, nil)
+        }
         #else
-        return .cancellationAction
-        #endif
-    }
-    
-    private func HACK_tabViewPadding<V: View>(_ input: V) -> some View {
-        #if os(macOS)
-        return input.padding(.top, nil)
-        #else
-        return input
+        input
         #endif
     }
 }
