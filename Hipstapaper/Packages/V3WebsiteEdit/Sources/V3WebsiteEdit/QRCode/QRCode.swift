@@ -24,4 +24,35 @@
 //  SOFTWARE.
 //
 
+import SwiftUI
 import CoreGraphics
+
+/// Code adapted from ChatGPT query
+public func generateQRCode(from string: String, withSize size: CGFloat) throws -> Image {
+    // Create a CIFilter object for generating QR codes
+    guard let qrFilter = CIFilter(name: "CIQRCodeGenerator") else {
+        fatalError("Create Error Type")
+    }
+    
+    // Set the input message for the QR code
+    let data = string.data(using: String.Encoding.ascii)
+    qrFilter.setValue(data, forKey: "inputMessage")
+    
+    // Get the output image from the filter
+    guard let outputImage = qrFilter.outputImage else {
+        fatalError("Create Error Type")
+    }
+    
+    // Create a transformation to scale the image to the desired size
+    let scale = size / outputImage.extent.width
+    let transformedImage = outputImage.transformed(by: CGAffineTransform(scaleX: scale, y: scale))
+    
+    // Convert CIImage to UIImage
+    let context = CIContext(options: nil)
+    guard let cgImage = context.createCGImage(transformedImage, from: transformedImage.extent) else {
+        fatalError("Create Error Type")
+    }
+    let qrCodeImage = Image(cgImage, scale: scale, label: Text(string))
+    return qrCodeImage
+}
+
