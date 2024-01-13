@@ -42,6 +42,7 @@ public struct WebsiteEdit: DynamicProperty {
         public var delete:             ActionLocalization
         public var tabWebsite:         ActionLocalization
         public var tabTag:             ActionLocalization
+        public var tabQRCode:          ActionLocalization
         public var deleteThumbnail:    ActionLocalization
         public var autofill:           ActionLocalization
         public var stop:               ActionLocalization
@@ -64,6 +65,7 @@ public struct WebsiteEdit: DynamicProperty {
             self.delete             = Action.deleteGeneric.localized(b)
             self.tabWebsite         = Action.tabWebsite.localized(b)
             self.tabTag             = Action.tabTag.localized(b)
+            self.tabQRCode          = Action.tabQRCode.localized(b)
             self.deleteThumbnail    = Action.deleteThumbnail.localized(b)
             self.autofill           = Action.autofill.localized(b)
             self.stop               = Action.browseStop.localized(b)

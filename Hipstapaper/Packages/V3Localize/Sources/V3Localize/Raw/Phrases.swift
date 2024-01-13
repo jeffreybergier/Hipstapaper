@@ -71,6 +71,7 @@ internal enum Phrase: LocalizationKey {
     case searchWebsite          = "Phrase.SearchWebsite"
     case addTag                 = "Phrase.AddTag"
     case editTag                = "Phrase.EditTag"
+    case viewQRCode             = "Phrase.ViewQRCode"
     case addWebsite             = "Phrase.AddWebsite"
     case done                   = "Phrase.Done"
     case save                   = "Phrase.Save"

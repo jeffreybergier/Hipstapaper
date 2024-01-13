@@ -89,6 +89,7 @@
 "Noun.Search"        = "Search";
 "Noun.ReadingList"   = "Reading List";
 "Noun.Tags"          = "Tags";
+"Noun.QRCode"        = "QR Code";
 "Noun.Website"       = "Website";
 "Noun.Untitled"      = "Untitled";
 "Noun.AllItems"      = "All Items";
@@ -179,6 +180,7 @@
 "Phrase.SearchWebsite"          = "Search websites";
 "Phrase.AddTag"                 = "Add a new tag";
 "Phrase.EditTag"                = "Edit the name of the selected tag.";
+"Phrase.ViewQRCode"             = "View QR Code for the selected website.";
 "Phrase.AddWebsite"             = "Add a new website";
 "Phrase.Done"                   = "Finish and dismiss the screen";
 "Phrase.Save"                   = "Save changes";

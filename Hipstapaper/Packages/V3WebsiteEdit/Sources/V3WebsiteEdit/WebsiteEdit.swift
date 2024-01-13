@@ -37,6 +37,7 @@ public struct WebsiteEdit: View {
     public enum Screen {
         case website
         case tag
+        case QRCode
     }
 
     @State private var screen: Screen
@@ -64,6 +65,8 @@ public struct WebsiteEdit: View {
             input.modifier(self.style.websiteSize)
         case .tag:
             input.modifier(self.style.tagSize)
+        case .QRCode:
+            input.modifier(self.style.websiteSize)
         }
     }
 }
@@ -107,6 +110,13 @@ internal struct _WebsiteEdit: View {
                     .tabItem {
                         self.style.tab
                             .action(text: self.text.tabTag)
+                            .label
+                    }
+                QRCode(self.selection)
+                    .tag(WebsiteEdit.Screen.QRCode)
+                    .tabItem {
+                        self.style.tab
+                            .action(text: self.text.tabQRCode)
                             .label
                     }
             }
