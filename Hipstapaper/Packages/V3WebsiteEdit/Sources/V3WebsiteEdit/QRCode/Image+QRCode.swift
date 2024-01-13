@@ -29,7 +29,7 @@ import CoreGraphics
 
 /// Code adapted from ChatGPT query
 extension Image {
-    public static func QRCode(from string: String, withSize size: CGFloat) throws -> Image {
+    public static func QRCode(from string: String, size: CGFloat, displayScale: CGFloat) throws -> Image {
         // Create a CIFilter object for generating QR codes
         guard let qrFilter = CIFilter(name: "CIQRCodeGenerator") else {
             fatalError("Create Error Type")
@@ -45,15 +45,16 @@ extension Image {
         }
         
         // Create a transformation to scale the image to the desired size
-        let scale = size / outputImage.extent.width
-        let transformedImage = outputImage.transformed(by: CGAffineTransform(scaleX: scale, y: scale))
+        let desiredSize = size * displayScale
+        let difference = desiredSize / outputImage.extent.width
+        let transformedImage = outputImage.transformed(by: CGAffineTransform(scaleX: difference, y: difference))
         
         // Convert CIImage to UIImage
         let context = CIContext(options: nil)
         guard let cgImage = context.createCGImage(transformedImage, from: transformedImage.extent) else {
             fatalError("Create Error Type")
         }
-        let qrCodeImage = Image(cgImage, scale: scale, label: Text(string))
+        let qrCodeImage = Image(cgImage, scale: displayScale, label: Text(string))
         return qrCodeImage
     }
 }

@@ -26,16 +26,57 @@
 
 import SwiftUI
 import V3Model
+import V3Store
 
 internal struct QRCode: View {
     
-    private let selection: Website.Selection
+    private let selection: [Website.Selection.Element]
     
     internal init(_ selection: Website.Selection) {
-        self.selection = selection
+        self.selection = Array(selection.sorted())
     }
     
     internal var body: some View {
-        Color.red
+        ScrollView {
+            ForEach(self.selection) { identifier in
+                QRCodeImage(identifier)
+            }
+        }
+    }
+}
+
+internal struct QRCodeImage: View {
+    
+    @WebsiteQuery private var query
+    @Environment(\.displayScale) private var displayScale
+
+    private let identifier: Website.Selection.Element
+    
+    internal init(_ identifier: Website.Selection.Element) {
+        self.identifier = identifier
+    }
+    
+    internal var body: some View {
+        Group {
+            if let image {
+                image
+            } else {
+                // TODO: Replace with placholder
+                Color.red
+            }
+        }
+        .onChange(of: self.identifier, initial: true) { _, newValue in
+            self.query.identifier = newValue
+        }
+    }
+    
+    private var image: Image? {
+        guard let url = self.query.data?.preferredURL else { return nil }
+        do {
+            return try Image.QRCode(from: url.absoluteString, size: 512, displayScale: self.displayScale)
+        } catch {
+            print(String(describing: error))
+            return nil
+        }
     }
 }
