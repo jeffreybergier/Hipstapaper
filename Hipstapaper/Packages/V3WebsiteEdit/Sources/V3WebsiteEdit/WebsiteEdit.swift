@@ -126,7 +126,7 @@ internal struct _WebsiteEdit: View {
             .modifier(self.hack_style.formTextFieldStyle)
             .modifier(
                 JSBToolbar(
-                    title: { self.screen == .tag ? self.text.titleTag : self.text.titleWebsite }(),
+                    title: self.title,
                     done: self.text.done,
                     delete: self.text.delete,
                     doneAction: self.dismiss,
@@ -142,6 +142,17 @@ internal struct _WebsiteEdit: View {
                 router: errorRouter(_:)
             )
         )
+    }
+    
+    private var title: String {
+        switch self.screen {
+        case .website:
+            return self.text.titleWebsite
+        case .tag:
+            return self.text.titleTag
+        case .QRCode:
+            return self.text.titleQRCode
+        }
     }
     
     private func delete() {

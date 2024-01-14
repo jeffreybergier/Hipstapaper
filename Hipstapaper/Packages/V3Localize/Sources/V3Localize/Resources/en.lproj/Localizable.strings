@@ -193,4 +193,5 @@
 "Phrase.errorCloudSync"         = "There was an error while syncing with iCloud.";
 "Phrase.NoTags"                 = "No Tags";
 "Phrase.NoWebsites"             = "No Websites";
+"Phrase.NoQRCode"               = "Could not generate QR Code";
 "Phrase.CopyToClipboard"        = "Copy to clipboard";

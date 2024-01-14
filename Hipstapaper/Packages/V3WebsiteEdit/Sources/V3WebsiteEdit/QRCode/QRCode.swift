@@ -27,6 +27,8 @@
 import SwiftUI
 import V3Model
 import V3Store
+import V3Style
+import V3Localize
 
 internal struct QRCode: View {
     
@@ -46,6 +48,7 @@ internal struct QRCode: View {
 internal struct QRCodeRow: View {
     
     @WebsiteQuery private var query
+    @V3Localize.WebsiteEdit private var text
     private let identifier: Website.Selection.Element
     
     internal init(_ identifier: Website.Selection.Element) {
@@ -53,17 +56,23 @@ internal struct QRCodeRow: View {
     }
     
     internal var body: some View {
-        Section(self.query.data?.title ?? "Untitled") {
+        Section(self.title) {
             QRCodeImage(self.query.data?.preferredURL?.absoluteString)
         }
         .onChange(of: self.identifier, initial: true) { _, newValue in
             self.query.identifier = newValue
         }
     }
+    
+    private var title: String {
+        self.query.data?.title ?? self.text.dataUntitled
+    }
 }
 
 internal struct QRCodeImage: View {
     
+    @V3Style.WebsiteEdit private var style
+    @V3Localize.WebsiteEdit private var text
     @Environment(\.displayScale) private var displayScale
 
     private let input: String?
@@ -73,21 +82,19 @@ internal struct QRCodeImage: View {
     }
     
     internal var body: some View {
-        if let image {
-            image
-        } else {
-            // TODO: Replace with placholder
-            Color.red
-        }
+        self.image
     }
     
-    private var image: Image? {
-        guard let input else { return nil }
-        do {
-            return try Image.QRCode(from: input, size: 320, displayScale: self.displayScale)
-        } catch {
-            print(String(describing: error))
-            return nil
+    @ViewBuilder private var image: some View {
+        if
+            let input,
+            let qrcode = try? Image.QRCode(from: input, 
+                                           size: 320,
+                                           displayScale: self.displayScale)
+        {
+            qrcode
+        } else {
+            self.style.disabled.action(text: self.text.noQRCode).label
         }
     }
 }

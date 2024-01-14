@@ -33,6 +33,7 @@ public struct WebsiteEdit: DynamicProperty {
     public struct Value {
         public var titleWebsite:       LocalizedString
         public var titleTag:           LocalizedString
+        public var titleQRCode:        LocalizedString
         public var dataUntitled:       LocalizedString
         public var formTitle:          LocalizedString
         public var formOriginalURL:    LocalizedString
@@ -50,12 +51,14 @@ public struct WebsiteEdit: DynamicProperty {
         public var jsNo:               ActionLocalization
         public var noWebsitesSelected: ActionLocalization
         public var noWebsites:         ActionLocalization
+        public var noQRCode:           ActionLocalization
         public var noTagSelected:      ActionLocalization
         public var noTags:             ActionLocalization
         
         internal init(_ b: Bundle) {
             self.titleWebsite       = b.localized(key: Noun.editWebsite.rawValue)
             self.titleTag           = b.localized(key: Noun.tagApply.rawValue)
+            self.titleQRCode        = b.localized(key: Noun.QRCode.rawValue)
             self.dataUntitled       = b.localized(key: Noun.untitled.rawValue)
             self.formTitle          = b.localized(key: Noun.websiteTitle.rawValue)
             self.formOriginalURL    = b.localized(key: Noun.originalURL.rawValue)
@@ -73,6 +76,7 @@ public struct WebsiteEdit: DynamicProperty {
             self.jsNo               = Action.javascriptNo.localized(b)
             self.noWebsitesSelected = Action.noSelectionWebsite.localized(b)
             self.noWebsites         = Action.noContentWebsite.localized(b)
+            self.noQRCode           = Action.noContentQRCode.localized(b)
             self.noTagSelected      = Action.noSelectionTag.localized(b)
             self.noTags             = Action.noContentTag.localized(b)
         }

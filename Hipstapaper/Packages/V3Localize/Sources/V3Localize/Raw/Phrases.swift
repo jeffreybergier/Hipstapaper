@@ -86,5 +86,6 @@ internal enum Phrase: LocalizationKey {
     case noSelectionWebsite     = "Phrase.NoWebsiteSelection"
     case noTags                 = "Phrase.NoTags"
     case noWebsites             = "Phrase.NoWebsites"
+    case noQRCode               = "Phrase.NoQRCode"
     case copyToClipboard        = "Phrase.CopyToClipboard"
 }

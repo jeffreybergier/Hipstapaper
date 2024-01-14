@@ -47,6 +47,7 @@ internal enum Action {
     case errorsPresent
     case deselectAll
     case noContentWebsite
+    case noContentQRCode
     case noContentTag
     case noSelectionTag
     case noSelectionWebsite
@@ -130,6 +131,8 @@ internal enum Action {
             return .raw_deselectAll
         case .noContentWebsite:
             return .raw_noContentWebsite
+        case .noContentQRCode:
+            return .raw_noContentQRCode
         case .noContentTag:
             return .raw_noContentTag
         case .noSelectionWebsite:
@@ -317,6 +320,10 @@ extension ActionLocalization {
     }()
     fileprivate static let raw_noContentWebsite: ActionLocalization = {
         .init(title: Phrase.noWebsites.rawValue,
+              image: .init(.rectangleSlash))
+    }()
+    fileprivate static let raw_noContentQRCode: ActionLocalization = {
+        .init(title: Phrase.noQRCode.rawValue,
               image: .init(.rectangleSlash))
     }()
     fileprivate static let raw_noContentTag: ActionLocalization = {
