@@ -37,19 +37,15 @@ internal struct QRCode: View {
     }
     
     internal var body: some View {
-        ScrollView {
-            ForEach(self.selection) { identifier in
-                QRCodeImage(identifier)
-            }
+        List(self.selection) { identifier in
+            QRCodeRow(identifier)
         }
     }
 }
 
-internal struct QRCodeImage: View {
+internal struct QRCodeRow: View {
     
     @WebsiteQuery private var query
-    @Environment(\.displayScale) private var displayScale
-
     private let identifier: Website.Selection.Element
     
     internal init(_ identifier: Website.Selection.Element) {
@@ -57,23 +53,38 @@ internal struct QRCodeImage: View {
     }
     
     internal var body: some View {
-        Group {
-            if let image {
-                image
-            } else {
-                // TODO: Replace with placholder
-                Color.red
-            }
+        Section(self.query.data?.title ?? "Untitled") {
+            QRCodeImage(self.query.data?.preferredURL?.absoluteString)
         }
         .onChange(of: self.identifier, initial: true) { _, newValue in
             self.query.identifier = newValue
         }
     }
+}
+
+internal struct QRCodeImage: View {
+    
+    @Environment(\.displayScale) private var displayScale
+
+    private let input: String?
+    
+    internal init(_ input: String?) {
+        self.input = input
+    }
+    
+    internal var body: some View {
+        if let image {
+            image
+        } else {
+            // TODO: Replace with placholder
+            Color.red
+        }
+    }
     
     private var image: Image? {
-        guard let url = self.query.data?.preferredURL else { return nil }
+        guard let input else { return nil }
         do {
-            return try Image.QRCode(from: url.absoluteString, size: 512, displayScale: self.displayScale)
+            return try Image.QRCode(from: input, size: 320, displayScale: self.displayScale)
         } catch {
             print(String(describing: error))
             return nil
