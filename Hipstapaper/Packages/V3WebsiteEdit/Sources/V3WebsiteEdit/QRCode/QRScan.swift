@@ -24,23 +24,28 @@
 //  SOFTWARE.
 //
 
-#if canImport(UIKit)
 
 import SwiftUI
-import QRScanner
 
 internal struct QRScan: View {
     
     @Binding private var url: URL?
     
-    internal init(_ url: Binding<URL?>) {
-        _url = url
+    internal init(_ url: Binding<URL?>?) {
+        _url = url ?? .constant(nil)
     }
     
     internal var body: some View {
+        #if canImport(UIKit)
         _QRScan(self.$url)
+        #else
+        Text("Not Supported")
+        #endif
     }
 }
+
+#if canImport(UIKit)
+import QRScanner
 
 fileprivate struct _QRScan: View {
     
@@ -52,11 +57,12 @@ fileprivate struct _QRScan: View {
     }
     
     private func update(_ qr: QRScannerView, context: Context) {
+        
     }
     
     private func makeScanView(context: Context) -> QRScannerView {
         let qr = QRScannerView(frame: .init(x: 0, y: 0, width: 320, height: 320))
-        qr.configure(delegate: context.coordinator, input: .init(isBlurEffectEnabled: true))
+        qr.configure(delegate: context.coordinator, input: .default)
         qr.startRunning()
         return qr
     }

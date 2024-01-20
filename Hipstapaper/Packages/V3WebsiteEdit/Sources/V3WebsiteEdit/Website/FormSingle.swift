@@ -104,11 +104,7 @@ internal struct FormSingle: View {
             self.nav.shouldSnapshot = true
         }
         .sheet(isPresented: self.$nav.isQRCodeScan) {
-            #if canImport(UIKit)
-            if let item = self.$query {
-                QRScan(item.originalURL)
-            }
-            #endif
+            QRScan(self.$query?.originalURL)
         }
     }
     
