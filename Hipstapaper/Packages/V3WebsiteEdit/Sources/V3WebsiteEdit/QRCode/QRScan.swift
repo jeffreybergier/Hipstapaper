@@ -29,15 +29,17 @@ import SwiftUI
 
 internal struct QRScan: View {
     
-    @Binding private var url: URL?
+    internal typealias OnComplete = (Result<String, Error>) -> Void
     
-    internal init(_ url: Binding<URL?>?) {
-        _url = url ?? .constant(nil)
+    private let onComplete: OnComplete
+    
+    internal init(_ onComplete: @escaping OnComplete) {
+        self.onComplete = onComplete
     }
     
     internal var body: some View {
         #if canImport(UIKit)
-        _QRScan(self.$url)
+        _QRScan(self.onComplete)
         #else
         Text("Not Supported")
         #endif
@@ -49,11 +51,11 @@ import QRScanner
 
 fileprivate struct _QRScan: View {
     
-    @Environment(\.dismiss) private var dismiss
-    @Binding private var url: URL?
     
-    internal init(_ url: Binding<URL?>) {
-        _url = url
+    private let onComplete: QRScan.OnComplete
+    
+    fileprivate init(_ onComplete: @escaping QRScan.OnComplete) {
+        self.onComplete = onComplete
     }
     
     private func update(_ qr: QRScannerView, context: Context) {
@@ -68,10 +70,7 @@ fileprivate struct _QRScan: View {
     }
     
     internal func makeCoordinator() -> QRScannerViewDelegate {
-        return Delegate { scannedString in
-            self.url = scannedString.map { URL(string: $0) } ?? nil
-            self.dismiss()
-        }
+        return Delegate(self.onComplete)
     }
 }
 
@@ -87,19 +86,19 @@ extension _QRScan: UIViewRepresentable {
 
 fileprivate class Delegate: QRScannerViewDelegate {
     
-    private let onComplete: (String?) -> Void
+    private let onComplete: QRScan.OnComplete
     
-    fileprivate init(onComplete: @escaping (String?) -> Void) {
+    fileprivate init(_ onComplete: @escaping QRScan.OnComplete) {
         self.onComplete = onComplete
     }
     
     func qrScannerView(_ qrScannerView: QRScannerView, didFailure error: QRScannerError) {
         print(String(describing: error))
         assertionFailure()
-        self.onComplete(nil)
+        self.onComplete(.failure(error))
     }
     func qrScannerView(_ qrScannerView: QRScannerView, didSuccess code: String) {
-        self.onComplete(code)
+        self.onComplete(.success(code))
     }
     func qrScannerView(_ qrScannerView: QRScannerView, didChangeTorchActive isOn: Bool) {
         print(isOn)
