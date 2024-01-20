@@ -48,6 +48,8 @@ public struct WebsiteEdit: DynamicProperty {
         public var tagSize:       some ViewModifier = PopoverSize(size: .medium)
         public var tagTitle:      some ViewModifier = SidebarListTitleText()
         
+        public let QRCodeSize: CGFloat = 320
+        
         public func thumbnailSingle(_ data: Data?, @ViewBuilder background: @escaping () -> some View) -> some View {
             WebThumbnailImage(data, web: background)
                 .frame(width: .thumbnailLarge, height: .thumbnailLarge)

@@ -42,6 +42,15 @@ internal struct QRCode: View {
         List(self.selection) { identifier in
             QRCodeRow(identifier)
         }
+        .scrollContentBackground(self.scrollContentBackground)
+    }
+    
+    private var scrollContentBackground: Visibility {
+        #if os(macOS)
+        return .hidden
+        #else
+        return .automatic
+        #endif
     }
 }
 
@@ -49,6 +58,7 @@ internal struct QRCodeRow: View {
     
     @WebsiteQuery private var query
     @V3Localize.WebsiteEdit private var text
+    
     private let identifier: Website.Selection.Element
     
     internal init(_ identifier: Website.Selection.Element) {
@@ -89,7 +99,7 @@ internal struct QRCodeImage: View {
         if
             let input,
             let qrcode = try? Image.QRCode(from: input, 
-                                           size: 320,
+                                           size: self.style.QRCodeSize,
                                            displayScale: self.displayScale)
         {
             qrcode
