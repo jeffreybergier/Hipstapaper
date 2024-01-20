@@ -56,7 +56,6 @@ internal struct FormSingle: View {
         self.$query.view { item in
             Section {
                 self.originalURLRow(item)
-                    .animation(.easeIn(duration: 3), value: self.nav.isQRCodeScan)
             }
             Section {
                 TextField(self.text.formTitle, text: item.title.compactMap())
@@ -120,8 +119,6 @@ internal struct FormSingle: View {
                         self.errors.append(error)
                     }
                 }
-                .background({ Color.black }())
-                .frame(width: self.style.viewSizeQRScan, height: self.style.viewSizeQRScan)
             }
         }
         self.rowAutofill(item)

@@ -51,6 +51,7 @@ public struct WebsiteEdit: DynamicProperty {
         
         public let viewSizeQRCode:          CGFloat = 320
         public let viewSizeQRScan:          CGFloat = 320
+        public let viewCornerRadiusQRScan:  CGFloat = 8
         public let verticalSpacingQRScan:   CGFloat = 12
         public let horizontalSpacingQRScan: CGFloat = 0
         

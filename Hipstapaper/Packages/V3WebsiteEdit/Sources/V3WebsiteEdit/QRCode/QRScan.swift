@@ -32,6 +32,8 @@ internal struct QRScan: View {
     
     internal typealias OnComplete = (Result<String, Error>) -> Void
     
+    @V3Style.WebsiteEdit private var style
+    
     private let onComplete: OnComplete
     
     internal init(_ onComplete: @escaping OnComplete) {
@@ -42,6 +44,13 @@ internal struct QRScan: View {
         // TODO: Check for permission
         #if canImport(QRScanner)
         _QRScan(self.onComplete)
+            .background(Color.black)
+            .frame(width: self.style.viewSizeQRScan, 
+                   height: self.style.viewSizeQRScan)
+            .clipShape(
+                RoundedRectangle(cornerRadius: self.style.viewCornerRadiusQRScan,
+                                 style: .continuous)
+            )
         #else
         Text("Not Supported")
         #endif
