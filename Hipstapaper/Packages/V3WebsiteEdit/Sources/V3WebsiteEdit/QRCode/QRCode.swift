@@ -99,7 +99,7 @@ internal struct QRCodeImage: View {
         if
             let input,
             let qrcode = try? Image.QRCode(from: input, 
-                                           size: self.style.QRCodeSize,
+                                           size: self.style.viewSizeQRCode,
                                            displayScale: self.displayScale)
         {
             qrcode

@@ -26,6 +26,7 @@
 
 
 import SwiftUI
+import V3Style
 
 internal struct QRScan: View {
     
@@ -38,7 +39,8 @@ internal struct QRScan: View {
     }
     
     internal var body: some View {
-        #if canImport(UIKit)
+        // TODO: Check for permission
+        #if canImport(QRScanner)
         _QRScan(self.onComplete)
         #else
         Text("Not Supported")
@@ -46,24 +48,25 @@ internal struct QRScan: View {
     }
 }
 
-#if canImport(UIKit)
+#if canImport(QRScanner)
 import QRScanner
 
 fileprivate struct _QRScan: View {
     
-    
+    @V3Style.WebsiteEdit private var style
     private let onComplete: QRScan.OnComplete
     
     fileprivate init(_ onComplete: @escaping QRScan.OnComplete) {
         self.onComplete = onComplete
     }
     
-    private func update(_ qr: QRScannerView, context: Context) {
-        
-    }
+    private func update(_ qr: QRScannerView, context: Context) { }
     
     private func makeScanView(context: Context) -> QRScannerView {
-        let qr = QRScannerView(frame: .init(x: 0, y: 0, width: 320, height: 320))
+        let frame = CGRect(x: 0, y: 0,
+                           width: self.style.viewSizeQRScan,
+                           height: self.style.viewSizeQRScan)
+        let qr = QRScannerView(frame: frame)
         qr.configure(delegate: context.coordinator, input: .default)
         qr.startRunning()
         return qr

@@ -37,6 +37,7 @@ internal struct FormSingle: View {
     @Navigation private var nav
     @WebState private var webState
     @WebsiteQuery private var query
+    @ErrorStorage private var errors
     @V3Style.WebsiteEdit private var style
     @V3Localize.WebsiteEdit private var text
 
@@ -55,6 +56,7 @@ internal struct FormSingle: View {
         self.$query.view { item in
             Section {
                 self.originalURLRow(item)
+                    .animation(.easeIn(duration: 3), value: self.nav.isQRCodeScan)
             }
             Section {
                 TextField(self.text.formTitle, text: item.title.compactMap())
@@ -96,11 +98,13 @@ internal struct FormSingle: View {
             self.nav.shouldSnapshot = true
         }
     }
-    
+    #if canImport(QRScanner)
     @ViewBuilder private func originalURLRow(_ item: Binding<Website>) -> some View {
-        VStack {
-            HStack(spacing: 0) {
-                self.scanQRCode
+        VStack(spacing: self.style.verticalSpacingQRScan) {
+            HStack(spacing: self.style.horizontalSpacingQRScan) {
+                Button(self.text.buttonTitleQR, systemImage: self.text.buttonSymbolQR) {
+                    self.nav.isQRCodeScan.toggle()
+                }
                 TextField(
                     self.text.formOriginalURL,
                     text: item.originalURL.mirror(string: self.$originalURLMirror)
@@ -108,23 +112,31 @@ internal struct FormSingle: View {
             }
             if self.nav.isQRCodeScan {
                 QRScan { result in
-                    item.wrappedValue.originalURL = result.value.map { URL(string: $0) } ?? nil
                     self.nav.isQRCodeScan = false
+                    switch result {
+                    case .success(let urlString):
+                        item.wrappedValue.originalURL = URL(string: urlString)
+                    case .failure(let error):
+                        self.errors.append(error)
+                    }
                 }
-                .frame(width: 320, height: 320)
+                .background({ Color.black }())
+                .frame(width: self.style.viewSizeQRScan, height: self.style.viewSizeQRScan)
             }
         }
-        .animation(.easeIn(duration: 3), value: self.nav.isQRCodeScan)
         self.rowAutofill(item)
         self.rowJavascript
     }
-    
-    private var scanQRCode: some View {
-        Button("", systemImage: "qrcode") {
-            self.nav.isQRCodeScan.toggle()
-        }
-        .padding(0)
+    #else
+    @ViewBuilder private func originalURLRow(_ item: Binding<Website>) -> some View {
+        TextField(
+            self.text.formOriginalURL,
+            text: item.originalURL.mirror(string: self.$originalURLMirror)
+        ).textContentTypeURL
+        self.rowAutofill(item)
+        self.rowJavascript
     }
+    #endif
     
     @ViewBuilder private func rowAutofill(_ item: Binding<Website>) -> some View {
         if self.nav.isLoading {

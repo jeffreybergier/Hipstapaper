@@ -38,6 +38,8 @@ public struct WebsiteEdit: DynamicProperty {
         public var formTitle:          LocalizedString
         public var formOriginalURL:    LocalizedString
         public var formResolvedURL:    LocalizedString
+        public let buttonTitleQR:      LocalizedString
+        public let buttonSymbolQR:     String
         
         public var done:               ActionLocalization
         public var delete:             ActionLocalization
@@ -63,6 +65,8 @@ public struct WebsiteEdit: DynamicProperty {
             self.formTitle          = b.localized(key: Noun.websiteTitle.rawValue)
             self.formOriginalURL    = b.localized(key: Noun.originalURL.rawValue)
             self.formResolvedURL    = b.localized(key: Noun.resolvedURL.rawValue)
+            self.buttonTitleQR      = ""
+            self.buttonSymbolQR      = Symbol.QRCode.rawValue
             
             self.done               = Action.doneGeneric.localized(b)
             self.delete             = Action.deleteGeneric.localized(b)

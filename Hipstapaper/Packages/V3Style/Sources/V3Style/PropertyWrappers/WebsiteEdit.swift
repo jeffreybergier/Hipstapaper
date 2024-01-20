@@ -40,6 +40,7 @@ public struct WebsiteEdit: DynamicProperty {
         public var toolbarDone:   some ActionStyle = JSBToolbarButtonStyleDone
         public var form:          some ActionStyle = ActionStyleDefault
         public var tab:           some ActionStyle = ActionStyleDefault
+        public var QRCode:        some ActionStyle = ActionStyleImp(labelStyle: .iconOnly)
         /// Fake appearance style for use on Labels where there is no "real" disabled state
         public var disabled:      some ActionStyle = ActionStyleFakeDisabled
         
@@ -48,7 +49,10 @@ public struct WebsiteEdit: DynamicProperty {
         public var tagSize:       some ViewModifier = PopoverSize(size: .medium)
         public var tagTitle:      some ViewModifier = SidebarListTitleText()
         
-        public let QRCodeSize: CGFloat = 320
+        public let viewSizeQRCode:          CGFloat = 320
+        public let viewSizeQRScan:          CGFloat = 320
+        public let verticalSpacingQRScan:   CGFloat = 12
+        public let horizontalSpacingQRScan: CGFloat = 0
         
         public func thumbnailSingle(_ data: Data?, @ViewBuilder background: @escaping () -> some View) -> some View {
             WebThumbnailImage(data, web: background)
