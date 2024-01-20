@@ -55,7 +55,7 @@ let package = Package(
                 .byNameItem(name: "V3Store", condition: nil),
                 .byNameItem(name: "V3Errors", condition: nil),
                 .byNameItem(name: "Umbrella", condition: nil),
-                .byNameItem(name: "QRScanner", condition: nil),
+                .byNameItem(name: "QRScanner", condition: .when(platforms: [.iOS])),
             ]),
     ]
 )

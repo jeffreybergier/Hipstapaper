@@ -54,12 +54,12 @@ internal struct FormSingle: View {
     internal var body: some View {
         self.$query.view { item in
             Section {
-                HStack {
+                HStack(spacing: 0) {
+                    self.scanQRCode
                     TextField(
                         self.text.formOriginalURL,
                         text: item.originalURL.mirror(string: self.$originalURLMirror)
                     ).textContentTypeURL
-                    self.scanQRCode(item)
                 }
                 self.rowAutofill(item)
                 self.rowJavascript
@@ -104,14 +104,19 @@ internal struct FormSingle: View {
             self.nav.shouldSnapshot = true
         }
         .sheet(isPresented: self.$nav.isQRCodeScan) {
-            QRScan()
+            #if canImport(UIKit)
+            if let item = self.$query {
+                QRScan(item.originalURL)
+            }
+            #endif
         }
     }
     
-    @ViewBuilder private func scanQRCode(_ item: Binding<Website>) -> some View {
+    private var scanQRCode: some View {
         Button("", systemImage: "qrcode") {
             self.nav.isQRCodeScan = true
         }
+        .padding(0)
     }
     
     @ViewBuilder private func rowAutofill(_ item: Binding<Website>) -> some View {
