@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "qrscanner",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mercari/QRScanner.git",
+      "state" : {
+        "revision" : "b9bbcabf8ce54974b56a63f403abc43930684314",
+        "version" : "1.9.0"
+      }
+    },
+    {
       "identity" : "umbrella",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/jeffreybergier/Umbrella.git",
