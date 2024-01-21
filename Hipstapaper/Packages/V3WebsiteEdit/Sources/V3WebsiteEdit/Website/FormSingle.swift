@@ -69,6 +69,7 @@ internal struct FormSingle: View {
         } onNIL: {
             self.style.disabled.action(text: self.text.noWebsitesSelected).label
         }
+        .animation(.default, value: self.nav.isQRCodeScan)
         .onChange(of: self.identifier, initial: true) { _, newValue in
             self.query.identifier = newValue
         }
