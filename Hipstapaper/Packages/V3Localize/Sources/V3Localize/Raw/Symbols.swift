@@ -26,6 +26,7 @@
 
 internal enum Symbol: String {
     case tag               = "tag"
+    case QRCode            = "qrcode"
     case plus              = "plus"
     case website           = "doc.text.image"
     case openInApp         = "safari"

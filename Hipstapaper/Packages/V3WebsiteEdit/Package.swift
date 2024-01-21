@@ -43,6 +43,7 @@ let package = Package(
         .package(path: "../V3Store"),
         .package(path: "../V3Errors"),
         .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "waterme3-wOS10"),
+        .package(url: "https://github.com/mercari/QRScanner.git", .upToNextMajor(from: "1.9.0")),
     ],
     targets: [
         .target(
@@ -54,6 +55,7 @@ let package = Package(
                 .byNameItem(name: "V3Store", condition: nil),
                 .byNameItem(name: "V3Errors", condition: nil),
                 .byNameItem(name: "Umbrella", condition: nil),
+                .byNameItem(name: "QRScanner", condition: .when(platforms: [.iOS])),
             ]),
     ]
 )

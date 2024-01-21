@@ -31,17 +31,23 @@ import Umbrella
 public struct WebsiteEdit: DynamicProperty {
     
     public struct Value {
-        public var titleWebsite:       LocalizedString
-        public var titleTag:           LocalizedString
-        public var dataUntitled:       LocalizedString
-        public var formTitle:          LocalizedString
-        public var formOriginalURL:    LocalizedString
-        public var formResolvedURL:    LocalizedString
+        public var titleWebsite:              LocalizedString
+        public var titleTag:                  LocalizedString
+        public var titleQRCode:               LocalizedString
+        public var dataUntitled:              LocalizedString
+        public var formTitle:                 LocalizedString
+        public var formOriginalURL:           LocalizedString
+        public var formResolvedURL:           LocalizedString
+        public let buttonTitleQR:             LocalizedString
+        public var permissionCameraDenied:    LocalizedString
+        public var permissionCameraIncapable: LocalizedString
+        public let buttonSymbolQR:            String
         
         public var done:               ActionLocalization
         public var delete:             ActionLocalization
         public var tabWebsite:         ActionLocalization
         public var tabTag:             ActionLocalization
+        public var tabQRCode:          ActionLocalization
         public var deleteThumbnail:    ActionLocalization
         public var autofill:           ActionLocalization
         public var stop:               ActionLocalization
@@ -49,21 +55,29 @@ public struct WebsiteEdit: DynamicProperty {
         public var jsNo:               ActionLocalization
         public var noWebsitesSelected: ActionLocalization
         public var noWebsites:         ActionLocalization
+        public var noQRCode:           ActionLocalization
         public var noTagSelected:      ActionLocalization
         public var noTags:             ActionLocalization
+        public var openSettings:       ActionLocalization
         
         internal init(_ b: Bundle) {
-            self.titleWebsite       = b.localized(key: Noun.editWebsite.rawValue)
-            self.titleTag           = b.localized(key: Noun.tagApply.rawValue)
-            self.dataUntitled       = b.localized(key: Noun.untitled.rawValue)
-            self.formTitle          = b.localized(key: Noun.websiteTitle.rawValue)
-            self.formOriginalURL    = b.localized(key: Noun.originalURL.rawValue)
-            self.formResolvedURL    = b.localized(key: Noun.resolvedURL.rawValue)
+            self.titleWebsite              = b.localized(key: Noun.editWebsite.rawValue)
+            self.titleTag                  = b.localized(key: Noun.tagApply.rawValue)
+            self.titleQRCode               = b.localized(key: Noun.QRCode.rawValue)
+            self.dataUntitled              = b.localized(key: Noun.untitled.rawValue)
+            self.formTitle                 = b.localized(key: Noun.websiteTitle.rawValue)
+            self.formOriginalURL           = b.localized(key: Noun.originalURL.rawValue)
+            self.formResolvedURL           = b.localized(key: Noun.resolvedURL.rawValue)
+            self.buttonTitleQR             = ""
+            self.permissionCameraDenied    = b.localized(key: Phrase.permissionCameraDenied.rawValue)
+            self.permissionCameraIncapable = b.localized(key: Phrase.permissionCameraIncapable.rawValue)
+            self.buttonSymbolQR            = Symbol.QRCode.rawValue
             
             self.done               = Action.doneGeneric.localized(b)
             self.delete             = Action.deleteGeneric.localized(b)
             self.tabWebsite         = Action.tabWebsite.localized(b)
             self.tabTag             = Action.tabTag.localized(b)
+            self.tabQRCode          = Action.tabQRCode.localized(b)
             self.deleteThumbnail    = Action.deleteThumbnail.localized(b)
             self.autofill           = Action.autofill.localized(b)
             self.stop               = Action.browseStop.localized(b)
@@ -71,8 +85,11 @@ public struct WebsiteEdit: DynamicProperty {
             self.jsNo               = Action.javascriptNo.localized(b)
             self.noWebsitesSelected = Action.noSelectionWebsite.localized(b)
             self.noWebsites         = Action.noContentWebsite.localized(b)
+            self.noQRCode           = Action.noContentQRCode.localized(b)
             self.noTagSelected      = Action.noSelectionTag.localized(b)
             self.noTags             = Action.noContentTag.localized(b)
+            self.openSettings       = Action.openSettings.localized(b)
+
         }
     }
     

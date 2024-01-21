@@ -37,7 +37,7 @@ internal let ActionStyleFakeDisabled: some ActionStyle = ActionStyleImp(outerMod
 
 public struct ModifierButtonStyle<S: PrimitiveButtonStyle>: ViewModifier {
     private let style: S
-    public init(style: S) {
+    public init(_ style: S) {
         self.style = style
     }
     public func body(content: Content) -> some View {

@@ -1,12 +1,21 @@
 {
   "pins" : [
     {
+      "identity" : "qrscanner",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mercari/QRScanner.git",
+      "state" : {
+        "revision" : "b9bbcabf8ce54974b56a63f403abc43930684314",
+        "version" : "1.9.0"
+      }
+    },
+    {
       "identity" : "umbrella",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/jeffreybergier/Umbrella.git",
       "state" : {
         "branch" : "waterme3-wOS10",
-        "revision" : "c85942dd08121dfe898f347f7064a9e5efef1c0f"
+        "revision" : "cd171e5be893bd195a26590fb3a18c294589a8d7"
       }
     }
   ],

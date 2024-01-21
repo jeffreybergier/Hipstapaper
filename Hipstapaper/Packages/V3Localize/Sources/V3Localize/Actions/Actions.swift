@@ -47,6 +47,7 @@ internal enum Action {
     case errorsPresent
     case deselectAll
     case noContentWebsite
+    case noContentQRCode
     case noContentTag
     case noSelectionTag
     case noSelectionWebsite
@@ -79,6 +80,8 @@ internal enum Action {
     case autofill
     case tabWebsite
     case tabTag
+    case tabQRCode
+    case openSettings
     
     internal func localized(_ bundle: Bundle) -> ActionLocalization {
         var output = self.raw
@@ -129,6 +132,8 @@ internal enum Action {
             return .raw_deselectAll
         case .noContentWebsite:
             return .raw_noContentWebsite
+        case .noContentQRCode:
+            return .raw_noContentQRCode
         case .noContentTag:
             return .raw_noContentTag
         case .noSelectionWebsite:
@@ -193,6 +198,10 @@ internal enum Action {
             return .raw_tabWebsite
         case .tabTag:
             return .raw_tabTag
+        case .tabQRCode:
+            return .raw_tabQRCode
+        case .openSettings:
+            return .raw_openSettings
         }
     }
 }
@@ -314,6 +323,10 @@ extension ActionLocalization {
     }()
     fileprivate static let raw_noContentWebsite: ActionLocalization = {
         .init(title: Phrase.noWebsites.rawValue,
+              image: .init(.rectangleSlash))
+    }()
+    fileprivate static let raw_noContentQRCode: ActionLocalization = {
+        .init(title: Phrase.noQRCode.rawValue,
               image: .init(.rectangleSlash))
     }()
     fileprivate static let raw_noContentTag: ActionLocalization = {
@@ -493,6 +506,18 @@ extension ActionLocalization {
         .init(title: Noun.tags.rawValue,
               hint: Phrase.editTag.rawValue,
               image: .init(.tag),
+              shortcut: nil)
+    }()
+    fileprivate static let raw_tabQRCode: ActionLocalization = {
+        .init(title: Noun.QRCode.rawValue,
+              hint: Phrase.viewQRCode.rawValue,
+              image: .init(.QRCode),
+              shortcut: nil)
+    }()
+    fileprivate static let raw_openSettings: ActionLocalization = {
+        .init(title: Verb.openSettings.rawValue,
+              hint: nil,
+              image: nil,
               shortcut: nil)
     }()
 }

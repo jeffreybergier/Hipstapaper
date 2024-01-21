@@ -63,6 +63,8 @@ extension Navigation {
         internal var shouldSnapshot        = false
         internal var shouldLoadURL: URL?
         
+        internal var isQRCodeScan: Bool = false
+        
         internal var isError: ErrorStorage.Identifier?
         internal var isErrorList = Basic()
         internal var isPresenting: Bool { self.isError != nil }
