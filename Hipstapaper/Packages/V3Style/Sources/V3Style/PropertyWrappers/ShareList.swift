@@ -63,7 +63,7 @@ public struct ShareList: DynamicProperty {
         
         private var copy: some ActionStyle = ActionStyleImp(
             labelStyle: .iconOnly,
-            outerModifier: ModifierButtonStyle(style: .bordered)
+            outerModifier: ModifierButtonStyle(.bordered)
         )
         private var titleStyle: some ActionStyle = ActionStyleImp()
         private var subtitleStyle: some ActionStyle = ActionStyleImp()

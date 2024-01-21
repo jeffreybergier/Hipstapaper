@@ -71,4 +71,5 @@ internal enum Verb: LocalizationKey {
     case copyToClipboard        = "Verb.CopyToClipboard"
     case websiteSaved           = "Verb.SavedWebsite"
     case websiteCurrent         = "Verb.CurrentWebsite"
+    case openSettings           = "Verb.OpenSettings"
 }

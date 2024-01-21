@@ -81,6 +81,7 @@ internal enum Action {
     case tabWebsite
     case tabTag
     case tabQRCode
+    case openSettings
     
     internal func localized(_ bundle: Bundle) -> ActionLocalization {
         var output = self.raw
@@ -199,6 +200,8 @@ internal enum Action {
             return .raw_tabTag
         case .tabQRCode:
             return .raw_tabQRCode
+        case .openSettings:
+            return .raw_openSettings
         }
     }
 }
@@ -509,6 +512,12 @@ extension ActionLocalization {
         .init(title: Noun.QRCode.rawValue,
               hint: Phrase.viewQRCode.rawValue,
               image: .init(.QRCode),
+              shortcut: nil)
+    }()
+    fileprivate static let raw_openSettings: ActionLocalization = {
+        .init(title: Verb.openSettings.rawValue,
+              hint: nil,
+              image: nil,
               shortcut: nil)
     }()
 }

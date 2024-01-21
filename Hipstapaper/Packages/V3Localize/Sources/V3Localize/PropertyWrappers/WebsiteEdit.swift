@@ -31,15 +31,17 @@ import Umbrella
 public struct WebsiteEdit: DynamicProperty {
     
     public struct Value {
-        public var titleWebsite:       LocalizedString
-        public var titleTag:           LocalizedString
-        public var titleQRCode:        LocalizedString
-        public var dataUntitled:       LocalizedString
-        public var formTitle:          LocalizedString
-        public var formOriginalURL:    LocalizedString
-        public var formResolvedURL:    LocalizedString
-        public let buttonTitleQR:      LocalizedString
-        public let buttonSymbolQR:     String
+        public var titleWebsite:              LocalizedString
+        public var titleTag:                  LocalizedString
+        public var titleQRCode:               LocalizedString
+        public var dataUntitled:              LocalizedString
+        public var formTitle:                 LocalizedString
+        public var formOriginalURL:           LocalizedString
+        public var formResolvedURL:           LocalizedString
+        public let buttonTitleQR:             LocalizedString
+        public var permissionCameraDenied:    LocalizedString
+        public var permissionCameraIncapable: LocalizedString
+        public let buttonSymbolQR:            String
         
         public var done:               ActionLocalization
         public var delete:             ActionLocalization
@@ -56,17 +58,20 @@ public struct WebsiteEdit: DynamicProperty {
         public var noQRCode:           ActionLocalization
         public var noTagSelected:      ActionLocalization
         public var noTags:             ActionLocalization
+        public var openSettings:       ActionLocalization
         
         internal init(_ b: Bundle) {
-            self.titleWebsite       = b.localized(key: Noun.editWebsite.rawValue)
-            self.titleTag           = b.localized(key: Noun.tagApply.rawValue)
-            self.titleQRCode        = b.localized(key: Noun.QRCode.rawValue)
-            self.dataUntitled       = b.localized(key: Noun.untitled.rawValue)
-            self.formTitle          = b.localized(key: Noun.websiteTitle.rawValue)
-            self.formOriginalURL    = b.localized(key: Noun.originalURL.rawValue)
-            self.formResolvedURL    = b.localized(key: Noun.resolvedURL.rawValue)
-            self.buttonTitleQR      = ""
-            self.buttonSymbolQR      = Symbol.QRCode.rawValue
+            self.titleWebsite              = b.localized(key: Noun.editWebsite.rawValue)
+            self.titleTag                  = b.localized(key: Noun.tagApply.rawValue)
+            self.titleQRCode               = b.localized(key: Noun.QRCode.rawValue)
+            self.dataUntitled              = b.localized(key: Noun.untitled.rawValue)
+            self.formTitle                 = b.localized(key: Noun.websiteTitle.rawValue)
+            self.formOriginalURL           = b.localized(key: Noun.originalURL.rawValue)
+            self.formResolvedURL           = b.localized(key: Noun.resolvedURL.rawValue)
+            self.buttonTitleQR             = ""
+            self.permissionCameraDenied    = b.localized(key: Phrase.permissionCameraDenied.rawValue)
+            self.permissionCameraIncapable = b.localized(key: Phrase.permissionCameraIncapable.rawValue)
+            self.buttonSymbolQR            = Symbol.QRCode.rawValue
             
             self.done               = Action.doneGeneric.localized(b)
             self.delete             = Action.deleteGeneric.localized(b)
@@ -83,6 +88,8 @@ public struct WebsiteEdit: DynamicProperty {
             self.noQRCode           = Action.noContentQRCode.localized(b)
             self.noTagSelected      = Action.noSelectionTag.localized(b)
             self.noTags             = Action.noContentTag.localized(b)
+            self.openSettings       = Action.openSettings.localized(b)
+
         }
     }
     

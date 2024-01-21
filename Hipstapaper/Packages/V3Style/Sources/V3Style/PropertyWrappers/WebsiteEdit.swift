@@ -35,6 +35,7 @@ public struct WebsiteEdit: DynamicProperty {
     public struct Value {
         public var HACK_macOS_toolbar: some ActionStyle = ActionStyleImp(labelStyle: .iconOnly)
 
+        public var openSettings:  some ActionStyle = ActionStyleImp(outerModifier: ModifierButtonStyle(.borderedProminent))
         public var toolbar:       some ActionStyle = ActionStyleDefault
         public var toolbarDelete: some ActionStyle = ActionStyleImp(buttonRole: .destructive, labelStyle: .titleOnly)
         public var toolbarDone:   some ActionStyle = JSBToolbarButtonStyleDone
@@ -54,6 +55,8 @@ public struct WebsiteEdit: DynamicProperty {
         public let viewCornerRadiusQRScan:  CGFloat = 8
         public let verticalSpacingQRScan:   CGFloat = 12
         public let horizontalSpacingQRScan: CGFloat = 0
+        public let colorBackgroundQRScan:   Color   = .black
+        public let colorTextQRScan:         Color   = .gray
         
         public func thumbnailSingle(_ data: Data?, @ViewBuilder background: @escaping () -> some View) -> some View {
             WebThumbnailImage(data, web: background)

@@ -58,6 +58,6 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
-	<string>Scan QRCodes that contain website addresses</string>
+	<string>Scan QR Codes to add websites to your library</string>
 </dict>
 </plist>

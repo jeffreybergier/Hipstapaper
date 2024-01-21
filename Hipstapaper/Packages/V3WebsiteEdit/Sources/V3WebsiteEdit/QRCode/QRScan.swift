@@ -26,13 +26,18 @@
 
 
 import SwiftUI
+import Umbrella
 import V3Style
+import V3Localize
 
 internal struct QRScan: View {
     
     internal typealias OnComplete = (Result<String, Error>) -> Void
     
     @V3Style.WebsiteEdit private var style
+    @V3Localize.WebsiteEdit private var text
+    
+    @Environment(\.openURL) private var openURL
     
     private let onComplete: OnComplete
     
@@ -41,19 +46,48 @@ internal struct QRScan: View {
     }
     
     internal var body: some View {
-        // TODO: Check for permission
-        #if canImport(QRScanner)
-        _QRScan(self.onComplete)
-            .background(Color.black)
-            .frame(width: self.style.viewSizeQRScan, 
-                   height: self.style.viewSizeQRScan)
-            .clipShape(
-                RoundedRectangle(cornerRadius: self.style.viewCornerRadiusQRScan,
-                                 style: .continuous)
-            )
-        #else
-        Text("Not Supported")
-        #endif
+        ZStack {
+            self.style.colorBackgroundQRScan
+            self.capabilityCheckView
+        }
+        .frame(width: self.style.viewSizeQRScan,
+               height: self.style.viewSizeQRScan)
+        .clipShape(
+            RoundedRectangle(cornerRadius: self.style.viewCornerRadiusQRScan,
+                             style: .continuous)
+        )
+    }
+    
+    @ViewBuilder private var capabilityCheckView: some View {
+        switch Permission.camera {
+        case .allowed:
+            #if canImport(QRScanner)
+            _QRScan(self.onComplete)
+            #else
+            self.incapable
+            #endif
+        case .denied, .restricted:
+            self.permissionError
+        case .incapable:
+            self.incapable
+        }
+    }
+    
+    private var incapable: some View {
+        Text(self.text.permissionCameraIncapable)
+            .foregroundStyle(self.style.colorTextQRScan)
+    }
+    
+    private var permissionError: some View {
+        VStack {
+            Text(self.text.permissionCameraDenied)
+                .foregroundStyle(self.style.colorTextQRScan)
+            #if canImport(UIKit)
+            self.style.openSettings.action(text: self.text.openSettings).button {
+                self.openURL(URL(string: UIApplication.openSettingsURLString)!)
+            }
+            #endif
+        }
     }
 }
 
