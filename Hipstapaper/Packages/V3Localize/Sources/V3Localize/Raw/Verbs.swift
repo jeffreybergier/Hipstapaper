@@ -72,4 +72,5 @@ internal enum Verb: LocalizationKey {
     case websiteSaved           = "Verb.SavedWebsite"
     case websiteCurrent         = "Verb.CurrentWebsite"
     case openSettings           = "Verb.OpenSettings"
+    case cameraAccess           = "Verb.CameraAccess"
 }

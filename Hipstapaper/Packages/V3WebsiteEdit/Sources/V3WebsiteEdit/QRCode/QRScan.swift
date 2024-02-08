@@ -24,7 +24,7 @@
 //  SOFTWARE.
 //
 
-
+import AVFoundation
 import SwiftUI
 import Umbrella
 import V3Style
@@ -66,6 +66,8 @@ internal struct QRScan: View {
             #else
             self.incapable
             #endif
+        case .capable:
+            self.requestPermission
         case .denied, .restricted:
             self.permissionError
         case .incapable:
@@ -87,6 +89,16 @@ internal struct QRScan: View {
                 self.openURL(URL(string: UIApplication.openSettingsURLString)!)
             }
             #endif
+        }
+    }
+    
+    private var requestPermission: some View {
+        VStack {
+            Text(self.text.permissionCameraNeeded)
+                .foregroundStyle(self.style.colorTextQRScan)
+            self.style.openSettings.action(text: self.text.cameraRequest).button {
+                AVCaptureDevice.requestAccess(for: .video) { _ in }
+            }
         }
     }
 }
