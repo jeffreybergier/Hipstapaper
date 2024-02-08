@@ -125,6 +125,11 @@ internal struct BulkActionsHelper: ViewModifier {
                 defer { self.appState.push.tagApply = [] }
                 self.nav.detail.isTagApply = selection
             }
+            .onChange(of: self.appState.push.QRCode, initial: false) { _, selection in
+                guard selection.isEmpty == false else { return }
+                defer { self.appState.push.QRCode = [] }
+                self.nav.detail.isQRCodePopover = selection
+            }
             .onChange(of: self.appState.push.websiteEdit, initial: false) { _, selection in
                 guard selection.isEmpty == false else { return }
                 defer { self.appState.push.websiteEdit = [] }

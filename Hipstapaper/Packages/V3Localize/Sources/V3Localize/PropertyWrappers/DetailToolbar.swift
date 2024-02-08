@@ -63,6 +63,7 @@ public struct DetailToolbar: DynamicProperty {
             self.archiveNo.shortcut    = nil
             self.share.shortcut        = nil
             self.tagApply.shortcut     = nil
+            self.QRCode.shortcut       = nil
             self.edit.shortcut         = nil
             self.delete.shortcut       = nil
             self.error.shortcut        = nil

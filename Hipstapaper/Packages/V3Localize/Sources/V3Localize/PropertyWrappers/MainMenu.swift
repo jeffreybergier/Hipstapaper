@@ -37,6 +37,7 @@ public struct MainMenu: DynamicProperty {
         public var archiveNo:     (Bundle) -> ActionLocalization
         public var share:         (Bundle) -> ActionLocalization
         public var tagApply:      (Bundle) -> ActionLocalization
+        public var QRCode:        (Bundle) -> ActionLocalization
         public var websiteAdd:    (Bundle) -> ActionLocalization
         public var tagAdd:        (Bundle) -> ActionLocalization
         public var websiteEdit:   (Bundle) -> ActionLocalization
@@ -53,6 +54,7 @@ public struct MainMenu: DynamicProperty {
             self.archiveNo     = { Action.archiveNo.localized($0)     }
             self.share         = { Action.share.localized($0)         }
             self.tagApply      = { Action.tagApply.localized($0)      }
+            self.QRCode        = { Action.tabQRCode.localized($0)     }
             self.websiteAdd    = { Action.addWebsite.localized($0)    }
             self.tagAdd        = { Action.addTag.localized($0)        }
             self.websiteEdit   = { Action.editWebsite.localized($0)   }

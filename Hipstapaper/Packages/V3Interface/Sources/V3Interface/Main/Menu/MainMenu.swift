@@ -119,6 +119,12 @@ internal struct MainMenu: Commands {
                 self.state.push.tagApply = $0
             }
             self.style.toolbar
+                .action(text: self.text(\.QRCode))
+                .button(items: self.state.pull.QRCode)
+            {
+                self.state.push.QRCode = $0
+            }
+            self.style.toolbar
                 .action(text: self.text(\.websiteEdit))
                 .button(items: self.state.pull.websiteEdit)
             {
