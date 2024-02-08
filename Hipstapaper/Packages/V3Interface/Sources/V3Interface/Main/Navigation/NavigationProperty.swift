@@ -53,6 +53,7 @@ extension Navigation {
     internal struct Detail: Hashable, Codable {
         internal var isTagApply:        Website.Selection = []
         internal var isTagApplyPopover: Website.Selection = []
+        internal var isQRCodePopover:   Website.Selection = []
         internal var isShare:           Website.Selection = []
         internal var isSharePopover:    Website.Selection = []
         internal var isBrowse:          Website.Selection.Element? = nil

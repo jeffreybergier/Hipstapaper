@@ -42,6 +42,7 @@ public struct BulkActionsQuery: DynamicProperty {
         public var archiveYes:    Website.Selection = []
         public var archiveNo:     Website.Selection = []
         public var tagApply:      Website.Selection = []
+        public var QRCode:        Website.Selection = []
         public var websiteEdit:   Website.Selection = []
         public var tagsEdit:      Tag.Selection = []
         public var websiteDelete: Website.Selection = []
@@ -86,6 +87,7 @@ public struct BulkActionsQuery: DynamicProperty {
         // set things that are always true
         self.valueCache.share         = selectionW
         self.valueCache.tagApply      = selectionW
+        self.valueCache.QRCode        = selectionW
         self.valueCache.websiteEdit   = selectionW
         self.valueCache.websiteDelete = selectionW
         self.valueCache.deselectAll   = selectionW
