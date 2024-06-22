@@ -37,6 +37,7 @@ public struct DetailToolbar: DynamicProperty {
         public var archiveNo:    ActionLocalization
         public var share:        ActionLocalization
         public var tagApply:     ActionLocalization
+        public var QRCode:       ActionLocalization
         public var edit:         ActionLocalization
         public var delete:       ActionLocalization
         public var error:        ActionLocalization
@@ -48,6 +49,7 @@ public struct DetailToolbar: DynamicProperty {
             self.archiveNo    = Action.archiveNo.localized(b)
             self.share        = Action.share.localized(b)
             self.tagApply     = Action.tagApply.localized(b)
+            self.QRCode       = Action.tabQRCode.localized(b)
             self.edit         = Action.editWebsite.localized(b)
             self.delete       = Action.deleteWebsite.localized(b)
             self.error        = Action.errorsPresent.localized(b)
@@ -61,6 +63,7 @@ public struct DetailToolbar: DynamicProperty {
             self.archiveNo.shortcut    = nil
             self.share.shortcut        = nil
             self.tagApply.shortcut     = nil
+            self.QRCode.shortcut       = nil
             self.edit.shortcut         = nil
             self.delete.shortcut       = nil
             self.error.shortcut        = nil

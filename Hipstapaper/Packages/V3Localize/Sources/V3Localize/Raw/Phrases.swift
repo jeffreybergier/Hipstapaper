@@ -90,4 +90,5 @@ internal enum Phrase: LocalizationKey {
     case copyToClipboard           = "Phrase.CopyToClipboard"
     case permissionCameraIncapable = "Phrase.PermissionCameraIncapable"
     case permissionCameraDenied    = "Phrase.PermissionCameraDenied"
+    case permissionCameraNeeded    = "Phrase.PermissionCameraNeeded"
 }

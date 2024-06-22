@@ -79,6 +79,11 @@ internal struct DetailPrimaryActionContextMenu: ViewModifier {
                         self.state.push.tagApply = $0
                     }
                     self.style.toolbar
+                        .action(text: self.text.QRCode).button(items: items.map(Website.Identifier.init(_:)))
+                    {
+                        self.state.push.QRCode = $0
+                    }
+                    self.style.toolbar
                         .action(text: self.text.edit)
                         .button
                     {

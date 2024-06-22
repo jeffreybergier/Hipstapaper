@@ -39,6 +39,7 @@ public struct WebsiteEdit: DynamicProperty {
         public var formOriginalURL:           LocalizedString
         public var formResolvedURL:           LocalizedString
         public let buttonTitleQR:             LocalizedString
+        public var permissionCameraNeeded:    LocalizedString
         public var permissionCameraDenied:    LocalizedString
         public var permissionCameraIncapable: LocalizedString
         public let buttonSymbolQR:            String
@@ -59,6 +60,7 @@ public struct WebsiteEdit: DynamicProperty {
         public var noTagSelected:      ActionLocalization
         public var noTags:             ActionLocalization
         public var openSettings:       ActionLocalization
+        public var cameraRequest:      ActionLocalization
         
         internal init(_ b: Bundle) {
             self.titleWebsite              = b.localized(key: Noun.editWebsite.rawValue)
@@ -69,6 +71,7 @@ public struct WebsiteEdit: DynamicProperty {
             self.formOriginalURL           = b.localized(key: Noun.originalURL.rawValue)
             self.formResolvedURL           = b.localized(key: Noun.resolvedURL.rawValue)
             self.buttonTitleQR             = ""
+            self.permissionCameraNeeded    = b.localized(key: Phrase.permissionCameraNeeded.rawValue)
             self.permissionCameraDenied    = b.localized(key: Phrase.permissionCameraDenied.rawValue)
             self.permissionCameraIncapable = b.localized(key: Phrase.permissionCameraIncapable.rawValue)
             self.buttonSymbolQR            = Symbol.QRCode.rawValue
@@ -89,7 +92,7 @@ public struct WebsiteEdit: DynamicProperty {
             self.noTagSelected      = Action.noSelectionTag.localized(b)
             self.noTags             = Action.noContentTag.localized(b)
             self.openSettings       = Action.openSettings.localized(b)
-
+            self.cameraRequest      = Action.cameraAccess.localized(b)
         }
     }
     

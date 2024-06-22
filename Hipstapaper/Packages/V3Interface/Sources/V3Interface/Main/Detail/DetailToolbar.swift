@@ -48,7 +48,8 @@ internal struct DetailToolbar: ViewModifier {
     internal func body(content: Content) -> some View {
         content
             .toolbarRole(.editor)
-            .toolbar(id: .barTop, content: self.barTopAll)
+            .toolbar(id: .barTop, content: self.barTopPart2)
+            .toolbar(id: .barTop, content: self.barTopPart1)
             .toolbar(id: .barBottom) {
                 switch self.isEditMode {
                 case true: self.barBottomMulti()
@@ -60,7 +61,7 @@ internal struct DetailToolbar: ViewModifier {
     
     #if os(macOS)
     
-    @ToolbarContentBuilder internal func barTopAll() -> some CustomizableToolbarContent {
+    @ToolbarContentBuilder internal func barTopPart1() -> some CustomizableToolbarContent {
         ToolbarItem(id: .itemInApp,
                     placement: .automatic,
                     showsByDefault: false)
@@ -105,6 +106,15 @@ internal struct DetailToolbar: ViewModifier {
             }
             .modifier(WebsiteEditPopover(self.$nav.detail.isTagApplyPopover, start: .tag))
         }
+        ToolbarItem(id: .itemQRCode, placement: .automatic) {
+            self.style.toolbar
+                .action(text: self.text.QRCode)
+                .button(items: self.state.pull.QRCode)
+            {
+                self.nav.detail.isQRCodePopover = $0
+            }
+            .modifier(WebsiteEditPopover(self.$nav.detail.isQRCodePopover, start: .QRCode))
+        }
         ToolbarItem(id: .itemShare, placement: .automatic) {
             self.style.toolbar
                 .action(text: self.text.share)
@@ -114,6 +124,8 @@ internal struct DetailToolbar: ViewModifier {
             }
             .modifier(ShareListPopover(self.$nav.detail.isSharePopover))
         }
+    }
+    @ToolbarContentBuilder internal func barTopPart2() -> some CustomizableToolbarContent {
         ToolbarItem(id: .itemFilter,
                     placement: .automatic,
                     showsByDefault: true)
@@ -152,8 +164,10 @@ internal struct DetailToolbar: ViewModifier {
     }
     
     #else
-    
-    @ToolbarContentBuilder internal func barTopAll() -> some CustomizableToolbarContent {
+    @ToolbarContentBuilder internal func barTopPart2() -> some CustomizableToolbarContent {
+        ToolbarItem(id: .barEmpty) { EmptyView() }
+    }
+    @ToolbarContentBuilder internal func barTopPart1() -> some CustomizableToolbarContent {
         ToolbarItem(id: .itemEditButton,
                     placement: .primaryAction)
         {
@@ -241,6 +255,15 @@ internal struct DetailToolbar: ViewModifier {
         ToolbarItem(id: .itemSpacer2, placement: .bottomBar) {
             Spacer()
         }
+        ToolbarItem(id: .itemQRCode, placement: .bottomBar) {
+            self.style.toolbar
+                .action(text: self.text.QRCode)
+                .button(items: self.state.pull.QRCode)
+            {
+                self.nav.detail.isQRCodePopover = $0
+            }
+            .modifier(WebsiteEditPopover(self.$nav.detail.isQRCodePopover, start: .QRCode))
+        }
         ToolbarItem(id: .itemShare, placement: .bottomBar) {
             self.style.toolbar
                 .action(text: self.text.share)
@@ -284,6 +307,7 @@ extension String {
     fileprivate static let itemArchiveYes          = "itemArchiveYes"
     fileprivate static let itemArchiveNo           = "itemArchiveNo"
     fileprivate static let itemTagApply            = "itemTagApply"
+    fileprivate static let itemQRCode              = "itemQRCode"
     fileprivate static let itemShare               = "itemShare"
     fileprivate static let itemError               = "itemError"
     fileprivate static let itemSpacer1             = "itemSpacer1"

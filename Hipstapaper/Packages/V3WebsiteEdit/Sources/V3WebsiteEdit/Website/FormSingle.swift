@@ -115,7 +115,9 @@ internal struct FormSingle: View {
                     self.nav.isQRCodeScan = false
                     switch result {
                     case .success(let urlString):
-                        item.wrappedValue.originalURL = URL(string: urlString)
+                        let url = URL(string: urlString)
+                        item.wrappedValue.originalURL = url
+                        self.nav.shouldLoadURL = url
                     case .failure(let error):
                         self.errors.append(error)
                     }

@@ -32,6 +32,8 @@ import V3Localize
 
 internal struct QRCode: View {
     
+    @V3Style.WebsiteEdit private var style
+    
     private let selection: [Website.Selection.Element]
     
     internal init(_ selection: Website.Selection) {
@@ -43,6 +45,7 @@ internal struct QRCode: View {
             QRCodeRow(identifier)
         }
         .scrollContentBackground(self.scrollContentBackground)
+        .environment(\.defaultMinListRowHeight, self.style.viewSizeQRCode)
     }
     
     private var scrollContentBackground: Visibility {

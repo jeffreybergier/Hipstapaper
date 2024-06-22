@@ -70,5 +70,6 @@ internal struct Detail: View {
         .modifier(BrowserSheet(self.$nav.detail.isBrowse))
         .modifier(ShareListSheet(self.$nav.detail.isShare))
         .modifier(WebsiteEditSheet(self.$nav.detail.isTagApply, start: .tag))
+        .modifier(WebsiteEditSheet(self.$nav.detail.isQRCodePopover, start: .QRCode))
     }
 }

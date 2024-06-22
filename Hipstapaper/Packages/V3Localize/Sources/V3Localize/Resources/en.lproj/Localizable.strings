@@ -78,6 +78,7 @@
 "Verb.SavedWebsite"           = "Saved Website";
 "Verb.CurrentWebsite"         = "Current Website";
 "Verb.OpenSettings"           = "Open Settings";
+"Verb.CameraAccess"           = "Access the Camera";
 
 //
 //
@@ -198,3 +199,4 @@
 "Phrase.CopyToClipboard"           = "Copy to clipboard";
 "Phrase.PermissionCameraIncapable" = "This device does not support QR Code scanning";
 "Phrase.PermissionCameraDenied"    = "Camera Permission Denied";
+"Phrase.PermissionCameraNeeded"    = "Camera Permission Needed";
