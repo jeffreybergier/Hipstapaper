@@ -1,4 +1,4 @@
-// swift-tools-version:5.9
+// swift-tools-version: 5.10
 
 //
 //  Created by Jeffrey Bergier on 2022/06/17.
@@ -59,7 +59,12 @@ let package = Package(
                 .byNameItem(name: "V3WebsiteEdit", condition: nil),
                 .byNameItem(name: "V3Errors", condition: nil),
                 .byNameItem(name: "Umbrella", condition: nil),
+            ],
+            swiftSettings: [
+              .enableExperimentalFeature("StrictConcurrency"),
+              .enableUpcomingFeature("StrictConcurrency")
             ]
         ),
-    ]
+    ],
+    swiftLanguageVersions: [.version("5")]
 )
