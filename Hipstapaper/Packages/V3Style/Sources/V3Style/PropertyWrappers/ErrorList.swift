@@ -26,9 +26,11 @@
 
 import SwiftUI
 
+@MainActor
 @propertyWrapper
 public struct ErrorList: DynamicProperty {
     
+    @MainActor
     public struct Value {
         public var popoverSize: some ViewModifier = PopoverSize(size: .medium)
         public func error(title: String, message: String, domain: String, code: Int) -> some View {
