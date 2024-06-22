@@ -1,4 +1,4 @@
-// swift-tools-version:5.9
+// swift-tools-version: 5.10
 
 //
 //  Created by Jeffrey Bergier on 2022/06/17.
@@ -48,7 +48,11 @@ let package = Package(
                 .byNameItem(name: "V3Model", condition: nil),
                 .byNameItem(name: "Umbrella", condition: nil),
             ],
-            resources: [.process("Resources")]
+            resources: [.process("Resources")],
+            swiftSettings: [
+              .enableExperimentalFeature("StrictConcurrency"),
+              .enableUpcomingFeature("StrictConcurrency")
+            ]
         ),
         .testTarget(
             name: "V3StoreTests",
@@ -57,5 +61,6 @@ let package = Package(
                 .product(name: "TestUmbrella", package: "Umbrella", condition: nil),
             ]
         ),
-    ]
+    ],
+    swiftLanguageVersions: [.version("5")]
 )
