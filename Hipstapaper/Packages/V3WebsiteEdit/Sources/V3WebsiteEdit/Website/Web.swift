@@ -97,20 +97,27 @@ fileprivate struct _Web: View {
         wv.isUserInteractionEnabled = false
         #endif
         let token1 = wv.observe(\.isLoading)
-        { [unowned nav = _nav.raw] wv, _ in
-            nav.value.isLoading = wv.isLoading
+        { wv, _ in
+            MainActor.assumeIsolated {
+                self.nav.isLoading = wv.isLoading
+            }
         }
-        let token2 = wv.observe(\.url)
-        { [unowned state = _webState.raw] wv, _ in
-            state.value.currentURL = wv.url
+        let token2 = wv.observe(\.url) { wv, _ in
+            MainActor.assumeIsolated {
+                self.webState.currentURL = wv.url
+            }
         }
         let token3 = wv.observe(\.title)
-        { [unowned state = _webState.raw] wv, _ in
-            state.value.currentTitle = wv.title ?? ""
+        { wv, _ in
+            MainActor.assumeIsolated {
+                self.webState.currentTitle = wv.title ?? ""
+            }
         }
         let token4 = wv.observe(\.estimatedProgress)
-        { [unowned progress] wv, _ in
-            progress.value = wv.estimatedProgress
+        { wv, _ in
+            MainActor.assumeIsolated {
+                self.progress.value = wv.estimatedProgress
+            }
         }
         self.kvo.value = [token1, token2, token3, token4]
         return wv
