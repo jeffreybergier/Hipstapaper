@@ -27,6 +27,7 @@
 import SwiftUI
 import Umbrella
 
+@MainActor
 @propertyWrapper
 internal struct Dismiss: DynamicProperty {
     
@@ -38,12 +39,13 @@ internal struct Dismiss: DynamicProperty {
     }
 }
 
-public struct EnvironmentCustomDismiss: EnvironmentKey {
-    public static var defaultValue: (() -> Void)? = nil
+@MainActor
+public struct EnvironmentCustomDismiss: @preconcurrency EnvironmentKey {
+    public static var defaultValue: (@Sendable () -> Void)? = nil
 }
 
 extension EnvironmentValues {
-    public var customDismiss: (() -> Void)? {
+    public var customDismiss: (@Sendable () -> Void)? {
         get { self[EnvironmentCustomDismiss.self] }
         set { self[EnvironmentCustomDismiss.self] = newValue }
     }
