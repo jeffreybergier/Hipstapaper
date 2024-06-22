@@ -240,6 +240,7 @@ extension CD_Controller: ControllerProtocol {
     }
 }
 
+@MainActor
 internal class CD_Controller {
     
     internal static let appGroupURL: URL = {

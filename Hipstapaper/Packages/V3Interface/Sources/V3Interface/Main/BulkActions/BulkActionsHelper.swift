@@ -51,11 +51,12 @@ internal struct BulkActionsHelper: ViewModifier {
             .onChange(of: self.selection.websites, initial: true) { _, newValue in
                 _storeState.setWebsite(selection: newValue)
             }
-            .onChange(of: self.errors.all, initial: true) { _, newValue in
-                self.storeState.showErrors = !newValue.isEmpty
-            }
             .onChange(of: self.storeState, initial: true) { _, newValue in
                 self.appState.pull = newValue
+            }
+            // TODO: Check that error handling still works
+            .onReceive(self.errors.didAppendPub) { _ in
+                self.storeState.showErrors = true
             }
         // MARK: Act on PUSH state
             .onChange(of: self.appState.push.websiteAdd, initial: false) { _, newValue in
@@ -161,7 +162,7 @@ internal struct BulkActionsHelper: ViewModifier {
                 self.errors.append(error)
             }
             .onChange(of: self.appState.push.showErrors, initial: false) { _, _ in
-                self.nav.isError = self.errors.all.first
+                self.nav.isError = self.errors.nextError
             }
             .onChange(of: self.appState.push.deselectAll, initial: false) { _, newValue in
                 guard newValue.isEmpty == false else { return }
