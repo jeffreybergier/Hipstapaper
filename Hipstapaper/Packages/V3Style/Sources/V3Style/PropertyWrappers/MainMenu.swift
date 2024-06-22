@@ -27,11 +27,13 @@
 import SwiftUI
 import Umbrella
 
+@MainActor
 @propertyWrapper
 public struct MainMenu: DynamicProperty {
     
     public init() {}
     
+    @MainActor
     public struct Value {
         public var toolbar: some ActionStyle = ActionStyleDefault
         public func syncIndicator(_ progress: Progress) -> some ViewModifier {
