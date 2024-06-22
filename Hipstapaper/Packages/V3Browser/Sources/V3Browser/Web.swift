@@ -90,28 +90,40 @@ fileprivate struct _Web: View {
         wv.configuration.websiteDataStore = .nonPersistent()
         wv.navigationDelegate = context.coordinator
         let token1 = wv.observe(\.isLoading)
-        { [unowned nav = _nav.raw] wv, _ in
-            nav.value.isLoading = wv.isLoading
+        { wv, _ in
+            MainActor.assumeIsolated {
+                self.nav.isLoading = wv.isLoading
+            }
         }
         let token2 = wv.observe(\.url)
-        { [unowned nav = _nav.raw] wv, _ in
-            nav.value.currentURL = wv.url
+        { wv, _ in
+            MainActor.assumeIsolated {
+                self.nav.currentURL = wv.url
+            }
         }
         let token3 = wv.observe(\.title)
-        { [unowned nav = _nav.raw] wv, _ in
-            nav.value.currentTitle = wv.title ?? ""
+        { wv, _ in
+            MainActor.assumeIsolated {
+                self.nav.currentTitle = wv.title ?? ""
+            }
         }
         let token4 = wv.observe(\.estimatedProgress)
-        { [unowned progress] wv, _ in
-            progress.value = wv.estimatedProgress
+        { wv, _ in
+            MainActor.assumeIsolated {
+                self.progress.value = wv.estimatedProgress
+            }
         }
         let token5 = wv.observe(\.canGoBack)
-        { [unowned nav = _nav.raw] wv, _ in
-            nav.value.canGoBack = wv.canGoBack
+        { wv, _ in
+            MainActor.assumeIsolated {
+                self.nav.canGoBack = wv.canGoBack
+            }
         }
         let token6 = wv.observe(\.canGoForward)
-        { [unowned nav = _nav.raw] wv, _ in
-            nav.value.canGoForward = wv.canGoForward
+        { wv, _ in
+            MainActor.assumeIsolated {
+                self.nav.canGoForward = wv.canGoForward
+            }
         }
         self.kvo.value = [token1, token2, token3, token4, token5, token6]
         return wv
@@ -122,7 +134,6 @@ fileprivate struct _Web: View {
             errors.append(error)
         }
     }
-    
 }
 
 #if canImport(AppKit) && !targetEnvironment(macCatalyst)
