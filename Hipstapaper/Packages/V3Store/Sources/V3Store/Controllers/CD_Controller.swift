@@ -243,7 +243,7 @@ extension CD_Controller: ControllerProtocol {
 @MainActor
 internal class CD_Controller {
     
-    internal static let appGroupURL: URL = {
+    nonisolated internal static let appGroupURL: URL = {
         let fm = FileManager.default
         #if os(macOS)
         let id = "V6ESYGU6CV.com.saturdayapps.Hipstapaper"
@@ -253,7 +253,7 @@ internal class CD_Controller {
         return fm.containerURL(forSecurityApplicationGroupIdentifier: id)!
     }()
 
-    static internal let storeDirectoryURL: URL = {
+    nonisolated static internal let storeDirectoryURL: URL = {
         return appGroupURL
             .appendingPathComponent("Hipstapaper", isDirectory: true)
             .appendingPathComponent("CoreData", isDirectory: true)
@@ -352,7 +352,8 @@ extension CD_Controller {
     }
 }
 
-private class Datum_PersistentContainer: NSPersistentCloudKitContainer {
+// TODO: Remove Unchecked When Possible
+private class Datum_PersistentContainer: NSPersistentCloudKitContainer, @unchecked Sendable {
     override class func defaultDirectoryURL() -> URL {
         let url = CD_Controller.storeDirectoryURL
         NSLog(String(describing: url))
