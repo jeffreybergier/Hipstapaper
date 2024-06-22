@@ -1,4 +1,4 @@
-// swift-tools-version:5.9
+// swift-tools-version:5.10
 
 //
 //  Created by Jeffrey Bergier on 2022/03/11.
@@ -46,7 +46,12 @@ let package = Package(
             name: "V3Localize",
             dependencies: [
                 .byNameItem(name: "Umbrella", condition: nil),
+            ],
+            swiftSettings: [
+              .enableExperimentalFeature("StrictConcurrency"),
+              .enableUpcomingFeature("StrictConcurrency")
             ]
         ),
-    ]
+    ],
+    swiftLanguageVersions: [.version("5")]
 )
