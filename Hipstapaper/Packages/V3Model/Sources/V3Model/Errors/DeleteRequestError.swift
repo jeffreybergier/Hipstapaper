@@ -28,14 +28,15 @@ import Foundation
 
 public struct DeleteWebsiteConfirmationError: CustomNSError {
     
-    static public var errorDomain = "com.saturdayapps.Hipstapaper.model"
+    public typealias OnCompletion = @MainActor @Sendable (Website.Selection) -> Void
+    static public let errorDomain = "com.saturdayapps.Hipstapaper.model"
     public var errorCode: Int { 1001 }
     
     public var id: Website.Selection
-    public var onConfirmation: (Website.Selection) -> Void
+    public var onConfirmation: OnCompletion
     
     public init(_ id: Website.Selection,
-                onConfirmation: @escaping (Website.Selection) -> Void)
+                onConfirmation: @escaping OnCompletion)
     {
         self.id = id
         self.onConfirmation = onConfirmation
