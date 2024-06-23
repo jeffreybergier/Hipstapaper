@@ -35,7 +35,11 @@ internal struct Dismiss: DynamicProperty {
     @Environment(\.customDismiss) private var dismiss_custom
 
     internal var wrappedValue: () -> Void {
-        self.dismiss_custom ?? self.dismiss_system.callAsFunction
+        if let dismiss_custom = self.dismiss_custom {
+            return dismiss_custom
+        } else {
+            return self.dismiss_system.callAsFunction
+        }
     }
 }
 
