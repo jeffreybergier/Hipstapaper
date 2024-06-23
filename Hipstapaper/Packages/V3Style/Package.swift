@@ -1,4 +1,4 @@
-// swift-tools-version:6.0
+// swift-tools-version:5.10
 
 //
 //  Created by Jeffrey Bergier on 2022/06/17.
@@ -38,15 +38,19 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "waterme3-wOS10-Swift6"),
+        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "waterme3-wOS10"),
     ],
     targets: [
         .target(
             name: "V3Style",
             dependencies: [
                 .byNameItem(name: "Umbrella", condition: nil),
+            ],
+            swiftSettings: [
+              .enableExperimentalFeature("StrictConcurrency"),
+              .enableUpcomingFeature("StrictConcurrency")
             ]
         ),
     ],
-    swiftLanguageVersions: [.version("6")]
+    swiftLanguageVersions: [.v5]
 )
