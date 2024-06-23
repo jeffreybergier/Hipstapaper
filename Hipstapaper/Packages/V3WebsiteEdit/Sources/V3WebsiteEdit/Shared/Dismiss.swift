@@ -44,7 +44,7 @@ internal struct Dismiss: DynamicProperty {
 }
 
 @MainActor
-public struct EnvironmentCustomDismiss: @preconcurrency EnvironmentKey {
+public struct EnvironmentCustomDismiss: EnvironmentKey {
     public static var defaultValue: (@Sendable () -> Void)? = nil
 }
 

@@ -28,7 +28,7 @@ import Umbrella
 import V3Model
 import V3Localize
 
-extension V3Model.DeleteWebsiteConfirmationError: @retroactive UserFacingError {
+extension V3Model.DeleteWebsiteConfirmationError: UserFacingError {
     public var title: LocalizationKey {
         V3Localize.DeleteConfirmationError.titleWebsite
     }
@@ -56,7 +56,7 @@ extension V3Model.DeleteWebsiteConfirmationError: @retroactive UserFacingError {
     }
 }
 
-extension V3Model.DeleteTagConfirmationError: @retroactive UserFacingError {
+extension V3Model.DeleteTagConfirmationError: UserFacingError {
     public var title: LocalizationKey {
         V3Localize.DeleteConfirmationError.titleTag
     }
