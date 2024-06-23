@@ -31,7 +31,7 @@ import SwiftUI
 import V3WebsiteEdit
 
 // TODO: Remove when possible
-extension NSExtensionContext: @retroactive @unchecked Sendable {}
+extension NSExtensionContext: @unchecked Sendable {}
 
 @MainActor
 class ShareViewController: NSViewController {
