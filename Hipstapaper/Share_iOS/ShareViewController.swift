@@ -24,9 +24,14 @@
 //  SOFTWARE.
 //
 
+// TODO: Remove when possible
+@preconcurrency import Foundation
 import UIKit
 import SwiftUI
 import V3WebsiteEdit
+
+// TODO: Remove when possible
+extension NSExtensionContext: @retroactive @unchecked Sendable {}
 
 class ShareViewController: UIViewController {
     
@@ -73,6 +78,7 @@ import UniformTypeIdentifiers
 #endif
 
 extension NSExtensionItem {
+    @MainActor
     fileprivate func urlValue(completion: @escaping (URL?) -> Void) {
         let contentType = UTType.url.identifier
         let _a = self.attachments?.first(where: { $0.hasItemConformingToTypeIdentifier(contentType) })
@@ -80,14 +86,13 @@ extension NSExtensionItem {
             completion(nil)
             return
         }
-        attachment.loadItem(forTypeIdentifier: contentType, options: nil) { url, _ in
-            DispatchQueue.main.async {
-                guard let url = url as? URL else {
-                    completion(nil)
-                    return
-                }
-                completion(url)
+        Task {
+            let _url = try? await attachment.loadItem(forTypeIdentifier: contentType, options: nil)
+            guard let url = _url as? URL else {
+                completion(nil)
+                return
             }
+            completion(url)
         }
     }
 }
