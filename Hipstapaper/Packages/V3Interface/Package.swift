@@ -1,4 +1,4 @@
-// swift-tools-version: 5.10
+// swift-tools-version:6.0
 
 //
 //  Created by Jeffrey Bergier on 2022/06/17.
