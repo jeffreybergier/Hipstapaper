@@ -29,6 +29,11 @@ import SwiftUI
 import Umbrella
 import V3Store
 
+/// This browser is just used to generate a thumbnail image, so its best to always load the mobile version of the site.
+/// This could be improved to include the users actual language and such and version... AKA just change the word macOS to iPhone.
+/// But thats more work than I want to do right now.
+fileprivate let kFakeUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1"
+
 internal struct Web: View {
     
     @Navigation private var nav
@@ -93,6 +98,7 @@ fileprivate struct _Web: View {
         let wv = WKWebView(frame: .zero, configuration: config)
         wv.configuration.websiteDataStore = .nonPersistent()
         wv.navigationDelegate = context.coordinator
+        wv.customUserAgent = kFakeUserAgent
         #if !os(macOS)
         wv.isUserInteractionEnabled = false
         #endif
@@ -128,7 +134,6 @@ fileprivate struct _Web: View {
             errors.append(error)
         }
     }
-    
 }
 
 #if canImport(AppKit) && !targetEnvironment(macCatalyst)
