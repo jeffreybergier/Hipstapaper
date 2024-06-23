@@ -28,6 +28,7 @@ import SwiftUI
 import Umbrella
 import V3Model
 
+@MainActor
 @propertyWrapper
 internal struct Navigation: DynamicProperty {
     @JSBSceneStorage("com.hipstapaper.nav") private var storage = Value()
