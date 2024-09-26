@@ -27,9 +27,11 @@
 import SwiftUI
 import Umbrella
 
+@MainActor
 @propertyWrapper
 public struct DetailTable: DynamicProperty {
-        
+    
+    @MainActor
     public struct Value {
         public var date:      some ViewModifier = DetailTableDateText()
         public var url:       some ViewModifier = DetailTableURLText()

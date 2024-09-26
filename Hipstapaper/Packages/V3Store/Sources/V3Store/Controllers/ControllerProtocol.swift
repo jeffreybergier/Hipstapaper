@@ -29,6 +29,7 @@ import CoreData
 import Umbrella
 import V3Model
 
+@MainActor
 public protocol ControllerProtocol {
     
     static var storeDirectoryURL: URL { get }

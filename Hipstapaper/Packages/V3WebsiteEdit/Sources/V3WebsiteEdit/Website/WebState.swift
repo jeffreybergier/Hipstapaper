@@ -27,6 +27,7 @@
 import SwiftUI
 import Umbrella
 
+@MainActor
 @propertyWrapper
 internal struct WebState: DynamicProperty {
     

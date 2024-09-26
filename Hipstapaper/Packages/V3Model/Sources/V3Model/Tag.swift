@@ -30,11 +30,11 @@ public struct Tag: Identifiable, Hashable, Equatable {
     
     public typealias Selection = Set<Tag.Identifier>
     
-    public enum Kind: String, Codable {
+    public enum Kind: String, Codable, Sendable {
         case systemAll, systemUnread, user
     }
     
-    public struct Identifier: Codable, Hashable, Identifiable {
+    public struct Identifier: Codable, Hashable, Identifiable, Sendable {
         public var id: RawIdentifier
         public var kind: Kind
         internal var HACK_tagID = "THIS IS A HACK TO PREVENT DECODING CONFLICTS"

@@ -46,6 +46,7 @@ extension NSPasteboard {
     }
 }
 #else
+import UniformTypeIdentifiers
 extension UIPasteboard {
     
     /*
@@ -62,12 +63,11 @@ extension UIPasteboard {
      */
     
     fileprivate func set(title: String?, url: URL) {
-        guard let urlKey = UIPasteboard.typeListURL[0] as? String else {
-            assertionFailure("Pasteboard Error")
-            return
-        }
+        let stringKey = UTType.plainText.description
+        let urlKey = UTType.url.description
+        let titleDict = title.map { [stringKey: $0] } ?? [:]
         let urlDict = [urlKey: url]
-        self.setItems([urlDict])
+        self.setItems([titleDict, urlDict])
     }
 }
 #endif

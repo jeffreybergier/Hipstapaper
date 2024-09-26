@@ -29,6 +29,7 @@ import Umbrella
 import V3Model
 import V3Store
 
+@MainActor
 @propertyWrapper
 internal struct BulkActions: DynamicProperty {
     

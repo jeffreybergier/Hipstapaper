@@ -1,4 +1,4 @@
-// swift-tools-version:5.9
+// swift-tools-version:6.0
 
 //
 //  Created by Jeffrey Bergier on 2022/07/01.
@@ -42,7 +42,7 @@ let package = Package(
         .package(path: "../V3Style"),
         .package(path: "../V3Store"),
         .package(path: "../V3Errors"),
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "waterme3-wOS10"),
+        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "waterme3-wOS10-Swift6"),
         .package(url: "https://github.com/mercari/QRScanner.git", .upToNextMajor(from: "1.9.0")),
     ],
     targets: [
@@ -56,6 +56,8 @@ let package = Package(
                 .byNameItem(name: "V3Errors", condition: nil),
                 .byNameItem(name: "Umbrella", condition: nil),
                 .byNameItem(name: "QRScanner", condition: .when(platforms: [.iOS])),
-            ]),
-    ]
+            ]
+        ),
+    ],
+    swiftLanguageVersions: [.version("6")]
 )

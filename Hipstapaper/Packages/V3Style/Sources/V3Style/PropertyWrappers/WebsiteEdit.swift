@@ -27,11 +27,13 @@
 import SwiftUI
 import Umbrella
 
+@MainActor
 @propertyWrapper
 public struct WebsiteEdit: DynamicProperty {
     
     public init() {}
     
+    @MainActor
     public struct Value {
         public var HACK_macOS_toolbar: some ActionStyle = ActionStyleImp(labelStyle: .iconOnly)
 

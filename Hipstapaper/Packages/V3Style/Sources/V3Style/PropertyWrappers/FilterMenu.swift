@@ -27,11 +27,13 @@
 import SwiftUI
 import Umbrella
 
+@MainActor
 @propertyWrapper
 public struct FilterMenu: DynamicProperty {
     
     public init() {}
     
+    @MainActor
     public struct Value {
         public var picker: some ActionStyle = ActionStyleDefault
     }

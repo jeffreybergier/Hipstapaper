@@ -28,6 +28,7 @@ import SwiftUI
 import Umbrella
 import V3Model
 
+@MainActor
 @propertyWrapper
 public struct WebsiteListQuery: DynamicProperty {
     

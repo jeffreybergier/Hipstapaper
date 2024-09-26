@@ -39,9 +39,9 @@ public struct ShareExtension: View {
     @State private var noSelectionText: String = "Loading…"
     
     private let inputURL: URL?
-    private let onDismiss: () -> Void
+    private let onDismiss: @Sendable () -> Void
     
-    public init(inputURL: URL?, onDismiss: @escaping () -> Void) {
+    public init(inputURL: URL?, onDismiss: @escaping @Sendable () -> Void) {
         self.inputURL = inputURL
         self.onDismiss = onDismiss
     }

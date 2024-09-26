@@ -27,6 +27,7 @@
 import SwiftUI
 import Umbrella
 
+@MainActor
 @propertyWrapper
 internal struct Navigation: DynamicProperty {
     internal static func newEnvironment() -> ObserveBox<Value> {

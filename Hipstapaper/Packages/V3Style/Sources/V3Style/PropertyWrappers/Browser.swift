@@ -27,14 +27,16 @@
 import SwiftUI
 import Umbrella
 
+@MainActor
 @propertyWrapper
 public struct Browser: DynamicProperty {
     
     public init() {}
     
+    @MainActor
     public struct Value {
-        public var done:      some ActionStyle = JSBToolbarButtonStyleDone
-        public var toolbar:   some ActionStyle = ActionStyleDefault
+        public var done:    some ActionStyle = JSBToolbarButtonStyleDone
+        public var toolbar: some ActionStyle = ActionStyleDefault
         public func address(value: String, placeholder: LocalizedString) -> some View {
             let binding = Binding.constant(value)
             return TextField(placeholder, text: binding)

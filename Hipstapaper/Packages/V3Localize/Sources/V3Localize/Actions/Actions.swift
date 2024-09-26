@@ -263,7 +263,7 @@ extension ActionLocalization {
               image: .init(.deleteTrash),
               shortcut: .commandDelete)
     }()
-    fileprivate static var raw_deleteTag: ActionLocalization = {
+    fileprivate static let raw_deleteTag: ActionLocalization = {
         .init(title: Verb.deleteTag.rawValue,
               hint:  Phrase.deleteTagTip.rawValue,
               image: .init(.deleteTrash),

@@ -29,6 +29,11 @@ import SwiftUI
 import Umbrella
 import V3Store
 
+/// This browser is just used to generate a thumbnail image, so its best to always load the mobile version of the site.
+/// This could be improved to include the users actual language and such and version... AKA just change the word macOS to iPhone.
+/// But thats more work than I want to do right now.
+fileprivate let kFakeUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1"
+
 internal struct Web: View {
     
     @Navigation private var nav
@@ -93,24 +98,32 @@ fileprivate struct _Web: View {
         let wv = WKWebView(frame: .zero, configuration: config)
         wv.configuration.websiteDataStore = .nonPersistent()
         wv.navigationDelegate = context.coordinator
+        wv.customUserAgent = kFakeUserAgent
         #if !os(macOS)
         wv.isUserInteractionEnabled = false
         #endif
         let token1 = wv.observe(\.isLoading)
-        { [unowned nav = _nav.raw] wv, _ in
-            nav.value.isLoading = wv.isLoading
+        { wv, _ in
+            MainActor.assumeIsolated {
+                self.nav.isLoading = wv.isLoading
+            }
         }
-        let token2 = wv.observe(\.url)
-        { [unowned state = _webState.raw] wv, _ in
-            state.value.currentURL = wv.url
+        let token2 = wv.observe(\.url) { wv, _ in
+            MainActor.assumeIsolated {
+                self.webState.currentURL = wv.url
+            }
         }
         let token3 = wv.observe(\.title)
-        { [unowned state = _webState.raw] wv, _ in
-            state.value.currentTitle = wv.title ?? ""
+        { wv, _ in
+            MainActor.assumeIsolated {
+                self.webState.currentTitle = wv.title ?? ""
+            }
         }
         let token4 = wv.observe(\.estimatedProgress)
-        { [unowned progress] wv, _ in
-            progress.value = wv.estimatedProgress
+        { wv, _ in
+            MainActor.assumeIsolated {
+                self.progress.value = wv.estimatedProgress
+            }
         }
         self.kvo.value = [token1, token2, token3, token4]
         return wv
@@ -121,7 +134,6 @@ fileprivate struct _Web: View {
             errors.append(error)
         }
     }
-    
 }
 
 #if canImport(AppKit) && !targetEnvironment(macCatalyst)

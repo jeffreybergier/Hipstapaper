@@ -27,9 +27,11 @@
 import SwiftUI
 import Umbrella
 
+@MainActor
 @propertyWrapper
 public struct ShareList: DynamicProperty {
     
+    @MainActor
     public struct Value {
         
         public var popoverSize: some ViewModifier = PopoverSize(size: .medium)

@@ -27,6 +27,7 @@
 import SwiftUI
 import Umbrella
 
+@MainActor
 @propertyWrapper
 public struct Controller: DynamicProperty {
     

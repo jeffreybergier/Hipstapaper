@@ -27,11 +27,13 @@
 import SwiftUI
 import Umbrella
 
+@MainActor
 @propertyWrapper
 public struct TagsEdit: DynamicProperty {
     
     public init() {}
     
+    @MainActor
     public struct Value {
         public var disabled:    some ActionStyle  = ActionStyleFakeDisabled
         public var popoverSize: some ViewModifier = PopoverSize(size: .small)

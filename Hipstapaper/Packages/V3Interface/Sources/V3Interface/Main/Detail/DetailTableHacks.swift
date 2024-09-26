@@ -71,7 +71,7 @@ internal struct HACK_EditButton: View {
         }
     }
     
-    @ViewBuilder private func editButton(_ action: @escaping () -> Void) -> some View {
+    @ViewBuilder private func editButton(_ action: @MainActor @escaping () -> Void) -> some View {
         switch self.isEditMode {
         case true:
             self.style.hack_done.action(text: self.text.hack_done).button(action: action)
