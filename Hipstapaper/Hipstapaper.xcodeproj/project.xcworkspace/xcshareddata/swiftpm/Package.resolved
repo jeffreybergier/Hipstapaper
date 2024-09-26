@@ -1,5 +1,5 @@
 {
-  "originHash" : "0076142baa8043c0176171c85382c64f2b85614fe7d1a90553ccc40d1052eec2",
+  "originHash" : "6a885446ff65dd603bb010c1d46ce36bc5f3d75946259741b9fcc5cc87670c88",
   "pins" : [
     {
       "identity" : "qrscanner",
@@ -16,7 +16,7 @@
       "location" : "https://github.com/jeffreybergier/Umbrella.git",
       "state" : {
         "branch" : "waterme3-wOS10-Swift6",
-        "revision" : "70b1296e7ed74e29ca5a9271e9ff4d03d38d3d01"
+        "revision" : "fe48d055062c2a190434acb1cee920d1c9bd4ce3"
       }
     }
   ],
