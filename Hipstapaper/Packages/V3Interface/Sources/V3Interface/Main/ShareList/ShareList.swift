@@ -75,7 +75,7 @@ internal struct ShareListPopover: ViewModifier {
         _selection = selection
     }
     internal func body(content: Content) -> some View {
-        content.popover(items: self.$selection) { selection in
+        content.sheet(items: self.$selection) { selection in
             ShareList(selection)
         }
     }
