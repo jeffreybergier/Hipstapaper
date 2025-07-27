@@ -29,34 +29,34 @@
 import PackageDescription
 
 let package = Package(
-    name: "V3Store",
-    platforms: [.iOS(.v17), .macOS(.v14)],
-    products: [
-        .library(
-            name: "V3Store",
-            targets: ["V3Store"]
-        ),
-    ],
-    dependencies: [
-        .package(path: "../V3Model"),
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "waterme3-wOS10-Swift6"),
-    ],
-    targets: [
-        .target(
-            name: "V3Store",
-            dependencies: [
-                .byNameItem(name: "V3Model", condition: nil),
-                .byNameItem(name: "Umbrella", condition: nil),
-            ],
-            resources: [.process("Resources")]
-        ),
-        .testTarget(
-            name: "V3StoreTests",
-            dependencies: [
-                .byNameItem(name: "V3Store", condition: nil),
-                .product(name: "TestUmbrella", package: "Umbrella", condition: nil),
-            ]
-        ),
-    ],
-    swiftLanguageVersions: [.version("6")]
+  name: "V3Store",
+  platforms: [.iOS(.v17), .macOS(.v14)],
+  products: [
+    .library(
+      name: "V3Store",
+      targets: ["V3Store"]
+    ),
+  ],
+  dependencies: [
+    .package(path: "../V3Model"),
+    .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "main"),
+  ],
+  targets: [
+    .target(
+      name: "V3Store",
+      dependencies: [
+        .byNameItem(name: "V3Model", condition: nil),
+        .byNameItem(name: "Umbrella", condition: nil),
+      ],
+      resources: [.process("Resources")]
+    ),
+    .testTarget(
+      name: "V3StoreTests",
+      dependencies: [
+        .byNameItem(name: "V3Store", condition: nil),
+        .product(name: "TestUmbrella", package: "Umbrella", condition: nil),
+      ]
+    ),
+  ],
+  swiftLanguageModes: [.version("6")]
 )

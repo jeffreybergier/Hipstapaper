@@ -29,24 +29,24 @@
 import PackageDescription
 
 let package = Package(
-    name: "V3Style",
-    platforms: [.iOS(.v17), .macOS(.v14)],
-    products: [
-        .library(
-            name: "V3Style",
-            targets: ["V3Style"]
-        ),
-    ],
-    dependencies: [
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "waterme3-wOS10-Swift6"),
-    ],
-    targets: [
-        .target(
-            name: "V3Style",
-            dependencies: [
-                .byNameItem(name: "Umbrella", condition: nil),
-            ]
-        ),
-    ],
-    swiftLanguageVersions: [.version("6")]
+  name: "V3Style",
+  platforms: [.iOS(.v17), .macOS(.v14)],
+  products: [
+    .library(
+      name: "V3Style",
+      targets: ["V3Style"]
+    ),
+  ],
+  dependencies: [
+    .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "main"),
+  ],
+  targets: [
+    .target(
+      name: "V3Style",
+      dependencies: [
+        .byNameItem(name: "Umbrella", condition: nil),
+      ]
+    ),
+  ],
+  swiftLanguageModes: [.version("6")]
 )

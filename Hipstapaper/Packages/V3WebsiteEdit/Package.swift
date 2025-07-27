@@ -29,35 +29,35 @@
 import PackageDescription
 
 let package = Package(
-    name: "V3WebsiteEdit",
-    platforms: [.iOS(.v17), .macOS(.v14)],
-    products: [
-        .library(
-            name: "V3WebsiteEdit",
-            targets: ["V3WebsiteEdit"]),
-    ],
-    dependencies: [
-        .package(path: "../V3Model"),
-        .package(path: "../V3Localize"),
-        .package(path: "../V3Style"),
-        .package(path: "../V3Store"),
-        .package(path: "../V3Errors"),
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "waterme3-wOS10-Swift6"),
-        .package(url: "https://github.com/mercari/QRScanner.git", .upToNextMajor(from: "1.9.0")),
-    ],
-    targets: [
-        .target(
-            name: "V3WebsiteEdit",
-            dependencies: [
-                .byNameItem(name: "V3Model", condition: nil),
-                .byNameItem(name: "V3Localize", condition: nil),
-                .byNameItem(name: "V3Style", condition: nil),
-                .byNameItem(name: "V3Store", condition: nil),
-                .byNameItem(name: "V3Errors", condition: nil),
-                .byNameItem(name: "Umbrella", condition: nil),
-                .byNameItem(name: "QRScanner", condition: .when(platforms: [.iOS])),
-            ]
-        ),
-    ],
-    swiftLanguageVersions: [.version("6")]
+  name: "V3WebsiteEdit",
+  platforms: [.iOS(.v17), .macOS(.v14)],
+  products: [
+    .library(
+      name: "V3WebsiteEdit",
+      targets: ["V3WebsiteEdit"]),
+  ],
+  dependencies: [
+    .package(path: "../V3Model"),
+    .package(path: "../V3Localize"),
+    .package(path: "../V3Style"),
+    .package(path: "../V3Store"),
+    .package(path: "../V3Errors"),
+    .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "main"),
+    .package(url: "https://github.com/mercari/QRScanner.git", .upToNextMajor(from: "1.9.0")),
+  ],
+  targets: [
+    .target(
+      name: "V3WebsiteEdit",
+      dependencies: [
+        .byNameItem(name: "V3Model", condition: nil),
+        .byNameItem(name: "V3Localize", condition: nil),
+        .byNameItem(name: "V3Style", condition: nil),
+        .byNameItem(name: "V3Store", condition: nil),
+        .byNameItem(name: "V3Errors", condition: nil),
+        .byNameItem(name: "Umbrella", condition: nil),
+        .byNameItem(name: "QRScanner", condition: .when(platforms: [.iOS])),
+      ]
+    ),
+  ],
+  swiftLanguageModes: [.version("6")]
 )

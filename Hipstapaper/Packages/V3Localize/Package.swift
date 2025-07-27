@@ -29,25 +29,25 @@
 import PackageDescription
 
 let package = Package(
-    name: "V3Localize",
-    defaultLocalization: "en",
-    platforms: [.iOS(.v17), .macOS(.v14)],
-    products: [
-        .library(
-            name: "V3Localize",
-            targets: ["V3Localize"]
-        ),
-    ],
-    dependencies: [
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "waterme3-wOS10-Swift6"),
-    ],
-    targets: [
-        .target(
-            name: "V3Localize",
-            dependencies: [
-                .byNameItem(name: "Umbrella", condition: nil),
-            ]
-        ),
-    ],
-    swiftLanguageVersions: [.version("6")]
+  name: "V3Localize",
+  defaultLocalization: "en",
+  platforms: [.iOS(.v17), .macOS(.v14)],
+  products: [
+    .library(
+      name: "V3Localize",
+      targets: ["V3Localize"]
+    ),
+  ],
+  dependencies: [
+    .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "main"),
+  ],
+  targets: [
+    .target(
+      name: "V3Localize",
+      dependencies: [
+        .byNameItem(name: "Umbrella", condition: nil),
+      ]
+    ),
+  ],
+  swiftLanguageModes: [.version("6")]
 )

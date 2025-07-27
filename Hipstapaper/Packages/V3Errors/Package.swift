@@ -29,29 +29,29 @@
 import PackageDescription
 
 let package = Package(
-    name: "V3Errors",
-    platforms: [.iOS(.v17), .macOS(.v14)],
-    products: [
-        .library(
-            name: "V3Errors",
-            targets: ["V3Errors"]),
-    ],
-    dependencies: [
-        .package(path: "../V3Model"),
-        .package(path: "../V3Store"),
-        .package(path: "../V3Localize"),
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "waterme3-wOS10-Swift6"),
-    ],
-    targets: [
-        .target(
-            name: "V3Errors",
-            dependencies: [
-                .byNameItem(name: "V3Model", condition: nil),
-                .byNameItem(name: "V3Store", condition: nil),
-                .byNameItem(name: "V3Localize", condition: nil),
-                .byNameItem(name: "Umbrella", condition: nil),
-            ]
-        ),
-    ],
-    swiftLanguageVersions: [.version("6")]
+  name: "V3Errors",
+  platforms: [.iOS(.v17), .macOS(.v14)],
+  products: [
+    .library(
+      name: "V3Errors",
+      targets: ["V3Errors"]),
+  ],
+  dependencies: [
+    .package(path: "../V3Model"),
+    .package(path: "../V3Store"),
+    .package(path: "../V3Localize"),
+    .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "main"),
+  ],
+  targets: [
+    .target(
+      name: "V3Errors",
+      dependencies: [
+        .byNameItem(name: "V3Model", condition: nil),
+        .byNameItem(name: "V3Store", condition: nil),
+        .byNameItem(name: "V3Localize", condition: nil),
+        .byNameItem(name: "Umbrella", condition: nil),
+      ]
+    ),
+  ],
+  swiftLanguageModes: [.version("6")]
 )
