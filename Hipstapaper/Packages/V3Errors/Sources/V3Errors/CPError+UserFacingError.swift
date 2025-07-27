@@ -27,7 +27,7 @@
 import Umbrella
 import V3Localize
 
-extension CPAccountStatus: UserFacingError {
+extension CPAccountStatus: @retroactive UserFacingError {
     
     // TODO: Remove V3Localize.CPError.messageStatus ?
     

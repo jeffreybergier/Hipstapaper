@@ -26,7 +26,7 @@
 
 import Foundation
 
-public struct RawIdentifier: Hashable, Codable {
+public struct RawIdentifier: Hashable, Codable, Sendable {
     public var rawValue: String
     public init(_ rawValue: String) {
         self.rawValue = rawValue

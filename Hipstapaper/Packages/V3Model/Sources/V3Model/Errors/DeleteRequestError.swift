@@ -28,15 +28,14 @@ import Foundation
 
 public struct DeleteWebsiteConfirmationError: CustomNSError {
     
-    static public var errorDomain = "com.saturdayapps.Hipstapaper.model"
+    public typealias OnCompletion = @MainActor @Sendable (Website.Selection) -> Void
+    static public let errorDomain = "com.saturdayapps.Hipstapaper.model"
     public var errorCode: Int { 1001 }
     
     public var id: Website.Selection
-    public var onConfirmation: (Website.Selection) -> Void
+    public var onConfirmation: OnCompletion
     
-    public init(_ id: Website.Selection,
-                onConfirmation: @escaping (Website.Selection) -> Void)
-    {
+    public init(_ id: Website.Selection, onConfirmation: @escaping OnCompletion) {
         self.id = id
         self.onConfirmation = onConfirmation
     }
@@ -44,15 +43,14 @@ public struct DeleteWebsiteConfirmationError: CustomNSError {
 
 public struct DeleteTagConfirmationError: CustomNSError {
     
-    static public var errorDomain = "com.saturdayapps.Hipstapaper.model"
+    public typealias OnCompletion = @MainActor @Sendable (Tag.Selection) -> Void
+    static public let errorDomain = "com.saturdayapps.Hipstapaper.model"
     public var errorCode: Int { 1002 }
     
     public var id: Tag.Selection
-    public var onConfirmation: (Tag.Selection) -> Void
-    
-    public init(_ id: Tag.Selection,
-                onConfirmation: @escaping (Tag.Selection) -> Void)
-    {
+    public var onConfirmation: OnCompletion
+
+    public init(_ id: Tag.Selection, onConfirmation: @escaping OnCompletion) {
         self.id = id
         self.onConfirmation = onConfirmation
     }

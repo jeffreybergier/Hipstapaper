@@ -27,9 +27,11 @@
 import SwiftUI
 import Umbrella
 
+@MainActor
 @propertyWrapper
 public struct Detail: DynamicProperty {
-        
+    
+    @MainActor
     public struct Value {
         public var toolbar:  some ActionStyle = ActionStyleDefault
         /// Fake appearance style for use on Labels where there is no "real" disabled state

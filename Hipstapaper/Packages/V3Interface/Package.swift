@@ -1,4 +1,4 @@
-// swift-tools-version:5.9
+// swift-tools-version:6.0
 
 //
 //  Created by Jeffrey Bergier on 2022/06/17.
@@ -45,7 +45,7 @@ let package = Package(
         .package(path: "../V3Browser"),
         .package(path: "../V3WebsiteEdit"),
         .package(path: "../V3Errors"),
-        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "waterme3-wOS10"),
+        .package(url: "https://github.com/jeffreybergier/Umbrella.git", branch: "waterme3-wOS10-Swift6"),
     ],
     targets: [
         .target(
@@ -61,5 +61,6 @@ let package = Package(
                 .byNameItem(name: "Umbrella", condition: nil),
             ]
         ),
-    ]
+    ],
+    swiftLanguageVersions: [.version("6")]
 )

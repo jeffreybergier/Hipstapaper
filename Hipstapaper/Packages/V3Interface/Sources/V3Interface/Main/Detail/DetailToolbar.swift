@@ -143,7 +143,7 @@ internal struct DetailToolbar: ViewModifier {
                     placement: .automatic,
                     showsByDefault: false,
                     content: ColumnMenu.init)
-        if self.errors.all.isEmpty == false {
+        if self.errors.nextError != nil {
             ToolbarItem(id: .itemError, placement: .navigation) {
                 self.style.toolbar
                     .action(text: self.text.error)
@@ -190,7 +190,7 @@ internal struct DetailToolbar: ViewModifier {
                     placement: .secondaryAction,
                     showsByDefault: false,
                     content: ColumnMenu.init)
-        if self.errors.all.isEmpty == false {
+        if self.errors.nextError != nil {
             ToolbarItem(id: .itemError, placement: .navigation) {
                 self.style.toolbar
                     .action(text: self.text.error)

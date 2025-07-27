@@ -27,6 +27,7 @@ import SwiftUI
 import Umbrella
 import V3Model
 
+@MainActor
 @propertyWrapper
 internal struct Selection: DynamicProperty {
     

@@ -27,6 +27,7 @@
 import SwiftUI
 import V3Model
 
+@MainActor
 @propertyWrapper
 public struct BulkActionsQuery: DynamicProperty {
     

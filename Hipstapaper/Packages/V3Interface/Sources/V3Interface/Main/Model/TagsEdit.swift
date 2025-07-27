@@ -75,7 +75,7 @@ internal struct TagsEditPresentation: ViewModifier {
     }
     
     internal func body(content: Content) -> some View {
-        content.popover(items: self.$identifiers)
+        content.sheet(items: self.$identifiers)
         { selection in
             TagsEdit(selection)
                 .modifier(self.style.popoverSize)

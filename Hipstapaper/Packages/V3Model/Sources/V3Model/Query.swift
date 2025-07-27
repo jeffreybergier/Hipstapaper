@@ -24,7 +24,7 @@
 //  SOFTWARE.
 //
 
-public struct Query: Codable, Hashable {
+public struct Query: Codable, Hashable, Sendable {
     
     public static let systemAll: Query = .init(isOnlyNotArchived: false)
     public static let systemUnread: Query = .init(isOnlyNotArchived: true)

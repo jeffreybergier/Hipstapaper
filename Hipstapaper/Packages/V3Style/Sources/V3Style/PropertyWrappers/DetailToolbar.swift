@@ -27,11 +27,13 @@
 import SwiftUI
 import Umbrella
 
+@MainActor
 @propertyWrapper
 public struct DetailToolbar: DynamicProperty {
     
     public init() {}
     
+    @MainActor
     public struct Value {
         public var toolbar:     some ActionStyle = ActionStyleDefault
         public var destructive: some ActionStyle = ActionStyleImp(buttonRole: .destructive)

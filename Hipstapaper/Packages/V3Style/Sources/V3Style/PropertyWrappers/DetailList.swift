@@ -26,9 +26,11 @@
 
 import SwiftUI
 
+@MainActor
 @propertyWrapper
 public struct DetailList: DynamicProperty {
-        
+     
+    @MainActor
     public struct Value {
         public var date:  some ViewModifier = DetailListDateText()
         public var url:   some ViewModifier = DetailListURLText()
