@@ -48,20 +48,6 @@ extension NSPasteboard {
 #else
 import UniformTypeIdentifiers
 extension UIPasteboard {
-    
-    /*
-     // TODO: This function was making it difficult to paste just the URL into safari
-    fileprivate func set(title: String?, url: URL) {
-        guard
-            let stringKey = UIPasteboard.typeListString[0] as? String,
-            let urlKey = UIPasteboard.typeListURL[0] as? String
-        else { return }
-        let titleDict = title.map { [stringKey: $0] } ?? [:]
-        let urlDict = [urlKey: url]
-        self.setItems([titleDict, urlDict])
-    }
-     */
-    
     fileprivate func set(title: String?, url: URL) {
         let stringKey = UTType.plainText.description
         let urlKey = UTType.url.description
