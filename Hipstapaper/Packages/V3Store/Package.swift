@@ -54,7 +54,6 @@ let package = Package(
       name: "V3StoreTests",
       dependencies: [
         .byNameItem(name: "V3Store", condition: nil),
-        .product(name: "TestUmbrella", package: "Umbrella", condition: nil),
       ]
     ),
   ],
